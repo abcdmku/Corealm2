@@ -4,17 +4,11 @@ description: "Barred brown, still stiff at the quill. Fletchers buy them by the 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/hen_feather.png" alt="Hen Feather" width="256" height="256" />
+<img src="../../assets/items/hen_feather.webp" alt="Hen Feather" width="256" height="256" />
 <p>Barred brown, still stiff at the quill. Fletchers buy them by the double handful.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 3 |
-| Sell value | 2 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>3</dd></div><div><dt>Sell value</dt><dd>2</dd></div></dl>
 
 ## Where it comes from
 

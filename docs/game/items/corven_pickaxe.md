@@ -4,17 +4,11 @@ description: "Iron head, ash haft. Five effective Mining levels."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/corven_pickaxe.png" alt="Iron Pickaxe" width="256" height="256" />
+<img src="../../assets/items/corven_pickaxe.webp" alt="Iron Pickaxe" width="256" height="256" />
 <p>Iron head, ash haft. Five effective Mining levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 240 |
-| Sell value | 144 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>240</dd></div><div><dt>Sell value</dt><dd>144</dd></div></dl>
 
 ## Use and requirements
 

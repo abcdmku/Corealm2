@@ -4,28 +4,15 @@ description: "Oak Wand fitted with a Water Orb. Its charge pays for matching spe
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/water_wand.png" alt="Water Wand" width="256" height="256" />
+<img src="../../assets/items/water_wand.webp" alt="Water Wand" width="256" height="256" />
 <p>Oak Wand fitted with a Water Orb. Its charge pays for matching spells before carried Essence.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 820 |
-| Sell value | 492 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>820</dd></div><div><dt>Sell value</dt><dd>492</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +2 |
-| Magic accuracy | +24 |
-| Magic power | +18 |
-| Magic armour | +9 |
-| Vitality | +1 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+2</dd></div><div><dt>Magic accuracy</dt><dd>+24</dd></div><div><dt>Magic power</dt><dd>+18</dd></div><div><dt>Magic armour</dt><dd>+9</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,17 +4,11 @@ description: "Foothill hide seared grey at the edges. Sheds heat the way fur pel
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/charhide.png" alt="Heavy Hide" width="256" height="256" />
+<img src="../../assets/items/charhide.webp" alt="Heavy Hide" width="256" height="256" />
 <p>Foothill hide seared grey at the edges. Sheds heat the way fur pelt sheds cold.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | component |
-| Stacks | No |
-| Buy value | 290 |
-| Sell value | 174 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>290</dd></div><div><dt>Sell value</dt><dd>174</dd></div></dl>
 
 ## Where it comes from
 
@@ -39,11 +33,13 @@ description: "Foothill hide seared grey at the edges. Sheds heat the way fur pel
 
 ## Used to make
 
-- 3× for **Heavy Hide Robe**, producing 1× [Heavy Hide Robe](../../items/charhide_robe/)
-- 2× for **Heavy Hide Leggings**, producing 1× [Heavy Hide Leggings](../../items/charhide_leggings/)
-- 1× for **Heavy Hide Hood**, producing 1× [Heavy Hide Hood](../../items/charhide_hood/)
-- 1× for **Heavy Hide Boots**, producing 1× [Heavy Hide Boots](../../items/charhide_boots/)
-- 1× for **Heavy Hide Wraps**, producing 1× [Heavy Hide Wraps](../../items/charhide_wraps/)
-- 1× for **Walnut Rod**, producing 1× [Walnut Rod](../../items/cinderpine_rod/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/charhide_robe.webp" alt="Heavy Hide Robe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../charhide_robe/">Heavy Hide Robe</a></span><span class="codex-card__meta">Takes 3 × Heavy Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/charhide_robe/"><img class="codex-icon" src="../../assets/items/thumb/charhide_robe.webp" alt="Heavy Hide Robe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Heavy Hide Robe</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/charhide_leggings.webp" alt="Heavy Hide Leggings" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../charhide_leggings/">Heavy Hide Leggings</a></span><span class="codex-card__meta">Takes 2 × Heavy Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/charhide_leggings/"><img class="codex-icon" src="../../assets/items/thumb/charhide_leggings.webp" alt="Heavy Hide Leggings" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Heavy Hide Leggings</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/charhide_hood.webp" alt="Heavy Hide Hood" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../charhide_hood/">Heavy Hide Hood</a></span><span class="codex-card__meta">Takes 1 × Heavy Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/charhide_hood/"><img class="codex-icon" src="../../assets/items/thumb/charhide_hood.webp" alt="Heavy Hide Hood" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Heavy Hide Hood</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/charhide_boots.webp" alt="Heavy Hide Boots" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../charhide_boots/">Heavy Hide Boots</a></span><span class="codex-card__meta">Takes 1 × Heavy Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/charhide_boots/"><img class="codex-icon" src="../../assets/items/thumb/charhide_boots.webp" alt="Heavy Hide Boots" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Heavy Hide Boots</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/charhide_wraps.webp" alt="Heavy Hide Wraps" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../charhide_wraps/">Heavy Hide Wraps</a></span><span class="codex-card__meta">Takes 1 × Heavy Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/charhide_wraps/"><img class="codex-icon" src="../../assets/items/thumb/charhide_wraps.webp" alt="Heavy Hide Wraps" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Heavy Hide Wraps</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cinderpine_rod.webp" alt="Walnut Rod" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 20</span><span class="codex-card__title"><a class="codex-card__link" href="../cinderpine_rod/">Walnut Rod</a></span><span class="codex-card__meta">Takes 1 × Heavy Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cinderpine_rod/"><img class="codex-icon" src="../../assets/items/thumb/cinderpine_rod.webp" alt="Walnut Rod" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Walnut Rod</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

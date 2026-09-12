@@ -4,27 +4,15 @@ description: "Three bars of Cobalt. Quarry crews were buried in these, which is 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_plate.png" alt="Cobalt Plate" width="256" height="256" />
+<img src="../../assets/items/kaldite_plate.webp" alt="Cobalt Plate" width="256" height="256" />
 <p>Three bars of Cobalt. Quarry crews were buried in these, which is not a selling point.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,760 |
-| Sell value | 1,056 |
-| Equipment slot | body |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,760</dd></div><div><dt>Sell value</dt><dd>1,056</dd></div><div><dt>Slot</dt><dd>Body</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +3 |
-| Armour | +18 |
-| Magic armour | +4 |
-| Vitality | +5 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+3</dd></div><div><dt>Armour</dt><dd>+18</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div><div><dt>Vitality</dt><dd>+5</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,26 +4,15 @@ description: "Pine scoured silver by wind. The empty socket hums in weather."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/galeskin_staff.png" alt="Plains Ogre Staff" width="256" height="256" />
+<img src="../../assets/items/galeskin_staff.webp" alt="Plains Ogre Staff" width="256" height="256" />
 <p>Pine scoured silver by wind. The empty socket hums in weather.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 210 |
-| Sell value | 126 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>210</dd></div><div><dt>Sell value</dt><dd>126</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +7 |
-| Magic power | +8 |
-| Magic armour | +1 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+7</dd></div><div><dt>Magic power</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

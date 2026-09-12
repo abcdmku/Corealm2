@@ -4,25 +4,15 @@ description: "A punch of black Cobalt with a needle point. It goes through moor-
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_dagger.png" alt="Cobalt Dagger" width="256" height="256" />
+<img src="../../assets/items/kaldite_dagger.webp" alt="Cobalt Dagger" width="256" height="256" />
 <p>A punch of black Cobalt with a needle point. It goes through moor-rot like paper.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 760 |
-| Sell value | 456 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>760</dd></div><div><dt>Sell value</dt><dd>456</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +24 |
-| Power | +22 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+24</dd></div><div><dt>Power</dt><dd>+22</dd></div></dl>
 
 ## Use and requirements
 

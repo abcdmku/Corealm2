@@ -15,7 +15,8 @@ describe('stone creature production assets', () => {
       expect(species.assetId).toBe(`creature_${species.id}`);
       expect(species.stats.family).toBe(species.id);
       expect(species.stats.maxHealth).toBeGreaterThan(0);
-      expect(species.scale).toBe(1);
+      expect(species.scale).toBeGreaterThan(0);
+      expect(species.scale).toBeLessThanOrEqual(1);
     }
   });
 

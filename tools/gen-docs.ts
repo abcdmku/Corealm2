@@ -9,7 +9,7 @@
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import { argValue, repoRoot } from "./lib/paths.js";
@@ -62,6 +62,26 @@ function table(headers: string[], rows: (string | number)[][]): string {
   const body = rows.map((row) => `| ${row.map(cleanCell).join(" | ")} |`).join("\n");
   return [head, rule, body].join("\n");
 }
+
+const NL = String.fromCharCode(10);
+
+/** tools/capture-docs.ts writes every gameplay capture at this size. */
+const CAPTURE_W = 960;
+const CAPTURE_H = 540;
+/** Index pages show dozens of captures at card width; the full rendition is four times the bytes. */
+const CAPTURE_THUMB_W = 480;
+const CAPTURE_THUMB_H = 270;
+/** Grid icons render at ~7rem, so a 128px source is already retina there. */
+const ICON_THUMB_PX = 128;
+const ICON_FULL_PX = 256;
+/**
+ * Armour frames are full 1440x900 gameplay screenshots in which the player occupies a small,
+ * camera-fixed patch. The guide only ever wants that patch, so the crop is baked into the file
+ * instead of being faked with a CSS `transform: scale(2)` over a megabyte of screenshot.
+ */
+const ARMOUR_CROP = { left: 600, top: 285, width: 300, height: 400 };
+const ARMOUR_VIEW_W = 450;
+const ARMOUR_VIEW_H = 600;
 
 function page(title: string, description: string, body: string): string {
   return [
@@ -492,36 +512,79 @@ function elementName(element: string): string {
   return element === "wind" ? "Air" : `${element[0]?.toUpperCase() ?? ""}${element.slice(1)}`;
 }
 
-function itemIcon(id: string, label = itemName(id), base = "./"): string {
-  return `![${label}](${base}assets/items/${id}.png)`;
+/**
+ * Every generated image is a plain `<img>` against a URL-relative path, never a Markdown image.
+ *
+ * Markdown images are resolved by Astro against the *source* file, which forces a second copy of
+ * all 40 MB of captures into the content tree next to the copy already in `public/`. Emitting the
+ * tag means `docs/game/assets` is staged once, and the sizes below are the sizes the browser gets.
+ * Bases are therefore relative to the served page URL: `regions.md` becomes `/game/regions/`, so
+ * it reaches the assets through `../`, not `./`.
+ */
+function itemIconUrl(id: string, base: string, size: "thumb" | "full" = "thumb"): string {
+  return `${base}assets/items/${size === "thumb" ? "thumb/" : ""}${id}.webp`;
+}
+
+function itemIcon(id: string, base: string, label = itemName(id)): string {
+  return `<img class="codex-icon" src="${itemIconUrl(id, base)}" alt="${escapeHtml(label)}" width="${ICON_THUMB_PX}" height="${ICON_THUMB_PX}" loading="lazy" decoding="async" />`;
+}
+
+/** An item icon and its name, linked to the item page. The building block of every visual list. */
+function itemChip(id: string, base: string, label = itemName(id), prefix = ""): string {
+  return [
+    `<a class="codex-item-chip" href="${base}items/${escapeHtml(id)}/">`,
+    itemIcon(id, base, label),
+    prefix ? `<b class="codex-item-chip__count">${escapeHtml(prefix)}</b>` : "",
+    `<span>${escapeHtml(label)}</span>`,
+    `</a>`,
+  ].join("");
 }
 
 type CaptureKind = "npc" | "enemy" | "enemyGroup" | "entity" | "location";
 
-function captureAsset(kind: CaptureKind, id: string, base = "./"): string {
-  const folder = {
+function captureFolder(kind: CaptureKind): string {
+  return {
     npc: "npcs",
     enemy: "enemies",
     enemyGroup: "enemy-groups",
     entity: "entities",
     location: "locations",
   }[kind];
-  return `${base}assets/captures/${folder}/${id}.webp`;
 }
 
-function publicCaptureAsset(kind: CaptureKind, id: string, base: string): string {
-  return captureAsset(kind, id, base);
+function captureAsset(kind: CaptureKind, id: string, base = "./"): string {
+  return `${base}assets/captures/${captureFolder(kind)}/${id}.webp`;
 }
 
-function capture(kind: CaptureKind, id: string, label: string, base = "./"): string {
-  // Astro's content pipeline fails the whole site build on a relative image that is missing, so
-  // content that has not been captured yet (see tools/capture-docs.ts) simply gets no picture.
-  if (!existsSync(path.resolve(repoRoot, "docs/game", captureAsset(kind, id, "")))) return "";
-  return `![${label}](${captureAsset(kind, id, base)})`;
+/** Card media never exceeds ~26rem, so index pages load the small rendition. */
+function captureThumb(kind: CaptureKind, id: string, base: string): string {
+  return `${base}assets/captures/thumbs/${captureFolder(kind)}/${id}.webp`;
+}
+
+function hasCapture(kind: CaptureKind, id: string): boolean {
+  return existsSync(path.resolve(repoRoot, "docs/game", captureAsset(kind, id, "")));
+}
+
+function capture(kind: CaptureKind, id: string, label: string, base: string, className = "codex-shot"): string {
+  // Content that tools/capture-docs.ts has not photographed yet simply gets no picture.
+  if (!hasCapture(kind, id)) return "";
+  const thumb = className === "codex-card__shot";
+  return [
+    `<img class="${className}" src="${thumb ? captureThumb(kind, id, base) : captureAsset(kind, id, base)}"`,
+    ` alt="${escapeHtml(label)} in the running Corealm world"`,
+    ` width="${thumb ? CAPTURE_THUMB_W : CAPTURE_W}" height="${thumb ? CAPTURE_THUMB_H : CAPTURE_H}"`,
+    ` loading="lazy" decoding="async" />`,
+  ].join("");
 }
 
 export function itemLink(id: string, label = itemName(id), base = "../"): string {
   return `[${label}](${base}items/${id}/)`;
+}
+
+/** "mainHand" and "equipment" arrive as identifiers; they are read as prose. */
+function sentenceCase(value: string): string {
+  const spaced = value.replace(/[_-]+/g, " ").trim().toLowerCase();
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
 function humanizeId(id: string): string {
@@ -544,6 +607,77 @@ function escapeHtml(value: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+interface CodexCard {
+  /** Kept so `#slug` links written against the old per-person headings still find their card. */
+  id?: string;
+  href?: string;
+  media?: string;
+  eyebrow?: string;
+  title: string;
+  meta?: string;
+  body?: string;
+  /** Rendered under the body as small labelled values. */
+  facts?: (readonly [string, string])[];
+  /** Rendered as a row of item chips or links. */
+  footer?: string;
+  muted?: boolean;
+}
+
+/** The one card shape every index page uses, so the guide reads as a single system. */
+/**
+ * The card is always a `<div>`, never an `<a>`, even when the whole card is clickable.
+ *
+ * Most cards carry item chips in their footer, and those chips are links. An anchor cannot nest
+ * inside another anchor: the HTML parser closes the outer one, and the chip escapes the card to
+ * become a sibling. So the link lives on the title and CSS stretches it over the card instead.
+ */
+function codexCard(card: CodexCard): string {
+  const facts = card.facts?.length
+    ? `<dl class="codex-facts">${card.facts.map(([label, value]) =>
+      `<div><dt>${escapeHtml(label)}</dt><dd>${value}</dd></div>`).join("")}</dl>`
+    : "";
+  const title = card.href
+    ? `<a class="codex-card__link" href="${card.href}">${escapeHtml(card.title)}</a>`
+    : escapeHtml(card.title);
+  return [
+    `<div class="codex-card${card.href ? " is-linked" : ""}${card.muted ? " is-muted" : ""}"${card.id ? ` id="${card.id}"` : ""}>`,
+    card.media ? `<span class="codex-card__media">${card.media}</span>` : "",
+    `<span class="codex-card__text">`,
+    card.eyebrow ? `<span class="codex-card__eyebrow">${escapeHtml(card.eyebrow)}</span>` : "",
+    `<span class="codex-card__title">${title}</span>`,
+    card.meta ? `<span class="codex-card__meta">${escapeHtml(card.meta)}</span>` : "",
+    card.body ? `<span class="codex-card__body">${escapeHtml(card.body)}</span>` : "",
+    facts,
+    card.footer ? `<span class="codex-card__footer">${card.footer}</span>` : "",
+    `</span>`,
+    `</div>`,
+  ].filter(Boolean).join("");
+}
+
+function codexGrid(cards: readonly string[], variant = ""): string {
+  if (cards.length === 0) return "";
+  return [`<div class="codex-grid${variant ? ` codex-grid--${variant}` : ""}">`, ...cards, "</div>"].join(NL);
+}
+
+/** Replaces a one-row "Fact | Value" table with scannable labelled values. */
+function codexStats(entries: readonly (readonly [string, string | number])[]): string {
+  const cells = entries
+    .filter(([, value]) => value !== "" && value !== undefined && value !== null)
+    .map(([label, value]) =>
+      `<div><dt>${escapeHtml(label)}</dt><dd>${typeof value === "number" ? value.toLocaleString("en-US") : value}</dd></div>`);
+  return cells.length ? `<dl class="codex-stats">${cells.join("")}</dl>` : "";
+}
+
+function codexTags(values: readonly string[]): string {
+  const tags = values.filter(Boolean).map((value) => `<span class="codex-tag">${escapeHtml(value)}</span>`);
+  return tags.length ? `<span class="codex-tags">${tags.join("")}</span>` : "";
+}
+
+/** Keeps a genuinely tabular reference on the page without it dominating the page. */
+function codexDetails(summary: string, body: string): string {
+  return [`<details class="codex-details">`, `<summary>${escapeHtml(summary)}</summary>`, "", body, "", `</details>`].join(NL);
 }
 
 function regionName(id: RegionId): string {
@@ -611,10 +745,12 @@ function worldMapFigure(
   const bounds = WORLD_MAP_IMAGE_BOUNDS;
   const width = bounds.maxX - bounds.minX;
   const height = bounds.maxZ - bounds.minZ;
+  // The stage matches the rendered map's own aspect ratio, so a marker is just its world
+  // position as a percentage. The old form letterboxed a 8:11 portrait map inside a square and
+  // stretched it to fit, which put every coastline about 1.8x too wide.
   const markers = points.map((point) => {
     const x = ((point.position[0] - bounds.minX) / width) * 100;
-    // The 4:3 source is contained inside a square viewport, leaving 12.5% above and below it.
-    const y = 12.5 + ((bounds.maxZ - point.position[1]) / height) * 75;
+    const y = ((bounds.maxZ - point.position[1]) / height) * 100;
     const label = `${point.label}, ${point.context}`;
     return [
       `<a class="corealm-map-marker" href="${escapeHtml(point.href)}"`,
@@ -625,8 +761,18 @@ function worldMapFigure(
     ].join("");
   }).join("\n");
 
+  // Most of the rendered map is unsettled wilderness. Handing the viewer the box that actually
+  // holds markers means the map opens on content instead of on empty moor.
+  const xs = points.map((point) => ((point.position[0] - bounds.minX) / width) * 100);
+  const ys = points.map((point) => ((bounds.maxZ - point.position[1]) / height) * 100);
+  const focus = points.length
+    ? [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)].map((value) => value.toFixed(3)).join(",")
+    : "";
+
   return [
-    `<figure class="corealm-location-map${options.className ? ` ${options.className}` : ""}" data-location-map style="--map-image-ratio:${width / height}">`,
+    `<figure class="corealm-location-map${options.className ? ` ${options.className}` : ""}" data-location-map`,
+    focus ? ` data-map-focus="${focus}"` : "",
+    ` style="--map-image-ratio:${(width / height).toFixed(5)}">`,
     `<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="${escapeHtml(options.ariaLabel)}">`,
     `<div class="corealm-map-stage" data-map-stage>`,
     `<img src="${docsWorldMapUrl(options.assetBase)}" alt="Overhead map rendered from the Corealm game world" draggable="false" />`,
@@ -660,8 +806,9 @@ function locationMap(): string {
     href: `#${headingSlug(location.name)}`,
   })));
   return worldMapFigure(points, {
+    className: "corealm-location-map--wide",
     ariaLabel: "Interactive map of Corealm locations",
-    caption: "Drag to pan. Scroll or use + and - to zoom. The Gravelmaw rooms lie below its entrance marker.",
+    caption: "Drag to pan. Scroll or use + and - to zoom. Press the expand control for a full-screen map. The Gravelmaw rooms lie below its entrance marker.",
     assetBase: "../assets/",
   });
 }
@@ -988,9 +1135,11 @@ function questStepEvidence(quest: QuestDef, stage: QuestStageDef): string {
   const items = itemLinks
     ? `<nav class="corealm-quest-items" aria-label="Items for step ${stage.index + 1}"><span>Items</span>${itemLinks}</nav>`
     : "";
-  const scenes = questStepScenes(quest, stage).map((scene) => [
+  const scenes = questStepScenes(quest, stage)
+    .filter((scene) => hasCapture(scene.kind, scene.id))
+    .map((scene) => [
     `<figure class="corealm-quest-scene">`,
-    `<img src="${publicCaptureAsset(scene.kind, scene.id, "../../")}" alt="${escapeHtml(`${scene.label} in the running Corealm world`)}" loading="lazy" />`,
+    capture(scene.kind, scene.id, scene.label, "../../", "codex-card__shot"),
     `<figcaption><strong>${escapeHtml(scene.label)}</strong><span>${escapeHtml(scene.context)}</span></figcaption>`,
     `</figure>`,
   ].join("")).join("\n");
@@ -1008,14 +1157,28 @@ function xpDoc(): string {
   const levels = xpTable();
   const rows = levels
     .map((xp, level) => [level, xp.toLocaleString(), level > 1 ? (xp - levels[level - 1]!).toLocaleString() : "-"])
-    .filter((row) => Number(row[0]) >= 1);
+    .slice(1);
+  // A content tier is named for the level that unlocks it, so an eyebrow would just repeat the title.
+  const milestones = TIERS.map((tier) => codexCard({
+    title: `Level ${tier}`,
+    meta: `${(levels[tier] ?? 0).toLocaleString("en-US")} total XP`,
+    body: tier === 1
+      ? "Where every skill starts."
+      : `${((levels[tier] ?? 0) - (levels[tier - 1] ?? 0)).toLocaleString("en-US")} XP for the level itself.`,
+  }));
   return page("Experience table", "The complete Corealm experience curve.", [
-    `Skills run from level 1 to ${MAX_LEVEL}. Level ${MAX_LEVEL} requires **${totalXpAt(MAX_LEVEL).toLocaleString()} XP**.`,
+    `Skills run from level 1 to ${MAX_LEVEL}. Level ${MAX_LEVEL} requires **${(levels[MAX_LEVEL] ?? 0).toLocaleString("en-US")} XP**.`,
     "",
-    `Content tiers unlock at levels ${TIERS.join(", ")}.`,
+    "## Tier milestones",
     "",
-    table(["Level", "Total XP", "XP from previous level"], rows),
-  ].join("\n"));
+    "Content tiers unlock at these levels, so these are the numbers worth remembering.",
+    "",
+    codexGrid(milestones, "compact"),
+    "",
+    "## Every level",
+    "",
+    codexDetails(`The full curve, levels 2 to ${MAX_LEVEL}`, table(["Level", "Total XP", "XP from previous level"], rows)),
+  ].join(NL));
 }
 
 const GATHERING_PRODUCTION_SKILLS = [
@@ -1050,18 +1213,19 @@ function generatedSkillGuides(): string {
       if (unlocks.length === 0) unlocks.push(...productionUnlocks(definition, skill));
       return [definition.reqLevel, unlocks.join(", ")];
     });
-    return `### ${skillName(skill)}\n\n${table(["Level", "Unlocks"], rows)}`;
-  }).join("\n\n");
+    return codexDetails(`${skillName(skill)}: level by level`, table(["Level", "Unlocks"], rows));
+  }).join(NL);
 }
 
 function skillsDoc(): string {
-  const groups: Record<string, string[]> = {};
-  for (const skill of Object.values(SKILLS)) {
-    (groups[skill.group] ??= []).push(`- **${skill.name}:** ${skill.blurb}`);
-  }
-  const sections = Object.entries(groups)
-    .map(([group, lines]) => `## ${group[0]!.toUpperCase()}${group.slice(1)}\n\n${lines.join("\n")}`)
-    .join("\n\n");
+  const groups = new Map<string, typeof SKILLS[keyof typeof SKILLS][]>();
+  for (const skill of Object.values(SKILLS)) groups.set(skill.group, [...groups.get(skill.group) ?? [], skill]);
+  const sections = [...groups].map(([group, skills]) => [
+    `## ${sentenceCase(group)}`,
+    "",
+    codexGrid(skills.map((skill) => codexCard({ title: skill.name, body: skill.blurb })), "compact"),
+  ].join(NL));
+
   const gatherRows = GATHERING_PRODUCTION_TIERS.map((definition) => {
     const [low, high] = yieldRange(definition.tier);
     return [
@@ -1072,25 +1236,32 @@ function skillsDoc(): string {
       `+${toolBonus(definition.tier)}`,
     ];
   });
+
   return page("Skills", "Corealm skills, gathering rules, and combat rules.", [
-    sections,
+    "Nine skills, each capped at level 99. Every number below is read from the same tables the game runs on.",
     "",
-    "## Gathering",
+    // A `## heading` on the line straight after `</div>` is still inside the HTML block, so each
+    // section carries the blank line that closes its grid.
+    sections.join(NL + NL),
+    "",
+    // The skill groups above already use "Gathering" and "Combat" as headings, so the rules
+    // sections take distinct names: two identical entries in the page outline help nobody.
+    "## How gathering resolves",
     "",
     "Mining, Woodcutting, and Fishing attempt an action every **1.8 seconds**. Success starts at 30% at the required level, rises by 1.6 percentage points per extra level, and caps at 95%.",
     "",
     table(["Level", "XP per yield", "Yields per node", "Respawn", "Tool bonus"], gatherRows),
     "",
-    "## Gathering and production skill guides",
-    "",
-    "The unlock rows below come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](../gathering-production/) for ingredients and finished equipment.",
-    "",
-    generatedSkillGuides(),
-    "",
-    "## Combat",
+    "## How combat resolves",
     "",
     "Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment vitality. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.",
-  ].join("\n"));
+    "",
+    "## What each level unlocks",
+    "",
+    "These rows come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](../gathering-production/) for ingredients and finished equipment.",
+    "",
+    generatedSkillGuides(),
+  ].join(NL));
 }
 
 function sortedGuideItems(): typeof ALL_ITEMS[number][] {
@@ -1131,7 +1302,7 @@ function itemGalleryTile(item: typeof ALL_ITEMS[number]): string {
     ` id="${headingSlug(item.name)}" data-item-id="${escapeHtml(item.id)}"`,
     ` href="./${escapeHtml(item.id)}/" aria-label="${escapeHtml(item.name)}"`,
     ` aria-describedby="item-tooltip-${escapeHtml(item.id)}">`,
-    `<img src="../assets/items/${escapeHtml(item.id)}.png" alt="" width="256" height="256" loading="lazy" />`,
+    `<img src="${itemIconUrl(item.id, "../")}" alt="" width="${ICON_THUMB_PX}" height="${ICON_THUMB_PX}" loading="lazy" decoding="async" />`,
     `<span class="corealm-item-tile__name">${escapeHtml(item.name)}</span>`,
     `<span class="corealm-item-tile__meta">Tier ${item.tier} · ${escapeHtml(item.category)}</span>`,
     released ? "" : `<span class="corealm-item-tile__status">Unreleased</span>`,
@@ -1163,14 +1334,15 @@ export function wornArmourDoc(): string {
       pieces.map(id => itemLink(id, itemName(id), "../")).join(" · "), "",
       '<div class="corealm-armour-views">',
       ...["front", "back", "walking"].map(view => {
-        const file = `../assets/captures/armor-ornate/${kit.id}-${view}.png`;
-        return `<figure><a href="${file}" aria-label="Open full ${escapeHtml(title)} ${view} screenshot"><img src="${file}" alt="${escapeHtml(title)} worn on the player, ${view} view" width="1440" height="900" loading="lazy" /></a><figcaption>${view[0]!.toUpperCase() + view.slice(1)}</figcaption></figure>`;
+        const full = `../assets/captures/armor-ornate/${kit.id}-${view}.webp`;
+        const crop = `../assets/captures/armor-views/${kit.id}-${view}.webp`;
+        return `<figure><a href="${full}" aria-label="Open the full ${escapeHtml(title)} ${view} screenshot"><img src="${crop}" alt="${escapeHtml(title)} worn on the player, ${view} view" width="${ARMOUR_VIEW_W}" height="${ARMOUR_VIEW_H}" loading="lazy" decoding="async" /></a><figcaption>${view[0]!.toUpperCase() + view.slice(1)}</figcaption></figure>`;
       }), '</div>',
     ].join("\n");
   });
   return page("Worn armor by tier", "See every updated melee armor tier worn in the game, from the front, back, and while walking.", [
     "All six melee tiers keep their original armor models, with tier-specific textures for burnished metal, engraved borders, and quilted leather. Nightglass is the existing tier 70 set. Nightmarshal Plate is its crafted chest upgrade, not an additional tier, and uses the Nightglass finish. The melee scarves are removed.",
-    "These are actual gameplay captures of the male player wearing complete sets. Click a view to open the full screenshot. The gallery enlarges the player within each capture; the full image retains the normal gameplay camera view.",
+    "These are actual gameplay captures of the male player wearing complete sets. Each view is cropped to the player; click one to open the full gameplay frame it came from.",
     "Magic armor was not retextured in this revision. Female armor uses the corresponding existing models, but is not pictured here.",
     ...sections,
   ].join("\n\n"));
@@ -1227,26 +1399,24 @@ export function itemDetailDoc(item: typeof ALL_ITEMS[number]): string {
   const soldBy = SHOPS.filter((shop) => shop.stock.some((stock) => stock.itemId === item.id));
   const quests = itemQuestLinks(item.id);
 
-  const facts: (string | number)[][] = [
-    ["Tier", item.tier], ["Category", item.category], ["Stacks", item.stackable ? "Yes" : "No"],
+  const facts: [string, string | number][] = [
+    ["Tier", item.tier], ["Category", sentenceCase(item.category)], ["Stacks", item.stackable ? "Yes" : "No"],
     ["Buy value", item.value.toLocaleString("en-US")], ["Sell value", sellPrice(item.value).toLocaleString("en-US")],
   ];
-  if (item.equip) facts.push(["Equipment slot", item.equip.slot.replace(/([A-Z])/g, " $1").trim()]);
+  if (item.equip) facts.push(["Slot", sentenceCase(item.equip.slot.replace(/([A-Z])/g, " $1"))]);
   if (!model.released) facts.push(["Availability", "Unreleased"]);
 
   const sections: string[] = [
     `<div class="corealm-item-detail${model.released ? "" : " is-unreleased"}">`,
-    `<img src="../../assets/items/${escapeHtml(item.id)}.png" alt="${escapeHtml(item.name)}" width="256" height="256" />`,
+    `<img src="${itemIconUrl(item.id, "../../", "full")}" alt="${escapeHtml(item.name)}" width="${ICON_FULL_PX}" height="${ICON_FULL_PX}" />`,
     `<p>${escapeHtml(item.description)}</p>`,
     `</div>`,
     "",
-    table(["Fact", "Value"], facts),
+    codexStats(facts),
   ];
   if (model.stats.length) {
-    sections.push("", "## Equipment stats", "", table(
-      ["Stat", "Bonus"],
-      model.stats.map((stat) => [stat.label, stat.value > 0 ? `+${stat.value}` : stat.value]),
-    ));
+    sections.push("", "## Equipment stats", "",
+      codexStats(model.stats.map((stat) => [stat.label, stat.value > 0 ? `+${stat.value}` : String(stat.value)])));
   }
   const behavior = [...model.details, ...model.requirements.map((entry) => entry.text)];
   if (behavior.length) sections.push("", "## Use and requirements", "", ...behavior.map((line) => `- ${line}`));
@@ -1271,34 +1441,57 @@ export function itemDetailDoc(item: typeof ALL_ITEMS[number]): string {
   for (const quest of quests) sourceRows.push(["Quest", quest, "Referenced, granted, or required"]);
   if (sourceRows.length) sections.push("", "## Where it comes from", "", table(["Source", "Name", "Details"], sourceRows));
 
-  if (usedBy.length) sections.push("", "## Used to make", "", ...usedBy.map((recipe) => {
-    const input = recipe.inputs.find((entry) => entry.itemId === item.id)!;
-    return `- ${input.quantity}× for **${recipe.name}**, producing ${recipe.output.quantity}× ${itemLink(recipe.output.itemId, itemName(recipe.output.itemId), "../../")}`;
-  }));
+  if (usedBy.length) {
+    sections.push("", "## Used to make", "", codexGrid(usedBy.map((recipe) => {
+      const input = recipe.inputs.find((entry) => entry.itemId === item.id)!;
+      return codexCard({
+        href: `../${escapeHtml(recipe.output.itemId)}/`,
+        media: itemIcon(recipe.output.itemId, "../../"),
+        eyebrow: `${skillName(recipe.skill)} ${recipe.reqLevel}`,
+        title: recipe.name,
+        meta: `Takes ${input.quantity} × ${item.name}`,
+        footer: itemChip(recipe.output.itemId, "../../", itemName(recipe.output.itemId), `${recipe.output.quantity}×`),
+      });
+    }), "wide"));
+  }
   sections.push("", "[Back to all items](../)");
   return page(item.name, item.description, sections.join("\n"));
 }
 
 function recipesDoc(): string {
   const bySkill = new Map<SkillId, typeof RECIPES[number][]>();
-  for (const recipe of RECIPES) {
-    const list = bySkill.get(recipe.skill) ?? [];
-    list.push(recipe);
-    bySkill.set(recipe.skill, list);
-  }
+  for (const recipe of RECIPES) bySkill.set(recipe.skill, [...bySkill.get(recipe.skill) ?? [], recipe]);
   const sections = [...bySkill.entries()].map(([skill, recipes]) => {
-    const rows = [...recipes].sort((a, b) => a.reqLevel - b.reqLevel).map((recipe) => [
-      recipe.name,
-      recipe.reqLevel,
-      recipe.stations?.join(" / ") ?? "Anywhere",
-      recipe.inputs.map((input) => `${input.quantity}× ${itemName(input.itemId)}`).join(" + "),
-      `${recipe.output.quantity}× ${itemName(recipe.output.itemId)}`,
-      `${(recipe.durationMs / 1000).toFixed(1)} s`,
-      recipe.xp,
-    ]);
-    return `## ${skillName(skill)}\n\n${table(["Recipe", "Level", "Station", "Ingredients", "Makes", "Time", "XP"], rows)}`;
+    const cards = [...recipes].sort((a, b) => a.reqLevel - b.reqLevel).map((recipe) => {
+      const inputs = recipe.inputs
+        .map((input) => itemChip(input.itemId, "../", itemName(input.itemId), `${input.quantity}×`))
+        .join("");
+      return [
+        `<div class="codex-recipe">`,
+        `<span class="codex-recipe__head">`,
+        `<span class="codex-recipe__name">${escapeHtml(recipe.name)}</span>`,
+        codexTags([
+          `${skillName(skill)} ${recipe.reqLevel}`,
+          recipe.stations?.map(humanizeId).join(" or ") ?? "Anywhere",
+          `${(recipe.durationMs / 1000).toFixed(1)} s`,
+          `${recipe.xp} XP`,
+        ]),
+        `</span>`,
+        `<span class="codex-recipe__flow">`,
+        `<span class="codex-chiprow">${inputs}</span>`,
+        `<span class="codex-recipe__arrow" aria-hidden="true">→</span>`,
+        `<span class="codex-chiprow">${itemChip(recipe.output.itemId, "../", itemName(recipe.output.itemId), `${recipe.output.quantity}×`)}</span>`,
+        `</span>`,
+        `</div>`,
+      ].join("");
+    });
+    return [`## ${skillName(skill)}`, "", `<div class="codex-recipes">`, ...cards, `</div>`].join(NL);
   });
-  return page("Recipes", "Production recipes generated from the live game tables.", sections.join("\n\n"));
+  return page("Recipes", "Production recipes generated from the live game tables.", [
+    `${RECIPES.length} recipes across every production skill. Ingredients on the left, what you get on the right.`,
+    "",
+    ...sections,
+  ].join(NL + NL));
 }
 
 function miningAndSmithingGuide(): string {
@@ -1445,18 +1638,25 @@ function gatheringProductionDoc(): string {
 }
 
 function campfiresDoc(): string {
-  const rows = GATHERING_PRODUCTION_TIERS.map((definition) => {
+  const cards = GATHERING_PRODUCTION_TIERS.map((definition) => {
     const fuel = definition.campfire;
-    return [
-      definition.reqLevel,
-      itemLink(fuel.logItemId),
-      `${(fuel.buildTimeMs / 1_000).toFixed(1)} s`,
-      `${fuel.lifetimeMs / 1_000} s`,
-      fuel.buildXp.fletching,
-      fuel.buildXp.crafting,
-      fuel.visualLogAssetId,
-    ];
+    return codexCard({
+      href: `../items/${escapeHtml(fuel.logItemId)}/`,
+      media: itemIcon(fuel.logItemId, "../"),
+      eyebrow: `Level ${definition.reqLevel}`,
+      title: itemName(fuel.logItemId),
+      meta: `Burns for ${fuel.lifetimeMs / 1_000} s`,
+      facts: [
+        ["Build time", `${(fuel.buildTimeMs / 1_000).toFixed(1)} s`],
+        ["Fletching XP", String(fuel.buildXp.fletching)],
+        ["Crafting XP", String(fuel.buildXp.crafting)],
+      ],
+    });
   });
+  const assetRows = GATHERING_PRODUCTION_TIERS.map((definition) => [
+    itemName(definition.campfire.logItemId),
+    definition.campfire.visualLogAssetId,
+  ]);
   const cookingRecipes = GATHERING_PRODUCTION_TIERS.map((definition) =>
     recipeForOutput(definition, definition.items.cookedFish));
   const incompatible = cookingRecipes.filter((recipe) => !recipe.stations?.includes("campfire"));
@@ -1466,12 +1666,18 @@ function campfiresDoc(): string {
   return page("Campfires", "Campfire fuels, lifetimes, build XP, and cooking compatibility from the live content tables.", [
     "Building a fire consumes one log when the three-second build completes. A successful new fire replaces the old one. Log tier changes lifetime and build XP only.",
     "",
-    table(["Level", "Log", "Build time", "Lifetime", "Fletching XP", "Crafting XP", "Log asset"], rows),
+    "## Fuels",
+    "",
+    codexGrid(cards, "compact"),
     "",
     "Lifetime follows `60 + 12 × tier` seconds. Each skill receives `round(gatherXp(tier) × 0.2)` XP.",
     "",
+    "## Cooking on a fire",
+    "",
     `All ${cookingRecipes.length} fish recipes accept both Range and Campfire. If a fire expires during a batch, completed food stays in the inventory and the next fish is not consumed.`,
-  ].join("\n"));
+    "",
+    codexDetails("Log meshes used by the placed fire", table(["Log", "Log asset"], assetRows)),
+  ].join(NL));
 }
 
 function creatureSpawnMap(creature: EnemyDef, spawns: readonly CreatureSpawn[]): string {
@@ -1501,18 +1707,45 @@ function creatureSpawnMap(creature: EnemyDef, spawns: readonly CreatureSpawn[]):
   });
 }
 
+/**
+ * The best picture we have of a creature, in descending order: its own portrait, one of its spawn
+ * camps, or the icon of what it drops. Only a fraction of the bestiary has been photographed, and
+ * a card with a signature drop on it still reads at a glance where a bare name does not.
+ */
+function creaturePortrait(creature: EnemyDef, spawns: readonly CreatureSpawn[], base: string): string {
+  if (hasCapture("enemy", creature.id)) return capture("enemy", creature.id, creature.name, base, "codex-card__shot");
+  const group = spawns.find((spawn) => hasCapture("enemyGroup", spawn.group.id));
+  if (group) return capture("enemyGroup", group.group.id, creature.name, base, "codex-card__shot");
+  // The most likely drop is the characteristic one; the rarest is a lottery ticket, not a portrait.
+  const signature = [...creature.drops].sort((a, b) => b.chance - a.chance)[0];
+  return signature ? itemIcon(signature.itemId, base, itemName(signature.itemId)) : "";
+}
+
 function creatureIndexDoc(): string {
-  const rows = guideCreatures()
-    .sort((a, b) => a.tier - b.tier || a.name.localeCompare(b.name))
-    .map((creature) => {
+  const creatures = guideCreatures().sort((a, b) => a.tier - b.tier || a.name.localeCompare(b.name));
+  const byTier = new Map<number, EnemyDef[]>();
+  for (const creature of creatures) byTier.set(creature.tier, [...byTier.get(creature.tier) ?? [], creature]);
+  const sections = [...byTier].map(([tier, group]) => [
+    `## Tier ${tier}`,
+    "",
+    codexGrid(group.map((creature) => {
       const spawns = creatureSpawns(creature);
-      const regions = [...new Map(spawns.map((spawn) => [spawn.regionId, spawn.regionLabel])).values()].join(", ");
-      return [`[${creature.name}](./${creature.id}/)`, creature.tier, regions];
-    });
-  return page("Creatures", "Every creature in Corealm, with a separate spawn, stats, and drops page.", table(
-    ["Creature", "Tier", "Regions"],
-    rows,
-  ));
+      const regions = [...new Map(spawns.map((spawn) => [spawn.regionId, spawn.regionLabel])).values()];
+      return codexCard({
+        href: `./${escapeHtml(creature.id)}/`,
+        media: creaturePortrait(creature, spawns, "../"),
+        eyebrow: `Tier ${creature.tier}`,
+        title: creature.name,
+        meta: regions.join(" · "),
+        footer: codexTags([`${creature.maxHealth} HP`, `Max hit ${creature.maxHit}`, sentenceCase(creature.behaviour)]),
+      });
+    })),
+  ].join(NL));
+  return page("Creatures", "Every creature in Corealm, with a separate spawn, stats, and drops page.", [
+    `${creatures.length} creatures with an authored spawn. Each one has its own page with a spawn map, combat stats, and drops.`,
+    "",
+    ...sections,
+  ].join(NL + NL));
 }
 
 /** Candidate stat blocks without authored spawns have no public location page yet. */
@@ -1530,29 +1763,39 @@ function creatureDoc(creature: EnemyDef): string {
     spawn.group.name,
     spawn.group.count,
   ]);
-  const scenes = spawns.map((spawn) => [
+  // Only a fraction of the spawn groups have been through tools/capture-docs.ts. Emitting a
+  // tag for the rest is how these pages came to request 192 images that were never taken.
+  const scenes = spawns.filter((spawn) => hasCapture("enemyGroup", spawn.group.id)).map((spawn) => [
     `<figure class="corealm-quest-scene">`,
-    `<img src="${publicCaptureAsset("enemyGroup", spawn.group.id, "../../")}" alt="${escapeHtml(`${spawn.group.name} at its authored spawn in ${spawn.regionLabel}`)}" loading="lazy" />`,
+    capture("enemyGroup", spawn.group.id, `${spawn.group.name} at its authored spawn in ${spawn.regionLabel}`, "../../", "codex-card__shot"),
     `<figcaption><strong>${escapeHtml(spawn.group.name)}</strong><span>${escapeHtml(`${spawn.place.location.name}, ${spawn.regionLabel}`)}</span></figcaption>`,
     `</figure>`,
   ].join("")).join("\n");
   const hasOrbDrop = creature.drops.some((drop) => content.item(drop.itemId)?.orb);
-  const dropRows: (string | number)[][] = creature.drops.map((drop) => {
+  const dropCards = creature.drops.map((drop) => {
     const singletonOrb = Boolean(content.item(drop.itemId)?.orb);
-    return [
-      itemLink(drop.itemId, itemName(drop.itemId), "../../"),
-      drop.quantity[0] === drop.quantity[1] ? drop.quantity[0] : `${drop.quantity[0]}-${drop.quantity[1]}`,
-      singletonOrb
-        ? (drop.chance === 1 ? "First eligible acquisition" : `${Math.round(drop.chance * 1000) / 10}% when eligible`)
-        : `${Math.round(drop.chance * 1000) / 10}%`,
-    ];
+    const quantity = drop.quantity[0] === drop.quantity[1]
+      ? String(drop.quantity[0])
+      : `${drop.quantity[0]}-${drop.quantity[1]}`;
+    return codexCard({
+      href: `../../items/${escapeHtml(drop.itemId)}/`,
+      media: itemIcon(drop.itemId, "../../"),
+      title: itemName(drop.itemId),
+      meta: `${quantity} per drop`,
+      footer: codexTags([singletonOrb
+        ? (drop.chance === 1 ? "First eligible kill" : `${Math.round(drop.chance * 1000) / 10}% when eligible`)
+        : `${Math.round(drop.chance * 1000) / 10}% chance`]),
+    });
   });
   if (creature.marks) {
-    dropRows.unshift([
-      "Marks",
-      creature.marks[0] === creature.marks[1] ? creature.marks[0] : `${creature.marks[0]}-${creature.marks[1]}`,
-      "Always",
-    ]);
+    const marks = creature.marks[0] === creature.marks[1]
+      ? String(creature.marks[0])
+      : `${creature.marks[0]}-${creature.marks[1]}`;
+    dropCards.unshift(codexCard({
+      title: "Marks",
+      meta: `${marks} per kill`,
+      footer: codexTags(["Always"]),
+    }));
   }
   return page(creature.name, `${creature.name} spawn locations, combat stats, and drops.`, [
     `<div class="corealm-creature-spawn-evidence">`,
@@ -1566,19 +1809,19 @@ function creatureDoc(creature: EnemyDef): string {
     "",
     "## Stats",
     "",
-    table(["Tier", "Health", "Attack", "Defence", "Accuracy", "Max hit", "Attack speed", "Armour", "Magic armour", "Behaviour", "Aggro"], [[
-      creature.tier,
-      creature.maxHealth,
-      creature.attackLevel,
-      creature.defenceLevel,
-      creature.accuracy,
-      creature.maxHit,
-      `${(creature.attackSpeedMs / 1000).toFixed(1)} s`,
-      creature.armour,
-      creature.magicArmour,
-      creature.behaviour,
-      `${creature.aggroRadius} m`,
-    ]]),
+    codexStats([
+      ["Tier", creature.tier],
+      ["Health", creature.maxHealth],
+      ["Attack", creature.attackLevel],
+      ["Defence", creature.defenceLevel],
+      ["Accuracy", creature.accuracy],
+      ["Max hit", creature.maxHit],
+      ["Attack speed", `${(creature.attackSpeedMs / 1000).toFixed(1)} s`],
+      ["Armour", creature.armour],
+      ["Magic armour", creature.magicArmour],
+      ["Behaviour", sentenceCase(creature.behaviour)],
+      ["Aggro", `${creature.aggroRadius} m`],
+    ]),
     "",
     "## Drops",
     "",
@@ -1586,107 +1829,140 @@ function creatureDoc(creature: EnemyDef): string {
       ? "Elemental orbs are singleton altar keys. The boss drops its orb when no physical copy exists. Repeat kills do not create a duplicate while that orb is carried, banked, or waiting in loot or recovery. If the copy is lost before awakening its altar, the boss can drop it again. Once consumed to awaken that altar, it never drops again."
       : "",
     "",
-    table(["Drop", "Quantity", "Chance or rule"], dropRows),
-  ].join("\n"));
+    codexGrid(dropCards, "wide"),
+  ].join(NL));
 }
 
 function resourcesDoc(): string {
-  const rows = [...RESOURCE_ARCHETYPES]
-    .sort((a, b) => a.tier - b.tier || a.skill.localeCompare(b.skill))
-    .map((resource) => {
+  const resources = [...RESOURCE_ARCHETYPES].sort((a, b) => a.tier - b.tier || a.skill.localeCompare(b.skill));
+  const bySkill = new Map<SkillId, typeof RESOURCE_ARCHETYPES[number][]>();
+  for (const resource of resources) bySkill.set(resource.skill, [...bySkill.get(resource.skill) ?? [], resource]);
+
+  const sections = [...bySkill].map(([skill, group]) => [
+    `## ${skillName(skill)}`,
+    "",
+    codexGrid(group.map((resource) => {
       const lifecycle = resourceGuideLifecycle(resource.id);
       const secondary = resource.bonus?.map((drop) =>
-        `${itemLink(drop.itemId)} ${Math.round(drop.chance * 1_000) / 10}%`).join(", ") ?? "-";
-      const size = resource.presentation.waterOffset === undefined
-        ? `${resource.presentation.targetWorldSize} m`
-        : `${resource.presentation.targetWorldSize} m, water ${resource.presentation.waterOffset} m`;
-      return [
-        resource.name,
-        skillName(resource.skill),
-        resource.tier,
-        resource.reqLevel,
-        itemLink(resource.itemId),
-        secondary,
-        lifecycle.xpEach,
-        lifecycle.perNode,
-        lifecycle.recovery,
-        resource.presentation.availableAssetIds.join(", "),
-        resource.presentation.depletedAssetId ?? "Renderer fallback",
-        size,
-      ];
-    });
-  return page("Resources", "Gathering nodes, requirements, yields, respawns, and authored presentation from the live resource table.", table(
-    ["Node", "Skill", "Tier", "Level", "Primary", "Secondary", "XP each", "Per node", "Respawn", "Available assets", "Depleted asset", "Target size"],
-    rows,
-  ));
+        itemChip(drop.itemId, "../", `${itemName(drop.itemId)} ${Math.round(drop.chance * 1000) / 10}%`)).join("") ?? "";
+      return codexCard({
+        href: `../items/${escapeHtml(resource.itemId)}/`,
+        media: itemIcon(resource.itemId, "../", resource.name),
+        eyebrow: `Tier ${resource.tier} · ${skillName(resource.skill)} ${resource.reqLevel}`,
+        title: resource.name,
+        meta: `Yields ${itemName(resource.itemId)}`,
+        facts: [
+          ["XP each", String(lifecycle.xpEach)],
+          ["Per node", String(lifecycle.perNode)],
+          // The label already says "Respawn"; the value only needs the number.
+          ["Respawn", lifecycle.recovery.replace(" respawn", "")],
+        ],
+        footer: secondary ? `<span class="codex-chiprow"><span class="codex-chiprow__label">Bonus</span>${secondary}</span>` : "",
+      });
+    })),
+  ].join(NL));
+
+  const authoringRows = resources.map((resource) => [
+    resource.name,
+    skillName(resource.skill),
+    resource.presentation.availableAssetIds.join(", "),
+    resource.presentation.depletedAssetId ?? "Renderer fallback",
+    resource.presentation.waterOffset === undefined
+      ? `${resource.presentation.targetWorldSize} m`
+      : `${resource.presentation.targetWorldSize} m, water ${resource.presentation.waterOffset} m`,
+  ]);
+
+  return page("Resources", "Gathering nodes, requirements, yields, respawns, and authored presentation from the live resource table.", [
+    `${resources.length} gathering nodes across Mining, Woodcutting, and Fishing. Every card links the item it yields.`,
+    "",
+    ...sections,
+    "",
+    "## Authoring reference",
+    "",
+    codexDetails("Node presentation: meshes, depleted state, and world size", table(
+      ["Node", "Skill", "Available assets", "Depleted asset", "Target size"],
+      authoringRows,
+    )),
+  ].join(NL + NL));
+}
+
+/** Anchors stay on the card so `../regions/#<slug>` links from quests and creatures keep working. */
+function locationCard(location: LocationDef, regionLabel: string, tier: number): string {
+  const kind = location.kind.replace(/_/g, " ");
+  const shot = capture("location", location.id, location.name, "../", "codex-card__shot");
+  return [
+    `<div class="codex-card codex-card--place" id="${headingSlug(location.name)}">`,
+    shot ? `<span class="codex-card__media">${shot}</span>` : "",
+    `<span class="codex-card__text">`,
+    `<span class="codex-card__eyebrow">${escapeHtml(kind)} · Tier ${tier}</span>`,
+    `<span class="codex-card__title">${escapeHtml(location.name)}</span>`,
+    `<span class="codex-card__body">${escapeHtml(location.blurb ?? `${location.name} is a ${kind} in ${regionLabel}.`)}</span>`,
+    `</span>`,
+    `</div>`,
+  ].filter(Boolean).join("");
 }
 
 function regionsDoc(): string {
   const sections = REGIONS.map((region) => {
-    const places = region.locations.map((location) => [
-      `### ${location.name}`,
-      "",
-      capture("location", location.id, location.name),
-      "",
-      location.blurb ?? `${location.name} is a ${location.kind.replace(/_/g, " ")} in ${region.name}.`,
-      "",
-      `**Tier:** ${region.tier} · **Type:** ${location.kind.replace(/_/g, " ")}`,
-    ].join("\n")).join("\n\n");
+    const entrance = region.dungeon ? placeById(`${region.dungeon.id}_entrance`) : undefined;
     const dungeon = region.dungeon
       ? [
-          `## ${region.dungeon.name}`,
           "",
-          `Tier ${region.dungeon.tier}. Enter through [The Gravelmaw](#the-gravelmaw).`,
+          `### ${region.dungeon.name}`,
           "",
-          region.dungeon.locations.map((location) => [
-            `### ${location.name}`,
-            "",
-            capture("location", location.id, location.name),
-            "",
-            location.blurb ?? `${location.name} is a ${location.kind.replace(/_/g, " ")} in ${region.dungeon!.name}.`,
-            "",
-            `**Tier:** ${region.dungeon!.tier} · **Type:** ${location.kind.replace(/_/g, " ")}`,
-          ].join("\n")).join("\n\n"),
-        ].join("\n")
+          // Link the room list to the surface location that actually opens it. The old copy
+          // linked "#the-gravelmaw", which is the dungeon's id and not any heading on this page.
+          `Tier ${region.dungeon.tier}. Enter through ${entrance
+            ? `[${entrance.location.name}](#${headingSlug(entrance.location.name)})`
+            : "its surface entrance"}.`,
+          "",
+          codexGrid(region.dungeon.locations.map((location) =>
+            locationCard(location, region.dungeon!.name, region.dungeon!.tier))),
+        ].join(NL)
       : "";
     return [
       `## ${region.name}`,
       "",
+      codexTags([`Tier ${region.tier}`, `Settlement: ${region.settlement?.name ?? "Uninhabited"}`, `${region.locations.length} places`]),
+      "",
       region.lore,
       "",
-      `Tier ${region.tier}. Settlement: **${region.settlement?.name ?? "Uninhabited"}**.`,
-      "",
-      places,
+      codexGrid(region.locations.map((location) => locationCard(location, region.name, region.tier))),
       dungeon,
-    ].join("\n");
+    ].join(NL);
   });
   return page("Regions", "Corealm's regions, settlements, routes, landmarks, gathering sites, and dungeon rooms.", [
     locationMap(),
-    sections.join("\n\n"),
-  ].join("\n\n"));
+    sections.join(NL + NL),
+  ].join(NL + NL));
 }
 
 function npcsDoc(): string {
-  const sections = NPCS.map((person) => {
-    const place = placeById(person.locationId);
-    const quests = person.questIds.length
-      ? person.questIds.map((id) => `- [${QUESTS.find((quest) => quest.id === id)?.name ?? id}](../quests/${id}/)`).join("\n")
-      : "_No quest._";
-    return [
-      `## ${person.name}`,
-      "",
-      capture("npc", person.id, person.name),
-      "",
-      person.role,
-      "",
-      `**Found at:** ${place?.location.name ?? person.locationId}, ${regionName(person.regionId)}`,
-      "",
-      "### Quests",
-      "",
-      quests,
-    ].join("\n");
-  });
-  return page("People", "Every named NPC, where to find them, and the quests they give.", sections.join("\n\n"));
+  const byRegion = new Map<RegionId, typeof NPCS[number][]>();
+  for (const person of NPCS) byRegion.set(person.regionId, [...byRegion.get(person.regionId) ?? [], person]);
+  const sections = [...byRegion].map(([regionId, people]) => [
+    `## ${regionName(regionId)}`,
+    "",
+    codexGrid(people.map((person) => {
+      const place = placeById(person.locationId);
+      const quests = person.questIds
+        .map((id) => `<a href="../quests/${escapeHtml(id)}/">${escapeHtml(QUESTS.find((quest) => quest.id === id)?.name ?? id)}</a>`)
+        .join("");
+      return codexCard({
+        id: headingSlug(person.name),
+        media: capture("npc", person.id, person.name, "../", "codex-card__shot"),
+        title: person.name,
+        meta: `${place?.location.name ?? person.locationId}, ${regionName(person.regionId)}`,
+        body: person.role,
+        footer: quests ? `<span class="codex-links"><span>Quests</span>${quests}</span>` : "",
+      });
+    })),
+  ].join(NL));
+  return page("People", "Every named NPC, where to find them, and the quests they give.", [
+    `${NPCS.length} named people across the March. Each card links the quests that person gives.`,
+    "",
+    ...sections,
+  ].join(NL + NL));
 }
 
 function grantRows(grant: QuestGrant | undefined, itemBase = "./"): (string | number)[][] {
@@ -1720,18 +1996,30 @@ function questStartPlace(quest: QuestDef): PlaceRecord {
 }
 
 function questIndexDoc(): string {
-  const rows = QUESTS.map((quest) => {
+  const cards = QUESTS.map((quest) => {
     const start = questStartPlace(quest);
-    return [
-      `[${quest.name}](./${quest.id}/)`,
-      `[${start.location.name}](../regions/#${headingSlug(start.location.name)})`,
-      rewardSummary(quest.rewards, "../"),
-    ];
+    const giver = npcGivingQuest(quest.id) ?? npc(quest.giverNpcId);
+    const rewards = (quest.rewards?.items ?? [])
+      .map((stack) => itemChip(stack.itemId, "../", itemName(stack.itemId), `${stack.quantity}×`))
+      .join("");
+    const xp = Object.entries(quest.rewards?.xp ?? {})
+      .map(([skill, amount]) => `${skillName(skill as SkillId)} +${(amount ?? 0).toLocaleString("en-US")}`);
+    if (quest.rewards?.currency) xp.push(`${quest.rewards.currency.toLocaleString("en-US")} Marks`);
+    return codexCard({
+      href: `./${escapeHtml(quest.id)}/`,
+      media: giver ? capture("npc", giver.id, giver.name, "../", "codex-card__shot") : "",
+      eyebrow: giver?.name,
+      title: quest.name,
+      meta: `${start.location.name}, ${regionName(quest.regionId)}`,
+      body: quest.summary,
+      footer: [codexTags(xp), rewards ? `<span class="codex-chiprow">${rewards}</span>` : ""].filter(Boolean).join(""),
+    });
   });
-  return page("Quests", "Every Corealm quest, its start location, and its completion reward.", table(
-    ["Quest", "Start location", "Reward"],
-    rows,
-  ));
+  return page("Quests", "Every Corealm quest, its start location, and its completion reward.", [
+    `${QUESTS.length} quests. Each card shows who gives it, where it starts, and what it pays.`,
+    "",
+    codexGrid(cards),
+  ].join(NL + NL));
 }
 
 function questDoc(quest: QuestDef): string {
@@ -1762,7 +2050,7 @@ function questDoc(quest: QuestDef): string {
   return page(quest.name, `${quest.name} start location, requirements, walkthrough, and rewards.`, [
     quest.summary,
     "",
-    giver ? capture("npc", giver.id, giver.name, "../") : "",
+    giver ? capture("npc", giver.id, giver.name, "../../") : "",
     "",
     table(["Giver", "Start location", "Region", "Requirements", "Prerequisite"], [[
       giver ? `[${giver.name}](../../npcs/#${headingSlug(giver.name)})` : quest.giverNpcId,
@@ -1785,61 +2073,148 @@ function questDoc(quest: QuestDef): string {
 }
 
 function spellsAndShopsDoc(): string {
-  const spellRows = SPELLS.map((spell) => [
-    spell.name, spell.reqLevel, spell.baseMax, spell.divisor, spell.baseXp,
-    "2.2 s wand / 3.0 s staff", `${spell.cost.charges}× ${elementName(spell.cost.element)} weapon charge or Essence`,
-  ]);
-  const orbRows = ALL_ITEMS.filter((item) => item.orb).map((item) => {
+  const spellCards = SPELLS.map((spell) => codexCard({
+    eyebrow: `${elementName(spell.cost.element)} · Magic ${spell.reqLevel}`,
+    title: spell.name,
+    meta: `Max hit ${spell.baseMax}, rising by level / ${spell.divisor}`,
+    facts: [
+      ["XP per cast", String(spell.baseXp)],
+      ["Cost", `${spell.cost.charges} ${elementName(spell.cost.element)}`],
+    ],
+  }));
+
+  const orbCards = ALL_ITEMS.filter((item) => item.orb).map((item) => {
     const orb = item.orb!;
     const charge = ALL_ITEMS.find((candidate) => candidate.magicWeapon?.charge?.orbItemId === item.id)
       ?.magicWeapon?.charge;
-    return [
-      itemLink(item.id),
-      item.tier,
-      elementName(orb.element),
-      "Awakens the regional altar for both weapon types",
-      charge ? itemName(charge.rechargeItemId) : "-",
-      orb.released ? "Released" : "Future content",
-    ];
-  });
-  const chargedWeaponRows = ALL_ITEMS.filter((item) => item.magicWeapon?.charge).map((item) => {
-    const charge = item.magicWeapon!.charge!;
-    return [
-      itemLink(item.id),
-      elementName(charge.element),
-      charge.capacity,
-      `${charge.rechargeCost}× ${itemName(charge.rechargeItemId)}`,
-      charge.released ? "Released" : "Future content",
-    ];
-  });
-  const shopSections = SHOPS.map((shop) => {
-    const rows = shop.stock.map((entry) => {
-      const item = content.item(entry.itemId);
-      return [itemLink(entry.itemId, item?.name ?? entry.itemId), entry.quantity, Math.round((item?.value ?? 0) * shop.buyMultiplier)];
+    return codexCard({
+      href: `../items/${escapeHtml(item.id)}/`,
+      media: itemIcon(item.id, "../"),
+      eyebrow: `Tier ${item.tier} · ${elementName(orb.element)}`,
+      title: item.name,
+      meta: "Awakens the regional altar for both weapon types",
+      footer: [
+        charge ? itemChip(charge.rechargeItemId, "../") : "",
+        codexTags([orb.released ? "Released" : "Future content"]),
+      ].filter(Boolean).join(""),
+      muted: !orb.released,
     });
-    return `### ${shop.name}\n\n${table(["Item", "Stock", "Price"], rows)}`;
   });
+
+  const weaponCards = ALL_ITEMS.filter((item) => item.magicWeapon?.charge).map((item) => {
+    const charge = item.magicWeapon!.charge!;
+    return codexCard({
+      href: `../items/${escapeHtml(item.id)}/`,
+      media: itemIcon(item.id, "../"),
+      eyebrow: elementName(charge.element),
+      title: item.name,
+      meta: `${charge.capacity.toLocaleString("en-US")} charges`,
+      footer: [
+        itemChip(charge.rechargeItemId, "../", itemName(charge.rechargeItemId), `${charge.rechargeCost}×`),
+        codexTags([charge.released ? "Released" : "Future content"]),
+      ].join(""),
+      muted: !charge.released,
+    });
+  });
+
+  const shopSections = SHOPS.map((shop) => [
+    `### ${shop.name}`,
+    "",
+    codexGrid(shop.stock.map((entry) => {
+      const item = content.item(entry.itemId);
+      return codexCard({
+        href: `../items/${escapeHtml(entry.itemId)}/`,
+        media: itemIcon(entry.itemId, "../", item?.name ?? entry.itemId),
+        title: item?.name ?? entry.itemId,
+        meta: `${Math.round((item?.value ?? 0) * shop.buyMultiplier).toLocaleString("en-US")} Marks`,
+        footer: codexTags([`${entry.quantity.toLocaleString("en-US")} in stock`]),
+      });
+    }), "compact"),
+  ].join(NL));
+
   return page("Spells and shops", "Spell costs and shop inventories from the live economy tables.", [
     "## Spells",
     "",
-    table(["Spell", "Magic level", "Base max", "Divisor", "XP", "Cast time", "Cost"], spellRows),
+    `${SPELLS.length} spells across the four elements. Every cast takes 2.2 s on a wand or 3.0 s on a staff, and spends one matching weapon charge, or one matching Essence when the weapon is empty.`,
+    "",
+    codexGrid(spellCards),
     "",
     "## Elemental orbs",
     "",
     "Boss orbs are singleton altar keys, not equipment. Use one on the dormant altar at the matching Essence Cache. The awakened altar then makes both matching wood-tier wands and staffs as elemental weapons with 1,000 charges.",
     "",
-    table(["Orb", "Tier", "Element", "Use", "Matching Essence", "Status"], orbRows),
+    codexGrid(orbCards),
     "",
     "## Charged elemental weapons",
     "",
     "A matching weapon charge pays for the cast first. At zero charge, the weapon keeps casting from carried matching Essence. The matching awakened Essence Altar consumes 100 Essence to refill the equipped weapon to 1,000.",
     "",
-    table(["Weapon", "Element", "Capacity", "Full recharge", "Status"], chargedWeaponRows),
+    codexGrid(weaponCards),
     "",
     "## Shops",
     "",
-    shopSections.join("\n\n"),
-  ].join("\n"));
+    shopSections.join(NL + NL),
+  ].join(NL));
+}
+
+/**
+ * The gallery ships all 327 icons at once, so the source PNGs (about 82 KB each) are re-encoded
+ * to WebP at the two sizes the pages actually render: 128px for grids, 256px for item pages.
+ */
+async function writeItemIcons(out: string): Promise<void> {
+  const source = path.resolve(repoRoot, "art/item-icons/256");
+  const target = path.join(out, "assets/items");
+  await rm(target, { recursive: true, force: true });
+  await mkdir(path.join(target, "thumb"), { recursive: true });
+  for (const file of await readdir(source)) {
+    if (!file.endsWith(".png")) continue;
+    const png = await readFile(path.join(source, file));
+    const id = file.slice(0, -".png".length);
+    await writeFile(path.join(target, `${id}.webp`), await sharp(png)
+      .resize(ICON_FULL_PX, ICON_FULL_PX, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 82, effort: 6, alphaQuality: 90 }).toBuffer());
+    await writeFile(path.join(target, "thumb", `${id}.webp`), await sharp(png)
+      .resize(ICON_THUMB_PX, ICON_THUMB_PX, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 78, effort: 6, alphaQuality: 85 }).toBuffer());
+  }
+}
+
+/**
+ * Halves every gameplay capture for the index pages. The regions page alone shows 46 of them, so
+ * serving the full rendition there costs about 4 MB for pictures rendered at a quarter the area.
+ */
+async function writeCaptureThumbs(out: string): Promise<void> {
+  const root = path.join(out, "assets/captures");
+  const target = path.join(root, "thumbs");
+  await rm(target, { recursive: true, force: true });
+  for (const folder of await readdir(root, { withFileTypes: true })) {
+    if (!folder.isDirectory() || folder.name.startsWith("armor") || folder.name === "thumbs") continue;
+    await mkdir(path.join(target, folder.name), { recursive: true });
+    for (const file of await readdir(path.join(root, folder.name))) {
+      if (!file.endsWith(".webp")) continue;
+      const frame = await readFile(path.join(root, folder.name, file));
+      await writeFile(path.join(target, folder.name, file), await sharp(frame)
+        .resize(CAPTURE_THUMB_W, CAPTURE_THUMB_H, { fit: "cover" })
+        .webp({ quality: 74, effort: 6 }).toBuffer());
+    }
+  }
+}
+
+/** Bakes the player crop the armour gallery wants out of each full gameplay frame. */
+async function writeArmourViews(out: string): Promise<void> {
+  const source = path.join(out, "assets/captures/armor-ornate");
+  const target = path.join(out, "assets/captures/armor-views");
+  if (!existsSync(source)) return;
+  await rm(target, { recursive: true, force: true });
+  await mkdir(target, { recursive: true });
+  for (const file of await readdir(source)) {
+    if (!file.endsWith(".webp")) continue;
+    const frame = await readFile(path.join(source, file));
+    await writeFile(path.join(target, file), await sharp(frame)
+      .extract(ARMOUR_CROP)
+      .resize(ARMOUR_VIEW_W, ARMOUR_VIEW_H)
+      .webp({ quality: 80, effort: 6 }).toBuffer());
+  }
 }
 
 async function main(): Promise<void> {
@@ -1882,29 +2257,31 @@ async function main(): Promise<void> {
     ["spells-and-shops.md", spellsAndShopsDoc()],
   ];
 
+  const guideEntries: [string, string, string][] = [
+    ["./quests", "Quests", `All ${QUESTS.length} quests, who gives them, and what they pay.`],
+    ["./npcs", "People", `The ${NPCS.length} named people of the March and where they stand.`],
+    ["./creatures", "Creatures", "Spawn maps, combat stats, and drop tables for everything that fights back."],
+    ["./regions", "Regions", "An interactive world map, every settlement, route, and gathering site."],
+    ["./items", "Items", `Every one of the ${ALL_ITEMS.length} items, with in-game stat cards.`],
+    ["./armor", "Worn armor", "Each melee tier photographed on the player, front, back, and walking."],
+    ["./recipes", "Recipes", `${RECIPES.length} recipes as ingredients in, equipment out.`],
+    ["./resources", "Resources", "Gathering nodes: requirements, yields, and respawn timing."],
+    ["./skills", "Skills", "What each skill does and what it unlocks by level."],
+    ["./gathering-production", "Gathering and production", "The complete early loops from ore to equipment."],
+    ["./campfires", "Campfires", "Fuels, lifetimes, and which recipes accept a fire."],
+    ["./experience", "Experience", "The level curve and the tier milestones on it."],
+    ["./spells-and-shops", "Spells and shops", "Spell damage, elemental charges, and shop stock."],
+  ];
   const index = page("Game guide", "Generated guides for Corealm's quests, people, creatures, regions, and systems.", [
     "These pages are regenerated from the same content tables the game runs.",
     "",
-    "- [Quests](./quests)",
-    "- [People](./npcs)",
-    "- [Creatures](./creatures)",
-    "- [Regions](./regions)",
-    "- [Items](./items)",
-    "- [Worn armor by tier](./armor)",
-    "- [Recipes](./recipes)",
-    "- [Resources](./resources)",
-    "- [Skills](./skills)",
-    "- [Gathering and production](./gathering-production)",
-    "- [Campfires](./campfires)",
-    "- [Experience table](./experience)",
-    "- [Spells and shops](./spells-and-shops)",
-  ].join("\n"));
+    codexGrid(guideEntries.map(([href, title, body]) =>
+      codexCard({ href, title, body })), "compact"),
+  ].join(NL));
 
-  const iconSource = path.resolve(repoRoot, "art/item-icons/256");
-  const iconTarget = path.join(out, "assets/items");
-  await rm(iconTarget, { recursive: true, force: true });
-  await mkdir(path.dirname(iconTarget), { recursive: true });
-  await cp(iconSource, iconTarget, { recursive: true });
+  await writeItemIcons(out);
+  await writeArmourViews(out);
+  await writeCaptureThumbs(out);
   await sharp(path.resolve(repoRoot, "game/public/generated/world-map.png"))
     .resize({ width: 2400, withoutEnlargement: true })
     .webp({ quality: 88, effort: 6, smartSubsample: true })

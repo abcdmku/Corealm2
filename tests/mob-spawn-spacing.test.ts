@@ -9,6 +9,28 @@ const mob = (id: string, groupId = 'fixed'): SemanticEntity => ({ id, archetype:
 const ports = { underground: () => false, place: (_entity: SemanticEntity, x: number, z: number) => [x, 0, z] as [number, number, number] };
 
 describe('all-source mob spacing', () => {
+  it.each([false, true])('keeps a running lane after idle wandering, underground=%s', underground => {
+    const actors = Array.from({ length: 7 }, (_, index) => ({ ...mob(`large-${index}`),
+      combat: { ...mob('base').combat!, bodyRadius: 3 } }));
+    const habitats = spreadMobSpawns(actors, [], { ...ports, underground: () => underground });
+    const wander = habitats[0]!.roamRadius!;
+    for (let i = 0; i < actors.length; i++) for (const other of actors.slice(i + 1)) {
+      const a = actors[i]!;
+      const lane = Math.hypot(a.position[0] - other.position[0], a.position[2] - other.position[2])
+        - a.combat!.bodyRadius! - other.combat!.bodyRadius! - wander * 2;
+      expect(lane).toBeGreaterThanOrEqual(2 - 1e-6);
+    }
+  });
+
+  it('retains an already loose pack without multiplying its spread', () => {
+    const actors = Array.from({ length: 7 }, (_, index) => ({ ...mob(`loose-${index}`),
+      position: [Math.cos(index * Math.PI * 2 / 7) * 15, 0,
+        Math.sin(index * Math.PI * 2 / 7) * 15] as [number, number, number] }));
+    const original = actors.map(actor => [...actor.position]);
+    spreadMobSpawns(actors, [], ports);
+    expect(actors.map(actor => actor.position)).toEqual(original);
+  });
+
   it('preserves wide Wilderness anchors when final floor placement must search again', () => {
     const actors: SemanticEntity[] = Array.from({ length: 3 }, (_, index) => ({ ...mob(`dragon-${index}`), regionId: 'wilderness' }));
     spreadMobSpawns(actors, [{ id: 'roost', groupId: 'fixed', regionId: 'wilderness', centre: [0, 0],

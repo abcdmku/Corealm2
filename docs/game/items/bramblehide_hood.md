@@ -4,28 +4,15 @@ description: "Deepwood hide, still faintly thorned along the seam."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/bramblehide_hood.png" alt="Thick Hide Hood" width="256" height="256" />
+<img src="../../assets/items/bramblehide_hood.webp" alt="Thick Hide Hood" width="256" height="256" />
 <p>Deepwood hide, still faintly thorned along the seam.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 300 |
-| Sell value | 180 |
-| Equipment slot | head |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>300</dd></div><div><dt>Sell value</dt><dd>180</dd></div><div><dt>Slot</dt><dd>Head</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +1 |
-| Magic accuracy | +2 |
-| Magic power | +1 |
-| Magic armour | +4 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic accuracy</dt><dd>+2</dd></div><div><dt>Magic power</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

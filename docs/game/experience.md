@@ -5,7 +5,29 @@ description: "The complete Corealm experience curve."
 
 Skills run from level 1 to 99. Level 99 requires **9,999,879 XP**.
 
-Content tiers unlock at levels 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99.
+## Tier milestones
+
+Content tiers unlock at these levels, so these are the numbers worth remembering.
+
+<div class="codex-grid codex-grid--compact">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 1</span><span class="codex-card__meta">0 total XP</span><span class="codex-card__body">Where every skill starts.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 5</span><span class="codex-card__meta">525 total XP</span><span class="codex-card__body">165 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 10</span><span class="codex-card__meta">1,725 total XP</span><span class="codex-card__body">295 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 20</span><span class="codex-card__meta">6,746 total XP</span><span class="codex-card__body">714 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 30</span><span class="codex-card__meta">18,195 total XP</span><span class="codex-card__body">1,607 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 40</span><span class="codex-card__meta">44,406 total XP</span><span class="codex-card__body">3,734 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 50</span><span class="codex-card__meta">106,992 total XP</span><span class="codex-card__body">9,057 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 60</span><span class="codex-card__meta">262,014 total XP</span><span class="codex-card__body">22,676 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 70</span><span class="codex-card__meta">654,878 total XP</span><span class="codex-card__body">57,807 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 80</span><span class="codex-card__meta">1,662,731 total XP</span><span class="codex-card__body">148,737 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 90</span><span class="codex-card__meta">4,263,794 total XP</span><span class="codex-card__body">384,396 XP for the level itself.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Level 99</span><span class="codex-card__meta">9,999,879 total XP</span><span class="codex-card__body">905,043 XP for the level itself.</span></span></div>
+</div>
+
+## Every level
+
+<details class="codex-details">
+<summary>The full curve, levels 2 to 99</summary>
 
 | Level | Total XP | XP from previous level |
 | --- | --- | --- |
@@ -108,3 +130,5 @@ Content tiers unlock at levels 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99.
 | 97 | 8,271,975 | 748,150 |
 | 98 | 9,094,836 | 822,861 |
 | 99 | 9,999,879 | 905,043 |
+
+</details>

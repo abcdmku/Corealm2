@@ -4,17 +4,11 @@ description: "Barb and bulb both intact. Dry, it is a needle; wet, it is still a
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/scorpion_stinger.png" alt="Scorpion Stinger" width="256" height="256" />
+<img src="../../assets/items/scorpion_stinger.webp" alt="Scorpion Stinger" width="256" height="256" />
 <p>Barb and bulb both intact. Dry, it is a needle; wet, it is still a problem.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 140 |
-| Sell value | 84 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>140</dd></div><div><dt>Sell value</dt><dd>84</dd></div></dl>
 
 ## Where it comes from
 

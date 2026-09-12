@@ -4,27 +4,15 @@ description: "Fingered plate with fire-opal rivets. They tick as they cool."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/emberite_gauntlets.png" alt="Titanium Gauntlets" width="256" height="256" />
+<img src="../../assets/items/emberite_gauntlets.webp" alt="Titanium Gauntlets" width="256" height="256" />
 <p>Fingered plate with fire-opal rivets. They tick as they cool.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,350 |
-| Sell value | 810 |
-| Equipment slot | hands |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,350</dd></div><div><dt>Sell value</dt><dd>810</dd></div><div><dt>Slot</dt><dd>Hands</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +4 |
-| Armour | +4 |
-| Magic armour | +2 |
-| Vitality | +3 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+4</dd></div><div><dt>Armour</dt><dd>+4</dd></div><div><dt>Magic armour</dt><dd>+2</dd></div><div><dt>Vitality</dt><dd>+3</dd></div></dl>
 
 ## Use and requirements
 

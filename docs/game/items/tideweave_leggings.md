@@ -4,28 +4,15 @@ description: "Chitin Tideweave leggings for level 50 Magic. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/tideweave_leggings.png" alt="Chitin Tideweave Leggings" width="256" height="256" />
+<img src="../../assets/items/tideweave_leggings.webp" alt="Chitin Tideweave Leggings" width="256" height="256" />
 <p>Chitin Tideweave leggings for level 50 Magic. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 11,000 |
-| Sell value | 6,600 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>11,000</dd></div><div><dt>Sell value</dt><dd>6,600</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +7 |
-| Magic accuracy | +14 |
-| Magic power | +8 |
-| Magic armour | +36 |
-| Vitality | +10 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+7</dd></div><div><dt>Magic accuracy</dt><dd>+14</dd></div><div><dt>Magic power</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+36</dd></div><div><dt>Vitality</dt><dd>+10</dd></div></dl>
 
 ## Use and requirements
 

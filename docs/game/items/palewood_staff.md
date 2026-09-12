@@ -4,26 +4,15 @@ description: "A pale two-handed shaft with an empty socket. The wood itself give
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/palewood_staff.png" alt="Pine Staff" width="256" height="256" />
+<img src="../../assets/items/palewood_staff.webp" alt="Pine Staff" width="256" height="256" />
 <p>A pale two-handed shaft with an empty socket. The wood itself gives off no light.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 140 |
-| Sell value | 84 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>140</dd></div><div><dt>Sell value</dt><dd>84</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +6 |
-| Magic power | +7 |
-| Magic armour | +1 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+6</dd></div><div><dt>Magic power</dt><dd>+7</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 
@@ -40,6 +29,8 @@ description: "A pale two-handed shaft with an empty socket. The wood itself give
 
 ## Used to make
 
-- 1× for **Air Staff**, producing 1× [Air Staff](../../items/air_staff/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/air_staff.webp" alt="Air Staff" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../air_staff/">Air Staff</a></span><span class="codex-card__meta">Takes 1 × Pine Staff</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/air_staff/"><img class="codex-icon" src="../../assets/items/thumb/air_staff.webp" alt="Air Staff" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Air Staff</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

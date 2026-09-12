@@ -91,6 +91,14 @@ describe('ordinary encounter formations', () => {
     expect(() => createEncounterFormation(group, { bodyRadius: 1, count: 6 })).toThrow('7–15');
     expect(() => createEncounterFormation(group, { bodyRadius: 0 })).toThrow('moving body');
   });
+
+  it('replaces obstructing preferred anchors when the same room can fit a complete grid', () => {
+    const options = { bodyRadius: 1, count: 7, maxRadius: 3.6 };
+    const formed = createEncounterFormation(group, { ...options,
+      preferredAnchors: [[group.centre[0] + .8, group.centre[1]]] });
+    expect(formed).toEqual(createEncounterFormation(group, options));
+    expect(formed.anchors).toHaveLength(7);
+  });
 });
 
 describe('legacy enlarged encounter placements', () => {

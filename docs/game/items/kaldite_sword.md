@@ -4,25 +4,15 @@ description: "Hillcrest's best. Cobalt holds an edge through stone, which is the
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_sword.png" alt="Cobalt Sword" width="256" height="256" />
+<img src="../../assets/items/kaldite_sword.webp" alt="Cobalt Sword" width="256" height="256" />
 <p>Hillcrest's best. Cobalt holds an edge through stone, which is the whole point up here.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,450 |
-| Sell value | 870 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,450</dd></div><div><dt>Sell value</dt><dd>870</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +28 |
-| Power | +26 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+28</dd></div><div><dt>Power</dt><dd>+26</dd></div></dl>
 
 ## Use and requirements
 

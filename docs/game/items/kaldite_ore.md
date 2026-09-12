@@ -4,17 +4,11 @@ description: "Black Highlands ore with a blue fracture. It takes a furnace twice
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_ore.png" alt="Cobalt Ore" width="256" height="256" />
+<img src="../../assets/items/kaldite_ore.webp" alt="Cobalt Ore" width="256" height="256" />
 <p>Black Highlands ore with a blue fracture. It takes a furnace twice to give anything up.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | resource |
-| Stacks | No |
-| Buy value | 95 |
-| Sell value | 57 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>95</dd></div><div><dt>Sell value</dt><dd>57</dd></div></dl>
 
 ## Where it comes from
 
@@ -37,6 +31,8 @@ description: "Black Highlands ore with a blue fracture. It takes a furnace twice
 
 ## Used to make
 
-- 2× for **Cobalt Bar**, producing 1× [Cobalt Bar](../../items/kaldite_bar/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_bar.webp" alt="Cobalt Bar" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_bar/">Cobalt Bar</a></span><span class="codex-card__meta">Takes 2 × Cobalt Ore</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_bar/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_bar.webp" alt="Cobalt Bar" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Bar</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

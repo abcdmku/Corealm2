@@ -4,20 +4,18 @@ description: "Wraith spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/wilderness_lost_procession.webp" alt="Wraith at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Wraith</strong><span>The Silent Stones, Wilderness</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/nameless_abbey_haunt.webp" alt="Wraith at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Wraith</strong><span>The Nameless Abbey, Wilderness</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/fallen_aqueduct_haunt.webp" alt="Wraith at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Wraith</strong><span>The Broken Waterway, Wilderness</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/forgotten_forge_haunt.webp" alt="Wraith at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Wraith</strong><span>The Grave Road, Wilderness</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/eastern_aqueduct_haunt.webp" alt="Wraith at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Wraith</strong><span>The Empty Sluice, Wilderness</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="30.699,31.262,69.167,37.455"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Wraith">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-silent-stones" style="--map-x:41.6667%;--map-y:37.2727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Silent Stones, Wilderness" title="Wraith, The Silent Stones, Wilderness"><span>Wraith<small>The Silent Stones, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-nameless-abbey" style="--map-x:37.5120%;--map-y:39.2094%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Nameless Abbey, Wilderness" title="Wraith, The Nameless Abbey, Wilderness"><span>Wraith<small>The Nameless Abbey, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-broken-waterway" style="--map-x:30.6991%;--map-y:36.6105%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Broken Waterway, Wilderness" title="Wraith, The Broken Waterway, Wilderness"><span>Wraith<small>The Broken Waterway, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:46.7071%;--map-y:35.9461%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Grave Road, Wilderness" title="Wraith, The Grave Road, Wilderness"><span>Wraith<small>The Grave Road, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-empty-sluice" style="--map-x:69.1667%;--map-y:40.5909%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Empty Sluice, Wilderness" title="Wraith, The Empty Sluice, Wilderness"><span>Wraith<small>The Empty Sluice, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-silent-stones" style="--map-x:41.6667%;--map-y:33.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Silent Stones, Wilderness" title="Wraith, The Silent Stones, Wilderness"><span>Wraith<small>The Silent Stones, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-nameless-abbey" style="--map-x:37.5120%;--map-y:35.6125%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Nameless Abbey, Wilderness" title="Wraith, The Nameless Abbey, Wilderness"><span>Wraith<small>The Nameless Abbey, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-broken-waterway" style="--map-x:30.6991%;--map-y:32.1474%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Broken Waterway, Wilderness" title="Wraith, The Broken Waterway, Wilderness"><span>Wraith<small>The Broken Waterway, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:46.7071%;--map-y:31.2615%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Grave Road, Wilderness" title="Wraith, The Grave Road, Wilderness"><span>Wraith<small>The Grave Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-empty-sluice" style="--map-x:69.1667%;--map-y:37.4545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Empty Sluice, Wilderness" title="Wraith, The Empty Sluice, Wilderness"><span>Wraith<small>The Empty Sluice, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -43,19 +41,17 @@ description: "Wraith spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 50 | 92 | 46 | 38 | 16 | 15 | 2.8 s | 3 | 55 | aggressive | 7 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Health</dt><dd>92</dd></div><div><dt>Attack</dt><dd>46</dd></div><div><dt>Defence</dt><dd>38</dd></div><div><dt>Accuracy</dt><dd>16</dd></div><div><dt>Max hit</dt><dd>15</dd></div><div><dt>Attack speed</dt><dd>2.8 s</dd></div><div><dt>Armour</dt><dd>3</dd></div><div><dt>Magic armour</dt><dd>55</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>7 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 50-150 | Always |
-| [Grave Thread](../../items/grave_thread/) | 1-3 | 100% |
-| [Cosmic Rune](../../items/cosmic_rune/) | 2-4 | 40% |
-| [Mind Rune](../../items/mind_rune/) | 2-4 | 40% |
-| [Chaos Rune](../../items/chaos_rune/) | 2-3 | 28% |
-| [Fire Opal](../../items/fire_opal/) | 1 | 4% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">50-150 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/grave_thread.webp" alt="Grave Thread" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/grave_thread/">Grave Thread</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cosmic_rune.webp" alt="Cosmic Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/cosmic_rune/">Cosmic Rune</a></span><span class="codex-card__meta">2-4 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/mind_rune.webp" alt="Mind Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/mind_rune/">Mind Rune</a></span><span class="codex-card__meta">2-4 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/chaos_rune.webp" alt="Chaos Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/chaos_rune/">Chaos Rune</a></span><span class="codex-card__meta">2-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">28% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_opal.webp" alt="Fire Opal" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/fire_opal/">Fire Opal</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">4% chance</span></span></span></span></div>
+</div>

@@ -4,25 +4,15 @@ description: "Iron-shod boots for scree and bracken."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/grithe_boots.png" alt="Copper Boots" width="256" height="256" />
+<img src="../../assets/items/grithe_boots.webp" alt="Copper Boots" width="256" height="256" />
 <p>Iron-shod boots for scree and bracken.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 80 |
-| Sell value | 48 |
-| Equipment slot | feet |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>80</dd></div><div><dt>Sell value</dt><dd>48</dd></div><div><dt>Slot</dt><dd>Feet</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +1 |
-| Vitality | +1 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

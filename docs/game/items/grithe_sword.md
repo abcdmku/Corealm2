@@ -4,25 +4,15 @@ description: "Two bars of Copper beaten flat and given an edge. Heavier than the
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/grithe_sword.png" alt="Copper Sword" width="256" height="256" />
+<img src="../../assets/items/grithe_sword.webp" alt="Copper Sword" width="256" height="256" />
 <p>Two bars of Copper beaten flat and given an edge. Heavier than the dagger, and hits like it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 180 |
-| Sell value | 108 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>180</dd></div><div><dt>Sell value</dt><dd>108</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +7 |
-| Power | +8 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+7</dd></div><div><dt>Power</dt><dd>+8</dd></div></dl>
 
 ## Use and requirements
 

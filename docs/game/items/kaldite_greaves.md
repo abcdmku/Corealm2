@@ -4,27 +4,15 @@ description: "Full leg plate, hinged at the knee."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_greaves.png" alt="Cobalt Greaves" width="256" height="256" />
+<img src="../../assets/items/kaldite_greaves.webp" alt="Cobalt Greaves" width="256" height="256" />
 <p>Full leg plate, hinged at the knee.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,620 |
-| Sell value | 972 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,620</dd></div><div><dt>Sell value</dt><dd>972</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +2 |
-| Armour | +12 |
-| Magic armour | +3 |
-| Vitality | +4 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+2</dd></div><div><dt>Armour</dt><dd>+12</dd></div><div><dt>Magic armour</dt><dd>+3</dd></div><div><dt>Vitality</dt><dd>+4</dd></div></dl>
 
 ## Use and requirements
 

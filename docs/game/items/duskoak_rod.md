@@ -4,17 +4,11 @@ description: "Springy enough for a trout. Five effective Fishing levels."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/duskoak_rod.png" alt="Ash Rod" width="256" height="256" />
+<img src="../../assets/items/duskoak_rod.webp" alt="Ash Rod" width="256" height="256" />
 <p>Springy enough for a trout. Five effective Fishing levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 190 |
-| Sell value | 114 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>190</dd></div><div><dt>Sell value</dt><dd>114</dd></div></dl>
 
 ## Use and requirements
 

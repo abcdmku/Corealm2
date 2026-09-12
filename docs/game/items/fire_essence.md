@@ -4,17 +4,11 @@ description: "A hot orange charge mined at the Ashlands altar ruins. It never qu
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/fire_essence.png" alt="Fire Essence" width="256" height="256" />
+<img src="../../assets/items/fire_essence.webp" alt="Fire Essence" width="256" height="256" />
 <p>A hot orange charge mined at the Ashlands altar ruins. It never quite cools.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 120 |
-| Sell value | 72 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>120</dd></div><div><dt>Sell value</dt><dd>72</dd></div></dl>
 
 ## Where it comes from
 

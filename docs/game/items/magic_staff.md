@@ -4,27 +4,15 @@ description: "Magic crowned with Nightglass. A heavy two-handed casting weapon; 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/magic_staff.png" alt="Magic Staff" width="256" height="256" />
+<img src="../../assets/items/magic_staff.webp" alt="Magic Staff" width="256" height="256" />
 <p>Magic crowned with Nightglass. A heavy two-handed casting weapon; carried Essence pays for spells.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 11,700 |
-| Sell value | 7,020 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>11,700</dd></div><div><dt>Sell value</dt><dd>7,020</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Power | +21 |
-| Magic accuracy | +110 |
-| Magic power | +94 |
-| Magic armour | +19 |
+<dl class="codex-stats"><div><dt>Power</dt><dd>+21</dd></div><div><dt>Magic accuracy</dt><dd>+110</dd></div><div><dt>Magic power</dt><dd>+94</dd></div><div><dt>Magic armour</dt><dd>+19</dd></div></dl>
 
 ## Use and requirements
 
@@ -40,6 +28,8 @@ description: "Magic crowned with Nightglass. A heavy two-handed casting weapon; 
 
 ## Used to make
 
-- 1× for **Hollowstar Staff**, producing 1× [Hollowstar Staff](../../items/hollowstar_staff/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/hollowstar_staff.webp" alt="Hollowstar Staff" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 70</span><span class="codex-card__title"><a class="codex-card__link" href="../hollowstar_staff/">Hollowstar Staff</a></span><span class="codex-card__meta">Takes 1 × Magic Staff</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/hollowstar_staff/"><img class="codex-icon" src="../../assets/items/thumb/hollowstar_staff.webp" alt="Hollowstar Staff" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hollowstar Staff</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

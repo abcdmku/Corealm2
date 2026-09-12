@@ -4,17 +4,11 @@ description: "Iron bit, deep bevel. Five effective Woodcutting levels."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/corven_hatchet.png" alt="Iron Hatchet" width="256" height="256" />
+<img src="../../assets/items/corven_hatchet.webp" alt="Iron Hatchet" width="256" height="256" />
 <p>Iron bit, deep bevel. Five effective Woodcutting levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 225 |
-| Sell value | 135 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>225</dd></div><div><dt>Sell value</dt><dd>135</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,18 +4,17 @@ description: "Reed Strider spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/blackwater_frogs.webp" alt="Reed Strider at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Reed Strider</strong><span>Blackwater Pools, Woodlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/blackwater_heron_residents.webp" alt="Reed Strider at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Reed Strider</strong><span>Blackwater Pools, Woodlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_gorge_south_striders.webp" alt="Reed Strider at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Reed Strider</strong><span>Gorge Ford, Woodlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_mire_skirt_striders.webp" alt="Reed Strider at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Reed Strider</strong><span>Marsh Edge, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="49.333,65.879,67.333,70.667"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Reed Strider">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:62.0833%;--map-y:63.2273%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Blackwater Pools, Woodlands" title="Reed Strider, Blackwater Pools, Woodlands"><span>Reed Strider<small>Blackwater Pools, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:63.5000%;--map-y:61.9091%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Blackwater Pools, Woodlands" title="Reed Strider, Blackwater Pools, Woodlands"><span>Reed Strider<small>Blackwater Pools, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#gorge-ford" style="--map-x:67.3333%;--map-y:65.5000%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Gorge Ford, Woodlands" title="Reed Strider, Gorge Ford, Woodlands"><span>Reed Strider<small>Gorge Ford, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:49.3333%;--map-y:62.7727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Marsh Edge, Woodlands" title="Reed Strider, Marsh Edge, Woodlands"><span>Reed Strider<small>Marsh Edge, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:62.0833%;--map-y:67.6364%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Blackwater Pools, Woodlands" title="Reed Strider, Blackwater Pools, Woodlands"><span>Reed Strider<small>Blackwater Pools, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:63.5000%;--map-y:65.8788%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Blackwater Pools, Woodlands" title="Reed Strider, Blackwater Pools, Woodlands"><span>Reed Strider<small>Blackwater Pools, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#gorge-ford" style="--map-x:67.3333%;--map-y:70.6667%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Gorge Ford, Woodlands" title="Reed Strider, Gorge Ford, Woodlands"><span>Reed Strider<small>Gorge Ford, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:49.3333%;--map-y:67.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Marsh Edge, Woodlands" title="Reed Strider, Marsh Edge, Woodlands"><span>Reed Strider<small>Marsh Edge, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -40,15 +39,13 @@ description: "Reed Strider spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 5 | 11 | 4 | 3 | 6 | 2 | 2.0 s | 5 | 8 | territorial | 10 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Health</dt><dd>11</dd></div><div><dt>Attack</dt><dd>4</dd></div><div><dt>Defence</dt><dd>3</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>2</dd></div><div><dt>Attack speed</dt><dd>2.0 s</dd></div><div><dt>Armour</dt><dd>5</dd></div><div><dt>Magic armour</dt><dd>8</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>10 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 3-8 | Always |
-| [Earth Essence](../../items/earth_essence/) | 1-2 | 35% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">3-8 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/earth_essence.webp" alt="Earth Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/earth_essence/">Earth Essence</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">35% chance</span></span></span></span></div>
+</div>

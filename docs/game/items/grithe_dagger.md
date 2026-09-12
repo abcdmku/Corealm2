@@ -4,25 +4,15 @@ description: "A short blade of dull grey Copper. The first real weapon anyone ou
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/grithe_dagger.png" alt="Copper Dagger" width="256" height="256" />
+<img src="../../assets/items/grithe_dagger.webp" alt="Copper Dagger" width="256" height="256" />
 <p>A short blade of dull grey Copper. The first real weapon anyone out here owns.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 90 |
-| Sell value | 54 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>90</dd></div><div><dt>Sell value</dt><dd>54</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +6 |
-| Power | +6 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+6</dd></div><div><dt>Power</dt><dd>+6</dd></div></dl>
 
 ## Use and requirements
 

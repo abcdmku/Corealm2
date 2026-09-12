@@ -4,27 +4,15 @@ description: "Five bars of Titanium. It keeps the warmth of the forge for a full
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/emberite_plate.png" alt="Titanium Plate" width="256" height="256" />
+<img src="../../assets/items/emberite_plate.webp" alt="Titanium Plate" width="256" height="256" />
 <p>Five bars of Titanium. It keeps the warmth of the forge for a full day's walk.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 3,900 |
-| Sell value | 2,340 |
-| Equipment slot | body |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>3,900</dd></div><div><dt>Sell value</dt><dd>2,340</dd></div><div><dt>Slot</dt><dd>Body</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +6 |
-| Armour | +30 |
-| Magic armour | +7 |
-| Vitality | +7 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+6</dd></div><div><dt>Armour</dt><dd>+30</dd></div><div><dt>Magic armour</dt><dd>+7</dd></div><div><dt>Vitality</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

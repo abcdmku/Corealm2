@@ -4,28 +4,15 @@ description: "Chitin Tideweave robe for level 50 Magic. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/tideweave_robe.png" alt="Chitin Tideweave Robe" width="256" height="256" />
+<img src="../../assets/items/tideweave_robe.webp" alt="Chitin Tideweave Robe" width="256" height="256" />
 <p>Chitin Tideweave robe for level 50 Magic. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 11,000 |
-| Sell value | 6,600 |
-| Equipment slot | body |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>11,000</dd></div><div><dt>Sell value</dt><dd>6,600</dd></div><div><dt>Slot</dt><dd>Body</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +9 |
-| Magic accuracy | +25 |
-| Magic power | +12 |
-| Magic armour | +53 |
-| Vitality | +14 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+9</dd></div><div><dt>Magic accuracy</dt><dd>+25</dd></div><div><dt>Magic power</dt><dd>+12</dd></div><div><dt>Magic armour</dt><dd>+53</dd></div><div><dt>Vitality</dt><dd>+14</dd></div></dl>
 
 ## Use and requirements
 

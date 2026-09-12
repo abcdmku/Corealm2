@@ -4,24 +4,15 @@ description: "Blunt quill sections set around Cobalt. A small guard for the weap
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/quillguard_ring.png" alt="Porcupine Quill Ring" width="256" height="256" />
+<img src="../../assets/items/quillguard_ring.webp" alt="Porcupine Quill Ring" width="256" height="256" />
 <p>Blunt quill sections set around Cobalt. A small guard for the weapon hand.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 780 |
-| Sell value | 468 |
-| Equipment slot | accessory1 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>780</dd></div><div><dt>Sell value</dt><dd>468</dd></div><div><dt>Slot</dt><dd>Accessory1</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +2 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,17 +4,11 @@ description: "Cindersteel on a teak handle. Adds 39 effective gathering levels; 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cindersteel_hatchet.png" alt="Cindersteel Hatchet" width="256" height="256" />
+<img src="../../assets/items/cindersteel_hatchet.webp" alt="Cindersteel Hatchet" width="256" height="256" />
 <p>Cindersteel on a teak handle. Adds 39 effective gathering levels; resource requirements still apply.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 4,000 |
-| Sell value | 2,400 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>4,000</dd></div><div><dt>Sell value</dt><dd>2,400</dd></div></dl>
 
 ## Use and requirements
 

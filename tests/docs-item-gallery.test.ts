@@ -27,7 +27,7 @@ describe("generated item Codex", () => {
       expect(markdown).toContain(`href="./${item.id}/"`);
       expect(markdown).toContain(`aria-label="${item.name.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}"`);
       expect(markdown).toContain(`aria-describedby="item-tooltip-${item.id}"`);
-      expect(markdown).toContain(`src="../assets/items/${item.id}.png"`);
+      expect(markdown).toContain(`src="../assets/items/thumb/${item.id}.webp"`);
       expect(markdown).toContain(`id="item-tooltip-${item.id}" role="tooltip"`);
     }
   });
@@ -41,7 +41,7 @@ describe("generated item Codex", () => {
       const markdown = itemDetailDoc(item);
       expect(markdown).toContain(`title: ${JSON.stringify(item.name)}`);
       expect(markdown).toContain(item.description);
-      expect(markdown).toContain(`../../assets/items/${item.id}.png`);
+      expect(markdown).toContain(`../../assets/items/${item.id}.webp`);
       expect(markdown).toContain("[Back to all items](../)");
     }
   });

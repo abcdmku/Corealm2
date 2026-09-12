@@ -4,28 +4,15 @@ description: "Three pelts, stitched with Cobalt wire. Quarry Warden's floor is s
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairnpelt_robe.png" alt="Fur Robe" width="256" height="256" />
+<img src="../../assets/items/cairnpelt_robe.webp" alt="Fur Robe" width="256" height="256" />
 <p>Three pelts, stitched with Cobalt wire. Quarry Warden's floor is survivable in this.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,400 |
-| Sell value | 840 |
-| Equipment slot | body |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,400</dd></div><div><dt>Sell value</dt><dd>840</dd></div><div><dt>Slot</dt><dd>Body</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +2 |
-| Magic accuracy | +6 |
-| Magic power | +3 |
-| Magic armour | +14 |
-| Vitality | +4 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+2</dd></div><div><dt>Magic accuracy</dt><dd>+6</dd></div><div><dt>Magic power</dt><dd>+3</dd></div><div><dt>Magic armour</dt><dd>+14</dd></div><div><dt>Vitality</dt><dd>+4</dd></div></dl>
 
 ## Use and requirements
 

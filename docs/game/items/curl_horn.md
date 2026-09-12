@@ -4,17 +4,11 @@ description: "One horn from a goat. Hollow, and loud if you know how to blow it.
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/curl_horn.png" alt="Curled Horn" width="256" height="256" />
+<img src="../../assets/items/curl_horn.webp" alt="Curled Horn" width="256" height="256" />
 <p>One horn from a goat. Hollow, and loud if you know how to blow it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | component |
-| Stacks | No |
-| Buy value | 22 |
-| Sell value | 13 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>22</dd></div><div><dt>Sell value</dt><dd>13</dd></div></dl>
 
 ## Where it comes from
 

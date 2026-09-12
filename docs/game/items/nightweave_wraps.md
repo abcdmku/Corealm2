@@ -4,27 +4,15 @@ description: "Void Nightweave wraps for level 70 Magic. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/nightweave_wraps.png" alt="Void Nightweave Wraps" width="256" height="256" />
+<img src="../../assets/items/nightweave_wraps.webp" alt="Void Nightweave Wraps" width="256" height="256" />
 <p>Void Nightweave wraps for level 70 Magic. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 8,400 |
-| Sell value | 5,040 |
-| Equipment slot | hands |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>8,400</dd></div><div><dt>Sell value</dt><dd>5,040</dd></div><div><dt>Slot</dt><dd>Hands</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +4 |
-| Magic accuracy | +7 |
-| Magic armour | +17 |
-| Vitality | +7 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+4</dd></div><div><dt>Magic accuracy</dt><dd>+7</dd></div><div><dt>Magic armour</dt><dd>+17</dd></div><div><dt>Vitality</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

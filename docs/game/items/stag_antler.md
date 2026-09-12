@@ -4,17 +4,11 @@ description: "A six-point stag antler. Cut and polished, it makes a strong knife
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/stag_antler.png" alt="Stag Antler" width="256" height="256" />
+<img src="../../assets/items/stag_antler.webp" alt="Stag Antler" width="256" height="256" />
 <p>A six-point stag antler. Cut and polished, it makes a strong knife handle.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | component |
-| Stacks | No |
-| Buy value | 78 |
-| Sell value | 47 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>78</dd></div><div><dt>Sell value</dt><dd>47</dd></div></dl>
 
 ## Where it comes from
 

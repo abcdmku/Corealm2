@@ -4,27 +4,15 @@ description: "Ash with a living green seam. Warm at the grip like a root in summ
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/mossbound_staff.png" alt="Forest Ogre Staff" width="256" height="256" />
+<img src="../../assets/items/mossbound_staff.webp" alt="Forest Ogre Staff" width="256" height="256" />
 <p>Ash with a living green seam. Warm at the grip like a root in summer.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 750 |
-| Sell value | 450 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>750</dd></div><div><dt>Sell value</dt><dd>450</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Power | +2 |
-| Magic accuracy | +14 |
-| Magic power | +13 |
-| Magic armour | +2 |
+<dl class="codex-stats"><div><dt>Power</dt><dd>+2</dd></div><div><dt>Magic accuracy</dt><dd>+14</dd></div><div><dt>Magic power</dt><dd>+13</dd></div><div><dt>Magic armour</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

@@ -3,146 +3,33 @@ title: "People"
 description: "Every named NPC, where to find them, and the quests they give."
 ---
 
-## Warden Ilse
+12 named people across the March. Each card links the quests that person gives.
 
-![Warden Ilse](./assets/captures/npcs/npc_warden_ilse.webp)
 
-Warden of Millfield. Runs a town on behalf of a company that stopped writing back.
 
-**Found at:** Millfield Square, Farmland
+## Farmland
 
-### Quests
+<div class="codex-grid">
+<div class="codex-card" id="warden-ilse"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_warden_ilse.webp" alt="Warden Ilse in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Warden Ilse</span><span class="codex-card__meta">Millfield Square, Farmland</span><span class="codex-card__body">Warden of Millfield. Runs a town on behalf of a company that stopped writing back.</span></span></div>
+<div class="codex-card" id="pitmaster-dorn"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_pitmaster_dorn.webp" alt="Pitmaster Dorn in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Pitmaster Dorn</span><span class="codex-card__meta">Millfield Square, Farmland</span><span class="codex-card__body">Runs the Copper Pit, and the ledger that says what the Copper Pit contains.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/dorns_tally/">Dorn's Tally</a></span></span></span></div>
+<div class="codex-card" id="harrow-the-smith"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_smith_harrow.webp" alt="Harrow the Smith in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Harrow the Smith</span><span class="codex-card__meta">Millfield Square, Farmland</span><span class="codex-card__body">Millfield's smith. Sells metal, teaches the material loop, says very little.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/cold_iron/">Cold Iron</a></span></span></span></div>
+<div class="codex-card" id="ranger-syb"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_ranger_syb.webp" alt="Ranger Syb in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Ranger Syb</span><span class="codex-card__meta">Millfield Square, Farmland</span><span class="codex-card__body">Walks the march and knows where the water is.</span></span></div>
+<div class="codex-card" id="carter-bel"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_carter_bel.webp" alt="Carter Bel in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Carter Bel</span><span class="codex-card__meta">Millfield South Gate, Farmland</span><span class="codex-card__body">Hauls ore from the pit to the vault. Currently losing an argument to Warden Ilse.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/the_carters_wager/">The Carter's Wager</a></span></span></span></div>
+</div>
 
-_No quest._
+## Woodlands
 
-## Pitmaster Dorn
+<div class="codex-grid">
+<div class="codex-card" id="woodward-ansel"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_woodward_ansel.webp" alt="Woodward Ansel in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Woodward Ansel</span><span class="codex-card__meta">Oakwood, Woodlands</span><span class="codex-card__body">Keeps the Maple Grove. Decides which trees may be felled and which may not.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/crooked_grain/">Crooked Grain</a></span></span></span></div>
+<div class="codex-card" id="seamer-juno"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_seamer_juno.webp" alt="Seamer Juno in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Seamer Juno</span><span class="codex-card__meta">Oakwood, Woodlands</span><span class="codex-card__body">Oakwood's crafter. Shafts, hide, cord, and anything that has to hold under load.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/knots_and_names/">Knots and Names</a></span></span></span></div>
+<div class="codex-card" id="trapper-mott"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_trapper_mott.webp" alt="Trapper Mott in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Trapper Mott</span><span class="codex-card__meta">Oakwood, Woodlands</span><span class="codex-card__body">Sets eleven traps in the deep wood. Has caught nothing in eleven days.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/eleven_empty_days/">Eleven Empty Days</a></span></span></span></div>
+</div>
 
-![Pitmaster Dorn](./assets/captures/npcs/npc_pitmaster_dorn.webp)
+## Highlands
 
-Runs the Copper Pit, and the ledger that says what the Copper Pit contains.
-
-**Found at:** Millfield Square, Farmland
-
-### Quests
-
-- [Dorn's Tally](../quests/dorns_tally/)
-
-## Harrow the Smith
-
-![Harrow the Smith](./assets/captures/npcs/npc_smith_harrow.webp)
-
-Millfield's smith. Sells metal, teaches the material loop, says very little.
-
-**Found at:** Millfield Square, Farmland
-
-### Quests
-
-- [Cold Iron](../quests/cold_iron/)
-
-## Ranger Syb
-
-![Ranger Syb](./assets/captures/npcs/npc_ranger_syb.webp)
-
-Walks the march and knows where the water is.
-
-**Found at:** Millfield Square, Farmland
-
-### Quests
-
-_No quest._
-
-## Carter Bel
-
-![Carter Bel](./assets/captures/npcs/npc_carter_bel.webp)
-
-Hauls ore from the pit to the vault. Currently losing an argument to Warden Ilse.
-
-**Found at:** Millfield South Gate, Farmland
-
-### Quests
-
-- [The Carter's Wager](../quests/the_carters_wager/)
-
-## Woodward Ansel
-
-![Woodward Ansel](./assets/captures/npcs/npc_woodward_ansel.webp)
-
-Keeps the Maple Grove. Decides which trees may be felled and which may not.
-
-**Found at:** Oakwood, Woodlands
-
-### Quests
-
-- [Crooked Grain](../quests/crooked_grain/)
-
-## Seamer Juno
-
-![Seamer Juno](./assets/captures/npcs/npc_seamer_juno.webp)
-
-Oakwood's crafter. Shafts, hide, cord, and anything that has to hold under load.
-
-**Found at:** Oakwood, Woodlands
-
-### Quests
-
-- [Knots and Names](../quests/knots_and_names/)
-
-## Trapper Mott
-
-![Trapper Mott](./assets/captures/npcs/npc_trapper_mott.webp)
-
-Sets eleven traps in the deep wood. Has caught nothing in eleven days.
-
-**Found at:** Oakwood, Woodlands
-
-### Quests
-
-- [Eleven Empty Days](../quests/eleven_empty_days/)
-
-## Foreman Arden
-
-![Foreman Arden](./assets/captures/npcs/npc_foreman_arden.webp)
-
-Foreman of the Hillcrest quarry crew. Stopped the dig six months ago and kept the camp.
-
-**Found at:** Hillcrest, Highlands
-
-### Quests
-
-- [Bad Ground](../quests/bad_ground/)
-
-## Quarrier Vess
-
-![Quarrier Vess](./assets/captures/npcs/npc_quarrier_vess.webp)
-
-Works the Cobalt faces. Does not like what the blue-black stone does in the dark.
-
-**Found at:** Hillcrest, Highlands
-
-### Quests
-
-- [The Sparking Stone](../quests/sparking_stone/)
-
-## Cairnkeeper Ode
-
-![Cairnkeeper Ode](./assets/captures/npcs/npc_cairnkeeper_ode.webp)
-
-Keeps the cairns on the moor. Nobody appointed her; nobody has argued.
-
-**Found at:** Hillcrest, Highlands
-
-### Quests
-
-- [The Long Cairn](../quests/long_cairn/)
-
-## Watcher Hale
-
-![Watcher Hale](./assets/captures/npcs/npc_watcher_hale.webp)
-
-On the rota that watches Stone Cavern mouth. It is his shift more often than it should be.
-
-**Found at:** Hillcrest, Highlands
-
-### Quests
-
-_No quest._
+<div class="codex-grid">
+<div class="codex-card" id="foreman-arden"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_foreman_arden.webp" alt="Foreman Arden in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Foreman Arden</span><span class="codex-card__meta">Hillcrest, Highlands</span><span class="codex-card__body">Foreman of the Hillcrest quarry crew. Stopped the dig six months ago and kept the camp.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/bad_ground/">Bad Ground</a></span></span></span></div>
+<div class="codex-card" id="quarrier-vess"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_quarrier_vess.webp" alt="Quarrier Vess in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Quarrier Vess</span><span class="codex-card__meta">Hillcrest, Highlands</span><span class="codex-card__body">Works the Cobalt faces. Does not like what the blue-black stone does in the dark.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/sparking_stone/">The Sparking Stone</a></span></span></span></div>
+<div class="codex-card" id="cairnkeeper-ode"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_cairnkeeper_ode.webp" alt="Cairnkeeper Ode in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Cairnkeeper Ode</span><span class="codex-card__meta">Hillcrest, Highlands</span><span class="codex-card__body">Keeps the cairns on the moor. Nobody appointed her; nobody has argued.</span><span class="codex-card__footer"><span class="codex-links"><span>Quests</span><a href="../quests/long_cairn/">The Long Cairn</a></span></span></span></div>
+<div class="codex-card" id="watcher-hale"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/npcs/npc_watcher_hale.webp" alt="Watcher Hale in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title">Watcher Hale</span><span class="codex-card__meta">Hillcrest, Highlands</span><span class="codex-card__body">On the rota that watches Stone Cavern mouth. It is his shift more often than it should be.</span></span></div>
+</div>

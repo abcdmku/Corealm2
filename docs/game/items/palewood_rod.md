@@ -4,17 +4,11 @@ description: "A shaft, a hide line, and a bent pin. Two effective Fishing levels
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/palewood_rod.png" alt="Pine Rod" width="256" height="256" />
+<img src="../../assets/items/palewood_rod.webp" alt="Pine Rod" width="256" height="256" />
 <p>A shaft, a hide line, and a bent pin. Two effective Fishing levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 45 |
-| Sell value | 27 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>45</dd></div><div><dt>Sell value</dt><dd>27</dd></div></dl>
 
 ## Use and requirements
 

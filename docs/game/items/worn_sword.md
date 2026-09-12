@@ -4,25 +4,15 @@ description: "Notched, re-hafted twice, and lighter than it looks. It was somebo
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/worn_sword.png" alt="Worn Shortsword" width="256" height="256" />
+<img src="../../assets/items/worn_sword.webp" alt="Worn Shortsword" width="256" height="256" />
 <p>Notched, re-hafted twice, and lighter than it looks. It was somebody else's first.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 0 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 15 |
-| Sell value | 9 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>0</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>15</dd></div><div><dt>Sell value</dt><dd>9</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +3 |
-| Power | +3 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+3</dd></div><div><dt>Power</dt><dd>+3</dd></div></dl>
 
 ## Use and requirements
 

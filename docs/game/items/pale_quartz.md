@@ -4,17 +4,11 @@ description: "A milky chip out of a Copper seam. Holds a charge just long enough
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/pale_quartz.png" alt="Quartz" width="256" height="256" />
+<img src="../../assets/items/pale_quartz.webp" alt="Quartz" width="256" height="256" />
 <p>A milky chip out of a Copper seam. Holds a charge just long enough to be useful.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 20 |
-| Sell value | 12 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>20</dd></div><div><dt>Sell value</dt><dd>12</dd></div></dl>
 
 ## Where it comes from
 
@@ -29,11 +23,13 @@ description: "A milky chip out of a Copper seam. Holds a charge just long enough
 
 ## Used to make
 
-- 1× for **Copper Ring**, producing 1× [Copper Ring](../../items/grithe_ring/)
-- 1× for **Copper Pendant**, producing 1× [Copper Pendant](../../items/grithe_pendant/)
-- 2× for **Ember Ring**, producing 1× [Ember Ring](../../items/ember_ring/)
-- 2× for **Ember Charm**, producing 1× [Ember Charm](../../items/ember_charm/)
-- 1× for **Fox Fur Ring**, producing 1× [Fox Fur Ring](../../items/foxhair_ring/)
-- 1× for **Turkey Plume Charm**, producing 1× [Turkey Plume Charm](../../items/turkey_plume_charm/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/grithe_ring.webp" alt="Copper Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../grithe_ring/">Copper Ring</a></span><span class="codex-card__meta">Takes 1 × Quartz</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/grithe_ring/"><img class="codex-icon" src="../../assets/items/thumb/grithe_ring.webp" alt="Copper Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Copper Ring</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/grithe_pendant.webp" alt="Copper Pendant" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../grithe_pendant/">Copper Pendant</a></span><span class="codex-card__meta">Takes 1 × Quartz</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/grithe_pendant/"><img class="codex-icon" src="../../assets/items/thumb/grithe_pendant.webp" alt="Copper Pendant" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Copper Pendant</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/ember_ring.webp" alt="Ember Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../ember_ring/">Ember Ring</a></span><span class="codex-card__meta">Takes 2 × Quartz</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/ember_ring/"><img class="codex-icon" src="../../assets/items/thumb/ember_ring.webp" alt="Ember Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Ember Ring</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/ember_charm.webp" alt="Ember Charm" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../ember_charm/">Ember Charm</a></span><span class="codex-card__meta">Takes 2 × Quartz</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/ember_charm/"><img class="codex-icon" src="../../assets/items/thumb/ember_charm.webp" alt="Ember Charm" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Ember Charm</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/foxhair_ring.webp" alt="Fox Fur Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../foxhair_ring/">Fox Fur Ring</a></span><span class="codex-card__meta">Takes 1 × Quartz</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/foxhair_ring/"><img class="codex-icon" src="../../assets/items/thumb/foxhair_ring.webp" alt="Fox Fur Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fox Fur Ring</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/turkey_plume_charm.webp" alt="Turkey Plume Charm" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../turkey_plume_charm/">Turkey Plume Charm</a></span><span class="codex-card__meta">Takes 1 × Quartz</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/turkey_plume_charm/"><img class="codex-icon" src="../../assets/items/thumb/turkey_plume_charm.webp" alt="Turkey Plume Charm" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Turkey Plume Charm</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

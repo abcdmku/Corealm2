@@ -4,24 +4,15 @@ description: "A pierced river stone. Stonebrand was worked out by someone holdin
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/stone_charm.png" alt="Stone Charm" width="256" height="256" />
+<img src="../../assets/items/stone_charm.webp" alt="Stone Charm" width="256" height="256" />
 <p>A pierced river stone. Stonebrand was worked out by someone holding one of these.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 360 |
-| Sell value | 216 |
-| Equipment slot | accessory2 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>360</dd></div><div><dt>Sell value</dt><dd>216</dd></div><div><dt>Slot</dt><dd>Accessory2</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic armour | +1 |
+<dl class="codex-stats"><div><dt>Magic armour</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

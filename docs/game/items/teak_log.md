@@ -4,17 +4,11 @@ description: "Timber cut from a teak tree."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/teak_log.png" alt="Teak Log" width="256" height="256" />
+<img src="../../assets/items/teak_log.webp" alt="Teak Log" width="256" height="256" />
 <p>Timber cut from a teak tree.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | resource |
-| Stacks | No |
-| Buy value | 590 |
-| Sell value | 354 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>590</dd></div><div><dt>Sell value</dt><dd>354</dd></div></dl>
 
 ## Where it comes from
 
@@ -25,9 +19,11 @@ description: "Timber cut from a teak tree."
 
 ## Used to make
 
-- 1× for **Teak Handle**, producing 1× [Teak Handle](../../items/teak_handle/)
-- 2× for **Teak Shield**, producing 1× [Teak Shield](../../items/teak_shield/)
-- 2× for **Teak Wand**, producing 1× [Teak Wand](../../items/teak_wand/)
-- 3× for **Teak Staff**, producing 1× [Teak Staff](../../items/teak_staff/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/teak_handle.webp" alt="Teak Handle" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 50</span><span class="codex-card__title"><a class="codex-card__link" href="../teak_handle/">Teak Handle</a></span><span class="codex-card__meta">Takes 1 × Teak Log</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/teak_handle/"><img class="codex-icon" src="../../assets/items/thumb/teak_handle.webp" alt="Teak Handle" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Teak Handle</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/teak_shield.webp" alt="Teak Shield" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 50</span><span class="codex-card__title"><a class="codex-card__link" href="../teak_shield/">Teak Shield</a></span><span class="codex-card__meta">Takes 2 × Teak Log</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/teak_shield/"><img class="codex-icon" src="../../assets/items/thumb/teak_shield.webp" alt="Teak Shield" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Teak Shield</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/teak_wand.webp" alt="Teak Wand" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 50</span><span class="codex-card__title"><a class="codex-card__link" href="../teak_wand/">Teak Wand</a></span><span class="codex-card__meta">Takes 2 × Teak Log</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/teak_wand/"><img class="codex-icon" src="../../assets/items/thumb/teak_wand.webp" alt="Teak Wand" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Teak Wand</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/teak_staff.webp" alt="Teak Staff" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 50</span><span class="codex-card__title"><a class="codex-card__link" href="../teak_staff/">Teak Staff</a></span><span class="codex-card__meta">Takes 3 × Teak Log</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/teak_staff/"><img class="codex-icon" src="../../assets/items/thumb/teak_staff.webp" alt="Teak Staff" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Teak Staff</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

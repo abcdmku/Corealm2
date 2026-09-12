@@ -4,17 +4,11 @@ description: "An orange rune scored with a jagged fork. It lets a spell break lo
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/chaos_rune.png" alt="Chaos Rune" width="256" height="256" />
+<img src="../../assets/items/chaos_rune.webp" alt="Chaos Rune" width="256" height="256" />
 <p>An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Rank-two invocations spend one per cast.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 30 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 45 |
-| Sell value | 27 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>30</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>45</dd></div><div><dt>Sell value</dt><dd>27</dd></div></dl>
 
 ## Where it comes from
 

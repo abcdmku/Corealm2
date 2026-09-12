@@ -4,17 +4,11 @@ description: "A dark red rune with a drop sunk into its face. It feeds invocatio
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/blood_rune.png" alt="Blood Rune" width="256" height="256" />
+<img src="../../assets/items/blood_rune.webp" alt="Blood Rune" width="256" height="256" />
 <p>A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Rank-four invocations spend one per cast.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 110 |
-| Sell value | 66 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>110</dd></div><div><dt>Sell value</dt><dd>66</dd></div></dl>
 
 ## Where it comes from
 

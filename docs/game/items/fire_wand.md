@@ -4,28 +4,15 @@ description: "Walnut Wand fitted with a Fire Orb. Its charge pays for matching s
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/fire_wand.png" alt="Fire Wand" width="256" height="256" />
+<img src="../../assets/items/fire_wand.webp" alt="Fire Wand" width="256" height="256" />
 <p>Walnut Wand fitted with a Fire Orb. Its charge pays for matching spells before carried Essence.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,900 |
-| Sell value | 1,140 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,900</dd></div><div><dt>Sell value</dt><dd>1,140</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +3 |
-| Magic accuracy | +36 |
-| Magic power | +29 |
-| Magic armour | +14 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+3</dd></div><div><dt>Magic accuracy</dt><dd>+36</dd></div><div><dt>Magic power</dt><dd>+29</dd></div><div><dt>Magic armour</dt><dd>+14</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

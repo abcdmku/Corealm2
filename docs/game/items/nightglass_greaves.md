@@ -4,27 +4,15 @@ description: "Nightglass greaves forged for level 70 melee combat."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/nightglass_greaves.png" alt="Nightglass Greaves" width="256" height="256" />
+<img src="../../assets/items/nightglass_greaves.webp" alt="Nightglass Greaves" width="256" height="256" />
 <p>Nightglass greaves forged for level 70 melee combat.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 14,200 |
-| Sell value | 8,520 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>14,200</dd></div><div><dt>Sell value</dt><dd>8,520</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +9 |
-| Armour | +51 |
-| Magic armour | +16 |
-| Vitality | +14 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+9</dd></div><div><dt>Armour</dt><dd>+51</dd></div><div><dt>Magic armour</dt><dd>+16</dd></div><div><dt>Vitality</dt><dd>+14</dd></div></dl>
 
 ## Use and requirements
 

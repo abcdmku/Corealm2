@@ -4,27 +4,15 @@ description: "Fingered plate. You can hold a rod in these, badly."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/corven_gauntlets.png" alt="Iron Gauntlets" width="256" height="256" />
+<img src="../../assets/items/corven_gauntlets.webp" alt="Iron Gauntlets" width="256" height="256" />
 <p>Fingered plate. You can hold a rod in these, badly.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 260 |
-| Sell value | 156 |
-| Equipment slot | hands |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>260</dd></div><div><dt>Sell value</dt><dd>156</dd></div><div><dt>Slot</dt><dd>Hands</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +1 |
-| Armour | +1 |
-| Magic armour | +1 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

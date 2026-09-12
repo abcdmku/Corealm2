@@ -4,17 +4,11 @@ description: "As long as your arm and heavier. The terrace herds are the last on
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/aurochs_horn.png" alt="Aurochs Horn" width="256" height="256" />
+<img src="../../assets/items/aurochs_horn.webp" alt="Aurochs Horn" width="256" height="256" />
 <p>As long as your arm and heavier. The terrace herds are the last ones anywhere.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | No |
-| Buy value | 178 |
-| Sell value | 107 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>178</dd></div><div><dt>Sell value</dt><dd>107</dd></div></dl>
 
 ## Where it comes from
 

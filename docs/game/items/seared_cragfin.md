@@ -4,17 +4,11 @@ description: "The reason anyone survives Quarry Warden's floor. Hillcrest will n
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/seared_cragfin.png" alt="Seared Perch" width="256" height="256" />
+<img src="../../assets/items/seared_cragfin.webp" alt="Seared Perch" width="256" height="256" />
 <p>The reason anyone survives Quarry Warden's floor. Hillcrest will not sell you fewer than five.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | food |
-| Stacks | No |
-| Buy value | 70 |
-| Sell value | 42 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Food</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>70</dd></div><div><dt>Sell value</dt><dd>42</dd></div></dl>
 
 ## Use and requirements
 

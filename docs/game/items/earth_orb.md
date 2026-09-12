@@ -4,17 +4,11 @@ description: "A region-boss core used to craft a charged Earth wand or staff."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/earth_orb.png" alt="Earth Orb" width="256" height="256" />
+<img src="../../assets/items/earth_orb.webp" alt="Earth Orb" width="256" height="256" />
 <p>A region-boss core used to craft a charged Earth wand or staff.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | component |
-| Stacks | No |
-| Buy value | 0 |
-| Sell value | 0 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>0</dd></div><div><dt>Sell value</dt><dd>0</dd></div></dl>
 
 ## Use and requirements
 

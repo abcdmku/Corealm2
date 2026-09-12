@@ -4,27 +4,15 @@ description: "Oak faced in Cobalt. It rings when a bear hits it, and the bear st
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairnpine_shield.png" alt="Oak Shield" width="256" height="256" />
+<img src="../../assets/items/cairnpine_shield.webp" alt="Oak Shield" width="256" height="256" />
 <p>Oak faced in Cobalt. It rings when a bear hits it, and the bear stops.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 560 |
-| Sell value | 336 |
-| Equipment slot | off Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>560</dd></div><div><dt>Sell value</dt><dd>336</dd></div><div><dt>Slot</dt><dd>Off hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +2 |
-| Armour | +14 |
-| Magic armour | +6 |
-| Vitality | +1 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+2</dd></div><div><dt>Armour</dt><dd>+14</dd></div><div><dt>Magic armour</dt><dd>+6</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,25 +4,15 @@ description: "Titanium quenched in the arena's own spring. The orange line down 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cinderwake_sword.png" alt="Fire Ogre Sword" width="256" height="256" />
+<img src="../../assets/items/cinderwake_sword.webp" alt="Fire Ogre Sword" width="256" height="256" />
 <p>Titanium quenched in the arena's own spring. The orange line down the edge never fades.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 4,800 |
-| Sell value | 2,880 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>4,800</dd></div><div><dt>Sell value</dt><dd>2,880</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +53 |
-| Power | +50 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+53</dd></div><div><dt>Power</dt><dd>+50</dd></div></dl>
 
 ## Use and requirements
 

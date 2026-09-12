@@ -4,26 +4,15 @@ description: "A slice of amber on an Iron chain. Warm, which nobody has explaine
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/corven_pendant.png" alt="Iron Pendant" width="256" height="256" />
+<img src="../../assets/items/corven_pendant.webp" alt="Iron Pendant" width="256" height="256" />
 <p>A slice of amber on an Iron chain. Warm, which nobody has explained.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 360 |
-| Sell value | 216 |
-| Equipment slot | accessory2 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>360</dd></div><div><dt>Sell value</dt><dd>216</dd></div><div><dt>Slot</dt><dd>Accessory2</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +1 |
-| Magic accuracy | +1 |
-| Magic armour | +1 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Magic accuracy</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

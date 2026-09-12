@@ -4,17 +4,11 @@ description: "A pale rune etched with a single clear eye. It steadies the caster
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/mind_rune.png" alt="Mind Rune" width="256" height="256" />
+<img src="../../assets/items/mind_rune.webp" alt="Mind Rune" width="256" height="256" />
 <p>A pale rune etched with a single clear eye. It steadies the caster's thought onto one mark. Rank-one invocations spend one per cast.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 30 |
-| Sell value | 18 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>30</dd></div><div><dt>Sell value</dt><dd>18</dd></div></dl>
 
 ## Where it comes from
 

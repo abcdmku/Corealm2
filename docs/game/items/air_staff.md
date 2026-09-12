@@ -4,26 +4,15 @@ description: "Pine Staff fitted with a Air Orb. Its charge pays for matching spe
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/air_staff.png" alt="Air Staff" width="256" height="256" />
+<img src="../../assets/items/air_staff.webp" alt="Air Staff" width="256" height="256" />
 <p>Pine Staff fitted with a Air Orb. Its charge pays for matching spells before carried Essence.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 140 |
-| Sell value | 84 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>140</dd></div><div><dt>Sell value</dt><dd>84</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +7 |
-| Magic power | +8 |
-| Magic armour | +3 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+7</dd></div><div><dt>Magic power</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+3</dd></div></dl>
 
 ## Use and requirements
 

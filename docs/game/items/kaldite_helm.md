@@ -4,27 +4,15 @@ description: "A closed helm with a stone-cutter's brow ridge."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_helm.png" alt="Cobalt Helm" width="256" height="256" />
+<img src="../../assets/items/kaldite_helm.webp" alt="Cobalt Helm" width="256" height="256" />
 <p>A closed helm with a stone-cutter's brow ridge.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 880 |
-| Sell value | 528 |
-| Equipment slot | head |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>880</dd></div><div><dt>Sell value</dt><dd>528</dd></div><div><dt>Slot</dt><dd>Head</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +2 |
-| Armour | +9 |
-| Magic armour | +2 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+2</dd></div><div><dt>Armour</dt><dd>+9</dd></div><div><dt>Magic armour</dt><dd>+2</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

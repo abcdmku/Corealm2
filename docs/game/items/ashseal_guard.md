@@ -4,27 +4,15 @@ description: "The Ashseal Warden's iron spread across a Teak Shield. A heavy gua
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/ashseal_guard.png" alt="Ashseal Guard" width="256" height="256" />
+<img src="../../assets/items/ashseal_guard.webp" alt="Ashseal Guard" width="256" height="256" />
 <p>The Ashseal Warden's iron spread across a Teak Shield. A heavy guard for close fighting.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 12,600 |
-| Sell value | 7,560 |
-| Equipment slot | off Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>12,600</dd></div><div><dt>Sell value</dt><dd>7,560</dd></div><div><dt>Slot</dt><dd>Off hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +6 |
-| Armour | +57 |
-| Magic armour | +25 |
-| Vitality | +9 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+6</dd></div><div><dt>Armour</dt><dd>+57</dd></div><div><dt>Magic armour</dt><dd>+25</dd></div><div><dt>Vitality</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,17 +4,11 @@ description: "Cold blue essence gathered from the far Highlands cache."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/water_essence.png" alt="Water Essence" width="256" height="256" />
+<img src="../../assets/items/water_essence.webp" alt="Water Essence" width="256" height="256" />
 <p>Cold blue essence gathered from the far Highlands cache.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 55 |
-| Sell value | 33 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>55</dd></div><div><dt>Sell value</dt><dd>33</dd></div></dl>
 
 ## Where it comes from
 

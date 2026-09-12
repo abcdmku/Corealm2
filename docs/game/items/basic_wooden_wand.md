@@ -4,25 +4,15 @@ description: "Plain brown wood from grip to socket, with no light or elemental c
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/basic_wooden_wand.png" alt="Basic Wooden Wand" width="256" height="256" />
+<img src="../../assets/items/basic_wooden_wand.webp" alt="Basic Wooden Wand" width="256" height="256" />
 <p>Plain brown wood from grip to socket, with no light or elemental charge.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 0 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 12 |
-| Sell value | 7 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>0</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>12</dd></div><div><dt>Sell value</dt><dd>7</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +2 |
-| Magic power | +1 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+2</dd></div><div><dt>Magic power</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

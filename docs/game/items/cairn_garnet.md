@@ -4,17 +4,11 @@ description: "Deep red, cut square by the rock itself. Hillcrest jewellers cage 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairn_garnet.png" alt="Garnet" width="256" height="256" />
+<img src="../../assets/items/cairn_garnet.webp" alt="Garnet" width="256" height="256" />
 <p>Deep red, cut square by the rock itself. Hillcrest jewellers cage it in Cobalt.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 160 |
-| Sell value | 96 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>160</dd></div><div><dt>Sell value</dt><dd>96</dd></div></dl>
 
 ## Where it comes from
 
@@ -39,11 +33,13 @@ description: "Deep red, cut square by the rock itself. Hillcrest jewellers cage 
 
 ## Used to make
 
-- 1× for **Cobalt Ring**, producing 1× [Cobalt Ring](../../items/kaldite_ring/)
-- 1× for **Cobalt Pendant**, producing 1× [Cobalt Pendant](../../items/kaldite_pendant/)
-- 2× for **Storm Ring**, producing 1× [Storm Ring](../../items/storm_ring/)
-- 2× for **Storm Charm**, producing 1× [Storm Charm](../../items/storm_charm/)
-- 1× for **Porcupine Quill Ring**, producing 1× [Porcupine Quill Ring](../../items/quillguard_ring/)
-- 1× for **Antler Charm**, producing 1× [Antler Charm](../../items/antler_palm_charm/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_ring.webp" alt="Cobalt Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_ring/">Cobalt Ring</a></span><span class="codex-card__meta">Takes 1 × Garnet</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_ring/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_ring.webp" alt="Cobalt Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Ring</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_pendant.webp" alt="Cobalt Pendant" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_pendant/">Cobalt Pendant</a></span><span class="codex-card__meta">Takes 1 × Garnet</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_pendant/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_pendant.webp" alt="Cobalt Pendant" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Pendant</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/storm_ring.webp" alt="Storm Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../storm_ring/">Storm Ring</a></span><span class="codex-card__meta">Takes 2 × Garnet</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/storm_ring/"><img class="codex-icon" src="../../assets/items/thumb/storm_ring.webp" alt="Storm Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Storm Ring</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/storm_charm.webp" alt="Storm Charm" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../storm_charm/">Storm Charm</a></span><span class="codex-card__meta">Takes 2 × Garnet</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/storm_charm/"><img class="codex-icon" src="../../assets/items/thumb/storm_charm.webp" alt="Storm Charm" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Storm Charm</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/quillguard_ring.webp" alt="Porcupine Quill Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../quillguard_ring/">Porcupine Quill Ring</a></span><span class="codex-card__meta">Takes 1 × Garnet</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/quillguard_ring/"><img class="codex-icon" src="../../assets/items/thumb/quillguard_ring.webp" alt="Porcupine Quill Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Porcupine Quill Ring</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/antler_palm_charm.webp" alt="Antler Charm" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../antler_palm_charm/">Antler Charm</a></span><span class="codex-card__meta">Takes 1 × Garnet</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/antler_palm_charm/"><img class="codex-icon" src="../../assets/items/thumb/antler_palm_charm.webp" alt="Antler Charm" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Antler Charm</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

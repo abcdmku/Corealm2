@@ -4,17 +4,11 @@ description: "Goes through oak resin without gumming. Nine effective Woodcutting
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_hatchet.png" alt="Cobalt Hatchet" width="256" height="256" />
+<img src="../../assets/items/kaldite_hatchet.webp" alt="Cobalt Hatchet" width="256" height="256" />
 <p>Goes through oak resin without gumming. Nine effective Woodcutting levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 600 |
-| Sell value | 360 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>600</dd></div><div><dt>Sell value</dt><dd>360</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,27 +4,15 @@ description: "Chitin Duskguard boots for level 50 Melee. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/duskguard_boots.png" alt="Chitin Duskguard Boots" width="256" height="256" />
+<img src="../../assets/items/duskguard_boots.webp" alt="Chitin Duskguard Boots" width="256" height="256" />
 <p>Chitin Duskguard boots for level 50 Melee. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 6,000 |
-| Sell value | 3,600 |
-| Equipment slot | feet |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>6,000</dd></div><div><dt>Sell value</dt><dd>3,600</dd></div><div><dt>Slot</dt><dd>Feet</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +4 |
-| Armour | +20 |
-| Magic armour | +9 |
-| Vitality | +6 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+4</dd></div><div><dt>Armour</dt><dd>+20</dd></div><div><dt>Magic armour</dt><dd>+9</dd></div><div><dt>Vitality</dt><dd>+6</dd></div></dl>
 
 ## Use and requirements
 

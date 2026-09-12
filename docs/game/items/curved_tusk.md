@@ -4,17 +4,11 @@ description: "Ivory, yellowed, and ground to an edge by the animal's own jaw."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/curved_tusk.png" alt="Curved Tusk" width="256" height="256" />
+<img src="../../assets/items/curved_tusk.webp" alt="Curved Tusk" width="256" height="256" />
 <p>Ivory, yellowed, and ground to an edge by the animal's own jaw.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | component |
-| Stacks | No |
-| Buy value | 72 |
-| Sell value | 43 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>72</dd></div><div><dt>Sell value</dt><dd>43</dd></div></dl>
 
 ## Where it comes from
 

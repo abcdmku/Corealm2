@@ -4,22 +4,19 @@ description: "Kiln Marrow spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ashback_bears.webp" alt="Kiln Marrow at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Kiln Marrow</strong><span>Quarry Postern, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/pack_kilnhalt_clinker_southern_approach_west.webp" alt="Kiln Marrow at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Kiln Marrow</strong><span>Volcanic Quarry, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/cinder_ravager_residents.webp" alt="Kiln Marrow at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Kiln Marrow</strong><span>North Road Bend, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_kilnroad_west_marrow.webp" alt="Kiln Marrow at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Kiln Marrow</strong><span>Kiln Road South, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_clinker_west_marrow.webp" alt="Kiln Marrow at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Kiln Marrow</strong><span>Volcanic Quarry, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_cinderwake_west_marrow.webp" alt="Kiln Marrow at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Kiln Marrow</strong><span>Fire Ogre Arena, Ashlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="25.333,47.515,70.333,58.303"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Kiln Marrow">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:40.0000%;--map-y:48.8636%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Quarry Postern, Ashlands" title="Kiln Marrow, Quarry Postern, Ashlands"><span>Kiln Marrow<small>Quarry Postern, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#volcanic-quarry" style="--map-x:28.5000%;--map-y:56.2273%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Volcanic Quarry, Ashlands" title="Kiln Marrow, Volcanic Quarry, Ashlands"><span>Kiln Marrow<small>Volcanic Quarry, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#north-road-bend" style="--map-x:60.8333%;--map-y:48.2273%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, North Road Bend, Ashlands" title="Kiln Marrow, North Road Bend, Ashlands"><span>Kiln Marrow<small>North Road Bend, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#kiln-road-south" style="--map-x:42.3333%;--map-y:55.7727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Kiln Road South, Ashlands" title="Kiln Marrow, Kiln Road South, Ashlands"><span>Kiln Marrow<small>Kiln Road South, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#volcanic-quarry" style="--map-x:25.3333%;--map-y:51.9545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Volcanic Quarry, Ashlands" title="Kiln Marrow, Volcanic Quarry, Ashlands"><span>Kiln Marrow<small>Volcanic Quarry, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#fire-ogre-arena" style="--map-x:70.3333%;--map-y:48.1364%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Fire Ogre Arena, Ashlands" title="Kiln Marrow, Fire Ogre Arena, Ashlands"><span>Kiln Marrow<small>Fire Ogre Arena, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:40.0000%;--map-y:48.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Quarry Postern, Ashlands" title="Kiln Marrow, Quarry Postern, Ashlands"><span>Kiln Marrow<small>Quarry Postern, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#volcanic-quarry" style="--map-x:28.5000%;--map-y:58.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Volcanic Quarry, Ashlands" title="Kiln Marrow, Volcanic Quarry, Ashlands"><span>Kiln Marrow<small>Volcanic Quarry, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#north-road-bend" style="--map-x:60.8333%;--map-y:47.6364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, North Road Bend, Ashlands" title="Kiln Marrow, North Road Bend, Ashlands"><span>Kiln Marrow<small>North Road Bend, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#kiln-road-south" style="--map-x:42.3333%;--map-y:57.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Kiln Road South, Ashlands" title="Kiln Marrow, Kiln Road South, Ashlands"><span>Kiln Marrow<small>Kiln Road South, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#volcanic-quarry" style="--map-x:25.3333%;--map-y:52.6061%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Volcanic Quarry, Ashlands" title="Kiln Marrow, Volcanic Quarry, Ashlands"><span>Kiln Marrow<small>Volcanic Quarry, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#fire-ogre-arena" style="--map-x:70.3333%;--map-y:47.5152%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Kiln Marrow, Fire Ogre Arena, Ashlands" title="Kiln Marrow, Fire Ogre Arena, Ashlands"><span>Kiln Marrow<small>Fire Ogre Arena, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -46,15 +43,13 @@ description: "Kiln Marrow spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 20 | 74 | 16 | 10 | 6 | 9 | 3.4 s | 16 | 15 | territorial | 7 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Health</dt><dd>74</dd></div><div><dt>Attack</dt><dd>16</dd></div><div><dt>Defence</dt><dd>10</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>9</dd></div><div><dt>Attack speed</dt><dd>3.4 s</dd></div><div><dt>Armour</dt><dd>16</dd></div><div><dt>Magic armour</dt><dd>15</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>7 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 10-30 | Always |
-| [Fire Essence](../../items/fire_essence/) | 1-2 | 35% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">10-30 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_essence.webp" alt="Fire Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/fire_essence/">Fire Essence</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">35% chance</span></span></span></span></div>
+</div>

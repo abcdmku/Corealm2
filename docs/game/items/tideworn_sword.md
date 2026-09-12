@@ -4,25 +4,15 @@ description: "Cobalt worked smooth as sea glass. It swings like it remembers the
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/tideworn_sword.png" alt="Cave Ogre Sword" width="256" height="256" />
+<img src="../../assets/items/tideworn_sword.webp" alt="Cave Ogre Sword" width="256" height="256" />
 <p>Cobalt worked smooth as sea glass. It swings like it remembers the water.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 2,175 |
-| Sell value | 1,305 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>2,175</dd></div><div><dt>Sell value</dt><dd>1,305</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +31 |
-| Power | +29 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+31</dd></div><div><dt>Power</dt><dd>+29</dd></div></dl>
 
 ## Use and requirements
 

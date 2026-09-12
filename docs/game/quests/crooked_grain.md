@@ -5,7 +5,7 @@ description: "Crooked Grain start location, requirements, walkthrough, and rewar
 
 Woodward Ansel will let you take eight ash logs out of his stand. He would like you to understand, first, which one you are not taking.
 
-![Woodward Ansel](../assets/captures/npcs/npc_woodward_ansel.webp)
+<img class="codex-shot" src="../../assets/captures/npcs/npc_woodward_ansel.webp" alt="Woodward Ansel in the running Corealm world" width="960" height="540" loading="lazy" decoding="async" />
 
 | Giver | Start location | Region | Requirements | Prerequisite |
 | --- | --- | --- | --- | --- |
@@ -22,12 +22,14 @@ Ten trees stand there and Woodcutting 5 is the gate. Logs do not stack, so eight
 <nav class="corealm-quest-where" aria-label="Locations for step 1"><span>Where</span><a href="../../regions/#ash-grove">Ash Grove</a></nav>
 <nav class="corealm-quest-items" aria-label="Items for step 1"><span>Items</span><a href="../../items/duskoak_log/">Ash Log</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/locations/vellenwood_canopy.webp" alt="Ash Grove in the running Corealm world" loading="lazy" /><figcaption><strong>Ash Grove</strong><span>Ash Grove, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/locations/vellenwood_canopy.webp" alt="Ash Grove in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Ash Grove</strong><span>Ash Grove, Woodlands</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="51.167,62.667,51.167,62.667"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Crooked Grain, step 1">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#ash-grove" style="--map-x:51.1667%;--map-y:59.5000%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Ash Grove, Woodlands" title="Ash Grove, Woodlands"><span>Ash Grove<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ash-grove" style="--map-x:51.1667%;--map-y:62.6667%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Ash Grove, Woodlands" title="Ash Grove, Woodlands"><span>Ash Grove<small>Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -53,13 +55,15 @@ It is at (170, 112), east of Oakwood past the Blackwater Pools. `observe({ radiu
 
 <nav class="corealm-quest-where" aria-label="Locations for step 2"><span>Where</span><a href="../../regions/#blackwater-pools">Blackwater Pools</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/entities/split_duskoak.webp" alt="The Split Ash in the running Corealm world" loading="lazy" /><figcaption><strong>The Split Ash</strong><span>The Thicket, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/split_duskoak.webp" alt="The Split Ash in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>The Split Ash</strong><span>The Thicket, Woodlands</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="60.667,65.939,64.167,67.636"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Crooked Grain, step 2">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-thicket" style="--map-x:64.1667%;--map-y:61.9545%" data-map-side="left" data-map-kind="entity" data-map-marker aria-label="The Split Ash, Woodlands" title="The Split Ash, Woodlands"><span>The Split Ash<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:60.6667%;--map-y:63.2273%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Blackwater Pools, Woodlands" title="Blackwater Pools, Woodlands"><span>Blackwater Pools<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-thicket" style="--map-x:64.1667%;--map-y:65.9394%" data-map-side="left" data-map-kind="entity" data-map-marker aria-label="The Split Ash, Woodlands" title="The Split Ash, Woodlands"><span>The Split Ash<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:60.6667%;--map-y:67.6364%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Blackwater Pools, Woodlands" title="Blackwater Pools, Woodlands"><span>Blackwater Pools<small>Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -81,12 +85,14 @@ The handover takes the logs. He counts them; he counts everything from this stan
 <nav class="corealm-quest-where" aria-label="Locations for step 3"><span>Where</span><a href="../../regions/#oakwood">Oakwood</a></nav>
 <nav class="corealm-quest-items" aria-label="Items for step 3"><span>Items</span><a href="../../items/duskoak_log/">Ash Log</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/npcs/npc_woodward_ansel.webp" alt="Woodward Ansel in the running Corealm world" loading="lazy" /><figcaption><strong>Woodward Ansel</strong><span>Oakwood Bank Chest, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_woodward_ansel.webp" alt="Woodward Ansel in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Woodward Ansel</strong><span>Oakwood Bank Chest, Woodlands</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="54.783,65.285,54.783,65.285"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Crooked Grain, step 3">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#woodward-ansel" style="--map-x:54.7833%;--map-y:61.4636%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Woodward Ansel, Woodlands" title="Woodward Ansel, Woodlands"><span>Woodward Ansel<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#woodward-ansel" style="--map-x:54.7833%;--map-y:65.2848%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Woodward Ansel, Woodlands" title="Woodward Ansel, Woodlands"><span>Woodward Ansel<small>Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

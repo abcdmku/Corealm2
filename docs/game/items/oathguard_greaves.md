@@ -4,27 +4,15 @@ description: "Void Oathguard greaves for level 70 Melee. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/oathguard_greaves.png" alt="Void Oathguard Greaves" width="256" height="256" />
+<img src="../../assets/items/oathguard_greaves.webp" alt="Void Oathguard Greaves" width="256" height="256" />
 <p>Void Oathguard greaves for level 70 Melee. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 15,400 |
-| Sell value | 9,240 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>15,400</dd></div><div><dt>Sell value</dt><dd>9,240</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +10 |
-| Armour | +56 |
-| Magic armour | +18 |
-| Vitality | +15 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+10</dd></div><div><dt>Armour</dt><dd>+56</dd></div><div><dt>Magic armour</dt><dd>+18</dd></div><div><dt>Vitality</dt><dd>+15</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,17 +4,11 @@ description: "Winter coat off something that lived above the treeline. Takes no 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairn_pelt.png" alt="Fur Pelt" width="256" height="256" />
+<img src="../../assets/items/cairn_pelt.webp" alt="Fur Pelt" width="256" height="256" />
 <p>Winter coat off something that lived above the treeline. Takes no dye and does not tear.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | No |
-| Buy value | 130 |
-| Sell value | 78 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>130</dd></div><div><dt>Sell value</dt><dd>78</dd></div></dl>
 
 ## Where it comes from
 
@@ -43,14 +37,16 @@ description: "Winter coat off something that lived above the treeline. Takes no 
 
 ## Used to make
 
-- 3× for **Fur Robe**, producing 1× [Fur Robe](../../items/cairnpelt_robe/)
-- 2× for **Fur Leggings**, producing 1× [Fur Leggings](../../items/cairnpelt_leggings/)
-- 1× for **Fur Hood**, producing 1× [Fur Hood](../../items/cairnpelt_hood/)
-- 1× for **Fur Boots**, producing 1× [Fur Boots](../../items/cairnpelt_boots/)
-- 1× for **Fur Wraps**, producing 1× [Fur Wraps](../../items/cairnpelt_wraps/)
-- 1× for **Oak Rod**, producing 1× [Oak Rod](../../items/cairnpine_rod/)
-- 1× for **Fleece-lined Fur Leggings**, producing 1× [Fur Leggings](../../items/cairnpelt_leggings/)
-- 1× for **Scute-soled Fur Boots**, producing 2× [Fur Boots](../../items/cairnpelt_boots/)
-- 2× for **Plume-lined Fur Robe**, producing 1× [Fur Robe](../../items/cairnpelt_robe/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_robe.webp" alt="Fur Robe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_robe/">Fur Robe</a></span><span class="codex-card__meta">Takes 3 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_robe/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_robe.webp" alt="Fur Robe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Robe</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_leggings.webp" alt="Fur Leggings" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_leggings/">Fur Leggings</a></span><span class="codex-card__meta">Takes 2 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_leggings/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_leggings.webp" alt="Fur Leggings" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Leggings</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_hood.webp" alt="Fur Hood" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_hood/">Fur Hood</a></span><span class="codex-card__meta">Takes 1 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_hood/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_hood.webp" alt="Fur Hood" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Hood</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_boots.webp" alt="Fur Boots" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_boots/">Fur Boots</a></span><span class="codex-card__meta">Takes 1 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_boots/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_boots.webp" alt="Fur Boots" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Boots</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_wraps.webp" alt="Fur Wraps" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_wraps/">Fur Wraps</a></span><span class="codex-card__meta">Takes 1 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_wraps/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_wraps.webp" alt="Fur Wraps" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Wraps</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpine_rod.webp" alt="Oak Rod" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpine_rod/">Oak Rod</a></span><span class="codex-card__meta">Takes 1 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpine_rod/"><img class="codex-icon" src="../../assets/items/thumb/cairnpine_rod.webp" alt="Oak Rod" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Oak Rod</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_leggings.webp" alt="Fur Leggings" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_leggings/">Fleece-lined Fur Leggings</a></span><span class="codex-card__meta">Takes 1 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_leggings/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_leggings.webp" alt="Fur Leggings" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Leggings</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_boots.webp" alt="Fur Boots" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_boots/">Scute-soled Fur Boots</a></span><span class="codex-card__meta">Takes 1 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_boots/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_boots.webp" alt="Fur Boots" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">2×</b><span>Fur Boots</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_robe.webp" alt="Fur Robe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../cairnpelt_robe/">Plume-lined Fur Robe</a></span><span class="codex-card__meta">Takes 2 × Fur Pelt</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cairnpelt_robe/"><img class="codex-icon" src="../../assets/items/thumb/cairnpelt_robe.webp" alt="Fur Robe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fur Robe</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

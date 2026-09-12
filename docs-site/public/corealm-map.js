@@ -1,6 +1,31 @@
 const MIN_ZOOM = 1;
-const MAX_ZOOM = 5;
+const MAX_ZOOM = 8;
 const ZOOM_STEP = 1.35;
+/** Breathing room left around the marker cluster when the map frames itself. */
+const FOCUS_PADDING = 1.14;
+/**
+ * Smallest slice of the world a focused map will show, as a percentage of the map.
+ *
+ * A creature with one spawn has a zero-sized marker box. Framing that literally would zoom to a
+ * patch of grass with no landmark in it, so a focused map never shows less than this much world.
+ */
+const MIN_FOCUS_EXTENT = 34;
+
+/**
+ * Most of the rendered world is unsettled wilderness. `data-map-focus` carries the bounding box
+ * of this map's own markers as `minX,minY,maxX,maxY` percentages, so the map can open on the part
+ * that has something on it instead of on empty moor.
+ */
+function readFocus(root) {
+  const raw = root.dataset.mapFocus;
+  if (!raw) return undefined;
+  const values = raw.split(",").map(Number);
+  if (values.length !== 4 || values.some((value) => !Number.isFinite(value))) return undefined;
+  const [minX, minY, maxX, maxY] = values;
+  const width = Math.max(maxX - minX, MIN_FOCUS_EXTENT);
+  const height = Math.max(maxY - minY, MIN_FOCUS_EXTENT);
+  return { centreX: (minX + maxX) / 2, centreY: (minY + maxY) / 2, width, height };
+}
 
 function initialiseLocationMap(root) {
   if (!(root instanceof HTMLElement) || root.dataset.mapReady === "true") return;
@@ -13,6 +38,7 @@ function initialiseLocationMap(root) {
   if (!(viewport instanceof HTMLElement) || !(stage instanceof HTMLElement)) return;
 
   root.dataset.mapReady = "true";
+  const focus = readFocus(root);
   let zoom = 1;
   let offsetX = 0;
   let offsetY = 0;
@@ -50,10 +76,21 @@ function initialiseLocationMap(root) {
     render();
   };
 
+  /** Frames the marker box, which is what "reset" should mean on a mostly-empty world map. */
   const reset = () => {
-    zoom = 1;
-    offsetX = 0;
-    offsetY = 0;
+    if (!focus) {
+      zoom = 1;
+      offsetX = 0;
+      offsetY = 0;
+      render();
+      return;
+    }
+    const fit = Math.min(100 / (focus.width * FOCUS_PADDING), 100 / (focus.height * FOCUS_PADDING));
+    zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, fit));
+    const { width, height } = viewport.getBoundingClientRect();
+    // The stage scales about its own centre, so pan by how far the focus centre sits off it.
+    offsetX = (50 - focus.centreX) / 100 * width * zoom;
+    offsetY = (50 - focus.centreY) / 100 * height * zoom;
     render();
   };
 
@@ -174,6 +211,8 @@ function initialiseLocationMap(root) {
   });
 
   window.addEventListener("resize", render);
+  // The viewport is sized in vh/rem, so wait for layout before framing the markers against it.
+  requestAnimationFrame(reset);
   render();
 }
 

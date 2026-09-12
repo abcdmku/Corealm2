@@ -4,26 +4,15 @@ description: "Magic wrapped with Void Thread. A fast one-handed weapon; carried 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/magic_wand.png" alt="Magic Wand" width="256" height="256" />
+<img src="../../assets/items/magic_wand.webp" alt="Magic Wand" width="256" height="256" />
 <p>Magic wrapped with Void Thread. A fast one-handed weapon; carried Essence pays for spells.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 8,700 |
-| Sell value | 5,220 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>8,700</dd></div><div><dt>Sell value</dt><dd>5,220</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +74 |
-| Magic power | +63 |
-| Magic armour | +13 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+74</dd></div><div><dt>Magic power</dt><dd>+63</dd></div><div><dt>Magic armour</dt><dd>+13</dd></div></dl>
 
 ## Use and requirements
 

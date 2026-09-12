@@ -4,26 +4,15 @@ description: "A Fire Opal held in Nightglass wire and Void Thread."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/starweave_ring.png" alt="Starweave Ring" width="256" height="256" />
+<img src="../../assets/items/starweave_ring.webp" alt="Starweave Ring" width="256" height="256" />
 <p>A Fire Opal held in Nightglass wire and Void Thread.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 7,500 |
-| Sell value | 4,500 |
-| Equipment slot | accessory1 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>7,500</dd></div><div><dt>Sell value</dt><dd>4,500</dd></div><div><dt>Slot</dt><dd>Accessory1</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +4 |
-| Magic power | +2 |
-| Magic armour | +7 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+4</dd></div><div><dt>Magic power</dt><dd>+2</dd></div><div><dt>Magic armour</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

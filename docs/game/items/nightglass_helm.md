@@ -4,27 +4,15 @@ description: "Nightglass helm forged for level 70 melee combat."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/nightglass_helm.png" alt="Nightglass Helm" width="256" height="256" />
+<img src="../../assets/items/nightglass_helm.webp" alt="Nightglass Helm" width="256" height="256" />
 <p>Nightglass helm forged for level 70 melee combat.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 9,000 |
-| Sell value | 5,400 |
-| Equipment slot | head |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>9,000</dd></div><div><dt>Sell value</dt><dd>5,400</dd></div><div><dt>Slot</dt><dd>Head</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +9 |
-| Armour | +37 |
-| Magic armour | +12 |
-| Vitality | +8 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+9</dd></div><div><dt>Armour</dt><dd>+37</dd></div><div><dt>Magic armour</dt><dd>+12</dd></div><div><dt>Vitality</dt><dd>+8</dd></div></dl>
 
 ## Use and requirements
 

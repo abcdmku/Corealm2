@@ -4,27 +4,15 @@ description: "Layered walnut faced in Titanium. Built to withstand heavy blows."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cinderpine_shield.png" alt="Walnut Shield" width="256" height="256" />
+<img src="../../assets/items/cinderpine_shield.webp" alt="Walnut Shield" width="256" height="256" />
 <p>Layered walnut faced in Titanium. Built to withstand heavy blows.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,250 |
-| Sell value | 750 |
-| Equipment slot | off Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,250</dd></div><div><dt>Sell value</dt><dd>750</dd></div><div><dt>Slot</dt><dd>Off hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +3 |
-| Armour | +22 |
-| Magic armour | +9 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+3</dd></div><div><dt>Armour</dt><dd>+22</dd></div><div><dt>Magic armour</dt><dd>+9</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

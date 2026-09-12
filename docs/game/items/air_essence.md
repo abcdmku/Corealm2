@@ -4,17 +4,11 @@ description: "A stackable charge drawn from the distant Farmland cache."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/air_essence.png" alt="Air Essence" width="256" height="256" />
+<img src="../../assets/items/air_essence.webp" alt="Air Essence" width="256" height="256" />
 <p>A stackable charge drawn from the distant Farmland cache.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 9 |
-| Sell value | 5 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>9</dd></div><div><dt>Sell value</dt><dd>5</dd></div></dl>
 
 ## Where it comes from
 

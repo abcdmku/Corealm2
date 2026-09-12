@@ -4,28 +4,15 @@ description: "Aurora Frostweave leggings for level 90 Magic."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/frostweave_leggings.png" alt="Aurora Frostweave Leggings" width="256" height="256" />
+<img src="../../assets/items/frostweave_leggings.webp" alt="Aurora Frostweave Leggings" width="256" height="256" />
 <p>Aurora Frostweave leggings for level 90 Magic.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 90 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 19,800 |
-| Sell value | 11,880 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>90</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>19,800</dd></div><div><dt>Sell value</dt><dd>11,880</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +13 |
-| Magic accuracy | +25 |
-| Magic power | +12 |
-| Magic armour | +65 |
-| Vitality | +17 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+13</dd></div><div><dt>Magic accuracy</dt><dd>+25</dd></div><div><dt>Magic power</dt><dd>+12</dd></div><div><dt>Magic armour</dt><dd>+65</dd></div><div><dt>Vitality</dt><dd>+17</dd></div></dl>
 
 ## Use and requirements
 

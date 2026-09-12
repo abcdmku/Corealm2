@@ -4,24 +4,20 @@ description: "Vault Custodian spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/scree_boars.webp" alt="Vault Custodian at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>The Great Cairn, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/terrace_aurochs.webp" alt="Vault Custodian at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>Stone Cavern, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/pack_karrowmoor_moor_road_far_west_watch.webp" alt="Vault Custodian at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>Stone Cavern, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/slateback_tortoise_residents.webp" alt="Vault Custodian at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>Second Ramp, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_low_moor_custodians.webp" alt="Vault Custodian at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>The Great Cairn, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_low_terrace_custodians.webp" alt="Vault Custodian at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>Stone Cavern, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch3_bears.webp" alt="Vault Custodian at its authored spawn in Stone Cavern" loading="lazy" /><figcaption><strong>Vault Custodian</strong><span>The Cairn Hall, Stone Cavern</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="50.583,73.576,64.167,83.394"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Vault Custodian">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-great-cairn" style="--map-x:64.1667%;--map-y:74.3182%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, The Great Cairn, Highlands" title="Vault Custodian, The Great Cairn, Highlands"><span>Vault Custodian<small>The Great Cairn, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:56.0000%;--map-y:69.0455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Stone Cavern, Highlands" title="Vault Custodian, Stone Cavern, Highlands"><span>Vault Custodian<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:50.5833%;--map-y:67.6818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Stone Cavern, Highlands" title="Vault Custodian, Stone Cavern, Highlands"><span>Vault Custodian<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:54.5833%;--map-y:72.0909%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Second Ramp, Highlands" title="Vault Custodian, Second Ramp, Highlands"><span>Vault Custodian<small>Second Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-great-cairn" style="--map-x:58.3333%;--map-y:75.0455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, The Great Cairn, Highlands" title="Vault Custodian, The Great Cairn, Highlands"><span>Vault Custodian<small>The Great Cairn, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:54.3333%;--map-y:69.0455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Stone Cavern, Highlands" title="Vault Custodian, Stone Cavern, Highlands"><span>Vault Custodian<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-cairn-hall" style="--map-x:53.8333%;--map-y:68.1364%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Vault Custodian, Stone Cavern, The Cairn Hall" title="Vault Custodian, Stone Cavern, The Cairn Hall"><span>Vault Custodian<small>Stone Cavern, The Cairn Hall</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-great-cairn" style="--map-x:64.1667%;--map-y:82.4242%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, The Great Cairn, Highlands" title="Vault Custodian, The Great Cairn, Highlands"><span>Vault Custodian<small>The Great Cairn, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:56.0000%;--map-y:75.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Stone Cavern, Highlands" title="Vault Custodian, Stone Cavern, Highlands"><span>Vault Custodian<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:50.5833%;--map-y:73.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Stone Cavern, Highlands" title="Vault Custodian, Stone Cavern, Highlands"><span>Vault Custodian<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:54.5833%;--map-y:79.4545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Second Ramp, Highlands" title="Vault Custodian, Second Ramp, Highlands"><span>Vault Custodian<small>Second Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-great-cairn" style="--map-x:58.3333%;--map-y:83.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, The Great Cairn, Highlands" title="Vault Custodian, The Great Cairn, Highlands"><span>Vault Custodian<small>The Great Cairn, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:54.3333%;--map-y:75.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Vault Custodian, Stone Cavern, Highlands" title="Vault Custodian, Stone Cavern, Highlands"><span>Vault Custodian<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-cairn-hall" style="--map-x:53.8333%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Vault Custodian, Stone Cavern, The Cairn Hall" title="Vault Custodian, Stone Cavern, The Cairn Hall"><span>Vault Custodian<small>Stone Cavern, The Cairn Hall</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -49,15 +45,13 @@ description: "Vault Custodian spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 64 | 22 | 24 | 6 | 10 | 3.0 s | 45 | 5 | aggressive | 7 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Health</dt><dd>64</dd></div><div><dt>Attack</dt><dd>22</dd></div><div><dt>Defence</dt><dd>24</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>10</dd></div><div><dt>Attack speed</dt><dd>3.0 s</dd></div><div><dt>Armour</dt><dd>45</dd></div><div><dt>Magic armour</dt><dd>5</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>7 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 20-60 | Always |
-| [Water Essence](../../items/water_essence/) | 1-2 | 15% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">20-60 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/water_essence.webp" alt="Water Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/water_essence/">Water Essence</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">15% chance</span></span></span></span></div>
+</div>

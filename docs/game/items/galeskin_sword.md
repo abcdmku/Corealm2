@@ -4,25 +4,15 @@ description: "Copper pattern, but the edge whistles on the backswing. Plains Ogr
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/galeskin_sword.png" alt="Plains Ogre Sword" width="256" height="256" />
+<img src="../../assets/items/galeskin_sword.webp" alt="Plains Ogre Sword" width="256" height="256" />
 <p>Copper pattern, but the edge whistles on the backswing. Plains Ogre carried it point-down.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 270 |
-| Sell value | 162 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>270</dd></div><div><dt>Sell value</dt><dd>162</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +8 |
-| Power | +9 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+8</dd></div><div><dt>Power</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,22 +4,19 @@ description: "Cairn Treader spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/highcairn_bears.webp" alt="Cairn Treader at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Cairn Treader</strong><span>Third Ramp, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/tarn_coyotes.webp" alt="Cairn Treader at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Cairn Treader</strong><span>Mountain Lakes, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/cairn_bighorn_residents.webp" alt="Cairn Treader at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Cairn Treader</strong><span>Highland Gate, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/quarry_nightmare_residents.webp" alt="Cairn Treader at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Cairn Treader</strong><span>Stone Cavern, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_second_ramp_treaders.webp" alt="Cairn Treader at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Cairn Treader</strong><span>Second Ramp, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_northern_tarn_treaders.webp" alt="Cairn Treader at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Cairn Treader</strong><span>Moor Road Bend, Highlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="51.500,74.303,69.250,79.758"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cairn Treader">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:57.6667%;--map-y:72.3182%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Third Ramp, Highlands" title="Cairn Treader, Third Ramp, Highlands"><span>Cairn Treader<small>Third Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:69.0000%;--map-y:70.2273%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Mountain Lakes, Highlands" title="Cairn Treader, Mountain Lakes, Highlands"><span>Cairn Treader<small>Mountain Lakes, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:69.2500%;--map-y:68.9545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Highland Gate, Highlands" title="Cairn Treader, Highland Gate, Highlands"><span>Cairn Treader<small>Highland Gate, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:51.5000%;--map-y:71.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Stone Cavern, Highlands" title="Cairn Treader, Stone Cavern, Highlands"><span>Cairn Treader<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:56.3333%;--map-y:70.9545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Second Ramp, Highlands" title="Cairn Treader, Second Ramp, Highlands"><span>Cairn Treader<small>Second Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#moor-road-bend" style="--map-x:67.3333%;--map-y:68.2273%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Moor Road Bend, Highlands" title="Cairn Treader, Moor Road Bend, Highlands"><span>Cairn Treader<small>Moor Road Bend, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:57.6667%;--map-y:79.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Third Ramp, Highlands" title="Cairn Treader, Third Ramp, Highlands"><span>Cairn Treader<small>Third Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:69.0000%;--map-y:76.9697%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Mountain Lakes, Highlands" title="Cairn Treader, Mountain Lakes, Highlands"><span>Cairn Treader<small>Mountain Lakes, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:69.2500%;--map-y:75.2727%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Highland Gate, Highlands" title="Cairn Treader, Highland Gate, Highlands"><span>Cairn Treader<small>Highland Gate, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:51.5000%;--map-y:78.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Stone Cavern, Highlands" title="Cairn Treader, Stone Cavern, Highlands"><span>Cairn Treader<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:56.3333%;--map-y:77.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Second Ramp, Highlands" title="Cairn Treader, Second Ramp, Highlands"><span>Cairn Treader<small>Second Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#moor-road-bend" style="--map-x:67.3333%;--map-y:74.3030%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Moor Road Bend, Highlands" title="Cairn Treader, Moor Road Bend, Highlands"><span>Cairn Treader<small>Moor Road Bend, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -46,15 +43,13 @@ description: "Cairn Treader spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 52 | 12 | 14 | 6 | 6 | 3.0 s | 45 | 15 | territorial | 7 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Health</dt><dd>52</dd></div><div><dt>Attack</dt><dd>12</dd></div><div><dt>Defence</dt><dd>14</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>6</dd></div><div><dt>Attack speed</dt><dd>3.0 s</dd></div><div><dt>Armour</dt><dd>45</dd></div><div><dt>Magic armour</dt><dd>15</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>7 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 10-30 | Always |
-| [Water Essence](../../items/water_essence/) | 1 | 15% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">10-30 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/water_essence.webp" alt="Water Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/water_essence/">Water Essence</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">15% chance</span></span></span></span></div>
+</div>

@@ -4,17 +4,11 @@ description: "The oil crisps its own skin. What a Fire Ogre attempt is provision
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/seared_ashfin.png" alt="Seared Bass" width="256" height="256" />
+<img src="../../assets/items/seared_ashfin.webp" alt="Seared Bass" width="256" height="256" />
 <p>The oil crisps its own skin. What a Fire Ogre attempt is provisioned with.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | food |
-| Stacks | No |
-| Buy value | 150 |
-| Sell value | 90 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Food</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>150</dd></div><div><dt>Sell value</dt><dd>90</dd></div></dl>
 
 ## Use and requirements
 

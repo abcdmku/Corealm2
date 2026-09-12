@@ -4,17 +4,11 @@ description: "Goat and rabbit skins, scraped and salted together. Stiff until yo
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/coarse_hide.png" alt="Coarse Hide" width="256" height="256" />
+<img src="../../assets/items/coarse_hide.webp" alt="Coarse Hide" width="256" height="256" />
 <p>Goat and rabbit skins, scraped and salted together. Stiff until you work it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | component |
-| Stacks | No |
-| Buy value | 16 |
-| Sell value | 10 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>16</dd></div><div><dt>Sell value</dt><dd>10</dd></div></dl>
 
 ## Where it comes from
 
@@ -32,12 +26,14 @@ description: "Goat and rabbit skins, scraped and salted together. Stiff until yo
 
 ## Used to make
 
-- 3× for **Hide Robe**, producing 1× [Hide Robe](../../items/marchhide_robe/)
-- 2× for **Hide Leggings**, producing 1× [Hide Leggings](../../items/marchhide_leggings/)
-- 1× for **Hide Hood**, producing 1× [Hide Hood](../../items/marchhide_hood/)
-- 1× for **Hide Boots**, producing 1× [Hide Boots](../../items/marchhide_boots/)
-- 1× for **Hide Wraps**, producing 1× [Hide Wraps](../../items/marchhide_wraps/)
-- 1× for **Pine Rod**, producing 1× [Pine Rod](../../items/palewood_rod/)
-- 2× for **Down-lined Hide Robe**, producing 1× [Hide Robe](../../items/marchhide_robe/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marchhide_robe.webp" alt="Hide Robe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../marchhide_robe/">Hide Robe</a></span><span class="codex-card__meta">Takes 3 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/marchhide_robe/"><img class="codex-icon" src="../../assets/items/thumb/marchhide_robe.webp" alt="Hide Robe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hide Robe</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marchhide_leggings.webp" alt="Hide Leggings" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../marchhide_leggings/">Hide Leggings</a></span><span class="codex-card__meta">Takes 2 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/marchhide_leggings/"><img class="codex-icon" src="../../assets/items/thumb/marchhide_leggings.webp" alt="Hide Leggings" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hide Leggings</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marchhide_hood.webp" alt="Hide Hood" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../marchhide_hood/">Hide Hood</a></span><span class="codex-card__meta">Takes 1 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/marchhide_hood/"><img class="codex-icon" src="../../assets/items/thumb/marchhide_hood.webp" alt="Hide Hood" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hide Hood</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marchhide_boots.webp" alt="Hide Boots" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../marchhide_boots/">Hide Boots</a></span><span class="codex-card__meta">Takes 1 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/marchhide_boots/"><img class="codex-icon" src="../../assets/items/thumb/marchhide_boots.webp" alt="Hide Boots" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hide Boots</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marchhide_wraps.webp" alt="Hide Wraps" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../marchhide_wraps/">Hide Wraps</a></span><span class="codex-card__meta">Takes 1 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/marchhide_wraps/"><img class="codex-icon" src="../../assets/items/thumb/marchhide_wraps.webp" alt="Hide Wraps" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hide Wraps</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/palewood_rod.webp" alt="Pine Rod" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 1</span><span class="codex-card__title"><a class="codex-card__link" href="../palewood_rod/">Pine Rod</a></span><span class="codex-card__meta">Takes 1 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/palewood_rod/"><img class="codex-icon" src="../../assets/items/thumb/palewood_rod.webp" alt="Pine Rod" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Pine Rod</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marchhide_robe.webp" alt="Hide Robe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 1</span><span class="codex-card__title"><a class="codex-card__link" href="../marchhide_robe/">Down-lined Hide Robe</a></span><span class="codex-card__meta">Takes 2 × Coarse Hide</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/marchhide_robe/"><img class="codex-icon" src="../../assets/items/thumb/marchhide_robe.webp" alt="Hide Robe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Hide Robe</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

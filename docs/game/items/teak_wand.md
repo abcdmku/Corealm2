@@ -4,26 +4,15 @@ description: "Teak wrapped with Grave Thread. A fast one-handed weapon; carried 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/teak_wand.png" alt="Teak Wand" width="256" height="256" />
+<img src="../../assets/items/teak_wand.webp" alt="Teak Wand" width="256" height="256" />
 <p>Teak wrapped with Grave Thread. A fast one-handed weapon; carried Essence pays for spells.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 5,400 |
-| Sell value | 3,240 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>5,400</dd></div><div><dt>Sell value</dt><dd>3,240</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +54 |
-| Magic power | +46 |
-| Magic armour | +9 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+54</dd></div><div><dt>Magic power</dt><dd>+46</dd></div><div><dt>Magic armour</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

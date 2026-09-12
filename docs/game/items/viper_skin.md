@@ -4,17 +4,11 @@ description: "Shed whole and inside out. Copper fletchers back their nocks with 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/viper_skin.png" alt="Viper Skin" width="256" height="256" />
+<img src="../../assets/items/viper_skin.webp" alt="Viper Skin" width="256" height="256" />
 <p>Shed whole and inside out. Copper fletchers back their nocks with it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | component |
-| Stacks | No |
-| Buy value | 24 |
-| Sell value | 14 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>24</dd></div><div><dt>Sell value</dt><dd>14</dd></div></dl>
 
 ## Where it comes from
 

@@ -4,17 +4,11 @@ description: "Split, salted, and laid on the stone. Oakwood's entire cuisine."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/seared_trout.png" alt="Seared Trout" width="256" height="256" />
+<img src="../../assets/items/seared_trout.webp" alt="Seared Trout" width="256" height="256" />
 <p>Split, salted, and laid on the stone. Oakwood's entire cuisine.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | food |
-| Stacks | No |
-| Buy value | 62 |
-| Sell value | 37 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Food</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>62</dd></div><div><dt>Sell value</dt><dd>37</dd></div></dl>
 
 ## Use and requirements
 

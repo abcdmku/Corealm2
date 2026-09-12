@@ -4,28 +4,15 @@ description: "Cut from a bear's winter coat. It does not take dye and it does no
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairnpelt_hood.png" alt="Fur Hood" width="256" height="256" />
+<img src="../../assets/items/cairnpelt_hood.webp" alt="Fur Hood" width="256" height="256" />
 <p>Cut from a bear's winter coat. It does not take dye and it does not tear.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 700 |
-| Sell value | 420 |
-| Equipment slot | head |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>700</dd></div><div><dt>Sell value</dt><dd>420</dd></div><div><dt>Slot</dt><dd>Head</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +1 |
-| Magic accuracy | +4 |
-| Magic power | +2 |
-| Magic armour | +8 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic accuracy</dt><dd>+4</dd></div><div><dt>Magic power</dt><dd>+2</dd></div><div><dt>Magic armour</dt><dd>+8</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

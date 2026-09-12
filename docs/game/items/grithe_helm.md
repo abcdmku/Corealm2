@@ -4,25 +4,15 @@ description: "An open-faced cap. You can hear things coming, which is most of th
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/grithe_helm.png" alt="Copper Helm" width="256" height="256" />
+<img src="../../assets/items/grithe_helm.webp" alt="Copper Helm" width="256" height="256" />
 <p>An open-faced cap. You can hear things coming, which is most of the job.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 110 |
-| Sell value | 66 |
-| Equipment slot | head |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>110</dd></div><div><dt>Sell value</dt><dd>66</dd></div><div><dt>Slot</dt><dd>Head</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +2 |
-| Vitality | +1 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+2</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

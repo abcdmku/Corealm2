@@ -4,17 +4,11 @@ description: "Stone Cavern pays a bounty per tail. Nobody in Hillcrest asks what
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/rat_tail.png" alt="Rat Tail" width="256" height="256" />
+<img src="../../assets/items/rat_tail.webp" alt="Rat Tail" width="256" height="256" />
 <p>Stone Cavern pays a bounty per tail. Nobody in Hillcrest asks what the count is for.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 84 |
-| Sell value | 50 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>84</dd></div><div><dt>Sell value</dt><dd>50</dd></div></dl>
 
 ## Where it comes from
 

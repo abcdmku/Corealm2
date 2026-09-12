@@ -3,29 +3,39 @@ title: "Skills"
 description: "Corealm skills, gathering rules, and combat rules."
 ---
 
+Nine skills, each capped at level 99. Every number below is read from the same tables the game runs on.
+
 ## Combat
 
-- **Melee:** Physical accuracy, damage, and defence. Governs melee weapon and armour requirements.
-- **Magic:** Spellcasting power and accuracy, magical defence, and utility magic.
+<div class="codex-grid codex-grid--compact">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Melee</span><span class="codex-card__body">Physical accuracy, damage, and defence. Governs melee weapon and armour requirements.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Magic</span><span class="codex-card__body">Spellcasting power and accuracy, magical defence, and utility magic.</span></span></div>
+</div>
 
 ## Gathering
 
-- **Mining:** Breaks ore, stone, and gems out of seams and outcrops.
-- **Woodcutting:** Fells trees for logs and specialty wood.
-- **Fishing:** Takes fish and aquatic materials from shallows, pools, and deep water.
+<div class="codex-grid codex-grid--compact">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Mining</span><span class="codex-card__body">Breaks ore, stone, and gems out of seams and outcrops.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Woodcutting</span><span class="codex-card__body">Fells trees for logs and specialty wood.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Fishing</span><span class="codex-card__body">Takes fish and aquatic materials from shallows, pools, and deep water.</span></span></div>
+</div>
 
 ## Production
 
-- **Smithing:** Smelts ore into bars and forges melee equipment, tools, and metal components.
-- **Crafting:** Works gems, hide, and cloth into accessories, magic equipment, and components.
-- **Cooking:** Turns raw ingredients into healing food and stronger meals.
-- **Fletching:** Precision woodworking: shafts, handles, staves, and wooden tool components.
+<div class="codex-grid codex-grid--compact">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Smithing</span><span class="codex-card__body">Smelts ore into bars and forges melee equipment, tools, and metal components.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Crafting</span><span class="codex-card__body">Works gems, hide, and cloth into accessories, magic equipment, and components.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Cooking</span><span class="codex-card__body">Turns raw ingredients into healing food and stronger meals.</span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Fletching</span><span class="codex-card__body">Precision woodworking: shafts, handles, staves, and wooden tool components.</span></span></div>
+</div>
 
 ## Utility
 
-- **Agility:** Opens climbs, gaps, and tunnels that shorten routes between banks and resources.
+<div class="codex-grid codex-grid--compact">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Agility</span><span class="codex-card__body">Opens climbs, gaps, and tunnels that shorten routes between banks and resources.</span></span></div>
+</div>
 
-## Gathering
+## How gathering resolves
 
 Mining, Woodcutting, and Fishing attempt an action every **1.8 seconds**. Success starts at 30% at the required level, rises by 1.6 percentage points per extra level, and caps at 95%.
 
@@ -36,11 +46,16 @@ Mining, Woodcutting, and Fishing attempt an action every **1.8 seconds**. Succes
 | 10 | 35 | 8-14 | 43 s | +9 |
 | 20 | 52 | 7-14 | 65 s | +17 |
 
-## Gathering and production skill guides
+## How combat resolves
 
-The unlock rows below come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](../gathering-production/) for ingredients and finished equipment.
+Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment vitality. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.
 
-### Mining
+## What each level unlocks
+
+These rows come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](../gathering-production/) for ingredients and finished equipment.
+
+<details class="codex-details">
+<summary>Mining: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -49,7 +64,9 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | Cobalt Face yields Cobalt Ore, plus Garnet |
 | 20 | Titanium Seam yields Titanium Ore, plus Fire Opal, Flux Stone Face yields Flux Stone, plus Fire Opal |
 
-### Smithing
+</details>
+<details class="codex-details">
+<summary>Smithing: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -58,7 +75,9 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | 1× Cobalt Bar, 1× Cobalt Dagger, 1× Cobalt Sword, 1× Cobalt Helm, 1× Cobalt Plate, 1× Cobalt Greaves, 1× Cobalt Boots, 1× Cobalt Gauntlets, 1× Cobalt Pickaxe, 1× Cobalt Hatchet, 1× Cobalt Pickaxe, 1× Cobalt Helm |
 | 20 | 1× Titanium Bar, 1× Titanium Dagger, 1× Titanium Sword, 1× Titanium Helm, 1× Titanium Plate, 1× Titanium Greaves, 1× Titanium Boots, 1× Titanium Gauntlets, 1× Titanium Pickaxe, 1× Titanium Hatchet, 1× Titanium Bar, 1× Titanium Dagger |
 
-### Fishing
+</details>
+<details class="codex-details">
+<summary>Fishing: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -67,7 +86,9 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | Mountain Lake yields Perch |
 | 20 | Hot Spring yields Bass |
 
-### Cooking
+</details>
+<details class="codex-details">
+<summary>Cooking: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -76,7 +97,9 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | 1× Seared Perch, 1× Roast Haunch |
 | 20 | 1× Seared Bass, 1× Roast Prime Haunch |
 
-### Woodcutting
+</details>
+<details class="codex-details">
+<summary>Woodcutting: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -85,7 +108,9 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | Oak yields Oak Log |
 | 20 | Walnut yields Walnut Log |
 
-### Fletching
+</details>
+<details class="codex-details">
+<summary>Fletching: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -94,7 +119,9 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | 4× Oak Shaft, 2× Oak Handle, 1× Oak Staff, 1× Oak Wand, 1× Oak Shield, 1× Oak Rod, 1× Oak Shield |
 | 20 | 4× Walnut Shaft, 2× Walnut Handle, 1× Walnut Staff, 1× Walnut Wand, 1× Walnut Shield, 1× Walnut Rod, 1× Walnut Rod |
 
-### Crafting
+</details>
+<details class="codex-details">
+<summary>Crafting: level by level</summary>
 
 | Level | Unlocks |
 | --- | --- |
@@ -103,6 +130,4 @@ The unlock rows below come from the same tier, resource, recipe, and item tables
 | 10 | 1× Water Wand, 1× Water Staff, 1× Cobalt Ring, 1× Cobalt Pendant, 1× Storm Ring, 1× Storm Charm, 1× Fur Robe, 1× Fur Leggings, 1× Fur Hood, 1× Fur Boots, 1× Fur Wraps, 1× Porcupine Quill Ring, 1× Fur Leggings, 1× Antler Charm, 2× Fur Boots, 1× Fur Robe |
 | 20 | 1× Fire Wand, 1× Fire Staff, 1× Titanium Ring, 1× Titanium Pendant, 1× Cinder Ring, 1× Cinder Charm, 1× Heavy Hide Robe, 1× Heavy Hide Leggings, 1× Heavy Hide Hood, 1× Heavy Hide Boots, 1× Heavy Hide Wraps, 1× Chitin Ring, 2× Heavy Hide, 1× Mantis Edge Charm |
 
-## Combat
-
-Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment vitality. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.
+</details>

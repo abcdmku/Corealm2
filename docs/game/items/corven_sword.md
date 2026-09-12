@@ -4,25 +4,15 @@ description: "A long Iron blade. The standard by which a Woodlands hand is judge
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/corven_sword.png" alt="Iron Sword" width="256" height="256" />
+<img src="../../assets/items/corven_sword.webp" alt="Iron Sword" width="256" height="256" />
 <p>A long Iron blade. The standard by which a Woodlands hand is judged.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 620 |
-| Sell value | 372 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>620</dd></div><div><dt>Sell value</dt><dd>372</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +14 |
-| Power | +14 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+14</dd></div><div><dt>Power</dt><dd>+14</dd></div></dl>
 
 ## Use and requirements
 

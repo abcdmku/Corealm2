@@ -1,3 +1,11 @@
+/*
+ * Corealm Codex skin for Starlight.
+ *
+ * The guide is a picture book, not a spreadsheet: almost every index page is a grid of cards
+ * built from the same three primitives below (card, chip, tag), so pages stay consistent and a
+ * reader can recognise a thing by its picture before reading its name.
+ */
+
 @font-face {
   font-family: "Cinzel";
   font-style: normal;
@@ -7,7 +15,8 @@
 }
 
 :root,
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+:root[data-theme="light"] {
   --sl-color-accent-low: #34270d;
   --sl-color-accent: #d4af4e;
   --sl-color-accent-high: #ffe9a8;
@@ -25,41 +34,43 @@
   --sl-color-hairline-light: rgba(212, 175, 78, 0.22);
   --sl-font: "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
   --sl-font-mono: "Consolas", "SF Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+
+:root {
+  /* Card grids need room the 45rem prose default does not give them. */
+  --sl-content-width: 58rem;
+
   --ink: #f0e8d8;
   --ink-dim: #c1b7a1;
+  --ink-faint: #8e8776;
   --accent: #d4af4e;
+  --accent-bright: #ffe9a8;
   --danger: #e06550;
   --success: #82b563;
+
+  --panel: #15120d;
+  --panel-raised: #1c1811;
+  --panel-solid: #100e0a;
+  --rule: rgba(212, 175, 78, 0.2);
+  --rule-strong: rgba(212, 175, 78, 0.46);
+
   --space-1: 3px;
   --space-2: 8px;
   --space-3: 10px;
   --radius: 3px;
-  --shadow-pop: 0 4px 14px rgba(0, 0, 0, 0.55);
+  --radius-card: 5px;
+  --shadow-pop: 0 6px 22px rgba(0, 0, 0, 0.7);
+  --shadow-card: 0 10px 26px rgba(0, 0, 0, 0.32);
+
   --font-display: "Cinzel", "Trebuchet MS", serif;
   --font-numeric: "Consolas", "SF Mono", ui-monospace, monospace;
   --size-xs: 11px;
   --size-sm: 12px;
   --tracking-wide: 0.08em;
-  --z-tooltip: 10000;
-  color-scheme: dark;
-}
 
-:root[data-theme="light"] {
-  --sl-color-accent-low: #34270d;
-  --sl-color-accent: #d4af4e;
-  --sl-color-accent-high: #ffe9a8;
-  --sl-color-white: #f4efe3;
-  --sl-color-gray-1: #ece4d2;
-  --sl-color-gray-2: #d0c6ad;
-  --sl-color-gray-3: #a89f88;
-  --sl-color-gray-4: #6f6857;
-  --sl-color-gray-5: #3c372d;
-  --sl-color-gray-6: #242019;
-  --sl-color-black: #0e0c09;
-  --sl-color-bg: #0e0c09;
-  --sl-color-bg-nav: rgba(14, 12, 9, 0.94);
-  --sl-color-bg-sidebar: rgba(18, 15, 11, 0.94);
-  color-scheme: dark;
+  /* Above Starlight's navbar, sidebar, and the expanded map overlay. */
+  --z-tooltip: 300;
 }
 
 body {
@@ -73,7 +84,7 @@ h2,
 h3,
 .site-title,
 .hero .tagline {
-  font-family: "Cinzel", "Trebuchet MS", serif;
+  font-family: var(--font-display);
 }
 
 h1,
@@ -87,6 +98,7 @@ header.header {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
 }
 
+/* The palette is authored dark; a half-working light mode is worse than none. */
 starlight-theme-select {
   display: none;
 }
@@ -95,17 +107,19 @@ starlight-theme-select {
   border-inline-end-color: rgba(212, 175, 78, 0.18);
 }
 
+/* ---------------------------------------------------------------- landing page */
+
 .hero {
   padding-block: clamp(2.5rem, 7vw, 6rem) 2rem;
 }
 
 .hero h1 {
-  color: #ffe9a8;
+  color: var(--accent-bright);
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75);
 }
 
 .hero .tagline {
-  color: #d0c6ad;
+  color: var(--sl-color-gray-2);
   font-family: var(--sl-font);
   letter-spacing: 0;
   max-width: 48rem;
@@ -115,7 +129,7 @@ starlight-theme-select {
   color: #1c1608;
   background: linear-gradient(180deg, #e1c264, #a98230);
   border-color: rgba(255, 233, 168, 0.45);
-  border-radius: 3px;
+  border-radius: var(--radius);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.22), 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
@@ -124,9 +138,9 @@ starlight-theme-select {
   margin: 0 auto 2rem;
   max-width: 72rem;
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 78, 0.4);
+  border: 1px solid var(--rule-strong);
   border-radius: 4px;
-  background: #16130e;
+  background: var(--panel);
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.5);
 }
 
@@ -151,7 +165,7 @@ starlight-theme-select {
   z-index: 1;
   inset: auto 0 0;
   padding: 1.3rem 1rem 0.75rem;
-  color: #d0c6ad;
+  color: var(--sl-color-gray-2);
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-align: right;
@@ -160,7 +174,7 @@ starlight-theme-select {
 }
 
 .codex-index {
-  border-block: 1px solid rgba(212, 175, 78, 0.22);
+  border-block: 1px solid var(--rule);
 }
 
 .codex-index a {
@@ -168,31 +182,39 @@ starlight-theme-select {
   grid-template-columns: minmax(10rem, 0.36fr) 1fr;
   gap: 1rem;
   padding: 0.95rem 0.25rem;
-  color: #ece4d2;
+  color: var(--sl-color-gray-1);
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.065);
   transition: color 100ms ease-out, background 100ms ease-out;
 }
 
 .codex-index a:last-child { border-bottom: 0; }
-.codex-index a:hover { color: #ffe9a8; background: rgba(212, 175, 78, 0.055); }
-.codex-index span { font-family: "Cinzel", "Trebuchet MS", serif; font-weight: 700; }
-.codex-index small { color: #a89f88; }
+.codex-index a:hover { color: var(--accent-bright); background: rgba(212, 175, 78, 0.055); }
+.codex-index span { font-family: var(--font-display); font-weight: 700; }
+.codex-index small { color: var(--sl-color-gray-3); }
+
+/* ---------------------------------------------------------------- prose */
+
+.sl-markdown-content h2 {
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--rule);
+}
 
 .content-panel,
 .sl-markdown-content table {
-  border-color: rgba(212, 175, 78, 0.2);
+  border-color: var(--rule);
 }
 
 .sl-markdown-content table {
   display: table;
   width: 100%;
+  font-size: 0.88rem;
   background: rgba(20, 17, 12, 0.72);
 }
 
 .sl-markdown-content th {
-  color: #ffe9a8;
-  font-family: "Cinzel", "Trebuchet MS", serif;
+  color: var(--accent-bright);
+  font-family: var(--font-display);
   font-size: 0.76rem;
   letter-spacing: 0.045em;
   background: rgba(212, 175, 78, 0.09);
@@ -202,42 +224,389 @@ starlight-theme-select {
   background: rgba(255, 255, 255, 0.018);
 }
 
-.sl-markdown-content h2 {
-  padding-bottom: 0.45rem;
-  border-bottom: 1px solid rgba(212, 175, 78, 0.22);
+/* A reference nobody reads top to bottom belongs behind a disclosure, not down the page. */
+.codex-details {
+  margin: 1rem 0 2rem;
+  padding: 0 1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  background: rgba(20, 17, 12, 0.5);
+}
+
+.codex-details > summary {
+  padding: 0.85rem 0;
+  color: var(--sl-color-gray-2);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.codex-details > summary:hover { color: var(--accent-bright); }
+.codex-details[open] > summary { border-bottom: 1px solid var(--rule); }
+.codex-details table { margin-block: 1rem; }
+
+/* ---------------------------------------------------------------- card grid */
+
+/*
+ * Starlight gives every prose sibling a `margin-top`, which lands on all but the first child of
+ * these containers. In a grid that is not a gap, it is a per-item offset: the first card sits a
+ * rem proud of its own row. These layouts own their spacing, so the prose rule is cancelled.
+ */
+.sl-markdown-content :is(
+  .codex-grid,
+  .codex-recipes,
+  .codex-recipe,
+  .codex-stats,
+  .codex-facts,
+  .codex-card,
+  .codex-card__text,
+  .codex-chiprow,
+  .codex-tags,
+  .codex-links,
+  .corealm-item-gallery,
+  .corealm-armour-views,
+  .corealm-quest-scenes
+) > * {
+  margin-top: 0;
+}
+
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 0.9rem;
+  margin: 1.25rem 0 2.5rem;
+}
+
+.codex-grid--compact { grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); }
+.codex-grid--wide { grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); }
+
+.codex-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--sl-color-gray-1);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, var(--panel-raised), var(--panel));
+  box-shadow: var(--shadow-card);
+  transition: border-color 120ms ease-out, transform 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.codex-card.is-linked { position: relative; }
+
+.codex-card.is-linked:hover,
+.codex-card.is-linked:focus-within {
+  border-color: var(--rule-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+/*
+ * The whole card is the hit area, but the card itself is a <div>: chips in the footer are links
+ * and an anchor may not contain another anchor. The title's link is stretched over the card, and
+ * anything interactive inside is lifted back above it.
+ */
+.codex-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.codex-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.codex-card.is-linked:hover .codex-card__link,
+.codex-card__link:focus-visible { color: var(--accent-bright); outline: none; }
+
+.codex-card__footer > *,
+.codex-card__footer a { position: relative; z-index: 1; }
+
+.codex-card.is-muted { opacity: 0.62; }
+
+.codex-card__media {
+  display: block;
+  overflow: hidden;
+  line-height: 0;
+  background: #0b0a07;
+  border-bottom: 1px solid rgba(212, 175, 78, 0.14);
+}
+
+.codex-card__media > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* An item icon as card media is art on a plate, not a photograph: show all of it. */
+.codex-card__media > .codex-icon {
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: 0.85rem auto 0.3rem;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.codex-card__media:has(> .codex-icon) { border-bottom: 0; background: none; }
+
+.codex-card__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.22rem;
+  padding: 0.8rem 0.85rem 0.9rem;
+}
+
+.codex-card__eyebrow {
+  color: var(--sl-color-gray-3);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.codex-card__title {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.codex-card__meta {
+  color: var(--sl-color-gray-2);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.codex-card__body {
+  margin-top: 0.15rem;
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.codex-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.codex-card--place { scroll-margin-top: 5rem; }
+
+/* Label left, value right, one per row: values here are often short prose, not just numbers. */
+.codex-facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.15rem 0.75rem;
+  margin: 0.6rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(212, 175, 78, 0.14);
+}
+
+.codex-facts div { display: contents; }
+
+.codex-facts dt {
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.codex-facts dd {
+  margin: 0;
+  color: var(--sl-color-gray-1);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+/* ---------------------------------------------------------------- stats, tags, chips */
+
+.codex-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 1px;
+  margin: 1.25rem 0 2rem;
+  padding: 1px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.codex-stats div {
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  background: var(--panel);
+}
+
+.codex-stats dt {
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Values are a mix of counts and short prose, so keep the body face and line up the digits. */
+.codex-stats dd {
+  margin: 0.15rem 0 0;
+  color: var(--accent-bright);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.codex-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.codex-tag {
+  padding: 0.13rem 0.42rem;
+  color: var(--sl-color-gray-2);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  border: 1px solid rgba(212, 175, 78, 0.24);
+  border-radius: 999px;
+  background: rgba(212, 175, 78, 0.07);
+}
+
+.codex-chiprow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.codex-chiprow__label {
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.codex-item-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.45rem 0.15rem 0.15rem;
+  color: var(--sl-color-gray-1);
+  font-size: 0.74rem;
+  line-height: 1.2;
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: rgba(8, 7, 5, 0.55);
+  transition: border-color 100ms ease-out, color 100ms ease-out;
+}
+
+.codex-item-chip:hover,
+.codex-item-chip:focus-visible {
+  color: var(--accent-bright);
+  border-color: var(--rule-strong);
+  outline: none;
+}
+
+.codex-item-chip__count { font-family: var(--font-numeric); color: var(--sl-color-gray-3); font-weight: 400; }
+
+.codex-icon {
+  display: block;
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: contain;
+  flex: none;
+}
+
+.codex-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+}
+
+.codex-links > span {
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.codex-links a { color: #ead89c; font-size: 0.76rem; text-underline-offset: 0.16em; }
+
+/* ---------------------------------------------------------------- recipes */
+
+.codex-recipes {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1.25rem 0 2.5rem;
+}
+
+.codex-recipe {
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.8fr) minmax(0, 1.2fr);
+  gap: 0.6rem 1.25rem;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, var(--panel-raised), var(--panel));
+}
+
+.codex-recipe__head { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+
+.codex-recipe__name {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--sl-color-gray-1);
+}
+
+.codex-recipe__flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+}
+
+.codex-recipe__arrow { color: var(--accent); font-size: 1rem; }
+
+/* ---------------------------------------------------------------- captures */
+
+.codex-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid rgba(212, 175, 78, 0.32);
+  border-radius: var(--radius-card);
+  background: var(--panel);
+  box-shadow: var(--shadow-card);
 }
 
 .sl-markdown-content > p > img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border: 1px solid rgba(212, 175, 78, 0.32);
-  border-radius: 2px;
-  background: #16130e;
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
-}
-
-.sl-markdown-content table img {
-  display: inline-block;
-  width: 3rem;
-  height: 3rem;
-  margin-inline-end: 0.45rem;
-  object-fit: contain;
-  vertical-align: middle;
-  border: 1px solid rgba(212, 175, 78, 0.18);
-  background: rgba(8, 7, 5, 0.5);
-}
-
-.sl-markdown-content p > img[width="256"][height="256"] {
-  width: min(100%, 16rem);
   height: auto;
-  max-width: 16rem;
-  max-height: 16rem;
-  aspect-ratio: 1;
-  object-fit: contain;
-  padding: 0.35rem;
+  border-radius: var(--radius-card);
 }
+
+/* ---------------------------------------------------------------- item gallery */
 
 .corealm-item-gallery {
   display: grid;
@@ -251,11 +620,11 @@ starlight-theme-select {
   display: grid;
   min-width: 0;
   padding: 0.65rem;
-  color: #ece4d2;
+  color: var(--sl-color-gray-1);
   text-align: center;
   text-decoration: none;
-  border: 1px solid rgba(212, 175, 78, 0.2);
-  border-radius: 3px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
   outline: none;
   background: rgba(20, 17, 12, 0.76);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
@@ -264,7 +633,7 @@ starlight-theme-select {
 
 .corealm-item-tile:hover,
 .corealm-item-tile:focus-visible {
-  color: #ffe9a8;
+  color: var(--accent-bright);
   border-color: rgba(255, 233, 168, 0.68);
   background: rgba(57, 44, 18, 0.72);
   box-shadow: 0 0 0 2px rgba(212, 175, 78, 0.16), inset 0 1px rgba(255, 255, 255, 0.05);
@@ -283,17 +652,27 @@ starlight-theme-select {
 .corealm-item-tile__meta,
 .corealm-item-tile__status { display: block; }
 .corealm-item-tile__name { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; line-height: 1.25; }
-.corealm-item-tile__meta { margin-top: 0.2rem; color: #a89f88; font-size: 0.66rem; text-transform: capitalize; }
+.corealm-item-tile__meta { margin-top: 0.2rem; color: var(--sl-color-gray-3); font-size: 0.66rem; text-transform: capitalize; }
 .corealm-item-tile__status { margin-top: 0.3rem; color: #eda392; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
 .corealm-item-tile.is-unreleased > img { filter: saturate(0.45); opacity: 0.72; }
 
+/*
+ * The item card is a `position: fixed` overlay, so it must clear Starlight's navbar and sidebar
+ * and it must be opaque: a translucent card over a busy icon grid is unreadable.
+ */
 .corealm-item-tile > .tooltip {
   display: block;
   width: max-content;
   min-width: 14rem;
+  max-width: min(30rem, calc(100vw - 2rem));
   text-align: left;
   visibility: hidden;
   opacity: 0;
+  /* The game draws this card over its own 3D scene at 96% alpha; over a dense icon grid the
+     remaining 4% is just noise, so the docs copy is opaque and carries a heavier edge. */
+  background: var(--panel-solid);
+  border-color: var(--rule-strong);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.85), 0 16px 40px rgba(0, 0, 0, 0.75);
 }
 
 .corealm-item-tile.is-tooltip-open > .tooltip {
@@ -305,8 +684,8 @@ starlight-theme-select {
 
 .corealm-item-detail {
   display: grid;
-  grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+  gap: 1.5rem;
   align-items: center;
   margin: 0 0 1.5rem;
 }
@@ -317,13 +696,16 @@ starlight-theme-select {
   height: auto;
   aspect-ratio: 1;
   object-fit: contain;
+  padding: 0.6rem;
   border: 1px solid rgba(212, 175, 78, 0.25);
-  border-radius: 3px;
-  background: rgba(8, 7, 5, 0.5);
+  border-radius: var(--radius-card);
+  background: radial-gradient(circle at 50% 40%, rgba(212, 175, 78, 0.08), rgba(8, 7, 5, 0.6));
 }
 
-.corealm-item-detail > p { margin: 0; color: #d0c6ad; font-size: 1.05rem; }
-.corealm-item-detail.is-unreleased { border-inline-start: 3px solid #e06550; padding-inline-start: 1rem; }
+.corealm-item-detail > p { margin: 0; color: var(--sl-color-gray-2); font-size: 1.05rem; }
+.corealm-item-detail.is-unreleased { border-inline-start: 3px solid var(--danger); padding-inline-start: 1rem; }
+
+/* ---------------------------------------------------------------- quests */
 
 .corealm-quest-where,
 .corealm-quest-items {
@@ -344,8 +726,8 @@ starlight-theme-select {
 .corealm-quest-where > span,
 .corealm-quest-items > span {
   min-width: 3.5rem;
-  color: #8e8776;
-  font-family: "Cinzel", "Trebuchet MS", serif;
+  color: var(--ink-faint);
+  font-family: var(--font-display);
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -362,8 +744,8 @@ starlight-theme-select {
 .corealm-quest-step-evidence,
 .corealm-creature-spawn-evidence {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 16rem;
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  gap: 1.25rem;
   align-items: start;
   margin: 1rem 0 2.4rem;
 }
@@ -385,9 +767,9 @@ starlight-theme-select {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border: 1px solid rgba(212, 175, 78, 0.34);
-  border-radius: 2px;
-  background: #16130e;
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
+  border-radius: var(--radius-card);
+  background: var(--panel);
+  box-shadow: var(--shadow-card);
 }
 
 .corealm-quest-scene figcaption {
@@ -396,45 +778,63 @@ starlight-theme-select {
   justify-content: space-between;
   gap: 0.2rem 0.8rem;
   margin-top: 0.5rem;
-  color: #8e8776;
+  color: var(--ink-faint);
   font-size: 0.72rem;
   line-height: 1.4;
 }
 
 .corealm-quest-scene figcaption strong {
   color: #e9d89e;
-  font-family: "Cinzel", "Trebuchet MS", serif;
+  font-family: var(--font-display);
   font-size: 0.72rem;
 }
+
+/* ---------------------------------------------------------------- world map */
 
 .corealm-quest-map,
 .corealm-creature-map { margin: 0; }
 
 .corealm-location-map {
   --marker-inverse: 1;
-  width: 16rem;
+  --map-image-ratio: 1;
+  width: max-content;
   max-width: 100%;
   margin: 0 0 2rem;
 }
 
+/*
+ * The viewport takes the rendered map's own aspect ratio. It used to be a hard square holding a
+ * portrait map stretched to fit, which widened every coastline by about 1.8x.
+ */
 .corealm-map-viewport {
   position: relative;
-  width: 16rem;
-  height: 16rem;
+  width: 15rem;
   max-width: 100%;
+  aspect-ratio: var(--map-image-ratio);
   overflow: hidden;
   touch-action: none;
   cursor: grab;
   isolation: isolate;
-  border: 1px solid rgba(212, 175, 78, 0.46);
-  border-radius: 3px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
   outline: none;
   background: #263b3d;
   box-shadow: 0 14px 38px rgba(0, 0, 0, 0.42), inset 0 0 30px rgba(6, 7, 5, 0.58);
 }
 
+/* The regions page gets as much map as the viewport height allows. */
+.corealm-location-map--wide {
+  margin-inline: auto;
+}
+
+.corealm-location-map--wide .corealm-map-viewport {
+  width: auto;
+  height: min(68vh, 36rem);
+  max-width: 100%;
+}
+
 .corealm-map-viewport:focus-visible {
-  border-color: #ffe9a8;
+  border-color: var(--accent-bright);
   box-shadow: 0 0 0 2px rgba(212, 175, 78, 0.3), 0 14px 38px rgba(0, 0, 0, 0.42);
 }
 
@@ -449,12 +849,12 @@ starlight-theme-select {
 
 .corealm-map-stage > img {
   position: absolute;
-  inset: 12.5% 0;
+  inset: 0;
   display: block;
   width: 100%;
-  height: 75%;
+  height: 100%;
   max-width: none;
-  object-fit: fill;
+  object-fit: contain;
   pointer-events: none;
   user-select: none;
 }
@@ -485,6 +885,11 @@ starlight-theme-select {
 .corealm-map-marker[data-map-kind="settlement"],
 .corealm-map-marker[data-map-kind="dungeon"] { z-index: 3; }
 
+.corealm-map-marker[data-map-kind="settlement"]::after { background: #ffe9a8; }
+.corealm-map-marker[data-map-kind="dungeon"]::after { background: #c07b5a; }
+.corealm-map-marker[data-map-kind="bank"]::after,
+.corealm-map-marker[data-map-kind="enemy"]::after { background: #e08a72; }
+
 .corealm-map-marker:hover,
 .corealm-map-marker:focus-visible {
   z-index: 4;
@@ -502,7 +907,7 @@ starlight-theme-select {
   max-width: 12rem;
   padding: 0.38rem 0.48rem 0.34rem;
   color: #fff3c7;
-  font-family: "Cinzel", "Trebuchet MS", serif;
+  font-family: var(--font-display);
   font-size: 0.68rem;
   font-weight: 700;
   line-height: 1.15;
@@ -510,7 +915,7 @@ starlight-theme-select {
   opacity: 0;
   border: 1px solid rgba(212, 175, 78, 0.38);
   border-radius: 2px;
-  background: rgba(13, 11, 8, 0.96);
+  background: var(--panel-solid);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.52);
   transform: translateY(-50%) translateX(-0.2rem);
   transition: opacity 90ms ease-out, transform 90ms ease-out;
@@ -526,7 +931,7 @@ starlight-theme-select {
 .corealm-map-marker > span small {
   display: block;
   margin-top: 0.18rem;
-  color: #a89f88;
+  color: var(--sl-color-gray-3);
   font-family: var(--sl-font);
   font-size: 0.58rem;
   font-weight: 500;
@@ -544,8 +949,8 @@ starlight-theme-select {
   z-index: 5;
   top: 0.55rem;
   left: 0.68rem;
-  color: #ffe9a8;
-  font-family: "Cinzel", "Trebuchet MS", serif;
+  color: var(--accent-bright);
+  font-family: var(--font-display);
   font-size: 0.7rem;
   text-shadow: 0 1px 3px #000;
 }
@@ -556,7 +961,7 @@ starlight-theme-select {
   width: 1px;
   height: 0.7rem;
   margin: 0.08rem auto 0;
-  background: linear-gradient(#ffe9a8, transparent);
+  background: linear-gradient(var(--accent-bright), transparent);
 }
 
 .corealm-map-controls {
@@ -593,7 +998,7 @@ starlight-theme-select {
 .corealm-map-controls button:focus-visible,
 .corealm-map-expand:hover,
 .corealm-map-expand:focus-visible { color: #fff3c7; background: #4a3814; outline: none; }
-.corealm-map-controls button:disabled { color: #6f6857; cursor: default; background: rgba(19, 16, 11, 0.82); }
+.corealm-map-controls button:disabled { color: var(--sl-color-gray-4); cursor: default; background: rgba(19, 16, 11, 0.82); }
 
 .corealm-map-expand {
   position: absolute;
@@ -606,8 +1011,9 @@ starlight-theme-select {
 }
 
 .corealm-location-map figcaption {
+  max-width: 24rem;
   margin-top: 0.55rem;
-  color: #8e8776;
+  color: var(--ink-faint);
   font-size: 0.7rem;
   line-height: 1.4;
 }
@@ -617,7 +1023,7 @@ html.corealm-map-open body { overflow: hidden; }
 
 .corealm-location-map.is-expanded {
   position: fixed;
-  z-index: 10000;
+  z-index: 200;
   inset: 0;
   display: grid;
   width: 100%;
@@ -630,47 +1036,78 @@ html.corealm-map-open body { overflow: hidden; }
 }
 
 .corealm-location-map.is-expanded .corealm-map-viewport {
-  width: min(88vw, calc(100vh - 5rem), 52rem);
-  height: min(88vw, calc(100vh - 5rem), 52rem);
-  max-width: none;
+  width: auto;
+  height: min(92vh, calc(92vw / var(--map-image-ratio)));
+  max-width: 92vw;
 }
 
 .corealm-location-map.is-expanded figcaption {
-  width: min(88vw, calc(100vh - 5rem), 52rem);
-  color: #a89f88;
+  max-width: 46rem;
+  color: var(--sl-color-gray-3);
+  text-align: center;
 }
+
+/* ---------------------------------------------------------------- worn armour */
+
+.corealm-armour-views {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-block: 1.25rem 2.5rem;
+}
+
+.corealm-armour-views figure { margin: 0; min-width: 0; }
+
+.corealm-armour-views a {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  background: var(--panel);
+  transition: border-color 120ms ease-out;
+}
+
+.corealm-armour-views a:hover,
+.corealm-armour-views a:focus-visible { border-color: var(--rule-strong); outline: none; }
+
+/* The crop is baked into the file now, so the image simply renders at its own aspect ratio. */
+.corealm-armour-views img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.corealm-armour-views figcaption {
+  margin-top: 0.4rem;
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- narrow screens */
 
 @media (max-width: 50rem) {
   .world-window img { aspect-ratio: 4 / 3; }
   .codex-index a { grid-template-columns: 1fr; gap: 0.2rem; }
   .sl-markdown-content table { display: block; overflow-x: auto; }
-  .corealm-quest-step-evidence,
-  .corealm-creature-spawn-evidence { grid-template-columns: 1fr; }
   .corealm-item-gallery { grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); }
   .corealm-item-detail { grid-template-columns: 1fr; }
   .corealm-item-detail > img { width: min(100%, 14rem); }
+  .corealm-quest-step-evidence,
+  .corealm-creature-spawn-evidence { grid-template-columns: 1fr; }
+  .codex-grid,
+  .codex-grid--compact,
+  .codex-grid--wide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); }
+  .codex-recipe { grid-template-columns: 1fr; }
+  .corealm-location-map,
+  .corealm-location-map--wide { width: 100%; }
+  .corealm-location-map--wide .corealm-map-viewport { width: 100%; height: auto; }
 }
-.corealm-armour-views {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-block: 1.5rem 3rem;
-}
-.corealm-armour-views figure { margin: 0; min-width: 0; }
-.corealm-armour-views a {
-  display: block;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border: 1px solid var(--sl-color-gray-4);
-  border-radius: 0.4rem;
-}
-.corealm-armour-views img {
-  width: 100%; height: 100%; max-width: none;
-  object-fit: cover; object-position: 50% 56%;
-  transform: scale(2);
-}
-.corealm-armour-views figcaption { text-align: center; margin-top: 0.4rem; }
+
 @media (max-width: 40rem) {
   .corealm-armour-views { grid-template-columns: 1fr; }
-  .corealm-armour-views a { aspect-ratio: 1; }
 }

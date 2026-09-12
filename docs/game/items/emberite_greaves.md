@@ -4,27 +4,15 @@ description: "Full leg plate, smoke-blued. Ember and scree both stay outside it.
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/emberite_greaves.png" alt="Titanium Greaves" width="256" height="256" />
+<img src="../../assets/items/emberite_greaves.webp" alt="Titanium Greaves" width="256" height="256" />
 <p>Full leg plate, smoke-blued. Ember and scree both stay outside it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 3,600 |
-| Sell value | 2,160 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>3,600</dd></div><div><dt>Sell value</dt><dd>2,160</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +4 |
-| Armour | +19 |
-| Magic armour | +5 |
-| Vitality | +5 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+4</dd></div><div><dt>Armour</dt><dd>+19</dd></div><div><dt>Magic armour</dt><dd>+5</dd></div><div><dt>Vitality</dt><dd>+5</dd></div></dl>
 
 ## Use and requirements
 

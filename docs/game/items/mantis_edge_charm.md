@@ -4,25 +4,15 @@ description: "A cutting spur caged in Titanium. Favors a precise, hard strike an
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/mantis_edge_charm.png" alt="Mantis Edge Charm" width="256" height="256" />
+<img src="../../assets/items/mantis_edge_charm.webp" alt="Mantis Edge Charm" width="256" height="256" />
 <p>A cutting spur caged in Titanium. Favors a precise, hard strike and offers no protection.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,900 |
-| Sell value | 1,140 |
-| Equipment slot | accessory2 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,900</dd></div><div><dt>Sell value</dt><dd>1,140</dd></div><div><dt>Slot</dt><dd>Accessory2</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +3 |
-| Power | +1 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+3</dd></div><div><dt>Power</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,27 +4,15 @@ description: "A plate front laced over a leather back. Cheap, loud, and better t
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/grithe_cuirass.png" alt="Copper Cuirass" width="256" height="256" />
+<img src="../../assets/items/grithe_cuirass.webp" alt="Copper Cuirass" width="256" height="256" />
 <p>A plate front laced over a leather back. Cheap, loud, and better than nothing.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 220 |
-| Sell value | 132 |
-| Equipment slot | body |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>220</dd></div><div><dt>Sell value</dt><dd>132</dd></div><div><dt>Slot</dt><dd>Body</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +1 |
-| Armour | +5 |
-| Magic armour | +1 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+5</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

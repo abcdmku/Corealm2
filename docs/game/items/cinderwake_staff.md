@@ -4,27 +4,15 @@ description: "Walnut the fire chose not to eat. The empty cage sheds a slow drif
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cinderwake_staff.png" alt="Fire Ogre Staff" width="256" height="256" />
+<img src="../../assets/items/cinderwake_staff.webp" alt="Fire Ogre Staff" width="256" height="256" />
 <p>Walnut the fire chose not to eat. The empty cage sheds a slow drift of sparks.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 4,050 |
-| Sell value | 2,430 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>4,050</dd></div><div><dt>Sell value</dt><dd>2,430</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Power | +7 |
-| Magic accuracy | +44 |
-| Magic power | +38 |
-| Magic armour | +7 |
+<dl class="codex-stats"><div><dt>Power</dt><dd>+7</dd></div><div><dt>Magic accuracy</dt><dd>+44</dd></div><div><dt>Magic power</dt><dd>+38</dd></div><div><dt>Magic armour</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,27 +4,15 @@ description: "Laminated ash over an Iron boss. Heavy enough to lean on."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/duskoak_shield.png" alt="Ash Shield" width="256" height="256" />
+<img src="../../assets/items/duskoak_shield.webp" alt="Ash Shield" width="256" height="256" />
 <p>Laminated ash over an Iron boss. Heavy enough to lean on.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 240 |
-| Sell value | 144 |
-| Equipment slot | off Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>240</dd></div><div><dt>Sell value</dt><dd>144</dd></div><div><dt>Slot</dt><dd>Off hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +1 |
-| Armour | +8 |
-| Magic armour | +4 |
-| Vitality | +1 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

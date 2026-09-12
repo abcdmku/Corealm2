@@ -29,7 +29,7 @@ The audit resolves the active regional catalogue and runs the coastal generator 
 
 ## Placement
 
-Every new habitat is a 9 m disc. Its four ordered activity anchors form a 5.25 m circuit. The first two or three anchors are the spawn positions, leaving at least 7.4 m between residents. This reserves a moving horizontal radius of 3.5 m, including body scale and animation. The promoted asset check passes for all seventeen species used by these packs: the fifteen new species and two existing Wilderness creatures. Its largest conservative envelope is the Flint Mandible at 3.35 m.
+Every new habitat is a 9 m disc. Its four ordered activity anchors form a 5.25 m circuit. The first two or three anchors are the spawn positions, leaving at least 7.4 m between residents. This reserves a moving horizontal radius of 3.5 m, including body scale and animation. The promoted asset check passes for all seventeen species used by these packs: the fifteen new species and two existing Wilderness creatures. Its largest conservative envelope is the Flint Mandible at about 2.68 m after the ordinary-spawn scale pass.
 
 The source audit uses the production graded heightfield, resolved road curves and solved water contours. It samples the entire habitat floor on a 2.5 m grid and rejects wet points or slopes over 0.65 rise/run, about 33 degrees. It reserves existing habitat body envelopes, active regional packs, settlements, resource sites, landmarks, clusters and eight metres around resolved road centrelines. Each accepted disc leaves at least a further metre beyond those reservations. New pack discs remain more than two metres apart, including across region seams.
 

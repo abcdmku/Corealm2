@@ -4,12 +4,14 @@ description: "Black Wilderness Dragon spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/wilderness_northwest_black_dragons.webp" alt="Black Wilderness Dragon at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Black Wilderness Dragon</strong><span>Starwood Hollow, Wilderness</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="23.417,17.576,23.417,17.576"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Black Wilderness Dragon">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#starwood-hollow" style="--map-x:23.4167%;--map-y:25.6818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Black Wilderness Dragon, Starwood Hollow, Wilderness" title="Black Wilderness Dragon, Starwood Hollow, Wilderness"><span>Black Wilderness Dragon<small>Starwood Hollow, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#starwood-hollow" style="--map-x:23.4167%;--map-y:17.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Black Wilderness Dragon, Starwood Hollow, Wilderness" title="Black Wilderness Dragon, Starwood Hollow, Wilderness"><span>Black Wilderness Dragon<small>Starwood Hollow, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -31,20 +33,18 @@ description: "Black Wilderness Dragon spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 70 | 209 | 65 | 63 | 12 | 22 | 3.6 s | 23 | 31 | aggressive | 11 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Health</dt><dd>209</dd></div><div><dt>Attack</dt><dd>65</dd></div><div><dt>Defence</dt><dd>63</dd></div><div><dt>Accuracy</dt><dd>12</dd></div><div><dt>Max hit</dt><dd>22</dd></div><div><dt>Attack speed</dt><dd>3.6 s</dd></div><div><dt>Armour</dt><dd>23</dd></div><div><dt>Magic armour</dt><dd>31</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>11 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 140-420 | Always |
-| [Starhide](../../items/starhide/) | 1-3 | 100% |
-| [Cosmic Rune](../../items/cosmic_rune/) | 2-4 | 40% |
-| [Death Rune](../../items/death_rune/) | 2-4 | 32% |
-| [Blood Rune](../../items/blood_rune/) | 1-3 | 22% |
-| [Wrath Rune](../../items/wrath_rune/) | 1-2 | 10% |
-| [Fire Opal](../../items/fire_opal/) | 1 | 4% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">140-420 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/starhide.webp" alt="Starhide" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/starhide/">Starhide</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cosmic_rune.webp" alt="Cosmic Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/cosmic_rune/">Cosmic Rune</a></span><span class="codex-card__meta">2-4 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/death_rune.webp" alt="Death Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/death_rune/">Death Rune</a></span><span class="codex-card__meta">2-4 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">32% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/blood_rune.webp" alt="Blood Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/blood_rune/">Blood Rune</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">22% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/wrath_rune.webp" alt="Wrath Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/wrath_rune/">Wrath Rune</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">10% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_opal.webp" alt="Fire Opal" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/fire_opal/">Fire Opal</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">4% chance</span></span></span></span></div>
+</div>

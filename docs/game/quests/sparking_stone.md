@@ -5,7 +5,7 @@ description: "The Sparking Stone start location, requirements, walkthrough, and 
 
 Quarrier Vess has been cutting Cobalt for nine years and she has never liked what it does in the dark. She would like somebody who is not her to find out what is in it.
 
-![Quarrier Vess](../assets/captures/npcs/npc_quarrier_vess.webp)
+<img class="codex-shot" src="../../assets/captures/npcs/npc_quarrier_vess.webp" alt="Quarrier Vess in the running Corealm world" width="960" height="540" loading="lazy" decoding="async" />
 
 | Giver | Start location | Region | Requirements | Prerequisite |
 | --- | --- | --- | --- | --- |
@@ -27,13 +27,15 @@ Go south through Woodlands to Millfield, then follow the western track to locati
 
 <nav class="corealm-quest-where" aria-label="Locations for step 1"><span>Where</span><a href="../../regions/#air-essence-cache">Air Essence Cache</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/tempest_roc.webp" alt="Storm Scarab in the running Corealm world" loading="lazy" /><figcaption><strong>Storm Scarab</strong><span>Air Essence Cache, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/enemy-groups/tempest_roc.webp" alt="Storm Scarab in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Storm Scarab</strong><span>Air Essence Cache, Farmland</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="25.667,81.818,29.167,82.182"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Sparking Stone, step 1">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../creatures/tempest_roc_t1/" style="--map-x:25.6667%;--map-y:74.1364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Storm Scarab, Farmland" title="Storm Scarab, Farmland"><span>Storm Scarab<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:29.1667%;--map-y:73.8636%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../creatures/tempest_roc_t1/" style="--map-x:25.6667%;--map-y:82.1818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Storm Scarab, Farmland" title="Storm Scarab, Farmland"><span>Storm Scarab<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:29.1667%;--map-y:81.8182%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -55,13 +57,15 @@ The guaranteed Air Orb remains in the Storm Scarab's loot pile after the kill. U
 <nav class="corealm-quest-where" aria-label="Locations for step 2"><span>Where</span><a href="../../regions/#air-essence-cache">Air Essence Cache</a></nav>
 <nav class="corealm-quest-items" aria-label="Items for step 2"><span>Items</span><a href="../../items/air_orb/">Air Orb</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/tempest_roc.webp" alt="Storm Scarab in the running Corealm world" loading="lazy" /><figcaption><strong>Storm Scarab</strong><span>Air Essence Cache, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/enemy-groups/tempest_roc.webp" alt="Storm Scarab in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Storm Scarab</strong><span>Air Essence Cache, Farmland</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="25.667,81.818,29.167,82.182"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Sparking Stone, step 2">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../creatures/tempest_roc_t1/" style="--map-x:25.6667%;--map-y:74.1364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Storm Scarab, Farmland" title="Storm Scarab, Farmland"><span>Storm Scarab<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:29.1667%;--map-y:73.8636%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../creatures/tempest_roc_t1/" style="--map-x:25.6667%;--map-y:82.1818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Storm Scarab, Farmland" title="Storm Scarab, Farmland"><span>Storm Scarab<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:29.1667%;--map-y:81.8182%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -83,12 +87,14 @@ If the Air Altar is dormant, awaken it with the Air Orb first. At a fletching be
 <nav class="corealm-quest-where" aria-label="Locations for step 3"><span>Where</span><a href="../../regions/#air-essence-cache">Air Essence Cache</a></nav>
 <nav class="corealm-quest-items" aria-label="Items for step 3"><span>Items</span><a href="../../items/palewood_log/">Pine Log</a><a href="../../items/palewood_shaft/">Pine Shaft</a><a href="../../items/palewood_staff/">Pine Staff</a><a href="../../items/air_orb/">Air Orb</a><a href="../../items/air_staff/">Air Staff</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/entities/fallowmarch_air_altar.webp" alt="Fallowmarch Air Altar in the running Corealm world" loading="lazy" /><figcaption><strong>Fallowmarch Air Altar</strong><span>Air Essence Cache</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="29.167,81.818,29.167,81.818"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Sparking Stone, step 3">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:29.1667%;--map-y:73.8636%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:29.1667%;--map-y:81.8182%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -109,13 +115,14 @@ The Air Staff spends its charge before carried Air Essence. Frogs near locationI
 
 <nav class="corealm-quest-where" aria-label="Locations for step 4"><span>Where</span><a href="../../regions/#river-shallows">River Shallows</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/redsill_frogs.webp" alt="Frog in the running Corealm world" loading="lazy" /><figcaption><strong>Frog</strong><span>River Shallows, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/entities/fallowmarch_air_altar.webp" alt="Fallowmarch Air Altar in the running Corealm world" loading="lazy" /><figcaption><strong>Fallowmarch Air Altar</strong><span>River Shallows</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="45.833,75.879,45.833,75.879"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Sparking Stone, step 4">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../creatures/frog_t1/" style="--map-x:45.8333%;--map-y:69.4091%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Frog, Farmland" title="Frog, Farmland"><span>Frog<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../creatures/frog_t1/" style="--map-x:45.8333%;--map-y:75.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Frog, Farmland" title="Frog, Farmland"><span>Frog<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -142,12 +149,14 @@ She is at the middle of Hillcrest. The handover takes the ore.
 <nav class="corealm-quest-where" aria-label="Locations for step 5"><span>Where</span><a href="../../regions/#hillcrest">Hillcrest</a></nav>
 <nav class="corealm-quest-items" aria-label="Items for step 5"><span>Items</span><a href="../../items/kaldite_ore/">Cobalt Ore</a></nav>
 <div class="corealm-quest-step-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/npcs/npc_quarrier_vess.webp" alt="Quarrier Vess in the running Corealm world" loading="lazy" /><figcaption><strong>Quarrier Vess</strong><span>Hillcrest, Highlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-quest-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_quarrier_vess.webp" alt="Quarrier Vess in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Quarrier Vess</strong><span>Hillcrest, Highlands</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-quest-map" data-location-map
+ data-map-focus="62.150,76.873,62.150,76.873"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Sparking Stone, step 5">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#quarrier-vess" style="--map-x:62.1500%;--map-y:70.1545%" data-map-side="left" data-map-kind="npc" data-map-marker aria-label="Quarrier Vess, Highlands" title="Quarrier Vess, Highlands"><span>Quarrier Vess<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#quarrier-vess" style="--map-x:62.1500%;--map-y:76.8727%" data-map-side="left" data-map-kind="npc" data-map-marker aria-label="Quarrier Vess, Highlands" title="Quarrier Vess, Highlands"><span>Quarrier Vess<small>Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

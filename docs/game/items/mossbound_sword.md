@@ -4,25 +4,15 @@ description: "A Iron blade grown through with moss that will not die. It never r
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/mossbound_sword.png" alt="Forest Ogre Sword" width="256" height="256" />
+<img src="../../assets/items/mossbound_sword.webp" alt="Forest Ogre Sword" width="256" height="256" />
 <p>A Iron blade grown through with moss that will not die. It never rusts.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 930 |
-| Sell value | 558 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>930</dd></div><div><dt>Sell value</dt><dd>558</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +16 |
-| Power | +16 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+16</dd></div><div><dt>Power</dt><dd>+16</dd></div></dl>
 
 ## Use and requirements
 

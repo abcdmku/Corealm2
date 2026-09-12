@@ -4,17 +4,11 @@ description: "A black rune split through with slow red light. The four finales s
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/wrath_rune.png" alt="Wrath Rune" width="256" height="256" />
+<img src="../../assets/items/wrath_rune.webp" alt="Wrath Rune" width="256" height="256" />
 <p>A black rune split through with slow red light. The four finales spend one per cast, and nothing smaller touches it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 180 |
-| Sell value | 108 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>180</dd></div><div><dt>Sell value</dt><dd>108</dd></div></dl>
 
 ## Where it comes from
 

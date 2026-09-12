@@ -4,20 +4,18 @@ description: "Cinder Penitent spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/emberhorn_ibex.webp" alt="Cinder Penitent at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Cinder Penitent</strong><span>Volcanic Quarry, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ashscale_monitor_residents.webp" alt="Cinder Penitent at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Cinder Penitent</strong><span>Walnut Grove, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_emberfast_south_penitents.webp" alt="Cinder Penitent at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Cinder Penitent</strong><span>Ridge Track, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_emberfast_east_penitents.webp" alt="Cinder Penitent at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Cinder Penitent</strong><span>South Bend, Ashlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_north_track_penitents.webp" alt="Cinder Penitent at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Cinder Penitent</strong><span>North Road Bend, Ashlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="28.333,47.273,64.583,57.697"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cinder Penitent">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#volcanic-quarry" style="--map-x:28.3333%;--map-y:47.9545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, Volcanic Quarry, Ashlands" title="Cinder Penitent, Volcanic Quarry, Ashlands"><span>Cinder Penitent<small>Volcanic Quarry, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#walnut-grove" style="--map-x:64.5833%;--map-y:49.8636%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, Walnut Grove, Ashlands" title="Cinder Penitent, Walnut Grove, Ashlands"><span>Cinder Penitent<small>Walnut Grove, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#ridge-track" style="--map-x:57.3333%;--map-y:55.7727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, Ridge Track, Ashlands" title="Cinder Penitent, Ridge Track, Ashlands"><span>Cinder Penitent<small>Ridge Track, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#south-bend" style="--map-x:57.3333%;--map-y:52.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, South Bend, Ashlands" title="Cinder Penitent, South Bend, Ashlands"><span>Cinder Penitent<small>South Bend, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#north-road-bend" style="--map-x:57.3333%;--map-y:48.4091%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, North Road Bend, Ashlands" title="Cinder Penitent, North Road Bend, Ashlands"><span>Cinder Penitent<small>North Road Bend, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#volcanic-quarry" style="--map-x:28.3333%;--map-y:47.2727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, Volcanic Quarry, Ashlands" title="Cinder Penitent, Volcanic Quarry, Ashlands"><span>Cinder Penitent<small>Volcanic Quarry, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#walnut-grove" style="--map-x:64.5833%;--map-y:49.8182%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, Walnut Grove, Ashlands" title="Cinder Penitent, Walnut Grove, Ashlands"><span>Cinder Penitent<small>Walnut Grove, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ridge-track" style="--map-x:57.3333%;--map-y:57.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, Ridge Track, Ashlands" title="Cinder Penitent, Ridge Track, Ashlands"><span>Cinder Penitent<small>Ridge Track, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#south-bend" style="--map-x:57.3333%;--map-y:53.3333%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, South Bend, Ashlands" title="Cinder Penitent, South Bend, Ashlands"><span>Cinder Penitent<small>South Bend, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#north-road-bend" style="--map-x:57.3333%;--map-y:47.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Penitent, North Road Bend, Ashlands" title="Cinder Penitent, North Road Bend, Ashlands"><span>Cinder Penitent<small>North Road Bend, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -43,15 +41,13 @@ description: "Cinder Penitent spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 20 | 52 | 22 | 24 | 6 | 10 | 3.0 s | 45 | 15 | aggressive | 7 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Health</dt><dd>52</dd></div><div><dt>Attack</dt><dd>22</dd></div><div><dt>Defence</dt><dd>24</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>10</dd></div><div><dt>Attack speed</dt><dd>3.0 s</dd></div><div><dt>Armour</dt><dd>45</dd></div><div><dt>Magic armour</dt><dd>15</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>7 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 20-60 | Always |
-| [Fire Essence](../../items/fire_essence/) | 1-2 | 35% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">20-60 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_essence.webp" alt="Fire Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/fire_essence/">Fire Essence</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">35% chance</span></span></span></span></div>
+</div>

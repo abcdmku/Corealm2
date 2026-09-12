@@ -4,26 +4,15 @@ description: "Laced to the knee against the root field."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/bramblehide_boots.png" alt="Thick Hide Boots" width="256" height="256" />
+<img src="../../assets/items/bramblehide_boots.webp" alt="Thick Hide Boots" width="256" height="256" />
 <p>Laced to the knee against the root field.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 220 |
-| Sell value | 132 |
-| Equipment slot | feet |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>220</dd></div><div><dt>Sell value</dt><dd>132</dd></div><div><dt>Slot</dt><dd>Feet</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +1 |
-| Magic armour | +2 |
-| Vitality | +1 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+2</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

@@ -4,12 +4,14 @@ description: "Cow spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/redsill_cattle.webp" alt="Cow at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Cow</strong><span>Farm Fields, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="40.417,75.152,40.417,75.152"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cow">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:40.4167%;--map-y:68.8636%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cow, Farm Fields, Farmland" title="Cow, Farm Fields, Farmland"><span>Cow<small>Farm Fields, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:40.4167%;--map-y:75.1515%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cow, Farm Fields, Farmland" title="Cow, Farm Fields, Farmland"><span>Cow<small>Farm Fields, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -31,18 +33,16 @@ description: "Cow spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 16 | 5 | 3 | 6 | 5 | 3.6 s | 35 | 0 | territorial | 5 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Health</dt><dd>16</dd></div><div><dt>Attack</dt><dd>5</dd></div><div><dt>Defence</dt><dd>3</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>5</dd></div><div><dt>Attack speed</dt><dd>3.6 s</dd></div><div><dt>Armour</dt><dd>35</dd></div><div><dt>Magic armour</dt><dd>0</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>5 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 3-11 | Always |
-| [Coarse Hide](../../items/coarse_hide/) | 1-2 | 60% |
-| [Raw Game Meat](../../items/raw_game_meat/) | 1-3 | 50% |
-| [Ox Horn](../../items/ox_horn/) | 1 | 20% |
-| [Limestone](../../items/march_stone/) | 1-3 | 15% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">3-11 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/coarse_hide.webp" alt="Coarse Hide" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/coarse_hide/">Coarse Hide</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">60% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/raw_game_meat.webp" alt="Raw Game Meat" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/raw_game_meat/">Raw Game Meat</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">50% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/ox_horn.webp" alt="Ox Horn" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/ox_horn/">Ox Horn</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">20% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/march_stone.webp" alt="Limestone" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/march_stone/">Limestone</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">15% chance</span></span></span></span></div>
+</div>

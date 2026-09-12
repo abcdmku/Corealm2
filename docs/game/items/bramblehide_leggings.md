@@ -4,28 +4,15 @@ description: "Long hide leggings cut for a full stride."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/bramblehide_leggings.png" alt="Thick Hide Leggings" width="256" height="256" />
+<img src="../../assets/items/bramblehide_leggings.webp" alt="Thick Hide Leggings" width="256" height="256" />
 <p>Long hide leggings cut for a full stride.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 540 |
-| Sell value | 324 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>540</dd></div><div><dt>Sell value</dt><dd>324</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +1 |
-| Magic accuracy | +2 |
-| Magic power | +1 |
-| Magic armour | +5 |
-| Vitality | +2 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic accuracy</dt><dd>+2</dd></div><div><dt>Magic power</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+5</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

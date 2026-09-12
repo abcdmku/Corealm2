@@ -4,25 +4,15 @@ description: "Deepwood steel, dark and slightly oily to the touch."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/corven_dagger.png" alt="Iron Dagger" width="256" height="256" />
+<img src="../../assets/items/corven_dagger.webp" alt="Iron Dagger" width="256" height="256" />
 <p>Deepwood steel, dark and slightly oily to the touch.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 320 |
-| Sell value | 192 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>320</dd></div><div><dt>Sell value</dt><dd>192</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +12 |
-| Power | +11 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+12</dd></div><div><dt>Power</dt><dd>+11</dd></div></dl>
 
 ## Use and requirements
 

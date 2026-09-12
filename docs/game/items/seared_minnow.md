@@ -4,17 +4,11 @@ description: "Two minutes over a range and it stops being mostly bone."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/seared_minnow.png" alt="Seared Minnow" width="256" height="256" />
+<img src="../../assets/items/seared_minnow.webp" alt="Seared Minnow" width="256" height="256" />
 <p>Two minutes over a range and it stops being mostly bone.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | food |
-| Stacks | No |
-| Buy value | 22 |
-| Sell value | 13 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Food</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>22</dd></div><div><dt>Sell value</dt><dd>13</dd></div></dl>
 
 ## Use and requirements
 

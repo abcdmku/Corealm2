@@ -60,10 +60,11 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
       const underground = ports.underground(entity.regionId);
       const radius = entity.combat?.bodyRadius ?? .5;
       const minimum = Math.max(underground ? 5 : 10, authoredSeparation);
-      const gap = underground ? 1.5 : 4;
+      // Leave a running lane even when both residents wander toward each other.
+      // Idle patches extend .75 m in caves and 1.5 m outdoors.
+      const gap = underground ? 3.5 : 6;
       const phase = (hashId(entity.id) % 360) * Math.PI / 180;
-      const desired = [centre[0] + (entity.position[0] - centre[0]) * 3,
-        centre[1] + (entity.position[2] - centre[1]) * 3];
+      const desired = [entity.position[0], entity.position[2]];
       let destination: Vec3 | null = null;
       const tryPoint = (x: number, z: number): void => {
         if (destination) return;

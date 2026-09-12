@@ -4,17 +4,11 @@ description: "Seared hard and rested. The one meal in Oakwood nobody complains a
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/roast_venison.png" alt="Roast Venison" width="256" height="256" />
+<img src="../../assets/items/roast_venison.webp" alt="Roast Venison" width="256" height="256" />
 <p>Seared hard and rested. The one meal in Oakwood nobody complains about.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | food |
-| Stacks | No |
-| Buy value | 66 |
-| Sell value | 40 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Food</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>66</dd></div><div><dt>Sell value</dt><dd>40</dd></div></dl>
 
 ## Use and requirements
 

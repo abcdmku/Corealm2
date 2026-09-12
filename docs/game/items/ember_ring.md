@@ -4,24 +4,15 @@ description: "Warm to the touch. Emberlash comes a little easier wearing it."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/ember_ring.png" alt="Ember Ring" width="256" height="256" />
+<img src="../../assets/items/ember_ring.webp" alt="Ember Ring" width="256" height="256" />
 <p>Warm to the touch. Emberlash comes a little easier wearing it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 95 |
-| Sell value | 57 |
-| Equipment slot | accessory1 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>95</dd></div><div><dt>Sell value</dt><dd>57</dd></div><div><dt>Slot</dt><dd>Accessory1</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +1 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

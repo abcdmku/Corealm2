@@ -4,28 +4,15 @@ description: "Starhide leggings sewn with Void Thread. Requires level 70 Magic."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/starhide_leggings.png" alt="Starhide Leggings" width="256" height="256" />
+<img src="../../assets/items/starhide_leggings.webp" alt="Starhide Leggings" width="256" height="256" />
 <p>Starhide leggings sewn with Void Thread. Requires level 70 Magic.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 12,200 |
-| Sell value | 7,320 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>12,200</dd></div><div><dt>Sell value</dt><dd>7,320</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +9 |
-| Magic accuracy | +18 |
-| Magic power | +9 |
-| Magic armour | +46 |
-| Vitality | +12 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+9</dd></div><div><dt>Magic accuracy</dt><dd>+18</dd></div><div><dt>Magic power</dt><dd>+9</dd></div><div><dt>Magic armour</dt><dd>+46</dd></div><div><dt>Vitality</dt><dd>+12</dd></div></dl>
 
 ## Use and requirements
 

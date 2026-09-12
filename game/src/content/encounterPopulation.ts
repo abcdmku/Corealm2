@@ -97,6 +97,11 @@ export function createEncounterFormation(group: EnemyGroupDef, options: Encounte
       candidate(q, r); q += dq; r += dr;
     }
   }
+  // Greedily retained old anchors can obstruct an otherwise valid formation.
+  // Retry the same floor and clearance constraints using only the ordered grid.
+  if (anchors.length !== count && options.preferredAnchors?.length) {
+    return createEncounterFormation(group, { ...options, preferredAnchors: [] });
+  }
   if (anchors.length !== count) throw new EncounterFormationError(group.id, count, anchors.length, maximum);
   const envelope = Math.max(...anchors.map(point => Math.hypot(point[0] - group.centre[0], point[1] - group.centre[1])))
     + options.bodyRadius;

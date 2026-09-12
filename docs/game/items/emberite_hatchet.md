@@ -4,17 +4,11 @@ description: "Bites through scorched bark without a second swing. Seventeen effe
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/emberite_hatchet.png" alt="Titanium Hatchet" width="256" height="256" />
+<img src="../../assets/items/emberite_hatchet.webp" alt="Titanium Hatchet" width="256" height="256" />
 <p>Bites through scorched bark without a second swing. Seventeen effective Woodcutting levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 1,350 |
-| Sell value | 810 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,350</dd></div><div><dt>Sell value</dt><dd>810</dd></div></dl>
 
 ## Use and requirements
 

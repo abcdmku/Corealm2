@@ -4,26 +4,15 @@ description: "Polished walnut with an empty Titanium socket. It stays unlit unti
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cinderpine_wand.png" alt="Walnut Wand" width="256" height="256" />
+<img src="../../assets/items/cinderpine_wand.webp" alt="Walnut Wand" width="256" height="256" />
 <p>Polished walnut with an empty Titanium socket. It stays unlit until the altar takes it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,900 |
-| Sell value | 1,140 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,900</dd></div><div><dt>Sell value</dt><dd>1,140</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +27 |
-| Magic power | +23 |
-| Magic armour | +5 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+27</dd></div><div><dt>Magic power</dt><dd>+23</dd></div><div><dt>Magic armour</dt><dd>+5</dd></div></dl>
 
 ## Use and requirements
 
@@ -39,6 +28,8 @@ description: "Polished walnut with an empty Titanium socket. It stays unlit unti
 
 ## Used to make
 
-- 1× for **Fire Wand**, producing 1× [Fire Wand](../../items/fire_wand/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_wand.webp" alt="Fire Wand" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../fire_wand/">Fire Wand</a></span><span class="codex-card__meta">Takes 1 × Walnut Wand</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/fire_wand/"><img class="codex-icon" src="../../assets/items/thumb/fire_wand.webp" alt="Fire Wand" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Fire Wand</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

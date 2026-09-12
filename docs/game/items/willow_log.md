@@ -4,17 +4,11 @@ description: "Timber cut from a willow tree."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/willow_log.png" alt="Willow Log" width="256" height="256" />
+<img src="../../assets/items/willow_log.webp" alt="Willow Log" width="256" height="256" />
 <p>Timber cut from a willow tree.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 30 |
-| Category | resource |
-| Stacks | No |
-| Buy value | 310 |
-| Sell value | 186 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>30</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>310</dd></div><div><dt>Sell value</dt><dd>186</dd></div></dl>
 
 ## Where it comes from
 

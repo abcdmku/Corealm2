@@ -4,25 +4,15 @@ description: "A hand-width of Titanium that never fully cools. It goes in easier
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/emberite_dagger.png" alt="Titanium Dagger" width="256" height="256" />
+<img src="../../assets/items/emberite_dagger.webp" alt="Titanium Dagger" width="256" height="256" />
 <p>A hand-width of Titanium that never fully cools. It goes in easier than it comes out.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,700 |
-| Sell value | 1,020 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,700</dd></div><div><dt>Sell value</dt><dd>1,020</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +42 |
-| Power | +38 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+42</dd></div><div><dt>Power</dt><dd>+38</dd></div></dl>
 
 ## Use and requirements
 

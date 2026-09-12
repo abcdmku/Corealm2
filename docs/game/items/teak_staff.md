@@ -4,27 +4,15 @@ description: "Teak crowned with Cindersteel. A heavy two-handed casting weapon; 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/teak_staff.png" alt="Teak Staff" width="256" height="256" />
+<img src="../../assets/items/teak_staff.webp" alt="Teak Staff" width="256" height="256" />
 <p>Teak crowned with Cindersteel. A heavy two-handed casting weapon; carried Essence pays for spells.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 7,200 |
-| Sell value | 4,320 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>7,200</dd></div><div><dt>Sell value</dt><dd>4,320</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Power | +15 |
-| Magic accuracy | +80 |
-| Magic power | +69 |
-| Magic armour | +13 |
+<dl class="codex-stats"><div><dt>Power</dt><dd>+15</dd></div><div><dt>Magic accuracy</dt><dd>+80</dd></div><div><dt>Magic power</dt><dd>+69</dd></div><div><dt>Magic armour</dt><dd>+13</dd></div></dl>
 
 ## Use and requirements
 
@@ -40,6 +28,8 @@ description: "Teak crowned with Cindersteel. A heavy two-handed casting weapon; 
 
 ## Used to make
 
-- 1× for **Regent Staff**, producing 1× [Regent Staff](../../items/regent_staff/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/regent_staff.webp" alt="Regent Staff" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Fletching 50</span><span class="codex-card__title"><a class="codex-card__link" href="../regent_staff/">Regent Staff</a></span><span class="codex-card__meta">Takes 1 × Teak Staff</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/regent_staff/"><img class="codex-icon" src="../../assets/items/thumb/regent_staff.webp" alt="Regent Staff" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Regent Staff</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

@@ -4,17 +4,11 @@ description: "Cobalt on oak. Nine effective Mining levels, and it will outlive y
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/kaldite_pickaxe.png" alt="Cobalt Pickaxe" width="256" height="256" />
+<img src="../../assets/items/kaldite_pickaxe.webp" alt="Cobalt Pickaxe" width="256" height="256" />
 <p>Cobalt on oak. Nine effective Mining levels, and it will outlive you.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 620 |
-| Sell value | 372 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>620</dd></div><div><dt>Sell value</dt><dd>372</dd></div></dl>
 
 ## Use and requirements
 

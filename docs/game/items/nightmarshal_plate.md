@@ -4,27 +4,15 @@ description: "Nightglass Plate reinforced with the bastion's old seals. Heavy ov
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/nightmarshal_plate.png" alt="Nightmarshal Plate" width="256" height="256" />
+<img src="../../assets/items/nightmarshal_plate.webp" alt="Nightmarshal Plate" width="256" height="256" />
 <p>Nightglass Plate reinforced with the bastion's old seals. Heavy overlapping ribs protect the chest.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 28,900 |
-| Sell value | 17,340 |
-| Equipment slot | body |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>28,900</dd></div><div><dt>Sell value</dt><dd>17,340</dd></div><div><dt>Slot</dt><dd>Body</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +14 |
-| Armour | +98 |
-| Magic armour | +30 |
-| Vitality | +25 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+14</dd></div><div><dt>Armour</dt><dd>+98</dd></div><div><dt>Magic armour</dt><dd>+30</dd></div><div><dt>Vitality</dt><dd>+25</dd></div></dl>
 
 ## Use and requirements
 

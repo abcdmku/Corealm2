@@ -4,12 +4,14 @@ description: "Basalt Maw spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/wilderness_basalt_maw_hollow.webp" alt="Basalt Maw at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Basalt Maw</strong><span>The Grave Road, Wilderness</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="49.333,31.515,49.333,31.515"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Basalt Maw">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:49.3333%;--map-y:36.1364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Basalt Maw, The Grave Road, Wilderness" title="Basalt Maw, The Grave Road, Wilderness"><span>Basalt Maw<small>The Grave Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:49.3333%;--map-y:31.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Basalt Maw, The Grave Road, Wilderness" title="Basalt Maw, The Grave Road, Wilderness"><span>Basalt Maw<small>The Grave Road, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -31,20 +33,18 @@ description: "Basalt Maw spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 50 | 179 | 53 | 37 | 15 | 21 | 2.5 s | 20 | 10 | aggressive | 8 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Health</dt><dd>179</dd></div><div><dt>Attack</dt><dd>53</dd></div><div><dt>Defence</dt><dd>37</dd></div><div><dt>Accuracy</dt><dd>15</dd></div><div><dt>Max hit</dt><dd>21</dd></div><div><dt>Attack speed</dt><dd>2.5 s</dd></div><div><dt>Armour</dt><dd>20</dd></div><div><dt>Magic armour</dt><dd>10</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>8 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 50-150 | Always |
-| [Molten Heart](../../items/molten_heart/) | 1-3 | 100% |
-| [Cosmic Rune](../../items/cosmic_rune/) | 2-4 | 40% |
-| [Mind Rune](../../items/mind_rune/) | 2-4 | 40% |
-| [Chaos Rune](../../items/chaos_rune/) | 2-3 | 28% |
-| [Cindervein Ore](../../items/cindervein_ore/) | 1-2 | 25% |
-| [Fire Opal](../../items/fire_opal/) | 1 | 4% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">50-150 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/molten_heart.webp" alt="Molten Heart" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/molten_heart/">Molten Heart</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cosmic_rune.webp" alt="Cosmic Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/cosmic_rune/">Cosmic Rune</a></span><span class="codex-card__meta">2-4 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/mind_rune.webp" alt="Mind Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/mind_rune/">Mind Rune</a></span><span class="codex-card__meta">2-4 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/chaos_rune.webp" alt="Chaos Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/chaos_rune/">Chaos Rune</a></span><span class="codex-card__meta">2-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">28% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cindervein_ore.webp" alt="Cindervein Ore" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/cindervein_ore/">Cindervein Ore</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">25% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_opal.webp" alt="Fire Opal" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/fire_opal/">Fire Opal</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">4% chance</span></span></span></span></div>
+</div>

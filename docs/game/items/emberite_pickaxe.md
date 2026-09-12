@@ -4,17 +4,11 @@ description: "An Titanium head on walnut. Seventeen effective Mining levels."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/emberite_pickaxe.png" alt="Titanium Pickaxe" width="256" height="256" />
+<img src="../../assets/items/emberite_pickaxe.webp" alt="Titanium Pickaxe" width="256" height="256" />
 <p>An Titanium head on walnut. Seventeen effective Mining levels.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | tool |
-| Stacks | No |
-| Buy value | 1,400 |
-| Sell value | 840 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Tool</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,400</dd></div><div><dt>Sell value</dt><dd>840</dd></div></dl>
 
 ## Use and requirements
 

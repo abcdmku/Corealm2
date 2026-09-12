@@ -4,26 +4,15 @@ description: "Nightglass pendant forged for level 70 melee combat."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/nightglass_pendant.png" alt="Nightglass Pendant" width="256" height="256" />
+<img src="../../assets/items/nightglass_pendant.webp" alt="Nightglass Pendant" width="256" height="256" />
 <p>Nightglass pendant forged for level 70 melee combat.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 8,300 |
-| Sell value | 4,980 |
-| Equipment slot | accessory2 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>8,300</dd></div><div><dt>Sell value</dt><dd>4,980</dd></div><div><dt>Slot</dt><dd>Accessory2</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +6 |
-| Magic accuracy | +6 |
-| Magic armour | +13 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+6</dd></div><div><dt>Magic accuracy</dt><dd>+6</dd></div><div><dt>Magic armour</dt><dd>+13</dd></div></dl>
 
 ## Use and requirements
 

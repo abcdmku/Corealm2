@@ -4,12 +4,14 @@ description: "Plains Ogre spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/galeskin.webp" alt="Plains Ogre at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Plains Ogre</strong><span>Open Meadow, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="25.000,63.939,25.000,63.939"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Plains Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:25.0000%;--map-y:60.4545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Plains Ogre, Open Meadow, Farmland" title="Plains Ogre, Open Meadow, Farmland"><span>Plains Ogre<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:25.0000%;--map-y:63.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Plains Ogre, Open Meadow, Farmland" title="Plains Ogre, Open Meadow, Farmland"><span>Plains Ogre<small>Open Meadow, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -31,19 +33,17 @@ description: "Plains Ogre spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 52 | 8 | 6 | 8 | 5 | 3.0 s | 14 | 14 | territorial | 16 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Health</dt><dd>52</dd></div><div><dt>Attack</dt><dd>8</dd></div><div><dt>Defence</dt><dd>6</dd></div><div><dt>Accuracy</dt><dd>8</dd></div><div><dt>Max hit</dt><dd>5</dd></div><div><dt>Attack speed</dt><dd>3.0 s</dd></div><div><dt>Armour</dt><dd>14</dd></div><div><dt>Magic armour</dt><dd>14</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>16 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 40-90 | Always |
-| [Plains Ogre Sword](../../items/galeskin_sword/) | 1 | 10% |
-| [Plains Ogre Staff](../../items/galeskin_staff/) | 1 | 10% |
-| [Air Essence](../../items/air_essence/) | 2-5 | 50% |
-| [Quartz](../../items/pale_quartz/) | 1-2 | 50% |
-| [Coarse Hide](../../items/coarse_hide/) | 1-2 | 40% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">40-90 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/galeskin_sword.webp" alt="Plains Ogre Sword" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/galeskin_sword/">Plains Ogre Sword</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">10% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/galeskin_staff.webp" alt="Plains Ogre Staff" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/galeskin_staff/">Plains Ogre Staff</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">10% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/air_essence.webp" alt="Air Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/air_essence/">Air Essence</a></span><span class="codex-card__meta">2-5 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">50% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/pale_quartz.webp" alt="Quartz" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/pale_quartz/">Quartz</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">50% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/coarse_hide.webp" alt="Coarse Hide" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/coarse_hide/">Coarse Hide</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+</div>

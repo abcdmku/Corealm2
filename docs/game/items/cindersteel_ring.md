@@ -4,25 +4,15 @@ description: "Cindersteel ring forged for level 50 melee combat."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cindersteel_ring.png" alt="Cindersteel Ring" width="256" height="256" />
+<img src="../../assets/items/cindersteel_ring.webp" alt="Cindersteel Ring" width="256" height="256" />
 <p>Cindersteel ring forged for level 50 melee combat.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 4,600 |
-| Sell value | 2,760 |
-| Equipment slot | accessory1 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>4,600</dd></div><div><dt>Sell value</dt><dd>2,760</dd></div><div><dt>Slot</dt><dd>Accessory1</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +4 |
-| Armour | +5 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+4</dd></div><div><dt>Armour</dt><dd>+5</dd></div></dl>
 
 ## Use and requirements
 

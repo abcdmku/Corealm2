@@ -4,28 +4,15 @@ description: "Dragonhide leggings sewn with Grave Thread. Requires level 50 Magi
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/dragonhide_leggings.png" alt="Dragonhide Leggings" width="256" height="256" />
+<img src="../../assets/items/dragonhide_leggings.webp" alt="Dragonhide Leggings" width="256" height="256" />
 <p>Dragonhide leggings sewn with Grave Thread. Requires level 50 Magic.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 7,500 |
-| Sell value | 4,500 |
-| Equipment slot | legs |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>7,500</dd></div><div><dt>Sell value</dt><dd>4,500</dd></div><div><dt>Slot</dt><dd>Legs</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +6 |
-| Magic accuracy | +13 |
-| Magic power | +7 |
-| Magic armour | +33 |
-| Vitality | +9 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+6</dd></div><div><dt>Magic accuracy</dt><dd>+13</dd></div><div><dt>Magic power</dt><dd>+7</dd></div><div><dt>Magic armour</dt><dd>+33</dd></div><div><dt>Vitality</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

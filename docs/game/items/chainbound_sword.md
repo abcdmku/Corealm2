@@ -4,25 +4,15 @@ description: "Living foundry chain wound through a Nightglass blade. The edge ti
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/chainbound_sword.png" alt="Chainbound Sword" width="256" height="256" />
+<img src="../../assets/items/chainbound_sword.webp" alt="Chainbound Sword" width="256" height="256" />
 <p>Living foundry chain wound through a Nightglass blade. The edge tightens under a full swing.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 26,000 |
-| Sell value | 15,600 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>26,000</dd></div><div><dt>Sell value</dt><dd>15,600</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Accuracy | +141 |
-| Power | +141 |
+<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+141</dd></div><div><dt>Power</dt><dd>+141</dd></div></dl>
 
 ## Use and requirements
 

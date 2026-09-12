@@ -33,7 +33,7 @@ try {
     if (a.archetype === 'boss' && b.archetype === 'boss') continue;
     const distance = Math.hypot(a.meta.spawnX - b.meta.spawnX, a.meta.spawnZ - b.meta.spawnZ);
     const cave = a.regionId === 'gravelmaw';
-    const minimum = Math.max(cave ? 5 : 10, (a.combat?.bodyRadius ?? .5) + (b.combat?.bodyRadius ?? .5) + (cave ? 1.5 : 4));
+    const minimum = Math.max(cave ? 5 : 10, (a.combat?.bodyRadius ?? .5) + (b.combat?.bodyRadius ?? .5) + (cave ? 3.5 : 6));
     if (!Number.isFinite(distance) || distance < minimum - 1e-5) violations.push(`${a.id}/${b.id}: ${distance} < ${minimum}`);
   }
   assert.deepEqual(violations, []);
@@ -42,6 +42,29 @@ try {
   await page.keyboard.down('w'); await page.waitForTimeout(750); await page.keyboard.up('w');
   const after = await driver.snapshot();
   assert.notDeepEqual(after.playerPosition, before.playerPosition, 'real movement changes semantic position');
+  let passage: unknown = null;
+  if (!world) {
+    const cows = actors.filter(e => e.meta?.groupId === 'spawn-spacing:redsill_cattle');
+    const a = cows[0], b = cows[1];
+    assert(a && b);
+    const dx = b.position[0] - a.position[0], dz = b.position[2] - a.position[2];
+    const length = Math.hypot(dx, dz), nx = -dz / length, nz = dx / length;
+    const mx = (a.position[0] + b.position[0]) / 2, mz = (a.position[2] + b.position[2]) / 2;
+    await page.evaluate(() => window.__featureLab!.setWalkingEnabled(true));
+    await driver.callDebug('inspectPose', [{ x: mx - nx * 3, y: 0, z: mz - nz * 3,
+      yaw: Math.atan2(-nx, -nz), pitch: .52, distance: 11 }]);
+    await page.waitForTimeout(250);
+    const start = await driver.callDebug('getPlayerPosition') as { x: number; z: number };
+    await page.keyboard.down('w');
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: `${out}/running-between.png` });
+    await page.waitForTimeout(800);
+    await page.keyboard.up('w');
+    const end = await driver.callDebug('getPlayerPosition') as { x: number; z: number };
+    assert((start.x - mx) * nx + (start.z - mz) * nz < -2, 'starts before the gap');
+    assert((end.x - mx) * nx + (end.z - mz) * nz > .5, 'W runs through the gap between residents');
+    passage = { actors: [a.id, b.id], start, end, midpoint: [mx, mz] };
+  }
   if (world) {
     const cow = actors.find(e => e.meta?.groupId === 'redsill_cattle');
     assert(cow);
@@ -68,7 +91,7 @@ try {
   }
   assert.deepEqual(driver.pageErrors, []);
   assert.deepEqual(driver.consoleErrors, []);
-  await writeFile(`${out}/report.json`, JSON.stringify({ passed: true, actors, before, after }, null, 2));
+  await writeFile(`${out}/report.json`, JSON.stringify({ passed: true, actors, before, after, passage }, null, 2));
   console.log(JSON.stringify({ passed: true, world, actors: actors.length }));
 } catch (error) {
   await driver.page?.screenshot({ path: `${out}/failure.png` }).catch(() => {});

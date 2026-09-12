@@ -4,17 +4,11 @@ description: "Off a giant crab, and big enough to have taken a pick handle in ha
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/crab_claw.png" alt="Crab Claw" width="256" height="256" />
+<img src="../../assets/items/crab_claw.webp" alt="Crab Claw" width="256" height="256" />
 <p>Off a giant crab, and big enough to have taken a pick handle in half.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | No |
-| Buy value | 158 |
-| Sell value | 95 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>158</dd></div><div><dt>Sell value</dt><dd>95</dd></div></dl>
 
 ## Where it comes from
 

@@ -4,27 +4,15 @@ description: "Starhide boots sewn with Void Thread. Requires level 70 Magic."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/starhide_boots.png" alt="Starhide Boots" width="256" height="256" />
+<img src="../../assets/items/starhide_boots.webp" alt="Starhide Boots" width="256" height="256" />
 <p>Starhide boots sewn with Void Thread. Requires level 70 Magic.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 5,700 |
-| Sell value | 3,420 |
-| Equipment slot | feet |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>5,700</dd></div><div><dt>Sell value</dt><dd>3,420</dd></div><div><dt>Slot</dt><dd>Feet</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +4 |
-| Magic accuracy | +6 |
-| Magic armour | +15 |
-| Vitality | +6 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+4</dd></div><div><dt>Magic accuracy</dt><dd>+6</dd></div><div><dt>Magic armour</dt><dd>+15</dd></div><div><dt>Vitality</dt><dd>+6</dd></div></dl>
 
 ## Use and requirements
 

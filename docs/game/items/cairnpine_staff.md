@@ -4,27 +4,15 @@ description: "A two-handed oak shaft with an empty Cobalt cage. It stays dark un
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairnpine_staff.png" alt="Oak Staff" width="256" height="256" />
+<img src="../../assets/items/cairnpine_staff.webp" alt="Oak Staff" width="256" height="256" />
 <p>A two-handed oak shaft with an empty Cobalt cage. It stays dark until upgraded.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 1,180 |
-| Sell value | 708 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>1,180</dd></div><div><dt>Sell value</dt><dd>708</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Power | +4 |
-| Magic accuracy | +24 |
-| Magic power | +20 |
-| Magic armour | +4 |
+<dl class="codex-stats"><div><dt>Power</dt><dd>+4</dd></div><div><dt>Magic accuracy</dt><dd>+24</dd></div><div><dt>Magic power</dt><dd>+20</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div></dl>
 
 ## Use and requirements
 
@@ -40,6 +28,8 @@ description: "A two-handed oak shaft with an empty Cobalt cage. It stays dark un
 
 ## Used to make
 
-- 1× for **Water Staff**, producing 1× [Water Staff](../../items/water_staff/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/water_staff.webp" alt="Water Staff" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 10</span><span class="codex-card__title"><a class="codex-card__link" href="../water_staff/">Water Staff</a></span><span class="codex-card__meta">Takes 1 × Oak Staff</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/water_staff/"><img class="codex-icon" src="../../assets/items/thumb/water_staff.webp" alt="Water Staff" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Water Staff</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

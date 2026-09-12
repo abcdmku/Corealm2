@@ -4,28 +4,15 @@ description: "Void Nightweave headwrap for level 70 Magic. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/nightweave_hood.png" alt="Void Nightweave Headwrap" width="256" height="256" />
+<img src="../../assets/items/nightweave_hood.webp" alt="Void Nightweave Headwrap" width="256" height="256" />
 <p>Void Nightweave headwrap for level 70 Magic. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 8,400 |
-| Sell value | 5,040 |
-| Equipment slot | head |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>8,400</dd></div><div><dt>Sell value</dt><dd>5,040</dd></div><div><dt>Slot</dt><dd>Head</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +8 |
-| Magic accuracy | +22 |
-| Magic power | +11 |
-| Magic armour | +42 |
-| Vitality | +11 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+8</dd></div><div><dt>Magic accuracy</dt><dd>+22</dd></div><div><dt>Magic power</dt><dd>+11</dd></div><div><dt>Magic armour</dt><dd>+42</dd></div><div><dt>Vitality</dt><dd>+11</dd></div></dl>
 
 ## Use and requirements
 

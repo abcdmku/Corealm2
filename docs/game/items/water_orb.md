@@ -4,17 +4,11 @@ description: "A region-boss core used to craft a charged Water wand or staff."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/water_orb.png" alt="Water Orb" width="256" height="256" />
+<img src="../../assets/items/water_orb.webp" alt="Water Orb" width="256" height="256" />
 <p>A region-boss core used to craft a charged Water wand or staff.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | No |
-| Buy value | 0 |
-| Sell value | 0 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>0</dd></div><div><dt>Sell value</dt><dd>0</dd></div></dl>
 
 ## Use and requirements
 

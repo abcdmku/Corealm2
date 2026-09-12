@@ -3,108 +3,110 @@ title: "Regions"
 description: "Corealm's regions, settlements, routes, landmarks, gathering sites, and dungeon rooms."
 ---
 
-<figure class="corealm-location-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<figure class="corealm-location-map corealm-location-map--wide" data-location-map
+ data-map-focus="22.167,16.485,77.333,83.394"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Interactive map of Corealm locations">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="#farm-road-end" style="--map-x:36.6667%;--map-y:72.4091%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Farm Road End, Farmland" title="Farm Road End, Farmland"><span>Farm Road End<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#millfield-south-gate" style="--map-x:36.6667%;--map-y:71.9545%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Millfield South Gate, Farmland" title="Millfield South Gate, Farmland"><span>Millfield South Gate<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#millfield-square" style="--map-x:36.6667%;--map-y:70.6818%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Millfield Square, Farmland" title="Millfield Square, Farmland"><span>Millfield Square<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#millfield-bank" style="--map-x:36.6667%;--map-y:71.0455%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Millfield Bank, Farmland" title="Millfield Bank, Farmland"><span>Millfield Bank<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#millfield-east-gate" style="--map-x:38.8333%;--map-y:70.6818%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Millfield East Gate, Farmland" title="Millfield East Gate, Farmland"><span>Millfield East Gate<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#the-broken-milestone" style="--map-x:41.0000%;--map-y:67.4091%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Broken Milestone, Farmland" title="The Broken Milestone, Farmland"><span>The Broken Milestone<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#copper-pit" style="--map-x:36.6667%;--map-y:63.4091%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:58.3182%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Farmland" title="Kiln Road South, Farmland"><span>Kiln Road South<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#pine-grove" style="--map-x:22.1667%;--map-y:69.9545%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Pine Grove, Farmland" title="Pine Grove, Farmland"><span>Pine Grove<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#river-shallows" style="--map-x:46.6667%;--map-y:69.7727%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="River Shallows, Farmland" title="River Shallows, Farmland"><span>River Shallows<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#river-crossing" style="--map-x:44.0000%;--map-y:73.6818%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="River Crossing, Farmland" title="River Crossing, Farmland"><span>River Crossing<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#farm-fields" style="--map-x:42.0000%;--map-y:68.0455%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Farm Fields, Farmland" title="Farm Fields, Farmland"><span>Farm Fields<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#west-track" style="--map-x:30.8333%;--map-y:69.7727%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="West Track, Farmland" title="West Track, Farmland"><span>West Track<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#open-meadow" style="--map-x:29.1667%;--map-y:65.6818%" data-map-side="right" data-map-kind="camp" data-map-marker aria-label="Open Meadow, Farmland" title="Open Meadow, Farmland"><span>Open Meadow<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#air-essence-cache" style="--map-x:29.1667%;--map-y:73.8636%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#north-gate" style="--map-x:47.8333%;--map-y:61.6818%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="North Gate, Farmland" title="North Gate, Farmland"><span>North Gate<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="#forest-gate" style="--map-x:49.0000%;--map-y:61.5000%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Forest Gate, Woodlands" title="Forest Gate, Woodlands"><span>Forest Gate<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#oakwood" style="--map-x:55.3333%;--map-y:61.2727%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Oakwood, Woodlands" title="Oakwood, Woodlands"><span>Oakwood<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#oakwood-bank-chest" style="--map-x:55.0000%;--map-y:61.2273%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Oakwood Bank Chest, Woodlands" title="Oakwood Bank Chest, Woodlands"><span>Oakwood Bank Chest<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#forest-quarry" style="--map-x:57.8333%;--map-y:60.4545%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Forest Quarry, Woodlands" title="Forest Quarry, Woodlands"><span>Forest Quarry<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#ash-grove" style="--map-x:51.1667%;--map-y:59.5000%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Ash Grove, Woodlands" title="Ash Grove, Woodlands"><span>Ash Grove<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#marsh-edge" style="--map-x:49.5000%;--map-y:61.5909%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Marsh Edge, Woodlands" title="Marsh Edge, Woodlands"><span>Marsh Edge<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#blackwater-pools" style="--map-x:60.6667%;--map-y:63.2273%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Blackwater Pools, Woodlands" title="Blackwater Pools, Woodlands"><span>Blackwater Pools<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#gorge-ford" style="--map-x:69.1667%;--map-y:65.0455%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Gorge Ford, Woodlands" title="Gorge Ford, Woodlands"><span>Gorge Ford<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#gorge-head" style="--map-x:58.6667%;--map-y:58.3182%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Gorge Head, Woodlands" title="Gorge Head, Woodlands"><span>Gorge Head<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#the-thicket" style="--map-x:66.3333%;--map-y:60.1364%" data-map-side="left" data-map-kind="camp" data-map-marker aria-label="The Thicket, Woodlands" title="The Thicket, Woodlands"><span>The Thicket<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#earth-essence-cache" style="--map-x:71.8333%;--map-y:59.0455%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Earth Essence Cache, Woodlands" title="Earth Essence Cache, Woodlands"><span>Earth Essence Cache<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#mountain-gate" style="--map-x:70.8333%;--map-y:65.9545%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Mountain Gate, Woodlands" title="Mountain Gate, Woodlands"><span>Mountain Gate<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#kiln-path" style="--map-x:62.5000%;--map-y:58.2273%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Kiln Path, Woodlands" title="Kiln Path, Woodlands"><span>Kiln Path<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#ash-border" style="--map-x:73.8333%;--map-y:58.2273%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ash Border, Woodlands" title="Ash Border, Woodlands"><span>Ash Border<small>Woodlands</small></span></a>
-<a class="corealm-map-marker" href="#highland-gate" style="--map-x:71.3333%;--map-y:66.8636%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Highland Gate, Highlands" title="Highland Gate, Highlands"><span>Highland Gate<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#moor-road-bend" style="--map-x:64.1667%;--map-y:67.3182%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Moor Road Bend, Highlands" title="Moor Road Bend, Highlands"><span>Moor Road Bend<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#lower-quarry" style="--map-x:61.6667%;--map-y:67.7727%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Lower Quarry, Highlands" title="Lower Quarry, Highlands"><span>Lower Quarry<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#stone-cavern" style="--map-x:53.8333%;--map-y:68.1364%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Stone Cavern, Highlands" title="Stone Cavern, Highlands"><span>Stone Cavern<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#hillcrest" style="--map-x:62.0000%;--map-y:70.0455%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Hillcrest, Highlands" title="Hillcrest, Highlands"><span>Hillcrest<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#hillcrest-bank" style="--map-x:62.5000%;--map-y:70.2273%" data-map-side="left" data-map-kind="bank" data-map-marker aria-label="Hillcrest Bank, Highlands" title="Hillcrest Bank, Highlands"><span>Hillcrest Bank<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#second-ramp" style="--map-x:58.3333%;--map-y:70.6818%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Second Ramp, Highlands" title="Second Ramp, Highlands"><span>Second Ramp<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#third-ramp" style="--map-x:59.8333%;--map-y:73.3182%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Third Ramp, Highlands" title="Third Ramp, Highlands"><span>Third Ramp<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#upper-cobalt-seam" style="--map-x:66.1667%;--map-y:73.0455%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Upper Cobalt Seam, Highlands" title="Upper Cobalt Seam, Highlands"><span>Upper Cobalt Seam<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#the-great-cairn" style="--map-x:61.6667%;--map-y:75.0455%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Great Cairn, Highlands" title="The Great Cairn, Highlands"><span>The Great Cairn<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#mountain-lakes" style="--map-x:67.1667%;--map-y:71.0455%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Mountain Lakes, Highlands" title="Mountain Lakes, Highlands"><span>Mountain Lakes<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#ridge-oaks" style="--map-x:70.8333%;--map-y:71.4091%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Ridge Oaks, Highlands" title="Ridge Oaks, Highlands"><span>Ridge Oaks<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#far-lake" style="--map-x:73.6667%;--map-y:72.0455%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Far Lake, Highlands" title="Far Lake, Highlands"><span>Far Lake<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#lake-trail" style="--map-x:75.0000%;--map-y:70.6818%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Lake Trail, Highlands" title="Lake Trail, Highlands"><span>Lake Trail<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#water-essence-cache" style="--map-x:77.3333%;--map-y:75.0455%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Water Essence Cache, Highlands" title="Water Essence Cache, Highlands"><span>Water Essence Cache<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:57.3182%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Ashlands" title="Kiln Road South, Ashlands"><span>Kiln Road South<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#ridge-track" style="--map-x:62.5000%;--map-y:57.3182%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ridge Track, Ashlands" title="Ridge Track, Ashlands"><span>Ridge Track<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#ash-border-track" style="--map-x:74.1667%;--map-y:57.3182%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ash Border Track, Ashlands" title="Ash Border Track, Ashlands"><span>Ash Border Track<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#kiln-road-fork" style="--map-x:50.0000%;--map-y:55.5000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road Fork, Ashlands" title="Kiln Road Fork, Ashlands"><span>Kiln Road Fork<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#south-bend" style="--map-x:53.3333%;--map-y:53.4091%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="South Bend, Ashlands" title="South Bend, Ashlands"><span>South Bend<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#ashford" style="--map-x:50.1667%;--map-y:52.2727%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Ashford, Ashlands" title="Ashford, Ashlands"><span>Ashford<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#ashford-bank" style="--map-x:50.6667%;--map-y:52.4545%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Ashford Bank, Ashlands" title="Ashford Bank, Ashlands"><span>Ashford Bank<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#ashford-gate" style="--map-x:52.0000%;--map-y:51.9091%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Ashford Gate, Ashlands" title="Ashford Gate, Ashlands"><span>Ashford Gate<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#quarry-postern" style="--map-x:48.0000%;--map-y:51.9091%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Quarry Postern, Ashlands" title="Quarry Postern, Ashlands"><span>Quarry Postern<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#volcanic-quarry" style="--map-x:29.1667%;--map-y:52.0455%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Volcanic Quarry, Ashlands" title="Volcanic Quarry, Ashlands"><span>Volcanic Quarry<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#hot-springs" style="--map-x:67.5000%;--map-y:55.6818%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Hot Springs, Ashlands" title="Hot Springs, Ashlands"><span>Hot Springs<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#walnut-grove" style="--map-x:70.0000%;--map-y:51.5909%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Walnut Grove, Ashlands" title="Walnut Grove, Ashlands"><span>Walnut Grove<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#fire-essence-cache" style="--map-x:74.1667%;--map-y:48.8636%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Essence Cache, Ashlands" title="Fire Essence Cache, Ashlands"><span>Fire Essence Cache<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#fire-ogre-arena" style="--map-x:73.8333%;--map-y:47.9545%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Ogre Arena, Ashlands" title="Fire Ogre Arena, Ashlands"><span>Fire Ogre Arena<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#north-road-bend" style="--map-x:55.3333%;--map-y:49.0909%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="North Road Bend, Ashlands" title="North Road Bend, Ashlands"><span>North Road Bend<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#north-ash-track" style="--map-x:55.3333%;--map-y:46.3636%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="North Ash Track, Ashlands" title="North Ash Track, Ashlands"><span>North Ash Track<small>Ashlands</small></span></a>
-<a class="corealm-map-marker" href="#last-light" style="--map-x:50.0000%;--map-y:45.1364%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Last Light, Wilderness" title="Last Light, Wilderness"><span>Last Light<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#broken-watch" style="--map-x:29.1667%;--map-y:43.4091%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Broken Watch, Wilderness" title="Broken Watch, Wilderness"><span>Broken Watch<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-unnamed-graves" style="--map-x:32.9167%;--map-y:40.4545%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Unnamed Graves, Wilderness" title="The Unnamed Graves, Wilderness"><span>The Unnamed Graves<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#black-knight-approach" style="--map-x:53.3333%;--map-y:42.1364%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Black Knight Approach, Wilderness" title="Black Knight Approach, Wilderness"><span>Black Knight Approach<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#black-knight-gate" style="--map-x:53.3333%;--map-y:40.6818%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Black Knight Gate, Wilderness" title="Black Knight Gate, Wilderness"><span>Black Knight Gate<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#black-knight-castle" style="--map-x:53.3333%;--map-y:39.7727%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Black Knight Castle, Wilderness" title="Black Knight Castle, Wilderness"><span>Black Knight Castle<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#petrified-grove" style="--map-x:71.2500%;--map-y:37.9545%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Petrified Grove, Wilderness" title="Petrified Grove, Wilderness"><span>Petrified Grove<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-silent-stones" style="--map-x:43.3333%;--map-y:36.1364%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Silent Stones, Wilderness" title="The Silent Stones, Wilderness"><span>The Silent Stones<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-nameless-abbey" style="--map-x:39.1667%;--map-y:39.3182%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Nameless Abbey, Wilderness" title="The Nameless Abbey, Wilderness"><span>The Nameless Abbey<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#cinderwatch-smithy" style="--map-x:60.8333%;--map-y:41.3636%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Cinderwatch Smithy, Wilderness" title="Cinderwatch Smithy, Wilderness"><span>Cinderwatch Smithy<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-broken-waterway" style="--map-x:32.9167%;--map-y:36.8182%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Broken Waterway, Wilderness" title="The Broken Waterway, Wilderness"><span>The Broken Waterway<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#widow-watch" style="--map-x:24.1667%;--map-y:40.9091%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Widow Watch, Wilderness" title="Widow Watch, Wilderness"><span>Widow Watch<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-cold-forge" style="--map-x:45.4167%;--map-y:36.5909%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Cold Forge, Wilderness" title="The Cold Forge, Wilderness"><span>The Cold Forge<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#hollow-choir-cloister" style="--map-x:75.4167%;--map-y:36.5909%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Hollow Choir Cloister, Wilderness" title="Hollow Choir Cloister, Wilderness"><span>Hollow Choir Cloister<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-empty-sluice" style="--map-x:69.1667%;--map-y:41.8182%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="The Empty Sluice, Wilderness" title="The Empty Sluice, Wilderness"><span>The Empty Sluice<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#cindervein-workings" style="--map-x:26.2500%;--map-y:36.1364%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Cindervein Workings, Wilderness" title="Cindervein Workings, Wilderness"><span>Cindervein Workings<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#nightglass-excavation" style="--map-x:73.7500%;--map-y:26.3636%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Nightglass Excavation, Wilderness" title="Nightglass Excavation, Wilderness"><span>Nightglass Excavation<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#lastroot-shelter" style="--map-x:26.2500%;--map-y:44.7727%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Lastroot Shelter, Wilderness" title="Lastroot Shelter, Wilderness"><span>Lastroot Shelter<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#ember-shelter" style="--map-x:73.3333%;--map-y:40.4545%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Ember Shelter, Wilderness" title="Ember Shelter, Wilderness"><span>Ember Shelter<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#starwood-hollow" style="--map-x:26.2500%;--map-y:28.4091%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Starwood Hollow, Wilderness" title="Starwood Hollow, Wilderness"><span>Starwood Hollow<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#moonvein-copse" style="--map-x:73.7500%;--map-y:32.7273%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Moonvein Copse, Wilderness" title="Moonvein Copse, Wilderness"><span>Moonvein Copse<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-east-rampart-road" style="--map-x:56.8333%;--map-y:42.0455%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The East Rampart Road, Wilderness" title="The East Rampart Road, Wilderness"><span>The East Rampart Road<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-north-rampart-road" style="--map-x:56.5000%;--map-y:37.1818%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The North Rampart Road, Wilderness" title="The North Rampart Road, Wilderness"><span>The North Rampart Road<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-grave-road" style="--map-x:46.2500%;--map-y:36.3636%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Grave Road, Wilderness" title="The Grave Road, Wilderness"><span>The Grave Road<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-cinder-crossing" style="--map-x:44.5833%;--map-y:35.6818%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Cinder Crossing, Wilderness" title="The Cinder Crossing, Wilderness"><span>The Cinder Crossing<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#foundry-west-track" style="--map-x:32.5000%;--map-y:35.7727%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Foundry West Track, Wilderness" title="Foundry West Track, Wilderness"><span>Foundry West Track<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#veilburn-east-bank" style="--map-x:61.1667%;--map-y:34.7727%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Veilburn East Bank, Wilderness" title="Veilburn East Bank, Wilderness"><span>Veilburn East Bank<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#nightforge-outer-road" style="--map-x:61.1667%;--map-y:27.5909%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Nightforge Outer Road, Wilderness" title="Nightforge Outer Road, Wilderness"><span>Nightforge Outer Road<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#beyond-the-cold-river" style="--map-x:62.0000%;--map-y:25.6818%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Beyond the Cold River, Wilderness" title="Beyond the Cold River, Wilderness"><span>Beyond the Cold River<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-starless-road" style="--map-x:51.2500%;--map-y:24.8636%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Starless Road, Wilderness" title="The Starless Road, Wilderness"><span>The Starless Road<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#the-violet-reach" style="--map-x:55.8333%;--map-y:34.6818%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Violet Reach, Wilderness" title="The Violet Reach, Wilderness"><span>The Violet Reach<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#cinder-chain-foundry" style="--map-x:32.8791%;--map-y:31.9215%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Cinder Chain Foundry, Wilderness" title="Cinder Chain Foundry, Wilderness"><span>Cinder Chain Foundry<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#nightforge-bastion" style="--map-x:64.1414%;--map-y:28.2896%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Nightforge Bastion, Wilderness" title="Nightforge Bastion, Wilderness"><span>Nightforge Bastion<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#hollow-star-sanctum" style="--map-x:48.5864%;--map-y:25.5510%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Hollow Star Sanctum, Wilderness" title="Hollow Star Sanctum, Wilderness"><span>Hollow Star Sanctum<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#ashseal-court" style="--map-x:35.7500%;--map-y:41.0000%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Ashseal Court, Wilderness" title="Ashseal Court, Wilderness"><span>Ashseal Court<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#furnace-throne" style="--map-x:62.9167%;--map-y:35.5000%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Furnace Throne, Wilderness" title="Furnace Throne, Wilderness"><span>Furnace Throne<small>Wilderness</small></span></a>
-<a class="corealm-map-marker" href="#widows-furnace" style="--map-x:64.8333%;--map-y:38.0455%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Widow's Furnace, Wilderness" title="Widow's Furnace, Wilderness"><span>Widow's Furnace<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#farm-road-end" style="--map-x:36.6667%;--map-y:79.8788%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Farm Road End, Farmland" title="Farm Road End, Farmland"><span>Farm Road End<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-south-gate" style="--map-x:36.6667%;--map-y:79.2727%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Millfield South Gate, Farmland" title="Millfield South Gate, Farmland"><span>Millfield South Gate<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-square" style="--map-x:36.6667%;--map-y:77.5758%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Millfield Square, Farmland" title="Millfield Square, Farmland"><span>Millfield Square<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-bank" style="--map-x:36.6667%;--map-y:78.0606%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Millfield Bank, Farmland" title="Millfield Bank, Farmland"><span>Millfield Bank<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-east-gate" style="--map-x:38.8333%;--map-y:77.5758%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Millfield East Gate, Farmland" title="Millfield East Gate, Farmland"><span>Millfield East Gate<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#the-broken-milestone" style="--map-x:41.0000%;--map-y:73.2121%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Broken Milestone, Farmland" title="The Broken Milestone, Farmland"><span>The Broken Milestone<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#copper-pit" style="--map-x:36.6667%;--map-y:67.8788%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:61.0909%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Farmland" title="Kiln Road South, Farmland"><span>Kiln Road South<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#pine-grove" style="--map-x:22.1667%;--map-y:76.6061%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Pine Grove, Farmland" title="Pine Grove, Farmland"><span>Pine Grove<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#river-shallows" style="--map-x:46.6667%;--map-y:76.3636%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="River Shallows, Farmland" title="River Shallows, Farmland"><span>River Shallows<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#river-crossing" style="--map-x:44.0000%;--map-y:81.5758%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="River Crossing, Farmland" title="River Crossing, Farmland"><span>River Crossing<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#farm-fields" style="--map-x:42.0000%;--map-y:74.0606%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Farm Fields, Farmland" title="Farm Fields, Farmland"><span>Farm Fields<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#west-track" style="--map-x:30.8333%;--map-y:76.3636%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="West Track, Farmland" title="West Track, Farmland"><span>West Track<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#open-meadow" style="--map-x:29.1667%;--map-y:70.9091%" data-map-side="right" data-map-kind="camp" data-map-marker aria-label="Open Meadow, Farmland" title="Open Meadow, Farmland"><span>Open Meadow<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#air-essence-cache" style="--map-x:29.1667%;--map-y:81.8182%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#north-gate" style="--map-x:47.8333%;--map-y:65.5758%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="North Gate, Farmland" title="North Gate, Farmland"><span>North Gate<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#forest-gate" style="--map-x:49.0000%;--map-y:65.3333%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Forest Gate, Woodlands" title="Forest Gate, Woodlands"><span>Forest Gate<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#oakwood" style="--map-x:55.3333%;--map-y:65.0303%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Oakwood, Woodlands" title="Oakwood, Woodlands"><span>Oakwood<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#oakwood-bank-chest" style="--map-x:55.0000%;--map-y:64.9697%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Oakwood Bank Chest, Woodlands" title="Oakwood Bank Chest, Woodlands"><span>Oakwood Bank Chest<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#forest-quarry" style="--map-x:57.8333%;--map-y:63.9394%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Forest Quarry, Woodlands" title="Forest Quarry, Woodlands"><span>Forest Quarry<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#ash-grove" style="--map-x:51.1667%;--map-y:62.6667%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Ash Grove, Woodlands" title="Ash Grove, Woodlands"><span>Ash Grove<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#marsh-edge" style="--map-x:49.5000%;--map-y:65.4545%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Marsh Edge, Woodlands" title="Marsh Edge, Woodlands"><span>Marsh Edge<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#blackwater-pools" style="--map-x:60.6667%;--map-y:67.6364%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Blackwater Pools, Woodlands" title="Blackwater Pools, Woodlands"><span>Blackwater Pools<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#gorge-ford" style="--map-x:69.1667%;--map-y:70.0606%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Gorge Ford, Woodlands" title="Gorge Ford, Woodlands"><span>Gorge Ford<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#gorge-head" style="--map-x:58.6667%;--map-y:61.0909%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Gorge Head, Woodlands" title="Gorge Head, Woodlands"><span>Gorge Head<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#the-thicket" style="--map-x:66.3333%;--map-y:63.5152%" data-map-side="left" data-map-kind="camp" data-map-marker aria-label="The Thicket, Woodlands" title="The Thicket, Woodlands"><span>The Thicket<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#earth-essence-cache" style="--map-x:71.8333%;--map-y:62.0606%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Earth Essence Cache, Woodlands" title="Earth Essence Cache, Woodlands"><span>Earth Essence Cache<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#mountain-gate" style="--map-x:70.8333%;--map-y:71.2727%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Mountain Gate, Woodlands" title="Mountain Gate, Woodlands"><span>Mountain Gate<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#kiln-path" style="--map-x:62.5000%;--map-y:60.9697%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Kiln Path, Woodlands" title="Kiln Path, Woodlands"><span>Kiln Path<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#ash-border" style="--map-x:73.8333%;--map-y:60.9697%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ash Border, Woodlands" title="Ash Border, Woodlands"><span>Ash Border<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#highland-gate" style="--map-x:71.3333%;--map-y:72.4848%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Highland Gate, Highlands" title="Highland Gate, Highlands"><span>Highland Gate<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#moor-road-bend" style="--map-x:64.1667%;--map-y:73.0909%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Moor Road Bend, Highlands" title="Moor Road Bend, Highlands"><span>Moor Road Bend<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#lower-quarry" style="--map-x:61.6667%;--map-y:73.6970%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Lower Quarry, Highlands" title="Lower Quarry, Highlands"><span>Lower Quarry<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#stone-cavern" style="--map-x:53.8333%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Stone Cavern, Highlands" title="Stone Cavern, Highlands"><span>Stone Cavern<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#hillcrest" style="--map-x:62.0000%;--map-y:76.7273%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Hillcrest, Highlands" title="Hillcrest, Highlands"><span>Hillcrest<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#hillcrest-bank" style="--map-x:62.5000%;--map-y:76.9697%" data-map-side="left" data-map-kind="bank" data-map-marker aria-label="Hillcrest Bank, Highlands" title="Hillcrest Bank, Highlands"><span>Hillcrest Bank<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#second-ramp" style="--map-x:58.3333%;--map-y:77.5758%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Second Ramp, Highlands" title="Second Ramp, Highlands"><span>Second Ramp<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#third-ramp" style="--map-x:59.8333%;--map-y:81.0909%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Third Ramp, Highlands" title="Third Ramp, Highlands"><span>Third Ramp<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#upper-cobalt-seam" style="--map-x:66.1667%;--map-y:80.7273%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Upper Cobalt Seam, Highlands" title="Upper Cobalt Seam, Highlands"><span>Upper Cobalt Seam<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#the-great-cairn" style="--map-x:61.6667%;--map-y:83.3939%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Great Cairn, Highlands" title="The Great Cairn, Highlands"><span>The Great Cairn<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#mountain-lakes" style="--map-x:67.1667%;--map-y:78.0606%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Mountain Lakes, Highlands" title="Mountain Lakes, Highlands"><span>Mountain Lakes<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#ridge-oaks" style="--map-x:70.8333%;--map-y:78.5455%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Ridge Oaks, Highlands" title="Ridge Oaks, Highlands"><span>Ridge Oaks<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#far-lake" style="--map-x:73.6667%;--map-y:79.3939%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Far Lake, Highlands" title="Far Lake, Highlands"><span>Far Lake<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#lake-trail" style="--map-x:75.0000%;--map-y:77.5758%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Lake Trail, Highlands" title="Lake Trail, Highlands"><span>Lake Trail<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#water-essence-cache" style="--map-x:77.3333%;--map-y:83.3939%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Water Essence Cache, Highlands" title="Water Essence Cache, Highlands"><span>Water Essence Cache<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:59.7576%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Ashlands" title="Kiln Road South, Ashlands"><span>Kiln Road South<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ridge-track" style="--map-x:62.5000%;--map-y:59.7576%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ridge Track, Ashlands" title="Ridge Track, Ashlands"><span>Ridge Track<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ash-border-track" style="--map-x:74.1667%;--map-y:59.7576%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ash Border Track, Ashlands" title="Ash Border Track, Ashlands"><span>Ash Border Track<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#kiln-road-fork" style="--map-x:50.0000%;--map-y:57.3333%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road Fork, Ashlands" title="Kiln Road Fork, Ashlands"><span>Kiln Road Fork<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#south-bend" style="--map-x:53.3333%;--map-y:54.5455%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="South Bend, Ashlands" title="South Bend, Ashlands"><span>South Bend<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ashford" style="--map-x:50.1667%;--map-y:53.0303%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Ashford, Ashlands" title="Ashford, Ashlands"><span>Ashford<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ashford-bank" style="--map-x:50.6667%;--map-y:53.2727%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Ashford Bank, Ashlands" title="Ashford Bank, Ashlands"><span>Ashford Bank<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ashford-gate" style="--map-x:52.0000%;--map-y:52.5455%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Ashford Gate, Ashlands" title="Ashford Gate, Ashlands"><span>Ashford Gate<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#quarry-postern" style="--map-x:48.0000%;--map-y:52.5455%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Quarry Postern, Ashlands" title="Quarry Postern, Ashlands"><span>Quarry Postern<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#volcanic-quarry" style="--map-x:29.1667%;--map-y:52.7273%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Volcanic Quarry, Ashlands" title="Volcanic Quarry, Ashlands"><span>Volcanic Quarry<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#hot-springs" style="--map-x:67.5000%;--map-y:57.5758%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Hot Springs, Ashlands" title="Hot Springs, Ashlands"><span>Hot Springs<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#walnut-grove" style="--map-x:70.0000%;--map-y:52.1212%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Walnut Grove, Ashlands" title="Walnut Grove, Ashlands"><span>Walnut Grove<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#fire-essence-cache" style="--map-x:74.1667%;--map-y:48.4848%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Essence Cache, Ashlands" title="Fire Essence Cache, Ashlands"><span>Fire Essence Cache<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#fire-ogre-arena" style="--map-x:73.8333%;--map-y:47.2727%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Ogre Arena, Ashlands" title="Fire Ogre Arena, Ashlands"><span>Fire Ogre Arena<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#north-road-bend" style="--map-x:55.3333%;--map-y:48.7879%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="North Road Bend, Ashlands" title="North Road Bend, Ashlands"><span>North Road Bend<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#north-ash-track" style="--map-x:55.3333%;--map-y:45.1515%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="North Ash Track, Ashlands" title="North Ash Track, Ashlands"><span>North Ash Track<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#last-light" style="--map-x:50.0000%;--map-y:43.5152%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Last Light, Wilderness" title="Last Light, Wilderness"><span>Last Light<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#broken-watch" style="--map-x:29.1667%;--map-y:41.2121%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Broken Watch, Wilderness" title="Broken Watch, Wilderness"><span>Broken Watch<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-unnamed-graves" style="--map-x:32.9167%;--map-y:37.2727%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Unnamed Graves, Wilderness" title="The Unnamed Graves, Wilderness"><span>The Unnamed Graves<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#black-knight-approach" style="--map-x:53.3333%;--map-y:39.5152%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Black Knight Approach, Wilderness" title="Black Knight Approach, Wilderness"><span>Black Knight Approach<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#black-knight-gate" style="--map-x:53.3333%;--map-y:37.5758%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Black Knight Gate, Wilderness" title="Black Knight Gate, Wilderness"><span>Black Knight Gate<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#black-knight-castle" style="--map-x:53.3333%;--map-y:36.3636%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Black Knight Castle, Wilderness" title="Black Knight Castle, Wilderness"><span>Black Knight Castle<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#petrified-grove" style="--map-x:71.2500%;--map-y:33.9394%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Petrified Grove, Wilderness" title="Petrified Grove, Wilderness"><span>Petrified Grove<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-silent-stones" style="--map-x:43.3333%;--map-y:31.5152%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Silent Stones, Wilderness" title="The Silent Stones, Wilderness"><span>The Silent Stones<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-nameless-abbey" style="--map-x:39.1667%;--map-y:35.7576%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Nameless Abbey, Wilderness" title="The Nameless Abbey, Wilderness"><span>The Nameless Abbey<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#cinderwatch-smithy" style="--map-x:60.8333%;--map-y:38.4848%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Cinderwatch Smithy, Wilderness" title="Cinderwatch Smithy, Wilderness"><span>Cinderwatch Smithy<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-broken-waterway" style="--map-x:32.9167%;--map-y:32.4242%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Broken Waterway, Wilderness" title="The Broken Waterway, Wilderness"><span>The Broken Waterway<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#widow-watch" style="--map-x:24.1667%;--map-y:37.8788%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Widow Watch, Wilderness" title="Widow Watch, Wilderness"><span>Widow Watch<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-cold-forge" style="--map-x:45.4167%;--map-y:32.1212%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Cold Forge, Wilderness" title="The Cold Forge, Wilderness"><span>The Cold Forge<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#hollow-choir-cloister" style="--map-x:75.4167%;--map-y:32.1212%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Hollow Choir Cloister, Wilderness" title="Hollow Choir Cloister, Wilderness"><span>Hollow Choir Cloister<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-empty-sluice" style="--map-x:69.1667%;--map-y:39.0909%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="The Empty Sluice, Wilderness" title="The Empty Sluice, Wilderness"><span>The Empty Sluice<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#cindervein-workings" style="--map-x:26.2500%;--map-y:31.5152%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Cindervein Workings, Wilderness" title="Cindervein Workings, Wilderness"><span>Cindervein Workings<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#nightglass-excavation" style="--map-x:73.7500%;--map-y:18.4848%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Nightglass Excavation, Wilderness" title="Nightglass Excavation, Wilderness"><span>Nightglass Excavation<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#lastroot-shelter" style="--map-x:26.2500%;--map-y:43.0303%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Lastroot Shelter, Wilderness" title="Lastroot Shelter, Wilderness"><span>Lastroot Shelter<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#ember-shelter" style="--map-x:73.3333%;--map-y:37.2727%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Ember Shelter, Wilderness" title="Ember Shelter, Wilderness"><span>Ember Shelter<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#starwood-hollow" style="--map-x:26.2500%;--map-y:21.2121%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Starwood Hollow, Wilderness" title="Starwood Hollow, Wilderness"><span>Starwood Hollow<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#moonvein-copse" style="--map-x:73.7500%;--map-y:26.9697%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Moonvein Copse, Wilderness" title="Moonvein Copse, Wilderness"><span>Moonvein Copse<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-east-rampart-road" style="--map-x:56.8333%;--map-y:39.3939%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The East Rampart Road, Wilderness" title="The East Rampart Road, Wilderness"><span>The East Rampart Road<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-north-rampart-road" style="--map-x:56.5000%;--map-y:32.9091%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The North Rampart Road, Wilderness" title="The North Rampart Road, Wilderness"><span>The North Rampart Road<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-grave-road" style="--map-x:46.2500%;--map-y:31.8182%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Grave Road, Wilderness" title="The Grave Road, Wilderness"><span>The Grave Road<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-cinder-crossing" style="--map-x:44.5833%;--map-y:30.9091%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Cinder Crossing, Wilderness" title="The Cinder Crossing, Wilderness"><span>The Cinder Crossing<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#foundry-west-track" style="--map-x:32.5000%;--map-y:31.0303%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Foundry West Track, Wilderness" title="Foundry West Track, Wilderness"><span>Foundry West Track<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#veilburn-east-bank" style="--map-x:61.1667%;--map-y:29.6970%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Veilburn East Bank, Wilderness" title="Veilburn East Bank, Wilderness"><span>Veilburn East Bank<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#nightforge-outer-road" style="--map-x:61.1667%;--map-y:20.1212%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Nightforge Outer Road, Wilderness" title="Nightforge Outer Road, Wilderness"><span>Nightforge Outer Road<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#beyond-the-cold-river" style="--map-x:62.0000%;--map-y:17.5758%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Beyond the Cold River, Wilderness" title="Beyond the Cold River, Wilderness"><span>Beyond the Cold River<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-starless-road" style="--map-x:51.2500%;--map-y:16.4848%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Starless Road, Wilderness" title="The Starless Road, Wilderness"><span>The Starless Road<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#the-violet-reach" style="--map-x:55.8333%;--map-y:29.5758%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="The Violet Reach, Wilderness" title="The Violet Reach, Wilderness"><span>The Violet Reach<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#cinder-chain-foundry" style="--map-x:32.8791%;--map-y:25.8953%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Cinder Chain Foundry, Wilderness" title="Cinder Chain Foundry, Wilderness"><span>Cinder Chain Foundry<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#nightforge-bastion" style="--map-x:64.1414%;--map-y:21.0528%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Nightforge Bastion, Wilderness" title="Nightforge Bastion, Wilderness"><span>Nightforge Bastion<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#hollow-star-sanctum" style="--map-x:48.5864%;--map-y:17.4013%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Hollow Star Sanctum, Wilderness" title="Hollow Star Sanctum, Wilderness"><span>Hollow Star Sanctum<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#ashseal-court" style="--map-x:35.7500%;--map-y:38.0000%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Ashseal Court, Wilderness" title="Ashseal Court, Wilderness"><span>Ashseal Court<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#furnace-throne" style="--map-x:62.9167%;--map-y:30.6667%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Furnace Throne, Wilderness" title="Furnace Throne, Wilderness"><span>Furnace Throne<small>Wilderness</small></span></a>
+<a class="corealm-map-marker" href="#widows-furnace" style="--map-x:64.8333%;--map-y:34.0606%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Widow's Furnace, Wilderness" title="Widow's Furnace, Wilderness"><span>Widow's Furnace<small>Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -114,857 +116,162 @@ description: "Corealm's regions, settlements, routes, landmarks, gathering sites
 </div>
 <button class="corealm-map-expand" type="button" data-map-action="expand" aria-label="Expand map" aria-pressed="false" title="Expand map">&#x26F6;</button>
 </div>
-<figcaption>Drag to pan. Scroll or use + and - to zoom. The Gravelmaw rooms lie below its entrance marker.</figcaption>
+<figcaption>Drag to pan. Scroll or use + and - to zoom. Press the expand control for a full-screen map. The Gravelmaw rooms lie below its entrance marker.</figcaption>
 </figure>
 
 ## Farmland
 
+<span class="codex-tags"><span class="codex-tag">Tier 1</span><span class="codex-tag">Settlement: Millfield</span><span class="codex-tag">16 places</span></span>
+
 The last surveyed land before the maps stop being useful. Two generations ago the Trade Company drove a road north, planted a bank vault at the end of it, walled a town around the vault, and then stopped answering letters. What is left is Millfield: two hundred people pulling Copper ore out of a shallow pit and pretending the wind off the northern moor does not sound like anything.
 
-Tier 1. Settlement: **Millfield**.
-
-### Farm Road End
-
-![Farm Road End](./assets/captures/locations/spawn.webp)
-
-Where the Trade Company road gives out, a stone throw south of Millfield.
-
-**Tier:** 1 · **Type:** junction
-
-### Millfield South Gate
-
-![Millfield South Gate](./assets/captures/locations/town_entrance.webp)
-
-The south gate of Millfield. The only one the carters use.
-
-**Tier:** 1 · **Type:** gate
-
-### Millfield Square
-
-![Millfield Square](./assets/captures/locations/town_center.webp)
-
-The town square, built around the Trade Company vault.
-
-**Tier:** 1 · **Type:** settlement
-
-### Millfield Bank
-
-![Millfield Bank](./assets/captures/locations/bank_interior.webp)
-
-The Trade Company vault counter. Twelve windows, one very deep store.
-
-**Tier:** 1 · **Type:** bank
-
-### Millfield East Gate
-
-![Millfield East Gate](./assets/captures/locations/coldbrace_east_gate.webp)
-
-The gate the pit road leaves by.
-
-**Tier:** 1 · **Type:** gate
-
-### The Broken Milestone
-
-![The Broken Milestone](./assets/captures/locations/north_milestone.webp)
-
-A snapped Trade Company marker where the pit road bends around the rise.
-
-**Tier:** 1 · **Type:** landmark
-
-### Copper Pit
-
-![Copper Pit](./assets/captures/locations/bracken_pit.webp)
-
-A shallow Copper pit 160 m north of Millfield. Six seams and two stone faces.
-
-**Tier:** 1 · **Type:** seam
-
-### Kiln Road South
-
-
-
-Where the pit track runs on toward the ember foothills. No gate; the border is open ground.
-
-**Tier:** 1 · **Type:** junction
-
-### Pine Grove
-
-![Pine Grove](./assets/captures/locations/palewood_copse.webp)
-
-Eight pine trees on the western track. The only shade on the plain.
-
-**Tier:** 1 · **Type:** grove
-
-### River Shallows
-
-![River Shallows](./assets/captures/locations/redsill_shallows.webp)
-
-Where Iron Brook runs thin over red silt. Minnow water.
-
-**Tier:** 1 · **Type:** water
-
-### River Crossing
-
-![River Crossing](./assets/captures/locations/corven_ford.webp)
-
-The only cart crossing of Iron Brook, well south of the shallows.
-
-**Tier:** 1 · **Type:** junction
-
-### Farm Fields
-
-
-
-A weathered homestead with two fenced yards inside the old wall line.
-
-**Tier:** 1 · **Type:** landmark
-
-### West Track
-
-![West Track](./assets/captures/locations/west_track.webp)
-
-Where the copse track leaves the town road.
-
-**Tier:** 1 · **Type:** junction
-
-### Open Meadow
-
-![Open Meadow](./assets/captures/locations/open_march_camp.webp)
-
-Open tussock. Frogs down in the wet, billy goats on the rise.
-
-**Tier:** 1 · **Type:** camp
-
-### Air Essence Cache
-
-![Air Essence Cache](./assets/captures/locations/fallowmarch_air_cache.webp)
-
-A wind-scoured stone cache far beyond the west track, bright with trapped air essence.
-
-**Tier:** 1 · **Type:** landmark
-
-### North Gate
-
-![North Gate](./assets/captures/locations/fallowmarch_north_gate.webp)
-
-The top of the Farm Road, and the way into Woodlands.
-
-**Tier:** 1 · **Type:** gate
+<div class="codex-grid">
+<div class="codex-card codex-card--place" id="farm-road-end"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/spawn.webp" alt="Farm Road End in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 1</span><span class="codex-card__title">Farm Road End</span><span class="codex-card__body">Where the Trade Company road gives out, a stone throw south of Millfield.</span></span></div>
+<div class="codex-card codex-card--place" id="millfield-south-gate"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/town_entrance.webp" alt="Millfield South Gate in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 1</span><span class="codex-card__title">Millfield South Gate</span><span class="codex-card__body">The south gate of Millfield. The only one the carters use.</span></span></div>
+<div class="codex-card codex-card--place" id="millfield-square"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/town_center.webp" alt="Millfield Square in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">settlement · Tier 1</span><span class="codex-card__title">Millfield Square</span><span class="codex-card__body">The town square, built around the Trade Company vault.</span></span></div>
+<div class="codex-card codex-card--place" id="millfield-bank"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/bank_interior.webp" alt="Millfield Bank in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">bank · Tier 1</span><span class="codex-card__title">Millfield Bank</span><span class="codex-card__body">The Trade Company vault counter. Twelve windows, one very deep store.</span></span></div>
+<div class="codex-card codex-card--place" id="millfield-east-gate"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/coldbrace_east_gate.webp" alt="Millfield East Gate in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 1</span><span class="codex-card__title">Millfield East Gate</span><span class="codex-card__body">The gate the pit road leaves by.</span></span></div>
+<div class="codex-card codex-card--place" id="the-broken-milestone"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/north_milestone.webp" alt="The Broken Milestone in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 1</span><span class="codex-card__title">The Broken Milestone</span><span class="codex-card__body">A snapped Trade Company marker where the pit road bends around the rise.</span></span></div>
+<div class="codex-card codex-card--place" id="copper-pit"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/bracken_pit.webp" alt="Copper Pit in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 1</span><span class="codex-card__title">Copper Pit</span><span class="codex-card__body">A shallow Copper pit 160 m north of Millfield. Six seams and two stone faces.</span></span></div>
+<div class="codex-card codex-card--place" id="kiln-road-south"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 1</span><span class="codex-card__title">Kiln Road South</span><span class="codex-card__body">Where the pit track runs on toward the ember foothills. No gate; the border is open ground.</span></span></div>
+<div class="codex-card codex-card--place" id="pine-grove"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/palewood_copse.webp" alt="Pine Grove in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 1</span><span class="codex-card__title">Pine Grove</span><span class="codex-card__body">Eight pine trees on the western track. The only shade on the plain.</span></span></div>
+<div class="codex-card codex-card--place" id="river-shallows"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/redsill_shallows.webp" alt="River Shallows in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">water · Tier 1</span><span class="codex-card__title">River Shallows</span><span class="codex-card__body">Where Iron Brook runs thin over red silt. Minnow water.</span></span></div>
+<div class="codex-card codex-card--place" id="river-crossing"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/corven_ford.webp" alt="River Crossing in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 1</span><span class="codex-card__title">River Crossing</span><span class="codex-card__body">The only cart crossing of Iron Brook, well south of the shallows.</span></span></div>
+<div class="codex-card codex-card--place" id="farm-fields"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 1</span><span class="codex-card__title">Farm Fields</span><span class="codex-card__body">A weathered homestead with two fenced yards inside the old wall line.</span></span></div>
+<div class="codex-card codex-card--place" id="west-track"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/west_track.webp" alt="West Track in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 1</span><span class="codex-card__title">West Track</span><span class="codex-card__body">Where the copse track leaves the town road.</span></span></div>
+<div class="codex-card codex-card--place" id="open-meadow"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/open_march_camp.webp" alt="Open Meadow in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">camp · Tier 1</span><span class="codex-card__title">Open Meadow</span><span class="codex-card__body">Open tussock. Frogs down in the wet, billy goats on the rise.</span></span></div>
+<div class="codex-card codex-card--place" id="air-essence-cache"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/fallowmarch_air_cache.webp" alt="Air Essence Cache in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 1</span><span class="codex-card__title">Air Essence Cache</span><span class="codex-card__body">A wind-scoured stone cache far beyond the west track, bright with trapped air essence.</span></span></div>
+<div class="codex-card codex-card--place" id="north-gate"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/fallowmarch_north_gate.webp" alt="North Gate in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 1</span><span class="codex-card__title">North Gate</span><span class="codex-card__body">The top of the Farm Road, and the way into Woodlands.</span></span></div>
+</div>
 
 
 ## Woodlands
 
+<span class="codex-tags"><span class="codex-tag">Tier 5</span><span class="codex-tag">Settlement: Oakwood</span><span class="codex-tag">14 places</span></span>
+
 Within two hundred metres of the gate the sky closes. The Ash here are old enough that the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only settlement: nine buildings and a bank chest built on and around a stump so large the stump is the town square. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.
 
-Tier 5. Settlement: **Oakwood**.
-
-### Forest Gate
-
-![Forest Gate](./assets/captures/locations/vellenwood_marchgate.webp)
-
-Woodlands's gate onto the Farm Road. Named for the direction, not the compass.
-
-**Tier:** 5 · **Type:** gate
-
-### Oakwood
-
-![Oakwood](./assets/captures/locations/rootfall_hamlet.webp)
-
-Nine buildings around a Ash stump the size of a square.
-
-**Tier:** 5 · **Type:** settlement
-
-### Oakwood Bank Chest
-
-![Oakwood Bank Chest](./assets/captures/locations/rootfall_bank.webp)
-
-One chest, set into the stump. Thirty-eight metres from the Forest Quarry.
-
-**Tier:** 5 · **Type:** bank
-
-### Forest Quarry
-
-![Forest Quarry](./assets/captures/locations/hollowcut_seam.webp)
-
-Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10.
-
-**Tier:** 5 · **Type:** seam
-
-### Ash Grove
-
-![Ash Grove](./assets/captures/locations/vellenwood_canopy.webp)
-
-Ten ash trees. The canopy closes hard enough here that pathing is the puzzle.
-
-**Tier:** 5 · **Type:** grove
-
-### Marsh Edge
-
-![Marsh Edge](./assets/captures/locations/mire_skirt.webp)
-
-The long dry way around the standing water below the stand.
-
-**Tier:** 5 · **Type:** junction
-
-### Blackwater Pools
-
-![Blackwater Pools](./assets/captures/locations/blackwater_pools.webp)
-
-Five pools, deeper than they look. Trout.
-
-**Tier:** 5 · **Type:** water
-
-### Gorge Ford
-
-![Gorge Ford](./assets/captures/locations/gorge_ford.webp)
-
-The southern crossing of the gorge. Slow, wet, and the only way across without Agility.
-
-**Tier:** 5 · **Type:** junction
-
-### Gorge Head
-
-![Gorge Head](./assets/captures/locations/gorge_head.webp)
-
-Where the gorge peters out against the northern ridge.
-
-**Tier:** 5 · **Type:** junction
-
-### The Thicket
-
-![The Thicket](./assets/captures/locations/thornline_camp.webp)
-
-The edge the vipers keep to. They do not enter the clearings and nobody says why.
-
-**Tier:** 5 · **Type:** camp
-
-### Earth Essence Cache
-
-![Earth Essence Cache](./assets/captures/locations/vellenwood_earth_cache.webp)
-
-An old stone heart under the eastern canopy, split through with earth essence.
-
-**Tier:** 5 · **Type:** landmark
-
-### Mountain Gate
-
-![Mountain Gate](./assets/captures/locations/vellenwood_east_gate.webp)
-
-The east gate. On a clear day you can see the Highlands ridge from it.
-
-**Tier:** 5 · **Type:** gate
-
-### Kiln Path
-
-
-
-A foot track over the northern ridge toward the ember foothills. No gate; it never needed one.
-
-**Tier:** 5 · **Type:** junction
-
-### Ash Border
-
-
-
-The canopy's last shade line. North of here the trees stand scorched and far apart.
-
-**Tier:** 5 · **Type:** junction
+<div class="codex-grid">
+<div class="codex-card codex-card--place" id="forest-gate"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/vellenwood_marchgate.webp" alt="Forest Gate in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 5</span><span class="codex-card__title">Forest Gate</span><span class="codex-card__body">Woodlands's gate onto the Farm Road. Named for the direction, not the compass.</span></span></div>
+<div class="codex-card codex-card--place" id="oakwood"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/rootfall_hamlet.webp" alt="Oakwood in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">settlement · Tier 5</span><span class="codex-card__title">Oakwood</span><span class="codex-card__body">Nine buildings around a Ash stump the size of a square.</span></span></div>
+<div class="codex-card codex-card--place" id="oakwood-bank-chest"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/rootfall_bank.webp" alt="Oakwood Bank Chest in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">bank · Tier 5</span><span class="codex-card__title">Oakwood Bank Chest</span><span class="codex-card__body">One chest, set into the stump. Thirty-eight metres from the Forest Quarry.</span></span></div>
+<div class="codex-card codex-card--place" id="forest-quarry"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/hollowcut_seam.webp" alt="Forest Quarry in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 5</span><span class="codex-card__title">Forest Quarry</span><span class="codex-card__body">Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10.</span></span></div>
+<div class="codex-card codex-card--place" id="ash-grove"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/vellenwood_canopy.webp" alt="Ash Grove in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 5</span><span class="codex-card__title">Ash Grove</span><span class="codex-card__body">Ten ash trees. The canopy closes hard enough here that pathing is the puzzle.</span></span></div>
+<div class="codex-card codex-card--place" id="marsh-edge"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/mire_skirt.webp" alt="Marsh Edge in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 5</span><span class="codex-card__title">Marsh Edge</span><span class="codex-card__body">The long dry way around the standing water below the stand.</span></span></div>
+<div class="codex-card codex-card--place" id="blackwater-pools"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/blackwater_pools.webp" alt="Blackwater Pools in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">water · Tier 5</span><span class="codex-card__title">Blackwater Pools</span><span class="codex-card__body">Five pools, deeper than they look. Trout.</span></span></div>
+<div class="codex-card codex-card--place" id="gorge-ford"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gorge_ford.webp" alt="Gorge Ford in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 5</span><span class="codex-card__title">Gorge Ford</span><span class="codex-card__body">The southern crossing of the gorge. Slow, wet, and the only way across without Agility.</span></span></div>
+<div class="codex-card codex-card--place" id="gorge-head"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gorge_head.webp" alt="Gorge Head in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 5</span><span class="codex-card__title">Gorge Head</span><span class="codex-card__body">Where the gorge peters out against the northern ridge.</span></span></div>
+<div class="codex-card codex-card--place" id="the-thicket"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/thornline_camp.webp" alt="The Thicket in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">camp · Tier 5</span><span class="codex-card__title">The Thicket</span><span class="codex-card__body">The edge the vipers keep to. They do not enter the clearings and nobody says why.</span></span></div>
+<div class="codex-card codex-card--place" id="earth-essence-cache"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/vellenwood_earth_cache.webp" alt="Earth Essence Cache in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 5</span><span class="codex-card__title">Earth Essence Cache</span><span class="codex-card__body">An old stone heart under the eastern canopy, split through with earth essence.</span></span></div>
+<div class="codex-card codex-card--place" id="mountain-gate"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/vellenwood_east_gate.webp" alt="Mountain Gate in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 5</span><span class="codex-card__title">Mountain Gate</span><span class="codex-card__body">The east gate. On a clear day you can see the Highlands ridge from it.</span></span></div>
+<div class="codex-card codex-card--place" id="kiln-path"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 5</span><span class="codex-card__title">Kiln Path</span><span class="codex-card__body">A foot track over the northern ridge toward the ember foothills. No gate; it never needed one.</span></span></div>
+<div class="codex-card codex-card--place" id="ash-border"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 5</span><span class="codex-card__title">Ash Border</span><span class="codex-card__body">The canopy's last shade line. North of here the trees stand scorched and far apart.</span></span></div>
+</div>
 
 
 ## Highlands
 
+<span class="codex-tags"><span class="codex-tag">Tier 10</span><span class="codex-tag">Settlement: Hillcrest</span><span class="codex-tag">15 places</span></span>
+
 Farmland tilted sixty degrees with the soil taken away. The moor climbs in terraces of grey slate and every flat surface on it is covered in cairns nobody in Hillcrest built and nobody in Hillcrest will move. The outpost is a quarry camp with a wall, kept alive by Cobalt and by the fact that the crew stopped digging six months ago. What they hit was the Stone Cavern. They have a rota for who watches the entrance. They have never discussed sealing it.
 
-Tier 10. Settlement: **Hillcrest**.
-
-### Highland Gate
-
-![Highland Gate](./assets/captures/locations/karrowmoor_north_gate.webp)
-
-Where the Woodlands road tips over onto the first terrace.
-
-**Tier:** 10 · **Type:** gate
-
-### Moor Road Bend
-
-![Moor Road Bend](./assets/captures/locations/moor_road_bend.webp)
-
-The quarry road forks here: down to the Lower Quarry, or up to Hillcrest.
-
-**Tier:** 10 · **Type:** junction
-
-### Lower Quarry
-
-![Lower Quarry](./assets/captures/locations/karrowmoor_terraces.webp)
-
-Terrace one. Five Cobalt faces, and the hole the crew stopped digging.
-
-**Tier:** 10 · **Type:** seam
+<div class="codex-grid">
+<div class="codex-card codex-card--place" id="highland-gate"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/karrowmoor_north_gate.webp" alt="Highland Gate in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 10</span><span class="codex-card__title">Highland Gate</span><span class="codex-card__body">Where the Woodlands road tips over onto the first terrace.</span></span></div>
+<div class="codex-card codex-card--place" id="moor-road-bend"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/moor_road_bend.webp" alt="Moor Road Bend in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 10</span><span class="codex-card__title">Moor Road Bend</span><span class="codex-card__body">The quarry road forks here: down to the Lower Quarry, or up to Hillcrest.</span></span></div>
+<div class="codex-card codex-card--place" id="lower-quarry"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/karrowmoor_terraces.webp" alt="Lower Quarry in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 10</span><span class="codex-card__title">Lower Quarry</span><span class="codex-card__body">Terrace one. Five Cobalt faces, and the hole the crew stopped digging.</span></span></div>
+<div class="codex-card codex-card--place" id="stone-cavern"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gravelmaw_entrance.webp" alt="Stone Cavern in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">dungeon · Tier 10</span><span class="codex-card__title">Stone Cavern</span><span class="codex-card__body">A twelve-metre black wound in grey stone. Visible from anywhere on terrace one.</span></span></div>
+<div class="codex-card codex-card--place" id="hillcrest"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/highcairn_outpost.webp" alt="Hillcrest in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">settlement · Tier 10</span><span class="codex-card__title">Hillcrest</span><span class="codex-card__body">Terrace two. A quarry camp with a wall around it and a crane it no longer uses.</span></span></div>
+<div class="codex-card codex-card--place" id="hillcrest-bank"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/highcairn_bank.webp" alt="Hillcrest Bank in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">bank · Tier 10</span><span class="codex-card__title">Hillcrest Bank</span><span class="codex-card__body">One counter. 188 m from the Upper Cobalt Seam by road, 46 m over Broken Ledge.</span></span></div>
+<div class="codex-card codex-card--place" id="second-ramp"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/karrow_ramp_two.webp" alt="Second Ramp in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 10</span><span class="codex-card__title">Second Ramp</span><span class="codex-card__body">The slate ramp from terrace two to terrace three.</span></span></div>
+<div class="codex-card codex-card--place" id="third-ramp"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/karrow_ramp_three.webp" alt="Third Ramp in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 10</span><span class="codex-card__title">Third Ramp</span><span class="codex-card__body">The long ramp onto terrace four. Everything above here is exposed.</span></span></div>
+<div class="codex-card codex-card--place" id="upper-cobalt-seam"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/upper_karrow_seam.webp" alt="Upper Cobalt Seam in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 10</span><span class="codex-card__title">Upper Cobalt Seam</span><span class="codex-card__body">Three Cobalt faces on terrace four. A small seam - it genuinely runs dry above Mining 20.</span></span></div>
+<div class="codex-card codex-card--place" id="the-great-cairn"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/great_cairn.webp" alt="The Great Cairn in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 10</span><span class="codex-card__title">The Great Cairn</span><span class="codex-card__body">The largest cairn on the moor. Nobody will say who is under it.</span></span></div>
+<div class="codex-card codex-card--place" id="mountain-lakes"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/cairn_tarns.webp" alt="Mountain Lakes in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">water · Tier 10</span><span class="codex-card__title">Mountain Lakes</span><span class="codex-card__body">Two black tarns on the terrace two lip. Perch in both.</span></span></div>
+<div class="codex-card codex-card--place" id="ridge-oaks"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/ridge_pines.webp" alt="Ridge Oaks in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 10</span><span class="codex-card__title">Ridge Oaks</span><span class="codex-card__body">Eight oak trees on terrace three, all bent the same way.</span></span></div>
+<div class="codex-card codex-card--place" id="far-lake"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/far_tarn.webp" alt="Far Lake in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">water · Tier 10</span><span class="codex-card__title">Far Lake</span><span class="codex-card__body">Across the terrace three gap. Two more tarns, and nobody fishing them.</span></span></div>
+<div class="codex-card codex-card--place" id="lake-trail"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/tarn_track.webp" alt="Lake Trail in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 10</span><span class="codex-card__title">Lake Trail</span><span class="codex-card__body">The long way round the terrace three gap.</span></span></div>
+<div class="codex-card codex-card--place" id="water-essence-cache"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/karrowmoor_water_cache.webp" alt="Water Essence Cache in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 10</span><span class="codex-card__title">Water Essence Cache</span><span class="codex-card__body">A blue-lit cache at the moor's far edge, where water essence beads on dry slate.</span></span></div>
+</div>
 
 ### Stone Cavern
 
-![Stone Cavern](./assets/captures/locations/gravelmaw_entrance.webp)
+Tier 10. Enter through [Stone Cavern](#stone-cavern).
 
-A twelve-metre black wound in grey stone. Visible from anywhere on terrace one.
-
-**Tier:** 10 · **Type:** dungeon
-
-### Hillcrest
-
-![Hillcrest](./assets/captures/locations/highcairn_outpost.webp)
-
-Terrace two. A quarry camp with a wall around it and a crane it no longer uses.
-
-**Tier:** 10 · **Type:** settlement
-
-### Hillcrest Bank
-
-![Hillcrest Bank](./assets/captures/locations/highcairn_bank.webp)
-
-One counter. 188 m from the Upper Cobalt Seam by road, 46 m over Broken Ledge.
-
-**Tier:** 10 · **Type:** bank
-
-### Second Ramp
-
-![Second Ramp](./assets/captures/locations/karrow_ramp_two.webp)
-
-The slate ramp from terrace two to terrace three.
-
-**Tier:** 10 · **Type:** junction
-
-### Third Ramp
-
-![Third Ramp](./assets/captures/locations/karrow_ramp_three.webp)
-
-The long ramp onto terrace four. Everything above here is exposed.
-
-**Tier:** 10 · **Type:** junction
-
-### Upper Cobalt Seam
-
-![Upper Cobalt Seam](./assets/captures/locations/upper_karrow_seam.webp)
-
-Three Cobalt faces on terrace four. A small seam - it genuinely runs dry above Mining 20.
-
-**Tier:** 10 · **Type:** seam
-
-### The Great Cairn
-
-![The Great Cairn](./assets/captures/locations/great_cairn.webp)
-
-The largest cairn on the moor. Nobody will say who is under it.
-
-**Tier:** 10 · **Type:** landmark
-
-### Mountain Lakes
-
-![Mountain Lakes](./assets/captures/locations/cairn_tarns.webp)
-
-Two black tarns on the terrace two lip. Perch in both.
-
-**Tier:** 10 · **Type:** water
-
-### Ridge Oaks
-
-![Ridge Oaks](./assets/captures/locations/ridge_pines.webp)
-
-Eight oak trees on terrace three, all bent the same way.
-
-**Tier:** 10 · **Type:** grove
-
-### Far Lake
-
-![Far Lake](./assets/captures/locations/far_tarn.webp)
-
-Across the terrace three gap. Two more tarns, and nobody fishing them.
-
-**Tier:** 10 · **Type:** water
-
-### Lake Trail
-
-![Lake Trail](./assets/captures/locations/tarn_track.webp)
-
-The long way round the terrace three gap.
-
-**Tier:** 10 · **Type:** junction
-
-### Water Essence Cache
-
-![Water Essence Cache](./assets/captures/locations/karrowmoor_water_cache.webp)
-
-A blue-lit cache at the moor's far edge, where water essence beads on dry slate.
-
-**Tier:** 10 · **Type:** landmark
-## Stone Cavern
-
-Tier 10. Enter through [The Gravelmaw](#the-gravelmaw).
-
-### The Lit Gallery
-
-![The Lit Gallery](./assets/captures/locations/gravelmaw_chamber1.webp)
-
-Chamber one. Someone has kept the torches burning, which is worse than if they had not.
-
-**Tier:** 10 · **Type:** dungeon
-
-### The Collapse
-
-![The Collapse](./assets/captures/locations/gravelmaw_chamber2.webp)
-
-Chamber two. Dark, fallen in, and a stone door with three levers.
-
-**Tier:** 10 · **Type:** dungeon
-
-### The Cairn Hall
-
-![The Cairn Hall](./assets/captures/locations/gravelmaw_chamber3.webp)
-
-Chamber three. Cairns, indoors, arranged since the crew left.
-
-**Tier:** 10 · **Type:** dungeon
-
-### The Quarry Warden's Floor
-
-![The Quarry Warden's Floor](./assets/captures/locations/gravelmaw_arena.webp)
-
-A twenty-four metre circle of swept stone.
-
-**Tier:** 10 · **Type:** dungeon
+<div class="codex-grid">
+<div class="codex-card codex-card--place" id="the-lit-gallery"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gravelmaw_chamber1.webp" alt="The Lit Gallery in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">dungeon · Tier 10</span><span class="codex-card__title">The Lit Gallery</span><span class="codex-card__body">Chamber one. Someone has kept the torches burning, which is worse than if they had not.</span></span></div>
+<div class="codex-card codex-card--place" id="the-collapse"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gravelmaw_chamber2.webp" alt="The Collapse in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">dungeon · Tier 10</span><span class="codex-card__title">The Collapse</span><span class="codex-card__body">Chamber two. Dark, fallen in, and a stone door with three levers.</span></span></div>
+<div class="codex-card codex-card--place" id="the-cairn-hall"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gravelmaw_chamber3.webp" alt="The Cairn Hall in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">dungeon · Tier 10</span><span class="codex-card__title">The Cairn Hall</span><span class="codex-card__body">Chamber three. Cairns, indoors, arranged since the crew left.</span></span></div>
+<div class="codex-card codex-card--place" id="the-quarry-wardens-floor"><span class="codex-card__media"><img class="codex-card__shot" src="../assets/captures/thumbs/locations/gravelmaw_arena.webp" alt="The Quarry Warden's Floor in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">dungeon · Tier 10</span><span class="codex-card__title">The Quarry Warden's Floor</span><span class="codex-card__body">A twenty-four metre circle of swept stone.</span></span></div>
+</div>
 
 ## Ashlands
 
+<span class="codex-tags"><span class="codex-tag">Tier 20</span><span class="codex-tag">Settlement: Ashford</span><span class="codex-tag">16 places</span></span>
+
 The foothills north of the old survey line, where the ground runs warm and the pines grow back scorched. Somebody fired kilns here long before the Trade Company drew its maps, and the ground never entirely went out. Ashford is the camp that grew up on the warm flat in the middle: smiths, mostly, because Titanium is the first metal since Cobalt worth the walk, and the walk is why they stay. Nobody watches the southern border. There is no border. You just notice, somewhere past the last milestone, that the wind has gone warm.
 
-Tier 20. Settlement: **Ashford**.
-
-### Kiln Road South
-
-
-
-The pit track out of Farmland, on warm ground now. The border is somewhere behind you.
-
-**Tier:** 20 · **Type:** junction
-
-### Ridge Track
-
-
-
-The foot track down off the Woodlands ridge. The first scorched pines start here.
-
-**Tier:** 20 · **Type:** junction
-
-### Ash Border Track
-
-
-
-Where the canopy shade gives out for good. The springs lie north-west of here.
-
-**Tier:** 20 · **Type:** junction
-
-### Kiln Road Fork
-
-
-
-Both southern tracks meet here. Ashford's rampart torches are visible up the road.
-
-**Tier:** 20 · **Type:** junction
-
-### South Bend
-
-
-
-The road swings east around Ashford's rampart to reach the gate.
-
-**Tier:** 20 · **Type:** junction
-
-### Ashford
-
-
-
-A walled kiln camp with a bank, market, and workshops for titanium and walnut.
-
-**Tier:** 20 · **Type:** settlement
-
-### Ashford Bank
-
-
-
-One chest under a porch. The vault ledger smells faintly of smoke.
-
-**Tier:** 20 · **Type:** bank
-
-### Ashford Gate
-
-
-
-The east gatehouse. Carts to the stand and the springs leave this way.
-
-**Tier:** 20 · **Type:** gate
-
-### Quarry Postern
-
-
-
-The west gatehouse, opening onto the plots and the quarry road.
-
-**Tier:** 20 · **Type:** gate
-
-### Volcanic Quarry
-
-
-
-Six Titanium seams and two Flux Stone faces, still warm at the break.
-
-**Tier:** 20 · **Type:** seam
-
-### Hot Springs
-
-
-
-Four warm pools where the bass run heavy. The water steams at dawn.
-
-**Tier:** 20 · **Type:** water
-
-### Walnut Grove
-
-
-
-Eight walnut trees with weathered bark and sound heartwood.
-
-**Tier:** 20 · **Type:** grove
-
-### Fire Essence Cache
-
-
-
-A ruined stone court where fire essence beads out of the warm rock. The altar is dark.
-
-**Tier:** 20 · **Type:** landmark
-
-### Fire Ogre Arena
-
-
-
-A swept circle of scorched stone past the altar court. Something keeps it swept.
-
-**Tier:** 20 · **Type:** landmark
-
-### North Road Bend
-
-
-
-North Road Bend is a junction in Ashlands.
-
-**Tier:** 20 · **Type:** junction
-
-### North Ash Track
-
-
-
-North Ash Track is a junction in Ashlands.
-
-**Tier:** 20 · **Type:** junction
+<div class="codex-grid">
+<div class="codex-card codex-card--place" id="kiln-road-south"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">Kiln Road South</span><span class="codex-card__body">The pit track out of Farmland, on warm ground now. The border is somewhere behind you.</span></span></div>
+<div class="codex-card codex-card--place" id="ridge-track"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">Ridge Track</span><span class="codex-card__body">The foot track down off the Woodlands ridge. The first scorched pines start here.</span></span></div>
+<div class="codex-card codex-card--place" id="ash-border-track"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">Ash Border Track</span><span class="codex-card__body">Where the canopy shade gives out for good. The springs lie north-west of here.</span></span></div>
+<div class="codex-card codex-card--place" id="kiln-road-fork"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">Kiln Road Fork</span><span class="codex-card__body">Both southern tracks meet here. Ashford's rampart torches are visible up the road.</span></span></div>
+<div class="codex-card codex-card--place" id="south-bend"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">South Bend</span><span class="codex-card__body">The road swings east around Ashford's rampart to reach the gate.</span></span></div>
+<div class="codex-card codex-card--place" id="ashford"><span class="codex-card__text"><span class="codex-card__eyebrow">settlement · Tier 20</span><span class="codex-card__title">Ashford</span><span class="codex-card__body">A walled kiln camp with a bank, market, and workshops for titanium and walnut.</span></span></div>
+<div class="codex-card codex-card--place" id="ashford-bank"><span class="codex-card__text"><span class="codex-card__eyebrow">bank · Tier 20</span><span class="codex-card__title">Ashford Bank</span><span class="codex-card__body">One chest under a porch. The vault ledger smells faintly of smoke.</span></span></div>
+<div class="codex-card codex-card--place" id="ashford-gate"><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 20</span><span class="codex-card__title">Ashford Gate</span><span class="codex-card__body">The east gatehouse. Carts to the stand and the springs leave this way.</span></span></div>
+<div class="codex-card codex-card--place" id="quarry-postern"><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 20</span><span class="codex-card__title">Quarry Postern</span><span class="codex-card__body">The west gatehouse, opening onto the plots and the quarry road.</span></span></div>
+<div class="codex-card codex-card--place" id="volcanic-quarry"><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 20</span><span class="codex-card__title">Volcanic Quarry</span><span class="codex-card__body">Six Titanium seams and two Flux Stone faces, still warm at the break.</span></span></div>
+<div class="codex-card codex-card--place" id="hot-springs"><span class="codex-card__text"><span class="codex-card__eyebrow">water · Tier 20</span><span class="codex-card__title">Hot Springs</span><span class="codex-card__body">Four warm pools where the bass run heavy. The water steams at dawn.</span></span></div>
+<div class="codex-card codex-card--place" id="walnut-grove"><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 20</span><span class="codex-card__title">Walnut Grove</span><span class="codex-card__body">Eight walnut trees with weathered bark and sound heartwood.</span></span></div>
+<div class="codex-card codex-card--place" id="fire-essence-cache"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 20</span><span class="codex-card__title">Fire Essence Cache</span><span class="codex-card__body">A ruined stone court where fire essence beads out of the warm rock. The altar is dark.</span></span></div>
+<div class="codex-card codex-card--place" id="fire-ogre-arena"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 20</span><span class="codex-card__title">Fire Ogre Arena</span><span class="codex-card__body">A swept circle of scorched stone past the altar court. Something keeps it swept.</span></span></div>
+<div class="codex-card codex-card--place" id="north-road-bend"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">North Road Bend</span><span class="codex-card__body">North Road Bend is a junction in Ashlands.</span></span></div>
+<div class="codex-card codex-card--place" id="north-ash-track"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 20</span><span class="codex-card__title">North Ash Track</span><span class="codex-card__body">North Ash Track is a junction in Ashlands.</span></span></div>
+</div>
 
 
 ## Wilderness
 
+<span class="codex-tags"><span class="codex-tag">Tier 50</span><span class="codex-tag">Settlement: Uninhabited</span><span class="codex-tag">37 places</span></span>
+
 Beyond the ashlands, daylight fades over grey plains and broken stone hills. The Black Knight castle watches rivers of fire, gravefields and scorched groves. Farther north the T70 Deep Wilderness opens into violet night, where cold blue fissures wind past dragon roosts and ruined citadels.
 
-Tier 50. Settlement: **Uninhabited**.
-
-### Last Light
-
-
-
-The old north track leaves the warm ashlands.
-
-**Tier:** 50 · **Type:** junction
-
-### Broken Watch
-
-
-
-Broken Watch is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### The Unnamed Graves
-
-
-
-The Unnamed Graves is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Black Knight Approach
-
-
-
-Black Knight Approach is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### Black Knight Gate
-
-
-
-Black Knight Gate is a gate in Wilderness.
-
-**Tier:** 50 · **Type:** gate
-
-### Black Knight Castle
-
-
-
-A black masonry fortress around an open, haunted courtyard.
-
-**Tier:** 50 · **Type:** landmark
-
-### Petrified Grove
-
-
-
-Petrified Grove is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### The Silent Stones
-
-
-
-The Silent Stones is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### The Nameless Abbey
-
-
-
-The Nameless Abbey is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Cinderwatch Smithy
-
-
-
-Cinderwatch Smithy is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### The Broken Waterway
-
-
-
-The Broken Waterway is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Widow Watch
-
-
-
-Widow Watch is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### The Cold Forge
-
-
-
-The Cold Forge is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Hollow Choir Cloister
-
-
-
-Hollow Choir Cloister is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### The Empty Sluice
-
-
-
-The Empty Sluice is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Cindervein Workings
-
-
-
-Worked T50 seams open above a dry mining aisle.
-
-**Tier:** 50 · **Type:** seam
-
-### Nightglass Excavation
-
-
-
-Worked T70 seams open above a dry mining aisle.
-
-**Tier:** 50 · **Type:** seam
-
-### Lastroot Shelter
-
-
-
-Veinwood survives in a sheltered pocket among scorched trunks.
-
-**Tier:** 50 · **Type:** grove
-
-### Ember Shelter
-
-
-
-Veinwood survives in a sheltered pocket among scorched trunks.
-
-**Tier:** 50 · **Type:** grove
-
-### Starwood Hollow
-
-
-
-Old magic trees draw blue and violet sap through the deep stone.
-
-**Tier:** 50 · **Type:** grove
-
-### Moonvein Copse
-
-
-
-Old magic trees draw blue and violet sap through the deep stone.
-
-**Tier:** 50 · **Type:** grove
-
-### The East Rampart Road
-
-
-
-The East Rampart Road is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### The North Rampart Road
-
-
-
-The North Rampart Road is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### The Grave Road
-
-
-
-The Grave Road is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### The Cinder Crossing
-
-
-
-The Cinder Crossing is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### Foundry West Track
-
-
-
-Foundry West Track is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### Veilburn East Bank
-
-
-
-Veilburn East Bank is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### Nightforge Outer Road
-
-
-
-Nightforge Outer Road is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### Beyond the Cold River
-
-
-
-Beyond the Cold River is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### The Starless Road
-
-
-
-The Starless Road is a junction in Wilderness.
-
-**Tier:** 50 · **Type:** junction
-
-### The Violet Reach
-
-
-
-The grey waste opens into the T70 Deep Wilderness. Cold fire marks the old north road.
-
-**Tier:** 50 · **Type:** junction
-
-### Cinder Chain Foundry
-
-
-
-Cinder Chain Foundry is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Nightforge Bastion
-
-
-
-Nightforge Bastion is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Hollow Star Sanctum
-
-
-
-Hollow Star Sanctum is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Ashseal Court
-
-
-
-Ashseal Court is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Furnace Throne
-
-
-
-Furnace Throne is a landmark in Wilderness.
-
-**Tier:** 50 · **Type:** landmark
-
-### Widow's Furnace
-
-
-
-A slow river of molten stone cuts through the eastern wastes. The old path follows its dry southern bank.
-
-**Tier:** 50 · **Type:** landmark
+<div class="codex-grid">
+<div class="codex-card codex-card--place" id="last-light"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">Last Light</span><span class="codex-card__body">The old north track leaves the warm ashlands.</span></span></div>
+<div class="codex-card codex-card--place" id="broken-watch"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Broken Watch</span><span class="codex-card__body">Broken Watch is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-unnamed-graves"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">The Unnamed Graves</span><span class="codex-card__body">The Unnamed Graves is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="black-knight-approach"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">Black Knight Approach</span><span class="codex-card__body">Black Knight Approach is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="black-knight-gate"><span class="codex-card__text"><span class="codex-card__eyebrow">gate · Tier 50</span><span class="codex-card__title">Black Knight Gate</span><span class="codex-card__body">Black Knight Gate is a gate in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="black-knight-castle"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Black Knight Castle</span><span class="codex-card__body">A black masonry fortress around an open, haunted courtyard.</span></span></div>
+<div class="codex-card codex-card--place" id="petrified-grove"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Petrified Grove</span><span class="codex-card__body">Petrified Grove is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-silent-stones"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">The Silent Stones</span><span class="codex-card__body">The Silent Stones is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-nameless-abbey"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">The Nameless Abbey</span><span class="codex-card__body">The Nameless Abbey is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="cinderwatch-smithy"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Cinderwatch Smithy</span><span class="codex-card__body">Cinderwatch Smithy is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-broken-waterway"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">The Broken Waterway</span><span class="codex-card__body">The Broken Waterway is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="widow-watch"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Widow Watch</span><span class="codex-card__body">Widow Watch is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-cold-forge"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">The Cold Forge</span><span class="codex-card__body">The Cold Forge is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="hollow-choir-cloister"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Hollow Choir Cloister</span><span class="codex-card__body">Hollow Choir Cloister is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-empty-sluice"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">The Empty Sluice</span><span class="codex-card__body">The Empty Sluice is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="cindervein-workings"><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 50</span><span class="codex-card__title">Cindervein Workings</span><span class="codex-card__body">Worked T50 seams open above a dry mining aisle.</span></span></div>
+<div class="codex-card codex-card--place" id="nightglass-excavation"><span class="codex-card__text"><span class="codex-card__eyebrow">seam · Tier 50</span><span class="codex-card__title">Nightglass Excavation</span><span class="codex-card__body">Worked T70 seams open above a dry mining aisle.</span></span></div>
+<div class="codex-card codex-card--place" id="lastroot-shelter"><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 50</span><span class="codex-card__title">Lastroot Shelter</span><span class="codex-card__body">Veinwood survives in a sheltered pocket among scorched trunks.</span></span></div>
+<div class="codex-card codex-card--place" id="ember-shelter"><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 50</span><span class="codex-card__title">Ember Shelter</span><span class="codex-card__body">Veinwood survives in a sheltered pocket among scorched trunks.</span></span></div>
+<div class="codex-card codex-card--place" id="starwood-hollow"><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 50</span><span class="codex-card__title">Starwood Hollow</span><span class="codex-card__body">Old magic trees draw blue and violet sap through the deep stone.</span></span></div>
+<div class="codex-card codex-card--place" id="moonvein-copse"><span class="codex-card__text"><span class="codex-card__eyebrow">grove · Tier 50</span><span class="codex-card__title">Moonvein Copse</span><span class="codex-card__body">Old magic trees draw blue and violet sap through the deep stone.</span></span></div>
+<div class="codex-card codex-card--place" id="the-east-rampart-road"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">The East Rampart Road</span><span class="codex-card__body">The East Rampart Road is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-north-rampart-road"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">The North Rampart Road</span><span class="codex-card__body">The North Rampart Road is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-grave-road"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">The Grave Road</span><span class="codex-card__body">The Grave Road is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-cinder-crossing"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">The Cinder Crossing</span><span class="codex-card__body">The Cinder Crossing is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="foundry-west-track"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">Foundry West Track</span><span class="codex-card__body">Foundry West Track is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="veilburn-east-bank"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">Veilburn East Bank</span><span class="codex-card__body">Veilburn East Bank is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="nightforge-outer-road"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">Nightforge Outer Road</span><span class="codex-card__body">Nightforge Outer Road is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="beyond-the-cold-river"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">Beyond the Cold River</span><span class="codex-card__body">Beyond the Cold River is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-starless-road"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">The Starless Road</span><span class="codex-card__body">The Starless Road is a junction in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="the-violet-reach"><span class="codex-card__text"><span class="codex-card__eyebrow">junction · Tier 50</span><span class="codex-card__title">The Violet Reach</span><span class="codex-card__body">The grey waste opens into the T70 Deep Wilderness. Cold fire marks the old north road.</span></span></div>
+<div class="codex-card codex-card--place" id="cinder-chain-foundry"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Cinder Chain Foundry</span><span class="codex-card__body">Cinder Chain Foundry is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="nightforge-bastion"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Nightforge Bastion</span><span class="codex-card__body">Nightforge Bastion is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="hollow-star-sanctum"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Hollow Star Sanctum</span><span class="codex-card__body">Hollow Star Sanctum is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="ashseal-court"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Ashseal Court</span><span class="codex-card__body">Ashseal Court is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="furnace-throne"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Furnace Throne</span><span class="codex-card__body">Furnace Throne is a landmark in Wilderness.</span></span></div>
+<div class="codex-card codex-card--place" id="widows-furnace"><span class="codex-card__text"><span class="codex-card__eyebrow">landmark · Tier 50</span><span class="codex-card__title">Widow's Furnace</span><span class="codex-card__body">A slow river of molten stone cuts through the eastern wastes. The old path follows its dry southern bank.</span></span></div>
+</div>

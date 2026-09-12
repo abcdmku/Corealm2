@@ -4,12 +4,14 @@ description: "Frog spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/redsill_frogs.webp" alt="Frog at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Frog</strong><span>River Shallows, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="45.833,75.879,45.833,75.879"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Frog">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#river-shallows" style="--map-x:45.8333%;--map-y:69.4091%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Frog, River Shallows, Farmland" title="Frog, River Shallows, Farmland"><span>Frog<small>River Shallows, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#river-shallows" style="--map-x:45.8333%;--map-y:75.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Frog, River Shallows, Farmland" title="Frog, River Shallows, Farmland"><span>Frog<small>River Shallows, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -31,18 +33,16 @@ description: "Frog spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 6 | 2 | 1 | 0 | 2 | 2.4 s | 0 | 0 | passive | 5 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Health</dt><dd>6</dd></div><div><dt>Attack</dt><dd>2</dd></div><div><dt>Defence</dt><dd>1</dd></div><div><dt>Accuracy</dt><dd>0</dd></div><div><dt>Max hit</dt><dd>2</dd></div><div><dt>Attack speed</dt><dd>2.4 s</dd></div><div><dt>Armour</dt><dd>0</dd></div><div><dt>Magic armour</dt><dd>0</dd></div><div><dt>Behaviour</dt><dd>Passive</dd></div><div><dt>Aggro</dt><dd>5 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 3-11 | Always |
-| [Raw Game Meat](../../items/raw_game_meat/) | 1 | 40% |
-| [Marsh Gland](../../items/marsh_gland/) | 1-2 | 30% |
-| [Limestone](../../items/march_stone/) | 1-2 | 20% |
-| [Quartz](../../items/pale_quartz/) | 1 | 6% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">3-11 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/raw_game_meat.webp" alt="Raw Game Meat" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/raw_game_meat/">Raw Game Meat</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">40% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/marsh_gland.webp" alt="Marsh Gland" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/marsh_gland/">Marsh Gland</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">30% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/march_stone.webp" alt="Limestone" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/march_stone/">Limestone</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">20% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/pale_quartz.webp" alt="Quartz" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/pale_quartz/">Quartz</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">6% chance</span></span></span></span></div>
+</div>

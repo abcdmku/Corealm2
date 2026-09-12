@@ -28,8 +28,11 @@ The gate may be skipped only when the behavior being built is the authored full 
 `?mode=combat&spawnSpacing=1` starts three deliberately crowded seven-member groups through
 the production creature catalogue. The same final placement pass used by world boot and reset
 spreads every source, including fixed habitat anchors, regional packs, coastal packs and caves.
-Outdoor roots stay at least 10 m apart, with 4 m of body clearance for larger creatures.
-Cave roots stay at least 5 m apart, with 1.5 m of body clearance. The Lit Gallery has a 24 m
+Outdoor roots stay at least 10 m apart, with 6 m of body clearance for larger creatures.
+Cave roots stay at least 5 m apart, with 3.5 m of body clearance. These gaps leave at least
+2 m between bodies after both residents use their full idle wander radius. Already loose
+packs retain their positions instead of multiplying their distance from the centre.
+The Lit Gallery has a 24 m
 radius to fit the residents without moving them across locked gates. Residents wander near
 their own spawn rather than converging on shared patrol anchors.
 

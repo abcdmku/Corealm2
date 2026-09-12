@@ -4,12 +4,14 @@ description: "Chainbound Archon spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/chainbound_archon.webp" alt="Chainbound Archon at its authored spawn in Wilderness" loading="lazy" /><figcaption><strong>Chainbound Archon</strong><span>Foundry West Track, Wilderness</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="32.350,29.084,32.350,29.084"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Chainbound Archon">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#foundry-west-track" style="--map-x:32.3504%;--map-y:34.3133%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Chainbound Archon, Foundry West Track, Wilderness" title="Chainbound Archon, Foundry West Track, Wilderness"><span>Chainbound Archon<small>Foundry West Track, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#foundry-west-track" style="--map-x:32.3504%;--map-y:29.0844%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Chainbound Archon, Foundry West Track, Wilderness" title="Chainbound Archon, Foundry West Track, Wilderness"><span>Chainbound Archon<small>Foundry West Track, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -31,29 +33,27 @@ description: "Chainbound Archon spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 70 | 922 | 152 | 141 | 17 | 48 | 3.8 s | 9 | 35 | territorial | 15 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Health</dt><dd>922</dd></div><div><dt>Attack</dt><dd>152</dd></div><div><dt>Defence</dt><dd>141</dd></div><div><dt>Accuracy</dt><dd>17</dd></div><div><dt>Max hit</dt><dd>48</dd></div><div><dt>Attack speed</dt><dd>3.8 s</dd></div><div><dt>Armour</dt><dd>9</dd></div><div><dt>Magic armour</dt><dd>35</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>15 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 70-840 | Always |
-| [Void Thread](../../items/void_thread/) | 5-9 | 100% |
-| [Chainbound Link](../../items/chainbound_link/) | 1-2 | 100% |
-| [Death Rune](../../items/death_rune/) | 24-40 | 100% |
-| [Cosmic Rune](../../items/cosmic_rune/) | 24-40 | 100% |
-| [Nightglass Ore](../../items/nightglass_ore/) | 3-6 | 100% |
-| [Fire Opal](../../items/fire_opal/) | 1-2 | 35% |
-| [Void Oathguard Plate](../../items/oathguard_plate/) | 1 | 0.2% |
-| [Void Oathguard Greaves](../../items/oathguard_greaves/) | 1 | 0.2% |
-| [Void Oathguard Gauntlets](../../items/oathguard_gauntlets/) | 1 | 0.2% |
-| [Void Oathguard Boots](../../items/oathguard_boots/) | 1 | 0.2% |
-| [Void Nightweave Headwrap](../../items/nightweave_hood/) | 1 | 0.2% |
-| [Void Nightweave Robe](../../items/nightweave_robe/) | 1 | 0.2% |
-| [Void Nightweave Leggings](../../items/nightweave_leggings/) | 1 | 0.2% |
-| [Void Nightweave Wraps](../../items/nightweave_wraps/) | 1 | 0.2% |
-| [Void Nightweave Boots](../../items/nightweave_boots/) | 1 | 0.2% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">70-840 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/void_thread.webp" alt="Void Thread" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/void_thread/">Void Thread</a></span><span class="codex-card__meta">5-9 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/chainbound_link.webp" alt="Chainbound Link" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/chainbound_link/">Chainbound Link</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/death_rune.webp" alt="Death Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/death_rune/">Death Rune</a></span><span class="codex-card__meta">24-40 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cosmic_rune.webp" alt="Cosmic Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/cosmic_rune/">Cosmic Rune</a></span><span class="codex-card__meta">24-40 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/nightglass_ore.webp" alt="Nightglass Ore" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/nightglass_ore/">Nightglass Ore</a></span><span class="codex-card__meta">3-6 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/fire_opal.webp" alt="Fire Opal" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/fire_opal/">Fire Opal</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">35% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/oathguard_plate.webp" alt="Void Oathguard Plate" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/oathguard_plate/">Void Oathguard Plate</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/oathguard_greaves.webp" alt="Void Oathguard Greaves" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/oathguard_greaves/">Void Oathguard Greaves</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/oathguard_gauntlets.webp" alt="Void Oathguard Gauntlets" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/oathguard_gauntlets/">Void Oathguard Gauntlets</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/oathguard_boots.webp" alt="Void Oathguard Boots" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/oathguard_boots/">Void Oathguard Boots</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/nightweave_hood.webp" alt="Void Nightweave Headwrap" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/nightweave_hood/">Void Nightweave Headwrap</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/nightweave_robe.webp" alt="Void Nightweave Robe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/nightweave_robe/">Void Nightweave Robe</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/nightweave_leggings.webp" alt="Void Nightweave Leggings" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/nightweave_leggings/">Void Nightweave Leggings</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/nightweave_wraps.webp" alt="Void Nightweave Wraps" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/nightweave_wraps/">Void Nightweave Wraps</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/nightweave_boots.webp" alt="Void Nightweave Boots" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/nightweave_boots/">Void Nightweave Boots</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">0.2% chance</span></span></span></span></div>
+</div>

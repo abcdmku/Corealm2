@@ -4,26 +4,15 @@ description: "Pine Wand fitted with a Air Orb. Its charge pays for matching spel
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/air_wand.png" alt="Air Wand" width="256" height="256" />
+<img src="../../assets/items/air_wand.webp" alt="Air Wand" width="256" height="256" />
 <p>Pine Wand fitted with a Air Orb. Its charge pays for matching spells before carried Essence.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 1 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 95 |
-| Sell value | 57 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>95</dd></div><div><dt>Sell value</dt><dd>57</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +5 |
-| Magic power | +4 |
-| Magic armour | +2 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+5</dd></div><div><dt>Magic power</dt><dd>+4</dd></div><div><dt>Magic armour</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

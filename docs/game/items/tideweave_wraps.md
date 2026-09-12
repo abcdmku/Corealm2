@@ -4,27 +4,15 @@ description: "Chitin Tideweave wraps for level 50 Magic. A rare boss reward."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/tideweave_wraps.png" alt="Chitin Tideweave Wraps" width="256" height="256" />
+<img src="../../assets/items/tideweave_wraps.webp" alt="Chitin Tideweave Wraps" width="256" height="256" />
 <p>Chitin Tideweave wraps for level 50 Magic. A rare boss reward.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 6,000 |
-| Sell value | 3,600 |
-| Equipment slot | hands |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>6,000</dd></div><div><dt>Sell value</dt><dd>3,600</dd></div><div><dt>Slot</dt><dd>Hands</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Armour | +3 |
-| Magic accuracy | +4 |
-| Magic armour | +11 |
-| Vitality | +4 |
+<dl class="codex-stats"><div><dt>Armour</dt><dd>+3</dd></div><div><dt>Magic accuracy</dt><dd>+4</dd></div><div><dt>Magic armour</dt><dd>+11</dd></div><div><dt>Vitality</dt><dd>+4</dd></div></dl>
 
 ## Use and requirements
 

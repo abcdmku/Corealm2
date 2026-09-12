@@ -4,17 +4,11 @@ description: "Still full. Handled with the same care you would give a lit lamp i
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/venom_gland.png" alt="Venom Gland" width="256" height="256" />
+<img src="../../assets/items/venom_gland.webp" alt="Venom Gland" width="256" height="256" />
 <p>Still full. Handled with the same care you would give a lit lamp in a barn.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 64 |
-| Sell value | 38 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>64</dd></div><div><dt>Sell value</dt><dd>38</dd></div></dl>
 
 ## Where it comes from
 

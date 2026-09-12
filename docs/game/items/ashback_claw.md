@@ -4,17 +4,11 @@ description: "Grey to the root, like the bear it came off. Ashford doors hang tw
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/ashback_claw.png" alt="Dire Bear Claw" width="256" height="256" />
+<img src="../../assets/items/ashback_claw.webp" alt="Dire Bear Claw" width="256" height="256" />
 <p>Grey to the root, like the bear it came off. Ashford doors hang two, crossed.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 20 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 320 |
-| Sell value | 192 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>320</dd></div><div><dt>Sell value</dt><dd>192</dd></div></dl>
 
 ## Where it comes from
 

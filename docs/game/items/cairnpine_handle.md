@@ -4,17 +4,11 @@ description: "Oak shaped around the grain so a Cobalt tang will not split it."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cairnpine_handle.png" alt="Oak Handle" width="256" height="256" />
+<img src="../../assets/items/cairnpine_handle.webp" alt="Oak Handle" width="256" height="256" />
 <p>Oak shaped around the grain so a Cobalt tang will not split it.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 10 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 53 |
-| Sell value | 32 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>53</dd></div><div><dt>Sell value</dt><dd>32</dd></div></dl>
 
 ## Where it comes from
 
@@ -24,10 +18,12 @@ description: "Oak shaped around the grain so a Cobalt tang will not split it."
 
 ## Used to make
 
-- 1× for **Cobalt Dagger**, producing 1× [Cobalt Dagger](../../items/kaldite_dagger/)
-- 1× for **Cobalt Sword**, producing 1× [Cobalt Sword](../../items/kaldite_sword/)
-- 1× for **Cobalt Pickaxe**, producing 1× [Cobalt Pickaxe](../../items/kaldite_pickaxe/)
-- 1× for **Cobalt Hatchet**, producing 1× [Cobalt Hatchet](../../items/kaldite_hatchet/)
-- 1× for **Mandible-braced Cobalt Pickaxe**, producing 1× [Cobalt Pickaxe](../../items/kaldite_pickaxe/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_dagger.webp" alt="Cobalt Dagger" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_dagger/">Cobalt Dagger</a></span><span class="codex-card__meta">Takes 1 × Oak Handle</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_dagger/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_dagger.webp" alt="Cobalt Dagger" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Dagger</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_sword.webp" alt="Cobalt Sword" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_sword/">Cobalt Sword</a></span><span class="codex-card__meta">Takes 1 × Oak Handle</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_sword/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_sword.webp" alt="Cobalt Sword" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Sword</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_pickaxe.webp" alt="Cobalt Pickaxe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_pickaxe/">Cobalt Pickaxe</a></span><span class="codex-card__meta">Takes 1 × Oak Handle</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_pickaxe/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_pickaxe.webp" alt="Cobalt Pickaxe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Pickaxe</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_hatchet.webp" alt="Cobalt Hatchet" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_hatchet/">Cobalt Hatchet</a></span><span class="codex-card__meta">Takes 1 × Oak Handle</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_hatchet/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_hatchet.webp" alt="Cobalt Hatchet" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Hatchet</span></a></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_pickaxe.webp" alt="Cobalt Pickaxe" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 10</span><span class="codex-card__title"><a class="codex-card__link" href="../kaldite_pickaxe/">Mandible-braced Cobalt Pickaxe</a></span><span class="codex-card__meta">Takes 1 × Oak Handle</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/kaldite_pickaxe/"><img class="codex-icon" src="../../assets/items/thumb/kaldite_pickaxe.webp" alt="Cobalt Pickaxe" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cobalt Pickaxe</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

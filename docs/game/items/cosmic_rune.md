@@ -4,17 +4,11 @@ description: "A yellow rune ringed with a wheel of stars. It spreads an invocati
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/cosmic_rune.png" alt="Cosmic Rune" width="256" height="256" />
+<img src="../../assets/items/cosmic_rune.webp" alt="Cosmic Rune" width="256" height="256" />
 <p>A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 30 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 40 |
-| Sell value | 24 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>30</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>40</dd></div><div><dt>Sell value</dt><dd>24</dd></div></dl>
 
 ## Where it comes from
 

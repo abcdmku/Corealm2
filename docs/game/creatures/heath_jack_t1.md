@@ -4,22 +4,19 @@ description: "Heath Jack spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/regional_gloam_fox.webp" alt="Heath Jack at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Heath Jack</strong><span>Air Essence Cache, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/regional_redbrush_fox.webp" alt="Heath Jack at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Heath Jack</strong><span>Air Essence Cache, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/pack_fallowmarch_palewood_heath_scrub.webp" alt="Heath Jack at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Heath Jack</strong><span>Air Essence Cache, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_palewood_west_jacks.webp" alt="Heath Jack at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Heath Jack</strong><span>Pine Grove, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_galeskin_south_jacks.webp" alt="Heath Jack at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Heath Jack</strong><span>Open Meadow, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_northgate_outer_jacks.webp" alt="Heath Jack at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Heath Jack</strong><span>North Gate, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="24.333,65.576,44.833,82.667"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Heath Jack">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:26.6667%;--map-y:73.6364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:26.6667%;--map-y:72.2727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:24.4167%;--map-y:74.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:25.3333%;--map-y:69.3182%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Pine Grove, Farmland" title="Heath Jack, Pine Grove, Farmland"><span>Heath Jack<small>Pine Grove, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:24.3333%;--map-y:62.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Open Meadow, Farmland" title="Heath Jack, Open Meadow, Farmland"><span>Heath Jack<small>Open Meadow, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#north-gate" style="--map-x:44.8333%;--map-y:61.6818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, North Gate, Farmland" title="Heath Jack, North Gate, Farmland"><span>Heath Jack<small>North Gate, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:26.6667%;--map-y:81.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:26.6667%;--map-y:79.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:24.4167%;--map-y:82.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:25.3333%;--map-y:75.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Pine Grove, Farmland" title="Heath Jack, Pine Grove, Farmland"><span>Heath Jack<small>Pine Grove, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:24.3333%;--map-y:66.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Open Meadow, Farmland" title="Heath Jack, Open Meadow, Farmland"><span>Heath Jack<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#north-gate" style="--map-x:44.8333%;--map-y:65.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, North Gate, Farmland" title="Heath Jack, North Gate, Farmland"><span>Heath Jack<small>North Gate, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -46,15 +43,13 @@ description: "Heath Jack spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 2 | 1 | 1 | 1 | 1 | 2.0 s | 1 | 2 | aggressive | 10 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Health</dt><dd>2</dd></div><div><dt>Attack</dt><dd>1</dd></div><div><dt>Defence</dt><dd>1</dd></div><div><dt>Accuracy</dt><dd>1</dd></div><div><dt>Max hit</dt><dd>1</dd></div><div><dt>Attack speed</dt><dd>2.0 s</dd></div><div><dt>Armour</dt><dd>1</dd></div><div><dt>Magic armour</dt><dd>2</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>10 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 0 | Always |
-| [Earth Essence](../../items/earth_essence/) | 1-2 | 35% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">0 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/earth_essence.webp" alt="Earth Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/earth_essence/">Earth Essence</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">35% chance</span></span></span></span></div>
+</div>

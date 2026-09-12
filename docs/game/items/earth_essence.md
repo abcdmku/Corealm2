@@ -4,17 +4,11 @@ description: "Dense green-brown essence mined beneath the Woodlands roots."
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/earth_essence.png" alt="Earth Essence" width="256" height="256" />
+<img src="../../assets/items/earth_essence.webp" alt="Earth Essence" width="256" height="256" />
 <p>Dense green-brown essence mined beneath the Woodlands roots.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 5 |
-| Category | resource |
-| Stacks | Yes |
-| Buy value | 24 |
-| Sell value | 14 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>5</dd></div><div><dt>Category</dt><dd>Resource</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>24</dd></div><div><dt>Sell value</dt><dd>14</dd></div></dl>
 
 ## Where it comes from
 

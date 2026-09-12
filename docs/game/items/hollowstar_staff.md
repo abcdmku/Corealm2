@@ -4,27 +4,15 @@ description: "Three fragments of the Hollow Star turn above a magic-wood shaft. 
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/hollowstar_staff.png" alt="Hollowstar Staff" width="256" height="256" />
+<img src="../../assets/items/hollowstar_staff.webp" alt="Hollowstar Staff" width="256" height="256" />
 <p>Three fragments of the Hollow Star turn above a magic-wood shaft. Casts through carried Essence.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 70 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 29,900 |
-| Sell value | 17,940 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>70</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>29,900</dd></div><div><dt>Sell value</dt><dd>17,940</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Power | +24 |
-| Magic accuracy | +123 |
-| Magic power | +111 |
-| Magic armour | +24 |
+<dl class="codex-stats"><div><dt>Power</dt><dd>+24</dd></div><div><dt>Magic accuracy</dt><dd>+123</dd></div><div><dt>Magic power</dt><dd>+111</dd></div><div><dt>Magic armour</dt><dd>+24</dd></div></dl>
 
 ## Use and requirements
 

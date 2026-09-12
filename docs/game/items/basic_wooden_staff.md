@@ -4,25 +4,15 @@ description: "A plain two-handed staff with an empty brown socket and no glow of
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/basic_wooden_staff.png" alt="Basic Wooden Staff" width="256" height="256" />
+<img src="../../assets/items/basic_wooden_staff.webp" alt="Basic Wooden Staff" width="256" height="256" />
 <p>A plain two-handed staff with an empty brown socket and no glow of its own.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 0 |
-| Category | equipment |
-| Stacks | No |
-| Buy value | 20 |
-| Sell value | 12 |
-| Equipment slot | main Hand |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>0</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>20</dd></div><div><dt>Sell value</dt><dd>12</dd></div><div><dt>Slot</dt><dd>Main hand</dd></div></dl>
 
 ## Equipment stats
 
-| Stat | Bonus |
-| --- | --- |
-| Magic accuracy | +3 |
-| Magic power | +7 |
+<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+3</dd></div><div><dt>Magic power</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

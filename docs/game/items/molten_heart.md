@@ -4,17 +4,11 @@ description: "A cooled kernel from a living stone creature. It replaces flux whe
 ---
 
 <div class="corealm-item-detail">
-<img src="../../assets/items/molten_heart.png" alt="Molten Heart" width="256" height="256" />
+<img src="../../assets/items/molten_heart.webp" alt="Molten Heart" width="256" height="256" />
 <p>A cooled kernel from a living stone creature. It replaces flux when smelting Cindersteel.</p>
 </div>
 
-| Fact | Value |
-| --- | --- |
-| Tier | 50 |
-| Category | component |
-| Stacks | Yes |
-| Buy value | 110 |
-| Sell value | 66 |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>50</dd></div><div><dt>Category</dt><dd>Component</dd></div><div><dt>Stacks</dt><dd>Yes</dd></div><div><dt>Buy value</dt><dd>110</dd></div><div><dt>Sell value</dt><dd>66</dd></div></dl>
 
 ## Where it comes from
 
@@ -31,6 +25,8 @@ description: "A cooled kernel from a living stone creature. It replaces flux whe
 
 ## Used to make
 
-- 1× for **Cindersteel Bar**, producing 1× [Cindersteel Bar](../../items/cindersteel_bar/)
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cindersteel_bar.webp" alt="Cindersteel Bar" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Smithing 50</span><span class="codex-card__title"><a class="codex-card__link" href="../cindersteel_bar/">Cindersteel Bar</a></span><span class="codex-card__meta">Takes 1 × Molten Heart</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/cindersteel_bar/"><img class="codex-icon" src="../../assets/items/thumb/cindersteel_bar.webp" alt="Cindersteel Bar" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Cindersteel Bar</span></a></span></span></div>
+</div>
 
 [Back to all items](../)

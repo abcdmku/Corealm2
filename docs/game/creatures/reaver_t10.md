@@ -4,14 +4,16 @@ description: "Highland Bandit spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/karrow_reavers.webp" alt="Highland Bandit at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Highland Bandit</strong><span>Third Ramp, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch1_reavers.webp" alt="Highland Bandit at its authored spawn in Stone Cavern" loading="lazy" /><figcaption><strong>Highland Bandit</strong><span>The Lit Gallery, Stone Cavern</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/enemy-groups/karrow_reavers.webp" alt="Highland Bandit at its authored spawn in Highlands in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Highland Bandit</strong><span>Third Ramp, Highlands</span></figcaption></figure>
+<figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/enemy-groups/gravelmaw_ch1_reavers.webp" alt="Highland Bandit at its authored spawn in Stone Cavern in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Highland Bandit</strong><span>The Lit Gallery, Stone Cavern</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="53.833,74.182,62.333,80.485"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Highland Bandit">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:62.3333%;--map-y:72.8636%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Highland Bandit, Third Ramp, Highlands" title="Highland Bandit, Third Ramp, Highlands"><span>Highland Bandit<small>Third Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-lit-gallery" style="--map-x:53.8333%;--map-y:68.1364%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Highland Bandit, Stone Cavern, The Lit Gallery" title="Highland Bandit, Stone Cavern, The Lit Gallery"><span>Highland Bandit<small>Stone Cavern, The Lit Gallery</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:62.3333%;--map-y:80.4848%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Highland Bandit, Third Ramp, Highlands" title="Highland Bandit, Third Ramp, Highlands"><span>Highland Bandit<small>Third Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-lit-gallery" style="--map-x:53.8333%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Highland Bandit, Stone Cavern, The Lit Gallery" title="Highland Bandit, Stone Cavern, The Lit Gallery"><span>Highland Bandit<small>Stone Cavern, The Lit Gallery</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -34,18 +36,16 @@ description: "Highland Bandit spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 40 | 22 | 13 | 18 | 7 | 2.4 s | 42 | 40 | aggressive | 14 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Health</dt><dd>40</dd></div><div><dt>Attack</dt><dd>22</dd></div><div><dt>Defence</dt><dd>13</dd></div><div><dt>Accuracy</dt><dd>18</dd></div><div><dt>Max hit</dt><dd>7</dd></div><div><dt>Attack speed</dt><dd>2.4 s</dd></div><div><dt>Armour</dt><dd>42</dd></div><div><dt>Magic armour</dt><dd>40</dd></div><div><dt>Behaviour</dt><dd>Aggressive</dd></div><div><dt>Aggro</dt><dd>14 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 70-270 | Always |
-| [Fur Pelt](../../items/cairn_pelt/) | 1 | 30% |
-| [Cobalt Ore](../../items/kaldite_ore/) | 1-3 | 30% |
-| [Water Essence](../../items/water_essence/) | 1-3 | 20% |
-| [Cobalt Dagger](../../items/kaldite_dagger/) | 1 | 3% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">70-270 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/cairn_pelt.webp" alt="Fur Pelt" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/cairn_pelt/">Fur Pelt</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">30% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_ore.webp" alt="Cobalt Ore" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/kaldite_ore/">Cobalt Ore</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">30% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/water_essence.webp" alt="Water Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/water_essence/">Water Essence</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">20% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/kaldite_dagger.webp" alt="Cobalt Dagger" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/kaldite_dagger/">Cobalt Dagger</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">3% chance</span></span></span></span></div>
+</div>

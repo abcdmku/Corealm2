@@ -4,22 +4,19 @@ description: "Scree Watcher spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ridge_ibex.webp" alt="Scree Watcher at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Scree Watcher</strong><span>Far Lake, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/quillback_porcupine_residents.webp" alt="Scree Watcher at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Scree Watcher</strong><span>Upper Cobalt Seam, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/scree_bustard_residents.webp" alt="Scree Watcher at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Scree Watcher</strong><span>Lake Trail, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_south_ridge_watchers.webp" alt="Scree Watcher at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Scree Watcher</strong><span>Water Essence Cache, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_cairn_tarn_west_watchers.webp" alt="Scree Watcher at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Scree Watcher</strong><span>Mountain Lakes, Highlands</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_east_tarn_watchers.webp" alt="Scree Watcher at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Scree Watcher</strong><span>Highland Gate, Highlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="66.833,73.939,75.333,83.030"
+ style="--map-image-ratio:0.72727">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Scree Watcher">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#far-lake" style="--map-x:72.3333%;--map-y:73.4091%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Far Lake, Highlands" title="Scree Watcher, Far Lake, Highlands"><span>Scree Watcher<small>Far Lake, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#upper-cobalt-seam" style="--map-x:69.7500%;--map-y:74.5909%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Upper Cobalt Seam, Highlands" title="Scree Watcher, Upper Cobalt Seam, Highlands"><span>Scree Watcher<small>Upper Cobalt Seam, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#lake-trail" style="--map-x:72.5000%;--map-y:69.0909%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Lake Trail, Highlands" title="Scree Watcher, Lake Trail, Highlands"><span>Scree Watcher<small>Lake Trail, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#water-essence-cache" style="--map-x:72.3333%;--map-y:74.7727%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Water Essence Cache, Highlands" title="Scree Watcher, Water Essence Cache, Highlands"><span>Scree Watcher<small>Water Essence Cache, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:66.8333%;--map-y:69.3182%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Mountain Lakes, Highlands" title="Scree Watcher, Mountain Lakes, Highlands"><span>Scree Watcher<small>Mountain Lakes, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:75.3333%;--map-y:67.9545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Highland Gate, Highlands" title="Scree Watcher, Highland Gate, Highlands"><span>Scree Watcher<small>Highland Gate, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#far-lake" style="--map-x:72.3333%;--map-y:81.2121%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Far Lake, Highlands" title="Scree Watcher, Far Lake, Highlands"><span>Scree Watcher<small>Far Lake, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#upper-cobalt-seam" style="--map-x:69.7500%;--map-y:82.7879%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Upper Cobalt Seam, Highlands" title="Scree Watcher, Upper Cobalt Seam, Highlands"><span>Scree Watcher<small>Upper Cobalt Seam, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#lake-trail" style="--map-x:72.5000%;--map-y:75.4545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Lake Trail, Highlands" title="Scree Watcher, Lake Trail, Highlands"><span>Scree Watcher<small>Lake Trail, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#water-essence-cache" style="--map-x:72.3333%;--map-y:83.0303%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Water Essence Cache, Highlands" title="Scree Watcher, Water Essence Cache, Highlands"><span>Scree Watcher<small>Water Essence Cache, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:66.8333%;--map-y:75.7576%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Mountain Lakes, Highlands" title="Scree Watcher, Mountain Lakes, Highlands"><span>Scree Watcher<small>Mountain Lakes, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:75.3333%;--map-y:73.9394%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Highland Gate, Highlands" title="Scree Watcher, Highland Gate, Highlands"><span>Scree Watcher<small>Highland Gate, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -46,15 +43,13 @@ description: "Scree Watcher spawn locations, combat stats, and drops."
 
 ## Stats
 
-| Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 40 | 12 | 14 | 6 | 6 | 3.0 s | 45 | 5 | territorial | 7 m |
+<dl class="codex-stats"><div><dt>Tier</dt><dd>10</dd></div><div><dt>Health</dt><dd>40</dd></div><div><dt>Attack</dt><dd>12</dd></div><div><dt>Defence</dt><dd>14</dd></div><div><dt>Accuracy</dt><dd>6</dd></div><div><dt>Max hit</dt><dd>6</dd></div><div><dt>Attack speed</dt><dd>3.0 s</dd></div><div><dt>Armour</dt><dd>45</dd></div><div><dt>Magic armour</dt><dd>5</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>7 m</dd></div></dl>
 
 ## Drops
 
 
 
-| Drop | Quantity | Chance or rule |
-| --- | --- | --- |
-| Marks | 10-30 | Always |
-| [Water Essence](../../items/water_essence/) | 1 | 15% |
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">10-30 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/water_essence.webp" alt="Water Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/water_essence/">Water Essence</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">15% chance</span></span></span></span></div>
+</div>
