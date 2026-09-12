@@ -1,12 +1,13 @@
 import type { EquipmentBonuses, EquipSlot, ItemStack } from "../contracts.js";
 import { WILDERNESS_CRAFTING_TIERS } from './wildernessLoot.js';
+import { BOSS_ARMOR_SETS } from './bossArmor.js';
 
 export const ARMOUR_SET_SLOTS = ["head", "body", "legs", "hands", "feet"] as const;
 export type ArmourSetSlot = typeof ARMOUR_SET_SLOTS[number];
 export type EquipmentSetSlots = Partial<Record<EquipSlot, ItemStack | null>>;
 
 export interface EquipmentSetThreshold {
-  pieces: 2 | 4 | 5;
+  pieces: 2 | 3 | 4 | 5;
   bonuses: EquipmentBonuses;
 }
 
@@ -15,7 +16,7 @@ export interface EquipmentSetDefinition {
   name: string;
   tier: number;
   style: "melee" | "magic";
-  members: Readonly<Record<ArmourSetSlot, string>>;
+  members: Readonly<Partial<Record<ArmourSetSlot, string>>>;
   thresholds: readonly EquipmentSetThreshold[];
 }
 
@@ -50,6 +51,7 @@ function defineSet(
 
 /** Membership uses saved item IDs. Weapons, shields and jewellery never count. */
 export const EQUIPMENT_SETS: readonly EquipmentSetDefinition[] = [
+  ...BOSS_ARMOR_SETS,
   defineSet("copper", "Copper", 1, "melee", ["grithe_helm", "grithe_cuirass", "grithe_greaves", "grithe_gloves", "grithe_boots"], 2, 1),
   defineSet("iron", "Iron", 5, "melee", ["corven_helm", "corven_plate", "corven_greaves", "corven_gauntlets", "corven_boots"], 3, 2),
   defineSet("cobalt", "Cobalt", 10, "melee", ["kaldite_helm", "kaldite_plate", "kaldite_greaves", "kaldite_gauntlets", "kaldite_boots"], 4, 3),

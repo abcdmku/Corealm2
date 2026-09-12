@@ -488,6 +488,7 @@ export class CharacterRig {
   private layerSignature: string | null = null;
   /** Source identities of the last successfully committed layers, retained across mesh merging. */
   private committedLayerAssets: string[] = [];
+  private layerMissingBones: string[] = [];
   private layerLoadPending = false;
   private layerWork: Promise<void> = Promise.resolve();
 
@@ -985,11 +986,16 @@ export class CharacterRig {
 
   /** A manifest-backed authored item replaces the legacy multipart/tint treatment. */
   private authoredItemParts(itemId: ItemId, fallback: readonly GearAppearanceLike[]): readonly GearAppearanceLike[] {
-    // Equipment uses the established fitted outfit and weapon meshes. Item-model overrides
-    // remain available for gathering/fishing assets outside the equipment catalogue.
-    if (equipmentVisuals.gearAppearanceParts(itemId, this.characterBody()).length) return fallback;
-    const first = fallback[0];
+    // Keep fitted armor; registered authored weapons and tools use their grip metadata.
     const entry = this.assets.entry(`corealm_item_${itemId}`);
+    // Only the separate local review server supplies this marker. Normal manifests and builds
+    // retain accepted equipment even when a stale authored file remains on disk.
+    const stagedReview = import.meta.env?.DEV && typeof location !== 'undefined'
+      && new URLSearchParams(location.search).get('mode') === 'combat'
+      && new URLSearchParams(location.search).has('reviewStaged')
+      && entry?.tags.includes('temporary-asset-review');
+    if (!stagedReview && fallback.some(part => part.slot === 'head' || SKIN_SLOTS.has(part.slot))) return fallback;
+    const first = fallback[0];
     if (!first || entry?.itemModel?.itemId !== itemId) return fallback;
     const model = entry.itemModel;
     const appearance: GearAppearanceLike = { assetId: entry.id, slot: first.slot, attach: model.wearable ? "skin" : "bone" };
@@ -1221,6 +1227,7 @@ export class CharacterRig {
         skeletonCache: this.skeletonCache,
       });
       const appearance = worn.get(assetId);
+      this.layerMissingBones.push(...result.missing.map(name => `${assetId}:${name}`));
       for (const mesh of result.meshes) {
         mesh.name = `part-${assetId}-${mesh.name}`;
         mesh.geometry = dequantizeGeometry(mesh.geometry);
@@ -1258,6 +1265,7 @@ export class CharacterRig {
     for (const mesh of this.layerMeshes) mesh.removeFromParent();
     this.layerMeshes = [];
     this.committedLayerAssets = [];
+    this.layerMissingBones = [];
     for (const geometry of this.layerGeometries) geometry.dispose();
     this.layerGeometries = [];
     for (const material of this.layerMaterials) material.dispose();
@@ -1444,6 +1452,7 @@ export class CharacterRig {
     layerLoadPending?: boolean;
     layerMeshes?: string[];
     layerAssets?: string[];
+    layerMissingBones?: string[];
     hairVisible?: boolean;
     fishing?: { sample: FishingSample | null; visible: boolean; tip: number[]; float: number[]; spot: Vec3 | null; bones: string[]; guideWorld: number[] | null; guideLocal: number[] | null; visibleTackle: number };
   } {
@@ -1475,6 +1484,7 @@ export class CharacterRig {
         layerSignature: this.layerSignature, layerLoadPending: this.layerLoadPending,
         layerMeshes: this.layerMeshes.filter(mesh => mesh.parent && mesh.visible).map(mesh => mesh.name),
         layerAssets: [...this.committedLayerAssets],
+        layerMissingBones: [...this.layerMissingBones],
         hairVisible: this.root.visible && this.layerMeshes.some(mesh => mesh.parent && mesh.visible)
           && this.committedLayerAssets.some(assetId => this.regionOf(assetId) === "hair"),
         attachmentLoading: Object.fromEntries(this.slotLoading), attachmentErrors: Object.fromEntries(this.slotLoadErrors),

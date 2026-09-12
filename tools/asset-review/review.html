@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corealm asset review</title>
+<style>
+:root{color-scheme:dark;font:14px/1.45 system-ui,sans-serif;background:#10151b;color:#e5eaf0}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit;color:inherit;background:#17212b;border:1px solid #465563;border-radius:5px;padding:9px}button{cursor:pointer}button:hover:not(:disabled){background:#283b49}button:disabled,input:disabled,select:disabled{opacity:.5;cursor:wait}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #8ad8c9;outline-offset:2px}header{padding:16px 22px;border-bottom:1px solid #33404b;display:flex;align-items:center;gap:20px;justify-content:space-between}h1{font-size:19px;margin:0;letter-spacing:.02em}header p{color:#aebac6;margin:0;font-size:12px}main{display:grid;grid-template-columns:320px minmax(0,1fr);height:calc(100dvh - 64px);min-height:650px}aside{padding:18px;overflow:auto;border-right:1px solid #33404b;display:flex;flex-direction:column;gap:14px}.field{display:flex;flex-direction:column;gap:5px}label,.label{font-size:12px;color:#b9c5ce;font-weight:600}.filter-row{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:8px}#asset-list{width:100%;height:240px;padding:5px;font-size:12px}#asset-list option{padding:7px 5px}#asset-list option:checked{background:#335b60;color:white}#asset-count{font-size:12px;color:#97aab9}h2{font-size:17px;margin:0 0 7px}.details{border-top:1px solid #33404b;padding-top:14px}.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}.tag{border:1px solid #455565;border-radius:3px;padding:2px 6px;font-size:11px;color:#bacbd7}.meta{font-size:12px;color:#aabac7;overflow-wrap:anywhere;margin:5px 0}.help{font-size:12px;color:#aabac7;margin:0}.check{display:flex;align-items:center;gap:8px;font-weight:400}.check input{margin:0;accent-color:#8ad8c9}.primary{background:#377568;color:#fff;border-color:#549b8b;font-weight:650}.viewer{display:flex;flex-direction:column;min-width:0;min-height:0;padding:14px;gap:10px}#preview-status{padding:10px 13px;border:1px solid #3b535f;border-radius:5px;background:#1a2831;color:#d0e0e9;min-height:43px;white-space:pre-wrap}#preview-status[data-kind="error"]{border-color:#b87c70;background:#332323;color:#ffd7cf}#preview-status[data-kind="ready"]{border-color:#467f70}.frame-wrap{position:relative;flex:1;min-height:440px;background:#070c11;border:1px solid #394651;border-radius:6px;overflow:hidden}iframe{display:block;width:100%;height:100%;border:0}.controls-note{display:flex;justify-content:space-between;gap:12px;color:#b2c1cc;font-size:12px}.controls-note span:last-child{color:#8395a3}details{font-size:12px;color:#aabac7}summary{cursor:pointer}#skipped-list{padding-left:18px}#model-fields{display:flex;flex-direction:column;gap:10px}[hidden]{display:none!important}@media(max-width:850px){header{align-items:flex-start;flex-direction:column;gap:4px}main{height:auto;min-height:0;grid-template-columns:260px minmax(0,1fr)}aside{padding:12px}.viewer{padding:9px}.frame-wrap{height:75dvh;min-height:560px;flex:none}.controls-note{flex-direction:column;gap:2px}}@media(max-width:620px){main{display:flex;flex-direction:column}aside{border-right:0;border-bottom:1px solid #33404b}#asset-list{height:160px}.frame-wrap{height:65dvh;min-height:420px}.viewer{min-height:500px}}
+</style>
+</head>
+<body>
+<header><h1>Corealm asset review</h1><p>Isolated preview. No file writes or asset promotions.</p></header>
+<main>
+<aside aria-label="Asset selection">
+<div class="filter-row"><div class="field"><label for="asset-search">Find an asset</label><input id="asset-search" type="search" placeholder="Name, item ID, or group" autocomplete="off"></div><div class="field"><label for="asset-source">Source</label><select id="asset-source"><option value="all">All</option><option value="current">Current</option><option value="staged">Staged</option></select></div></div>
+<div class="field"><label for="asset-list">Catalog</label><select id="asset-list" size="10" aria-label="Asset catalog"></select><span id="asset-count">Loading catalog…</span></div>
+<section class="details" aria-label="Selected asset"><h2 id="asset-name">Loading assets…</h2><div class="tags" id="asset-tags"></div><p class="meta" id="asset-item"></p><p class="meta" id="asset-size"></p></section>
+<button id="asset-counterpart" disabled>Compare other source</button>
+<div class="field"><label for="preview-mode">Preview</label><select id="preview-mode"><option value="wear">Wear item</option><option value="set">Wear set</option><option value="model">Model alone</option></select></div>
+<div class="field"><label for="preview-body">Character body</label><select id="preview-body"><option value="male">Male</option><option value="female">Female</option></select><p class="help" id="body-note">Current equipment supports both character bodies.</p></div>
+<div id="model-fields" hidden><div class="field"><label for="asset-part">Model part</label><select id="asset-part"></select></div><label class="check"><input id="model-enlarge" type="checkbox">Enlarge small model to 2 m</label><div class="field"><label for="model-rotation">Model rotation</label><select id="model-rotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></div><p class="help">Model alone uses raw source materials. Wear equipment to see current in-game finish.</p></div>
+<button class="primary" id="preview-apply">Refresh preview</button>
+<details id="skipped-section" hidden><summary id="skipped-summary">Unavailable groups</summary><ul id="skipped-list"></ul></details>
+</aside>
+<section class="viewer" aria-label="Live game preview"><div id="preview-status" role="status" aria-live="polite" data-kind="loading">Loading asset catalog…</div><div class="frame-wrap"><iframe id="game-frame" title="Playable asset preview" allow="fullscreen"></iframe></div><div class="controls-note"><span>Click the game to play. WASD moves · Right-drag rotates · Wheel zooms</span><span>Production game, normal follow camera</span></div></section>
+</main>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const search = $('asset-search'), source = $('asset-source'), list = $('asset-list'), mode = $('preview-mode'), body = $('preview-body'), part = $('asset-part'), frame = $('game-frame');
+  const slots = ['head','body','legs','feet','hands','mainHand','offHand','accessory1','accessory2'];
+  let rows = [], selected = null, busy = false, loadedContext = null, applied = null, error = null, spawnPosition = null;
+  function status(text, kind = 'loading') { $('preview-status').textContent = text; $('preview-status').dataset.kind = kind; }
+  function counterpart() { return selected && rows.find(row => row.itemId === selected.itemId && row.source !== selected.source); }
+  function syncControls() {
+    document.querySelectorAll('aside input,aside select,aside button').forEach(el => el.disabled = busy || !selected);
+    mode.querySelector('[value="wear"]').disabled = !selected?.equipSlot;
+    mode.querySelector('[value="set"]').disabled = !selected?.kit?.length;
+    mode.querySelector('[value="model"]').disabled = !selected?.assetIds?.length;
+    body.disabled = busy || !selected || selected.source === 'staged' || mode.value === 'model';
+    $('asset-counterpart').disabled = busy || !counterpart();
+    $('asset-counterpart').textContent = counterpart() ? `View ${counterpart().source} version` : 'No other source for this item';
+    $('model-fields').hidden = mode.value !== 'model';
+    $('body-note').textContent = selected?.source === 'staged' ? 'Staged models were authored for the male body.' : 'Current equipment supports both character bodies.';
+  }
+  function filter() {
+    const query = search.value.trim().toLowerCase();
+    const visible = rows.filter(row => (source.value === 'all' || row.source === source.value) && [row.label,row.itemId,row.group,row.status,...row.assetIds].join(' ').toLowerCase().includes(query));
+    list.replaceChildren(...visible.map(row => { const option = new Option(`${row.label} · ${row.source}${row.source === 'staged' ? ` · ${row.group}` : ''}`,row.key); option.title = `${row.label} · ${row.group} · ${row.status}`; option.selected = selected?.key === row.key; return option; }));
+    if (!visible.some(row => row.key === selected?.key)) list.selectedIndex = -1;
+    $('asset-count').textContent = `${visible.length} of ${rows.length} assets${visible.length ? '' : '. Try another search or source.'}`;
+  }
+  function select(key, preserveMode = false) {
+    if (busy) return Promise.reject(new Error('Wait for the current preview to finish.'));
+    const row = rows.find(item => item.key === key);
+    if (!row) return Promise.reject(new Error(`Asset not found: ${key}`));
+    selected = row;
+    $('asset-name').textContent = row.label;
+    $('asset-tags').replaceChildren(...[...new Set([row.source,row.group,row.status])].map(text => { const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = text; return tag; }));
+    $('asset-item').textContent = `Item: ${row.itemId}${row.equipSlot ? ` · ${row.equipSlot}` : ''}`;
+    $('asset-size').textContent = `Source size: ${row.size.map(n => Number(n).toFixed(2)).join(' × ')} m`;
+    part.replaceChildren(...row.assetIds.map(id => new Option(id,id)));
+    if (!preserveMode || (mode.value === 'wear' && !row.equipSlot) || (mode.value === 'set' && !row.kit.length)) mode.value = row.kit.length ? 'set' : row.equipSlot ? 'wear' : 'model';
+    if (row.source === 'staged') body.value = 'male';
+    filter(); syncControls();
+    return apply();
+  }
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+  async function ready(context) {
+    if (loadedContext !== context) {
+      loadedContext = null;
+      spawnPosition = null;
+      const params = new URLSearchParams({mode:'combat',environment:'1',assetReview:'1'});
+      if (selected.source === 'staged') params.set('reviewStaged',selected.group);
+      if (selected.source === 'current' && body.value === 'female') params.set('body','female');
+      await new Promise((resolve,reject) => {
+        const timeout = setTimeout(() => finish(new Error('The game did not load within 90 seconds. Use Refresh preview to retry.')),90000);
+        function finish(failure) { clearTimeout(timeout); frame.onload = null; frame.onerror = null; failure ? reject(failure) : resolve(); }
+        frame.onload = () => finish();
+        frame.onerror = () => finish(new Error('The game frame failed to load. Use Refresh preview to retry.'));
+        frame.src = `/index.html?${params}`;
+      });
+    }
+    const until = Date.now() + 90000;
+    while (Date.now() < until) {
+      const win = frame.contentWindow;
+      if (win?.__featureLab?.getState().ready && win.__environmentLab?.getState().ready) {
+        if (!spawnPosition) {
+          if (!win.__gameDebug?.getPlayerPosition) throw new Error('The game position control is unavailable.');
+          const spawn = win.__gameDebug.getPlayerPosition();
+          spawnPosition = [spawn.x,spawn.y,spawn.z];
+        }
+        loadedContext = context; return win;
+      }
+      await delay(200);
+    }
+    throw new Error('The game loaded, but its feature lab is not ready. Use Refresh preview to retry.');
+  }
+  async function apply() {
+    if (busy || !selected) return;
+    busy = true; error = null; syncControls();
+    status(`Loading ${selected.source} preview: ${selected.label}…`);
+    try {
+      const context = `${selected.source}:${selected.group}:${body.value}`;
+      const win = await ready(context), lab = win.__featureLab;
+      await lab.setFreeCameraEnabled(false);
+      await lab.setWalkingEnabled(true);
+      await lab.setLevel('melee',99);
+      await lab.setLevel('magic',99);
+      for (const slot of slots) await lab.equipPlayer(slot,null);
+      let scale = 1;
+      if (mode.value === 'model') {
+        const maxSize = Math.max(...selected.size);
+        if (maxSize > 0) scale = $('model-enlarge').checked ? 2 / maxSize : Math.min(1,2 / maxSize);
+        if (!part.value) throw new Error('This catalog entry has no model asset.');
+        await win.__environmentLab.showGallery(part.value,{scale,rotationY:Number($('model-rotation').value)*Math.PI/180,verticalOffset:0});
+        if (!win.__gameDebug?.teleport) throw new Error('The game teleport control is unavailable.');
+        win.__gameDebug.teleport([.65,0,26.8]);
+      } else {
+        await win.__environmentLab.showGallery('corealm_oak_1');
+        win.__gameDebug.teleport(spawnPosition);
+        const kit = mode.value === 'set' ? selected.kit : [{slot:selected.equipSlot,itemId:selected.itemId}];
+        for (const piece of kit) await lab.equipPlayer(piece.slot,piece.itemId);
+      }
+      for (const id of ['panel-feature-lab','panel-environment']) {
+        const panel = win.document.getElementById(id);
+        if (panel && win.getComputedStyle(panel).display !== 'none') panel.querySelector('.panel__close')?.click();
+      }
+      const environmentPanel = win.document.getElementById('environment-lab-panel');
+      if (environmentPanel) environmentPanel.hidden = true;
+      const settledBy = Date.now() + 15000;
+      const expected = mode.value === 'model' ? [] : selected.assetIds.map(id => body.value === 'female' ? id.replace('outfit_male_','outfit_female_') : id);
+      const hasExpected = motion => expected.every(id => (motion.layerAssets || []).includes(id) || Object.values(motion.attachments || {}).some(name => String(name).endsWith(id)));
+      while (Date.now() < settledBy) {
+        const motion = win.__gameDebug.getPlayerMotion();
+        if (Object.keys(motion.attachmentErrors || {}).length) throw new Error(JSON.stringify(motion.attachmentErrors));
+        if (!motion.layerLoadPending && !Object.keys(motion.attachmentLoading || {}).length && hasExpected(motion)) break;
+        await delay(100);
+      }
+      const motion = win.__gameDebug.getPlayerMotion();
+      if (motion.layerLoadPending || Object.keys(motion.attachmentLoading || {}).length || !hasExpected(motion)) throw new Error('Equipment is still loading. Refresh the preview to retry.');
+      applied = {key:selected.key,source:selected.source,group:selected.group,mode:mode.value,body:body.value,assetId:mode.value === 'model' ? part.value : null,scale};
+      status(`${selected.label} · ${selected.source} · ${mode.selectedOptions[0].textContent}${mode.value === 'model' ? ` · ${scale.toFixed(2)}× source scale` : ` · ${body.value} body`}`, 'ready');
+    } catch (failure) {
+      error = failure instanceof Error ? failure.message : String(failure);
+      loadedContext = null;
+      status(`Preview failed. ${error}`,'error');
+    } finally { busy = false; syncControls(); }
+  }
+  search.addEventListener('input',filter); source.addEventListener('change',filter);
+  list.addEventListener('change',() => { if (list.value) void select(list.value); });
+  mode.addEventListener('change',() => { syncControls(); void apply(); });
+  body.addEventListener('change',() => void apply());
+  part.addEventListener('change',() => void apply());
+  $('model-enlarge').addEventListener('change',() => void apply());
+  $('model-rotation').addEventListener('change',() => void apply());
+  $('preview-apply').addEventListener('click',() => void apply());
+  $('asset-counterpart').addEventListener('click',() => { const row = counterpart(); if (row) { source.value = 'all'; search.value = ''; void select(row.key,true); } });
+  window.__assetReview = {select,getState:() => ({ready:!!applied&&!busy&&!error,busy,selectedKey:selected?.key??null,applied,error,rows:rows.length})};
+  async function start() {
+    busy = true; syncControls();
+    try {
+      const response = await fetch('/__asset-review/catalog');
+      if (!response.ok) throw new Error(`Catalog request returned HTTP ${response.status}.`);
+      const catalog = await response.json();
+      rows = catalog.rows;
+      if (!Array.isArray(rows) || !rows.length) throw new Error('The asset catalog is empty. Check the local review server.');
+      if (catalog.skipped?.length) {
+        $('skipped-section').hidden = false;
+        $('skipped-summary').textContent = `${catalog.skipped.length} unavailable groups`;
+        $('skipped-list').replaceChildren(...catalog.skipped.map(row => { const item = document.createElement('li'); item.textContent = `${row.group}: ${row.reason}`; return item; }));
+      }
+      busy = false;
+      const initial = rows.find(row => row.source === 'current' && row.itemId === 'grithe_cuirass') || rows.find(row => row.source === 'current' && row.equipSlot) || rows[0];
+      await select(initial.key);
+    } catch (failure) {
+      busy = false; error = failure instanceof Error ? failure.message : String(failure);
+      status(`Catalog failed. ${error} Reload this page after the server is available.`,'error');
+      $('asset-name').textContent = 'Catalog unavailable'; $('asset-count').textContent = 'No assets loaded'; syncControls();
+    }
+  }
+  void start();
+})();
+</script>
+</body>
+</html>

@@ -44,10 +44,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/round-3/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/64e6c121b759da9506da23d694cae436975de72012f946218425eb0bf62da19b.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_ring.glb",
+      "revisionRequired": false
     },
     "grithe_sword": {
       "id": "corealm_item_grithe_sword",
@@ -98,10 +99,70 @@
       },
       "triangles": 23380,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/round-3/report.json",
+      "evidence": "test-results/item-models/worn-starhide-r3/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/0b34954ef629b3d438003124d234a6787db0561e1e6b2a7a27f073b6f01d5aec.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "itemModel": {
+        "itemId": "grithe_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_sword.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/worn-starhide-r3/report.json",
+        "test-results/item-models/worn-starhide-r1/report.json",
+        "test-results/item-models/worn-starhide-owner-r1/report.json",
+        "test-results/item-models/worn-nightmarshal-r1/report.json",
+        "test-results/item-models/worn-nightmarshal-owner-r2/report.json",
+        "test-results/item-models/worn-nightmarshal-owner-r1/report.json",
+        "test-results/item-models/worn-nightglass-r2/report.json",
+        "test-results/item-models/worn-nightglass-r1/report.json",
+        "test-results/item-models/worn-marchhide-r3/report.json",
+        "test-results/item-models/worn-marchhide-r1/report.json",
+        "test-results/item-models/worn-marchhide-owner-r1/report.json",
+        "test-results/item-models/worn-marchhide-final/report.json",
+        "test-results/item-models/worn-kaldite-r2/report.json",
+        "test-results/item-models/worn-kaldite-r1/report.json",
+        "test-results/item-models/worn-kaldite-owner-r3/report.json",
+        "test-results/item-models/worn-grithe-r4/report.json",
+        "test-results/item-models/worn-grithe-r3/report.json",
+        "test-results/item-models/worn-grithe-r1/report.json",
+        "test-results/item-models/worn-grithe-owner-r3/report.json",
+        "test-results/item-models/worn-grithe-owner-r2/report.json",
+        "test-results/item-models/worn-grithe-owner-r1/report.json",
+        "test-results/item-models/worn-grithe-final/report.json",
+        "test-results/item-models/worn-emberite-r2/report.json",
+        "test-results/item-models/worn-emberite-r1/report.json",
+        "test-results/item-models/worn-emberite-owner-r3/report.json",
+        "test-results/item-models/worn-dragonhide-r3/report.json",
+        "test-results/item-models/worn-dragonhide-r1/report.json",
+        "test-results/item-models/worn-dragonhide-owner-r1/report.json",
+        "test-results/item-models/worn-corven-r2/report.json",
+        "test-results/item-models/worn-corven-r1/report.json",
+        "test-results/item-models/worn-corven-owner-r3/report.json",
+        "test-results/item-models/worn-corven-owner-r2/report.json",
+        "test-results/item-models/worn-corven-owner-r1/report.json",
+        "test-results/item-models/worn-corven-final/report.json",
+        "test-results/item-models/worn-cindersteel-r2/report.json",
+        "test-results/item-models/worn-cindersteel-r1/report.json",
+        "test-results/item-models/worn-cindersteel-owner-r3/report.json",
+        "test-results/item-models/worn-cindersteel-final/report.json",
+        "test-results/item-models/worn-charhide-r3/report.json",
+        "test-results/item-models/worn-charhide-r2/report.json",
+        "test-results/item-models/worn-charhide-r1/report.json",
+        "test-results/item-models/worn-charhide-owner-r1/report.json",
+        "test-results/item-models/worn-cairnpelt-r3/report.json",
+        "test-results/item-models/worn-cairnpelt-r1/report.json",
+        "test-results/item-models/worn-cairnpelt-owner-r1/report.json",
+        "test-results/item-models/worn-bramblehide-r3/report.json",
+        "test-results/item-models/worn-bramblehide-r1/report.json",
+        "test-results/item-models/worn-bramblehide-owner-r1/report.json"
+      ]
     },
     "palewood_log": {
       "id": "corealm_item_palewood_log",
@@ -185,7 +246,7 @@
       "itemId": "corven_ring",
       "status": "visual-approved",
       "sha256": "e6fed6f7a7dc5ffd3ccc48de6014ae4e65aa28942fbaf01f56484cb2d9cf9350",
-      "sourceSha256": "3f907df5580906f56df837fe171b87f411acc8cf70d37c05e1a5b9a1f1e8cc86",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
       "referenceSha256": "c6ef6fa24c53ec607eeda080c72e14e9c84de713410fdcb39ecfbf0db8bf5276",
       "metadata": {
         "itemId": "corven_ring",
@@ -195,10 +256,16 @@
       },
       "triangles": 21880,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/jewelry-metal-a-r1/report.json",
+      "evidence": "test-results/item-models/jewelry-metal-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/3f907df5580906f56df837fe171b87f411acc8cf70d37c05e1a5b9a1f1e8cc86.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "itemModel": {
+        "itemId": "corven_ring"
+      },
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_ring.glb",
+      "runtimeEvidence": []
     },
     "kaldite_pendant": {
       "id": "corealm_item_kaldite_pendant",
@@ -232,7 +299,7 @@
       "itemId": "kaldite_pendant",
       "status": "visual-approved",
       "sha256": "c2a2761eb54534295c0a034f4b8b94f20c1d5dbe862beecd74953fdc359ac738",
-      "sourceSha256": "3f907df5580906f56df837fe171b87f411acc8cf70d37c05e1a5b9a1f1e8cc86",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
       "referenceSha256": "dd6345636cbf7f2fe2314f76e9bef21dfab400dd4b42e3274d30f54b418ccf0e",
       "metadata": {
         "itemId": "kaldite_pendant",
@@ -242,10 +309,16 @@
       },
       "triangles": 10396,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/jewelry-metal-a-r1/report.json",
+      "evidence": "test-results/item-models/jewelry-metal-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/3f907df5580906f56df837fe171b87f411acc8cf70d37c05e1a5b9a1f1e8cc86.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "itemModel": {
+        "itemId": "kaldite_pendant"
+      },
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_pendant.glb",
+      "runtimeEvidence": []
     },
     "worn_sword": {
       "id": "corealm_item_worn_sword",
@@ -303,14 +376,15 @@
       },
       "triangles": 15704,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/blades-a-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_sword.glb",
+      "revisionRequired": false
     },
     "grithe_dagger": {
       "id": "corealm_item_grithe_dagger",
@@ -368,14 +442,15 @@
       },
       "triangles": 15388,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/blades-a-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_dagger.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_dagger.glb",
+      "revisionRequired": false
     },
     "corven_dagger": {
       "id": "corealm_item_corven_dagger",
@@ -433,14 +508,15 @@
       },
       "triangles": 16180,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/blades-a-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_dagger.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_dagger.glb",
+      "revisionRequired": false
     },
     "corven_sword": {
       "id": "corealm_item_corven_sword",
@@ -498,14 +574,15 @@
       },
       "triangles": 14648,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/blades-a-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_sword.glb",
+      "revisionRequired": false
     },
     "kaldite_dagger": {
       "id": "corealm_item_kaldite_dagger",
@@ -563,14 +640,15 @@
       },
       "triangles": 19196,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/blades-a-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_dagger.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_dagger.glb",
+      "revisionRequired": false
     },
     "kaldite_sword": {
       "id": "corealm_item_kaldite_sword",
@@ -630,14 +708,15 @@
       },
       "triangles": 35590,
       "drawCalls": 7,
-      "evidence": "test-results/item-models/blades-b-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_sword.glb",
+      "revisionRequired": false
     },
     "emberite_dagger": {
       "id": "corealm_item_emberite_dagger",
@@ -698,14 +777,15 @@
       },
       "triangles": 37802,
       "drawCalls": 8,
-      "evidence": "test-results/item-models/blades-b-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_dagger.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_dagger.glb",
+      "revisionRequired": false
     },
     "emberite_sword": {
       "id": "corealm_item_emberite_sword",
@@ -766,14 +846,15 @@
       },
       "triangles": 47170,
       "drawCalls": 8,
-      "evidence": "test-results/item-models/blades-b-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_sword.glb",
+      "revisionRequired": false
     },
     "cindersteel_sword": {
       "id": "corealm_item_cindersteel_sword",
@@ -832,14 +913,15 @@
       },
       "triangles": 18526,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/blades-b-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_sword.glb",
+      "revisionRequired": false
     },
     "nightglass_sword": {
       "id": "corealm_item_nightglass_sword",
@@ -899,14 +981,15 @@
       },
       "triangles": 28278,
       "drawCalls": 7,
-      "evidence": "test-results/item-models/blades-b-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_sword.glb",
+      "revisionRequired": false
     },
     "galeskin_sword": {
       "id": "corealm_item_galeskin_sword",
@@ -963,14 +1046,15 @@
       },
       "triangles": 17396,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/blades-boss-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-boss-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-boss-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\galeskin_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\galeskin_sword.glb",
+      "revisionRequired": false
     },
     "mossbound_sword": {
       "id": "corealm_item_mossbound_sword",
@@ -1029,14 +1113,15 @@
       },
       "triangles": 28364,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/blades-boss-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-boss-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-boss-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\mossbound_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\mossbound_sword.glb",
+      "revisionRequired": false
     },
     "tideworn_sword": {
       "id": "corealm_item_tideworn_sword",
@@ -1093,14 +1178,15 @@
       },
       "triangles": 26348,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/blades-boss-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-boss-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-boss-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\tideworn_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\tideworn_sword.glb",
+      "revisionRequired": false
     },
     "cinderwake_sword": {
       "id": "corealm_item_cinderwake_sword",
@@ -1159,14 +1245,15 @@
       },
       "triangles": 18938,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/blades-boss-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-boss-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-boss-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderwake_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderwake_sword.glb",
+      "revisionRequired": false
     },
     "chainbound_sword": {
       "id": "corealm_item_chainbound_sword",
@@ -1224,14 +1311,15 @@
       },
       "triangles": 50650,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/blades-boss-r1/report.json",
+      "evidence": "test-results/item-models/held-blades-boss-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-blades-boss-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\chainbound_sword.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\chainbound_sword.glb",
+      "revisionRequired": false
     },
     "basic_wooden_wand": {
       "id": "corealm_item_basic_wooden_wand",
@@ -1298,12 +1386,13 @@
       "drawCalls": 2,
       "evidence": "test-results/item-models/wood-magic-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\basic_wooden_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\basic_wooden_wand.glb",
+      "revisionRequired": false
     },
     "basic_wooden_staff": {
       "id": "corealm_item_basic_wooden_staff",
@@ -1372,12 +1461,13 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/wood-magic-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\basic_wooden_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\basic_wooden_staff.glb",
+      "revisionRequired": false
     },
     "palewood_wand": {
       "id": "corealm_item_palewood_wand",
@@ -1444,12 +1534,13 @@
       "drawCalls": 2,
       "evidence": "test-results/item-models/wood-magic-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_wand.glb",
+      "revisionRequired": false
     },
     "palewood_staff": {
       "id": "corealm_item_palewood_staff",
@@ -1517,12 +1608,13 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/wood-magic-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_staff.glb",
+      "revisionRequired": false
     },
     "duskoak_wand": {
       "id": "corealm_item_duskoak_wand",
@@ -1589,12 +1681,13 @@
       "drawCalls": 2,
       "evidence": "test-results/item-models/wood-magic-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_wand.glb",
+      "revisionRequired": false
     },
     "duskoak_staff": {
       "id": "corealm_item_duskoak_staff",
@@ -1663,12 +1756,13 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/wood-magic-a-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-a-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_staff.glb",
+      "revisionRequired": false
     },
     "cairnpine_wand": {
       "id": "corealm_item_cairnpine_wand",
@@ -1737,12 +1831,13 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_wand.glb",
+      "revisionRequired": false
     },
     "cairnpine_staff": {
       "id": "corealm_item_cairnpine_staff",
@@ -1811,12 +1906,13 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_staff.glb",
+      "revisionRequired": false
     },
     "cinderpine_wand": {
       "id": "corealm_item_cinderpine_wand",
@@ -1886,12 +1982,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_wand.glb",
+      "revisionRequired": false
     },
     "cinderpine_staff": {
       "id": "corealm_item_cinderpine_staff",
@@ -1961,12 +2058,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_staff.glb",
+      "revisionRequired": false
     },
     "teak_wand": {
       "id": "corealm_item_teak_wand",
@@ -2036,12 +2134,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\teak_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\teak_wand.glb",
+      "revisionRequired": false
     },
     "teak_staff": {
       "id": "corealm_item_teak_staff",
@@ -2110,12 +2209,13 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\teak_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\teak_staff.glb",
+      "revisionRequired": false
     },
     "magic_wand": {
       "id": "corealm_item_magic_wand",
@@ -2185,12 +2285,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_wand.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_wand.glb",
+      "revisionRequired": false
     },
     "magic_staff": {
       "id": "corealm_item_magic_staff",
@@ -2260,12 +2361,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/wood-magic-b-r2/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-wood-magic-b-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_staff.glb",
+      "revisionRequired": false
     },
     "air_staff": {
       "id": "corealm_item_air_staff",
@@ -2335,14 +2437,15 @@
       },
       "triangles": 36312,
       "drawCalls": 7,
-      "evidence": "test-results/item-models/elemental-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-elemental-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-elemental-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\air_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\air_staff.glb",
+      "revisionRequired": false
     },
     "earth_staff": {
       "id": "corealm_item_earth_staff",
@@ -2413,14 +2516,15 @@
       },
       "triangles": 51754,
       "drawCalls": 8,
-      "evidence": "test-results/item-models/elemental-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-elemental-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-elemental-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\earth_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\earth_staff.glb",
+      "revisionRequired": false
     },
     "water_staff": {
       "id": "corealm_item_water_staff",
@@ -2491,14 +2595,15 @@
       },
       "triangles": 38208,
       "drawCalls": 8,
-      "evidence": "test-results/item-models/elemental-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-elemental-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-elemental-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\water_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\water_staff.glb",
+      "revisionRequired": false
     },
     "fire_staff": {
       "id": "corealm_item_fire_staff",
@@ -2569,14 +2674,15 @@
       },
       "triangles": 41240,
       "drawCalls": 8,
-      "evidence": "test-results/item-models/elemental-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-elemental-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-elemental-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\fire_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\fire_staff.glb",
+      "revisionRequired": false
     },
     "galeskin_staff": {
       "id": "corealm_item_galeskin_staff",
@@ -2644,14 +2750,15 @@
       },
       "triangles": 32696,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/boss-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-boss-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-boss-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\galeskin_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\galeskin_staff.glb",
+      "revisionRequired": false
     },
     "mossbound_staff": {
       "id": "corealm_item_mossbound_staff",
@@ -2719,14 +2826,15 @@
       },
       "triangles": 45462,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/boss-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-boss-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-boss-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\mossbound_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\mossbound_staff.glb",
+      "revisionRequired": false
     },
     "tideworn_staff": {
       "id": "corealm_item_tideworn_staff",
@@ -2795,14 +2903,15 @@
       },
       "triangles": 50952,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/boss-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-boss-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-boss-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\tideworn_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\tideworn_staff.glb",
+      "revisionRequired": false
     },
     "cinderwake_staff": {
       "id": "corealm_item_cinderwake_staff",
@@ -2871,14 +2980,15 @@
       },
       "triangles": 33872,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/boss-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-boss-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-boss-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderwake_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderwake_staff.glb",
+      "revisionRequired": false
     },
     "regent_staff": {
       "id": "corealm_item_regent_staff",
@@ -2946,14 +3056,15 @@
       },
       "triangles": 39284,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/boss-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-boss-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-boss-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\regent_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\regent_staff.glb",
+      "revisionRequired": false
     },
     "hollowstar_staff": {
       "id": "corealm_item_hollowstar_staff",
@@ -3022,14 +3133,15 @@
       },
       "triangles": 38344,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/boss-staves-r2/report.json",
+      "evidence": "test-results/item-models/held-boss-staves-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-boss-staves-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\hollowstar_staff.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\hollowstar_staff.glb",
+      "revisionRequired": false
     },
     "palewood_shield": {
       "id": "corealm_item_palewood_shield",
@@ -3086,14 +3198,36 @@
       },
       "triangles": 20532,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
+        "test-results/item-models/worn-nightmarshal-r1/report.json",
+        "test-results/item-models/worn-nightmarshal-owner-r2/report.json",
+        "test-results/item-models/worn-nightmarshal-owner-r1/report.json",
+        "test-results/item-models/worn-nightglass-r2/report.json",
+        "test-results/item-models/worn-kaldite-r2/report.json",
+        "test-results/item-models/worn-kaldite-owner-r3/report.json",
+        "test-results/item-models/worn-grithe-r4/report.json",
+        "test-results/item-models/worn-grithe-owner-r3/report.json",
+        "test-results/item-models/worn-grithe-owner-r2/report.json",
+        "test-results/item-models/worn-grithe-owner-r1/report.json",
+        "test-results/item-models/worn-grithe-final/report.json",
+        "test-results/item-models/worn-emberite-r2/report.json",
+        "test-results/item-models/worn-emberite-owner-r3/report.json",
+        "test-results/item-models/worn-corven-r2/report.json",
+        "test-results/item-models/worn-corven-owner-r3/report.json",
+        "test-results/item-models/worn-corven-owner-r2/report.json",
+        "test-results/item-models/worn-corven-owner-r1/report.json",
+        "test-results/item-models/worn-corven-final/report.json",
+        "test-results/item-models/worn-cindersteel-r2/report.json",
+        "test-results/item-models/worn-cindersteel-owner-r3/report.json",
+        "test-results/item-models/worn-cindersteel-final/report.json",
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_shield.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_shield.glb",
+      "revisionRequired": false
     },
     "duskoak_shield": {
       "id": "corealm_item_duskoak_shield",
@@ -3150,14 +3284,15 @@
       },
       "triangles": 28140,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_shield.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_shield.glb",
+      "revisionRequired": false
     },
     "cairnpine_shield": {
       "id": "corealm_item_cairnpine_shield",
@@ -3215,14 +3350,15 @@
       },
       "triangles": 26288,
       "drawCalls": 5,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_shield.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_shield.glb",
+      "revisionRequired": false
     },
     "cinderpine_shield": {
       "id": "corealm_item_cinderpine_shield",
@@ -3279,14 +3415,15 @@
       },
       "triangles": 13648,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_shield.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_shield.glb",
+      "revisionRequired": false
     },
     "teak_shield": {
       "id": "corealm_item_teak_shield",
@@ -3343,14 +3480,15 @@
       },
       "triangles": 18996,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\teak_shield.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\teak_shield.glb",
+      "revisionRequired": false
     },
     "magic_shield": {
       "id": "corealm_item_magic_shield",
@@ -3409,14 +3547,15 @@
       },
       "triangles": 16474,
       "drawCalls": 6,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_shield.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_shield.glb",
+      "revisionRequired": false
     },
     "ashseal_guard": {
       "id": "corealm_item_ashseal_guard",
@@ -3473,14 +3612,15 @@
       },
       "triangles": 20766,
       "drawCalls": 4,
-      "evidence": "test-results/item-models/shields-r3/report.json",
+      "evidence": "test-results/item-models/worn-nightmarshal-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/held-shields-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\ashseal_guard.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\ashseal_guard.glb",
+      "revisionRequired": false
     },
     "air_orb": {
       "id": "corealm_item_air_orb",
@@ -3829,8 +3969,14 @@
       "drawCalls": 7,
       "evidence": "test-results/item-models/orbs-wands-r3/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\air_wand.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/held-orbs-wands-r2/report.json",
+        "test-results/item-models/held-orbs-wands-r1/report.json"
+      ]
     },
     "earth_wand": {
       "id": "corealm_item_earth_wand",
@@ -3902,8 +4048,13 @@
       "drawCalls": 7,
       "evidence": "test-results/item-models/orbs-wands-r3/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\earth_wand.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/held-orbs-wands-r2/report.json"
+      ]
     },
     "water_wand": {
       "id": "corealm_item_water_wand",
@@ -3975,8 +4126,14 @@
       "drawCalls": 7,
       "evidence": "test-results/item-models/orbs-wands-r3/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\water_wand.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/held-orbs-wands-r2/report.json",
+        "test-results/item-models/held-orbs-wands-r1/report.json"
+      ]
     },
     "fire_wand": {
       "id": "corealm_item_fire_wand",
@@ -4048,8 +4205,14 @@
       "drawCalls": 7,
       "evidence": "test-results/item-models/orbs-wands-r3/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
-      "promoted": false
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\fire_wand.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/held-orbs-wands-r2/report.json",
+        "test-results/item-models/held-orbs-wands-r1/report.json"
+      ]
     },
     "worn_pickaxe": {
       "id": "corealm_item_worn_pickaxe",
@@ -4110,12 +4273,13 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_pickaxe.glb",
+      "revisionRequired": false
     },
     "grithe_pickaxe": {
       "id": "corealm_item_grithe_pickaxe",
@@ -4176,12 +4340,13 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_pickaxe.glb",
+      "revisionRequired": false
     },
     "corven_pickaxe": {
       "id": "corealm_item_corven_pickaxe",
@@ -4242,12 +4407,13 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_pickaxe.glb",
+      "revisionRequired": false
     },
     "kaldite_pickaxe": {
       "id": "corealm_item_kaldite_pickaxe",
@@ -4308,12 +4474,13 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_pickaxe.glb",
+      "revisionRequired": false
     },
     "emberite_pickaxe": {
       "id": "corealm_item_emberite_pickaxe",
@@ -4374,12 +4541,13 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_pickaxe.glb",
+      "revisionRequired": false
     },
     "cindersteel_pickaxe": {
       "id": "corealm_item_cindersteel_pickaxe",
@@ -4440,12 +4608,13 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_pickaxe.glb",
+      "revisionRequired": false
     },
     "nightglass_pickaxe": {
       "id": "corealm_item_nightglass_pickaxe",
@@ -4507,12 +4676,13 @@
       "drawCalls": 7,
       "evidence": "test-results/item-models/pickaxes-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-pickaxes-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_pickaxe.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_pickaxe.glb",
+      "revisionRequired": false
     },
     "worn_hatchet": {
       "id": "corealm_item_worn_hatchet",
@@ -4572,12 +4742,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_hatchet.glb",
+      "revisionRequired": false
     },
     "grithe_hatchet": {
       "id": "corealm_item_grithe_hatchet",
@@ -4637,12 +4808,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_hatchet.glb",
+      "revisionRequired": false
     },
     "corven_hatchet": {
       "id": "corealm_item_corven_hatchet",
@@ -4702,12 +4874,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_hatchet.glb",
+      "revisionRequired": false
     },
     "kaldite_hatchet": {
       "id": "corealm_item_kaldite_hatchet",
@@ -4767,12 +4940,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_hatchet.glb",
+      "revisionRequired": false
     },
     "emberite_hatchet": {
       "id": "corealm_item_emberite_hatchet",
@@ -4832,12 +5006,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_hatchet.glb",
+      "revisionRequired": false
     },
     "cindersteel_hatchet": {
       "id": "corealm_item_cindersteel_hatchet",
@@ -4897,12 +5072,13 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_hatchet.glb",
+      "revisionRequired": false
     },
     "nightglass_hatchet": {
       "id": "corealm_item_nightglass_hatchet",
@@ -4964,12 +5140,13 @@
       "drawCalls": 7,
       "evidence": "test-results/item-models/hatchets-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [
         "test-results/item-models/gather-hatchets-r1/report.json"
       ],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_hatchet.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_hatchet.glb",
+      "revisionRequired": false
     },
     "duskoak_log": {
       "id": "corealm_item_duskoak_log",
@@ -5409,10 +5586,11 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/jewelry-magic-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\ember_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\ember_ring.glb",
+      "revisionRequired": false
     },
     "ember_charm": {
       "id": "corealm_item_ember_charm",
@@ -5459,10 +5637,11 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/jewelry-magic-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\ember_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\ember_charm.glb",
+      "revisionRequired": false
     },
     "stone_ring": {
       "id": "corealm_item_stone_ring",
@@ -5506,10 +5685,11 @@
       "drawCalls": 2,
       "evidence": "test-results/item-models/jewelry-magic-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\stone_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\stone_ring.glb",
+      "revisionRequired": false
     },
     "stone_charm": {
       "id": "corealm_item_stone_charm",
@@ -5553,10 +5733,11 @@
       "drawCalls": 2,
       "evidence": "test-results/item-models/jewelry-magic-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\stone_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\stone_charm.glb",
+      "revisionRequired": false
     },
     "storm_ring": {
       "id": "corealm_item_storm_ring",
@@ -5601,10 +5782,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-magic-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\storm_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\storm_ring.glb",
+      "revisionRequired": false
     },
     "storm_charm": {
       "id": "corealm_item_storm_charm",
@@ -5651,10 +5833,11 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/jewelry-magic-a-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\storm_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\storm_charm.glb",
+      "revisionRequired": false
     },
     "foxhair_ring": {
       "id": "corealm_item_foxhair_ring",
@@ -5699,10 +5882,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\foxhair_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\foxhair_ring.glb",
+      "revisionRequired": false
     },
     "turkey_plume_charm": {
       "id": "corealm_item_turkey_plume_charm",
@@ -5749,10 +5933,11 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\turkey_plume_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\turkey_plume_charm.glb",
+      "revisionRequired": false
     },
     "lynx_sinew_ring": {
       "id": "corealm_item_lynx_sinew_ring",
@@ -5797,10 +5982,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\lynx_sinew_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\lynx_sinew_ring.glb",
+      "revisionRequired": false
     },
     "heron_quill_charm": {
       "id": "corealm_item_heron_quill_charm",
@@ -5848,10 +6034,11 @@
       "drawCalls": 6,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\heron_quill_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\heron_quill_charm.glb",
+      "revisionRequired": false
     },
     "quillguard_ring": {
       "id": "corealm_item_quillguard_ring",
@@ -5895,10 +6082,11 @@
       "drawCalls": 2,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\quillguard_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\quillguard_ring.glb",
+      "revisionRequired": false
     },
     "antler_palm_charm": {
       "id": "corealm_item_antler_palm_charm",
@@ -5945,10 +6133,11 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\antler_palm_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\antler_palm_charm.glb",
+      "revisionRequired": false
     },
     "chitin_ring": {
       "id": "corealm_item_chitin_ring",
@@ -5993,10 +6182,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\chitin_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\chitin_ring.glb",
+      "revisionRequired": false
     },
     "mantis_edge_charm": {
       "id": "corealm_item_mantis_edge_charm",
@@ -6041,10 +6231,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-trophies-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\mantis_edge_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\mantis_edge_charm.glb",
+      "revisionRequired": false
     },
     "cinder_ring": {
       "id": "corealm_item_cinder_ring",
@@ -6091,10 +6282,11 @@
       "drawCalls": 5,
       "evidence": "test-results/item-models/jewelry-magic-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinder_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinder_ring.glb",
+      "revisionRequired": false
     },
     "cinder_charm": {
       "id": "corealm_item_cinder_charm",
@@ -6139,10 +6331,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-magic-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinder_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinder_charm.glb",
+      "revisionRequired": false
     },
     "emberweave_ring": {
       "id": "corealm_item_emberweave_ring",
@@ -6188,10 +6381,11 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/jewelry-magic-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberweave_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberweave_ring.glb",
+      "revisionRequired": false
     },
     "emberweave_charm": {
       "id": "corealm_item_emberweave_charm",
@@ -6236,10 +6430,11 @@
       "drawCalls": 3,
       "evidence": "test-results/item-models/jewelry-magic-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberweave_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberweave_charm.glb",
+      "revisionRequired": false
     },
     "starweave_ring": {
       "id": "corealm_item_starweave_ring",
@@ -6285,10 +6480,11 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/jewelry-magic-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\starweave_ring.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\starweave_ring.glb",
+      "revisionRequired": false
     },
     "starweave_charm": {
       "id": "corealm_item_starweave_charm",
@@ -6334,10 +6530,11 @@
       "drawCalls": 4,
       "evidence": "test-results/item-models/jewelry-magic-b-r1/report.json",
       "sourceSnapshot": "art/item-models/source-snapshots/8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629.ts",
-      "review": "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval.",
       "promoted": true,
       "runtimeEvidence": [],
-      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\starweave_charm.glb"
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\starweave_charm.glb",
+      "revisionRequired": false
     },
     "silt_minnow": {
       "id": "corealm_item_silt_minnow",
@@ -8325,6 +8522,934 @@
       "promoted": true,
       "runtimeEvidence": [],
       "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\magic_handle.glb"
+    },
+    "worn_rod": {
+      "id": "corealm_item_worn_rod",
+      "file": "models/items/worn_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_rod"
+      ],
+      "bytes": 1455316,
+      "itemModel": {
+        "itemId": "worn_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.17195041111257814,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15331,
+            0.09222999999999999,
+            0.07749999999999999
+          ],
+          "line": 11904385,
+          "bobber": 9867397
+        }
+      },
+      "size": {
+        "x": 0.3667455959930732,
+        "y": 1.9247767463375252,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.03509518504142761,
+        "y": -0.25903909319806995,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "worn_rod-longitudinal-wood-grain",
+        "worn_rod-creased-hide-wrap",
+        "worn_rod-worked-reel-metal",
+        "worn_rod-reel-seat-iron",
+        "worn_rod-twisted-gut",
+        "worn_rod-float-body"
+      ],
+      "itemId": "worn_rod",
+      "status": "visual-approved",
+      "sha256": "989376af78635d73e270fa5422142d3cce2ec4006a5a7c571bc1a7d18224f549",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "59e3052c1beb65632f2ace575c777f79305796f83308ce2a5c8573d6897238c6",
+      "metadata": {
+        "itemId": "worn_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/worn_rod.png",
+        "description": "A green stick and a length of gut. One effective Fishing level, on a good day.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.17195041111257814,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15331,
+            0.09222999999999999,
+            0.07749999999999999
+          ],
+          "line": 11904385,
+          "bobber": 9867397
+        }
+      },
+      "triangles": 33320,
+      "drawCalls": 8,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\worn_rod.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/fishing-worn_rod/report.json"
+      ],
+      "evidence": "test-results/item-models/rods-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "palewood_rod": {
+      "id": "corealm_item_palewood_rod",
+      "file": "models/items/palewood_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_rod"
+      ],
+      "bytes": 1456276,
+      "itemModel": {
+        "itemId": "palewood_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.173,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.14872,
+            0.09376,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 14733749
+        }
+      },
+      "size": {
+        "x": 0.3607999986708164,
+        "y": 1.921353051605243,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "palewood_rod-longitudinal-wood-grain",
+        "palewood_rod-worked-reel-metal",
+        "palewood_rod-creased-hide-wrap",
+        "palewood_rod-reel-seat-iron",
+        "palewood_rod-twisted-gut",
+        "palewood_rod-float-body"
+      ],
+      "itemId": "palewood_rod",
+      "status": "visual-approved",
+      "sha256": "5be0885021934e9f09648590420516c5731bae1a6395711a2d7d3b9cb29f81df",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "9a982619cd20727e5027ab612c08fd686dc8f19bb429e41bd97c617a64e0a3f5",
+      "metadata": {
+        "itemId": "palewood_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/palewood_rod.png",
+        "description": "A shaft, a hide line, and a bent pin. Two effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.173,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.14872,
+            0.09376,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 14733749
+        }
+      },
+      "triangles": 32672,
+      "drawCalls": 8,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\palewood_rod.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/fishing-palewood_rod/report.json"
+      ],
+      "evidence": "test-results/item-models/rods-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "duskoak_rod": {
+      "id": "corealm_item_duskoak_rod",
+      "file": "models/items/duskoak_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_rod"
+      ],
+      "bytes": 1983400,
+      "itemModel": {
+        "itemId": "duskoak_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.213,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16045,
+            0.08985,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 12944152
+        }
+      },
+      "size": {
+        "x": 0.4007999986708164,
+        "y": 1.921692990607766,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "duskoak_rod-longitudinal-wood-grain",
+        "duskoak_rod-worked-reel-metal",
+        "duskoak_rod-creased-hide-wrap",
+        "duskoak_rod-cork",
+        "duskoak_rod-reel-seat-iron",
+        "duskoak_rod-twisted-gut",
+        "duskoak_rod-float-body"
+      ],
+      "itemId": "duskoak_rod",
+      "status": "visual-approved",
+      "sha256": "a120553519b4c548837a4ddaeda1542d98a48a31b7c2cc46bff1f5c3cb758a48",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "0dbe0fe2ba120352554baccb0cddf7da5a34c666a8464f0a1a06742911a13900",
+      "metadata": {
+        "itemId": "duskoak_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/duskoak_rod.png",
+        "description": "Springy enough for a trout. Five effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.213,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16045,
+            0.08985,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 12944152
+        }
+      },
+      "triangles": 40796,
+      "drawCalls": 9,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\duskoak_rod.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/fishing-duskoak_rod/report.json"
+      ],
+      "evidence": "test-results/item-models/rods-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "cairnpine_rod": {
+      "id": "corealm_item_cairnpine_rod",
+      "file": "models/items/cairnpine_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_rod"
+      ],
+      "bytes": 1526844,
+      "itemModel": {
+        "itemId": "cairnpine_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.193,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15484,
+            0.09172,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 5774103
+        }
+      },
+      "size": {
+        "x": 0.38079999867081643,
+        "y": 1.9215245838155501,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "cairnpine_rod-longitudinal-wood-grain",
+        "cairnpine_rod-worked-reel-metal",
+        "cairnpine_rod-creased-hide-wrap",
+        "cairnpine_rod-reel-seat-iron",
+        "cairnpine_rod-twisted-gut",
+        "cairnpine_rod-float-body"
+      ],
+      "itemId": "cairnpine_rod",
+      "status": "visual-approved",
+      "sha256": "1f19d9ea8f687b06636731487cc974af92f221980abe2d9ddc81f20e7fae98c3",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "d245486315e6948160f8edcea8145aea2a95d9be3d86fa0ba279b84ac4c4f749",
+      "metadata": {
+        "itemId": "cairnpine_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/cairnpine_rod.png",
+        "description": "Built for perch, which fight like something with a grudge. Nine effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.193,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15484,
+            0.09172,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 5774103
+        }
+      },
+      "triangles": 35088,
+      "drawCalls": 8,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cairnpine_rod.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/fishing-cairnpine_rod/report.json"
+      ],
+      "evidence": "test-results/item-models/rods-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "cinderpine_rod": {
+      "id": "corealm_item_cinderpine_rod",
+      "file": "models/items/cinderpine_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_rod"
+      ],
+      "bytes": 1891820,
+      "itemModel": {
+        "itemId": "cinderpine_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.23299999999999998,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16453,
+            0.08849,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 13060875
+        }
+      },
+      "size": {
+        "x": 0.4207999986708164,
+        "y": 1.9218580161339884,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "cinderpine_rod-longitudinal-wood-grain",
+        "cinderpine_rod-worked-reel-metal",
+        "cinderpine_rod-creased-hide-wrap",
+        "cinderpine_rod-reel-seat-iron",
+        "cinderpine_rod-twisted-gut",
+        "cinderpine_rod-float-body"
+      ],
+      "itemId": "cinderpine_rod",
+      "status": "visual-approved",
+      "sha256": "fe9baa5a51f9ace56549e095d6579bdddc4788cc8aa5fdbd246c2307e6a7b84e",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "d9202d1bd8757611ee7d04ed6c9fe3134dcd7ef49d9179ec33d130485beab609",
+      "metadata": {
+        "itemId": "cinderpine_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/cinderpine_rod.png",
+        "description": "A flexible walnut rod built for heavy bass. Seventeen effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.23299999999999998,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16453,
+            0.08849,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 13060875
+        }
+      },
+      "triangles": 38568,
+      "drawCalls": 8,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cinderpine_rod.glb",
+      "runtimeEvidence": [
+        "test-results/item-models/fishing-cinderpine_rod/report.json"
+      ],
+      "evidence": "test-results/item-models/rods-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "grithe_pendant": {
+      "id": "corealm_item_grithe_pendant",
+      "file": "models/items/grithe_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_pendant"
+      ],
+      "bytes": 926248,
+      "itemModel": {
+        "itemId": "grithe_pendant"
+      },
+      "size": {
+        "x": 0.02929343655705452,
+        "y": 0.05748431894108653,
+        "z": 0.006015500519424677
+      },
+      "base": {
+        "x": -0.01464671827852726,
+        "y": -0.018646718934178352,
+        "z": -0.003007751889526844
+      },
+      "animations": [],
+      "materials": [
+        "Reddish hand hammered copper",
+        "Darkened copper recessed border"
+      ],
+      "itemId": "grithe_pendant",
+      "status": "visual-approved",
+      "sha256": "de89d76e25f90119653e1b887283a23068854ca577f71a328e5602d9de2f5cb3",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "ca96448bde6f8caec2a96f74c59d9c447c7e68b0e993a4f6ea53ed4d79a85aed",
+      "metadata": {
+        "itemId": "grithe_pendant",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/grithe_pendant.png",
+        "description": "Oval hammered copper medallion with raised border, folded bail, interlocked short chain and inferred rear Trade Company serial."
+      },
+      "triangles": 23200,
+      "drawCalls": 2,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\grithe_pendant.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-a-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "corven_pendant": {
+      "id": "corealm_item_corven_pendant",
+      "file": "models/items/corven_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_pendant"
+      ],
+      "bytes": 1108328,
+      "itemModel": {
+        "itemId": "corven_pendant"
+      },
+      "size": {
+        "x": 0.027039851993322372,
+        "y": 0.058387681021541356,
+        "z": 0.0075077516958117485
+      },
+      "base": {
+        "x": -0.013519925996661186,
+        "y": -0.01755008101463318,
+        "z": -0.003007751889526844
+      },
+      "animations": [],
+      "materials": [
+        "Clear golden honey amber pendant",
+        "Amber suspended bark and ancient fern",
+        "Golden resin fracture flakes",
+        "Worn charcoal iron"
+      ],
+      "itemId": "corven_pendant",
+      "status": "visual-approved",
+      "sha256": "f4e97d84547e9c88acf7d635a9f0629d0c7e610a859d67a1beca0ac8033e8786",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "eb0b3fce245adc796b57dbb7ec956d943a9ff9556e7d4324b4c09e4d54307062",
+      "metadata": {
+        "itemId": "corven_pendant",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/corven_pendant.png",
+        "description": "Pear shaped honey amber pendant with fossil fern, three folded iron claws, closed rear basket, broad hollow bail and iron chain."
+      },
+      "triangles": 27366,
+      "drawCalls": 4,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\corven_pendant.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-a-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "kaldite_ring": {
+      "id": "corealm_item_kaldite_ring",
+      "file": "models/items/kaldite_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_ring"
+      ],
+      "bytes": 792752,
+      "itemModel": {
+        "itemId": "kaldite_ring"
+      },
+      "size": {
+        "x": 0.02329999953508377,
+        "y": 0.028649999730661513,
+        "z": 0.012016106396913528
+      },
+      "base": {
+        "x": -0.011649999767541885,
+        "y": -0.011649999767541885,
+        "z": -0.006008053198456764
+      },
+      "animations": [],
+      "materials": [
+        "Blue steel cobalt band",
+        "Deep red transparent garnet",
+        "Garnet internal dark mineral feathers",
+        "Scarlet garnet fracture flakes",
+        "Bright bevels of cobalt"
+      ],
+      "itemId": "kaldite_ring",
+      "status": "visual-approved",
+      "sha256": "850a581d623671ab9cda2e6331d4243513d9943cc292ed14fccfc1444366c0d6",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "4ccedae84f8eee48a5a664194a547b9b115fc836817c14cf4617783b1c2c2bb1",
+      "metadata": {
+        "itemId": "kaldite_ring",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/kaldite_ring.png",
+        "description": "Heavy blue cobalt ring with octagonal setting, four angular claws, faceted red garnet, shoulder diamonds and inferred inner quarry tally."
+      },
+      "triangles": 11724,
+      "drawCalls": 5,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\kaldite_ring.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-a-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "emberite_ring": {
+      "id": "corealm_item_emberite_ring",
+      "file": "models/items/emberite_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_ring"
+      ],
+      "bytes": 811280,
+      "itemModel": {
+        "itemId": "emberite_ring"
+      },
+      "size": {
+        "x": 0.023399999365210533,
+        "y": 0.026399999626725915,
+        "z": 0.012740000151097775
+      },
+      "base": {
+        "x": -0.011699999682605267,
+        "y": -0.011699999682605267,
+        "z": -0.006370000075548887
+      },
+      "animations": [],
+      "materials": [
+        "Engraved antique silver",
+        "Polished translucent fire amber emberite",
+        "Suspended gold orange ember mineral feathers"
+      ],
+      "itemId": "emberite_ring",
+      "status": "visual-approved",
+      "sha256": "475b9ab81bf90495150c5ee458e32153cc22769cf5aa0e74e7ff25bd8bc1653d",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "b28649d6ee5fa9f9e1ab3b7ce25290a2f89b9ac2553d192d4a79bbd12b2a15b3",
+      "metadata": {
+        "itemId": "emberite_ring",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/emberite_ring.png",
+        "description": "Silver split scroll shoulders, swept flame claws and translucent oval orange fire amber cabochon; circular 20 mm comfort bore."
+      },
+      "triangles": 21236,
+      "drawCalls": 3,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_ring.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "emberite_pendant": {
+      "id": "corealm_item_emberite_pendant",
+      "file": "models/items/emberite_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_pendant"
+      ],
+      "bytes": 710452,
+      "itemModel": {
+        "itemId": "emberite_pendant"
+      },
+      "size": {
+        "x": 0.01984516903758049,
+        "y": 0.040259658358991146,
+        "z": 0.009200000204145908
+      },
+      "base": {
+        "x": -0.009922686032950878,
+        "y": -0.014879821799695492,
+        "z": -0.004600000102072954
+      },
+      "animations": [],
+      "materials": [
+        "Polished translucent fire amber emberite",
+        "Suspended gold orange ember mineral feathers",
+        "Antique bright silver"
+      ],
+      "itemId": "emberite_pendant",
+      "status": "visual-approved",
+      "sha256": "fc61df9b55e8a8a371e34a75be930d1aef5056cde26d3709f1e2738e6585a01a",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "a05af0858878fbb8c0314859d4816b909efc41eed20c6ec079b5536748c2bebd",
+      "metadata": {
+        "itemId": "emberite_pendant",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/emberite_pendant.png",
+        "description": "Pear fire amber cabochon in continuous silver bezel with five sculpted flame claws, articulated jump ring and open bail."
+      },
+      "triangles": 17524,
+      "drawCalls": 3,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\emberite_pendant.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "cindersteel_ring": {
+      "id": "corealm_item_cindersteel_ring",
+      "file": "models/items/cindersteel_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_ring"
+      ],
+      "bytes": 1038980,
+      "itemModel": {
+        "itemId": "cindersteel_ring"
+      },
+      "size": {
+        "x": 0.023852504789829254,
+        "y": 0.024679827503859997,
+        "z": 0.007000000216066837
+      },
+      "base": {
+        "x": -0.01194053329527378,
+        "y": -0.011956882663071156,
+        "z": -0.0035000001080334187
+      },
+      "animations": [],
+      "materials": [
+        "Hammered charcoal cindersteel",
+        "Recessed hot copper seams"
+      ],
+      "itemId": "cindersteel_ring",
+      "status": "visual-approved",
+      "sha256": "5d0c22f1d1cd45267dcdd6f06bb9ca4afe1862895460659b2fea0423700c18e9",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "48c79d1b4d86ce6d409de9c949193e9c333c63a1b158e3bb814288edadcba616",
+      "metadata": {
+        "itemId": "cindersteel_ring",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/cindersteel_ring.png",
+        "description": "Broad charcoal hammered band with two wandering recessed copper seams and smooth 20 mm comfort bore."
+      },
+      "triangles": 29184,
+      "drawCalls": 2,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_ring.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "cindersteel_pendant": {
+      "id": "corealm_item_cindersteel_pendant",
+      "file": "models/items/cindersteel_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_pendant"
+      ],
+      "bytes": 1587628,
+      "itemModel": {
+        "itemId": "cindersteel_pendant"
+      },
+      "size": {
+        "x": 0.027470000088214874,
+        "y": 0.04337983578443527,
+        "z": 0.009076089106500148
+      },
+      "base": {
+        "x": -0.013000000268220901,
+        "y": -0.017999999225139618,
+        "z": -0.003926089033484459
+      },
+      "animations": [],
+      "materials": [
+        "Forged dark cindersteel shield",
+        "Hammered copper channel inlay"
+      ],
+      "itemId": "cindersteel_pendant",
+      "status": "visual-approved",
+      "sha256": "888f04397671cb50c15750a914e6a5efa38eeaeb500ffe6622582a302dbdefe2",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "4b589065e0b88219536d9fe17f4f169b53903656a050125f762e33d2c3a77f58",
+      "metadata": {
+        "itemId": "cindersteel_pendant",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/cindersteel_pendant.png",
+        "description": "Thick pointed shield with separately raised ridged steel plates, exposed branching copper channels and copper striped bail with articulated chain."
+      },
+      "triangles": 44412,
+      "drawCalls": 2,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\cindersteel_pendant.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "nightglass_ring": {
+      "id": "corealm_item_nightglass_ring",
+      "file": "models/items/nightglass_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_ring"
+      ],
+      "bytes": 528788,
+      "itemModel": {
+        "itemId": "nightglass_ring"
+      },
+      "size": {
+        "x": 0.02383999999333173,
+        "y": 0.026570000022184105,
+        "z": 0.008799999952316284
+      },
+      "base": {
+        "x": -0.011919999996665865,
+        "y": -0.011919999996665865,
+        "z": -0.004399999976158142
+      },
+      "animations": [],
+      "materials": [
+        "Blue black polished nightglass alloy",
+        "Nightglass polished bevel edges"
+      ],
+      "itemId": "nightglass_ring",
+      "status": "visual-approved",
+      "sha256": "523772deb01f0aa061eddea159d28308cc29a5fef881a4da93134353f7570780",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "87c8e48008133da71997555e4ecf894f29194d49274b4987a828b60e31a94e4d",
+      "metadata": {
+        "itemId": "nightglass_ring",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/nightglass_ring.png",
+        "description": "Blue black angular overlapping facets around a comfort bore with elevated beveled lozenge signet."
+      },
+      "triangles": 9624,
+      "drawCalls": 2,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_ring.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "nightglass_pendant": {
+      "id": "corealm_item_nightglass_pendant",
+      "file": "models/items/nightglass_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_pendant"
+      ],
+      "bytes": 1544904,
+      "itemModel": {
+        "itemId": "nightglass_pendant"
+      },
+      "size": {
+        "x": 0.027470000088214874,
+        "y": 0.04337983578443527,
+        "z": 0.008576089087501168
+      },
+      "base": {
+        "x": -0.013000000268220901,
+        "y": -0.017999999225139618,
+        "z": -0.003926089033484459
+      },
+      "animations": [],
+      "materials": [
+        "Blue black polished nightglass alloy",
+        "Cold blue polished shield bevel"
+      ],
+      "itemId": "nightglass_pendant",
+      "status": "visual-approved",
+      "sha256": "18032ba39ed55f0b724ecc66a33fd213c3f3ea2461545c25fde58f7f313ff38b",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "f1bf2f2d61bfb2ced1a2757ae47509c724c5c6da46ccb6276a1dc0368f6897ca",
+      "metadata": {
+        "itemId": "nightglass_pendant",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/nightglass_pendant.png",
+        "description": "Solid blue black ridged shield with broad polished angular bevel, tapered open bail and articulated dark chain."
+      },
+      "triangles": 42420,
+      "drawCalls": 2,
+      "promoted": true,
+      "revisionRequired": false,
+      "productionFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\items\\nightglass_pendant.glb",
+      "runtimeEvidence": [],
+      "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
+      "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
     }
   }
 }

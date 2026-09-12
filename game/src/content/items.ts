@@ -25,6 +25,7 @@ import { healAmount, toolBonus } from "./index.js";
 import { EQUIPMENT, MAGIC_ORBS } from "./equipment.js";
 import { CREATURE_LOOT_ITEMS } from "./creatureLoot.js";
 import { WILDERNESS_LOOT_ITEMS } from './wildernessLoot.js';
+import { BOSS_ARMOR_ITEMS } from './bossArmor.js';
 
 // ------------------------------------------------------------------------------ currency
 
@@ -666,7 +667,7 @@ export const ITEMS: readonly ItemDef[] = [
 
 /** The table the root registers as `items`. */
 export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...HIGH_TIER_LOG_ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS,
-  ...WILDERNESS_LOOT_ITEMS];
+  ...WILDERNESS_LOOT_ITEMS, ...BOSS_ARMOR_ITEMS];
 
 /** The currency item id, so nothing else has to spell it. PRD 2.10: currency is marks. */
 export const CURRENCY_ITEM_ID = "marks";

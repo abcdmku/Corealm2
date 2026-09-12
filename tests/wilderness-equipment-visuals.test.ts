@@ -29,7 +29,7 @@ describe('Wilderness equipment appearance', () => {
           expect(part.slot, item.id).toBe(item.equip!.slot);
           expect(assets.has(part.assetId) || isProceduralGearAsset(part.assetId), part.assetId).toBe(true);
           if (part.attach === 'skin') {
-            expect(part.assetId).toMatch(new RegExp(`^outfit_${body}_(knight|ranger)_`));
+            expect(part.assetId).toMatch(new RegExp(`^(outfit_${body}_knight_|fab_${body}_mage_)`));
             expect(part.scale, `${item.id} must follow its skeleton`).toBeUndefined();
           } else expect(weaponAttachment(part), `${item.id} attachment`).not.toBeNull();
         }
@@ -80,7 +80,9 @@ describe('Wilderness equipment appearance', () => {
     const warm = new THREE.Color(cinder.tint), cool = new THREE.Color(night.tint);
     expect(warm.r).toBeGreaterThan(warm.b);
     expect(cool.b).toBeGreaterThan(cool.r);
-    expect(gearAppearance('dragonhide_robe')!.tint).not.toBe(gearAppearance('starhide_robe')!.tint);
+    for (const id of ['dragonhide_robe', 'starhide_robe']) {
+      expect(gearAppearance(id)).toEqual({ itemId: id, assetId: 'fab_male_mage_body', slot: 'body', attach: 'skin' });
+    }
     for (const id of rewards) {
       const item = WILDERNESS_LOOT_ITEMS.find(item => item.id === id)!;
       expect(item, id).toBeDefined();

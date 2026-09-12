@@ -21,6 +21,7 @@
   },
   "scripts": {
     "dev": "tsx tools/dev-game.ts",
+    "assets:review": "tsx tools/asset-review/server.ts",
     "build": "tsx tools/build-game.ts",
     "check": "npm run typecheck && npm test && npm run build && npm run docs:build",
     "check:fast": "npm run typecheck && npm test",

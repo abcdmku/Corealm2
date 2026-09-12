@@ -159,7 +159,8 @@ export const FEATURE_LAB_CATALOG = {
   equipment: EQUIP_SLOTS.map((slot) => ({
     slot,
     label: titleCaseIdentifier(slot),
-    items: [...new Map([...ALL_ITEMS, ...WILDERNESS_LOOT_ITEMS].map(item => [item.id, item])).values()]
+    items: [...new Map([...ALL_ITEMS, ...WILDERNESS_LOOT_ITEMS,
+    ].map(item => [item.id, item])).values()]
       .filter((item) => item.equip?.slot === slot)
       .map((item) => ({ id: item.id, label: item.name })),
   })),

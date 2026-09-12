@@ -1,0 +1,157 @@
+[
+  {
+    "id": "nightweave_hood",
+    "source": "art/fab-armor/icons/nightweave/nightweave_hood.png",
+    "sha256": "cd96bb5ce5593769e9f4792373de879f9e1a55dbcf00381cd545ab002db40c54",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one empty dark brocade martial mage headband with silver central fitting and small coordinated topknot binding ring arranged as one wearable accessory. No head or hair. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: complete empty garment/accessory or matched pair; no wearer, body, stand, text, or scene. Navy brocade and silver floral detailing with violet-teal material accents are coherent across set.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 904623,
+      "transparentFraction": 0.5752710942209809,
+      "alphaBounds": {
+        "minX": 0,
+        "minY": 21,
+        "maxX": 1225,
+        "maxY": 1253
+      },
+      "nonzeroAlphaEdgePixels": 1,
+      "meaningfulAlphaThreshold": 8,
+      "meaningfulAlphaBounds": {
+        "minX": 43,
+        "minY": 41,
+        "maxX": 1212,
+        "maxY": 1227
+      },
+      "meaningfulAlphaEdgePixels": 0,
+      "marginNote": "Complete object visible with transparent separation from edges; faint alpha noise under 8 preserved from original. Integration may normalize padding for consistent 80% footprint."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "nightweave_robe",
+    "source": "art/fab-armor/icons/nightweave/nightweave_robe.png",
+    "sha256": "f1325aebcc7e713bf69e0dcc49994acc821513d6971e8a8df4cc70ed855be2b8",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one empty asymmetric martial mage torso with dark floral brocade diagonal sash crossing finely ornamented dark navy cuirass, one raised shoulder guard. No head, arms, hands or lower legs. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: complete empty garment/accessory or matched pair; no wearer, body, stand, text, or scene. Navy brocade and silver floral detailing with violet-teal material accents are coherent across set.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 844207,
+      "transparentFraction": 0.5368511353779548,
+      "alphaBounds": {
+        "minX": 37,
+        "minY": 8,
+        "maxX": 1237,
+        "maxY": 1253
+      },
+      "nonzeroAlphaEdgePixels": 20,
+      "meaningfulAlphaThreshold": 8,
+      "meaningfulAlphaBounds": {
+        "minX": 226,
+        "minY": 12,
+        "maxX": 1144,
+        "maxY": 1250
+      },
+      "meaningfulAlphaEdgePixels": 0,
+      "marginNote": "Complete object visible with transparent separation from edges; faint alpha noise under 8 preserved from original. Integration may normalize padding for consistent 80% footprint."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "nightweave_leggings",
+    "source": "art/fab-armor/icons/nightweave/nightweave_leggings.png",
+    "sha256": "54873351ffe205681be95ef450a7c79792edaac0a26006d44929776677aa486b",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one pair of empty martial mage trousers with dark embroidered black brocade hanging panels and sculpted navy thigh guards, hollow waistband, no boots. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: complete empty garment/accessory or matched pair; no wearer, body, stand, text, or scene. Navy brocade and silver floral detailing with violet-teal material accents are coherent across set.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 770150,
+      "transparentFraction": 0.4897565430176863,
+      "alphaBounds": {
+        "minX": 59,
+        "minY": 17,
+        "maxX": 1233,
+        "maxY": 1239
+      },
+      "nonzeroAlphaEdgePixels": 0,
+      "meaningfulAlphaThreshold": 8,
+      "meaningfulAlphaBounds": {
+        "minX": 102,
+        "minY": 20,
+        "maxX": 1153,
+        "maxY": 1237
+      },
+      "meaningfulAlphaEdgePixels": 0,
+      "marginNote": "Complete object visible with transparent separation from edges; faint alpha noise under 8 preserved from original. Integration may normalize padding for consistent 80% footprint."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "nightweave_wraps",
+    "source": "art/fab-armor/icons/nightweave/nightweave_wraps.png",
+    "sha256": "2f85be04bdbb91cd5b04ebfacc6fee81bbc33dcafe3bd0fc9c452e6c9274fb23",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one matched pair of empty martial mage gloves and fitted forearm guards in sculpted ornamented armor with subtle iridescent detail, separated side by side. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: complete empty garment/accessory or matched pair; no wearer, body, stand, text, or scene. Navy brocade and silver floral detailing with violet-teal material accents are coherent across set.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 939289,
+      "transparentFraction": 0.5973160209498664,
+      "alphaBounds": {
+        "minX": 0,
+        "minY": 27,
+        "maxX": 1201,
+        "maxY": 1253
+      },
+      "nonzeroAlphaEdgePixels": 1,
+      "meaningfulAlphaThreshold": 8,
+      "meaningfulAlphaBounds": {
+        "minX": 127,
+        "minY": 30,
+        "maxX": 1187,
+        "maxY": 1234
+      },
+      "meaningfulAlphaEdgePixels": 0,
+      "marginNote": "Complete object visible with transparent separation from edges; faint alpha noise under 8 preserved from original. Integration may normalize padding for consistent 80% footprint."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "nightweave_boots",
+    "source": "art/fab-armor/icons/nightweave/nightweave_boots.png",
+    "sha256": "00647a43501b20923b400508120d80ffe05424102d555f94c0e67ca19e924d3c",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one matched pair of empty martial mage calf-high boots with ornate sculpted shin guards, dark leather soles, hollow cuffs, separated side by side. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: complete empty garment/accessory or matched pair; no wearer, body, stand, text, or scene. Navy brocade and silver floral detailing with violet-teal material accents are coherent across set.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 889109,
+      "transparentFraction": 0.5654053758435527,
+      "alphaBounds": {
+        "minX": 0,
+        "minY": 28,
+        "maxX": 1191,
+        "maxY": 1253
+      },
+      "nonzeroAlphaEdgePixels": 6,
+      "meaningfulAlphaThreshold": 8,
+      "meaningfulAlphaBounds": {
+        "minX": 99,
+        "minY": 31,
+        "maxX": 1114,
+        "maxY": 1225
+      },
+      "meaningfulAlphaEdgePixels": 0,
+      "marginNote": "Complete object visible with transparent separation from edges; faint alpha noise under 8 preserved from original. Integration may normalize padding for consistent 80% footprint."
+    },
+    "status": "accepted"
+  }
+]

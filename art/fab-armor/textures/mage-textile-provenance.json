@@ -1,0 +1,41 @@
+{
+  "generator": "Built-in image_gen",
+  "generationMode": "Text-only original generation; no marketplace source images used",
+  "generatedAt": "2026-09-11",
+  "runtimeProcessing": "Resize original to 1024 x 1024 with Lanczos3 and encode WebP quality 94, effort 6. No recoloring or generative editing.",
+  "assets": [
+    {
+      "tier": 50,
+      "name": "mage-chitin-jacquard",
+      "prompt": "Use case: stylized-concept. Asset type: production game textile seamless base-color texture, square 1024 by 1024. Create an original luxurious T50 Chitin mage cloth: deep cobalt blue silk jacquard woven with orderly overlapping medium-small scallop scale motifs. Each scale is a fabric design, not hard armor: its center alternates lapis blue and petrol teal, outlined by fine warm antique gold stitches. Between the scales show dark navy woven silk negative space. Rich several-color woven pattern with high local contrast, dense fine thread weave visible at close range, restrained tiny copper stitches. About 7 scale motifs across the image so the design reads at game-camera distance; repeat the same coherent pattern across the full tile. Orthographic perfectly flat top-down material swatch filling every edge. Seamless tileable in both axes with matching edges. Flat uniform diffuse illumination; base color only, no directional shading, no specular glints, no highlights baked in, no shadows, no folds, no draping. This is embroidered silk cloth, not a metallic surface, not actual reptile skin, no chunky embossed plates. No people, no objects, no text, no logo, no border, no vignette, no perspective. Beautiful detailed tangible fibers, dark jewel colors, controlled pattern rather than random noise.",
+      "source": "C:/Users/Borg/.codex/generated_images/01a092f7-f614-7612-8bfd-44f6f9e6ef02/exec-7bc8dafa-16a8-42c5-9a5f-d158030ed157.png",
+      "original": "art/fab-armor/textures/mage-chitin-jacquard-generated.png",
+      "runtime": "game/public/assets/textures/fab-armor/mage-chitin-jacquard.webp",
+      "originalSha256": "4c94567da4138b34677b9dd9aaa5d89b4ee911d3e19ae1022387b870afa4ac63",
+      "runtimeSha256": "f5692c37c0d6027abb8e1a2d708ccd5059c7ded4af66c468ae1efc8ba5098ec0",
+      "runtimeBytes": 699098
+    },
+    {
+      "tier": 70,
+      "name": "mage-void-damask",
+      "prompt": "Use case: stylized-concept. Asset type: production game textile seamless base-color texture, square 1024 by 1024. Create an original luxurious T70 Void mage fabric: midnight indigo and dark plum silk damask with repeating medium-size graceful feather and pointed leaf motifs woven in saturated royal violet, wine burgundy, muted lavender, and blue midnight threads. Fine silver and a few pale gold embroidered stitches trace the feather spines and small ornate curls. Dark negative-space channels sharply separate motifs; keep a good balance of roughly half dark silk field and half colored design. About 5 medium motifs across each axis, coherent repeating pattern, fine visible interwoven silk fibers and densely stitched borders. Colorful detailed textile that stays dark overall and clearly reads plum/indigo/purple with warm wine accents. Orthographic perfectly flat top-down material swatch filling every edge, seamless tileable in both axes with matching edges. Flat uniform diffuse illumination; base color only, no directional shading, no specular glints, no highlights baked in, no shadows, no folds, no draping. This is soft silk embroidery, not metal, not embossed hard plates. No people, no objects, no text, no logo, no border, no vignette, no perspective. Restrained fine luxury pattern, no random glitter, no bright neon, no white background.",
+      "source": "C:/Users/Borg/.codex/generated_images/01a092f7-f614-7612-8bfd-44f6f9e6ef02/exec-e6fba2d9-454a-495c-ae74-22ca43ff2da9.png",
+      "original": "art/fab-armor/textures/mage-void-damask-generated.png",
+      "runtime": "game/public/assets/textures/fab-armor/mage-void-damask.webp",
+      "originalSha256": "b1c816956e8bef9ccf9bb4ea7bb7c42d1ecf49e982f3b94506d490424bfa9eea",
+      "runtimeSha256": "f0a6a1aa188df93acc0f66ee9eb128e4edeeeeb3afed7ebe9e165620dfd01efb",
+      "runtimeBytes": 529862
+    },
+    {
+      "tier": 90,
+      "name": "mage-aurora-brocade",
+      "prompt": "Use case: stylized-concept. Asset type: production game textile seamless base-color texture, square 1024 by 1024. Create an original luxurious T90 Aurora mage silk brocade, the most ornate tier: deep petrol blue and emerald silk field woven with elegant flowing medium-size aurora ribbon motifs of distinct teal, sea green, royal violet, muted magenta and cool blue thread. Each ribbon is a smooth narrow woven curving shape with deliberate color zones, interlacing elegantly with small pearl and antique gold stitched ornamental leaves and fine star-like flowers. Keep about 50 percent rich dark petrol/emerald negative space so the colored ribbons and delicate pale embroidery have strong contrast. About 5 flowing motif repeats across the tile, legible structured design, intricate visible thread weave and stitch fibers at close range. Multicolor silk design rather than a rainbow gradient or random noise. Orthographic perfectly flat top-down material swatch filling every edge, seamless tileable in both axes with matching edges. Flat uniform diffuse illumination; base color only, no directional shading, no specular glints or baked-in shiny spots, no shadows, no folds, no draping. This is embroidered soft silk cloth, not metal or plated armor, not marble, not holographic foil. No people, no objects, no text, no logo, no border, no vignette, no perspective. Dark jewel richness, controlled ornate pattern, beautiful tangible fabric with elegant pearl/gold thread accents.",
+      "source": "C:/Users/Borg/.codex/generated_images/01a092f7-f614-7612-8bfd-44f6f9e6ef02/exec-30a8d270-82af-49a5-8a3f-0b512f2b7d2d.png",
+      "original": "art/fab-armor/textures/mage-aurora-brocade-generated.png",
+      "runtime": "game/public/assets/textures/fab-armor/mage-aurora-brocade.webp",
+      "originalSha256": "73f42d1cef801c0a9890061d4940a0d0ab4fe46711a28fa99d646fb849d79c06",
+      "runtimeSha256": "ad1d4705f257e81b9d4d9211f232cb06897aebb5f79091d26f39f7087b675ac6",
+      "runtimeBytes": 668842
+    }
+  ]
+}

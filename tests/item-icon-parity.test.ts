@@ -75,7 +75,9 @@ describe("inventory and held equipment parity", () => {
       "bramblehide_wraps", "cairnpelt_wraps", "charhide_wraps", "cindersteel_gauntlets",
       "corven_gauntlets", "dragonhide_wraps", "emberite_gauntlets", "grithe_gloves",
       "kaldite_gauntlets", "marchhide_wraps", "nightglass_gauntlets", "starhide_wraps",
-    ]);
+      'duskguard_gauntlets', 'oathguard_gauntlets', 'frostguard_gauntlets',
+      'tideweave_wraps', 'nightweave_wraps', 'frostweave_wraps',
+    ].sort());
     for (const item of ALL_ITEMS.filter(item => item.equip)) {
       expect(itemIconAppearance(item.id).presentation, item.id)
         .toBe(item.equip!.slot === "hands" ? "paired-hands" : undefined);

@@ -1,0 +1,124 @@
+[
+  {
+    "id": "cairnpelt_hood",
+    "source": "art/fab-armor/icons/cairnpelt/cairnpelt_hood.png",
+    "sha256": "a9b72373acf4cf3fa44a0a7731586477ace4ea19edef61a8a85e79f73547c8e3",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG. Critical framing correction: render the complete object smaller, within the central 72 percent of the canvas. Leave at least 12 percent completely transparent empty margin on every edge, no stray pixels or cropped tips. Preserve the same garment design and materials.",
+    "review": {
+      "visual": "Inspected full image. Complete empty garment or matched pair, no wearer, no text or background; coherent grey cloth, slate-violet scales, silver edging. Silhouette clear with transparent margin.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentFraction": 0.738633501980266,
+        "nontransparentBorderPixels": 1,
+        "bbox": [
+          49,
+          21,
+          1199,
+          1253
+        ],
+        "visibleBBoxAbove16": [
+          270,
+          146,
+          981,
+          1100
+        ],
+        "borderNote": "One isolated alpha=1 pixel at 729,1253 is invisible export noise; visible garment has generous margin and no clipping. Original alpha preserved."
+      },
+      "regeneratedForMargin": true
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "cairnpelt_robe",
+    "source": "art/fab-armor/icons/cairnpelt/cairnpelt_robe.png",
+    "sha256": "9484abcbd8281c4340df0834a421ab7cfc7c5561d0ae7d21a1acbcc12ffcee61",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Complete empty garment or matched pair, no wearer, no text or background; coherent grey cloth, slate-violet scales, silver edging. Silhouette clear with transparent margin.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentFraction": 0.7013162346201883,
+        "nontransparentBorderPixels": 0,
+        "bbox": [
+          49,
+          33,
+          1191,
+          1232
+        ]
+      },
+      "regeneratedForMargin": false
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "cairnpelt_leggings",
+    "source": "art/fab-armor/icons/cairnpelt/cairnpelt_leggings.png",
+    "sha256": "8de352a32fb9dc2a1270d27d3eb249f17b37408f4fc4d7e68087b8b2e5c2c298",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Complete empty garment or matched pair, no wearer, no text or background; coherent grey cloth, slate-violet scales, silver edging. Silhouette clear with transparent margin.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentFraction": 0.6765565501400304,
+        "nontransparentBorderPixels": 0,
+        "bbox": [
+          33,
+          18,
+          1199,
+          1229
+        ]
+      },
+      "regeneratedForMargin": false
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "cairnpelt_wraps",
+    "source": "art/fab-armor/icons/cairnpelt/cairnpelt_wraps.png",
+    "sha256": "401123d0afd357b576b27640f9e88d9ae9c5de22e8932e304665e213ab78d252",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG. Critical framing correction: render the complete object smaller, within the central 72 percent of the canvas. Leave at least 12 percent completely transparent empty margin on every edge, no stray pixels or cropped tips. Preserve the same garment design and materials.",
+    "review": {
+      "visual": "Inspected full image. Complete empty garment or matched pair, no wearer, no text or background; coherent grey cloth, slate-violet scales, silver edging. Silhouette clear with transparent margin.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentFraction": 0.7449488590259177,
+        "nontransparentBorderPixels": 0,
+        "bbox": [
+          43,
+          21,
+          1237,
+          1199
+        ]
+      },
+      "regeneratedForMargin": true
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "cairnpelt_boots",
+    "source": "art/fab-armor/icons/cairnpelt/cairnpelt_boots.png",
+    "sha256": "e7b38d6ffe9c19a429d96f5ea809ebb70b25eb1af3e9a319ee396a304680681e",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Complete empty garment or matched pair, no wearer, no text or background; coherent grey cloth, slate-violet scales, silver edging. Silhouette clear with transparent margin.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentFraction": 0.5464427706935892,
+        "nontransparentBorderPixels": 0,
+        "bbox": [
+          130,
+          28,
+          1205,
+          1235
+        ]
+      },
+      "regeneratedForMargin": false
+    },
+    "status": "accepted"
+  }
+]

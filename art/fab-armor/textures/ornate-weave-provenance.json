@@ -1,0 +1,14 @@
+{
+  "created": "2026-09-11",
+  "method": "OpenAI built-in image generation",
+  "referenceImagesUsed": false,
+  "prompt": "Use case: stylized-concept\nAsset type: seamless square game material base-color texture, original rare mage armor brocade fabric.\nPrimary request: a perfectly tileable flat swatch of dark indigo woven silk brocade, rich tactile fine weave, interlocking arcane diamond embroidery outlined with fine silver thread and sparse antique gold thread, muted teal stitch accents. Elegant small repeating motifs, clearly separated deep indigo cloth and lighter stitched pattern, designed to give rare fantasy mage clothing texture and flair.\nComposition: orthographic top-down full-bleed square textile surface, evenly repeating moderate-size diamond pattern about eight diamonds across. Pattern and fabric continue seamlessly across opposite image edges.\nLighting: neutral even diffuse light, no cast shadows, no directional highlight, no vignette, no folds. This is an albedo texture to be lit by a game engine.\nPalette: deep ink indigo cloth, medium cool silver embroidery, restrained warm antique gold secondary stitches, subtle muted teal accent thread. Keep cloth dark but embroidery legible, avoid near-white blown highlights.\nConstraints: original textile design only, no character, no garment silhouette, no armor pieces, no letters, no words, no logos, no symbols resembling readable text, no border, no presentation background. Fine woven cloth, not sheet metal or scales. 1024 square.",
+  "original": "art/fab-armor/textures/ornate-weave-generated.png",
+  "runtime": "game/public/assets/textures/fab-armor/ornate-weave.png",
+  "processing": "Original copied unchanged; runtime image resized to 512 by 512 using Sharp Lanczos3, PNG. No painted edits.",
+  "review": "Inspected generated image: contrasting indigo woven cloth, silver/gold diamond embroidery and teal accents; no text or silhouettes. Repeating pattern suitable for garment detail mapping; edge continuity not mathematically guaranteed.",
+  "sha256": {
+    "original": "eb1255aa3ab92ae58f967a9e37cfccb24100365b33bd945e9ab5fadf2edfc40b",
+    "runtime": "ddd49bfd58d2b818a27a9bc1e177ebf669a5ad4a9ff2699ff4c786705263f573"
+  }
+}

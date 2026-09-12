@@ -1,0 +1,386 @@
+{
+  "generator": "built-in image_gen",
+  "sets": [
+    {
+      "set": "marchhide",
+      "kind": "craft",
+      "tier": 1,
+      "palette": "warm tawny linen, muted blue scale leather, aged pewter edging",
+      "jobs": [
+        {
+          "id": "marchhide_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "marchhide_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "marchhide_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "marchhide_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "marchhide_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "bramblehide",
+      "kind": "craft",
+      "tier": 5,
+      "palette": "moss green woven cloth, forest green and teal scale leather, aged silver edging",
+      "jobs": [
+        {
+          "id": "bramblehide_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "bramblehide_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "bramblehide_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "bramblehide_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "bramblehide_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "cairnpelt",
+      "kind": "craft",
+      "tier": 10,
+      "palette": "ash grey woven cloth, slate blue and violet scale leather, cool silver edging",
+      "jobs": [
+        {
+          "id": "cairnpelt_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "cairnpelt_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "cairnpelt_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "cairnpelt_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "cairnpelt_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for cairnpelt tier 10: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: ash grey woven cloth, slate blue and violet scale leather, cool silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 10 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "charhide",
+      "kind": "craft",
+      "tier": 20,
+      "palette": "warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging",
+      "jobs": [
+        {
+          "id": "charhide_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "charhide_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "charhide_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "charhide_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "charhide_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "dragonhide",
+      "kind": "craft",
+      "tier": 50,
+      "palette": "deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging",
+      "jobs": [
+        {
+          "id": "dragonhide_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "dragonhide_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "dragonhide_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "dragonhide_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "dragonhide_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "starhide",
+      "kind": "craft",
+      "tier": 70,
+      "palette": "deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging",
+      "jobs": [
+        {
+          "id": "starhide_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "starhide_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "starhide_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "starhide_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "starhide_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "duskguard",
+      "kind": "melee",
+      "tier": 50,
+      "palette": "slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard",
+      "jobs": [
+        {
+          "id": "duskguard_plate",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one empty fitted breastplate and both shoulder pauldrons, narrow understated silhouette and short split black-gold tabard. No head, arms, weapons or legs. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "duskguard_greaves",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one pair of empty articulated plate greaves and upper leg armor with a dark split fabric tabard, hollow waist, no boots. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "duskguard_gauntlets",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one matched pair of empty articulated metal gauntlets with reinforced forearm plates and individual finger forms, separated side by side. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "duskguard_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one matched pair of empty articulated metal sabatons and lower shin plates, hollow open cuffs, separated side by side. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "oathguard",
+      "kind": "melee",
+      "tier": 70,
+      "palette": "heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons",
+      "jobs": [
+        {
+          "id": "oathguard_plate",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one empty fitted breastplate and both shoulder pauldrons, broad rounded embossed pauldrons and burgundy collar, gold scroll borders. No head, arms, weapons or legs. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "oathguard_greaves",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one pair of empty articulated plate greaves and upper leg armor with a dark split fabric tabard, hollow waist, no boots. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "oathguard_gauntlets",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one matched pair of empty articulated metal gauntlets with reinforced forearm plates and individual finger forms, separated side by side. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "oathguard_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one matched pair of empty articulated metal sabatons and lower shin plates, hollow open cuffs, separated side by side. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "frostguard",
+      "kind": "melee",
+      "tier": 90,
+      "palette": "T90 Aurora: midnight-blue steel, silver edges, restrained antique-gold celestial engraving, teal-violet iridescent enamel. Conventional human knight armor without animal motifs.",
+      "jobs": [
+        {
+          "id": "frostguard_helm",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for Frostguard, tier 90 Aurora melee armor. Original new artwork. Shared design: elegant forged dark midnight-blue steel with smooth curved plate construction, cool silver beveled edges, narrow antique-gold engraved trim, rich teal-to-violet iridescent enamel inlays shaped like flowing aurora ribbons. Strong contrast between dark steel recesses and controlled colored highlights; detailed fine celestial engraving visible at large size with a simple readable silhouette at 48 pixels. High quality hand-painted 3D product illustration, upper-left soft studio lighting, three-quarter view, complete item centered occupying about 78 percent of square with generous clear margins. Actual transparent alpha background, never a painted checkerboard. No wearer, mannequin, skin, body parts, pedestal, ground, scenery, cast background shadow, text, border, logo, watermark or extra props. Absolutely no animal theme: no cat or tiger face, ears, muzzle, fangs, claws, paws, stripes, fur, animal emblems, horns or animal-shaped ornaments. Magic is iridescent material color, not an aura.\nSubject: One empty closed human knight helmet: smooth rounded enclosed crown, single low central swept-back metal ridge, straight narrow horizontal visor slit, angular flat human faceplate and fitted gorget. Refined heroic knight silhouette; use a low central ridge, no pointed side projections that could read as ears."
+        },
+        {
+          "id": "frostguard_plate",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for Frostguard, tier 90 Aurora melee armor. Original new artwork. Shared design: elegant forged dark midnight-blue steel with smooth curved plate construction, cool silver beveled edges, narrow antique-gold engraved trim, rich teal-to-violet iridescent enamel inlays shaped like flowing aurora ribbons. Strong contrast between dark steel recesses and controlled colored highlights; detailed fine celestial engraving visible at large size with a simple readable silhouette at 48 pixels. High quality hand-painted 3D product illustration, upper-left soft studio lighting, three-quarter view, complete item centered occupying about 78 percent of square with generous clear margins. Actual transparent alpha background, never a painted checkerboard. No wearer, mannequin, skin, body parts, pedestal, ground, scenery, cast background shadow, text, border, logo, watermark or extra props. Absolutely no animal theme: no cat or tiger face, ears, muzzle, fangs, claws, paws, stripes, fur, animal emblems, horns or animal-shaped ornaments. Magic is iridescent material color, not an aura.\nSubject: One empty fitted breastplate with both articulated shoulder pauldrons. Broad rounded layered shoulder plates, elegant chevron breastplate panels, visible hollow collar and dark violet quilted lining. Hem ends at waist. No head, arms, legs or weapons. Shoulder plates are smoothly swept-back overlapping plates, not spikes."
+        },
+        {
+          "id": "frostguard_greaves",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for Frostguard, tier 90 Aurora melee armor. Original new artwork. Shared design: elegant forged dark midnight-blue steel with smooth curved plate construction, cool silver beveled edges, narrow antique-gold engraved trim, rich teal-to-violet iridescent enamel inlays shaped like flowing aurora ribbons. Strong contrast between dark steel recesses and controlled colored highlights; detailed fine celestial engraving visible at large size with a simple readable silhouette at 48 pixels. High quality hand-painted 3D product illustration, upper-left soft studio lighting, three-quarter view, complete item centered occupying about 78 percent of square with generous clear margins. Actual transparent alpha background, never a painted checkerboard. No wearer, mannequin, skin, body parts, pedestal, ground, scenery, cast background shadow, text, border, logo, watermark or extra props. Absolutely no animal theme: no cat or tiger face, ears, muzzle, fangs, claws, paws, stripes, fur, animal emblems, horns or animal-shaped ornaments. Magic is iridescent material color, not an aura.\nSubject: One connected empty waist-to-ankle leg armor item with belt, two articulated plated legs and a short central midnight-violet woven tabard embroidered with silver and teal aurora lines. Human-shaped curved thigh plates, fitted articulated knees and narrow shin plates. No boots, torso or skin. Clear gap between legs."
+        },
+        {
+          "id": "frostguard_gauntlets",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for Frostguard, tier 90 Aurora melee armor. Original new artwork. Shared design: elegant forged dark midnight-blue steel with smooth curved plate construction, cool silver beveled edges, narrow antique-gold engraved trim, rich teal-to-violet iridescent enamel inlays shaped like flowing aurora ribbons. Strong contrast between dark steel recesses and controlled colored highlights; detailed fine celestial engraving visible at large size with a simple readable silhouette at 48 pixels. High quality hand-painted 3D product illustration, upper-left soft studio lighting, three-quarter view, complete item centered occupying about 78 percent of square with generous clear margins. Actual transparent alpha background, never a painted checkerboard. No wearer, mannequin, skin, body parts, pedestal, ground, scenery, cast background shadow, text, border, logo, watermark or extra props. Absolutely no animal theme: no cat or tiger face, ears, muzzle, fangs, claws, paws, stripes, fur, animal emblems, horns or animal-shaped ornaments. Magic is iridescent material color, not an aura.\nSubject: One matching pair of empty human plate gauntlets, offset diagonally, fingers gently bent, each with five human fingers, overlapping steel finger plates, rounded knuckle plates and flared cuff. Teal-violet enamel along the wrist plate and silver edges. No arms, shoulders, claws, pointed fingertips or skin."
+        },
+        {
+          "id": "frostguard_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for Frostguard, tier 90 Aurora melee armor. Original new artwork. Shared design: elegant forged dark midnight-blue steel with smooth curved plate construction, cool silver beveled edges, narrow antique-gold engraved trim, rich teal-to-violet iridescent enamel inlays shaped like flowing aurora ribbons. Strong contrast between dark steel recesses and controlled colored highlights; detailed fine celestial engraving visible at large size with a simple readable silhouette at 48 pixels. High quality hand-painted 3D product illustration, upper-left soft studio lighting, three-quarter view, complete item centered occupying about 78 percent of square with generous clear margins. Actual transparent alpha background, never a painted checkerboard. No wearer, mannequin, skin, body parts, pedestal, ground, scenery, cast background shadow, text, border, logo, watermark or extra props. Absolutely no animal theme: no cat or tiger face, ears, muzzle, fangs, claws, paws, stripes, fur, animal emblems, horns or animal-shaped ornaments. Magic is iridescent material color, not an aura.\nSubject: One matching pair of empty armored human boots, offset diagonally, ankle-high supple dark leather with articulated midnight steel instep plates, rounded human toes and narrow flared ankle cuffs. Silver edges, aurora teal-violet enamel on the ankle plates. Modest functional soles, no legs, greaves, claws, fur or animal feet."
+        }
+      ]
+    },
+    {
+      "set": "tideweave",
+      "kind": "magic",
+      "tier": 50,
+      "palette": "supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings",
+      "jobs": [
+        {
+          "id": "tideweave_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one empty teal fabric martial mage headband with silver central fitting and small coordinated topknot binding ring arranged as one wearable accessory. No head or hair. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "tideweave_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one empty asymmetric martial mage torso with teal diagonal cloth sash crossing blue-violet scale leather chest, one rounded layered scale shoulder guard. No head, arms, hands or lower legs. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "tideweave_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one pair of empty martial mage trousers with layered blue-violet scale leather and long teal asymmetric fabric sash, hollow waistband, no boots. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "tideweave_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one matched pair of empty martial mage gloves and fitted forearm guards in flexible blue-violet scalloped scale leather, separated side by side. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "tideweave_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one matched pair of empty martial mage calf-high boots with supple blue-violet scalloped scale leather, dark leather soles, hollow cuffs, separated side by side. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "nightweave",
+      "kind": "magic",
+      "tier": 70,
+      "palette": "dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs",
+      "jobs": [
+        {
+          "id": "nightweave_hood",
+          "slot": "head",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one empty dark brocade martial mage headband with silver central fitting and small coordinated topknot binding ring arranged as one wearable accessory. No head or hair. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "nightweave_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one empty asymmetric martial mage torso with dark floral brocade diagonal sash crossing finely ornamented dark navy cuirass, one raised shoulder guard. No head, arms, hands or lower legs. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "nightweave_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one pair of empty martial mage trousers with dark embroidered black brocade hanging panels and sculpted navy thigh guards, hollow waistband, no boots. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "nightweave_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one matched pair of empty martial mage gloves and fitted forearm guards in sculpted ornamented armor with subtle iridescent detail, separated side by side. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "nightweave_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for nightweave tier 70: one matched pair of empty martial mage calf-high boots with ornate sculpted shin guards, dark leather soles, hollow cuffs, separated side by side. Palette/materials: dark navy near-black ornamented leather and armor, violet-teal iridescence, black brocade with silver floral motifs. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    },
+    {
+      "set": "frostweave",
+      "kind": "magic",
+      "tier": 90,
+      "palette": "highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing",
+      "jobs": [
+        {
+          "id": "frostweave_robe",
+          "slot": "body",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one empty asymmetric martial mage torso with large single sculpted frost-silver shoulder guard, lilac chest relief and cyan inlays. No head, arms, hands or lower legs. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "frostweave_leggings",
+          "slot": "legs",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one pair of empty martial mage trousers with long pale grey split hanging cloth panels and ornate frost-silver thigh guards, hollow waistband, no boots. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "frostweave_wraps",
+          "slot": "hands",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one matched pair of empty martial mage gloves and fitted forearm guards in sculpted ornamented armor with subtle iridescent detail, separated side by side. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        },
+        {
+          "id": "frostweave_boots",
+          "slot": "feet",
+          "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one matched pair of empty martial mage calf-high boots with ornate sculpted shin guards, dark leather soles, hollow cuffs, separated side by side. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG."
+        }
+      ]
+    }
+  ]
+}

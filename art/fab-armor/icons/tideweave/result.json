@@ -1,0 +1,147 @@
+[
+  {
+    "id": "tideweave_hood",
+    "source": "art/fab-armor/icons/tideweave/tideweave_hood.png",
+    "sha256": "779437ad4ae39d21ae57fdb3e39526e7d5230bdb0aa404a93f49440af91cd8f1",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one empty teal fabric martial mage headband with silver central fitting and small coordinated topknot binding ring arranged as one wearable accessory. No head or hair. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: empty wearable garment or matched pair, no wearer or body parts, coherent teal cloth and blue-violet scale leather, complete silhouette, no background scene or text.",
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.594734807149816,
+      "partialAlphaPixels": 636954,
+      "nontransparentBounds": [
+        41,
+        14,
+        1227,
+        1237
+      ],
+      "nontransparentEdgePixels": 0,
+      "edgeMaxAlpha": 0,
+      "visibleBoundsAlpha128": [
+        126,
+        19,
+        1205,
+        1231
+      ],
+      "alphaNote": "Original generated alpha preserved. Boundary pixels, where present, have alpha 1/255 only; visible garment has clear margin and is not clipped."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "tideweave_robe",
+    "source": "art/fab-armor/icons/tideweave/tideweave_robe.png",
+    "sha256": "38fa4de880ddea8064cceb7dbc07c22e8c9efe338984e84b74e899939a7e0eaa",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one empty asymmetric martial mage torso with teal diagonal cloth sash crossing blue-violet scale leather chest, one rounded layered scale shoulder guard. No head, arms, hands or lower legs. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: empty wearable garment or matched pair, no wearer or body parts, coherent teal cloth and blue-violet scale leather, complete silhouette, no background scene or text.",
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.5289122654395886,
+      "partialAlphaPixels": 740340,
+      "nontransparentBounds": [
+        0,
+        15,
+        1229,
+        1253
+      ],
+      "nontransparentEdgePixels": 10,
+      "edgeMaxAlpha": 1,
+      "visibleBoundsAlpha128": [
+        219,
+        23,
+        1103,
+        1239
+      ],
+      "alphaNote": "Original generated alpha preserved. Boundary pixels, where present, have alpha 1/255 only; visible garment has clear margin and is not clipped."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "tideweave_leggings",
+    "source": "art/fab-armor/icons/tideweave/tideweave_leggings.png",
+    "sha256": "90ae4fd235d1fb58070a8888184da44ca27769485949edcffbc1acfc84131815",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one pair of empty martial mage trousers with layered blue-violet scale leather and long teal asymmetric fabric sash, hollow waistband, no boots. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: empty wearable garment or matched pair, no wearer or body parts, coherent teal cloth and blue-violet scale leather, complete silhouette, no background scene or text.",
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.5595008254288033,
+      "partialAlphaPixels": 692088,
+      "nontransparentBounds": [
+        0,
+        19,
+        1199,
+        1253
+      ],
+      "nontransparentEdgePixels": 1,
+      "edgeMaxAlpha": 1,
+      "visibleBoundsAlpha128": [
+        191,
+        29,
+        1105,
+        1222
+      ],
+      "alphaNote": "Original generated alpha preserved. Boundary pixels, where present, have alpha 1/255 only; visible garment has clear margin and is not clipped."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "tideweave_wraps",
+    "source": "art/fab-armor/icons/tideweave/tideweave_wraps.png",
+    "sha256": "b9f6d8af468c4af160b98f3aa60f43ef9ae270105be038fd6f8015ca1ca26b6d",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one matched pair of empty martial mage gloves and fitted forearm guards in flexible blue-violet scalloped scale leather, separated side by side. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: empty wearable garment or matched pair, no wearer or body parts, coherent teal cloth and blue-violet scale leather, complete silhouette, no background scene or text.",
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.5429655405731961,
+      "partialAlphaPixels": 717804,
+      "nontransparentBounds": [
+        0,
+        21,
+        1223,
+        1253
+      ],
+      "nontransparentEdgePixels": 58,
+      "edgeMaxAlpha": 1,
+      "visibleBoundsAlpha128": [
+        65,
+        32,
+        1220,
+        1223
+      ],
+      "alphaNote": "Original generated alpha preserved. Boundary pixels, where present, have alpha 1/255 only; visible garment has clear margin and is not clipped."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "tideweave_boots",
+    "source": "art/fab-armor/icons/tideweave/tideweave_boots.png",
+    "sha256": "54a799091fdf8b71782d020765380539902a954f02a53342e954d16d2e4bdc4b",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for tideweave tier 50: one matched pair of empty martial mage calf-high boots with supple blue-violet scalloped scale leather, dark leather soles, hollow cuffs, separated side by side. Palette/materials: supple blue-violet scale leather instead of metal, teal woven fabric sash and drapes, understated bronze stitch fittings. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image: empty wearable garment or matched pair, no wearer or body parts, coherent teal cloth and blue-violet scale leather, complete silhouette, no background scene or text.",
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.5192150668101311,
+      "partialAlphaPixels": 754891,
+      "nontransparentBounds": [
+        0,
+        48,
+        1199,
+        1253
+      ],
+      "nontransparentEdgePixels": 2,
+      "edgeMaxAlpha": 1,
+      "visibleBoundsAlpha128": [
+        83,
+        52,
+        1184,
+        1205
+      ],
+      "alphaNote": "Original generated alpha preserved. Boundary pixels, where present, have alpha 1/255 only; visible garment has clear margin and is not clipped."
+    },
+    "status": "accepted"
+  }
+]

@@ -230,7 +230,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // 2. Core services and save. The save must win before any seeded world work starts. Loading it
   // after buildWorld meant a custom-seed save resumed inside a world built from seed 1337.
-  const store = new Store(1337, Date.now());
+  const armorSeedText = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('fabArmor') === '1'
+    ? new URLSearchParams(location.search).get('fabLootSeed') : null;
+  const armorSeed = armorSeedText !== null && /^\d+$/.test(armorSeedText) ? Number(armorSeedText) : 1337;
+  if (!Number.isSafeInteger(armorSeed) || armorSeed < 0 || armorSeed > 0xffffffff) throw new Error('Invalid armor lab loot seed');
+  const store = new Store(armorSeed, Date.now());
   const saves = new SaveService(profile.persistent);
   const loadedSave = saves.load();
   const resumedFromSave = loadedSave.status === "loaded" && loadedSave.state !== undefined;

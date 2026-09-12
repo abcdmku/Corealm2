@@ -168,7 +168,7 @@ describe("prepared icon assets", () => {
     expect(source.children).toHaveLength(0);
   });
 
-  it("keeps the authored leather grip and localizes gear accents to their gem or mask", () => {
+  it("keeps Kaldite grip detail with its production palette and confines residual accents to masks", () => {
     const appearance = appearanceFor("kaldite_dagger");
     const steel = authoredMaterial();
     steel.emissiveMap = null;
@@ -189,11 +189,13 @@ describe("prepared icon assets", () => {
 
     expect(iconSteel!.color.getHex()).toBe(appearance.tint);
     expect(iconSteel!.emissiveIntensity).toBe(0);
-    expect(iconLeather!.color.toArray()).toEqual(leather.color.toArray());
+    expect(iconLeather!.color.getHex()).toBe(0x45413b);
     expect(iconLeather!.map).toBe(leather.map);
     expect(iconLeather!.emissiveIntensity).toBe(0);
-    expect(iconGem!.color.getHex()).toBe(appearance.accent);
-    expect(iconGem!.emissive.getHex()).toBe(appearance.accent);
+    // Plain weapon inserts use the production dark palette; elemental weapons own glowing gems.
+    expect(iconGem!.color.getHex()).not.toBe(appearance.accent);
+    expect(iconGem!.emissive.getHex()).toBe(0);
+    expect(iconGem!.emissiveIntensity).toBe(0);
     expect(iconMasked!.emissiveMap).toBe(masked.emissiveMap);
     expect(iconMasked!.emissiveIntensity).toBeGreaterThan(0);
     expect(materials(source).map(materialState)).toEqual(before);
@@ -372,7 +374,10 @@ describe("item icon camera fit", () => {
 
 /** Keep the shipped buffers, skeleton and UVs; omit material references to avoid a DOM image loader. */
 async function loadGloveGeometry(assetId: string): Promise<THREE.Group> {
-  const encoded = await readFile(`game/public/assets/models/outfit/${assetId}.glb`);
+  const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')) as { assets: { id: string; file: string }[] };
+  const entry = manifest.assets.find(asset => asset.id === assetId);
+  if (!entry) throw new Error(`Unregistered glove ${assetId}`);
+  const encoded = await readFile(`game/public/assets/${entry.file}`);
   const jsonLength = encoded.readUInt32LE(12);
   const json = JSON.parse(encoded.subarray(20, 20 + jsonLength).toString("utf8")) as {
     meshes: Array<{ primitives: Array<{ material?: number }> }>;
@@ -408,11 +413,13 @@ describe("paired glove icons", () => {
     expect(size.x).toBeLessThan(sourceSize.x * 0.25);
     expect(size.y).toBeGreaterThan(0.15);
     expect(size.y).toBeLessThan(0.6);
-    expect(meshes(icon).filter(mesh => mesh.name === "item-icon-cuff-lining")).toHaveLength(2);
+    // Imported gloves can split their cuff between several material primitives.
+    expect(meshes(icon).filter(mesh => mesh.name === "item-icon-cuff-lining").length).toBeGreaterThanOrEqual(2);
 
     for (const side of ["l", "r"] as const) {
       const hand = icon.getObjectByName(side === "l" ? "item-icon-left-glove" : "item-icon-right-glove")!;
       expect(hand).toBeDefined();
+      expect(meshes(hand).some(mesh => mesh.name === 'item-icon-cuff-lining')).toBe(true);
       const wrist = source.getObjectByName(`hand_${side}`)!.getWorldPosition(new THREE.Vector3());
       const sign = side === "l" ? 1 : -1;
       const stagedVertices = new Map<string, THREE.Vector3[]>();

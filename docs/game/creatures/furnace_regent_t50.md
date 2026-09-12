@@ -48,3 +48,12 @@ description: "Furnace Regent spawn locations, combat stats, and drops."
 | [Cosmic Rune](../../items/cosmic_rune/) | 24-40 | 100% |
 | [Cindervein Ore](../../items/cindervein_ore/) | 3-6 | 100% |
 | [Fire Opal](../../items/fire_opal/) | 1-2 | 35% |
+| [Chitin Duskguard Plate](../../items/duskguard_plate/) | 1 | 0.2% |
+| [Chitin Duskguard Greaves](../../items/duskguard_greaves/) | 1 | 0.2% |
+| [Chitin Duskguard Gauntlets](../../items/duskguard_gauntlets/) | 1 | 0.2% |
+| [Chitin Duskguard Boots](../../items/duskguard_boots/) | 1 | 0.2% |
+| [Chitin Tideweave Headwrap](../../items/tideweave_hood/) | 1 | 0.2% |
+| [Chitin Tideweave Robe](../../items/tideweave_robe/) | 1 | 0.2% |
+| [Chitin Tideweave Leggings](../../items/tideweave_leggings/) | 1 | 0.2% |
+| [Chitin Tideweave Wraps](../../items/tideweave_wraps/) | 1 | 0.2% |
+| [Chitin Tideweave Boots](../../items/tideweave_boots/) | 1 | 0.2% |

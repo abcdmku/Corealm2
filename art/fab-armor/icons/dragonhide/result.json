@@ -1,0 +1,147 @@
+[
+  {
+    "id": "dragonhide_hood",
+    "source": "art/fab-armor/icons/dragonhide/dragonhide_hood.png",
+    "sha256": "a3377212d63b8a746fea34a7e8488354f264e2d7aff2b03823e813059d0e6b33",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty garment or matched pair, no wearer, body parts, text, or scene. Burgundy cloth, iridescent blue-violet scales and pale gold edging. Complete silhouette with transparent margin.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 823021,
+      "partialAlphaPixels": 749031,
+      "bounds": {
+        "minX": 0,
+        "minY": 12,
+        "maxX": 1235,
+        "maxY": 1239
+      },
+      "edgePixels": 4,
+      "visibleAlphaBounds": [
+        195,
+        15,
+        1111,
+        1237
+      ],
+      "maxEdgeAlpha": 1
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "dragonhide_robe",
+    "source": "art/fab-armor/icons/dragonhide/dragonhide_robe.png",
+    "sha256": "3c5f90d697cd72357df022ffa5dc690f9cc2d490f1b17d828232633985a4fb75",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty garment or matched pair, no wearer, body parts, text, or scene. Burgundy cloth, iridescent blue-violet scales and pale gold edging. Complete silhouette with transparent margin.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 1048189,
+      "partialAlphaPixels": 524054,
+      "bounds": {
+        "minX": 113,
+        "minY": 15,
+        "maxX": 1199,
+        "maxY": 1253
+      },
+      "edgePixels": 8,
+      "visibleAlphaBounds": [
+        228,
+        18,
+        1044,
+        1236
+      ],
+      "maxEdgeAlpha": 1
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "dragonhide_leggings",
+    "source": "art/fab-armor/icons/dragonhide/dragonhide_leggings.png",
+    "sha256": "0ebaee01d8454b75bd70fbdb7ddf806949a9ab6495d00b383d134fa7bcecc739",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty garment or matched pair, no wearer, body parts, text, or scene. Burgundy cloth, iridescent blue-violet scales and pale gold edging. Complete silhouette with transparent margin.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 973252,
+      "partialAlphaPixels": 598406,
+      "bounds": {
+        "minX": 41,
+        "minY": 13,
+        "maxX": 1199,
+        "maxY": 1236
+      },
+      "edgePixels": 0,
+      "visibleAlphaBounds": [
+        255,
+        16,
+        1001,
+        1234
+      ],
+      "maxEdgeAlpha": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "dragonhide_wraps",
+    "source": "art/fab-armor/icons/dragonhide/dragonhide_wraps.png",
+    "sha256": "b8238036d6707021a8819d425533509877e9c34273a86398390573b7a9bb89fe",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty garment or matched pair, no wearer, body parts, text, or scene. Burgundy cloth, iridescent blue-violet scales and pale gold edging. Complete silhouette with transparent margin.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 908480,
+      "partialAlphaPixels": 663410,
+      "bounds": {
+        "minX": 0,
+        "minY": 19,
+        "maxX": 1234,
+        "maxY": 1253
+      },
+      "edgePixels": 41,
+      "visibleAlphaBounds": [
+        83,
+        22,
+        1231,
+        1232
+      ],
+      "maxEdgeAlpha": 1
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "dragonhide_boots",
+    "source": "art/fab-armor/icons/dragonhide/dragonhide_boots.png",
+    "sha256": "96e4c263a45cec454e9efba8b917f49e611a3a300ee3c8f80421fd637163dee0",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for dragonhide tier 50: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: deep burgundy cloth, blue-violet iridescent scale leather, aged pale gold edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty garment or matched pair, no wearer, body parts, text, or scene. Burgundy cloth, iridescent blue-violet scales and pale gold edging. Complete silhouette with transparent margin.",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 895403,
+      "partialAlphaPixels": 676440,
+      "bounds": {
+        "minX": 55,
+        "minY": 48,
+        "maxX": 1183,
+        "maxY": 1253
+      },
+      "edgePixels": 4,
+      "visibleAlphaBounds": [
+        150,
+        51,
+        1177,
+        1194
+      ],
+      "maxEdgeAlpha": 1
+    },
+    "status": "accepted"
+  }
+]

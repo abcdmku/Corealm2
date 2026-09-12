@@ -396,6 +396,27 @@
       "license": "LicenseRef-Corealm-Original",
       "source": "tools/item-models/build.ts",
       "generatorSha256": "7e5c7ad32215af304a3292acfacbe7f966a2a8439d003ad0617e2d921b0c3040"
+    },
+    {
+      "id": "fab-lowpoly-medieval-modular-armors",
+      "name": "Lowpoly Medieval Modular Armors Free Pack",
+      "author": "Polytope Studio",
+      "source": "https://www.fab.com/listings/d32023d6-cc7c-4a6b-bbc6-b0821c3d3391",
+      "license": "Fab Standard License"
+    },
+    {
+      "id": "fab-paragon-greystone",
+      "name": "Paragon: Greystone",
+      "author": "Epic Games",
+      "source": "https://www.fab.com/listings/122fd7bf-6f12-4304-a930-cccbbacdaebc",
+      "license": "Fab Standard License"
+    },
+    {
+      "id": "fab-paragon-kwang",
+      "name": "Paragon: Kwang",
+      "author": "Epic Games",
+      "source": "https://www.fab.com/listings/f4c67e92-b976-4b5b-ab9f-4c25b010f6f3",
+      "license": "Fab Standard License"
     }
   ],
   "assets": [
@@ -58361,7 +58382,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "67b67b546b842049a35a47d2cdb7a5dc5d20b5392808c158953b9292a39634a9"
     },
     {
       "id": "corealm_item_grithe_dagger",
@@ -58400,7 +58422,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "f7d5ed114de0886a2736a03edfc304a2b84a4910e34e7a29e0dd5d2222310808"
     },
     {
       "id": "corealm_item_corven_dagger",
@@ -58439,7 +58462,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "d5c899d263775b8859a0c6ee3b7a2c93f3afc06fe1144a873ceee559247ebc12"
     },
     {
       "id": "corealm_item_corven_sword",
@@ -58478,7 +58502,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "31413b8590474f9724c1ddca0df8ad6fd7ce2530b939704dd2ed6bcd88ac07ea"
     },
     {
       "id": "corealm_item_kaldite_dagger",
@@ -58517,7 +58542,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "2c8287e64c86f9424b2fd3d27b633b0077d76841beb7bbda5c8a42b453a5bbfe"
     },
     {
       "id": "corealm_item_kaldite_sword",
@@ -58558,7 +58584,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "127b84c949d6f50564bbc30aa480b25f4984b7c93add02eaf14fc8840514cb50"
     },
     {
       "id": "corealm_item_emberite_dagger",
@@ -58600,7 +58627,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "cd15fd3d8be0aead7dfd84492e672efee9fbfb745b4d10a9663c21aa76ee74e8"
     },
     {
       "id": "corealm_item_emberite_sword",
@@ -58642,7 +58670,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "5b22aebbb6730e9e083ea597562d1978285e58130e477473566cd04002060842"
     },
     {
       "id": "corealm_item_cindersteel_sword",
@@ -58682,7 +58711,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "36c5b12e8bf510cb1d3eccd94fc1043ca6c4e71f036c527ea94e60b87cc00b76"
     },
     {
       "id": "corealm_item_nightglass_sword",
@@ -58723,7 +58753,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "409ec9f5dc0634703ce7127f7adecdf641e7dbca8a9f68801e1360561a0a1ff7"
     },
     {
       "id": "corealm_item_galeskin_sword",
@@ -58761,7 +58792,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "3094c65a8f0738573609db759731c121078848b3a2132de3c5e870dc55d8e212"
     },
     {
       "id": "corealm_item_mossbound_sword",
@@ -58801,7 +58833,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "ebfb8179d53c5f929b40205d969485e2ea3f12b2040d041a17eb615ec8106a61"
     },
     {
       "id": "corealm_item_tideworn_sword",
@@ -58839,7 +58872,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "fbdad59d00ef69dff4513db84e54e647e0cd23c69dbaf222685b300b82da6bbd"
     },
     {
       "id": "corealm_item_cinderwake_sword",
@@ -58879,7 +58913,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "2020b093c8bb37d6612a0a09ca63ec99ffca6637be185eb4ce812a33f0a0adc8"
     },
     {
       "id": "corealm_item_chainbound_sword",
@@ -58918,7 +58953,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "3614acccae357d3dece31bf54a6b27c9970d3b7d96ab0745fc99f52d51dbe9f8"
     },
     {
       "id": "corealm_item_basic_wooden_wand",
@@ -58959,7 +58995,8 @@
           0.38,
           0
         ]
-      }
+      },
+      "sha256": "597c2c7aaeb9b9fdb7c24e5cc693bed8b4e845d00026c36fd041692a8fbbe99a"
     },
     {
       "id": "corealm_item_basic_wooden_staff",
@@ -59002,7 +59039,8 @@
           1.004,
           0
         ]
-      }
+      },
+      "sha256": "63a9010c62e0b414353538a4ca2613f843f6ea81a5b5bb16b7f56305ceb55d98"
     },
     {
       "id": "corealm_item_palewood_wand",
@@ -59043,7 +59081,8 @@
           0.38899999999999996,
           0
         ]
-      }
+      },
+      "sha256": "2deb0ae782ea83cc6fe5978dbd5fb384c1d01b4b799870f66f749093f3bacd96"
     },
     {
       "id": "corealm_item_palewood_staff",
@@ -59085,7 +59124,8 @@
           1.004,
           0
         ]
-      }
+      },
+      "sha256": "863cae2e6912b13d0b86d1ae9a7da9c34ee17962449bb1f3a6493c63345d58f5"
     },
     {
       "id": "corealm_item_duskoak_wand",
@@ -59126,7 +59166,8 @@
           0.3962,
           0
         ]
-      }
+      },
+      "sha256": "ac2453986acd814806a3df6fc14229e8de2a9167cd89328a2d9dadce1010a917"
     },
     {
       "id": "corealm_item_duskoak_staff",
@@ -59169,7 +59210,8 @@
           1.028,
           0
         ]
-      }
+      },
+      "sha256": "ea67d3d668eb92d09dcd130b114293c899e16c7090479e5dc8ba329914e5e4d2"
     },
     {
       "id": "corealm_item_cairnpine_wand",
@@ -59212,7 +59254,8 @@
           0.443,
           0
         ]
-      }
+      },
+      "sha256": "feaf9cc868f8ea23b494cb8ea6854e5c1cc94832554da467faf46c2bd6082e5d"
     },
     {
       "id": "corealm_item_cairnpine_staff",
@@ -59255,7 +59298,8 @@
           0.8160000000000001,
           0
         ]
-      }
+      },
+      "sha256": "8afb4d7a898b114222bcc7ddd27042d9559f944dadea545b7a0f40be8b0ffb88"
     },
     {
       "id": "corealm_item_cinderpine_wand",
@@ -59299,7 +59343,8 @@
           0.45114233482421817,
           0.02172291271836598
         ]
-      }
+      },
+      "sha256": "44516edc56084298cf1dc1e57a5d6298314b9820a3ef8ac1c0b58276b0492459"
     },
     {
       "id": "corealm_item_cinderpine_staff",
@@ -59343,7 +59388,8 @@
           1.0274999999999999,
           0
         ]
-      }
+      },
+      "sha256": "0ecf9c41399fcb3c74d426e1f4963dd5c6cb7549907d788de238640a1745405c"
     },
     {
       "id": "corealm_item_teak_wand",
@@ -59387,7 +59433,8 @@
           0.441,
           0
         ]
-      }
+      },
+      "sha256": "4424e9635f2e758c1c5d15fc7a33532e958ea427b3caabfd19885b9852149bc7"
     },
     {
       "id": "corealm_item_teak_staff",
@@ -59430,7 +59477,8 @@
           1.47,
           0
         ]
-      }
+      },
+      "sha256": "73997a60210c8c6dd845f82068f1e8e3280b3eaadaad792f0b11b0c52db3ef8c"
     },
     {
       "id": "corealm_item_magic_wand",
@@ -59474,7 +59522,8 @@
           0.426,
           0
         ]
-      }
+      },
+      "sha256": "7682f8057612c7c9df2f8e9dca7fb23662ec51b9d2da3c007ad6f20d1647300a"
     },
     {
       "id": "corealm_item_magic_staff",
@@ -59518,7 +59567,8 @@
           1.47,
           0
         ]
-      }
+      },
+      "sha256": "16e02a8c566506979ad5698172a453031d75523b057a5b7f1db40777314ce00e"
     },
     {
       "id": "corealm_item_air_staff",
@@ -59564,7 +59614,8 @@
           1.015,
           0
         ]
-      }
+      },
+      "sha256": "a4234aac88a9a011dca6be9c3a2382198533ee18f45ca91fe1b07263078217f1"
     },
     {
       "id": "corealm_item_earth_staff",
@@ -59611,7 +59662,8 @@
           1.015,
           0
         ]
-      }
+      },
+      "sha256": "f4f90e481558e8db5c33bd4147f1fa782c777f6ded07c02932cf13833b9bd5d3"
     },
     {
       "id": "corealm_item_water_staff",
@@ -59658,7 +59710,8 @@
           1.015,
           0
         ]
-      }
+      },
+      "sha256": "22436f48905134bf4835eaa761dce57d60ac7a5d621a49d05532692c63b8fc8c"
     },
     {
       "id": "corealm_item_fire_staff",
@@ -59705,7 +59758,8 @@
           1.015,
           0
         ]
-      }
+      },
+      "sha256": "45ba74a4ca9533136683bc83b5837a359248b9f345fe82dd25a479ff2e5cff57"
     },
     {
       "id": "corealm_item_galeskin_staff",
@@ -59749,7 +59803,8 @@
           1.06,
           0
         ]
-      }
+      },
+      "sha256": "56ecb5a4f9332e28100a1c84fdfa9d3198c7ab4476747084dcc88afe84e8dc90"
     },
     {
       "id": "corealm_item_mossbound_staff",
@@ -59793,7 +59848,8 @@
           1.06,
           0
         ]
-      }
+      },
+      "sha256": "0adf408184abea3afe07e734055d7037eb207b1524a5f54cfaf8165ed357b6e4"
     },
     {
       "id": "corealm_item_tideworn_staff",
@@ -59838,7 +59894,8 @@
           1.06,
           0
         ]
-      }
+      },
+      "sha256": "c963745ed41df8a639b2074b178426fa7c60bf17fa0dc96ba67e06c49b3ad771"
     },
     {
       "id": "corealm_item_cinderwake_staff",
@@ -59883,7 +59940,8 @@
           1.06,
           0
         ]
-      }
+      },
+      "sha256": "c1bedb9b31b66fb8d3eeb6bcb029e5f535e39a212e9bad46ca85d0866126dd9b"
     },
     {
       "id": "corealm_item_regent_staff",
@@ -59927,7 +59985,8 @@
           1.02,
           0
         ]
-      }
+      },
+      "sha256": "af7fdf27a95ddca8a203cc54dd289af45accea4cbe65fc58492e20d895b0448b"
     },
     {
       "id": "corealm_item_hollowstar_staff",
@@ -59972,7 +60031,8 @@
           1.085,
           0
         ]
-      }
+      },
+      "sha256": "0743c5517210ffccc14f10ba3c2f0f7b0b62c70463adb1c8443790bcf13a62f6"
     },
     {
       "id": "corealm_item_palewood_shield",
@@ -60010,7 +60070,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "17756f2d1e801a2c73d1c85781f6b067843380a65ccf7dfe0e192f2f2f3e0711"
     },
     {
       "id": "corealm_item_duskoak_shield",
@@ -60048,7 +60109,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "ba08c0e614b3aab80c6f86e0ef557e3372c5275d0b9f62496b175ef31bb1e30b"
     },
     {
       "id": "corealm_item_cairnpine_shield",
@@ -60087,7 +60149,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "3432ed772963cde5def524e0d8adf5dcf30d80e173eecf2236efd886cae04016"
     },
     {
       "id": "corealm_item_cinderpine_shield",
@@ -60125,7 +60188,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "58ac3c8ba8157afae994168876238ee98f551ad17fdd7e4cc0055d3042335619"
     },
     {
       "id": "corealm_item_teak_shield",
@@ -60163,7 +60227,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "cf053e03ddf3b25c606561953af3b6f09547fa4655a4e0fca33c4fc6e56236ec"
     },
     {
       "id": "corealm_item_magic_shield",
@@ -60203,7 +60268,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "f97fb671419b21582f5e87764e927873be67598f65a1f73df3146e7ee17e4b13"
     },
     {
       "id": "corealm_item_ashseal_guard",
@@ -60241,7 +60307,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "0a743684baf092445df03020c62684d3583be9f07bd7d7b85d33dcb6baebb276"
     },
     {
       "id": "corealm_item_worn_pickaxe",
@@ -60281,7 +60348,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "380878c43f563845091065423b3b8558e3bcb126b539ce37f9a24c78c7ee2ef1"
     },
     {
       "id": "corealm_item_grithe_pickaxe",
@@ -60321,7 +60389,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "56648262dc9de04ede4067e0bfefb3c75eaa8d7e93818e59bf685c1739a6c2bc"
     },
     {
       "id": "corealm_item_corven_pickaxe",
@@ -60361,7 +60430,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "11509e77ed973eecab503794817463895159cafbb15005fd4b403e58655ab632"
     },
     {
       "id": "corealm_item_kaldite_pickaxe",
@@ -60401,7 +60471,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "69c9439726c17546b99c53258a2183e7e932f4c736b6f16792bbd1bb34722287"
     },
     {
       "id": "corealm_item_emberite_pickaxe",
@@ -60441,7 +60512,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "3973e671c0bab39daa50f49dc5786b83483d26e3356a2086227bae53be8787bb"
     },
     {
       "id": "corealm_item_cindersteel_pickaxe",
@@ -60481,7 +60553,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "df901d5d45d1524898f9bb1afb4d4f92cecd5c278697b9054c88f8ad7ad96866"
     },
     {
       "id": "corealm_item_nightglass_pickaxe",
@@ -60522,7 +60595,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "2fafd1f291ae014ce180a6e1c857693eed1b16897729e4c4ebd03528edfbac6b"
     },
     {
       "id": "corealm_item_worn_hatchet",
@@ -60561,7 +60635,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "7163238f9121fc7255d76f425537371112010c4bf3c112712fe8c5f70a770556"
     },
     {
       "id": "corealm_item_grithe_hatchet",
@@ -60600,7 +60675,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "4737368702e3d87f9eb741d7d4a0596f9ab31cefc424fb8fe64fccff92a3e916"
     },
     {
       "id": "corealm_item_corven_hatchet",
@@ -60639,7 +60715,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "09147ce54df5eb9b17f8da22e2311645e9d28135ded93dcf66af5c9939f16ae2"
     },
     {
       "id": "corealm_item_kaldite_hatchet",
@@ -60678,7 +60755,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "3f46a43ed4a0219144c96da77128d87a4dce328a5225f769eb51b841a2311f62"
     },
     {
       "id": "corealm_item_emberite_hatchet",
@@ -60717,7 +60795,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "bee1203eed1b0cc779747e3cc6550f3b68181401ce66638cbeec8bc8ade53bc4"
     },
     {
       "id": "corealm_item_cindersteel_hatchet",
@@ -60756,7 +60835,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "3b97db7cacb96850b4852afcd8c4c3a776371bb02aa73d21a85c34480c88201b"
     },
     {
       "id": "corealm_item_nightglass_hatchet",
@@ -60797,7 +60877,8 @@
           0,
           0
         ]
-      }
+      },
+      "sha256": "fc346b8a8f1c5d6c91b1f51060ecfc3c22bc64b43ec07db6239007757cf89d12"
     },
     {
       "id": "corealm_item_duskoak_log",
@@ -61069,7 +61150,8 @@
         "Clouded clear quartz",
         "Oxidized copper recesses",
         "Quartz pale inclusions"
-      ]
+      ],
+      "sha256": "aee5ff18b416a5e28c051a35f7dd713bf4c6b0c9fd09d1b2912320e796020306"
     },
     {
       "id": "corealm_item_ember_charm",
@@ -61100,7 +61182,8 @@
         "Heat stained amber quartz",
         "Worn red copper",
         "Quartz fracture inclusions"
-      ]
+      ],
+      "sha256": "9502a1e89bfeefcb35cdc9fe5462b8e75b335a978b35f1868a38f6b5c1999ae2"
     },
     {
       "id": "corealm_item_stone_ring",
@@ -61128,7 +61211,8 @@
       "materials": [
         "Carved grey stone with quartz veins",
         "Dark stone carving grooves"
-      ]
+      ],
+      "sha256": "fb474d0185b794bf215d6c876a0ef59722f2d51610e6b082203cc554486ae9fe"
     },
     {
       "id": "corealm_item_stone_charm",
@@ -61156,7 +61240,8 @@
       "materials": [
         "Grey river stone with pale quartz veins",
         "Brown twisted leather thong"
-      ]
+      ],
+      "sha256": "7345228c1a80d6119ee7178ba2ba61e040d54d42b233d245c275e3b7138d0a7e"
     },
     {
       "id": "corealm_item_storm_ring",
@@ -61185,7 +61270,8 @@
         "Blackened silver lightning grounds",
         "Polished storm silver",
         "Deep red garnet"
-      ]
+      ],
+      "sha256": "539fa2af4cd31fd7cb17369fed038ad5bfe0bc677cc59df2ef0653bbeeccba75"
     },
     {
       "id": "corealm_item_storm_charm",
@@ -61216,7 +61302,8 @@
         "Polished storm silver",
         "Oxidized recessed cage silver",
         "Blackened silver bail strap"
-      ]
+      ],
+      "sha256": "c3b98787f6d45bb0519bf5367daabf673eaa6a90a21fa71887185f6c0b1f4e1c"
     },
     {
       "id": "corealm_item_foxhair_ring",
@@ -61245,7 +61332,8 @@
         "Red hammered copper rails and smooth bore",
         "Dark russet hide under dense guardhair",
         "Fox guardhair warm red and cream tips"
-      ]
+      ],
+      "sha256": "1809d64d52048f36eda454f2d7a943f6241543b20e4a0f6d27d78708fa46acea"
     },
     {
       "id": "corealm_item_turkey_plume_charm",
@@ -61276,7 +61364,8 @@
         "Cloudy natural quartz crystal with clear thick volume",
         "Fine milky quartz inclusions",
         "Hammered red copper hanging loop and binding wire"
-      ]
+      ],
+      "sha256": "d468b8ab9a7dbcd7a795f1cabc8761009c94654d29a34884f595a497e43cd4ef"
     },
     {
       "id": "corealm_item_lynx_sinew_ring",
@@ -61305,7 +61394,8 @@
         "Dark worn iron wire with bright worked edges",
         "Taut honey tan longitudinal sinew fibres",
         "Fine pale raised sinew fibres"
-      ]
+      ],
+      "sha256": "5e74b320d4d23c300f18e32e5e2d02da18904a07eaeae2da3f261e0f55ab76d9"
     },
     {
       "id": "corealm_item_heron_quill_charm",
@@ -61337,7 +61427,8 @@
         "Polished honey orange amber with warm volume",
         "Amber suspended brown mineral flecks",
         "Brown grey forged iron quill ferrule"
-      ]
+      ],
+      "sha256": "7acb03b72fff4af5e8fb5c5238deeefc55bd31fd06cb18e297d162afb9e56837"
     },
     {
       "id": "corealm_item_quillguard_ring",
@@ -61365,7 +61456,8 @@
       "materials": [
         "Worn cobalt blue forged band and sockets",
         "Porcupine quill dark roots grading into ivory tips"
-      ]
+      ],
+      "sha256": "7abcfa14eadaef704d19f38606860840ac6d6fc70da4257e3dc9f52f5d9cef3d"
     },
     {
       "id": "corealm_item_antler_palm_charm",
@@ -61396,7 +61488,8 @@
         "Honey brown depths of cancellous antler pores",
         "Hammered bronze antler bail",
         "Dark cobalt blue interlocking chain"
-      ]
+      ],
+      "sha256": "f738c0ecbeef2dabee8d0500d0014f2015a1dda3ad435c96235ad26572d4c4cc"
     },
     {
       "id": "corealm_item_chitin_ring",
@@ -61425,7 +61518,8 @@
         "Worn pale titanium band and sculpted plate retainers",
         "Polished reddish brown centipede chitin",
         "Dark chitin plate seams and fine growth lines"
-      ]
+      ],
+      "sha256": "e8af6a2f1d6e3cfde7262362f864a7089dd7ee64a56df36d16f7b48c2b2d35d3"
     },
     {
       "id": "corealm_item_mantis_edge_charm",
@@ -61454,7 +61548,8 @@
         "Olive green mantis spur with amber brown cutting edge",
         "Amber brown mantis edge and tooth tips",
         "Polished hammered titanium open cage"
-      ]
+      ],
+      "sha256": "293d28fcd76a8bf5dd9ba71f61bea4603047e58bf2b2af1acda796a52a699aa8"
     },
     {
       "id": "corealm_item_cinder_ring",
@@ -61485,7 +61580,8 @@
         "Cracked amber fire opal",
         "Oxidised warm dark bronze",
         "Burnished copper edges"
-      ]
+      ],
+      "sha256": "a79b9831ee78185e5b6f858ae614759df6b13a5dce84a8a2ad2918acef3883ce"
     },
     {
       "id": "corealm_item_cinder_charm",
@@ -61514,7 +61610,8 @@
         "Cracked amber fire opal",
         "Oxidised warm dark bronze",
         "Burnished copper edges"
-      ]
+      ],
+      "sha256": "1d48dab7e0ad3ceba0745b32191adce06e14d004684994dd1c41024bc78bd6d0"
     },
     {
       "id": "corealm_item_emberweave_ring",
@@ -61544,7 +61641,8 @@
         "Cracked amber fire opal",
         "Burnished copper edges",
         "Blackened braided binding cord"
-      ]
+      ],
+      "sha256": "7d6b15406153343bf5395235d22797ebec10d9ec51682b0d10be9a7905663424"
     },
     {
       "id": "corealm_item_emberweave_charm",
@@ -61573,7 +61671,8 @@
         "Cracked amber fire opal",
         "Oxidised warm dark bronze",
         "Burnished copper edges"
-      ]
+      ],
+      "sha256": "12d28124b7e2caa315b2c85ebb3ded0acdcad849276e35a99ce824d44fe32904"
     },
     {
       "id": "corealm_item_starweave_ring",
@@ -61603,7 +61702,8 @@
         "Twisted violet silk bindings",
         "Prismatic molten fire opal",
         "Bright cold silver chased edges"
-      ]
+      ],
+      "sha256": "5833b7167d36acfb781c6c2567ac522d87a987b9ea763425bb928ceb1a638c88"
     },
     {
       "id": "corealm_item_starweave_charm",
@@ -61633,7 +61733,8 @@
         "Polished blue-black meteoric silver",
         "Bright cold silver chased edges",
         "Violet inset star enamel"
-      ]
+      ],
+      "sha256": "f16c9a8119d21bac1bff07838660399ea3f547d09a7c065c581c808431dfedf4"
     },
     {
       "id": "corealm_item_grithe_ring",
@@ -61662,7 +61763,8 @@
         "Warm polished hammered copper",
         "Clear milky fractured quartz",
         "Quartz white mineral fracture edges"
-      ]
+      ],
+      "sha256": "b1d57944b3b3103ed1273e2e41de1da271e20b9383040ac69380143140ca12a6"
     },
     {
       "id": "corealm_item_palewood_log",
@@ -62924,6 +63026,2921 @@
           0
         ]
       }
+    },
+    {
+      "id": "corealm_item_grithe_sword",
+      "file": "models/items/grithe_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_sword"
+      ],
+      "bytes": 1379028,
+      "size": {
+        "x": 0.36352184414863586,
+        "y": 1.4149999479055404,
+        "z": 0.05593828856945038
+      },
+      "base": {
+        "x": -0.18176092207431793,
+        "y": -0.23500000035762786,
+        "z": -0.027928708121180534
+      },
+      "animations": [],
+      "materials": [
+        "polished-copper-edge",
+        "polished-copper-broad-blade-faces",
+        "copper-forging-retained-on-secondary-facet",
+        "lightly-hammered-warm-copper",
+        "dark-brown-leather",
+        "worn-leather-wrap-edge"
+      ],
+      "itemModel": {
+        "itemId": "grithe_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "sha256": "34e965edaeb64094cf9c63499848af9b7d196c624242e88128dab669c6d58e88"
+    },
+    {
+      "id": "corealm_item_air_wand",
+      "file": "models/items/air_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "air_wand"
+      ],
+      "bytes": 1964040,
+      "size": {
+        "x": 0.09058010578155518,
+        "y": 0.48180000127851963,
+        "z": 0.08914105966687202
+      },
+      "base": {
+        "x": -0.049580104649066925,
+        "y": -0.10780000014603137,
+        "z": -0.04483692720532417
+      },
+      "animations": [],
+      "materials": [
+        "air grip leather",
+        "air carved wood",
+        "air polished relief",
+        "air aged collar",
+        "air dense patterned elemental interior",
+        "air thin polished glass skin",
+        "air sculpted elemental flow"
+      ],
+      "itemModel": {
+        "itemId": "air_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "sha256": "7438a02825eec3ebc6653f3cbd8b01009335b65e488e60ee6e5bbacc5884c3c1"
+    },
+    {
+      "id": "corealm_item_earth_wand",
+      "file": "models/items/earth_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "earth_wand"
+      ],
+      "bytes": 1909268,
+      "size": {
+        "x": 0.09114811941981316,
+        "y": 0.48180000127851963,
+        "z": 0.09037231281399727
+      },
+      "base": {
+        "x": -0.050148118287324905,
+        "y": -0.10780000014603137,
+        "z": -0.04542095586657524
+      },
+      "animations": [],
+      "materials": [
+        "earth grip leather",
+        "earth aged collar",
+        "earth polished relief",
+        "earth carved wood",
+        "earth thin polished glass skin",
+        "earth sculpted elemental flow",
+        "Earth brown weathered mineral rock"
+      ],
+      "itemModel": {
+        "itemId": "earth_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "sha256": "5a5b283384d0c1df115844a7505ce63202b893d8c76b1980b524a67162c35033"
+    },
+    {
+      "id": "corealm_item_water_wand",
+      "file": "models/items/water_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "water_wand"
+      ],
+      "bytes": 2399760,
+      "size": {
+        "x": 0.09058010578155518,
+        "y": 0.48180000127851963,
+        "z": 0.08914105966687202
+      },
+      "base": {
+        "x": -0.049580104649066925,
+        "y": -0.10780000014603137,
+        "z": -0.04483692720532417
+      },
+      "animations": [],
+      "materials": [
+        "water grip leather",
+        "water aged collar",
+        "water polished relief",
+        "water carved wood",
+        "water dense patterned elemental interior",
+        "water thin polished glass skin",
+        "water sculpted elemental flow"
+      ],
+      "itemModel": {
+        "itemId": "water_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "sha256": "1e52bbe664137897672dcdea3c33c7f6f64d728c6ba72efc9ab4fe2916992e19"
+    },
+    {
+      "id": "corealm_item_fire_wand",
+      "file": "models/items/fire_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_wand"
+      ],
+      "bytes": 2311012,
+      "size": {
+        "x": 0.09058010578155518,
+        "y": 0.48180000127851963,
+        "z": 0.08914105966687202
+      },
+      "base": {
+        "x": -0.049580104649066925,
+        "y": -0.10780000014603137,
+        "z": -0.04483692720532417
+      },
+      "animations": [],
+      "materials": [
+        "fire grip leather",
+        "fire aged collar",
+        "fire polished relief",
+        "fire carved wood",
+        "fire dense patterned elemental interior",
+        "fire thin polished glass skin",
+        "fire sculpted elemental flow"
+      ],
+      "itemModel": {
+        "itemId": "fire_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "sha256": "b854ec7d95199d69640e265ea55879fa6bbbfee27f1253c253e941651c7a1c7c"
+    },
+    {
+      "id": "corealm_item_worn_rod",
+      "file": "models/items/worn_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_rod"
+      ],
+      "bytes": 1455316,
+      "size": {
+        "x": 0.3667455959930732,
+        "y": 1.9247767463375252,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.03509518504142761,
+        "y": -0.25903909319806995,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "worn_rod-longitudinal-wood-grain",
+        "worn_rod-creased-hide-wrap",
+        "worn_rod-worked-reel-metal",
+        "worn_rod-reel-seat-iron",
+        "worn_rod-twisted-gut",
+        "worn_rod-float-body"
+      ],
+      "itemModel": {
+        "itemId": "worn_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.17195041111257814,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15331,
+            0.09222999999999999,
+            0.07749999999999999
+          ],
+          "line": 11904385,
+          "bobber": 9867397
+        }
+      },
+      "sha256": "989376af78635d73e270fa5422142d3cce2ec4006a5a7c571bc1a7d18224f549"
+    },
+    {
+      "id": "corealm_item_palewood_rod",
+      "file": "models/items/palewood_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_rod"
+      ],
+      "bytes": 1456276,
+      "size": {
+        "x": 0.3607999986708164,
+        "y": 1.921353051605243,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "palewood_rod-longitudinal-wood-grain",
+        "palewood_rod-worked-reel-metal",
+        "palewood_rod-creased-hide-wrap",
+        "palewood_rod-reel-seat-iron",
+        "palewood_rod-twisted-gut",
+        "palewood_rod-float-body"
+      ],
+      "itemModel": {
+        "itemId": "palewood_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.173,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.14872,
+            0.09376,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 14733749
+        }
+      },
+      "sha256": "5be0885021934e9f09648590420516c5731bae1a6395711a2d7d3b9cb29f81df"
+    },
+    {
+      "id": "corealm_item_duskoak_rod",
+      "file": "models/items/duskoak_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_rod"
+      ],
+      "bytes": 1983400,
+      "size": {
+        "x": 0.4007999986708164,
+        "y": 1.921692990607766,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "duskoak_rod-longitudinal-wood-grain",
+        "duskoak_rod-worked-reel-metal",
+        "duskoak_rod-creased-hide-wrap",
+        "duskoak_rod-cork",
+        "duskoak_rod-reel-seat-iron",
+        "duskoak_rod-twisted-gut",
+        "duskoak_rod-float-body"
+      ],
+      "itemModel": {
+        "itemId": "duskoak_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.213,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16045,
+            0.08985,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 12944152
+        }
+      },
+      "sha256": "a120553519b4c548837a4ddaeda1542d98a48a31b7c2cc46bff1f5c3cb758a48"
+    },
+    {
+      "id": "corealm_item_cairnpine_rod",
+      "file": "models/items/cairnpine_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_rod"
+      ],
+      "bytes": 1526844,
+      "size": {
+        "x": 0.38079999867081643,
+        "y": 1.9215245838155501,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "cairnpine_rod-longitudinal-wood-grain",
+        "cairnpine_rod-worked-reel-metal",
+        "cairnpine_rod-creased-hide-wrap",
+        "cairnpine_rod-reel-seat-iron",
+        "cairnpine_rod-twisted-gut",
+        "cairnpine_rod-float-body"
+      ],
+      "itemModel": {
+        "itemId": "cairnpine_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.193,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15484,
+            0.09172,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 5774103
+        }
+      },
+      "sha256": "1f19d9ea8f687b06636731487cc974af92f221980abe2d9ddc81f20e7fae98c3"
+    },
+    {
+      "id": "corealm_item_cinderpine_rod",
+      "file": "models/items/cinderpine_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_rod"
+      ],
+      "bytes": 1891820,
+      "size": {
+        "x": 0.4207999986708164,
+        "y": 1.9218580161339884,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "cinderpine_rod-longitudinal-wood-grain",
+        "cinderpine_rod-worked-reel-metal",
+        "cinderpine_rod-creased-hide-wrap",
+        "cinderpine_rod-reel-seat-iron",
+        "cinderpine_rod-twisted-gut",
+        "cinderpine_rod-float-body"
+      ],
+      "itemModel": {
+        "itemId": "cinderpine_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.23299999999999998,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16453,
+            0.08849,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 13060875
+        }
+      },
+      "sha256": "fe9baa5a51f9ace56549e095d6579bdddc4788cc8aa5fdbd246c2307e6a7b84e"
+    },
+    {
+      "id": "corealm_item_grithe_pendant",
+      "file": "models/items/grithe_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_pendant"
+      ],
+      "bytes": 926248,
+      "size": {
+        "x": 0.02929343655705452,
+        "y": 0.05748431894108653,
+        "z": 0.006015500519424677
+      },
+      "base": {
+        "x": -0.01464671827852726,
+        "y": -0.018646718934178352,
+        "z": -0.003007751889526844
+      },
+      "animations": [],
+      "materials": [
+        "Reddish hand hammered copper",
+        "Darkened copper recessed border"
+      ],
+      "itemModel": {
+        "itemId": "grithe_pendant"
+      },
+      "sha256": "de89d76e25f90119653e1b887283a23068854ca577f71a328e5602d9de2f5cb3"
+    },
+    {
+      "id": "corealm_item_corven_ring",
+      "file": "models/items/corven_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_ring"
+      ],
+      "bytes": 988332,
+      "size": {
+        "x": 0.02329999953508377,
+        "y": 0.027549999736621977,
+        "z": 0.010900000110268593
+      },
+      "base": {
+        "x": -0.011649999767541885,
+        "y": -0.011649999767541885,
+        "z": -0.005450000055134296
+      },
+      "animations": [],
+      "materials": [
+        "Softly polished dark iron",
+        "Worn iron setting edge",
+        "Honey amber translucent resin",
+        "Amber suspended bark and ancient fern",
+        "Golden resin fracture flakes"
+      ],
+      "itemModel": {
+        "itemId": "corven_ring"
+      },
+      "sha256": "e6fed6f7a7dc5ffd3ccc48de6014ae4e65aa28942fbaf01f56484cb2d9cf9350"
+    },
+    {
+      "id": "corealm_item_corven_pendant",
+      "file": "models/items/corven_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_pendant"
+      ],
+      "bytes": 1108328,
+      "size": {
+        "x": 0.027039851993322372,
+        "y": 0.058387681021541356,
+        "z": 0.0075077516958117485
+      },
+      "base": {
+        "x": -0.013519925996661186,
+        "y": -0.01755008101463318,
+        "z": -0.003007751889526844
+      },
+      "animations": [],
+      "materials": [
+        "Clear golden honey amber pendant",
+        "Amber suspended bark and ancient fern",
+        "Golden resin fracture flakes",
+        "Worn charcoal iron"
+      ],
+      "itemModel": {
+        "itemId": "corven_pendant"
+      },
+      "sha256": "f4e97d84547e9c88acf7d635a9f0629d0c7e610a859d67a1beca0ac8033e8786"
+    },
+    {
+      "id": "corealm_item_kaldite_ring",
+      "file": "models/items/kaldite_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_ring"
+      ],
+      "bytes": 792752,
+      "size": {
+        "x": 0.02329999953508377,
+        "y": 0.028649999730661513,
+        "z": 0.012016106396913528
+      },
+      "base": {
+        "x": -0.011649999767541885,
+        "y": -0.011649999767541885,
+        "z": -0.006008053198456764
+      },
+      "animations": [],
+      "materials": [
+        "Blue steel cobalt band",
+        "Deep red transparent garnet",
+        "Garnet internal dark mineral feathers",
+        "Scarlet garnet fracture flakes",
+        "Bright bevels of cobalt"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_ring"
+      },
+      "sha256": "850a581d623671ab9cda2e6331d4243513d9943cc292ed14fccfc1444366c0d6"
+    },
+    {
+      "id": "corealm_item_kaldite_pendant",
+      "file": "models/items/kaldite_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_pendant"
+      ],
+      "bytes": 589568,
+      "size": {
+        "x": 0.022083647549152374,
+        "y": 0.049901243299245834,
+        "z": 0.008129222318530083
+      },
+      "base": {
+        "x": -0.011041823774576187,
+        "y": -0.01889999955892563,
+        "z": -0.003429222386330366
+      },
+      "animations": [],
+      "materials": [
+        "Deep red transparent garnet",
+        "Garnet internal dark mineral feathers",
+        "Scarlet garnet fracture flakes",
+        "Polished cool blue cobalt"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_pendant"
+      },
+      "sha256": "c2a2761eb54534295c0a034f4b8b94f20c1d5dbe862beecd74953fdc359ac738"
+    },
+    {
+      "id": "corealm_item_emberite_ring",
+      "file": "models/items/emberite_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_ring"
+      ],
+      "bytes": 811280,
+      "size": {
+        "x": 0.023399999365210533,
+        "y": 0.026399999626725915,
+        "z": 0.012740000151097775
+      },
+      "base": {
+        "x": -0.011699999682605267,
+        "y": -0.011699999682605267,
+        "z": -0.006370000075548887
+      },
+      "animations": [],
+      "materials": [
+        "Engraved antique silver",
+        "Polished translucent fire amber emberite",
+        "Suspended gold orange ember mineral feathers"
+      ],
+      "itemModel": {
+        "itemId": "emberite_ring"
+      },
+      "sha256": "475b9ab81bf90495150c5ee458e32153cc22769cf5aa0e74e7ff25bd8bc1653d"
+    },
+    {
+      "id": "corealm_item_emberite_pendant",
+      "file": "models/items/emberite_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_pendant"
+      ],
+      "bytes": 710452,
+      "size": {
+        "x": 0.01984516903758049,
+        "y": 0.040259658358991146,
+        "z": 0.009200000204145908
+      },
+      "base": {
+        "x": -0.009922686032950878,
+        "y": -0.014879821799695492,
+        "z": -0.004600000102072954
+      },
+      "animations": [],
+      "materials": [
+        "Polished translucent fire amber emberite",
+        "Suspended gold orange ember mineral feathers",
+        "Antique bright silver"
+      ],
+      "itemModel": {
+        "itemId": "emberite_pendant"
+      },
+      "sha256": "fc61df9b55e8a8a371e34a75be930d1aef5056cde26d3709f1e2738e6585a01a"
+    },
+    {
+      "id": "corealm_item_cindersteel_ring",
+      "file": "models/items/cindersteel_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_ring"
+      ],
+      "bytes": 1038980,
+      "size": {
+        "x": 0.023852504789829254,
+        "y": 0.024679827503859997,
+        "z": 0.007000000216066837
+      },
+      "base": {
+        "x": -0.01194053329527378,
+        "y": -0.011956882663071156,
+        "z": -0.0035000001080334187
+      },
+      "animations": [],
+      "materials": [
+        "Hammered charcoal cindersteel",
+        "Recessed hot copper seams"
+      ],
+      "itemModel": {
+        "itemId": "cindersteel_ring"
+      },
+      "sha256": "5d0c22f1d1cd45267dcdd6f06bb9ca4afe1862895460659b2fea0423700c18e9"
+    },
+    {
+      "id": "corealm_item_cindersteel_pendant",
+      "file": "models/items/cindersteel_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_pendant"
+      ],
+      "bytes": 1587628,
+      "size": {
+        "x": 0.027470000088214874,
+        "y": 0.04337983578443527,
+        "z": 0.009076089106500148
+      },
+      "base": {
+        "x": -0.013000000268220901,
+        "y": -0.017999999225139618,
+        "z": -0.003926089033484459
+      },
+      "animations": [],
+      "materials": [
+        "Forged dark cindersteel shield",
+        "Hammered copper channel inlay"
+      ],
+      "itemModel": {
+        "itemId": "cindersteel_pendant"
+      },
+      "sha256": "888f04397671cb50c15750a914e6a5efa38eeaeb500ffe6622582a302dbdefe2"
+    },
+    {
+      "id": "corealm_item_nightglass_ring",
+      "file": "models/items/nightglass_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_ring"
+      ],
+      "bytes": 528788,
+      "size": {
+        "x": 0.02383999999333173,
+        "y": 0.026570000022184105,
+        "z": 0.008799999952316284
+      },
+      "base": {
+        "x": -0.011919999996665865,
+        "y": -0.011919999996665865,
+        "z": -0.004399999976158142
+      },
+      "animations": [],
+      "materials": [
+        "Blue black polished nightglass alloy",
+        "Nightglass polished bevel edges"
+      ],
+      "itemModel": {
+        "itemId": "nightglass_ring"
+      },
+      "sha256": "523772deb01f0aa061eddea159d28308cc29a5fef881a4da93134353f7570780"
+    },
+    {
+      "id": "corealm_item_nightglass_pendant",
+      "file": "models/items/nightglass_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_pendant"
+      ],
+      "bytes": 1544904,
+      "size": {
+        "x": 0.027470000088214874,
+        "y": 0.04337983578443527,
+        "z": 0.008576089087501168
+      },
+      "base": {
+        "x": -0.013000000268220901,
+        "y": -0.017999999225139618,
+        "z": -0.003926089033484459
+      },
+      "animations": [],
+      "materials": [
+        "Blue black polished nightglass alloy",
+        "Cold blue polished shield bevel"
+      ],
+      "itemModel": {
+        "itemId": "nightglass_pendant"
+      },
+      "sha256": "18032ba39ed55f0b724ecc66a33fd213c3f3ea2461545c25fde58f7f313ff38b"
+    },
+    {
+      "id": "fab_male_mage_body",
+      "file": "models/character/fab-armor/fab_male_mage_body.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "male",
+        "body",
+        "rigged"
+      ],
+      "bytes": 620404,
+      "sha256": "6f3566bdd0760b93c6129ea6f4cd754be8bd99b23caea4677eac6ba52f7e930f",
+      "size": {
+        "x": 1.427035927772522,
+        "y": 1.2808781607845634,
+        "z": 0.39955671131610876
+      },
+      "base": {
+        "x": -0.7127758860588074,
+        "y": 0.39021518390385224,
+        "z": -0.21997152268886572
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_male_mage_legs",
+      "file": "models/character/fab-armor/fab_male_mage_legs.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "male",
+        "legs",
+        "rigged"
+      ],
+      "bytes": 157212,
+      "sha256": "dee56679e2e6073c4f8ddfad8f4d4cc60b049c89f79471c8d5cd11c6159901c1",
+      "size": {
+        "x": 0.387581388322765,
+        "y": 0.9055366814136505,
+        "z": 0.24656025786695895
+      },
+      "base": {
+        "x": -0.19302312114903675,
+        "y": 0.141209214925766,
+        "z": -0.17885639239845685
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_male_mage_head",
+      "file": "models/character/fab-armor/fab_male_mage_head.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "male",
+        "head",
+        "rigged"
+      ],
+      "bytes": 173312,
+      "sha256": "1996f8cc7a85c02e728555f8cb19e557cf94478b66abf5c10ad16f0ff5bf6f34",
+      "size": {
+        "x": 0.26759667594879033,
+        "y": 0.3774990280447599,
+        "z": 0.3359777182340622
+      },
+      "base": {
+        "x": -0.1338011165425098,
+        "y": 1.466593937081278,
+        "z": -0.16568075120449066
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_male_mage_hands",
+      "file": "models/character/fab-armor/fab_male_mage_hands.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "male",
+        "hands",
+        "rigged"
+      ],
+      "bytes": 248656,
+      "sha256": "d814e20e7e263c0275e63746c729f8e5ed0a8a38071b8641183c0858152a8a69",
+      "size": {
+        "x": 1.7909539341926575,
+        "y": 0.15997030583652672,
+        "z": 0.1583075132220985
+      },
+      "base": {
+        "x": -0.8930030465126039,
+        "y": 1.3699856773254002,
+        "z": -0.14163060486316684
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_male_mage_feet",
+      "file": "models/character/fab-armor/fab_male_mage_feet.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "male",
+        "feet",
+        "rigged"
+      ],
+      "bytes": 165080,
+      "sha256": "4b1fea6fbf05dcb8891798672b6142919c246c9ae9228eed8fe5d6057c75422a",
+      "size": {
+        "x": 0.418735072016716,
+        "y": 0.5180684067308903,
+        "z": 0.34186019003391266
+      },
+      "base": {
+        "x": -0.20937363803386688,
+        "y": -0.04447323456406593,
+        "z": -0.17616334557533264
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_female_mage_body",
+      "file": "models/character/fab-armor/fab_female_mage_body.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "female",
+        "body",
+        "rigged"
+      ],
+      "bytes": 630376,
+      "sha256": "8cf3591de8eb3c09d45aac9441c9784a2b790eb5884e015ff9b359359da556aa",
+      "size": {
+        "x": 1.3063682122721811,
+        "y": 1.1740375847559648,
+        "z": 0.36724454164505005
+      },
+      "base": {
+        "x": -0.6543515129580637,
+        "y": 0.4041843323964401,
+        "z": -0.2161630094051361
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_female_mage_legs",
+      "file": "models/character/fab-armor/fab_female_mage_legs.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "female",
+        "legs",
+        "rigged"
+      ],
+      "bytes": 185092,
+      "sha256": "63cb8feeb545d542dd4147eaf1bb7adbe221173fd32b32f954a1e58bf37ab078",
+      "size": {
+        "x": 0.37572564834969713,
+        "y": 0.9247592277858891,
+        "z": 0.2520297206938266
+      },
+      "base": {
+        "x": -0.18786295968498345,
+        "y": 0.12511412426489216,
+        "z": -0.20075100660324097
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_female_mage_head",
+      "file": "models/character/fab-armor/fab_female_mage_head.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "female",
+        "head",
+        "rigged"
+      ],
+      "bytes": 174296,
+      "sha256": "ea5b6a43a2435f1dc88fb22fba722011f8a154136741131b80253f49cd1a1549",
+      "size": {
+        "x": 0.2366824448108673,
+        "y": 0.38341332013642515,
+        "z": 0.3482680124500865
+      },
+      "base": {
+        "x": -0.11834069341421127,
+        "y": 1.427295321869495,
+        "z": -0.14238370530653868
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_female_mage_hands",
+      "file": "models/character/fab-armor/fab_female_mage_hands.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "female",
+        "hands",
+        "rigged"
+      ],
+      "bytes": 247344,
+      "sha256": "8c238877c1dd2a7a3cac708f050862a0ebd1960039d2e4520bf4a467446ea0db",
+      "size": {
+        "x": 1.6270198167809489,
+        "y": 0.13104997048512423,
+        "z": 0.1511830165982246
+      },
+      "base": {
+        "x": -0.8088205811732826,
+        "y": 1.3535098039136793,
+        "z": -0.12699434161186215
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_female_mage_feet",
+      "file": "models/character/fab-armor/fab_female_mage_feet.glb",
+      "pack": "fab-lowpoly-medieval-modular-armors",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "mage",
+        "craftable",
+        "female",
+        "feet",
+        "rigged"
+      ],
+      "bytes": 165988,
+      "sha256": "d75d47b4124bb3a118d231ee3ce953c3cd79264ed70bc82a73684adb8fc2f297",
+      "size": {
+        "x": 0.37776538729667664,
+        "y": 0.5190751271103707,
+        "z": 0.30866156845587667
+      },
+      "base": {
+        "x": -0.18888767063617706,
+        "y": -0.03118635434467651,
+        "z": -0.16726257234114586
+      },
+      "animations": [],
+      "materials": [
+        "fab_cloth",
+        "fab_leather",
+        "fab_trim"
+      ]
+    },
+    {
+      "id": "fab_male_duskguard_body",
+      "file": "models/character/fab-armor/fab_male_duskguard_body.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "body",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 1998172,
+      "sha256": "55c8d1e00f267343214d31e0b3cc6a0e7b6a26435aa4ba8b76760390142545e7",
+      "size": {
+        "x": 0.5824696123600007,
+        "y": 0.6735196956582908,
+        "z": 0.4079448012538993
+      },
+      "base": {
+        "x": -0.2912347614765168,
+        "y": 0.9837339520454408,
+        "z": -0.22108983993530276
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_Head_Greystone_Novaborn",
+        "M_Greystone_Novaborn_Torso_Greystone_Novaborn",
+        "M_Greystone_Novaborn_Legs_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_male_duskguard_legs",
+      "file": "models/character/fab-armor/fab_male_duskguard_legs.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "legs",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 2242312,
+      "sha256": "3d9977a0151c54bc74fbecc39cfbdb3c659c75ce0398c2089c9cbc9d5a42919e",
+      "size": {
+        "x": 0.4621495008468628,
+        "y": 0.8549668977122362,
+        "z": 0.33783297601285744
+      },
+      "base": {
+        "x": -0.2310747504234314,
+        "y": 0.4081054925918579,
+        "z": -0.21685191988945013
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_Torso_Greystone_Novaborn",
+        "M_Greystone_Novaborn_Legs_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_male_duskguard_hands",
+      "file": "models/character/fab-armor/fab_male_duskguard_hands.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "hands",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 906288,
+      "sha256": "7d78468cad69dc08cdcad1cb9c6db4f8ccd993a16992fdab0e54d11d1ef7dafc",
+      "size": {
+        "x": 1.8202047944068909,
+        "y": 0.27304836163175117,
+        "z": 0.33150730339945267
+      },
+      "base": {
+        "x": -0.9101028442382814,
+        "y": 1.316916028169274,
+        "z": -0.1655653149926162
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_Torso_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_male_duskguard_feet",
+      "file": "models/character/fab-armor/fab_male_duskguard_feet.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "feet",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 1273312,
+      "sha256": "58fe82440e0e3392a2edb3c5c398ce318b0479ebed6e784380acf371cbdf4a86",
+      "size": {
+        "x": 0.41896961629390717,
+        "y": 0.6812140569090843,
+        "z": 0.4117265045642853
+      },
+      "base": {
+        "x": -0.20948462188243866,
+        "y": -0.06678285449743271,
+        "z": -0.19703473150730133
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_weapons_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_female_duskguard_body",
+      "file": "models/character/fab-armor/fab_female_duskguard_body.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "body",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 1998892,
+      "sha256": "744d452faa1fd88889764e2a09bb8dfbcafb5ac4e37aefbd781b2e480fa3a087",
+      "size": {
+        "x": 0.5782696306705475,
+        "y": 0.6412694454193111,
+        "z": 0.39535592754124615
+      },
+      "base": {
+        "x": -0.28913477063179016,
+        "y": 0.9653260707855225,
+        "z": -0.22239658236503598
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_Head_Greystone_Novaborn",
+        "M_Greystone_Novaborn_Torso_Greystone_Novaborn",
+        "M_Greystone_Novaborn_Legs_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_female_duskguard_legs",
+      "file": "models/character/fab-armor/fab_female_duskguard_legs.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "legs",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 2243020,
+      "sha256": "40f499678b2652e95e5a586368b7202d7dba1a9a086e73ab5f3c8961382c8aab",
+      "size": {
+        "x": 0.4473658502101898,
+        "y": 0.8442390447868409,
+        "z": 0.32499400749784696
+      },
+      "base": {
+        "x": -0.2236829251050949,
+        "y": 0.39585098624229437,
+        "z": -0.21195854878302045
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_Torso_Greystone_Novaborn",
+        "M_Greystone_Novaborn_Legs_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_female_duskguard_hands",
+      "file": "models/character/fab-armor/fab_female_duskguard_hands.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "hands",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 907008,
+      "sha256": "a69b53d7f87e0211230859ef3f218c0fdde3c12b7a4ab08888c75c7a8aff40b0",
+      "size": {
+        "x": 1.6277994513511658,
+        "y": 0.27649672494021216,
+        "z": 0.3171563969221278
+      },
+      "base": {
+        "x": -0.8139002323150634,
+        "y": 1.2842408849230693,
+        "z": -0.1687142433359146
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_Torso_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_female_duskguard_feet",
+      "file": "models/character/fab-armor/fab_female_duskguard_feet.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "feet",
+        "duskguard",
+        "rigged"
+      ],
+      "bytes": 1274032,
+      "sha256": "0c330e5b5ce14f997dd54a688b3f8bcda2d0fc34766564d55e00c1a37e8182d3",
+      "size": {
+        "x": 0.4162863940000534,
+        "y": 0.6829275712370872,
+        "z": 0.4148702919483185
+      },
+      "base": {
+        "x": -0.20814301073551178,
+        "y": -0.07397248595952988,
+        "z": -0.19307850301265714
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Novaborn_weapons_Greystone_Novaborn"
+      ]
+    },
+    {
+      "id": "fab_male_oathguard_body",
+      "file": "models/character/fab-armor/fab_male_oathguard_body.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "body",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 2356264,
+      "sha256": "e2e8f62e528f2813d750f2f890abaa447fa26fb565d7116f4f95bea94fbbed82",
+      "size": {
+        "x": 1.0731524289016747,
+        "y": 0.8037789185386561,
+        "z": 0.5639792531728745
+      },
+      "base": {
+        "x": -0.5365760952415471,
+        "y": 0.9348611514228915,
+        "z": -0.33326265215873724
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughTorso",
+        "M_Greystone_ToughArms"
+      ]
+    },
+    {
+      "id": "fab_male_oathguard_legs",
+      "file": "models/character/fab-armor/fab_male_oathguard_legs.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "legs",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 1698152,
+      "sha256": "3ebb0f479a43709fde5c05358ba1048be8dadc79b4bd1ffcc942754d4192d97a",
+      "size": {
+        "x": 0.6613425612449646,
+        "y": 0.7803611927698473,
+        "z": 0.3923564620924929
+      },
+      "base": {
+        "x": -0.3306712806224823,
+        "y": 0.3761082887649536,
+        "z": -0.2469192342258846
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughLegs",
+        "M_Greystone_ToughSword_Greystone_Tough"
+      ]
+    },
+    {
+      "id": "fab_male_oathguard_hands",
+      "file": "models/character/fab-armor/fab_male_oathguard_hands.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "hands",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 1286532,
+      "sha256": "3feb05876bcc6b5614525c1ecf2e59576c7d017cfd18fcb6a968f1c05acc70ba",
+      "size": {
+        "x": 1.8195788264274597,
+        "y": 0.2032228708267212,
+        "z": 0.18202554807066917
+      },
+      "base": {
+        "x": -0.9097898602485658,
+        "y": 1.3501160144805906,
+        "z": -0.1551496535539627
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughArms"
+      ]
+    },
+    {
+      "id": "fab_male_oathguard_feet",
+      "file": "models/character/fab-armor/fab_male_oathguard_feet.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "feet",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 1008372,
+      "sha256": "5a18c9ec04544fb1e65e118e3b1491696e07c9a057ca0fee104ec3777373c296",
+      "size": {
+        "x": 0.46055425703525543,
+        "y": 0.5903361737728119,
+        "z": 0.46826978027820587
+      },
+      "base": {
+        "x": -0.2302769124507904,
+        "y": -0.08033236861228943,
+        "z": -0.23669631779193878
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughLegs"
+      ]
+    },
+    {
+      "id": "fab_female_oathguard_body",
+      "file": "models/character/fab-armor/fab_female_oathguard_body.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "body",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 2356984,
+      "sha256": "809e4f8524b8dae3eaac8890b813405c174d57bb0768ba1298edd89689307776",
+      "size": {
+        "x": 0.9343845896481605,
+        "y": 0.7780668459358715,
+        "z": 0.5441978871822356
+      },
+      "base": {
+        "x": -0.46719217561479,
+        "y": 0.9265903510627249,
+        "z": -0.3309811055660247
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughTorso",
+        "M_Greystone_ToughArms"
+      ]
+    },
+    {
+      "id": "fab_female_oathguard_legs",
+      "file": "models/character/fab-armor/fab_female_oathguard_legs.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "legs",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 1698868,
+      "sha256": "ac40f830cec8d8364f5dbf9ae0596a8b3b254acf54e763f07634de1c56dc2509",
+      "size": {
+        "x": 0.6401870250701904,
+        "y": 0.7726881375674886,
+        "z": 0.3788000857766584
+      },
+      "base": {
+        "x": -0.3200935125350952,
+        "y": 0.36574175953865057,
+        "z": -0.24309611773297402
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughLegs",
+        "M_Greystone_ToughSword_Greystone_Tough"
+      ]
+    },
+    {
+      "id": "fab_female_oathguard_hands",
+      "file": "models/character/fab-armor/fab_female_oathguard_hands.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "hands",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 1287252,
+      "sha256": "bd0f4dc80da73283bf05ceca3bf8973e4056241b193388298d287d69f98934a0",
+      "size": {
+        "x": 1.6271734833717346,
+        "y": 0.1861013174057009,
+        "z": 0.1655403021723031
+      },
+      "base": {
+        "x": -0.8135872483253478,
+        "y": 1.332146644592285,
+        "z": -0.14300298690795896
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughArms"
+      ]
+    },
+    {
+      "id": "fab_female_oathguard_feet",
+      "file": "models/character/fab-armor/fab_female_oathguard_feet.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "feet",
+        "oathguard",
+        "rigged"
+      ],
+      "bytes": 1009092,
+      "sha256": "7f96ce0fb7d5f3ca07f88239767b1069050b5610bc1cfc46231cd81729cfdd12",
+      "size": {
+        "x": 0.45852017402648926,
+        "y": 0.5909946262836456,
+        "z": 0.47260582447052
+      },
+      "base": {
+        "x": -0.22925986349582672,
+        "y": -0.08782687783241272,
+        "z": -0.23393234610557553
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_ToughLegs"
+      ]
+    },
+    {
+      "id": "fab_male_frostguard_head",
+      "file": "models/character/fab-armor/fab_male_frostguard_head.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "head",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1091920,
+      "sha256": "c666d79cf611409f48ee606c5b9ee95063c54dfa98ac42ffadaf6a106198ebd0",
+      "size": {
+        "x": 0.2700785845518112,
+        "y": 0.345802903175354,
+        "z": 0.37410351634025574
+      },
+      "base": {
+        "x": -0.13503924012184143,
+        "y": 1.5034327507019045,
+        "z": -0.14597803354263306
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Helm_SM_Greystone_TigerHelm"
+      ]
+    },
+    {
+      "id": "fab_male_frostguard_body",
+      "file": "models/character/fab-armor/fab_male_frostguard_body.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "body",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 5685664,
+      "sha256": "0baf44acc48d4cf0508156e972801cbcc26121ceef9b84b7c0a1adb18f43c771",
+      "size": {
+        "x": 1.0843223333358765,
+        "y": 0.8200555428994929,
+        "z": 0.5696204637758546
+      },
+      "base": {
+        "x": -0.5421610474586487,
+        "y": 0.9191673671951095,
+        "z": -0.3344697058200836
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Torso_WhiteTiger",
+        "M_Greystone_arms_WhiteTiger",
+        "M_Greystone_shield_WhiteTiger",
+        "MIC_GreystoneFur_WhiteTiger",
+        "MIC_GreystoneFur_WhiteTiger_Greystone_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_male_frostguard_legs",
+      "file": "models/character/fab-armor/fab_male_frostguard_legs.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "legs",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1445268,
+      "sha256": "e61ea97baec93829eb489fa3288bcaf1b4c68517039ca90d19adc716abea2666",
+      "size": {
+        "x": 0.4704728564760936,
+        "y": 0.7608772088468391,
+        "z": 0.3655903657087356
+      },
+      "base": {
+        "x": -0.23523605570900585,
+        "y": 0.3683249354362489,
+        "z": -0.23353256285190577
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_legs_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_male_frostguard_hands",
+      "file": "models/character/fab-armor/fab_male_frostguard_hands.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "hands",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1056092,
+      "sha256": "f59b6d2f5d75e9c7b5cf299e010515149a915fc92936794a6db279bfa6185fdb",
+      "size": {
+        "x": 1.8195788264274597,
+        "y": 0.23007094860076904,
+        "z": 0.20069305039942265
+      },
+      "base": {
+        "x": -0.9097898602485658,
+        "y": 1.350115895271301,
+        "z": -0.17435775697231293
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_arms_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_male_frostguard_feet",
+      "file": "models/character/fab-armor/fab_male_frostguard_feet.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "feet",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1271948,
+      "sha256": "c9fa8ff929b094509d4cd99aee7c26e0fc5133bc372bd2a0dd1324f11ea9d136",
+      "size": {
+        "x": 0.4696795493364334,
+        "y": 0.6935029402375221,
+        "z": 0.43942689895629883
+      },
+      "base": {
+        "x": -0.2348395437002182,
+        "y": -0.08640799671411514,
+        "z": -0.20772875845432281
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_legs_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_female_frostguard_head",
+      "file": "models/character/fab-armor/fab_female_frostguard_head.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "head",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1092640,
+      "sha256": "415f987a168b8cab63cb81d4998f45dc0b4dc48b0816a38481eb89563f3d65d4",
+      "size": {
+        "x": 0.26922278106212616,
+        "y": 0.34767627716064453,
+        "z": 0.36471913754940033
+      },
+      "base": {
+        "x": -0.1346113383769989,
+        "y": 1.4563155174255369,
+        "z": -0.13794752955436707
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Helm_SM_Greystone_TigerHelm"
+      ]
+    },
+    {
+      "id": "fab_female_frostguard_body",
+      "file": "models/character/fab-armor/fab_female_frostguard_body.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "body",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 5686388,
+      "sha256": "98c73eb0b0984b3a4cb60e517b7bb5fc4b9508d7adb54b0ac546274eeb267082",
+      "size": {
+        "x": 0.9459703862667083,
+        "y": 0.7922470297992668,
+        "z": 0.5735915038231307
+      },
+      "base": {
+        "x": -0.47298505902290333,
+        "y": 0.9113985571682017,
+        "z": -0.3519695401191712
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_Torso_WhiteTiger",
+        "M_Greystone_arms_WhiteTiger",
+        "M_Greystone_shield_WhiteTiger",
+        "MIC_GreystoneFur_WhiteTiger",
+        "MIC_GreystoneFur_WhiteTiger_Greystone_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_female_frostguard_legs",
+      "file": "models/character/fab-armor/fab_female_frostguard_legs.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "legs",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1445988,
+      "sha256": "757b35319402e2fb77dbe67cf2e1a49bbc3a84094d2d84762babac761b87f270",
+      "size": {
+        "x": 0.45385168355261296,
+        "y": 0.7373038993314971,
+        "z": 0.3530265260173208
+      },
+      "base": {
+        "x": -0.22692548414842717,
+        "y": 0.36960324645042425,
+        "z": -0.2301376760005951
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_legs_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_female_frostguard_hands",
+      "file": "models/character/fab-armor/fab_female_frostguard_hands.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "hands",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1056816,
+      "sha256": "024e0003cf88982618dd4c6ef0e44f3e1e94b36b87afe81481e104526dd706b1",
+      "size": {
+        "x": 1.6271734833717346,
+        "y": 0.213597893714905,
+        "z": 0.18492533452808846
+      },
+      "base": {
+        "x": -0.8135872483253478,
+        "y": 1.3321465253829954,
+        "z": -0.16238796710968015
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_arms_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_female_frostguard_feet",
+      "file": "models/character/fab-armor/fab_female_frostguard_feet.glb",
+      "pack": "fab-paragon-greystone",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "feet",
+        "frostguard",
+        "rigged"
+      ],
+      "bytes": 1272672,
+      "sha256": "850bd9fea6ac21958947a5a44889279fdbac43be50c97ca99e7ef056ca2f934e",
+      "size": {
+        "x": 0.46776194870471954,
+        "y": 0.69561567902565,
+        "z": 0.44281625747680664
+      },
+      "base": {
+        "x": -0.23388074338436127,
+        "y": -0.09490963816642761,
+        "z": -0.20401810109615323
+      },
+      "animations": [],
+      "materials": [
+        "M_Greystone_legs_WhiteTiger"
+      ]
+    },
+    {
+      "id": "fab_male_tideweave_head",
+      "file": "models/character/fab-armor/fab_male_tideweave_head.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "head",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 2461924,
+      "sha256": "7b193de86a5a5f35584e88a43cd307acdbbff4635d589d1c6f494384a0a352df",
+      "size": {
+        "x": 0.2203659638762474,
+        "y": 0.4733753204345703,
+        "z": 0.46838386356830597
+      },
+      "base": {
+        "x": -0.11014417558908463,
+        "y": 1.4252107143402102,
+        "z": -0.3588998317718506
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Torso_rosewood__fab_leather",
+        "M_Kwang_Torso_Silk_rosewood__fab_cloth",
+        "M_Kwang_Hair"
+      ]
+    },
+    {
+      "id": "fab_male_tideweave_body",
+      "file": "models/character/fab-armor/fab_male_tideweave_body.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "body",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 4768532,
+      "sha256": "acf4aad40cc008c3ed9501c64f111844fa41f617f8149ad9dc7a348f786fb793",
+      "size": {
+        "x": 1.0583851950879444,
+        "y": 0.6589739322662351,
+        "z": 0.4470338183830091
+      },
+      "base": {
+        "x": -0.5899525460586705,
+        "y": 1.0229254961013794,
+        "z": -0.26421231425124875
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Lowe_rosewoodrBody__fab_leather",
+        "M_Kwang_Torso_rosewood__fab_leather",
+        "M_Kwang_Torso_Silk_rosewood__fab_cloth",
+        "M_Kwang_WaistArms_rosewood__fab_leather",
+        "M_Kwang_WaistArmsFlesh",
+        "M_Kwang_Fur",
+        "M_Kwang_Tors_rosewoodo___fab_leather"
+      ]
+    },
+    {
+      "id": "fab_male_tideweave_legs",
+      "file": "models/character/fab-armor/fab_male_tideweave_legs.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "legs",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 2912060,
+      "sha256": "17587cbb261a0cff0a5db39d6a2de99386b2eeed6b2d4bf86d146113a0afe81c",
+      "size": {
+        "x": 0.6945826725442344,
+        "y": 1.1678369591984765,
+        "z": 0.49702643393835944
+      },
+      "base": {
+        "x": -0.43411025566648787,
+        "y": 0.028179140761494637,
+        "z": -0.31723925471305847
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Lowe_rosewoodrBody__fab_leather",
+        "M_Kwang_LowerBody_Silk_rosewood__fab_cloth",
+        "M_Kwang_WaistArms_rosewood__fab_leather",
+        "M_Kwang_WaistArms_Silk_rosewood__fab_cloth"
+      ]
+    },
+    {
+      "id": "fab_male_tideweave_hands",
+      "file": "models/character/fab-armor/fab_male_tideweave_hands.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "hands",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 1402976,
+      "sha256": "61f797f19e3714f3d2712b4e0aa294bd24eb619a9a6b73a065634a0bc156a32e",
+      "size": {
+        "x": 1.7988523244857788,
+        "y": 0.1581249691575195,
+        "z": 0.1693464561608491
+      },
+      "base": {
+        "x": -0.8994268774986268,
+        "y": 1.3669731616973875,
+        "z": -0.13900253616840214
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_WaistArms_rosewood__fab_leather",
+        "M_Kwang_WaistArmsFlesh"
+      ]
+    },
+    {
+      "id": "fab_male_tideweave_feet",
+      "file": "models/character/fab-armor/fab_male_tideweave_feet.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "feet",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 1000020,
+      "sha256": "94a53d8ee11a3d269a4d8065949646a0bb4008dfee0d350d3b3fe3b7ee429774",
+      "size": {
+        "x": 0.37063499071177086,
+        "y": 0.14060786285775695,
+        "z": 0.3114316314458847
+      },
+      "base": {
+        "x": -0.18531750280646608,
+        "y": -0.04844227805733681,
+        "z": -0.14937731623649597
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Lowe_rosewoodrBody__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_female_tideweave_head",
+      "file": "models/character/fab-armor/fab_female_tideweave_head.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "head",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 2462644,
+      "sha256": "1b9abc4b80e2672296aa2656e57a1d32319524cc03bb78823bb471f132af403b",
+      "size": {
+        "x": 0.21331670880317688,
+        "y": 0.4582326412200928,
+        "z": 0.45340079814195633
+      },
+      "base": {
+        "x": -0.10662078857421875,
+        "y": 1.3809156417846677,
+        "z": -0.3414754271507263
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Torso_rosewood__fab_leather",
+        "M_Kwang_Torso_Silk_rosewood__fab_cloth",
+        "M_Kwang_Hair"
+      ]
+    },
+    {
+      "id": "fab_female_tideweave_body",
+      "file": "models/character/fab-armor/fab_female_tideweave_body.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "body",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 4769248,
+      "sha256": "f533154ed6a2a6309b43c1709f6357e158a12d5c7a1f62ac04ee56a4e4648c83",
+      "size": {
+        "x": 0.9187656914819973,
+        "y": 0.6464678049087527,
+        "z": 0.4357655449036113
+      },
+      "base": {
+        "x": -0.5217344916383764,
+        "y": 1.0032639503479004,
+        "z": -0.26706099908144765
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Lowe_rosewoodrBody__fab_leather",
+        "M_Kwang_Torso_rosewood__fab_leather",
+        "M_Kwang_Torso_Silk_rosewood__fab_cloth",
+        "M_Kwang_WaistArms_rosewood__fab_leather",
+        "M_Kwang_WaistArmsFlesh",
+        "M_Kwang_Fur",
+        "M_Kwang_Tors_rosewoodo___fab_leather"
+      ]
+    },
+    {
+      "id": "fab_female_tideweave_legs",
+      "file": "models/character/fab-armor/fab_female_tideweave_legs.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "legs",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 2912776,
+      "sha256": "60dc653e39a7089e5dc57d039f33bf7a844d423a1ebd43de8f5e355d0285e2d5",
+      "size": {
+        "x": 0.6722797767078116,
+        "y": 1.158990616196065,
+        "z": 0.47896308206905125
+      },
+      "base": {
+        "x": -0.420139582530184,
+        "y": 0.017394693568348885,
+        "z": -0.31116667389869684
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Lowe_rosewoodrBody__fab_leather",
+        "M_Kwang_LowerBody_Silk_rosewood__fab_cloth",
+        "M_Kwang_WaistArms_rosewood__fab_leather",
+        "M_Kwang_WaistArms_Silk_rosewood__fab_cloth"
+      ]
+    },
+    {
+      "id": "fab_female_tideweave_hands",
+      "file": "models/character/fab-armor/fab_female_tideweave_hands.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "hands",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 1403700,
+      "sha256": "d0b3e39b9420d36b838262a667c6345940499d7e038afee3abd1b062df66e50e",
+      "size": {
+        "x": 1.6064471006393433,
+        "y": 0.14035277036895288,
+        "z": 0.15662048411117582
+      },
+      "base": {
+        "x": -0.8032243251800536,
+        "y": 1.3490039110183714,
+        "z": -0.12603815299020804
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_WaistArms_rosewood__fab_leather",
+        "M_Kwang_WaistArmsFlesh"
+      ]
+    },
+    {
+      "id": "fab_female_tideweave_feet",
+      "file": "models/character/fab-armor/fab_female_tideweave_feet.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "feet",
+        "tideweave",
+        "rigged"
+      ],
+      "bytes": 1000736,
+      "sha256": "1e96854cdfd9da46088226fdb354440fbc728cbb8a04294cdaf1d1d9fc8e55e9",
+      "size": {
+        "x": 0.3642645654400033,
+        "y": 0.13643224039381502,
+        "z": 0.29859545826911926
+      },
+      "base": {
+        "x": -0.1821322901705823,
+        "y": -0.058406904339790344,
+        "z": -0.12944111227989197
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Lowe_rosewoodrBody__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_male_nightweave_head",
+      "file": "models/character/fab-armor/fab_male_nightweave_head.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "head",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 2626756,
+      "sha256": "5c686711ca46e538b42541cfbb6c912f5b5e88b5da41b7dc221e0e65e7d50b5b",
+      "size": {
+        "x": 0.2203659638762474,
+        "y": 0.4733753204345703,
+        "z": 0.46838386356830597
+      },
+      "base": {
+        "x": -0.11014417558908463,
+        "y": 1.4252107143402102,
+        "z": -0.3588998317718506
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Torso_SilverGhost__fab_leather",
+        "M_Kwang_TorsoSilk_SilverGhost__fab_cloth",
+        "M_Kwang_Hair",
+        "M_Kwang_WaistCloth_SilverGhost__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_male_nightweave_body",
+      "file": "models/character/fab-armor/fab_male_nightweave_body.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "body",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 4570932,
+      "sha256": "c819d15fff5be918c3a868a6d6552eee7b3d5a78de50731621d8f9d3232f4f83",
+      "size": {
+        "x": 1.0583851950879444,
+        "y": 0.6589739322662351,
+        "z": 0.4470338183830091
+      },
+      "base": {
+        "x": -0.5899525460586705,
+        "y": 1.0229254961013794,
+        "z": -0.26421231425124875
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_LowerBody_SilverGhost__fab_leather",
+        "M_Kwang_Torso_SilverGhost__fab_leather",
+        "M_Kwang_TorsoSilk_SilverGhost__fab_cloth",
+        "M_Kwang_WaistArms_SilverGhost__fab_leather",
+        "M_Kwang_WaistArmsFlesh_SilverGhost",
+        "M_Kwang_Fur"
+      ]
+    },
+    {
+      "id": "fab_male_nightweave_legs",
+      "file": "models/character/fab-armor/fab_male_nightweave_legs.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "legs",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 3537176,
+      "sha256": "e4c35b81dbfe749ce6a9571b662d32b5b8c2fb6028798ede2807663b6b0ce047",
+      "size": {
+        "x": 0.6945826725442344,
+        "y": 1.1678369591984765,
+        "z": 0.49702643393835944
+      },
+      "base": {
+        "x": -0.43411025566648787,
+        "y": 0.028179140761494637,
+        "z": -0.31723925471305847
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_LowerBody_SilverGhost__fab_leather",
+        "M_Kwang_LowerBody_SilverGhost__fab_cloth",
+        "M_Kwang_LowerBodySilk_SilverGhost2__fab_cloth",
+        "M_Kwang_WaistArms_SilverGhost__fab_leather",
+        "M_Kwang_WaistArms_SilverGhost__fab_cloth",
+        "M_Kwang_WaistCloth_SilverGhost__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_male_nightweave_hands",
+      "file": "models/character/fab-armor/fab_male_nightweave_hands.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "hands",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 1452552,
+      "sha256": "c155101e51aa36cc5d92980ba198a4ee9db191d17db484ea0367545d6d04bc37",
+      "size": {
+        "x": 1.7988523244857788,
+        "y": 0.1581249691575195,
+        "z": 0.1693464561608491
+      },
+      "base": {
+        "x": -0.8994268774986268,
+        "y": 1.3669731616973875,
+        "z": -0.13900253616840214
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_WaistArms_SilverGhost__fab_leather",
+        "M_Kwang_WaistArms_SilverGhost__fab_cloth",
+        "M_Kwang_WaistArmsFlesh_SilverGhost"
+      ]
+    },
+    {
+      "id": "fab_male_nightweave_feet",
+      "file": "models/character/fab-armor/fab_male_nightweave_feet.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "feet",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 1024232,
+      "sha256": "9240fd4f7d7a0de97934d9278a74bfd188cfb40bfbb944e981014f1bd2c8ca33",
+      "size": {
+        "x": 0.37063499071177086,
+        "y": 0.14060786285775695,
+        "z": 0.3114316314458847
+      },
+      "base": {
+        "x": -0.18531750280646608,
+        "y": -0.04844227805733681,
+        "z": -0.14937731623649597
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_LowerBody_SilverGhost__fab_cloth"
+      ]
+    },
+    {
+      "id": "fab_female_nightweave_head",
+      "file": "models/character/fab-armor/fab_female_nightweave_head.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "head",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 2627476,
+      "sha256": "d791c97d1b636b54670926e513a2c6daad139f899b618c09f91cffc5581c9025",
+      "size": {
+        "x": 0.21331670880317688,
+        "y": 0.4582326412200928,
+        "z": 0.45340079814195633
+      },
+      "base": {
+        "x": -0.10662078857421875,
+        "y": 1.3809156417846677,
+        "z": -0.3414754271507263
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_Torso_SilverGhost__fab_leather",
+        "M_Kwang_TorsoSilk_SilverGhost__fab_cloth",
+        "M_Kwang_Hair",
+        "M_Kwang_WaistCloth_SilverGhost__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_female_nightweave_body",
+      "file": "models/character/fab-armor/fab_female_nightweave_body.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "body",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 4571648,
+      "sha256": "882bc050272b06c60c6834379730a8dfe5c8cbb7f240af339966cb63164b8346",
+      "size": {
+        "x": 0.9187656914819973,
+        "y": 0.6464678049087527,
+        "z": 0.4357655449036113
+      },
+      "base": {
+        "x": -0.5217344916383764,
+        "y": 1.0032639503479004,
+        "z": -0.26706099908144765
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_LowerBody_SilverGhost__fab_leather",
+        "M_Kwang_Torso_SilverGhost__fab_leather",
+        "M_Kwang_TorsoSilk_SilverGhost__fab_cloth",
+        "M_Kwang_WaistArms_SilverGhost__fab_leather",
+        "M_Kwang_WaistArmsFlesh_SilverGhost",
+        "M_Kwang_Fur"
+      ]
+    },
+    {
+      "id": "fab_female_nightweave_legs",
+      "file": "models/character/fab-armor/fab_female_nightweave_legs.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "legs",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 3537892,
+      "sha256": "6dc372d4794f2684333256f58e3b64b997d41c01832afa0d73b8494ac7ae6da5",
+      "size": {
+        "x": 0.6722797767078116,
+        "y": 1.158990616196065,
+        "z": 0.47896308206905125
+      },
+      "base": {
+        "x": -0.420139582530184,
+        "y": 0.017394693568348885,
+        "z": -0.31116667389869684
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_LowerBody_SilverGhost__fab_leather",
+        "M_Kwang_LowerBody_SilverGhost__fab_cloth",
+        "M_Kwang_LowerBodySilk_SilverGhost2__fab_cloth",
+        "M_Kwang_WaistArms_SilverGhost__fab_leather",
+        "M_Kwang_WaistArms_SilverGhost__fab_cloth",
+        "M_Kwang_WaistCloth_SilverGhost__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_female_nightweave_hands",
+      "file": "models/character/fab-armor/fab_female_nightweave_hands.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "hands",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 1453272,
+      "sha256": "68ce3f14e66b47141fadea4690ba45cc3eb45f3999a067853edbb64f7dd247d4",
+      "size": {
+        "x": 1.6064471006393433,
+        "y": 0.14035277036895288,
+        "z": 0.15662048411117582
+      },
+      "base": {
+        "x": -0.8032243251800536,
+        "y": 1.3490039110183714,
+        "z": -0.12603815299020804
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_WaistArms_SilverGhost__fab_leather",
+        "M_Kwang_WaistArms_SilverGhost__fab_cloth",
+        "M_Kwang_WaistArmsFlesh_SilverGhost"
+      ]
+    },
+    {
+      "id": "fab_female_nightweave_feet",
+      "file": "models/character/fab-armor/fab_female_nightweave_feet.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "feet",
+        "nightweave",
+        "rigged"
+      ],
+      "bytes": 1024948,
+      "sha256": "639ae4f81d709042b0bcf6d12c22acf3b0ef7eeecb7ba1e2c20b06b4cca6eea8",
+      "size": {
+        "x": 0.3642645654400033,
+        "y": 0.13643224039381502,
+        "z": 0.29859545826911926
+      },
+      "base": {
+        "x": -0.1821322901705823,
+        "y": -0.058406904339790344,
+        "z": -0.12944111227989197
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_LowerBody_SilverGhost__fab_cloth"
+      ]
+    },
+    {
+      "id": "fab_male_frostweave_body",
+      "file": "models/character/fab-armor/fab_male_frostweave_body.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "body",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 4302232,
+      "sha256": "79a503faab946d0e301ecf995fa07c447e641ff261afc6f66271603ceeb1eb2c",
+      "size": {
+        "x": 1.0065640684948125,
+        "y": 0.6651736779176431,
+        "z": 0.44849450064442303
+      },
+      "base": {
+        "x": -0.5899525460586705,
+        "y": 1.0128307342529297,
+        "z": -0.25968999057546244
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_Torso_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_Torso_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Arm_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Arm_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_Weapon_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_Weapon_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_male_frostweave_legs",
+      "file": "models/character/fab-armor/fab_male_frostweave_legs.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "legs",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 5259060,
+      "sha256": "05381f8fbeb06eda7858a9edd1799f487a6f7c37b23611627143eb4fcfe41c54",
+      "size": {
+        "x": 0.7701021432876587,
+        "y": 1.1967319928067017,
+        "z": 0.6492951705841765
+      },
+      "base": {
+        "x": -0.5075044631958008,
+        "y": 0.006581274523027918,
+        "z": -0.4882040765346307
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_LowerClothes_Zombie_KwangFrostwalker__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_male_frostweave_hands",
+      "file": "models/character/fab-armor/fab_male_frostweave_hands.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "hands",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 2030408,
+      "sha256": "524a9f38ab7c74476694e6c3e316362ab391b8a6bfabb1ac37fc4b2b197f065d",
+      "size": {
+        "x": 1.7988523244857788,
+        "y": 0.1997049253753762,
+        "z": 0.2188760681344712
+      },
+      "base": {
+        "x": -0.8994268774986268,
+        "y": 1.3275803426472865,
+        "z": -0.14464548661248333
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Hands_Zombie_KwangFrostwalker"
+      ]
+    },
+    {
+      "id": "fab_male_frostweave_feet",
+      "file": "models/character/fab-armor/fab_male_frostweave_feet.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "male",
+        "feet",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 1033632,
+      "sha256": "ee42cf89917bfa5ac37bbe6f052e7c51c01b908de28513fa907ec6bb7a10ba4d",
+      "size": {
+        "x": 0.37063499071177086,
+        "y": 0.14064031013728398,
+        "z": 0.3114316314458847
+      },
+      "base": {
+        "x": -0.18531750280646608,
+        "y": -0.04844227805733681,
+        "z": -0.14937731623649597
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_cloth"
+      ]
+    },
+    {
+      "id": "fab_female_frostweave_body",
+      "file": "models/character/fab-armor/fab_female_frostweave_body.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "body",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 4302960,
+      "sha256": "4486c4ac0ee9269fc615c2d1bc90577c46869f7f7b1185e49758edfb05ac7a89",
+      "size": {
+        "x": 0.8690828240434667,
+        "y": 0.646455252765824,
+        "z": 0.4371607666784638
+      },
+      "base": {
+        "x": -0.5217344916383764,
+        "y": 0.993492066860199,
+        "z": -0.2626717129747824
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_Torso_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_Torso_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Arm_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Arm_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_Weapon_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_Weapon_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_female_frostweave_legs",
+      "file": "models/character/fab-armor/fab_female_frostweave_legs.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "legs",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 5259776,
+      "sha256": "ffa21ef17b4314dd551a57445a52e9ddeec22fbb4ef46ca72fffe60d3172188c",
+      "size": {
+        "x": 0.7453953325748444,
+        "y": 1.176572785387121,
+        "z": 0.6461185558473627
+      },
+      "base": {
+        "x": -0.4911978542804718,
+        "y": 0.006461312255600563,
+        "z": -0.47842194075649747
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_LowerClothes_Zombie_KwangFrostwalker__fab_leather"
+      ]
+    },
+    {
+      "id": "fab_female_frostweave_hands",
+      "file": "models/character/fab-armor/fab_female_frostweave_hands.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "hands",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 2031128,
+      "sha256": "e93321d5618f5e62647c47e86ee71725e205e585f63c58bc991e8a3f37347842",
+      "size": {
+        "x": 1.6064471006393433,
+        "y": 0.1837314713880518,
+        "z": 0.20050711614075872
+      },
+      "base": {
+        "x": -0.8032243251800536,
+        "y": 1.3056252099992725,
+        "z": -0.13599749314777518
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_leather",
+        "M_Kwang_ManBun_ForeArm_Zombie_KwangFrostwalker__fab_cloth",
+        "M_Kwang_ManBun_Hands_Zombie_KwangFrostwalker"
+      ]
+    },
+    {
+      "id": "fab_female_frostweave_feet",
+      "file": "models/character/fab-armor/fab_female_frostweave_feet.glb",
+      "pack": "fab-paragon-kwang",
+      "category": "character",
+      "is": "armor",
+      "tags": [
+        "armor",
+        "female",
+        "feet",
+        "frostweave",
+        "rigged"
+      ],
+      "bytes": 1034348,
+      "sha256": "e3bcdfd36c2b0b65eaf37007d62d8d55767386945351df9617ae7ce05752bf2d",
+      "size": {
+        "x": 0.3642645654400033,
+        "y": 0.13643341013500576,
+        "z": 0.29859545826911926
+      },
+      "base": {
+        "x": -0.1821322901705823,
+        "y": -0.058406904339790344,
+        "z": -0.12944111227989197
+      },
+      "animations": [],
+      "materials": [
+        "M_Kwang_ManBun_Pants_Zombie_KwangFrostwalker__fab_cloth"
+      ]
     }
   ]
 }

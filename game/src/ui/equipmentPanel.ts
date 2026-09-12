@@ -172,7 +172,7 @@ export class EquipmentPanel implements ManagedPanel {
     this.sets.replaceChildren();
     for (const progress of inferEquipmentSets(equipment.slots)) {
       const heading = document.createElement("strong");
-      heading.textContent = `${progress.set.name} set · ${progress.pieces}/5 pieces`;
+      heading.textContent = `${progress.set.name} set · ${progress.pieces}/${Object.keys(progress.set.members).length} pieces`;
       const list = document.createElement("ul");
       for (const threshold of progress.set.thresholds) {
         const row = document.createElement("li");

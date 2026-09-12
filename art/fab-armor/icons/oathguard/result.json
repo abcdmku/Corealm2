@@ -1,0 +1,114 @@
+[
+  {
+    "id": "oathguard_plate",
+    "source": "art/fab-armor/icons/oathguard/oathguard_plate.png",
+    "sha256": "2f49ed3f4f88eb4cb708ef7ae2e6ac996e85b1bfb9178743e8ee123a0385fc9a",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one empty fitted breastplate and both shoulder pauldrons, broad rounded embossed pauldrons and burgundy collar, gold scroll borders. No head, arms, weapons or legs. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full resolution. Complete empty armor item, matching silver steel, warm gold and burgundy materials, no wearer or scene. Clear silhouette and transparent margin. Visible object has margins on all sides. Any nonzero edge pixels are alpha 1 export noise, visually transparent. Original generated alpha preserved without modification.",
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 663010,
+      "partialAlphaPixels": 908801,
+      "nonTransparentEdgePixels": 1,
+      "alphaBounds": {
+        "minX": 0,
+        "minY": 44,
+        "maxX": 1231,
+        "maxY": 1229
+      },
+      "edgeAlphaMaximum": 1,
+      "visibleBoundsAboveAlpha16": [
+        44,
+        47,
+        1207,
+        1197
+      ]
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "oathguard_greaves",
+    "source": "art/fab-armor/icons/oathguard/oathguard_greaves.png",
+    "sha256": "7156f80f3c9bee6721ca3ceb504e5aa87eb2a186dc97b9986cfb3041dc0902a4",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one pair of empty articulated plate greaves and upper leg armor with a dark split fabric tabard, hollow waist, no boots. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full resolution. Complete empty armor item, matching silver steel, warm gold and burgundy materials, no wearer or scene. Clear silhouette and transparent margin. Visible object has margins on all sides. Any nonzero edge pixels are alpha 1 export noise, visually transparent. Original generated alpha preserved without modification.",
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 1007175,
+      "partialAlphaPixels": 564734,
+      "nonTransparentEdgePixels": 21,
+      "alphaBounds": {
+        "minX": 33,
+        "minY": 0,
+        "maxX": 1229,
+        "maxY": 1240
+      },
+      "edgeAlphaMaximum": 1,
+      "visibleBoundsAboveAlpha16": [
+        259,
+        12,
+        998,
+        1238
+      ]
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "oathguard_gauntlets",
+    "source": "art/fab-armor/icons/oathguard/oathguard_gauntlets.png",
+    "sha256": "555f606750fcc8d5829aa1bf27d2013995679c6cc4f226e3d0b2485e517afc51",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one matched pair of empty articulated metal gauntlets with reinforced forearm plates and individual finger forms, separated side by side. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full resolution. Complete empty armor item, matching silver steel, warm gold and burgundy materials, no wearer or scene. Clear silhouette and transparent margin. Visible object has margins on all sides. Any nonzero edge pixels are alpha 1 export noise, visually transparent. Original generated alpha preserved without modification.",
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 799359,
+      "partialAlphaPixels": 772760,
+      "nonTransparentEdgePixels": 0,
+      "alphaBounds": {
+        "minX": 39,
+        "minY": 21,
+        "maxX": 1224,
+        "maxY": 1221
+      },
+      "edgeAlphaMaximum": 0,
+      "visibleBoundsAboveAlpha16": [
+        53,
+        29,
+        1219,
+        1216
+      ]
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "oathguard_boots",
+    "source": "art/fab-armor/icons/oathguard/oathguard_boots.png",
+    "sha256": "1bbd68a778a3d81e38c26e03ecd29079ed8d99364f52648e3fb1b7ec8edb2310",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for oathguard tier 70: one matched pair of empty articulated metal sabatons and lower shin plates, hollow open cuffs, separated side by side. Palette/materials: heavy silver steel and warm gold sculpted edges, burgundy fabric; rounded ornate pauldrons. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full resolution. Complete empty armor item, matching silver steel, warm gold and burgundy materials, no wearer or scene. Clear silhouette and transparent margin. Visible object has margins on all sides. Any nonzero edge pixels are alpha 1 export noise, visually transparent. Original generated alpha preserved without modification.",
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 839313,
+      "partialAlphaPixels": 732247,
+      "nonTransparentEdgePixels": 1,
+      "alphaBounds": {
+        "minX": 0,
+        "minY": 21,
+        "maxX": 1173,
+        "maxY": 1253
+      },
+      "edgeAlphaMaximum": 1,
+      "visibleBoundsAboveAlpha16": [
+        103,
+        53,
+        1163,
+        1192
+      ]
+    },
+    "status": "accepted"
+  }
+]

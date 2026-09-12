@@ -5,6 +5,7 @@ import * as THREE from "three";
 import type { EquipmentBonuses, ItemDef, ItemId } from "../game/src/contracts.js";
 import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { WILDERNESS_LOOT_ITEMS } from "../game/src/content/wildernessLoot.js";
+import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS } from '../game/src/content/bossArmor.js';
 import { computeMaxHealth, createInitialState, setSkillLevel } from "../game/src/state/store.js";
 import {
   GEAR_APPEARANCE_IDS, GEAR_ASSET_GAPS, VISIBLE_EQUIP_SLOTS,
@@ -32,7 +33,7 @@ import { fishingRodAssetId, isProceduralGearAsset } from "../game/src/render/pro
 const BY_ID = new Map<ItemId, ItemDef>(EQUIPMENT.map((def) => [def.id, def]));
 const ALL_BY_ID = new Map<ItemId, ItemDef>([...MAGIC_ORBS, ...EQUIPMENT].map((def) => [def.id, def]));
 const WILDERNESS_EQUIPMENT = WILDERNESS_LOOT_ITEMS.filter(def => def.equip);
-const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT];
+const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT, ...BOSS_ARMOR_ITEMS];
 
 function kitTotals(kit: keyof typeof KITS): EquipmentBonuses {
   const totals: EquipmentBonuses = {
@@ -183,7 +184,7 @@ describe("gear appearance", () => {
   it("covers every id in the content table and nothing else", () => {
     expect(EQUIPMENT).toHaveLength(95);
     expect(WILDERNESS_EQUIPMENT).toHaveLength(41);
-    expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(136);
+    expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(163);
     expect([...GEAR_APPEARANCE_IDS].sort()).toEqual(ALL_EQUIPMENT.map((def) => def.id).sort());
   });
 
@@ -276,7 +277,7 @@ describe("gear appearance", () => {
     expect(VISIBLE_EQUIP_SLOTS).not.toContain("accessory2");
   });
 
-  it("uses the requested Quaternius armour families and swaps the body variant", () => {
+  it("keeps crafted melee families and swaps imported mage body variants", () => {
     const t1 = gearAppearance("grithe_sword");
     const t10 = gearAppearance("kaldite_sword");
     expect(t1?.scale).toBe(0.9);
@@ -290,11 +291,9 @@ describe("gear appearance", () => {
     ]);
     expect(gearAppearance("kaldite_plate", "female")?.assetId).toBe("outfit_female_knight_chest");
     expect(gearAppearanceParts("cairnpelt_robe", "male").map((part) => part.assetId)).toEqual([
-      "outfit_male_ranger_chest",
-      "outfit_male_ranger_pauldron",
-      "proc_hide_yoke_10",
+      "fab_male_mage_body",
     ]);
-    expect(gearAppearance("marchhide_hood", "female")?.assetId).toBe("outfit_female_ranger_hood");
+    expect(gearAppearance("marchhide_hood", "female")?.assetId).toBe("fab_female_mage_head");
     expect(gearAppearance("grithe_helm", "male")?.assetId).toBe("outfit_male_knight_helmet");
   });
 
@@ -302,9 +301,10 @@ describe("gear appearance", () => {
     expect(gearAppearance("grithe_cuirass")?.tint).toBe(0xc58258);
     expect(gearAppearance("corven_plate")?.tint).toBe(0x7f8589);
     expect(gearAppearance("kaldite_plate")?.tint).toBe(0x587cae);
-    expect(gearAppearance("marchhide_robe")?.tint).toBe(0x416f9d);
-    expect(gearAppearance("bramblehide_robe")?.tint).toBe(0x2f4f3b);
-    expect(gearAppearance("cairnpelt_robe")?.tint).toBe(0x4a4d52);
+    for (const id of ['marchhide_robe', 'bramblehide_robe', 'cairnpelt_robe']) {
+      expect(gearAppearance(id)?.tint).toBeUndefined();
+      expect(gearAppearance(id)?.itemId).toBe(id);
+    }
   });
 
   it("attaches weapons to bones and armour to skin, and never scales a skinned part", () => {
@@ -321,29 +321,38 @@ describe("gear appearance", () => {
     }
   });
 
-  it("gives each armour tier above the baseline its own construction, not just a tint", () => {
+  it("retains crafted melee tier trim and uses complete imported mage parts", () => {
     const trims = (itemId: string) => gearAppearanceParts(itemId)
       .filter(part => part.assetId.startsWith("proc_")).map(part => part.assetId);
-    // Copper and Hide are the plain baselines and carry no neck piece; every tier carries a hip
-    // piece, which is also what closes the bare hip the imported metal sets leave.
+    // Copper has no neck trim. Crafted melee keeps a hip piece to close the plate-to-leg gap.
+    // Imported mage silhouettes contain those regions in their own skinned parts.
     expect(trims("grithe_cuirass")).toEqual([]);
     expect(trims("marchhide_robe")).toEqual([]);
     for (const [body, legs] of [
       ["corven_plate", "corven_greaves"], ["kaldite_plate", "kaldite_greaves"],
-      ["emberite_plate", "emberite_greaves"], ["bramblehide_robe", "bramblehide_leggings"],
-      ["cairnpelt_robe", "cairnpelt_leggings"], ["charhide_robe", "charhide_leggings"],
+      ["emberite_plate", "emberite_greaves"],
     ] as const) {
       expect(trims(body), body).toHaveLength(1);
       expect(trims(legs), legs).toHaveLength(1);
     }
-    for (const legs of ["grithe_greaves", "marchhide_leggings"]) {
+    for (const legs of ["grithe_greaves"]) {
       expect(trims(legs), legs).toHaveLength(1);
     }
     // No two tiers of a line share a piece.
-    const all = ["grithe", "corven", "kaldite", "emberite"].flatMap(t => trims(`${t}_greaves`))
-      .concat(["marchhide", "bramblehide", "cairnpelt", "charhide"].flatMap(t => trims(`${t}_leggings`)));
+    const all = ["grithe", "corven", "kaldite", "emberite"].flatMap(t => trims(`${t}_greaves`));
     expect(new Set(all).size).toBe(all.length);
-    expect(all).toHaveLength(8);
+    expect(all).toHaveLength(4);
+    for (const body of ['male', 'female'] as const) {
+      for (const prefix of ['marchhide', 'bramblehide', 'cairnpelt', 'charhide', 'dragonhide', 'starhide']) {
+        for (const [suffix, slot] of [['hood', 'head'], ['robe', 'body'], ['leggings', 'legs'], ['wraps', 'hands'], ['boots', 'feet']] as const) {
+          const id = `${prefix}_${suffix}`;
+          expect(gearAppearanceParts(id, body)).toEqual([{ itemId: id, assetId: `fab_${body}_mage_${slot}`, slot, attach: 'skin' }]);
+        }
+      }
+      for (const set of BOSS_ARMOR_SETS) for (const [slot, id] of Object.entries(set.members)) {
+        expect(gearAppearanceParts(id, body)).toEqual([{ itemId: id, assetId: `fab_${body}_${set.id}_${slot}`, slot, attach: 'skin' }]);
+      }
+    }
   });
 });
 
@@ -445,7 +454,7 @@ describe("tinting", () => {
 
   it("recolours Ranger from source luminance without an emissive flattening pass", () => {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
-    const robe = gearAppearance("marchhide_robe");
+    const robe = { itemId: 'npc-ranger', assetId: 'outfit_male_ranger_chest', slot: 'body' as const, attach: 'skin' as const, tint: 0x416f9d };
     expect(robe).not.toBeNull();
     if (robe) applyGearAppearance(mesh, robe);
     const painted = mesh.material as THREE.MeshStandardMaterial;
@@ -510,9 +519,9 @@ describe("tinting", () => {
 
   it("gives mixed Ranger tiers distinct material merge identities", () => {
     const source = new THREE.MeshStandardMaterial({ name: "MI_Ranger" });
-    const identities = ["marchhide_robe", "bramblehide_leggings", "cairnpelt_wraps", "charhide_boots"].map(id => {
+    const identities = [0x416f9d, 0x2f4f3b, 0x4a4d52, 0x5c4a3c].map(tint => {
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(), source);
-      applyGearAppearance(mesh, gearAppearance(id)!);
+      applyGearAppearance(mesh, { assetId: 'outfit_male_ranger_chest', slot: 'body', attach: 'skin', tint });
       return `${mesh.material.name}|${mesh.material.color.getHexString()}`;
     });
     expect(new Set(identities).size).toBe(4);

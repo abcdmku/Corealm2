@@ -14,7 +14,7 @@ import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { ccAssetCredits } from "./lib/cc-asset-license.js";
-import { isSupportedCcAttributionLicense, validateCcAssetPack } from "../game/src/content/assetLicenses.js";
+import { isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "../game/src/content/assetLicenses.js";
 
 import {
   burnChance,
@@ -213,7 +213,7 @@ export function validateManifestPack(pack: AssetPack, manifest: AssetManifest): 
     return;
   }
   const isUnityStoreAsset = pack.license.startsWith("Standard Unity Asset Store EULA");
-  if (!isCc0 && !isUnityStoreAsset) {
+  if (!isCc0 && !isUnityStoreAsset && !isFabStandardAssetPack(pack)) {
     throw new Error(`Asset pack ${pack.id} has unsupported license ${pack.license}.`);
   }
   if (isCc0 && (!pack.archiveSha256 || !ARCHIVE_SHA256.test(pack.archiveSha256))) {

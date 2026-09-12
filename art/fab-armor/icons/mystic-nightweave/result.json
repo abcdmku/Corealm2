@@ -1,0 +1,94 @@
+[
+  {
+    "id": "nightweave_robe",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-nightweave/nightweave_robe.png",
+    "sha256": "066cd5a23b3d33dedd5891552f4c8baac65aecb62af2cca69bee141c845f26cc",
+    "prompt": "Use case: stylized-concept. Asset type: premium hand-painted 3D fantasy RPG inventory icon, T70 Void Nightweave mystic cloth equipment. Single isolated item, genuinely transparent RGBA background with empty alpha around its entire silhouette; no painted background, no checkerboard. Centered, complete item with generous margins, fills 80 percent of square frame. Three-quarter frontal view, soft directional light from upper left, clear shape readable at 48 pixels. Midnight indigo, deep plum and wine woven fabric with fine silver-lavender feather damask embroidery and subtle violet silk shimmer catching the lit folds. Strong separation of dark fabric, coloured panels and delicate stitched borders. Soft tailored drape, visible woven textile grain, natural cloth folds. No people, no bodies, no mannequin, no skin, no text, no labels, no frame, no border, no icons within icon, no weapons, no armor plates, no metal pauldrons, no hard greaves, no glowing aura. Subject: ONE empty long-sleeved mage tunic, torso garment only ending at the upper thighs. Rounded natural fabric shoulders, relaxed elbow sleeves tapering toward silver-lavender embroidered cloth cuffs, open neck showing empty dark interior. Deep plum main cloth, midnight indigo contrasting side panels and a wine coloured diagonal embroidered cloth sash across the chest, a soft cloth waist belt with draping sash ends. Fine silver-lavender feather-pattern damask concentrated in the sash and borders. No hood, no head, no legs, no trousers, no boots. The chest is visibly folded silk and woven cloth, never a breastplate.",
+    "review": "Accepted: empty soft tunic with plum sleeves, midnight panels, wine sash and silver-lavender feather embroidery. No hard armor. Complete silhouette.",
+    "generator": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09315-6fc2-72e0-9bac-263041f3e50b\\exec-11ac08ee-4c2a-45f5-8acf-5e41d0611b3b.png",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 802475,
+      "opaquePixels": 1169,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "id": "nightweave_leggings",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-nightweave/nightweave_leggings.png",
+    "sha256": "b2c27df1db902818050da7e59cb6c308b25efdc89ab4edbd35d1fce11924fb81",
+    "prompt": "Use case: stylized-concept. Asset type: premium hand-painted 3D fantasy RPG inventory icon, T70 Void Nightweave mystic cloth equipment. Single isolated item, genuinely transparent RGBA background with empty alpha around its entire silhouette; no painted background, no checkerboard. Centered, complete item with generous margins, fills 80 percent of square frame. Three-quarter frontal view, soft directional light from upper left, clear shape readable at 48 pixels. Midnight indigo, deep plum and wine woven fabric with fine silver-lavender feather damask embroidery and subtle violet silk shimmer catching the lit folds. Strong separation of dark fabric, coloured panels and delicate stitched borders. Soft tailored drape, visible woven textile grain, natural cloth folds. No people, no bodies, no mannequin, no skin, no text, no labels, no frame, no border, no icons within icon, no weapons, no armor plates, no metal pauldrons, no hard greaves, no glowing aura. Subject: ONE empty mage lower-body garment, a full-length split robe skirt with layered fabric panels and dark loose trousers visible inside its central opening. A simple cloth waistband at top, asymmetric embroidered stole ends draping diagonally over the thighs, soft folds continuing to near-ankle hems. Deep plum and midnight indigo cloth, wine red inset panel, delicate silver-lavender feather damask embroidered borders and sash ends. Garment only below the waist. No torso, no chest, no sleeves, no head, no feet, no boots, no armored knees, no rigid shin sections. Graceful hanging cloth silhouette with natural curved folds and open empty trouser cuffs.",
+    "review": "Accepted: empty layered split robe skirt and loose trousers, asymmetric cloth ends and embroidered hems. No feet or armor. Complete silhouette.",
+    "generator": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09315-6fc2-72e0-9bac-263041f3e50b\\exec-034b1d9a-91e6-40f7-8785-82a9c5bc9741.png",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 888834,
+      "opaquePixels": 346,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "id": "nightweave_wraps",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-nightweave/nightweave_wraps.png",
+    "sha256": "7f511cb7c26018a95732f2699971becccf0a022d3144f803d65b53a398549857",
+    "prompt": "Use case: stylized-concept. Asset type: premium hand-painted 3D fantasy RPG inventory icon, T70 Void Nightweave mystic cloth equipment. Single isolated item, genuinely transparent RGBA background with empty alpha around its entire silhouette; no painted background, no checkerboard. Centered, complete item with generous margins, fills 80 percent of square frame. Three-quarter frontal view, soft directional light from upper left, clear shape readable at 48 pixels. Midnight indigo, deep plum and wine woven fabric with fine silver-lavender feather damask embroidery and subtle violet silk shimmer catching the lit folds. Strong separation of dark fabric, coloured panels and delicate stitched borders. Soft tailored drape, visible woven textile grain, natural cloth folds. No people, no bodies, no mannequin, no skin, no text, no labels, no frame, no border, no icons within icon, no weapons, no armor plates, no metal pauldrons, no hard greaves, no glowing aura. Subject: ONE matching PAIR of empty soft cloth mage gloves, left and right, separated enough that both silhouettes are complete. Five relaxed empty fabric fingers on each glove, natural sewn seams and fine ribbed weave. Dark midnight indigo glove cloth, generously folded deep-plum woven cuffs with silver-lavender feather damask embroidery and narrow wine coloured stitched edging. Cuffs open to reveal empty dark interior. Graceful practical finger shape, slight asymmetrical placement of the pair. The cuffs are loose textile wraps and clearly soft cloth. No hands, no forearms, no gauntlets, no bracers, no plates, no hard knuckle ridges, no rigid metal portions.",
+    "review": "Accepted: pair of soft fabric gloves with embroidered woven cuffs. Five fingers on each, empty cuff interiors, no plates.",
+    "generator": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09315-6fc2-72e0-9bac-263041f3e50b\\exec-ddb20268-2f89-4a93-9223-3ee63cdd8b7e.png",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 898139,
+      "opaquePixels": 1480,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "id": "nightweave_boots",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-nightweave/nightweave_boots.png",
+    "sha256": "30266d29e92a00d00bf2fabe6f049fbd92ae1b4aadcec71c44f7ac2a8a23c68b",
+    "prompt": "Use case: stylized-concept. Asset type: premium hand-painted 3D fantasy RPG inventory icon, T70 Void Nightweave mystic cloth equipment. Single isolated item, genuinely transparent RGBA background with empty alpha around its entire silhouette; no painted background, no checkerboard. Centered, complete item with generous margins, fills 80 percent of square frame. Three-quarter frontal view, soft directional light from upper left, clear shape readable at 48 pixels. Midnight indigo, deep plum and wine woven fabric with fine silver-lavender feather damask embroidery and subtle violet silk shimmer catching the lit folds. Strong separation of dark fabric, coloured panels and delicate stitched borders. Soft tailored drape, visible woven textile grain, natural cloth folds. No people, no bodies, no mannequin, no skin, no text, no labels, no frame, no border, no icons within icon, no weapons, no armor plates, no metal pauldrons, no hard greaves, no glowing aura. Subject: ONE matching PAIR of empty mage boots, both complete and separated so each silhouette is clear. Low calf-height soft dark brown-black leather feet with curved plain rounded toes, flexible stitched soles and supple creased ankles, topped by soft midnight-indigo and deep-plum cloth uppers. Folded woven cuffs with delicate silver-lavender feather damask embroidered borders and narrow wine coloured stitched piping. Open boot tops reveal empty dark interiors. One boot slightly in front and angled, the second just behind. Fine leather grain, fabric folds, tailored seams, cloth upper catches a restrained violet silk sheen. Boots must read as soft mage footwear, not heavy military boots. No legs, no body, no metal, no armor plates, no hard greaves, no hard knee guards, no oversized buckles.",
+    "review": "Accepted: pair of supple leather boots with folded embroidered fabric uppers. Rounded leather toes, no greaves or hard armor.",
+    "generator": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09315-6fc2-72e0-9bac-263041f3e50b\\exec-061a8aa5-11ff-4b91-acc9-9690e54ee6e0.png",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": 830953,
+      "opaquePixels": 988,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "tideweave_robe",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-tideweave/tideweave_robe.png",
+    "sha256": "4ba0d47e2c741e691fdf2b88869050fe222e5fe314a6240aae74501648cb2c4f",
+    "prompt": "Use case: stylized-concept. Asset type: premium fantasy RPG inventory item icon, square 1024px PNG with real transparent alpha background. Subject: one EMPTY soft mystic mage tunic torso, complete long fabric sleeves, waist-length torso garment only. Soft rounded shoulders and relaxed elbow folds. A broad dark petrol-teal embroidered fabric sash crosses diagonally over a cobalt-blue woven silk tunic. The dark navy sash has delicate antique-gold scalloped embroidery and a few stitched curling wave motifs. Slim warm gold woven edging at cuffs and neckline, softly tied cloth waist. Rich visible textile weave, fine stitched detail, silky thread shimmer where upper-left light catches folds, nuanced blue-to-teal cloth sheen. All surfaces are fabric. Premium hand-painted 3D game item rendering with clear shape readable at 48px. Centered empty garment, slightly three-quarter front view, entire garment contained with generous transparent margin. No person, body, skin, mannequin, hanger, helmet, skirt, legs, armor plates, hard shoulder pads, chainmail, physical scales, metal chest, text, border, backdrop, checkerboard pattern, floor, cast shadow, or glow halo. Actual transparency around item.",
+    "review": "Text-only generation using built-in imagegen. Visually inspected. Soft cloth tailoring, blue/teal textile contrast, stitched gold edging, no plate armor. Empty garment on transparent background. Sharp validated 1254x1254 PNG, actual alpha range 0..255, alpha mean 133.65."
+  },
+  {
+    "id": "tideweave_leggings",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-tideweave/tideweave_leggings.png",
+    "sha256": "b064f03bbfb74dd1b78d5893ee8ca500f1d7298ca863079d88bd2dca719ef92d",
+    "prompt": "Use case: stylized-concept. Asset type: premium fantasy RPG inventory item icon, square 1024px PNG with real transparent alpha background. Subject: one EMPTY layered calf-length split mystic mage robe skirt with dark navy soft trousers visible inside, waist and leg garment only, no feet. Cloth robe has deep cobalt-blue woven silk panels with relaxed vertical folds and a flowing diagonal petrol-teal front sash panel. Fine antique-gold stitched scalloped embroidery follows the hem and sash edges; a few delicate stitched wave curls enrich the blue textile. Narrow softly tied cloth waistband. Rich visible textile weave, fine stitched detail, silky blue-to-teal thread shimmer on folds under upper-left light. No rigid components. Premium hand-painted 3D game item rendering with a clear shape readable at 48px. Centered complete empty garment, slight three-quarter front view, full hem visible and generous transparent margin. No person, body, skin, mannequin, hanger, torso, boots, feet, armor plates, hard greaves, chainmail, physical scales, metal, text, border, backdrop, checkerboard pattern, floor, cast shadow, or glow halo. Actual transparency around item.",
+    "review": "Text-only generation using built-in imagegen. Visually inspected. Soft cloth tailoring, blue/teal textile contrast, stitched gold edging, no plate armor. Empty garment on transparent background. Sharp validated 1254x1254 PNG, actual alpha range 0..255, alpha mean 119.33."
+  },
+  {
+    "id": "tideweave_wraps",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-tideweave/tideweave_wraps.png",
+    "sha256": "13801ec65b58ec5b08cf15faa410251a93ac08c1b24eef6159dea3ef051584cc",
+    "prompt": "Use case: stylized-concept. Asset type: premium fantasy RPG inventory item icon, square 1024px PNG with real transparent alpha background. Subject: a PAIR of empty soft mystic mage gloves, five fingers each, dark navy woven cloth gloves with cobalt-blue and petrol-teal folded fabric cuffs, delicate antique-gold woven cuff edging and fine stitched scalloped embroidery. Soft cloth wrinkles at fingers and wrists, comfortable slender tailoring, rich textile weave and fine seam stitches. Silky blue-to-teal thread shimmer catches upper-left light on cuff folds, with restrained warm golden embroidered accents. Premium hand-painted 3D game item rendering with a clear silhouette readable at 48px. Two gloves centered diagonally together in a balanced pair, backs visible in slight three-quarter view, complete fingertips and cuffs and generous transparent margin. No person, hand, skin, arm, mannequin, armor plates, bracers, chainmail, physical scales, metal, text, border, backdrop, checkerboard pattern, floor, cast shadow, or glow halo. Actual transparent alpha background around items.",
+    "review": "Text-only generation using built-in imagegen. Visually inspected. Soft cloth tailoring, blue/teal textile contrast, stitched gold edging, no plate armor. Empty garment on transparent background. Sharp validated 1254x1254 PNG, actual alpha range 0..255, alpha mean 114.34."
+  },
+  {
+    "id": "tideweave_boots",
+    "status": "accepted",
+    "source": "art/fab-armor/icons/mystic-tideweave/tideweave_boots.png",
+    "sha256": "f8ed9785fe99c071081f9c375dfa0d67507f950a5af7e6248ef21f1e39cec5bc",
+    "prompt": "Use case: stylized-concept. Asset type: premium fantasy RPG inventory item icon, square 1024px PNG with real transparent alpha background. Subject: a PAIR of empty soft dark-brown leather mystic mage boots with folded cobalt-blue and petrol-teal woven cloth uppers. Supple dark brown leather rounded toes and soft stitched soles, relaxed cloth ankle and lower calf folds, slender practical shape, no rigid armor. Fine antique-gold scalloped embroidery on the cuff edging, small gold stitched wave curls on the blue textile. Rich leather grain and visible textile weave, cloth threads shimmer blue-to-teal in upper-left light. Premium hand-painted 3D game item rendering with a clear silhouette readable at 48px. Boots centered side-by-side in balanced slight three-quarter front view, complete toes and cuffs visible with generous transparent margin. No person, feet, legs, skin, mannequin, hard greaves, armor plates, chainmail, physical scales, metal, text, border, backdrop, checkerboard pattern, floor, cast shadow, or glow halo. Actual transparent alpha background around items.",
+    "review": "Text-only generation using built-in imagegen. Visually inspected. Soft cloth tailoring, blue/teal textile contrast, stitched gold edging, no plate armor. Empty garment on transparent background. Sharp validated 1254x1254 PNG, actual alpha range 0..255, alpha mean 109.98."
+  }
+]

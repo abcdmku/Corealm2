@@ -12,7 +12,7 @@ describe("equipment source shader inheritance", () => {
     expect(mesh.material.roughness).toBe(0.74);
     mesh.geometry.dispose(); mesh.material.dispose(); material.dispose();
   });
-  it.each(["grithe_cuirass", "marchhide_robe", "tideworn_sword"])(
+  it.each(["grithe_cuirass", "legacy_ranger", "marchhide_robe", "tideworn_sword"])(
     "keeps authored shader work and cache identity when applying %s", (itemId) => {
       const source = new THREE.MeshStandardMaterial({ color: 0xffffff });
       source.metalnessMap = new THREE.Texture();
@@ -24,7 +24,10 @@ describe("equipment source shader inheritance", () => {
       source.customProgramCacheKey = function () { return this.userData.surfaceRevision; };
       const sourceHook = source.onBeforeCompile;
       const mesh = new THREE.Mesh(new THREE.BufferGeometry(), source);
-      applyGearAppearance(mesh, gearAppearance(itemId)!);
+      const appearance = itemId === 'legacy_ranger'
+        ? { assetId: 'outfit_male_ranger_chest', slot: 'body' as const, attach: 'skin' as const, tint: 0x416f9d }
+        : gearAppearance(itemId)!;
+      applyGearAppearance(mesh, appearance);
       const painted = mesh.material;
       const shader = {
         vertexShader: THREE.ShaderLib.standard.vertexShader,
@@ -34,8 +37,15 @@ describe("equipment source shader inheritance", () => {
       painted.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(shader.uniforms.authoredSurface?.value).toBe("hammered-v2");
       expect(shader.fragmentShader).toContain("// authored-surface");
-      expect(shader.fragmentShader).toMatch(/gearMetal|gearTier|gearRare/);
-      expect(painted.customProgramCacheKey()).toContain("hammered-v2|");
+      if (itemId === 'marchhide_robe') {
+        // A generic source has no Fab cloth/leather role, so only its authored hook applies.
+        expect(appearance.assetId).toBe('fab_male_mage_body');
+        expect(shader.fragmentShader).not.toMatch(/gearMetal|gearTier|gearRare/);
+        expect(painted.customProgramCacheKey()).toBe('hammered-v2');
+      } else {
+        expect(shader.fragmentShader).toMatch(/gearMetal|gearTier|gearRare/);
+        expect(painted.customProgramCacheKey()).toContain("hammered-v2|");
+      }
       expect(painted).not.toBe(source);
       expect(source.onBeforeCompile).toBe(sourceHook);
       expect(source.customProgramCacheKey()).toBe("hammered-v2");

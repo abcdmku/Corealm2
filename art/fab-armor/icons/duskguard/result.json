@@ -1,0 +1,122 @@
+[
+  {
+    "id": "duskguard_plate",
+    "source": "art/fab-armor/icons/duskguard/duskguard_plate.png",
+    "sha256": "a0ea6722ef607f1a78f238dfb599913c23fd8723cfc44acb46623ca11093b784",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one empty fitted breastplate and both shoulder pauldrons, narrow understated silhouette and short split black-gold tabard. No head, arms, weapons or legs. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty armor garment or matched separated pair, blackened steel with antique gold and charcoal fabric, no wearer, text, scenery or crop. Distinct silhouette and visible transparent margin. Near-invisible alpha residue at left and bottom edges is at most 16/255; visible armor retains 28px top and 46px bottom margins.",
+      "alpha": {
+        "hasAlpha": true,
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 950745,
+        "partialPixels": 621430,
+        "transparentFraction": 0.6046011614508214,
+        "margins": {
+          "left": 0,
+          "top": 23,
+          "right": 52,
+          "bottom": 0
+        },
+        "visibleContentMarginsAtAlpha17": {
+          "left": 210,
+          "top": 28,
+          "right": 204,
+          "bottom": 46
+        }
+      }
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "duskguard_greaves",
+    "source": "art/fab-armor/icons/duskguard/duskguard_greaves.png",
+    "sha256": "b09b14de3001fc64a6fa3b04eecb75267b7d52150a9927bf90f0472506adb5ba",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one pair of empty articulated plate greaves and upper leg armor with a dark split fabric tabard, hollow waist, no boots. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty armor garment or matched separated pair, blackened steel with antique gold and charcoal fabric, no wearer, text, scenery or crop. Distinct silhouette and visible transparent margin.",
+      "alpha": {
+        "hasAlpha": true,
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 1038813,
+        "partialPixels": 533139,
+        "transparentFraction": 0.6606056790519143,
+        "margins": {
+          "left": 57,
+          "top": 22,
+          "right": 55,
+          "bottom": 24
+        },
+        "visibleContentMarginsAtAlpha17": {
+          "left": 258,
+          "top": 26,
+          "right": 206,
+          "bottom": 53
+        }
+      }
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "duskguard_gauntlets",
+    "source": "art/fab-armor/icons/duskguard/duskguard_gauntlets.png",
+    "sha256": "ce6138bcadaa5914cc1a7e7123f40feb5c19822e7f0998ff93f240d1ddc6453b",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one matched pair of empty articulated metal gauntlets with reinforced forearm plates and individual finger forms, separated side by side. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty armor garment or matched separated pair, blackened steel with antique gold and charcoal fabric, no wearer, text, scenery or crop. Distinct silhouette and visible transparent margin.",
+      "alpha": {
+        "hasAlpha": true,
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 832540,
+        "partialPixels": 739082,
+        "transparentFraction": 0.5294318150022003,
+        "margins": {
+          "left": 81,
+          "top": 17,
+          "right": 62,
+          "bottom": 12
+        },
+        "visibleContentMarginsAtAlpha17": {
+          "left": 98,
+          "top": 20,
+          "right": 65,
+          "bottom": 15
+        }
+      }
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "duskguard_boots",
+    "source": "art/fab-armor/icons/duskguard/duskguard_boots.png",
+    "sha256": "9bd5be225d4cddad6dd6cb29fda30ad2c437053a6e0ce0f0751dac8d60c58ad0",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for duskguard tier 50: one matched pair of empty articulated metal sabatons and lower shin plates, hollow open cuffs, separated side by side. Palette/materials: slim blackened steel, fine antique gold edges, charcoal fabric; restrained narrow armor and split tabard. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 50 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected full image. Empty armor garment or matched separated pair, blackened steel with antique gold and charcoal fabric, no wearer, text, scenery or crop. Distinct silhouette and visible transparent margin.",
+      "alpha": {
+        "hasAlpha": true,
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 833278,
+        "partialPixels": 738418,
+        "transparentFraction": 0.5299011266022094,
+        "margins": {
+          "left": 81,
+          "top": 12,
+          "right": 14,
+          "bottom": 16
+        },
+        "visibleContentMarginsAtAlpha17": {
+          "left": 144,
+          "top": 15,
+          "right": 93,
+          "bottom": 25
+        }
+      }
+    },
+    "status": "accepted"
+  }
+]

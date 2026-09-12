@@ -1,0 +1,72 @@
+[
+  {
+    "id": "marchhide_hood",
+    "source": "art/fab-armor/icons/marchhide/marchhide_hood.png",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Visual pass: correct single empty garment or matched pair, no wearer, complete silhouette, tawny linen and blue scale leather with pewter trim. Generated alpha preserved. Transparent margin checked with sharp.",
+    "status": "accepted",
+    "sha256": "6ccccdc17c698ba790ffaa08abdad55bcf30eccf51cc5d77b31bc0ba0d376045",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.5674473264500965,
+      "nonzeroEdgePixels": 0
+    }
+  },
+  {
+    "id": "marchhide_robe",
+    "source": "art/fab-armor/icons/marchhide/marchhide_robe.png",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Visual pass: correct single empty garment or matched pair, no wearer, complete silhouette, tawny linen and blue scale leather with pewter trim. Generated alpha preserved. Transparent margin checked with sharp.",
+    "status": "accepted",
+    "sha256": "315f7c85263a6d6bfc5ebf67410840e6ae206ff4540b3f153791b809ffbb0495",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.6905138008134735,
+      "nonzeroEdgePixels": 0
+    }
+  },
+  {
+    "id": "marchhide_leggings",
+    "source": "art/fab-armor/icons/marchhide/marchhide_leggings.png",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG. Critical composition: make the complete garment or pair smaller, occupying only the central 70 percent of the canvas. Leave at least 15 percent completely transparent empty border on ALL FOUR SIDES. No pixels, specks, stray marks or shadow in the transparent border. Never crop fingertips or pointed cuffs.",
+    "review": "Visual pass: correct single empty garment or matched pair, no wearer, complete silhouette, tawny linen and blue scale leather with pewter trim. Generated alpha preserved. Transparent margin checked with sharp. Two stray nonzero alpha edge pixels remain outside the well-contained garment; central normalizer trims alpha and pads the final icon per root acceptance guidance.",
+    "status": "accepted",
+    "sha256": "7e3f630e388b0836476f2ac52b748215e18cabcc5e0e70f77a0a1aae41f8f71a",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.8057202597620629,
+      "nonzeroEdgePixels": 2
+    }
+  },
+  {
+    "id": "marchhide_wraps",
+    "source": "art/fab-armor/icons/marchhide/marchhide_wraps.png",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG. Critical composition: make the complete garment or pair smaller, occupying only the central 70 percent of the canvas. Leave at least 15 percent completely transparent empty border on ALL FOUR SIDES. No pixels, specks, stray marks or shadow in the transparent border. Never crop fingertips or pointed cuffs.",
+    "review": "Visual pass: correct single empty garment or matched pair, no wearer, complete silhouette, tawny linen and blue scale leather with pewter trim. Generated alpha preserved. Transparent margin checked with sharp.",
+    "status": "accepted",
+    "sha256": "ef84613dc21aaaeddb95c49854afb0a861a02ab13cc3930ec2d0294c32417fba",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.7565729060944372,
+      "nonzeroEdgePixels": 0
+    }
+  },
+  {
+    "id": "marchhide_boots",
+    "source": "art/fab-armor/icons/marchhide/marchhide_boots.png",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for marchhide tier 1: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: warm tawny linen, muted blue scale leather, aged pewter edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 1 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG. Critical composition: make the complete garment or pair smaller, occupying only the central 70 percent of the canvas. Leave at least 15 percent completely transparent empty border on ALL FOUR SIDES. No pixels, specks, stray marks or shadow in the transparent border. Never crop fingertips or pointed cuffs.",
+    "review": "Visual pass: correct single empty garment or matched pair, no wearer, complete silhouette, tawny linen and blue scale leather with pewter trim. Generated alpha preserved. Transparent margin checked with sharp.",
+    "status": "accepted",
+    "sha256": "9144ac22fcc6d9aa5c5b5c79f9846a648a6f5d606c882a7b2b485d7ffa49a436",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "transparentFraction": 0.7689066438751656,
+      "nonzeroEdgePixels": 0
+    }
+  }
+]

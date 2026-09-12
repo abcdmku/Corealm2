@@ -1,0 +1,152 @@
+[
+  {
+    "id": "starhide_hood",
+    "source": "art/fab-armor/icons/starhide/starhide_hood.png",
+    "sha256": "602d9dd1dc9b24cda410ab1e8914882c18379cbcc4419d49b473a61eeb673aae",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Empty pointed hood with fabric veil and hollow face opening; no wearer. Indigo fabric, side scales, silver edging, complete silhouette. Visually inspected full resolution. Actual alpha and clear edge margins verified with sharp. Visible silhouette has transparent margins. Border has 2 isolated alpha=1 pixels from generation, invisible in review; original pixels preserved.",
+    "alpha": {
+      "hasAlpha": true,
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 917976,
+      "partialPixels": 654220,
+      "opaquePixels": 320,
+      "nontransparentBorderPixels": 2,
+      "bounds": [
+        0,
+        21,
+        1201,
+        1253
+      ],
+      "visibleBoundsAlphaAbove16": [
+        289,
+        45,
+        1106,
+        1219
+      ],
+      "visibleBorderPixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "starhide_robe",
+    "source": "art/fab-armor/icons/starhide/starhide_robe.png",
+    "sha256": "3e0b126b4fbfd83adf14b90d761e03a4eba946d3c4b64d764f19c4f6d26f25a1",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Empty sleeveless long tunic with hollow collar and armholes, pointed shoulders and split skirt. No body parts or extra equipment. Visually inspected full resolution. Actual alpha and clear edge margins verified with sharp. Visible silhouette has transparent margins. Border alpha is zero.",
+    "alpha": {
+      "hasAlpha": true,
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 1095751,
+      "partialPixels": 476385,
+      "opaquePixels": 380,
+      "nontransparentBorderPixels": 0,
+      "bounds": [
+        33,
+        24,
+        1199,
+        1227
+      ],
+      "visibleBoundsAlphaAbove16": [
+        323,
+        29,
+        963,
+        1223
+      ],
+      "visibleBorderPixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "starhide_leggings",
+    "source": "art/fab-armor/icons/starhide/starhide_leggings.png",
+    "sha256": "4d5659a67c036d65708629258ff37d3e4e0e39f730cb05746a524918f4029355",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Empty trousers with hollow waistband, split overskirt and scale knee panels. No feet; complete silhouette. Visually inspected full resolution. Actual alpha and clear edge margins verified with sharp. Visible silhouette has transparent margins. Border alpha is zero.",
+    "alpha": {
+      "hasAlpha": true,
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 1001004,
+      "partialPixels": 570997,
+      "opaquePixels": 515,
+      "nontransparentBorderPixels": 0,
+      "bounds": [
+        33,
+        16,
+        1235,
+        1238
+      ],
+      "visibleBoundsAlphaAbove16": [
+        310,
+        21,
+        1015,
+        1236
+      ],
+      "visibleBorderPixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "starhide_wraps",
+    "source": "art/fab-armor/icons/starhide/starhide_wraps.png",
+    "sha256": "07b881fb2b934996ccbc9c4d10e4bcab67e3bdb986fcb49136e52d597706b1ef",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Matched separated gloves with hollow forearm cuffs, indigo fabric and scale bracers. No hands or wearer. Visually inspected full resolution. Actual alpha and clear edge margins verified with sharp. Visible silhouette has transparent margins. Border has 5 isolated alpha=1 pixels from generation, invisible in review; original pixels preserved.",
+    "alpha": {
+      "hasAlpha": true,
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 908821,
+      "partialPixels": 663171,
+      "opaquePixels": 524,
+      "nontransparentBorderPixels": 5,
+      "bounds": [
+        0,
+        21,
+        1227,
+        1253
+      ],
+      "visibleBoundsAlphaAbove16": [
+        87,
+        40,
+        1225,
+        1214
+      ],
+      "visibleBorderPixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "starhide_boots",
+    "source": "art/fab-armor/icons/starhide/starhide_boots.png",
+    "sha256": "03a093be192a8121874fbd1d43597dc6ada33dc288d4d1033277d1c6ec985450",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for starhide tier 70: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: deep indigo silk, teal blue violet iridescent scale leather, fine bright silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 70 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Matched empty boots with open fabric-lined cuffs, scale uppers and dark soles. No wearer or extra items. Visually inspected full resolution. Actual alpha and clear edge margins verified with sharp. Visible silhouette has transparent margins. Border has 5 isolated alpha=1 pixels from generation, invisible in review; original pixels preserved.",
+    "alpha": {
+      "hasAlpha": true,
+      "width": 1254,
+      "height": 1254,
+      "transparentPixels": 827183,
+      "partialPixels": 744598,
+      "opaquePixels": 735,
+      "nontransparentBorderPixels": 5,
+      "bounds": [
+        57,
+        29,
+        1191,
+        1253
+      ],
+      "visibleBoundsAlphaAbove16": [
+        160,
+        31,
+        1178,
+        1227
+      ],
+      "visibleBorderPixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  }
+]

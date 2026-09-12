@@ -1,0 +1,107 @@
+[
+  {
+    "id": "bramblehide_hood",
+    "source": "art/fab-armor/icons/bramblehide/bramblehide_hood.png",
+    "sha256": "b758c7cae955e15bfbb6a1901ce99976ae90407207152387bf5aa136bf6d167f",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Empty stitched moss-green hood with cloth veil, hollow dark opening and teal scale sides; no wearer. Actual RGBA alpha preserved. Complete subject has transparent surrounding margin, though robe and leggings top margin is tight. No text or background scene. Faint alpha<=16 edge specks may be trimmed during delivery normalization.",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "transparentPixels": 764765,
+      "subjectBoundsAlphaAbove16": [
+        176,
+        26,
+        1100,
+        1234
+      ],
+      "edgePixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "bramblehide_robe",
+    "source": "art/fab-armor/icons/bramblehide/bramblehide_robe.png",
+    "sha256": "6706d224cc4b8da38edf3d6c630a2b1dc02540b0e6a8efb1cbdafdd97b4366ab",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Empty sleeveless fitted tunic with pointed shoulders and split skirt, visible hollow collar and armhole; no wearer. Actual RGBA alpha preserved. Complete subject has transparent surrounding margin, though robe and leggings top margin is tight. No text or background scene. Faint alpha<=16 edge specks may be trimmed during delivery normalization.",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "transparentPixels": 1078153,
+      "subjectBoundsAlphaAbove16": [
+        336,
+        12,
+        953,
+        1240
+      ],
+      "edgePixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "bramblehide_leggings",
+    "source": "art/fab-armor/icons/bramblehide/bramblehide_leggings.png",
+    "sha256": "68c41543197890a4bc4b1356dc07b41e5478303d5464c1fc2229a8083fbeeb76",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Empty trousers with angular overskirt and scale knee panels, hollow waistband, no feet. Actual RGBA alpha preserved. Complete subject has transparent surrounding margin, though robe and leggings top margin is tight. No text or background scene. Faint alpha<=16 edge specks may be trimmed during delivery normalization.",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "transparentPixels": 934322,
+      "subjectBoundsAlphaAbove16": [
+        229,
+        7,
+        1025,
+        1243
+      ],
+      "edgePixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "bramblehide_wraps",
+    "source": "art/fab-armor/icons/bramblehide/bramblehide_wraps.png",
+    "sha256": "c7d7df8b3dbd237df7efb2cbe923f3974b7bd4428747cbe25d822736efaf9aa1",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Matched separated gloves with pointed forearm bracers and hollow cuffs; no hands or wearer. Actual RGBA alpha preserved. Complete subject has transparent surrounding margin, though robe and leggings top margin is tight. No text or background scene. Faint alpha<=16 edge specks may be trimmed during delivery normalization.",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "transparentPixels": 935596,
+      "subjectBoundsAlphaAbove16": [
+        63,
+        43,
+        1216,
+        1207
+      ],
+      "edgePixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "bramblehide_boots",
+    "source": "art/fab-armor/icons/bramblehide/bramblehide_boots.png",
+    "sha256": "cae299ec9ef2e3bfac8fca8c09636b1b3d58ba7fd16210de3fcda67f618b1316",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for bramblehide tier 5: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: moss green woven cloth, forest green and teal scale leather, aged silver edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 5 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": "Matched empty boots with green scale uppers and dark soles; hollow cuffs, no wearer. Actual RGBA alpha preserved. Complete subject has transparent surrounding margin, though robe and leggings top margin is tight. No text or background scene. Faint alpha<=16 edge specks may be trimmed during delivery normalization.",
+    "alpha": {
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "transparentPixels": 834326,
+      "subjectBoundsAlphaAbove16": [
+        61,
+        37,
+        1206,
+        1222
+      ],
+      "edgePixelsAlphaAbove16": 0
+    },
+    "status": "accepted"
+  }
+]

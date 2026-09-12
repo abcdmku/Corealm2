@@ -1,8 +1,8 @@
 /**
  * Item-to-model mappings, hand sockets, and per-item material treatment for worn gear.
  *
- * Melee armour uses Quaternius' Knight set and magic armour uses the hooded Ranger set, one mesh
- * per slot under a tier colour treatment. Held gear is Corealm original: four sword grades, four
+ * Crafted melee uses Quaternius' Knight set. Crafted magic uses fitted Polytope armor;
+ * rare boss sets use fitted Paragon variants. Held gear is Corealm original: four sword grades, four
  * dagger grades, four shield boards, four staves and four wands, each grade a separate
  * construction with its own wood, leather, metal and crystal materials. The tier tint therefore
  * reaches the metal only; the other three roles keep what they were authored with.
@@ -15,6 +15,8 @@ import { buildEquipmentCoreGeometry } from "./equipmentDetails.js";
 import { applyEquipmentSurfaceTexture, equipmentSurfaceTexturesEnabled } from "./equipmentSurfaceTextures.js";
 import { applyIconWeaponMaterials } from "./equipmentIconMaterials.js";
 import { applyArmorTexture } from "./equipmentArmorTextures.js";
+import { applyFabArmorMaterials, fabArmorAppearance } from './fabArmor.js';
+import { BOSS_ARMOR_ITEMS } from '../content/bossArmor.js';
 
 /** Which base body the parts are resolved against. `boot.ts` builds the player as `base_male`. */
 export type CharacterBody = "male" | "female";
@@ -529,10 +531,10 @@ export function gatheringToolAppearance(itemId: ItemId): GearAppearance | null {
 }
 
 /** Every equipment id this file covers. The equipment test compares it with the content table. */
-export const GEAR_APPEARANCE_IDS: readonly ItemId[] = [...GEAR_VISUALS.keys()];
+export const GEAR_APPEARANCE_IDS: readonly ItemId[] = [...GEAR_VISUALS.keys(), ...BOSS_ARMOR_ITEMS.map(item => item.id)];
 
 /**
- * Every distinct registered asset the current rows can ask for, so a rig can warm them before equip.
+ * Common equipment assets to warm before equip. Large rare sets load on demand.
  *
  * This exists because of a measured stall, not a hunch. Instrumenting `CharacterRig.attachBoneSlot`
  * with `performance.now()` in a headless run: `applyEquipment` fired 1 ms after the equip landed in
@@ -544,10 +546,8 @@ export const GEAR_APPEARANCE_IDS: readonly ItemId[] = [...GEAR_VISUALS.keys()];
  */
 export function gearAssetIds(body: CharacterBody = "male"): readonly string[] {
   const ids = new Set<string>();
-  for (const visual of GEAR_VISUALS.values()) {
-    for (const spec of visual.parts) {
-      ids.add(resolve(spec, visual.slot, body).assetId);
-    }
+  for (const itemId of GEAR_VISUALS.keys()) {
+    for (const appearance of gearAppearanceParts(itemId, body)) ids.add(appearance.assetId);
   }
   for (const appearance of GATHERING_TOOL_APPEARANCES.values()) ids.add(appearance.assetId);
   return [...ids];
@@ -591,6 +591,8 @@ export function gearAppearance(itemId: ItemId, body: CharacterBody = "male"): Ge
 
 /** Every part an item contributes, in attach order. Empty for a covered id with no mesh. */
 export function gearAppearanceParts(itemId: ItemId, body: CharacterBody = "male"): readonly GearAppearance[] {
+  const imported = fabArmorAppearance(itemId, body);
+  if (imported) return [imported];
   const visual = GEAR_VISUALS.get(itemId);
   if (!visual) return [];
   return visual.parts.map((spec) => ({ ...resolve(spec, visual.slot, body), itemId }));
@@ -916,6 +918,7 @@ export function weaponAttachment(appearance: GearAppearance): WeaponSocket | nul
  * two draws.
  */
 export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppearance): void {
+  if (applyFabArmorMaterials(object, appearance)) return;
   if (appearance.tint !== undefined || appearance.accent !== undefined) {
     object.traverse((child) => {
       const mesh = child as THREE.Mesh;

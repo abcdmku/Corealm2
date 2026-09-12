@@ -5,12 +5,13 @@ import { ARMOUR_SET_SLOTS, EQUIPMENT_SETS, getEquipmentSetBonuses, inferEquipmen
   type EquipmentSetSlots } from "../game/src/content/equipmentSets.js";
 
 describe("derived armour sets", () => {
-  it("uses five distinct real armour members with matching ordinary names and slots", () => {
-    expect(EQUIPMENT_SETS).toHaveLength(12);
+  it("uses distinct real armour members with matching names and slots", () => {
+    expect(EQUIPMENT_SETS).toHaveLength(18);
     const ids = new Set<string>();
     for (const set of EQUIPMENT_SETS) {
       for (const slot of ARMOUR_SET_SLOTS) {
         const id = set.members[slot];
+        if (!id) continue;
         expect(ids.has(id)).toBe(false);
         ids.add(id);
         const item = [...ALL_ITEMS, ...WILDERNESS_LOOT_ITEMS].find((candidate) => candidate.id === id);
@@ -24,21 +25,23 @@ describe("derived armour sets", () => {
   for (const set of EQUIPMENT_SETS) {
     it(`${set.name} activates and removes cumulative thresholds without changing damage or accuracy`, () => {
       const slots: EquipmentSetSlots = {};
-      const defence = [2, 3, 4, 6, 10, 14][[1, 5, 10, 20, 50, 70].indexOf(set.tier)]!;
-      const vitality = [1, 2, 3, 4, 7, 10][[1, 5, 10, 20, 50, 70].indexOf(set.tier)]!;
-      for (let count = 0; count <= 5; count++) {
+      const defence = [2, 3, 4, 6, 10, 14, 18][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
+      const vitality = [1, 2, 3, 4, 7, 10, 13][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
+      const memberSlots = ARMOUR_SET_SLOTS.filter(slot => set.members[slot]);
+      const full = memberSlots.length;
+      for (let count = 0; count <= full; count++) {
         if (count > 0) {
-          const slot = ARMOUR_SET_SLOTS[count - 1]!;
-          slots[slot] = { itemId: set.members[slot], quantity: 1 };
+          const slot = memberSlots[count - 1]!;
+          slots[slot] = { itemId: set.members[slot]!, quantity: 1 };
         }
         const result = getEquipmentSetBonuses(slots);
         expect(result).toEqual({ accuracy: 0, power: 0, magicAccuracy: 0, magicPower: 0,
-          armour: count >= (set.style === "melee" ? 2 : 5) ? defence : 0,
-          magicArmour: count >= (set.style === "magic" ? 2 : 5) ? defence : 0,
-          vitality: count >= 4 ? vitality : 0 });
+          armour: count >= (set.style === "melee" ? 2 : full) ? defence : 0,
+          magicArmour: count >= (set.style === "magic" ? 2 : full) ? defence : 0,
+          vitality: count >= full - 1 ? vitality : 0 });
       }
       slots.feet = null;
-      expect(inferEquipmentSets(slots)[0]?.activeThresholds.map((row) => row.pieces)).toEqual([2, 4]);
+      expect(inferEquipmentSets(slots)[0]?.activeThresholds.map((row) => row.pieces)).toEqual([2, full - 1]);
       expect(getEquipmentSetBonuses(slots)[set.style === "melee" ? "magicArmour" : "armour"]).toBe(0);
     });
   }

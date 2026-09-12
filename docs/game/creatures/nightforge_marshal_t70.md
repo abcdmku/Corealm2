@@ -48,3 +48,12 @@ description: "Nightforge Marshal spawn locations, combat stats, and drops."
 | [Cosmic Rune](../../items/cosmic_rune/) | 24-40 | 100% |
 | [Nightglass Ore](../../items/nightglass_ore/) | 3-6 | 100% |
 | [Fire Opal](../../items/fire_opal/) | 1-2 | 35% |
+| [Void Oathguard Plate](../../items/oathguard_plate/) | 1 | 0.2% |
+| [Void Oathguard Greaves](../../items/oathguard_greaves/) | 1 | 0.2% |
+| [Void Oathguard Gauntlets](../../items/oathguard_gauntlets/) | 1 | 0.2% |
+| [Void Oathguard Boots](../../items/oathguard_boots/) | 1 | 0.2% |
+| [Void Nightweave Headwrap](../../items/nightweave_hood/) | 1 | 0.2% |
+| [Void Nightweave Robe](../../items/nightweave_robe/) | 1 | 0.2% |
+| [Void Nightweave Leggings](../../items/nightweave_leggings/) | 1 | 0.2% |
+| [Void Nightweave Wraps](../../items/nightweave_wraps/) | 1 | 0.2% |
+| [Void Nightweave Boots](../../items/nightweave_boots/) | 1 | 0.2% |

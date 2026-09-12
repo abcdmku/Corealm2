@@ -1,0 +1,132 @@
+[
+  {
+    "id": "charhide_hood",
+    "source": "art/fab-armor/icons/charhide/charhide_hood.png",
+    "sha256": "41e2ca520a25386cb7897318e71a1150f04aa34f8b6c4d46091f5a78ce1f19ca",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one empty pointed cloth hood with a fitted cloth face veil, hollow face opening, fine stitched seams and scale-leather side panels. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "method": "Built-in image_gen; individual full-size visual inspection and sharp raw alpha scan.",
+      "visual": "Correct empty garment or matched pair; no wearer, body parts, text, scenery or cast background shadow. Consistent umber cloth, blue-violet scales and bronze edging. Entire main silhouette visible.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 830990,
+        "partialAlphaPixels": 741060,
+        "mainSilhouetteThreshold": 8,
+        "mainSilhouetteBorderPixels": 0,
+        "mainSilhouetteMargins": [
+          166,
+          26,
+          66,
+          33
+        ]
+      },
+      "note": "Original generated alpha preserved. Some near-transparent edge speckles and tight vertical margins; production normalization may add padding."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "charhide_robe",
+    "source": "art/fab-armor/icons/charhide/charhide_robe.png",
+    "sha256": "5edba60d378af4981840da735aa80b3598a1ea1643adb530b9b09e8bf66a4695",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one empty fitted sleeveless long mage tunic torso, raised angular pointed shoulders, tailored waist, layered pointed split skirt panels and supple scale-leather panels. No hood, trousers or hands. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "method": "Built-in image_gen; individual full-size visual inspection and sharp raw alpha scan.",
+      "visual": "Correct empty garment or matched pair; no wearer, body parts, text, scenery or cast background shadow. Consistent umber cloth, blue-violet scales and bronze edging. Entire main silhouette visible.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 1030586,
+        "partialAlphaPixels": 541504,
+        "mainSilhouetteThreshold": 8,
+        "mainSilhouetteBorderPixels": 0,
+        "mainSilhouetteMargins": [
+          304,
+          10,
+          236,
+          14
+        ]
+      },
+      "note": "Original generated alpha preserved. Some near-transparent edge speckles and tight vertical margins; production normalization may add padding."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "charhide_leggings",
+    "source": "art/fab-armor/icons/charhide/charhide_leggings.png",
+    "sha256": "c91e75c326285dd4b04774a24cb7d27caff2c35a997eddb9830c53075a251b97",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one pair of empty fitted mage trousers with a short angular split overskirt and scale-leather knee panels, hollow open waistband. No feet. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "method": "Built-in image_gen; individual full-size visual inspection and sharp raw alpha scan.",
+      "visual": "Correct empty garment or matched pair; no wearer, body parts, text, scenery or cast background shadow. Consistent umber cloth, blue-violet scales and bronze edging. Entire main silhouette visible.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 1024675,
+        "partialAlphaPixels": 547277,
+        "mainSilhouetteThreshold": 8,
+        "mainSilhouetteBorderPixels": 0,
+        "mainSilhouetteMargins": [
+          289,
+          22,
+          275,
+          25
+        ]
+      },
+      "note": "Original generated alpha preserved. Some near-transparent edge speckles and tight vertical margins; production normalization may add padding."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "charhide_wraps",
+    "source": "art/fab-armor/icons/charhide/charhide_wraps.png",
+    "sha256": "4187bff02cd380a077d36f96cd7e40d78f27ebbdce0725273c56cc261d73f7a3",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one matched pair of empty fitted mage gloves with angular pointed scale-leather forearm bracers, separated side by side. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "method": "Built-in image_gen; individual full-size visual inspection and sharp raw alpha scan.",
+      "visual": "Correct empty garment or matched pair; no wearer, body parts, text, scenery or cast background shadow. Consistent umber cloth, blue-violet scales and bronze edging. Entire main silhouette visible.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 967820,
+        "partialAlphaPixels": 603751,
+        "mainSilhouetteThreshold": 8,
+        "mainSilhouetteBorderPixels": 0,
+        "mainSilhouetteMargins": [
+          65,
+          56,
+          39,
+          40
+        ]
+      },
+      "note": "Original generated alpha preserved. Some near-transparent edge speckles and tight vertical margins; production normalization may add padding."
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "charhide_boots",
+    "source": "art/fab-armor/icons/charhide/charhide_boots.png",
+    "sha256": "6d0d1662de7e4e059ea696809b3ddb4ea505d5b4f57c26f4b61d158e2acf3308",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for charhide tier 20: one matched pair of empty calf-high mage boots with flexible scalloped scale-leather uppers, pointed reinforced shins, dark leather soles, separated side by side. Palette/materials: warm umber woven cloth, dark blue and copper-violet scale leather, bronze edging. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 20 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "method": "Built-in image_gen; individual full-size visual inspection and sharp raw alpha scan.",
+      "visual": "Correct empty garment or matched pair; no wearer, body parts, text, scenery or cast background shadow. Consistent umber cloth, blue-violet scales and bronze edging. Entire main silhouette visible.",
+      "alpha": {
+        "width": 1254,
+        "height": 1254,
+        "transparentPixels": 904175,
+        "partialAlphaPixels": 667517,
+        "mainSilhouetteThreshold": 8,
+        "mainSilhouetteBorderPixels": 0,
+        "mainSilhouetteMargins": [
+          148,
+          24,
+          76,
+          46
+        ]
+      },
+      "note": "Original generated alpha preserved. Some near-transparent edge speckles and tight vertical margins; production normalization may add padding."
+    },
+    "status": "accepted"
+  }
+]

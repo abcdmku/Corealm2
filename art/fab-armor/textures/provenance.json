@@ -1,0 +1,14 @@
+{
+  "created": "2026-09-11",
+  "method": "OpenAI built-in image generation; original fabric atlas and leather tile",
+  "referenceImagesUsed": false,
+  "processing": "Extract six fabric swatches and resize runtime textures to 512 square.",
+  "tiers": [
+    1,
+    5,
+    10,
+    20,
+    50,
+    70
+  ]
+}

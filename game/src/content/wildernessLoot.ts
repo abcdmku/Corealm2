@@ -3,6 +3,7 @@ import type { EnemyDef, RecipeDef } from './index.js';
 import { recipeXp, toolBonus } from './index.js';
 import { COSMIC_RUNE_ID, SPELL_RUNES } from './spells.js';
 import { WILDERNESS_RUNE_KEEPERS } from './wildernessDepth.js';
+import { bossArmorDrops } from './bossArmor.js';
 
 type WildernessTier = 50 | 70;
 type Ingredient = readonly [ItemId, number];
@@ -248,6 +249,7 @@ export function wildernessDrops(speciesId: string, tier: number, keeperId?: stri
       drop(COSMIC_RUNE_ID, 24, 40),
       drop(deep ? 'nightglass_ore' : 'cindervein_ore', 3, 6),
       drop('fire_opal', 1, 2, .35),
+      ...bossArmorDrops(keeper.tier),
     ];
   }
   return [

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "frostweave_robe",
+    "source": "art/fab-armor/icons/frostweave/frostweave_robe.png",
+    "sha256": "10d305f9d0252b51486139c6e5e80af54cde121807a37760ed025814951deb46",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one empty asymmetric martial mage torso with large single sculpted frost-silver shoulder guard, lilac chest relief and cyan inlays. No head, arms, hands or lower legs. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.",
+      "width": 1254,
+      "height": 1254,
+      "zeroAlphaFraction": 0.5245968880443824,
+      "alphaThreshold": 8,
+      "alphaBoundingBox": [
+        230,
+        31,
+        1145,
+        1219
+      ],
+      "occupiedEdgePixels": 0,
+      "alphaPreserved": true,
+      "generation": "built-in image_gen"
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "frostweave_leggings",
+    "source": "art/fab-armor/icons/frostweave/frostweave_leggings.png",
+    "sha256": "d31c56ebc8986cdd1479a52cad75370d12ee9d37bf33012a5ed1ab29e6fd68e1",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one pair of empty martial mage trousers with long pale grey split hanging cloth panels and ornate frost-silver thigh guards, hollow waistband, no boots. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.",
+      "width": 1254,
+      "height": 1254,
+      "zeroAlphaFraction": 0.5767674223982459,
+      "alphaThreshold": 8,
+      "alphaBoundingBox": [
+        140,
+        12,
+        1145,
+        1237
+      ],
+      "occupiedEdgePixels": 0,
+      "alphaPreserved": true,
+      "generation": "built-in image_gen"
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "frostweave_wraps",
+    "source": "art/fab-armor/icons/frostweave/frostweave_wraps.png",
+    "sha256": "5ffc92a9b478ccabda45430ed134b61c6a43ace0e683380f7dde94596f479777",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one matched pair of empty martial mage gloves and fitted forearm guards in sculpted ornamented armor with subtle iridescent detail, separated side by side. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.",
+      "width": 1254,
+      "height": 1254,
+      "zeroAlphaFraction": 0.5146701210035383,
+      "alphaThreshold": 8,
+      "alphaBoundingBox": [
+        32,
+        27,
+        1223,
+        1210
+      ],
+      "occupiedEdgePixels": 0,
+      "alphaPreserved": true,
+      "generation": "built-in image_gen"
+    },
+    "status": "accepted"
+  },
+  {
+    "id": "frostweave_boots",
+    "source": "art/fab-armor/icons/frostweave/frostweave_boots.png",
+    "sha256": "947e3cbe1b498462f6a6896d673b5cb7419cc8b9744ce822db7023b0fbcdcb20",
+    "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one matched pair of empty martial mage calf-high boots with ornate sculpted shin guards, dark leather soles, hollow cuffs, separated side by side. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+    "review": {
+      "visual": "Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.",
+      "width": 1254,
+      "height": 1254,
+      "zeroAlphaFraction": 0.5132977979238367,
+      "alphaThreshold": 8,
+      "alphaBoundingBox": [
+        161,
+        11,
+        1133,
+        1227
+      ],
+      "occupiedEdgePixels": 0,
+      "alphaPreserved": true,
+      "generation": "built-in image_gen"
+    },
+    "status": "accepted"
+  }
+]

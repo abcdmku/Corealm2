@@ -1,5 +1,11 @@
 type AssetPack = { id: string; source: string; license: string; archiveSha256?: string };
 
+/** Fab purchases retain their Standard License, independently of the project's code license. */
+export function isFabStandardAssetPack(pack: Pick<AssetPack, 'source' | 'license'>): boolean {
+  return pack.license === 'Fab Standard License'
+    && /^https:\/\/(?:www\.)?fab\.com\/listings\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(pack.source);
+}
+
 const LICENSE_URLS = {
   "CC-BY-3.0": "https://creativecommons.org/licenses/by/3.0/",
   "CC-BY-SA-3.0": "https://creativecommons.org/licenses/by-sa/3.0/",

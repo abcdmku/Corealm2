@@ -7,7 +7,7 @@
  */
 import type { ItemDef, ItemId, RecipeId, StationKind } from "../contracts.js";
 import type { GatheringProductionTierDef, RecipeDef, ResourceDef } from "./index.js";
-import { isSupportedCcAttributionLicense, validateCcAssetPack } from "./assetLicenses.js";
+import { isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "./assetLicenses.js";
 
 export const GATHERING_PRODUCTION_STATION_KINDS = [
   "furnace",
@@ -124,7 +124,7 @@ export function validateGatheringManifestProvenance(
       catch (error) { problems.push(`manifest pack ${pack.id}: ${error instanceof Error ? error.message : String(error)}`); }
     }
     const isUnityStoreAsset = pack.license.startsWith(UNITY_ASSET_STORE_LICENSE);
-    if (!isCc0 && !isCcAttribution && !isUnityStoreAsset && !isOriginal && !isDerivative) problems.push(`manifest pack ${pack.id} has unsupported license "${pack.license}"`);
+    if (!isCc0 && !isCcAttribution && !isUnityStoreAsset && !isFabStandardAssetPack(pack) && !isOriginal && !isDerivative) problems.push(`manifest pack ${pack.id} has unsupported license "${pack.license}"`);
     if (isCc0 && !LOWERCASE_SHA256.test(pack.archiveSha256 ?? "")) problems.push(`manifest pack ${pack.id} has no valid lowercase archive SHA-256`);
   }
   return problems;

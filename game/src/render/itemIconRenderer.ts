@@ -13,6 +13,8 @@ import {
   type ItemIconPrimitivePart,
 } from "./itemIconAppearances.js";
 import { applyGearAppearance } from "./equipmentVisuals.js";
+import { awaitFabArmorTextures } from './fabArmor.js';
+import { setFabMagicSampleTime } from './fabMagicSurface.js';
 import { isProceduralGearAsset, registerProceduralGear } from "./proceduralGear.js";
 
 interface ItemIconRendererApi {
@@ -1138,9 +1140,12 @@ async function render(itemId: ItemId, state?: ItemIconPresentationState): Promis
   disposeCurrent();
   const appearance = itemIconAppearance(itemId, state);
   root.add(await buildAppearance(appearance));
+  await awaitFabArmorTextures();
+  setFabMagicSampleTime(4);
   fitItemIconCamera(root, camera, appearance);
   renderer.clear();
   renderer.render(scene, camera);
+  setFabMagicSampleTime(null);
   return renderer.domElement.toDataURL("image/png");
 }
 

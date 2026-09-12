@@ -22,6 +22,16 @@ function fixture() {
 }
 
 describe("gathering build provenance", () => {
+  it('accepts declared Fab Standard assets only with a Fab listing URL', () => {
+    const { manifest, hashes } = fixture();
+    const pack = { id: 'fab-armor', source: 'https://www.fab.com/listings/122fd7bf-6f12-4304-a930-cccbbacdaebc', license: 'Fab Standard License' };
+    const withFab = { ...manifest, packs: [...manifest.packs, pack] };
+    expect(validateGatheringManifestProvenance(withFab, hashes)).toEqual([]);
+    for (const source of ['https://example.com/asset', 'https://fab.com.evil.test/listings/122fd7bf-6f12-4304-a930-cccbbacdaebc', 'Epic Games Launcher VaultCache']) {
+      pack.source = source;
+      expect(validateGatheringManifestProvenance(withFab, hashes).some(problem => problem.includes('unsupported license'))).toBe(true);
+    }
+  });
   it("accepts the original ore generator only with its measured source hash", () => {
     const { manifest, hashes } = fixture();
     const ore = manifest.packs[2]!;
