@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { afterAll, describe, expect, it } from "vitest";
-import { ITEMS } from "../game/src/content/items.js";
+import { ALL_ITEMS } from "../game/src/content/items.js";
 import {
   FISHING_ROD_LOOKS,
   fishingRodAssetId,
@@ -27,8 +27,8 @@ afterAll(() => {
 });
 
 describe("production fishing rods", () => {
-  it("provides the actual carried rod for every fishing tier, including cinderpine", async () => {
-    const fishingTools = ITEMS.filter((item) => item.tool?.skill === "fishing");
+  it("provides the actual carried rod for every fishing tier, including regional rods", async () => {
+    const fishingTools = ALL_ITEMS.filter((item) => item.tool?.skill === "fishing");
     const registered = new Map<string, THREE.Group>();
     const assets = new AssetRegistry();
     const registeredIds = registerProceduralGear(assets);
@@ -48,6 +48,9 @@ describe("production fishing rods", () => {
       [1, "palewood_rod"], [4, "palewood_rod"], [5, "duskoak_rod"],
       [9, "duskoak_rod"], [10, "cairnpine_rod"], [19, "cairnpine_rod"],
       [20, "cinderpine_rod"], [25, "cinderpine_rod"],
+      [30, "willow_rod"], [39, "willow_rod"],
+      [40, "maple_rod"], [59, "maple_rod"],
+      [60, "yew_rod"], [70, "yew_rod"],
     ];
     for (const [tier, expected] of boundaries) expect(fishingRodItemForTier(tier)).toBe(expected);
     expect(FISHING_ROD_LOOKS["cinderpine_rod"]!.shaft).not.toBe(FISHING_ROD_LOOKS["cairnpine_rod"]!.shaft);

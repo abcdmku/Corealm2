@@ -25,6 +25,7 @@ interface ScatterHarnessOptions {
     density: number;
   } | null;
   waters?: readonly {
+    id: string;
     closed: boolean;
     centre: readonly [number, number];
     contour: readonly (readonly [number, number])[];
@@ -194,6 +195,7 @@ describe("scatter tile streaming", () => {
       .addCircle(42, 22, 7, "road", "test-road")
       .addCircle(62, 22, 7, "custom", "test-gameplay-volume");
     const lake = {
+      id: "fixture_lake",
       closed: true,
       centre: [22, 22] as const,
       contour: [

@@ -2907,6 +2907,712 @@
       "generator": "built-in image_gen",
       "sourceLookup": "Owner-approved ornate prompted icon, reused for the single shared T70 rare earring. All minibosses of this tier share this reward.",
       "review": "Root accepted September 13 after fresh read-only art review and staged production lab craft/equip/inventory proof. Plain craftable bands with modest stones; ornate shared rare tier pairs. All 28 jewelry images loaded without console errors."
+    },
+    "dewglass_sword": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_sword.png",
+      "sha256": "b529511290f85f8671fe7e12efa0ad8113be58abdfacfb2282e7ae9f5aef9ef1",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Sword, a long one-handed straight double-edged sword held diagonally, blade tapered to pointed leaf tip, shallow central ridge, pearly cutting edges, short curved leaf-shaped guard, brown leather wrapped grip and small faceted turquoise pommel. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass equipment source; turquoise mineral metal, pale pearly leaf plates, dark leather underlayer.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-6370dcb5-c54c-40b2-b5f1-190e10a2db3f.png"
+    },
+    "dewglass_helm": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_helm.png",
+      "sha256": "d5ff330dafe6fc14244191842a15c5b9fac24cff7d1524b3d65ce885428c73ae",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Helm, an empty wearable closed helmet in front three-quarter view. Overlapping leaf-shaped turquoise plates sweep back from brow and cheek guards, narrow dark eye opening and central nose guard, modest pointed crown, dark leather lining visible through openings. No horns or oversized crest. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass equipment source; turquoise mineral metal, pale pearly leaf plates, dark leather underlayer.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-fe2f9c99-a7ef-47c5-a22a-b3f6a9185158.png"
+    },
+    "dewglass_plate": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_plate.png",
+      "sha256": "e9e4a63d75e52b54585f92440f9533847da8f353dbabdf20bde5b7c38a2a1de5",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Plate, one empty wearable armored torso front three-quarter view. Slim cuirass with broad leaf-shaped central chest plate, nested pointed belly plates, compact layered shoulder caps and short hip tassets, dark brown leather underlayer, no arms, no legs, no head. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass equipment source; turquoise mineral metal, pale pearly leaf plates, dark leather underlayer.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-2028c3d3-0d44-49bd-a2ee-7ee1525da752.png"
+    },
+    "dewglass_greaves": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_greaves.png",
+      "sha256": "83f7fe3ffa4c04b7e28cf3aadf64e6e0f53d856c9baf1111072763f201c11d85",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Greaves, a matching pair of empty leg armor shown upright together in front three-quarter view, upper thigh to ankle, long pointed leaf thigh plates, layered leaf knee cups and slender shin plates over dark brown leather trousers; no torso and no feet. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-9d914401-0e01-46b9-a5df-46c5eb9e1456.png"
+    },
+    "dewglass_boots": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_boots.png",
+      "sha256": "140143c78f432f230b8e665ed2ab68c95698e75b181ffb6bcbd0a778437fec58",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Boots, a matching pair of empty armored ankle boots in three-quarter view with visible toe caps, overlapping pointed turquoise leaf instep plates, short leaf cuff, dark brown leather uppers and dark soles; no legs. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-5a441da2-4a74-426d-8693-504b9e3ed869.png"
+    },
+    "dewglass_gauntlets": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_gauntlets.png",
+      "sha256": "ce72d7a67322e676804254913529afdc7e1fdf293cf354c4273e4667cdd08c97",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Gauntlets, a matching pair of empty armored gloves in three-quarter view with five articulated fingers per glove, pointed leaf backhand plates, pearl-edged knuckle segments and short dark brown leather wrist cuffs. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-f43d2231-57bf-41dd-8712-a86ba2ce456a.png"
+    },
+    "dewglass_pickaxe": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_pickaxe.png",
+      "sha256": "7af6aa9f4ba6235a0061c54c4851b8c2dba2310ef801d917497e1e702c2655b8",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Pickaxe, one functional mining pickaxe tilted diagonally. Long dark leather grip on pale willow wood haft, translucent turquoise double-ended head with one long narrow pointed pick and a short flat chisel end, pearly edges, central leaf-shaped socket and silver rivets. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-e71be9e9-2a11-403e-81af-cb6253613a50.png"
+    },
+    "dewglass_hatchet": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_hatchet.png",
+      "sha256": "200ce8af837e5a0e0809e04edb8e2b95603e9b0d08f8f987a633ec8f3d673ea5",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Hatchet, one functional one-handed woodcutting axe tilted diagonally. Pale willow wood haft with dark leather grip, broad single leaf-shaped translucent turquoise cutting blade, pearly curved cutting edge, small squared poll on reverse, silver-riveted socket. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-2d31b51c-b834-47d5-9f7b-0777821442f6.png"
+    },
+    "willow_shield": {
+      "status": "accepted",
+      "source": "regional-t30/willow_shield.png",
+      "sha256": "66a73b3b9ee9a50162e232f2b2d13248a86ed75dadde51c835f23ae08b950a8f",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Shield, one slim pointed kite shield in front three-quarter view, shaped from five pale willow planks bent into a leaf-like convex face, raised flowing grain, silver-turquoise rim segments and a modest central turquoise leaf boss, leather strap just visible behind edge. Material identity: pale willow bentwood with cream sapwood, tan flowing grain and patches of silver-gray bark; silver and translucent turquoise mineral fittings, dark leather bindings. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-ce55abe6-a3ba-4755-98a9-9819a2cb06ee.png"
+    },
+    "willow_wand": {
+      "status": "accepted",
+      "source": "regional-t30/willow_wand.png",
+      "sha256": "a35a084e9b4dada95e4f937ac59a13462c76ec951e2860c1c0b4187129065bf9",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Wand, one short slender hand-held magic wand tilted diagonally. Pale willow tapered twig with graceful single curve, bark ridges at grip, silver wire collar, small pointed translucent turquoise crystal tip held in two slim wooden prongs. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-5dcaeaaa-52ee-45b5-9281-b40cbe7854f5.png"
+    },
+    "willow_staff": {
+      "status": "accepted",
+      "source": "regional-t30/willow_staff.png",
+      "sha256": "86a14983f80cc44850f5183face931b7bb6f1707047bcd843fb727daeaacc5ee",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Staff, one long full-length walking-height magic staff tilted diagonally. Pale willow shaft flowing upward into a bent oval open crook, small turquoise mineral teardrop suspended inside crook by woody prongs, silver bands at crook and butt, dark leather hand grip. Large crook clearly distinguishes staff from straight wand. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-0ea5da57-14fa-4d9e-8c0f-b3d571f45c00.png"
+    },
+    "willow_rod": {
+      "status": "accepted",
+      "source": "regional-t30/willow_rod.png",
+      "sha256": "7b79a26b4aaa067cad253cd03117aae5476642ff8a01be9153bc69705c85ea2b",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Rod, one long slender flexible fishing rod tilted diagonally. Pale willow shaft with slightly bent thin tip, dark leather grip, small silver fly-fishing reel attached just above butt, four line guide rings and fine curved fishing line visible beside upper shaft, small turquoise float hanging from line. Functional medieval fishing tackle, full pole visible. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-c2811614-4f3c-49e5-a712-6865bc4ff743.png"
+    },
+    "mistweave_hood": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave_hood.png",
+      "sha256": "920e9075d218d5d5c08a88205fe1431889cbae62ee5a74a4f0f07476a8b1842d",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Hood, a single empty soft cloth hood in three-quarter front view, tall tapered hood crown curves gently back, dark empty face opening, overlapping pointed petal shoulder collar, pale thread embroidered edge. No head or person, no robe. Material identity: blue-green woven cloth with darker teal recesses, layered pointed petal panels, pale embroidered seam lines and tiny thread textures, soft matte fabric with selective silvery highlights. Slim practical silhouette, no bulky armor. Blue-green teal must dominate the cloth surface. Do not make gray, white or purple cloth.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-a82abe40-4c00-4c5c-b1af-f4ca4ef45119.png"
+    },
+    "mistweave_robe": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave_robe.png",
+      "sha256": "d9a5db6520b87447eee4fe6cff52e54296098a707ebef6c920002dfbdb56277a",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Robe, one empty long wearable cloth robe in front three-quarter view. Slim torso, modest fitted long sleeves, pale tied waist sash, calf-length overlapping pointed petal skirt panels with an open front slit, narrow shoulder seams, no hood, no body, no legs or boots. Material identity: blue-green woven cloth with darker teal recesses, layered pointed petal panels, pale embroidered seam lines and tiny thread textures, soft matte fabric with selective silvery highlights. Slim practical silhouette, no bulky armor. Blue-green teal must dominate the cloth surface. Do not make gray, white or purple cloth.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-8e43ca74-af5f-455d-b865-8cb870fcefbf.png"
+    },
+    "mistweave_leggings": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave_leggings.png",
+      "sha256": "18dd394d3cbee062293874f42e5806d655a3048b8ec2599c7f64a93d539cd351",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Leggings, one pair of empty slim fitted cloth trousers from waist to ankles in front three-quarter view, subtle pointed petal thigh overpanels, pale seam embroidery along outer legs, soft knee folds and narrow ankle cuffs. No body, no footwear, no torso. Material identity: blue-green woven cloth with darker teal recesses, layered pointed petal panels, pale embroidered seam lines and tiny thread textures, soft matte fabric with selective silvery highlights. Slim practical silhouette, no bulky armor. Blue-green teal must dominate the cloth surface. Do not make gray, white or purple cloth.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-d3fced6e-caf5-4f47-a967-3585ddd0ea71.png"
+    },
+    "crownsilver_sword": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_sword.png",
+      "sha256": "ec239ed9de0c1733784ab8c2d8e00e550662cf55ae3feeb75aa4e78df0ca6ece",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One one-handed arming sword, straight tapered double-edge ivory silver blade with shallow central fuller, fluted brass-tipped crossguard, navy wrapped grip and modest silver pommel. Diagonal lower left grip to upper right point.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked."
+    },
+    "crownsilver_helm": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_helm.png",
+      "sha256": "20090b8ddf8fed2436e1dfe454ce05c8561d22222694cbcff47255a6784df6b8",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One close-fitting open-face sallet helmet with shallow crown ridge, brow plate, hinged cheek guards and short layered neck protection. Hollow dark opening. No detached pieces.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked."
+    },
+    "crownsilver_plate": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_plate.png",
+      "sha256": "dd99b5e911e5a6d71c2dac9a8800981fc72a9854a543853b72b4c44e05402abb",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One fitted cuirass torso with three fluted breast panels, small overlapping shoulder caps, articulated narrow waist fauld and short side tassets. Hollow neck and arm openings. No limbs.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked."
+    },
+    "crownsilver_greaves": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_greaves.png",
+      "sha256": "867808f636095ed258cdd2bd1593e0672ce785eb48612871ef79da113f931524",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One matched pair of articulated leg armor from upper thigh to ankle, linked fluted thigh plates, compact shaped knee cups and tapering shin plates. Navy inner joint padding, brass rivets and rear leather straps visible. No boots, no body.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked."
+    },
+    "crown_trout": {
+      "status": "accepted",
+      "source": "regional-fish/crown_trout.png",
+      "sha256": "5f40ba5f7434b0213ab06785d32cb7c50c05ff26099bff7ed64029d423ccfed9",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, crown_trout.\nPrimary request: A fresh whole rainbow trout, slender gently curved body with fine silver scales, olive blue speckled back, distinct rosy pink lateral stripe, ivory belly, spotted fan tail and fine translucent fins.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-7551005a-365e-463a-8cf1-4dbb83c13b92.png"
+    },
+    "cooked_crown_trout": {
+      "status": "accepted",
+      "source": "regional-fish/cooked_crown_trout.png",
+      "sha256": "dd51dc4d0513b7c6236edf08647458094598feb5e5b11d0b6268c00addd5b59f",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, cooked_crown_trout.\nPrimary request: A whole cooked rainbow trout, slender gently curved body, head and spotted fan tail intact. Roasted golden copper skin with crisp brown edges, three diagonal cuts revealing opaque ivory cooked flesh, pale golden fins. Clearly cooked and appetizing, no raw silver sheen.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-d760c599-9e5d-456f-a933-fd65ed7da6bd.png"
+    },
+    "burnt_crown_trout": {
+      "status": "accepted",
+      "source": "regional-fish/burnt_crown_trout.png",
+      "sha256": "7abda413de7e9fd63d19018caf0c424505c16f5bc252d10da2ab5e62751cf318",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, burnt_crown_trout.\nPrimary request: A whole badly burnt rainbow trout, slender curved body, head and spotted fan tail intact. Dry charcoal black cracked skin with ashy gray patches, scorched curled fins and three dark cuts. Clearly overcooked and inedible, no orange glow or flames.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-f77a2878-3144-4edd-9534-58dc93aadce7.png"
+    },
+    "crown_tuna": {
+      "status": "accepted",
+      "source": "regional-fish/crown_tuna.png",
+      "sha256": "ea385fc286a26a1e0fbad6a2b6f69bdd55cfe212890dc106c61b426fc257334f",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, crown_tuna.\nPrimary request: A fresh whole tuna, robust deep torpedo body with a pointed head, dark navy blue back, bright steel silver flank and ivory belly, narrow tail wrist and crescent tail, long pointed pectoral fins and distinct tiny gold finlets near the tail.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-5ecd3b07-1124-4cb2-9d82-d142a64554d5.png"
+    },
+    "cooked_crown_tuna": {
+      "status": "accepted",
+      "source": "regional-fish/cooked_crown_tuna.png",
+      "sha256": "4be6ee92f91d667980ba97d985b404f1f9b72c633e3900018228c3edc808a2ac",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, cooked_crown_tuna.\nPrimary request: A whole cooked tuna, robust deep torpedo body, pointed head intact, narrow tail wrist and crescent tail, pointed fins and tiny finlets. Copper brown roasted skin with dark toasted edges, three diagonal cuts revealing opaque pale beige cooked flesh. Clearly cooked, no raw silver sheen.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-fef2bd99-00b3-4d72-9221-ac61132339e2.png"
+    },
+    "burnt_crown_tuna": {
+      "status": "accepted",
+      "source": "regional-fish/burnt_crown_tuna.png",
+      "sha256": "85c72c249c2b423a919214aec9f73713e634c99b491780117bd70fe147961dd8",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, burnt_crown_tuna.\nPrimary request: A whole badly burnt tuna, robust deep torpedo body, pointed head intact, narrow tail wrist and crescent tail, pointed fins and tiny finlets. Charcoal black cracked skin with pale gray ash flecks, dry scorched fins, three blackened diagonal cuts. Clearly ruined and inedible, no orange glow or flames.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-7874f683-2493-4895-a4ca-96d168e0e4f9.png"
+    },
+    "pearlwater_salmon": {
+      "status": "accepted",
+      "source": "regional-fish/pearlwater_salmon.png",
+      "sha256": "99b4649a711a2ca4c307b81b4d4feaa5fb3d65cf1607ec4bc4bd3423d43a771f",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, pearlwater_salmon.\nPrimary request: A fresh whole salmon, long thick tapered body, proud slightly hooked jaw, broad forked tail, pearly silver scales, dark teal blue back with scattered dark spots, soft coral pink blush along the side, ivory belly and translucent slate fins.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-63b849eb-94e6-48b0-9afd-fabd1bbd69eb.png"
+    },
+    "cooked_pearlwater_salmon": {
+      "status": "accepted",
+      "source": "regional-fish/cooked_pearlwater_salmon.png",
+      "sha256": "b90228f0dd57af7a84a0fb2804fa01093d57bcb8cc947a58c643b9cd53d5baa6",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, cooked_pearlwater_salmon.\nPrimary request: A whole cooked salmon, long thick tapered body, slightly hooked jaw and broad forked tail intact. Roasted warm copper and amber skin with toasted dark edges, three diagonal cuts revealing rich opaque coral orange cooked flesh. Crisp golden fins. Clearly cooked and appetizing, no raw silver sheen.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-8f4217d1-6b71-47ee-a9ea-c6f179e1f33f.png"
+    },
+    "burnt_pearlwater_salmon": {
+      "status": "accepted",
+      "source": "regional-fish/burnt_pearlwater_salmon.png",
+      "sha256": "6e22345172d4088af2f8261928a56b478a8c040767c3f36f1afbfaf004596d47",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, burnt_pearlwater_salmon.\nPrimary request: A whole badly burnt salmon, long thick tapered body, slightly hooked jaw and broad forked tail intact. Dark charcoal cracked skin and gray ash flakes, scorched curled fins, three diagonal cuts showing dull dark burnt orange flesh beneath heavy black char. Clearly ruined and inedible, no orange glow or flames.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Root and fresh Luna visual review accepted the 256px master and 48px inventory derivative; production inventory lab checked.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-dc02fda8-d0a9-4162-8ffa-c9494ca7a753.png"
+    },
+    "crownsilver_boots": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_boots.png",
+      "sha256": "0eebff96929b069cb9e7e1e0f9cadb66e665aee31ccc17adc0916f3401b5d742",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One matched pair of compact ankle-high armored boots, articulated silver sabaton toe plates over navy leather, narrow shaped heels, small brass ankle buckles and fluted ankle guards. No legs.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownsilver_gauntlets": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_gauntlets.png",
+      "sha256": "b42ca6af9c59c93e220d75c750f93b5c3a01246171c1128a07455538ee70bee0",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One matched pair of compact articulated gauntlets, five finger channels on each glove, overlapping ivory silver knuckle and finger plates, fluted short wrist cuffs over navy leather, brass rivets. No forearms.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownsilver_pickaxe": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_pickaxe.png",
+      "sha256": "d29169a145694174a66de8d941bbaffe0cdf6badd5f6a9e7633872541ad79184",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One practical mining pickaxe, long slim maple handle, ivory silver metal head with one long curved pointed pick and a short opposing chisel end, brass wedged socket and navy grip binding. Diagonal composition.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownsilver_hatchet": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_hatchet.png",
+      "sha256": "dd1cf137445ab9fc7e9aacbf1845d478297881fb497e0009302411b3a500f1b6",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One practical one-handed woodcutting hatchet, broad compact silver wedge blade with scalloped fluted cheek and straight cutting edge, short maple handle, brass head collar, navy grip binding. Diagonal composition.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "maple_shield": {
+      "status": "accepted",
+      "source": "regional-t40/maple_shield.png",
+      "sha256": "c710c7a49fe95ff1a42813a573949252d222094a892d31ea49ac35ac35273803",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One medium heater shield, pointed lower tip, amber-red maple planks with strongly visible grain, silver narrow rim, brass rivets and compact fluted silver center boss. Slim and functional.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "maple_wand": {
+      "status": "accepted",
+      "source": "regional-t40/maple_wand.png",
+      "sha256": "69a6b4c7cc208bd2143b02c0a8dca85cdc656723cc31a4bd68b6c06ae9ab2881",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One short tapered maple magic wand, carved red wood shaft, small pale amber crystal held in an open ivory silver tip cage, two brass bands and a navy leather wrapped handle. No floating spell effects. Diagonal composition.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_sword": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_sword.png",
+      "sha256": "981541d473db17a5973daf44af0dd081d3ddd58900bb7450c78100b7e37699b7",
+      "prompt": "Use case: stylized-concept. Asset: single fantasy RPG inventory icon and 3D modeling reference, 1024 square. Subject: one complete Star Amethyst sword, isolated on genuine transparent background. Long straight double-edged crystalline dark violet metal blade with pronounced faceted central ridge, branching silver inlay near base, deep blue-violet internal surface variation, angular split crescent silver guard, dark wrapped grip, small amethyst pommel. Detailed hand-painted fantasy art, crisp bold readable silhouette, painterly material texture. Diagonal lower-left hilt to upper-right tip. Full object within generous clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or additional objects. Rich layered materials, not a monochromatic recolor.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-029ac958-a246-4503-a3e8-b60235c70e50.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_helm": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_helm.png",
+      "sha256": "11a3af2ec79883ec8007e1f533bcd55777bb821ff93aa86165457b558975480a",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One empty Star Amethyst helmet. Close-fitting angular closed helm with a narrow T-shaped dark visor opening, faceted swept cheek plates and a modest rear swept crystal crest, no horns. Dark violet crystalline metal faceted armor plates, silver branching inlay, blue-violet mineral depth, dark fitted leather beneath. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-fed06932-baaa-4992-872d-816b8dbbe7f1.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_plate": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_plate.png",
+      "sha256": "8ac9274acbe543aec1432fc7061f177b3daf6e5fe5ccb0bbd12a95d8a5f8c908",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One empty Star Amethyst plate armor torso. Fitted cuirass with pointed faceted breastplate, layered chevron abdominal plates, small swept angular pauldrons and short split hip lames. Dark violet crystalline metal, silver branching inlay, blue-violet mineral depth, dark fitted leather underlayers visible at joints. Open neck and waist empty; no limbs. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-044395f0-6af9-46c7-9b3b-4fe7d8daa299.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_greaves": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_greaves.png",
+      "sha256": "1dc62249a0c43f5ac6a3e6ac4dc5d4ef25637f32a22f6daa2f66500b5d00a0cd",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One pair of empty Star Amethyst armored leg greaves connected by a dark fitted trouser waist. Long segmented thigh plates, angular pointed kneecaps and layered shin protection, feet not included. Dark violet crystalline metal facets, branching silver inlay, blue-violet mineral surface depth, narrow charcoal leather articulated joints. Standing garment silhouette, empty clothing, three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-4fcdc471-6934-47c0-a73b-e04c410dec1d.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_boots": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_boots.png",
+      "sha256": "c56ced25884582a8244708c20c56034e239a74b756fc9a265ee2f0415837b322",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One matching pair of empty Star Amethyst armored boots arranged naturally side by side. Ankle-high fitted boots, tapered pointed sabatons with overlapping faceted toe plates, a sharp angular ankle cuff and small practical heel. Dark violet crystalline metal, silver branching inlay, blue-violet mineral depth, dark fitted leather ankle joints and soles. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-ca6dccf4-c77f-4773-b715-7102d859d913.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_gauntlets": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_gauntlets.png",
+      "sha256": "8ff38e3b1c87693c67b30becefca3452f44ce54a8953b43de1b9495428b7148e",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One matching pair of empty Star Amethyst armored gauntlets arranged side by side, fingers relaxed and clearly visible. Articulated individual finger plates, pointed knuckle ridges and broad tapered faceted wrist cuffs. Dark violet crystalline metal, silver branching inlay, blue-violet mineral depth, dark fitted leather at joints. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-b9422c85-52bc-454d-bdb6-8f7668cf4518.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "yew_shield": {
+      "status": "accepted",
+      "source": "regional-t60/yew_shield.png",
+      "sha256": "8e247de8e750e5b8ea1f406a9fe753e1897d435ec457722520c918c8728ca7a3",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One Yew shield, curved narrow kite silhouette with angular upper shoulders, layered wooden planks of rich reddish yew heartwood bounded by pale cream sapwood edges. Silver rim with branching relief, a small central violet amethyst crystal boss, teal leather bindings. Back leather straps subtly visible at one side. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-04e04c81-0ca6-4fd2-97ca-32bf1247599a.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "yew_wand": {
+      "status": "accepted",
+      "source": "regional-t60/yew_wand.png",
+      "sha256": "0cccd2976886625790b3e4e9bd673ce2c73428d7f5650810e4e36b881763b322",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One Yew wand, a short slim tapered one-handed wand, reddish yew heartwood shaft with a pale sapwood stripe and fine figured grain. Teal wrapped grip, silver butt cap, small dark violet amethyst crystal enclosed in an airy forked silver tip cage. Elegant compact angular tip; not a long staff. Diagonal full object. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-fe8dcef9-c5c4-45fd-b08d-24d0db491101.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "yew_staff": {
+      "status": "accepted",
+      "source": "regional-t60/yew_staff.png",
+      "sha256": "be54fb5bb509d289b8e0534323fbd2ad27b2dfeec8c045a5a983e5485d41dc77",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One Yew staff, a long two-handed ceremonial staff. Slender reddish yew heartwood shaft with a pale sapwood edge and fine visible grain, teal wrapped mid handhold, silver reinforced foot. At the crown, two carved ascending wood prongs and branching silver fittings cradle one large elongated dark violet amethyst crystal. The top is a clear forked silhouette, not a ball. Diagonal full object. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-59722365-111f-45b6-a306-53c41b60c36c.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "yew_rod": {
+      "status": "accepted",
+      "source": "regional-t60/yew_rod.png",
+      "sha256": "d18cba5aaa5329ad57eb71e92859047cea352c2a9b5ce50741f18065147264fd",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One Yew fishing rod, long flexible gently curving reddish yew heartwood shaft with pale sapwood edge, fine wood grain, teal thread grip, four spaced silver line guides. Small functioning silver fly fishing reel beneath the grip with violet amethyst hub, visible crank arm and knob. Thin fishing line runs through guides and hangs from tip to one small violet and cream float. Must read clearly as a fishing rod, not a magic staff. Full diagonal object. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-24d79efa-d871-4434-9b63-735bd27682a3.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_pickaxe": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_pickaxe.png",
+      "sha256": "183b258a84a0c7aa02e5fda786ce083cf4002d26a29ff0e37a1e064ca542b78b",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One Star Amethyst mining pickaxe. A curved two-ended faceted dark violet crystalline metal head, one long pointed pick and one short flat chisel, silver branching inlay, deep blue-violet mineral surface. Solid central silver socket. Shaped reddish yew heartwood handle with pale sapwood edge, teal wrap grip, silver end cap. Practical pickaxe distinct from a weapon. Diagonal full object. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-5fd51cf3-c1a2-4f24-80e7-abeab0c2735c.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_hatchet": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_hatchet.png",
+      "sha256": "963b54a93270a2069eaac29df36b1c2bf7d2ecc329e92781f2b4644bee7a8888",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One Star Amethyst woodcutting hatchet. Broad asymmetric bearded axe head in dark violet crystalline metal, deep blue-violet layered facets, bright silver honed crescent cutting edge, branching silver inlay. Wedge-fastened eye on a curved reddish yew heartwood handle with pale sapwood edge, teal grip binding and silver end cap. Practical hatchet distinct from a pickaxe. Diagonal full object. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-d025f3c7-fde4-4823-9414-44ac8c88c85d.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "mistweave_boots": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave_boots.png",
+      "sha256": "9fb6e7cca82db0bacfa45963b20e025f0b5a78f545a969222fbd8035bf68643d",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Boots, one matching pair of empty soft calf-high cloth boots in three-quarter view. Layered blue-green pointed petal cuffs, pale embroidered side seams, dark teal soft toes and dark thin leather soles. No armor plates and no legs. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Mistweave design. Exact prompt preserves a harmless trailing undefined from unavailable shared material text; subject explicitly specified blue-green cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-5417eee5-46af-41f3-9f97-00a76238e9cc.png"
+    },
+    "mistweave_wraps": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave_wraps.png",
+      "sha256": "6f8faa3c3d2c9aabebd339a94358afc4317ea0d02c7926803b4e1856c8965060",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Wraps, one matching pair of empty cloth fingerless hand wraps in three-quarter view, blue-green woven bands spiraling around short wrist cuffs and palms, open finger holes and thumb openings, pointed petal backhand flap with pale embroidered edge. No human skin, no hands inside. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Mistweave design. Exact prompt preserves a harmless trailing undefined from unavailable shared material text; subject explicitly specified blue-green cloth.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-57d27b4f-d648-4267-9c03-4e7fef4cfc4a.png"
+    },
+    "dewglass_ore": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_ore.png",
+      "sha256": "df40ead6121fc6624f7fdb24b8ddd9ae7fd785c6db3d1d5ceb73e9ddabec6949",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Ore, one rough mined hand-sized mineral chunk. Jagged translucent turquoise crystals emerging from dark blue-gray host rock, pearly pale fractured edges, deep teal crystal interiors, many fine milky veins and small gleaming facets. Raw irregular ore, not a gemstone jewel or polished bar.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-c903aa03-bc09-45dc-879d-5004166dcee8.png"
+    },
+    "dewglass_bar": {
+      "status": "accepted",
+      "source": "regional-t30/dewglass_bar.png",
+      "sha256": "07d7b203929d643e6f9629f78315d21a58b13f8dd35b5e0c971608b8671aad77",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Bar, one refined metal ingot in three-quarter view. Long low trapezoidal cast ingot of translucent turquoise mineral metal, pearly pale chamfered edges, deep teal interior, small milky mineral swirls and subtle hammered finish, practical plain unmarked bar.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-4f6ed1ec-0d4b-4459-923c-0d8064c02f0f.png"
+    },
+    "mistweave": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave.png",
+      "sha256": "22e3c49fc2e0feda505f1bca1f9805e35230832cb2c66b5df918da5010387e9a",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave, a folded small bolt of blue-green woven fabric, rolled upper edge revealing layered soft folds, pale embroidered selvage, visible fine warp-and-weft texture, darker teal shadows and cool pale blue highlights. One fabric bundle only.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-cb9a2b74-b88b-4e4b-bd5a-5331a57d1092.png"
+    },
+    "mistweave_thread": {
+      "status": "accepted",
+      "source": "regional-t30/mistweave_thread.png",
+      "sha256": "46ed1caf12a8a9af0ebb44ec43bbf006921fcac6273cc4d3c8464d6b6324f39d",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Thread, one pale willow wooden spool wound densely with blue-green fine thread, small loose teal thread loop curling from the spool, subtle silver-blue strand highlights, visible wooden grain on spool ends. One spool only.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-25c8d1ca-4303-454a-b05a-212c6c992bd9.png"
+    },
+    "willow_handle": {
+      "status": "accepted",
+      "source": "regional-t30/willow_handle.png",
+      "sha256": "de6e16b3016d72c2992f144c5cf45965d911ea54c791b71014919bbb119e9824",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Handle, one prepared crafting handle made from pale willow bentwood, long slightly curved tapered wooden tool haft with thicker rounded grip and narrow unadorned insertion end, visible cream sapwood and flowing tan grain with a small bark patch. No tool head, no blade, no gem, no additional objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-910e2ba7-dd5c-47ea-aea8-d7d50cc9c588.png"
+    },
+    "maple_staff": {
+      "status": "accepted",
+      "source": "regional-t40/maple_staff.png",
+      "sha256": "91af45056253669b11cca84018774514630459b7afafecc81e469d731bad7c5f",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One long slim maple magic staff, gently twisted wood grain shaft, modest forked silver crown holding a small pale amber oval focus at top, brass collars, navy hand grip and silver ferrule. Full shaft in frame diagonally.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "maple_rod": {
+      "status": "accepted",
+      "source": "regional-t40/maple_rod.png",
+      "sha256": "7664b47c95cd53789435b9c7df5f3c852cbdb7e5148548fd335cb497579c0e20",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One long tapered maple fishing rod, slender flexible shaft with slight tip bend, small brass fly-style reel beneath the navy wrapped hand grip, four tiny silver line guides and taut pale fishing line reaching the tip then hanging a small tan float. Full fishing rod in frame diagonally, no fish.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide_hood": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide_hood.png",
+      "sha256": "99c30543351b3d066a0095d82f394ca8be1cb8b82ab116f0ece7f4cbda88b72f",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One fitted leather cowl hood with a deep hollow face opening, cream paneled crown, tan turned face edging, short asymmetric shoulder cape and one brass throat clasp with braided tie. No head.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide_robe": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide_robe.png",
+      "sha256": "6ed2b16bc12fe039b4f5ae2562df1ccbbad51725d80c9fe5c10c8348429a3536",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One tailored long leather spellcaster coat robe, cream fitted torso, tan overlapping lapels and waist belt, open armholes with navy gussets and no sleeves and split calf-length skirt panels revealing navy lining. Clearly hollow collar and armholes, no wearer or legs.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide_leggings": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide_leggings.png",
+      "sha256": "29c230be0014d0a8c63f2c263c574c50fd57efff2132990bae4958e917b04f44",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One standalone pair of slim leather trousers, cream thigh panels, tan reinforced knees, dark navy stretch gussets along inner thighs and knees, tapered lower legs and braided side lacing. Brass waist buckle. Empty, no boots or body.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide_boots": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide_boots.png",
+      "sha256": "8ae1a7e2fc1bf5e7a32f1233c176a5ffc9adb5ceac348dd91aa40e4d40453d92",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One matched pair of slim mid-calf leather boots, cream fitted shafts with tan reinforced toes and heels, navy ankle gussets, small double brass side buckles and braided lacing. Soft practical soles, no metal armor plates or legs.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide_wraps": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide_wraps.png",
+      "sha256": "6dfceb7533f4e4dc2b53ddac35ad7d944f8c126a051681df3ed38c02882c0cee",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One matched pair of fitted fingerless leather hand wraps with short wrist cuffs, cream layered diagonal leather bands, tan palm guards, narrow navy textile gaps, small brass wrist clasp and braided laces. Empty hollow garments, no skin or arms.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownsilver_ore": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_ore.png",
+      "sha256": "be7ae58765d46d1fc69cdf96d15fb22975b3a5603426cdccb22d14dd25ca6dc5",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One rough compact ore chunk, charcoal gray host rock broken to reveal thick ivory silver metallic veins and brassy mineral flecks, layered fractured stone faces. Natural mineral, no armor padding, no engraved marks.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownsilver_bar": {
+      "status": "accepted",
+      "source": "regional-t40/crownsilver_bar.png",
+      "sha256": "c8c9c1b98a3a689350108d5ad53ac9a811c35a177f157131e3f86fa5c6a13e4b",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownsilver material identity: ivory silver metal with engraved royal fluting, warm brass fasteners, navy padded underlayer, structured articulated armor, subtle patina and fine tooling. Subject: One refined rectangular metal ingot with beveled ends, ivory silver top face, cool gray side shadows, faint forged striations and restrained warm brass tonal glints. No stamp or writing, no cloth or fittings.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide.png",
+      "sha256": "6c1fc8446667397792f41b7f0708f668f95f5530e51ec17c4991bf53549a7bdd",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One folded sheet of cream-tan cured leather hide, irregular natural cut outline, rolled corner showing darker suede underside, fine pores and subtle mottled tan coloration. Raw crafting material, no clothing fittings or buckles.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "crownhide_thread": {
+      "status": "accepted",
+      "source": "regional-t40/crownhide_thread.png",
+      "sha256": "c70b7c2d89bcacab35322c738c4b37272889509afa922560e346101ef6a2ca6e",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Crownhide material identity: cream and tan leather, layered tailored garments with visible leather grain, dark blue cloth gussets, small brass buckles and braided leather lacing, hand stitched seams. Slim practical cut. Subject: One small tightly wound spool of tan braided leather lacing with loose braided tan strand looped beside it, ivory spool core visible at both ends. Fine fiber and braid detail. Raw crafting material, no clothing or buckles.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "maple_handle": {
+      "status": "accepted",
+      "source": "regional-t40/maple_handle.png",
+      "sha256": "bcace8ccc5e1341175bc7d3f64257b1c8472b8fa9ccbbbd4fedf1a06e82dea13",
+      "prompt": "Use case: stylized-concept. Asset type: single square fantasy RPG inventory icon and equipment modeling reference. Detailed hand-painted fantasy art with convincing form and layered material texture, clear broad highlights and readable silhouette at 48px. Genuinely transparent alpha background. Center the entire subject with 8 percent clear margin, three-quarter front view. No text, watermark, border, checkerboard, floor, cast shadow, scene, people, mannequin or body parts. Equipment must be a standalone empty object. Slim functional proportions, practical construction, no oversized ornament. Maple material identity: amber-red maple wood with clearly layered curly grain, ivory silver and brass fittings, dark navy leather grip details, fine practical craftsmanship. Subject: One shaped replacement tool handle, amber-red maple wood with curly grain, slim contoured grip widening at rounded butt and shouldered tang socket opening at top, subtle carved grip grooves. Plain raw crafting part without a metal tool head. Diagonal composition.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "September 13 regional tier PRD and game/src/content/regionalTierEquipment.ts. Separate prompted T40 Crownsilver, Maple and Crownhide design, original generated alpha preserved.",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk_hood": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk_hood.png",
+      "sha256": "14b58b299d821d18382a96252fa1018020834bf1a089989936e7022404d40153",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One empty Faesilk mage hood, deep open face opening with folded dark teal lining, sharp soft pointed brow, short draped shoulder cowl closed with a silver clasp. Lavender silk that shifts to teal on curved folds, delicate branching silver embroidery follows brow and shoulder seams. Fitted elegant construction, not a tall wizard hat. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-475435ea-c3e1-4c35-9090-8932b411c36c.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk_robe": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk_robe.png",
+      "sha256": "13a5026dccf99cd64d48f73839d5893b180fe0b79473599081ee1ca4719671e5",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One empty Faesilk mage robe, fitted sleeveless torso with open armholes, belted narrow waist, overlapping pointed front panels and two split flowing long tails. Open neck and empty armholes, no sleeves, legs or hood. Iridescent lavender silk with teal turned lining visible beneath split flowing panels, fine branching silver embroidery follows seams and hems, small silver closures. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-41af3abb-8f46-43ea-b640-419a681b2dd1.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk_leggings": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk_leggings.png",
+      "sha256": "0272eb9cddf1c3e09e510687bf392d3e5b1cc1bce592604a5ebf0022c9ba673d",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One empty pair of Faesilk mage leggings. Fitted full-length trousers, clear separate legs, reinforced waistband, stitched angular knee panels and tapered ankle cuffs. Lavender iridescent silk with teal side gussets and turned cuff lining, silver branching embroidery along outer thighs and knee seams, small silver waistband closure. No boots, no skirt. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-e52dbf51-950b-4bcd-8813-3745acb7a909.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk_boots": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk_boots.png",
+      "sha256": "9e396857948c3e7d1104f54b92219150968ef678aa08fdb9c5eaf7b1cacbf6a0",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One matching pair of empty Faesilk casting boots arranged side by side. Soft fitted calf boots with turned teal silk cuffs, fine side lacing, lavender silk embroidered uppers and dark leather soles, modest tapered toes and low practical heels. Cloth shifts lavender to teal over folds, fine branching silver embroidery, small silver eyelets. Three-quarter front view. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-cd53f386-d22f-4c67-8785-86e2dfce8894.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk_wraps": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk_wraps.png",
+      "sha256": "125300f0016878aa2b1a840a8f5a4c75eb2abc4d8daa5f0cddc250b6af9efe96",
+      "prompt": "Use case: stylized-concept. Asset: one fantasy RPG inventory icon and 3D modeling reference, square. Subject: One matching pair of empty fingerless Faesilk hand wraps, open-ended mitten-like hand covering with a separate fitted thumb opening on each wrap, layered crossing wrist bands and short pointed embroidered cuffs. No separate enclosed fingers. Iridescent lavender silk with teal lining and fold shadows, fine branching silver embroidery and small silver wrist closures. Lay side by side so hollow thumb openings and open finger ends are visible, no skin or hands. Detailed hand-painted fantasy inventory illustration, rich layered surface textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, mannequin, body, hands inside gloves, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects. Equipment only; empty wearable construction.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-d5e45717-9001-49f4-800b-ecd80769c2e6.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "star_amethyst_ore": {
+      "status": "accepted",
+      "source": "regional-t60/star_amethyst_ore.png",
+      "sha256": "97fc04a20df8ef43e6a2ac78be4e2b8f79dff508bf9b84fd727482dc3da06acb",
+      "prompt": "Use case: stylized-concept. Asset: single fantasy RPG inventory material icon, square. Subject: One rough chunk of Star Amethyst ore. Jagged dark charcoal stone matrix studded with several uneven dark violet translucent crystals and fine silver mineral veins. Broken natural blue-violet facets, dusty weathered rock, layered mineral colors. Unworked mineral resource, irregular compact chunk, no carved decoration, no cut jewelry gemstone. Three-quarter view. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-b12e5b71-9814-4771-b46e-4bccc012d1a6.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "staramethyst_bar": {
+      "status": "accepted",
+      "source": "regional-t60/staramethyst_bar.png",
+      "sha256": "2efde447e6a6d85bc95630ff976fb830cbc391be4dc33bb225dda5016adf0a61",
+      "prompt": "Use case: stylized-concept. Asset: single fantasy RPG inventory material icon, square. Subject: One Star Amethyst metal bar. Solid heavy elongated cast ingot with trapezoid section, beveled ends, dark violet crystalline metal and deep blue-violet faceted surface variation, fine natural silver branching veins across the top and edges. One small simple stamped star maker mark as an abstract shape, no letters. Finished smelted material, no raw crystals or ore rock. Three-quarter view. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-014fd1a8-cd1f-426a-ad98-ee3c463359c9.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk.png",
+      "sha256": "7bb2088f5085e6096b0489e053ea7b162ea7438071cece26095735564b52cc9e",
+      "prompt": "Use case: stylized-concept. Asset: single fantasy RPG inventory material icon, square. Subject: One compact folded bolt of Faesilk cloth. Soft iridescent lavender silk shifts teal and blue across curved folds, visible fine woven texture, neat layered folds with one loose draped corner and an exposed teal underside. Delicate narrow silver embroidered branching pattern only along the selvedge. Clearly a textile crafting material, no clothing, no ribbons, no spool. Three-quarter view. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-bfe5f433-a822-4e5a-bfeb-a795fd3c4678.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "faesilk_thread": {
+      "status": "accepted",
+      "source": "regional-t60/faesilk_thread.png",
+      "sha256": "e863b8dfb61529517039a587d5323113aa24f0d968e4fd33ce05f0127f33b79b",
+      "prompt": "Use case: stylized-concept. Asset: single fantasy RPG inventory material icon, square. Subject: One carved reddish yew wooden spool tightly wound with fine Faesilk thread. Iridescent lavender thread layers shift teal with silvery glints, pale wooden spool ends with simple carved branching edging. A single loose thread tail curls beside spool. Clear stacked fine strands, compact crafting supply, no fabric bolt or garment. Three-quarter view. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-6a8a2575-2c14-4c83-a4d5-82d11d5960ea.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "yew_handle": {
+      "status": "accepted",
+      "source": "regional-t60/yew_handle.png",
+      "sha256": "8a2796c7cdebd284366e6360f9379f0ff31be1d9d3fbe2236bbbffff78cecbd3",
+      "prompt": "Use case: stylized-concept. Asset: single fantasy RPG inventory material icon, square. Subject: One crafted Yew handle component for a tool or sword. Short shaped reddish yew heartwood grip with one pale sapwood stripe, visible fine curved grain, a shouldered open tang socket at the wider upper end, a slim teal wrap near the lower grip and a simple silver bottom cap. No blade, tool head, crystal tip, or finished weapon. Compact unfinished crafted handle, diagonal three-quarter view. Detailed hand-painted fantasy inventory illustration, rich layered material textures and crisp readable silhouette. Genuine transparent background, isolated, full subject centered with 10 percent clear margin. No person, hands, stand, scenery, floor shadow, text, border, UI, watermark, or unrelated objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-5ffd984b-8b5c-48e9-9ebf-ea670a52722b.png",
+      "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
     }
   }
 }

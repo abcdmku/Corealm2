@@ -15,7 +15,7 @@ description: "Fossil resin from under the deepwood. Warm in the hand and nobody 
 | Source | Name | Details |
 | --- | --- | --- |
 | Bonus from | Iron Seam | 6% per gather |
-| Bonus from | Crownward Titanium Seam | 7% per gather |
+| Bonus from | Crownsilver Seam | 7% per gather |
 | Dropped by | Stag | 6% · 1-1 |
 | Dropped by | Green Frog | 5% · 1-1 |
 | Dropped by | Forest Viper | 8% · 1-1 |

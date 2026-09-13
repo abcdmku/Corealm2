@@ -1,11 +1,11 @@
 ---
 title: "Stoneheart Earring"
-description: "A rare earring shared by all minibosses of this tier. Its paired ring and earring carry the same bonuses."
+description: "A rare earring carried by minibosses. Its paired ring and earring carry the same bonuses."
 ---
 
 <div class="corealm-item-detail">
 <img src="../../assets/items/guardian_earring_t60.webp" alt="Stoneheart Earring" width="256" height="256" />
-<p>A rare earring shared by all minibosses of this tier. Its paired ring and earring carry the same bonuses.</p>
+<p>A rare earring carried by minibosses. Its paired ring and earring carry the same bonuses.</p>
 </div>
 
 <dl class="codex-stats"><div><dt>Tier</dt><dd>60</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>21,600</dd></div><div><dt>Sell value</dt><dd>12,960</dd></div><div><dt>Slot</dt><dd>Earring</dd></div></dl>

@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "generator": "tools/build-regional-equipment-textures.ts",
+  "status": "pending production lab acceptance",
+  "outputs": [
+    {
+      "file": "game/public/assets/textures/regional-equipment/t30-metal.png",
+      "sha256": "1346a6b707e49895bc77c7cb388ba64fc358598a39677d06e14181708965c523",
+      "bytes": 751587,
+      "source": "art/equipment-retexture/regional/t30-dewglass.png",
+      "sourceSha256": "c71e8d41ef4ef3a6dd9cc36fd6df2c88200609fb4be0586aa367dd7148bf92e3",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1254,
+        "height": 1254
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t30-wood.png",
+      "sha256": "1cefc304acd9db86ca365f13ee62d793c16a5d1e46327cd96e252fab8c9d3875",
+      "bytes": 599362,
+      "source": "art/equipment-retexture/regional/t30-organic.png",
+      "sourceSha256": "9ab54f55176981ce976a6ddc89fd8ef3ab328b76f97c8ff5229b33a9d10b8cd7",
+      "crop": {
+        "left": 3,
+        "top": 3,
+        "width": 412,
+        "height": 1248
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t30-cloth.png",
+      "sha256": "c8cb1b2b90b493daaf5e132a1abd4c9ea04386e9f08ddc18cbeb8445d5afba89",
+      "bytes": 715700,
+      "source": "art/equipment-retexture/regional/t30-organic.png",
+      "sourceSha256": "9ab54f55176981ce976a6ddc89fd8ef3ab328b76f97c8ff5229b33a9d10b8cd7",
+      "crop": {
+        "left": 421,
+        "top": 3,
+        "width": 412,
+        "height": 1248
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t30-leather.png",
+      "sha256": "4065e1c5ea76c04742e6ac5f0900333ccbfc195e721916981b9c8dd95ccc25ab",
+      "bytes": 592237,
+      "source": "art/equipment-retexture/regional/t30-organic.png",
+      "sourceSha256": "9ab54f55176981ce976a6ddc89fd8ef3ab328b76f97c8ff5229b33a9d10b8cd7",
+      "crop": {
+        "left": 839,
+        "top": 3,
+        "width": 412,
+        "height": 1248
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t30-lining.png",
+      "sha256": "811ec4c4c0cba842a8347aac44a2f91dc99e0d9b6d52c3c6b94a43ce99d8ecb3",
+      "bytes": 628733,
+      "source": "art/equipment-retexture/regional/t30-pale-mistweave.png",
+      "sourceSha256": "57cbc1cd96d9fd3f097aa08cf2f5f448fb7e0dc7012b46050d20444e2864581d",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1254,
+        "height": 1254
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t40-metal.png",
+      "sha256": "46872fbd9c8e8f98cf8b4c430f12846216032b9d80cc8ddc11bb9235d23931c2",
+      "bytes": 692661,
+      "source": "art/equipment-retexture/regional/t40-material.png",
+      "sourceSha256": "0cc41e487fab811fec8fe2f051b721d2c0e0f0c366df1583424a9741557b9e12",
+      "crop": {
+        "left": 3,
+        "top": 3,
+        "width": 412,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t40-wood.png",
+      "sha256": "18e3ece3fd83b1a15ee30aa5c8885960f328c12521f9f16df8f283f89d1fc8aa",
+      "bytes": 654464,
+      "source": "art/equipment-retexture/regional/t40-material.png",
+      "sourceSha256": "0cc41e487fab811fec8fe2f051b721d2c0e0f0c366df1583424a9741557b9e12",
+      "crop": {
+        "left": 421,
+        "top": 630,
+        "width": 412,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t40-cloth.png",
+      "sha256": "78162b3ffc80fb0adfdb6c8c7370352ebca4217595820af5425d4d4973c0587c",
+      "bytes": 705099,
+      "source": "art/equipment-retexture/regional/t40-material.png",
+      "sourceSha256": "0cc41e487fab811fec8fe2f051b721d2c0e0f0c366df1583424a9741557b9e12",
+      "crop": {
+        "left": 3,
+        "top": 630,
+        "width": 412,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t40-leather.png",
+      "sha256": "671214a45a3520e5951330e32784945e067a632fda39108a1440617bc8e0a9d3",
+      "bytes": 777470,
+      "source": "art/equipment-retexture/regional/t40-material.png",
+      "sourceSha256": "0cc41e487fab811fec8fe2f051b721d2c0e0f0c366df1583424a9741557b9e12",
+      "crop": {
+        "left": 839,
+        "top": 630,
+        "width": 412,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t40-lining.png",
+      "sha256": "8f17592d6e826ab26b657b7bc3a2e7f38af547c4abf120bd260559057b0e0e87",
+      "bytes": 738640,
+      "source": "art/equipment-retexture/regional/t40-material.png",
+      "sourceSha256": "0cc41e487fab811fec8fe2f051b721d2c0e0f0c366df1583424a9741557b9e12",
+      "crop": {
+        "left": 839,
+        "top": 3,
+        "width": 412,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t60-metal.png",
+      "sha256": "a9a7bf8311d099cd7608815485fce60e493720b6a8f9f3f71596e9deca230027",
+      "bytes": 721921,
+      "source": "art/equipment-retexture/regional/t60-material.png",
+      "sourceSha256": "6edc99c2f8136cbc727caff7abb2fb084a105c1fdfb9508e2ddf69d2804553b0",
+      "crop": {
+        "left": 3,
+        "top": 3,
+        "width": 621,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t60-wood.png",
+      "sha256": "8a4344f2f7a09d126b89d8d574a229ff5fd301e376fe81d4fb6ab1b39a433af3",
+      "bytes": 669391,
+      "source": "art/equipment-retexture/regional/t60-material.png",
+      "sourceSha256": "6edc99c2f8136cbc727caff7abb2fb084a105c1fdfb9508e2ddf69d2804553b0",
+      "crop": {
+        "left": 630,
+        "top": 630,
+        "width": 621,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t60-cloth.png",
+      "sha256": "8d8fac2f0bfb79809ce6b474b590e601a37c0eb0dc24d8db9030f99f6fb73222",
+      "bytes": 724141,
+      "source": "art/equipment-retexture/regional/t60-fabric.png",
+      "sourceSha256": "bbcbf4825466433211cfafcd86d5c29c74206552ed4a89deb3103b607945d9ce",
+      "crop": {
+        "left": 3,
+        "top": 3,
+        "width": 621,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t60-leather.png",
+      "sha256": "3cfca7ef8029e24f3c6cc1144fa3413fae0e29a6d000a710a3f3867a7abc1b60",
+      "bytes": 717611,
+      "source": "art/equipment-retexture/regional/t60-fabric.png",
+      "sourceSha256": "bbcbf4825466433211cfafcd86d5c29c74206552ed4a89deb3103b607945d9ce",
+      "crop": {
+        "left": 3,
+        "top": 630,
+        "width": 621,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    },
+    {
+      "file": "game/public/assets/textures/regional-equipment/t60-lining.png",
+      "sha256": "bae950bbd28005bbf4c719564f1fd7b083b22c61dd2aa61278d3cc1a75db307c",
+      "bytes": 710853,
+      "source": "art/equipment-retexture/regional/t60-fabric.png",
+      "sourceSha256": "bbcbf4825466433211cfafcd86d5c29c74206552ed4a89deb3103b607945d9ce",
+      "crop": {
+        "left": 630,
+        "top": 3,
+        "width": 621,
+        "height": 621
+      },
+      "resize": [
+        512,
+        512
+      ],
+      "kernel": "lanczos3",
+      "colorSpace": "sRGB"
+    }
+  ]
+}

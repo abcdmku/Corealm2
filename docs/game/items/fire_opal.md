@@ -17,7 +17,7 @@ description: "An orange stone with a live spark in it. Ashford cages them in Tit
 | Bonus from | Titanium Seam | 7% per gather |
 | Bonus from | Flux Stone Face | 3% per gather |
 | Bonus from | Nightglass Deposit | 7% per gather |
-| Bonus from | Star Amethyst Titanium Seam | 7% per gather |
+| Bonus from | Star Amethyst Seam | 7% per gather |
 | Dropped by | Dire Bear | 8% · 1-1 |
 | Dropped by | Large Ibex | 10% · 1-1 |
 | Dropped by | [Fire Ogre](../../creatures/cinderwake_t20/) | 75% · 1-3 |

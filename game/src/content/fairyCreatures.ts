@@ -1,4 +1,5 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
+import { regionalFabricDrops } from './regionalTierEquipment.js';
 import type { EnemyDef } from './index.js';
 import { tuneEnemyCombatLevel } from './encounterBalance.js';
 import { tierSilhouetteScale } from '../core/math.js';
@@ -38,6 +39,7 @@ export const FAIRY_CREATURE_SPECIES: readonly CreatureSpeciesDef[] = ([
     behaviour: row.levelOffset >= 8 ? 'aggressive' : 'territorial',
     aggroRadius: row.levelOffset >= 8 ? 8 : 5,
     drops: [
+      ...regionalFabricDrops(tier),
       { itemId: 'earth_essence', quantity: [1, 3] as [number, number], chance: .55 },
       { itemId: tier === 30 ? 'chaos_rune' : 'blood_rune', quantity: [1, 2] as [number, number], chance: .18 },
       { itemId: 'cosmic_rune', quantity: [1, 1] as [number, number], chance: .14 },

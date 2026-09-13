@@ -12,7 +12,8 @@ beforeAll(async () => Navigation.initLibrary());
 describe("traversable ground", () => {
   it("keeps authored tracks below the climb limit and coastal creatures on dry biome terrain", () => {
     const scene = new WorldScene(new THREE.Scene());
-    scene.buildWorld(buildWorldTerrainSpec(), (prepared) => prepareWorldSurface(prepared));
+    const spec = buildWorldTerrainSpec();
+    scene.buildWorld(spec, (prepared) => prepareWorldSurface(prepared));
     let steepest = 0;
     for (const line of scene.getRoadPolylines()) {
       for (let i = 1; i < line.length; i++) {
@@ -29,7 +30,8 @@ describe("traversable ground", () => {
       }
     }
     expect(steepest).toBeLessThan(Math.tan(PLAYER_SLOPES.maxAscentAngle * Math.PI / 180));
-    expect(scene.getWaterBodies()).toHaveLength(5);
+    expect(scene.getWaterBodies().filter(body => spec.basins!.some(basin => basin.id === body.id)))
+      .toHaveLength(spec.basins!.length);
     expect(scene.getWaterBodies().every((body) => body.closed)).toBe(true);
     const sites = coastalSpawnSites(scene, 1337);
     expect(sites.length).toBeGreaterThan(100);

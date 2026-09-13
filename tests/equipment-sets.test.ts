@@ -6,7 +6,7 @@ import { ARMOUR_SET_SLOTS, EQUIPMENT_SETS, getEquipmentSetBonuses, inferEquipmen
 
 describe("derived armour sets", () => {
   it("uses distinct real armour members with matching names and slots", () => {
-    expect(EQUIPMENT_SETS).toHaveLength(18);
+    expect(EQUIPMENT_SETS).toHaveLength(24);
     const ids = new Set<string>();
     for (const set of EQUIPMENT_SETS) {
       for (const slot of ARMOUR_SET_SLOTS) {
@@ -25,8 +25,8 @@ describe("derived armour sets", () => {
   for (const set of EQUIPMENT_SETS) {
     it(`${set.name} activates and removes cumulative thresholds without changing damage or accuracy`, () => {
       const slots: EquipmentSetSlots = {};
-      const defence = [2, 3, 4, 6, 10, 14, 18][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
-      const health = [1, 2, 3, 4, 7, 10, 13][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
+      const defence = [2, 3, 4, 6, 7, 9, 10, 12, 14, 18][[1, 5, 10, 20, 30, 40, 50, 60, 70, 90].indexOf(set.tier)]!;
+      const health = [1, 2, 3, 4, 5, 6, 7, 9, 10, 13][[1, 5, 10, 20, 30, 40, 50, 60, 70, 90].indexOf(set.tier)]!;
       const memberSlots = ARMOUR_SET_SLOTS.filter(slot => set.members[slot]);
       const full = memberSlots.length;
       for (let count = 0; count <= full; count++) {

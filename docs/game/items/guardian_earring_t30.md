@@ -1,11 +1,11 @@
 ---
 title: "Hollow Crown Earring"
-description: "A rare earring shared by all minibosses of this tier. Its paired ring and earring carry the same bonuses."
+description: "A rare earring carried by minibosses. Its paired ring and earring carry the same bonuses."
 ---
 
 <div class="corealm-item-detail">
 <img src="../../assets/items/guardian_earring_t30.webp" alt="Hollow Crown Earring" width="256" height="256" />
-<p>A rare earring shared by all minibosses of this tier. Its paired ring and earring carry the same bonuses.</p>
+<p>A rare earring carried by minibosses. Its paired ring and earring carry the same bonuses.</p>
 </div>
 
 <dl class="codex-stats"><div><dt>Tier</dt><dd>30</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>10,800</dd></div><div><dt>Sell value</dt><dd>6,480</dd></div><div><dt>Slot</dt><dd>Earring</dd></div></dl>

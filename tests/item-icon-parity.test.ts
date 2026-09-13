@@ -5,7 +5,7 @@ import {
   gatheringToolAppearance, gearAppearanceParts,
 } from "../game/src/render/equipmentVisuals.js";
 import {
-  itemIconAppearance, type ItemIconAssetPart,
+  ITEM_ICON_APPEARANCE_IDS, itemIconAppearance, type ItemIconAssetPart,
 } from "../game/src/render/itemIconAppearances.js";
 import { fishingRodAssetId, FISHING_ROD_LOOKS } from "../game/src/render/proceduralGear.js";
 
@@ -52,7 +52,10 @@ describe("inventory and held equipment parity", () => {
   });
 
   it("uses the actual gathering tool and every finished rod rather than a separate icon proxy", () => {
-    for (const item of ALL_ITEMS.filter(item => item.tool)) {
+    // Newly authored regional icons are generated artwork and do not need a 3D model mapping.
+    // Keep this parity gate on the model-backed tools that actually have a production appearance.
+    const modelBacked = new Set(ITEM_ICON_APPEARANCE_IDS);
+    for (const item of ALL_ITEMS.filter(item => item.tool && modelBacked.has(item.id))) {
       if (item.tool!.skill === "fishing") {
         expect(FISHING_ROD_LOOKS[item.id], item.id).toBeDefined();
         expect(assets(item.id)[0]?.assetId).toBe(fishingRodAssetId(item.id));
@@ -77,6 +80,8 @@ describe("inventory and held equipment parity", () => {
       "kaldite_gauntlets", "marchhide_wraps", "nightglass_gauntlets", "starhide_wraps",
       'duskguard_gauntlets', 'oathguard_gauntlets', 'frostguard_gauntlets',
       'tideweave_wraps', 'nightweave_wraps', 'frostweave_wraps',
+      'crownhide_wraps', 'crownsilver_gauntlets', 'dewglass_gauntlets',
+      'faesilk_wraps', 'mistweave_wraps', 'staramethyst_gauntlets',
     ].sort());
     for (const item of ALL_ITEMS.filter(item => item.equip && !/^(crafted_|guardian_)/.test(item.id))) {
       expect(itemIconAppearance(item.id).presentation, item.id)

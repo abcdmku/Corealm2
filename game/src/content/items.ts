@@ -1,5 +1,6 @@
 import { HIGH_TIER_LOG_ITEMS } from "./treeSpecies.js";
 import { CROWNWARD_FISH_ITEMS } from './crownwardFishing.js';
+import { REGIONAL_TIER_ITEMS } from './regionalTierEquipment.js';
 /**
  * Every non-equipment item in Corealm, plus `ALL_ITEMS`, the single table the root registers.
  *
@@ -670,7 +671,7 @@ export const ITEMS: readonly ItemDef[] = [
 
 /** The table the root registers as `items`. */
 export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...HIGH_TIER_LOG_ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS,
-  ...WILDERNESS_LOOT_ITEMS, ...BOSS_ARMOR_ITEMS, ...MINIBOSS_JEWELLERY];
+  ...WILDERNESS_LOOT_ITEMS, ...BOSS_ARMOR_ITEMS, ...MINIBOSS_JEWELLERY, ...REGIONAL_TIER_ITEMS];
 
 /** The currency item id, so nothing else has to spell it. PRD 2.10: currency is marks. */
 export const CURRENCY_ITEM_ID = "marks";

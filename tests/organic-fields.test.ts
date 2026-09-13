@@ -60,7 +60,7 @@ describe("organic world fields", () => {
 
   it("gives each authored lake one bounded silhouette while preserving its fishing floor", () => {
     const clusters = REGIONS.flatMap((region) => region.clusters)
-      .filter((cluster) => resourceDef(cluster.resourceId).archetype === "fishing_spot");
+      .filter((cluster) => !cluster.waterBodyId && resourceDef(cluster.resourceId).archetype === "fishing_spot");
     const basins = clusters.map(waterBasinForCluster);
 
     expect(clusters.map((cluster) => cluster.id)).toEqual([

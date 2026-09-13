@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import sharp from "sharp";
 import { ALL_ITEMS } from "../game/src/content/items.js";
+import { REGIONAL_TIER_ITEMS } from "../game/src/content/regionalTierEquipment.js";
 import {
   ITEM_ICON_APPEARANCE_IDS,
   itemIconAppearance,
@@ -18,8 +19,12 @@ import { isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
 describe("3D item icon catalog", () => {
   it("covers every item explicitly", () => {
     expect(new Set(ALL_ITEMS.map((item) => item.id)).size).toBe(ALL_ITEMS.length);
-    expect([...ITEM_ICON_APPEARANCE_IDS].sort()).toEqual(ALL_ITEMS.filter(item => !/^(crafted_|guardian_)/.test(item.id)).map((item) => item.id).sort());
-    for (const item of ALL_ITEMS.filter(item => !/^(crafted_|guardian_)/.test(item.id))) expect(itemIconAppearance(item.id).parts.length, item.id).toBeGreaterThan(0);
+    const regionalIds = new Set(REGIONAL_TIER_ITEMS.map((item) => item.id));
+    const legacyModelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id) && !/^(crafted_|guardian_)/.test(item.id));
+    const legacyModelIds = [...ITEM_ICON_APPEARANCE_IDS].filter(id => !regionalIds.has(id));
+    expect(legacyModelIds.sort()).toEqual(legacyModelItems.map((item) => item.id).sort());
+    expect([...ITEM_ICON_APPEARANCE_IDS].every(id => ALL_ITEMS.some(item => item.id === id))).toBe(true);
+    for (const itemId of ITEM_ICON_APPEARANCE_IDS) expect(itemIconAppearance(itemId).parts.length, itemId).toBeGreaterThan(0);
   });
 
   it("only references GLBs present in the asset manifest", async () => {

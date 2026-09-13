@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { WILDERNESS_EAST_LAVA_CHANNELS } from '../game/src/content/wildernessEastRelief.js';
 import { describe, expect, it, vi } from 'vitest';
 import { carveLavaTerrain, DEEP_WILDERNESS_LAVA_LAB_CHANNELS, isMoltenLavaAt,
   lavaClearanceAt, lavaCollisionSegments, lavaMagicAt, lavaSections, sampleLavaChannel,
@@ -41,8 +42,9 @@ describe('forks and seeded lava pools', () => {
   });
 
   it('uses the accepted expansion for the world and reserves the new structures and resources', () => {
-    expect(WILDERNESS_LAVA_CHANNELS).toBe(WILDERNESS_LAVA_EXPANSION_CHANNELS);
-    expect(WILDERNESS_LAVA_CHANNELS).toHaveLength(21);
+    expect(WILDERNESS_LAVA_CHANNELS).toEqual([...WILDERNESS_LAVA_EXPANSION_CHANNELS, ...WILDERNESS_EAST_LAVA_CHANNELS]);
+    expect(WILDERNESS_LAVA_EXPANSION_CHANNELS).toHaveLength(21);
+    expect(WILDERNESS_EAST_LAVA_CHANNELS).toHaveLength(4);
     expect(WILDERNESS_LAVA_EXPANSION_CHANNELS.filter(channel => channel.kind === 'pool').length).toBeGreaterThanOrEqual(10);
     for (const site of WILDERNESS_EXPANSION_SITES) {
       for (let x = -site.footprint[0] / 2; x <= site.footprint[0] / 2; x += 4) {

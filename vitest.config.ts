@@ -2,6 +2,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    // Asset and terrain tests allocate full meshes. Bound concurrency so their
+    // local deadlines remain meaningful on machines with many logical cores.
+    maxWorkers: 4,
     // `art/rebuild/candidates` is a review archive of staged and rejected work, not project source.
     // Vitest's default glob collected the snapshots' own test files, so a superseded copy sitting
     // next to its candidate kept asserting the values it was frozen with and failed the suite long

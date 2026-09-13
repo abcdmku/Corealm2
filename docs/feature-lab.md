@@ -23,6 +23,18 @@ The gate may be skipped only when the behavior being built is the authored full 
 
 ## Development loop
 
+### Regional equipment and food
+
+`?mode=combat&regionalTier=30` adds five production crafting stations and uses actual
+equipment skill requirements. Values `40` and `60` select the other regional tiers.
+`tools/regional-tier-content-test.ts --tier <level> --url <server>` checks recipes,
+material consumption, experience, equipment requirements and carried-rod selection.
+`tools/regional-fish-food-test.ts` uses the same options to check cooking requirements,
+raw/cooked/burnt accounting and eating through production activities.
+`tools/regional-tool-model-test.ts` adds `--kind pickaxe|hatchet|rod` for existing tool
+reskins, resource changes and normal-camera evidence. Reports are disposable
+under `test-results/regional-tier-content/` and `test-results/regional-fish-food/`.
+
 ### Regional music
 
 `?mode=combat&music=1` adds a music workbench to the production yard. Buttons place the player

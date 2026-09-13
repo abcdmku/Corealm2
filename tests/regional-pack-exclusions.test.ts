@@ -20,6 +20,7 @@ import { authoredThresholds } from "../game/src/world/dungeonDoors.js";
 import { habitatIdleTargets } from "../game/src/world/habitatMovement.js";
 import { structureEntitiesFromParts } from "../game/src/world/regionBuilder.js";
 import { waterBasinForCluster } from "../game/src/world/waterBodies.js";
+import { TRAVERSAL_CONTACTS } from "../game/src/systems/traversalContacts.js";
 
 // These are source reservation checks. A pack radius includes every actor's body and idle
 // movement. A passing disc test does not prove terrain, solved shores, forest collision or nav.
@@ -43,6 +44,18 @@ const existingHabitats = WORLD_HABITATS.filter((habitat) => !packIds.has(habitat
 const surfaceGroups = REGIONS.flatMap((region) => region.enemyGroups)
   .filter((group) => !packIds.has(group.id) && !STARTER_SHARED_PACK_RESERVATIONS[group.id]);
 const groupsById = new Map(surfaceGroups.map((group) => [group.id, group]));
+
+// Traversal contacts are registered as runtime-built meshes, so they have no manifest row. Keep
+// the reservation fixture on the same measured dimensions as the production contact solids.
+type NativeMeasurement = {
+  size: { x: number; y: number; z: number };
+  base: { x: number; y: number; z: number };
+};
+const traversalMeasurements = new Map<string, NativeMeasurement>(Object.values(TRAVERSAL_CONTACTS)
+  .map((contact) => [contact.assetId, {
+    size: { x: contact.width, y: contact.rise, z: contact.depth },
+    base: { x: -contact.width / 2, y: 0, z: -contact.depth / 2 },
+  } as NativeMeasurement]));
 
 function groupVisualRadius(groupId: string): number {
   const group = groupsById.get(groupId);
@@ -90,7 +103,7 @@ function corridor(id: string, from: Spot, to: Spot, radius: number, margin = 1):
 
 function nativeBox(id: string, assetId: string, origin: Spot, yaw: number,
   scale: number | readonly [number, number, number] = 1): Reservation {
-  const asset = assets.get(assetId);
+  const asset = assets.get(assetId) ?? traversalMeasurements.get(assetId);
   if (!asset) throw new Error(`${id}: no native asset measurements for ${assetId}`);
   const sx = typeof scale === "number" ? scale : scale[0];
   const sz = typeof scale === "number" ? scale : scale[2];
@@ -141,7 +154,7 @@ const roadDefaultWidth = sceneConstant("ROAD_DEFAULT_WORN_WIDTH");
 const roadFade = sceneConstant("ROAD_FADE_METRES");
 const roadVerge = sceneConstant("ROAD_VERGE_METRES");
 const roadWidthDrift = sceneConstant("ROAD_WIDTH_DRIFT");
-const roads = collectRoadStamps({ heightAt: () => 0 } as unknown as WorldScene);
+const roads = collectRoadStamps({ heightAt: () => 0, meshHeightAt: () => 0 } as unknown as WorldScene);
 const roadReservations = roads.flatMap((road, roadIndex) => {
   const width = road.width ?? roadDefaultWidth;
   const fullVisibleHalfWidth = (width / 2 + (roadFade + roadVerge) * width / roadDefaultWidth)
@@ -154,7 +167,7 @@ const roadReservations = roads.flatMap((road, roadIndex) => {
 });
 
 const waterReservations = REGIONS.flatMap((region) => region.clusters
-  .filter((cluster) => resourceDef(cluster.resourceId).archetype === "fishing_spot")
+  .filter((cluster) => !cluster.waterBodyId && resourceDef(cluster.resourceId).archetype === "fishing_spot")
   .map((cluster) => disc(cluster.id, cluster.centre, waterBasinForCluster(cluster).outerRadius, 1)));
 const siteReservations = WORLD_SITES.flatMap((site) => [
   box(site.id, { centre: site.centre, half: site.extent, yaw: site.rotationY }, 1),

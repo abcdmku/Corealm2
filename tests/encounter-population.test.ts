@@ -6,7 +6,7 @@ import { DEEP_WILDERNESS_KEEPERS, DEEP_WILDERNESS_PACKS, DEEP_WILDERNESS_PACK_HA
   deepWildernessPackFormation } from '../game/src/content/deepWildernessEncounters.js';
 import { WILDERNESS_DEPTH, WILDERNESS_EXPANSION_SITES, WILDERNESS_RESOURCE_INTENTS,
   wildernessTierAt } from '../game/src/content/wildernessDepth.js';
-import { lavaClearanceAt, WILDERNESS_LAVA_EXPANSION_CHANNELS } from '../game/src/content/wildernessLava.js';
+import { sampleLavaChannel, WILDERNESS_LAVA_CHANNELS } from '../game/src/content/wildernessLava.js';
 import { DEEP_WILDERNESS_STRUCTURES } from '../game/src/render/compositions/deepWildernessStructures.js';
 import { LEGACY_CAVE_FLOOR_INTENTS, LEGACY_ENCOUNTER_PLACEMENTS, createLegacyEncounterFormation } from '../game/src/content/legacyEncounterPlacements.js';
 import { REGIONS, SOURCE_REGIONS } from '../game/src/content/regions.js';
@@ -24,6 +24,9 @@ import { populationGroup } from '../game/src/content/encounterPlacement.js';
 const group: EnemyGroupDef = { id: 'retained_group', family: 'wraith', name: 'Wraith', tier: 70,
   count: 3, centre: [10, 20], radius: 5, assetId: 'creature_wraith', scale: 1 };
 const distance = (a: readonly number[], b: readonly number[]) => Math.hypot(a[0]! - b[0]!, a[1]! - b[1]!);
+// Placement proof needs exact banks, not the conservative scatter bounding-box shortcut.
+const exactLavaClearance = (x: number, z: number) => Math.min(...WILDERNESS_LAVA_CHANNELS.map(channel =>
+  sampleLavaChannel(channel, x, z).signedDistance - channel.bankWidth));
 
 describe('ordinary encounter formations', () => {
   it('supplies 7–15 simultaneous ordinary residents while keeping singular bosses', () => {
@@ -189,7 +192,7 @@ describe('legacy enlarged encounter placements', () => {
           expect(gap, `${layout.id}/${site.id}`).toBeGreaterThan(layout.bodyRadiusBudget);
         }
         if (layout.regionId === 'wilderness') {
-          expect(lavaClearanceAt(point[0], point[1], WILDERNESS_LAVA_EXPANSION_CHANNELS), layout.id)
+          expect(exactLavaClearance(point[0], point[1]), layout.id)
             .toBeGreaterThan(layout.bodyRadiusBudget + .25);
           for (const resource of WILDERNESS_RESOURCE_INTENTS) {
             const gap = Math.hypot(Math.max(0, Math.abs(point[0] - resource.position[0]) - 23),
@@ -283,7 +286,7 @@ describe('expanded Wilderness population proposal', () => {
         expect(point[1] - pack.bodyRadius, pack.id).toBeGreaterThan(WILDERNESS_DEPTH.south);
         expect(point[1] + pack.bodyRadius, pack.id).toBeLessThan(WILDERNESS_DEPTH.north);
         expect(wildernessTierAt(point[1]), pack.id).toBe(wildernessTierAt(pack.centre[1]));
-        expect(lavaClearanceAt(point[0], point[1], WILDERNESS_LAVA_EXPANSION_CHANNELS), pack.id)
+        expect(exactLavaClearance(point[0], point[1]), pack.id)
           .toBeGreaterThan(pack.bodyRadius + 1);
       }
     }

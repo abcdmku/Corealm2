@@ -45,3 +45,9 @@ Use `tools/item-icon-docs-acceptance.ts` to check the production inventory and h
 Use `--out <directory>` on the inventory acceptance tool to keep each review's screenshots and reports together. Contact sheets, browser screenshots, and detailed audit output belong in ignored `test-results/` directories. Original artwork and its source records are durable inputs.
 
 September 13 refinement: craftable rings use plain bands and one modest gemstone. Shared rare tier rings retain ornate silhouettes and larger settings. Each tier has only one rare ring and earring, shared by every miniboss of that tier. The final catalog has 333 items, including 28 jewelry pieces backed by 28 prompted sources.
+
+September 13 regional equipment adds 66 items for levels 30, 40 and 60, bringing the
+catalog to 399. Those icons and the nine Crownward raw/cooked/burnt fish icons have
+prompted originals, root and independent review at 256px and 48px, and production
+inventory loading and hover checks. Sources are preserved in the regional directories
+under `art/item-icons/generated/` and the shared registry.

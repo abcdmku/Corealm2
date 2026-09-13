@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "items": {
+    "dewglass_sword": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_sword.png",
+      "sha256": "b529511290f85f8671fe7e12efa0ad8113be58abdfacfb2282e7ae9f5aef9ef1",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Sword, a long one-handed straight double-edged sword held diagonally, blade tapered to pointed leaf tip, shallow central ridge, pearly cutting edges, short curved leaf-shaped guard, brown leather wrapped grip and small faceted turquoise pommel. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass equipment source; turquoise mineral metal, pale pearly leaf plates, dark leather underlayer.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-6370dcb5-c54c-40b2-b5f1-190e10a2db3f.png"
+    },
+    "dewglass_helm": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_helm.png",
+      "sha256": "d5ff330dafe6fc14244191842a15c5b9fac24cff7d1524b3d65ce885428c73ae",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Helm, an empty wearable closed helmet in front three-quarter view. Overlapping leaf-shaped turquoise plates sweep back from brow and cheek guards, narrow dark eye opening and central nose guard, modest pointed crown, dark leather lining visible through openings. No horns or oversized crest. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass equipment source; turquoise mineral metal, pale pearly leaf plates, dark leather underlayer.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-fe2f9c99-a7ef-47c5-a22a-b3f6a9185158.png"
+    },
+    "dewglass_plate": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_plate.png",
+      "sha256": "e9e4a63d75e52b54585f92440f9533847da8f353dbabdf20bde5b7c38a2a1de5",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Plate, one empty wearable armored torso front three-quarter view. Slim cuirass with broad leaf-shaped central chest plate, nested pointed belly plates, compact layered shoulder caps and short hip tassets, dark brown leather underlayer, no arms, no legs, no head. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass equipment source; turquoise mineral metal, pale pearly leaf plates, dark leather underlayer.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-2028c3d3-0d44-49bd-a2ee-7ee1525da752.png"
+    },
+    "dewglass_greaves": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_greaves.png",
+      "sha256": "83f7fe3ffa4c04b7e28cf3aadf64e6e0f53d856c9baf1111072763f201c11d85",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Greaves, a matching pair of empty leg armor shown upright together in front three-quarter view, upper thigh to ankle, long pointed leaf thigh plates, layered leaf knee cups and slender shin plates over dark brown leather trousers; no torso and no feet. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-9d914401-0e01-46b9-a5df-46c5eb9e1456.png"
+    },
+    "dewglass_boots": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_boots.png",
+      "sha256": "140143c78f432f230b8e665ed2ab68c95698e75b181ffb6bcbd0a778437fec58",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Boots, a matching pair of empty armored ankle boots in three-quarter view with visible toe caps, overlapping pointed turquoise leaf instep plates, short leaf cuff, dark brown leather uppers and dark soles; no legs. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-5a441da2-4a74-426d-8693-504b9e3ed869.png"
+    },
+    "dewglass_gauntlets": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_gauntlets.png",
+      "sha256": "ce72d7a67322e676804254913529afdc7e1fdf293cf354c4273e4667cdd08c97",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Gauntlets, a matching pair of empty armored gloves in three-quarter view with five articulated fingers per glove, pointed leaf backhand plates, pearl-edged knuckle segments and short dark brown leather wrist cuffs. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-f43d2231-57bf-41dd-8712-a86ba2ce456a.png"
+    },
+    "dewglass_pickaxe": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_pickaxe.png",
+      "sha256": "7af6aa9f4ba6235a0061c54c4851b8c2dba2310ef801d917497e1e702c2655b8",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Pickaxe, one functional mining pickaxe tilted diagonally. Long dark leather grip on pale willow wood haft, translucent turquoise double-ended head with one long narrow pointed pick and a short flat chisel end, pearly edges, central leaf-shaped socket and silver rivets. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-e71be9e9-2a11-403e-81af-cb6253613a50.png"
+    },
+    "dewglass_hatchet": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_hatchet.png",
+      "sha256": "200ce8af837e5a0e0809e04edb8e2b95603e9b0d08f8f987a633ec8f3d673ea5",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Hatchet, one functional one-handed woodcutting axe tilted diagonally. Pale willow wood haft with dark leather grip, broad single leaf-shaped translucent turquoise cutting blade, pearly curved cutting edge, small squared poll on reverse, silver-riveted socket. Dewglass is translucent turquoise mineral metal with deep teal interior, pearly pale edges, faint branching mineral veins and leaf-shaped construction. Dark brown leather underlayers and silver rivets. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-2d31b51c-b834-47d5-9f7b-0777821442f6.png"
+    },
+    "willow_shield": {
+      "status": "pending",
+      "source": "regional-t30/willow_shield.png",
+      "sha256": "66a73b3b9ee9a50162e232f2b2d13248a86ed75dadde51c835f23ae08b950a8f",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Shield, one slim pointed kite shield in front three-quarter view, shaped from five pale willow planks bent into a leaf-like convex face, raised flowing grain, silver-turquoise rim segments and a modest central turquoise leaf boss, leather strap just visible behind edge. Material identity: pale willow bentwood with cream sapwood, tan flowing grain and patches of silver-gray bark; silver and translucent turquoise mineral fittings, dark leather bindings. ",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Dewglass and Willow equipment source, leaf plates, pale edges, dark leather, pale bentwood.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-ce55abe6-a3ba-4755-98a9-9819a2cb06ee.png"
+    },
+    "willow_wand": {
+      "status": "pending",
+      "source": "regional-t30/willow_wand.png",
+      "sha256": "a35a084e9b4dada95e4f937ac59a13462c76ec951e2860c1c0b4187129065bf9",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Wand, one short slender hand-held magic wand tilted diagonally. Pale willow tapered twig with graceful single curve, bark ridges at grip, silver wire collar, small pointed translucent turquoise crystal tip held in two slim wooden prongs. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-5dcaeaaa-52ee-45b5-9281-b40cbe7854f5.png"
+    },
+    "willow_staff": {
+      "status": "pending",
+      "source": "regional-t30/willow_staff.png",
+      "sha256": "86a14983f80cc44850f5183face931b7bb6f1707047bcd843fb727daeaacc5ee",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Staff, one long full-length walking-height magic staff tilted diagonally. Pale willow shaft flowing upward into a bent oval open crook, small turquoise mineral teardrop suspended inside crook by woody prongs, silver bands at crook and butt, dark leather hand grip. Large crook clearly distinguishes staff from straight wand. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-0ea5da57-14fa-4d9e-8c0f-b3d571f45c00.png"
+    },
+    "willow_rod": {
+      "status": "pending",
+      "source": "regional-t30/willow_rod.png",
+      "sha256": "7b79a26b4aaa067cad253cd03117aae5476642ff8a01be9153bc69705c85ea2b",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Rod, one long slender flexible fishing rod tilted diagonally. Pale willow shaft with slightly bent thin tip, dark leather grip, small silver fly-fishing reel attached just above butt, four line guide rings and fine curved fishing line visible beside upper shaft, small turquoise float hanging from line. Functional medieval fishing tackle, full pole visible. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-c2811614-4f3c-49e5-a712-6865bc4ff743.png"
+    },
+    "mistweave_hood": {
+      "status": "pending",
+      "source": "regional-t30/mistweave_hood.png",
+      "sha256": "920e9075d218d5d5c08a88205fe1431889cbae62ee5a74a4f0f07476a8b1842d",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Hood, a single empty soft cloth hood in three-quarter front view, tall tapered hood crown curves gently back, dark empty face opening, overlapping pointed petal shoulder collar, pale thread embroidered edge. No head or person, no robe. Material identity: blue-green woven cloth with darker teal recesses, layered pointed petal panels, pale embroidered seam lines and tiny thread textures, soft matte fabric with selective silvery highlights. Slim practical silhouette, no bulky armor. Blue-green teal must dominate the cloth surface. Do not make gray, white or purple cloth.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-a82abe40-4c00-4c5c-b1af-f4ca4ef45119.png"
+    },
+    "mistweave_robe": {
+      "status": "pending",
+      "source": "regional-t30/mistweave_robe.png",
+      "sha256": "d9a5db6520b87447eee4fe6cff52e54296098a707ebef6c920002dfbdb56277a",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Robe, one empty long wearable cloth robe in front three-quarter view. Slim torso, modest fitted long sleeves, pale tied waist sash, calf-length overlapping pointed petal skirt panels with an open front slit, narrow shoulder seams, no hood, no body, no legs or boots. Material identity: blue-green woven cloth with darker teal recesses, layered pointed petal panels, pale embroidered seam lines and tiny thread textures, soft matte fabric with selective silvery highlights. Slim practical silhouette, no bulky armor. Blue-green teal must dominate the cloth surface. Do not make gray, white or purple cloth.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-8e43ca74-af5f-455d-b865-8cb870fcefbf.png"
+    },
+    "mistweave_leggings": {
+      "status": "pending",
+      "source": "regional-t30/mistweave_leggings.png",
+      "sha256": "18dd394d3cbee062293874f42e5806d655a3048b8ec2599c7f64a93d539cd351",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Leggings, one pair of empty slim fitted cloth trousers from waist to ankles in front three-quarter view, subtle pointed petal thigh overpanels, pale seam embroidery along outer legs, soft knee folds and narrow ankle cuffs. No body, no footwear, no torso. Material identity: blue-green woven cloth with darker teal recesses, layered pointed petal panels, pale embroidered seam lines and tiny thread textures, soft matte fabric with selective silvery highlights. Slim practical silhouette, no bulky armor. Blue-green teal must dominate the cloth surface. Do not make gray, white or purple cloth.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Willow and Mistweave design, pale bentwood and blue-green petal cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-d3fced6e-caf5-4f47-a967-3585ddd0ea71.png"
+    },
+    "mistweave_boots": {
+      "status": "pending",
+      "source": "regional-t30/mistweave_boots.png",
+      "sha256": "9fb6e7cca82db0bacfa45963b20e025f0b5a78f545a969222fbd8035bf68643d",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Boots, one matching pair of empty soft calf-high cloth boots in three-quarter view. Layered blue-green pointed petal cuffs, pale embroidered side seams, dark teal soft toes and dark thin leather soles. No armor plates and no legs. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Mistweave design. Exact prompt preserves a harmless trailing undefined from unavailable shared material text; subject explicitly specified blue-green cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-5417eee5-46af-41f3-9f97-00a76238e9cc.png"
+    },
+    "mistweave_wraps": {
+      "status": "pending",
+      "source": "regional-t30/mistweave_wraps.png",
+      "sha256": "6f8faa3c3d2c9aabebd339a94358afc4317ea0d02c7926803b4e1856c8965060",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Wraps, one matching pair of empty cloth fingerless hand wraps in three-quarter view, blue-green woven bands spiraling around short wrist cuffs and palms, open finger holes and thumb openings, pointed petal backhand flap with pale embroidered edge. No human skin, no hands inside. undefined",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 Mistweave design. Exact prompt preserves a harmless trailing undefined from unavailable shared material text; subject explicitly specified blue-green cloth.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-57d27b4f-d648-4267-9c03-4e7fef4cfc4a.png"
+    },
+    "dewglass_ore": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_ore.png",
+      "sha256": "df40ead6121fc6624f7fdb24b8ddd9ae7fd785c6db3d1d5ceb73e9ddabec6949",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Ore, one rough mined hand-sized mineral chunk. Jagged translucent turquoise crystals emerging from dark blue-gray host rock, pearly pale fractured edges, deep teal crystal interiors, many fine milky veins and small gleaming facets. Raw irregular ore, not a gemstone jewel or polished bar.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-c903aa03-bc09-45dc-879d-5004166dcee8.png"
+    },
+    "dewglass_bar": {
+      "status": "pending",
+      "source": "regional-t30/dewglass_bar.png",
+      "sha256": "07d7b203929d643e6f9629f78315d21a58b13f8dd35b5e0c971608b8671aad77",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Dewglass Bar, one refined metal ingot in three-quarter view. Long low trapezoidal cast ingot of translucent turquoise mineral metal, pearly pale chamfered edges, deep teal interior, small milky mineral swirls and subtle hammered finish, practical plain unmarked bar.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-4f6ed1ec-0d4b-4459-923c-0d8064c02f0f.png"
+    },
+    "mistweave": {
+      "status": "pending",
+      "source": "regional-t30/mistweave.png",
+      "sha256": "22e3c49fc2e0feda505f1bca1f9805e35230832cb2c66b5df918da5010387e9a",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave, a folded small bolt of blue-green woven fabric, rolled upper edge revealing layered soft folds, pale embroidered selvage, visible fine warp-and-weft texture, darker teal shadows and cool pale blue highlights. One fabric bundle only.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-cb9a2b74-b88b-4e4b-bd5a-5331a57d1092.png"
+    },
+    "mistweave_thread": {
+      "status": "pending",
+      "source": "regional-t30/mistweave_thread.png",
+      "sha256": "46ed1caf12a8a9af0ebb44ec43bbf006921fcac6273cc4d3c8464d6b6324f39d",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Mistweave Thread, one pale willow wooden spool wound densely with blue-green fine thread, small loose teal thread loop curling from the spool, subtle silver-blue strand highlights, visible wooden grain on spool ends. One spool only.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-25c8d1ca-4303-454a-b05a-212c6c992bd9.png"
+    },
+    "willow_handle": {
+      "status": "pending",
+      "source": "regional-t30/willow_handle.png",
+      "sha256": "de6e16b3016d72c2992f144c5cf45965d911ea54c791b71014919bbb119e9824",
+      "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon and 3D equipment design reference. Detailed hand-painted fantasy item with layered material colors, sharp readable silhouette and careful surface detail. One isolated item on genuinely transparent alpha background, square canvas, complete subject centered with 8% clear margin, no person or mannequin, no text, labels, border, floor, cast shadow, scenery, glow cloud or extra objects. Subject: Willow Handle, one prepared crafting handle made from pale willow bentwood, long slightly curved tapered wooden tool haft with thicker rounded grip and narrow unadorned insertion end, visible cream sapwood and flowing tan grain with a small bark patch. No tool head, no blade, no gem, no additional objects.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-approved runs/tier30-40-60/PRD.md. Separate prompted T30 crafting material source, coherent with Dewglass, Willow and Mistweave equipment.",
+      "review": "Art worker inspected original and staged 256px/48px production derivatives. Readable complete silhouettes, correct material identity, no text or background. All sources pass production alpha and hash checks. Pending root review, fresh critique and production lab acceptance. Evidence: test-results/regional-t30-icons/contact-sheet-256.png and contact-sheet-48.png.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-5286-74b3-92b8-0a3c86b89ec7\\exec-910e2ba7-dd5c-47ea-aea8-d7d50cc9c588.png"
+    }
+  }
+}

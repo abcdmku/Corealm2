@@ -1,4 +1,5 @@
 import { JEWELRY_RECIPES } from './jewelry.js';
+import { REGIONAL_TIER_RECIPES } from './regionalTierEquipment.js';
 /**
  * Every production recipe: smelting, smithing, cooking, crafting and fletching at tiers 1, 5 and 10.
  *
@@ -263,4 +264,4 @@ function basicMagicRecipes(definition: GatheringProductionTierDef): RecipeDef[] 
 export const RECIPES: readonly RecipeDef[] = [...JEWELRY_RECIPES,...GATHERING_PRODUCTION_TIERS.flatMap((definition) => [
   ...recipesForTier(definition),
   ...basicMagicRecipes(definition),
-]), ...CREATURE_LOOT_RECIPES, ...WILDERNESS_LOOT_RECIPES, ...CROWNWARD_FISH_RECIPES];
+]), ...CREATURE_LOOT_RECIPES, ...WILDERNESS_LOOT_RECIPES, ...CROWNWARD_FISH_RECIPES, ...REGIONAL_TIER_RECIPES];

@@ -349,7 +349,7 @@ const KARROWMOOR: readonly AuthoredPack[] = [
   ["water_road_east_watch","karrow_reavers",337,-145,6,5,"A compact bandit threat sits east of the Water Essence road, clear of the road and altar approach."],
   ["moor_road_inner_watch","karrow_reavers",196,-29,6,5,"A small bandit watch occupies open ground between the main quarry road and the Highcairn route."],
   ["moor_road_far_west_watch","karrow_reavers",7,-14,8,7,"Bandits occupy western moor ground beyond the Gravelmaw approach and original quarry-road arrival."],
-  ["gravelmaw_north_west_quills","quillback_porcupine_residents",5,-35,6,5,"Porcupines browse northwest of the dungeon footprint and beyond the neighbouring Redsill bank."],
+  ["gravelmaw_north_west_quills","quillback_porcupine_residents",4,-35,6,5,"Porcupines browse northwest of the dungeon footprint and beyond the neighbouring Redsill bank."],
   ["second_ramp_west_watch","karrow_reavers",68,-80,8,6,"Bandits occupy ground west of Second Ramp, outside the aurochs habitat and retained bear reservation."],
   ["highcairn_south_wall_mandibles","antler_beetle_residents",145,-96,9,6,"Beetles occupy the gap between Highcairn's southern wall and the retained Third Ramp watch."],
   ["west_moor_outer_mandibles","antler_beetle_residents",-7,-126,8,5,"An outer western beetle pocket sits north of Tideworn, outside every Gravelmaw chamber and the retained nightmare territory."],

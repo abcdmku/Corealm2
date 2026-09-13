@@ -5,6 +5,9 @@ import type { EnemyDef } from "../game/src/content/index.js";
 import { ENEMY_BLOCKS, enemyBlockFor } from "../game/src/content/enemies.js";
 import { RPG_BESTIARY } from "../game/src/content/rpgBestiary.js";
 import { REGIONS } from "../game/src/content/regions.js";
+import { CROWNWARD_DRAGON_ENCOUNTER_INTENTS, CROWNWARD_DRAGON_FORMS } from "../game/src/content/crownwardDragons.js";
+import { WILDERNESS_DRAGONS } from "../game/src/content/wildernessDragons.js";
+import { tierSilhouetteScale } from "../game/src/core/math.js";
 import { ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
 import { enemyPursuitSpeedMps } from "../game/src/content/index.js";
 import { CREATURE_PURSUIT_CEILING_MPS } from "../game/src/content/creatureMotionTiming.js";
@@ -180,15 +183,34 @@ describe("creature gait", () => {
     expect(wrong, wrong.join("\n")).toEqual([]);
   });
 
-  it("never leaves a boss or miniboss unable to close on the player", () => {
-    const slow = GROUPS.filter((group) => group.boss || group.miniBoss).map((group) => {
+  it("keeps the shared boss pursuit speed except for Crownward's accepted native dragon locomotion", () => {
+    // Crownward's accepted encounters reuse the existing dragon bodies at native
+    // size, including their stride limits. See runs/crownward-river/acceptance.md.
+    const nativeDragons = new Map(CROWNWARD_DRAGON_ENCOUNTER_INTENTS.map(intent => [intent.id as string, intent.speciesId]));
+    const checkedNativeDragons: string[] = [];
+    const slow: string[] = [];
+    for (const group of GROUPS.filter(group => group.boss || group.miniBoss)) {
       const block = enemyBlockFor(group.id, group.family, group.tier)!;
       const scale = group.scale * (group.boss ? 1.6 : 1.3);
       const speed = enemyPursuitSpeedMps(block, { assetId: group.assetId, scale }, group.tier, CREATURE_RUN_SPEED);
-      return { id: group.id, speed };
-    }).filter((row) => row.speed < CREATURE_RUN_SPEED - 1e-9);
-    // A boss is the one fight the player cannot be allowed to stroll away from.
-    expect(slow.map((row) => `${row.id} chases at ${row.speed.toFixed(2)}`), "bosses must keep the shared run speed").toEqual([]);
+      const speciesId = nativeDragons.get(group.id);
+      if (speciesId) {
+        const form = CROWNWARD_DRAGON_FORMS.find(form => form.id === speciesId)!;
+        const source = WILDERNESS_DRAGONS.find(species => species.id === form.sourceSpeciesId)!;
+        expect(group.assetId, group.id).toBe(source.assetId);
+        expect(scale * tierSilhouetteScale(group.tier), group.id).toBeCloseTo(form.nativeScale, 10);
+        const sourceSpeed = enemyPursuitSpeedMps(source.stats,
+          { assetId: source.assetId, scale: form.nativeScale / tierSilhouetteScale(group.tier) }, group.tier, CREATURE_RUN_SPEED);
+        expect(speed, group.id).toBeCloseTo(sourceSpeed, 10);
+        expect(speed, group.id).toBeGreaterThan(0);
+        expect(speed, group.id).toBeLessThanOrEqual(CREATURE_RUN_SPEED);
+        checkedNativeDragons.push(group.id);
+      } else if (speed < CREATURE_RUN_SPEED - 1e-9) {
+        slow.push(`${group.id} chases at ${speed.toFixed(2)}`);
+      }
+    }
+    expect(checkedNativeDragons.sort()).toEqual([...nativeDragons.keys()].sort());
+    expect(slow, "other bosses must keep the shared run speed").toEqual([]);
   });
 
   it("never leaves a bestiary monster slower than a walking player", () => {

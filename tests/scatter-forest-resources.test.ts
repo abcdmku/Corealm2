@@ -41,7 +41,7 @@ function harness(sourceAsset = "tree_common_5") {
       ...bounds, minX: regionId === "fallowmarch" ? 1000 : 1096,
       maxX: regionId === "fallowmarch" ? 1096 : 1144,
     }),
-    getWaterBodies: (): { closed: boolean; centre: [number, number]; level: number; contour: [number, number][] }[] => [], getRoadPolylines: () => [],
+    getWaterBodies: (): { id: string; closed: boolean; centre: [number, number]; level: number; contour: [number, number][] }[] => [], getRoadPolylines: () => [],
     scatterSurfaceAt: (x: number) => ({ height: 3 + x * 0.002, normal: [0, 1, 0] as const, slope: 0, density: 1 }),
     regionWeightAt: () => 1, meshHeightAt: (x: number) => 3 + x * 0.002,
     normalAt: () => [0, 1, 0] as const,
@@ -125,7 +125,7 @@ describe("scatter forest resource bridge", () => {
     const lake = harness("corealm_willow_1");
     const centre: [number, number] = [1050, 1048];
     const radius = 18;
-    lake.scene.getWaterBodies = () => [{ closed: true, centre, level: 3,
+    lake.scene.getWaterBodies = () => [{ id: "fixture_lake", closed: true, centre, level: 3,
       contour: Array.from({ length: 64 }, (_, index) => {
         const angle = index / 64 * Math.PI * 2;
         return [centre[0] + Math.cos(angle) * radius, centre[1] + Math.sin(angle) * radius];

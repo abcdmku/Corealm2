@@ -11,6 +11,7 @@ import {
   type CharacterBody,
   type GearAppearance,
 } from "../game/src/render/equipmentVisuals.js";
+import { REGIONAL_TIER_ITEMS } from "../game/src/content/regionalTierEquipment.js";
 
 const MAP_FIELDS = [
   "map", "normalMap", "roughnessMap", "metalnessMap", "emissiveMap", "aoMap", "alphaMap",
@@ -112,7 +113,9 @@ function glslColour(tint: number): string {
   return `vec3(${new THREE.Color(tint).toArray().map(value => value.toFixed(6)).join(", ")})`;
 }
 
-const KNIGHT_APPEARANCES = BODIES.flatMap(body => GEAR_APPEARANCE_IDS.flatMap(itemId => (
+const REGIONAL_ITEM_IDS = new Set(REGIONAL_TIER_ITEMS.map(({ id }) => id));
+const KNIGHT_APPEARANCES = BODIES.flatMap(body => GEAR_APPEARANCE_IDS
+  .filter(itemId => !REGIONAL_ITEM_IDS.has(itemId)).flatMap(itemId => (
   gearAppearanceParts(itemId, body).filter(part => part.assetId.startsWith(`outfit_${body}_knight_`))
 )));
 const TOOL_APPEARANCES = TIERS.flatMap(tier => ["pickaxe", "hatchet"].map(kind => (

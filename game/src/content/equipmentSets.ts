@@ -1,6 +1,7 @@
 import type { EquipmentBonuses, EquipSlot, ItemStack } from "../contracts.js";
 import { WILDERNESS_CRAFTING_TIERS } from './wildernessLoot.js';
 import { BOSS_ARMOR_SETS } from './bossArmor.js';
+import { REGIONAL_CRAFTING_TIERS } from './regionalTierEquipment.js';
 export const ARMOUR_SET_SLOTS = ["head", "body", "legs", "hands", "feet"] as const;
 export type ArmourSetSlot = typeof ARMOUR_SET_SLOTS[number];
 export type EquipmentSetSlots = Partial<Record<EquipSlot, ItemStack | null>>;
@@ -46,6 +47,14 @@ function defineSet(id: string, name: string, tier: number, style: "melee" | "mag
 }
 /** Membership uses saved item IDs. Weapons, shields and jewellery never count. */
 export const EQUIPMENT_SETS: readonly EquipmentSetDefinition[] = [
+    ...REGIONAL_CRAFTING_TIERS.flatMap(row => {
+        const defence = row.tier === 30 ? 7 : row.tier === 40 ? 9 : 12;
+        const health = row.tier === 30 ? 5 : row.tier === 40 ? 6 : 9;
+        return [
+            defineSet(row.metal, row.metalName, row.tier, 'melee', [`${row.metal}_helm`, `${row.metal}_plate`, `${row.metal}_greaves`, `${row.metal}_gauntlets`, `${row.metal}_boots`], defence, health),
+            defineSet(row.hide, row.hideName, row.tier, 'magic', [`${row.hide}_hood`, `${row.hide}_robe`, `${row.hide}_leggings`, `${row.hide}_wraps`, `${row.hide}_boots`], defence, health),
+        ];
+    }),
     ...BOSS_ARMOR_SETS,
     defineSet("copper", "Copper", 1, "melee", ["grithe_helm", "grithe_cuirass", "grithe_greaves", "grithe_gloves", "grithe_boots"], 2, 1),
     defineSet("iron", "Iron", 5, "melee", ["corven_helm", "corven_plate", "corven_greaves", "corven_gauntlets", "corven_boots"], 3, 2),

@@ -35,7 +35,7 @@ describe('dense production cave fixture', () => {
     expect(new Set(actors.map(actor => actor.id)).size).toBe(42);
     expect(fixture.packs.every(pack => pack.entityIds.length === 7)).toBe(true);
     const dungeon = REGIONS.find(region => region.dungeon?.id === 'gravelmaw')!.dungeon!;
-    expect(dungeon.chambers[0]!.radius).toBe(13);
+    expect(dungeon.chambers[0]!.radius).toBe(24);
     for (const pack of fixture.packs) {
       expect(dungeon.enemyGroups.find(group => group.id === pack.id)!.count).toBe(7);
       const habitat = habitatForGroup(pack.id)!;
@@ -85,7 +85,7 @@ describe('dense production cave fixture', () => {
   it('builds the widened room through the production shell and probes its actual triangles', () => {
     const rendered = renderedFixture(), { root, fixture } = rendered;
     try {
-      expect(fixture.spec.chambers.map(chamber => chamber.radius)).toEqual([13, 12, 12, 12]);
+      expect(fixture.spec.chambers.map(chamber => chamber.radius)).toEqual([24, 12, 12, 12]);
       expect(fixture.getState().ready).toBe(true);
       expect(fixture.getState().textured).toBe(true);
       expect(fixture.getViews()).toEqual([]);

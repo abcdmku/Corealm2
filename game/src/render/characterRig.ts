@@ -622,7 +622,7 @@ export class CharacterRig {
       for (const part of this.appearanceParts(itemId)) ids.add(part.assetId);
       const tool = equipmentVisuals.gatheringToolAppearance(itemId);
       const activity = FISHING_ROD_LOOKS[itemId]
-        ? [{ assetId: fishingRodAssetId(itemId), slot: 'mainHand' as const, attach: 'bone' as const }]
+        ? [{ itemId, assetId: fishingRodAssetId(itemId), slot: 'mainHand' as const, attach: 'bone' as const }]
         : tool ? [tool] : [];
       for (const part of this.authoredItemParts(itemId, activity)) ids.add(part.assetId);
     }
@@ -925,7 +925,7 @@ export class CharacterRig {
         ? requested
         : fishingRodItemForTier(input.activityTier);
       const assetId = fishingRodAssetId(rodItemId);
-      nextAppearance = this.authoredItemParts(rodItemId, [{ assetId, slot: "mainHand", attach: "bone" }])[0] ?? null;
+      nextAppearance = this.authoredItemParts(rodItemId, [{ itemId: rodItemId, assetId, slot: "mainHand", attach: "bone" }])[0] ?? null;
       nextKey = `${rodItemId}:${nextAppearance?.assetId}`;
     } else if (miningOrWoodcutting && input.activityToolItemId) {
       nextAppearance = equipmentVisuals.gatheringToolAppearance(input.activityToolItemId);

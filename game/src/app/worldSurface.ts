@@ -94,6 +94,14 @@ export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string,
       const fromMine = WORLD_SITES.find((site) => site.kind === "mine" && site.locationId === from.id);
       const toMine = WORLD_SITES.find((site) => site.kind === "mine" && site.locationId === to.id);
       const waypoints = fromMine ? mineRoadApproach(fromMine, to.position) : [from.position];
+      // Approach the raised lake from its western hillside, where the track has enough run to
+      // reach the dry bank. The direct diagonal climbs the short northern bank face.
+      if (from.id === 'tarn_track' && to.id === 'far_tarn') waypoints.push([270, -80]);
+      // The borough and castle foundations have different elevations. Pass south of the
+      // castle's west wall before climbing to its gate approach.
+      if (from.id === 'crownward_town_square' && to.id === 'crownward_castle_approach') {
+        waypoints.push([502, -104], [531, -111]);
+      }
       const settlement = region.settlement;
       const gates = settlement?.buildings.filter((building) => building.prefab === "gatehouse") ?? [];
       if (settlement && gates.length > 0) {

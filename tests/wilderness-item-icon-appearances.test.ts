@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { WILDERNESS_LOOT_ITEMS } from '../game/src/content/wildernessLoot.js';
 import { ALL_ITEMS } from '../game/src/content/items.js';
+import { REGIONAL_TIER_ITEMS } from '../game/src/content/regionalTierEquipment.js';
 import { gatheringToolAppearance, gearAppearanceParts } from '../game/src/render/equipmentVisuals.js';
 import {
   ITEM_ICON_APPEARANCE_IDS, itemIconAppearance, type ItemIconAssetPart,
@@ -41,7 +42,13 @@ function dispose(object: THREE.Object3D): void {
 describe('Wilderness loot icon appearances', () => {
   it('accepts all 62 candidate items without missing rows or phantom item IDs', () => {
     expect(WILDERNESS_LOOT_ITEMS).toHaveLength(54);
-    expect([...ITEM_ICON_APPEARANCE_IDS].sort()).toEqual(ALL_ITEMS.filter(item => !/^(crafted_|guardian_)/.test(item.id)).map(item => item.id).sort());
+    // Regional equipment has reviewed generated raster art. Its legacy 3D model appearance is
+    // optional, so keep this catalogue parity check on the model-backed item set.
+    const regionalIds = new Set(REGIONAL_TIER_ITEMS.map(item => item.id));
+    const modelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id) && !/^(crafted_|guardian_)/.test(item.id));
+    const modelAppearanceIds = [...ITEM_ICON_APPEARANCE_IDS].filter(id => !regionalIds.has(id));
+    expect(modelAppearanceIds.sort()).toEqual(modelItems.map(item => item.id).sort());
+    expect([...ITEM_ICON_APPEARANCE_IDS].every(id => ALL_ITEMS.some(item => item.id === id))).toBe(true);
     for (const item of WILDERNESS_LOOT_ITEMS) {
       expect(itemIconAppearance(item.id).itemId).toBe(item.id);
       expect(itemIconAppearance(item.id).parts.length, item.id).toBeGreaterThan(0);

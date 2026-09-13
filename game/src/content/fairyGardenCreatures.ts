@@ -1,4 +1,5 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
+import { regionalFabricDrops } from './regionalTierEquipment.js';
 import type { EnemyDef } from './index.js';
 import { tierSilhouetteScale } from '../core/math.js';
 import { tuneEnemyCombatLevel } from './encounterBalance.js';
@@ -41,6 +42,7 @@ export const FAIRY_GARDEN_SPECIES: readonly CreatureSpeciesDef[] = FAIRY_GARDEN_
     behaviour: form.behaviour, moveSpeedMps: form.speed, walkSpeedMps: Math.min(.35, form.speed * .45),
     aggroRadius: form.behaviour === 'aggressive' ? 7 : 4,
     drops: [
+      ...regionalFabricDrops(form.tier),
       { itemId: 'earth_essence', quantity: [1, 3], chance: .55 },
       { itemId: form.tier === 30 ? 'chaos_rune' : 'blood_rune', quantity: [1, 2], chance: .18 },
       { itemId: 'cosmic_rune', quantity: [1, 1], chance: .14 },

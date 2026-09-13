@@ -1,4 +1,5 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
+import { regionalFabricDrops } from './regionalTierEquipment.js';
 import type { EnemyDef } from './index.js';
 import { tierSilhouetteScale } from '../core/math.js';
 import { tuneEnemyCombatLevel } from './encounterBalance.js';
@@ -94,6 +95,7 @@ function dropsFor(form: RegionalForm): EnemyDef['drops'] {
   const essence = fairy ? 'earth_essence' : 'air_essence';
   const rune = form.tier === 30 ? 'chaos_rune' : form.tier === 40 ? 'death_rune' : 'blood_rune';
   return [
+    ...regionalFabricDrops(form.tier, form.boss),
     { itemId: essence, quantity: form.boss ? [8, 14] : [2, 4], chance: form.boss ? 1 : .55 },
     { itemId: rune, quantity: form.boss ? [3, 6] : [1, 2], chance: form.boss ? 1 : .18 },
     ...(fairy ? [{ itemId: 'cosmic_rune', quantity: (form.boss ? [3, 5] : [1, 1]) as [number, number], chance: form.boss ? 1 : .14 }] : []),

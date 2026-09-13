@@ -34,7 +34,7 @@ function fixture(single = false, steep = false) {
     yaw: single ? 0 : index === 0 ? 0.12 : -0.08, scale: index === 0 ? 0.88 : 1.18,
   }));
   const site: WorldSite = {
-    ...WORLD_SITES[0]!, id: "proof-cut", centre: single ? [0, 0] : [30, -9],
+    ...WORLD_SITES.find((candidate) => candidate.kind === "mine")!, id: "proof-cut", centre: single ? [0, 0] : [30, -9],
     rotationY: single ? 0 : 0.42, resourceSlots: slots,
     cutFace: {
       stations: slots.map((slot) => ({ clusterId: slot.clusterId, index: slot.index, crestHeight: 3.6 })),

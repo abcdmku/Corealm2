@@ -7,6 +7,7 @@ import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { WILDERNESS_LOOT_ITEMS } from "../game/src/content/wildernessLoot.js";
 import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS } from '../game/src/content/bossArmor.js';
 import { MINIBOSS_JEWELLERY } from '../game/src/content/universalMinibossLoot.js';
+import { REGIONAL_TIER_ITEMS } from '../game/src/content/regionalTierEquipment.js';
 import { computeMaxHealth, createInitialState, setSkillLevel } from "../game/src/state/store.js";
 import {
   GEAR_APPEARANCE_IDS, GEAR_ASSET_GAPS, VISIBLE_EQUIP_SLOTS,
@@ -34,7 +35,8 @@ import { fishingRodAssetId, isProceduralGearAsset } from "../game/src/render/pro
 const BY_ID = new Map<ItemId, ItemDef>(EQUIPMENT.map((def) => [def.id, def]));
 const ALL_BY_ID = new Map<ItemId, ItemDef>([...MAGIC_ORBS, ...EQUIPMENT].map((def) => [def.id, def]));
 const WILDERNESS_EQUIPMENT = WILDERNESS_LOOT_ITEMS.filter(def => def.equip);
-const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT, ...BOSS_ARMOR_ITEMS, ...MINIBOSS_JEWELLERY];
+const REGIONAL_EQUIPMENT = REGIONAL_TIER_ITEMS.filter(def => def.equip);
+const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT, ...BOSS_ARMOR_ITEMS, ...MINIBOSS_JEWELLERY, ...REGIONAL_EQUIPMENT];
 
 function kitTotals(kit: keyof typeof KITS): EquipmentBonuses {
   const totals: EquipmentBonuses = {
@@ -179,7 +181,7 @@ describe("gear appearance", () => {
     expect(EQUIPMENT).toHaveLength(93);
     expect(WILDERNESS_EQUIPMENT).toHaveLength(33);
     expect(MINIBOSS_JEWELLERY).toHaveLength(14);
-    expect(ALL_EQUIPMENT).toHaveLength(168);
+    expect(ALL_EQUIPMENT).toHaveLength(210);
     expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(ALL_EQUIPMENT.length);
     expect([...GEAR_APPEARANCE_IDS].sort()).toEqual(ALL_EQUIPMENT.map((def) => def.id).sort());
   });
@@ -346,7 +348,12 @@ describe("gear appearance", () => {
         }
       }
       for (const set of BOSS_ARMOR_SETS) for (const [slot, id] of Object.entries(set.members)) {
-        expect(gearAppearanceParts(id, body)).toEqual([{ itemId: id, assetId: `fab_${body}_${set.id}_${slot}`, slot, attach: 'skin' }]);
+        // The approved native Aurora item model is selected by CharacterRig for the male player;
+        // the shared appearance resolver exposes its shipped Fab mage head as the fallback.
+        const assetId = id === 'frostweave_hood'
+          ? `fab_${body}_mage_head`
+          : `fab_${body}_${set.id}_${slot}`;
+        expect(gearAppearanceParts(id, body)).toEqual([{ itemId: id, assetId, slot, attach: 'skin' }]);
       }
     }
   });

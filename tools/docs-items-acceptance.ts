@@ -32,7 +32,7 @@ try {
       const [detail, icon] = await Promise.all([page.request.get(record.href), page.request.get(record.image)]);
       if (!detail.ok() || !icon.ok()) failures.push(record.id);
       const html = await detail.text();
-      if (!html.includes("<h1") || !html.includes(`/${record.id}.png`)) failures.push(`${record.id}: missing item page content`);
+      if (!html.includes("<h1") || !['png', 'webp'].some(extension => html.includes(`/${record.id}.${extension}`))) failures.push(`${record.id}: missing item page content`);
     }));
   }
   if (failures.length) throw new Error(`Broken item pages or images: ${failures.join(", ")}`);
@@ -54,10 +54,11 @@ try {
   const ring = page.locator('[data-item-id="crafted_ring_t10"]');
   await ring.focus();
   if (!await ring.locator(".tooltip").isVisible()) throw new Error("Keyboard focus has no tooltip");
-  if (await page.getByRole("link", { name: "Copper Ring", exact: true }).count() !== 1) throw new Error("Tooltip inflated the accessible link name");
+  const ringName = ALL_ITEMS.find(item => item.id === 'crafted_ring_t10')!.name;
+  if (await page.getByRole("link", { name: ringName, exact: true }).count() !== 1) throw new Error("Tooltip inflated the accessible link name");
   await page.keyboard.press("Enter");
   await page.waitForURL("**/game/items/crafted_ring_t10/");
-  if (await page.locator("h1").innerText() !== "Copper Ring") throw new Error("Wrong detail page");
+  if (await page.locator("h1").innerText() !== ringName) throw new Error("Wrong detail page");
   await page.screenshot({ path: path.join(out, "item-detail.png"), timeout: 5000 });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(gallery, { waitUntil: "networkidle" });

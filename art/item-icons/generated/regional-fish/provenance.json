@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "items": {
+    "crown_trout": {
+      "status": "pending",
+      "source": "regional-fish/crown_trout.png",
+      "sha256": "5f40ba5f7434b0213ab06785d32cb7c50c05ff26099bff7ed64029d423ccfed9",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, crown_trout.\nPrimary request: A fresh whole rainbow trout, slender gently curved body with fine silver scales, olive blue speckled back, distinct rosy pink lateral stripe, ivory belly, spotted fan tail and fine translucent fins.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-7551005a-365e-463a-8cf1-4dbb83c13b92.png"
+    },
+    "cooked_crown_trout": {
+      "status": "pending",
+      "source": "regional-fish/cooked_crown_trout.png",
+      "sha256": "dd51dc4d0513b7c6236edf08647458094598feb5e5b11d0b6268c00addd5b59f",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, cooked_crown_trout.\nPrimary request: A whole cooked rainbow trout, slender gently curved body, head and spotted fan tail intact. Roasted golden copper skin with crisp brown edges, three diagonal cuts revealing opaque ivory cooked flesh, pale golden fins. Clearly cooked and appetizing, no raw silver sheen.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-d760c599-9e5d-456f-a933-fd65ed7da6bd.png"
+    },
+    "burnt_crown_trout": {
+      "status": "pending",
+      "source": "regional-fish/burnt_crown_trout.png",
+      "sha256": "7abda413de7e9fd63d19018caf0c424505c16f5bc252d10da2ab5e62751cf318",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, burnt_crown_trout.\nPrimary request: A whole badly burnt rainbow trout, slender curved body, head and spotted fan tail intact. Dry charcoal black cracked skin with ashy gray patches, scorched curled fins and three dark cuts. Clearly overcooked and inedible, no orange glow or flames.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-f77a2878-3144-4edd-9534-58dc93aadce7.png"
+    },
+    "crown_tuna": {
+      "status": "pending",
+      "source": "regional-fish/crown_tuna.png",
+      "sha256": "ea385fc286a26a1e0fbad6a2b6f69bdd55cfe212890dc106c61b426fc257334f",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, crown_tuna.\nPrimary request: A fresh whole tuna, robust deep torpedo body with a pointed head, dark navy blue back, bright steel silver flank and ivory belly, narrow tail wrist and crescent tail, long pointed pectoral fins and distinct tiny gold finlets near the tail.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-5ecd3b07-1124-4cb2-9d82-d142a64554d5.png"
+    },
+    "cooked_crown_tuna": {
+      "status": "pending",
+      "source": "regional-fish/cooked_crown_tuna.png",
+      "sha256": "4be6ee92f91d667980ba97d985b404f1f9b72c633e3900018228c3edc808a2ac",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, cooked_crown_tuna.\nPrimary request: A whole cooked tuna, robust deep torpedo body, pointed head intact, narrow tail wrist and crescent tail, pointed fins and tiny finlets. Copper brown roasted skin with dark toasted edges, three diagonal cuts revealing opaque pale beige cooked flesh. Clearly cooked, no raw silver sheen.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-fef2bd99-00b3-4d72-9221-ac61132339e2.png"
+    },
+    "burnt_crown_tuna": {
+      "status": "pending",
+      "source": "regional-fish/burnt_crown_tuna.png",
+      "sha256": "85c72c249c2b423a919214aec9f73713e634c99b491780117bd70fe147961dd8",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, burnt_crown_tuna.\nPrimary request: A whole badly burnt tuna, robust deep torpedo body, pointed head intact, narrow tail wrist and crescent tail, pointed fins and tiny finlets. Charcoal black cracked skin with pale gray ash flecks, dry scorched fins, three blackened diagonal cuts. Clearly ruined and inedible, no orange glow or flames.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-7874f683-2493-4895-a4ca-96d168e0e4f9.png"
+    },
+    "pearlwater_salmon": {
+      "status": "pending",
+      "source": "regional-fish/pearlwater_salmon.png",
+      "sha256": "99b4649a711a2ca4c307b81b4d4feaa5fb3d65cf1607ec4bc4bd3423d43a771f",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, pearlwater_salmon.\nPrimary request: A fresh whole salmon, long thick tapered body, proud slightly hooked jaw, broad forked tail, pearly silver scales, dark teal blue back with scattered dark spots, soft coral pink blush along the side, ivory belly and translucent slate fins.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-63b849eb-94e6-48b0-9afd-fabd1bbd69eb.png"
+    },
+    "cooked_pearlwater_salmon": {
+      "status": "pending",
+      "source": "regional-fish/cooked_pearlwater_salmon.png",
+      "sha256": "b90228f0dd57af7a84a0fb2804fa01093d57bcb8cc947a58c643b9cd53d5baa6",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, cooked_pearlwater_salmon.\nPrimary request: A whole cooked salmon, long thick tapered body, slightly hooked jaw and broad forked tail intact. Roasted warm copper and amber skin with toasted dark edges, three diagonal cuts revealing rich opaque coral orange cooked flesh. Crisp golden fins. Clearly cooked and appetizing, no raw silver sheen.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-8f4217d1-6b71-47ee-a9ea-c6f179e1f33f.png"
+    },
+    "burnt_pearlwater_salmon": {
+      "status": "pending",
+      "source": "regional-fish/burnt_pearlwater_salmon.png",
+      "sha256": "6e22345172d4088af2f8261928a56b478a8c040767c3f36f1afbfaf004596d47",
+      "prompt": "Use case: stylized-concept\nAsset type: fantasy RPG inventory item icon, burnt_pearlwater_salmon.\nPrimary request: A whole badly burnt salmon, long thick tapered body, slightly hooked jaw and broad forked tail intact. Dark charcoal cracked skin and gray ash flakes, scorched curled fins, three diagonal cuts showing dull dark burnt orange flesh beneath heavy black char. Clearly ruined and inedible, no orange glow or flames.\nStyle: detailed hand-painted game item illustration with layered colors, careful scale and fin texture, readable shaped highlights and dark contour edges. Not a photograph or a 3D render.\nComposition: one single fish only, side view angled diagonally from tail at lower left to head at upper right, centered in a square canvas, entire silhouette visible with generous transparent padding. Fill about 80 percent of the canvas. Keep the fish broad and readable at 48 pixels.\nBackground: true transparent alpha background. No solid backdrop, checkerboard, ground plane, cast shadow, plate, garnish, tools, splashes, scenery, text, labels, border, or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated for the surviving T30 trout, T40 tuna, and T60 salmon catalogue in game/src/content/crownwardFishing.ts under docs/item-icons.md. Each raw, cooked, and burnt icon has a separate built-in image_gen prompt. Art direction follows species, cooking state, and compact inventory readability.",
+      "review": "Pending root visual review of 256px masters and 48px production derivatives, followed by production inventory acceptance.",
+      "originalSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a09af5-af1c-77f2-8cba-43723a2f1b74\\exec-dc02fda8-d0a9-4162-8ffa-c9494ca7a753.png"
+    }
+  }
+}

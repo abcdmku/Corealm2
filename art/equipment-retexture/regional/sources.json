@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "purpose": "Image-generated material reskins on existing craftable equipment geometry",
+  "status": "pending production lab acceptance",
+  "sources": [
+    {
+      "file": "art/equipment-retexture/regional/t30-dewglass.png",
+      "sha256": "c71e8d41ef4ef3a6dd9cc36fd6df2c88200609fb4be0586aa367dd7148bf92e3",
+      "bytes": 3336045,
+      "originalRecord": {
+        "generator": "builtin image_gen",
+        "source": "C:/Users/Borg/.codex/generated_images/01a09afa-9e96-7b80-a25d-72d55e836abf/exec-37c4828d-5243-44c1-b46e-24c1a8a7a43b.png",
+        "prompt": "Use case: stylized-concept. Asset type: seamless square base-color texture map for a 3D fantasy game's T30 dewglass metal armor, closely following the viewed icon references. Generate a flat orthographic evenly lit macro material sample filling the entire square. Layered deep teal mineral glass, luminous turquoise veins, small milky opalescent mint and pale cyan mineral flecks, delicate organic silver-white branching leaf veins sparsely crossing the surface, translucent-looking crystalline depth frozen into forged metal. Rich small-scale mottled mineral surface detail, irregular natural interlocking translucent shards. Color values predominantly medium teal with lighter accents, NO black areas. Flat albedo only, no cast shadows or directional highlights, no objects, no armor, no labels, no borders, no text. Seamless tileable edges. This map will be applied to real modeled leaf-shaped armor plates.",
+        "review": "Author inspected full texture; layered turquoise crystalline mineral and silver veins follow reviewed dewglass references."
+      }
+    },
+    {
+      "file": "art/equipment-retexture/regional/t30-organic.png",
+      "sha256": "9ab54f55176981ce976a6ddc89fd8ef3ab328b76f97c8ff5229b33a9d10b8cd7",
+      "bytes": 3447082,
+      "originalRecord": {
+        "generator": "builtin image_gen",
+        "source": "C:/Users/Borg/.codex/generated_images/01a09afa-9e96-7b80-a25d-72d55e836abf/exec-cbe77ac2-7d75-44e8-aa40-1243c152c442.png",
+        "prompt": "Use case: stylized-concept. Asset type: three-material texture atlas for fantasy 3D equipment. A square divided into exactly three equally wide vertical columns with straight boundaries. LEFT THIRD is pale warm ivory willow wood with flowing bent fine grain, subtle tan growth rings and small worn pores. CENTER THIRD is rich blue-green mistweave cloth, fine visible woven thread structure, nuanced teal jade cyan thread colors and tiny pale silver embroidered leaf-vein motifs spaced far apart. RIGHT THIRD is dark brown worn leather, soft small-grained pebbles, warm brown variations, fine pores and subtle wrinkles. Each surface fills its column edge-to-edge, each repeats vertically. Orthographic perfectly flat albedo map, evenly lit. No objects, no cast shadows, no highlights, no text, no borders, no dividers. Dense carefully made surface detail at consistent small scale.",
+        "review": "Author inspected full atlas. Three clean material columns match pale willow, blue-green mistweave and dark leather. Crop interiors at module load."
+      }
+    },
+    {
+      "file": "art/equipment-retexture/regional/t30-pale-mistweave.png",
+      "sha256": "57cbc1cd96d9fd3f097aa08cf2f5f448fb7e0dc7012b46050d20444e2864581d",
+      "bytes": 3349642,
+      "originalRecord": {
+        "generator": "builtin image_gen",
+        "source": "C:/Users/Borg/.codex/generated_images/01a09afa-9e96-7b80-a25d-72d55e836abf/exec-0d928c17-ecc2-47b2-9709-7e1cfc2bf2c9.png",
+        "prompt": "Use case: stylized-concept. Asset type: seamless base color texture tile for pale mistweave cloth on 3D fantasy robes, boots and hand wraps. Fill a square with pale misty sage blue-green woven cloth. Nuanced threads of milky turquoise, soft mint, cool pale blue and light seafoam. Fine textile weave and faint organic irregular dye marbling, sparse small embroidered ivory leaf sprigs. The whole material should be distinctly LIGHT pastel teal so it contrasts with a deep teal robe's main fabric. Flat albedo, evenly lit orthographic close material sample. No objects, no folds, no directional shadows, no borders, no labels, no text. Tileable seamless edges.",
+        "review": "Author inspected full output. Pale mint-blue woven cloth and white sprig embroidery match lighter Mistweave cuff, sash and wrap panels."
+      }
+    },
+    {
+      "file": "art/equipment-retexture/regional/t40-material.png",
+      "sha256": "0cc41e487fab811fec8fe2f051b721d2c0e0f0c366df1583424a9741557b9e12",
+      "bytes": 3837595,
+      "originalRecord": {
+        "generator": "built-in image_gen",
+        "source": "C:/Users/Borg/.codex/generated_images/01a09afe-53e0-7050-9e13-6febdbadfa78/exec-42d2ca24-fa61-42c4-968c-4ff018f63730.png",
+        "prompt": "Use case: stylized-concept. Asset type: seamless game PBR base color material atlas, flat orthographic 2D unlit, no perspective or objects. Generate a square 1536px texture atlas divided into exact 3 columns and 2 rows equal rectangular swatches with NO gaps, labels or borders. Top left: ivory silver metal, soft pale warm silver with fine hand hammer marks, subtle cloudy warm gray oxidation, tiny fine silver scratches and faint antique cream mottling, no ornament. Top middle: old brass with gold ochre variation, rubbed bright gold flecks and brown patina. Top right: deep midnight navy pebbled leather with dark blue grain and soft uneven worn lighter blue fibers. Bottom left: cream tan pebbled leather with warm ivory and honey skin grain, layered fine tonal variation. Bottom middle: amber red maple wood figured swirling fine warm red and pale gold grain, unpainted. Bottom right: deep brown leather with darker pores and warm saddle wear. Each swatch fills its exact rectangle and tiles seamlessly independently. These are flat surface textures for fluted crownsilver armor, cream crownhide clothing and maple equipment. Rich detailed material identity at close view, restrained low contrast without baked illumination. NO drawn seams, no dramatic lighting, no shadow, no bevel, no text, no watermark.",
+        "review": "Author reviewed all six distinct material swatches; geometry adds fluting, seams, engraving, fittings and openings. Acceptance pending root browser review."
+      }
+    },
+    {
+      "file": "art/equipment-retexture/regional/t60-material.png",
+      "sha256": "6edc99c2f8136cbc727caff7abb2fb084a105c1fdfb9508e2ddf69d2804553b0",
+      "bytes": 3379716,
+      "originalRecord": {
+        "generator": "built-in image_gen",
+        "source": "C:/Users/Borg/.codex/generated_images/01a09aff-783b-7d63-8763-2412b81c8646/exec-006e013d-7682-4b4e-aba6-a14828356655.png",
+        "prompt": "Use case: stylized-concept. Asset type: PBR base-color material atlas for actual 3D Star Amethyst medieval fantasy armor. Create one square 1024x1024 opaque texture atlas, four exactly equal quadrants with no dividers, no labels, no objects, no perspective or lighting gradients. Top-left quadrant: dark saturated violet crystalline mineral-metal, blue-violet translucent depths, angular overlapping crystalline facets with thin lavender fracture veins and minute pale star inclusions, layered color rich detail. Top-right: worn cool silver metal with delicate fine scratches and subtle mottled patina. Bottom-left: near-black purple leather with fine pebble grain, subtle charcoal wrinkles. Bottom-right: reddish yew heartwood with pale sapwood streaks and dense flowing natural grain. Each quadrant a seamless close-up flat surface sample filling its quadrant. Uniform neutral diffuse albedo illumination without shadows or specular hotspots. Fine physically plausible detail, clean game material texture. No text or borders.",
+        "review": "Reviewed by t60 author for layered violet crystal, silver patina, dark leather and red yew grain. Model acceptance pending."
+      }
+    },
+    {
+      "file": "art/equipment-retexture/regional/t60-fabric.png",
+      "sha256": "bbcbf4825466433211cfafcd86d5c29c74206552ed4a89deb3103b607945d9ce",
+      "bytes": 3562363,
+      "originalRecord": {
+        "generator": "built-in image_gen",
+        "source": "C:/Users/Borg/.codex/generated_images/01a09aff-783b-7d63-8763-2412b81c8646/exec-4072ddfa-7224-45a4-a990-08f63086fad1.png",
+        "prompt": "Use case: stylized-concept. Asset type: PBR base-color texture atlas for actual 3D Faesilk garments and Yew equipment. One square opaque material atlas with four exactly equal quadrants, no labels, no borders, no objects, no perspective. Top-left: lavender silk, delicate woven fibers and tonal lavender violet damask swirling botanical shapes, subtle tiny silver threads, evenly lit flat fabric. Top-right: deep teal silk with cyan highlights in woven grain, subtle teal botanical damask, no dramatic folds. Bottom-left: supple turquoise teal leather with pebbled fine grain and dark blue shaded small wrinkles. Bottom-right: pale cream yew sapwood with honey grain, flowing parallel wood fibers. Each quadrant flat top down closeup surface sample filling its region. Uniform neutral diffuse albedo illumination, no shadows or highlights, detailed layered colors. No text, no seams between quadrants.",
+        "review": "Author reviewed generated layered damask, teal leather and pale sapwood. Cloth model acceptance pending."
+      }
+    }
+  ]
+}

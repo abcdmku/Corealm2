@@ -192,8 +192,8 @@ describe("fishing access positions", () => {
         }, prepared.heightAt(site.regionId, basin.x, basin.z) + WATER_FILL_DEPTH, site.regionId);
       });
       const bodies = scene.getWaterBodies();
-      expect(bodies).toHaveLength(1);
-      expect(bodies[0]!.closed).toBe(true);
+      const body = bodies.find((candidate) => candidate.id === basin.id)!;
+      expect(body.closed).toBe(true);
       const anchors = fishingSiteAnchors([site], bodies, (x, z) => scene.meshHeightAt(x, z));
       const access = anchors.banks as Map<string, Vec3>;
       const bank = position(access, "cairn_tarn_spots_2");
@@ -212,7 +212,6 @@ describe("fishing access positions", () => {
       // Every school on this production basin is in the water, deep enough for the tallest fish,
       // and within one short cast of the stance that owns it. Before the solve they sat on the
       // authored slot point near the basin centre, which at Redsill measured 14.3 m out.
-      const body = bodies[0]!;
       expect([...anchors.schools.keys()].sort())
         .toEqual(site.resourceSlots.map((slot) => `${slot.clusterId}_${slot.index}`).sort());
       for (const [id, school] of anchors.schools) {

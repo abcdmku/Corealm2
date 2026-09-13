@@ -1,11 +1,11 @@
 ---
 title: "Moonsigil Ring"
-description: "A rare ring shared by all minibosses of this tier. Its paired ring and earring carry the same bonuses."
+description: "A rare ring carried by minibosses. Its paired ring and earring carry the same bonuses."
 ---
 
 <div class="corealm-item-detail">
 <img src="../../assets/items/guardian_ring_t20.webp" alt="Moonsigil Ring" width="256" height="256" />
-<p>A rare ring shared by all minibosses of this tier. Its paired ring and earring carry the same bonuses.</p>
+<p>A rare ring carried by minibosses. Its paired ring and earring carry the same bonuses.</p>
 </div>
 
 <dl class="codex-stats"><div><dt>Tier</dt><dd>20</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>7,200</dd></div><div><dt>Sell value</dt><dd>4,320</dd></div><div><dt>Slot</dt><dd>Ring</dd></div></dl>

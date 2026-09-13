@@ -1460,7 +1460,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     events,
     inventory: inventorySystem,
     now,
-    ...(profile.kind === "feature-lab" ? { skillLevel: () => 99 } : {}),
+    // Equipment previews permit every kit; the production workbench exercises real skill gates.
+    ...(profile.kind === "feature-lab" && !new URLSearchParams(location.search).has('regionalTier')
+      ? { skillLevel: () => 99 } : {}),
   });
   const bankSystem = new BankSystem({
     store, events, inventory: inventorySystem, dispatcher: interactions, now,
@@ -2425,6 +2427,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (params.get("atmosphere") === "1") {
       const { createBiomeAtmosphereWorkbench } = await import("../featureLab/biomeAtmosphere.js");
       createBiomeAtmosphereWorkbench(renderer.biomeAtmosphere);
+    }
+    if (profile.labMode === "combat" && ['30', '40', '60'].includes(params.get('regionalTier') ?? '')) {
+      const { createRegionalTierFixture } = await import('../featureLab/regionalTierFixture.js');
+      (window as Window & { __regionalTierFixture?: unknown }).__regionalTierFixture = createRegionalTierFixture({
+        store, entities: entityStore,
+        prepareEntities: async (entities) => {
+          const result = await entityViews.prepare([...entities]);
+          if (result.missing.length) throw new Error(`Missing regional tier fixture assets: ${result.missing.join(', ')}`);
+        },
+        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
+        baseY: (assetId) => assets.baseY(assetId),
+      });
     }
     if (profile.labMode === "combat" && params.get("creatureLoot") === "1") {
       const { createCreatureLootFixture } = await import("../featureLab/creatureLootFixture.js");

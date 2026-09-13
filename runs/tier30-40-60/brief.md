@@ -1,0 +1,1 @@
+Finish the equipment and fish content for the existing T30, T40 and T60 regions. Use prompted image generation for item icons and actual worn or held 3D assets for armor, weapons and tools. Use Astra for complex content and asset work and Luna at maximum effort for smaller tasks.

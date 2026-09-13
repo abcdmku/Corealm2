@@ -1,10 +1,10 @@
 import type { ResourceDef } from './index.js';
 
-/** Regional seams refine into the existing metals, so every mined item has a production use. */
+/** Regional seams supply the matching T30, T40 and T60 production ladders. */
 export const FAIRY_ORE_RESOURCES: readonly ResourceDef[] = [
   {
-    id: 'dewglass_ore', name: 'Dewglass Cobalt Seam', archetype: 'ore', skill: 'mining', tier: 30, reqLevel: 30,
-    itemId: 'kaldite_ore', yieldRange: [7, 11], respawnSeconds: 60,
+    id: 'dewglass_ore', name: 'Dewglass Seam', archetype: 'ore', skill: 'mining', tier: 30, reqLevel: 30,
+    itemId: 'dewglass_ore', yieldRange: [7, 11], respawnSeconds: 60,
     bonus: [{ itemId: 'pale_quartz', chance: .07 }, { itemId: 'water_essence', chance: .25 }],
     presentation: {
       availableAssetIds: ['corealm_ore_kaldite'], depletedAssetId: 'corealm_ore_kaldite_spent',
@@ -12,8 +12,8 @@ export const FAIRY_ORE_RESOURCES: readonly ResourceDef[] = [
     },
   },
   {
-    id: 'crown_silver_ore', name: 'Crownward Titanium Seam', archetype: 'ore', skill: 'mining', tier: 40, reqLevel: 40,
-    itemId: 'emberite_ore', yieldRange: [8, 12], respawnSeconds: 70,
+    id: 'crown_silver_ore', name: 'Crownsilver Seam', archetype: 'ore', skill: 'mining', tier: 40, reqLevel: 40,
+    itemId: 'crownsilver_ore', yieldRange: [8, 12], respawnSeconds: 70,
     bonus: [{ itemId: 'vell_amber', chance: .07 }, { itemId: 'kilnstone', chance: .35 }],
     presentation: {
       availableAssetIds: ['corealm_ore_corven'], depletedAssetId: 'corealm_ore_corven_spent',
@@ -21,8 +21,8 @@ export const FAIRY_ORE_RESOURCES: readonly ResourceDef[] = [
     },
   },
   {
-    id: 'star_amethyst_ore', name: 'Star Amethyst Titanium Seam', archetype: 'ore', skill: 'mining', tier: 60, reqLevel: 60,
-    itemId: 'emberite_ore', yieldRange: [10, 15], respawnSeconds: 85,
+    id: 'star_amethyst_ore', name: 'Star Amethyst Seam', archetype: 'ore', skill: 'mining', tier: 60, reqLevel: 60,
+    itemId: 'star_amethyst_ore', yieldRange: [10, 15], respawnSeconds: 85,
     bonus: [{ itemId: 'fire_opal', chance: .07 }, { itemId: 'fire_essence', chance: .4 }],
     presentation: {
       availableAssetIds: ['corealm_ore_nightglass'], depletedAssetId: 'corealm_ore_nightglass_spent',

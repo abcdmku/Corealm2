@@ -15,7 +15,7 @@ description: "A hot orange charge mined at the Ashlands altar ruins. It never qu
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Fire Essence Cache | Mining level 20 |
-| Bonus from | Star Amethyst Titanium Seam | 40% per gather |
+| Bonus from | Star Amethyst Seam | 40% per gather |
 | Dropped by | Giant Viper | 12% · 1-2 |
 | Dropped by | [Quarry Bandit](../../creatures/reaver_t20/) | 20% · 1-3 |
 | Dropped by | Salamander | 25% · 1-2 |

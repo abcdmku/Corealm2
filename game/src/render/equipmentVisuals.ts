@@ -19,6 +19,14 @@ import { applyArmorTexture } from "./equipmentArmorTextures.js";
 import { applyFabArmorMaterials, fabArmorAppearance } from './fabArmor.js';
 import { BOSS_ARMOR_ITEMS } from '../content/bossArmor.js';
 import { MINIBOSS_JEWELLERY } from '../content/universalMinibossLoot.js';
+import { applyRegionalEquipmentTextures } from './regionalEquipmentTextures.js';
+
+/** Regional tiers reskin the existing craftable meshes and keep their proven fit. */
+const REGIONAL_VISUAL_FAMILIES = [
+  { tier: 30, metal: 'dewglass', wood: 'willow', fabric: 'mistweave', tint: 0x64c8bc },
+  { tier: 40, metal: 'crownsilver', wood: 'maple', fabric: 'crownhide', tint: 0xd4d9df },
+  { tier: 60, metal: 'staramethyst', wood: 'yew', fabric: 'faesilk', tint: 0x9371bc },
+] as const;
 
 /** Which base body the parts are resolved against. `boot.ts` builds the player as `base_male`. */
 export type CharacterBody = "male" | "female";
@@ -476,6 +484,22 @@ function buildTable(): Map<ItemId, GearVisual> {
     }
   }
 
+  for (const family of REGIONAL_VISUAL_FAMILIES) {
+    const aliases: readonly (readonly [string, string])[] = [
+      [`${family.metal}_sword`, 'emberite_sword'], [`${family.wood}_shield`, 'cinderpine_shield'],
+      [`${family.wood}_wand`, 'cinderpine_wand'], [`${family.wood}_staff`, 'cinderpine_staff'],
+      ...(['helm', 'plate', 'greaves', 'boots', 'gauntlets'] as const).map(part =>
+        [`${family.metal}_${part}`, `emberite_${part}`] as const),
+      ...(['hood', 'robe', 'leggings', 'boots', 'wraps'] as const).map(part =>
+        [`${family.fabric}_${part}`, `charhide_${part}`] as const),
+    ];
+    for (const [id, baseId] of aliases) {
+      const base = table.get(baseId);
+      if (!base) throw new Error(`Regional equipment has no slot reference: ${baseId}`);
+      table.set(id, { slot: base.slot, parts: base.parts.map(part => ({ ...part, tint: family.tint })) });
+    }
+  }
+
   for (const rare of RARE_WEAPON_VISUALS) {
     const swordScale = round3(tierSilhouetteScale(rare.tier));
     table.set(rare.id, {
@@ -536,6 +560,13 @@ const GATHERING_TOOL_APPEARANCES = new Map<ItemId, GearAppearance>([
   ["nightglass_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: NIGHTGLASS, scale: tierSilhouetteScale(20) }],
   ["nightglass_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: NIGHTGLASS, scale: tierSilhouetteScale(20) }],
 ]);
+
+for (const family of REGIONAL_VISUAL_FAMILIES) {
+  for (const tool of ['pickaxe', 'hatchet'] as const) {
+    const base = GATHERING_TOOL_APPEARANCES.get(`emberite_${tool}`)!;
+    GATHERING_TOOL_APPEARANCES.set(`${family.metal}_${tool}`, { ...base, itemId: `${family.metal}_${tool}`, tint: family.tint });
+  }
+}
 
 /** Appearance of a carried pickaxe or hatchet while gathering, if the item is one. */
 export function gatheringToolAppearance(itemId: ItemId): GearAppearance | null {
@@ -603,6 +634,11 @@ export function gearAppearance(itemId: ItemId, body: CharacterBody = "male"): Ge
 
 /** Every part an item contributes, in attach order. Empty for a covered id with no mesh. */
 export function gearAppearanceParts(itemId: ItemId, body: CharacterBody = "male"): readonly GearAppearance[] {
+  const regionalFabric = REGIONAL_VISUAL_FAMILIES.find(family => itemId.startsWith(`${family.fabric}_`));
+  if (regionalFabric) {
+    const base = fabArmorAppearance(`charhide_${itemId.slice(regionalFabric.fabric.length + 1)}`, body);
+    if (base) return [{ ...base, itemId, tint: regionalFabric.tint }];
+  }
   const imported = fabArmorAppearance(itemId, body);
   if (imported) return [imported];
   const visual = GEAR_VISUALS.get(itemId);
@@ -930,6 +966,10 @@ export function weaponAttachment(appearance: GearAppearance): WeaponSocket | nul
  * two draws.
  */
 export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppearance): void {
+  if (applyRegionalEquipmentTextures(object, appearance)) {
+    if (appearance.orb) object.add(magicOrbMesh(appearance.orb));
+    return;
+  }
   if (applyFabArmorMaterials(object, appearance)) return;
   if (appearance.tint !== undefined || appearance.accent !== undefined) {
     object.traverse((child) => {

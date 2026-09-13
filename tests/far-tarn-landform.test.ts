@@ -1,8 +1,8 @@
 import { expect, it } from "vitest";
 import { Scene } from "three";
 import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
-import { fishingAccessPositions } from "../game/src/app/fishingAccess.js";
-import { WORLD_SITES, worldSitePoint } from "../game/src/content/worldSites.js";
+import { fishingSiteAnchors } from "../game/src/app/fishingAccess.js";
+import { WORLD_SITES } from "../game/src/content/worldSites.js";
 import { WorldScene } from "../game/src/render/scene.js";
 import { organicRadiusScale } from "../game/src/world/organicFields.js";
 import { WATER_FILL_DEPTH } from "../game/src/world/waterBodies.js";
@@ -35,9 +35,11 @@ function measure(fitted: boolean) {
         maxGrade = Math.max(maxGrade, Math.abs(scene.heightAtXZ(x + dx * 0.5, z + dz * 0.5) - y) / 0.5);
       }
     }
-    const body = scene.getWaterBodies()[0]!;
+    const bodies = scene.getWaterBodies();
+    const body = bodies.find((candidate) => candidate.id === basin.id)!;
     const site = WORLD_SITES.find((s) => s.id === "far_tarn_cove")!;
-    const stands = fishingAccessPositions([site], [body], (x, z) => scene.meshHeightAt(x, z));
+    const anchors = fishingSiteAnchors([site], bodies, (x, z) => scene.meshHeightAt(x, z));
+    const stands = anchors.banks;
     const stanceFacts = [...stands].map(([id, [x, y, z]]) => ({ id, x, y, z,
       grade: Math.hypot(scene.meshHeightAt(x + 0.5, z) - scene.meshHeightAt(x - 0.5, z),
         scene.meshHeightAt(x, z + 0.5) - scene.meshHeightAt(x, z - 0.5)),
@@ -61,7 +63,7 @@ function measure(fitted: boolean) {
       return { from: [x, z], grade, wetSamples };
     });
     const fishDepths = site.resourceSlots.map((slot) => {
-      const [x, z] = worldSitePoint(site, slot.x, slot.z);
+      const [x, , z] = anchors.schools.get(`${slot.clusterId}_${slot.index}`)!;
       return body.level - scene.meshHeightAt(x, z);
     });
     return { maxRaise, maxGrade, maxCut, level: body.level, closed: body.closed, stanceFacts, endpointTransects, fishDepths };

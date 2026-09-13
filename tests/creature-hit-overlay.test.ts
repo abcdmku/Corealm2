@@ -60,6 +60,7 @@ const unchangedCoreMasks:Record<string,string>={
   creature_shale_elemental:'2371e194509276c94e691e2c31652033152c8fcfbe0e65e73762885dcca1a2f3',
 };
 const overlayDigest=(clip:THREE.AnimationClip|null)=>createHash('sha256').update(JSON.stringify(clip?.tracks.map(track=>({name:track.name,times:Array.from(track.times),values:Array.from(track.values)})))).digest('hex');
+const redWormSupportOnlyReason='The accepted six-joint Worm_Rig_Main -> Worm_Rig1..5 chain has no expressive offshoot; every joint weights the ground-contacting belly. Its authored Hit moves those contacts.';
 
 describe('support-safe additive creature recoil',()=>{
   it('recognizes the complete hovering six-arm topology while protecting its lower hooks and hover',()=>{
@@ -120,6 +121,57 @@ describe('support-safe additive creature recoil',()=>{
     const unknown=new THREE.Group();bone('Head',unknown);
     expect(createMaskedHitOverlay(unknown,new THREE.AnimationClip('Hit',1,[]),new THREE.AnimationClip('Idle',1,[])).clip).toBeNull();
   });
+  it('deliberately excludes the accepted red worm because every joint moves weighted belly contacts',async()=>{
+    const {root,hit,idle,walk,sha256}=await actualPublicRig('creature_red_worm');
+    // Pin this measured exception to the accepted asset from tools/red-worms/README.md.
+    // A replacement rig needs its own contact audit instead of inheriting an ID exemption.
+    expect(sha256).toBe('6d3a8e920aee8d90739b6ff11971175e76e0c588f99fc9b51d94d4d2a9c87055');
+    const names=['Worm_Rig_Main',...Array.from({length:5},(_,i)=>`Worm_Rig${i+1}`)];
+    const bones:THREE.Bone[]=[],meshes:THREE.SkinnedMesh[]=[];
+    root.traverse(node=>{
+      if((node as THREE.Bone).isBone)bones.push(node as THREE.Bone);
+      if((node as THREE.SkinnedMesh).isSkinnedMesh)meshes.push(node as THREE.SkinnedMesh);
+    });
+    expect(bones.map(bone=>bone.name)).toEqual(names);
+    expect(meshes).toHaveLength(1);
+    const mesh=meshes[0]!;
+    expect(mesh.skeleton.bones.map(bone=>bone.name)).toEqual(names);
+    bones.forEach((bone,index)=>expect(bone.children.map(child=>child.name)).toEqual(index<5?[names[index+1]]:[]));
+    const overlay=createMaskedHitOverlay(root,hit,idle);
+    expect(overlay.status).toBe('no-safe-mask');expect(overlay.clip).toBeNull();
+    expect(overlay.boneNames).toEqual([]);expect(overlay.excludedBoneNames).toEqual(names);
+    expect(walk).toBeDefined();
+    const mixer=new THREE.AnimationMixer(root);mixer.clipAction(walk!).play();
+    const update=()=>{root.updateMatrixWorld(true);mesh.skeleton.update();};
+    const vertices=()=>Array.from({length:mesh.geometry.attributes.position!.count},(_,index)=>
+      mesh.getVertexPosition(index,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld));
+    const indices=mesh.geometry.attributes.skinIndex!,weights=mesh.geometry.attributes.skinWeight!;
+    for(const phase of [0,.25,.5,.75]) {
+      mixer.setTime(walk!.duration*phase);update();
+      const beforeVertices=vertices(),beforeMatrices=bones.map(bone=>bone.matrixWorld.elements.slice());
+      const floor=Math.min(...beforeVertices.map(vertex=>vertex.y));
+      for(const [index,joint] of bones.entries()) {
+        const contacts=beforeVertices.flatMap((vertex,vertexIndex)=>
+          vertex.y-floor<.0011 && [0,1,2,3].some(slot=>indices.getComponent(vertexIndex,slot)===index && weights.getComponent(vertexIndex,slot)>.1)
+            ? [vertexIndex] : []);
+        expect(contacts.length,`${joint.name} must weight the belly within 1.1 mm of the source floor`).toBeGreaterThan(0);
+        const sample=(clip:THREE.AnimationClip,time:number)=>{
+          const track=clip.tracks.find(track=>track.name===`${joint.name}.quaternion`)!;
+          const interpolant=(track as THREE.KeyframeTrack & {createInterpolant():THREE.Interpolant}).createInterpolant();
+          return new THREE.Quaternion().fromArray(interpolant.evaluate(time)).normalize();
+        };
+        const original=joint.quaternion.clone();
+        joint.quaternion.multiply(sample(idle,0).invert().multiply(sample(hit,hit.duration*.5))).normalize();update();
+        const displaced=vertices();
+        expect(Math.max(...contacts.map(vertexIndex=>displaced[vertexIndex]!.distanceTo(beforeVertices[vertexIndex]!))),
+          `${joint.name}'s authored Hit must move its actual belly contacts`).toBeGreaterThan(1e-5);
+        joint.quaternion.copy(original);update();
+      }
+      applyMaskedHitOverlay(root,overlay,hit.duration*.4);update();
+      expect(bones.map(bone=>bone.matrixWorld.elements)).toEqual(beforeMatrices);
+      expect(vertices().map(vertex=>vertex.toArray())).toEqual(beforeVertices.map(vertex=>vertex.toArray()));
+    }
+  });
   it.each(['creature_beetle_golem','creature_mossback_sentinel','creature_lava_golem','creature_shale_elemental'])(
     'builds a nonempty safe mask on actual public %s',id=>{
       const {root,hit,idle,walk,sha256}=publicRig(id),result=createMaskedHitOverlay(root,hit,idle);
@@ -139,10 +191,17 @@ describe('support-safe additive creature recoil',()=>{
         overlaySha256:createHash('sha256').update(JSON.stringify(result.clip?.tracks.map(track=>({name:track.name,times:Array.from(track.times),values:Array.from(track.values)})))).digest('hex'),
         sampledWalkPhase:.37,sampledHitPhase:.4,protectedWorldMatricesUnchanged:true,visualAccepted:false},null,2));
     });
-  it('inventories actual GLTFLoader public character masks and verifies protected transforms',async()=>{
-    const manifest=JSON.parse(readFileSync('game/public/assets/manifest.json','utf8'));
+  const publicCharacters = JSON.parse(readFileSync('game/public/assets/manifest.json','utf8')).assets
+    .filter((asset:any)=>asset.category==='character' && asset.animations?.includes('Hit'));
+  const inventoryRows:any[]=[];
+  // Keep the full catalog proof, but give failures an asset-sized batch instead of one
+  // growing timeout around every GLTFLoader parse in the game.
+  const inventoryBatchSize=24;
+  it.each(Array.from({length:Math.ceil(publicCharacters.length/inventoryBatchSize)},(_,index)=>index))(
+    'inventories actual GLTFLoader public character masks and verifies protected transforms, batch %i',async(batch)=>{
     const rows:any[]=[];
-    for(const entry of manifest.assets.filter((a:any)=>a.category==='character' && a.animations?.includes('Hit'))) {
+    const entries=publicCharacters.slice(batch*inventoryBatchSize,(batch+1)*inventoryBatchSize);
+    for(const entry of entries) {
       try {
         const {root,hit,idle,walk,sha256}=await actualPublicRig(entry.id);
         if(!hit || !idle)throw new Error('Missing native Hit or Idle clip');
@@ -156,12 +215,22 @@ describe('support-safe additive creature recoil',()=>{
           protectedWorldMatricesUnchanged:changed.length===0,changedProtectedBones:changed,loader:'THREE.GLTFLoader',sampledWalkPhase:.37,sampledHitPhase:.4});
       }catch(error){rows.push({id:entry.id,status:'diagnostic-error',error:String(error)});}
     }
+    inventoryRows.push(...rows);
+    expect(rows.filter(row=>row.status==='diagnostic-error')).toEqual([]);
+    expect(rows.filter(row=>row.status==='no-safe-mask').map(row=>row.id))
+      .toEqual(entries.filter((entry:any)=>entry.id==='creature_red_worm').map((entry:any)=>entry.id));
+    expect(rows.filter(row=>!row.protectedWorldMatricesUnchanged)).toEqual([]);
+  },30000);
+  it('covers every public character exactly once across the recoil inventory batches',()=>{
+    const rows=inventoryRows;
+    expect(rows.map(row=>row.id).sort()).toEqual(publicCharacters.map((entry:any)=>entry.id).sort());
     mkdirSync('test-results/creature-hit-overlay-mask',{recursive:true});
-    const report={count:rows.length,unsupported:rows.filter(row=>row.status==='no-safe-mask'),errors:rows.filter(row=>row.status==='diagnostic-error'),rows};
+    const report={count:rows.length,unsupported:rows.filter(row=>row.status==='no-safe-mask'),
+      deliberateExclusions:[{id:'creature_red_worm',reason:redWormSupportOnlyReason}],errors:rows.filter(row=>row.status==='diagnostic-error'),rows};
     writeFileSync('test-results/creature-hit-overlay-mask/public-inventory.json',JSON.stringify(report,null,2));
     console.log(JSON.stringify({publicMaskCount:rows.length,unsupported:report.unsupported.map(row=>row.id),errors:report.errors}));
     expect(rows.length).toBeGreaterThan(4);
-    expect(report.errors).toEqual([]);expect(report.unsupported).toEqual([]);
+    expect(report.errors).toEqual([]);expect(report.unsupported.map(row=>row.id)).toEqual(['creature_red_worm']);
     expect(rows.filter(row=>!row.protectedWorldMatricesUnchanged)).toEqual([]);
-  },30000);
+  });
 });

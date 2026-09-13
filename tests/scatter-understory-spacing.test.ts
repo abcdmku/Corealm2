@@ -99,7 +99,7 @@ function harness(bounds = ordinaryBounds, regionIds: RegionId[] = ["fallowmarch"
   let failLoads = 0;
   let capture = true;
   let surfaceCalls = 0;
-  const waters: { closed: boolean; centre: readonly [number, number]; contour: readonly (readonly [number, number])[]; level: number }[] = [];
+  const waters: { id: string; closed: boolean; centre: readonly [number, number]; contour: readonly (readonly [number, number])[]; level: number }[] = [];
   const roads: (readonly [number, number, number])[][] = [];
   const receiver = {
     scatterGroup: new THREE.Group(), scatterVisibility: { add: () => undefined }, registerScatter: () => undefined,
@@ -484,7 +484,7 @@ describe("native understory spacing through production tile placement", () => {
     specs.fallowmarch!.exclusions!.addCircle(1042, 1022, 7, "road", "fixture-road")
       .addCircle(1062, 1022, 7, "custom", "fixture-gameplay");
     const f = harness(bounds);
-    f.waters.push({ closed: true, centre: [1022, 1022], contour: [[1030, 1022], [1022, 1030], [1014, 1022], [1022, 1014]], level: 0 });
+    f.waters.push({ id: "fixture_lake", closed: true, centre: [1022, 1022], contour: [[1030, 1022], [1022, 1030], [1014, 1022], [1022, 1014]], level: 0 });
     f.setSurface((x, z) => x >= 1080 ? null : { ...flat(), density: z < 1080 ? 1 : 0 });
     try {
       await populate(f, specs);

@@ -201,12 +201,17 @@ export function waterBasinOuterBankHeight(
     throw new Error(`Water basin ${basin.id} has no finite outer-bank profile`);
   }
   const width = (basin.outerRadius - basin.crestRadius) * scale;
-  // A monotone cubic has no crest overshoot or dip below the outer ground. Its inner slope is
-  // zero, matching the dry stance ledge; the endpoint tangent follows the existing hillside.
+  // Ease the slope at each end and share the descent across the middle of the bank. A single
+  // cubic concentrates the drop halfway down a steep hillside, raising a hump above its ground.
+  // These joined quadratic/linear spans keep a flat crest and the receiving hillside tangent.
   const tangent = Math.max(3 * (target - crestHeight), Math.min(0, (after - before) * width));
-  const squared = t * t;
-  const cubed = squared * t;
-  return (2 * cubed - 3 * squared + 1) * crestHeight
-    + (-2 * cubed + 3 * squared) * target
-    + (cubed - squared) * tangent;
+  const easing = 0.2;
+  const middleTangent = (target - crestHeight - tangent * easing / 2) / (1 - easing);
+  if (t < easing) return crestHeight + middleTangent * t * t / (2 * easing);
+  if (t > 1 - easing) {
+    const remaining = 1 - t;
+    return target - tangent * remaining
+      - (middleTangent - tangent) * remaining * remaining / (2 * easing);
+  }
+  return crestHeight + middleTangent * (t - easing / 2);
 }

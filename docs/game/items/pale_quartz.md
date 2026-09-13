@@ -16,7 +16,7 @@ description: "A milky chip out of a Copper seam. Holds a charge just long enough
 | --- | --- | --- |
 | Bonus from | Copper Seam | 6% per gather |
 | Bonus from | Limestone Face | 3% per gather |
-| Bonus from | Dewglass Cobalt Seam | 7% per gather |
+| Bonus from | Dewglass Seam | 7% per gather |
 | Dropped by | [Frog](../../creatures/frog_t1/) | 6% · 1-1 |
 | Dropped by | [Storm Scarab](../../creatures/tempest_roc_t1/) | 75% · 1-2 |
 | Dropped by | [Plains Ogre](../../creatures/galeskin_t1/) | 50% · 1-2 |

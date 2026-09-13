@@ -57,6 +57,18 @@ export const FISHING_ROD_LOOKS: Readonly<Record<string, FishingRodLook>> = {
     shaft: 0x49362c, binding: 0x382b26, line: 0x3b302b, bobber: 0xc86332,
     fitting: 0xc89570, length: 1.66, bend: 0.17,
   },
+  willow_rod: {
+    shaft: 0xb8a27c, binding: 0x365f63, line: 0x393a36, bobber: 0x64c8bc,
+    fitting: 0xb1d7d1, length: 1.78, bend: 0.18,
+  },
+  maple_rod: {
+    shaft: 0x995832, binding: 0x28384d, line: 0x393a36, bobber: 0xd4d9df,
+    fitting: 0xd4d9df, length: 1.90, bend: 0.19,
+  },
+  yew_rod: {
+    shaft: 0x794335, binding: 0x44345f, line: 0x393a36, bobber: 0x9371bc,
+    fitting: 0xb7b8d6, length: 2.02, bend: 0.20,
+  },
 };
 
 /** Asset id for the held fishing rod. FishingLine owns its world-space line and float. */
@@ -132,6 +144,9 @@ export function isProceduralGearAsset(assetId: string): boolean {
  * activity input has no tier yet.
  */
 export function fishingRodItemForTier(tier: number | null | undefined): string {
+  if (tier !== null && tier !== undefined && tier >= 60) return "yew_rod";
+  if (tier !== null && tier !== undefined && tier >= 40) return "maple_rod";
+  if (tier !== null && tier !== undefined && tier >= 30) return "willow_rod";
   if (tier !== null && tier !== undefined && tier >= 20) return "cinderpine_rod";
   if (tier !== null && tier !== undefined && tier >= 10) return "cairnpine_rod";
   if (tier !== null && tier !== undefined && tier >= 5) return "duskoak_rod";

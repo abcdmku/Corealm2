@@ -5,7 +5,7 @@ import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
 import { WORLD_SITES } from "../game/src/content/worldSites.js";
 import { WorldScene } from "../game/src/render/scene.js";
 import { organicRadiusScale } from "../game/src/world/organicFields.js";
-import { SCHOOL_MIN_WATER_DEPTH, WATER_FILL_DEPTH, type WaterBasinSpec } from "../game/src/world/waterBodies.js";
+import { SCHOOL_MIN_WATER_DEPTH, WATER_FILL_DEPTH, waterBasinOuterBankHeight, type WaterBasinSpec } from "../game/src/world/waterBodies.js";
 
 function cairnFixture(fitted: boolean) {
   const spec = buildWorldTerrainSpec();
@@ -29,6 +29,7 @@ function downhillBank(scene: WorldScene, basin: WaterBasinSpec) {
   // grade that radial shape compression hides when only nominal basin widths are inspected.
   let maxGrade = 0;
   let maxRaise = 0;
+  let maxIntroducedGradeExcess = 0;
   const dryHeight = (scene as unknown as { preBasinHeight(x: number, z: number): number })
     .preBasinHeight.bind(scene);
   for (let spoke = 1; spoke < 36; spoke++) {
@@ -39,13 +40,43 @@ function downhillBank(scene: WorldScene, basin: WaterBasinSpec) {
       const x = basin.x + dx * radius, z = basin.z + dz * radius;
       const height = scene.heightAtXZ(x, z);
       maxRaise = Math.max(maxRaise, height - dryHeight(x, z));
-      maxGrade = Math.max(maxGrade, Math.abs(scene.heightAtXZ(x + dx * 0.5, z + dz * 0.5) - height) / 0.5);
+      const nextX = x + dx * 0.5, nextZ = z + dz * 0.5;
+      const grade = Math.abs(scene.heightAtXZ(nextX, nextZ) - height) / 0.5;
+      const dryGrade = Math.abs(dryHeight(nextX, nextZ) - dryHeight(x, z)) / 0.5;
+      maxGrade = Math.max(maxGrade, grade);
+      maxIntroducedGradeExcess = Math.max(maxIntroducedGradeExcess, grade - Math.max(1.2, dryGrade));
     }
   }
-  return { maxGrade, maxRaise };
+  return { maxGrade, maxRaise, maxIntroducedGradeExcess };
 }
 
 describe("Cairn Tarn landform", () => {
+  it("joins a fitted downhill bank continuously to its level crest and receiving slope", () => {
+    const basin: WaterBasinSpec = {
+      id: "sloped-bank", x: 0, z: 0, floorRadius: 4, shoreRadius: 6, crestRadius: 8, outerRadius: 20,
+      depth: 1.1, fillFraction: 0.6, freeboard: 0.45,
+      shape: { seed: 1, irregularity: 0, lobes: 1 },
+      bankFit: { maximumInset: 10, maximumRimFill: 0.8 },
+    };
+    const dry = (x: number) => 10 - (x - 8) * 0.5;
+    const height = (x: number) => waterBasinOuterBankHeight(basin, x, 0, dry(x), 10, dry);
+    expect(height(8)).toBe(10);
+    expect(height(20)).toBe(dry(20));
+    for (let x = 8; x < 20; x += 0.05) {
+      const descent = (height(x) - height(Math.min(20, x + 0.05))) / 0.05;
+      expect(descent).toBeGreaterThanOrEqual(-1e-8);
+      expect(descent).toBeLessThan(0.57);
+    }
+    const epsilon = 1e-5;
+    expect((height(8 + epsilon) - height(8)) / epsilon).toBeCloseTo(0, 4);
+    expect((height(20) - height(20 - epsilon)) / epsilon).toBeCloseTo(-0.5, 4);
+    for (const join of [10.4, 17.6]) {
+      const leftSlope = (height(join) - height(join - epsilon)) / epsilon;
+      const rightSlope = (height(join + epsilon) - height(join)) / epsilon;
+      expect(leftSlope).toBeCloseTo(rightSlope, 4);
+    }
+  });
+
   it("fits the closed lake into its terrace and removes most of the artificial downhill bank", () => {
     const before = cairnFixture(false);
     const after = cairnFixture(true);
@@ -54,11 +85,13 @@ describe("Cairn Tarn landform", () => {
       const newBank = downhillBank(after.scene, after.basin);
       expect(oldBank.maxRaise).toBeGreaterThan(10);
       expect(newBank.maxRaise).toBeLessThan(4.2);
-      expect(newBank.maxGrade).toBeLessThan(1.2);
+      // Crownward's competing terrain field leaves some native slopes above 1.2. The bank may
+      // retain that local slope, but must not add steepness beyond either it or the original cap.
+      expect(newBank.maxIntroducedGradeExcess).toBeLessThanOrEqual(1e-6);
       expect(newBank.maxGrade).toBeLessThan(oldBank.maxGrade * 0.6);
 
-      const oldWater = before.scene.getWaterBodies()[0]!;
-      const water = after.scene.getWaterBodies()[0]!;
+      const oldWater = before.scene.getWaterBodies().find((body) => body.id === before.basin.id)!;
+      const water = after.scene.getWaterBodies().find((body) => body.id === after.basin.id)!;
       expect(water.closed).toBe(true);
       expect(water.level).toBeLessThan(oldWater.level - 9);
       expect(water.level).toBeGreaterThanOrEqual(oldWater.level - after.basin.bankFit!.maximumInset - 1e-6);
@@ -79,7 +112,7 @@ describe("Cairn Tarn landform", () => {
     try {
       const site = WORLD_SITES.find((candidate) => candidate.id === "cairn_tarn_ledge")!;
       const bodies = scene.getWaterBodies();
-      const water = bodies[0]!;
+      const water = bodies.find((body) => body.id === basin.id)!;
       const anchors = fishingSiteAnchors([site], bodies, (x, z) => scene.meshHeightAt(x, z));
       for (const slot of site.resourceSlots) {
         // The authored slot no longer places the school — it picks the ray. What has to survive a

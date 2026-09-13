@@ -9,15 +9,19 @@ import { encounterBodyRadius } from "../game/src/content/encounterPlacement.js";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { buildComposition } from "../game/src/render/buildings.js";
 import { structureCollisionFromCompositionParts } from "../game/src/world/regionBuilder.js";
-import { lavaClearanceAt, WILDERNESS_LAVA_CHANNELS } from "../game/src/content/wildernessLava.js";
+import { sampleLavaChannel, WILDERNESS_LAVA_CHANNELS } from "../game/src/content/wildernessLava.js";
 import { WILDERNESS_RESOURCE_INTENTS } from "../game/src/content/wildernessDepth.js";
 
 const ordinaryGroups = REGIONS.flatMap((region) => region.enemyGroups
   .filter((group) => !group.boss && !group.miniBoss)
   .map((group) => ({ group, region })));
 const groupsById = new Map(ordinaryGroups.map((entry) => [entry.group.id, entry]));
+// The scatter broad-phase clearance can underestimate distance outside a channel's bounds.
+// Body and activity-path proof needs the actual production bank profile.
+const exactLavaClearance = (x: number, z: number) => Math.min(...WILDERNESS_LAVA_CHANNELS.map(channel =>
+  sampleLavaChannel(channel, x, z).signedDistance - channel.bankWidth));
 const basins = REGIONS.flatMap((region) => region.clusters
-  .filter((cluster) => resourceDef(cluster.resourceId).archetype === "fishing_spot")
+  .filter((cluster) => !cluster.waterBodyId && resourceDef(cluster.resourceId).archetype === "fishing_spot")
   .map(waterBasinForCluster));
 
 describe("authored wildlife habitats", () => {
@@ -123,7 +127,7 @@ describe("authored wildlife habitats", () => {
   });
 
   it("keeps complete northern actor bodies and activity connections clear of active lava and high-tier resource floors", () => {
-    expect(WILDERNESS_LAVA_CHANNELS).toHaveLength(21);
+    expect(WILDERNESS_LAVA_CHANNELS).toHaveLength(25);
     const resources = WORLD_SITES.filter(site => WILDERNESS_RESOURCE_INTENTS.some(intent => intent.id === site.id));
     expect(resources).toHaveLength(10);
     const errors = new Set<string>();
@@ -135,7 +139,7 @@ describe("authored wildlife habitats", () => {
         for (let step = 0; step <= steps; step++) {
           const x = from[0] + (to[0] - from[0]) * step / steps;
           const z = from[1] + (to[1] - from[1]) * step / steps;
-          if (lavaClearanceAt(x, z) < radius + .5)
+          if (exactLavaClearance(x, z) < radius + .5)
             errors.add(`${habitat.id}/connection ${a + 1},${b + 1} intersects a lava bank body reservation`);
           for (const site of resources) {
             const dx = x - site.centre[0], dz = z - site.centre[1];

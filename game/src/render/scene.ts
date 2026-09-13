@@ -1666,7 +1666,10 @@ export class WorldScene {
       // `height delta / width` to the original terrain slope right up to the outer boundary.
       const terrainT = (radius - basin.floorRadius) / (basin.outerRadius - basin.floorRadius);
       const terrainBlend = smoothstep01(terrainT);
-      const terrainReturn = basin.floorY + (height - basin.floorY) * terrainBlend;
+      // The fitted bank already covers ground below its floor. Raising that ground with the
+      // broad return adds the hillside slope again and leaves a hump above the fitted profile.
+      const terrainReturn = basin.bankFit && height < basin.floorY
+        ? height : basin.floorY + (height - basin.floorY) * terrainBlend;
       return Math.max(bankProfile, terrainReturn);
     }
     return height;

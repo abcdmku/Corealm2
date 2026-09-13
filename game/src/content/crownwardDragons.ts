@@ -1,4 +1,5 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
+import { regionalFabricDrops } from './regionalTierEquipment.js';
 import type { EnemyGroupDef, Spot } from './regions.js';
 import { tierSilhouetteScale } from '../core/math.js';
 import { tuneEnemyCombatLevel } from './encounterBalance.js';
@@ -33,6 +34,7 @@ export const CROWNWARD_DRAGON_SPECIES: readonly CreatureSpeciesDef[] = CROWNWARD
       // Preserve the existing cadence and locomotion speeds of each accepted rig.
       marks: boss ? [600, 1000] : [220, 380],
       drops: [
+        ...regionalFabricDrops(40, boss),
         { itemId: 'drake_scale', quantity: boss ? [4, 7] : [1, 3], chance: 1 },
         { itemId: 'fire_essence', quantity: boss ? [10, 18] : [4, 8], chance: 1 },
         { itemId: 'death_rune', quantity: boss ? [4, 7] : [1, 3], chance: boss ? .75 : .35 },
