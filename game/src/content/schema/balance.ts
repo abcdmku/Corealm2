@@ -5,6 +5,7 @@ import { GearProgressionBalanceSchema } from './gearProgression.js';
 import { ItemFormulaBalanceSchema } from './itemFormula.js';
 import { MaterialFoodBalanceSchema } from './materialFoodDerivation.js';
 import { EnemyBalanceSchema } from './enemyBalance.js';
+import { SourceLootParamsSchema, SourceLootInputsSchema, SourceLootOwnersSchema } from './sourceLoot.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -61,6 +62,9 @@ export const setsBalanceSchema = obj({
 
 /** creatureLoot.ts MATERIAL_VALUE and production drop roll inputs. Item selection stays in TS. */
 export const lootBalanceSchema = obj({
+  sourceLoot: SourceLootParamsSchema,
+  sourceInputs: SourceLootInputsSchema,
+  sourceOwners: SourceLootOwnersSchema,
   materialValues: arr(obj({ tier: positiveInt(), value: nonnegative() }), { minLength: 1 }),
   bossArmorExpectedPieces: nonnegative(),
   regionalFabric: obj({ ordinary: roll, boss: roll }),

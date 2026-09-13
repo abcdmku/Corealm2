@@ -31,12 +31,12 @@ function changeAt(value: object, path: string, replacement: unknown): void {
 describe('legacy enemy derivation previews', () => {
   it('recomputes every shipped tag with exactly its owned fields and no drift', () => {
     const { rows, params, tables } = proposal();
-    expect(rows.filter(row => row.derivation)).toHaveLength(35);
+    expect(rows.filter(row => String((row.derivation as { kind?: string } | undefined)?.kind).startsWith('legacy'))).toHaveLength(35);
     expect(params.legacyMarksInputs).toHaveLength(28);
     expect(params.legacyBossInputs).toHaveLength(7);
     expect(validateEnemyFormulaLinks(tables)).toEqual([]);
     expect(derivationDiffs(tables)).toEqual([]);
-    for (const row of rows.filter(row => row.derivation)) {
+    for (const row of rows.filter(row => String((row.derivation as { kind?: string } | undefined)?.kind).startsWith('legacy'))) {
       parseValue(EnemyRecordSchema, row, `enemies.${row.id}`);
       const tag = parseValue(EnemyDerivationSchema, row.derivation, 'derivation');
       const result = deriveRecord('enemies', row, tables)!;

@@ -1073,7 +1073,11 @@
     "lootTableId": "loot_enemy_redbrush_fox_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 35
+    "registrationOrder": 35,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/redbrush_fox"
+    }
   },
   {
     "id": "duskoak_lynx_t5",
@@ -1099,7 +1103,11 @@
     "lootTableId": "loot_enemy_duskoak_lynx_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 36
+    "registrationOrder": 36,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/duskoak_lynx"
+    }
   },
   {
     "id": "rootdelve_badger_t5",
@@ -1125,7 +1133,11 @@
     "lootTableId": "loot_enemy_rootdelve_badger_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 37
+    "registrationOrder": 37,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/rootdelve_badger"
+    }
   },
   {
     "id": "quillback_porcupine_t10",
@@ -1151,7 +1163,11 @@
     "lootTableId": "loot_enemy_quillback_porcupine_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 38
+    "registrationOrder": 38,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/quillback_porcupine"
+    }
   },
   {
     "id": "marchwild_horse_t5",
@@ -1177,7 +1193,11 @@
     "lootTableId": "loot_enemy_marchwild_horse_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 39
+    "registrationOrder": 39,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/marchwild_horse"
+    }
   },
   {
     "id": "cairn_bighorn_t10",
@@ -1203,7 +1223,11 @@
     "lootTableId": "loot_enemy_cairn_bighorn_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 40
+    "registrationOrder": 40,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/cairn_bighorn"
+    }
   },
   {
     "id": "marsh_moose_t10",
@@ -1229,7 +1253,11 @@
     "lootTableId": "loot_enemy_marsh_moose_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 41
+    "registrationOrder": 41,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/marsh_moose"
+    }
   },
   {
     "id": "bracken_tapir_t5",
@@ -1255,7 +1283,11 @@
     "lootTableId": "loot_enemy_bracken_tapir_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 42
+    "registrationOrder": 42,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/bracken_tapir"
+    }
   },
   {
     "id": "reedjaw_crocodile_t10",
@@ -1281,7 +1313,11 @@
     "lootTableId": "loot_enemy_reedjaw_crocodile_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 43
+    "registrationOrder": 43,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/reedjaw_crocodile"
+    }
   },
   {
     "id": "kiln_salamander_t20",
@@ -1307,7 +1343,11 @@
     "lootTableId": "loot_enemy_kiln_salamander_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 44
+    "registrationOrder": 44,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/kiln_salamander"
+    }
   },
   {
     "id": "slateback_tortoise_t10",
@@ -1333,7 +1373,11 @@
     "lootTableId": "loot_enemy_slateback_tortoise_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 45
+    "registrationOrder": 45,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/slateback_tortoise"
+    }
   },
   {
     "id": "ashscale_monitor_t20",
@@ -1359,7 +1403,11 @@
     "lootTableId": "loot_enemy_ashscale_monitor_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 46
+    "registrationOrder": 46,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/ashscale_monitor"
+    }
   },
   {
     "id": "reedbank_goose_t1",
@@ -1385,7 +1433,11 @@
     "lootTableId": "loot_enemy_reedbank_goose_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 47
+    "registrationOrder": 47,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/reedbank_goose"
+    }
   },
   {
     "id": "blackwater_heron_t5",
@@ -1411,7 +1463,11 @@
     "lootTableId": "loot_enemy_blackwater_heron_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 48
+    "registrationOrder": 48,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/blackwater_heron"
+    }
   },
   {
     "id": "scree_bustard_t10",
@@ -1437,7 +1493,11 @@
     "lootTableId": "loot_enemy_scree_bustard_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 49
+    "registrationOrder": 49,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/scree_bustard"
+    }
   },
   {
     "id": "marchfield_turkey_t1",
@@ -1463,7 +1523,11 @@
     "lootTableId": "loot_enemy_marchfield_turkey_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 50
+    "registrationOrder": 50,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/marchfield_turkey"
+    }
   },
   {
     "id": "quarry_snail_t5",
@@ -1489,7 +1553,11 @@
     "lootTableId": "loot_enemy_quarry_snail_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 51
+    "registrationOrder": 51,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/quarry_snail"
+    }
   },
   {
     "id": "antler_beetle_t10",
@@ -1515,7 +1583,11 @@
     "lootTableId": "loot_enemy_antler_beetle_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 52
+    "registrationOrder": 52,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/antler_beetle"
+    }
   },
   {
     "id": "slag_centipede_t20",
@@ -1541,7 +1613,11 @@
     "lootTableId": "loot_enemy_slag_centipede_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 53
+    "registrationOrder": 53,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/slag_centipede"
+    }
   },
   {
     "id": "hollowroot_spider_t5",
@@ -1567,7 +1643,11 @@
     "lootTableId": "loot_enemy_hollowroot_spider_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 54
+    "registrationOrder": 54,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/hollowroot_spider"
+    }
   },
   {
     "id": "cinder_ravager_t20",
@@ -1593,7 +1673,11 @@
     "lootTableId": "loot_enemy_cinder_ravager_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 55
+    "registrationOrder": 55,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/cinder_ravager"
+    }
   },
   {
     "id": "basalt_drake_t20",
@@ -1619,7 +1703,11 @@
     "lootTableId": "loot_enemy_basalt_drake_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 56
+    "registrationOrder": 56,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/basalt_drake"
+    }
   },
   {
     "id": "gorge_mantis_t20",
@@ -1645,7 +1733,11 @@
     "lootTableId": "loot_enemy_gorge_mantis_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 57
+    "registrationOrder": 57,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/gorge_mantis"
+    }
   },
   {
     "id": "quarry_nightmare_t10",
@@ -1671,7 +1763,11 @@
     "lootTableId": "loot_enemy_quarry_nightmare_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 58
+    "registrationOrder": 58,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "expansion/quarry_nightmare"
+    }
   },
   {
     "id": "grass_viper_t1",
@@ -1697,7 +1793,11 @@
     "lootTableId": "loot_enemy_grass_viper_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 59
+    "registrationOrder": 59,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/grass_viper"
+    }
   },
   {
     "id": "field_wasp_t1",
@@ -1723,7 +1823,11 @@
     "lootTableId": "loot_enemy_field_wasp_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 60
+    "registrationOrder": 60,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/field_wasp"
+    }
   },
   {
     "id": "heath_wasp_t1",
@@ -1749,7 +1853,11 @@
     "lootTableId": "loot_enemy_heath_wasp_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 61
+    "registrationOrder": 61,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/heath_wasp"
+    }
   },
   {
     "id": "reed_wasp_t1",
@@ -1775,7 +1883,11 @@
     "lootTableId": "loot_enemy_reed_wasp_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 62
+    "registrationOrder": 62,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/reed_wasp"
+    }
   },
   {
     "id": "creek_crab_t1",
@@ -1801,7 +1913,11 @@
     "lootTableId": "loot_enemy_creek_crab_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 63
+    "registrationOrder": 63,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/creek_crab"
+    }
   },
   {
     "id": "briar_spider_t1",
@@ -1827,7 +1943,11 @@
     "lootTableId": "loot_enemy_briar_spider_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 64
+    "registrationOrder": 64,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/briar_spider"
+    }
   },
   {
     "id": "granary_rat_t1",
@@ -1853,7 +1973,11 @@
     "lootTableId": "loot_enemy_granary_rat_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 65
+    "registrationOrder": 65,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "starter/granary_rat"
+    }
   },
   {
     "id": "red_worm_t1",
@@ -1905,7 +2029,11 @@
     "lootTableId": "loot_enemy_gloam_fox_t1",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 67
+    "registrationOrder": 67,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "variant/gloam_fox"
+    }
   },
   {
     "id": "moonweave_spider_t5",
@@ -1933,7 +2061,11 @@
     "lootTableId": "loot_enemy_moonweave_spider_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 68
+    "registrationOrder": 68,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "variant/moonweave_spider"
+    }
   },
   {
     "id": "rimeback_tortoise_t10",
@@ -1959,7 +2091,11 @@
     "lootTableId": "loot_enemy_rimeback_tortoise_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 69
+    "registrationOrder": 69,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "variant/rimeback_tortoise"
+    }
   },
   {
     "id": "cindercrest_salamander_t20",
@@ -1985,7 +2121,11 @@
     "lootTableId": "loot_enemy_cindercrest_salamander_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 70
+    "registrationOrder": 70,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "variant/cindercrest_salamander"
+    }
   },
   {
     "id": "amethyst_spider_t5",
@@ -2013,7 +2153,11 @@
     "lootTableId": "loot_enemy_amethyst_spider_t5",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 71
+    "registrationOrder": 71,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "variant/amethyst_spider"
+    }
   },
   {
     "id": "chalk_warden_t10",
@@ -2041,7 +2185,11 @@
     "lootTableId": "loot_enemy_chalk_warden_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 72
+    "registrationOrder": 72,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "basic/chalk_warden"
+    }
   },
   {
     "id": "hollow_bough_t10",
@@ -2069,7 +2217,11 @@
     "lootTableId": "loot_enemy_hollow_bough_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 73
+    "registrationOrder": 73,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "basic/hollow_bough"
+    }
   },
   {
     "id": "pallid_shade_t10",
@@ -2097,7 +2249,11 @@
     "lootTableId": "loot_enemy_pallid_shade_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 74
+    "registrationOrder": 74,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "basic/pallid_shade"
+    }
   },
   {
     "id": "briar_harrow_t10",
@@ -2126,7 +2282,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 75,
-    "fantasyTierOrder": 2
+    "fantasyTierOrder": 2,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "forest/briar_harrow"
+    }
   },
   {
     "id": "fen_crawler_t10",
@@ -2155,7 +2315,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 76,
-    "fantasyTierOrder": 6
+    "fantasyTierOrder": 6,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "forest/fen_crawler"
+    }
   },
   {
     "id": "reed_strider_t10",
@@ -2184,7 +2348,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 77,
-    "fantasyTierOrder": 10
+    "fantasyTierOrder": 10,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "forest/reed_strider"
+    }
   },
   {
     "id": "thorn_maw_t10",
@@ -2213,7 +2381,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 78,
-    "fantasyTierOrder": 14
+    "fantasyTierOrder": 14,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "forest/thorn_maw"
+    }
   },
   {
     "id": "heath_jack_t10",
@@ -2242,7 +2414,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 79,
-    "fantasyTierOrder": 18
+    "fantasyTierOrder": 18,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "forest/heath_jack"
+    }
   },
   {
     "id": "kiln_marrow_t20",
@@ -2271,7 +2447,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 80,
-    "fantasyTierOrder": 43
+    "fantasyTierOrder": 43,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "ash/kiln_marrow"
+    }
   },
   {
     "id": "slag_crawler_t10",
@@ -2300,7 +2480,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 81,
-    "fantasyTierOrder": 46
+    "fantasyTierOrder": 46,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "ash/slag_crawler"
+    }
   },
   {
     "id": "cinder_penitent_t20",
@@ -2329,7 +2513,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 82,
-    "fantasyTierOrder": 51
+    "fantasyTierOrder": 51,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "ash/cinder_penitent"
+    }
   },
   {
     "id": "grave_lantern_t20",
@@ -2358,7 +2546,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 83,
-    "fantasyTierOrder": 55
+    "fantasyTierOrder": 55,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "ash/grave_lantern"
+    }
   },
   {
     "id": "veil_reaper_t20",
@@ -2387,7 +2579,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 84,
-    "fantasyTierOrder": 59
+    "fantasyTierOrder": 59,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "ash/veil_reaper"
+    }
   },
   {
     "id": "cairn_treader_t10",
@@ -2416,7 +2612,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 85,
-    "fantasyTierOrder": 22
+    "fantasyTierOrder": 22,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "stone/cairn_treader"
+    }
   },
   {
     "id": "flint_mandible_t10",
@@ -2445,7 +2645,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 86,
-    "fantasyTierOrder": 26
+    "fantasyTierOrder": 26,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "stone/flint_mandible"
+    }
   },
   {
     "id": "vault_custodian_t10",
@@ -2474,7 +2678,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 87,
-    "fantasyTierOrder": 30
+    "fantasyTierOrder": 30,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "stone/vault_custodian"
+    }
   },
   {
     "id": "blind_cave_weaver_t10",
@@ -2503,7 +2711,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 88,
-    "fantasyTierOrder": 34
+    "fantasyTierOrder": 34,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "stone/blind_cave_weaver"
+    }
   },
   {
     "id": "scree_watcher_t10",
@@ -2532,7 +2744,11 @@
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
     "registrationOrder": 89,
-    "fantasyTierOrder": 38
+    "fantasyTierOrder": 38,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "stone/scree_watcher"
+    }
   },
   {
     "id": "baby_red_dragon_t50",
@@ -6246,7 +6462,11 @@
     "lootTableId": "loot_enemy_webweaver_spider_t5",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 222
+    "registrationOrder": 222,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/webweaver_spider"
+    }
   },
   {
     "id": "marsh_wasp_t5",
@@ -6274,7 +6494,11 @@
     "lootTableId": "loot_enemy_marsh_wasp_t5",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 223
+    "registrationOrder": 223,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/marsh_wasp"
+    }
   },
   {
     "id": "goblin_scout_t1",
@@ -6302,7 +6526,11 @@
     "lootTableId": "loot_enemy_goblin_scout_t1",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 224
+    "registrationOrder": 224,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/goblin_scout"
+    }
   },
   {
     "id": "goblin_archer_t1",
@@ -6330,7 +6558,11 @@
     "lootTableId": "loot_enemy_goblin_archer_t1",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 225
+    "registrationOrder": 225,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/goblin_archer"
+    }
   },
   {
     "id": "goblin_shaman_t5",
@@ -6358,7 +6590,11 @@
     "lootTableId": "loot_enemy_goblin_shaman_t5",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 226
+    "registrationOrder": 226,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/goblin_shaman"
+    }
   },
   {
     "id": "skeleton_soldier_t5",
@@ -6386,7 +6622,11 @@
     "lootTableId": "loot_enemy_skeleton_soldier_t5",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 227
+    "registrationOrder": 227,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/skeleton_soldier"
+    }
   },
   {
     "id": "skeleton_archer_t5",
@@ -6414,7 +6654,11 @@
     "lootTableId": "loot_enemy_skeleton_archer_t5",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 228
+    "registrationOrder": 228,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/skeleton_archer"
+    }
   },
   {
     "id": "skeleton_mage_t20",
@@ -6442,7 +6686,11 @@
     "lootTableId": "loot_enemy_skeleton_mage_t20",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 229
+    "registrationOrder": 229,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/skeleton_mage"
+    }
   },
   {
     "id": "zombie_t1",
@@ -6470,7 +6718,11 @@
     "lootTableId": "loot_enemy_zombie_t1",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 230
+    "registrationOrder": 230,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/zombie"
+    }
   },
   {
     "id": "plague_zombie_t20",
@@ -6498,7 +6750,11 @@
     "lootTableId": "loot_enemy_plague_zombie_t20",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 231
+    "registrationOrder": 231,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/plague_zombie"
+    }
   },
   {
     "id": "grave_ghoul_t10",
@@ -6526,7 +6782,11 @@
     "lootTableId": "loot_enemy_grave_ghoul_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 232
+    "registrationOrder": 232,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/grave_ghoul"
+    }
   },
   {
     "id": "wraith_t10",
@@ -6554,7 +6814,11 @@
     "lootTableId": "loot_enemy_wraith_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 233
+    "registrationOrder": 233,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/wraith"
+    }
   },
   {
     "id": "banshee_t20",
@@ -6582,7 +6846,11 @@
     "lootTableId": "loot_enemy_banshee_t20",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 234
+    "registrationOrder": 234,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/banshee"
+    }
   },
   {
     "id": "revenant_t20",
@@ -6610,7 +6878,11 @@
     "lootTableId": "loot_enemy_revenant_t20",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 235
+    "registrationOrder": 235,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/revenant"
+    }
   },
   {
     "id": "stone_golem_t10",
@@ -6638,7 +6910,11 @@
     "lootTableId": "loot_enemy_stone_golem_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 236
+    "registrationOrder": 236,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/stone_golem"
+    }
   },
   {
     "id": "iron_golem_t20",
@@ -6666,7 +6942,11 @@
     "lootTableId": "loot_enemy_iron_golem_t20",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 237
+    "registrationOrder": 237,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/iron_golem"
+    }
   },
   {
     "id": "fire_golem_t20",
@@ -6694,7 +6974,11 @@
     "lootTableId": "loot_enemy_fire_golem_t20",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 238
+    "registrationOrder": 238,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/fire_golem"
+    }
   },
   {
     "id": "shale_elemental_t10",
@@ -6722,7 +7006,11 @@
     "lootTableId": "loot_enemy_shale_elemental_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 239
+    "registrationOrder": 239,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/shale_elemental"
+    }
   },
   {
     "id": "lava_golem_t10",
@@ -6750,7 +7038,11 @@
     "lootTableId": "loot_enemy_lava_golem_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 240
+    "registrationOrder": 240,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/lava_golem"
+    }
   },
   {
     "id": "mossback_sentinel_t10",
@@ -6778,7 +7070,11 @@
     "lootTableId": "loot_enemy_mossback_sentinel_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 241
+    "registrationOrder": 241,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/mossback_sentinel"
+    }
   },
   {
     "id": "beetle_golem_t10",
@@ -6806,7 +7102,11 @@
     "lootTableId": "loot_enemy_beetle_golem_t10",
     "catalog": "RPG_BESTIARY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 242
+    "registrationOrder": 242,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/beetle_golem"
+    }
   },
   {
     "id": "briar_harrow_t1",
@@ -6835,7 +7135,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 243,
-    "fantasyTierOrder": 0
+    "fantasyTierOrder": 0,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/briar_harrow",
+      "tier": 1
+    }
   },
   {
     "id": "briar_harrow_t5",
@@ -6864,7 +7169,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 244,
-    "fantasyTierOrder": 1
+    "fantasyTierOrder": 1,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/briar_harrow",
+      "tier": 5
+    }
   },
   {
     "id": "briar_harrow_t20",
@@ -6893,7 +7203,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 245,
-    "fantasyTierOrder": 3
+    "fantasyTierOrder": 3,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/briar_harrow",
+      "tier": 20
+    }
   },
   {
     "id": "fen_crawler_t1",
@@ -6922,7 +7237,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 246,
-    "fantasyTierOrder": 4
+    "fantasyTierOrder": 4,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/fen_crawler",
+      "tier": 1
+    }
   },
   {
     "id": "fen_crawler_t5",
@@ -6951,7 +7271,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 247,
-    "fantasyTierOrder": 5
+    "fantasyTierOrder": 5,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/fen_crawler",
+      "tier": 5
+    }
   },
   {
     "id": "fen_crawler_t20",
@@ -6980,7 +7305,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 248,
-    "fantasyTierOrder": 7
+    "fantasyTierOrder": 7,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/fen_crawler",
+      "tier": 20
+    }
   },
   {
     "id": "reed_strider_t1",
@@ -7009,7 +7339,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 249,
-    "fantasyTierOrder": 8
+    "fantasyTierOrder": 8,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/reed_strider",
+      "tier": 1
+    }
   },
   {
     "id": "reed_strider_t5",
@@ -7038,7 +7373,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 250,
-    "fantasyTierOrder": 9
+    "fantasyTierOrder": 9,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/reed_strider",
+      "tier": 5
+    }
   },
   {
     "id": "reed_strider_t20",
@@ -7067,7 +7407,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 251,
-    "fantasyTierOrder": 11
+    "fantasyTierOrder": 11,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/reed_strider",
+      "tier": 20
+    }
   },
   {
     "id": "thorn_maw_t1",
@@ -7096,7 +7441,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 252,
-    "fantasyTierOrder": 12
+    "fantasyTierOrder": 12,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/thorn_maw",
+      "tier": 1
+    }
   },
   {
     "id": "thorn_maw_t5",
@@ -7125,7 +7475,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 253,
-    "fantasyTierOrder": 13
+    "fantasyTierOrder": 13,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/thorn_maw",
+      "tier": 5
+    }
   },
   {
     "id": "thorn_maw_t20",
@@ -7154,7 +7509,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 254,
-    "fantasyTierOrder": 15
+    "fantasyTierOrder": 15,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/thorn_maw",
+      "tier": 20
+    }
   },
   {
     "id": "heath_jack_t1",
@@ -7183,7 +7543,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 255,
-    "fantasyTierOrder": 16
+    "fantasyTierOrder": 16,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/heath_jack",
+      "tier": 1
+    }
   },
   {
     "id": "heath_jack_t5",
@@ -7212,7 +7577,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 256,
-    "fantasyTierOrder": 17
+    "fantasyTierOrder": 17,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/heath_jack",
+      "tier": 5
+    }
   },
   {
     "id": "heath_jack_t20",
@@ -7241,7 +7611,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 257,
-    "fantasyTierOrder": 19
+    "fantasyTierOrder": 19,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "forest/heath_jack",
+      "tier": 20
+    }
   },
   {
     "id": "cairn_treader_t1",
@@ -7270,7 +7645,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 258,
-    "fantasyTierOrder": 20
+    "fantasyTierOrder": 20,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/cairn_treader",
+      "tier": 1
+    }
   },
   {
     "id": "cairn_treader_t5",
@@ -7299,7 +7679,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 259,
-    "fantasyTierOrder": 21
+    "fantasyTierOrder": 21,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/cairn_treader",
+      "tier": 5
+    }
   },
   {
     "id": "cairn_treader_t20",
@@ -7328,7 +7713,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 260,
-    "fantasyTierOrder": 23
+    "fantasyTierOrder": 23,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/cairn_treader",
+      "tier": 20
+    }
   },
   {
     "id": "flint_mandible_t1",
@@ -7357,7 +7747,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 261,
-    "fantasyTierOrder": 24
+    "fantasyTierOrder": 24,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/flint_mandible",
+      "tier": 1
+    }
   },
   {
     "id": "flint_mandible_t5",
@@ -7386,7 +7781,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 262,
-    "fantasyTierOrder": 25
+    "fantasyTierOrder": 25,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/flint_mandible",
+      "tier": 5
+    }
   },
   {
     "id": "flint_mandible_t20",
@@ -7415,7 +7815,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 263,
-    "fantasyTierOrder": 27
+    "fantasyTierOrder": 27,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/flint_mandible",
+      "tier": 20
+    }
   },
   {
     "id": "vault_custodian_t1",
@@ -7444,7 +7849,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 264,
-    "fantasyTierOrder": 28
+    "fantasyTierOrder": 28,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/vault_custodian",
+      "tier": 1
+    }
   },
   {
     "id": "vault_custodian_t5",
@@ -7473,7 +7883,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 265,
-    "fantasyTierOrder": 29
+    "fantasyTierOrder": 29,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/vault_custodian",
+      "tier": 5
+    }
   },
   {
     "id": "vault_custodian_t20",
@@ -7502,7 +7917,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 266,
-    "fantasyTierOrder": 31
+    "fantasyTierOrder": 31,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/vault_custodian",
+      "tier": 20
+    }
   },
   {
     "id": "blind_cave_weaver_t1",
@@ -7531,7 +7951,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 267,
-    "fantasyTierOrder": 32
+    "fantasyTierOrder": 32,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/blind_cave_weaver",
+      "tier": 1
+    }
   },
   {
     "id": "blind_cave_weaver_t5",
@@ -7560,7 +7985,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 268,
-    "fantasyTierOrder": 33
+    "fantasyTierOrder": 33,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/blind_cave_weaver",
+      "tier": 5
+    }
   },
   {
     "id": "blind_cave_weaver_t20",
@@ -7589,7 +8019,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 269,
-    "fantasyTierOrder": 35
+    "fantasyTierOrder": 35,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/blind_cave_weaver",
+      "tier": 20
+    }
   },
   {
     "id": "scree_watcher_t1",
@@ -7618,7 +8053,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 270,
-    "fantasyTierOrder": 36
+    "fantasyTierOrder": 36,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/scree_watcher",
+      "tier": 1
+    }
   },
   {
     "id": "scree_watcher_t5",
@@ -7647,7 +8087,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 271,
-    "fantasyTierOrder": 37
+    "fantasyTierOrder": 37,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/scree_watcher",
+      "tier": 5
+    }
   },
   {
     "id": "scree_watcher_t20",
@@ -7676,7 +8121,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 272,
-    "fantasyTierOrder": 39
+    "fantasyTierOrder": 39,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "stone/scree_watcher",
+      "tier": 20
+    }
   },
   {
     "id": "kiln_marrow_t1",
@@ -7705,7 +8155,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 273,
-    "fantasyTierOrder": 40
+    "fantasyTierOrder": 40,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/kiln_marrow",
+      "tier": 1
+    }
   },
   {
     "id": "kiln_marrow_t5",
@@ -7734,7 +8189,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 274,
-    "fantasyTierOrder": 41
+    "fantasyTierOrder": 41,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/kiln_marrow",
+      "tier": 5
+    }
   },
   {
     "id": "kiln_marrow_t10",
@@ -7763,7 +8223,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 275,
-    "fantasyTierOrder": 42
+    "fantasyTierOrder": 42,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/kiln_marrow",
+      "tier": 10
+    }
   },
   {
     "id": "slag_crawler_t1",
@@ -7792,7 +8257,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 276,
-    "fantasyTierOrder": 44
+    "fantasyTierOrder": 44,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/slag_crawler",
+      "tier": 1
+    }
   },
   {
     "id": "slag_crawler_t5",
@@ -7821,7 +8291,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 277,
-    "fantasyTierOrder": 45
+    "fantasyTierOrder": 45,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/slag_crawler",
+      "tier": 5
+    }
   },
   {
     "id": "slag_crawler_t20",
@@ -7850,7 +8325,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 278,
-    "fantasyTierOrder": 47
+    "fantasyTierOrder": 47,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/slag_crawler",
+      "tier": 20
+    }
   },
   {
     "id": "cinder_penitent_t1",
@@ -7879,7 +8359,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 279,
-    "fantasyTierOrder": 48
+    "fantasyTierOrder": 48,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/cinder_penitent",
+      "tier": 1
+    }
   },
   {
     "id": "cinder_penitent_t5",
@@ -7908,7 +8393,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 280,
-    "fantasyTierOrder": 49
+    "fantasyTierOrder": 49,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/cinder_penitent",
+      "tier": 5
+    }
   },
   {
     "id": "cinder_penitent_t10",
@@ -7937,7 +8427,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 281,
-    "fantasyTierOrder": 50
+    "fantasyTierOrder": 50,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/cinder_penitent",
+      "tier": 10
+    }
   },
   {
     "id": "grave_lantern_t1",
@@ -7966,7 +8461,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 282,
-    "fantasyTierOrder": 52
+    "fantasyTierOrder": 52,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/grave_lantern",
+      "tier": 1
+    }
   },
   {
     "id": "grave_lantern_t5",
@@ -7995,7 +8495,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 283,
-    "fantasyTierOrder": 53
+    "fantasyTierOrder": 53,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/grave_lantern",
+      "tier": 5
+    }
   },
   {
     "id": "grave_lantern_t10",
@@ -8024,7 +8529,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 284,
-    "fantasyTierOrder": 54
+    "fantasyTierOrder": 54,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/grave_lantern",
+      "tier": 10
+    }
   },
   {
     "id": "veil_reaper_t1",
@@ -8053,7 +8563,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 285,
-    "fantasyTierOrder": 56
+    "fantasyTierOrder": 56,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/veil_reaper",
+      "tier": 1
+    }
   },
   {
     "id": "veil_reaper_t5",
@@ -8082,7 +8597,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 286,
-    "fantasyTierOrder": 57
+    "fantasyTierOrder": 57,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/veil_reaper",
+      "tier": 5
+    }
   },
   {
     "id": "veil_reaper_t10",
@@ -8111,7 +8631,12 @@
     "catalog": "FANTASY_TIER_BLOCKS",
     "stage": "registered",
     "registrationOrder": 287,
-    "fantasyTierOrder": 58
+    "fantasyTierOrder": 58,
+    "derivation": {
+      "kind": "fantasyScale.v1",
+      "sourceInputId": "ash/veil_reaper",
+      "tier": 10
+    }
   },
   {
     "id": "amethyst_dragon_t50",
@@ -9231,7 +9756,11 @@
     "lootTableId": "loot_enemy_giant_rat_t3",
     "catalog": "RPG_BESTIARY_STAGED_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 0
+    "labOrder": 0,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/giant_rat"
+    }
   },
   {
     "id": "wild_goblin_t5",
@@ -9259,7 +9788,11 @@
     "lootTableId": "loot_enemy_wild_goblin_t5",
     "catalog": "RPG_BESTIARY_STAGED_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 1
+    "labOrder": 1,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/wild_goblin"
+    }
   },
   {
     "id": "troll_mauler_t12",
@@ -9287,7 +9820,11 @@
     "lootTableId": "loot_enemy_troll_mauler_t12",
     "catalog": "RPG_BESTIARY_STAGED_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 2
+    "labOrder": 2,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/troll_mauler"
+    }
   },
   {
     "id": "cave_roach_t5",
@@ -9315,7 +9852,11 @@
     "lootTableId": "loot_enemy_cave_roach_t5",
     "catalog": "RPG_BESTIARY_STAGED_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 3
+    "labOrder": 3,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "rpg/cave_roach"
+    }
   },
   {
     "id": "boss_tempest_roc_t1",

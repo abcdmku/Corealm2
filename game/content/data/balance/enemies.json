@@ -25,7 +25,24 @@
       "magicArmour": 0,
       "maxHit": 1,
       "marks": 0
-    }
+    },
+    "sourceInputIds": [
+      "forest/briar_harrow",
+      "forest/fen_crawler",
+      "forest/reed_strider",
+      "forest/thorn_maw",
+      "forest/heath_jack",
+      "stone/cairn_treader",
+      "stone/flint_mandible",
+      "stone/vault_custodian",
+      "stone/blind_cave_weaver",
+      "stone/scree_watcher",
+      "ash/kiln_marrow",
+      "ash/slag_crawler",
+      "ash/cinder_penitent",
+      "ash/grave_lantern",
+      "ash/veil_reaper"
+    ]
   },
   "combatLevel": {
     "rollLevelOffset": 9,
@@ -376,6 +393,1300 @@
       "telegraphId": "ground_slam",
       "telegraphWindupMs": 1800,
       "telegraphRadiusM": 6
+    }
+  ],
+  "sourceParameters": {
+    "expansion": {
+      "marksPerTier": [
+        2,
+        6
+      ]
+    },
+    "starter": {
+      "tier": 1,
+      "attackLevel": 2,
+      "defenceLevel": 1,
+      "accuracy": 4,
+      "magicArmour": 0,
+      "maxHit": 2,
+      "attackSpeedMs": 2400,
+      "aggroRadius": {
+        "aggressive": 5,
+        "other": 3
+      },
+      "walkSpeedCap": 0.4,
+      "walkSpeedDivisor": 3,
+      "marks": [
+        1,
+        3
+      ]
+    },
+    "rpg": {
+      "healthBase": 8,
+      "healthPerTier": 2.2,
+      "maxHitMinimum": 2,
+      "maxHitPerTier": 0.45,
+      "roles": {
+        "skirmisher": {
+          "healthMultiplier": 1,
+          "attackLevelOffset": 2,
+          "defenceLevelOffset": 0,
+          "accuracy": 12,
+          "armour": 10,
+          "maxHitOffset": 1,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
+          "moveSpeedMps": 1.6
+        },
+        "fighter": {
+          "healthMultiplier": 1,
+          "attackLevelOffset": 2,
+          "defenceLevelOffset": 0,
+          "accuracy": 6,
+          "armour": 10,
+          "maxHitOffset": 1,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "moveSpeedMps": 1.6
+        },
+        "brute": {
+          "healthMultiplier": 1.4,
+          "attackLevelOffset": 6,
+          "defenceLevelOffset": 0,
+          "accuracy": 6,
+          "armour": 16,
+          "maxHitOffset": 4,
+          "attackSpeedMs": 3400,
+          "aggroRadius": 7,
+          "moveSpeedMps": 1.2
+        },
+        "caster": {
+          "healthMultiplier": 0.8,
+          "attackLevelOffset": 2,
+          "defenceLevelOffset": 0,
+          "accuracy": 16,
+          "armour": 3,
+          "maxHitOffset": 1,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "moveSpeedMps": 1.6
+        },
+        "guard": {
+          "healthMultiplier": 1.2,
+          "attackLevelOffset": 2,
+          "defenceLevelOffset": 4,
+          "accuracy": 6,
+          "armour": 45,
+          "maxHitOffset": 1,
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "moveSpeedMps": 1.3
+        }
+      },
+      "magicArmour": {
+        "caster": 55,
+        "golem": 5,
+        "other": 15
+      },
+      "attackRangeM": {
+        "melee": 1.8,
+        "ranged": 10,
+        "magic": 8
+      },
+      "rangedActions": [
+        "bow shot"
+      ],
+      "magicActions": [
+        "staff curse",
+        "lament"
+      ],
+      "territorialFamilies": [
+        "golem",
+        "gargoyle"
+      ],
+      "walkSpeedMps": 0.4,
+      "marksMinimum": [
+        1,
+        3
+      ],
+      "marksPerTier": [
+        1,
+        3
+      ]
+    },
+    "variant": {
+      "magicArmourBonus": 12
+    },
+    "redesign": {
+      "ash": {
+        "attackStyle": "melee"
+      }
+    }
+  },
+  "sourceInputs": [
+    {
+      "id": "expansion/redbrush_fox",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "redbrush_fox_t1",
+        "family": "redbrush_fox",
+        "name": "Red Fox",
+        "tier": 1
+      },
+      "authored": {
+        "maxHealth": 8,
+        "attackLevel": 3,
+        "defenceLevel": 4,
+        "accuracy": 2,
+        "armour": 2,
+        "magicArmour": 4,
+        "maxHit": 2,
+        "attackSpeedMs": 1800,
+        "aggroRadius": 4,
+        "behaviour": "passive",
+        "moveSpeedMps": 1.8,
+        "walkSpeedMps": 0.5
+      }
+    },
+    {
+      "id": "expansion/duskoak_lynx",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "duskoak_lynx_t5",
+        "family": "duskoak_lynx",
+        "name": "Lynx",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 30,
+        "attackLevel": 14,
+        "defenceLevel": 8,
+        "accuracy": 16,
+        "armour": 10,
+        "magicArmour": 10,
+        "maxHit": 8,
+        "attackSpeedMs": 3000,
+        "aggroRadius": 8,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 2.2,
+        "walkSpeedMps": 0.65
+      }
+    },
+    {
+      "id": "expansion/rootdelve_badger",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "rootdelve_badger_t5",
+        "family": "rootdelve_badger",
+        "name": "Badger",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 24,
+        "attackLevel": 11,
+        "defenceLevel": 10,
+        "accuracy": 8,
+        "armour": 35,
+        "magicArmour": 12,
+        "maxHit": 5,
+        "attackSpeedMs": 3000,
+        "aggroRadius": 5,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.25,
+        "walkSpeedMps": 0.4
+      }
+    },
+    {
+      "id": "expansion/quillback_porcupine",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "quillback_porcupine_t10",
+        "family": "quillback_porcupine",
+        "name": "Porcupine",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 34,
+        "attackLevel": 17,
+        "defenceLevel": 12,
+        "accuracy": 10,
+        "armour": 65,
+        "magicArmour": 15,
+        "maxHit": 7,
+        "attackSpeedMs": 3000,
+        "aggroRadius": 5,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1,
+        "walkSpeedMps": 0.32
+      }
+    },
+    {
+      "id": "expansion/marchwild_horse",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "marchwild_horse_t5",
+        "family": "marchwild_horse",
+        "name": "Wild Horse",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 28,
+        "attackLevel": 12,
+        "defenceLevel": 8,
+        "accuracy": 6,
+        "armour": 14,
+        "magicArmour": 20,
+        "maxHit": 7,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 5,
+        "behaviour": "passive",
+        "moveSpeedMps": 2.15,
+        "walkSpeedMps": 0.65
+      }
+    },
+    {
+      "id": "expansion/cairn_bighorn",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "cairn_bighorn_t10",
+        "family": "cairn_bighorn",
+        "name": "Bighorn Sheep",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 42,
+        "attackLevel": 19,
+        "defenceLevel": 13,
+        "accuracy": 14,
+        "armour": 35,
+        "magicArmour": 50,
+        "maxHit": 9,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 6,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.7,
+        "walkSpeedMps": 0.5
+      }
+    },
+    {
+      "id": "expansion/marsh_moose",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "marsh_moose_t10",
+        "family": "marsh_moose",
+        "name": "Moose",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 50,
+        "attackLevel": 20,
+        "defenceLevel": 12,
+        "accuracy": 12,
+        "armour": 22,
+        "magicArmour": 45,
+        "maxHit": 10,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 6,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.95,
+        "walkSpeedMps": 0.55
+      }
+    },
+    {
+      "id": "expansion/bracken_tapir",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "bracken_tapir_t5",
+        "family": "bracken_tapir",
+        "name": "Tapir",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 22,
+        "attackLevel": 8,
+        "defenceLevel": 8,
+        "accuracy": 4,
+        "armour": 20,
+        "magicArmour": 28,
+        "maxHit": 4,
+        "attackSpeedMs": 3000,
+        "aggroRadius": 4,
+        "behaviour": "passive",
+        "moveSpeedMps": 1.1,
+        "walkSpeedMps": 0.4
+      }
+    },
+    {
+      "id": "expansion/reedjaw_crocodile",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "reedjaw_crocodile_t10",
+        "family": "reedjaw_crocodile",
+        "name": "Crocodile",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 46,
+        "attackLevel": 20,
+        "defenceLevel": 12,
+        "accuracy": 16,
+        "armour": 55,
+        "magicArmour": 30,
+        "maxHit": 10,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 6,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.3,
+        "walkSpeedMps": 0.35
+      }
+    },
+    {
+      "id": "expansion/kiln_salamander",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "kiln_salamander_t20",
+        "family": "kiln_salamander",
+        "name": "Salamander",
+        "tier": 20
+      },
+      "authored": {
+        "maxHealth": 50,
+        "attackLevel": 25,
+        "defenceLevel": 19,
+        "accuracy": 18,
+        "armour": 24,
+        "magicArmour": 90,
+        "maxHit": 8,
+        "attackSpeedMs": 2400,
+        "aggroRadius": 5,
+        "behaviour": "territorial",
+        "moveSpeedMps": 0.9,
+        "walkSpeedMps": 0.32
+      }
+    },
+    {
+      "id": "expansion/slateback_tortoise",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "slateback_tortoise_t10",
+        "family": "slateback_tortoise",
+        "name": "Tortoise",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 34,
+        "attackLevel": 16,
+        "defenceLevel": 13,
+        "accuracy": 8,
+        "armour": 90,
+        "magicArmour": 20,
+        "maxHit": 7,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 4,
+        "behaviour": "territorial",
+        "moveSpeedMps": 0.45,
+        "walkSpeedMps": 0.18
+      }
+    },
+    {
+      "id": "expansion/ashscale_monitor",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "ashscale_monitor_t20",
+        "family": "ashscale_monitor",
+        "name": "Monitor Lizard",
+        "tier": 20
+      },
+      "authored": {
+        "maxHealth": 56,
+        "attackLevel": 27,
+        "defenceLevel": 20,
+        "accuracy": 24,
+        "armour": 40,
+        "magicArmour": 65,
+        "maxHit": 9,
+        "attackSpeedMs": 2400,
+        "aggroRadius": 9,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.65,
+        "walkSpeedMps": 0.48
+      }
+    },
+    {
+      "id": "expansion/reedbank_goose",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "reedbank_goose_t1",
+        "family": "reedbank_goose",
+        "name": "Goose",
+        "tier": 1
+      },
+      "authored": {
+        "maxHealth": 10,
+        "attackLevel": 4,
+        "defenceLevel": 2,
+        "accuracy": 2,
+        "armour": 3,
+        "magicArmour": 0,
+        "maxHit": 3,
+        "attackSpeedMs": 2400,
+        "aggroRadius": 4,
+        "behaviour": "territorial",
+        "moveSpeedMps": 0.5,
+        "walkSpeedMps": 0.36
+      }
+    },
+    {
+      "id": "expansion/blackwater_heron",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "blackwater_heron_t5",
+        "family": "blackwater_heron",
+        "name": "Heron",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 18,
+        "attackLevel": 13,
+        "defenceLevel": 9,
+        "accuracy": 20,
+        "armour": 2,
+        "magicArmour": 26,
+        "maxHit": 6,
+        "attackSpeedMs": 3000,
+        "aggroRadius": 4,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1,
+        "walkSpeedMps": 0.28
+      }
+    },
+    {
+      "id": "expansion/scree_bustard",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "scree_bustard_t10",
+        "family": "scree_bustard",
+        "name": "Bustard",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 32,
+        "attackLevel": 18,
+        "defenceLevel": 11,
+        "accuracy": 16,
+        "armour": 10,
+        "magicArmour": 70,
+        "maxHit": 6,
+        "attackSpeedMs": 1800,
+        "aggroRadius": 8,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.8,
+        "walkSpeedMps": 0.55
+      }
+    },
+    {
+      "id": "expansion/marchfield_turkey",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "marchfield_turkey_t1",
+        "family": "marchfield_turkey",
+        "name": "Turkey",
+        "tier": 1
+      },
+      "authored": {
+        "maxHealth": 7,
+        "attackLevel": 3,
+        "defenceLevel": 2,
+        "accuracy": 0,
+        "armour": 1,
+        "magicArmour": 2,
+        "maxHit": 2,
+        "attackSpeedMs": 2400,
+        "aggroRadius": 3,
+        "behaviour": "passive",
+        "moveSpeedMps": 1,
+        "walkSpeedMps": 0.3
+      }
+    },
+    {
+      "id": "expansion/quarry_snail",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "quarry_snail_t5",
+        "family": "quarry_snail",
+        "name": "Snail",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 14,
+        "attackLevel": 6,
+        "defenceLevel": 8,
+        "accuracy": 0,
+        "armour": 45,
+        "magicArmour": 5,
+        "maxHit": 3,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 3,
+        "behaviour": "passive",
+        "moveSpeedMps": 0.08,
+        "walkSpeedMps": 0.025
+      }
+    },
+    {
+      "id": "expansion/antler_beetle",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "antler_beetle_t10",
+        "family": "antler_beetle",
+        "name": "Stag Beetle",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 30,
+        "attackLevel": 18,
+        "defenceLevel": 12,
+        "accuracy": 12,
+        "armour": 70,
+        "magicArmour": 18,
+        "maxHit": 8,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 5,
+        "behaviour": "territorial",
+        "moveSpeedMps": 0.9,
+        "walkSpeedMps": 0.32
+      }
+    },
+    {
+      "id": "expansion/slag_centipede",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "slag_centipede_t20",
+        "family": "slag_centipede",
+        "name": "Giant Centipede",
+        "tier": 20
+      },
+      "authored": {
+        "maxHealth": 52,
+        "attackLevel": 26,
+        "defenceLevel": 20,
+        "accuracy": 20,
+        "armour": 65,
+        "magicArmour": 80,
+        "maxHit": 7,
+        "attackSpeedMs": 1800,
+        "aggroRadius": 7,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.2,
+        "walkSpeedMps": 0.4
+      }
+    },
+    {
+      "id": "expansion/hollowroot_spider",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "hollowroot_spider_t5",
+        "family": "hollowroot_spider",
+        "name": "Giant Spider",
+        "tier": 5
+      },
+      "authored": {
+        "maxHealth": 20,
+        "attackLevel": 11,
+        "defenceLevel": 7,
+        "accuracy": 12,
+        "armour": 6,
+        "magicArmour": 30,
+        "maxHit": 3,
+        "attackSpeedMs": 1200,
+        "aggroRadius": 6,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.4,
+        "walkSpeedMps": 0.42
+      }
+    },
+    {
+      "id": "expansion/cinder_ravager",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "cinder_ravager_t20",
+        "family": "cinder_ravager",
+        "name": "Armored Demon",
+        "tier": 20
+      },
+      "authored": {
+        "maxHealth": 74,
+        "attackLevel": 29,
+        "defenceLevel": 23,
+        "accuracy": 22,
+        "armour": 65,
+        "magicArmour": 45,
+        "maxHit": 13,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 10,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 3,
+        "walkSpeedMps": 0.9
+      }
+    },
+    {
+      "id": "expansion/basalt_drake",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "basalt_drake_t20",
+        "family": "basalt_drake",
+        "name": "Armored Dragon",
+        "tier": 20
+      },
+      "authored": {
+        "maxHealth": 90,
+        "attackLevel": 28,
+        "defenceLevel": 24,
+        "accuracy": 18,
+        "armour": 120,
+        "magicArmour": 30,
+        "maxHit": 12,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 7,
+        "behaviour": "territorial",
+        "moveSpeedMps": 2.4,
+        "walkSpeedMps": 0.7
+      }
+    },
+    {
+      "id": "expansion/gorge_mantis",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "gorge_mantis_t20",
+        "family": "gorge_mantis",
+        "name": "Giant Mantis",
+        "tier": 20
+      },
+      "authored": {
+        "maxHealth": 58,
+        "attackLevel": 28,
+        "defenceLevel": 21,
+        "accuracy": 24,
+        "armour": 35,
+        "magicArmour": 95,
+        "maxHit": 8,
+        "attackSpeedMs": 1800,
+        "aggroRadius": 8,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.8,
+        "walkSpeedMps": 0.52
+      }
+    },
+    {
+      "id": "expansion/quarry_nightmare",
+      "kind": "expansion",
+      "identity": {
+        "enemyId": "quarry_nightmare_t10",
+        "family": "quarry_nightmare",
+        "name": "Pale Dragon",
+        "tier": 10
+      },
+      "authored": {
+        "maxHealth": 66,
+        "attackLevel": 21,
+        "defenceLevel": 14,
+        "accuracy": 16,
+        "armour": 45,
+        "magicArmour": 25,
+        "maxHit": 10,
+        "attackSpeedMs": 3600,
+        "aggroRadius": 7,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.65,
+        "walkSpeedMps": 0.5
+      }
+    },
+    {
+      "id": "starter/grass_viper",
+      "kind": "starter",
+      "speciesId": "grass_viper",
+      "name": "Grass Viper",
+      "health": 8,
+      "behaviour": "territorial",
+      "armour": 0,
+      "moveSpeedMps": 1.6
+    },
+    {
+      "id": "starter/field_wasp",
+      "kind": "starter",
+      "speciesId": "field_wasp",
+      "name": "Field Wasp",
+      "health": 7,
+      "behaviour": "aggressive",
+      "armour": 0,
+      "moveSpeedMps": 1.6
+    },
+    {
+      "id": "starter/heath_wasp",
+      "kind": "starter",
+      "speciesId": "heath_wasp",
+      "name": "Heath Wasp",
+      "health": 7,
+      "behaviour": "aggressive",
+      "armour": 0,
+      "moveSpeedMps": 1.6
+    },
+    {
+      "id": "starter/reed_wasp",
+      "kind": "starter",
+      "speciesId": "reed_wasp",
+      "name": "Reed Wasp",
+      "health": 7,
+      "behaviour": "aggressive",
+      "armour": 0,
+      "moveSpeedMps": 1.6
+    },
+    {
+      "id": "starter/creek_crab",
+      "kind": "starter",
+      "speciesId": "creek_crab",
+      "name": "Creek Crab",
+      "health": 10,
+      "behaviour": "territorial",
+      "armour": 25,
+      "moveSpeedMps": 0.6
+    },
+    {
+      "id": "starter/briar_spider",
+      "kind": "starter",
+      "speciesId": "briar_spider",
+      "name": "Briar Spider",
+      "health": 8,
+      "behaviour": "aggressive",
+      "armour": 0,
+      "moveSpeedMps": 0.95
+    },
+    {
+      "id": "starter/granary_rat",
+      "kind": "starter",
+      "speciesId": "granary_rat",
+      "name": "Granary Rat",
+      "health": 6,
+      "behaviour": "passive",
+      "armour": 0,
+      "moveSpeedMps": 1.6
+    },
+    {
+      "id": "rpg/webweaver_spider",
+      "kind": "rpg",
+      "speciesId": "webweaver_spider",
+      "name": "Webweaver Spider",
+      "bodyFamily": "spider",
+      "regionId": "vellenwood",
+      "tier": 5,
+      "role": "skirmisher",
+      "action": "fang bite"
+    },
+    {
+      "id": "rpg/marsh_wasp",
+      "kind": "rpg",
+      "speciesId": "marsh_wasp",
+      "name": "Marsh Wasp",
+      "bodyFamily": "wasp",
+      "regionId": "vellenwood",
+      "tier": 5,
+      "role": "skirmisher",
+      "action": "stinger strike"
+    },
+    {
+      "id": "rpg/goblin_scout",
+      "kind": "rpg",
+      "speciesId": "goblin_scout",
+      "name": "Goblin Scout",
+      "bodyFamily": "goblin",
+      "regionId": "fallowmarch",
+      "tier": 1,
+      "role": "skirmisher",
+      "action": "dagger thrust"
+    },
+    {
+      "id": "rpg/goblin_archer",
+      "kind": "rpg",
+      "speciesId": "goblin_archer",
+      "name": "Goblin Archer",
+      "bodyFamily": "goblin",
+      "regionId": "fallowmarch",
+      "tier": 1,
+      "role": "skirmisher",
+      "action": "bow shot"
+    },
+    {
+      "id": "rpg/goblin_shaman",
+      "kind": "rpg",
+      "speciesId": "goblin_shaman",
+      "name": "Goblin Shaman",
+      "bodyFamily": "goblin",
+      "regionId": "fallowmarch",
+      "tier": 5,
+      "role": "caster",
+      "action": "staff curse"
+    },
+    {
+      "id": "rpg/skeleton_soldier",
+      "kind": "rpg",
+      "speciesId": "skeleton_soldier",
+      "name": "Skeleton Soldier",
+      "bodyFamily": "skeleton",
+      "regionId": "vellenwood",
+      "tier": 5,
+      "role": "fighter",
+      "action": "sword cut"
+    },
+    {
+      "id": "rpg/skeleton_archer",
+      "kind": "rpg",
+      "speciesId": "skeleton_archer",
+      "name": "Skeleton Archer",
+      "bodyFamily": "skeleton",
+      "regionId": "vellenwood",
+      "tier": 5,
+      "role": "skirmisher",
+      "action": "bow shot"
+    },
+    {
+      "id": "rpg/skeleton_mage",
+      "kind": "rpg",
+      "speciesId": "skeleton_mage",
+      "name": "Skeleton Mage",
+      "bodyFamily": "skeleton",
+      "regionId": "kilnhalt",
+      "tier": 20,
+      "role": "caster",
+      "action": "staff curse"
+    },
+    {
+      "id": "rpg/zombie",
+      "kind": "rpg",
+      "speciesId": "zombie",
+      "name": "Zombie",
+      "bodyFamily": "zombie",
+      "regionId": "fallowmarch",
+      "tier": 1,
+      "role": "brute",
+      "action": "grasp"
+    },
+    {
+      "id": "rpg/plague_zombie",
+      "kind": "rpg",
+      "speciesId": "plague_zombie",
+      "name": "Plague Zombie",
+      "bodyFamily": "zombie",
+      "regionId": "kilnhalt",
+      "tier": 20,
+      "role": "brute",
+      "action": "grasp"
+    },
+    {
+      "id": "rpg/grave_ghoul",
+      "kind": "rpg",
+      "speciesId": "grave_ghoul",
+      "name": "Grave Ghoul",
+      "bodyFamily": "zombie",
+      "regionId": "vellenwood",
+      "tier": 10,
+      "role": "skirmisher",
+      "action": "claw rake"
+    },
+    {
+      "id": "rpg/wraith",
+      "kind": "rpg",
+      "speciesId": "wraith",
+      "name": "Wraith",
+      "bodyFamily": "wraith",
+      "regionId": "vellenwood",
+      "tier": 10,
+      "role": "caster",
+      "action": "spectral touch"
+    },
+    {
+      "id": "rpg/banshee",
+      "kind": "rpg",
+      "speciesId": "banshee",
+      "name": "Banshee",
+      "bodyFamily": "wraith",
+      "regionId": "kilnhalt",
+      "tier": 20,
+      "role": "caster",
+      "action": "lament"
+    },
+    {
+      "id": "rpg/revenant",
+      "kind": "rpg",
+      "speciesId": "revenant",
+      "name": "Revenant",
+      "bodyFamily": "wraith",
+      "regionId": "kilnhalt",
+      "tier": 20,
+      "role": "guard",
+      "action": "spectral cut"
+    },
+    {
+      "id": "rpg/stone_golem",
+      "kind": "rpg",
+      "speciesId": "stone_golem",
+      "name": "Stone Golem",
+      "bodyFamily": "golem",
+      "regionId": "karrowmoor",
+      "tier": 10,
+      "role": "guard",
+      "action": "hammer fist"
+    },
+    {
+      "id": "rpg/iron_golem",
+      "kind": "rpg",
+      "speciesId": "iron_golem",
+      "name": "Iron Golem",
+      "bodyFamily": "golem",
+      "regionId": "karrowmoor",
+      "tier": 20,
+      "role": "guard",
+      "action": "hammer fist"
+    },
+    {
+      "id": "rpg/fire_golem",
+      "kind": "rpg",
+      "speciesId": "fire_golem",
+      "name": "Fire Golem",
+      "bodyFamily": "golem",
+      "regionId": "kilnhalt",
+      "tier": 20,
+      "role": "brute",
+      "action": "furnace slam"
+    },
+    {
+      "id": "rpg/shale_elemental",
+      "kind": "rpg",
+      "speciesId": "shale_elemental",
+      "name": "Shale Elemental",
+      "bodyFamily": "elemental",
+      "regionId": "karrowmoor",
+      "tier": 10,
+      "role": "guard",
+      "action": "stone punch"
+    },
+    {
+      "id": "rpg/lava_golem",
+      "kind": "rpg",
+      "speciesId": "lava_golem",
+      "name": "Lava Golem",
+      "bodyFamily": "elemental",
+      "regionId": "kilnhalt",
+      "tier": 10,
+      "role": "brute",
+      "action": "two-arm stone smash"
+    },
+    {
+      "id": "rpg/mossback_sentinel",
+      "kind": "rpg",
+      "speciesId": "mossback_sentinel",
+      "name": "Mossback Sentinel",
+      "bodyFamily": "forest_creature",
+      "regionId": "vellenwood",
+      "tier": 10,
+      "role": "brute",
+      "action": "root-arm strike"
+    },
+    {
+      "id": "rpg/beetle_golem",
+      "kind": "rpg",
+      "speciesId": "beetle_golem",
+      "name": "Beetle Golem",
+      "bodyFamily": "golem",
+      "regionId": "vellenwood",
+      "tier": 10,
+      "role": "guard",
+      "action": "plated forelimb strike"
+    },
+    {
+      "id": "rpg/giant_rat",
+      "kind": "rpg",
+      "speciesId": "giant_rat",
+      "name": "Giant Rat",
+      "bodyFamily": "rat",
+      "regionId": "fallowmarch",
+      "tier": 3,
+      "role": "skirmisher",
+      "action": "biting lunge"
+    },
+    {
+      "id": "rpg/wild_goblin",
+      "kind": "rpg",
+      "speciesId": "wild_goblin",
+      "name": "Wild Goblin",
+      "bodyFamily": "goblin",
+      "regionId": "vellenwood",
+      "tier": 5,
+      "role": "skirmisher",
+      "action": "knife slash"
+    },
+    {
+      "id": "rpg/troll_mauler",
+      "kind": "rpg",
+      "speciesId": "troll_mauler",
+      "name": "Troll Mauler",
+      "bodyFamily": "troll",
+      "regionId": "karrowmoor",
+      "tier": 12,
+      "role": "brute",
+      "action": "heavy fist strike"
+    },
+    {
+      "id": "rpg/cave_roach",
+      "kind": "rpg",
+      "speciesId": "cave_roach",
+      "name": "Cave Roach",
+      "bodyFamily": "roach",
+      "regionId": "karrowmoor",
+      "tier": 5,
+      "role": "skirmisher",
+      "action": "mandible snap"
+    },
+    {
+      "id": "variant/gloam_fox",
+      "speciesId": "gloam_fox",
+      "name": "Gloam Fox",
+      "sourceInputId": "expansion/redbrush_fox",
+      "health": 12,
+      "kind": "variant"
+    },
+    {
+      "id": "variant/moonweave_spider",
+      "speciesId": "moonweave_spider",
+      "name": "Moonweave Spider",
+      "sourceInputId": "rpg/webweaver_spider",
+      "health": 28,
+      "kind": "variant"
+    },
+    {
+      "id": "variant/rimeback_tortoise",
+      "speciesId": "rimeback_tortoise",
+      "name": "Rimeback Tortoise",
+      "sourceInputId": "expansion/slateback_tortoise",
+      "health": 44,
+      "kind": "variant"
+    },
+    {
+      "id": "variant/cindercrest_salamander",
+      "speciesId": "cindercrest_salamander",
+      "name": "Cindercrest Salamander",
+      "sourceInputId": "expansion/kiln_salamander",
+      "health": 62,
+      "kind": "variant"
+    },
+    {
+      "id": "variant/amethyst_spider",
+      "speciesId": "amethyst_spider",
+      "name": "Amethyst Spider",
+      "sourceInputId": "rpg/webweaver_spider",
+      "health": 32,
+      "kind": "variant"
+    },
+    {
+      "id": "basic/chalk_warden",
+      "speciesId": "chalk_warden",
+      "name": "Chalk Warden",
+      "sourceInputId": "rpg/shale_elemental",
+      "health": 48,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "territorial",
+      "profile": "basic"
+    },
+    {
+      "id": "basic/hollow_bough",
+      "speciesId": "hollow_bough",
+      "name": "Hollow Bough",
+      "sourceInputId": "rpg/mossback_sentinel",
+      "health": 70,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "basic"
+    },
+    {
+      "id": "basic/pallid_shade",
+      "speciesId": "pallid_shade",
+      "name": "Pallid Shade",
+      "sourceInputId": "rpg/wraith",
+      "health": 32,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "basic"
+    },
+    {
+      "id": "forest/briar_harrow",
+      "speciesId": "briar_harrow",
+      "name": "Briar Harrow",
+      "sourceInputId": "rpg/mossback_sentinel",
+      "health": 64,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "territorial",
+      "profile": "forest"
+    },
+    {
+      "id": "forest/fen_crawler",
+      "speciesId": "fen_crawler",
+      "name": "Fen Crawler",
+      "sourceInputId": "rpg/webweaver_spider",
+      "health": 26,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "forest"
+    },
+    {
+      "id": "forest/reed_strider",
+      "speciesId": "reed_strider",
+      "name": "Reed Strider",
+      "sourceInputId": "rpg/webweaver_spider",
+      "health": 22,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "territorial",
+      "profile": "forest"
+    },
+    {
+      "id": "forest/thorn_maw",
+      "speciesId": "thorn_maw",
+      "name": "Thorn Maw",
+      "sourceInputId": "rpg/beetle_golem",
+      "health": 56,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "forest"
+    },
+    {
+      "id": "forest/heath_jack",
+      "speciesId": "heath_jack",
+      "name": "Heath Jack",
+      "sourceInputId": "rpg/goblin_scout",
+      "health": 23,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "forest"
+    },
+    {
+      "id": "ash/kiln_marrow",
+      "speciesId": "kiln_marrow",
+      "name": "Kiln Marrow",
+      "sourceInputId": "rpg/lava_golem",
+      "health": 74,
+      "kind": "redesign",
+      "tier": 20,
+      "behaviour": "territorial",
+      "profile": "ash",
+      "attackRangeM": 2.1
+    },
+    {
+      "id": "ash/slag_crawler",
+      "speciesId": "slag_crawler",
+      "name": "Slag Crawler",
+      "sourceInputId": "rpg/webweaver_spider",
+      "health": 38,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "ash",
+      "attackRangeM": 1.8
+    },
+    {
+      "id": "ash/cinder_penitent",
+      "speciesId": "cinder_penitent",
+      "name": "Cinder Penitent",
+      "sourceInputId": "rpg/revenant",
+      "health": 52,
+      "kind": "redesign",
+      "tier": 20,
+      "behaviour": "aggressive",
+      "profile": "ash",
+      "attackRangeM": 1.8
+    },
+    {
+      "id": "ash/grave_lantern",
+      "speciesId": "grave_lantern",
+      "name": "Ashen Ghoul",
+      "sourceInputId": "rpg/grave_ghoul",
+      "health": 46,
+      "kind": "redesign",
+      "tier": 20,
+      "behaviour": "aggressive",
+      "profile": "ash",
+      "attackRangeM": 1.8
+    },
+    {
+      "id": "ash/veil_reaper",
+      "speciesId": "veil_reaper",
+      "name": "Veil Reaper",
+      "sourceInputId": "rpg/banshee",
+      "health": 58,
+      "kind": "redesign",
+      "tier": 20,
+      "behaviour": "aggressive",
+      "profile": "ash",
+      "attackRangeM": 1.8
+    },
+    {
+      "id": "stone/cairn_treader",
+      "speciesId": "cairn_treader",
+      "name": "Cairn Treader",
+      "sourceInputId": "rpg/shale_elemental",
+      "health": 52,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "territorial",
+      "profile": "stone"
+    },
+    {
+      "id": "stone/flint_mandible",
+      "speciesId": "flint_mandible",
+      "name": "Flint Mandible",
+      "sourceInputId": "rpg/beetle_golem",
+      "health": 46,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "territorial",
+      "profile": "stone"
+    },
+    {
+      "id": "stone/vault_custodian",
+      "speciesId": "vault_custodian",
+      "name": "Vault Custodian",
+      "sourceInputId": "rpg/iron_golem",
+      "health": 64,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "stone"
+    },
+    {
+      "id": "stone/blind_cave_weaver",
+      "speciesId": "blind_cave_weaver",
+      "name": "Blind Cave Weaver",
+      "sourceInputId": "rpg/webweaver_spider",
+      "health": 30,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "aggressive",
+      "profile": "stone"
+    },
+    {
+      "id": "stone/scree_watcher",
+      "speciesId": "scree_watcher",
+      "name": "Scree Watcher",
+      "sourceInputId": "rpg/stone_golem",
+      "health": 40,
+      "kind": "redesign",
+      "tier": 10,
+      "behaviour": "territorial",
+      "profile": "stone"
     }
   ]
 }

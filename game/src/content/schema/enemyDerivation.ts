@@ -6,9 +6,16 @@ const positiveInt = () => int({ min: 1 });
 const chance = () => num({ min: 0, max: 1 });
 const inputId = () => str({ nonEmpty: true });
 export const LEGACY_BOSS_IDS = ['galeskin', 'tempest_roc', 'mossbound', 'rootheart', 'tideworn', 'ordrun', 'cinderwake'] as const;
-export const EnemyDerivationSchema = discriminated('kind', {
+export const SourceEnemyDerivationSchema = obj({ kind: lit('sourceEnemy.v1'), inputId: inputId() });
+export const FantasyEnemyDerivationSchema = obj({ kind: lit('fantasyScale.v1'), sourceInputId: inputId(), tier: positiveInt() });
+export const LegacyEnemyDerivationSchema = discriminated('kind', {
   'legacyMarks.v1': obj({ kind: lit('legacyMarks.v1'), inputId: inputId() }),
   'legacyBossCombat.v1': obj({ kind: lit('legacyBossCombat.v1'), inputId: inputId() }),
+});
+export const EnemyDerivationSchema = discriminated('kind', {
+  ...LegacyEnemyDerivationSchema.members,
+  'sourceEnemy.v1': SourceEnemyDerivationSchema,
+  'fantasyScale.v1': FantasyEnemyDerivationSchema,
 });
 export const CombatInputSchema = obj({
   maxHealth: positive(), attackLevel: positive(), defenceLevel: positive(),

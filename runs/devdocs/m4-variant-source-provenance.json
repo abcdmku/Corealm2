@@ -1,0 +1,219 @@
+{
+  "sources": [
+    {
+      "module": "regionalCreatureVariants",
+      "path": ".baseline/game/src/content/regionalCreatureVariants.ts",
+      "sha256": "d41a6ee257ae0dfecde36e47a5713f6f77d72edadfd34703a21891657ff3370b"
+    },
+    {
+      "module": "creatureRedesign",
+      "path": ".baseline/game/src/content/creatureRedesign.ts",
+      "sha256": "591f7c3741ab67551067fa958198ddc85b5d1b53c94abaa3af5a3fd0cd24650a"
+    },
+    {
+      "module": "forestCreatureRedesigns",
+      "path": ".baseline/game/src/content/forestCreatureRedesigns.ts",
+      "sha256": "ab170e51afa136f981cc5e8b860f545fdcd47faa9479c48437a95c14a0a4e371"
+    },
+    {
+      "module": "ashCreatureRedesigns",
+      "path": ".baseline/game/src/content/ashCreatureRedesigns.ts",
+      "sha256": "121149513d35a470ae54b276753f932960756acdaa25fa633a71b31cd314856f"
+    },
+    {
+      "module": "stoneCreatureRedesigns",
+      "path": ".baseline/game/src/content/stoneCreatureRedesigns.ts",
+      "sha256": "62b9de4c15bed01309e418b8f45ce4763a7ab9f6d240714299066e1a0074463d"
+    },
+    {
+      "module": "enemies",
+      "path": ".baseline/game/src/content/enemies.ts",
+      "sha256": "83768128d6146ab7aab7e923841d9ca4e8966d48258bc15de4259dfc99901d2e"
+    }
+  ],
+  "rows": [
+    {
+      "inputId": "variant/gloam_fox",
+      "module": "regionalCreatureVariants",
+      "symbol": "variants",
+      "rowIndex": 0,
+      "catalog": "REGIONAL_CREATURE_VARIANTS"
+    },
+    {
+      "inputId": "variant/moonweave_spider",
+      "module": "regionalCreatureVariants",
+      "symbol": "variants",
+      "rowIndex": 1,
+      "catalog": "REGIONAL_CREATURE_VARIANTS"
+    },
+    {
+      "inputId": "variant/rimeback_tortoise",
+      "module": "regionalCreatureVariants",
+      "symbol": "variants",
+      "rowIndex": 2,
+      "catalog": "REGIONAL_CREATURE_VARIANTS"
+    },
+    {
+      "inputId": "variant/cindercrest_salamander",
+      "module": "regionalCreatureVariants",
+      "symbol": "variants",
+      "rowIndex": 3,
+      "catalog": "REGIONAL_CREATURE_VARIANTS"
+    },
+    {
+      "inputId": "variant/amethyst_spider",
+      "module": "regionalCreatureVariants",
+      "symbol": "variants",
+      "rowIndex": 4,
+      "catalog": "REGIONAL_CREATURE_VARIANTS"
+    },
+    {
+      "inputId": "basic/chalk_warden",
+      "module": "creatureRedesign",
+      "symbol": "CREATURE_REDESIGNS",
+      "rowIndex": 0,
+      "catalog": "CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "basic/hollow_bough",
+      "module": "creatureRedesign",
+      "symbol": "CREATURE_REDESIGNS",
+      "rowIndex": 1,
+      "catalog": "CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "basic/pallid_shade",
+      "module": "creatureRedesign",
+      "symbol": "CREATURE_REDESIGNS",
+      "rowIndex": 2,
+      "catalog": "CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "forest/briar_harrow",
+      "module": "forestCreatureRedesigns",
+      "symbol": "FOREST_CREATURE_REDESIGNS",
+      "rowIndex": 0,
+      "catalog": "FOREST_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "forest/fen_crawler",
+      "module": "forestCreatureRedesigns",
+      "symbol": "FOREST_CREATURE_REDESIGNS",
+      "rowIndex": 1,
+      "catalog": "FOREST_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "forest/reed_strider",
+      "module": "forestCreatureRedesigns",
+      "symbol": "FOREST_CREATURE_REDESIGNS",
+      "rowIndex": 2,
+      "catalog": "FOREST_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "forest/thorn_maw",
+      "module": "forestCreatureRedesigns",
+      "symbol": "FOREST_CREATURE_REDESIGNS",
+      "rowIndex": 3,
+      "catalog": "FOREST_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "forest/heath_jack",
+      "module": "forestCreatureRedesigns",
+      "symbol": "FOREST_CREATURE_REDESIGNS",
+      "rowIndex": 4,
+      "catalog": "FOREST_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "ash/kiln_marrow",
+      "module": "ashCreatureRedesigns",
+      "symbol": "ASH_CREATURE_REDESIGNS",
+      "rowIndex": 0,
+      "catalog": "ASH_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "ash/slag_crawler",
+      "module": "ashCreatureRedesigns",
+      "symbol": "ASH_CREATURE_REDESIGNS",
+      "rowIndex": 1,
+      "catalog": "ASH_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "ash/cinder_penitent",
+      "module": "ashCreatureRedesigns",
+      "symbol": "ASH_CREATURE_REDESIGNS",
+      "rowIndex": 2,
+      "catalog": "ASH_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "ash/grave_lantern",
+      "module": "ashCreatureRedesigns",
+      "symbol": "ASH_CREATURE_REDESIGNS",
+      "rowIndex": 3,
+      "catalog": "ASH_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "ash/veil_reaper",
+      "module": "ashCreatureRedesigns",
+      "symbol": "ASH_CREATURE_REDESIGNS",
+      "rowIndex": 4,
+      "catalog": "ASH_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "stone/cairn_treader",
+      "module": "stoneCreatureRedesigns",
+      "symbol": "STONE_CREATURE_REDESIGNS",
+      "rowIndex": 0,
+      "catalog": "STONE_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "stone/flint_mandible",
+      "module": "stoneCreatureRedesigns",
+      "symbol": "STONE_CREATURE_REDESIGNS",
+      "rowIndex": 1,
+      "catalog": "STONE_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "stone/vault_custodian",
+      "module": "stoneCreatureRedesigns",
+      "symbol": "STONE_CREATURE_REDESIGNS",
+      "rowIndex": 2,
+      "catalog": "STONE_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "stone/blind_cave_weaver",
+      "module": "stoneCreatureRedesigns",
+      "symbol": "STONE_CREATURE_REDESIGNS",
+      "rowIndex": 3,
+      "catalog": "STONE_CREATURE_REDESIGNS"
+    },
+    {
+      "inputId": "stone/scree_watcher",
+      "module": "stoneCreatureRedesigns",
+      "symbol": "STONE_CREATURE_REDESIGNS",
+      "rowIndex": 4,
+      "catalog": "STONE_CREATURE_REDESIGNS"
+    }
+  ],
+  "parameters": [
+    {
+      "parameterPath": "variant.magicArmourBonus",
+      "module": "regionalCreatureVariants",
+      "symbol": "REGIONAL_CREATURE_VARIANTS"
+    },
+    {
+      "parameterPath": "redesign.ash.attackStyle",
+      "module": "ashCreatureRedesigns",
+      "symbol": "ASH_CREATURE_REDESIGNS"
+    },
+    {
+      "parameterPath": "fantasy",
+      "module": "enemies",
+      "symbol": "FANTASY_TIER_BLOCKS"
+    },
+    {
+      "parameterPath": "sourceInputIds",
+      "module": "enemies",
+      "symbol": "FANTASY_SPECIES"
+    }
+  ]
+}

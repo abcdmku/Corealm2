@@ -1,6 +1,6 @@
 # M4 formula parameter and derivation contracts
 
-Status: Stage 1 frozen by root, 2026-09-13. The expansion, starter and RPG branches of Stage 2 are frozen for integration; other Stage 2 branches and Stages 3-4 remain proposals. The initial JSON slice has 338 canonical enemy records, 145 aliases, 246 species and 362 owner-specific loot tables. Stage 1 adds only its two closed derivation branches.
+Status: Stage 1 frozen by root, 2026-09-13. The expansion, starter, RPG, regional variant, redesign and fantasy branches of Stage 2 are frozen for integration. Universal, fairy and garden actor source branches are assigned for isolated extraction. Core source loot inputs and their owner ledger are frozen for integration; remaining branches and Wilderness progression remain proposals. The initial JSON slice has 338 canonical enemy records, 145 aliases, 246 species and 362 owner-specific loot tables. Stage 1 adds only its two closed derivation branches.
 
 This proposal extends [m4-contracts.md](./m4-contracts.md) and [m4-plan.md](./m4-plan.md). Root owns schema changes, integration and combined gates. A worker may implement a stage only after root freezes that stage's fields and assigns each affected file one owner.
 
@@ -50,7 +50,7 @@ type LootDerivation =
   | { kind: 'wildernessAliasLoot.v1'; groupId: string };
 ```
 
-These are closed schema unions, not plain casts of the illustrated TypeScript types. Validate tag kind against catalog and owner. The marks branch checks only `marks`; the legacy boss branch checks `CombatResult`; fantasy checks `id`, `tier`, the seven combat fields and marks. The source and Wilderness enemy branches check every runtime enemy field except drops. Loot branches check the complete ordered drop array. Tags never authorize a checker to copy unexplained fields from the output into its expected result. Untagged fields remain authored and appear as such in coverage reports.
+These are closed schema unions, not plain casts of the illustrated TypeScript types. Validate tag kind against catalog and owner. The marks branch checks only `marks`; the legacy boss branch checks `CombatResult`; fantasy checks every runtime enemy field except drops, including inherited unscaled fields. The source and Wilderness enemy branches check every runtime enemy field except drops. Loot branches check the complete ordered drop array. Tags never authorize a checker to copy unexplained fields from the output into its expected result. Untagged fields remain authored and appear as such in coverage reports.
 
 Optional marks deserve care. The original fantasy helper returns the identical native object on its native tier. On a nonnative tier it explicitly writes `marks: undefined` if the source has no marks. Current 60 fantasy rows all have marks, so no JSON row needs an own undefined value. Preserve that helper behavior in direct probes without widening the record schema to admit undefined-valued JSON properties.
 
@@ -291,3 +291,7 @@ Each stage's focused tests must prove the tagged field projection against immuta
 Wilderness focused coverage includes all 130 generated rows, 57 canonical IDs, 73 aliases, all 18 source alternatives, all five keepers, both depth bands, exact boundary points, beyond-band clamping, native level-78 dragons, keeper-body ordinary packs, cross-tier fallbacks, duplicate IDs, missing bases and invalid keeper placement. Preserve complete source exports, map order and the 54 historical lineage pairs separately. Formula tags do not rewrite historical aliases.
 
 No whole-game gate, browser session or final-world build was run for this proposal. Root remains responsible for the PRD's combined build, content, lab/browser state and world acceptance. Those gates assess the implemented stage; a report must not mistake future untagged formula families for regressions in the already migrated JSON records.
+
+### Current source graph integration
+
+The core and redesign graph has 79 original inputs, with 35 legacy and 45 scaled fantasy records bringing enemy tag coverage to 159. Fantasy records own the complete original source spread, including unscaled name, behaviour, speed and optional fields; only drops have separate loot ownership. The loot graph has 114 original inputs and 159 explicit owner mappings. Of these, 59 are authored literals and remain untagged; 100 formula owners carry `sourceLoot.v1`. Source owner identity and formula/authored mode are read-only. Removing a derivation tag keeps the stored values without removing source ownership. None of these counts imply completion of actor families or Wilderness progression.

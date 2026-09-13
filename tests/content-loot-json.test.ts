@@ -40,7 +40,7 @@ describe("JSON loot loader", () => {
     beforeAll(async () => { baseline = await buildM4Baseline(); });
 
     it("matches every baseline owner row, preserving order and drop details", () => {
-      expect(LOOT_RECORDS).toEqual(baseline.records.lootTables);
+      expect(LOOT_RECORDS.map(({ derivation: _tag, ...row }) => row)).toEqual(baseline.records.lootTables);
       expect(LOOT_RECORDS.map((row) => row.id)).toEqual(baseline.records.lootTables.map((row) => row.id));
       expect(LOOT_RECORDS.filter((row) => row.catalog === "CREATURE_SOURCE_LOOT")).toHaveLength(18);
       expect(LOOT_RECORDS.filter((row) => row.catalog === "ENEMY_ALIAS_LOOT")).toHaveLength(6);

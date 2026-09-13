@@ -1,3 +1,5 @@
+import { validateSourceLootLinks } from './schema/sourceLootLinks.js';
+import rawLootBalance from '../../content/data/balance/loot.json';
 import { ENEMY_RECORDS, ENEMY_ALIAS_RECORDS } from './enemyData.js';
 import { CREATURE_RECORDS } from './creatureData.js';
 import { LOOT_RECORDS } from './lootData.js';
@@ -10,8 +12,8 @@ export function assertCreatureCatalog(): void {
   const tables = new Map<string, unknown>([
     ['enemies', ENEMY_RECORDS], ['enemyAliases', ENEMY_ALIAS_RECORDS],
     ['creatures', CREATURE_RECORDS], ['lootTables', LOOT_RECORDS],
-    ['balance/enemies', ENEMY_BALANCE],
+    ['balance/enemies', ENEMY_BALANCE], ['balance/loot', rawLootBalance],
   ]);
-  const issues = [...validateCreatureCollections(tables), ...validateEnemyFormulaLinks(tables)];
+  const issues = [...validateCreatureCollections(tables), ...validateEnemyFormulaLinks(tables), ...validateSourceLootLinks(tables)];
   if (issues.length) throw new Error(issues.map(issue => `${issue.path}: ${issue.message}`).join('\n'));
 }

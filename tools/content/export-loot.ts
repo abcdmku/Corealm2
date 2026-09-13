@@ -1,15 +1,48 @@
 /** One-shot loot migration. Dry run validates the baseline; --apply replaces data/lootTables.json. */
 import path from "node:path";
+import { readFileSync } from 'node:fs';
+import { isDeepStrictEqual } from 'node:util';
 import { pathToFileURL } from "node:url";
 import { buildM4Baseline } from "./m4-baseline.js";
 import { repoRoot } from "../lib/paths.js";
 import { canonicalRecords, writeContentJson } from "./format.js";
 import { LootTableSchema, type LootTableRecord } from "../../game/src/content/schema/loot.js";
+import { buildCoreSourceLoot, CORE_SOURCE_LOOT_MODULES, type CoreSourceLootSources } from './source-loot-inputs.js';
+import { buildCoreEnemySources } from './enemy-source-inputs.js';
+import { buildVariantEnemySources } from './enemy-source-variant-inputs.js';
+import { deriveEnemySourceGraph } from '../../game/src/content/balance/enemySourceGraph.js';
+import { deriveSourceLootGraph } from '../../game/src/content/balance/sourceLootGraph.js';
+
+export async function buildLootSourceBundle() {
+  const baseline = await buildM4Baseline();
+  const sources = Object.fromEntries(CORE_SOURCE_LOOT_MODULES.map(name => [name,
+    readFileSync(path.join(repoRoot, '.baseline/game/src/content', `${name}.ts`), 'utf8')])) as CoreSourceLootSources;
+  const extracted = buildCoreSourceLoot(baseline, sources);
+  const core = buildCoreEnemySources(baseline, { creatureExpansion: sources.creatureExpansion, starterCreatures: sources.starterCreatures, rpgBestiary: sources.rpgBestiary });
+  const variants = buildVariantEnemySources(baseline, { enemies: sources.enemies, regionalCreatureVariants: sources.regionalCreatureVariants, creatureRedesign: sources.creatureRedesign, forestCreatureRedesigns: sources.forestCreatureRedesigns, ashCreatureRedesigns: sources.ashCreatureRedesigns, stoneCreatureRedesigns: sources.stoneCreatureRedesigns }, core.inputs);
+  const enemies = deriveEnemySourceGraph({ ...core.params, ...variants.params }, [...core.inputs, ...variants.inputs]);
+  const owners = extracted.ownerProposals.map(owner => ({ id: owner.lootTableId, inputId: owner.inputId,
+    mode: owner.formula ? 'formula' as const : 'authored' as const }));
+  for (const inputId of variants.sourceInputIds) {
+    const source = enemies.get(inputId)!;
+    for (const tier of variants.fantasy.tiers) if (tier !== source.tier) owners.push({
+      id: `loot_enemy_${source.family}_t${tier}`, inputId, mode: 'formula',
+    });
+  }
+  const outputs = deriveSourceLootGraph(extracted.params, extracted.inputs);
+  const records = canonicalRecords(LootTableSchema, baseline.records.lootTables, 'lootTables');
+  for (const owner of owners) {
+    const record = records.find(row => row.id === owner.id);
+    if (!record || !isDeepStrictEqual(record.drops, outputs.get(owner.inputId))) throw new Error(`Original loot ownership parity failed: ${owner.id}`);
+    if (owner.mode === 'formula') record.derivation = { kind: 'sourceLoot.v1', inputId: owner.inputId };
+  }
+  if (new Set(owners.map(owner => owner.id)).size !== owners.length) throw new Error('Duplicate source loot owner');
+  return { records: canonicalRecords(LootTableSchema, records, 'lootTables'), sourceLoot: extracted.params, sourceInputs: extracted.inputs, sourceOwners: owners, manifest: extracted.manifest };
+}
 
 /** Rebuilds the canonical loot rows from the immutable M4 baseline. */
 export async function buildLootRecords(): Promise<LootTableRecord[]> {
-  const baseline = await buildM4Baseline();
-  return canonicalRecords(LootTableSchema, baseline.records.lootTables, "lootTables");
+  return (await buildLootSourceBundle()).records;
 }
 
 function parseApply(args: readonly string[]): boolean {

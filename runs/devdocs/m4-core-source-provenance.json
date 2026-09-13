@@ -1,0 +1,430 @@
+{
+  "sources": [
+    {
+      "module": "creatureExpansion",
+      "path": ".baseline/game/src/content/creatureExpansion.ts",
+      "sha256": "47ead48b59553ee78d283c35e67963d82c7e3da9cfe97c34b3db0211d1f11a2a"
+    },
+    {
+      "module": "starterCreatures",
+      "path": ".baseline/game/src/content/starterCreatures.ts",
+      "sha256": "cac98d87bc17e7e9844232c66905e245aa80ee1151ace1f6a95c937fe43c0dd6"
+    },
+    {
+      "module": "rpgBestiary",
+      "path": ".baseline/game/src/content/rpgBestiary.ts",
+      "sha256": "de767d33a62cfb18f9c8ab00d76fa98ec6148d920ea14d117b307c94dc62054b"
+    }
+  ],
+  "rows": [
+    {
+      "inputId": "expansion/redbrush_fox",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 0,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/duskoak_lynx",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 1,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/rootdelve_badger",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 2,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/quillback_porcupine",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 3,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/marchwild_horse",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 4,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/cairn_bighorn",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 5,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/marsh_moose",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 6,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/bracken_tapir",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 7,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/reedjaw_crocodile",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 8,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/kiln_salamander",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 9,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/slateback_tortoise",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 10,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/ashscale_monitor",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 11,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/reedbank_goose",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 12,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/blackwater_heron",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 13,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/scree_bustard",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 14,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/marchfield_turkey",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 15,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/quarry_snail",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 16,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/antler_beetle",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 17,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/slag_centipede",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 18,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/hollowroot_spider",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 19,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/cinder_ravager",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 20,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/basalt_drake",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 21,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/gorge_mantis",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 22,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "expansion/quarry_nightmare",
+      "module": "creatureExpansion",
+      "symbol": "CREATURE_EXPANSION",
+      "rowIndex": 23,
+      "catalog": "CREATURE_EXPANSION"
+    },
+    {
+      "inputId": "starter/grass_viper",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 0,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "starter/field_wasp",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 1,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "starter/heath_wasp",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 2,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "starter/reed_wasp",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 3,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "starter/creek_crab",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 4,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "starter/briar_spider",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 5,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "starter/granary_rat",
+      "module": "starterCreatures",
+      "symbol": "STARTER_CREATURES",
+      "rowIndex": 6,
+      "catalog": "STARTER_CREATURES"
+    },
+    {
+      "inputId": "rpg/webweaver_spider",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 0,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/marsh_wasp",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 1,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/goblin_scout",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 2,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/goblin_archer",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 3,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/goblin_shaman",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 4,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/skeleton_soldier",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 8,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/skeleton_archer",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 9,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/skeleton_mage",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 10,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/zombie",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 11,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/plague_zombie",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 12,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/grave_ghoul",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 13,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/wraith",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 14,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/banshee",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 15,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/revenant",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 16,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/stone_golem",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 17,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/iron_golem",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 18,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/fire_golem",
+      "module": "rpgBestiary",
+      "symbol": "rows",
+      "rowIndex": 19,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/shale_elemental",
+      "module": "rpgBestiary",
+      "symbol": "acceptedCompleteSources",
+      "rowIndex": 0,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/lava_golem",
+      "module": "rpgBestiary",
+      "symbol": "acceptedCompleteSources",
+      "rowIndex": 1,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/mossback_sentinel",
+      "module": "rpgBestiary",
+      "symbol": "acceptedCompleteSources",
+      "rowIndex": 2,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/beetle_golem",
+      "module": "rpgBestiary",
+      "symbol": "acceptedCompleteSources",
+      "rowIndex": 3,
+      "catalog": "RPG_BESTIARY"
+    },
+    {
+      "inputId": "rpg/giant_rat",
+      "module": "rpgBestiary",
+      "symbol": "RPG_BESTIARY_STAGED",
+      "rowIndex": 0,
+      "catalog": "RPG_BESTIARY_STAGED"
+    },
+    {
+      "inputId": "rpg/wild_goblin",
+      "module": "rpgBestiary",
+      "symbol": "RPG_BESTIARY_STAGED",
+      "rowIndex": 1,
+      "catalog": "RPG_BESTIARY_STAGED"
+    },
+    {
+      "inputId": "rpg/troll_mauler",
+      "module": "rpgBestiary",
+      "symbol": "RPG_BESTIARY_STAGED",
+      "rowIndex": 2,
+      "catalog": "RPG_BESTIARY_STAGED"
+    },
+    {
+      "inputId": "rpg/cave_roach",
+      "module": "rpgBestiary",
+      "symbol": "RPG_BESTIARY_STAGED",
+      "rowIndex": 3,
+      "catalog": "RPG_BESTIARY_STAGED"
+    }
+  ],
+  "parameters": [
+    {
+      "parameterPath": "expansion",
+      "module": "creatureExpansion",
+      "symbol": "species"
+    },
+    {
+      "parameterPath": "starter",
+      "module": "starterCreatures",
+      "symbol": "small"
+    },
+    {
+      "parameterPath": "rpg",
+      "module": "rpgBestiary",
+      "symbol": "entry"
+    }
+  ]
+}

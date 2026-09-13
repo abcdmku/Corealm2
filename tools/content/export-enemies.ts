@@ -8,6 +8,11 @@ import { EnemyRecordSchema, EnemyAliasSchema, EnemySchema, type EnemyRecord, typ
 import { canonicalRecords, writeContentJson } from './format.js';
 import { buildM4Baseline, type M4Baseline, type Snapshot } from './m4-baseline.js';
 import { buildLegacyEnemyInputs } from './enemy-formula-inputs.js';
+import { buildCoreEnemySources } from './enemy-source-inputs.js';
+import { deriveCoreEnemy } from '../../game/src/content/balance/enemySources.js';
+import { buildVariantEnemySources } from './enemy-source-variant-inputs.js';
+import { deriveEnemySourceGraph } from '../../game/src/content/balance/enemySourceGraph.js';
+import { scaleFantasy } from '../../game/src/content/balance/enemySourceVariants.js';
 import { repoRoot } from '../lib/paths.js';
 
 function equal(expected: unknown, actual: unknown, label: string): void {
@@ -75,6 +80,43 @@ export function buildEnemyRecords(baseline: M4Baseline): { enemies: EnemyRecord[
       const row = enemies.find(row => row.id === input.enemyId);
       if (!row || row.stage !== 'registered' || row.catalog !== 'LEGACY_BLOCKS') throw new Error(`Invalid legacy formula target ${input.enemyId}`);
       row.derivation = { kind, inputId: input.id };
+    }
+  }
+  const core = buildCoreEnemySources(baseline, {
+    creatureExpansion: readFileSync(path.join(repoRoot, '.baseline/game/src/content/creatureExpansion.ts'), 'utf8'),
+    starterCreatures: readFileSync(path.join(repoRoot, '.baseline/game/src/content/starterCreatures.ts'), 'utf8'),
+    rpgBestiary: readFileSync(path.join(repoRoot, '.baseline/game/src/content/rpgBestiary.ts'), 'utf8'),
+  });
+  for (const input of core.inputs) {
+    const output = deriveCoreEnemy(core.params, input);
+    const row = enemies.find(row => row.id === output.id);
+    if (!row || row.derivation) throw new Error(`Missing or already linked source target ${output.id}`);
+    for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Source input ${input.id}.${key}`);
+    row.derivation = { kind: 'sourceEnemy.v1', inputId: input.id };
+  }
+  const sourceText = (name: string) => readFileSync(path.join(repoRoot, '.baseline/game/src/content', `${name}.ts`), 'utf8');
+  const variants = buildVariantEnemySources(baseline, {
+    regionalCreatureVariants: sourceText('regionalCreatureVariants'), creatureRedesign: sourceText('creatureRedesign'),
+    forestCreatureRedesigns: sourceText('forestCreatureRedesigns'), ashCreatureRedesigns: sourceText('ashCreatureRedesigns'),
+    stoneCreatureRedesigns: sourceText('stoneCreatureRedesigns'), enemies: sourceText('enemies'),
+  }, core.inputs);
+  const graph = deriveEnemySourceGraph({ ...core.params, ...variants.params }, [...core.inputs, ...variants.inputs]);
+  for (const input of variants.inputs) {
+    const output = graph.get(input.id)!;
+    const row = enemies.find(row => row.id === output.id);
+    if (!row || row.derivation) throw new Error(`Missing or already linked variant ${output.id}`);
+    for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Variant ${input.id}.${key}`);
+    row.derivation = { kind: 'sourceEnemy.v1', inputId: input.id };
+  }
+  for (const sourceInputId of variants.sourceInputIds) {
+    const source = graph.get(sourceInputId)!;
+    for (const tier of variants.fantasy.tiers) {
+      if (tier === source.tier) continue;
+      const { drops: _drops, ...output } = scaleFantasy(variants.fantasy, { ...source, drops: [] }, tier);
+      const row = enemies.find(row => row.id === output.id);
+      if (!row || row.derivation || row.catalog !== 'FANTASY_TIER_BLOCKS') throw new Error(`Invalid scaled fantasy row ${output.id}`);
+      for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Fantasy ${sourceInputId}.${key}`);
+      row.derivation = { kind: 'fantasyScale.v1', sourceInputId, tier };
     }
   }
   return { enemies, aliases };

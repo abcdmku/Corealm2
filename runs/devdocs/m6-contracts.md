@@ -1,6 +1,6 @@
 # M6 spawn and map contracts
 
-Status: proposal for root freeze, 2026-09-13. This document changes no production files. The approved scope is [PRD M6](./PRD.md), with [world authoring](../../docs/world-authoring.md) and [feature lab](../../docs/feature-lab.md) gates. Root owns shared schemas, integration, the world bake and acceptance. Freeze a bounded storage slice before assigning workers.
+Status: storage schemas for groups, habitats, source records, clusters, legacy placements and regional packs frozen by root for isolated implementation, 2026-09-13. Generator parameters, runtime integration and editing workflow remain proposals. This document changes no production files. The approved scope is [PRD M6](./PRD.md), with [world authoring](../../docs/world-authoring.md) and [feature lab](../../docs/feature-lab.md) gates. Root owns shared schemas, integration, the world bake and acceptance. Freeze a bounded storage slice before assigning workers.
 
 ## Findings that affect the boundary
 

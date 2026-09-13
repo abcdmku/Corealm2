@@ -2112,6 +2112,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/grass_viper"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "grass_viper_t1"
   },
@@ -2127,6 +2131,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/field_wasp"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "field_wasp_t1"
   },
@@ -2142,6 +2150,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/heath_wasp"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "heath_wasp_t1"
   },
@@ -2157,6 +2169,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/reed_wasp"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "reed_wasp_t1"
   },
@@ -2172,6 +2188,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/creek_crab"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "creek_crab_t1"
   },
@@ -2187,6 +2207,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/briar_spider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "briar_spider_t1"
   },
@@ -2202,6 +2226,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "starter/granary_rat"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "granary_rat_t1"
   },
@@ -2247,6 +2275,10 @@
         "chance": 0.25
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "variant/gloam_fox"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "gloam_fox_t1"
   },
@@ -2270,6 +2302,10 @@
         "chance": 0.25
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "variant/moonweave_spider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "moonweave_spider_t5"
   },
@@ -2301,6 +2337,10 @@
         "chance": 0.25
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "variant/rimeback_tortoise"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "rimeback_tortoise_t10"
   },
@@ -2332,6 +2372,10 @@
         "chance": 0.25
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "variant/cindercrest_salamander"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cindercrest_salamander_t20"
   },
@@ -2355,6 +2399,10 @@
         "chance": 0.25
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "variant/amethyst_spider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "amethyst_spider_t5"
   },
@@ -2370,6 +2418,10 @@
         "chance": 0.4
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "basic/chalk_warden"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "chalk_warden_t10"
   },
@@ -2385,6 +2437,10 @@
         "chance": 0.4
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "basic/hollow_bough"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "hollow_bough_t10"
   },
@@ -2400,6 +2456,10 @@
         "chance": 0.4
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "basic/pallid_shade"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "pallid_shade_t10"
   },
@@ -2415,6 +2475,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/briar_harrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "briar_harrow_t10"
   },
@@ -2430,6 +2494,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/fen_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "fen_crawler_t10"
   },
@@ -2445,6 +2513,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/reed_strider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "reed_strider_t10"
   },
@@ -2460,6 +2532,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/thorn_maw"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "thorn_maw_t10"
   },
@@ -2475,6 +2551,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/heath_jack"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "heath_jack_t10"
   },
@@ -2490,6 +2570,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/kiln_marrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "kiln_marrow_t20"
   },
@@ -2505,6 +2589,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/slag_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "slag_crawler_t10"
   },
@@ -2520,6 +2608,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/cinder_penitent"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cinder_penitent_t20"
   },
@@ -2535,6 +2627,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/grave_lantern"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "grave_lantern_t20"
   },
@@ -2550,6 +2646,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/veil_reaper"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "veil_reaper_t20"
   },
@@ -2565,6 +2665,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/cairn_treader"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cairn_treader_t10"
   },
@@ -2580,6 +2684,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/flint_mandible"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "flint_mandible_t10"
   },
@@ -2595,6 +2703,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/vault_custodian"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "vault_custodian_t10"
   },
@@ -2610,6 +2722,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/blind_cave_weaver"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "blind_cave_weaver_t10"
   },
@@ -2625,6 +2741,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/scree_watcher"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "scree_watcher_t10"
   },
@@ -7522,6 +7642,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/webweaver_spider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "webweaver_spider_t5"
   },
@@ -7537,6 +7661,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/marsh_wasp"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "marsh_wasp_t5"
   },
@@ -7552,6 +7680,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/goblin_scout"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "goblin_scout_t1"
   },
@@ -7567,6 +7699,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/goblin_archer"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "goblin_archer_t1"
   },
@@ -7582,6 +7718,10 @@
         "chance": 0.45
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/goblin_shaman"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "goblin_shaman_t5"
   },
@@ -7597,6 +7737,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/skeleton_soldier"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "skeleton_soldier_t5"
   },
@@ -7612,6 +7756,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/skeleton_archer"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "skeleton_archer_t5"
   },
@@ -7627,6 +7775,10 @@
         "chance": 0.45
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/skeleton_mage"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "skeleton_mage_t20"
   },
@@ -7642,6 +7794,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/zombie"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "zombie_t1"
   },
@@ -7657,6 +7813,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/plague_zombie"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "plague_zombie_t20"
   },
@@ -7672,6 +7832,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/grave_ghoul"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "grave_ghoul_t10"
   },
@@ -7687,6 +7851,10 @@
         "chance": 0.45
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/wraith"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "wraith_t10"
   },
@@ -7702,6 +7870,10 @@
         "chance": 0.45
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/banshee"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "banshee_t20"
   },
@@ -7717,6 +7889,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/revenant"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "revenant_t20"
   },
@@ -7732,6 +7908,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/stone_golem"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "stone_golem_t10"
   },
@@ -7747,6 +7927,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/iron_golem"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "iron_golem_t20"
   },
@@ -7762,6 +7946,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/fire_golem"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "fire_golem_t20"
   },
@@ -7777,6 +7965,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/shale_elemental"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "shale_elemental_t10"
   },
@@ -7792,6 +7984,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/lava_golem"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "lava_golem_t10"
   },
@@ -7807,6 +8003,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/mossback_sentinel"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "mossback_sentinel_t10"
   },
@@ -7822,6 +8022,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/beetle_golem"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "beetle_golem_t10"
   },
@@ -7837,6 +8041,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/briar_harrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "briar_harrow_t1"
   },
@@ -7852,6 +8060,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/briar_harrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "briar_harrow_t5"
   },
@@ -7867,6 +8079,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/briar_harrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "briar_harrow_t20"
   },
@@ -7882,6 +8098,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/fen_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "fen_crawler_t1"
   },
@@ -7897,6 +8117,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/fen_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "fen_crawler_t5"
   },
@@ -7912,6 +8136,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/fen_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "fen_crawler_t20"
   },
@@ -7927,6 +8155,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/reed_strider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "reed_strider_t1"
   },
@@ -7942,6 +8174,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/reed_strider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "reed_strider_t5"
   },
@@ -7957,6 +8193,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/reed_strider"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "reed_strider_t20"
   },
@@ -7972,6 +8212,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/thorn_maw"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "thorn_maw_t1"
   },
@@ -7987,6 +8231,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/thorn_maw"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "thorn_maw_t5"
   },
@@ -8002,6 +8250,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/thorn_maw"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "thorn_maw_t20"
   },
@@ -8017,6 +8269,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/heath_jack"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "heath_jack_t1"
   },
@@ -8032,6 +8288,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/heath_jack"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "heath_jack_t5"
   },
@@ -8047,6 +8307,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "forest/heath_jack"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "heath_jack_t20"
   },
@@ -8062,6 +8326,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/cairn_treader"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cairn_treader_t1"
   },
@@ -8077,6 +8345,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/cairn_treader"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cairn_treader_t5"
   },
@@ -8092,6 +8364,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/cairn_treader"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cairn_treader_t20"
   },
@@ -8107,6 +8383,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/flint_mandible"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "flint_mandible_t1"
   },
@@ -8122,6 +8402,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/flint_mandible"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "flint_mandible_t5"
   },
@@ -8137,6 +8421,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/flint_mandible"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "flint_mandible_t20"
   },
@@ -8152,6 +8440,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/vault_custodian"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "vault_custodian_t1"
   },
@@ -8167,6 +8459,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/vault_custodian"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "vault_custodian_t5"
   },
@@ -8182,6 +8478,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/vault_custodian"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "vault_custodian_t20"
   },
@@ -8197,6 +8497,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/blind_cave_weaver"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "blind_cave_weaver_t1"
   },
@@ -8212,6 +8516,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/blind_cave_weaver"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "blind_cave_weaver_t5"
   },
@@ -8227,6 +8535,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/blind_cave_weaver"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "blind_cave_weaver_t20"
   },
@@ -8242,6 +8554,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/scree_watcher"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "scree_watcher_t1"
   },
@@ -8257,6 +8573,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/scree_watcher"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "scree_watcher_t5"
   },
@@ -8272,6 +8592,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "stone/scree_watcher"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "scree_watcher_t20"
   },
@@ -8287,6 +8611,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/kiln_marrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "kiln_marrow_t1"
   },
@@ -8302,6 +8630,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/kiln_marrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "kiln_marrow_t5"
   },
@@ -8317,6 +8649,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/kiln_marrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "kiln_marrow_t10"
   },
@@ -8332,6 +8668,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/slag_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "slag_crawler_t1"
   },
@@ -8347,6 +8687,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/slag_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "slag_crawler_t5"
   },
@@ -8362,6 +8706,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/slag_crawler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "slag_crawler_t20"
   },
@@ -8377,6 +8725,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/cinder_penitent"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cinder_penitent_t1"
   },
@@ -8392,6 +8744,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/cinder_penitent"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cinder_penitent_t5"
   },
@@ -8407,6 +8763,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/cinder_penitent"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cinder_penitent_t10"
   },
@@ -8422,6 +8782,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/grave_lantern"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "grave_lantern_t1"
   },
@@ -8437,6 +8801,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/grave_lantern"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "grave_lantern_t5"
   },
@@ -8452,6 +8820,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/grave_lantern"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "grave_lantern_t10"
   },
@@ -8467,6 +8839,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/veil_reaper"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "veil_reaper_t1"
   },
@@ -8482,6 +8858,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/veil_reaper"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "veil_reaper_t5"
   },
@@ -8497,6 +8877,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "ash/veil_reaper"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "veil_reaper_t10"
   },
@@ -10553,6 +10937,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/giant_rat"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "giant_rat_t3"
   },
@@ -10568,6 +10956,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/wild_goblin"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "wild_goblin_t5"
   },
@@ -10583,6 +10975,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/troll_mauler"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "troll_mauler_t12"
   },
@@ -10598,6 +10994,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "rpg/cave_roach"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "cave_roach_t5"
   },

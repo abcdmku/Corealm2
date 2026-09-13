@@ -1,3 +1,4 @@
+import sourceLootSource from '../../../game/src/content/balance/sourceLoot.ts?raw';
 import { useEffect, useMemo, useState } from "react";
 import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Check, Code2, RefreshCw, Sigma } from "lucide-react";
@@ -15,22 +16,27 @@ import campfiresSource from "../../../game/src/content/balance/campfires.ts?raw"
 import itemFormulaSource from "../../../game/src/content/balance/itemFormula.ts?raw";
 import materialFoodSource from "../../../game/src/content/balance/materialFood.ts?raw";
 import enemiesSource from "../../../game/src/content/balance/enemies.ts?raw";
+import enemySourcesSource from "../../../game/src/content/balance/enemySources.ts?raw";
+import enemyVariantsSource from "../../../game/src/content/balance/enemySourceVariants.ts?raw";
 import "./balance.css";
 
 type Row = Record<string, unknown>;
 interface RecomputeResponse { diffs: DerivationDiff[]; revisions: Record<string, string> }
 interface RecomputeError { error?: string; diagnostics?: { path: string; message: string }[] }
 interface Preview { kind: string; response: RecomputeResponse }
-const sourceFiles: Record<string, string> = { gear: gearSource, gearProgression: progressionSource, recipes: recipesSource, sets: setsSource, jewelry: jewelrySource, campfires: campfiresSource, itemFormula: itemFormulaSource, materialFood: materialFoodSource, enemies: enemiesSource };
+const sourceFiles: Record<string, string> = { sourceLoot: sourceLootSource, gear: gearSource, gearProgression: progressionSource, recipes: recipesSource, sets: setsSource, jewelry: jewelrySource, campfires: campfiresSource, itemFormula: itemFormulaSource, materialFood: materialFoodSource, enemies: enemiesSource, enemySources: enemySourcesSource, enemySourceVariants: enemyVariantsSource };
 const modules: Record<string, { kinds: string[] }> = {
   gear: { kinds: ["gear", "itemFormula"] }, gearProgression: { kinds: ["gearProgression"] },
   recipes: { kinds: ["recipeXp", "jewelryRecipe", "campfireFuel", "gearProgression", "itemFormula", "materialFood"] },
   sets: { kinds: ["setThresholds"] }, jewelry: { kinds: ["jewelry", "jewelryRecipe"] },
   campfires: { kinds: ["campfireFuel"] }, itemFormula: { kinds: ["itemFormula"] },
-  materialFood: { kinds: ["materialFood"] }, loot: { kinds: ["materialFood"] },
-  enemies: { kinds: ['legacyMarks.v1', 'legacyBossCombat.v1'] },
+  materialFood: { kinds: ["materialFood"] }, loot: { kinds: ["sourceLoot.v1", "materialFood"] },
+  enemies: { kinds: ['legacyMarks.v1', 'legacyBossCombat.v1', 'sourceEnemy.v1', 'fantasyScale.v1'] },
 };
 const kinds: Record<string, { label: string; collection: string; source: string; params: string[] }> = {
+  'sourceLoot.v1': { label: 'Original creature loot', collection: 'lootTables', source: 'sourceLoot', params: ['loot'] },
+  'sourceEnemy.v1': { label: 'Original creature sources', collection: 'enemies', source: 'enemySources', params: ['enemies'] },
+  'fantasyScale.v1': { label: 'Fantasy tier scaling', collection: 'enemies', source: 'enemySourceVariants', params: ['enemies'] },
   'legacyMarks.v1': { label: 'Legacy mark rewards', collection: 'enemies', source: 'enemies', params: ['enemies'] },
   'legacyBossCombat.v1': { label: 'Legacy boss combat', collection: 'enemies', source: 'enemies', params: ['enemies'] },
   gear: { label: "Base and rare gear", collection: "items", source: "gear", params: ["gear"] },
@@ -49,14 +55,56 @@ function leaves(value: unknown, prefix = ""): Map<string, unknown> {
   return new Map([[prefix, value]]);
 }
 function display(value: unknown): string { if (value === undefined) return "Not present"; if (value === null) return "No value"; if (typeof value === "number") return value.toLocaleString(undefined, { maximumFractionDigits: 7 }); if (typeof value === "boolean") return value ? "Yes" : "No"; if (Array.isArray(value)) return value.length ? `${value.length} entries` : "No entries"; if (typeof value === "object") return "No fields"; return String(value); }
-function parseExampleNumber(raw: string, options: { label: string; integer?: boolean; minimum: number; exclusiveMinimum?: boolean }): { value?: number; error: string } {
+function parseExampleNumber(raw: string, options: { label: string; integer?: boolean; minimum: number; exclusiveMinimum?: boolean; maximum?: number; allowed?: readonly number[] }): { value?: number; error: string } {
   const value = Number(raw);
   if (!raw.trim() || !Number.isFinite(value)) return { error: `Enter a finite ${options.label}.` };
   if (options.integer && !Number.isInteger(value)) return { error: `Enter a whole-number ${options.label}.` };
   if (options.exclusiveMinimum ? value <= options.minimum : value < options.minimum) {
     return { error: options.exclusiveMinimum ? `Enter a ${options.label} greater than ${options.minimum}.` : `Enter a ${options.label} of ${options.minimum} or higher.` };
   }
+  if (options.maximum !== undefined && value > options.maximum) return { error: `Enter a ${options.label} no greater than ${options.maximum}.` };
+  if (options.allowed && !options.allowed.includes(value)) return { error: `Choose a ${options.label} from ${options.allowed.join(", ")}.` };
   return { value, error: "" };
+}
+function finiteNumber(value: unknown): number | undefined { return typeof value === "number" && Number.isFinite(value) ? value : undefined; }
+function findInput(parameters: unknown, key: string, id: unknown): Row | undefined {
+  const entries = object(parameters)[key];
+  if (!Array.isArray(entries)) return undefined;
+  const found = entries.find(entry => object(entry).id === id);
+  return found && typeof found === "object" && !Array.isArray(found) ? found as Row : undefined;
+}
+interface LootChanceTarget { path: string[]; value: number }
+function lootChanceTarget(parameters: unknown, inputId: unknown): LootChanceTarget | undefined {
+  const inputs = object(parameters).sourceInputs;
+  if (!Array.isArray(inputs)) return undefined;
+  const rows = new Map(inputs.flatMap(entry => { const row = object(entry); return typeof row.id === "string" ? [[row.id, row] as const] : []; }));
+  const visit = (id: string, seen = new Set<string>()): LootChanceTarget | undefined => {
+    if (seen.has(id)) return undefined;
+    const input = rows.get(id);
+    if (!input) return undefined;
+    const nextSeen = new Set(seen).add(id);
+    const kind = input.kind;
+    if (kind === "inherit" && typeof input.sourceInputId === "string") return visit(input.sourceInputId, nextSeen);
+    const sourceLoot = object(object(parameters).sourceLoot);
+    if (kind === "starter") return { path: ["sourceLoot", "starter", "chance"], value: finiteNumber(object(sourceLoot.starter).chance) ?? 0 };
+    if (kind === "rpg") {
+      const role = input.role === "caster" ? "caster" : "other";
+      return { path: ["sourceLoot", "rpg", "chance", role], value: finiteNumber(object(object(sourceLoot.rpg).chance)[role]) ?? 0 };
+    }
+    if (kind === "variantAppend") return { path: ["sourceLoot", "variantAppend", "chance"], value: finiteNumber(object(sourceLoot.variantAppend).chance) ?? 0 };
+    if (kind === "redesignEssence" && typeof input.profile === "string") {
+      return { path: ["sourceLoot", "redesignEssence", input.profile, "chance"], value: finiteNumber(object(object(sourceLoot.redesignEssence)[input.profile]).chance) ?? 0 };
+    }
+    return undefined;
+  };
+  return typeof inputId === "string" ? visit(inputId) : undefined;
+}
+function replacePath(root: Row, path: readonly string[], value: unknown): void {
+  let cursor = root;
+  path.forEach((key, index) => {
+    if (index === path.length - 1) cursor[key] = value;
+    else { cursor[key] = { ...object(cursor[key]) }; cursor = cursor[key] as Row; }
+  });
 }
 
 export default function BalancePanel({ collection, recordId }: { collection: string; recordId?: string }) {
@@ -75,6 +123,9 @@ function SupportedPanel({ collection, moduleName, recordId, supportedKinds }: { 
   const [bossMultiplier, setBossMultiplier] = useState<number | undefined>();
   const [bossMultiplierText, setBossMultiplierText] = useState<string>();
   const [bossMultiplierError, setBossMultiplierError] = useState("");
+  const [localNumber, setLocalNumber] = useState<number | undefined>();
+  const [localNumberText, setLocalNumberText] = useState<string>();
+  const [localNumberError, setLocalNumberError] = useState("");
   const [shape, setShape] = useState<string | undefined>();
   const config = kinds[kind]!;
   const records = useQuery(collectionQuery(config.collection));
@@ -83,18 +134,16 @@ function SupportedPanel({ collection, moduleName, recordId, supportedKinds }: { 
   const idKey = records.data?.collection.idKey ?? "id";
   const selected = examples.find(record => rowId(record, idKey) === exampleId) ?? examples[0];
   const activeId = selected ? rowId(selected, idKey) : "";
-  const sourceNames = [...new Set([moduleName, config.source, ...config.params])];
+  const sourceNames = [...new Set([moduleName, config.source, ...config.params, ...(kind === 'sourceEnemy.v1' ? ['enemySourceVariants'] : [])])];
   const [sourceName, setSourceName] = useState(moduleName);
-  const currentSource = sourceNames.includes(sourceName) ? sourceName : moduleName;
+  const sourceFallback = sourceFiles[moduleName] ? moduleName : sourceNames.find(name => sourceFiles[name]) ?? moduleName;
+  const currentSource = sourceFiles[sourceName] ? sourceName : sourceFallback;
   const enemyParameters = params[0]?.data?.data;
   const enemyInput = useMemo(() => {
     if (!selected || !["legacyMarks.v1", "legacyBossCombat.v1"].includes(kind)) return undefined;
     const inputTag = object(selected.derivation);
     const inputKey = kind === "legacyMarks.v1" ? "legacyMarksInputs" : "legacyBossInputs";
-    const entries = object(enemyParameters)[inputKey];
-    if (!Array.isArray(entries)) return undefined;
-    const found = entries.find(entry => object(entry).id === inputTag.inputId);
-    return found && typeof found === "object" && !Array.isArray(found) ? found as Row : undefined;
+    return findInput(enemyParameters, inputKey, inputTag.inputId);
   }, [enemyParameters, kind, selected]);
   const enemyTarget = useMemo(() => {
     if (kind !== "legacyBossCombat.v1" || !enemyInput) return undefined;
@@ -102,54 +151,95 @@ function SupportedPanel({ collection, moduleName, recordId, supportedKinds }: { 
     const target = targets[String(enemyInput.bossId)];
     return target && typeof target === "object" && !Array.isArray(target) ? target as Row : undefined;
   }, [enemyInput, enemyParameters, kind]);
+  const sourceFormulaInput = useMemo(() => {
+    if (!selected) return undefined;
+    const inputTag = object(selected.derivation);
+    if (kind === "sourceEnemy.v1" || kind === "fantasyScale.v1") return findInput(enemyParameters, "sourceInputs", kind === "fantasyScale.v1" ? inputTag.sourceInputId : inputTag.inputId);
+    if (kind === "sourceLoot.v1") return findInput(enemyParameters, "sourceInputs", inputTag.inputId);
+    return undefined;
+  }, [enemyParameters, kind, selected]);
+  const lootChance = useMemo(() => kind === "sourceLoot.v1" ? lootChanceTarget(enemyParameters, object(selected?.derivation).inputId) : undefined, [enemyParameters, kind, selected]);
   const example = useMemo(() => {
     if (!selected) return undefined;
     if (params.some(query => query.isPending)) return { loading: true };
     if (params.some(query => query.isError)) return { error: "The formula parameters could not be loaded. Retry to calculate this example." };
     if (tierError) return { error: tierError };
     if (bossMultiplierError) return { error: bossMultiplierError };
+    if (localNumberError) return { error: localNumberError };
     const input = structuredClone(selected);
     const tag = object(input.derivation);
     let originalInput: Row | undefined;
     let originalTarget: Row | undefined;
-    const parameterSnapshot = ["legacyMarks.v1", "legacyBossCombat.v1"].includes(kind) && enemyParameters !== undefined
+    const parameterSnapshot = ["legacyMarks.v1", "legacyBossCombat.v1", "sourceEnemy.v1", "fantasyScale.v1", "sourceLoot.v1"].includes(kind) && enemyParameters !== undefined
       ? structuredClone(enemyParameters) : undefined;
     if (parameterSnapshot !== undefined) {
-      const enemyBalance = object(parameterSnapshot);
-      const inputKey = kind === "legacyMarks.v1" ? "legacyMarksInputs" : "legacyBossInputs";
-      const entries = enemyBalance[inputKey];
-      if (Array.isArray(entries)) {
-        const sourceInput = entries.find(entry => object(entry).id === tag.inputId);
-        if (sourceInput && typeof sourceInput === "object" && !Array.isArray(sourceInput)) {
-          originalInput = structuredClone(sourceInput as Row);
+      const localParameters = object(parameterSnapshot);
+      if (["legacyMarks.v1", "legacyBossCombat.v1"].includes(kind)) {
+        const inputKey = kind === "legacyMarks.v1" ? "legacyMarksInputs" : "legacyBossInputs";
+        const sourceInput = findInput(localParameters, inputKey, tag.inputId);
+        if (sourceInput) {
+          originalInput = structuredClone(sourceInput);
           if (kind === "legacyMarks.v1" && tier !== undefined) {
-            enemyBalance.legacyMarksInputs = entries.map(entry => object(entry).id === tag.inputId ? { ...object(entry), tier } : entry);
+            const entries = localParameters[inputKey];
+            if (Array.isArray(entries)) localParameters[inputKey] = entries.map(entry => object(entry).id === tag.inputId ? { ...object(entry), tier } : entry);
           }
           if (kind === "legacyBossCombat.v1") {
             const targetKey = String(originalInput.bossId);
-            const targets = object(enemyBalance.regionalBossLevels);
+            const targets = object(localParameters.regionalBossLevels);
             const sourceTarget = targets[targetKey];
             if (sourceTarget && typeof sourceTarget === "object" && !Array.isArray(sourceTarget)) {
               originalTarget = structuredClone(sourceTarget as Row);
               if (bossMultiplier !== undefined) {
-                enemyBalance.regionalBossLevels = { ...targets, [targetKey]: { ...object(sourceTarget), multiplier: bossMultiplier } };
+                localParameters.regionalBossLevels = { ...targets, [targetKey]: { ...object(sourceTarget), multiplier: bossMultiplier } };
               }
             }
           }
         }
+      } else if (kind === "sourceEnemy.v1" || kind === "fantasyScale.v1") {
+        const sourceInput = findInput(localParameters, "sourceInputs", kind === "fantasyScale.v1" ? tag.sourceInputId : tag.inputId);
+        if (sourceInput) {
+          originalInput = structuredClone(sourceInput);
+          if (kind === "sourceEnemy.v1" && localNumber !== undefined) {
+            const sourceKind = sourceInput.kind;
+            const entries = localParameters.sourceInputs;
+            if (Array.isArray(entries)) {
+              localParameters.sourceInputs = entries.map(entry => {
+                const row = object(entry);
+                if (row.id !== tag.inputId) return entry;
+                if (sourceKind === "expansion") return { ...row, authored: { ...object(row.authored), maxHealth: localNumber } };
+                if (sourceKind === "rpg") return row;
+                return { ...row, health: localNumber };
+              });
+            }
+            if (sourceKind === "rpg") {
+              const sourceParameters = object(localParameters.sourceParameters);
+              localParameters.sourceParameters = { ...sourceParameters, rpg: { ...object(sourceParameters.rpg), healthBase: localNumber } };
+            }
+          }
+          if (kind === "fantasyScale.v1" && localNumber !== undefined) {
+            tag.tier = localNumber;
+            const family = typeof input.family === "string" ? input.family : String(input.id).replace(/_t\d+$/, "");
+            input.id = `${family}_t${localNumber}`;
+          }
+        }
+      } else if (kind === "sourceLoot.v1") {
+        const sourceInput = findInput(localParameters, "sourceInputs", tag.inputId);
+        if (sourceInput) originalInput = structuredClone(sourceInput);
+        const chance = lootChanceTarget(localParameters, tag.inputId);
+        if (chance && localNumber !== undefined) replacePath(localParameters, chance.path, localNumber);
       }
     }
-    if (tier !== undefined) { if (["jewelry", "jewelryRecipe"].includes(kind)) tag.tier = tier; else if (kind === "gearProgression") tag.ladderTier = tier; else if (!["legacyMarks.v1", "legacyBossCombat.v1"].includes(kind)) input.tier = tier; }
+    if (tier !== undefined) { if (["jewelry", "jewelryRecipe"].includes(kind)) tag.tier = tier; else if (kind === "gearProgression") tag.ladderTier = tier; else if (!["legacyMarks.v1", "legacyBossCombat.v1", "sourceEnemy.v1", "fantasyScale.v1", "sourceLoot.v1"].includes(kind)) input.tier = tier; }
     if (shape !== undefined) tag.shape = shape;
     try {
       const tables = new Map(params.flatMap(query => query.data ? [[query.data.collection.name, query.data.data] as const] : []));
-      if (parameterSnapshot !== undefined) tables.set("balance/enemies", parameterSnapshot);
+      if (parameterSnapshot !== undefined && config.params[0]) tables.set(`balance/${config.params[0]}`, parameterSnapshot);
       if (records.data) tables.set(config.collection, records.data.data);
       const output = deriveRecord(config.collection, input, tables);
       if (!output) return { error: "This record has no formula link." };
       return { input, output, changed: !sameValue(Object.fromEntries(Object.keys(output).map(key => [key, selected[key]])), output), originalInput, originalTarget };
     } catch (error) { return { error: error instanceof Error ? error.message : "This example could not be calculated." }; }
-  }, [selected, params, tier, tierError, shape, kind, config.collection, enemyParameters, bossMultiplier, bossMultiplierError, records.data]);
+  }, [selected, params, tier, tierError, shape, kind, config.collection, enemyParameters, bossMultiplier, bossMultiplierError, localNumber, localNumberError, records.data]);
   const tag = object(selected?.derivation);
   const canAdjustTier = ["recipeXp", "setThresholds", "jewelry", "jewelryRecipe", "campfireFuel", "gearProgression"].includes(kind);
   const canAdjustLegacyMarksTier = kind === "legacyMarks.v1";
@@ -158,6 +248,21 @@ function SupportedPanel({ collection, moduleName, recordId, supportedKinds }: { 
   const shownTier = tier ?? (kind === "legacyMarks.v1" ? originalInputTier : Number(kind === "gearProgression" ? tag.ladderTier : ["jewelry", "jewelryRecipe"].includes(kind) ? tag.tier : selected?.tier ?? 1));
   const originalBossMultiplier = typeof enemyTarget?.multiplier === "number" && Number.isFinite(enemyTarget.multiplier) ? enemyTarget.multiplier : undefined;
   const shownBossMultiplier = bossMultiplier ?? originalBossMultiplier;
+  const sourceInputKind = typeof sourceFormulaInput?.kind === "string" ? sourceFormulaInput.kind : undefined;
+  const enemySourceParameters = object(object(enemyParameters).sourceParameters);
+  const sourceHealth = sourceInputKind === "expansion" ? finiteNumber(object(sourceFormulaInput?.authored).maxHealth)
+    : sourceInputKind === "rpg" ? finiteNumber(object(enemySourceParameters.rpg).healthBase)
+    : finiteNumber(sourceFormulaInput?.health);
+  const fantasyBaseTier = finiteNumber(sourceFormulaInput?.tier);
+  const fantasyTiers = useMemo(() => {
+    const values = object(object(enemyParameters).fantasy).tiers;
+    return Array.isArray(values) ? values.filter((value): value is number => typeof value === "number" && Number.isFinite(value) && value !== fantasyBaseTier) : [];
+  }, [enemyParameters, fantasyBaseTier]);
+  const fantasyTargetTier = finiteNumber(tag.tier);
+  const shownLocalNumber = localNumber ?? (kind === "sourceEnemy.v1" ? sourceHealth : kind === "fantasyScale.v1" ? fantasyTargetTier : kind === "sourceLoot.v1" ? lootChance?.value : undefined);
+  const canAdjustSourceHealth = kind === "sourceEnemy.v1" && sourceHealth !== undefined;
+  const canAdjustFantasyTier = kind === "fantasyScale.v1" && fantasyTiers.length > 0 && fantasyTargetTier !== undefined;
+  const canAdjustLootChance = kind === "sourceLoot.v1" && lootChance !== undefined;
   const tierOptions = useMemo(() => {
     if (kind === "setThresholds") return (object(params[0]?.data?.data).byTier as Row[] | undefined)?.map(row => Number(row.tier));
     if (["jewelry", "jewelryRecipe"].includes(kind)) return (object(object(params[0]?.data?.data)[String(tag.variant ?? "crafted")]).profiles as Row[] | undefined)?.map(row => Number(row.tier));
@@ -165,10 +270,10 @@ function SupportedPanel({ collection, moduleName, recordId, supportedKinds }: { 
     return undefined;
   }, [kind, params, tag.variant, tag.catalog]);
   useEffect(() => {
-    setTier(undefined); setTierText(undefined); setTierError(""); setBossMultiplier(undefined); setBossMultiplierText(undefined); setBossMultiplierError(""); setShape(undefined);
+    setTier(undefined); setTierText(undefined); setTierError(""); setBossMultiplier(undefined); setBossMultiplierText(undefined); setBossMultiplierError(""); setLocalNumber(undefined); setLocalNumberText(undefined); setLocalNumberError(""); setShape(undefined);
   }, [activeId, kind]);
-  const resetExample = () => { setTier(undefined); setTierText(undefined); setTierError(""); setBossMultiplier(undefined); setBossMultiplierText(undefined); setBossMultiplierError(""); setShape(undefined); };
-  return <section className="balance-panel"><div className="balance-heading"><Sigma size={19}/><div><h2>Formula and affected records</h2><p>{recordId ? `Inspecting ${fieldTitle(recordId).toLowerCase()}. ` : ""}Examples use the saved parameters. Recompute previews changes before applying them.</p></div></div><div className="balance-selector"><label>Formula<select value={kind} onChange={event => { setKind(event.target.value); setExampleId(""); resetExample(); }}>{supportedKinds.map(key => <option key={key} value={key}>{kinds[key]!.label}</option>)}</select></label><span className="balance-source-label">{collection}</span></div><section className="balance-example"><div className="section-heading"><h3>Worked example</h3><span>Local calculation</span></div>{records.isPending ? <p role="status" className="balance-muted">Loading linked records…</p> : records.isError ? <p role="alert" className="balance-message">{records.error.message} <button type="button" className="text-button" onClick={() => void records.refetch()}>Retry</button></p> : !examples.length ? <p className="balance-muted">No records are currently linked to this formula. Source code is available below.</p> : <><div className="balance-example-controls"><label>Example record<select value={activeId} onChange={event => { setExampleId(event.target.value); resetExample(); }}>{examples.map(record => <option key={rowId(record, idKey)} value={rowId(record, idKey)}>{rowName(record, idKey)}</option>)}</select></label>{canAdjustLegacyMarksTier && <label>Example input tier<input aria-label="Example input tier" type="number" min={1} step={1} value={tierText ?? (shownTier !== undefined ? shownTier : "")} onChange={event => { const raw = event.currentTarget.value; setTierText(raw); const parsed = parseExampleNumber(raw, { label: "input tier", integer: true, minimum: 1 }); setTier(parsed.value); setTierError(parsed.error); }}/>{tierError && <span role="alert">{tierError}</span>}</label>}{canAdjustBossMultiplier && <label>Example boss target multiplier<input aria-label="Example boss target multiplier" type="number" min={0} step="any" value={bossMultiplierText ?? (shownBossMultiplier !== undefined ? shownBossMultiplier : "")} onChange={event => { const raw = event.currentTarget.value; setBossMultiplierText(raw); const parsed = parseExampleNumber(raw, { label: "target multiplier", minimum: 0, exclusiveMinimum: true }); setBossMultiplier(parsed.value); setBossMultiplierError(parsed.error); }}/>{bossMultiplierError && <span role="alert">{bossMultiplierError}</span>}</label>}{canAdjustTier && <label>Example tier{tierOptions ? <select value={shownTier} onChange={event => { setTier(Number(event.target.value)); setTierText(undefined); setTierError(""); }}>{tierOptions.map(value => <option key={value} value={value}>{value}</option>)}</select> : <><input aria-label="Example tier" type="number" min={1} step={1} value={tierText ?? (shownTier !== undefined ? shownTier : "")} onChange={event => { const raw = event.currentTarget.value; setTierText(raw); const parsed = parseExampleNumber(raw, { label: "tier", integer: true, minimum: 1 }); setTier(parsed.value); setTierError(parsed.error); }}/>{tierError && <span role="alert">{tierError}</span>}</>}</label>}{["jewelry", "jewelryRecipe"].includes(kind) && <label>Shape<select value={shape ?? String(tag.shape)} onChange={event => setShape(event.target.value)}><option value="ring">Ring</option><option value="earring">Earring</option></select></label>}{(tier !== undefined || bossMultiplier !== undefined || shape !== undefined || tierError || bossMultiplierError) && <button className="text-button" type="button" onClick={resetExample}>Reset inputs</button>}</div><p className="balance-example-note">Changing example inputs does not save or alter the recompute selection.</p>{example && "loading" in example ? <p role="status" className="balance-muted">Loading parameters…</p> : example && "error" in example ? <p role="alert" className="balance-message">{example.error} <button type="button" className="text-button" onClick={() => params.forEach(query => void query.refetch())}>Reload parameters</button></p> : example && "output" in example && <div className="balance-example-result"><div><h4>Formula input</h4><ValueRows value={{ record: activeId, ...object(example.input.derivation), ...(example.originalInput ? { input: example.originalInput } : {}), ...(example.originalTarget ? { target: example.originalTarget } : {}), ...(["recipeXp", "campfireFuel", "setThresholds"].includes(kind) ? { tier: example.input.tier } : {}) }}/></div><div><h4>Calculated fields</h4><ValueRows value={example.output}/><p className="balance-example-note">{tier !== undefined || bossMultiplier !== undefined || shape !== undefined ? "Result for your example inputs." : example.changed ? "The saved record differs from these formula values. Preview recompute to inspect the changes." : "These values match the saved record."}</p></div></div>}</>}</section><RecomputeControls key={kind} kind={kind}/><section className="balance-source"><div className="section-heading"><h3><Code2 size={16}/> Formula source</h3><label className="sr-only" htmlFor={`source-${moduleName}`}>Source file</label><select id={`source-${moduleName}`} value={currentSource} onChange={event => setSourceName(event.target.value)}>{sourceNames.filter(name => sourceFiles[name]).map(name => <option key={name} value={name}>{name}.ts</option>)}</select></div><HighlightedSource source={sourceFiles[currentSource] ?? ""}/></section></section>;
+  const resetExample = () => { setTier(undefined); setTierText(undefined); setTierError(""); setBossMultiplier(undefined); setBossMultiplierText(undefined); setBossMultiplierError(""); setLocalNumber(undefined); setLocalNumberText(undefined); setLocalNumberError(""); setShape(undefined); };
+  return <section className="balance-panel"><div className="balance-heading"><Sigma size={19}/><div><h2>Formula and affected records</h2><p>{recordId ? `Inspecting ${fieldTitle(recordId).toLowerCase()}. ` : ""}Examples use the saved parameters. Recompute previews changes before applying them.</p></div></div><div className="balance-selector"><label>Formula<select value={kind} onChange={event => { setKind(event.target.value); setExampleId(""); resetExample(); }}>{supportedKinds.map(key => <option key={key} value={key}>{kinds[key]!.label}</option>)}</select></label><span className="balance-source-label">{collection}</span></div><section className="balance-example"><div className="section-heading"><h3>Worked example</h3><span>Local calculation</span></div>{records.isPending ? <p role="status" className="balance-muted">Loading linked records…</p> : records.isError ? <p role="alert" className="balance-message">{records.error.message} <button type="button" className="text-button" onClick={() => void records.refetch()}>Retry</button></p> : !examples.length ? <p className="balance-muted">No records are currently linked to this formula. Source code is available below.</p> : <><div className="balance-example-controls"><label>Example record<select value={activeId} onChange={event => { setExampleId(event.target.value); resetExample(); }}>{examples.map(record => <option key={rowId(record, idKey)} value={rowId(record, idKey)}>{rowName(record, idKey)}</option>)}</select></label>{canAdjustLegacyMarksTier && <label>Example input tier<input aria-label="Example input tier" type="number" min={1} step={1} value={tierText ?? (shownTier !== undefined ? shownTier : "")} onChange={event => { const raw = event.currentTarget.value; setTierText(raw); const parsed = parseExampleNumber(raw, { label: "input tier", integer: true, minimum: 1 }); setTier(parsed.value); setTierError(parsed.error); }}/>{tierError && <span role="alert">{tierError}</span>}</label>}{canAdjustBossMultiplier && <label>Example boss target multiplier<input aria-label="Example boss target multiplier" type="number" min={0} step="any" value={bossMultiplierText ?? (shownBossMultiplier !== undefined ? shownBossMultiplier : "")} onChange={event => { const raw = event.currentTarget.value; setBossMultiplierText(raw); const parsed = parseExampleNumber(raw, { label: "target multiplier", minimum: 0, exclusiveMinimum: true }); setBossMultiplier(parsed.value); setBossMultiplierError(parsed.error); }}/>{bossMultiplierError && <span role="alert">{bossMultiplierError}</span>}</label>}{canAdjustSourceHealth && <label>Example source health<input aria-label="Example source health" type="number" min={1} step={sourceInputKind === "rpg" ? "any" : 1} value={localNumberText ?? (shownLocalNumber !== undefined ? shownLocalNumber : "")} onChange={event => { const raw = event.currentTarget.value; setLocalNumberText(raw); const parsed = parseExampleNumber(raw, { label: "source health", minimum: 1, integer: sourceInputKind !== "rpg" }); setLocalNumber(parsed.value); setLocalNumberError(parsed.error); }}/>{localNumberError && <span role="alert">{localNumberError}</span>}</label>}{canAdjustFantasyTier && <label>Example target tier<input aria-label="Example target tier" type="number" min={1} step={1} value={localNumberText ?? (shownLocalNumber !== undefined ? shownLocalNumber : "")} onChange={event => { const raw = event.currentTarget.value; setLocalNumberText(raw); const parsed = parseExampleNumber(raw, { label: "target tier", integer: true, minimum: 1, allowed: fantasyTiers }); setLocalNumber(parsed.value); setLocalNumberError(parsed.error); }}/>{localNumberError && <span role="alert">{localNumberError}</span>}</label>}{canAdjustLootChance && <label>Example loot chance<input aria-label="Example loot chance" type="number" min={0} max={1} step="any" value={localNumberText ?? (shownLocalNumber !== undefined ? shownLocalNumber : "")} onChange={event => { const raw = event.currentTarget.value; setLocalNumberText(raw); const parsed = parseExampleNumber(raw, { label: "loot chance", minimum: 0, maximum: 1 }); setLocalNumber(parsed.value); setLocalNumberError(parsed.error); }}/>{localNumberError && <span role="alert">{localNumberError}</span>}</label>}{canAdjustTier && <label>Example tier{tierOptions ? <select value={shownTier} onChange={event => { setTier(Number(event.target.value)); setTierText(undefined); setTierError(""); }}>{tierOptions.map(value => <option key={value} value={value}>{value}</option>)}</select> : <><input aria-label="Example tier" type="number" min={1} step={1} value={tierText ?? (shownTier !== undefined ? shownTier : "")} onChange={event => { const raw = event.currentTarget.value; setTierText(raw); const parsed = parseExampleNumber(raw, { label: "tier", integer: true, minimum: 1 }); setTier(parsed.value); setTierError(parsed.error); }}/>{tierError && <span role="alert">{tierError}</span>}</>}</label>}{["jewelry", "jewelryRecipe"].includes(kind) && <label>Shape<select value={shape ?? String(tag.shape)} onChange={event => setShape(event.target.value)}><option value="ring">Ring</option><option value="earring">Earring</option></select></label>}{(tier !== undefined || bossMultiplier !== undefined || localNumber !== undefined || shape !== undefined || tierError || bossMultiplierError || localNumberError) && <button className="text-button" type="button" onClick={resetExample}>Reset inputs</button>}</div><p className="balance-example-note">Changing example inputs does not save or alter the recompute selection.</p>{example && "loading" in example ? <p role="status" className="balance-muted">Loading parameters…</p> : example && "error" in example ? <p role="alert" className="balance-message">{example.error} <button type="button" className="text-button" onClick={() => params.forEach(query => void query.refetch())}>Reload parameters</button></p> : example && "output" in example && <div className="balance-example-result"><div><h4>Formula input</h4><ValueRows value={{ record: activeId, ...object(example.input.derivation), ...(example.originalInput ? { input: example.originalInput } : {}), ...(example.originalTarget ? { target: example.originalTarget } : {}), ...(["recipeXp", "campfireFuel", "setThresholds"].includes(kind) ? { tier: example.input.tier } : {}) }}/></div><div><h4>Calculated fields</h4><ValueRows value={example.output}/><p className="balance-example-note">{tier !== undefined || bossMultiplier !== undefined || localNumber !== undefined || shape !== undefined ? "Result for your example inputs." : example.changed ? "The saved record differs from these formula values. Preview recompute to inspect the changes." : "These values match the saved record."}</p></div></div>}</>}</section><RecomputeControls key={kind} kind={kind}/><section className="balance-source"><div className="section-heading"><h3><Code2 size={16}/> Formula source</h3><label className="sr-only" htmlFor={`source-${moduleName}`}>Source file</label><select id={`source-${moduleName}`} value={currentSource} onChange={event => setSourceName(event.target.value)}>{sourceNames.filter(name => sourceFiles[name]).map(name => <option key={name} value={name}>{name}.ts</option>)}</select></div><HighlightedSource source={sourceFiles[currentSource] ?? ""}/></section></section>;
 }
 
 function ValueRows({ value }: { value: unknown }) { return <dl className="balance-values">{[...leaves(value)].map(([key, entry]) => <div key={key}><dt>{key}</dt><dd>{display(entry)}</dd></div>)}</dl>; }

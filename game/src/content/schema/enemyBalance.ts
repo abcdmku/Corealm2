@@ -1,5 +1,7 @@
-import { arr, int, num, obj, refine, tuple, type Infer } from './core.js';
+import { arr, int, num, obj, refine, str, tuple, type Infer } from './core.js';
 import { LegacyBossInputsSchema, LegacyMarksInputsSchema, OrdrunPhaseParamsSchema } from './enemyDerivation.js';
+import { EnemySourceGraphParamsSchema, EnemySourceGraphInputsSchema } from './enemySourceGraph.js';
+import { FantasyParamsSchema } from './enemySourceVariants.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -10,12 +12,7 @@ const marks = refine(tuple([int({ min: 0 }), int({ min: 0 })] as const),
 const boss = obj({ tier: positiveInt(), multiplier: positive() });
 export const EnemyBalanceSchema = refine(obj({
   marksPerTier: obj({ ordinary: marks, purse: marks }),
-  fantasy: obj({ tiers: refine(arr(positiveInt(), { minLength: 1 }),
-    values => values.every((value, index) => index === 0 || value > values[index - 1]!),
-    'tiers must be unique and ascending'), minimums: obj({
-    maxHealth: positiveInt(), attackLevel: positiveInt(), defenceLevel: positiveInt(), accuracy: nonnegative(),
-    armour: nonnegative(), magicArmour: nonnegative(), maxHit: positiveInt(), marks: nonnegative(),
-  }) }),
+  fantasy: FantasyParamsSchema.extend({ sourceInputIds: refine(arr(str({ nonEmpty: true })), values => new Set(values).size === values.length, 'Fantasy source ids must be unique') }),
   combatLevel: refine(obj({ rollLevelOffset: nonnegative(), bonusDivisor: positive(), defenceStyleCount: positiveInt(),
     healthPerLevel: positive(), offenceWeight: chance(), defenceWeight: chance(), healthWeight: chance(), minimum: positiveInt() }),
   value => value.healthWeight > 0 && Math.abs(value.offenceWeight + value.defenceWeight + value.healthWeight - 1) < 1e-9,
@@ -33,9 +30,11 @@ export const EnemyBalanceSchema = refine(obj({
   legacyMarksInputs: LegacyMarksInputsSchema,
   legacyBossInputs: LegacyBossInputsSchema,
   ordrunPhases: OrdrunPhaseParamsSchema,
+  sourceParameters: EnemySourceGraphParamsSchema,
+  sourceInputs: EnemySourceGraphInputsSchema,
 }), value => Math.abs(value.tuning.healthPerCombatLevel - value.combatLevel.healthPerLevel / value.combatLevel.healthWeight) < 1e-9
-  && new Set([...value.legacyMarksInputs, ...value.legacyBossInputs].map(row => row.id)).size
-    === value.legacyMarksInputs.length + value.legacyBossInputs.length
+  && new Set([...value.legacyMarksInputs, ...value.legacyBossInputs, ...value.sourceInputs].map(row => row.id)).size
+    === value.legacyMarksInputs.length + value.legacyBossInputs.length + value.sourceInputs.length
   && new Set([...value.legacyMarksInputs, ...value.legacyBossInputs].map(row => row.enemyId)).size
     === value.legacyMarksInputs.length + value.legacyBossInputs.length,
 'health correction must agree with the level formula and input ids and targets must be globally unique');

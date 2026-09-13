@@ -36,7 +36,7 @@ export function buildEnemyViews(
       const { catalog: _catalog, stage: _stage, lootTableId, registrationOrder: _registration, fantasyTierOrder: _fantasy, derivation: _derivation, ...stats } = record;
       row = { ...stats, drops: dropsById(lootTableId) };
     } else {
-      const { catalog: _catalog, stage: _stage, lootTableId, labOrder: _lab, ...stats } = record;
+      const { catalog: _catalog, stage: _stage, lootTableId, labOrder: _lab, derivation: _derivation, ...stats } = record;
       row = { ...stats, drops: dropsById(lootTableId) };
     }
     blockMap.set(record.id, row);

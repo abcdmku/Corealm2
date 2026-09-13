@@ -167,3 +167,13 @@ The next source stage has independently reviewed pure functions, strict schemas 
 input extractors for 24 expansion, seven starter and 25 RPG sources. Their 56 outputs match
 the baseline; JSON integration and source derivation tags are still pending. Other enemy
 generator families and loot formula extraction remain unfinished M4 work. M5-M10 continue.
+
+## M4 core source and loot integration (in acceptance)
+
+Core inputs and regional variants/redesigns now form an acyclic 79-input graph. Together with 35 legacy rows and 45 scaled fantasy rows, 159 enemies carry verified source tags. A separate 114-input loot graph maps 159 original owners: 100 formula tables and 59 authored literal tables. The exporter compares complete ordered drops against the immutable baseline before tagging. Combat and loot ownership remain independent when an editor keeps saved values.
+
+A fresh source review found missing unscaled fantasy inheritance in the recompute projection. Root fixed it and added a regression for name, behaviour, cadence and optional field removal across all tiers. The content/editor suite currently passes 502 tests; content validation passes all 30 collections with the same four staged-asset warnings. Root accepted production/editor builds, typecheck, content validation, combat lab (47.2 seconds), final-world semantic smoke and editor browser proof. The final full suite passes 3,365 tests with one skip. An earlier overloaded run exceeded the existing Rootfall test's 20-second deadline; its focused rerun and the quiet full run both pass without changing that test.
+
+Isolated groundwork also captures 99 universal/fairy/garden actor source inputs and their original templates, plus the M6 baseline inventory. These are not yet wired into shipped records. M4 and M5-M10 remain unfinished.
+
+Editor acceptance applies 25 RPG health changes and seven starter loot chance changes in temporary JSON, checks untouched fields and zero remaining drift, and proves local source health/fantasy tier/loot chance inputs change calculations without writes. Root inspected fresh unobscured screenshots. M6 strict storage schemas pass 11 original-projection tests but remain unwired. Actor source review flags universal minimum-region-tier resolution and the public helper as explicit next-integration work; 99 actor inputs are not yet shipped.

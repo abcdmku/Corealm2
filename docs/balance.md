@@ -240,3 +240,11 @@ the `boar_t10` row itself. Its armour stays at the PRD +30. This keeps both halv
 gate true and makes "the mud-caked thing shrugs off lightning" read explicit.
 ---------------------------------------------------------------------------------------------
 ```
+
+## Creature source and loot recomputation
+
+`balance/enemies.json` keeps original expansion, starter, RPG, regional variant and redesign inputs separately from saved enemies. Dependencies resolve against those inputs before fantasy tier scaling. Fantasy scaling rounds seven combat fields and mark ranges, and inherits the other source fields, including speed and behaviour. Native tiers retain their original source formula.
+
+`balance/loot.json` keeps original drop literals, roll parameters and an explicit table-owner ledger. Dependency edges preserve drop order; variant essence is appended after the inherited drops. Literal tables remain authored. Loot recomputation changes only the ordered `drops` array and does not depend on a combat record retaining its formula tag.
+
+Editing parameters changes previews and drift status. Apply writes the reviewed fields using the current collection revisions. Keep values removes the selected record's tag; it does not remove the original input or affect other records that depend on that input.

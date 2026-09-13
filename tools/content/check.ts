@@ -1,3 +1,4 @@
+import { validateSourceLootLinks } from '../../game/src/content/schema/sourceLootLinks.js';
 import { validateEnemyFormulaLinks } from '../../game/src/content/schema/enemyFormulaLinks.js';
 import { execFileSync } from "node:child_process";
 import { readdir, readFile } from "node:fs/promises";
@@ -34,7 +35,7 @@ export async function checkContent(options: { allowIdentityChange?: boolean; cro
   }
   const registered = new Set(CONTENT_COLLECTIONS.map(spec => spec.file.slice(5)));
   if (errors.length === 0) errors.push(...validateCreatureCollections(values).map(issue => `${issue.path}: ${issue.message}`));
-  if (errors.length === 0) errors.push(...validateEnemyFormulaLinks(values).map(issue => `${issue.path}: ${issue.message}`));
+  if (errors.length === 0) errors.push(...[...validateEnemyFormulaLinks(values), ...validateSourceLootLinks(values)].map(issue => `${issue.path}: ${issue.message}`));
   if (errors.length === 0) {
     try { errors.push(...derivationDiffs(values).map(diff => `${diff.collection}.${diff.recordId}: drifted from ${diff.kind}; recompute or remove derivation to hand-tune`)); }
     catch (error) { errors.push(error instanceof Error ? error.message : String(error)); }

@@ -1,7 +1,11 @@
 import { gear } from "./gear.js";
 import { deriveLegacyBoss, tierMarks } from './enemies.js';
 import { EnemyBalanceSchema } from '../schema/enemyBalance.js';
-import { EnemyDerivationSchema } from '../schema/enemyDerivation.js';
+import { LegacyEnemyDerivationSchema, SourceEnemyDerivationSchema, FantasyEnemyDerivationSchema } from '../schema/enemyDerivation.js';
+import { deriveEnemySourceGraph } from './enemySourceGraph.js';
+import { scaleFantasy } from './enemySourceVariants.js';
+import { deriveSourceLootGraph } from './sourceLootGraph.js';
+import { SourceLootDerivationSchema } from '../schema/lootDerivation.js';
 import { materialFood, type MaterialFoodItem } from "./materialFood.js";
 import { MaterialFoodBalanceSchema, MaterialFoodDerivationSchema } from "../schema/materialFoodDerivation.js";
 import { lootBalanceSchema } from "../schema/balance.js";
@@ -50,8 +54,41 @@ function equipmentFields(fields: Record<string, unknown>): Record<string, unknow
 export function deriveRecord(collection: string, row: Record<string, unknown>, tables: DerivationCollections): Record<string, unknown> | undefined {
   if (row.derivation === undefined) return undefined;
   const tag = row.derivation as { kind?: unknown } | null;
+  if (collection === 'lootTables' && tag?.kind === 'sourceLoot.v1') {
+    const inputTag = parseValue(SourceLootDerivationSchema, tag, `lootTables.${String(row.id)}.derivation`);
+    const params = parseValue(lootBalanceSchema, tables.get('balance/loot'), 'balance/loot');
+    const owner = params.sourceOwners.find(owner => owner.id === row.id);
+    if (!owner || owner.mode !== 'formula' || owner.inputId !== inputTag.inputId) throw new Error(`Loot source ownership disagrees for ${String(row.id)}`);
+    const drops = deriveSourceLootGraph(params.sourceLoot, params.sourceInputs).get(inputTag.inputId);
+    if (!drops) throw new Error(`Missing loot source ${inputTag.inputId}`);
+    return { drops };
+  }
+  if (collection === 'enemies' && tag?.kind === 'fantasyScale.v1') {
+    const inputTag = parseValue(FantasyEnemyDerivationSchema, tag, `enemies.${String(row.id)}.derivation`);
+    const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
+    if (!params.fantasy.sourceInputIds.includes(inputTag.sourceInputId) || !params.fantasy.tiers.includes(inputTag.tier)) throw new Error('Unknown fantasy source or tier');
+    const source = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs).get(inputTag.sourceInputId);
+    if (!source || row.catalog !== 'FANTASY_TIER_BLOCKS' || row.stage !== 'registered' || inputTag.tier === source.tier) throw new Error(`Invalid fantasy source for ${String(row.id)}`);
+    const output = scaleFantasy(params.fantasy, { ...source, drops: [] }, inputTag.tier);
+    if (output.id !== row.id) throw new Error(`Fantasy source belongs to ${output.id}, not ${String(row.id)}`);
+    const { drops: _drops, ...fields } = output;
+    return { moveSpeedMps: undefined, walkSpeedMps: undefined, marks: undefined, attackStyle: undefined,
+      attackRangeM: undefined, respawnSeconds: undefined, ...fields };
+  }
+  if (collection === 'enemies' && tag?.kind === 'sourceEnemy.v1') {
+    const inputTag = parseValue(SourceEnemyDerivationSchema, tag, `enemies.${String(row.id)}.derivation`);
+    const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
+    const input = params.sourceInputs.find(input => input.id === inputTag.inputId);
+    if (!input) throw new Error(`Missing original source input ${inputTag.inputId}`);
+    const catalogs = input.kind === 'rpg' ? ['RPG_BESTIARY_BLOCKS', 'RPG_BESTIARY_STAGED_BLOCKS'] : ['CREATURE_SPECIES_BLOCKS'];
+    if (!catalogs.includes(String(row.catalog))) throw new Error(`Source formula catalog disagrees for ${String(row.id)}`);
+    const output = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs).get(input.id)!;
+    if (output.id !== row.id) throw new Error(`Source input ${input.id} belongs to ${output.id}, not ${String(row.id)}`);
+    return { moveSpeedMps: undefined, walkSpeedMps: undefined, marks: undefined, attackStyle: undefined,
+      attackRangeM: undefined, respawnSeconds: undefined, ...output };
+  }
   if (collection === 'enemies' && (tag?.kind === 'legacyMarks.v1' || tag?.kind === 'legacyBossCombat.v1')) {
-    const inputTag = parseValue(EnemyDerivationSchema, tag, `enemies.${String(row.id)}.derivation`);
+    const inputTag = parseValue(LegacyEnemyDerivationSchema, tag, `enemies.${String(row.id)}.derivation`);
     const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
     if (row.catalog !== 'LEGACY_BLOCKS' || row.stage !== 'registered') throw new Error('Legacy formulas require a registered legacy canonical enemy');
     if (inputTag.kind === 'legacyMarks.v1') {
@@ -107,13 +144,13 @@ export function derivationDiffs(tables: DerivationCollections, kind?: string): D
   for (const [collection, value] of tables) {
     if (!Array.isArray(value)) continue;
     for (const row of value as Record<string, unknown>[]) {
-      const tag = row.derivation as { kind?: string; inputId?: string } | undefined;
+      const tag = row.derivation as { kind?: string; inputId?: string; sourceInputId?: string } | undefined;
       if (!tag || (kind !== undefined && tag.kind !== kind)) continue;
       const after = deriveRecord(collection, row, tables);
       if (!after) continue;
       const before = Object.fromEntries(Object.keys(after).map(key => [key, row[key]]));
       if (!sameValue(before, after)) result.push({ collection, recordId: String(row.id ?? row.logItemId), kind: String(tag.kind),
-        ...(typeof tag.inputId === 'string' ? { inputIds: [tag.inputId] } : {}), before, after });
+        ...(typeof (tag.inputId ?? tag.sourceInputId) === 'string' ? { inputIds: [String(tag.inputId ?? tag.sourceInputId)] } : {}), before, after });
     }
   }
   return result;

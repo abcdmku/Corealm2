@@ -1,4 +1,5 @@
 import { arr, id, int, lit, num, obj, opt, ref, refine, str, tuple, union, type Infer, type Schema } from "./core.js";
+import { SourceLootDerivationSchema } from './lootDerivation.js';
 
 const nonempty = () => str({ nonEmpty: true });
 const IdentityMeta = { readOnly: true, identity: true } as const;
@@ -23,7 +24,7 @@ export const LOOT_CATALOGS = [
 ] as const;
 export type LootCatalog = typeof LOOT_CATALOGS[number];
 
-const LootFields = { id: id(), drops: arr(DropSchema) };
+const LootFields = { id: id(), drops: arr(DropSchema), derivation: opt(SourceLootDerivationSchema) };
 const LootTableObjectSchema = union([
   obj({ ...LootFields, catalog: lit("ENEMY_BLOCK_LOOT", IdentityMeta), ownerId: ref("enemy", IdentityMeta) }),
   obj({ ...LootFields, catalog: lit("CREATURE_SOURCE_LOOT", IdentityMeta), ownerId: ref("species", IdentityMeta) }),

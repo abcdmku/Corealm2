@@ -86,6 +86,11 @@ try {
   await page.getByRole('tab', { name: 'Overview', exact: true }).click();
   await page.getByRole('button', { name: 'Open combat record', exact: true }).click();
   await page.waitForFunction(() => location.hash.endsWith('/enemies/redbrush_fox_t1'));
+  const [unlinkedCreature] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith('/collections/enemies/redbrush_fox_t1') && response.request().method() === 'PUT'),
+    page.getByRole('button', { name: 'Keep these values', exact: true }).click(),
+  ]);
+  assert.equal(unlinkedCreature.status(), 200);
   await page.getByRole('tab', { name: 'Edit', exact: true }).click();
   await page.getByRole('spinbutton', { name: /^Max health$/i }).fill('9');
   const [enemySave] = await Promise.all([
@@ -337,6 +342,182 @@ try {
   assert.equal(await readFile(path.join(contentRoot, "data/balance/enemies.json"), "utf8"), enemyParametersBeforeExamples);
   assert.equal(await readFile(enemyFile, "utf8"), enemyRecordsBeforeExamples);
   checks.enemyLiveExamples = true;
+
+  const sourceBalanceResponse = await page.request.get(enemyBalanceCollection);
+  assert.equal(sourceBalanceResponse.status(), 200);
+  const sourceBalance = await sourceBalanceResponse.json() as {
+    revision: string;
+    data: { sourceParameters: { rpg: { healthBase: number } } };
+  };
+  const sourceHealthBase = sourceBalance.data.sourceParameters.rpg.healthBase;
+  sourceBalance.data.sourceParameters.rpg.healthBase = sourceHealthBase + 2;
+  const sourceBalanceWrite = await page.request.put(`${enemyBalanceCollection}/$collection`, { data: { revision: sourceBalance.revision, record: sourceBalance.data } });
+  assert.equal(sourceBalanceWrite.status(), 200);
+  await page.reload();
+  const sourceEnemiesBefore = JSON.parse(await readFile(enemyFile, "utf8")) as Record<string, unknown>[];
+  const sourceRpgRowsBefore = sourceEnemiesBefore.filter(row => {
+    const tag = row.derivation !== null && typeof row.derivation === "object" && !Array.isArray(row.derivation)
+      ? row.derivation as Record<string, unknown> : {};
+    return tag.kind === "sourceEnemy.v1" && typeof tag.inputId === "string" && tag.inputId.startsWith("rpg/");
+  });
+  assert.equal(sourceRpgRowsBefore.length, 25);
+  const sourceRpgIds = new Set(sourceRpgRowsBefore.map(row => String(row.id)));
+  const sourceMetaFile = path.join(contentRoot, "meta/items.meta.json");
+  const sourceMetaBefore = await readFile(sourceMetaFile, "utf8");
+  await page.goto(`${url}/#/balance/enemies/sourceParameters`);
+  await page.getByRole("tab", { name: "Formula", exact: true }).click();
+  await page.getByRole("combobox", { name: "Formula", exact: true }).selectOption("sourceEnemy.v1");
+  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+  const applySourceChanges = page.getByRole("button", { name: /^Apply changes to \d+ records$/ });
+  await applySourceChanges.waitFor();
+  assert.equal(await applySourceChanges.innerText(), "Apply changes to 25 records");
+  await page.waitForFunction(() => {
+    const button = document.querySelector(".balance-apply-button");
+    return button instanceof HTMLButtonElement && !button.disabled;
+  });
+  await page.locator("[data-sonner-toast]").last().waitFor({ state: "hidden", timeout: 15_000 });
+  await page.screenshot({ path: path.join(evidence, "core-source-preview.png") });
+  const [sourceApply] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith("/recompute") && response.request().postDataJSON()?.operation === "apply"),
+    applySourceChanges.click(),
+  ]);
+  assert.equal(sourceApply.status(), 200);
+  await page.getByText(/Applied changes to 25 records/).waitFor();
+  const sourceEnemiesAfter = JSON.parse(await readFile(enemyFile, "utf8")) as Record<string, unknown>[];
+  assert.equal(sourceEnemiesAfter.length, sourceEnemiesBefore.length);
+  const sourceBeforeById = new Map(sourceEnemiesBefore.map(row => [String(row.id), row]));
+  const sourceAfterById = new Map(sourceEnemiesAfter.map(row => [String(row.id), row]));
+  const withoutMaxHealth = (row: Record<string, unknown>) => Object.fromEntries(Object.entries(row).filter(([key]) => key !== "maxHealth"));
+  const changedSourceIds: string[] = [];
+  for (const afterRow of sourceEnemiesAfter) {
+    const beforeRow = sourceBeforeById.get(String(afterRow.id));
+    assert(beforeRow);
+    assert.deepEqual(withoutMaxHealth(afterRow), withoutMaxHealth(beforeRow));
+    if (!Object.is(afterRow.maxHealth, beforeRow.maxHealth)) changedSourceIds.push(String(afterRow.id));
+  }
+  assert.deepEqual(new Set(changedSourceIds), sourceRpgIds);
+  for (const id of sourceRpgIds) {
+    const beforeRow = sourceBeforeById.get(id);
+    const afterRow = sourceAfterById.get(id);
+    assert(beforeRow && afterRow);
+    assert(Number(afterRow.maxHealth) > Number(beforeRow.maxHealth));
+  }
+  assert.equal(await readFile(sourceMetaFile, "utf8"), sourceMetaBefore);
+  const sourceBalanceAfter = JSON.parse(await readFile(path.join(contentRoot, "data/balance/enemies.json"), "utf8")) as { sourceParameters: { rpg: { healthBase: number } } };
+  assert.equal(sourceBalanceAfter.sourceParameters.rpg.healthBase, sourceHealthBase + 2);
+  const remainingSourceDiffs = await (await page.request.post(`${url}/__devdocs/recompute`, { data: { operation: "preview", kind: "sourceEnemy.v1" } })).json();
+  assert.deepEqual(remainingSourceDiffs.diffs, []);
+  checks.sourceEnemyPreviewApply = { count: 25, changedField: "maxHealth", healthBase: sourceHealthBase + 2, remaining: 0 };
+
+  const lootFile = path.join(contentRoot, "data/lootTables.json");
+  const lootBalanceCollection = url + "/__devdocs/collections/balance/loot";
+  const lootBalanceResponse = await page.request.get(lootBalanceCollection);
+  assert.equal(lootBalanceResponse.status(), 200);
+  const lootBalance = await lootBalanceResponse.json() as {
+    revision: string;
+    data: {
+      sourceLoot: { starter: { chance: number } };
+      sourceInputs: { id: string; kind: string }[];
+    };
+  };
+  const starterChance = lootBalance.data.sourceLoot.starter.chance;
+  const updatedStarterChance = starterChance + 0.1;
+  assert(updatedStarterChance >= 0 && updatedStarterChance <= 1);
+  lootBalance.data.sourceLoot.starter.chance = updatedStarterChance;
+  const lootBalanceWrite = await page.request.put(lootBalanceCollection + "/$collection", { data: { revision: lootBalance.revision, record: lootBalance.data } });
+  assert.equal(lootBalanceWrite.status(), 200);
+  await page.reload();
+  const lootRowsBefore = JSON.parse(await readFile(lootFile, "utf8")) as Record<string, unknown>[];
+  const starterInputIds = new Set(lootBalance.data.sourceInputs.filter(input => input.kind === "starter").map(input => input.id));
+  const expectedLootIds = new Set(lootRowsBefore.filter(row => {
+    const tag = row.derivation !== null && typeof row.derivation === "object" && !Array.isArray(row.derivation)
+      ? row.derivation as Record<string, unknown> : {};
+    return tag.kind === "sourceLoot.v1" && typeof tag.inputId === "string" && starterInputIds.has(tag.inputId);
+  }).map(row => String(row.id)));
+  assert(expectedLootIds.size > 0);
+  const lootMetaBefore = await readFile(sourceMetaFile, "utf8");
+  await page.goto(url + "/#/balance/loot/sourceLoot");
+  await page.getByRole("tab", { name: "Formula", exact: true }).click();
+  await page.getByRole("combobox", { name: "Formula", exact: true }).selectOption("sourceLoot.v1");
+  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+  const applyLootChanges = page.getByRole("button", { name: /^Apply changes to \d+ records$/ });
+  await applyLootChanges.waitFor();
+  const lootApplyMatch = /^Apply changes to (\d+) records$/.exec(await applyLootChanges.innerText());
+  assert(lootApplyMatch);
+  const lootChangedCount = Number(lootApplyMatch[1]);
+  assert.equal(lootChangedCount, expectedLootIds.size);
+  await page.waitForFunction(() => {
+    const button = document.querySelector(".balance-apply-button");
+    return button instanceof HTMLButtonElement && !button.disabled;
+  });
+  await page.locator("[data-sonner-toast]").last().waitFor({ state: "hidden", timeout: 15_000 });
+  await page.screenshot({ path: path.join(evidence, "loot-source-preview.png") });
+  const [lootApply] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith("/recompute") && response.request().postDataJSON()?.operation === "apply"),
+    applyLootChanges.click(),
+  ]);
+  assert.equal(lootApply.status(), 200);
+  await page.getByText(new RegExp("Applied changes to " + lootChangedCount + " records")).waitFor();
+  const lootRowsAfter = JSON.parse(await readFile(lootFile, "utf8")) as Record<string, unknown>[];
+  assert.equal(lootRowsAfter.length, lootRowsBefore.length);
+  const lootBeforeById = new Map(lootRowsBefore.map(row => [String(row.id), row]));
+  const withoutDrops = (row: Record<string, unknown>) => Object.fromEntries(Object.entries(row).filter(([key]) => key !== "drops"));
+  const withoutChance = (drops: unknown) => (drops as Record<string, unknown>[]).map(drop => Object.fromEntries(Object.entries(drop).filter(([key]) => key !== "chance")));
+  const changedLootIds: string[] = [];
+  for (const afterRow of lootRowsAfter) {
+    const beforeRow = lootBeforeById.get(String(afterRow.id));
+    assert(beforeRow);
+    assert.deepEqual(withoutDrops(afterRow), withoutDrops(beforeRow));
+    if (JSON.stringify(afterRow.drops) !== JSON.stringify(beforeRow.drops)) changedLootIds.push(String(afterRow.id));
+  }
+  assert.deepEqual(new Set(changedLootIds), expectedLootIds);
+  for (const id of expectedLootIds) {
+    const beforeRow = lootBeforeById.get(id);
+    const afterRow = lootRowsAfter.find(row => String(row.id) === id);
+    assert(beforeRow && afterRow);
+    assert.deepEqual(withoutChance(afterRow.drops), withoutChance(beforeRow.drops));
+    const afterDrops = afterRow.drops as Record<string, unknown>[];
+    assert(afterDrops.length > 0 && afterDrops.every(drop => drop.chance === updatedStarterChance));
+  }
+  assert.equal(await readFile(sourceMetaFile, "utf8"), lootMetaBefore);
+  const lootBalanceAfter = JSON.parse(await readFile(path.join(contentRoot, "data/balance/loot.json"), "utf8")) as { sourceLoot: { starter: { chance: number } } };
+  assert.equal(lootBalanceAfter.sourceLoot.starter.chance, updatedStarterChance);
+  const remainingLootDiffs = await (await page.request.post(url + "/__devdocs/recompute", { data: { operation: "preview", kind: "sourceLoot.v1" } })).json();
+  assert.deepEqual(remainingLootDiffs.diffs, []);
+  checks.sourceLootPreviewApply = { count: lootChangedCount, changedField: "drops.chance", starterChance: updatedStarterChance, remaining: 0 };
+
+  const localFormulaFiles = ["data/enemies.json", "data/balance/enemies.json", "data/lootTables.json", "data/balance/loot.json"];
+  const localFormulaBytes = await Promise.all(localFormulaFiles.map(file => readFile(path.join(contentRoot, file), "utf8")));
+  for (const example of [
+    { route: "/#/balance/enemies/sourceParameters", kind: "sourceEnemy.v1", record: "grass_viper_t1", label: "Example source health", value: "19", screenshot: "source-health-example.png" },
+    { route: "/#/balance/enemies/fantasy", kind: "fantasyScale.v1", record: "fen_crawler_t1", label: "Example target tier", value: "5", screenshot: "fantasy-tier-example.png" },
+    { route: "/#/balance/loot/sourceLoot", kind: "sourceLoot.v1", record: "loot_enemy_grass_viper_t1", label: "Example loot chance", value: "0.33", screenshot: "loot-chance-example.png" },
+  ]) {
+    await page.goto(url + example.route);
+    await page.getByRole("tab", { name: "Formula", exact: true }).click();
+    await page.getByRole("combobox", { name: "Formula", exact: true }).selectOption(example.kind);
+    await page.getByRole("combobox", { name: "Example record", exact: true }).selectOption(example.record);
+    const control = page.getByRole("spinbutton", { name: example.label, exact: true });
+    await control.waitFor();
+    const result = page.locator(".balance-example-result > div").nth(1).locator("dl");
+    await result.waitFor();
+    const before = await result.innerText();
+    await control.fill(example.value);
+    await page.waitForFunction(previous => {
+      const result = document.querySelector(".balance-example-result > div:nth-child(2) dl");
+      return result instanceof HTMLElement && result.innerText !== previous;
+    }, before);
+    assert.notEqual(await result.innerText(), before);
+    await page.locator("[data-sonner-toast]").last().waitFor({ state: "hidden", timeout: 15_000 });
+    await page.locator(".balance-example").screenshot({ path: path.join(evidence, example.screenshot) });
+    await control.fill("");
+    await page.getByRole("alert").first().waitFor();
+    await page.getByRole("button", { name: "Reset inputs", exact: true }).click();
+    await result.waitFor();
+    assert.equal(await result.innerText(), before);
+  }
+  assert.deepEqual(await Promise.all(localFormulaFiles.map(file => readFile(path.join(contentRoot, file), "utf8"))), localFormulaBytes);
+  checks.sourceFormulaLiveExamples = { kinds: ["sourceEnemy.v1", "fantasyScale.v1", "sourceLoot.v1"], changed: true, invalidRejected: true, reset: true, noWrites: true };
 
   await page.goto(`${url}/#/review`);
   await page.locator('.review-validation-result.is-ok').waitFor();
