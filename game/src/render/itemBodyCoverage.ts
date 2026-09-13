@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export type ClothingRegion = "body" | "hands" | "sleeves" | "legs" | "feet";
+export type ClothingRegion = "body" | "hands" | "handwear" | "sleeves" | "legs" | "feet";
 export interface ItemBodyCoverageSpan {
   readonly region: "torso" | "legs";
   readonly minY: number;
@@ -46,13 +46,13 @@ export function maskLegacyClothing(
   }
   // Legacy hands cover whole arms. Sleeves stop before the hand and finger joints.
   const coveredRegions = [covered.has("body"), covered.has("hands") || covered.has("sleeves"),
-    covered.has("legs"), covered.has("feet"), covered.has("hands")];
+    covered.has("legs"), covered.has("feet"), covered.has("hands") || covered.has("handwear")];
   const boneRegions = boneNames.map(regionForBone);
   const scores = new Float64Array(position.count * regionCount);
   const removable = new Uint8Array(position.count);
   const spanVertices = spans.map(() => new Uint8Array(position.count));
   for (let vertex = 0; vertex < position.count; vertex++) {
-    let total = 0, headWeight = 0, spineWeight = 0, legWeight = 0;
+    let total = 0, headWeight = 0, spineWeight = 0, legWeight = 0, clavicleWeight = 0, armWeight = 0;
     for (let influence = 0; influence < weight.itemSize; influence++) {
       const strength = weight.getComponent(vertex, influence);
       if (!Number.isFinite(strength) || strength < 0) throw new Error("Body coverage found invalid skin weights");
@@ -62,18 +62,19 @@ export function maskLegacyClothing(
       total += strength;
       if (/^(Head|head|neck)(_|$)/.test(boneNames[bone] ?? "")) headWeight += strength;
       if (/^spine_\d+$/.test(boneNames[bone] ?? "")) spineWeight += strength;
+      if (/^clavicle_/.test(boneNames[bone] ?? "")) clavicleWeight += strength;
+      if (/^(upperarm|lowerarm)_/.test(boneNames[bone] ?? "")) armWeight += strength;
       if (/^(thigh|calf)_/.test(boneNames[bone] ?? "")) legWeight += strength;
     }
     // Native shoulders carry tiny neck weights as far down as y=1.37. Preserve the neck
     // transition at 25%, while allowing those mostly spine-driven back vertices to be covered.
     if (total === 0 || headWeight / total >= 0.25) continue;
     const y = position.getY(vertex);
-    spans.forEach((span, index) => {
-      // All corners must fall strictly within one span. A triangle crossing a hem survives.
-      if (y > span.minY && y < span.maxY && (span.region === "torso" ? spineWeight : legWeight) / total >= .65) {
-        spanVertices[index]![vertex] = 1;
-      }
-    });
+    // The native pectorals blend into the clavicles. Treat only the central
+    // torso portion as chest when a garment supplies a torso coverage span.
+    // Actual arm joints, lateral shoulders and the protected neck stay visible.
+    const chestClavicle = Math.abs(position.getX(vertex)) <= .20
+      && y >= 1.30 && y <= 1.50 && armWeight / total < .35 ? clavicleWeight : 0;
     let dominant = protectedRegion, maximum = scores[vertex * regionCount + protectedRegion]!, coveredWeight = 0;
     for (let region = 0; region < protectedRegion; region++) {
       const score = scores[vertex * regionCount + region]!;
@@ -82,6 +83,16 @@ export function maskLegacyClothing(
     }
     // A 50/50 shoulder belongs to neither garment with enough certainty to cut it.
     if (coveredRegions[dominant] && coveredWeight / total >= 0.65) removable[vertex] = 1;
+    spans.forEach((span, index) => {
+      // A covered waist can blend pelvis and spine across both garments. Sum
+      // their coverage before testing confidence, while keeping the torso
+      // contribution strictly inside its authored hem and armhole heights.
+      const inSpan = y > span.minY && y < span.maxY;
+      const alreadyCovered = span.region === "torso" ? coveredRegions[0] : coveredRegions[2];
+      const torsoWeight = spineWeight + (coveredRegions[1] ? 0 : chestClavicle);
+      const spanWeight = inSpan && !alreadyCovered ? (span.region === "torso" ? torsoWeight : legWeight) : 0;
+      if ((coveredWeight + spanWeight) / total >= .65) spanVertices[index]![vertex] = 1;
+    });
   }
 
   const sourceIndex = geometry.getIndex(), count = sourceIndex?.count ?? position.count;

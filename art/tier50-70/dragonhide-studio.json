@@ -1,0 +1,122 @@
+{
+  "candidateId": "tier50-dragonhide-r15-review",
+  "set": "dragonhide",
+  "source": "dragonhide-set.blend",
+  "sourceSha256": "9001e8d4e64b884c5c65f6facff07b84d57553af41acf6e1e20f4a8b5794a76a",
+  "sourceFiles": [
+    {
+      "file": "dragonhide_boots.glb",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0"
+    },
+    {
+      "file": "dragonhide_hood.glb",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418"
+    },
+    {
+      "file": "dragonhide_leggings.glb",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02"
+    },
+    {
+      "file": "dragonhide_robe.glb",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+    },
+    {
+      "file": "dragonhide_wraps.glb",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f"
+    }
+  ],
+  "render": "dragonhide-studio.png",
+  "renderSha256": "df6de7cd5a6febe7f4d482bed168409581862cb0807d0503e71a475c7b0ec4e0",
+  "renderer": "BLENDER_EEVEE_NEXT",
+  "blenderVersion": "4.5.11 LTS",
+  "resolution": [
+    1800,
+    1600
+  ],
+  "colorManagement": {
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -0.6499999761581421
+  },
+  "lights": [
+    {
+      "name": "Neutral large key",
+      "energy": 160.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Neutral frontal fill",
+      "energy": 72.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Silver rim",
+      "energy": 200.0,
+      "color": [
+        0.8999999761581421,
+        0.949999988079071,
+        1.0
+      ]
+    },
+    {
+      "name": "Soft overhead",
+      "energy": 65.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "camera": {
+    "position": [
+      2.200000047683716,
+      -6.900000095367432,
+      2.25
+    ],
+    "target": [
+      0.0,
+      0.029999999329447746,
+      0.9399999976158142
+    ],
+    "type": "ORTHO",
+    "orthoScale": 2.380000114440918,
+    "view": "front-three-quarter",
+    "pose": "temporary arms lowered 62 degrees; saved rest pose unchanged"
+  },
+  "armorBounds": {
+    "min": [
+      -0.5509124994277954,
+      -0.21550922095775604,
+      -0.03400036320090294
+    ],
+    "max": [
+      0.550912618637085,
+      0.26539385318756104,
+      1.8509721755981445
+    ]
+  },
+  "sourceMeshes": 101,
+  "piece": null,
+  "totalSourceMeshes": 101,
+  "automaticFraming": null,
+  "visibleSourceFiles": [
+    "dragonhide_boots.glb",
+    "dragonhide_hood.glb",
+    "dragonhide_leggings.glb",
+    "dragonhide_robe.glb",
+    "dragonhide_wraps.glb"
+  ],
+  "sourceFileHashesStillMatchAfterRender": true,
+  "sourceSaved": false,
+  "sourceBlendHashUnchanged": true,
+  "note": "Standalone studio presentation of saved armor geometry. Not gameplay acceptance evidence."
+}

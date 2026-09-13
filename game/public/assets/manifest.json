@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T01:23:40.632Z",
+  "generatedAt": "2026-09-13T01:09:59.373Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -395,7 +395,7 @@
       "author": "Corealm",
       "license": "LicenseRef-Corealm-Original",
       "source": "tools/item-models/build.ts",
-      "generatorSha256": "7e5c7ad32215af304a3292acfacbe7f966a2a8439d003ad0617e2d921b0c3040"
+      "generatorSha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e"
     },
     {
       "id": "fab-lowpoly-medieval-modular-armors",
@@ -9290,7 +9290,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3740142753,
         "maxLinearColourError": 0.0019596242,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3985508
       },
@@ -9339,7 +9339,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3783224403,
         "maxLinearColourError": 0.0019599475,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3913452
       },
@@ -9388,7 +9388,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3676077453,
         "maxLinearColourError": 0.0019605767,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3325576
       },
@@ -9437,7 +9437,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3805418582,
         "maxLinearColourError": 0.0019593599,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2547912
       },
@@ -9486,7 +9486,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3638381742,
         "maxLinearColourError": 0.0019581281,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2462508
       },
@@ -9535,7 +9535,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.368634929,
         "maxLinearColourError": 0.0019581884,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2336748
       },
@@ -9769,7 +9769,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3729709808,
         "maxLinearColourError": 0.0019604203,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 1222088
       },
@@ -9816,7 +9816,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3743962589,
         "maxLinearColourError": 0.0019590875,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 473656
       },
@@ -9863,7 +9863,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3180186674,
         "maxLinearColourError": 0.0018290708,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 5152
       },
@@ -9909,7 +9909,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.318459753,
         "maxLinearColourError": 0.0019525305,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 5152
       },
@@ -9955,7 +9955,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3842165401,
         "maxLinearColourError": 0.0019599846,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 953956
       },
@@ -10002,7 +10002,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3630532035,
         "maxLinearColourError": 0.0019604697,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 944180
       },
@@ -10049,7 +10049,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3671433808,
         "maxLinearColourError": 0.0019492501,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 82852
       },
@@ -16257,7 +16257,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3983418867269393e-09
+                "z": 1.3983418867269393e-9
               }
             ]
           }
@@ -16415,7 +16415,7 @@
             "toeStanceSweepM": 0.7200000214576722,
             "liftM": 0.12,
             "bakeHz": 240,
-            "maxIkResidualM": 5.968813179414793e-08,
+            "maxIkResidualM": 5.968813179414793e-8,
             "kneeInteriorDegrees": [
               79.18067069950074,
               138.84394874265627
@@ -16430,7 +16430,7 @@
             "toeStanceSweepM": 0.6800000202655793,
             "liftM": 0.24,
             "bakeHz": 960,
-            "maxIkResidualM": 4.2331587410460006e-08,
+            "maxIkResidualM": 4.2331587410460006e-8,
             "kneeInteriorDegrees": [
               59.08778358356357,
               120.6666644989449
@@ -16440,7 +16440,7 @@
         ],
         "walkClipSeconds": 1.3333333730697632,
         "runClipSeconds": 0.6666666865348816,
-        "animationResampleTolerance": 1e-06,
+        "animationResampleTolerance": 0.000001,
         "notes": [
           "Six named embedded FBX takes retained without broad-take substitutions. Walk and Run retain source upper-body channels and cadence, with shorter planted toe paths solved through the original leg chain.",
           "Native atlas and vertex normals retained. The source package has no true tangent normal or roughness texture.",
@@ -18427,7 +18427,7 @@
                 "stanceMedianMps": 0.5798491920558196
               }
             ],
-            "minimumSkinnedMeshY": -1.6169999870898775e-05
+            "minimumSkinnedMeshY": -0.000016169999870898775
           },
           "run": {
             "seconds": 0.4000000059604645,
@@ -18554,13 +18554,13 @@
       },
       "base": {
         "x": -0.21675036856559693,
-        "y": 1.0728835736495412e-09,
+        "y": 1.0728835736495412e-9,
         "z": -0.753343475818634
       },
       "bounds": {
         "min": [
           -0.21675036856559693,
-          1.0728835736495412e-09,
+          1.0728835736495412e-9,
           -0.753343475818634
         ],
         "max": [
@@ -18569,7 +18569,7 @@
           0.9646385788917542
         ]
       },
-      "groundY": 1.0728835736495412e-09,
+      "groundY": 1.0728835736495412e-9,
       "triangles": 72720,
       "animations": [
         "Idle",
@@ -18791,13 +18791,13 @@
       },
       "base": {
         "x": -0.2620619912332611,
-        "y": -1.1324882420726823e-09,
+        "y": -1.1324882420726823e-9,
         "z": -0.9111107325553894
       },
       "bounds": {
         "min": [
           -0.2620619912332611,
-          -1.1324882420726823e-09,
+          -1.1324882420726823e-9,
           -0.9111107325553894
         ],
         "max": [
@@ -18806,7 +18806,7 @@
           0.8828514337539672
         ]
       },
-      "groundY": -1.1324882420726823e-09,
+      "groundY": -1.1324882420726823e-9,
       "triangles": 41464,
       "animations": [
         "Idle",
@@ -19025,13 +19025,13 @@
       },
       "base": {
         "x": -0.4284454584121704,
-        "y": -1.7881393449270533e-09,
+        "y": -1.7881393449270533e-9,
         "z": -0.8410502755641938
       },
       "bounds": {
         "min": [
           -0.4284454584121704,
-          -1.7881393449270533e-09,
+          -1.7881393449270533e-9,
           -0.8410502755641938
         ],
         "max": [
@@ -19040,7 +19040,7 @@
           0.7655078911781311
         ]
       },
-      "groundY": -1.7881393449270533e-09,
+      "groundY": -1.7881393449270533e-9,
       "triangles": 61976,
       "animations": [
         "Idle",
@@ -20341,13 +20341,13 @@
       },
       "base": {
         "x": -0.9281644487860795,
-        "y": 3.278255444882916e-09,
+        "y": 3.278255444882916e-9,
         "z": -1.2409198474884033
       },
       "bounds": {
         "min": [
           -0.9281644487860795,
-          3.278255444882916e-09,
+          3.278255444882916e-9,
           -1.2409198474884033
         ],
         "max": [
@@ -20356,7 +20356,7 @@
           1.6940350818634033
         ]
       },
-      "groundY": 3.278255444882916e-09,
+      "groundY": 3.278255444882916e-9,
       "triangles": 34916,
       "animations": [
         "Idle",
@@ -20969,15 +20969,15 @@
         "loops": {
           "Idle": {
             "seconds": 9.966666221618652,
-            "maxTranslationGap": 2.861061754062865e-06,
+            "maxTranslationGap": 0.000002861061754062865,
             "maxRotationGapRadians": 0.006819951576903122,
-            "maxScaleGap": 2.7314279645418166e-07
+            "maxScaleGap": 2.7314279645418166e-7
           },
           "Walk": {
             "seconds": 0.966666579246521,
-            "maxTranslationGap": 3.932212876811158e-06,
+            "maxTranslationGap": 0.000003932212876811158,
             "maxRotationGapRadians": 0.026552874316156678,
-            "maxScaleGap": 3.816559456248789e-07
+            "maxScaleGap": 3.816559456248789e-7
           },
           "Run": {
             "seconds": 0.5333333611488342,
@@ -21480,13 +21480,13 @@
       },
       "base": {
         "x": -0.8725002182170689,
-        "y": -7.763962636403102e-05,
+        "y": -0.00007763962636403102,
         "z": -1.9394795807200897
       },
       "bounds": {
         "min": [
           -0.8725002182170689,
-          -7.763962636403102e-05,
+          -0.00007763962636403102,
           -1.9394795807200897
         ],
         "max": [
@@ -21495,7 +21495,7 @@
           2.796283113821949
         ]
       },
-      "groundY": -7.763962636403102e-05,
+      "groundY": -0.00007763962636403102,
       "triangles": 3230,
       "animations": [
         "Idle",
@@ -21928,7 +21928,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3113416498511388e-09
+                "z": 1.3113416498511388e-9
               }
             ]
           },
@@ -21959,7 +21959,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3055864341027235e-09
+                "z": 1.3055864341027235e-9
               }
             ]
           }
@@ -21967,7 +21967,7 @@
         "loops": {
           "Idle": {
             "seconds": 2.9666669368743896,
-            "maxTranslationGap": 3.95046302262347e-05,
+            "maxTranslationGap": 0.0000395046302262347,
             "maxRotationGapRadians": 0.0221039404120411,
             "maxScaleGap": 0
           },
@@ -22158,13 +22158,13 @@
       },
       "base": {
         "x": -1.5290063069018323,
-        "y": -1.1339645630478734e-08,
+        "y": -1.1339645630478734e-8,
         "z": -2.931949894246511
       },
       "bounds": {
         "min": [
           -1.5290063069018323,
-          -1.1339645630478734e-08,
+          -1.1339645630478734e-8,
           -2.931949894246511
         ],
         "max": [
@@ -22173,7 +22173,7 @@
           2.0090897686952403
         ]
       },
-      "groundY": -1.1339645630478734e-08,
+      "groundY": -1.1339645630478734e-8,
       "triangles": 4382,
       "animations": [
         "Idle",
@@ -22259,7 +22259,7 @@
           "method": "Actual skinned minimum sampled at 120 Hz; upward-only Root Y correction with 2 mm clearance",
           "clips": {
             "Idle": {
-              "minimumBeforeM": -1.8286767841282914e-05,
+              "minimumBeforeM": -0.000018286767841282914,
               "maximumCorrectionM": 0.002018286767841283,
               "samplesPerSecond": 120,
               "clearanceM": 0.002
@@ -22391,7 +22391,7 @@
           },
           "Walk": {
             "seconds": 1.3333333730697632,
-            "maxTranslationGap": 7.152557373046875e-07,
+            "maxTranslationGap": 7.152557373046875e-7,
             "maxRotationGapRadians": 0.0006617140284494645,
             "maxScaleGap": 0
           },
@@ -22485,7 +22485,7 @@
             "method": "Actual skinned minimum sampled at 120 Hz; upward-only Root Y correction with 2 mm clearance",
             "clips": {
               "Idle": {
-                "minimumBeforeM": -1.8286767841282914e-05,
+                "minimumBeforeM": -0.000018286767841282914,
                 "maximumCorrectionM": 0.002018286767841283,
                 "samplesPerSecond": 120,
                 "clearanceM": 0.002
@@ -22664,7 +22664,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3774180957,
         "maxLinearColourError": 0.0019604331,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 1854600
       },
@@ -22711,7 +22711,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3796657459,
         "maxLinearColourError": 0.0019604697,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 1844824
       },
@@ -22758,7 +22758,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3729709808,
         "maxLinearColourError": 0.0019604203,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 1365660
       },
@@ -22805,7 +22805,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3842165401,
         "maxLinearColourError": 0.0019599846,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 953956
       },
@@ -22852,7 +22852,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3630532035,
         "maxLinearColourError": 0.0019604697,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 944180
       },
@@ -22899,7 +22899,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3729709808,
         "maxLinearColourError": 0.0019604203,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 1222088
       },
@@ -24528,7 +24528,7 @@
             6703
           ],
           "mirrorVertex": 1033,
-          "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
           "influences": [
             {
               "bone": "Abdomen",
@@ -24648,7 +24648,7 @@
               6703
             ],
             "mirrorVertex": 1033,
-            "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
             "influences": [
               {
                 "bone": "Abdomen",
@@ -24937,8 +24937,8 @@
           ],
           "nativeReconstructionCheck": {
             "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-07,
-            "rmsMeters": 2.509723778297731e-07,
+            "maxMeters": 9.812850387658198e-7,
+            "rmsMeters": 2.509723778297731e-7,
             "samples": 33480
           }
         },
@@ -25674,7 +25674,7 @@
         "animationFloorChecks": [
           {
             "clip": "Idle",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -25722,7 +25722,7 @@
           },
           {
             "clip": "Attack",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -25738,7 +25738,7 @@
           },
           {
             "clip": "Hit",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -25754,7 +25754,7 @@
           },
           {
             "clip": "HitLeft",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -25770,7 +25770,7 @@
           },
           {
             "clip": "HitRight",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -26111,7 +26111,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3819198734,
         "maxLinearColourError": 0.001960164,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 4162656
       },
@@ -26160,7 +26160,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3734236595,
         "maxLinearColourError": 0.0019606011,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3707172
       },
@@ -26209,7 +26209,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3752111091,
         "maxLinearColourError": 0.0019540819,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2121104
       },
@@ -26258,7 +26258,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.369905737,
         "maxLinearColourError": 0.0019600754,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2502024
       },
@@ -26307,7 +26307,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3760601214,
         "maxLinearColourError": 0.001960472,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2807444
       },
@@ -26356,7 +26356,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3723182749,
         "maxLinearColourError": 0.0019605169,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2324964
       },
@@ -26405,7 +26405,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3842436188,
         "maxLinearColourError": 0.0019605894,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3243140
       },
@@ -26454,7 +26454,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3703960392,
         "maxLinearColourError": 0.0019597406,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2742600
       },
@@ -26503,7 +26503,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3735085409,
         "maxLinearColourError": 0.0019601621,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3223720
       },
@@ -26552,7 +26552,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3796972009,
         "maxLinearColourError": 0.0019606941,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2875700
       },
@@ -26601,7 +26601,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3753044689,
         "maxLinearColourError": 0.0019598641,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3352312
       },
@@ -26650,7 +26650,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3715552629,
         "maxLinearColourError": 0.0019607621,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2677580
       },
@@ -26699,7 +26699,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3649429038,
         "maxLinearColourError": 0.001959977,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2919644
       },
@@ -26748,7 +26748,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3685325608,
         "maxLinearColourError": 0.0019607766,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2308688
       },
@@ -26797,7 +26797,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3695884749,
         "maxLinearColourError": 0.0019606194,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3198648
       },
@@ -26846,7 +26846,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3764891666,
         "maxLinearColourError": 0.0019602556,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3026252
       },
@@ -26895,7 +26895,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3757118457,
         "maxLinearColourError": 0.0019607584,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3840032
       },
@@ -26944,7 +26944,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.369456969,
         "maxLinearColourError": 0.0019602724,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3354848
       },
@@ -30761,7 +30761,7 @@
             6703
           ],
           "mirrorVertex": 1033,
-          "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
           "influences": [
             {
               "bone": "Abdomen",
@@ -30881,7 +30881,7 @@
               6703
             ],
             "mirrorVertex": 1033,
-            "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
             "influences": [
               {
                 "bone": "Abdomen",
@@ -31147,7 +31147,7 @@
             6703
           ],
           "mirrorVertex": 1033,
-          "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
           "influences": [
             {
               "bone": "Abdomen",
@@ -31267,7 +31267,7 @@
               6703
             ],
             "mirrorVertex": 1033,
-            "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
             "influences": [
               {
                 "bone": "Abdomen",
@@ -31533,7 +31533,7 @@
             6703
           ],
           "mirrorVertex": 1033,
-          "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
           "influences": [
             {
               "bone": "Abdomen",
@@ -31653,7 +31653,7 @@
               6703
             ],
             "mirrorVertex": 1033,
-            "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
             "influences": [
               {
                 "bone": "Abdomen",
@@ -31953,7 +31953,7 @@
                 "stanceMedianMps": 0.5798491920558196
               }
             ],
-            "minimumSkinnedMeshY": -1.6169999870898775e-05
+            "minimumSkinnedMeshY": -0.000016169999870898775
           },
           "run": {
             "seconds": 0.4000000059604645,
@@ -32310,13 +32310,13 @@
       },
       "base": {
         "x": -0.9281644487860795,
-        "y": 3.278255444882916e-09,
+        "y": 3.278255444882916e-9,
         "z": -1.2409198474884033
       },
       "bounds": {
         "min": [
           -0.9281644487860795,
-          3.278255444882916e-09,
+          3.278255444882916e-9,
           -1.2409198474884033
         ],
         "max": [
@@ -32325,7 +32325,7 @@
           1.6940350818634033
         ]
       },
-      "groundY": 3.278255444882916e-09,
+      "groundY": 3.278255444882916e-9,
       "triangles": 34916,
       "animations": [
         "Idle",
@@ -35817,8 +35817,8 @@
           ],
           "nativeReconstructionCheck": {
             "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-07,
-            "rmsMeters": 2.509723778297731e-07,
+            "maxMeters": 9.812850387658198e-7,
+            "rmsMeters": 2.509723778297731e-7,
             "samples": 33480
           }
         },
@@ -36730,7 +36730,7 @@
         "animationFloorChecks": [
           {
             "clip": "Idle",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -36778,7 +36778,7 @@
           },
           {
             "clip": "Attack",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -36794,7 +36794,7 @@
           },
           {
             "clip": "Hit",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -36810,7 +36810,7 @@
           },
           {
             "clip": "HitLeft",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -36826,7 +36826,7 @@
           },
           {
             "clip": "HitRight",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -36873,7 +36873,7 @@
         "groundCorrections": [
           {
             "name": "Idle",
-            "maxCorrectionM": 3.4386938869285233e-09
+            "maxCorrectionM": 3.4386938869285233e-9
           },
           {
             "name": "Walk",
@@ -36885,19 +36885,19 @@
           },
           {
             "name": "Attack",
-            "maxCorrectionM": 3.4386938869285233e-09
+            "maxCorrectionM": 3.4386938869285233e-9
           },
           {
             "name": "Hit",
-            "maxCorrectionM": 3.4386938869285233e-09
+            "maxCorrectionM": 3.4386938869285233e-9
           },
           {
             "name": "HitLeft",
-            "maxCorrectionM": 3.4386938869285233e-09
+            "maxCorrectionM": 3.4386938869285233e-9
           },
           {
             "name": "HitRight",
-            "maxCorrectionM": 3.4386938869285233e-09
+            "maxCorrectionM": 3.4386938869285233e-9
           },
           {
             "name": "Death",
@@ -36941,7 +36941,7 @@
                   0.003000003438693887,
                   0.003000003438693887
                 ],
-                "maxCorrection": 3.4386938869285233e-09,
+                "maxCorrection": 3.4386938869285233e-9,
                 "bounds": {
                   "min": [
                     -0.9431083401129667,
@@ -37007,7 +37007,7 @@
                   0.003000003438693887,
                   0.003000003438693887
                 ],
-                "maxCorrection": 3.4386938869285233e-09,
+                "maxCorrection": 3.4386938869285233e-9,
                 "bounds": {
                   "min": [
                     -0.9431009899370957,
@@ -37029,7 +37029,7 @@
                   0.003000003438693887,
                   0.003000003438693887
                 ],
-                "maxCorrection": 3.4386938869285233e-09,
+                "maxCorrection": 3.4386938869285233e-9,
                 "bounds": {
                   "min": [
                     -0.9431083401129667,
@@ -37051,7 +37051,7 @@
                   0.003000003438693887,
                   0.003000003438693887
                 ],
-                "maxCorrection": 3.4386938869285233e-09,
+                "maxCorrection": 3.4386938869285233e-9,
                 "bounds": {
                   "min": [
                     -0.9431083401129667,
@@ -37073,7 +37073,7 @@
                   0.003000003438693887,
                   0.003000003438693887
                 ],
-                "maxCorrection": 3.4386938869285233e-09,
+                "maxCorrection": 3.4386938869285233e-9,
                 "bounds": {
                   "min": [
                     -0.9431083401129667,
@@ -37410,7 +37410,7 @@
                   0.0029999832350587558,
                   0.0030026328603638625
                 ],
-                "maxCorrection": 1.6764941244279408e-08,
+                "maxCorrection": 1.6764941244279408e-8,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -37432,7 +37432,7 @@
                   0.0029978715882951145,
                   0.003042105892981225
                 ],
-                "maxCorrection": 2.1284117048855737e-06,
+                "maxCorrection": 0.0000021284117048855737,
                 "bounds": {
                   "min": [
                     -0.8132854793929758,
@@ -37454,7 +37454,7 @@
                   0.002994631927098845,
                   0.0031765022473112846
                 ],
-                "maxCorrection": 5.368072901155117e-06,
+                "maxCorrection": 0.000005368072901155117,
                 "bounds": {
                   "min": [
                     -0.8132854801073548,
@@ -37498,7 +37498,7 @@
                   0.002999408174194523,
                   0.003000607370820983
                 ],
-                "maxCorrection": 5.918258054772585e-07,
+                "maxCorrection": 5.918258054772585e-7,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -37520,7 +37520,7 @@
                   0.0029943636272626306,
                   0.0030035930000705618
                 ],
-                "maxCorrection": 5.636372737369451e-06,
+                "maxCorrection": 0.000005636372737369451,
                 "bounds": {
                   "min": [
                     -0.81432466749361,
@@ -37542,7 +37542,7 @@
                   0.0029925384933637,
                   0.003005910874396135
                 ],
-                "maxCorrection": 7.461506636300026e-06,
+                "maxCorrection": 0.000007461506636300026,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -39116,7 +39116,7 @@
                   0.5384184013334561
                 ],
                 "floorCorrection": {
-                  "maxLift": 4.828510927774171e-07,
+                  "maxLift": 4.828510927774171e-7,
                   "maxDrop": -0.007231688199167355
                 }
               },
@@ -39407,8 +39407,8 @@
           ],
           "nativeReconstructionCheck": {
             "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-07,
-            "rmsMeters": 2.509723778297731e-07,
+            "maxMeters": 9.812850387658198e-7,
+            "rmsMeters": 2.509723778297731e-7,
             "samples": 33480
           }
         },
@@ -39604,7 +39604,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0,
-                  "maxDrop": -1.608563583561061e-07
+                  "maxDrop": -1.608563583561061e-7
                 }
               },
               "Walk": {
@@ -39658,7 +39658,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.09981423834007175,
-                  "maxDrop": -7.64590054143019e-08
+                  "maxDrop": -7.64590054143019e-8
                 }
               },
               "Hit": {
@@ -39676,7 +39676,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.0831941543588609,
-                  "maxDrop": -2.6943354588214452e-08
+                  "maxDrop": -2.6943354588214452e-8
                 }
               },
               "HitLeft": {
@@ -39694,7 +39694,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.0831941543588609,
-                  "maxDrop": -2.6943354588214452e-08
+                  "maxDrop": -2.6943354588214452e-8
                 }
               },
               "HitRight": {
@@ -39712,7 +39712,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.15653866205836947,
-                  "maxDrop": -2.8162879466065924e-05
+                  "maxDrop": -0.000028162879466065924
                 }
               },
               "Death": {
@@ -40619,7 +40619,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.00032025187285481546,
-                  "maxDrop": -2.6285924947682705e-05
+                  "maxDrop": -0.000026285924947682705
                 }
               },
               "Walk": {
@@ -40673,7 +40673,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.04366467560528589,
-                  "maxDrop": -1.4787767250017039e-05
+                  "maxDrop": -0.000014787767250017039
                 }
               },
               "Hit": {
@@ -40691,7 +40691,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.032316165896501395,
-                  "maxDrop": -1.4787767250017039e-05
+                  "maxDrop": -0.000014787767250017039
                 }
               },
               "HitLeft": {
@@ -40709,7 +40709,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.032006499909987274,
-                  "maxDrop": -1.4787767250017039e-05
+                  "maxDrop": -0.000014787767250017039
                 }
               },
               "HitRight": {
@@ -40727,7 +40727,7 @@
                 ],
                 "floorCorrection": {
                   "maxLift": 0.031204730165119886,
-                  "maxDrop": -1.4787767250017039e-05
+                  "maxDrop": -0.000014787767250017039
                 }
               },
               "Death": {
@@ -43390,8 +43390,8 @@
           ],
           "nativeReconstructionCheck": {
             "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-07,
-            "rmsMeters": 2.509723778297731e-07,
+            "maxMeters": 9.812850387658198e-7,
+            "rmsMeters": 2.509723778297731e-7,
             "samples": 33480
           }
         },
@@ -44073,8 +44073,8 @@
                   2.30120774899163,
                   1.5888069760741759
                 ],
-                "minCorrection": 1.2510615339696163e-08,
-                "maxCorrection": 1.2510615401712527e-08
+                "minCorrection": 1.2510615339696163e-8,
+                "maxCorrection": 1.2510615401712527e-8
               },
               {
                 "name": "Walk",
@@ -44124,7 +44124,7 @@
                   2.435154604205892,
                   2.244751385376904
                 ],
-                "minCorrection": -4.4574989099127604e-09,
+                "minCorrection": -4.4574989099127604e-9,
                 "maxCorrection": 0.027333803258315966
               },
               {
@@ -44192,7 +44192,7 @@
                   2.77927964731017,
                   1.5636647558224415
                 ],
-                "minCorrection": 8.074961960376215e-09,
+                "minCorrection": 8.074961960376215e-9,
                 "maxCorrection": 0.7456839033778427
               }
             ],
@@ -45026,8 +45026,8 @@
                   2.795327959511194,
                   0.8634019590446346
                 ],
-                "minCorrection": -1.3724866676327607e-08,
-                "maxCorrection": -1.3724866676327607e-08
+                "minCorrection": -1.3724866676327607e-8,
+                "maxCorrection": -1.3724866676327607e-8
               },
               {
                 "name": "Walk",
@@ -45078,7 +45078,7 @@
                   1.445557248434435
                 ],
                 "minCorrection": -0.07782170491208666,
-                "maxCorrection": -1.3724866676327607e-08
+                "maxCorrection": -1.3724866676327607e-8
               },
               {
                 "name": "Hit",
@@ -45094,8 +45094,8 @@
                   2.786719515566568,
                   0.8055866577904693
                 ],
-                "minCorrection": -1.3724866676327607e-08,
-                "maxCorrection": -1.3724866676327607e-08
+                "minCorrection": -1.3724866676327607e-8,
+                "maxCorrection": -1.3724866676327607e-8
               },
               {
                 "name": "HitLeft",
@@ -45111,8 +45111,8 @@
                   2.786719515962309,
                   0.8255103360907148
                 ],
-                "minCorrection": -1.3724866676327607e-08,
-                "maxCorrection": -1.3724866676327607e-08
+                "minCorrection": -1.3724866676327607e-8,
+                "maxCorrection": -1.3724866676327607e-8
               },
               {
                 "name": "HitRight",
@@ -45128,8 +45128,8 @@
                   2.7867195151708284,
                   0.7847131174387955
                 ],
-                "minCorrection": -1.3724866676327607e-08,
-                "maxCorrection": -1.3724866676327607e-08
+                "minCorrection": -1.3724866676327607e-8,
+                "maxCorrection": -1.3724866676327607e-8
               },
               {
                 "name": "Death",
@@ -45826,8 +45826,8 @@
                   3.414088777429619,
                   0.8189364454297605
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "Walk",
@@ -45878,7 +45878,7 @@
                   1.505106756884654
                 ],
                 "minCorrection": -0.07715151331132072,
-                "maxCorrection": -1.8746243143734354e-08
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "Hit",
@@ -45894,8 +45894,8 @@
                   3.4046134473727734,
                   0.770119142250176
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "HitLeft",
@@ -45911,8 +45911,8 @@
                   3.4097195127077504,
                   0.7895574525429194
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "HitRight",
@@ -45928,8 +45928,8 @@
                   3.4002501230320017,
                   0.7452156126347756
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "Death",
@@ -46141,8 +46141,8 @@
           ],
           "nativeReconstructionCheck": {
             "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-07,
-            "rmsMeters": 2.509723778297731e-07,
+            "maxMeters": 9.812850387658198e-7,
+            "rmsMeters": 2.509723778297731e-7,
             "samples": 33480
           }
         },
@@ -46512,8 +46512,8 @@
                   2.777102317127749,
                   1.2911841621044562
                 ],
-                "minCorrection": 7.47563887095598e-09,
-                "maxCorrection": 7.475638932538664e-09
+                "minCorrection": 7.47563887095598e-9,
+                "maxCorrection": 7.475638932538664e-9
               },
               {
                 "name": "Walk",
@@ -46563,7 +46563,7 @@
                   2.805568981793448,
                   2.383982404241934
                 ],
-                "minCorrection": 1.5272225937883188e-08,
+                "minCorrection": 1.5272225937883188e-8,
                 "maxCorrection": 0.019662603521562346
               },
               {
@@ -46580,7 +46580,7 @@
                   2.926767774606795,
                   1.2831349749122638
                 ],
-                "minCorrection": -1.1159853881281823e-08,
+                "minCorrection": -1.1159853881281823e-8,
                 "maxCorrection": 0.03331548903158743
               },
               {
@@ -46597,7 +46597,7 @@
                   2.926767774606795,
                   1.2831349749122638
                 ],
-                "minCorrection": -1.1159853881281823e-08,
+                "minCorrection": -1.1159853881281823e-8,
                 "maxCorrection": 0.03331548903158743
               },
               {
@@ -46842,8 +46842,8 @@
           ],
           "nativeReconstructionCheck": {
             "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-07,
-            "rmsMeters": 2.509723778297731e-07,
+            "maxMeters": 9.812850387658198e-7,
+            "rmsMeters": 2.509723778297731e-7,
             "samples": 33480
           }
         },
@@ -47530,8 +47530,8 @@
                   2.197659430731498,
                   1.9209678863287678
                 ],
-                "minCorrection": 1.3986259600994033e-08,
-                "maxCorrection": 1.3986259662576717e-08
+                "minCorrection": 1.3986259600994033e-8,
+                "maxCorrection": 1.3986259662576717e-8
               },
               {
                 "name": "Walk",
@@ -47581,7 +47581,7 @@
                   2.324323287878808,
                   2.4546512589606517
                 ],
-                "minCorrection": -1.415707179727374e-06,
+                "minCorrection": -0.000001415707179727374,
                 "maxCorrection": 0.09364944295210123
               },
               {
@@ -47649,7 +47649,7 @@
                   3.1960410663110164,
                   1.900034749329985
                 ],
-                "minCorrection": 1.5763580206787364e-09,
+                "minCorrection": 1.5763580206787364e-9,
                 "maxCorrection": 0.9824862283426582
               }
             ],
@@ -48968,7 +48968,7 @@
         "animationFloorChecks": [
           {
             "clip": "Idle",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -49016,7 +49016,7 @@
           },
           {
             "clip": "Attack",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -49032,7 +49032,7 @@
           },
           {
             "clip": "Hit",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -49048,7 +49048,7 @@
           },
           {
             "clip": "HitLeft",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -49064,7 +49064,7 @@
           },
           {
             "clip": "HitRight",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -49360,8 +49360,8 @@
                   3.0545619782712667,
                   0.6318033320651646
                 ],
-                "minCorrection": -5.39359341390766e-09,
-                "maxCorrection": -5.39359341390766e-09
+                "minCorrection": -5.39359341390766e-9,
+                "maxCorrection": -5.39359341390766e-9
               },
               {
                 "name": "Walk",
@@ -49411,8 +49411,8 @@
                   3.49979937498966,
                   1.5641203797462158
                 ],
-                "minCorrection": -5.39359341390766e-09,
-                "maxCorrection": -5.39359341390766e-09
+                "minCorrection": -5.39359341390766e-9,
+                "maxCorrection": -5.39359341390766e-9
               },
               {
                 "name": "Hit",
@@ -49428,8 +49428,8 @@
                   3.054561400827455,
                   0.6318032343069399
                 ],
-                "minCorrection": -5.39359341390766e-09,
-                "maxCorrection": -5.39359341390766e-09
+                "minCorrection": -5.39359341390766e-9,
+                "maxCorrection": -5.39359341390766e-9
               },
               {
                 "name": "HitLeft",
@@ -49445,8 +49445,8 @@
                   3.054561400827455,
                   0.6318032343069399
                 ],
-                "minCorrection": -5.39359341390766e-09,
-                "maxCorrection": -5.39359341390766e-09
+                "minCorrection": -5.39359341390766e-9,
+                "maxCorrection": -5.39359341390766e-9
               },
               {
                 "name": "HitRight",
@@ -49462,8 +49462,8 @@
                   3.054561400827455,
                   0.6318032343069399
                 ],
-                "minCorrection": -5.39359341390766e-09,
-                "maxCorrection": -5.39359341390766e-09
+                "minCorrection": -5.39359341390766e-9,
+                "maxCorrection": -5.39359341390766e-9
               },
               {
                 "name": "Death",
@@ -49479,7 +49479,7 @@
                   3.146114143169297,
                   3.1008121881959827
                 ],
-                "minCorrection": -6.583651658946359e-05,
+                "minCorrection": -0.00006583651658946359,
                 "maxCorrection": 0.001582706271938736
               }
             ],
@@ -51253,7 +51253,7 @@
                   0.0029999832350587558,
                   0.0030026328603638625
                 ],
-                "maxCorrection": 1.6764941244279408e-08,
+                "maxCorrection": 1.6764941244279408e-8,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -51275,7 +51275,7 @@
                   0.0029978715882951145,
                   0.003042105892981225
                 ],
-                "maxCorrection": 2.1284117048855737e-06,
+                "maxCorrection": 0.0000021284117048855737,
                 "bounds": {
                   "min": [
                     -0.8132854793929758,
@@ -51297,7 +51297,7 @@
                   0.002994631927098845,
                   0.0031765022473112846
                 ],
-                "maxCorrection": 5.368072901155117e-06,
+                "maxCorrection": 0.000005368072901155117,
                 "bounds": {
                   "min": [
                     -0.8132854801073548,
@@ -51341,7 +51341,7 @@
                   0.002999408174194523,
                   0.003000607370820983
                 ],
-                "maxCorrection": 5.918258054772585e-07,
+                "maxCorrection": 5.918258054772585e-7,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -51363,7 +51363,7 @@
                   0.0029943636272626306,
                   0.0030035930000705618
                 ],
-                "maxCorrection": 5.636372737369451e-06,
+                "maxCorrection": 0.000005636372737369451,
                 "bounds": {
                   "min": [
                     -0.81432466749361,
@@ -51385,7 +51385,7 @@
                   0.0029925384933637,
                   0.003005910874396135
                 ],
-                "maxCorrection": 7.461506636300026e-06,
+                "maxCorrection": 0.000007461506636300026,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -52280,7 +52280,7 @@
                   0.0029999981000892514,
                   0.0030000038075990894
                 ],
-                "maxCorrection": 3.807599089321323e-09,
+                "maxCorrection": 3.807599089321323e-9,
                 "bounds": {
                   "min": [
                     -1.06186343886916,
@@ -52604,7 +52604,7 @@
                 "samples": 162,
                 "duration": 1.3333333730697632,
                 "rawFloor": [
-                  1.0976671984254403e-08,
+                  1.0976671984254403e-8,
                   0.0007200382027491962
                 ],
                 "maxCorrection": 0.002999989023328016,
@@ -52692,7 +52692,7 @@
                 "samples": 162,
                 "duration": 1.3333333730697632,
                 "rawFloor": [
-                  1.0976671984254403e-08,
+                  1.0976671984254403e-8,
                   0.0013730235119807544
                 ],
                 "maxCorrection": 0.002999989023328016,
@@ -52714,7 +52714,7 @@
                 "samples": 162,
                 "duration": 1.3333333730697632,
                 "rawFloor": [
-                  -9.009478125589438e-05,
+                  -0.00009009478125589438,
                   0.0010576843631991157
                 ],
                 "maxCorrection": 0.0030900947812558944,
@@ -52736,7 +52736,7 @@
                 "samples": 162,
                 "duration": 1.3333333730697632,
                 "rawFloor": [
-                  1.0976671984254403e-08,
+                  1.0976671984254403e-8,
                   0.0009397675135616838
                 ],
                 "maxCorrection": 0.002999989023328016,
@@ -52758,7 +52758,7 @@
                 "samples": 162,
                 "duration": 1.3333333730697632,
                 "rawFloor": [
-                  1.0976671984254403e-08,
+                  1.0976671984254403e-8,
                   0.0011015862575783288
                 ],
                 "maxCorrection": 0.002999989023328016,
@@ -52955,7 +52955,7 @@
             "toeStanceSweepM": 0.7200000214576722,
             "liftM": 0.12,
             "bakeHz": 240,
-            "maxIkResidualM": 5.968813179414793e-08,
+            "maxIkResidualM": 5.968813179414793e-8,
             "kneeInteriorDegrees": [
               79.18067069950074,
               138.84394874265627
@@ -52970,7 +52970,7 @@
             "toeStanceSweepM": 0.6800000202655793,
             "liftM": 0.24,
             "bakeHz": 960,
-            "maxIkResidualM": 4.2331587410460006e-08,
+            "maxIkResidualM": 4.2331587410460006e-8,
             "kneeInteriorDegrees": [
               59.08778358356357,
               120.6666644989449
@@ -52980,7 +52980,7 @@
         ],
         "walkClipSeconds": 1.3333333730697632,
         "runClipSeconds": 0.6666666865348816,
-        "animationResampleTolerance": 1e-06,
+        "animationResampleTolerance": 0.000001,
         "notes": [
           "Six named embedded FBX takes retained without broad-take substitutions. Walk and Run retain source upper-body channels and cadence, with shorter planted toe paths solved through the original leg chain.",
           "Native atlas and vertex normals retained. The source package has no true tangent normal or roughness texture.",
@@ -53090,7 +53090,7 @@
                 "samples": 358,
                 "duration": 2.9666666984558105,
                 "rawFloor": [
-                  2.096897083822213e-07,
+                  2.096897083822213e-7,
                   0.0010003633919232662
                 ],
                 "maxCorrection": 0.002999790310291618,
@@ -53156,7 +53156,7 @@
                 "samples": 281,
                 "duration": 2.3333332538604736,
                 "rawFloor": [
-                  2.371674478151399e-05,
+                  0.00002371674478151399,
                   0.003804051649796845
                 ],
                 "maxCorrection": 0.0029762832552184862,
@@ -53200,7 +53200,7 @@
                 "samples": 134,
                 "duration": 1.100000023841858,
                 "rawFloor": [
-                  4.2338715594179405e-07,
+                  4.2338715594179405e-7,
                   1.3498595801908986
                 ],
                 "maxCorrection": 1.3468595801908987,
@@ -53551,7 +53551,7 @@
                   0.0029999832350587558,
                   0.0030026328603638625
                 ],
-                "maxCorrection": 1.6764941244279408e-08,
+                "maxCorrection": 1.6764941244279408e-8,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -53573,7 +53573,7 @@
                   0.0029978715882951145,
                   0.003042105892981225
                 ],
-                "maxCorrection": 2.1284117048855737e-06,
+                "maxCorrection": 0.0000021284117048855737,
                 "bounds": {
                   "min": [
                     -0.8132854793929758,
@@ -53595,7 +53595,7 @@
                   0.002994631927098845,
                   0.0031765022473112846
                 ],
-                "maxCorrection": 5.368072901155117e-06,
+                "maxCorrection": 0.000005368072901155117,
                 "bounds": {
                   "min": [
                     -0.8132854801073548,
@@ -53639,7 +53639,7 @@
                   0.002999408174194523,
                   0.003000607370820983
                 ],
-                "maxCorrection": 5.918258054772585e-07,
+                "maxCorrection": 5.918258054772585e-7,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -53661,7 +53661,7 @@
                   0.0029943636272626306,
                   0.0030035930000705618
                 ],
-                "maxCorrection": 5.636372737369451e-06,
+                "maxCorrection": 0.000005636372737369451,
                 "bounds": {
                   "min": [
                     -0.81432466749361,
@@ -53683,7 +53683,7 @@
                   0.0029925384933637,
                   0.003005910874396135
                 ],
-                "maxCorrection": 7.461506636300026e-06,
+                "maxCorrection": 0.000007461506636300026,
                 "bounds": {
                   "min": [
                     -0.8000000460033699,
@@ -54528,7 +54528,7 @@
                   0.0029999919127944425,
                   0.003000005250721488
                 ],
-                "maxCorrection": 8.087205557571336e-09,
+                "maxCorrection": 8.087205557571336e-9,
                 "bounds": {
                   "min": [
                     -1.15988160243206,
@@ -56299,7 +56299,7 @@
         "animationFloorChecks": [
           {
             "clip": "Idle",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -56347,7 +56347,7 @@
           },
           {
             "clip": "Attack",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -56363,7 +56363,7 @@
           },
           {
             "clip": "Hit",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -56379,7 +56379,7 @@
           },
           {
             "clip": "HitLeft",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -56395,7 +56395,7 @@
           },
           {
             "clip": "HitRight",
-            "rawMinFloor": 9.566345446354596e-08,
+            "rawMinFloor": 9.566345446354596e-8,
             "maxAlignment": 0.0029999043365455365,
             "minFloor": 0.003000000452914528,
             "firstSize": [
@@ -57869,7 +57869,7 @@
       },
       "base": {
         "x": -0.8772909833631057,
-        "y": 5.915914263673882e-08,
+        "y": 5.915914263673882e-8,
         "z": -0.7937062297816971
       },
       "groundY": -0.017936037913811088,
@@ -58066,7 +58066,7 @@
             "idleBounds": {
               "min": [
                 -0.8772909833631057,
-                5.915914263673882e-08,
+                5.915914263673882e-8,
                 -0.7937062297816971
               ],
               "max": [
@@ -58131,7 +58131,7 @@
                   1.4847045230884337
                 ],
                 "minFloor": -0.0016393986679474682,
-                "maxFloor": 2.1686079761107366e-07,
+                "maxFloor": 2.1686079761107366e-7,
                 "samples": 18
               },
               "Attack": {
@@ -58147,7 +58147,7 @@
                   2.1455879105766167
                 ],
                 "minFloor": -0.0006369386687570706,
-                "maxFloor": 6.533610187000466e-05,
+                "maxFloor": 0.00006533610187000466,
                 "samples": 25
               },
               "Hit": {
@@ -58268,7 +58268,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3113416498511388e-09
+                "z": 1.3113416498511388e-9
               }
             ]
           },
@@ -58299,7 +58299,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3055864341027235e-09
+                "z": 1.3055864341027235e-9
               }
             ]
           }
@@ -58307,7 +58307,7 @@
         "loops": {
           "Idle": {
             "seconds": 2.9666669368743896,
-            "maxTranslationGap": 3.95046302262347e-05,
+            "maxTranslationGap": 0.0000395046302262347,
             "maxRotationGapRadians": 0.0221039404120411,
             "maxScaleGap": 0
           },
@@ -68484,7 +68484,7 @@
             6703
           ],
           "mirrorVertex": 1033,
-          "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
           "influences": [
             {
               "bone": "Abdomen",
@@ -68604,7 +68604,7 @@
               6703
             ],
             "mirrorVertex": 1033,
-            "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
             "influences": [
               {
                 "bone": "Abdomen",
@@ -70235,8 +70235,8 @@
                   3.414088777429619,
                   0.8189364454297605
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "Walk",
@@ -70287,7 +70287,7 @@
                   1.505106756884654
                 ],
                 "minCorrection": -0.07715151331132072,
-                "maxCorrection": -1.8746243143734354e-08
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "Hit",
@@ -70303,8 +70303,8 @@
                   3.4046134473727734,
                   0.770119142250176
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "HitLeft",
@@ -70320,8 +70320,8 @@
                   3.4097195127077504,
                   0.7895574525429194
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "HitRight",
@@ -70337,8 +70337,8 @@
                   3.4002501230320017,
                   0.7452156126347756
                 ],
-                "minCorrection": -1.8746243143734354e-08,
-                "maxCorrection": -1.8746243143734354e-08
+                "minCorrection": -1.8746243143734354e-8,
+                "maxCorrection": -1.8746243143734354e-8
               },
               {
                 "name": "Death",
@@ -70534,7 +70534,7 @@
             6703
           ],
           "mirrorVertex": 1033,
-          "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
           "influences": [
             {
               "bone": "Abdomen",
@@ -70654,7 +70654,7 @@
               6703
             ],
             "mirrorVertex": 1033,
-            "mirrorDistanceSourceUnits": 2.1490760299348766e-07,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
             "influences": [
               {
                 "bone": "Abdomen",
@@ -72025,7 +72025,7 @@
       },
       "base": {
         "x": -0.8772909833631057,
-        "y": 5.915914263673882e-08,
+        "y": 5.915914263673882e-8,
         "z": -0.7937062297816971
       },
       "groundY": -0.017936037913811088,
@@ -72222,7 +72222,7 @@
             "idleBounds": {
               "min": [
                 -0.8772909833631057,
-                5.915914263673882e-08,
+                5.915914263673882e-8,
                 -0.7937062297816971
               ],
               "max": [
@@ -72287,7 +72287,7 @@
                   1.4847045230884337
                 ],
                 "minFloor": -0.0016393986679474682,
-                "maxFloor": 2.1686079761107366e-07,
+                "maxFloor": 2.1686079761107366e-7,
                 "samples": 18
               },
               "Attack": {
@@ -72303,7 +72303,7 @@
                   2.1455879105766167
                 ],
                 "minFloor": -0.0006369386687570706,
-                "maxFloor": 6.533610187000466e-05,
+                "maxFloor": 0.00006533610187000466,
                 "samples": 25
               },
               "Hit": {
@@ -72447,7 +72447,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3113416498511388e-09
+                "z": 1.3113416498511388e-9
               }
             ]
           },
@@ -72478,7 +72478,7 @@
               {
                 "bone": "rootx",
                 "x": 0,
-                "z": 1.3055864341027235e-09
+                "z": 1.3055864341027235e-9
               }
             ]
           }
@@ -72486,7 +72486,7 @@
         "loops": {
           "Idle": {
             "seconds": 2.9666669368743896,
-            "maxTranslationGap": 3.95046302262347e-05,
+            "maxTranslationGap": 0.0000395046302262347,
             "maxRotationGapRadians": 0.0221039404120411,
             "maxScaleGap": 0
           },
@@ -72531,7 +72531,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3735085409,
         "maxLinearColourError": 0.0019601621,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3223720
       },
@@ -72593,7 +72593,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3796972009,
         "maxLinearColourError": 0.0019606941,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 2875700
       },
@@ -72655,7 +72655,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3695884749,
         "maxLinearColourError": 0.0019606194,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3198648
       },
@@ -72717,7 +72717,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3764891666,
         "maxLinearColourError": 0.0019602556,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3026252
       },
@@ -72778,7 +72778,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3729709808,
         "maxLinearColourError": 0.0019604203,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 1222088
       },
@@ -72838,7 +72838,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3842165401,
         "maxLinearColourError": 0.0019599846,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 953956
       },
@@ -75558,7 +75558,7 @@
         "woodUV": "Float32 unchanged",
         "maxNormalAngleDegrees": 0.3740142753,
         "maxLinearColourError": 0.0019596242,
-        "maxBladeUVError": 7.6295e-06,
+        "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
         "unpackedBytes": 3985508
       },
@@ -75690,8 +75690,8 @@
           "maxEdgeExpansion": 0,
           "weldedDuplicates": 12590,
           "normalMethod": "normalize(nx,ny/fprime(y),nz)",
-          "maxNormalUnitError": 4.27057456064972e-08,
-          "maxTangentDot": 4.0651912668745466e-08,
+          "maxNormalUnitError": 4.27057456064972e-8,
+          "maxTangentDot": 4.0651912668745466e-8,
           "transitionAudit": [
             {
               "height": 6,
@@ -76055,8 +76055,8 @@
           "maxEdgeExpansion": 0,
           "weldedDuplicates": 12590,
           "normalMethod": "normalize(nx,ny/fprime(y),nz)",
-          "maxNormalUnitError": 4.27057456064972e-08,
-          "maxTangentDot": 4.0651912668745466e-08,
+          "maxNormalUnitError": 4.27057456064972e-8,
+          "maxTangentDot": 4.0651912668745466e-8,
           "transitionAudit": [
             {
               "height": 6,
@@ -77069,6 +77069,692 @@
         "assetAudit": true,
         "labAccepted": false,
         "worldIntegrated": false
+      }
+    },
+    {
+      "id": "corealm_item_dragonhide_hood",
+      "file": "models/items/dragonhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_hood",
+        "head",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 26538312,
+      "size": {
+        "x": 0.3196646273136139,
+        "y": 0.38869046781609673,
+        "z": 0.34430600702762604
+      },
+      "base": {
+        "x": -0.159798726439476,
+        "y": 1.4622818231582642,
+        "z": -0.2543914020061493
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide"
+      ],
+      "itemModel": {
+        "itemId": "dragonhide_hood",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_dragonhide_robe",
+      "file": "models/items/dragonhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 33242976,
+      "size": {
+        "x": 0.7186190187931061,
+        "y": 1.317425012588501,
+        "z": 0.48090365529060364
+      },
+      "base": {
+        "x": -0.3610101044178009,
+        "y": 0.27622902393341064,
+        "z": -0.2653939425945282
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-fine-stitch-thread",
+        "starhide-polished-inset-stone"
+      ],
+      "itemModel": {
+        "itemId": "dragonhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_dragonhide_leggings",
+      "file": "models/items/dragonhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 29721160,
+      "size": {
+        "x": 0.451835572719574,
+        "y": 0.9668442830443382,
+        "z": 0.3052174299955368
+      },
+      "base": {
+        "x": -0.225917786359787,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-fine-stitch-thread",
+        "starhide-chased-ivory-silver",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-polished-inset-stone"
+      ],
+      "itemModel": {
+        "itemId": "dragonhide_leggings",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_dragonhide_boots",
+      "file": "models/items/dragonhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 30214548,
+      "size": {
+        "x": 0.4477701783180237,
+        "y": 0.5202276036143303,
+        "z": 0.3674030601978302
+      },
+      "base": {
+        "x": -0.22388508915901184,
+        "y": -0.03400000184774399,
+        "z": -0.18543219566345215
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-polished-inset-stone",
+        "starhide-stacked-dark-leather-sole"
+      ],
+      "itemModel": {
+        "itemId": "dragonhide_boots",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_dragonhide_wraps",
+      "file": "models/items/dragonhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 29719228,
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15610194206237793,
+        "z": 0.1691255122423172
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide"
+      ],
+      "itemModel": {
+        "itemId": "dragonhide_wraps",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_starhide_hood",
+      "file": "models/items/starhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_hood",
+        "head",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 25775912,
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.43008952021857816,
+        "z": 0.3303585146425044
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2383631318807602
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone"
+      ],
+      "itemModel": {
+        "itemId": "starhide_hood",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_starhide_robe",
+      "file": "models/items/starhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 32690644,
+      "size": {
+        "x": 0.8009696900844574,
+        "y": 1.3115841448307037,
+        "z": 0.5321832150220871
+      },
+      "base": {
+        "x": -0.40159836411476135,
+        "y": 0.28281912207603455,
+        "z": -0.2913333773612976
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone",
+        "dragonhide-fine-stitch-thread"
+      ],
+      "itemModel": {
+        "itemId": "starhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_starhide_leggings",
+      "file": "models/items/starhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 27563876,
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone"
+      ],
+      "itemModel": {
+        "itemId": "starhide_leggings",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_starhide_boots",
+      "file": "models/items/starhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 29780752,
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone",
+        "dragonhide-stacked-dark-leather-sole"
+      ],
+      "itemModel": {
+        "itemId": "starhide_boots",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_starhide_wraps",
+      "file": "models/items/starhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 28427704,
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide"
+      ],
+      "itemModel": {
+        "itemId": "starhide_wraps",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_hood",
+      "file": "models/items/frostweave_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_hood",
+        "head",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 31789208,
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.41191256948848687,
+        "z": 0.3300931602716446
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2272256463766098
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemModel": {
+        "itemId": "frostweave_hood",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_robe",
+      "file": "models/items/frostweave_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 39805716,
+      "size": {
+        "x": 0.907024621963501,
+        "y": 1.3172156810760498,
+        "z": 0.5851479172706604
+      },
+      "base": {
+        "x": -0.45483022928237915,
+        "y": 0.2870614528656006,
+        "z": -0.31833401322364807
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pale-gold-embroidery-thread"
+      ],
+      "itemModel": {
+        "itemId": "frostweave_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_leggings",
+      "file": "models/items/frostweave_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 33880396,
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemModel": {
+        "itemId": "frostweave_leggings",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_boots",
+      "file": "models/items/frostweave_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 36100556,
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pearl-gray-leather-sole"
+      ],
+      "itemModel": {
+        "itemId": "frostweave_boots",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_wraps",
+      "file": "models/items/frostweave_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 34776700,
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemModel": {
+        "itemId": "frostweave_wraps",
+        "wearable": true
       }
     }
   ]

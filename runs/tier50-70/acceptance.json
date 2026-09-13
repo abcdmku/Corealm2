@@ -1,0 +1,341 @@
+{
+  "round": "r15",
+  "date": "2026-09-12T18:40:00.061Z",
+  "status": "native-male-game-assets-delivered",
+  "productionPromoted": true,
+  "exactReferenceAccepted": false,
+  "requestedRevisions": [
+    "Complete blue/silver design assigned to T50; complete red/gold design assigned to T70. Equipment IDs and progression retained.",
+    "Calmer fabric noise with moderately more celestial embroidery retained from R13.",
+    "Normal native-male gameplay loads the authored GLBs.",
+    "T50 redundant crossing inner chest bands and tiny trim removed; inner silver V resampled to follow the cloth. Fitted navy underlay and long silver lapels preserved.",
+    "T70 two rear flanking cloth panels replaced with dimensional dark iridescent scales, retaining their gold borders and pointed flare.",
+    "Previous chest coverage and knee clearance refinements retained."
+  ],
+  "appearanceReview": {
+    "passed": true,
+    "critic": "Fresh read-only R15 critic reviewed the T50 chest closeups, T70 rear scale panels and current production lab views. Root inspected final lab, world and Blender views.",
+    "report": "runs/tier50-70/evidence/revision-r15.json",
+    "viewer": "runs/tier50-70/evidence/material-viewer.json",
+    "details": "runs/tier50-70/evidence/details-r15.json",
+    "brightness": "Corrected normal-game asset selection. No global exposure or lighting changes. Daylight and studio highlights remain naturally different."
+  },
+  "validation": {
+    "focusedTests": 93,
+    "focusedFiles": 5,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "individualLabViews": 30,
+    "walkingPhaseViews": 18,
+    "castingFixtures": 2,
+    "kneeFrontClothContactReport": "runs/tier50-70/evidence/contacts-r15.json",
+    "sampledJogPhasesPerSet": 20,
+    "normalWorldKits": 2,
+    "normalPlayerCamera": true,
+    "canonicalBlenderScenes": 2,
+    "renderedPreviews": 13
+  },
+  "remaining": [
+    "Skeletal cloth remains an approximation; extreme poses are not covered by a cloth simulation.",
+    "Authored sets fit the native male body; female bodies retain their existing fitted fallback.",
+    "Blender EEVEE approximates the GLB thin-film response. Neither exact icon reconstruction nor crowd-performance acceptance is claimed."
+  ],
+  "sets": [
+    {
+      "tier": 50,
+      "theme": "dragonhide",
+      "designTheme": "starhide",
+      "color": "midnight navy and silver",
+      "assets": [
+        {
+          "itemId": "dragonhide_hood",
+          "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_hood.glb",
+          "productionFile": "game/public/assets/models/items/dragonhide_hood.glb",
+          "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+          "bytes": 26538312,
+          "triangles": 38270
+        },
+        {
+          "itemId": "dragonhide_robe",
+          "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+          "productionFile": "game/public/assets/models/items/dragonhide_robe.glb",
+          "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+          "bytes": 33242976,
+          "triangles": 147008
+        },
+        {
+          "itemId": "dragonhide_leggings",
+          "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_leggings.glb",
+          "productionFile": "game/public/assets/models/items/dragonhide_leggings.glb",
+          "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+          "bytes": 29721160,
+          "triangles": 104184
+        },
+        {
+          "itemId": "dragonhide_boots",
+          "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_boots.glb",
+          "productionFile": "game/public/assets/models/items/dragonhide_boots.glb",
+          "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+          "bytes": 30214548,
+          "triangles": 93624
+        },
+        {
+          "itemId": "dragonhide_wraps",
+          "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_wraps.glb",
+          "productionFile": "game/public/assets/models/items/dragonhide_wraps.glb",
+          "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+          "bytes": 29719228,
+          "triangles": 99304
+        }
+      ],
+      "reports": {
+        "worn": "runs/tier50-70/evidence/tier50-worn.json",
+        "pieces": "runs/tier50-70/evidence/tier50-pieces.json",
+        "world": "runs/tier50-70/evidence/tier50-world.json"
+      },
+      "screenshots": [
+        {
+          "file": "runs/tier50-70/evidence/tier50-front.png",
+          "sha256": "898f42f7bc81485ca2067cd29c27e512f0570f04a28e6e2bda05103ef4c2c75e"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-side.png",
+          "sha256": "deff143883c33c685ec6e30f1eed73b32843d879b41b61a3ea384faaafaf5c04"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-back.png",
+          "sha256": "fe8b72f588a849c6f9520ee7a415172715482718610785e8757299820b4f8795"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-casting.png",
+          "sha256": "cc2c8636b7ed22e8a6b1022a879f7b5021ed8cc38785852cc16976bc0eea134e"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-armor-walk-front-50.png",
+          "sha256": "5869c0b318dd512916333fba9518db72355d02da20e92f94b7d0b26bcd96be3d"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-armor-walk-side-50.png",
+          "sha256": "193fe9e7645ace38d409eddf60d3c664d0e86e3d6160aa2c6d99224cb7ff91ec"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-armor-walk-rear-50.png",
+          "sha256": "0d6f51e489b4b9f986339f8ce198f517c0d0bd11e7f23b110d1889b4c6ff69de"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-world-dragonhide-front.png",
+          "sha256": "dc1e1ed8e8d23354a610711279d697e54a11637416f500b1c89d41eb7cef33e1"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-world-dragonhide-back.png",
+          "sha256": "23042b5f8d72cb4a5af22db000f7872b93d5cedb15c64ad99218178661fbd957"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-world-dragonhide-walking.png",
+          "sha256": "bdbd85e67422c43adf998da0853d276d1682ad9cc2856eed3b01671c46c18e60"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-material-front.png",
+          "sha256": "f2cf607eaafbcf4191e5fa0fd3309b0eaab2c5008ad879b9363819605b9e0526"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-material-orbit.png",
+          "sha256": "2a874cb80ea6b3f1d81723504dcfe419b674689f81fc3a5f641af67df114b4d6"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-material-leggings-front.png",
+          "sha256": "cd4b8636586bebf0b1d318e00e1da8a3a22cafa19701afac06b2f8e424aed239"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier50-material-leggings-orbit.png",
+          "sha256": "79ba28f5e9d10560b5fd3db813ebdfdcf98246d9ef4f4d56ece345721aa98fab"
+        }
+      ],
+      "renders": [
+        {
+          "file": "art/tier50-70/dragonhide-studio.png",
+          "sha256": "df6de7cd5a6febe7f4d482bed168409581862cb0807d0503e71a475c7b0ec4e0"
+        },
+        {
+          "file": "art/tier50-70/renders/dragonhide_hood.png",
+          "sha256": "ff640d0a31e42af9c670d2bc878073c110324ac75a05e968fc16351bf0da9cbf"
+        },
+        {
+          "file": "art/tier50-70/renders/dragonhide_robe.png",
+          "sha256": "a8958bffc5e783d04b16cf473bbdfa2e24b6452a537011a567b4f229b7e32b6f"
+        },
+        {
+          "file": "art/tier50-70/renders/dragonhide_leggings.png",
+          "sha256": "148750198de4ac73b9d0bfe7fc3f25bfd82c042c6f93739fbbfa225e94b63508"
+        },
+        {
+          "file": "art/tier50-70/renders/dragonhide_boots.png",
+          "sha256": "9592b61fa3491b0e0a2df2684db61d29280dbb35b3106f94fabe6570909151bf"
+        },
+        {
+          "file": "art/tier50-70/renders/dragonhide_wraps.png",
+          "sha256": "cc32f3c58a05bf864d310d805db169da39e747736226f08d75fb783392a99733"
+        }
+      ],
+      "blender": {
+        "file": "art/tier50-70/dragonhide-set.blend",
+        "sha256": "9001e8d4e64b884c5c65f6facff07b84d57553af41acf6e1e20f4a8b5794a76a",
+        "validation": "art/tier50-70/dragonhide-validation.json",
+        "packedImages": 62
+      },
+      "clothProvenance": "art/tier50-70/textures/starhide/provenance.json",
+      "sourceDependencies": 108,
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "tier": 70,
+      "theme": "starhide",
+      "designTheme": "dragonhide",
+      "color": "deep maroon and antique gold",
+      "assets": [
+        {
+          "itemId": "starhide_hood",
+          "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_hood.glb",
+          "productionFile": "game/public/assets/models/items/starhide_hood.glb",
+          "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+          "bytes": 25775912,
+          "triangles": 47122
+        },
+        {
+          "itemId": "starhide_robe",
+          "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+          "productionFile": "game/public/assets/models/items/starhide_robe.glb",
+          "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+          "bytes": 32690644,
+          "triangles": 149896
+        },
+        {
+          "itemId": "starhide_leggings",
+          "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_leggings.glb",
+          "productionFile": "game/public/assets/models/items/starhide_leggings.glb",
+          "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+          "bytes": 27563876,
+          "triangles": 92684
+        },
+        {
+          "itemId": "starhide_boots",
+          "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_boots.glb",
+          "productionFile": "game/public/assets/models/items/starhide_boots.glb",
+          "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+          "bytes": 29780752,
+          "triangles": 109496
+        },
+        {
+          "itemId": "starhide_wraps",
+          "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_wraps.glb",
+          "productionFile": "game/public/assets/models/items/starhide_wraps.glb",
+          "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+          "bytes": 28427704,
+          "triangles": 97896
+        }
+      ],
+      "reports": {
+        "worn": "runs/tier50-70/evidence/tier70-worn.json",
+        "pieces": "runs/tier50-70/evidence/tier70-pieces.json",
+        "world": "runs/tier50-70/evidence/tier70-world.json"
+      },
+      "screenshots": [
+        {
+          "file": "runs/tier50-70/evidence/tier70-front.png",
+          "sha256": "f6ef54cca7e8602a4002afddc67b3d9eb997c10230fd4e08d76343dbd4e9338a"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-side.png",
+          "sha256": "158fb24ef5fabbd39d108ecf64bf5ad79c85ff385cba1922e916f5af7eb6deb4"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-back.png",
+          "sha256": "ed04abf1bc8e120a28b36babff2c0b7e0f6a2b3d5a804cc2025982b6739b376a"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-casting.png",
+          "sha256": "f5aaa15e3ef0e36a2e104a11e35f90236b0775b561b24fddaa3a6db741ed640d"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-armor-walk-front-50.png",
+          "sha256": "394c04c03c5092667fb264feea4f5c6ff4e3eacacad67c8aa6e6cfd2821d272f"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-armor-walk-side-50.png",
+          "sha256": "2c8bd433ca928c2f1ca7562471d37f106cb366c1514a03adc631ebb2b1a9d345"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-armor-walk-rear-50.png",
+          "sha256": "0c9ffe5b2f6945060b1795cc661b9691d88d387a28d2dde7440d44e55cd9aa2c"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-world-starhide-front.png",
+          "sha256": "9692bc94f858be130e8cb1dc9bb5a9eec484cc8417d487e0e59fff6e9ecf31b2"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-world-starhide-back.png",
+          "sha256": "a59b821de4ad2915a84a4b285337e31d97f1fd22bd316a704dffebb965ab6ce0"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-world-starhide-walking.png",
+          "sha256": "14ea2d0943ab9794f2ca07a9ee4169a714f410f294c0927878753ea44a39f943"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-material-front.png",
+          "sha256": "e2aab3cd0904b81a5cf338d342e7df4c74b4425419de7f2d6c5e7af901018aec"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-material-orbit.png",
+          "sha256": "25663f658c25cba415e1cb9335f6c88720932fcd4a38d820092299b7877c2845"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-material-leggings-front.png",
+          "sha256": "ab5ccd2db945e81890774b10f9d00ead8fbb6cd6f8145e926f1bd9b637ee4efd"
+        },
+        {
+          "file": "runs/tier50-70/evidence/tier70-material-leggings-orbit.png",
+          "sha256": "12057cb768a3b160ac2fbe2ac55b6d42e42972ed93c1d3baab61499afef67938"
+        }
+      ],
+      "renders": [
+        {
+          "file": "art/tier50-70/starhide-studio.png",
+          "sha256": "2851690b73400bafaf47346ba7b5a47b61f087fdced9b84b159b09d4c2ac7e2e"
+        },
+        {
+          "file": "art/tier50-70/renders/starhide_hood.png",
+          "sha256": "50a58b7f642c087c07e0260b5c858a2d1222c492b7d04b700021995bf4feb0c2"
+        },
+        {
+          "file": "art/tier50-70/renders/starhide_robe.png",
+          "sha256": "b3641163a8961b5f94e17677b7b49ad137afee27dd4fd9f20e628aa8c36502bf"
+        },
+        {
+          "file": "art/tier50-70/renders/starhide_leggings.png",
+          "sha256": "2dc1189b3e1d00bb1721dac425f713fb8d445621d592701de265af702d4ae7cd"
+        },
+        {
+          "file": "art/tier50-70/renders/starhide_boots.png",
+          "sha256": "d97788c22a49a76a050ea43927473806d781d1a7b1589aef4dd45f9deea6d870"
+        },
+        {
+          "file": "art/tier50-70/renders/starhide_wraps.png",
+          "sha256": "65a0cb4430001720918ae6456243b1bc6cfe1bb67d826f36abbc7cfc33bd6567"
+        },
+        {
+          "file": "art/tier50-70/renders/starhide_robe-back.png",
+          "sha256": "e7fb8da247cc9af334d2220cdf158058f07fff8aa137cd0e720be65a9843e7fb"
+        }
+      ],
+      "blender": {
+        "file": "art/tier50-70/starhide-set.blend",
+        "sha256": "5bb430441886008fa4ed70171da76e5cf556c9bc87d86124abb36fc9e584b879",
+        "validation": "art/tier50-70/starhide-validation.json",
+        "packedImages": 62
+      },
+      "clothProvenance": "art/tier50-70/textures/dragonhide/provenance.json",
+      "sourceDependencies": 108,
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    }
+  ]
+}

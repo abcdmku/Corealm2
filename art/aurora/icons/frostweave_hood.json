@@ -1,0 +1,126 @@
+{
+  "candidateId": "t90-aurora-r16-review",
+  "set": "frostweave",
+  "source": "aurora-set.blend",
+  "sourceSha256": "a96cdf07f6cceafd1765f1a414c4dff4a7e07c8de1c867998e1c06268b0ec60f",
+  "sourceFiles": [
+    {
+      "file": "frostweave_boots.glb",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571"
+    },
+    {
+      "file": "frostweave_hood.glb",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3"
+    },
+    {
+      "file": "frostweave_leggings.glb",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3"
+    },
+    {
+      "file": "frostweave_robe.glb",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27"
+    },
+    {
+      "file": "frostweave_wraps.glb",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad"
+    }
+  ],
+  "render": "frostweave_hood.png",
+  "renderSha256": "3d5a313d2e4dd36567196323ac84de47830eeabf9d1d679d0122f50e316a0948",
+  "renderer": "BLENDER_EEVEE_NEXT",
+  "blenderVersion": "4.5.11 LTS",
+  "transparent": true,
+  "colorMode": "RGBA",
+  "floorPresent": false,
+  "resolution": [
+    512,
+    512
+  ],
+  "colorManagement": {
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -0.6499999761581421
+  },
+  "lights": [
+    {
+      "name": "Neutral large key",
+      "energy": 160.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Neutral frontal fill",
+      "energy": 72.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Silver rim",
+      "energy": 200.0,
+      "color": [
+        0.8999999761581421,
+        0.949999988079071,
+        1.0
+      ]
+    },
+    {
+      "name": "Soft overhead",
+      "energy": 65.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "camera": {
+    "position": [
+      2.192765712738037,
+      -6.874142646789551,
+      2.946737289428711
+    ],
+    "target": [
+      -0.007234401069581509,
+      0.05585773289203644,
+      1.63673734664917
+    ],
+    "type": "ORTHO",
+    "orthoScale": 0.4666062891483307,
+    "view": "front-three-quarter",
+    "pose": "temporary arms lowered 62 degrees; saved rest pose unchanged"
+  },
+  "armorBounds": {
+    "min": [
+      -0.16739431023597717,
+      -0.10286754369735718,
+      1.4520219564437866
+    ],
+    "max": [
+      0.16745370626449585,
+      0.22722561657428741,
+      1.8639345169067383
+    ]
+  },
+  "sourceMeshes": 11,
+  "piece": "hood",
+  "totalSourceMeshes": 107,
+  "automaticFraming": {
+    "method": "evaluated production vertices projected into camera frame",
+    "projectedWidth": 0.3323425054550171,
+    "projectedHeight": 0.3988087922334671,
+    "marginScale": 1.17
+  },
+  "visibleSourceFiles": [
+    "frostweave_hood.glb"
+  ],
+  "sourceFileHashesStillMatchAfterRender": true,
+  "sourceSaved": false,
+  "sourceBlendHashUnchanged": true,
+  "note": "Standalone studio presentation of saved armor geometry. Not gameplay acceptance evidence."
+}

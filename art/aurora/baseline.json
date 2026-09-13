@@ -1,0 +1,57 @@
+{
+  "capturedAt": "2026-09-12T19:16:09.846Z",
+  "files": [
+    {
+      "file": "game/public/assets/models/items/dragonhide_hood.glb",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418"
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_robe.glb",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_leggings.glb",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02"
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_boots.glb",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0"
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_wraps.glb",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f"
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    },
+    {
+      "file": "tools/item-models/build.ts",
+      "sha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e"
+    },
+    {
+      "file": "tools/item-models/contracts.ts",
+      "sha256": "97edfee74610615ad856d28143751a5eab21267d7699247b1331dc4df5a955b8"
+    },
+    {
+      "file": "game/src/contracts.ts",
+      "sha256": "5d93e257d2a6c54c938704561b743d3ce207ba97a78fa0f4f81425e2c39639b6"
+    }
+  ]
+}

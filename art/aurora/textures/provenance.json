@@ -1,0 +1,76 @@
+{
+  "mode": "built-in image_gen",
+  "intent": "new image",
+  "round": "aurora-r1",
+  "sourceImage": "art/aurora/textures/imagegen-r1/aurora-embroidered-source.png",
+  "sourceSha256": "aba18c8e9df5cb811f62e70f95374ded06f89551bec555465bdaa769d275d8e3",
+  "promptFile": "art/aurora/textures/imagegen-r1/aurora-embroidered-prompt.txt",
+  "promptSha256": "1f74e603394437c469bc1f0a26d250a7482d9c0d3e8546c721eb7cafc9d8e4bc",
+  "originalGeneratedPath": "C:/Users/Borg/.codex/generated_images/01a09709-b31a-71b0-b946-1019c46c84be/exec-68ce3cda-ee50-46c6-ab1d-a24917eb59d7.png",
+  "sourceResolution": [
+    1254,
+    1254
+  ],
+  "resolution": [
+    2048,
+    2048
+  ],
+  "nominalTileMeters": 0.35,
+  "dyeMeanSRGB": "#c8c5bd",
+  "baker": "tools/item-models/aurora/materials-bake.ts",
+  "albedoEncoding": "sRGB. Base yarns normalized in linear light to pearl ivory mean, source value ratios to power .48. Gold source retained at 85 percent linear reflectance.",
+  "heightMethod": "Inferred source yarn relief and separately raised amber embroidery, not measured material data. No procedural motifs or painted fold shadows.",
+  "heightGainsMeters": {
+    "broad": 0.0014,
+    "medium": 0.0006,
+    "yarn": 0.00016,
+    "goldStitch": 0.00058
+  },
+  "packedMaterial": {
+    "channels": {
+      "R": "unused white",
+      "G": "roughness",
+      "B": "metallic"
+    },
+    "baseCloth": {
+      "metallic": 0,
+      "roughness": [
+        0.84,
+        0.94
+      ]
+    },
+    "embroidery": {
+      "maxMetallic": 0.68,
+      "roughness": 0.42
+    },
+    "mask": "Dual red-blue and green-blue chroma plus amber hue ratio; neutral ivory excluded."
+  },
+  "boundary": "10-pixel Hermite closure of albedo, height, roughness and metallic planes; clamp packed response to authored limits after closure",
+  "stats": {
+    "strongGoldFraction": 0.08275818824768066,
+    "meanGoldMask": 0.08503005060342449,
+    "roughnessRange": [
+      0.42,
+      0.9313725490196079
+    ],
+    "maxMetallic": 0.68
+  },
+  "outputs": {
+    "cloth-color": {
+      "path": "art/aurora/textures/cloth-color.png",
+      "sha256": "75f6facee631ef90206f0ad285e81f647df5a07d6b358ef0a0e59d1a6ea07498"
+    },
+    "cloth-normal": {
+      "path": "art/aurora/textures/cloth-normal.png",
+      "sha256": "8abffee9ca79be14764452d408148b3c33193f367a805ebc75b85673b81fa89d"
+    },
+    "cloth-roughness": {
+      "path": "art/aurora/textures/cloth-roughness.png",
+      "sha256": "8db255f88c8a8dfffa5f0719c6d795a252c476466e3702f9f742390502eef269"
+    },
+    "cloth-gold-mask": {
+      "path": "art/aurora/textures/cloth-gold-mask.png",
+      "sha256": "5f1979e0fc7c1cbb1fa389123ce842a0064861f03e75ac13728a07f824faedaa"
+    }
+  }
+}

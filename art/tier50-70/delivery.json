@@ -1,0 +1,13 @@
+﻿{
+    "file":  "art/tier50-70/t50-t70-armor-review.zip",
+    "round":  "r15",
+    "files":  245,
+    "bytes":  686620408,
+    "sha256":  "e1396f2d451735bd8e4278d3c1076dbfa03a8008edb8dafe8926f00ee56b8732",
+    "blenderSets":  2,
+    "authoredGLBs":  10,
+    "forwardSlashEntries":  true,
+    "imagegenSourceAndPromptIncluded":  true,
+    "productionSelectionSourceAndTestsIncluded":  true,
+    "runtimeEvidenceFiles":  54
+}

@@ -1,0 +1,820 @@
+{
+  "round": "r13",
+  "date": "2026-09-12T16:55:12.067Z",
+  "passed": true,
+  "scope": "Read-only data verification of the full design swap and R13 cloth maps. No rendering, gameplay checks, visual acceptance, or production promotion.",
+  "designByItemTheme": {
+    "dragonhide": {
+      "tier": 50,
+      "designTheme": "starhide",
+      "color": "blue"
+    },
+    "starhide": {
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "color": "red"
+    }
+  },
+  "baselineDirectory": "test-results/tier50-70/r12-final-baseline",
+  "currentFiles": [
+    {
+      "itemId": "dragonhide_hood",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_hood.glb",
+      "bytes": 26538312,
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418"
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+      "bytes": 33260840,
+      "sha256": "376b2aca90e19a052ad253d9d93e07c98883e5d0bf0d434d62d956aceab9a2cf"
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_leggings.glb",
+      "bytes": 31061952,
+      "sha256": "54e7f32e8db9e92650375cfe6f754fc3dfe0b4ee9bfaecd630a8cfb33fb004ad"
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_boots.glb",
+      "bytes": 30214548,
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0"
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_wraps.glb",
+      "bytes": 29719228,
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f"
+    },
+    {
+      "itemId": "starhide_hood",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_hood.glb",
+      "bytes": 25775912,
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "itemId": "starhide_robe",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+      "bytes": 32160452,
+      "sha256": "96bc30863dbe281b35f6091a0e8f02157c9f91a2d1fed8e62922d54a2d37150e"
+    },
+    {
+      "itemId": "starhide_leggings",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_leggings.glb",
+      "bytes": 28888568,
+      "sha256": "8ff08dfbf76ce55e297318ba0511bb63483bbe9960cfe0349e3e83aea9f916d2"
+    },
+    {
+      "itemId": "starhide_boots",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_boots.glb",
+      "bytes": 29780752,
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    },
+    {
+      "itemId": "starhide_wraps",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_wraps.glb",
+      "bytes": 28427704,
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    }
+  ],
+  "clothProvenance": [
+    {
+      "designTheme": "dragonhide",
+      "usedByItemTheme": "starhide",
+      "file": "art/tier50-70/textures/dragonhide/provenance.json",
+      "sha256": "eac7ba10b306119c2b238bb7709d6cbbe91a96581a629a0ea4258eb9c258f5eb",
+      "clothSource": {
+        "mode": "built-in image_gen",
+        "sourceImage": "art/tier50-70/textures/imagegen-r13/dragonhide-embroidered-source.png",
+        "sourceSha256": "6b97eed00d2dbd989315923631a281dd5089cc9f3a8db3c9ddb2c004179243c5",
+        "promptFile": "art/tier50-70/textures/imagegen-r13/dragonhide-embroidered-prompt.txt",
+        "promptSha256": "0b8080518f6210563591d30ebfd799971b3dfa2cb8813e3816f13441cde07407",
+        "colorSourceImage": "art/tier50-70/textures/imagegen-r13/dragonhide-embroidered-source.png",
+        "colorSourceSha256": "6b97eed00d2dbd989315923631a281dd5089cc9f3a8db3c9ddb2c004179243c5",
+        "colorPromptFile": "art/tier50-70/textures/imagegen-r13/dragonhide-embroidered-prompt.txt",
+        "colorPromptSha256": "0b8080518f6210563591d30ebfd799971b3dfa2cb8813e3816f13441cde07407",
+        "dyeMeanSRGB": "#571827",
+        "referenceImage": "art/tier50-70/references/embroidered-fabric-r12.png",
+        "referenceSha256": "9643e79ab4b76fcee70da279c55cb0e8eb9021fe890e0eda1dd51835c81c5bd1",
+        "editTargetImage": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-source.png",
+        "editTargetSha256": "274fa106d5ceb81a70f2873e298c6c7a07a4aaa2f1ed5de005ea4ac959b86b74",
+        "imagegenIntent": "edit: calmer fine cloth with moderately more celestial embroidery",
+        "albedoEncoding": "Imagegen embroidered textile RGB. Base-yarn mean normalized to deep robe dye, value ratios softened with power .48. Preserve warm embroidery color at 80 percent linear reflectance. White base factor.",
+        "baker": "tools/item-models/tier50-70/materials-imagegen.ts",
+        "method": "Imagegen fabric edited for quieter nap and moderately more celestial threadwork. Separate hue-selected raised stitch relief and restrained fabric microrelief; inferred heights, not measured material data",
+        "resolution": [
+          2048,
+          2048
+        ],
+        "nominalTileMeters": 0.35,
+        "heightGains": {
+          "broad": 0.01,
+          "medium": 0.0007,
+          "yarn": 0.00018,
+          "stitch": 0.0008
+        },
+        "packedMaterial": {
+          "file": "cloth-roughness.png",
+          "channels": {
+            "R": "unused white",
+            "G": "roughness",
+            "B": "metallic"
+          },
+          "baseCloth": {
+            "metallic": 0,
+            "roughness": [
+              0.92,
+              0.99
+            ]
+          },
+          "embroidery": {
+            "maxMetallic": 0.58,
+            "roughness": 0.46
+          },
+          "mask": "Warm-gold hue and brightness, isolated from maroon/navy base"
+        },
+        "boundary": "40-pixel Hermite closure with bounded tangents for height, RGB, roughness and metallic mask"
+      },
+      "bakerSha256": "d106a300a306860e7543be57fc46c0e4f5c59a238c7db0cad74f07430c31f0d1",
+      "maps": [
+        {
+          "file": "art/tier50-70/textures/dragonhide/cloth-color.png",
+          "sha256": "0e0955921b9cc4ded4205522776bb245f2b39c411c608b963b90ce4d3ea82f02",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1"
+        },
+        {
+          "file": "art/tier50-70/textures/dragonhide/cloth-normal.png",
+          "sha256": "321d5abd4a7a020a5992abce4b42456ac2632c8420a36ba66ba4356015ea03df",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230"
+        },
+        {
+          "file": "art/tier50-70/textures/dragonhide/cloth-roughness.png",
+          "sha256": "5e15a78e54c5e3387e28453dff92e94754c72a92a0b872fc941db3761278849c",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5"
+        }
+      ],
+      "stats": {
+        "baseCloth": {
+          "pixels": 4124877,
+          "fraction": 0.9834473133087158,
+          "meanRoughness": 0.9517997548857396,
+          "meanMetallic": 0.000003352209285365869,
+          "meanSRGB": [
+            84.1155697491101,
+            15.617092582397003,
+            30.956325485584177
+          ]
+        },
+        "embroidery": {
+          "pixels": 48031,
+          "fraction": 0.011451482772827148,
+          "meanRoughness": 0.4595486330109022,
+          "meanMetallic": 0.579616595654227,
+          "meanSRGB": [
+            162.74653869376027,
+            121.30667693781099,
+            81.08148903832941
+          ]
+        },
+        "metallicMaskCoverage": 0.01655268669128418,
+        "maxMetallic": 0.5803921568627451,
+        "noise": {
+          "baseLuminanceCoefficientVariation": 0.3819111546516564,
+          "baseNeighborLuminanceRmsRelative": 0.2770007329212425,
+          "base64PixelTileMeanCoefficientVariation": 0.09908298943212307,
+          "baseNormalTiltRms": 0.07742432832532796,
+          "tileSamples": 1019
+        },
+        "pixelSha256": {
+          "color": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1",
+          "normal": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230",
+          "packed": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5"
+        },
+        "method": "Base pixels have metallic byte <=1; embroidery cores have metallic >=.55. Color means use sRGB bytes. Noise excludes embroidery, compares adjacent base pixels and 64-pixel tiles, and reports tangent-normal XY RMS. These are texture estimates, not visual acceptance."
+      },
+      "textureIntentMeasurements": {
+        "baselineFile": "test-results/tier50-70/r12-final-baseline/dragonhide_hood.glb",
+        "baselineSha256": "35959f61fb735f2ed06585a5ca3e3197350adb76584b469309a2948092dceb19",
+        "noiseChanges": {
+          "baseLuminanceCoefficientVariation": {
+            "r12": 0.5162746116076203,
+            "r13": 0.3819111546516564,
+            "ratio": 0.7397442098933136,
+            "reduced": true
+          },
+          "baseNeighborLuminanceRmsRelative": {
+            "r12": 0.26024679784572546,
+            "r13": 0.2770007329212425,
+            "ratio": 1.0643771036347152,
+            "reduced": false
+          },
+          "base64PixelTileMeanCoefficientVariation": {
+            "r12": 0.19811767006381525,
+            "r13": 0.09908298943212307,
+            "ratio": 0.5001219194643651,
+            "reduced": true
+          },
+          "baseNormalTiltRms": {
+            "r12": 0.2015874160653471,
+            "r13": 0.07742432832532796,
+            "ratio": 0.3840732216153308,
+            "reduced": true
+          }
+        },
+        "embroideryCoreFraction": {
+          "r12": 0.006106853485107422,
+          "r13": 0.011451482772827148,
+          "ratio": 1.8751854454595143,
+          "increased": true
+        },
+        "metallicMaskCoverage": {
+          "r12": 0.009033441543579102,
+          "r13": 0.01655268669128418
+        },
+        "visualAcceptance": false,
+        "note": "Trend measurements are reported without treating a coverage ratio as proof of slightly more embroidery or a texture statistic as proof of full-view appearance."
+      }
+    },
+    {
+      "designTheme": "starhide",
+      "usedByItemTheme": "dragonhide",
+      "file": "art/tier50-70/textures/starhide/provenance.json",
+      "sha256": "a18819cacdef9883b5d6df5a1b54a294d5fcead3dbd420602bac3c3883795b0f",
+      "clothSource": {
+        "mode": "built-in image_gen",
+        "sourceImage": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-source.png",
+        "sourceSha256": "b227eca5f1bcb42c72b7e2033f8e6bb1336e4bb5bc9b0afac7cccde58fac0e82",
+        "promptFile": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-prompt.txt",
+        "promptSha256": "dec802d178cda0acbc2f9e8f5979a1fd2ec70f2d1c48dda9d78165a7e55ab53a",
+        "colorSourceImage": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-source.png",
+        "colorSourceSha256": "b227eca5f1bcb42c72b7e2033f8e6bb1336e4bb5bc9b0afac7cccde58fac0e82",
+        "colorPromptFile": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-prompt.txt",
+        "colorPromptSha256": "dec802d178cda0acbc2f9e8f5979a1fd2ec70f2d1c48dda9d78165a7e55ab53a",
+        "dyeMeanSRGB": "#25355d",
+        "referenceImage": "art/tier50-70/references/embroidered-fabric-r12.png",
+        "referenceSha256": "9643e79ab4b76fcee70da279c55cb0e8eb9021fe890e0eda1dd51835c81c5bd1",
+        "editTargetImage": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-source.png",
+        "editTargetSha256": "89e8f1fc949080233d7579ee1aa984edeb7aa0cba567eb2858b3eab27df3b303",
+        "imagegenIntent": "edit: calmer fine cloth with moderately more celestial embroidery",
+        "albedoEncoding": "Imagegen embroidered textile RGB. Base-yarn mean normalized to deep robe dye, value ratios softened with power .48. Preserve warm embroidery color at 80 percent linear reflectance. White base factor.",
+        "baker": "tools/item-models/tier50-70/materials-imagegen.ts",
+        "method": "Imagegen fabric edited for quieter nap and moderately more celestial threadwork. Separate hue-selected raised stitch relief and restrained fabric microrelief; inferred heights, not measured material data",
+        "resolution": [
+          2048,
+          2048
+        ],
+        "nominalTileMeters": 0.35,
+        "heightGains": {
+          "broad": 0.01,
+          "medium": 0.0007,
+          "yarn": 0.00018,
+          "stitch": 0.0008
+        },
+        "packedMaterial": {
+          "file": "cloth-roughness.png",
+          "channels": {
+            "R": "unused white",
+            "G": "roughness",
+            "B": "metallic"
+          },
+          "baseCloth": {
+            "metallic": 0,
+            "roughness": [
+              0.92,
+              0.99
+            ]
+          },
+          "embroidery": {
+            "maxMetallic": 0.58,
+            "roughness": 0.46
+          },
+          "mask": "Warm-gold hue and brightness, isolated from maroon/navy base"
+        },
+        "boundary": "40-pixel Hermite closure with bounded tangents for height, RGB, roughness and metallic mask"
+      },
+      "bakerSha256": "d106a300a306860e7543be57fc46c0e4f5c59a238c7db0cad74f07430c31f0d1",
+      "maps": [
+        {
+          "file": "art/tier50-70/textures/starhide/cloth-color.png",
+          "sha256": "c0ff975d9b6072d5e5b4c4634d1fa57f2eef0fdc6816fcf6e5684bfd87feba34",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee"
+        },
+        {
+          "file": "art/tier50-70/textures/starhide/cloth-normal.png",
+          "sha256": "4e29409e3478c7bcb475184935be08e025af1c639183bc23652eab024f282f00",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09"
+        },
+        {
+          "file": "art/tier50-70/textures/starhide/cloth-roughness.png",
+          "sha256": "21a2d0a00e45f281a6067ded8a2f1900dffb8cd1cb070200728d30dff1653ee1",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb"
+        }
+      ],
+      "stats": {
+        "baseCloth": {
+          "pixels": 4129042,
+          "fraction": 0.9844403266906738,
+          "meanRoughness": 0.952458670756245,
+          "meanMetallic": 8.443301157517676e-7,
+          "meanSRGB": [
+            32.10587734394564,
+            49.57628089033727,
+            90.44558495651049
+          ]
+        },
+        "embroidery": {
+          "pixels": 34291,
+          "fraction": 0.00817561149597168,
+          "meanRoughness": 0.46054020920150707,
+          "meanMetallic": 0.5785804427044294,
+          "meanSRGB": [
+            145.9249948966201,
+            117.08620337697938,
+            91.13047155230235
+          ]
+        },
+        "metallicMaskCoverage": 0.015559673309326172,
+        "maxMetallic": 0.5803921568627451,
+        "noise": {
+          "baseLuminanceCoefficientVariation": 0.17328577674726806,
+          "baseNeighborLuminanceRmsRelative": 0.11407303101385341,
+          "base64PixelTileMeanCoefficientVariation": 0.053252774672068195,
+          "baseNormalTiltRms": 0.0832387195626601,
+          "tileSamples": 1017
+        },
+        "pixelSha256": {
+          "color": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee",
+          "normal": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09",
+          "packed": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb"
+        },
+        "method": "Base pixels have metallic byte <=1; embroidery cores have metallic >=.55. Color means use sRGB bytes. Noise excludes embroidery, compares adjacent base pixels and 64-pixel tiles, and reports tangent-normal XY RMS. These are texture estimates, not visual acceptance."
+      },
+      "textureIntentMeasurements": {
+        "baselineFile": "test-results/tier50-70/r12-final-baseline/starhide_hood.glb",
+        "baselineSha256": "cf8a507e99f7a278c60474252606e50b9d0c9e38ba1cad123cf92b99ab0ea935",
+        "noiseChanges": {
+          "baseLuminanceCoefficientVariation": {
+            "r12": 0.2679168638960282,
+            "r13": 0.17328577674726806,
+            "ratio": 0.64678935930855,
+            "reduced": true
+          },
+          "baseNeighborLuminanceRmsRelative": {
+            "r12": 0.11450131958874347,
+            "r13": 0.11407303101385341,
+            "ratio": 0.9962595315370307,
+            "reduced": true
+          },
+          "base64PixelTileMeanCoefficientVariation": {
+            "r12": 0.12958436573164028,
+            "r13": 0.053252774672068195,
+            "ratio": 0.41095061407601274,
+            "reduced": true
+          },
+          "baseNormalTiltRms": {
+            "r12": 0.2410250936449996,
+            "r13": 0.0832387195626601,
+            "ratio": 0.34535291866854545,
+            "reduced": true
+          }
+        },
+        "embroideryCoreFraction": {
+          "r12": 0.002721548080444336,
+          "r13": 0.00817561149597168,
+          "ratio": 3.004029785370127,
+          "increased": true
+        },
+        "metallicMaskCoverage": {
+          "r12": 0.007029294967651367,
+          "r13": 0.015559673309326172
+        },
+        "visualAcceptance": false,
+        "note": "Trend measurements are reported without treating a coverage ratio as proof of slightly more embroidery or a texture statistic as proof of full-view appearance."
+      }
+    }
+  ],
+  "assets": [
+    {
+      "itemId": "dragonhide_hood",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_hood.glb",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "baselineItemId": "starhide_hood",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/starhide_hood.glb",
+      "baselineSha256": "cf8a507e99f7a278c60474252606e50b9d0c9e38ba1cad123cf92b99ab0ea935",
+      "geometrySha256": "8a4fa624f4fbaec01a9728f694a8b6b7adf58c603a1aa02c04f697277fa0be32",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 38270,
+      "nonClothMaterials": 9,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+      "sha256": "376b2aca90e19a052ad253d9d93e07c98883e5d0bf0d434d62d956aceab9a2cf",
+      "baselineItemId": "starhide_robe",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/starhide_robe.glb",
+      "baselineSha256": "bd289c06c1c2ffef1118c9fc3de8c6b93d74d0f4ca69f3e6da61c24fe589e7b7",
+      "geometrySha256": "706c680c06e62f243b23210cff6375a7c97f24b3edd4b7536613f441d895091c",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 147440,
+      "nonClothMaterials": 10,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_leggings.glb",
+      "sha256": "54e7f32e8db9e92650375cfe6f754fc3dfe0b4ee9bfaecd630a8cfb33fb004ad",
+      "baselineItemId": "starhide_leggings",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/starhide_leggings.glb",
+      "baselineSha256": "8d318f5d5056774531f68f815993e8326258601c2c0f542b136c8fd6f044dee3",
+      "geometrySha256": "244106c14475f254e8de8b246e37e684d96d222a30be2efa4b8b3798c0e060c9",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 116168,
+      "nonClothMaterials": 10,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_boots.glb",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "baselineItemId": "starhide_boots",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/starhide_boots.glb",
+      "baselineSha256": "86407cbc0aef37ba8865b2e1675f2c2894b85fe3cf31f279d980c6b49cdc0332",
+      "geometrySha256": "4663f593a6dc711014d2d93bfbb71d1c7b5df7d85d81ff54e2b0994a712f011c",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 93624,
+      "nonClothMaterials": 11,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_wraps.glb",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "baselineItemId": "starhide_wraps",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/starhide_wraps.glb",
+      "baselineSha256": "6ef6f46740b4c24000a33fcf99871c244d029a1a61c1bc414c93d96272184809",
+      "geometrySha256": "b5a2c6b16a9690ded54374120b38c2006fd43b83cdd1b3aa77b513015ab949fc",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 99304,
+      "nonClothMaterials": 9,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8af5c5f64c8ba2e5b05961be07d42e7499a23874aaedb02e9564b8a61fafb4ee",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "751e27049112338afcdb56d8ba10f92f9f4ce4c7cbb96e5578a108f809adeb09",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "55050c915d4984dc369d0587c5f2bf97be92402e8747839a2b229e5a647606eb",
+          "bakedMap": "art/tier50-70/textures/starhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_hood",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "baselineItemId": "dragonhide_hood",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/dragonhide_hood.glb",
+      "baselineSha256": "35959f61fb735f2ed06585a5ca3e3197350adb76584b469309a2948092dceb19",
+      "geometrySha256": "8d829572be193edef07aa1dad1827733e2fb91c4e25013e0e32d243d429f65b2",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 47122,
+      "nonClothMaterials": 10,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_robe",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+      "sha256": "96bc30863dbe281b35f6091a0e8f02157c9f91a2d1fed8e62922d54a2d37150e",
+      "baselineItemId": "dragonhide_robe",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/dragonhide_robe.glb",
+      "baselineSha256": "f70df997e049be1189eefc8b282b1cf6ce35cdfed8f08913ebb56f01adc5a60d",
+      "geometrySha256": "aa373cb6e0d3609002c08d6dd5dca78d1135a1b8bff647d92fa60c9d8b7e448d",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 148560,
+      "nonClothMaterials": 10,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_leggings",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_leggings.glb",
+      "sha256": "8ff08dfbf76ce55e297318ba0511bb63483bbe9960cfe0349e3e83aea9f916d2",
+      "baselineItemId": "dragonhide_leggings",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/dragonhide_leggings.glb",
+      "baselineSha256": "f2c4c0d6d4b16723c9aa412ba12fa1c45cfcb7bdb542a23005e456ae9f35dba0",
+      "geometrySha256": "46b3801affcf345e746f71247736edf19f01a5eca8202c4051c49b6e9e042247",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 104524,
+      "nonClothMaterials": 10,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_boots",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "baselineItemId": "dragonhide_boots",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/dragonhide_boots.glb",
+      "baselineSha256": "504149ecd2f17c5e192f1afb0f9d08e7ac2e66bc80a890915de87f32c6795448",
+      "geometrySha256": "d764cfd70ad03ebbe54fb752eaf7371d68908f4550421b27795503839600ea6c",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 109496,
+      "nonClothMaterials": 11,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-roughness.png"
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_wraps",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "baselineItemId": "dragonhide_wraps",
+      "baselineFile": "test-results/tier50-70/r12-final-baseline/dragonhide_wraps.glb",
+      "baselineSha256": "4d1a32461c69244301b5b9eee4743b9978bd323d2e3f59d25a23a5e1c4ff0ade",
+      "geometrySha256": "030e47256b49d8b262efc86fda248b2a3a859500041b4a2cfaf67e2c1d3eb958",
+      "exactOppositeR12GeometryTopologyUVSkinAndMaterialMapping": true,
+      "exactOppositeR12NonClothMaterialsAndTextureBytes": true,
+      "itemCatalogIdentityPreserved": true,
+      "triangles": 97896,
+      "nonClothMaterials": 9,
+      "scaleMaterials": 6,
+      "embeddedClothMaps": [
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "05f5f8e66de72dedfbfd770ae68888de3abc399a8122d7432f4b54aabdaeabc1",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-color.png"
+        },
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "40c3348c9db58a25cf0488f33077e13003d4a89655f6ec6371bf74e111f40230",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-normal.png"
+        },
+        {
+          "role": "packedRoughnessMetallic",
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "8bb80e6e72f5553c89602696be61e3d771b80e4e4f50d9517013453cc569d6b5",
+          "bakedMap": "art/tier50-70/textures/dragonhide/cloth-roughness.png"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "catalogApprovalTagException": [
+    "reference-tailored-candidate",
+    "tier50-70-tailored-approved"
+  ],
+  "gameplayStats": {
+    "checked": false,
+    "reason": "The preserved catalogs identify items but do not contain a preserved gameplay-stat source. This verifier checks item IDs and wearable/catalog semantics only."
+  }
+}

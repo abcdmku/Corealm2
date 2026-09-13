@@ -3,6 +3,8 @@ import type * as THREE from "three";
 /** Frozen author interface. Pure geometry builders; no publication or file I/O.
  * A wearable Mesh may set userData.itemModelBone to a native bone name for a rigid plate.
  * Its attached rivets/borders must use the same bone. Unmarked cloth retains blended skinning.
+ * Root-approved deform hints: `skirt` blends tails with thighs; `native-hand` transfers native
+ * hand/finger weights for fitted full-finger gloves. A mesh cannot also specify a rigid bone.
  */
 export interface ItemModelAuthor {
   readonly ids: readonly string[];

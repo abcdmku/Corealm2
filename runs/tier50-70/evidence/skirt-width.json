@@ -1,0 +1,92 @@
+{
+  "round": "r12",
+  "passed": true,
+  "request": "Retain accepted R10 flare during material and scale-relief revision.",
+  "baselineSourceSha256": "b344723ad7e8e076bead9babd89a6012b61683bb26a14932e54a36222a3a2869",
+  "referenceSourceSha256": "c8f3477db40ee8e6a420de030cbaf3d59a648bb23122005ada2fd6882774c330",
+  "method": "Rebuild saved R9, reference-matched R7, and current source with the same current scale relief. Verify total width halfway between both baselines and intermediate widths at four skirt heights. Compare upper vertices above 1.12 m exactly, measure maximum waist trim deviation from 1.057 to 1.12 m, then verify exported GLB bounds.",
+  "sets": [
+    {
+      "theme": "dragonhide",
+      "previousWidth": 0.634149968624115,
+      "currentWidth": 0.8009696900844574,
+      "referenceWidth": 0.9677893817424774,
+      "fittedWaistWidth": 0.3170749937687618,
+      "exportedWidth": 0.8009696900844574,
+      "hemToWaistRatio": 2.526120652291467,
+      "fractionTowardReference": 0.5000000446624727,
+      "sections": [
+        {
+          "y": 0.84,
+          "r9": 0.4595706909894943,
+          "current": 0.5056474506855011,
+          "reference": 0.6135796010494232
+        },
+        {
+          "y": 0.72,
+          "r9": 0.47180767357349396,
+          "current": 0.5506737232208252,
+          "reference": 0.7251415550708771
+        },
+        {
+          "y": 0.64,
+          "r9": 0.4728078097105026,
+          "current": 0.5685959458351135,
+          "reference": 0.7682456970214844
+        },
+        {
+          "y": 0.52,
+          "r9": 0.4876720756292343,
+          "current": 0.6273303627967834,
+          "reference": 0.8865714967250824
+        }
+      ],
+      "preservedUpperVertices": 56780,
+      "waistMaxDeviation": 0.0003515441582624457,
+      "glb": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+      "sha256": "f70df997e049be1189eefc8b282b1cf6ce35cdfed8f08913ebb56f01adc5a60d",
+      "includesTipsAndTrim": true
+    },
+    {
+      "theme": "starhide",
+      "previousWidth": 0.6341499984264374,
+      "currentWidth": 0.7186190187931061,
+      "referenceWidth": 0.8030880391597748,
+      "fittedWaistWidth": 0.3170749937687618,
+      "exportedWidth": 0.7186190187931061,
+      "hemToWaistRatio": 2.2664007976522567,
+      "fractionTowardReference": 0.5,
+      "sections": [
+        {
+          "y": 0.84,
+          "r9": 0.47680941224098206,
+          "current": 0.4983016401529312,
+          "reference": 0.5724380612373352
+        },
+        {
+          "y": 0.72,
+          "r9": 0.4974382668733597,
+          "current": 0.5362783372402191,
+          "reference": 0.6531091630458832
+        },
+        {
+          "y": 0.64,
+          "r9": 0.5037009865045547,
+          "current": 0.5545552372932434,
+          "reference": 0.687611997127533
+        },
+        {
+          "y": 0.52,
+          "r9": 0.5159747004508972,
+          "current": 0.5942769646644592,
+          "reference": 0.7575961351394653
+        }
+      ],
+      "preservedUpperVertices": 47124,
+      "waistMaxDeviation": 0.00019718421205669722,
+      "glb": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+      "sha256": "bd289c06c1c2ffef1118c9fc3de8c6b93d74d0f4ca69f3e6da61c24fe589e7b7",
+      "includesTipsAndTrim": true
+    }
+  ]
+}

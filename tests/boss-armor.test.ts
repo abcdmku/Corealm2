@@ -9,14 +9,14 @@ import { EQUIPMENT_SETS } from '../game/src/content/equipmentSets.js';
 describe('rare boss armor', () => {
   it('defines six separate complete sets without replacing crafted armor', () => {
     expect(BOSS_ARMOR_SETS).toHaveLength(6);
-    expect(BOSS_ARMOR_ITEMS).toHaveLength(27);
+    expect(BOSS_ARMOR_ITEMS).toHaveLength(28);
     const ids = new Set(BOSS_ARMOR_ITEMS.map(item => item.id));
-    expect(ids.size).toBe(27);
+    expect(ids.size).toBe(28);
     for (const tier of [50, 70, 90]) {
       expect(BOSS_ARMOR_SETS.filter(set => set.tier === tier).map(set => set.style).sort()).toEqual(['magic', 'melee']);
     }
     for (const set of BOSS_ARMOR_SETS) {
-      const bareheaded = ['duskguard', 'oathguard', 'frostweave'].includes(set.id);
+      const bareheaded = ['duskguard', 'oathguard'].includes(set.id);
       expect(Object.keys(set.members).sort()).toEqual(bareheaded
         ? ['body', 'feet', 'hands', 'legs'] : ['body', 'feet', 'hands', 'head', 'legs']);
       if (bareheaded) expect(BOSS_ARMOR_ITEMS.some(item => item.id === `${set.id}_${set.style === 'melee' ? 'helm' : 'hood'}`)).toBe(false);

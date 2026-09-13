@@ -1,0 +1,11 @@
+﻿{
+    "file":  "art/aurora/t90-aurora-armor.zip",
+    "round":  "aurora-r16",
+    "files":  260,
+    "bytes":  511222672,
+    "sha256":  "fce82c9a9780ce87bdd724538703fe991b2f0822070f69bcd673d5e367e35898",
+    "blenderSets":  1,
+    "authoredGLBs":  5,
+    "imagegenSourceAndPromptIncluded":  true,
+    "allArchiveFileHashesVerified":  true
+}

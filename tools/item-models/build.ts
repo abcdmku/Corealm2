@@ -157,7 +157,7 @@ for (const id of author.ids) {
       if (part && part !== "tackle") throw new Error(`${id}: unknown itemModelPart ${part}`);
       const bone = child.userData["itemModelBone"] as string | undefined;
       const deform = child.userData["itemModelDeform"] as string | undefined;
-      if (deform && deform !== "skirt") throw new Error(`${id}: unknown deformation ${deform}`);
+      if (deform && deform !== "skirt" && deform !== "native-hand") throw new Error(`${id}: unknown deformation ${deform}`);
       if (bone && deform) throw new Error(`${id}: a part cannot be both rigid and cloth`);
       if (bone && !meta.wearable) throw new Error(`${id}: rigid skin bone requires wearable geometry`);
       const key = `${source.uuid}:${part ?? ""}:${bone ?? ""}:${deform ?? ""}`;

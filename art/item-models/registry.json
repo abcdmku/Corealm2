@@ -9450,6 +9450,1158 @@
       "runtimeEvidence": [],
       "evidence": "test-results/item-models/jewelry-metal-b-r2/report.json",
       "review": "Owner approved the staged weapon/tool and jewelry artwork; quick grip/facing review reuses matching GLB runtime captures. No armor approval."
+    },
+    "dragonhide_hood": {
+      "id": "corealm_item_dragonhide_hood",
+      "file": "models/items/dragonhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_hood",
+        "head",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 26538312,
+      "itemModel": {
+        "itemId": "dragonhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.3196646273136139,
+        "y": 0.38869046781609673,
+        "z": 0.34430600702762604
+      },
+      "base": {
+        "x": -0.159798726439476,
+        "y": 1.4622818231582642,
+        "z": -0.2543914020061493
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide"
+      ],
+      "itemId": "dragonhide_hood",
+      "status": "visual-approved",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "602d9dd1dc9b24cda410ab1e8914882c18379cbcc4419d49b473a61eeb673aae",
+      "metadata": {
+        "itemId": "dragonhide_hood",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_hood.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 38270,
+      "drawCalls": 10,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 28401856,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier50-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier50-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\dragonhide_hood.glb"
+    },
+    "dragonhide_robe": {
+      "id": "corealm_item_dragonhide_robe",
+      "file": "models/items/dragonhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 33242976,
+      "itemModel": {
+        "itemId": "dragonhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.7186190187931061,
+        "y": 1.317425012588501,
+        "z": 0.48090365529060364
+      },
+      "base": {
+        "x": -0.3610101044178009,
+        "y": 0.27622902393341064,
+        "z": -0.2653939425945282
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-fine-stitch-thread",
+        "starhide-polished-inset-stone"
+      ],
+      "itemId": "dragonhide_robe",
+      "status": "visual-approved",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "3e0b126b4fbfd83adf14b90d761e03a4eba946d3c4b64d764f19c4f6d26f25a1",
+      "metadata": {
+        "itemId": "dragonhide_robe",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_robe.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 147008,
+      "drawCalls": 29,
+      "tailoredSkirtVertices": 69450,
+      "textureDeduplication": {
+        "originalBytes": 35106520,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier50-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier50-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\dragonhide_robe.glb"
+    },
+    "dragonhide_leggings": {
+      "id": "corealm_item_dragonhide_leggings",
+      "file": "models/items/dragonhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 29721160,
+      "itemModel": {
+        "itemId": "dragonhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.451835572719574,
+        "y": 0.9668442830443382,
+        "z": 0.3052174299955368
+      },
+      "base": {
+        "x": -0.225917786359787,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-fine-stitch-thread",
+        "starhide-chased-ivory-silver",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-polished-inset-stone"
+      ],
+      "itemId": "dragonhide_leggings",
+      "status": "visual-approved",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "4d5659a67c036d65708629258ff37d3e4e0e39f730cb05746a524918f4029355",
+      "metadata": {
+        "itemId": "dragonhide_leggings",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_leggings.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 104184,
+      "drawCalls": 21,
+      "tailoredSkirtVertices": 25560,
+      "textureDeduplication": {
+        "originalBytes": 31584704,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier50-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier50-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\dragonhide_leggings.glb"
+    },
+    "dragonhide_boots": {
+      "id": "corealm_item_dragonhide_boots",
+      "file": "models/items/dragonhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 30214548,
+      "itemModel": {
+        "itemId": "dragonhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4477701783180237,
+        "y": 0.5202276036143303,
+        "z": 0.3674030601978302
+      },
+      "base": {
+        "x": -0.22388508915901184,
+        "y": -0.03400000184774399,
+        "z": -0.18543219566345215
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-polished-inset-stone",
+        "starhide-stacked-dark-leather-sole"
+      ],
+      "itemId": "dragonhide_boots",
+      "status": "visual-approved",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "03a093be192a8121874fbd1d43597dc6ada33dc288d4d1033277d1c6ec985450",
+      "metadata": {
+        "itemId": "dragonhide_boots",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_boots.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 93624,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 32782820,
+        "originalTextures": 20,
+        "textures": 14
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier50-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier50-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\dragonhide_boots.glb"
+    },
+    "dragonhide_wraps": {
+      "id": "corealm_item_dragonhide_wraps",
+      "file": "models/items/dragonhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 29719228,
+      "itemModel": {
+        "itemId": "dragonhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15610194206237793,
+        "z": 0.1691255122423172
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide"
+      ],
+      "itemId": "dragonhide_wraps",
+      "status": "visual-approved",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "07b881fb2b934996ccbc9c4d10e4bcab67e3bdb986fcb49136e52d597706b1ef",
+      "metadata": {
+        "itemId": "dragonhide_wraps",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_wraps.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 99304,
+      "drawCalls": 29,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 31582772,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier50-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier50-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\dragonhide_wraps.glb"
+    },
+    "starhide_hood": {
+      "id": "corealm_item_starhide_hood",
+      "file": "models/items/starhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_hood",
+        "head",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 25775912,
+      "itemModel": {
+        "itemId": "starhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.43008952021857816,
+        "z": 0.3303585146425044
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2383631318807602
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone"
+      ],
+      "itemId": "starhide_hood",
+      "status": "visual-approved",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "a3377212d63b8a746fea34a7e8488354f264e2d7aff2b03823e813059d0e6b33",
+      "metadata": {
+        "itemId": "starhide_hood",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_hood.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 47122,
+      "drawCalls": 11,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 27639448,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier70-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier70-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\starhide_hood.glb"
+    },
+    "starhide_robe": {
+      "id": "corealm_item_starhide_robe",
+      "file": "models/items/starhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 32690644,
+      "itemModel": {
+        "itemId": "starhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.8009696900844574,
+        "y": 1.3115841448307037,
+        "z": 0.5321832150220871
+      },
+      "base": {
+        "x": -0.40159836411476135,
+        "y": 0.28281912207603455,
+        "z": -0.2913333773612976
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone",
+        "dragonhide-fine-stitch-thread"
+      ],
+      "itemId": "starhide_robe",
+      "status": "visual-approved",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "3c5f90d697cd72357df022ffa5dc690f9cc2d490f1b17d828232633985a4fb75",
+      "metadata": {
+        "itemId": "starhide_robe",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_robe.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 149896,
+      "drawCalls": 30,
+      "tailoredSkirtVertices": 74350,
+      "textureDeduplication": {
+        "originalBytes": 34554180,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier70-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier70-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\starhide_robe.glb"
+    },
+    "starhide_leggings": {
+      "id": "corealm_item_starhide_leggings",
+      "file": "models/items/starhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 27563876,
+      "itemModel": {
+        "itemId": "starhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone"
+      ],
+      "itemId": "starhide_leggings",
+      "status": "visual-approved",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "0ebaee01d8454b75bd70fbdb7ddf806949a9ab6495d00b383d134fa7bcecc739",
+      "metadata": {
+        "itemId": "starhide_leggings",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_leggings.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 92684,
+      "drawCalls": 21,
+      "tailoredSkirtVertices": 26380,
+      "textureDeduplication": {
+        "originalBytes": 29427412,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier70-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier70-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\starhide_leggings.glb"
+    },
+    "starhide_boots": {
+      "id": "corealm_item_starhide_boots",
+      "file": "models/items/starhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 29780752,
+      "itemModel": {
+        "itemId": "starhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone",
+        "dragonhide-stacked-dark-leather-sole"
+      ],
+      "itemId": "starhide_boots",
+      "status": "visual-approved",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "96e4c263a45cec454e9efba8b917f49e611a3a300ee3c8f80421fd637163dee0",
+      "metadata": {
+        "itemId": "starhide_boots",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_boots.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 109496,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 32349020,
+        "originalTextures": 20,
+        "textures": 14
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier70-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier70-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\starhide_boots.glb"
+    },
+    "starhide_wraps": {
+      "id": "corealm_item_starhide_wraps",
+      "file": "models/items/starhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "tier50-70-tailored-approved"
+      ],
+      "bytes": 28427704,
+      "itemModel": {
+        "itemId": "starhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide"
+      ],
+      "itemId": "starhide_wraps",
+      "status": "visual-approved",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "b8238036d6707021a8819d425533509877e9c34273a86398390573b7a9bb89fe",
+      "metadata": {
+        "itemId": "starhide_wraps",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_wraps.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 97896,
+      "drawCalls": 29,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 30291240,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "evidence": "test-results/item-models/tier70-r15-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55.ts",
+      "review": "R15 root visual acceptance after fresh read-only critic and production lab screenshots. T50 crossed chest strips removed and inner silver V follows the curved yoke. T70 rear flanking fabric panels replaced by raised scales with local layer clearance. Preserved flare, body coverage, blue T50 / red T70 and R13 materials. Native-male production use accepted after motion review.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/tier70-r15-chest/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\starhide_wraps.glb"
+    },
+    "frostweave_hood": {
+      "id": "corealm_item_frostweave_hood",
+      "file": "models/items/frostweave_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_hood",
+        "head",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 31789208,
+      "itemModel": {
+        "itemId": "frostweave_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.41191256948848687,
+        "z": 0.3300931602716446
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2272256463766098
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_hood",
+      "status": "visual-approved",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_hood",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 43804,
+      "drawCalls": 11,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 33651960,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "evidence": "test-results/item-models/aurora-r16-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523.ts",
+      "review": "Visual review confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/aurora-r16-worn-cast/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\frostweave_hood.glb"
+    },
+    "frostweave_robe": {
+      "id": "corealm_item_frostweave_robe",
+      "file": "models/items/frostweave_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 39805716,
+      "itemModel": {
+        "itemId": "frostweave_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.907024621963501,
+        "y": 1.3172156810760498,
+        "z": 0.5851479172706604
+      },
+      "base": {
+        "x": -0.45483022928237915,
+        "y": 0.2870614528656006,
+        "z": -0.31833401322364807
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pale-gold-embroidery-thread"
+      ],
+      "itemId": "frostweave_robe",
+      "status": "visual-approved",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_robe",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 149372,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 74286,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 41668464,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "evidence": "test-results/item-models/aurora-r16-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523.ts",
+      "review": "Visual review confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/aurora-r16-worn-cast/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\frostweave_robe.glb"
+    },
+    "frostweave_leggings": {
+      "id": "corealm_item_frostweave_leggings",
+      "file": "models/items/frostweave_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 33880396,
+      "itemModel": {
+        "itemId": "frostweave_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_leggings",
+      "status": "visual-approved",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_leggings",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 94388,
+      "drawCalls": 22,
+      "tailoredSkirtVertices": 27340,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 35743148,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "evidence": "test-results/item-models/aurora-r16-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523.ts",
+      "review": "Visual review confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/aurora-r16-worn-cast/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\frostweave_leggings.glb"
+    },
+    "frostweave_boots": {
+      "id": "corealm_item_frostweave_boots",
+      "file": "models/items/frostweave_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 36100556,
+      "itemModel": {
+        "itemId": "frostweave_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pearl-gray-leather-sole"
+      ],
+      "itemId": "frostweave_boots",
+      "status": "visual-approved",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_boots",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 111192,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 38668036,
+        "originalTextures": 20,
+        "textures": 14
+      },
+      "evidence": "test-results/item-models/aurora-r16-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523.ts",
+      "review": "Visual review confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/aurora-r16-worn-cast/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\frostweave_boots.glb"
+    },
+    "frostweave_wraps": {
+      "id": "corealm_item_frostweave_wraps",
+      "file": "models/items/frostweave_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 34776700,
+      "itemModel": {
+        "itemId": "frostweave_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_wraps",
+      "status": "visual-approved",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_wraps",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 100384,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 36639448,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "evidence": "test-results/item-models/aurora-r16-pieces/report.json",
+      "sourceSnapshot": "art/item-models/source-snapshots/84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523.ts",
+      "review": "Visual review confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+      "promoted": true,
+      "runtimeEvidence": [
+        "test-results/item-models/aurora-r16-worn-cast/report.json"
+      ],
+      "productionFile": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\game\\public\\assets\\models\\items\\frostweave_wraps.glb"
     }
   }
 }

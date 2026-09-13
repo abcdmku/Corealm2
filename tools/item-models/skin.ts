@@ -113,6 +113,41 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
   }
 
   const done = new Set<Accessor>();
+  // Close-fitting gloves copy the real finger/webbing weights instead of treating the
+  // whole hand as one rigid mitten. Source and exported vertices share native bind space.
+  const handSamples: { position: number[]; influences: Weights }[] = [];
+  if (meshNodes.some(node => node.getExtras()["itemModelDeform"] === "native-hand")) {
+    if (slot !== "hands") throw new Error(`${itemId}: native-hand deformation requires handwear`);
+    for (const node of source.getRoot().listNodes()) {
+      if (!node.getMesh() || node.getSkin() !== sourceSkin) continue;
+      if (node.getWorldMatrix().some((value, index) => Math.abs(value - identity[index]!) > 1e-5)) {
+        throw new Error("Native hand weight source must have identity world transform");
+      }
+      for (const primitive of node.getMesh()!.listPrimitives()) {
+        const p = primitive.getAttribute("POSITION"), j = primitive.getAttribute("JOINTS_0"), w = primitive.getAttribute("WEIGHTS_0");
+        if (!p || !j || !w) continue;
+        for (let vertex = 0; vertex < p.getCount(); vertex++) {
+          const xyz: number[] = []; p.getElement(vertex, xyz);
+          if (Math.abs(xyz[0]!) < .54 || xyz[1]! < 1.30) continue;
+          const joints: number[] = [], weights: number[] = [];
+          j.getElement(vertex, joints); w.getElement(vertex, weights);
+          const influences: Weights = new Map();
+          weights.forEach((weight, i) => { if (weight > 0) influences.set(sourceJoints[joints[i]!]!.getName(), weight); });
+          handSamples.push({ position: xyz, influences });
+        }
+      }
+    }
+    if (!handSamples.length) throw new Error("Native body has no hand weight samples");
+  }
+  function nativeHandWeights(point: number[]): Weights {
+    let nearest = handSamples[0]!, distance = Infinity;
+    for (const sample of handSamples) {
+      const d = (point[0]! - sample.position[0]!) ** 2 + (point[1]! - sample.position[1]!) ** 2 + (point[2]! - sample.position[2]!) ** 2;
+      if (d < distance) { nearest = sample; distance = d; }
+    }
+    if (distance > .08 ** 2) throw new Error(`${itemId}: glove vertex is more than 8cm from native hand/forearm`);
+    return nearest.influences;
+  }
   function skirtWeights(x: number, y: number): Weights {
     const leg = (side: string) => rigid(`thigh_${side}`);
     // Both sides share continuous weights across the centre seam. The waist stays pelvic.
@@ -122,6 +157,7 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
     node.setSkin(skin);
     const rigidBone = node.getExtras()["itemModelBone"];
     const isSkirt = node.getExtras()["itemModelDeform"] === "skirt";
+    const isNativeHand = node.getExtras()["itemModelDeform"] === "native-hand";
     if (rigidBone !== undefined && (typeof rigidBone !== "string" || !indices.has(rigidBone))) throw new Error(`${itemId}: invalid rigid plate bone ${rigidBone}`);
     for (const primitive of node.getMesh()!.listPrimitives()) {
       const position = primitive.getAttribute("POSITION");
@@ -136,7 +172,7 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
       for (let vertex = 0; vertex < position.getCount(); vertex++) {
         position.getElement(vertex, point);
         if (!point.every(Number.isFinite)) throw new Error(`${itemId}: nonfinite vertex ${vertex}`);
-        const influences = [...(typeof rigidBone === "string" ? rigid(rigidBone) : isSkirt ? skirtWeights(point[0]!, point[1]!) : weightsAt(point[0]!, point[1]!))].filter(([, weight]) => weight > 0)
+        const influences = [...(typeof rigidBone === "string" ? rigid(rigidBone) : isNativeHand ? nativeHandWeights(point) : isSkirt ? skirtWeights(point[0]!, point[1]!) : weightsAt(point[0]!, point[1]!))].filter(([, weight]) => weight > 0)
           .sort((a, b) => b[1] - a[1]).slice(0, 4);
         const total = influences.reduce((sum, [, weight]) => sum + weight, 0);
         if (!Number.isFinite(total) || total <= 0) throw new Error(`${itemId}: invalid skin weights`);

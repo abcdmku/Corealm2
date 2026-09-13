@@ -1,0 +1,239 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/boots.glb",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/leggings.glb",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/wraps.glb",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/robe.glb",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/hood.glb",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/robe.glb",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/robe.glb",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/robe.glb",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/frostweave/hood.glb",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3"
+    }
+  ],
+  "shots": [
+    {
+      "name": "full-front",
+      "file": "test-results/aurora/viewer/full-front.png",
+      "sha256": "6f0401cbea995c87dbcac8e21beed240c48da9ce269c828c05f2d9319a92fa6c",
+      "state": {
+        "camera": [
+          0.9121382144704413,
+          1.3295754475212525,
+          4.120322365026365
+        ],
+        "target": [
+          2.401759474635058e-8,
+          0.9149671791335953,
+          -0.025760318850209293
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "full-back",
+      "file": "test-results/aurora/viewer/full-back.png",
+      "sha256": "4d8f613888bdecf2c7e659d2efc3094a95249b7fb6e7d6706da33967d78743a7",
+      "state": {
+        "camera": [
+          -1.4007302921280083,
+          1.3295754475212525,
+          -4.03324734708304
+        ],
+        "target": [
+          2.4017594746350584e-8,
+          0.9149671791335954,
+          -0.025760318850209296
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "robe-front",
+      "file": "test-results/aurora/viewer/robe-front.png",
+      "sha256": "4fe8a09f6398784d470ab8537edd30d0980a42485c5362756f384cc9d439bbfc",
+      "state": {
+        "camera": [
+          0.6508728405249767,
+          1.2421194847505417,
+          2.938743130368539
+        ],
+        "target": [
+          -0.0013179183031479802,
+          0.9456691398286665,
+          -0.025760318850209296
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "chest-detail",
+      "file": "test-results/aurora/viewer/chest-detail.png",
+      "sha256": "3b1ee4a4a611ee18cec862e12ce35143d53d957df4b157d78d3f0d21444b7d8e",
+      "state": {
+        "camera": [
+          0.3657277556532433,
+          1.4851463001143805,
+          1.6426291082242965
+        ],
+        "target": [
+          -0.009063610656437715,
+          1.3147865881554344,
+          -0.06096801136516258
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "shoulder-side",
+      "file": "test-results/aurora/viewer/shoulder-side.png",
+      "sha256": "869931f7a75ab76a4d7cf8d932b43a2759bf8658175886a8dd7f3654f2f3261e",
+      "state": {
+        "camera": [
+          -1.2908120041717825,
+          1.4851790517396992,
+          1.1221748960956162
+        ],
+        "target": [
+          -0.009064297928239502,
+          1.3148193397807526,
+          -0.060971135327897955
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "shoulder-profile",
+      "file": "test-results/aurora/viewer/shoulder-profile.png",
+      "sha256": "a5663ba995b0889edd0a0af0150cbc2b2fdaa6f8010c53f1d4947a28c1ad5bb1",
+      "state": {
+        "camera": [
+          -1.7493721998232175,
+          1.4851793752502913,
+          -0.17946228131413366
+        ],
+        "target": [
+          -0.009064304716901254,
+          1.314819663291344,
+          -0.06097116618545138
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "shoulder-back",
+      "file": "test-results/aurora/viewer/shoulder-back.png",
+      "sha256": "708c065f28bcd689163b4c2f4f30356294cd8694c341ae29b60293eb87af467a",
+      "state": {
+        "camera": [
+          -0.526733034959595,
+          1.485179378798707,
+          -1.7267234890316254
+        ],
+        "target": [
+          -0.009064304791362497,
+          1.3148196668397594,
+          -0.06097116652391162
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "robe-points",
+      "file": "test-results/aurora/viewer/robe-points.png",
+      "sha256": "da8e5ffb6dc8a38ca124ac8ce997a60065bc7c2efba4d49a25c156639989acef",
+      "state": {
+        "camera": [
+          0.549315465497289,
+          1.1959570415561382,
+          2.4771186984245044
+        ],
+        "target": [
+          -0.0013179183031479802,
+          0.9456691398286665,
+          -0.025760318850209296
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "rear-scales",
+      "file": "test-results/aurora/viewer/rear-scales.png",
+      "sha256": "f4dd68871cbab8418acc033b1cbf99edb221e803e05b3dc126787339cf9163fc",
+      "state": {
+        "camera": [
+          -0.5277855168781843,
+          1.1822261503941318,
+          -2.3899930513823313
+        ],
+        "target": [
+          -0.0013179183031479802,
+          0.9456691398286665,
+          -0.025760318850209296
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    },
+    {
+      "name": "hood-crown",
+      "file": "test-results/aurora/viewer/hood-crown.png",
+      "sha256": "4b37a1ae3826ba0bc3e17a69fc37e4c34579bbc95e63750f87216c08480bd296",
+      "state": {
+        "camera": [
+          0.21970849105184584,
+          1.757832300152897,
+          0.9363609221164201
+        ],
+        "target": [
+          0.00002969801425933838,
+          1.6579783033176305,
+          -0.062179046236245795
+        ],
+        "exposure": 0.85,
+        "environmentIntensity": 0.5
+      }
+    }
+  ],
+  "errors": [],
+  "reference": {
+    "src": "/aurora-reference.png",
+    "width": 1019
+  },
+  "normalViewerControls": true
+}

@@ -1,0 +1,1232 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "id": "corealm_item_dragonhide_hood",
+      "file": "models/items/dragonhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_hood",
+        "head",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 26538312,
+      "itemModel": {
+        "itemId": "dragonhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.3196646273136139,
+        "y": 0.38869046781609673,
+        "z": 0.34430600702762604
+      },
+      "base": {
+        "x": -0.159798726439476,
+        "y": 1.4622818231582642,
+        "z": -0.2543914020061493
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide"
+      ],
+      "itemId": "dragonhide_hood",
+      "status": "pending",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "602d9dd1dc9b24cda410ab1e8914882c18379cbcc4419d49b473a61eeb673aae",
+      "metadata": {
+        "itemId": "dragonhide_hood",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_hood.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 38270,
+      "drawCalls": 10,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 28401856,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_dragonhide_robe",
+      "file": "models/items/dragonhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_robe",
+        "torso",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 33242976,
+      "itemModel": {
+        "itemId": "dragonhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.7186190187931061,
+        "y": 1.317425012588501,
+        "z": 0.48090365529060364
+      },
+      "base": {
+        "x": -0.3610101044178009,
+        "y": 0.27622902393341064,
+        "z": -0.2653939425945282
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-fine-stitch-thread",
+        "starhide-polished-inset-stone"
+      ],
+      "itemId": "dragonhide_robe",
+      "status": "pending",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "3e0b126b4fbfd83adf14b90d761e03a4eba946d3c4b64d764f19c4f6d26f25a1",
+      "metadata": {
+        "itemId": "dragonhide_robe",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_robe.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 147008,
+      "drawCalls": 29,
+      "tailoredSkirtVertices": 69450,
+      "textureDeduplication": {
+        "originalBytes": 35106520,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_dragonhide_leggings",
+      "file": "models/items/dragonhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_leggings",
+        "legs",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 29721160,
+      "itemModel": {
+        "itemId": "dragonhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.451835572719574,
+        "y": 0.9668442830443382,
+        "z": 0.3052174299955368
+      },
+      "base": {
+        "x": -0.225917786359787,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-fine-stitch-thread",
+        "starhide-chased-ivory-silver",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-polished-inset-stone"
+      ],
+      "itemId": "dragonhide_leggings",
+      "status": "pending",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "4d5659a67c036d65708629258ff37d3e4e0e39f730cb05746a524918f4029355",
+      "metadata": {
+        "itemId": "dragonhide_leggings",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_leggings.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 104184,
+      "drawCalls": 21,
+      "tailoredSkirtVertices": 25560,
+      "textureDeduplication": {
+        "originalBytes": 31584704,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_dragonhide_boots",
+      "file": "models/items/dragonhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_boots",
+        "feet",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 30214548,
+      "itemModel": {
+        "itemId": "dragonhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4477701783180237,
+        "y": 0.5202276036143303,
+        "z": 0.3674030601978302
+      },
+      "base": {
+        "x": -0.22388508915901184,
+        "y": -0.03400000184774399,
+        "z": -0.18543219566345215
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide",
+        "starhide-polished-inset-stone",
+        "starhide-stacked-dark-leather-sole"
+      ],
+      "itemId": "dragonhide_boots",
+      "status": "pending",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "03a093be192a8121874fbd1d43597dc6ada33dc288d4d1033277d1c6ec985450",
+      "metadata": {
+        "itemId": "dragonhide_boots",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_boots.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 93624,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 32782820,
+        "originalTextures": 20,
+        "textures": 14
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_dragonhide_wraps",
+      "file": "models/items/dragonhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_wraps",
+        "arms",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 29719228,
+      "itemModel": {
+        "itemId": "dragonhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15610194206237793,
+        "z": 0.1691255122423172
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "starhide-close-twill-cloth",
+        "starhide-soft-dark-lining",
+        "starhide-chased-ivory-silver",
+        "starhide-fine-stitch-thread",
+        "starhide-scute-1-pebbled-hide",
+        "starhide-scute-2-pebbled-hide",
+        "starhide-scute-3-pebbled-hide",
+        "starhide-scute-4-pebbled-hide",
+        "starhide-scute-5-pebbled-hide",
+        "starhide-scute-6-pebbled-hide"
+      ],
+      "itemId": "dragonhide_wraps",
+      "status": "pending",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "sourceSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "referenceSha256": "07b881fb2b934996ccbc9c4d10e4bcab67e3bdb986fcb49136e52d597706b1ef",
+      "metadata": {
+        "itemId": "dragonhide_wraps",
+        "author": "armor-dragonhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/starhide_wraps.png",
+        "designTheme": "starhide",
+        "description": "Reference-sculpted dragonhide: midnight navy cloth and silver, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 99304,
+      "drawCalls": 29,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 31582772,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    }
+  ],
+  "evidence": "Production environment gallery and GLB loader; normal wheel/right-drag camera; gallery controls magnify small items for inspection. Visual acceptance is recorded separately by a fresh critic and root.",
+  "report": [
+    {
+      "itemId": "dragonhide_hood",
+      "view": "front",
+      "scale": 4.066150376190411,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_hood"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8505288579712236,
+            0.34999989055694414,
+            24.119589189587277
+          ],
+          "max": [
+            0.8412797387281401,
+            1.9304737251003985,
+            25.87694118495836
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_hood-front.png",
+      "elapsedMs": 2026
+    },
+    {
+      "itemId": "dragonhide_hood",
+      "view": "side",
+      "scale": 4.066150376190411,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_hood"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.6999999671106851,
+            0.34999989055694414,
+            24.35009856613609
+          ],
+          "max": [
+            0.6999999682478022,
+            1.9304737251003985,
+            25.649902950726876
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_hood-side.png",
+      "elapsedMs": 915
+    },
+    {
+      "itemId": "dragonhide_hood",
+      "view": "back",
+      "scale": 4.066150376190411,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_hood"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8412797387281401,
+            0.34999989055694414,
+            24.12305881504164
+          ],
+          "max": [
+            0.8505288579712236,
+            1.9304737251003985,
+            25.880410810412723
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_hood-back.png",
+      "elapsedMs": 882
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "view": "front",
+      "scale": 1.5181129710527987,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_robe"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.6375709389586,
+            0.35000000942748954,
+            24.47005744692092
+          ],
+          "max": [
+            0.6375709382689134,
+            2.350000070067793,
+            25.52994418145428
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_robe-front.png",
+      "elapsedMs": 1405
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "view": "side",
+      "scale": 1.5181129710527987,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_robe"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.3650330493533184,
+            0.35000000942748954,
+            24.454526702013382
+          ],
+          "max": [
+            0.36503304970576533,
+            2.350000070067793,
+            25.545471588766045
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_robe-side.png",
+      "elapsedMs": 928
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "view": "back",
+      "scale": 1.5181129710527987,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_robe"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.6375709382689134,
+            0.35000000942748954,
+            24.47005581854572
+          ],
+          "max": [
+            0.6375709389586,
+            2.350000070067793,
+            25.52994255307908
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_robe-back.png",
+      "elapsedMs": 894
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "view": "front",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_leggings"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5472446791296974,
+            0.34999999839784124,
+            24.543209061727758
+          ],
+          "max": [
+            0.5423415392223987,
+            2.3499999623286385,
+            25.44899079061121
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_leggings-front.png",
+      "elapsedMs": 1365
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "view": "side",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_leggings"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.315684159182709,
+            0.34999999839784124,
+            24.532669766481746
+          ],
+          "max": [
+            0.3156841590536318,
+            2.3499999623286385,
+            25.467330233518254
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_leggings-side.png",
+      "elapsedMs": 927
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "view": "back",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_leggings"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5423415392223987,
+            0.34999999839784124,
+            24.55100920938879
+          ],
+          "max": [
+            0.5472446791296974,
+            2.3499999623286385,
+            25.456790938272242
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_leggings-back.png",
+      "elapsedMs": 899
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "view": "front",
+      "scale": 3.126603931639382,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_boots"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8545083713240373,
+            0.35000001377316003,
+            24.220431551868252
+          ],
+          "max": [
+            0.8443902915035792,
+            1.976545637834569,
+            25.775874983100767
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_boots-front.png",
+      "elapsedMs": 1452
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "view": "side",
+      "scale": 3.126603931639382,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_boots"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.574361909655238,
+            0.35000001377316003,
+            24.300000020117814
+          ],
+          "max": [
+            0.5743619098416205,
+            1.976545637834569,
+            25.699999979882186
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_boots-side.png",
+      "elapsedMs": 915
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "view": "back",
+      "scale": 3.126603931639382,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_boots"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8443902915035792,
+            0.35000001377316003,
+            24.224125016899233
+          ],
+          "max": [
+            0.8545083713240373,
+            1.976545637834569,
+            25.779568448131748
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_boots-back.png",
+      "elapsedMs": 916
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "view": "front",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_wraps"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.9403145956577457,
+            0.34999988484983646,
+            24.145534950347407
+          ],
+          "max": [
+            1.9197912908674555,
+            0.6853564305450561,
+            25.79824169081658
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_wraps-front.png",
+      "elapsedMs": 1371
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "view": "side",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_wraps"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.18166764769785038,
+            0.34999988484983646,
+            23.000000094052126
+          ],
+          "max": [
+            0.18166766271010149,
+            0.6853564305450561,
+            26.999999905947874
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_wraps-side.png",
+      "elapsedMs": 920
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "view": "back",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_dragonhide_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_dragonhide_wraps"
+          ],
+          "assets": [
+            "corealm_item_dragonhide_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.9197912908674555,
+            0.34999988484983646,
+            24.20175830918342
+          ],
+          "max": [
+            1.9403145956577457,
+            0.6853564305450561,
+            25.854465049652593
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-r15-pieces\\dragonhide_wraps-back.png",
+      "elapsedMs": 910
+    }
+  ],
+  "errors": []
+}

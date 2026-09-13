@@ -1,0 +1,2031 @@
+{
+  "round": "aurora-r16",
+  "createdAt": "2026-09-12T22:32:45.422Z",
+  "passed": true,
+  "baseline": [
+    {
+      "file": "game/public/assets/models/items/dragonhide_hood.glb",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_robe.glb",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_leggings.glb",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_boots.glb",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/dragonhide_wraps.glb",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "unchanged": true
+    },
+    {
+      "file": "game/public/assets/models/items/starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "unchanged": true
+    },
+    {
+      "file": "tools/item-models/build.ts",
+      "sha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e",
+      "unchanged": true
+    },
+    {
+      "file": "tools/item-models/contracts.ts",
+      "sha256": "97edfee74610615ad856d28143751a5eab21267d7699247b1331dc4df5a955b8",
+      "unchanged": true
+    },
+    {
+      "file": "game/src/contracts.ts",
+      "sha256": "5d93e257d2a6c54c938704561b743d3ce207ba97a78fa0f4f81425e2c39639b6",
+      "unchanged": true
+    }
+  ],
+  "assets": [
+    {
+      "itemId": "frostweave_hood",
+      "file": "art/item-models/candidates/armor-frostweave-aurora/models/items/frostweave_hood.glb",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "bytes": 31789208,
+      "rig": {
+        "bones": 65,
+        "nativeJointOrderTransformsInverseBinds": true
+      },
+      "geometry": {
+        "vertices": 41729,
+        "triangles": 43804,
+        "finiteAttributes": true,
+        "indicesValid": true,
+        "normalizedNonnegativeWeights": true,
+        "maxWeightSumError": 0,
+        "maxNormalError": 4.681213394697181e-8,
+        "inheritedHoodZeroNormalPositions": [],
+        "physicalScales": {
+          "sourceScaleFields": 18,
+          "scaleFaceTriangles": 4200,
+          "matchingSidewallTriangles": 5892,
+          "measuredConnectingEdgeMeters": [
+            0.0005111278466550066,
+            0.0015000119254671616
+          ],
+          "method": "Exported front-position matches into separately shaded sidewall triangles; positive geometric separation, not texture inference."
+        }
+      },
+      "materials": [
+        {
+          "name": "aurora-pearl-ivory-celestial-brocade",
+          "metallic": 1,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "8d9f416a550bd9cbb74ef29c83b82844e86c37cc60b6268135c58f728e230b14"
+            },
+            "normal": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "9d3dd8cd532b1fc98b0ecbb0fb6500102f810277ca53428d816edf00fb51830f"
+            },
+            "orm": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "5635c0996b9bb9e04def910ea4477e892f527eb10ec5ae19ff899245fb4bee0a"
+            }
+          },
+          "iridescence": [
+            0.1,
+            1.22,
+            100,
+            265
+          ],
+          "sheen": {
+            "color": [
+              0.17661199817485737,
+              0.1843449488363097,
+              0.20871317866980796
+            ],
+            "roughness": 0.82
+          }
+        },
+        {
+          "name": "aurora-cool-pearl-shadow-lining",
+          "metallic": 0,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "cc749a5144438934b7f235c94dbb0b8c39aa83d629c1ffd13b8c6505bb37bdf8"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "2949bb57d05c0d7e2c5ca679f4e672f43c92102b43377e6ab8b6400f906a0608"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "41f2da4f1bf8a3916523bcf41e483af36505357f9ccc86c909799665a4ea5241"
+            }
+          },
+          "sheen": {
+            "color": [
+              0.04178850708380236,
+              0.047932018309134024,
+              0.055201140150344
+            ],
+            "roughness": 0.9
+          }
+        },
+        {
+          "name": "aurora-warm-chased-gold",
+          "metallic": 0.85,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "35e560dcd23a586d691fed7c8a2d672e2e06b1ed1293ab0d546f67549766913d"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "fb99ff3456ac5fe595a196d3490972645acc73b2b28c1c5f27d6320d6ea4d637"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "93c04b3a9be949aca302bdacf4aa460211a517802fd16a86b64f4741eb7fb926"
+            }
+          }
+        },
+        {
+          "name": "aurora-pale-gold-embroidery-thread",
+          "metallic": 0.49,
+          "roughness": 0.48,
+          "noEmission": true,
+          "textures": {}
+        },
+        {
+          "name": "aurora-opal-scute-1",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            290
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-2",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            325
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-3",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            350
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-4",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            375
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-5",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            310
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-6",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            340
+          ]
+        },
+        {
+          "name": "aurora-aurora-opal-inset",
+          "metallic": 0.14,
+          "roughness": 0.19,
+          "noEmission": true,
+          "textures": {},
+          "iridescence": [
+            0.72,
+            1.36,
+            100,
+            335
+          ]
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_robe",
+      "file": "art/item-models/candidates/armor-frostweave-aurora/models/items/frostweave_robe.glb",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "bytes": 39805716,
+      "rig": {
+        "bones": 65,
+        "nativeJointOrderTransformsInverseBinds": true
+      },
+      "geometry": {
+        "vertices": 149338,
+        "triangles": 149372,
+        "finiteAttributes": true,
+        "indicesValid": true,
+        "normalizedNonnegativeWeights": true,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalError": 4.6820656907087255e-8,
+        "inheritedHoodZeroNormalPositions": [],
+        "physicalScales": {
+          "sourceScaleFields": 154,
+          "scaleFaceTriangles": 31028,
+          "matchingSidewallTriangles": 24176,
+          "measuredConnectingEdgeMeters": [
+            0.00023819674102974555,
+            0.0016823806973963245
+          ],
+          "method": "Exported front-position matches into separately shaded sidewall triangles; positive geometric separation, not texture inference."
+        }
+      },
+      "materials": [
+        {
+          "name": "aurora-pearl-ivory-celestial-brocade",
+          "metallic": 1,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "8d9f416a550bd9cbb74ef29c83b82844e86c37cc60b6268135c58f728e230b14"
+            },
+            "normal": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "9d3dd8cd532b1fc98b0ecbb0fb6500102f810277ca53428d816edf00fb51830f"
+            },
+            "orm": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "5635c0996b9bb9e04def910ea4477e892f527eb10ec5ae19ff899245fb4bee0a"
+            }
+          },
+          "iridescence": [
+            0.1,
+            1.22,
+            100,
+            265
+          ],
+          "sheen": {
+            "color": [
+              0.17661199817485737,
+              0.1843449488363097,
+              0.20871317866980796
+            ],
+            "roughness": 0.82
+          }
+        },
+        {
+          "name": "aurora-cool-pearl-shadow-lining",
+          "metallic": 0,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "cc749a5144438934b7f235c94dbb0b8c39aa83d629c1ffd13b8c6505bb37bdf8"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "2949bb57d05c0d7e2c5ca679f4e672f43c92102b43377e6ab8b6400f906a0608"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "41f2da4f1bf8a3916523bcf41e483af36505357f9ccc86c909799665a4ea5241"
+            }
+          },
+          "sheen": {
+            "color": [
+              0.04178850708380236,
+              0.047932018309134024,
+              0.055201140150344
+            ],
+            "roughness": 0.9
+          }
+        },
+        {
+          "name": "aurora-warm-chased-gold",
+          "metallic": 0.85,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "35e560dcd23a586d691fed7c8a2d672e2e06b1ed1293ab0d546f67549766913d"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "fb99ff3456ac5fe595a196d3490972645acc73b2b28c1c5f27d6320d6ea4d637"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "93c04b3a9be949aca302bdacf4aa460211a517802fd16a86b64f4741eb7fb926"
+            }
+          }
+        },
+        {
+          "name": "aurora-opal-scute-1",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            290
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-2",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            325
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-3",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            350
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-4",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            375
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-5",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            310
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-6",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            340
+          ]
+        },
+        {
+          "name": "aurora-aurora-opal-inset",
+          "metallic": 0.14,
+          "roughness": 0.19,
+          "noEmission": true,
+          "textures": {},
+          "iridescence": [
+            0.72,
+            1.36,
+            100,
+            335
+          ]
+        },
+        {
+          "name": "aurora-pale-gold-embroidery-thread",
+          "metallic": 0.49,
+          "roughness": 0.48,
+          "noEmission": true,
+          "textures": {}
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_leggings",
+      "file": "art/item-models/candidates/armor-frostweave-aurora/models/items/frostweave_leggings.glb",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "bytes": 33880396,
+      "rig": {
+        "bones": 65,
+        "nativeJointOrderTransformsInverseBinds": true
+      },
+      "geometry": {
+        "vertices": 67640,
+        "triangles": 94388,
+        "finiteAttributes": true,
+        "indicesValid": true,
+        "normalizedNonnegativeWeights": true,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalError": 4.478652915196335e-8,
+        "inheritedHoodZeroNormalPositions": [],
+        "physicalScales": {
+          "sourceScaleFields": 36,
+          "scaleFaceTriangles": 6688,
+          "matchingSidewallTriangles": 6200,
+          "measuredConnectingEdgeMeters": [
+            0.0007744857019563975,
+            0.003400019913127479
+          ],
+          "method": "Exported front-position matches into separately shaded sidewall triangles; positive geometric separation, not texture inference."
+        }
+      },
+      "materials": [
+        {
+          "name": "aurora-pearl-ivory-celestial-brocade",
+          "metallic": 1,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "8d9f416a550bd9cbb74ef29c83b82844e86c37cc60b6268135c58f728e230b14"
+            },
+            "normal": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "9d3dd8cd532b1fc98b0ecbb0fb6500102f810277ca53428d816edf00fb51830f"
+            },
+            "orm": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "5635c0996b9bb9e04def910ea4477e892f527eb10ec5ae19ff899245fb4bee0a"
+            }
+          },
+          "iridescence": [
+            0.1,
+            1.22,
+            100,
+            265
+          ],
+          "sheen": {
+            "color": [
+              0.17661199817485737,
+              0.1843449488363097,
+              0.20871317866980796
+            ],
+            "roughness": 0.82
+          }
+        },
+        {
+          "name": "aurora-cool-pearl-shadow-lining",
+          "metallic": 0,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "cc749a5144438934b7f235c94dbb0b8c39aa83d629c1ffd13b8c6505bb37bdf8"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "2949bb57d05c0d7e2c5ca679f4e672f43c92102b43377e6ab8b6400f906a0608"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "41f2da4f1bf8a3916523bcf41e483af36505357f9ccc86c909799665a4ea5241"
+            }
+          },
+          "sheen": {
+            "color": [
+              0.04178850708380236,
+              0.047932018309134024,
+              0.055201140150344
+            ],
+            "roughness": 0.9
+          }
+        },
+        {
+          "name": "aurora-pale-gold-embroidery-thread",
+          "metallic": 0.49,
+          "roughness": 0.48,
+          "noEmission": true,
+          "textures": {}
+        },
+        {
+          "name": "aurora-warm-chased-gold",
+          "metallic": 0.85,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "35e560dcd23a586d691fed7c8a2d672e2e06b1ed1293ab0d546f67549766913d"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "fb99ff3456ac5fe595a196d3490972645acc73b2b28c1c5f27d6320d6ea4d637"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "93c04b3a9be949aca302bdacf4aa460211a517802fd16a86b64f4741eb7fb926"
+            }
+          }
+        },
+        {
+          "name": "aurora-opal-scute-1",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            290
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-2",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            325
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-3",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            350
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-4",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            375
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-5",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            310
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-6",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            340
+          ]
+        },
+        {
+          "name": "aurora-aurora-opal-inset",
+          "metallic": 0.14,
+          "roughness": 0.19,
+          "noEmission": true,
+          "textures": {},
+          "iridescence": [
+            0.72,
+            1.36,
+            100,
+            335
+          ]
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_boots",
+      "file": "art/item-models/candidates/armor-frostweave-aurora/models/items/frostweave_boots.glb",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "bytes": 36100556,
+      "rig": {
+        "bones": 65,
+        "nativeJointOrderTransformsInverseBinds": true
+      },
+      "geometry": {
+        "vertices": 79974,
+        "triangles": 111192,
+        "finiteAttributes": true,
+        "indicesValid": true,
+        "normalizedNonnegativeWeights": true,
+        "maxWeightSumError": 2.9802322387695312e-8,
+        "maxNormalError": 4.1237229631008177e-8,
+        "inheritedHoodZeroNormalPositions": [],
+        "physicalScales": {
+          "sourceScaleFields": 48,
+          "scaleFaceTriangles": 4224,
+          "matchingSidewallTriangles": 8448,
+          "measuredConnectingEdgeMeters": [
+            0.000757126936727589,
+            0.0012684938150368437
+          ],
+          "method": "Exported front-position matches into separately shaded sidewall triangles; positive geometric separation, not texture inference."
+        }
+      },
+      "materials": [
+        {
+          "name": "aurora-pearl-ivory-celestial-brocade",
+          "metallic": 1,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "8d9f416a550bd9cbb74ef29c83b82844e86c37cc60b6268135c58f728e230b14"
+            },
+            "normal": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "9d3dd8cd532b1fc98b0ecbb0fb6500102f810277ca53428d816edf00fb51830f"
+            },
+            "orm": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "5635c0996b9bb9e04def910ea4477e892f527eb10ec5ae19ff899245fb4bee0a"
+            }
+          },
+          "iridescence": [
+            0.1,
+            1.22,
+            100,
+            265
+          ],
+          "sheen": {
+            "color": [
+              0.17661199817485737,
+              0.1843449488363097,
+              0.20871317866980796
+            ],
+            "roughness": 0.82
+          }
+        },
+        {
+          "name": "aurora-cool-pearl-shadow-lining",
+          "metallic": 0,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "cc749a5144438934b7f235c94dbb0b8c39aa83d629c1ffd13b8c6505bb37bdf8"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "2949bb57d05c0d7e2c5ca679f4e672f43c92102b43377e6ab8b6400f906a0608"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "41f2da4f1bf8a3916523bcf41e483af36505357f9ccc86c909799665a4ea5241"
+            }
+          },
+          "sheen": {
+            "color": [
+              0.04178850708380236,
+              0.047932018309134024,
+              0.055201140150344
+            ],
+            "roughness": 0.9
+          }
+        },
+        {
+          "name": "aurora-warm-chased-gold",
+          "metallic": 0.85,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "35e560dcd23a586d691fed7c8a2d672e2e06b1ed1293ab0d546f67549766913d"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "fb99ff3456ac5fe595a196d3490972645acc73b2b28c1c5f27d6320d6ea4d637"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "93c04b3a9be949aca302bdacf4aa460211a517802fd16a86b64f4741eb7fb926"
+            }
+          }
+        },
+        {
+          "name": "aurora-pale-gold-embroidery-thread",
+          "metallic": 0.49,
+          "roughness": 0.48,
+          "noEmission": true,
+          "textures": {}
+        },
+        {
+          "name": "aurora-opal-scute-1",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            290
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-2",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            325
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-3",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            350
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-4",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            375
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-5",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            310
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-6",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            340
+          ]
+        },
+        {
+          "name": "aurora-aurora-opal-inset",
+          "metallic": 0.14,
+          "roughness": 0.19,
+          "noEmission": true,
+          "textures": {},
+          "iridescence": [
+            0.72,
+            1.36,
+            100,
+            335
+          ]
+        },
+        {
+          "name": "aurora-pearl-gray-leather-sole",
+          "metallic": 0,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "fd3b8f9cc1708dadad3959875dfa6430648569a61cb2e7e170acd45eef0dad04"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "e5c0f12b24dd8e3210a33638b85d7eee6a590b3725edead0749db4e5828d7af0"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_wraps",
+      "file": "art/item-models/candidates/armor-frostweave-aurora/models/items/frostweave_wraps.glb",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad",
+      "bytes": 34776700,
+      "rig": {
+        "bones": 65,
+        "nativeJointOrderTransformsInverseBinds": true
+      },
+      "geometry": {
+        "vertices": 80100,
+        "triangles": 100384,
+        "finiteAttributes": true,
+        "indicesValid": true,
+        "normalizedNonnegativeWeights": true,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalError": 4.7273648551282577e-8,
+        "inheritedHoodZeroNormalPositions": [],
+        "physicalScales": {
+          "sourceScaleFields": 96,
+          "scaleFaceTriangles": 4872,
+          "matchingSidewallTriangles": 9744,
+          "measuredConnectingEdgeMeters": [
+            0.00048657551517087286,
+            0.003281306194521436
+          ],
+          "method": "Exported front-position matches into separately shaded sidewall triangles; positive geometric separation, not texture inference."
+        }
+      },
+      "materials": [
+        {
+          "name": "aurora-pearl-ivory-celestial-brocade",
+          "metallic": 1,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "8d9f416a550bd9cbb74ef29c83b82844e86c37cc60b6268135c58f728e230b14"
+            },
+            "normal": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "9d3dd8cd532b1fc98b0ecbb0fb6500102f810277ca53428d816edf00fb51830f"
+            },
+            "orm": {
+              "size": [
+                2048,
+                2048
+              ],
+              "pixelSha256": "5635c0996b9bb9e04def910ea4477e892f527eb10ec5ae19ff899245fb4bee0a"
+            }
+          },
+          "iridescence": [
+            0.1,
+            1.22,
+            100,
+            265
+          ],
+          "sheen": {
+            "color": [
+              0.17661199817485737,
+              0.1843449488363097,
+              0.20871317866980796
+            ],
+            "roughness": 0.82
+          }
+        },
+        {
+          "name": "aurora-cool-pearl-shadow-lining",
+          "metallic": 0,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "cc749a5144438934b7f235c94dbb0b8c39aa83d629c1ffd13b8c6505bb37bdf8"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "2949bb57d05c0d7e2c5ca679f4e672f43c92102b43377e6ab8b6400f906a0608"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "41f2da4f1bf8a3916523bcf41e483af36505357f9ccc86c909799665a4ea5241"
+            }
+          },
+          "sheen": {
+            "color": [
+              0.04178850708380236,
+              0.047932018309134024,
+              0.055201140150344
+            ],
+            "roughness": 0.9
+          }
+        },
+        {
+          "name": "aurora-warm-chased-gold",
+          "metallic": 0.85,
+          "roughness": 1,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "35e560dcd23a586d691fed7c8a2d672e2e06b1ed1293ab0d546f67549766913d"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "fb99ff3456ac5fe595a196d3490972645acc73b2b28c1c5f27d6320d6ea4d637"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "93c04b3a9be949aca302bdacf4aa460211a517802fd16a86b64f4741eb7fb926"
+            }
+          }
+        },
+        {
+          "name": "aurora-pale-gold-embroidery-thread",
+          "metallic": 0.49,
+          "roughness": 0.48,
+          "noEmission": true,
+          "textures": {}
+        },
+        {
+          "name": "aurora-opal-scute-1",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            290
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-2",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            325
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-3",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            350
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-4",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            375
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-5",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            310
+          ]
+        },
+        {
+          "name": "aurora-opal-scute-6",
+          "metallic": 0.43,
+          "roughness": 0.92,
+          "noEmission": true,
+          "textures": {
+            "color": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "ff16e2a1c4452edb249ccbdb2cc87cec0d79de158c770f71c9d3263f7ef396ee"
+            },
+            "normal": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "3c8392efd73b04d83abaadb0694523ac96487c6b413196a2faa685114be06a88"
+            },
+            "orm": {
+              "size": [
+                1024,
+                1024
+              ],
+              "pixelSha256": "a0cd2a2ce11fb412669f0a03b3c10cfc80fd82cba11f41e9ae624fe5f199c111"
+            }
+          },
+          "iridescence": [
+            0.78,
+            1.32,
+            120,
+            340
+          ]
+        },
+        {
+          "name": "aurora-aurora-opal-inset",
+          "metallic": 0.14,
+          "roughness": 0.19,
+          "noEmission": true,
+          "textures": {},
+          "iridescence": [
+            0.72,
+            1.36,
+            100,
+            335
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Geometry/material evidence only; animation and visual acceptance are separate browser gates.",
+    "Two inherited red-hood zero normals may remain only at identical accepted positions."
+  ],
+  "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+  "clothORM": {
+    "resolution": [
+      2048,
+      2048
+    ],
+    "zeroMetalClothFraction": 0.8491582870483398,
+    "strongGoldFraction": 0.08247542381286621,
+    "roughnessRange": [
+      0.4196078431372549,
+      0.9333333333333333
+    ],
+    "maxMetallic": 0.6784313725490196,
+    "pixelsSha256": "5635c0996b9bb9e04def910ea4477e892f527eb10ec5ae19ff899245fb4bee0a"
+  },
+  "shoulderCoverage": {
+    "passed": true,
+    "probes": [
+      {
+        "x": -0.215,
+        "z": -0.12,
+        "bodyY": 1.5092374725867241,
+        "armorY": 1.5201473260946765,
+        "clearance": 0.010909853507952372,
+        "covered": true
+      },
+      {
+        "x": -0.215,
+        "z": -0.075,
+        "bodyY": 1.536554272103276,
+        "armorY": 1.5420093268978632,
+        "clearance": 0.0054550547945870775,
+        "covered": true
+      },
+      {
+        "x": -0.215,
+        "z": -0.03,
+        "bodyY": 1.5240240697967553,
+        "armorY": 1.5379722800924431,
+        "clearance": 0.013948210295687824,
+        "covered": true
+      },
+      {
+        "x": 0.215,
+        "z": -0.12,
+        "bodyY": 1.5092375858326166,
+        "armorY": 1.520007804218143,
+        "clearance": 0.010770218385526498,
+        "covered": true
+      },
+      {
+        "x": 0.215,
+        "z": -0.075,
+        "bodyY": 1.5365543246418545,
+        "armorY": 1.5419151285363228,
+        "clearance": 0.005360803894468358,
+        "covered": true
+      },
+      {
+        "x": 0.215,
+        "z": -0.03,
+        "bodyY": 1.5240241761515312,
+        "armorY": 1.5379743609038954,
+        "clearance": 0.013950184752364203,
+        "covered": true
+      }
+    ],
+    "method": "Vertical triangle intersections through the native deltoid and exported robe in bind pose. Motion and silhouette still require visual review."
+  }
+}

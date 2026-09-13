@@ -20,6 +20,8 @@ export function fabArmorAppearance(itemId: string, body: CharacterBody): GearApp
     return { itemId, assetId: `fab_${body}_mage_${slot}`, slot, attach: 'skin' };
   }
   if (rare.includes(set as typeof rare[number])) {
+    // The new authored Aurora hood needs a real fitted fallback for other bodies.
+    if (itemId === 'frostweave_hood') return { itemId, assetId: `fab_${body}_mage_head`, slot, attach: 'skin' };
     return { itemId, assetId: `fab_${body}_${set}_${slot}`, slot, attach: 'skin' };
   }
   return null;

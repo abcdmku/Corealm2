@@ -1,0 +1,49 @@
+{
+  "generator": "tools/item-models/starhide/materials-generate.ts",
+  "command": "npx tsx tools/item-models/starhide/materials-generate.ts",
+  "source": "Deterministic satin/lining/silver/sole maps plus reference-based generated scale albedo with reproducible matched normal/roughness extraction.",
+  "references": [
+    {
+      "file": "art/item-icons/generated/starhide_hood.png",
+      "sha256": "602d9dd1dc9b24cda410ab1e8914882c18379cbcc4419d49b473a61eeb673aae"
+    },
+    {
+      "file": "art/item-icons/generated/starhide_robe.png",
+      "sha256": "3e0b126b4fbfd83adf14b90d761e03a4eba946d3c4b64d764f19c4f6d26f25a1"
+    },
+    {
+      "file": "art/item-icons/generated/starhide_leggings.png",
+      "sha256": "4d5659a67c036d65708629258ff37d3e4e0e39f730cb05746a524918f4029355"
+    },
+    {
+      "file": "art/item-icons/generated/starhide_boots.png",
+      "sha256": "03a093be192a8121874fbd1d43597dc6ada33dc288d4d1033277d1c6ec985450"
+    },
+    {
+      "file": "art/item-icons/generated/starhide_wraps.png",
+      "sha256": "07b881fb2b934996ccbc9c4d10e4bcab67e3bdb986fcb49136e52d597706b1ef"
+    }
+  ],
+  "scaleLayout": {
+    "columns": 8,
+    "staggeredRows": 12,
+    "tipDirection": "decreasing V",
+    "resolution": 1024
+  },
+  "colorSpace": {
+    "color": "sRGB",
+    "normal": "linear tangent-space OpenGL",
+    "roughness": "linear",
+    "height": "linear authoring source, unused at runtime"
+  },
+  "notes": "Scale source includes local per-cell convex tonal modeling. Derived normals deliberately avoid duplicating that broad illumination. Original and rejected generated alternatives remain unchanged. No emissive material.",
+  "activeScaleSource": {
+    "original": "art/starhide/textures/scales-reference-v2.png",
+    "sha256": "d592d2280be4dd4b110976a5ee0eb00172cf21a8916b659fac494eb72f8a507b",
+    "generation": "art/starhide/textures/scales-reference-v2.provenance.json",
+    "derivativeGenerator": "tools/item-models/starhide/materials-reference.ts",
+    "activePrefix": "scales-reference",
+    "proceduralBackup": "art/starhide/textures/procedural-r2",
+    "operations": "Resample to 1024px; pigment-only 4% albedo gain plus restrained neutral lift and 4% saturation reduction; 12px boundary periodicization; local normalized-value crease and grain extraction; modest tangent normals; roughness 0.40 on faces to 0.56 in overlaps before material multiplier 0.9. Broad cell shading is not converted to additional dome relief."
+  }
+}

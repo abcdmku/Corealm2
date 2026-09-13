@@ -1,0 +1,123 @@
+{
+  "candidateId": "tier70-starhide-r15-review",
+  "set": "starhide",
+  "source": "starhide-set.blend",
+  "sourceSha256": "5bb430441886008fa4ed70171da76e5cf556c9bc87d86124abb36fc9e584b879",
+  "sourceFiles": [
+    {
+      "file": "starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    },
+    {
+      "file": "starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "file": "starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+    },
+    {
+      "file": "starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+    },
+    {
+      "file": "starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    }
+  ],
+  "render": "starhide_robe.png",
+  "renderSha256": "b3641163a8961b5f94e17677b7b49ad137afee27dd4fd9f20e628aa8c36502bf",
+  "renderer": "BLENDER_EEVEE_NEXT",
+  "blenderVersion": "4.5.11 LTS",
+  "resolution": [
+    1600,
+    1800
+  ],
+  "colorManagement": {
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -0.6499999761581421
+  },
+  "lights": [
+    {
+      "name": "Neutral large key",
+      "energy": 160.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Neutral frontal fill",
+      "energy": 72.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Silver rim",
+      "energy": 200.0,
+      "color": [
+        0.8999999761581421,
+        0.949999988079071,
+        1.0
+      ]
+    },
+    {
+      "name": "Soft overhead",
+      "energy": 65.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "camera": {
+    "position": [
+      2.20904278755188,
+      -6.903440952301025,
+      2.2385215759277344
+    ],
+    "target": [
+      0.009042661637067795,
+      0.026558952406048775,
+      0.9285215139389038
+    ],
+    "type": "ORTHO",
+    "orthoScale": 1.5835049152374268,
+    "view": "front-three-quarter",
+    "pose": "temporary arms lowered 62 degrees; saved rest pose unchanged"
+  },
+  "armorBounds": {
+    "min": [
+      -0.40159836411476135,
+      -0.2408493161201477,
+      0.2828187942504883
+    ],
+    "max": [
+      0.39937132596969604,
+      0.29133325815200806,
+      1.59440279006958
+    ]
+  },
+  "sourceMeshes": 30,
+  "piece": "robe",
+  "totalSourceMeshes": 103,
+  "automaticFraming": {
+    "method": "evaluated production vertices projected into camera frame",
+    "projectedWidth": 0.7657568752765656,
+    "projectedHeight": 1.353422999382019,
+    "marginScale": 1.17
+  },
+  "visibleSourceFiles": [
+    "starhide_robe.glb"
+  ],
+  "sourceFileHashesStillMatchAfterRender": true,
+  "sourceSaved": false,
+  "sourceBlendHashUnchanged": true,
+  "note": "Standalone studio presentation of saved armor geometry. Not gameplay acceptance evidence."
+}

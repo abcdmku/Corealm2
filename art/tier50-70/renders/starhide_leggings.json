@@ -1,0 +1,123 @@
+{
+  "candidateId": "tier70-starhide-r15-review",
+  "set": "starhide",
+  "source": "starhide-set.blend",
+  "sourceSha256": "5bb430441886008fa4ed70171da76e5cf556c9bc87d86124abb36fc9e584b879",
+  "sourceFiles": [
+    {
+      "file": "starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    },
+    {
+      "file": "starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "file": "starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+    },
+    {
+      "file": "starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+    },
+    {
+      "file": "starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    }
+  ],
+  "render": "starhide_leggings.png",
+  "renderSha256": "2dc1189b3e1d00bb1721dac425f713fb8d445621d592701de265af702d4ae7cd",
+  "renderer": "BLENDER_EEVEE_NEXT",
+  "blenderVersion": "4.5.11 LTS",
+  "resolution": [
+    1600,
+    1800
+  ],
+  "colorManagement": {
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -0.6499999761581421
+  },
+  "lights": [
+    {
+      "name": "Neutral large key",
+      "energy": 160.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Neutral frontal fill",
+      "energy": 72.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Silver rim",
+      "energy": 200.0,
+      "color": [
+        0.8999999761581421,
+        0.949999988079071,
+        1.0
+      ]
+    },
+    {
+      "name": "Soft overhead",
+      "energy": 65.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "camera": {
+    "position": [
+      2.196235418319702,
+      -6.910421371459961,
+      1.9016073942184448
+    ],
+    "target": [
+      -0.0037645790725946426,
+      0.019578654319047928,
+      0.591607391834259
+    ],
+    "type": "ORTHO",
+    "orthoScale": 1.118939995765686,
+    "view": "front-three-quarter",
+    "pose": "temporary arms lowered 62 degrees; saved rest pose unchanged"
+  },
+  "armorBounds": {
+    "min": [
+      -0.22671560943126678,
+      -0.13162139058113098,
+      0.11148213595151901
+    ],
+    "max": [
+      0.22671560943126678,
+      0.17441539466381073,
+      1.07832670211792
+    ]
+  },
+  "sourceMeshes": 21,
+  "piece": "leggings",
+  "totalSourceMeshes": 103,
+  "automaticFraming": {
+    "method": "evaluated production vertices projected into camera frame",
+    "projectedWidth": 0.4531635642051697,
+    "projectedHeight": 0.9563589990139008,
+    "marginScale": 1.17
+  },
+  "visibleSourceFiles": [
+    "starhide_leggings.glb"
+  ],
+  "sourceFileHashesStillMatchAfterRender": true,
+  "sourceSaved": false,
+  "sourceBlendHashUnchanged": true,
+  "note": "Standalone studio presentation of saved armor geometry. Not gameplay acceptance evidence."
+}

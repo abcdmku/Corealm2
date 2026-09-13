@@ -1,0 +1,1233 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "id": "corealm_item_starhide_hood",
+      "file": "models/items/starhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_hood",
+        "head",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 25775912,
+      "itemModel": {
+        "itemId": "starhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.43008952021857816,
+        "z": 0.3303585146425044
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2383631318807602
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone"
+      ],
+      "itemId": "starhide_hood",
+      "status": "pending",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "a3377212d63b8a746fea34a7e8488354f264e2d7aff2b03823e813059d0e6b33",
+      "metadata": {
+        "itemId": "starhide_hood",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_hood.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 47122,
+      "drawCalls": 11,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 27639448,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_starhide_robe",
+      "file": "models/items/starhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_robe",
+        "torso",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 32690644,
+      "itemModel": {
+        "itemId": "starhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.8009696900844574,
+        "y": 1.3115841448307037,
+        "z": 0.5321832150220871
+      },
+      "base": {
+        "x": -0.40159836411476135,
+        "y": 0.28281912207603455,
+        "z": -0.2913333773612976
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone",
+        "dragonhide-fine-stitch-thread"
+      ],
+      "itemId": "starhide_robe",
+      "status": "pending",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "3c5f90d697cd72357df022ffa5dc690f9cc2d490f1b17d828232633985a4fb75",
+      "metadata": {
+        "itemId": "starhide_robe",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_robe.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 149896,
+      "drawCalls": 30,
+      "tailoredSkirtVertices": 74350,
+      "textureDeduplication": {
+        "originalBytes": 34554180,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_starhide_leggings",
+      "file": "models/items/starhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_leggings",
+        "legs",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 27563876,
+      "itemModel": {
+        "itemId": "starhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone"
+      ],
+      "itemId": "starhide_leggings",
+      "status": "pending",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "0ebaee01d8454b75bd70fbdb7ddf806949a9ab6495d00b383d134fa7bcecc739",
+      "metadata": {
+        "itemId": "starhide_leggings",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_leggings.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 92684,
+      "drawCalls": 21,
+      "tailoredSkirtVertices": 26380,
+      "textureDeduplication": {
+        "originalBytes": 29427412,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_starhide_boots",
+      "file": "models/items/starhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_boots",
+        "feet",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 29780752,
+      "itemModel": {
+        "itemId": "starhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide",
+        "dragonhide-polished-inset-stone",
+        "dragonhide-stacked-dark-leather-sole"
+      ],
+      "itemId": "starhide_boots",
+      "status": "pending",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "96e4c263a45cec454e9efba8b917f49e611a3a300ee3c8f80421fd637163dee0",
+      "metadata": {
+        "itemId": "starhide_boots",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_boots.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 109496,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 32349020,
+        "originalTextures": 20,
+        "textures": 14
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    },
+    {
+      "id": "corealm_item_starhide_wraps",
+      "file": "models/items/starhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_wraps",
+        "arms",
+        "reference-tailored-candidate"
+      ],
+      "bytes": 28427704,
+      "itemModel": {
+        "itemId": "starhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-close-twill-cloth",
+        "dragonhide-soft-dark-lining",
+        "dragonhide-chased-antique-gold",
+        "dragonhide-fine-stitch-thread",
+        "dragonhide-scute-1-pebbled-hide",
+        "dragonhide-scute-2-pebbled-hide",
+        "dragonhide-scute-3-pebbled-hide",
+        "dragonhide-scute-4-pebbled-hide",
+        "dragonhide-scute-5-pebbled-hide",
+        "dragonhide-scute-6-pebbled-hide"
+      ],
+      "itemId": "starhide_wraps",
+      "status": "pending",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "sourceSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "referenceSha256": "b8238036d6707021a8819d425533509877e9c34273a86398390573b7a9bb89fe",
+      "metadata": {
+        "itemId": "starhide_wraps",
+        "author": "armor-starhide-reference",
+        "wearable": true,
+        "reference": "art/item-icons/generated/dragonhide_wraps.png",
+        "designTheme": "dragonhide",
+        "description": "Reference-sculpted starhide: deep maroon cloth and antique gold, physical overlapping scutes. Native male character skeleton."
+      },
+      "triangles": 97896,
+      "drawCalls": 29,
+      "tailoredSkirtVertices": 0,
+      "textureDeduplication": {
+        "originalBytes": 30291240,
+        "originalTextures": 17,
+        "textures": 12
+      },
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf"
+    }
+  ],
+  "evidence": "Production environment gallery and GLB loader; normal wheel/right-drag camera; gallery controls magnify small items for inspection. Visual acceptance is recorded separately by a fresh critic and root.",
+  "report": [
+    {
+      "itemId": "starhide_hood",
+      "view": "front",
+      "scale": 4.181001323022686,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_hood"
+          ],
+          "assets": [
+            "corealm_item_starhide_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8935853619999818,
+            0.3499997633127805,
+            24.11151137255478
+          ],
+          "max": [
+            0.8943711785396431,
+            2.148204363199966,
+            25.888773003724257
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_hood-front.png",
+      "elapsedMs": 2113
+    },
+    {
+      "itemId": "starhide_hood",
+      "view": "side",
+      "scale": 4.181001323022686,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_hood"
+          ],
+          "assets": [
+            "corealm_item_starhide_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.6906146627145874,
+            0.3499997633127805,
+            24.29999983310708
+          ],
+          "max": [
+            0.6906146708101668,
+            2.148204363199966,
+            25.699999787349483
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_hood-side.png",
+      "elapsedMs": 913
+    },
+    {
+      "itemId": "starhide_hood",
+      "view": "back",
+      "scale": 4.181001323022686,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_hood"
+          ],
+          "assets": [
+            "corealm_item_starhide_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8943711785396431,
+            0.3499997633127805,
+            24.111226996275743
+          ],
+          "max": [
+            0.8935853619999818,
+            2.148204363199966,
+            25.88848862744522
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_hood-back.png",
+      "elapsedMs": 879
+    },
+    {
+      "itemId": "starhide_robe",
+      "view": "front",
+      "scale": 1.5248735720712416,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_robe"
+          ],
+          "assets": [
+            "corealm_item_starhide_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.7127972286560649,
+            0.35000000881156623,
+            24.40944073252031
+          ],
+          "max": [
+            0.7127972276946828,
+            2.35000006421285,
+            25.590560751876488
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_robe-front.png",
+      "elapsedMs": 1438
+    },
+    {
+      "itemId": "starhide_robe",
+      "view": "side",
+      "scale": 1.5248735720712416,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_robe"
+          ],
+          "assets": [
+            "corealm_item_starhide_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.4057560723547128,
+            0.35000000881156623,
+            24.389311662433123
+          ],
+          "max": [
+            0.4057560702117816,
+            2.35000006421285,
+            25.610689208705946
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_robe-side.png",
+      "elapsedMs": 953
+    },
+    {
+      "itemId": "starhide_robe",
+      "view": "back",
+      "scale": 1.5248735720712416,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_robe"
+          ],
+          "assets": [
+            "corealm_item_starhide_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.7127972276946828,
+            0.35000000881156623,
+            24.409439248123512
+          ],
+          "max": [
+            0.7127972286560649,
+            2.35000006421285,
+            25.59055926747969
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_robe-back.png",
+      "elapsedMs": 926
+    },
+    {
+      "itemId": "starhide_leggings",
+      "view": "front",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_leggings"
+          ],
+          "assets": [
+            "corealm_item_starhide_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5490856399547503,
+            0.34999999839784124,
+            24.541846023305013
+          ],
+          "max": [
+            0.5441825008972891,
+            2.3499999623286385,
+            25.44978615499109
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_leggings-front.png",
+      "elapsedMs": 1369
+    },
+    {
+      "itemId": "starhide_leggings",
+      "view": "side",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_leggings"
+          ],
+          "assets": [
+            "corealm_item_starhide_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.3165317968360598,
+            0.34999999839784124,
+            24.53101940132764
+          ],
+          "max": [
+            0.31653179759507577,
+            2.3499999623286385,
+            25.46898059867236
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_leggings-side.png",
+      "elapsedMs": 931
+    },
+    {
+      "itemId": "starhide_leggings",
+      "view": "back",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_leggings"
+          ],
+          "assets": [
+            "corealm_item_starhide_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5441825008972891,
+            0.34999999839784124,
+            24.55021384500891
+          ],
+          "max": [
+            0.5490856399547503,
+            2.3499999623286385,
+            25.458153976694987
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_leggings-back.png",
+      "elapsedMs": 911
+    },
+    {
+      "itemId": "starhide_boots",
+      "view": "front",
+      "scale": 3.1156794278572066,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_boots"
+          ],
+          "assets": [
+            "corealm_item_starhide_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8464611052653837,
+            0.3499999851831159,
+            24.2259027976935
+          ],
+          "max": [
+            0.8486879188793992,
+            1.9466773086683986,
+            25.76878960197231
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_boots-front.png",
+      "elapsedMs": 1413
+    },
+    {
+      "itemId": "starhide_boots",
+      "view": "side",
+      "scale": 3.1156794278572066,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_boots"
+          ],
+          "assets": [
+            "corealm_item_starhide_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5723059951275752,
+            0.3499999851831159,
+            24.299999983232876
+          ],
+          "max": [
+            0.5723059950639923,
+            1.9466773086683986,
+            25.700000016767124
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_boots-side.png",
+      "elapsedMs": 946
+    },
+    {
+      "itemId": "starhide_boots",
+      "view": "back",
+      "scale": 3.1156794278572066,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_boots"
+          ],
+          "assets": [
+            "corealm_item_starhide_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8486879188793992,
+            0.3499999851831159,
+            24.23121039802769
+          ],
+          "max": [
+            0.8464611052653837,
+            1.9466773086683986,
+            25.7740972023065
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_boots-back.png",
+      "elapsedMs": 921
+    },
+    {
+      "itemId": "starhide_wraps",
+      "view": "front",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_wraps"
+          ],
+          "assets": [
+            "corealm_item_starhide_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.94030628826038,
+            0.34999988484983646,
+            24.145557838531
+          ],
+          "max": [
+            1.919799598264821,
+            0.6838592733830922,
+            25.798264579000175
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_wraps-front.png",
+      "elapsedMs": 1384
+    },
+    {
+      "itemId": "starhide_wraps",
+      "view": "side",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_wraps"
+          ],
+          "assets": [
+            "corealm_item_starhide_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.18169188443653217,
+            0.34999988484983646,
+            23.000000094052126
+          ],
+          "max": [
+            0.18169188878356834,
+            0.6838592733830922,
+            26.999999905947874
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_wraps-side.png",
+      "elapsedMs": 910
+    },
+    {
+      "itemId": "starhide_wraps",
+      "view": "back",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_starhide_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_starhide_wraps"
+          ],
+          "assets": [
+            "corealm_item_starhide_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.919799598264821,
+            0.34999988484983646,
+            24.201735420999825
+          ],
+          "max": [
+            1.94030628826038,
+            0.6838592733830922,
+            25.854442161469
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier70-r15-pieces\\starhide_wraps-back.png",
+      "elapsedMs": 883
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,153 @@
+{
+  "generator": "tools/item-models/tier50-70/materials-generate.ts",
+  "proceduralSource": "tools/item-models/tier50-70/materials-textures.ts",
+  "pigmentSource": "tools/item-models/tier50-70/materials.ts",
+  "reference": "art/item-icons/generated/starhide_{robe,boots,hood}.png",
+  "authorship": "Cloth uses built-in imagegen embroidered textiles based on the user fabric reference. Other surfaces use original deterministic procedural grain. No item icon pixels are copied.",
+  "clothSource": {
+    "mode": "built-in image_gen",
+    "sourceImage": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-source.png",
+    "sourceSha256": "b227eca5f1bcb42c72b7e2033f8e6bb1336e4bb5bc9b0afac7cccde58fac0e82",
+    "promptFile": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-prompt.txt",
+    "promptSha256": "dec802d178cda0acbc2f9e8f5979a1fd2ec70f2d1c48dda9d78165a7e55ab53a",
+    "colorSourceImage": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-source.png",
+    "colorSourceSha256": "b227eca5f1bcb42c72b7e2033f8e6bb1336e4bb5bc9b0afac7cccde58fac0e82",
+    "colorPromptFile": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-prompt.txt",
+    "colorPromptSha256": "dec802d178cda0acbc2f9e8f5979a1fd2ec70f2d1c48dda9d78165a7e55ab53a",
+    "dyeMeanSRGB": "#25355d",
+    "referenceImage": "art/tier50-70/references/embroidered-fabric-r12.png",
+    "referenceSha256": "9643e79ab4b76fcee70da279c55cb0e8eb9021fe890e0eda1dd51835c81c5bd1",
+    "editTargetImage": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-source.png",
+    "editTargetSha256": "89e8f1fc949080233d7579ee1aa984edeb7aa0cba567eb2858b3eab27df3b303",
+    "imagegenIntent": "edit: calmer fine cloth with moderately more celestial embroidery",
+    "albedoEncoding": "Imagegen embroidered textile RGB. Base-yarn mean normalized to deep robe dye, value ratios softened with power .48. Preserve warm embroidery color at 80 percent linear reflectance. White base factor.",
+    "baker": "tools/item-models/tier50-70/materials-imagegen.ts",
+    "method": "Imagegen fabric edited for quieter nap and moderately more celestial threadwork. Separate hue-selected raised stitch relief and restrained fabric microrelief; inferred heights, not measured material data",
+    "resolution": [
+      2048,
+      2048
+    ],
+    "nominalTileMeters": 0.35,
+    "heightGains": {
+      "broad": 0.01,
+      "medium": 0.0007,
+      "yarn": 0.00018,
+      "stitch": 0.0008
+    },
+    "packedMaterial": {
+      "file": "cloth-roughness.png",
+      "channels": {
+        "R": "unused white",
+        "G": "roughness",
+        "B": "metallic"
+      },
+      "baseCloth": {
+        "metallic": 0,
+        "roughness": [
+          0.92,
+          0.99
+        ]
+      },
+      "embroidery": {
+        "maxMetallic": 0.58,
+        "roughness": 0.46
+      },
+      "mask": "Warm-gold hue and brightness, isolated from maroon/navy base"
+    },
+    "boundary": "40-pixel Hermite closure with bounded tangents for height, RGB, roughness and metallic mask"
+  },
+  "mapping": "One UV unit is approximately 25 cm. Cloth uses imagegen dyed-yarn RGB albedo with a white material factor; other surfaces use neutral sRGB albedo multiplied by material pigment. Normals and roughness use linear byte values.",
+  "grain": "Imagegen soft cloth nap and sparse celestial stitch normals, with metallic response confined to embroidery. Procedural hide pebbles and chased metal elsewhere. No emission.",
+  "files": [
+    {
+      "file": "cloth-color.png",
+      "width": 2048,
+      "height": 2048,
+      "sha256": "c0ff975d9b6072d5e5b4c4634d1fa57f2eef0fdc6816fcf6e5684bfd87feba34"
+    },
+    {
+      "file": "cloth-normal.png",
+      "width": 2048,
+      "height": 2048,
+      "sha256": "4e29409e3478c7bcb475184935be08e025af1c639183bc23652eab024f282f00"
+    },
+    {
+      "file": "cloth-roughness.png",
+      "width": 2048,
+      "height": 2048,
+      "sha256": "21a2d0a00e45f281a6067ded8a2f1900dffb8cd1cb070200728d30dff1653ee1"
+    },
+    {
+      "file": "hide-color.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "4de68372954f3ae7969c5603a4c54e6322963112ad58de6f36f4edbc97b08de0"
+    },
+    {
+      "file": "hide-normal.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "cc4087035da837136e96395b24f74414967ad7c5487a3e68e1a347d568c7465d"
+    },
+    {
+      "file": "hide-roughness.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "9e4bdd58a79e253ab4ca480278f2b3d818210e8845a855673d91258c3858e09f"
+    },
+    {
+      "file": "metal-color.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "388121b4bcfa0e118fd72595f1f01a54e50cb9b56cba48c05f44956c154d90ff"
+    },
+    {
+      "file": "metal-normal.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "7b540493b2183af60bd8c8b3edab4d8bda159362f271295d4ea9a1c2a2d5c6c2"
+    },
+    {
+      "file": "metal-roughness.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "4778f2a8be95ec7fcddf0ee791f678fd2f4fd75d6e407d3e60ecfcaaf33a8252"
+    },
+    {
+      "file": "lining-color.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "3fec679fc7477e363d7e0cd8596ff55f5b14a145bd2ee456fb11e0e1bb20dd9a"
+    },
+    {
+      "file": "lining-normal.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "c589a61e3a937a7613de4cdaaa867581327d6d46b3a351d448426b45d0af8e68"
+    },
+    {
+      "file": "lining-roughness.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "9e2743abe3754e6a95589021572d554ad4b9caad6f96f2dcb6185b2b31bb3c5e"
+    },
+    {
+      "file": "sole-color.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "4de68372954f3ae7969c5603a4c54e6322963112ad58de6f36f4edbc97b08de0"
+    },
+    {
+      "file": "sole-normal.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "5fb9582f2d656dcc72e8b35d263ec4f1a7d996c431849b4564011c83dbdc8cd9"
+    },
+    {
+      "file": "sole-roughness.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "d89a72d1d2f0a3f7845d7e334cd8a68c3d684a61a9d88dfd578c42f8c0c55569"
+    }
+  ]
+}

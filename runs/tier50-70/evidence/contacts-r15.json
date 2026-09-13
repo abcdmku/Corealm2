@@ -1,0 +1,5548 @@
+{
+  "method": "Actual front-cloth/knee-scute triangle intersections using segment-triangle tests with 3D AABB broadphase; also forward-axis projected clearance of knee vertices to outermost front cloth at matching posed x/y. Bind and twenty phases of production baked Jog_Fwd_Loop at speed 3.5. Positive projected clearance = cloth outside knee; gaps excluded. Very negative projected ordering alone can hit another panel behind an open gap, so actual triangle crossings are the primary contact metric. This audits knee armor against outer front cloth only, not all player/armor contacts. Coordinates are metres internally; reported positions millimetres. Reweight and optional parameter tuning mutate documents in memory only.",
+  "parameters": {
+    "kneeBoost": 0,
+    "splitWidth": null
+  },
+  "skinSourceSha256": "0024a15ae908b77a7d682d37fd1c4fd4fdd618924820c4f82f95caa251204def",
+  "results": [
+    {
+      "theme": "dragonhide",
+      "label": "R13 baseline",
+      "reweighted": false,
+      "files": [
+        {
+          "path": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\tier50-70\\r13-final-baseline\\dragonhide_robe.glb",
+          "sha256": "376b2aca90e19a052ad253d9d93e07c98883e5d0bf0d434d62d956aceab9a2cf"
+        },
+        {
+          "path": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\tier50-70\\r13-final-baseline\\dragonhide_leggings.glb",
+          "sha256": "54e7f32e8db9e92650375cfe6f754fc3dfe0b4ee9bfaecd630a8cfb33fb004ad"
+        }
+      ],
+      "duration": 0.9333333373069763,
+      "surfaces": [
+        {
+          "name": "starhide-close-twill-cloth",
+          "triangles": 3745
+        }
+      ],
+      "rows": [
+        {
+          "phase": null,
+          "frame": "bind",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 62.197,
+          "p05ClearanceMm": 77.769,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "clothZMm": 135.185
+          }
+        },
+        {
+          "phase": 0,
+          "frame": "00",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 875,
+          "penetratingOver1mm": 410,
+          "penetratingOver5mm": 410,
+          "minClearanceMm": -215.175,
+          "p05ClearanceMm": -204.809,
+          "meanPenetrationMm": 180.521,
+          "worst": {
+            "bindMm": [
+              144.313,
+              612.726,
+              65.028
+            ],
+            "posedMm": [
+              119.008,
+              685.399,
+              333.524
+            ],
+            "clothZMm": 118.349
+          }
+        },
+        {
+          "phase": 0.05,
+          "frame": "01",
+          "contact": {
+            "intersectingTrianglePairs": 87,
+            "clothTrianglesCrossed": 24,
+            "kneeTrianglesCrossed": 51,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -73.546,
+                  431.783,
+                  172.852
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -124.671,
+                  611.952,
+                  59.174
+                ]
+              },
+              {
+                "posedMm": [
+                  -77.417,
+                  429.64,
+                  172.566
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -128.826,
+                  607.806,
+                  56.762
+                ]
+              },
+              {
+                "posedMm": [
+                  -82.636,
+                  429.589,
+                  173.035
+                ],
+                "clothBindCenterMm": [
+                  -127.601,
+                  612.312,
+                  151.46
+                ],
+                "kneeBindCenterMm": [
+                  -130.755,
+                  611.367,
+                  59.297
+                ]
+              },
+              {
+                "posedMm": [
+                  -79.722,
+                  428.485,
+                  172.333
+                ],
+                "clothBindCenterMm": [
+                  -121.592,
+                  599.938,
+                  151.656
+                ],
+                "kneeBindCenterMm": [
+                  -130.755,
+                  611.367,
+                  59.297
+                ]
+              },
+              {
+                "posedMm": [
+                  -78.754,
+                  428.971,
+                  172.432
+                ],
+                "clothBindCenterMm": [
+                  -117.67,
+                  607.053,
+                  150.666
+                ],
+                "kneeBindCenterMm": [
+                  -130.755,
+                  611.367,
+                  59.297
+                ]
+              },
+              {
+                "posedMm": [
+                  -77.417,
+                  429.64,
+                  172.566
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -130.755,
+                  611.367,
+                  59.297
+                ]
+              },
+              {
+                "posedMm": [
+                  -82.997,
+                  429.804,
+                  173.112
+                ],
+                "clothBindCenterMm": [
+                  -127.601,
+                  612.312,
+                  151.46
+                ],
+                "kneeBindCenterMm": [
+                  -134.963,
+                  607.166,
+                  56.447
+                ]
+              },
+              {
+                "posedMm": [
+                  -83.903,
+                  430.348,
+                  173.304
+                ],
+                "clothBindCenterMm": [
+                  -127.601,
+                  612.312,
+                  151.46
+                ],
+                "kneeBindCenterMm": [
+                  -136.834,
+                  610.549,
+                  58.72
+                ]
+              },
+              {
+                "posedMm": [
+                  -64.837,
+                  440.821,
+                  174.476
+                ],
+                "clothBindCenterMm": [
+                  -106.055,
+                  634.54,
+                  149.175
+                ],
+                "kneeBindCenterMm": [
+                  -112.782,
+                  625.226,
+                  65.768
+                ]
+              },
+              {
+                "posedMm": [
+                  -60.49,
+                  446.993,
+                  175.832
+                ],
+                "clothBindCenterMm": [
+                  -100.311,
+                  629.527,
+                  155.147
+                ],
+                "kneeBindCenterMm": [
+                  -112.782,
+                  625.226,
+                  65.768
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 888,
+          "penetratingOver1mm": 469,
+          "penetratingOver5mm": 456,
+          "minClearanceMm": -200.899,
+          "p05ClearanceMm": -186.438,
+          "meanPenetrationMm": 136.642,
+          "worst": {
+            "bindMm": [
+              141.109,
+              621.727,
+              70.128
+            ],
+            "posedMm": [
+              116.184,
+              600.927,
+              321.66
+            ],
+            "clothZMm": 120.761
+          }
+        },
+        {
+          "phase": 0.1,
+          "frame": "02",
+          "contact": {
+            "intersectingTrianglePairs": 85,
+            "clothTrianglesCrossed": 25,
+            "kneeTrianglesCrossed": 45,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  100.476,
+                  388.44,
+                  318.928
+                ],
+                "clothBindCenterMm": [
+                  88.453,
+                  503.903,
+                  200.938
+                ],
+                "kneeBindCenterMm": [
+                  120.128,
+                  533.2,
+                  41.523
+                ]
+              },
+              {
+                "posedMm": [
+                  80.678,
+                  397.032,
+                  320.405
+                ],
+                "clothBindCenterMm": [
+                  65.063,
+                  527.823,
+                  207.683
+                ],
+                "kneeBindCenterMm": [
+                  104.498,
+                  538.387,
+                  41.095
+                ]
+              },
+              {
+                "posedMm": [
+                  85.021,
+                  395.758,
+                  320.775
+                ],
+                "clothBindCenterMm": [
+                  73.448,
+                  511.455,
+                  208.598
+                ],
+                "kneeBindCenterMm": [
+                  104.498,
+                  538.387,
+                  41.095
+                ]
+              },
+              {
+                "posedMm": [
+                  85.021,
+                  395.758,
+                  320.775
+                ],
+                "clothBindCenterMm": [
+                  73.448,
+                  511.455,
+                  208.598
+                ],
+                "kneeBindCenterMm": [
+                  105.99,
+                  540.989,
+                  41.906
+                ]
+              },
+              {
+                "posedMm": [
+                  87.127,
+                  395.157,
+                  320.974
+                ],
+                "clothBindCenterMm": [
+                  77.003,
+                  515.423,
+                  207.282
+                ],
+                "kneeBindCenterMm": [
+                  105.99,
+                  540.989,
+                  41.906
+                ]
+              },
+              {
+                "posedMm": [
+                  87.127,
+                  395.157,
+                  320.974
+                ],
+                "clothBindCenterMm": [
+                  77.003,
+                  515.423,
+                  207.282
+                ],
+                "kneeBindCenterMm": [
+                  110.774,
+                  538.391,
+                  42.143
+                ]
+              },
+              {
+                "posedMm": [
+                  92.706,
+                  393.391,
+                  320.778
+                ],
+                "clothBindCenterMm": [
+                  85.183,
+                  499.466,
+                  203.858
+                ],
+                "kneeBindCenterMm": [
+                  110.774,
+                  538.391,
+                  42.143
+                ]
+              },
+              {
+                "posedMm": [
+                  92.706,
+                  393.391,
+                  320.778
+                ],
+                "clothBindCenterMm": [
+                  85.183,
+                  499.466,
+                  203.858
+                ],
+                "kneeBindCenterMm": [
+                  112.376,
+                  540.993,
+                  42.601
+                ]
+              },
+              {
+                "posedMm": [
+                  93.765,
+                  392.609,
+                  320.6
+                ],
+                "clothBindCenterMm": [
+                  88.453,
+                  503.903,
+                  200.938
+                ],
+                "kneeBindCenterMm": [
+                  112.376,
+                  540.993,
+                  42.601
+                ]
+              },
+              {
+                "posedMm": [
+                  95.544,
+                  391.397,
+                  320.263
+                ],
+                "clothBindCenterMm": [
+                  88.453,
+                  503.903,
+                  200.938
+                ],
+                "kneeBindCenterMm": [
+                  117.143,
+                  538.393,
+                  42.323
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 919,
+          "penetratingOver1mm": 827,
+          "penetratingOver5mm": 819,
+          "minClearanceMm": -168.687,
+          "p05ClearanceMm": -150.866,
+          "meanPenetrationMm": 96.687,
+          "worst": {
+            "bindMm": [
+              141.109,
+              621.727,
+              70.128
+            ],
+            "posedMm": [
+              119.109,
+              523.834,
+              305.01
+            ],
+            "clothZMm": 136.323
+          }
+        },
+        {
+          "phase": 0.15,
+          "frame": "03",
+          "contact": {
+            "intersectingTrianglePairs": 66,
+            "clothTrianglesCrossed": 20,
+            "kneeTrianglesCrossed": 41,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  107.955,
+                  397.709,
+                  235.303
+                ],
+                "clothBindCenterMm": [
+                  109.291,
+                  548.26,
+                  158.894
+                ],
+                "kneeBindCenterMm": [
+                  128.367,
+                  564.809,
+                  45.406
+                ]
+              },
+              {
+                "posedMm": [
+                  108.301,
+                  397.253,
+                  235.171
+                ],
+                "clothBindCenterMm": [
+                  109.291,
+                  548.26,
+                  158.894
+                ],
+                "kneeBindCenterMm": [
+                  133.003,
+                  562.086,
+                  43.936
+                ]
+              },
+              {
+                "posedMm": [
+                  108.301,
+                  397.253,
+                  235.171
+                ],
+                "clothBindCenterMm": [
+                  109.291,
+                  548.26,
+                  158.894
+                ],
+                "kneeBindCenterMm": [
+                  134.791,
+                  564.768,
+                  44.185
+                ]
+              },
+              {
+                "posedMm": [
+                  114.306,
+                  389.273,
+                  232.935
+                ],
+                "clothBindCenterMm": [
+                  111.607,
+                  555.177,
+                  155.133
+                ],
+                "kneeBindCenterMm": [
+                  134.791,
+                  564.768,
+                  44.185
+                ]
+              },
+              {
+                "posedMm": [
+                  115.012,
+                  388.852,
+                  232.75
+                ],
+                "clothBindCenterMm": [
+                  118.71,
+                  546.603,
+                  152.463
+                ],
+                "kneeBindCenterMm": [
+                  134.791,
+                  564.768,
+                  44.185
+                ]
+              },
+              {
+                "posedMm": [
+                  103.83,
+                  405.681,
+                  235.774
+                ],
+                "clothBindCenterMm": [
+                  102.367,
+                  561.026,
+                  165.689
+                ],
+                "kneeBindCenterMm": [
+                  125.53,
+                  570.317,
+                  46.977
+                ]
+              },
+              {
+                "posedMm": [
+                  107.807,
+                  397.92,
+                  235.345
+                ],
+                "clothBindCenterMm": [
+                  109.291,
+                  548.26,
+                  158.894
+                ],
+                "kneeBindCenterMm": [
+                  125.53,
+                  570.317,
+                  46.977
+                ]
+              },
+              {
+                "posedMm": [
+                  101.619,
+                  412.029,
+                  236.045
+                ],
+                "clothBindCenterMm": [
+                  102.367,
+                  561.026,
+                  165.689
+                ],
+                "kneeBindCenterMm": [
+                  127.375,
+                  573.091,
+                  47.414
+                ]
+              },
+              {
+                "posedMm": [
+                  100.177,
+                  416.846,
+                  235.565
+                ],
+                "clothBindCenterMm": [
+                  102.367,
+                  561.026,
+                  165.689
+                ],
+                "kneeBindCenterMm": [
+                  120.085,
+                  581.795,
+                  49.614
+                ]
+              },
+              {
+                "posedMm": [
+                  97.422,
+                  426.188,
+                  234.621
+                ],
+                "clothBindCenterMm": [
+                  98.277,
+                  580.512,
+                  168.505
+                ],
+                "kneeBindCenterMm": [
+                  120.085,
+                  581.795,
+                  49.614
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 647,
+          "penetratingOver5mm": 642,
+          "minClearanceMm": -275.999,
+          "p05ClearanceMm": -265.704,
+          "meanPenetrationMm": 181.39,
+          "worst": {
+            "bindMm": [
+              -172.312,
+              601.745,
+              50.1
+            ],
+            "posedMm": [
+              -145.26,
+              639.265,
+              360.059
+            ],
+            "clothZMm": 84.06
+          }
+        },
+        {
+          "phase": 0.2,
+          "frame": "04",
+          "contact": {
+            "intersectingTrianglePairs": 54,
+            "clothTrianglesCrossed": 11,
+            "kneeTrianglesCrossed": 33,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  92.922,
+                  516.131,
+                  168.714
+                ],
+                "clothBindCenterMm": [
+                  103.462,
+                  625.839,
+                  145.555
+                ],
+                "kneeBindCenterMm": [
+                  124.295,
+                  624.675,
+                  67.027
+                ]
+              },
+              {
+                "posedMm": [
+                  97.165,
+                  509.748,
+                  166.927
+                ],
+                "clothBindCenterMm": [
+                  105.696,
+                  633.054,
+                  141.419
+                ],
+                "kneeBindCenterMm": [
+                  124.295,
+                  624.675,
+                  67.027
+                ]
+              },
+              {
+                "posedMm": [
+                  98.359,
+                  508.889,
+                  166.743
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  124.295,
+                  624.675,
+                  67.027
+                ]
+              },
+              {
+                "posedMm": [
+                  102.116,
+                  506.252,
+                  166.094
+                ],
+                "clothBindCenterMm": [
+                  116.845,
+                  608.625,
+                  142.585
+                ],
+                "kneeBindCenterMm": [
+                  128.415,
+                  619.758,
+                  64.481
+                ]
+              },
+              {
+                "posedMm": [
+                  98.359,
+                  508.889,
+                  166.743
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  128.415,
+                  619.758,
+                  64.481
+                ]
+              },
+              {
+                "posedMm": [
+                  104.464,
+                  504.537,
+                  165.649
+                ],
+                "clothBindCenterMm": [
+                  116.845,
+                  608.625,
+                  142.585
+                ],
+                "kneeBindCenterMm": [
+                  130.139,
+                  623.766,
+                  66.94
+                ]
+              },
+              {
+                "posedMm": [
+                  104.464,
+                  504.537,
+                  165.649
+                ],
+                "clothBindCenterMm": [
+                  116.845,
+                  608.625,
+                  142.585
+                ],
+                "kneeBindCenterMm": [
+                  134.35,
+                  618.757,
+                  64.028
+                ]
+              },
+              {
+                "posedMm": [
+                  108.338,
+                  503.177,
+                  164.982
+                ],
+                "clothBindCenterMm": [
+                  123.813,
+                  603.836,
+                  143.354
+                ],
+                "kneeBindCenterMm": [
+                  134.35,
+                  618.757,
+                  64.028
+                ]
+              },
+              {
+                "posedMm": [
+                  108.851,
+                  503.177,
+                  164.952
+                ],
+                "clothBindCenterMm": [
+                  126.31,
+                  614.638,
+                  142.212
+                ],
+                "kneeBindCenterMm": [
+                  134.35,
+                  618.757,
+                  64.028
+                ]
+              },
+              {
+                "posedMm": [
+                  110.353,
+                  503.142,
+                  164.88
+                ],
+                "clothBindCenterMm": [
+                  126.31,
+                  614.638,
+                  142.212
+                ],
+                "kneeBindCenterMm": [
+                  135.931,
+                  622.497,
+                  66.104
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 486,
+          "penetratingOver5mm": 478,
+          "minClearanceMm": -304.225,
+          "p05ClearanceMm": -292.901,
+          "meanPenetrationMm": 256.309,
+          "worst": {
+            "bindMm": [
+              -121.334,
+              555.973,
+              49.106
+            ],
+            "posedMm": [
+              -95.392,
+              698.888,
+              418.787
+            ],
+            "clothZMm": 114.563
+          }
+        },
+        {
+          "phase": 0.25,
+          "frame": "05",
+          "contact": {
+            "intersectingTrianglePairs": 50,
+            "clothTrianglesCrossed": 12,
+            "kneeTrianglesCrossed": 30,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  84.805,
+                  586.189,
+                  162.772
+                ],
+                "clothBindCenterMm": [
+                  105.696,
+                  633.054,
+                  141.419
+                ],
+                "kneeBindCenterMm": [
+                  118.495,
+                  625.171,
+                  66.608
+                ]
+              },
+              {
+                "posedMm": [
+                  85.547,
+                  585.128,
+                  162.462
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  118.495,
+                  625.171,
+                  66.608
+                ]
+              },
+              {
+                "posedMm": [
+                  86.158,
+                  584.654,
+                  162.37
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  122.48,
+                  620.429,
+                  64.255
+                ]
+              },
+              {
+                "posedMm": [
+                  91.44,
+                  580.723,
+                  161.478
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  124.295,
+                  624.675,
+                  67.027
+                ]
+              },
+              {
+                "posedMm": [
+                  94.178,
+                  578.762,
+                  160.975
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  128.415,
+                  619.758,
+                  64.481
+                ]
+              },
+              {
+                "posedMm": [
+                  97.394,
+                  578.007,
+                  160.911
+                ],
+                "clothBindCenterMm": [
+                  126.31,
+                  614.638,
+                  142.212
+                ],
+                "kneeBindCenterMm": [
+                  130.139,
+                  623.766,
+                  66.94
+                ]
+              },
+              {
+                "posedMm": [
+                  94.178,
+                  578.762,
+                  160.975
+                ],
+                "clothBindCenterMm": [
+                  112.374,
+                  624.44,
+                  140.176
+                ],
+                "kneeBindCenterMm": [
+                  130.139,
+                  623.766,
+                  66.94
+                ]
+              },
+              {
+                "posedMm": [
+                  94.618,
+                  578.456,
+                  160.894
+                ],
+                "clothBindCenterMm": [
+                  114.699,
+                  634.54,
+                  137.583
+                ],
+                "kneeBindCenterMm": [
+                  130.139,
+                  623.766,
+                  66.94
+                ]
+              },
+              {
+                "posedMm": [
+                  94.911,
+                  578.416,
+                  160.899
+                ],
+                "clothBindCenterMm": [
+                  121.667,
+                  629.527,
+                  138.849
+                ],
+                "kneeBindCenterMm": [
+                  130.139,
+                  623.766,
+                  66.94
+                ]
+              },
+              {
+                "posedMm": [
+                  99.836,
+                  577.961,
+                  160.774
+                ],
+                "clothBindCenterMm": [
+                  126.31,
+                  614.638,
+                  142.212
+                ],
+                "kneeBindCenterMm": [
+                  134.35,
+                  618.757,
+                  64.028
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 482,
+          "penetratingOver5mm": 472,
+          "minClearanceMm": -306.199,
+          "p05ClearanceMm": -293.269,
+          "meanPenetrationMm": 257.254,
+          "worst": {
+            "bindMm": [
+              -132.486,
+              551.518,
+              47.182
+            ],
+            "posedMm": [
+              -103.999,
+              771.179,
+              422.975
+            ],
+            "clothZMm": 116.776
+          }
+        },
+        {
+          "phase": 0.3,
+          "frame": "06",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 918,
+          "penetratingOver1mm": 453,
+          "penetratingOver5mm": 453,
+          "minClearanceMm": -300.177,
+          "p05ClearanceMm": -286.151,
+          "meanPenetrationMm": 261.901,
+          "worst": {
+            "bindMm": [
+              -137.007,
+              555.728,
+              46.452
+            ],
+            "posedMm": [
+              -106.857,
+              814.313,
+              417.611
+            ],
+            "clothZMm": 117.434
+          }
+        },
+        {
+          "phase": 0.35,
+          "frame": "07",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 906,
+          "penetratingOver1mm": 441,
+          "penetratingOver5mm": 441,
+          "minClearanceMm": -293.995,
+          "p05ClearanceMm": -280.253,
+          "meanPenetrationMm": 258.484,
+          "worst": {
+            "bindMm": [
+              -141.781,
+              555.654,
+              44.718
+            ],
+            "posedMm": [
+              -110.77,
+              814.598,
+              414.954
+            ],
+            "clothZMm": 120.959
+          }
+        },
+        {
+          "phase": 0.4,
+          "frame": "08",
+          "contact": {
+            "intersectingTrianglePairs": 9,
+            "clothTrianglesCrossed": 3,
+            "kneeTrianglesCrossed": 7,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  72.831,
+                  619.544,
+                  147.472
+                ],
+                "clothBindCenterMm": [
+                  114.699,
+                  634.54,
+                  137.583
+                ],
+                "kneeBindCenterMm": [
+                  118.136,
+                  640.399,
+                  71.792
+                ]
+              },
+              {
+                "posedMm": [
+                  73.306,
+                  619.037,
+                  147.469
+                ],
+                "clothBindCenterMm": [
+                  114.699,
+                  634.54,
+                  137.583
+                ],
+                "kneeBindCenterMm": [
+                  121.965,
+                  634.676,
+                  70.678
+                ]
+              },
+              {
+                "posedMm": [
+                  73.306,
+                  619.037,
+                  147.469
+                ],
+                "clothBindCenterMm": [
+                  114.699,
+                  634.54,
+                  137.583
+                ],
+                "kneeBindCenterMm": [
+                  123.419,
+                  639.645,
+                  71.653
+                ]
+              },
+              {
+                "posedMm": [
+                  78.087,
+                  616.266,
+                  147.271
+                ],
+                "clothBindCenterMm": [
+                  121.667,
+                  629.527,
+                  138.849
+                ],
+                "kneeBindCenterMm": [
+                  123.419,
+                  639.645,
+                  71.653
+                ]
+              },
+              {
+                "posedMm": [
+                  78.087,
+                  616.266,
+                  147.271
+                ],
+                "clothBindCenterMm": [
+                  121.667,
+                  629.527,
+                  138.849
+                ],
+                "kneeBindCenterMm": [
+                  127.473,
+                  633.651,
+                  70.461
+                ]
+              },
+              {
+                "posedMm": [
+                  79.051,
+                  616.254,
+                  147.268
+                ],
+                "clothBindCenterMm": [
+                  124.055,
+                  640.218,
+                  137.751
+                ],
+                "kneeBindCenterMm": [
+                  127.473,
+                  633.651,
+                  70.461
+                ]
+              },
+              {
+                "posedMm": [
+                  82.914,
+                  617.216,
+                  147.123
+                ],
+                "clothBindCenterMm": [
+                  124.055,
+                  640.218,
+                  137.751
+                ],
+                "kneeBindCenterMm": [
+                  128.705,
+                  638.267,
+                  71.187
+                ]
+              },
+              {
+                "posedMm": [
+                  82.93,
+                  617.224,
+                  147.12
+                ],
+                "clothBindCenterMm": [
+                  124.055,
+                  640.218,
+                  137.751
+                ],
+                "kneeBindCenterMm": [
+                  132.952,
+                  632.121,
+                  69.741
+                ]
+              },
+              {
+                "posedMm": [
+                  82.975,
+                  617.241,
+                  147.117
+                ],
+                "clothBindCenterMm": [
+                  124.055,
+                  640.218,
+                  137.751
+                ],
+                "kneeBindCenterMm": [
+                  133.941,
+                  636.343,
+                  70.253
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 894,
+          "penetratingOver1mm": 430,
+          "penetratingOver5mm": 429,
+          "minClearanceMm": -266.35,
+          "p05ClearanceMm": -254.872,
+          "meanPenetrationMm": 236.612,
+          "worst": {
+            "bindMm": [
+              -148.232,
+              563.664,
+              44.794
+            ],
+            "posedMm": [
+              -118.401,
+              778.397,
+              395.656
+            ],
+            "clothZMm": 129.306
+          }
+        },
+        {
+          "phase": 0.45,
+          "frame": "09",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 885,
+          "penetratingOver1mm": 420,
+          "penetratingOver5mm": 420,
+          "minClearanceMm": -222.928,
+          "p05ClearanceMm": -216.998,
+          "meanPenetrationMm": 200.953,
+          "worst": {
+            "bindMm": [
+              -144.313,
+              612.726,
+              65.028
+            ],
+            "posedMm": [
+              -118.13,
+              760.538,
+              340.935
+            ],
+            "clothZMm": 118.008
+          }
+        },
+        {
+          "phase": 0.5,
+          "frame": "10",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 885,
+          "penetratingOver1mm": 420,
+          "penetratingOver5mm": 420,
+          "minClearanceMm": -210.397,
+          "p05ClearanceMm": -200.763,
+          "meanPenetrationMm": 184.972,
+          "worst": {
+            "bindMm": [
+              -141.633,
+              621.574,
+              69.938
+            ],
+            "posedMm": [
+              -117.827,
+              694.474,
+              330.039
+            ],
+            "clothZMm": 119.642
+          }
+        },
+        {
+          "phase": 0.55,
+          "frame": "11",
+          "contact": {
+            "intersectingTrianglePairs": 92,
+            "clothTrianglesCrossed": 25,
+            "kneeTrianglesCrossed": 56,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  80.57,
+                  391.137,
+                  235.127
+                ],
+                "clothBindCenterMm": [
+                  124.026,
+                  531.125,
+                  153.426
+                ],
+                "kneeBindCenterMm": [
+                  129.406,
+                  556.752,
+                  43.446
+                ]
+              },
+              {
+                "posedMm": [
+                  86.587,
+                  388.479,
+                  233.423
+                ],
+                "clothBindCenterMm": [
+                  131.489,
+                  527.002,
+                  153.151
+                ],
+                "kneeBindCenterMm": [
+                  129.406,
+                  556.752,
+                  43.446
+                ]
+              },
+              {
+                "posedMm": [
+                  67.284,
+                  406.178,
+                  240.264
+                ],
+                "clothBindCenterMm": [
+                  102.367,
+                  561.026,
+                  165.689
+                ],
+                "kneeBindCenterMm": [
+                  115.289,
+                  564.834,
+                  46.473
+                ]
+              },
+              {
+                "posedMm": [
+                  72.953,
+                  398.026,
+                  237.622
+                ],
+                "clothBindCenterMm": [
+                  109.291,
+                  548.26,
+                  158.894
+                ],
+                "kneeBindCenterMm": [
+                  115.289,
+                  564.834,
+                  46.473
+                ]
+              },
+              {
+                "posedMm": [
+                  79.704,
+                  391.586,
+                  235.322
+                ],
+                "clothBindCenterMm": [
+                  124.026,
+                  531.125,
+                  153.426
+                ],
+                "kneeBindCenterMm": [
+                  120.025,
+                  562.127,
+                  45.625
+                ]
+              },
+              {
+                "posedMm": [
+                  72.953,
+                  398.026,
+                  237.622
+                ],
+                "clothBindCenterMm": [
+                  109.291,
+                  548.26,
+                  158.894
+                ],
+                "kneeBindCenterMm": [
+                  120.025,
+                  562.127,
+                  45.625
+                ]
+              },
+              {
+                "posedMm": [
+                  77.24,
+                  392.902,
+                  235.835
+                ],
+                "clothBindCenterMm": [
+                  111.607,
+                  555.177,
+                  155.133
+                ],
+                "kneeBindCenterMm": [
+                  120.025,
+                  562.127,
+                  45.625
+                ]
+              },
+              {
+                "posedMm": [
+                  79.049,
+                  391.938,
+                  235.459
+                ],
+                "clothBindCenterMm": [
+                  118.71,
+                  546.603,
+                  152.463
+                ],
+                "kneeBindCenterMm": [
+                  120.025,
+                  562.127,
+                  45.625
+                ]
+              },
+              {
+                "posedMm": [
+                  79.902,
+                  391.478,
+                  235.282
+                ],
+                "clothBindCenterMm": [
+                  124.026,
+                  531.125,
+                  153.426
+                ],
+                "kneeBindCenterMm": [
+                  121.849,
+                  564.831,
+                  46.061
+                ]
+              },
+              {
+                "posedMm": [
+                  80.57,
+                  391.137,
+                  235.127
+                ],
+                "clothBindCenterMm": [
+                  124.026,
+                  531.125,
+                  153.426
+                ],
+                "kneeBindCenterMm": [
+                  126.552,
+                  562.114,
+                  44.995
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 899,
+          "penetratingOver1mm": 695,
+          "penetratingOver5mm": 677,
+          "minClearanceMm": -189.597,
+          "p05ClearanceMm": -174.445,
+          "meanPenetrationMm": 106.879,
+          "worst": {
+            "bindMm": [
+              -141.109,
+              621.727,
+              70.128
+            ],
+            "posedMm": [
+              -116.48,
+              596.154,
+              319.625
+            ],
+            "clothZMm": 130.028
+          }
+        },
+        {
+          "phase": 0.6,
+          "frame": "12",
+          "contact": {
+            "intersectingTrianglePairs": 38,
+            "clothTrianglesCrossed": 11,
+            "kneeTrianglesCrossed": 22,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -98.182,
+                  390.156,
+                  320.264
+                ],
+                "clothBindCenterMm": [
+                  -96.064,
+                  496.902,
+                  183.61
+                ],
+                "kneeBindCenterMm": [
+                  -120.128,
+                  533.2,
+                  41.523
+                ]
+              },
+              {
+                "posedMm": [
+                  -92.163,
+                  396.591,
+                  322.073
+                ],
+                "clothBindCenterMm": [
+                  -88.685,
+                  495.779,
+                  190.389
+                ],
+                "kneeBindCenterMm": [
+                  -112.376,
+                  540.993,
+                  42.601
+                ]
+              },
+              {
+                "posedMm": [
+                  -86.061,
+                  402.842,
+                  323.614
+                ],
+                "clothBindCenterMm": [
+                  -84.224,
+                  507.744,
+                  193.473
+                ],
+                "kneeBindCenterMm": [
+                  -112.376,
+                  540.993,
+                  42.601
+                ]
+              },
+              {
+                "posedMm": [
+                  -85.029,
+                  403.484,
+                  323.757
+                ],
+                "clothBindCenterMm": [
+                  -76.755,
+                  507.463,
+                  198.203
+                ],
+                "kneeBindCenterMm": [
+                  -112.376,
+                  540.993,
+                  42.601
+                ]
+              },
+              {
+                "posedMm": [
+                  -98.182,
+                  390.156,
+                  320.264
+                ],
+                "clothBindCenterMm": [
+                  -96.064,
+                  496.902,
+                  183.61
+                ],
+                "kneeBindCenterMm": [
+                  -117.143,
+                  538.393,
+                  42.323
+                ]
+              },
+              {
+                "posedMm": [
+                  -92.163,
+                  396.591,
+                  322.073
+                ],
+                "clothBindCenterMm": [
+                  -88.685,
+                  495.779,
+                  190.389
+                ],
+                "kneeBindCenterMm": [
+                  -117.143,
+                  538.393,
+                  42.323
+                ]
+              },
+              {
+                "posedMm": [
+                  -84.756,
+                  403.682,
+                  323.762
+                ],
+                "clothBindCenterMm": [
+                  -76.755,
+                  507.463,
+                  198.203
+                ],
+                "kneeBindCenterMm": [
+                  -102.795,
+                  546.203,
+                  42.181
+                ]
+              },
+              {
+                "posedMm": [
+                  -77.908,
+                  408.998,
+                  323.399
+                ],
+                "clothBindCenterMm": [
+                  -72.311,
+                  519.579,
+                  198.993
+                ],
+                "kneeBindCenterMm": [
+                  -102.795,
+                  546.203,
+                  42.181
+                ]
+              },
+              {
+                "posedMm": [
+                  -84.859,
+                  403.601,
+                  323.768
+                ],
+                "clothBindCenterMm": [
+                  -76.755,
+                  507.463,
+                  198.203
+                ],
+                "kneeBindCenterMm": [
+                  -104.433,
+                  548.823,
+                  43.066
+                ]
+              },
+              {
+                "posedMm": [
+                  -85.029,
+                  403.484,
+                  323.757
+                ],
+                "clothBindCenterMm": [
+                  -76.755,
+                  507.463,
+                  198.203
+                ],
+                "kneeBindCenterMm": [
+                  -109.231,
+                  546.212,
+                  43.25
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 927,
+          "penetratingOver1mm": 885,
+          "penetratingOver5mm": 882,
+          "minClearanceMm": -255.751,
+          "p05ClearanceMm": -246.717,
+          "meanPenetrationMm": 157.402,
+          "worst": {
+            "bindMm": [
+              108.732,
+              588.864,
+              56.82
+            ],
+            "posedMm": [
+              76.88,
+              572.098,
+              369.216
+            ],
+            "clothZMm": 113.465
+          }
+        },
+        {
+          "phase": 0.65,
+          "frame": "13",
+          "contact": {
+            "intersectingTrianglePairs": 80,
+            "clothTrianglesCrossed": 21,
+            "kneeTrianglesCrossed": 45,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -106.305,
+                  406.78,
+                  235.721
+                ],
+                "clothBindCenterMm": [
+                  -111.329,
+                  556.919,
+                  161.886
+                ],
+                "kneeBindCenterMm": [
+                  -127.375,
+                  573.091,
+                  47.414
+                ]
+              },
+              {
+                "posedMm": [
+                  -103.034,
+                  411.574,
+                  236.049
+                ],
+                "clothBindCenterMm": [
+                  -105.035,
+                  552.575,
+                  166.955
+                ],
+                "kneeBindCenterMm": [
+                  -127.375,
+                  573.091,
+                  47.414
+                ]
+              },
+              {
+                "posedMm": [
+                  -111.197,
+                  401.442,
+                  234.805
+                ],
+                "clothBindCenterMm": [
+                  -115.621,
+                  546.603,
+                  161.322
+                ],
+                "kneeBindCenterMm": [
+                  -132,
+                  570.264,
+                  46.092
+                ]
+              },
+              {
+                "posedMm": [
+                  -106.305,
+                  406.78,
+                  235.721
+                ],
+                "clothBindCenterMm": [
+                  -111.329,
+                  556.919,
+                  161.886
+                ],
+                "kneeBindCenterMm": [
+                  -132,
+                  570.264,
+                  46.092
+                ]
+              },
+              {
+                "posedMm": [
+                  -113.236,
+                  399.235,
+                  234.44
+                ],
+                "clothBindCenterMm": [
+                  -115.621,
+                  546.603,
+                  161.322
+                ],
+                "kneeBindCenterMm": [
+                  -133.803,
+                  573.015,
+                  46.339
+                ]
+              },
+              {
+                "posedMm": [
+                  -118.849,
+                  396.878,
+                  232.775
+                ],
+                "clothBindCenterMm": [
+                  -125.908,
+                  548.26,
+                  158.921
+                ],
+                "kneeBindCenterMm": [
+                  -138.329,
+                  570.185,
+                  44.497
+                ]
+              },
+              {
+                "posedMm": [
+                  -114.87,
+                  397.714,
+                  233.949
+                ],
+                "clothBindCenterMm": [
+                  -121.665,
+                  555.177,
+                  158.318
+                ],
+                "kneeBindCenterMm": [
+                  -138.329,
+                  570.185,
+                  44.497
+                ]
+              },
+              {
+                "posedMm": [
+                  -113.236,
+                  399.235,
+                  234.44
+                ],
+                "clothBindCenterMm": [
+                  -115.621,
+                  546.603,
+                  161.322
+                ],
+                "kneeBindCenterMm": [
+                  -138.329,
+                  570.185,
+                  44.497
+                ]
+              },
+              {
+                "posedMm": [
+                  -96.006,
+                  425.85,
+                  234.842
+                ],
+                "clothBindCenterMm": [
+                  -100.955,
+                  563.599,
+                  168.67
+                ],
+                "kneeBindCenterMm": [
+                  -120.085,
+                  581.795,
+                  49.614
+                ]
+              },
+              {
+                "posedMm": [
+                  -103.034,
+                  411.574,
+                  236.049
+                ],
+                "clothBindCenterMm": [
+                  -105.035,
+                  552.575,
+                  166.955
+                ],
+                "kneeBindCenterMm": [
+                  -124.631,
+                  578.829,
+                  48.747
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 647,
+          "penetratingOver5mm": 639,
+          "minClearanceMm": -308.922,
+          "p05ClearanceMm": -296.638,
+          "meanPenetrationMm": 203.046,
+          "worst": {
+            "bindMm": [
+              107.536,
+              564.026,
+              51.768
+            ],
+            "posedMm": [
+              81.793,
+              634.393,
+              413.056
+            ],
+            "clothZMm": 104.133
+          }
+        },
+        {
+          "phase": 0.7,
+          "frame": "14",
+          "contact": {
+            "intersectingTrianglePairs": 28,
+            "clothTrianglesCrossed": 9,
+            "kneeTrianglesCrossed": 17,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -107.129,
+                  513.529,
+                  168.379
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -135.931,
+                  622.497,
+                  66.104
+                ]
+              },
+              {
+                "posedMm": [
+                  -110.126,
+                  512.224,
+                  167.802
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -140.183,
+                  617.485,
+                  62.752
+                ]
+              },
+              {
+                "posedMm": [
+                  -111.095,
+                  512.162,
+                  167.622
+                ],
+                "clothBindCenterMm": [
+                  -125.295,
+                  638.016,
+                  146.456
+                ],
+                "kneeBindCenterMm": [
+                  -141.58,
+                  620.943,
+                  64.471
+                ]
+              },
+              {
+                "posedMm": [
+                  -110.126,
+                  512.224,
+                  167.802
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -141.58,
+                  620.943,
+                  64.471
+                ]
+              },
+              {
+                "posedMm": [
+                  -92.125,
+                  532.766,
+                  168.642
+                ],
+                "clothBindCenterMm": [
+                  -106.055,
+                  634.54,
+                  149.175
+                ],
+                "kneeBindCenterMm": [
+                  -123.419,
+                  639.645,
+                  71.653
+                ]
+              },
+              {
+                "posedMm": [
+                  -103.975,
+                  515.173,
+                  168.782
+                ],
+                "clothBindCenterMm": [
+                  -115.553,
+                  633.054,
+                  145.525
+                ],
+                "kneeBindCenterMm": [
+                  -127.473,
+                  633.651,
+                  70.461
+                ]
+              },
+              {
+                "posedMm": [
+                  -97.927,
+                  523.073,
+                  168.699
+                ],
+                "clothBindCenterMm": [
+                  -109.898,
+                  624.44,
+                  149.452
+                ],
+                "kneeBindCenterMm": [
+                  -127.473,
+                  633.651,
+                  70.461
+                ]
+              },
+              {
+                "posedMm": [
+                  -97.911,
+                  523.1,
+                  168.699
+                ],
+                "clothBindCenterMm": [
+                  -106.055,
+                  634.54,
+                  149.175
+                ],
+                "kneeBindCenterMm": [
+                  -127.473,
+                  633.651,
+                  70.461
+                ]
+              },
+              {
+                "posedMm": [
+                  -104.201,
+                  515.037,
+                  168.774
+                ],
+                "clothBindCenterMm": [
+                  -115.553,
+                  633.054,
+                  145.525
+                ],
+                "kneeBindCenterMm": [
+                  -128.705,
+                  638.267,
+                  71.187
+                ]
+              },
+              {
+                "posedMm": [
+                  -107.129,
+                  513.529,
+                  168.379
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -132.952,
+                  632.121,
+                  69.741
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 469,
+          "penetratingOver5mm": 467,
+          "minClearanceMm": -303.602,
+          "p05ClearanceMm": -291.896,
+          "meanPenetrationMm": 261.393,
+          "worst": {
+            "bindMm": [
+              116.431,
+              555.99,
+              49.449
+            ],
+            "posedMm": [
+              90.853,
+              690.966,
+              416.266
+            ],
+            "clothZMm": 112.663
+          }
+        },
+        {
+          "phase": 0.75,
+          "frame": "15",
+          "contact": {
+            "intersectingTrianglePairs": 11,
+            "clothTrianglesCrossed": 5,
+            "kneeTrianglesCrossed": 7,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -91.843,
+                  594.933,
+                  162.955
+                ],
+                "clothBindCenterMm": [
+                  -115.553,
+                  633.054,
+                  145.525
+                ],
+                "kneeBindCenterMm": [
+                  -123.419,
+                  639.645,
+                  71.653
+                ]
+              },
+              {
+                "posedMm": [
+                  -89.724,
+                  597.821,
+                  162.993
+                ],
+                "clothBindCenterMm": [
+                  -109.898,
+                  624.44,
+                  149.452
+                ],
+                "kneeBindCenterMm": [
+                  -123.419,
+                  639.645,
+                  71.653
+                ]
+              },
+              {
+                "posedMm": [
+                  -86.819,
+                  602.849,
+                  163.031
+                ],
+                "clothBindCenterMm": [
+                  -106.055,
+                  634.54,
+                  149.175
+                ],
+                "kneeBindCenterMm": [
+                  -123.419,
+                  639.645,
+                  71.653
+                ]
+              },
+              {
+                "posedMm": [
+                  -95,
+                  592.747,
+                  162.922
+                ],
+                "clothBindCenterMm": [
+                  -115.553,
+                  633.054,
+                  145.525
+                ],
+                "kneeBindCenterMm": [
+                  -127.473,
+                  633.651,
+                  70.461
+                ]
+              },
+              {
+                "posedMm": [
+                  -97.491,
+                  591.07,
+                  162.823
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -128.705,
+                  638.267,
+                  71.187
+                ]
+              },
+              {
+                "posedMm": [
+                  -95,
+                  592.747,
+                  162.922
+                ],
+                "clothBindCenterMm": [
+                  -115.553,
+                  633.054,
+                  145.525
+                ],
+                "kneeBindCenterMm": [
+                  -128.705,
+                  638.267,
+                  71.187
+                ]
+              },
+              {
+                "posedMm": [
+                  -100.818,
+                  589.916,
+                  162.343
+                ],
+                "clothBindCenterMm": [
+                  -125.295,
+                  638.016,
+                  146.456
+                ],
+                "kneeBindCenterMm": [
+                  -132.952,
+                  632.121,
+                  69.741
+                ]
+              },
+              {
+                "posedMm": [
+                  -97.491,
+                  591.07,
+                  162.823
+                ],
+                "clothBindCenterMm": [
+                  -119.487,
+                  625.839,
+                  146.75
+                ],
+                "kneeBindCenterMm": [
+                  -132.952,
+                  632.121,
+                  69.741
+                ]
+              },
+              {
+                "posedMm": [
+                  -102.291,
+                  592.125,
+                  162.137
+                ],
+                "clothBindCenterMm": [
+                  -125.295,
+                  638.016,
+                  146.456
+                ],
+                "kneeBindCenterMm": [
+                  -133.941,
+                  636.343,
+                  70.253
+                ]
+              },
+              {
+                "posedMm": [
+                  -103.055,
+                  593.813,
+                  161.794
+                ],
+                "clothBindCenterMm": [
+                  -125.295,
+                  638.016,
+                  146.456
+                ],
+                "kneeBindCenterMm": [
+                  -138.316,
+                  630.178,
+                  68.335
+                ]
+              }
+            ]
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 468,
+          "penetratingOver5mm": 465,
+          "minClearanceMm": -300.656,
+          "p05ClearanceMm": -288.243,
+          "meanPenetrationMm": 256.423,
+          "worst": {
+            "bindMm": [
+              127.754,
+              563.964,
+              50.695
+            ],
+            "posedMm": [
+              100.362,
+              778.122,
+              410.098
+            ],
+            "clothZMm": 109.443
+          }
+        },
+        {
+          "phase": 0.8,
+          "frame": "16",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 925,
+          "penetratingOver1mm": 460,
+          "penetratingOver5mm": 460,
+          "minClearanceMm": -302.881,
+          "p05ClearanceMm": -288.356,
+          "meanPenetrationMm": 258.401,
+          "worst": {
+            "bindMm": [
+              137.007,
+              555.728,
+              46.452
+            ],
+            "posedMm": [
+              107.596,
+              809.863,
+              416.228
+            ],
+            "clothZMm": 113.347
+          }
+        },
+        {
+          "phase": 0.85,
+          "frame": "17",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 909,
+          "penetratingOver1mm": 444,
+          "penetratingOver5mm": 444,
+          "minClearanceMm": -301.742,
+          "p05ClearanceMm": -282.534,
+          "meanPenetrationMm": 257.12,
+          "worst": {
+            "bindMm": [
+              141.781,
+              555.654,
+              44.718
+            ],
+            "posedMm": [
+              111.012,
+              815.561,
+              415.29
+            ],
+            "clothZMm": 113.548
+          }
+        },
+        {
+          "phase": 0.9,
+          "frame": "18",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 894,
+          "penetratingOver1mm": 429,
+          "penetratingOver5mm": 429,
+          "minClearanceMm": -271.619,
+          "p05ClearanceMm": -254.53,
+          "meanPenetrationMm": 233.062,
+          "worst": {
+            "bindMm": [
+              148.232,
+              563.664,
+              44.794
+            ],
+            "posedMm": [
+              118.457,
+              777.428,
+              394.996
+            ],
+            "clothZMm": 123.377
+          }
+        },
+        {
+          "phase": 0.95,
+          "frame": "19",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 880,
+          "penetratingOver1mm": 415,
+          "penetratingOver5mm": 415,
+          "minClearanceMm": -224.559,
+          "p05ClearanceMm": -216.798,
+          "meanPenetrationMm": 192.088,
+          "worst": {
+            "bindMm": [
+              147.323,
+              587.059,
+              50.873
+            ],
+            "posedMm": [
+              121.151,
+              725.928,
+              353.115
+            ],
+            "clothZMm": 128.557
+          }
+        }
+      ],
+      "summary": {
+        "intersectingTrianglePairs": 600,
+        "phasesWithTriangleIntersections": 11,
+        "worstClearanceMm": -308.922,
+        "coveredSamples": 18184,
+        "penetratingSamplesOver1mm": 10397,
+        "penetratingSamplesOver5mm": 10318
+      }
+    },
+    {
+      "theme": "dragonhide",
+      "label": "candidate",
+      "reweighted": false,
+      "files": [
+        {
+          "path": "art\\item-models\\candidates\\armor-dragonhide-reference\\models\\items\\dragonhide_robe.glb",
+          "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+        },
+        {
+          "path": "art\\item-models\\candidates\\armor-dragonhide-reference\\models\\items\\dragonhide_leggings.glb",
+          "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02"
+        }
+      ],
+      "duration": 0.9333333373069763,
+      "surfaces": [
+        {
+          "name": "starhide-close-twill-cloth",
+          "triangles": 3745
+        }
+      ],
+      "rows": [
+        {
+          "phase": null,
+          "frame": "bind",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 62.197,
+          "p05ClearanceMm": 77.769,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "clothZMm": 135.185
+          }
+        },
+        {
+          "phase": 0,
+          "frame": "00",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 64.289,
+          "p05ClearanceMm": 83.304,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -65.714,
+              515.29,
+              131.912
+            ],
+            "clothZMm": 196.201
+          }
+        },
+        {
+          "phase": 0.05,
+          "frame": "01",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 65.826,
+          "p05ClearanceMm": 86.412,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -70.277,
+              463.423,
+              176.852
+            ],
+            "clothZMm": 242.678
+          }
+        },
+        {
+          "phase": 0.1,
+          "frame": "02",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 76.489,
+          "p05ClearanceMm": 96.167,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              97.819,
+              543.644,
+              291.025
+            ],
+            "clothZMm": 367.514
+          }
+        },
+        {
+          "phase": 0.15,
+          "frame": "03",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 787,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 62.823,
+          "p05ClearanceMm": 83.573,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              97.216,
+              498.424,
+              229.341
+            ],
+            "clothZMm": 292.164
+          }
+        },
+        {
+          "phase": 0.2,
+          "frame": "04",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 724,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 57.073,
+          "p05ClearanceMm": 78.05,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              91.669,
+              532.578,
+              168.703
+            ],
+            "clothZMm": 225.776
+          }
+        },
+        {
+          "phase": 0.25,
+          "frame": "05",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 746,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 57.105,
+          "p05ClearanceMm": 77.943,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              79.772,
+              602.952,
+              163.162
+            ],
+            "clothZMm": 220.267
+          }
+        },
+        {
+          "phase": 0.3,
+          "frame": "06",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 777,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 56.662,
+          "p05ClearanceMm": 77.273,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              74.43,
+              633.194,
+              144.749
+            ],
+            "clothZMm": 201.411
+          }
+        },
+        {
+          "phase": 0.35,
+          "frame": "07",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 796,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 56.587,
+          "p05ClearanceMm": 77.15,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              70.68,
+              636.926,
+              143.933
+            ],
+            "clothZMm": 200.52
+          }
+        },
+        {
+          "phase": 0.4,
+          "frame": "08",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 860,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 56.599,
+          "p05ClearanceMm": 78.188,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              67.74,
+              620.854,
+              147.489
+            ],
+            "clothZMm": 204.087
+          }
+        },
+        {
+          "phase": 0.45,
+          "frame": "09",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 919,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 56.594,
+          "p05ClearanceMm": 78.367,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              65.314,
+              581.166,
+              143.551
+            ],
+            "clothZMm": 200.145
+          }
+        },
+        {
+          "phase": 0.5,
+          "frame": "10",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 56.653,
+          "p05ClearanceMm": 78.285,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              114.526,
+              646,
+              72.987
+            ],
+            "posedMm": [
+              63.524,
+              516.55,
+              132.172
+            ],
+            "clothZMm": 188.825
+          }
+        },
+        {
+          "phase": 0.55,
+          "frame": "11",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 930,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 64.177,
+          "p05ClearanceMm": 87.821,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              76.734,
+              513.196,
+              238.319
+            ],
+            "clothZMm": 302.496
+          }
+        },
+        {
+          "phase": 0.6,
+          "frame": "12",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 819,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 88.547,
+          "p05ClearanceMm": 110.289,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -96.886,
+              542.422,
+              290.977
+            ],
+            "clothZMm": 379.524
+          }
+        },
+        {
+          "phase": 0.65,
+          "frame": "13",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 682,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 73.15,
+          "p05ClearanceMm": 90.765,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -124.654,
+              644.488,
+              72.449
+            ],
+            "posedMm": [
+              -101.381,
+              496.876,
+              229.576
+            ],
+            "clothZMm": 302.726
+          }
+        },
+        {
+          "phase": 0.7,
+          "frame": "14",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 741,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 65.429,
+          "p05ClearanceMm": 85.211,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -92.121,
+              532.767,
+              168.642
+            ],
+            "clothZMm": 234.071
+          }
+        },
+        {
+          "phase": 0.75,
+          "frame": "15",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 774,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 65.082,
+          "p05ClearanceMm": 85.029,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -86.198,
+              602.995,
+              163.051
+            ],
+            "clothZMm": 228.133
+          }
+        },
+        {
+          "phase": 0.8,
+          "frame": "16",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 785,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 64.457,
+          "p05ClearanceMm": 83.198,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -80.686,
+              633.162,
+              144.694
+            ],
+            "clothZMm": 209.151
+          }
+        },
+        {
+          "phase": 0.85,
+          "frame": "17",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 794,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 64.409,
+          "p05ClearanceMm": 82.76,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -76.079,
+              636.629,
+              143.947
+            ],
+            "clothZMm": 208.356
+          }
+        },
+        {
+          "phase": 0.9,
+          "frame": "18",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 863,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 64.469,
+          "p05ClearanceMm": 83.345,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -71.903,
+              620.188,
+              147.517
+            ],
+            "clothZMm": 211.986
+          }
+        },
+        {
+          "phase": 0.95,
+          "frame": "19",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 930,
+          "covered": 924,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 64.391,
+          "p05ClearanceMm": 83.586,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -119.589,
+              645.616,
+              72.864
+            ],
+            "posedMm": [
+              -68.234,
+              580.132,
+              143.472
+            ],
+            "clothZMm": 207.863
+          }
+        }
+      ],
+      "summary": {
+        "intersectingTrianglePairs": 0,
+        "phasesWithTriangleIntersections": 0,
+        "worstClearanceMm": 56.587,
+        "coveredSamples": 16641,
+        "penetratingSamplesOver1mm": 0,
+        "penetratingSamplesOver5mm": 0
+      }
+    },
+    {
+      "theme": "starhide",
+      "label": "R13 baseline",
+      "reweighted": false,
+      "files": [
+        {
+          "path": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\tier50-70\\r13-final-baseline\\starhide_robe.glb",
+          "sha256": "96bc30863dbe281b35f6091a0e8f02157c9f91a2d1fed8e62922d54a2d37150e"
+        },
+        {
+          "path": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\tier50-70\\r13-final-baseline\\starhide_leggings.glb",
+          "sha256": "8ff08dfbf76ce55e297318ba0511bb63483bbe9960cfe0349e3e83aea9f916d2"
+        }
+      ],
+      "duration": 0.9333333373069763,
+      "surfaces": [
+        {
+          "name": "dragonhide-close-twill-cloth",
+          "triangles": 3323
+        }
+      ],
+      "rows": [
+        {
+          "phase": null,
+          "frame": "bind",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 518,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 79.765,
+          "p05ClearanceMm": 86.81,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "clothZMm": 148.878
+          }
+        },
+        {
+          "phase": 0,
+          "frame": "00",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 618,
+          "penetratingOver1mm": 402,
+          "penetratingOver5mm": 402,
+          "minClearanceMm": -198.123,
+          "p05ClearanceMm": -191.969,
+          "meanPenetrationMm": 174.746,
+          "worst": {
+            "bindMm": [
+              63.801,
+              585.02,
+              44.287
+            ],
+            "posedMm": [
+              37.692,
+              649.39,
+              340.333
+            ],
+            "clothZMm": 142.211
+          }
+        },
+        {
+          "phase": 0.05,
+          "frame": "01",
+          "contact": {
+            "intersectingTrianglePairs": 28,
+            "clothTrianglesCrossed": 9,
+            "kneeTrianglesCrossed": 17,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -107.777,
+                  431.933,
+                  169.774
+                ],
+                "clothBindCenterMm": [
+                  -154.599,
+                  633.572,
+                  146.96
+                ],
+                "kneeBindCenterMm": [
+                  -157.722,
+                  614.851,
+                  57.078
+                ]
+              },
+              {
+                "posedMm": [
+                  -109.933,
+                  429.497,
+                  168.515
+                ],
+                "clothBindCenterMm": [
+                  -154.599,
+                  633.572,
+                  146.96
+                ],
+                "kneeBindCenterMm": [
+                  -162.394,
+                  610.875,
+                  53.436
+                ]
+              },
+              {
+                "posedMm": [
+                  -115.815,
+                  422.907,
+                  165.069
+                ],
+                "clothBindCenterMm": [
+                  -159.242,
+                  622.406,
+                  145.943
+                ],
+                "kneeBindCenterMm": [
+                  -163.021,
+                  613.387,
+                  54.53
+                ]
+              },
+              {
+                "posedMm": [
+                  -109.933,
+                  429.497,
+                  168.515
+                ],
+                "clothBindCenterMm": [
+                  -154.599,
+                  633.572,
+                  146.96
+                ],
+                "kneeBindCenterMm": [
+                  -163.021,
+                  613.387,
+                  54.53
+                ]
+              },
+              {
+                "posedMm": [
+                  -120.724,
+                  417.969,
+                  161.342
+                ],
+                "clothBindCenterMm": [
+                  -165.763,
+                  622.448,
+                  139.099
+                ],
+                "kneeBindCenterMm": [
+                  -167.636,
+                  609.605,
+                  50.481
+                ]
+              },
+              {
+                "posedMm": [
+                  -115.815,
+                  422.907,
+                  165.069
+                ],
+                "clothBindCenterMm": [
+                  -159.242,
+                  622.406,
+                  145.943
+                ],
+                "kneeBindCenterMm": [
+                  -167.636,
+                  609.605,
+                  50.481
+                ]
+              },
+              {
+                "posedMm": [
+                  -97.249,
+                  444.135,
+                  173.682
+                ],
+                "clothBindCenterMm": [
+                  -142.548,
+                  644.889,
+                  153.309
+                ],
+                "kneeBindCenterMm": [
+                  -148.495,
+                  623.967,
+                  63.603
+                ]
+              },
+              {
+                "posedMm": [
+                  -101.378,
+                  439.317,
+                  172.229
+                ],
+                "clothBindCenterMm": [
+                  -147.386,
+                  633.836,
+                  152.923
+                ],
+                "kneeBindCenterMm": [
+                  -148.803,
+                  626.974,
+                  64.209
+                ]
+              },
+              {
+                "posedMm": [
+                  -97.249,
+                  444.135,
+                  173.682
+                ],
+                "clothBindCenterMm": [
+                  -142.548,
+                  644.889,
+                  153.309
+                ],
+                "kneeBindCenterMm": [
+                  -148.803,
+                  626.974,
+                  64.209
+                ]
+              },
+              {
+                "posedMm": [
+                  -107.777,
+                  431.933,
+                  169.774
+                ],
+                "clothBindCenterMm": [
+                  -154.599,
+                  633.572,
+                  146.96
+                ],
+                "kneeBindCenterMm": [
+                  -153.485,
+                  622.028,
+                  61.24
+                ]
+              }
+            ]
+          },
+          "sampled": 940,
+          "covered": 613,
+          "penetratingOver1mm": 412,
+          "penetratingOver5mm": 402,
+          "minClearanceMm": -178.941,
+          "p05ClearanceMm": -169.842,
+          "meanPenetrationMm": 136.578,
+          "worst": {
+            "bindMm": [
+              132.174,
+              612.873,
+              68.091
+            ],
+            "posedMm": [
+              107.083,
+              593.201,
+              326.117
+            ],
+            "clothZMm": 147.176
+          }
+        },
+        {
+          "phase": 0.1,
+          "frame": "02",
+          "contact": {
+            "intersectingTrianglePairs": 29,
+            "clothTrianglesCrossed": 9,
+            "kneeTrianglesCrossed": 19,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  81.868,
+                  402.327,
+                  322.321
+                ],
+                "clothBindCenterMm": [
+                  68.504,
+                  528.74,
+                  214.089
+                ],
+                "kneeBindCenterMm": [
+                  104.911,
+                  538.374,
+                  41.235
+                ]
+              },
+              {
+                "posedMm": [
+                  81.868,
+                  402.327,
+                  322.321
+                ],
+                "clothBindCenterMm": [
+                  68.504,
+                  528.74,
+                  214.089
+                ],
+                "kneeBindCenterMm": [
+                  106.607,
+                  540.973,
+                  42.055
+                ]
+              },
+              {
+                "posedMm": [
+                  86.835,
+                  401.835,
+                  322.937
+                ],
+                "clothBindCenterMm": [
+                  77.116,
+                  535.003,
+                  209.873
+                ],
+                "kneeBindCenterMm": [
+                  106.607,
+                  540.973,
+                  42.055
+                ]
+              },
+              {
+                "posedMm": [
+                  86.835,
+                  401.835,
+                  322.937
+                ],
+                "clothBindCenterMm": [
+                  77.116,
+                  535.003,
+                  209.873
+                ],
+                "kneeBindCenterMm": [
+                  111.059,
+                  538.38,
+                  42.169
+                ]
+              },
+              {
+                "posedMm": [
+                  79.532,
+                  401.667,
+                  323.548
+                ],
+                "clothBindCenterMm": [
+                  68.504,
+                  528.74,
+                  214.089
+                ],
+                "kneeBindCenterMm": [
+                  98.967,
+                  537.008,
+                  42.544
+                ]
+              },
+              {
+                "posedMm": [
+                  74.73,
+                  401.657,
+                  323.71
+                ],
+                "clothBindCenterMm": [
+                  68.504,
+                  528.74,
+                  214.089
+                ],
+                "kneeBindCenterMm": [
+                  95.288,
+                  543.664,
+                  43.49
+                ]
+              },
+              {
+                "posedMm": [
+                  70.983,
+                  402.71,
+                  322.116
+                ],
+                "clothBindCenterMm": [
+                  53.135,
+                  529.456,
+                  215.887
+                ],
+                "kneeBindCenterMm": [
+                  95.288,
+                  543.664,
+                  43.49
+                ]
+              },
+              {
+                "posedMm": [
+                  73.97,
+                  401.856,
+                  323.384
+                ],
+                "clothBindCenterMm": [
+                  62.159,
+                  534.832,
+                  213.084
+                ],
+                "kneeBindCenterMm": [
+                  95.288,
+                  543.664,
+                  43.49
+                ]
+              },
+              {
+                "posedMm": [
+                  74.73,
+                  401.657,
+                  323.71
+                ],
+                "clothBindCenterMm": [
+                  68.504,
+                  528.74,
+                  214.089
+                ],
+                "kneeBindCenterMm": [
+                  97.812,
+                  539.803,
+                  44.427
+                ]
+              },
+              {
+                "posedMm": [
+                  80.549,
+                  400.705,
+                  325.232
+                ],
+                "clothBindCenterMm": [
+                  66.171,
+                  516.722,
+                  219.051
+                ],
+                "kneeBindCenterMm": [
+                  101.409,
+                  538.335,
+                  45.732
+                ]
+              }
+            ]
+          },
+          "sampled": 940,
+          "covered": 573,
+          "penetratingOver1mm": 570,
+          "penetratingOver5mm": 567,
+          "minClearanceMm": -145.444,
+          "p05ClearanceMm": -138.504,
+          "meanPenetrationMm": 89.869,
+          "worst": {
+            "bindMm": [
+              130.88,
+              622.804,
+              69.607
+            ],
+            "posedMm": [
+              108.908,
+              524.254,
+              303.656
+            ],
+            "clothZMm": 158.212
+          }
+        },
+        {
+          "phase": 0.15,
+          "frame": "03",
+          "contact": {
+            "intersectingTrianglePairs": 55,
+            "clothTrianglesCrossed": 18,
+            "kneeTrianglesCrossed": 31,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  110.479,
+                  438.113,
+                  230.79
+                ],
+                "clothBindCenterMm": [
+                  106.845,
+                  592.157,
+                  179.995
+                ],
+                "kneeBindCenterMm": [
+                  131.984,
+                  590.272,
+                  49.508
+                ]
+              },
+              {
+                "posedMm": [
+                  98.619,
+                  447.977,
+                  230.03
+                ],
+                "clothBindCenterMm": [
+                  96.382,
+                  600.82,
+                  181.055
+                ],
+                "kneeBindCenterMm": [
+                  118.943,
+                  600.807,
+                  53.005
+                ]
+              },
+              {
+                "posedMm": [
+                  94.485,
+                  452.737,
+                  229.153
+                ],
+                "clothBindCenterMm": [
+                  91.667,
+                  605.588,
+                  181.816
+                ],
+                "kneeBindCenterMm": [
+                  118.943,
+                  600.807,
+                  53.005
+                ]
+              },
+              {
+                "posedMm": [
+                  98.619,
+                  447.977,
+                  230.03
+                ],
+                "clothBindCenterMm": [
+                  96.382,
+                  600.82,
+                  181.055
+                ],
+                "kneeBindCenterMm": [
+                  123.202,
+                  597.247,
+                  51.89
+                ]
+              },
+              {
+                "posedMm": [
+                  102.644,
+                  444.065,
+                  230.439
+                ],
+                "clothBindCenterMm": [
+                  103.619,
+                  607.982,
+                  175.531
+                ],
+                "kneeBindCenterMm": [
+                  123.202,
+                  597.247,
+                  51.89
+                ]
+              },
+              {
+                "posedMm": [
+                  105.027,
+                  442.048,
+                  230.75
+                ],
+                "clothBindCenterMm": [
+                  108.872,
+                  603.893,
+                  175.111
+                ],
+                "kneeBindCenterMm": [
+                  125.048,
+                  600.431,
+                  52.851
+                ]
+              },
+              {
+                "posedMm": [
+                  102.644,
+                  444.065,
+                  230.439
+                ],
+                "clothBindCenterMm": [
+                  103.619,
+                  607.982,
+                  175.531
+                ],
+                "kneeBindCenterMm": [
+                  125.048,
+                  600.431,
+                  52.851
+                ]
+              },
+              {
+                "posedMm": [
+                  110.479,
+                  438.113,
+                  230.79
+                ],
+                "clothBindCenterMm": [
+                  106.845,
+                  592.157,
+                  179.995
+                ],
+                "kneeBindCenterMm": [
+                  129.377,
+                  596.74,
+                  51.451
+                ]
+              },
+              {
+                "posedMm": [
+                  105.027,
+                  442.048,
+                  230.75
+                ],
+                "clothBindCenterMm": [
+                  108.872,
+                  603.893,
+                  175.111
+                ],
+                "kneeBindCenterMm": [
+                  129.377,
+                  596.74,
+                  51.451
+                ]
+              },
+              {
+                "posedMm": [
+                  86.533,
+                  460.762,
+                  229.048
+                ],
+                "clothBindCenterMm": [
+                  82.708,
+                  616.005,
+                  183.657
+                ],
+                "kneeBindCenterMm": [
+                  106.998,
+                  610.605,
+                  56.544
+                ]
+              }
+            ]
+          },
+          "sampled": 940,
+          "covered": 566,
+          "penetratingOver1mm": 411,
+          "penetratingOver5mm": 406,
+          "minClearanceMm": -277.273,
+          "p05ClearanceMm": -269.084,
+          "meanPenetrationMm": 196.251,
+          "worst": {
+            "bindMm": [
+              -172.104,
+              601.453,
+              50.009
+            ],
+            "posedMm": [
+              -145.051,
+              638.969,
+              360.315
+            ],
+            "clothZMm": 83.042
+          }
+        },
+        {
+          "phase": 0.2,
+          "frame": "04",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 550,
+          "penetratingOver1mm": 350,
+          "penetratingOver5mm": 350,
+          "minClearanceMm": -296.063,
+          "p05ClearanceMm": -287.992,
+          "meanPenetrationMm": 263.198,
+          "worst": {
+            "bindMm": [
+              -165.452,
+              584.598,
+              41.055
+            ],
+            "posedMm": [
+              -139.621,
+              735.732,
+              386.254
+            ],
+            "clothZMm": 90.19
+          }
+        },
+        {
+          "phase": 0.25,
+          "frame": "05",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 574,
+          "penetratingOver1mm": 370,
+          "penetratingOver5mm": 370,
+          "minClearanceMm": -289.331,
+          "p05ClearanceMm": -284.997,
+          "meanPenetrationMm": 260.805,
+          "worst": {
+            "bindMm": [
+              -121.211,
+              555.975,
+              49.118
+            ],
+            "posedMm": [
+              -92.699,
+              779.444,
+              420.604
+            ],
+            "clothZMm": 131.273
+          }
+        },
+        {
+          "phase": 0.3,
+          "frame": "06",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 594,
+          "penetratingOver1mm": 382,
+          "penetratingOver5mm": 382,
+          "minClearanceMm": -283.871,
+          "p05ClearanceMm": -278.623,
+          "meanPenetrationMm": 255.059,
+          "worst": {
+            "bindMm": [
+              -121.211,
+              555.975,
+              49.118
+            ],
+            "posedMm": [
+              -90.986,
+              815.791,
+              418.403
+            ],
+            "clothZMm": 134.533
+          }
+        },
+        {
+          "phase": 0.35,
+          "frame": "07",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 609,
+          "penetratingOver1mm": 390,
+          "penetratingOver5mm": 390,
+          "minClearanceMm": -279.521,
+          "p05ClearanceMm": -273.904,
+          "meanPenetrationMm": 251.262,
+          "worst": {
+            "bindMm": [
+              -121.211,
+              555.975,
+              49.118
+            ],
+            "posedMm": [
+              -90.053,
+              816.978,
+              416.445
+            ],
+            "clothZMm": 136.924
+          }
+        },
+        {
+          "phase": 0.4,
+          "frame": "08",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 621,
+          "penetratingOver1mm": 394,
+          "penetratingOver5mm": 394,
+          "minClearanceMm": -252.605,
+          "p05ClearanceMm": -246.267,
+          "meanPenetrationMm": 228.09,
+          "worst": {
+            "bindMm": [
+              -127.693,
+              563.917,
+              50.69
+            ],
+            "posedMm": [
+              -97.662,
+              781.918,
+              398.171
+            ],
+            "clothZMm": 145.566
+          }
+        },
+        {
+          "phase": 0.45,
+          "frame": "09",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 628,
+          "penetratingOver1mm": 397,
+          "penetratingOver5mm": 397,
+          "minClearanceMm": -212.931,
+          "p05ClearanceMm": -204.944,
+          "meanPenetrationMm": 189.786,
+          "worst": {
+            "bindMm": [
+              -63.801,
+              585.02,
+              44.287
+            ],
+            "posedMm": [
+              -37.194,
+              723.641,
+              349.567
+            ],
+            "clothZMm": 136.636
+          }
+        },
+        {
+          "phase": 0.5,
+          "frame": "10",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 624,
+          "penetratingOver1mm": 395,
+          "penetratingOver5mm": 395,
+          "minClearanceMm": -198.236,
+          "p05ClearanceMm": -189.706,
+          "meanPenetrationMm": 173.277,
+          "worst": {
+            "bindMm": [
+              -63.801,
+              585.02,
+              44.287
+            ],
+            "posedMm": [
+              -39.168,
+              648.625,
+              340.914
+            ],
+            "clothZMm": 142.678
+          }
+        },
+        {
+          "phase": 0.55,
+          "frame": "11",
+          "contact": {
+            "intersectingTrianglePairs": 64,
+            "clothTrianglesCrossed": 17,
+            "kneeTrianglesCrossed": 39,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  64.905,
+                  437.58,
+                  244.145
+                ],
+                "clothBindCenterMm": [
+                  99.156,
+                  584.606,
+                  185.206
+                ],
+                "kneeBindCenterMm": [
+                  107.122,
+                  581.414,
+                  50.521
+                ]
+              },
+              {
+                "posedMm": [
+                  64.969,
+                  437.536,
+                  244.141
+                ],
+                "clothBindCenterMm": [
+                  99.156,
+                  584.606,
+                  185.206
+                ],
+                "kneeBindCenterMm": [
+                  111.688,
+                  578.661,
+                  49.698
+                ]
+              },
+              {
+                "posedMm": [
+                  64.969,
+                  437.536,
+                  244.141
+                ],
+                "clothBindCenterMm": [
+                  99.156,
+                  584.606,
+                  185.206
+                ],
+                "kneeBindCenterMm": [
+                  113.644,
+                  581.629,
+                  50.112
+                ]
+              },
+              {
+                "posedMm": [
+                  69.397,
+                  434.817,
+                  243.724
+                ],
+                "clothBindCenterMm": [
+                  106.845,
+                  592.157,
+                  179.995
+                ],
+                "kneeBindCenterMm": [
+                  113.644,
+                  581.629,
+                  50.112
+                ]
+              },
+              {
+                "posedMm": [
+                  51.962,
+                  449.349,
+                  243.333
+                ],
+                "clothBindCenterMm": [
+                  84.407,
+                  599.206,
+                  187.457
+                ],
+                "kneeBindCenterMm": [
+                  93.886,
+                  589.644,
+                  51.425
+                ]
+              },
+              {
+                "posedMm": [
+                  54.327,
+                  446.751,
+                  243.651
+                ],
+                "clothBindCenterMm": [
+                  86.439,
+                  582.413,
+                  191.262
+                ],
+                "kneeBindCenterMm": [
+                  98.16,
+                  586.916,
+                  51.551
+                ]
+              },
+              {
+                "posedMm": [
+                  54.061,
+                  447.027,
+                  243.616
+                ],
+                "clothBindCenterMm": [
+                  81.615,
+                  587.671,
+                  192.113
+                ],
+                "kneeBindCenterMm": [
+                  98.16,
+                  586.916,
+                  51.551
+                ]
+              },
+              {
+                "posedMm": [
+                  51.962,
+                  449.349,
+                  243.333
+                ],
+                "clothBindCenterMm": [
+                  84.407,
+                  599.206,
+                  187.457
+                ],
+                "kneeBindCenterMm": [
+                  98.16,
+                  586.916,
+                  51.551
+                ]
+              },
+              {
+                "posedMm": [
+                  54.327,
+                  446.751,
+                  243.651
+                ],
+                "clothBindCenterMm": [
+                  86.439,
+                  582.413,
+                  191.262
+                ],
+                "kneeBindCenterMm": [
+                  100.302,
+                  590.007,
+                  52.184
+                ]
+              },
+              {
+                "posedMm": [
+                  58.373,
+                  442.841,
+                  244.041
+                ],
+                "clothBindCenterMm": [
+                  93.945,
+                  589.18,
+                  185.845
+                ],
+                "kneeBindCenterMm": [
+                  100.302,
+                  590.007,
+                  52.184
+                ]
+              }
+            ]
+          },
+          "sampled": 940,
+          "covered": 616,
+          "penetratingOver1mm": 519,
+          "penetratingOver5mm": 513,
+          "minClearanceMm": -169.515,
+          "p05ClearanceMm": -160.326,
+          "meanPenetrationMm": 104.823,
+          "worst": {
+            "bindMm": [
+              -132.174,
+              612.873,
+              68.091
+            ],
+            "posedMm": [
+              -107.411,
+              588.391,
+              324.082
+            ],
+            "clothZMm": 154.567
+          }
+        },
+        {
+          "phase": 0.6,
+          "frame": "12",
+          "contact": {
+            "intersectingTrianglePairs": 13,
+            "clothTrianglesCrossed": 5,
+            "kneeTrianglesCrossed": 7,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -77.573,
+                  418.711,
+                  324.72
+                ],
+                "clothBindCenterMm": [
+                  -68.93,
+                  522.641,
+                  210.475
+                ],
+                "kneeBindCenterMm": [
+                  -96.73,
+                  553.995,
+                  41.8
+                ]
+              },
+              {
+                "posedMm": [
+                  -72.151,
+                  421.417,
+                  323.092
+                ],
+                "clothBindCenterMm": [
+                  -63.685,
+                  522.634,
+                  211.009
+                ],
+                "kneeBindCenterMm": [
+                  -96.73,
+                  553.995,
+                  41.8
+                ]
+              },
+              {
+                "posedMm": [
+                  -78.481,
+                  418.227,
+                  324.987
+                ],
+                "clothBindCenterMm": [
+                  -68.93,
+                  522.641,
+                  210.475
+                ],
+                "kneeBindCenterMm": [
+                  -97.772,
+                  556.631,
+                  42.996
+                ]
+              },
+              {
+                "posedMm": [
+                  -78.481,
+                  418.227,
+                  324.987
+                ],
+                "clothBindCenterMm": [
+                  -68.93,
+                  522.641,
+                  210.475
+                ],
+                "kneeBindCenterMm": [
+                  -102.559,
+                  554.023,
+                  43.79
+                ]
+              },
+              {
+                "posedMm": [
+                  -72.674,
+                  420.024,
+                  325.778
+                ],
+                "clothBindCenterMm": [
+                  -63.685,
+                  522.634,
+                  211.009
+                ],
+                "kneeBindCenterMm": [
+                  -93.197,
+                  553.966,
+                  43.993
+                ]
+              },
+              {
+                "posedMm": [
+                  -66.894,
+                  422.728,
+                  323.622
+                ],
+                "clothBindCenterMm": [
+                  -65.034,
+                  540.566,
+                  205.183
+                ],
+                "kneeBindCenterMm": [
+                  -93.197,
+                  553.966,
+                  43.993
+                ]
+              },
+              {
+                "posedMm": [
+                  -78.641,
+                  417.023,
+                  327.314
+                ],
+                "clothBindCenterMm": [
+                  -68.93,
+                  522.641,
+                  210.475
+                ],
+                "kneeBindCenterMm": [
+                  -98.983,
+                  556.17,
+                  46.162
+                ]
+              },
+              {
+                "posedMm": [
+                  -72.674,
+                  420.024,
+                  325.778
+                ],
+                "clothBindCenterMm": [
+                  -63.685,
+                  522.634,
+                  211.009
+                ],
+                "kneeBindCenterMm": [
+                  -98.983,
+                  556.17,
+                  46.162
+                ]
+              },
+              {
+                "posedMm": [
+                  -68.573,
+                  421.059,
+                  325.95
+                ],
+                "clothBindCenterMm": [
+                  -63.685,
+                  522.634,
+                  211.009
+                ],
+                "kneeBindCenterMm": [
+                  -89.123,
+                  554.988,
+                  44.423
+                ]
+              },
+              {
+                "posedMm": [
+                  -66.766,
+                  421.883,
+                  325.233
+                ],
+                "clothBindCenterMm": [
+                  -65.034,
+                  540.566,
+                  205.183
+                ],
+                "kneeBindCenterMm": [
+                  -89.123,
+                  554.988,
+                  44.423
+                ]
+              }
+            ]
+          },
+          "sampled": 940,
+          "covered": 606,
+          "penetratingOver1mm": 602,
+          "penetratingOver5mm": 601,
+          "minClearanceMm": -246.902,
+          "p05ClearanceMm": -241.241,
+          "meanPenetrationMm": 154.553,
+          "worst": {
+            "bindMm": [
+              168.385,
+              606.297,
+              56.447
+            ],
+            "posedMm": [
+              136.622,
+              588.935,
+              351.515
+            ],
+            "clothZMm": 104.613
+          }
+        },
+        {
+          "phase": 0.65,
+          "frame": "13",
+          "contact": {
+            "intersectingTrianglePairs": 66,
+            "clothTrianglesCrossed": 20,
+            "kneeTrianglesCrossed": 31,
+            "firstContacts": [
+              {
+                "posedMm": [
+                  -103.722,
+                  448.823,
+                  230.026
+                ],
+                "clothBindCenterMm": [
+                  -108.351,
+                  614.182,
+                  176.807
+                ],
+                "kneeBindCenterMm": [
+                  -125.048,
+                  600.431,
+                  52.851
+                ]
+              },
+              {
+                "posedMm": [
+                  -99.144,
+                  452.206,
+                  229.491
+                ],
+                "clothBindCenterMm": [
+                  -103.994,
+                  613.126,
+                  177.969
+                ],
+                "kneeBindCenterMm": [
+                  -125.048,
+                  600.431,
+                  52.851
+                ]
+              },
+              {
+                "posedMm": [
+                  -105.483,
+                  447.793,
+                  230.007
+                ],
+                "clothBindCenterMm": [
+                  -106.91,
+                  597.302,
+                  182.3
+                ],
+                "kneeBindCenterMm": [
+                  -129.377,
+                  596.74,
+                  51.451
+                ]
+              },
+              {
+                "posedMm": [
+                  -103.722,
+                  448.823,
+                  230.026
+                ],
+                "clothBindCenterMm": [
+                  -108.351,
+                  614.182,
+                  176.807
+                ],
+                "kneeBindCenterMm": [
+                  -129.377,
+                  596.74,
+                  51.451
+                ]
+              },
+              {
+                "posedMm": [
+                  -110.051,
+                  445.039,
+                  230.227
+                ],
+                "clothBindCenterMm": [
+                  -111.676,
+                  598.553,
+                  181.355
+                ],
+                "kneeBindCenterMm": [
+                  -131.192,
+                  599.837,
+                  52.476
+                ]
+              },
+              {
+                "posedMm": [
+                  -105.483,
+                  447.793,
+                  230.007
+                ],
+                "clothBindCenterMm": [
+                  -106.91,
+                  597.302,
+                  182.3
+                ],
+                "kneeBindCenterMm": [
+                  -131.192,
+                  599.837,
+                  52.476
+                ]
+              },
+              {
+                "posedMm": [
+                  -113.257,
+                  443.627,
+                  229.916
+                ],
+                "clothBindCenterMm": [
+                  -111.676,
+                  598.553,
+                  181.355
+                ],
+                "kneeBindCenterMm": [
+                  -135.562,
+                  596.234,
+                  50.739
+                ]
+              },
+              {
+                "posedMm": [
+                  -113.257,
+                  443.627,
+                  229.916
+                ],
+                "clothBindCenterMm": [
+                  -111.676,
+                  598.553,
+                  181.355
+                ],
+                "kneeBindCenterMm": [
+                  -137.347,
+                  599.243,
+                  51.753
+                ]
+              },
+              {
+                "posedMm": [
+                  -84.214,
+                  463.592,
+                  228.948
+                ],
+                "clothBindCenterMm": [
+                  -83.013,
+                  610.277,
+                  183.801
+                ],
+                "kneeBindCenterMm": [
+                  -106.998,
+                  610.605,
+                  56.544
+                ]
+              },
+              {
+                "posedMm": [
+                  -87.084,
+                  461.148,
+                  229.163
+                ],
+                "clothBindCenterMm": [
+                  -93.561,
+                  627.717,
+                  176.158
+                ],
+                "kneeBindCenterMm": [
+                  -110.818,
+                  607.486,
+                  55.41
+                ]
+              }
+            ]
+          },
+          "sampled": 940,
+          "covered": 567,
+          "penetratingOver1mm": 422,
+          "penetratingOver5mm": 417,
+          "minClearanceMm": -299.289,
+          "p05ClearanceMm": -292.603,
+          "meanPenetrationMm": 226.816,
+          "worst": {
+            "bindMm": [
+              127.693,
+              563.917,
+              50.69
+            ],
+            "posedMm": [
+              101.939,
+              633.615,
+              412.546
+            ],
+            "clothZMm": 113.257
+          }
+        },
+        {
+          "phase": 0.7,
+          "frame": "14",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 547,
+          "penetratingOver1mm": 354,
+          "penetratingOver5mm": 354,
+          "minClearanceMm": -291.297,
+          "p05ClearanceMm": -282.525,
+          "meanPenetrationMm": 259.471,
+          "worst": {
+            "bindMm": [
+              140.278,
+              568.784,
+              49.202
+            ],
+            "posedMm": [
+              114.695,
+              712.807,
+              405.82
+            ],
+            "clothZMm": 114.523
+          }
+        },
+        {
+          "phase": 0.75,
+          "frame": "15",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 570,
+          "penetratingOver1mm": 370,
+          "penetratingOver5mm": 370,
+          "minClearanceMm": -286.377,
+          "p05ClearanceMm": -276.478,
+          "meanPenetrationMm": 253.119,
+          "worst": {
+            "bindMm": [
+              148.034,
+              563.58,
+              44.863
+            ],
+            "posedMm": [
+              120.757,
+              774.609,
+              407.655
+            ],
+            "clothZMm": 121.279
+          }
+        },
+        {
+          "phase": 0.8,
+          "frame": "16",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 579,
+          "penetratingOver1mm": 382,
+          "penetratingOver5mm": 382,
+          "minClearanceMm": -284.668,
+          "p05ClearanceMm": -278.379,
+          "meanPenetrationMm": 254.123,
+          "worst": {
+            "bindMm": [
+              154.653,
+              568.553,
+              42.383
+            ],
+            "posedMm": [
+              125.539,
+              826.411,
+              402.714
+            ],
+            "clothZMm": 118.046
+          }
+        },
+        {
+          "phase": 0.85,
+          "frame": "17",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 597,
+          "penetratingOver1mm": 396,
+          "penetratingOver5mm": 396,
+          "minClearanceMm": -283.313,
+          "p05ClearanceMm": -276.725,
+          "meanPenetrationMm": 253.193,
+          "worst": {
+            "bindMm": [
+              136.001,
+              555.697,
+              46.731
+            ],
+            "posedMm": [
+              105.16,
+              816.521,
+              416.24
+            ],
+            "clothZMm": 132.927
+          }
+        },
+        {
+          "phase": 0.9,
+          "frame": "18",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 610,
+          "penetratingOver1mm": 397,
+          "penetratingOver5mm": 397,
+          "minClearanceMm": -253.539,
+          "p05ClearanceMm": -247.021,
+          "meanPenetrationMm": 228.213,
+          "worst": {
+            "bindMm": [
+              134.817,
+              568.866,
+              50.731
+            ],
+            "posedMm": [
+              104.999,
+              787.622,
+              393.048
+            ],
+            "clothZMm": 139.509
+          }
+        },
+        {
+          "phase": 0.95,
+          "frame": "19",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 621,
+          "penetratingOver1mm": 403,
+          "penetratingOver5mm": 403,
+          "minClearanceMm": -207.573,
+          "p05ClearanceMm": -202.652,
+          "meanPenetrationMm": 186.185,
+          "worst": {
+            "bindMm": [
+              168.385,
+              606.297,
+              56.447
+            ],
+            "posedMm": [
+              142.879,
+              745.546,
+              339.564
+            ],
+            "clothZMm": 131.991
+          }
+        }
+      ],
+      "summary": {
+        "intersectingTrianglePairs": 255,
+        "phasesWithTriangleIntersections": 6,
+        "worstClearanceMm": -299.289,
+        "coveredSamples": 11883,
+        "penetratingSamplesOver1mm": 8318,
+        "penetratingSamplesOver5mm": 8288
+      }
+    },
+    {
+      "theme": "starhide",
+      "label": "candidate",
+      "reweighted": false,
+      "files": [
+        {
+          "path": "art\\item-models\\candidates\\armor-starhide-reference\\models\\items\\starhide_robe.glb",
+          "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+        },
+        {
+          "path": "art\\item-models\\candidates\\armor-starhide-reference\\models\\items\\starhide_leggings.glb",
+          "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+        }
+      ],
+      "duration": 0.9333333373069763,
+      "surfaces": [
+        {
+          "name": "dragonhide-close-twill-cloth",
+          "triangles": 3323
+        }
+      ],
+      "rows": [
+        {
+          "phase": null,
+          "frame": "bind",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 518,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 79.765,
+          "p05ClearanceMm": 86.81,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "clothZMm": 148.878
+          }
+        },
+        {
+          "phase": 0,
+          "frame": "00",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 303,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 76.013,
+          "p05ClearanceMm": 84.091,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -117.153,
+              487.794,
+              115.628
+            ],
+            "clothZMm": 191.641
+          }
+        },
+        {
+          "phase": 0.05,
+          "frame": "01",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 279,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 81.003,
+          "p05ClearanceMm": 88.121,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -121.481,
+              433.744,
+              164.021
+            ],
+            "clothZMm": 245.023
+          }
+        },
+        {
+          "phase": 0.1,
+          "frame": "02",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 146,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 103.67,
+          "p05ClearanceMm": 110.363,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              117.778,
+              533.026,
+              295.772
+            ],
+            "clothZMm": 399.442
+          }
+        },
+        {
+          "phase": 0.15,
+          "frame": "03",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 182,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 85.934,
+          "p05ClearanceMm": 92.176,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              117.227,
+              486.939,
+              230.478
+            ],
+            "clothZMm": 316.413
+          }
+        },
+        {
+          "phase": 0.2,
+          "frame": "04",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 219,
+          "penetratingOver1mm": 2,
+          "penetratingOver5mm": 2,
+          "minClearanceMm": -231.008,
+          "p05ClearanceMm": 85.649,
+          "meanPenetrationMm": 226.332,
+          "worst": {
+            "bindMm": [
+              -124.681,
+              642.2,
+              72.258
+            ],
+            "posedMm": [
+              -98.888,
+              795.144,
+              340.746
+            ],
+            "clothZMm": 109.738
+          }
+        },
+        {
+          "phase": 0.25,
+          "frame": "05",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 238,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 77.383,
+          "p05ClearanceMm": 85.092,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              104.848,
+              591.106,
+              161.67
+            ],
+            "clothZMm": 239.053
+          }
+        },
+        {
+          "phase": 0.3,
+          "frame": "06",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 263,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 76.028,
+          "p05ClearanceMm": 84.294,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              99.52,
+              621.448,
+              142.784
+            ],
+            "clothZMm": 218.811
+          }
+        },
+        {
+          "phase": 0.35,
+          "frame": "07",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 272,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 75.014,
+          "p05ClearanceMm": 83.973,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              134.729,
+              637.2,
+              70.643
+            ],
+            "posedMm": [
+              90.869,
+              627.825,
+              143.14
+            ],
+            "clothZMm": 218.154
+          }
+        },
+        {
+          "phase": 0.4,
+          "frame": "08",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 286,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 75.16,
+          "p05ClearanceMm": 84.328,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              134.729,
+              637.2,
+              70.643
+            ],
+            "posedMm": [
+              87.884,
+              611.643,
+              146.809
+            ],
+            "clothZMm": 221.969
+          }
+        },
+        {
+          "phase": 0.45,
+          "frame": "09",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 297,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 75.018,
+          "p05ClearanceMm": 84.183,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              134.729,
+              637.2,
+              70.643
+            ],
+            "posedMm": [
+              85.398,
+              571.835,
+              142.745
+            ],
+            "clothZMm": 217.763
+          }
+        },
+        {
+          "phase": 0.5,
+          "frame": "10",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 301,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 75.805,
+          "p05ClearanceMm": 85.024,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              88.388,
+              504.407,
+              129.793
+            ],
+            "clothZMm": 205.598
+          }
+        },
+        {
+          "phase": 0.55,
+          "frame": "11",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 214,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 87.254,
+          "p05ClearanceMm": 93.662,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              139.599,
+              634.7,
+              69.113
+            ],
+            "posedMm": [
+              96.541,
+              501.411,
+              239.882
+            ],
+            "clothZMm": 327.136
+          }
+        },
+        {
+          "phase": 0.6,
+          "frame": "12",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 110,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 114.99,
+          "p05ClearanceMm": 118.632,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -148.721,
+              511.181,
+              293.063
+            ],
+            "clothZMm": 408.053
+          }
+        },
+        {
+          "phase": 0.65,
+          "frame": "13",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 155,
+          "penetratingOver1mm": 14,
+          "penetratingOver5mm": 14,
+          "minClearanceMm": -241.3,
+          "p05ClearanceMm": -228.595,
+          "meanPenetrationMm": 222.606,
+          "worst": {
+            "bindMm": [
+              115.262,
+              625.892,
+              69.49
+            ],
+            "posedMm": [
+              89.546,
+              709.702,
+              355.077
+            ],
+            "clothZMm": 113.777
+          }
+        },
+        {
+          "phase": 0.7,
+          "frame": "14",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 226,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 82.013,
+          "p05ClearanceMm": 87.899,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -143.868,
+              504.682,
+              154.473
+            ],
+            "clothZMm": 236.486
+          }
+        },
+        {
+          "phase": 0.75,
+          "frame": "15",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 242,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 80.302,
+          "p05ClearanceMm": 87.004,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -138.012,
+              575.12,
+              148.712
+            ],
+            "clothZMm": 229.014
+          }
+        },
+        {
+          "phase": 0.8,
+          "frame": "16",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 266,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 77.539,
+          "p05ClearanceMm": 85.058,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -132.631,
+              606.169,
+              129.188
+            ],
+            "clothZMm": 206.727
+          }
+        },
+        {
+          "phase": 0.85,
+          "frame": "17",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 271,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 76.757,
+          "p05ClearanceMm": 84.433,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -128.043,
+              609.559,
+              128.641
+            ],
+            "clothZMm": 205.398
+          }
+        },
+        {
+          "phase": 0.9,
+          "frame": "18",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 287,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 76.728,
+          "p05ClearanceMm": 84.599,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -123.74,
+              592.653,
+              132.616
+            ],
+            "clothZMm": 209.344
+          }
+        },
+        {
+          "phase": 0.95,
+          "frame": "19",
+          "contact": {
+            "intersectingTrianglePairs": 0,
+            "clothTrianglesCrossed": 0,
+            "kneeTrianglesCrossed": 0,
+            "firstContacts": []
+          },
+          "sampled": 940,
+          "covered": 295,
+          "penetratingOver1mm": 0,
+          "penetratingOver5mm": 0,
+          "minClearanceMm": 76.446,
+          "p05ClearanceMm": 84.355,
+          "meanPenetrationMm": 0,
+          "worst": {
+            "bindMm": [
+              -171.325,
+              621,
+              53.253
+            ],
+            "posedMm": [
+              -119.873,
+              552.406,
+              128.243
+            ],
+            "clothZMm": 204.689
+          }
+        }
+      ],
+      "summary": {
+        "intersectingTrianglePairs": 0,
+        "phasesWithTriangleIntersections": 0,
+        "worstClearanceMm": -241.3,
+        "coveredSamples": 4852,
+        "penetratingSamplesOver1mm": 16,
+        "penetratingSamplesOver5mm": 16
+      }
+    }
+  ]
+}

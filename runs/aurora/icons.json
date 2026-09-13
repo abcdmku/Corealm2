@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "itemId": "frostweave_hood",
+      "source": "art/aurora/icons/frostweave_hood.png",
+      "sourceSha256": "3d5a313d2e4dd36567196323ac84de47830eeabf9d1d679d0122f50e316a0948",
+      "method": "Actual frozen GLB rendered in Blender with transparent film, trimmed and padded; glove pair crops brought together for inventory readability; no imagegen icon substitution.",
+      "outputs": [
+        {
+          "file": "art/aurora/icons/256/frostweave_hood.png",
+          "size": 256,
+          "sha256": "1c32887f270b4e8ac54f0149f7188f88aa6a1f18a8cd1d061d425e2132555262"
+        },
+        {
+          "file": "art/item-icons/256/frostweave_hood.png",
+          "size": 256,
+          "sha256": "1c32887f270b4e8ac54f0149f7188f88aa6a1f18a8cd1d061d425e2132555262"
+        },
+        {
+          "file": "game/public/assets/icons/items/48/aurora_frostweave_hood.png",
+          "size": 48,
+          "sha256": "48300f4fa1450d6da1f8d131b482ca8178b36eca6164fc5ddb6e99d575928f27"
+        },
+        {
+          "file": "game/public/assets/icons/items/48/frostweave_hood.png",
+          "size": 48,
+          "sha256": "48300f4fa1450d6da1f8d131b482ca8178b36eca6164fc5ddb6e99d575928f27"
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_robe",
+      "source": "art/aurora/icons/frostweave_robe.png",
+      "sourceSha256": "72d32c5684ac6b226b31659677ba4a6c8258920789ab0dc01b8087a9f46c279f",
+      "method": "Actual frozen GLB rendered in Blender with transparent film, trimmed and padded; glove pair crops brought together for inventory readability; no imagegen icon substitution.",
+      "outputs": [
+        {
+          "file": "art/aurora/icons/256/frostweave_robe.png",
+          "size": 256,
+          "sha256": "9d66bb405c55e356ae4856373ed062a2c751f791ee9f04df217883fa34d6a8b7"
+        },
+        {
+          "file": "game/public/assets/icons/items/48/aurora_frostweave_robe.png",
+          "size": 48,
+          "sha256": "eabda261778ebc3b9f87d4c95ae23a8b6f5b70629c0c9e9b628a2bd55e0f267c"
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_leggings",
+      "source": "art/aurora/icons/frostweave_leggings.png",
+      "sourceSha256": "351f4cbb0c6b85352b7ec97831f9e33c841439c6929265611122e8c9ca24f684",
+      "method": "Actual frozen GLB rendered in Blender with transparent film, trimmed and padded; glove pair crops brought together for inventory readability; no imagegen icon substitution.",
+      "outputs": [
+        {
+          "file": "art/aurora/icons/256/frostweave_leggings.png",
+          "size": 256,
+          "sha256": "7f6488f2c0c7843131c7be7aee869f086562ad23d134039d62f40b0be47d7053"
+        },
+        {
+          "file": "game/public/assets/icons/items/48/aurora_frostweave_leggings.png",
+          "size": 48,
+          "sha256": "1dcf95d4041acbf72cd11ba01390e7e866fed9fb6da29bb25f46b000535b447b"
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_boots",
+      "source": "art/aurora/icons/frostweave_boots.png",
+      "sourceSha256": "f808cd1f92f96e23b8908c22671d1b330302db986a66cfbec2471df32efc1312",
+      "method": "Actual frozen GLB rendered in Blender with transparent film, trimmed and padded; glove pair crops brought together for inventory readability; no imagegen icon substitution.",
+      "outputs": [
+        {
+          "file": "art/aurora/icons/256/frostweave_boots.png",
+          "size": 256,
+          "sha256": "fc5621822d3b4f8483ed8b02f90f76b35976cdfe1a5bf6dd905a0abdd5508ae1"
+        },
+        {
+          "file": "game/public/assets/icons/items/48/aurora_frostweave_boots.png",
+          "size": 48,
+          "sha256": "f3f680de8748fd99d4974d26ef211c0cd6c94d1e98588e827abdb45255b81040"
+        }
+      ]
+    },
+    {
+      "itemId": "frostweave_wraps",
+      "source": "art/aurora/icons/frostweave_wraps.png",
+      "sourceSha256": "b0223901b984af5365e7e6fa922e15eb82d11c08ad5df8109a203d732f9adea2",
+      "method": "Actual frozen GLB rendered in Blender with transparent film, trimmed and padded; glove pair crops brought together for inventory readability; no imagegen icon substitution.",
+      "outputs": [
+        {
+          "file": "art/aurora/icons/256/frostweave_wraps.png",
+          "size": 256,
+          "sha256": "b07ea8cf1153a06a0c38af84bdad10ff61161702f5f000b16436f6eb18c7b1ba"
+        },
+        {
+          "file": "game/public/assets/icons/items/48/aurora_frostweave_wraps.png",
+          "size": 48,
+          "sha256": "1c491548f3bfaba0bb8e6607cd166d2ea55533e53fdbc456584e87fec6bbe250"
+        }
+      ]
+    }
+  ]
+}

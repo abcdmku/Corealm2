@@ -10,4 +10,12 @@ tools/build-shortcut-*.ts text eol=lf
 tools/wilderness-trees/build.ts text eol=lf
 tools/wilderness-resources/build.ts text eol=lf
 tools/wilderness-creatures/keepers/hollow-star.mjs text eol=lf
-tools/item-models/build.ts text eol=lf
+tools/item-models/**/*.ts text eol=lf
+
+# Armor manifests and evidence include byte hashes; preserve authored inputs and reports.
+art/aurora/** -text whitespace=cr-at-eol
+art/tier50-70/** -text whitespace=cr-at-eol
+art/starhide/** -text whitespace=cr-at-eol
+runs/aurora/** -text whitespace=cr-at-eol
+runs/tier50-70/** -text whitespace=cr-at-eol
+art/item-models/source-snapshots/*.ts text eol=lf

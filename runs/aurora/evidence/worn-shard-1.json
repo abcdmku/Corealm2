@@ -1,0 +1,5375 @@
+{
+  "passed": true,
+  "equipment": {
+    "head": "frostweave_hood",
+    "body": "frostweave_robe",
+    "legs": "frostweave_leggings",
+    "hands": "frostweave_wraps",
+    "feet": "frostweave_boots"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_frostweave_hood",
+      "file": "models/items/frostweave_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_hood",
+        "head",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "temporary-asset-review"
+      ],
+      "bytes": 31789208,
+      "itemModel": {
+        "itemId": "frostweave_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.41191256948848687,
+        "z": 0.3300931602716446
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2272256463766098
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_hood",
+      "status": "pending",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_hood",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 43804,
+      "drawCalls": 11,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 33651960,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_robe",
+      "file": "models/items/frostweave_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "temporary-asset-review"
+      ],
+      "bytes": 39805716,
+      "itemModel": {
+        "itemId": "frostweave_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.907024621963501,
+        "y": 1.3172156810760498,
+        "z": 0.5851479172706604
+      },
+      "base": {
+        "x": -0.45483022928237915,
+        "y": 0.2870614528656006,
+        "z": -0.31833401322364807
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pale-gold-embroidery-thread"
+      ],
+      "itemId": "frostweave_robe",
+      "status": "pending",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_robe",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 149372,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 74286,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 41668464,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_leggings",
+      "file": "models/items/frostweave_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "temporary-asset-review"
+      ],
+      "bytes": 33880396,
+      "itemModel": {
+        "itemId": "frostweave_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_leggings",
+      "status": "pending",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_leggings",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 94388,
+      "drawCalls": 22,
+      "tailoredSkirtVertices": 27340,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 35743148,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_boots",
+      "file": "models/items/frostweave_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "temporary-asset-review"
+      ],
+      "bytes": 36100556,
+      "itemModel": {
+        "itemId": "frostweave_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pearl-gray-leather-sole"
+      ],
+      "itemId": "frostweave_boots",
+      "status": "pending",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_boots",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 111192,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 38668036,
+        "originalTextures": 20,
+        "textures": 14
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_wraps",
+      "file": "models/items/frostweave_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "temporary-asset-review"
+      ],
+      "bytes": 34776700,
+      "itemModel": {
+        "itemId": "frostweave_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_wraps",
+      "status": "pending",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_wraps",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 100384,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 36639448,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    }
+  ],
+  "captures": [
+    {
+      "name": "front",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\front.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 0.09980000000000183,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "de06a810-b0cf-4d1d-857e-12dda6eac867",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            0,
+            0,
+            0
+          ],
+          "drawnRotationY": 0,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                0.18042950363818164,
+                0.014543373225052461,
+                0.2752570639038646
+              ],
+              "ankle": [
+                0.1951731416361241,
+                0.10304367578862395,
+                0.1269884135791092
+              ]
+            },
+            "right": {
+              "ball": [
+                -0.2647071252752672,
+                0.015106563754403904,
+                -0.15951375297293274
+              ],
+              "ankle": [
+                -0.16183512287352825,
+                0.10360676894568649,
+                -0.2673020504032677
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "camera": {
+          "position": {
+            "x": 1.365,
+            "y": 3.437,
+            "z": 5.355
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0,
+            "y": 1.1,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "side",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\side.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 0.7831000000000016,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "de06a810-b0cf-4d1d-857e-12dda6eac867",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            0,
+            0,
+            0
+          ],
+          "drawnRotationY": 0,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                0.18043667656638493,
+                0.014695506291073746,
+                0.27534272600484533
+              ],
+              "ankle": [
+                0.19517993924334776,
+                0.10320135675030978,
+                0.12707735802056766
+              ]
+            },
+            "right": {
+              "ball": [
+                -0.2647005649821941,
+                0.01523804282677202,
+                -0.15941748639549125
+              ],
+              "ankle": [
+                -0.16182694005734408,
+                0.10372811542140625,
+                -0.2672125578144604
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "camera": {
+          "position": {
+            "x": 5.526,
+            "y": 3.437,
+            "z": 0.002
+          },
+          "yaw": 1.57,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 1.57,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0,
+            "y": 1.1,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "back",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\back.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 1.6997000000000035,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "de06a810-b0cf-4d1d-857e-12dda6eac867",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            0,
+            0,
+            0
+          ],
+          "drawnRotationY": 0,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                0.1805242169248989,
+                0.01470539017711038,
+                0.27520738259833843
+              ],
+              "ankle": [
+                0.195263692442026,
+                0.10322915258695853,
+                0.12695234341841846
+              ]
+            },
+            "right": {
+              "ball": [
+                -0.2644829421025269,
+                0.01525182322677364,
+                -0.15963766181538966
+              ],
+              "ankle": [
+                -0.16162218947207765,
+                0.10377780184333357,
+                -0.26741553573335947
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "camera": {
+          "position": {
+            "x": -1.243,
+            "y": 3.437,
+            "z": -5.385
+          },
+          "yaw": 3.368,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.368,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0,
+            "y": 1.1,
+            "z": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "walking",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\walking.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.47849139905969,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -0.41248556712269807,
+            0,
+            -1.612848793387414
+          ],
+          "drawnRotationY": -2.8912098999023437,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -0.38088226203648057,
+                0.3640599186324262,
+                -1.1299991638106521
+              ],
+              "ankle": [
+                -0.40850012439205624,
+                0.4965076461615372,
+                -1.2382956000917942
+              ]
+            },
+            "right": {
+              "ball": [
+                -0.388735726057571,
+                0.09685743439063856,
+                -1.9536366973801371
+              ],
+              "ankle": [
+                -0.36459252098593237,
+                0.12740391192765205,
+                -1.7847661282140714
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": -0.52,
+          "y": 0,
+          "z": -2.035
+        },
+        "camera": {
+          "position": {
+            "x": 1.079,
+            "y": 3.437,
+            "z": 4.218
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -0.291,
+            "y": 1.1,
+            "z": -1.136
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-front-20",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-front-20.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.13081653254576203,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -0.2598958536982529,
+            0,
+            -1.0162121250033351
+          ],
+          "drawnRotationY": 0.25038275368744944,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -0.20078442697200916,
+                0.013092472826055135,
+                -1.1447747990343344
+              ],
+              "ankle": [
+                -0.21864671778235617,
+                0.17079660674559108,
+                -1.2143709417428843
+              ]
+            },
+            "right": {
+              "ball": [
+                -0.3552487245574236,
+                0.20903258578591896,
+                -1.1250420731873143
+              ],
+              "ankle": [
+                -0.36137032743323316,
+                0.36709580060627656,
+                -1.0542480783545052
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": -0.238,
+          "y": 0,
+          "z": -0.93
+        },
+        "camera": {
+          "position": {
+            "x": 0.979,
+            "y": 3.437,
+            "z": 3.826
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -0.391,
+            "y": 1.1,
+            "z": -1.528
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-front-50",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-front-50.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.4174031218221329,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.19999992528153,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            1.0499210280179965,
+            0,
+            4.105267729759212
+          ],
+          "drawnRotationY": 0.25038275368744944,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                1.0152993320904733,
+                0.3675476020479676,
+                3.610852849088688
+              ],
+              "ankle": [
+                1.0410650016351632,
+                0.5062057745263154,
+                3.71156683331045
+              ]
+            },
+            "right": {
+              "ball": [
+                1.0346004224187038,
+                0.2557964844989248,
+                4.478431272396833
+              ],
+              "ankle": [
+                1.0097255344435816,
+                0.24894596952469894,
+                4.307061613828676
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 1.051,
+          "y": 0,
+          "z": 4.108
+        },
+        "camera": {
+          "position": {
+            "x": 2.288,
+            "y": 3.437,
+            "z": 8.947
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.919,
+            "y": 1.1,
+            "z": 3.593
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-front-80",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-front-80.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.6840697036360448,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.199999857119086,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            2.3383502888679493,
+            0,
+            9.143119540214535
+          ],
+          "drawnRotationY": 0.25038275368744944,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                2.47479521361279,
+                0.2569558211688906,
+                9.314215973991573
+              ],
+              "ankle": [
+                2.443548815376531,
+                0.3785407388454316,
+                9.194741929939143
+              ]
+            },
+            "right": {
+              "ball": [
+                2.1565764768079654,
+                0.1782283221447755,
+                8.790827705630724
+              ],
+              "ankle": [
+                2.1703102415429,
+                0.34238674262299695,
+                8.844648221998384
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 2.339,
+          "y": 0,
+          "z": 9.146
+        },
+        "camera": {
+          "position": {
+            "x": 3.576,
+            "y": 3.437,
+            "z": 13.982
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 2.206,
+            "y": 1.1,
+            "z": 8.628
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-side-20",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-side-20.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.13738851915192493,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            5.824394985198967,
+            0,
+            10.998238128662111
+          ],
+          "drawnRotationY": 1.821179080482346,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                5.673912369631997,
+                0.009841683941188062,
+                10.9448849357223
+              ],
+              "ankle": [
+                5.6076579647921,
+                0.16906948621976411,
+                10.961918408289673
+              ]
+            },
+            "right": {
+              "ball": [
+                5.746060255962968,
+                0.20129915589392125,
+                11.083576945725689
+              ],
+              "ankle": [
+                5.801222363057329,
+                0.3651093387055081,
+                11.096091331982096
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 5.911,
+          "y": 0,
+          "z": 10.976
+        },
+        "camera": {
+          "position": {
+            "x": 6.681,
+            "y": 3.437,
+            "z": 16.481
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 5.312,
+            "y": 1.1,
+            "z": 11.127
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-side-50",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-side-50.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.40405518184494843,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            10.86224631881713,
+            0,
+            9.709805053710939
+          ],
+          "drawnRotationY": 1.821179080482346,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                10.37383865530198,
+                0.35638378045755564,
+                9.742867486015555
+              ],
+              "ankle": [
+                10.47100384054642,
+                0.4977149551200533,
+                9.718014096114178
+              ]
+            },
+            "right": {
+              "ball": [
+                11.232575598095552,
+                0.28127885333836045,
+                9.723496788069115
+              ],
+              "ankle": [
+                11.061497665564236,
+                0.2761472746087649,
+                9.750686084265196
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 10.949,
+          "y": 0,
+          "z": 9.688
+        },
+        "camera": {
+          "position": {
+            "x": 11.713,
+            "y": 3.437,
+            "z": 15.196
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 10.344,
+            "y": 1.1,
+            "z": 9.842
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-side-80",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-side-80.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.6906418445379744,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            15.983725984573367,
+            0,
+            8.399983989715576
+          ],
+          "drawnRotationY": 1.821179080482346,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                16.169743421012168,
+                0.267687542293912,
+                8.26210458281676
+              ],
+              "ankle": [
+                16.04273825870282,
+                0.3815007181429867,
+                8.292918982543137
+              ]
+            },
+            "right": {
+              "ball": [
+                15.619726366115193,
+                0.19237847068609676,
+                8.584786119746244
+              ],
+              "ankle": [
+                15.683194898535115,
+                0.3528229198818033,
+                8.568581957928254
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 15.987,
+          "y": 0,
+          "z": 8.399
+        },
+        "camera": {
+          "position": {
+            "x": 16.837,
+            "y": 3.437,
+            "z": 13.886
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 15.468,
+            "y": 1.1,
+            "z": 8.532
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-rear-20",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-rear-20.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.12547505650137764,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            17.82462378883362,
+            0,
+            4.576092528343209
+          ],
+          "drawnRotationY": -2.8912098999023437,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                17.760603887847882,
+                0.00969805726142034,
+                4.686031397903987
+              ],
+              "ankle": [
+                17.779618952611717,
+                0.16536373213100802,
+                4.759787098429823
+              ]
+            },
+            "right": {
+              "ball": [
+                17.93009527459263,
+                0.2064963402736728,
+                4.70877891479759
+              ],
+              "ankle": [
+                17.93018610213547,
+                0.36128583672299985,
+                4.6308465909932615
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 17.759,
+          "y": 0,
+          "z": 4.321
+        },
+        "camera": {
+          "position": {
+            "x": 19.322,
+            "y": 3.437,
+            "z": 10.442
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 17.952,
+            "y": 1.1,
+            "z": 5.088
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-rear-50",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-rear-50.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.41218171919440205,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            16.51467388153076,
+            0,
+            -0.5458911356329872
+          ],
+          "drawnRotationY": -2.8912098999023437,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                16.548708802796348,
+                0.3631437911177811,
+                -0.05375955188370178
+              ],
+              "ankle": [
+                16.523296770236716,
+                0.5028589572083582,
+                -0.15309316202440865
+              ]
+            },
+            "right": {
+              "ball": [
+                16.52929845673618,
+                0.26540300126321253,
+                -0.918115852938787
+              ],
+              "ankle": [
+                16.5550862764436,
+                0.25922313838006855,
+                -0.7468556786387178
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 16.471,
+          "y": 0,
+          "z": -0.717
+        },
+        "camera": {
+          "position": {
+            "x": 18.015,
+            "y": 3.437,
+            "z": 5.321
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 16.646,
+            "y": 1.1,
+            "z": -0.034
+          }
+        }
+      }
+    },
+    {
+      "name": "armor-walk-rear-80",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-worn-walk\\armor-walk-rear-80.png",
+      "state": {
+        "equipment": {
+          "head": "frostweave_hood",
+          "body": "frostweave_robe",
+          "legs": "frostweave_leggings",
+          "feet": "frostweave_boots",
+          "hands": "frostweave_wraps",
+          "mainHand": null,
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.698768381887428,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            15.204852817535398,
+            0,
+            -5.667371065139777
+          ],
+          "drawnRotationY": -2.8912098999023437,
+          "attachments": {},
+          "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+            "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+            "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+            "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+            "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+            "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+            "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_frostweave_robe",
+            "corealm_item_frostweave_leggings",
+            "corealm_item_frostweave_boots",
+            "corealm_item_frostweave_wraps",
+            "corealm_item_frostweave_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                15.065249078221143,
+                0.28274321523944357,
+                -5.8716135147820605
+              ],
+              "ankle": [
+                15.09542630861968,
+                0.3862912556478078,
+                -5.735965381158487
+              ]
+            },
+            "right": {
+              "ball": [
+                15.393373771862388,
+                0.21134638298822678,
+                -5.289334648530772
+              ],
+              "ankle": [
+                15.374183102581913,
+                0.3663659933175583,
+                -5.3643938828282876
+              ]
+            }
+          }
+        },
+        "player": {
+          "x": 15.182,
+          "y": 0,
+          "z": -5.755
+        },
+        "camera": {
+          "position": {
+            "x": 16.706,
+            "y": 3.437,
+            "z": 0.204
+          },
+          "yaw": 0.25,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.25,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 15.337,
+            "y": 1.1,
+            "z": -5.15
+          }
+        }
+      }
+    }
+  ],
+  "movement": {
+    "from": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "to": {
+      "x": -0.52,
+      "y": 0,
+      "z": -2.035
+    },
+    "clip": "Jog_Fwd_Loop"
+  },
+  "armorMotion": {
+    "walking": [
+      {
+        "view": "front",
+        "key": "s",
+        "before": {
+          "equipment": {
+            "head": "frostweave_hood",
+            "body": "frostweave_robe",
+            "legs": "frostweave_leggings",
+            "feet": "frostweave_boots",
+            "hands": "frostweave_wraps",
+            "mainHand": null,
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "run",
+            "clip": "Jog_Fwd_Loop",
+            "time": 0.9185313682258539,
+            "duration": 0.9333333373069763,
+            "timeScale": 1.199999891200301,
+            "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+            "clipSource": "player-local",
+            "nativeStrideMps": 3.5,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -0.8849524706602084,
+              0,
+              -3.4602289772033643
+            ],
+            "drawnRotationY": -2.8912098999023437,
+            "attachments": {},
+            "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+              "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+              "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+              "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+              "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+              "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_frostweave_robe",
+              "corealm_item_frostweave_leggings",
+              "corealm_item_frostweave_boots",
+              "corealm_item_frostweave_wraps",
+              "corealm_item_frostweave_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -1.0383712775804266,
+                  0.19879737233568434,
+                  -3.791612826187127
+                ],
+                "ankle": [
+                  -1.0177048535762017,
+                  0.18877781161349988,
+                  -3.619840372897123
+                ]
+              },
+              "right": {
+                "ball": [
+                  -0.6753664543209481,
+                  0.38761768794994556,
+                  -2.9997771242651523
+                ],
+                "ankle": [
+                  -0.7026671612391839,
+                  0.521361698912735,
+                  -3.106550058393824
+                ]
+              }
+            }
+          },
+          "player": {
+            "x": -0.907,
+            "y": 0,
+            "z": -3.546
+          },
+          "camera": {
+            "position": {
+              "x": 0.616,
+              "y": 3.437,
+              "z": 2.407
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -0.754,
+              "y": 1.1,
+              "z": -2.947
+            }
+          }
+        },
+        "frames": [
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.13081653254576203,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                -0.2598958536982529,
+                0,
+                -1.0162121250033351
+              ],
+              "drawnRotationY": 0.25038275368744944,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    -0.20078442697200916,
+                    0.013092472826055135,
+                    -1.1447747990343344
+                  ],
+                  "ankle": [
+                    -0.21864671778235617,
+                    0.17079660674559108,
+                    -1.2143709417428843
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    -0.3552487245574236,
+                    0.20903258578591896,
+                    -1.1250420731873143
+                  ],
+                  "ankle": [
+                    -0.36137032743323316,
+                    0.36709580060627656,
+                    -1.0542480783545052
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": -0.238,
+              "y": 0,
+              "z": -0.93
+            },
+            "camera": {
+              "position": {
+                "x": 0.979,
+                "y": 3.437,
+                "z": 3.826
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": -0.391,
+                "y": 1.1,
+                "z": -1.528
+              }
+            }
+          },
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.4174031218221329,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.19999992528153,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                1.0499210280179965,
+                0,
+                4.105267729759212
+              ],
+              "drawnRotationY": 0.25038275368744944,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    1.0152993320904733,
+                    0.3675476020479676,
+                    3.610852849088688
+                  ],
+                  "ankle": [
+                    1.0410650016351632,
+                    0.5062057745263154,
+                    3.71156683331045
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    1.0346004224187038,
+                    0.2557964844989248,
+                    4.478431272396833
+                  ],
+                  "ankle": [
+                    1.0097255344435816,
+                    0.24894596952469894,
+                    4.307061613828676
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 1.051,
+              "y": 0,
+              "z": 4.108
+            },
+            "camera": {
+              "position": {
+                "x": 2.288,
+                "y": 3.437,
+                "z": 8.947
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 0.919,
+                "y": 1.1,
+                "z": 3.593
+              }
+            }
+          },
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.6840697036360448,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.199999857119086,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                2.3383502888679493,
+                0,
+                9.143119540214535
+              ],
+              "drawnRotationY": 0.25038275368744944,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    2.47479521361279,
+                    0.2569558211688906,
+                    9.314215973991573
+                  ],
+                  "ankle": [
+                    2.443548815376531,
+                    0.3785407388454316,
+                    9.194741929939143
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    2.1565764768079654,
+                    0.1782283221447755,
+                    8.790827705630724
+                  ],
+                  "ankle": [
+                    2.1703102415429,
+                    0.34238674262299695,
+                    8.844648221998384
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 2.339,
+              "y": 0,
+              "z": 9.146
+            },
+            "camera": {
+              "position": {
+                "x": 3.576,
+                "y": 3.437,
+                "z": 13.982
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 2.206,
+                "y": 1.1,
+                "z": 8.628
+              }
+            }
+          }
+        ]
+      },
+      {
+        "view": "side",
+        "key": "d",
+        "before": {
+          "equipment": {
+            "head": "frostweave_hood",
+            "body": "frostweave_robe",
+            "legs": "frostweave_leggings",
+            "feet": "frostweave_boots",
+            "hands": "frostweave_wraps",
+            "mainHand": null,
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "run",
+            "clip": "Jog_Fwd_Loop",
+            "time": 0.23005852346669672,
+            "duration": 0.9333333373069763,
+            "timeScale": 1.199999857119086,
+            "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+            "clipSource": "player-local",
+            "nativeStrideMps": 3.5,
+            "actionWeight": 1,
+            "drawnPosition": [
+              2.822370045185088,
+              0,
+              11.162260737419125
+            ],
+            "drawnRotationY": 0.25038275368744944,
+            "attachments": {},
+            "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+              "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+              "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+              "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+              "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+              "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_frostweave_robe",
+              "corealm_item_frostweave_leggings",
+              "corealm_item_frostweave_boots",
+              "corealm_item_frostweave_wraps",
+              "corealm_item_frostweave_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  2.807096500327533,
+                  0.20642542906583758,
+                  10.743636648997864
+                ],
+                "ankle": [
+                  2.8255706886540097,
+                  0.36289419517484045,
+                  10.815813479596928
+                ]
+              },
+              "right": {
+                "ball": [
+                  2.7944210035909682,
+                  0.2929492909462474,
+                  11.439242372259713
+                ],
+                "ankle": [
+                  2.7645224624354032,
+                  0.38494109700152124,
+                  11.295447940380301
+                ]
+              }
+            }
+          },
+          "player": {
+            "x": 2.823,
+            "y": 0,
+            "z": 11.165
+          },
+          "camera": {
+            "position": {
+              "x": 4.064,
+              "y": 3.437,
+              "z": 16.003
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 2.694,
+              "y": 1.1,
+              "z": 10.648
+            }
+          }
+        },
+        "frames": [
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.13738851915192493,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                5.824394985198967,
+                0,
+                10.998238128662111
+              ],
+              "drawnRotationY": 1.821179080482346,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    5.673912369631997,
+                    0.009841683941188062,
+                    10.9448849357223
+                  ],
+                  "ankle": [
+                    5.6076579647921,
+                    0.16906948621976411,
+                    10.961918408289673
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    5.746060255962968,
+                    0.20129915589392125,
+                    11.083576945725689
+                  ],
+                  "ankle": [
+                    5.801222363057329,
+                    0.3651093387055081,
+                    11.096091331982096
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 5.911,
+              "y": 0,
+              "z": 10.976
+            },
+            "camera": {
+              "position": {
+                "x": 6.681,
+                "y": 3.437,
+                "z": 16.481
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 5.312,
+                "y": 1.1,
+                "z": 11.127
+              }
+            }
+          },
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.40405518184494843,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                10.86224631881713,
+                0,
+                9.709805053710939
+              ],
+              "drawnRotationY": 1.821179080482346,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    10.37383865530198,
+                    0.35638378045755564,
+                    9.742867486015555
+                  ],
+                  "ankle": [
+                    10.47100384054642,
+                    0.4977149551200533,
+                    9.718014096114178
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    11.232575598095552,
+                    0.28127885333836045,
+                    9.723496788069115
+                  ],
+                  "ankle": [
+                    11.061497665564236,
+                    0.2761472746087649,
+                    9.750686084265196
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 10.949,
+              "y": 0,
+              "z": 9.688
+            },
+            "camera": {
+              "position": {
+                "x": 11.713,
+                "y": 3.437,
+                "z": 15.196
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 10.344,
+                "y": 1.1,
+                "z": 9.842
+              }
+            }
+          },
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.6906418445379744,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                15.983725984573367,
+                0,
+                8.399983989715576
+              ],
+              "drawnRotationY": 1.821179080482346,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    16.169743421012168,
+                    0.267687542293912,
+                    8.26210458281676
+                  ],
+                  "ankle": [
+                    16.04273825870282,
+                    0.3815007181429867,
+                    8.292918982543137
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    15.619726366115193,
+                    0.19237847068609676,
+                    8.584786119746244
+                  ],
+                  "ankle": [
+                    15.683194898535115,
+                    0.3528229198818033,
+                    8.568581957928254
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 15.987,
+              "y": 0,
+              "z": 8.399
+            },
+            "camera": {
+              "position": {
+                "x": 16.837,
+                "y": 3.437,
+                "z": 13.886
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 15.468,
+                "y": 1.1,
+                "z": 8.532
+              }
+            }
+          }
+        ]
+      },
+      {
+        "view": "rear",
+        "key": "w",
+        "before": {
+          "equipment": {
+            "head": "frostweave_hood",
+            "body": "frostweave_robe",
+            "legs": "frostweave_leggings",
+            "feet": "frostweave_boots",
+            "hands": "frostweave_wraps",
+            "mainHand": null,
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "run",
+            "clip": "Jog_Fwd_Loop",
+            "time": 0.21738850723099537,
+            "duration": 0.9333333373069763,
+            "timeScale": 1.2,
+            "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+            "clipSource": "player-local",
+            "nativeStrideMps": 3.5,
+            "actionWeight": 1,
+            "drawnPosition": [
+              17.915240882873526,
+              0,
+              7.905999143600466
+            ],
+            "drawnRotationY": 1.821179080482346,
+            "attachments": {},
+            "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+              "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+              "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+              "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+              "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+              "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+              "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_frostweave_robe",
+              "corealm_item_frostweave_leggings",
+              "corealm_item_frostweave_boots",
+              "corealm_item_frostweave_wraps",
+              "corealm_item_frostweave_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  17.518971125654126,
+                  0.17820908780761172,
+                  7.915688742239784
+                ],
+                "ankle": [
+                  17.572754716940658,
+                  0.34237499667430926,
+                  7.901899313338636
+                ]
+              },
+              "right": {
+                "ball": [
+                  18.165106904826448,
+                  0.26969284474553873,
+                  7.937318078594878
+                ],
+                "ankle": [
+                  18.03370846000346,
+                  0.3785276078471318,
+                  7.967693995420084
+                ]
+              }
+            }
+          },
+          "player": {
+            "x": 18.002,
+            "y": 0,
+            "z": 7.884
+          },
+          "camera": {
+            "position": {
+              "x": 18.765,
+              "y": 3.437,
+              "z": 13.393
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 17.396,
+              "y": 1.1,
+              "z": 8.039
+            }
+          }
+        },
+        "frames": [
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.12547505650137764,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                17.82462378883362,
+                0,
+                4.576092528343209
+              ],
+              "drawnRotationY": -2.8912098999023437,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    17.760603887847882,
+                    0.00969805726142034,
+                    4.686031397903987
+                  ],
+                  "ankle": [
+                    17.779618952611717,
+                    0.16536373213100802,
+                    4.759787098429823
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    17.93009527459263,
+                    0.2064963402736728,
+                    4.70877891479759
+                  ],
+                  "ankle": [
+                    17.93018610213547,
+                    0.36128583672299985,
+                    4.6308465909932615
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 17.759,
+              "y": 0,
+              "z": 4.321
+            },
+            "camera": {
+              "position": {
+                "x": 19.322,
+                "y": 3.437,
+                "z": 10.442
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 17.952,
+                "y": 1.1,
+                "z": 5.088
+              }
+            }
+          },
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.41218171919440205,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                16.51467388153076,
+                0,
+                -0.5458911356329872
+              ],
+              "drawnRotationY": -2.8912098999023437,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    16.548708802796348,
+                    0.3631437911177811,
+                    -0.05375955188370178
+                  ],
+                  "ankle": [
+                    16.523296770236716,
+                    0.5028589572083582,
+                    -0.15309316202440865
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    16.52929845673618,
+                    0.26540300126321253,
+                    -0.918115852938787
+                  ],
+                  "ankle": [
+                    16.5550862764436,
+                    0.25922313838006855,
+                    -0.7468556786387178
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 16.471,
+              "y": 0,
+              "z": -0.717
+            },
+            "camera": {
+              "position": {
+                "x": 18.015,
+                "y": 3.437,
+                "z": 5.321
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 16.646,
+                "y": 1.1,
+                "z": -0.034
+              }
+            }
+          },
+          {
+            "equipment": {
+              "head": "frostweave_hood",
+              "body": "frostweave_robe",
+              "legs": "frostweave_leggings",
+              "feet": "frostweave_boots",
+              "hands": "frostweave_wraps",
+              "mainHand": null,
+              "offHand": null,
+              "accessory1": null,
+              "accessory2": null
+            },
+            "motion": {
+              "fishing": {
+                "sample": null,
+                "visible": false,
+                "tip": [
+                  0,
+                  0,
+                  0
+                ],
+                "float": [
+                  0,
+                  0,
+                  0
+                ],
+                "spot": null,
+                "bones": [
+                  "root",
+                  "pelvis",
+                  "spine_01",
+                  "spine_02",
+                  "spine_03",
+                  "neck_01",
+                  "Head",
+                  "clavicle_l",
+                  "upperarm_l",
+                  "lowerarm_l",
+                  "hand_l",
+                  "index_01_l",
+                  "index_02_l",
+                  "index_03_l",
+                  "index_04_leaf_l",
+                  "middle_01_l",
+                  "middle_02_l",
+                  "middle_03_l",
+                  "middle_04_leaf_l",
+                  "pinky_01_l",
+                  "pinky_02_l",
+                  "pinky_03_l",
+                  "pinky_04_leaf_l",
+                  "ring_01_l",
+                  "ring_02_l",
+                  "ring_03_l",
+                  "ring_04_leaf_l",
+                  "thumb_01_l",
+                  "thumb_02_l",
+                  "thumb_03_l",
+                  "thumb_04_leaf_l",
+                  "clavicle_r",
+                  "upperarm_r",
+                  "lowerarm_r",
+                  "hand_r",
+                  "index_01_r",
+                  "index_02_r",
+                  "index_03_r",
+                  "index_04_leaf_r",
+                  "middle_01_r",
+                  "middle_02_r",
+                  "middle_03_r",
+                  "middle_04_leaf_r",
+                  "pinky_01_r",
+                  "pinky_02_r",
+                  "pinky_03_r",
+                  "pinky_04_leaf_r",
+                  "ring_01_r",
+                  "ring_02_r",
+                  "ring_03_r",
+                  "ring_04_leaf_r",
+                  "thumb_01_r",
+                  "thumb_02_r",
+                  "thumb_03_r",
+                  "thumb_04_leaf_r",
+                  "thigh_l",
+                  "calf_l",
+                  "foot_l",
+                  "ball_l",
+                  "ball_leaf_l",
+                  "thigh_r",
+                  "calf_r",
+                  "foot_r",
+                  "ball_r",
+                  "ball_leaf_r"
+                ],
+                "guideWorld": null,
+                "guideLocal": null,
+                "visibleTackle": 0
+              },
+              "pose": "run",
+              "clip": "Jog_Fwd_Loop",
+              "time": 0.698768381887428,
+              "duration": 0.9333333373069763,
+              "timeScale": 1.2,
+              "clipUuid": "9ada8144-d6f7-471d-b5fd-e9677d725a5e",
+              "clipSource": "player-local",
+              "nativeStrideMps": 3.5,
+              "actionWeight": 1,
+              "drawnPosition": [
+                15.204852817535398,
+                0,
+                -5.667371065139777
+              ],
+              "drawnRotationY": -2.8912098999023437,
+              "attachments": {},
+              "layerSignature": "raw|corealm_item_frostweave_robe:corealm_item_frostweave_robe/-/skin/-/1/-/-|corealm_item_frostweave_leggings:corealm_item_frostweave_leggings/-/skin/-/1/-/-|corealm_item_frostweave_boots:corealm_item_frostweave_boots/-/skin/-/1/-/-|corealm_item_frostweave_wraps:corealm_item_frostweave_wraps/-/skin/-/1/-/-|corealm_item_frostweave_hood:corealm_item_frostweave_hood/-/skin/-/1/-/-",
+              "layerLoadPending": false,
+              "layerMeshes": [
+                "merged-part-corealm_item_frostweave_robe-aurora-pearl-ivory-celestial-brocade",
+                "merged-part-corealm_item_frostweave_robe-aurora-cool-pearl-shadow-lining",
+                "merged-part-corealm_item_frostweave_robe-aurora-warm-chased-gold",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-1",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-2",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-3",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-4",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-5",
+                "merged-part-corealm_item_frostweave_robe-aurora-opal-scute-6",
+                "merged-part-corealm_item_frostweave_robe-aurora-aurora-opal-inset",
+                "merged-part-corealm_item_frostweave_robe-aurora-pale-gold-embroidery-thread",
+                "part-corealm_item_frostweave_boots-aurora-pearl-gray-leather-sole"
+              ],
+              "layerAssets": [
+                "corealm_item_frostweave_robe",
+                "corealm_item_frostweave_leggings",
+                "corealm_item_frostweave_boots",
+                "corealm_item_frostweave_wraps",
+                "corealm_item_frostweave_hood"
+              ],
+              "layerMissingBones": [],
+              "hairVisible": false,
+              "attachmentLoading": {},
+              "attachmentErrors": {},
+              "activityMainHandKey": null,
+              "feet": {
+                "left": {
+                  "ball": [
+                    15.065249078221143,
+                    0.28274321523944357,
+                    -5.8716135147820605
+                  ],
+                  "ankle": [
+                    15.09542630861968,
+                    0.3862912556478078,
+                    -5.735965381158487
+                  ]
+                },
+                "right": {
+                  "ball": [
+                    15.393373771862388,
+                    0.21134638298822678,
+                    -5.289334648530772
+                  ],
+                  "ankle": [
+                    15.374183102581913,
+                    0.3663659933175583,
+                    -5.3643938828282876
+                  ]
+                }
+              }
+            },
+            "player": {
+              "x": 15.182,
+              "y": 0,
+              "z": -5.755
+            },
+            "camera": {
+              "position": {
+                "x": 16.706,
+                "y": 3.437,
+                "z": 0.204
+              },
+              "yaw": 0.25,
+              "pitch": 0.4,
+              "distance": 6,
+              "requestedDistance": 6,
+              "effectivePitch": 0.4,
+              "effectiveYaw": 0.25,
+              "flatDistance": 6,
+              "occluded": false,
+              "occlusionProbe": true,
+              "freeMove": false,
+              "target": {
+                "x": 15.337,
+                "y": 1.1,
+                "z": -5.15
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "attacks": [],
+    "walkingTimeScale": 1,
+    "attackTimeScale": 0.35,
+    "setup": "Lab equipment and target setup; keyboard locomotion, mouse camera orbit, production lab attack action"
+  }
+}

@@ -1,0 +1,1234 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "id": "corealm_item_frostweave_hood",
+      "file": "models/items/frostweave_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_hood",
+        "head",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold"
+      ],
+      "bytes": 31789208,
+      "itemModel": {
+        "itemId": "frostweave_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.41191256948848687,
+        "z": 0.3300931602716446
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2272256463766098
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_hood",
+      "status": "pending",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_hood",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 43804,
+      "drawCalls": 11,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 33651960,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_robe",
+      "file": "models/items/frostweave_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold"
+      ],
+      "bytes": 39805716,
+      "itemModel": {
+        "itemId": "frostweave_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.907024621963501,
+        "y": 1.3172156810760498,
+        "z": 0.5851479172706604
+      },
+      "base": {
+        "x": -0.45483022928237915,
+        "y": 0.2870614528656006,
+        "z": -0.31833401322364807
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pale-gold-embroidery-thread"
+      ],
+      "itemId": "frostweave_robe",
+      "status": "pending",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_robe",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 149372,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 74286,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 41668464,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_leggings",
+      "file": "models/items/frostweave_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold"
+      ],
+      "bytes": 33880396,
+      "itemModel": {
+        "itemId": "frostweave_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_leggings",
+      "status": "pending",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_leggings",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 94388,
+      "drawCalls": 22,
+      "tailoredSkirtVertices": 27340,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 35743148,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_boots",
+      "file": "models/items/frostweave_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold"
+      ],
+      "bytes": 36100556,
+      "itemModel": {
+        "itemId": "frostweave_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pearl-gray-leather-sole"
+      ],
+      "itemId": "frostweave_boots",
+      "status": "pending",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_boots",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 111192,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 38668036,
+        "originalTextures": 20,
+        "textures": 14
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_wraps",
+      "file": "models/items/frostweave_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold"
+      ],
+      "bytes": 34776700,
+      "itemModel": {
+        "itemId": "frostweave_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_wraps",
+      "status": "pending",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_wraps",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 100384,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 36639448,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    }
+  ],
+  "evidence": "Production environment gallery and GLB loader; normal wheel/right-drag camera; gallery controls magnify small items for inspection. Visual acceptance is recorded separately by a fresh critic and root.",
+  "report": [
+    {
+      "itemId": "frostweave_hood",
+      "view": "front",
+      "scale": 4.181001323022686,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_hood"
+          ],
+          "assets": [
+            "corealm_item_frostweave_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8933951521087629,
+            0.3499997633127805,
+            24.112033294977273
+          ],
+          "max": [
+            0.8890509260810617,
+            2.0722066672894357,
+            25.87894465751464
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_hood-front.png",
+      "elapsedMs": 2294
+    },
+    {
+      "itemId": "frostweave_hood",
+      "view": "side",
+      "scale": 4.181001323022686,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_hood"
+          ],
+          "assets": [
+            "corealm_item_frostweave_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.6900599426894943,
+            0.3499997633127805,
+            24.29999983310708
+          ],
+          "max": [
+            0.690059952019155,
+            2.0722066672894357,
+            25.699999787349483
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_hood-side.png",
+      "elapsedMs": 855
+    },
+    {
+      "itemId": "frostweave_hood",
+      "view": "back",
+      "scale": 4.181001323022686,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_hood",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_hood"
+          ],
+          "assets": [
+            "corealm_item_frostweave_hood"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8890509260810617,
+            0.3499997633127805,
+            24.12105534248536
+          ],
+          "max": [
+            0.8933951521087629,
+            2.0722066672894357,
+            25.887966705022727
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_hood-back.png",
+      "elapsedMs": 849
+    },
+    {
+      "itemId": "frostweave_robe",
+      "view": "front",
+      "scale": 1.5183542291010195,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_robe"
+          ],
+          "assets": [
+            "corealm_item_frostweave_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.7981279975298747,
+            0.34999998851441205,
+            24.349441971431308
+          ],
+          "max": [
+            0.7984790834955451,
+            2.3499999205117774,
+            25.651521449592426
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_robe-front.png",
+      "elapsedMs": 1468
+    },
+    {
+      "itemId": "frostweave_robe",
+      "view": "side",
+      "scale": 1.5183542291010195,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_robe"
+          ],
+          "assets": [
+            "corealm_item_frostweave_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.44423089053392334,
+            0.34999998851441205,
+            24.31140794612604
+          ],
+          "max": [
+            0.4442308940947656,
+            2.3499999205117774,
+            25.68859256995698
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_robe-side.png",
+      "elapsedMs": 870
+    },
+    {
+      "itemId": "frostweave_robe",
+      "view": "back",
+      "scale": 1.5183542291010195,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_robe",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_robe"
+          ],
+          "assets": [
+            "corealm_item_frostweave_robe"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.7984790834955451,
+            0.34999998851441205,
+            24.348478550407574
+          ],
+          "max": [
+            0.7981279975298747,
+            2.3499999205117774,
+            25.650558028568692
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_robe-back.png",
+      "elapsedMs": 845
+    },
+    {
+      "itemId": "frostweave_leggings",
+      "view": "front",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_leggings"
+          ],
+          "assets": [
+            "corealm_item_frostweave_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5490856399547503,
+            0.34999999839784124,
+            24.541846023305013
+          ],
+          "max": [
+            0.5441825008972891,
+            2.3499999623286385,
+            25.44978615499109
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_leggings-front.png",
+      "elapsedMs": 1358
+    },
+    {
+      "itemId": "frostweave_leggings",
+      "view": "side",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_leggings"
+          ],
+          "assets": [
+            "corealm_item_frostweave_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.3165317968360598,
+            0.34999999839784124,
+            24.53101940132764
+          ],
+          "max": [
+            0.31653179759507577,
+            2.3499999623286385,
+            25.46898059867236
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_leggings-side.png",
+      "elapsedMs": 850
+    },
+    {
+      "itemId": "frostweave_leggings",
+      "view": "back",
+      "scale": 2.068585433119102,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_leggings",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_leggings"
+          ],
+          "assets": [
+            "corealm_item_frostweave_leggings"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5441825008972891,
+            0.34999999839784124,
+            24.55021384500891
+          ],
+          "max": [
+            0.5490856399547503,
+            2.3499999623286385,
+            25.458153976694987
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_leggings-back.png",
+      "elapsedMs": 835
+    },
+    {
+      "itemId": "frostweave_boots",
+      "view": "front",
+      "scale": 3.1156794278572066,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_boots"
+          ],
+          "assets": [
+            "corealm_item_frostweave_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8464611052653837,
+            0.3499999851831159,
+            24.2259027976935
+          ],
+          "max": [
+            0.8486879188793992,
+            1.9466773086683986,
+            25.76878960197231
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_boots-front.png",
+      "elapsedMs": 1555
+    },
+    {
+      "itemId": "frostweave_boots",
+      "view": "side",
+      "scale": 3.1156794278572066,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_boots"
+          ],
+          "assets": [
+            "corealm_item_frostweave_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.5723059951275752,
+            0.3499999851831159,
+            24.299999983232876
+          ],
+          "max": [
+            0.5723059950639923,
+            1.9466773086683986,
+            25.700000016767124
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_boots-side.png",
+      "elapsedMs": 852
+    },
+    {
+      "itemId": "frostweave_boots",
+      "view": "back",
+      "scale": 3.1156794278572066,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_boots",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_boots"
+          ],
+          "assets": [
+            "corealm_item_frostweave_boots"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.8486879188793992,
+            0.3499999851831159,
+            24.23121039802769
+          ],
+          "max": [
+            0.8464611052653837,
+            1.9466773086683986,
+            25.7740972023065
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_boots-back.png",
+      "elapsedMs": 860
+    },
+    {
+      "itemId": "frostweave_wraps",
+      "view": "front",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_wraps"
+          ],
+          "assets": [
+            "corealm_item_frostweave_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.94030628826038,
+            0.34999988484983646,
+            24.145557838531
+          ],
+          "max": [
+            1.919799598264821,
+            0.6838592733830922,
+            25.798264579000175
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_wraps-front.png",
+      "elapsedMs": 1518
+    },
+    {
+      "itemId": "frostweave_wraps",
+      "view": "side",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_wraps"
+          ],
+          "assets": [
+            "corealm_item_frostweave_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -0.18169188443653217,
+            0.34999988484983646,
+            23.000000094052126
+          ],
+          "max": [
+            0.18169188878356834,
+            0.6838592733830922,
+            26.999999905947874
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_wraps-side.png",
+      "elapsedMs": 3754
+    },
+    {
+      "itemId": "frostweave_wraps",
+      "view": "back",
+      "scale": 2.1483176764816343,
+      "state": {
+        "lab": {
+          "ready": true,
+          "mode": "gallery",
+          "selection": "corealm_item_frostweave_wraps",
+          "entityIds": [
+            "lab:environment:gallery:corealm_item_frostweave_wraps"
+          ],
+          "assets": [
+            "corealm_item_frostweave_wraps"
+          ]
+        },
+        "bounds": {
+          "min": [
+            -1.919799598264821,
+            0.34999988484983646,
+            24.201735420999825
+          ],
+          "max": [
+            1.94030628826038,
+            0.6838592733830922,
+            25.854442161469
+          ]
+        },
+        "camera": {
+          "position": {
+            "x": 0.65,
+            "y": 2.873,
+            "z": 21.068
+          },
+          "yaw": 3.142,
+          "pitch": 0.3,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.3,
+          "effectiveYaw": 3.142,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": 0.65,
+            "y": 1.1,
+            "z": 26.8
+          }
+        },
+        "player": {
+          "x": 0.65,
+          "y": 0,
+          "z": 26.8
+        }
+      },
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\aurora-r16-pieces\\frostweave_wraps-back.png",
+      "elapsedMs": 861
+    }
+  ],
+  "errors": []
+}

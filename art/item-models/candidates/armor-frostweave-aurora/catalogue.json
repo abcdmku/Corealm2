@@ -1,0 +1,1040 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_frostweave_hood",
+      "file": "models/items/frostweave_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_hood",
+        "head",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 31789208,
+      "itemModel": {
+        "itemId": "frostweave_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.334848016500473,
+        "y": 0.41191256948848687,
+        "z": 0.3300931602716446
+      },
+      "base": {
+        "x": -0.16739431023597717,
+        "y": 1.4520220756530762,
+        "z": -0.2272256463766098
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_hood",
+      "status": "pending",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_hood",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 43804,
+      "drawCalls": 11,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 33651960,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_robe",
+      "file": "models/items/frostweave_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_robe",
+        "torso",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 39805716,
+      "itemModel": {
+        "itemId": "frostweave_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "size": {
+        "x": 0.907024621963501,
+        "y": 1.3172156810760498,
+        "z": 0.5851479172706604
+      },
+      "base": {
+        "x": -0.45483022928237915,
+        "y": 0.2870614528656006,
+        "z": -0.31833401322364807
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pale-gold-embroidery-thread"
+      ],
+      "itemId": "frostweave_robe",
+      "status": "pending",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_robe",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament.",
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.02,
+            "maxY": 1.48
+          }
+        ]
+      },
+      "triangles": 149372,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 74286,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 41668464,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_leggings",
+      "file": "models/items/frostweave_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_leggings",
+        "legs",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 33880396,
+      "itemModel": {
+        "itemId": "frostweave_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45343121886253357,
+        "y": 0.9668442830443382,
+        "z": 0.30603696405887604
+      },
+      "base": {
+        "x": -0.22671560943126678,
+        "y": 0.1114824190735817,
+        "z": -0.1744154840707779
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-warm-chased-gold",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_leggings",
+      "status": "pending",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_leggings",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 94388,
+      "drawCalls": 22,
+      "tailoredSkirtVertices": 27340,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 35743148,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_boots",
+      "file": "models/items/frostweave_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_boots",
+        "feet",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 36100556,
+      "itemModel": {
+        "itemId": "frostweave_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44934019446372986,
+        "y": 0.512465201318264,
+        "z": 0.3673715442419052
+      },
+      "base": {
+        "x": -0.22467009723186493,
+        "y": -0.03400000184774399,
+        "z": -0.18540067970752716
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset",
+        "aurora-pearl-gray-leather-sole"
+      ],
+      "itemId": "frostweave_boots",
+      "status": "pending",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_boots",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 111192,
+      "drawCalls": 12,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 38668036,
+        "originalTextures": 20,
+        "textures": 14
+      }
+    },
+    {
+      "id": "corealm_item_frostweave_wraps",
+      "file": "models/items/frostweave_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "frostweave_wraps",
+        "arms",
+        "reference-tailored-candidate",
+        "aurora-ivory-gold",
+        "aurora-tailored-approved"
+      ],
+      "bytes": 34776700,
+      "itemModel": {
+        "itemId": "frostweave_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.861922025680542,
+        "y": 0.15540504455566406,
+        "z": 0.16914807073771954
+      },
+      "base": {
+        "x": -0.930961012840271,
+        "y": 1.3656517267227173,
+        "z": -0.14003944396972656
+      },
+      "animations": [],
+      "materials": [
+        "aurora-pearl-ivory-celestial-brocade",
+        "aurora-cool-pearl-shadow-lining",
+        "aurora-warm-chased-gold",
+        "aurora-pale-gold-embroidery-thread",
+        "aurora-opal-scute-1",
+        "aurora-opal-scute-2",
+        "aurora-opal-scute-3",
+        "aurora-opal-scute-4",
+        "aurora-opal-scute-5",
+        "aurora-opal-scute-6",
+        "aurora-aurora-opal-inset"
+      ],
+      "itemId": "frostweave_wraps",
+      "status": "pending",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad",
+      "sourceSha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "referenceSha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "metadata": {
+        "itemId": "frostweave_wraps",
+        "author": "armor-frostweave-aurora",
+        "wearable": true,
+        "reference": "art/aurora/references/aurora-approved.png",
+        "description": "T90 Aurora Frostweave: ivory celestial cloth, warm gold borders, three swept shoulder plates and staggered opalescent hip panels above long scaled robe tails. Fitted to the native male rig from the approved T70 pattern, with the owner supplied Aurora reference guiding the silhouette and ornament."
+      },
+      "triangles": 100384,
+      "drawCalls": 31,
+      "tailoredSkirtVertices": 0,
+      "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+      "textureDeduplication": {
+        "originalBytes": 36639448,
+        "originalTextures": 17,
+        "textures": 12
+      }
+    }
+  ],
+  "sourceDependencies": [
+    {
+      "file": "art/aurora/references/aurora-approved.png",
+      "sha256": "707afe5cca73508cfd91a7c8c83dd7dc88f1bbbba0bb27d851c02b2ec8f416fa",
+      "bytes": 2071349,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/references/t70-base-boots.png",
+      "sha256": "96e4c263a45cec454e9efba8b917f49e611a3a300ee3c8f80421fd637163dee0",
+      "bytes": 1859361,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/references/t70-base-hood.png",
+      "sha256": "a3377212d63b8a746fea34a7e8488354f264e2d7aff2b03823e813059d0e6b33",
+      "bytes": 1977565,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/references/t70-base-leggings.png",
+      "sha256": "0ebaee01d8454b75bd70fbdb7ddf806949a9ab6495d00b383d134fa7bcecc739",
+      "bytes": 1585895,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/references/t70-base-robe.png",
+      "sha256": "3c5f90d697cd72357df022ffa5dc690f9cc2d490f1b17d828232633985a4fb75",
+      "bytes": 1485634,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/references/t70-base-wraps.png",
+      "sha256": "b8238036d6707021a8819d425533509877e9c34273a86398390573b7a9bb89fe",
+      "bytes": 1848500,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/cloth-color.png",
+      "sha256": "75f6facee631ef90206f0ad285e81f647df5a07d6b358ef0a0e59d1a6ea07498",
+      "bytes": 9188719,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/cloth-gold-mask.png",
+      "sha256": "5f1979e0fc7c1cbb1fa389123ce842a0064861f03e75ac13728a07f824faedaa",
+      "bytes": 1241219,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/cloth-normal.png",
+      "sha256": "8abffee9ca79be14764452d408148b3c33193f367a805ebc75b85673b81fa89d",
+      "bytes": 8741356,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/cloth-roughness.png",
+      "sha256": "8db255f88c8a8dfffa5f0719c6d795a252c476466e3702f9f742390502eef269",
+      "bytes": 2721986,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/imagegen-r1/aurora-embroidered-prompt.txt",
+      "sha256": "1f74e603394437c469bc1f0a26d250a7482d9c0d3e8546c721eb7cafc9d8e4bc",
+      "bytes": 1867,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/imagegen-r1/aurora-embroidered-source.png",
+      "sha256": "aba18c8e9df5cb811f62e70f95374ded06f89551bec555465bdaa769d275d8e3",
+      "bytes": 3699598,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/aurora/textures/provenance.json",
+      "sha256": "84b2dfeac1e5fd2c1936b83eaf90417b8ee64608d7852ce010b03b062a120201",
+      "bytes": 2674,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/cloth-color.png",
+      "sha256": "0e0955921b9cc4ded4205522776bb245f2b39c411c608b963b90ce4d3ea82f02",
+      "bytes": 7295433,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/cloth-normal.png",
+      "sha256": "321d5abd4a7a020a5992abce4b42456ac2632c8420a36ba66ba4356015ea03df",
+      "bytes": 5950686,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/cloth-roughness.png",
+      "sha256": "5e15a78e54c5e3387e28453dff92e94754c72a92a0b872fc941db3761278849c",
+      "bytes": 927783,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/hide-color.png",
+      "sha256": "4de68372954f3ae7969c5603a4c54e6322963112ad58de6f36f4edbc97b08de0",
+      "bytes": 669699,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/hide-normal.png",
+      "sha256": "cc4087035da837136e96395b24f74414967ad7c5487a3e68e1a347d568c7465d",
+      "bytes": 1450281,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/hide-roughness.png",
+      "sha256": "9e4bdd58a79e253ab4ca480278f2b3d818210e8845a855673d91258c3858e09f",
+      "bytes": 362821,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/lining-color.png",
+      "sha256": "3fec679fc7477e363d7e0cd8596ff55f5b14a145bd2ee456fb11e0e1bb20dd9a",
+      "bytes": 799010,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/lining-normal.png",
+      "sha256": "c589a61e3a937a7613de4cdaaa867581327d6d46b3a351d448426b45d0af8e68",
+      "bytes": 1813669,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/lining-roughness.png",
+      "sha256": "9e2743abe3754e6a95589021572d554ad4b9caad6f96f2dcb6185b2b31bb3c5e",
+      "bytes": 697525,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/metal-color.png",
+      "sha256": "388121b4bcfa0e118fd72595f1f01a54e50cb9b56cba48c05f44956c154d90ff",
+      "bytes": 643345,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/metal-normal.png",
+      "sha256": "7b540493b2183af60bd8c8b3edab4d8bda159362f271295d4ea9a1c2a2d5c6c2",
+      "bytes": 694073,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/metal-roughness.png",
+      "sha256": "4778f2a8be95ec7fcddf0ee791f678fd2f4fd75d6e407d3e60ecfcaaf33a8252",
+      "bytes": 599793,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/provenance.json",
+      "sha256": "eac7ba10b306119c2b238bb7709d6cbbe91a96581a629a0ea4258eb9c258f5eb",
+      "bytes": 6079,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/sole-color.png",
+      "sha256": "4de68372954f3ae7969c5603a4c54e6322963112ad58de6f36f4edbc97b08de0",
+      "bytes": 669699,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/sole-normal.png",
+      "sha256": "5fb9582f2d656dcc72e8b35d263ec4f1a7d996c431849b4564011c83dbdc8cd9",
+      "bytes": 955261,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/dragonhide/sole-roughness.png",
+      "sha256": "d89a72d1d2f0a3f7845d7e334cd8a68c3d684a61a9d88dfd578c42f8c0c55569",
+      "bytes": 299820,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/dragonhide-botanical-prompt-v1.txt",
+      "sha256": "5bbc65850cd9fbab76d1061d44efcbb691e634c7e1414c78b078f080e8c32e02",
+      "bytes": 1998,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/dragonhide-botanical-source-v1.png",
+      "sha256": "07495ff9a97815a20951a9e4be3c6376a7565b4b510e78b832562bf0fe289bf0",
+      "bytes": 3356506,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-prompt.txt",
+      "sha256": "204413ec32436179a1fa0e84625d6b691056e701bdfff7a14c6644e812acc47d",
+      "bytes": 1977,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-source.png",
+      "sha256": "274fa106d5ceb81a70f2873e298c6c7a07a4aaa2f1ed5de005ea4ac959b86b74",
+      "bytes": 2632975,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/dragonhide-thread-color-prompt.txt",
+      "sha256": "c7d7295f4638f90964162e0d38bb35c95b968c7e3f386bb8f3029214def2646a",
+      "bytes": 1387,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/dragonhide-thread-color-source.png",
+      "sha256": "3753231104a376cfd3a356e0b504b24155d5280ad14c066335743e87da15e509",
+      "bytes": 3211237,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/prompt-v1.txt",
+      "sha256": "5d2f9b336afb8ff92b78293f5640f0e7299022aa17ec0e6256fa8400113093bb",
+      "bytes": 1873,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/prompt.txt",
+      "sha256": "a467c9d1a686862feacc3e05f0b3209bcb7522256b14a16ba8dea6a44a4a3bc2",
+      "bytes": 2021,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/starhide-botanical-prompt-v1.txt",
+      "sha256": "799351000d27e0c37c54b5d490190e0b83e788adec1e2b4e74c0a38e61971dae",
+      "bytes": 2035,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/starhide-botanical-source-v1.png",
+      "sha256": "a1fb0e08d3aaf749be00659d6c6db0479fb0ced8ed6600f26ab5e1995fcddfca",
+      "bytes": 3464347,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-prompt.txt",
+      "sha256": "ff1c04b90a8e0fe8fac7f22f15fb52b18d62038132edca33afcb9d7666aea983",
+      "bytes": 2001,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-source.png",
+      "sha256": "89e8f1fc949080233d7579ee1aa984edeb7aa0cba567eb2858b3eab27df3b303",
+      "bytes": 2848972,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/starhide-thread-color-prompt.txt",
+      "sha256": "5e7d7a43a9b41e05f9da0a7638ca6e0c3cbe48cb41a9ece1f654717292e74c42",
+      "bytes": 1464,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/starhide-thread-color-source.png",
+      "sha256": "7ebc0ede812724f702430dddf21ab31041038f0a086e13815da3f446f8202a36",
+      "bytes": 3368176,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/woven-cloth-height-source-v1.png",
+      "sha256": "f4208772b4eaa3d1b25ed410105b1979e1d0785e531a565e6fa6393f96a6b9b6",
+      "bytes": 3666925,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r12/woven-cloth-height-source.png",
+      "sha256": "06b208d4b5f1f2fe295cbd9dc8d1019c750125a5adc74a05bac596a6fdd233e3",
+      "bytes": 3537478,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r13/dragonhide-embroidered-prompt.txt",
+      "sha256": "0b8080518f6210563591d30ebfd799971b3dfa2cb8813e3816f13441cde07407",
+      "bytes": 1584,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r13/dragonhide-embroidered-source.png",
+      "sha256": "6b97eed00d2dbd989315923631a281dd5089cc9f3a8db3c9ddb2c004179243c5",
+      "bytes": 2814344,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-prompt.txt",
+      "sha256": "dec802d178cda0acbc2f9e8f5979a1fd2ec70f2d1c48dda9d78165a7e55ab53a",
+      "bytes": 1597,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/imagegen-r13/starhide-embroidered-source.png",
+      "sha256": "b227eca5f1bcb42c72b7e2033f8e6bb1336e4bb5bc9b0afac7cccde58fac0e82",
+      "bytes": 2921246,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/cloth-color.png",
+      "sha256": "c0ff975d9b6072d5e5b4c4634d1fa57f2eef0fdc6816fcf6e5684bfd87feba34",
+      "bytes": 7999988,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/cloth-normal.png",
+      "sha256": "4e29409e3478c7bcb475184935be08e025af1c639183bc23652eab024f282f00",
+      "bytes": 6725171,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/cloth-roughness.png",
+      "sha256": "21a2d0a00e45f281a6067ded8a2f1900dffb8cd1cb070200728d30dff1653ee1",
+      "bytes": 1017492,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/hide-color.png",
+      "sha256": "4de68372954f3ae7969c5603a4c54e6322963112ad58de6f36f4edbc97b08de0",
+      "bytes": 669699,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/hide-normal.png",
+      "sha256": "cc4087035da837136e96395b24f74414967ad7c5487a3e68e1a347d568c7465d",
+      "bytes": 1450281,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/hide-roughness.png",
+      "sha256": "9e4bdd58a79e253ab4ca480278f2b3d818210e8845a855673d91258c3858e09f",
+      "bytes": 362821,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/lining-color.png",
+      "sha256": "3fec679fc7477e363d7e0cd8596ff55f5b14a145bd2ee456fb11e0e1bb20dd9a",
+      "bytes": 799010,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/lining-normal.png",
+      "sha256": "c589a61e3a937a7613de4cdaaa867581327d6d46b3a351d448426b45d0af8e68",
+      "bytes": 1813669,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/lining-roughness.png",
+      "sha256": "9e2743abe3754e6a95589021572d554ad4b9caad6f96f2dcb6185b2b31bb3c5e",
+      "bytes": 697525,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/metal-color.png",
+      "sha256": "388121b4bcfa0e118fd72595f1f01a54e50cb9b56cba48c05f44956c154d90ff",
+      "bytes": 643345,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/metal-normal.png",
+      "sha256": "7b540493b2183af60bd8c8b3edab4d8bda159362f271295d4ea9a1c2a2d5c6c2",
+      "bytes": 694073,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/metal-roughness.png",
+      "sha256": "4778f2a8be95ec7fcddf0ee791f678fd2f4fd75d6e407d3e60ecfcaaf33a8252",
+      "bytes": 599793,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/provenance.json",
+      "sha256": "a18819cacdef9883b5d6df5a1b54a294d5fcead3dbd420602bac3c3883795b0f",
+      "bytes": 6067,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/sole-color.png",
+      "sha256": "4de68372954f3ae7969c5603a4c54e6322963112ad58de6f36f4edbc97b08de0",
+      "bytes": 669699,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/sole-normal.png",
+      "sha256": "5fb9582f2d656dcc72e8b35d263ec4f1a7d996c431849b4564011c83dbdc8cd9",
+      "bytes": 955261,
+      "encoding": "binary"
+    },
+    {
+      "file": "art/tier50-70/textures/starhide/sole-roughness.png",
+      "sha256": "d89a72d1d2f0a3f7845d7e334cd8a68c3d684a61a9d88dfd578c42f8c0c55569",
+      "bytes": 299820,
+      "encoding": "binary"
+    },
+    {
+      "file": "game/public/assets/models/character/base_male.glb",
+      "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+      "bytes": 622184,
+      "encoding": "binary"
+    },
+    {
+      "file": "tools/item-models/aurora/build.ts",
+      "sha256": "9bf680e4635ca8224059d671dd66db4ffb3e30f92b878a2a4780c6d50040d3b4",
+      "bytes": 5538,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/aurora/geometry.ts",
+      "sha256": "07728769fc143b429ba2406b60150c383750719052933d6713ec2f8b3a1893b6",
+      "bytes": 36553,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/aurora/materials-bake.ts",
+      "sha256": "470142dc5826f36fa430f0299fbcd5b43c7132fa2f1be5ba63ec37407e0c4d69",
+      "bytes": 9677,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/aurora/materials.ts",
+      "sha256": "8ee9fa2fd0d3e87fb61380780c858f9344dc9ed1c93a56c5c61cd23625c97c1c",
+      "bytes": 4211,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/authors/armor-frostweave-aurora.ts",
+      "sha256": "84a9bfbdec54ef85ec4101f5cc1160ff6adf7d592e374ed0dea954b3939e3523",
+      "bytes": 1228,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/build.ts",
+      "sha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e",
+      "bytes": 14962,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/contracts.ts",
+      "sha256": "39463140dce72fe143ea6ad4031e3a5aa80fe1b00804d637862eebe8b7c4ba53",
+      "bytes": 1824,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/core/body-profile.json",
+      "sha256": "2867adfb47a7da6ad394a901bc70060ad65a3e4d7bd2fa12b8c41fe111c16915",
+      "bytes": 393295,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/core/contracts.ts",
+      "sha256": "621a53db0f72362b54f39151a329d2b88084225548ab5ffc2497c2fa44bb829c",
+      "bytes": 1559,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/core/profile.ts",
+      "sha256": "b20c20a4adcc0ca67c6e383324a1acac4f589a9f73304a76f92e320899a43487",
+      "bytes": 674,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/skin.ts",
+      "sha256": "638b90ee9b3d6dabe0aa8ece81cff92ddc0bf352d68b4db0808557de0912b4cb",
+      "bytes": 10814,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/boots.ts",
+      "sha256": "d5f8f54acde63a32701e6b6f32649428dcb08f54fe9116e795eb386d8ff89ee3",
+      "bytes": 6410,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/build.ts",
+      "sha256": "6b868c9fdd683dcf735f3ae20f74dc3667dda6aa411c53a35aa29fb0113ef347",
+      "bytes": 2947,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/contracts.ts",
+      "sha256": "ea28ec793b905c438eed2a1fa9ddadaac7c3dd4cfeeae75982e352806ba778e2",
+      "bytes": 701,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/hood.ts",
+      "sha256": "b8c04b69e033c145af0c5ca7358cf1ca046f7e6f2afc19533d21ae729bb03851",
+      "bytes": 14571,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/leggings.ts",
+      "sha256": "edf2bf242050e2a0436fbe32f942f0347ade885976bd790c6f32b6a8bf976d7c",
+      "bytes": 6828,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/lower-shapes.ts",
+      "sha256": "a76bd300b05f48e4e23e472b4bf80c7f0a5b1489a0ea797ec629d35726f9e91c",
+      "bytes": 6962,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/materials-generate.ts",
+      "sha256": "2bb3bff2fc665c6bfa1c162756d263525905c2cacfe2a58237a55be145cd4c1f",
+      "bytes": 8813,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/materials-reference.ts",
+      "sha256": "d3b4a5b251cbea0852b14efd91e7cfee4f5c4b7b39237b5726a13e92e82f58be",
+      "bytes": 6197,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/materials.ts",
+      "sha256": "c8d245132a723e5d7126a666ed4620dbe8aa9d74bba05453412308c8c83e60d1",
+      "bytes": 2768,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/robe.ts",
+      "sha256": "c8556c39b7f1b19f7abba45325c19376b8befaa0c8977e8ed6b05095af3d0d26",
+      "bytes": 22249,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/save_blender.py",
+      "sha256": "f4075e7056edd00a499d040bd623ef497342451afc10ecebdf90cdb40740c2d9",
+      "bytes": 12105,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/wrap-extract-hand.ts",
+      "sha256": "88faa656dfdc055c062a49864bba0808fc995127ad3e2213a24097a1aee958f1",
+      "bytes": 5543,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/wrap-hand-data.json",
+      "sha256": "990d81600f9ea8b21ebbbdd3c0b4f75faa37166e423198da55d7a313e9eb9e74",
+      "bytes": 115839,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/wrap-hand-source.ts",
+      "sha256": "34cefb3abff81a3a4cdcb5eed9031a67f5b6966aab868aa21efea618753f2505",
+      "bytes": 1706,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/wrap-measure.ts",
+      "sha256": "778cf141bf8fc614c67a0db885a7fbfa6c316a3bbe9cc14dc973768ce369a2ac",
+      "bytes": 3185,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/starhide/wraps.ts",
+      "sha256": "16c835861c1c154374111d572dea28606c88193cea31d62fe4860239feadbd5b",
+      "bytes": 15549,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/appearance.ts",
+      "sha256": "14006accb034c4ab9af3fee9421f7acafb20223e0d303e7c147fb96899565d11",
+      "bytes": 275,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/author.ts",
+      "sha256": "ab48a659aeb7da0c01f1280cc087fbfded1aecd50c45933bacfe8e8b154b9e31",
+      "bytes": 1551,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/boots.ts",
+      "sha256": "7108ff9c5eabbfe849db8b79caea571a15f2372254bf32a825890917f1e9184c",
+      "bytes": 13350,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/build.ts",
+      "sha256": "3e32971f19c26674b69b582619b7de78eceee439bff82e27b3b2cef37a74ae6c",
+      "bytes": 5675,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/contracts.ts",
+      "sha256": "e89f567c9a9f3f5e57c2665572f82ad6929ff12017828a890eb12cb8d7e7fb95",
+      "bytes": 1048,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/hood-geometry.ts",
+      "sha256": "36405e5281246ba90b512c9f1f64d45539fa8c54bfd3a67cc51e9bb689c0439e",
+      "bytes": 7091,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/hood.ts",
+      "sha256": "765d1c7967b7800de2f5c3198288d11a9b10e3ebc67c1729fd1d556430710415",
+      "bytes": 11059,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/leggings.ts",
+      "sha256": "424b0958a7765bdb18092b7c62d5062aa9350ff69362c2b7039d1943cbc7b9ce",
+      "bytes": 20370,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/lower-shapes.ts",
+      "sha256": "2872dbd62bf11deba031a4fbe05bf04f1ab357479ce5c6823130a9f3ce7986ac",
+      "bytes": 9369,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/materials-generate.ts",
+      "sha256": "17df7122beeb79a7ef3aa46f5d26f8250eca27281ed7bd49213d3493655bbc2a",
+      "bytes": 2646,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/materials-imagegen.ts",
+      "sha256": "d106a300a306860e7543be57fc46c0e4f5c59a238c7db0cad74f07430c31f0d1",
+      "bytes": 7987,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/materials-load.ts",
+      "sha256": "071f0d40a3837e4a01d93740f8f38382d8138c3c57ee1f84ca5cfd81f5e5f292",
+      "bytes": 1518,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/materials-textures.ts",
+      "sha256": "428eb7e866bbc11e44733453d8776016c066ac5cf1edcede99384507dbdc4eb1",
+      "bytes": 7482,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/materials.ts",
+      "sha256": "3d33559e156a0371d7b6aab5fcea514c1c6d907acf95c4cfb53a8cdae21b9ae0",
+      "bytes": 4520,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/robe-check.ts",
+      "sha256": "af0a0869e530a6859bfa62672a8babfc1497d0eef7eaa5223955854245f3f98e",
+      "bytes": 3798,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/robe-geometry.ts",
+      "sha256": "b275a869dfc50127c4f1849db6a43fa2b469e2e4366232630ba3a448b42442dd",
+      "bytes": 10020,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/robe.ts",
+      "sha256": "7df8fc105afc3959686b9473eb7e0b13a31c76817e223b4f300f0b307d7671ea",
+      "bytes": 23672,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/scale-field.ts",
+      "sha256": "b4feb22572ddc73390add949698c72c3223bdc33f62c516c3def5a87f3f7d603",
+      "bytes": 15144,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/skin.ts",
+      "sha256": "0024a15ae908b77a7d682d37fd1c4fd4fdd618924820c4f82f95caa251204def",
+      "bytes": 2168,
+      "encoding": "utf8-lf"
+    },
+    {
+      "file": "tools/item-models/tier50-70/wraps.ts",
+      "sha256": "0eed5ca68c7f4ff8327e88e876fada26342a595dab79d1685889440c7b6129ed",
+      "bytes": 16896,
+      "encoding": "utf8-lf"
+    }
+  ],
+  "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53"
+}

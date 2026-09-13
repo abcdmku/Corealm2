@@ -1,0 +1,2230 @@
+{
+  "round": "r15",
+  "date": "2026-09-12T18:31:44.287Z",
+  "passed": true,
+  "scope": "Read-only GLB and source verification. No rendering, gameplay acceptance, fit acceptance, or production promotion.",
+  "baselineDirectory": "test-results/tier50-70/r14-final-baseline",
+  "designByItemTheme": {
+    "dragonhide": {
+      "tier": 50,
+      "designTheme": "starhide",
+      "color": "blue"
+    },
+    "starhide": {
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "color": "red"
+    }
+  },
+  "policy": {
+    "exactGeometryPieces": [
+      "hood",
+      "leggings",
+      "boots",
+      "wraps"
+    ],
+    "mutableGeometryPieces": [
+      "robe"
+    ],
+    "exactAllR14MaterialsAndImageBytes": true,
+    "upperRobe": "T50 removes redundant crossing chest bands and their tiny trim; only its silver neckline rim gets finer sampling. T50 cloth and lining only lose bounded crossing-band samples, with no added or altered samples. T70 upper robe cloth stays exact.",
+    "rearRobe": "T70 replaces two rear flanking cloth panels with raised scales. The original authored panel loft and gold frames stay exact; the new scale carrier adds up to 4 mm clearance inside fixed edges, with its backing recessed 1 mm. All other samples stay exact.",
+    "unchangedBodyCoverage": [
+      {
+        "region": "torso",
+        "minY": 1.02,
+        "maxY": 1.48
+      }
+    ],
+    "permittedT50ChestBounds": {
+      "min": [
+        -0.12,
+        1.325,
+        0.05
+      ],
+      "max": [
+        0.12,
+        1.49,
+        0.18
+      ]
+    },
+    "permittedT50SilverNecklineBounds": {
+      "min": [
+        -0.225,
+        1.36,
+        -0.2
+      ],
+      "max": [
+        0.225,
+        1.49,
+        0.18
+      ]
+    },
+    "permittedT70RearBounds": {
+      "min": [
+        -0.36,
+        0.325,
+        -0.31
+      ],
+      "max": [
+        0.36,
+        1.072,
+        -0.05
+      ]
+    },
+    "preservedDefect": "Only existing zero-length hood lining normals may remain. All other normals must be finite unit vectors.",
+    "limits": "Bounds and changed samples do not establish fit, clearance, movement quality, or visual acceptance. Root browser gates own those checks."
+  },
+  "sharedBuild": {
+    "file": "tools/item-models/build.ts",
+    "pinnedSha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e",
+    "actualSha256": "1d41afb2cba28fd3b71626897f056c76c6703fbef0dba3a86d5f0e00cefd634e"
+  },
+  "provenance": [
+    {
+      "theme": "dragonhide",
+      "author": "tools/item-models/authors/armor-dragonhide-reference.ts",
+      "authorSha256": "6264717d4678ae825bf0529eff51b099c31eba6878a53691f1c9d2d7e6c3c1ad",
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "sourceDependencies": 108,
+      "changedDependencies": [
+        "tools/item-models/tier50-70/robe.ts"
+      ]
+    },
+    {
+      "theme": "starhide",
+      "author": "tools/item-models/authors/armor-starhide-reference.ts",
+      "authorSha256": "b708d318b85bb18a999f3d8cbb4e0934801b8ac06949f3a47b36b28729604c55",
+      "dependencySha256": "03cdda7f89c71e69bf3132d4d4323831dee118b0296ddadd301117b7c4ca46cf",
+      "sourceDependencies": 108,
+      "changedDependencies": [
+        "tools/item-models/tier50-70/robe.ts"
+      ]
+    }
+  ],
+  "currentFiles": [
+    {
+      "itemId": "dragonhide_hood",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_hood.glb",
+      "bytes": 26538312,
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418"
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+      "bytes": 33242976,
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_leggings.glb",
+      "bytes": 29721160,
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02"
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_boots.glb",
+      "bytes": 30214548,
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0"
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_wraps.glb",
+      "bytes": 29719228,
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f"
+    },
+    {
+      "itemId": "starhide_hood",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_hood.glb",
+      "bytes": 25775912,
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "itemId": "starhide_robe",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+      "bytes": 32690644,
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+    },
+    {
+      "itemId": "starhide_leggings",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_leggings.glb",
+      "bytes": 27563876,
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+    },
+    {
+      "itemId": "starhide_boots",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_boots.glb",
+      "bytes": 29780752,
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    },
+    {
+      "itemId": "starhide_wraps",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_wraps.glb",
+      "bytes": 28427704,
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    }
+  ],
+  "assets": [
+    {
+      "itemId": "dragonhide_hood",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_hood.glb",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/dragonhide_hood.glb",
+      "baselineSha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 10,
+      "imageBytes": [
+        {
+          "name": "starhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6821174,
+          "sha256": "1723cc0437a54d5701518a40d5141d4eba23d34c1be9db271e47420d49622847"
+        },
+        {
+          "name": "starhide-chased-ivory-silver-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "starhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "starhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7972947,
+          "sha256": "6601d33a238d63c31a61f462941d5c3d38e12bce1c96482cc9bf74ea816affd6"
+        },
+        {
+          "name": "starhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "starhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "starhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1204285,
+          "sha256": "926db31d7e2b7a677ee83ce95bcf95086a13ce0139cceb8b1755bddcdb94d257"
+        },
+        {
+          "name": "starhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "starhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "starhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "starhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "starhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "18beb75120dc8d5cfa00bac50ae196305ab8e5ec258876be6602165c487e6e39",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "f3c394ee1158c99f24dae6d005278326164e06e2b0be9a9a3d26dffa8e823715",
+      "baselineGeometrySha256": "f3c394ee1158c99f24dae6d005278326164e06e2b0be9a9a3d26dffa8e823715",
+      "validation": {
+        "vertices": 33500,
+        "triangles": 38270,
+        "drawCalls": 10,
+        "maxWeightSumError": 0,
+        "maxNormalLengthError": 4.6718654500566004e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": [
+          {
+            "primitive": "starhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6461
+          },
+          {
+            "primitive": "starhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6462
+          },
+          {
+            "primitive": "starhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6463
+          },
+          {
+            "primitive": "starhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6464
+          },
+          {
+            "primitive": "starhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6469
+          },
+          {
+            "primitive": "starhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6470
+          }
+        ]
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 33500,
+          "min": [
+            -0.159798726439476,
+            1.4622818231582642,
+            -0.2543914020061493
+          ],
+          "max": [
+            0.15986590087413788,
+            1.850972294807434,
+            0.08991460502147675
+          ],
+          "size": [
+            0.3196646273136139,
+            0.3886904716491699,
+            0.34430600702762604
+          ]
+        },
+        "afterBounds": {
+          "vertices": 33500,
+          "min": [
+            -0.159798726439476,
+            1.4622818231582642,
+            -0.2543914020061493
+          ],
+          "max": [
+            0.15986590087413788,
+            1.850972294807434,
+            0.08991460502147675
+          ],
+          "size": [
+            0.3196646273136139,
+            0.3886904716491699,
+            0.34430600702762604
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/dragonhide_robe.glb",
+      "baselineSha256": "42e3526013ded75e4adffcd96e6dde398a3b64e8d6693564bb92eba87f233a81",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 11,
+      "imageBytes": [
+        {
+          "name": "starhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6821174,
+          "sha256": "1723cc0437a54d5701518a40d5141d4eba23d34c1be9db271e47420d49622847"
+        },
+        {
+          "name": "starhide-chased-ivory-silver-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "starhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "starhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7972947,
+          "sha256": "6601d33a238d63c31a61f462941d5c3d38e12bce1c96482cc9bf74ea816affd6"
+        },
+        {
+          "name": "starhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "starhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "starhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1204285,
+          "sha256": "926db31d7e2b7a677ee83ce95bcf95086a13ce0139cceb8b1755bddcdb94d257"
+        },
+        {
+          "name": "starhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "starhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "starhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "starhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "starhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "2879797588f7e78f9eba254eb94f07382f7ae72dbbaabd18a7191bdb034453d0",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": false,
+      "geometryUnchanged": false,
+      "geometrySha256": "75f81fcff2080964e341c7f5c014ff686fc4dce70a840e6ea919f1684b7ce219",
+      "baselineGeometrySha256": "72703b0974fc943ef8b3c5820b326d755cc051a701e2e63976bd3d5183033c43",
+      "upperCloth": {
+        "material": "starhide-close-twill-cloth",
+        "minimumY": 1.08,
+        "samples": 6271,
+        "sha256": "3675db51c439383e797552925b482018234a7adb755c889fa35df7095f60f3dc",
+        "baselineSamples": 6442,
+        "baselineSha256": "d14618269c45614226a159f3337e3aba26341c5656d2410160e894d5868dd1d2",
+        "addedSamples": 0,
+        "removed": {
+          "count": 171,
+          "byMaterial": {
+            "starhide-close-twill-cloth": 171
+          },
+          "bounds": {
+            "min": [
+              -0.040938857942819595,
+              1.3320000171661377,
+              0.07050283998250961
+            ],
+            "max": [
+              0.08059142529964447,
+              1.4839999675750732,
+              0.1445966362953186
+            ]
+          },
+          "allowedRegions": [
+            {
+              "materialPattern": ".*",
+              "bounds": {
+                "min": [
+                  -0.12,
+                  1.325,
+                  0.05
+                ],
+                "max": [
+                  0.12,
+                  1.49,
+                  0.18
+                ]
+              }
+            }
+          ],
+          "examples": [
+            {
+              "position": [
+                -0.040938857942819595,
+                1.3320000171661377,
+                0.14440399408340454
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.03610663115978241,
+                1.3320000171661377,
+                0.1445966362953186
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.036736492067575455,
+                1.3404444456100464,
+                0.14197547733783722
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.031773876398801804,
+                1.3404444456100464,
+                0.14224880933761597
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.031246522441506386,
+                1.3320000171661377,
+                0.14438404142856598
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.026749253273010254,
+                1.3404444456100464,
+                0.1418982595205307
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            }
+          ]
+        },
+        "everySurvivingSampleExact": true
+      },
+      "validation": {
+        "vertices": 121592,
+        "triangles": 147008,
+        "drawCalls": 29,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalLengthError": 4.817719678751331e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 122308,
+          "min": [
+            -0.3610101044178009,
+            0.27622902393341064,
+            -0.2653939425945282
+          ],
+          "max": [
+            0.3576089143753052,
+            1.5936540365219116,
+            0.21550971269607544
+          ],
+          "size": [
+            0.7186190187931061,
+            1.317425012588501,
+            0.48090365529060364
+          ]
+        },
+        "afterBounds": {
+          "vertices": 121592,
+          "min": [
+            -0.3610101044178009,
+            0.27622902393341064,
+            -0.2653939425945282
+          ],
+          "max": [
+            0.3576089143753052,
+            1.5936540365219116,
+            0.21550971269607544
+          ],
+          "size": [
+            0.7186190187931061,
+            1.317425012588501,
+            0.48090365529060364
+          ]
+        },
+        "compareMethod": "Multiset of complete vertex attributes, material name, bone/deform hint and transform. No mesh order correspondence.",
+        "removed": {
+          "count": 1226,
+          "byMaterial": {
+            "starhide-close-twill-cloth": 171,
+            "starhide-soft-dark-lining": 565,
+            "starhide-chased-ivory-silver": 490
+          },
+          "bounds": {
+            "min": [
+              -0.20640875399112701,
+              1.3313164710998535,
+              -0.16967403888702393
+            ],
+            "max": [
+              0.20640873908996582,
+              1.4866968393325806,
+              0.14821366965770721
+            ]
+          },
+          "allowedRegions": [
+            {
+              "materialPattern": ".*",
+              "bounds": {
+                "min": [
+                  -0.12,
+                  1.325,
+                  0.05
+                ],
+                "max": [
+                  0.12,
+                  1.49,
+                  0.18
+                ]
+              }
+            },
+            {
+              "materialPattern": "^starhide-chased-ivory-silver$",
+              "bounds": {
+                "min": [
+                  -0.225,
+                  1.36,
+                  -0.2
+                ],
+                "max": [
+                  0.225,
+                  1.49,
+                  0.18
+                ]
+              }
+            }
+          ],
+          "examples": [
+            {
+              "position": [
+                -0.040938857942819595,
+                1.3320000171661377,
+                0.14440399408340454
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.03610663115978241,
+                1.3320000171661377,
+                0.1445966362953186
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.036736492067575455,
+                1.3404444456100464,
+                0.14197547733783722
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.031773876398801804,
+                1.3404444456100464,
+                0.14224880933761597
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.031246522441506386,
+                1.3320000171661377,
+                0.14438404142856598
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                -0.026749253273010254,
+                1.3404444456100464,
+                0.1418982595205307
+              ],
+              "material": "starhide-close-twill-cloth",
+              "count": 1
+            }
+          ]
+        },
+        "added": {
+          "count": 510,
+          "byMaterial": {
+            "starhide-chased-ivory-silver": 510
+          },
+          "bounds": {
+            "min": [
+              -0.21126720309257507,
+              1.3687635660171509,
+              -0.1708669662475586
+            ],
+            "max": [
+              0.21126720309257507,
+              1.4829593896865845,
+              0.13260240852832794
+            ]
+          },
+          "allowedRegions": [
+            {
+              "materialPattern": ".*",
+              "bounds": {
+                "min": [
+                  -0.225,
+                  1.36,
+                  -0.2
+                ],
+                "max": [
+                  0.225,
+                  1.49,
+                  0.18
+                ]
+              }
+            }
+          ],
+          "examples": [
+            {
+              "position": [
+                0.015980510041117668,
+                1.3942962884902954,
+                0.12987233698368073
+              ],
+              "material": "starhide-chased-ivory-silver",
+              "count": 1
+            },
+            {
+              "position": [
+                0.016866840422153473,
+                1.3932474851608276,
+                0.13188844919204712
+              ],
+              "material": "starhide-chased-ivory-silver",
+              "count": 1
+            },
+            {
+              "position": [
+                0.01820535585284233,
+                1.3919912576675415,
+                0.13166022300720215
+              ],
+              "material": "starhide-chased-ivory-silver",
+              "count": 1
+            },
+            {
+              "position": [
+                0.0193080585449934,
+                1.390843152999878,
+                0.13260240852832794
+              ],
+              "material": "starhide-chased-ivory-silver",
+              "count": 1
+            },
+            {
+              "position": [
+                0.020862948149442673,
+                1.3894877433776855,
+                0.13130022585391998
+              ],
+              "material": "starhide-chased-ivory-silver",
+              "count": 1
+            },
+            {
+              "position": [
+                0.035046566277742386,
+                1.4148156642913818,
+                0.12339261174201965
+              ],
+              "material": "starhide-chased-ivory-silver",
+              "count": 1
+            }
+          ]
+        },
+        "exactOutsideChangeRegion": true
+      }
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_leggings.glb",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/dragonhide_leggings.glb",
+      "baselineSha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 11,
+      "imageBytes": [
+        {
+          "name": "starhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6821174,
+          "sha256": "1723cc0437a54d5701518a40d5141d4eba23d34c1be9db271e47420d49622847"
+        },
+        {
+          "name": "starhide-chased-ivory-silver-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "starhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "starhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7972947,
+          "sha256": "6601d33a238d63c31a61f462941d5c3d38e12bce1c96482cc9bf74ea816affd6"
+        },
+        {
+          "name": "starhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "starhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "starhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1204285,
+          "sha256": "926db31d7e2b7a677ee83ce95bcf95086a13ce0139cceb8b1755bddcdb94d257"
+        },
+        {
+          "name": "starhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "starhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "starhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "starhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "starhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "2879797588f7e78f9eba254eb94f07382f7ae72dbbaabd18a7191bdb034453d0",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "f2cd804d66120ba4282e1e882ef3c5af6bb5dfb1a38a315ecade393cd15a1af9",
+      "baselineGeometrySha256": "f2cd804d66120ba4282e1e882ef3c5af6bb5dfb1a38a315ecade393cd15a1af9",
+      "validation": {
+        "vertices": 74034,
+        "triangles": 104184,
+        "drawCalls": 21,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalLengthError": 4.478652915196335e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 74034,
+          "min": [
+            -0.225917786359787,
+            0.1114824190735817,
+            -0.1744154840707779
+          ],
+          "max": [
+            0.225917786359787,
+            1.07832670211792,
+            0.1308019459247589
+          ],
+          "size": [
+            0.451835572719574,
+            0.9668442830443382,
+            0.3052174299955368
+          ]
+        },
+        "afterBounds": {
+          "vertices": 74034,
+          "min": [
+            -0.225917786359787,
+            0.1114824190735817,
+            -0.1744154840707779
+          ],
+          "max": [
+            0.225917786359787,
+            1.07832670211792,
+            0.1308019459247589
+          ],
+          "size": [
+            0.451835572719574,
+            0.9668442830443382,
+            0.3052174299955368
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_boots.glb",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/dragonhide_boots.glb",
+      "baselineSha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 12,
+      "imageBytes": [
+        {
+          "name": "starhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6821174,
+          "sha256": "1723cc0437a54d5701518a40d5141d4eba23d34c1be9db271e47420d49622847"
+        },
+        {
+          "name": "starhide-chased-ivory-silver-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "starhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "starhide-stacked-dark-leather-sole-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 309908,
+          "sha256": "c4e703a73e9fbae492d7c8e94a6297ae29eafc329bd95063d98f06ef114c9ed1"
+        },
+        {
+          "name": "starhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7972947,
+          "sha256": "6601d33a238d63c31a61f462941d5c3d38e12bce1c96482cc9bf74ea816affd6"
+        },
+        {
+          "name": "starhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "starhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "starhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1204285,
+          "sha256": "926db31d7e2b7a677ee83ce95bcf95086a13ce0139cceb8b1755bddcdb94d257"
+        },
+        {
+          "name": "starhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "starhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "starhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "starhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "starhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        },
+        {
+          "name": "starhide-sole-normal",
+          "mimeType": "image/png",
+          "bytes": 983437,
+          "sha256": "006d67f9c3ac5da5a6221df1252578396f6995717ce9a45e55f477738f117d85"
+        }
+      ],
+      "materialStateSha256": "d205b0392494b981fe11af9c015d0db0cddf5814fac17dba384a0ffb78fd775c",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "b434ffa138b33e1fb4b6a12e04d29f021d758679485708054e7e91f960b69873",
+      "baselineGeometrySha256": "b434ffa138b33e1fb4b6a12e04d29f021d758679485708054e7e91f960b69873",
+      "validation": {
+        "vertices": 63516,
+        "triangles": 93624,
+        "drawCalls": 12,
+        "maxWeightSumError": 2.9802322387695312e-8,
+        "maxNormalLengthError": 4.6135322451235083e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 63516,
+          "min": [
+            -0.22388508915901184,
+            -0.03400000184774399,
+            -0.18543219566345215
+          ],
+          "max": [
+            0.22388508915901184,
+            0.4862276017665863,
+            0.18197086453437805
+          ],
+          "size": [
+            0.4477701783180237,
+            0.5202276036143303,
+            0.3674030601978302
+          ]
+        },
+        "afterBounds": {
+          "vertices": 63516,
+          "min": [
+            -0.22388508915901184,
+            -0.03400000184774399,
+            -0.18543219566345215
+          ],
+          "max": [
+            0.22388508915901184,
+            0.4862276017665863,
+            0.18197086453437805
+          ],
+          "size": [
+            0.4477701783180237,
+            0.5202276036143303,
+            0.3674030601978302
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "tier": 50,
+      "designTheme": "starhide",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_wraps.glb",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/dragonhide_wraps.glb",
+      "baselineSha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 10,
+      "imageBytes": [
+        {
+          "name": "starhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6821174,
+          "sha256": "1723cc0437a54d5701518a40d5141d4eba23d34c1be9db271e47420d49622847"
+        },
+        {
+          "name": "starhide-chased-ivory-silver-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "starhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "starhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7972947,
+          "sha256": "6601d33a238d63c31a61f462941d5c3d38e12bce1c96482cc9bf74ea816affd6"
+        },
+        {
+          "name": "starhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "starhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "starhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1204285,
+          "sha256": "926db31d7e2b7a677ee83ce95bcf95086a13ce0139cceb8b1755bddcdb94d257"
+        },
+        {
+          "name": "starhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "starhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "starhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "starhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "starhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "18beb75120dc8d5cfa00bac50ae196305ab8e5ec258876be6602165c487e6e39",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "82fd876af56e7bdbf56941a2dea669eef641cbc864fb77e15b08e77a2dcdb799",
+      "baselineGeometrySha256": "82fd876af56e7bdbf56941a2dea669eef641cbc864fb77e15b08e77a2dcdb799",
+      "validation": {
+        "vertices": 74314,
+        "triangles": 99304,
+        "drawCalls": 29,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalLengthError": 4.7273648551282577e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 74314,
+          "min": [
+            -0.930961012840271,
+            1.3656517267227173,
+            -0.14003944396972656
+          ],
+          "max": [
+            0.930961012840271,
+            1.5217536687850952,
+            0.029086068272590637
+          ],
+          "size": [
+            1.861922025680542,
+            0.15610194206237793,
+            0.1691255122423172
+          ]
+        },
+        "afterBounds": {
+          "vertices": 74314,
+          "min": [
+            -0.930961012840271,
+            1.3656517267227173,
+            -0.14003944396972656
+          ],
+          "max": [
+            0.930961012840271,
+            1.5217536687850952,
+            0.029086068272590637
+          ],
+          "size": [
+            1.861922025680542,
+            0.15610194206237793,
+            0.1691255122423172
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "starhide_hood",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/starhide_hood.glb",
+      "baselineSha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 11,
+      "imageBytes": [
+        {
+          "name": "dragonhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "dragonhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "dragonhide-chased-antique-gold-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "dragonhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1099139,
+          "sha256": "fd2696bdd31a3dbad20c5fe6e8b6b6fd3c6ae8c1d187e51ed5c4e6de5ec86067"
+        },
+        {
+          "name": "dragonhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "dragonhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "dragonhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "dragonhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6045216,
+          "sha256": "c73bebf3e2def7d43e0989a40ac4d60cd2948962867a60a34e5e57236b7d50fc"
+        },
+        {
+          "name": "dragonhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "dragonhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "dragonhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7269991,
+          "sha256": "34c86ee385cc6ef925d3e7428b2bee19fae16347777b87011e4c1fde7b54623a"
+        },
+        {
+          "name": "dragonhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "0cd6b295e0f6052b78fef06f5ceaa6d7aa69b18687f4c83b592b7133a3deaa95",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "257161b1e5e0b29c6da7da3b3c3f1a068742f4cb49ec4f3ea44504a7fc1dc44d",
+      "baselineGeometrySha256": "257161b1e5e0b29c6da7da3b3c3f1a068742f4cb49ec4f3ea44504a7fc1dc44d",
+      "validation": {
+        "vertices": 44759,
+        "triangles": 47122,
+        "drawCalls": 11,
+        "maxWeightSumError": 0,
+        "maxNormalLengthError": 4.681213394697181e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": [
+          {
+            "primitive": "dragonhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6392
+          },
+          {
+            "primitive": "dragonhide-soft-dark-lining|bone=Head|deform=|part=0",
+            "vertex": 6397
+          }
+        ]
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 44759,
+          "min": [
+            -0.16739431023597717,
+            1.4520220756530762,
+            -0.2383631318807602
+          ],
+          "max": [
+            0.16745370626449585,
+            1.8821115493774414,
+            0.09199538081884384
+          ],
+          "size": [
+            0.334848016500473,
+            0.43008947372436523,
+            0.33035851269960403
+          ]
+        },
+        "afterBounds": {
+          "vertices": 44759,
+          "min": [
+            -0.16739431023597717,
+            1.4520220756530762,
+            -0.2383631318807602
+          ],
+          "max": [
+            0.16745370626449585,
+            1.8821115493774414,
+            0.09199538081884384
+          ],
+          "size": [
+            0.334848016500473,
+            0.43008947372436523,
+            0.33035851269960403
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "starhide_robe",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/starhide_robe.glb",
+      "baselineSha256": "bd2bd02684fd199e9feb911582795939068b8b04d950a6ac1ae92ade8cbe6af4",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 11,
+      "imageBytes": [
+        {
+          "name": "dragonhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "dragonhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "dragonhide-chased-antique-gold-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "dragonhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1099139,
+          "sha256": "fd2696bdd31a3dbad20c5fe6e8b6b6fd3c6ae8c1d187e51ed5c4e6de5ec86067"
+        },
+        {
+          "name": "dragonhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "dragonhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "dragonhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "dragonhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6045216,
+          "sha256": "c73bebf3e2def7d43e0989a40ac4d60cd2948962867a60a34e5e57236b7d50fc"
+        },
+        {
+          "name": "dragonhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "dragonhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "dragonhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7269991,
+          "sha256": "34c86ee385cc6ef925d3e7428b2bee19fae16347777b87011e4c1fde7b54623a"
+        },
+        {
+          "name": "dragonhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "0cd6b295e0f6052b78fef06f5ceaa6d7aa69b18687f4c83b592b7133a3deaa95",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": false,
+      "geometryUnchanged": false,
+      "geometrySha256": "5b3a0dace628d04e06724c6a695c6e96b5052e243c2264638fccbb12600cec68",
+      "baselineGeometrySha256": "c7e60a5538d8da138a6cc71baf0ffb8156b555c4f6c42e0facac3ca049d9271b",
+      "upperCloth": {
+        "material": "dragonhide-close-twill-cloth",
+        "minimumY": 1.08,
+        "samples": 6271,
+        "sha256": "1cb3eca8ac0e9756a97d973e71accb2d89ea5a6e86d8cf0326dd88c0196f3ba6",
+        "baselineSamples": 6271,
+        "baselineSha256": "1cb3eca8ac0e9756a97d973e71accb2d89ea5a6e86d8cf0326dd88c0196f3ba6",
+        "addedSamples": 0,
+        "removed": {
+          "count": 0,
+          "byMaterial": {},
+          "bounds": null,
+          "allowedRegions": [
+            {
+              "materialPattern": ".*",
+              "bounds": {
+                "min": [
+                  -0.12,
+                  1.325,
+                  0.05
+                ],
+                "max": [
+                  0.12,
+                  1.49,
+                  0.18
+                ]
+              }
+            }
+          ],
+          "examples": []
+        },
+        "everySurvivingSampleExact": true
+      },
+      "validation": {
+        "vertices": 136496,
+        "triangles": 149896,
+        "drawCalls": 30,
+        "maxWeightSumError": 4.348112270236015e-8,
+        "maxNormalLengthError": 4.3823013773369723e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 129316,
+          "min": [
+            -0.40159836411476135,
+            0.28281912207603455,
+            -0.2913333773612976
+          ],
+          "max": [
+            0.39937132596969604,
+            1.5944032669067383,
+            0.2408498376607895
+          ],
+          "size": [
+            0.8009696900844574,
+            1.3115841448307037,
+            0.5321832150220871
+          ]
+        },
+        "afterBounds": {
+          "vertices": 136496,
+          "min": [
+            -0.40159836411476135,
+            0.28281912207603455,
+            -0.2913333773612976
+          ],
+          "max": [
+            0.39937132596969604,
+            1.5944032669067383,
+            0.2408498376607895
+          ],
+          "size": [
+            0.8009696900844574,
+            1.3115841448307037,
+            0.5321832150220871
+          ]
+        },
+        "compareMethod": "Multiset of complete vertex attributes, material name, bone/deform hint and transform. No mesh order correspondence.",
+        "removed": {
+          "count": 3828,
+          "byMaterial": {
+            "dragonhide-close-twill-cloth": 1178,
+            "dragonhide-soft-dark-lining": 1370,
+            "dragonhide-chased-antique-gold": 840,
+            "dragonhide-fine-stitch-thread": 440
+          },
+          "bounds": {
+            "min": [
+              -0.3003855049610138,
+              0.3369728624820709,
+              -0.25871604681015015
+            ],
+            "max": [
+              0.3052201271057129,
+              1.063069462776184,
+              -0.08719911426305771
+            ]
+          },
+          "allowedRegions": [
+            {
+              "materialPattern": ".*",
+              "bounds": {
+                "min": [
+                  -0.36,
+                  0.325,
+                  -0.31
+                ],
+                "max": [
+                  0.36,
+                  1.072,
+                  -0.05
+                ]
+              }
+            }
+          ],
+          "examples": [
+            {
+              "position": [
+                0.3052201271057129,
+                0.4740000069141388,
+                -0.14017076790332794
+              ],
+              "material": "dragonhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                0.30000200867652893,
+                0.4573158621788025,
+                -0.1511095017194748
+              ],
+              "material": "dragonhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                0.29342469573020935,
+                0.49363332986831665,
+                -0.13874158263206482
+              ],
+              "material": "dragonhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                0.28994232416152954,
+                0.4774327278137207,
+                -0.14991150796413422
+              ],
+              "material": "dragonhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                0.2935250401496887,
+                0.4408807158470154,
+                -0.16152776777744293
+              ],
+              "material": "dragonhide-close-twill-cloth",
+              "count": 1
+            },
+            {
+              "position": [
+                0.28455808758735657,
+                0.4614750146865845,
+                -0.16049523651599884
+              ],
+              "material": "dragonhide-close-twill-cloth",
+              "count": 1
+            }
+          ]
+        },
+        "added": {
+          "count": 11008,
+          "byMaterial": {
+            "dragonhide-soft-dark-lining": 9114,
+            "dragonhide-scute-1-pebbled-hide": 319,
+            "dragonhide-scute-2-pebbled-hide": 274,
+            "dragonhide-scute-3-pebbled-hide": 316,
+            "dragonhide-scute-4-pebbled-hide": 228,
+            "dragonhide-scute-5-pebbled-hide": 291,
+            "dragonhide-scute-6-pebbled-hide": 466
+          },
+          "bounds": {
+            "min": [
+              -0.29998308420181274,
+              0.335561066865921,
+              -0.26182910799980164
+            ],
+            "max": [
+              0.304825097322464,
+              1.0631060600280762,
+              -0.08622132241725922
+            ]
+          },
+          "allowedRegions": [
+            {
+              "materialPattern": ".*",
+              "bounds": {
+                "min": [
+                  -0.36,
+                  0.325,
+                  -0.31
+                ],
+                "max": [
+                  0.36,
+                  1.072,
+                  -0.05
+                ]
+              }
+            }
+          ],
+          "examples": [
+            {
+              "position": [
+                0.304825097322464,
+                0.47359853982925415,
+                -0.13938182592391968
+              ],
+              "material": "dragonhide-soft-dark-lining",
+              "count": 1
+            },
+            {
+              "position": [
+                0.2915014624595642,
+                0.43650808930397034,
+                -0.16327659785747528
+              ],
+              "material": "dragonhide-soft-dark-lining",
+              "count": 1
+            },
+            {
+              "position": [
+                0.27624666690826416,
+                0.5226383209228516,
+                -0.13565972447395325
+              ],
+              "material": "dragonhide-soft-dark-lining",
+              "count": 1
+            },
+            {
+              "position": [
+                0.2697257697582245,
+                0.4882601797580719,
+                -0.16024184226989746
+              ],
+              "material": "dragonhide-soft-dark-lining",
+              "count": 1
+            },
+            {
+              "position": [
+                0.2797316312789917,
+                0.40065354108810425,
+                -0.18753179907798767
+              ],
+              "material": "dragonhide-soft-dark-lining",
+              "count": 1
+            },
+            {
+              "position": [
+                0.2554914355278015,
+                0.45528337359428406,
+                -0.18311843276023865
+              ],
+              "material": "dragonhide-soft-dark-lining",
+              "count": 1
+            }
+          ]
+        },
+        "exactOutsideChangeRegion": true
+      }
+    },
+    {
+      "itemId": "starhide_leggings",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/starhide_leggings.glb",
+      "baselineSha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 11,
+      "imageBytes": [
+        {
+          "name": "dragonhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "dragonhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "dragonhide-chased-antique-gold-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "dragonhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1099139,
+          "sha256": "fd2696bdd31a3dbad20c5fe6e8b6b6fd3c6ae8c1d187e51ed5c4e6de5ec86067"
+        },
+        {
+          "name": "dragonhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "dragonhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "dragonhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "dragonhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6045216,
+          "sha256": "c73bebf3e2def7d43e0989a40ac4d60cd2948962867a60a34e5e57236b7d50fc"
+        },
+        {
+          "name": "dragonhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "dragonhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "dragonhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7269991,
+          "sha256": "34c86ee385cc6ef925d3e7428b2bee19fae16347777b87011e4c1fde7b54623a"
+        },
+        {
+          "name": "dragonhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "0cd6b295e0f6052b78fef06f5ceaa6d7aa69b18687f4c83b592b7133a3deaa95",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "12c52d21f83f4deec169fbb0dd57ec33d0ccec5933b38f063ac47a037fa5021a",
+      "baselineGeometrySha256": "12c52d21f83f4deec169fbb0dd57ec33d0ccec5933b38f063ac47a037fa5021a",
+      "validation": {
+        "vertices": 66680,
+        "triangles": 92684,
+        "drawCalls": 21,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalLengthError": 4.478652915196335e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 66680,
+          "min": [
+            -0.22671560943126678,
+            0.1114824190735817,
+            -0.1744154840707779
+          ],
+          "max": [
+            0.22671560943126678,
+            1.07832670211792,
+            0.13162147998809814
+          ],
+          "size": [
+            0.45343121886253357,
+            0.9668442830443382,
+            0.30603696405887604
+          ]
+        },
+        "afterBounds": {
+          "vertices": 66680,
+          "min": [
+            -0.22671560943126678,
+            0.1114824190735817,
+            -0.1744154840707779
+          ],
+          "max": [
+            0.22671560943126678,
+            1.07832670211792,
+            0.13162147998809814
+          ],
+          "size": [
+            0.45343121886253357,
+            0.9668442830443382,
+            0.30603696405887604
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "starhide_boots",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/starhide_boots.glb",
+      "baselineSha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 12,
+      "imageBytes": [
+        {
+          "name": "dragonhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "dragonhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "dragonhide-chased-antique-gold-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "dragonhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1099139,
+          "sha256": "fd2696bdd31a3dbad20c5fe6e8b6b6fd3c6ae8c1d187e51ed5c4e6de5ec86067"
+        },
+        {
+          "name": "dragonhide-stacked-dark-leather-sole-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 309908,
+          "sha256": "c4e703a73e9fbae492d7c8e94a6297ae29eafc329bd95063d98f06ef114c9ed1"
+        },
+        {
+          "name": "dragonhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "dragonhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "dragonhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "dragonhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6045216,
+          "sha256": "c73bebf3e2def7d43e0989a40ac4d60cd2948962867a60a34e5e57236b7d50fc"
+        },
+        {
+          "name": "dragonhide-sole-normal",
+          "mimeType": "image/png",
+          "bytes": 983437,
+          "sha256": "006d67f9c3ac5da5a6221df1252578396f6995717ce9a45e55f477738f117d85"
+        },
+        {
+          "name": "dragonhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "dragonhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "dragonhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7269991,
+          "sha256": "34c86ee385cc6ef925d3e7428b2bee19fae16347777b87011e4c1fde7b54623a"
+        },
+        {
+          "name": "dragonhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "61d1aa04dfca8626b06e35db352597f212ec56b3409c9f87b5f7ec5f542b5662",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "74c837c331af23eaa97fb2725ce64c8cb0aaf2f7fa49bfd978a6da5fbafcd078",
+      "baselineGeometrySha256": "74c837c331af23eaa97fb2725ce64c8cb0aaf2f7fa49bfd978a6da5fbafcd078",
+      "validation": {
+        "vertices": 78934,
+        "triangles": 109496,
+        "drawCalls": 12,
+        "maxWeightSumError": 2.9802322387695312e-8,
+        "maxNormalLengthError": 4.1237229631008177e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 78934,
+          "min": [
+            -0.22467009723186493,
+            -0.03400000184774399,
+            -0.18540067970752716
+          ],
+          "max": [
+            0.22467009723186493,
+            0.47846519947052,
+            0.18197086453437805
+          ],
+          "size": [
+            0.44934019446372986,
+            0.512465201318264,
+            0.3673715442419052
+          ]
+        },
+        "afterBounds": {
+          "vertices": 78934,
+          "min": [
+            -0.22467009723186493,
+            -0.03400000184774399,
+            -0.18540067970752716
+          ],
+          "max": [
+            0.22467009723186493,
+            0.47846519947052,
+            0.18197086453437805
+          ],
+          "size": [
+            0.44934019446372986,
+            0.512465201318264,
+            0.3673715442419052
+          ]
+        }
+      }
+    },
+    {
+      "itemId": "starhide_wraps",
+      "tier": 70,
+      "designTheme": "dragonhide",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "baselineFile": "test-results/tier50-70/r14-final-baseline/starhide_wraps.glb",
+      "baselineSha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "itemCatalogIdentityPreserved": true,
+      "fitMetadataMatchesApprovedScope": true,
+      "itemCatalogIdentityAndFitMetadataPreserved": true,
+      "exactR14MaterialsAndTextureImageBytes": true,
+      "materials": 10,
+      "imageBytes": [
+        {
+          "name": "dragonhide-hide-normal",
+          "mimeType": "image/png",
+          "bytes": 1476092,
+          "sha256": "8b274a673b190d49466ff4aa50f3322597fdd1ff0a6617733eaf5cfc2313e539"
+        },
+        {
+          "name": "dragonhide-soft-dark-lining-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 733202,
+          "sha256": "3c9ea79860523f3106e8c55b20eb0ff9f5c1a7aaf0a74ad3611844a3bd7c8df2"
+        },
+        {
+          "name": "dragonhide-chased-antique-gold-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 620741,
+          "sha256": "1887d713d7b3750657416072db265b8610cafd2771e361478daf11f137ba9f47"
+        },
+        {
+          "name": "dragonhide-close-twill-cloth-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 1099139,
+          "sha256": "fd2696bdd31a3dbad20c5fe6e8b6b6fd3c6ae8c1d187e51ed5c4e6de5ec86067"
+        },
+        {
+          "name": "dragonhide-lining-normal",
+          "mimeType": "image/png",
+          "bytes": 1824927,
+          "sha256": "4e28dcc8ccd75c80dc7d2e5eb70d76acf0644099041b7c403545e11cfad2c7d4"
+        },
+        {
+          "name": "dragonhide-scute-1-pebbled-hide-metallic-roughness",
+          "mimeType": "image/png",
+          "bytes": 372660,
+          "sha256": "86a4cbd222dda781da294d87dbff4db87f1defdb6855620655f6ab7543e1bde9"
+        },
+        {
+          "name": "dragonhide-metal-color",
+          "mimeType": "image/png",
+          "bytes": 685960,
+          "sha256": "92c3358d6bf291e822bc3051ab45e60088dff6d5670119f0fe938d95afff604c"
+        },
+        {
+          "name": "dragonhide-cloth-normal",
+          "mimeType": "image/png",
+          "bytes": 6045216,
+          "sha256": "c73bebf3e2def7d43e0989a40ac4d60cd2948962867a60a34e5e57236b7d50fc"
+        },
+        {
+          "name": "dragonhide-metal-normal",
+          "mimeType": "image/png",
+          "bytes": 741397,
+          "sha256": "4dca5bd508c53baf5637527b10d5e3882a15031194943ca249c17dc8bc72201d"
+        },
+        {
+          "name": "dragonhide-hide-color",
+          "mimeType": "image/png",
+          "bytes": 704569,
+          "sha256": "7968c60e9228681594ae0be3682fb7ab8595282c6af195ef7e563a8f638b1893"
+        },
+        {
+          "name": "dragonhide-cloth-color",
+          "mimeType": "image/png",
+          "bytes": 7269991,
+          "sha256": "34c86ee385cc6ef925d3e7428b2bee19fae16347777b87011e4c1fde7b54623a"
+        },
+        {
+          "name": "dragonhide-lining-color",
+          "mimeType": "image/png",
+          "bytes": 831139,
+          "sha256": "7d3443fc287d838954d3e3fabe5deb93b17439e4ff3b89ae454071398dd0799b"
+        }
+      ],
+      "materialStateSha256": "be3aa0c691acc0fc89eac313fbafde3488ff5915d76e900ee4539b7045fab426",
+      "bones": 65,
+      "exactR14RigAndInverseBinds": true,
+      "inverseBindSha256": "15e7ded9e09215bf62dcd5f05d23881067820b48824ed091d2047a932df7f591",
+      "exactR14GeometryRequired": true,
+      "geometryUnchanged": true,
+      "geometrySha256": "d0729b7326f65f0aa334a06d101ef844719b087b2e850e73047920a9b53252c5",
+      "baselineGeometrySha256": "d0729b7326f65f0aa334a06d101ef844719b087b2e850e73047920a9b53252c5",
+      "validation": {
+        "vertices": 78740,
+        "triangles": 97896,
+        "drawCalls": 29,
+        "maxWeightSumError": 4.470348358154297e-8,
+        "maxNormalLengthError": 4.7273648551282577e-8,
+        "finitePositionsNormalsUVsWeights": true,
+        "nonnegativeNormalizedWeights": true,
+        "preservedZeroNormals": []
+      },
+      "geometry": {
+        "beforeBounds": {
+          "vertices": 78740,
+          "min": [
+            -0.930961012840271,
+            1.3656517267227173,
+            -0.14003944396972656
+          ],
+          "max": [
+            0.930961012840271,
+            1.5210567712783813,
+            0.029108626767992973
+          ],
+          "size": [
+            1.861922025680542,
+            0.15540504455566406,
+            0.16914807073771954
+          ]
+        },
+        "afterBounds": {
+          "vertices": 78740,
+          "min": [
+            -0.930961012840271,
+            1.3656517267227173,
+            -0.14003944396972656
+          ],
+          "max": [
+            0.930961012840271,
+            1.5210567712783813,
+            0.029108626767992973
+          ],
+          "size": [
+            1.861922025680542,
+            0.15540504455566406,
+            0.16914807073771954
+          ]
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "authoredScope": {
+    "file": "tools/item-models/tier50-70/robe.ts",
+    "baselineFile": "test-results/tier50-70/r14-final-baseline/robe.ts",
+    "beforeSha256": "e7aa2e8ca3cc403de3b2ff0447eb80d4638cf64ce4e0a441ab4b421e575ab64d",
+    "afterSha256": "7df8fc105afc3959686b9473eb7e0b13a31c76817e223b4f300f0b307d7671ea",
+    "exactSections": [
+      "scale border inset",
+      "bodice, fitted chest underlay and upper yoke",
+      "chest scales, long lapels, collar and clasp",
+      "shoulders",
+      "accepted coat loft, flare and front drape",
+      "side scale gores and hip tassets",
+      "waist and width normalization"
+    ],
+    "exactTailPanelLoftHemAndTipFormula": true,
+    "exactTailGoldFrameCall": true,
+    "redReplacedRearPanels": [
+      3,
+      5
+    ],
+    "redRaisedScaleCourses": {
+      "columns": 4,
+      "rows": 18
+    },
+    "rearInteriorClearanceMm": 4,
+    "rearCarrierClearanceFadesAtEveryEdge": true,
+    "redBackingRecessMetres": 0.001,
+    "blueCrossedBandAndTinyTrimCallsRemoved": true,
+    "necklinePoints": {
+      "blue": 17,
+      "red": 9
+    },
+    "limits": "Source scope accompanies exported vertex comparisons. It is not rendered appearance proof."
+  }
+}

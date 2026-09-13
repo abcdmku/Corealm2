@@ -43,8 +43,8 @@ const SET_ROWS: readonly { id: string; name: string; style: Style; tier: BossArm
   { id: 'frostweave', name: 'Aurora Frostweave', style: 'magic', tier: 90 },
 ];
 
-// These source variants are bareheaded. A set should not invent armor absent from its mesh.
-const BAREHEADED = new Set(['duskguard', 'oathguard', 'frostweave']);
+// Aurora now has an authored hood. The remaining imported variants are bareheaded.
+const BAREHEADED = new Set(['duskguard', 'oathguard']);
 function setSlots(id: string): readonly ArmourSetSlot[] {
   return BAREHEADED.has(id) ? SLOTS.filter(slot => slot !== 'head') : SLOTS;
 }
@@ -64,7 +64,7 @@ function pieceBonuses(style: Style, tier: BossArmorTier, index: number): Equipme
 export const BOSS_ARMOR_ITEMS: readonly ItemDef[] = SET_ROWS.flatMap(set => setSlots(set.id).map((slot): ItemDef => {
   const index = SLOTS.indexOf(slot);
   const suffix = SUFFIXES[set.style][index]!;
-  const label = suffix === 'hood' ? 'Headwrap' : suffix.charAt(0).toUpperCase() + suffix.slice(1);
+  const label = suffix === 'hood' ? (set.id === 'frostweave' ? 'Hood' : 'Headwrap') : suffix.charAt(0).toUpperCase() + suffix.slice(1);
   return {
     id: `${set.id}_${suffix}`, name: `${set.name} ${label}`, tier: set.tier,
     description: `${set.name} ${label.toLowerCase()} for level ${set.tier} ${set.style === 'magic' ? 'Magic' : 'Melee'}.${set.tier === 90 ? '' : ' A rare boss reward.'}`,

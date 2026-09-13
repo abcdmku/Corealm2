@@ -1,0 +1,6346 @@
+{
+  "passed": true,
+  "route": "/index.html",
+  "candidateOverride": false,
+  "purpose": "Final-world integration after isolated lab acceptance; production equipment operations, keyboard movement, player-focused camera.",
+  "kits": [
+    {
+      "name": "dragonhide",
+      "equipment": {
+        "head": "dragonhide_hood",
+        "body": "dragonhide_robe",
+        "legs": "dragonhide_leggings",
+        "feet": "dragonhide_boots",
+        "hands": "dragonhide_wraps"
+      },
+      "operations": [
+        {
+          "itemId": "dragonhide_hood",
+          "result": {
+            "slot": "head",
+            "replaced": null
+          }
+        },
+        {
+          "itemId": "dragonhide_robe",
+          "result": {
+            "slot": "body",
+            "replaced": null
+          }
+        },
+        {
+          "itemId": "dragonhide_leggings",
+          "result": {
+            "slot": "legs",
+            "replaced": null
+          }
+        },
+        {
+          "itemId": "dragonhide_boots",
+          "result": {
+            "slot": "feet",
+            "replaced": null
+          }
+        },
+        {
+          "itemId": "dragonhide_wraps",
+          "result": {
+            "slot": "hands",
+            "replaced": null
+          }
+        }
+      ],
+      "before": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 25,
+          "maxHealth": 317,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 243,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 229,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 14100,
+            "tick": 141,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 2,
+            "frameMs": 405.38,
+            "drawCalls": 408,
+            "triangles": 7588029
+          }
+        },
+        "player": {
+          "x": -160,
+          "y": 0.894,
+          "z": -118
+        },
+        "actor": {
+          "position": {
+            "x": -160,
+            "y": 0.894,
+            "z": -118
+          },
+          "regionId": "fallowmarch",
+          "health": 25,
+          "maxHealth": 317,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -0.14
+        },
+        "equipment": {
+          "head": null,
+          "body": null,
+          "legs": null,
+          "feet": null,
+          "hands": null,
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 1.682499999999993,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160,
+            0.8935825228691101,
+            -118
+          ],
+          "drawnRotationY": -0.14,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "cap|outfit_male_peasant_chest:-|outfit_male_peasant_legs:-|outfit_male_peasant_boots:-|outfit_male_peasant_gloves:-|hair_short:-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-outfit_male_peasant_chest-Male_Peasant_Body",
+            "part-outfit_male_peasant_gloves-Male_Peasant_Arms_1",
+            "part-outfit_male_peasant_gloves-Male_Peasant_Arms_2",
+            "part-hair_short-Hair_SimpleParted"
+          ],
+          "layerAssets": [
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "outfit_male_peasant_gloves",
+            "hair_short"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": true,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -159.85960478337304,
+                0.9082689434718189,
+                -117.70243085741893
+              ],
+              "ankle": [
+                -159.82431936319458,
+                0.9968009447499295,
+                -117.847173004661
+              ]
+            },
+            "right": {
+              "ball": [
+                -160.23963472353236,
+                0.9088435671014619,
+                -118.19502601325456
+              ],
+              "ankle": [
+                -160.12274108528794,
+                0.9973776074081373,
+                -118.28738863795438
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -159.273,
+            "y": 4.975,
+            "z": -123.156
+          },
+          "yaw": 3.002,
+          "pitch": 0.52,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.52,
+          "effectiveYaw": 3.002,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160,
+            "y": 1.994,
+            "z": -118
+          }
+        },
+        "errors": []
+      },
+      "equipped": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 27,
+          "maxHealth": 361,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 248,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 234,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 26000,
+            "tick": 260,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 7,
+            "frameMs": 136.85,
+            "drawCalls": 400,
+            "triangles": 7563043
+          }
+        },
+        "player": {
+          "x": -160,
+          "y": 0.894,
+          "z": -118
+        },
+        "actor": {
+          "position": {
+            "x": -160,
+            "y": 0.894,
+            "z": -118
+          },
+          "regionId": "fallowmarch",
+          "health": 27,
+          "maxHealth": 361,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -0.14
+        },
+        "equipment": {
+          "head": {
+            "itemId": "dragonhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "dragonhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "dragonhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "dragonhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "dragonhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 1.0987999999999953,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160,
+            0.8935825228691101,
+            -118
+          ],
+          "drawnRotationY": -0.14,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+            "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+            "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+            "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+            "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_dragonhide_robe",
+            "corealm_item_dragonhide_leggings",
+            "corealm_item_dragonhide_boots",
+            "corealm_item_dragonhide_wraps",
+            "corealm_item_dragonhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -159.8596863670369,
+                0.9081759539695032,
+                -117.70233107767832
+              ],
+              "ankle": [
+                -159.82440100382516,
+                0.9966935845715053,
+                -117.84708203400992
+              ]
+            },
+            "right": {
+              "ball": [
+                -160.2398015919376,
+                0.9087700733109833,
+                -118.19497344185612
+              ],
+              "ankle": [
+                -160.12289863715583,
+                0.9972859466875226,
+                -118.28734168419959
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -159.273,
+            "y": 4.975,
+            "z": -123.156
+          },
+          "yaw": 3.002,
+          "pitch": 0.52,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.52,
+          "effectiveYaw": 3.002,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160,
+            "y": 1.994,
+            "z": -118
+          }
+        },
+        "errors": []
+      },
+      "movement": {
+        "before": {
+          "timeOrigin": 1789237851141.4,
+          "world": {
+            "ready": true,
+            "version": {
+              "build": "phase1-round2",
+              "contracts": "5",
+              "content": "1"
+            },
+            "regionId": "fallowmarch",
+            "seed": 1337,
+            "skills": {
+              "melee": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "magic": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "mining": {
+                "level": 1,
+                "xp": 0
+              },
+              "woodcutting": {
+                "level": 1,
+                "xp": 0
+              },
+              "fishing": {
+                "level": 1,
+                "xp": 0
+              },
+              "smithing": {
+                "level": 1,
+                "xp": 0
+              },
+              "crafting": {
+                "level": 1,
+                "xp": 0
+              },
+              "cooking": {
+                "level": 1,
+                "xp": 0
+              },
+              "fletching": {
+                "level": 1,
+                "xp": 0
+              },
+              "agility": {
+                "level": 1,
+                "xp": 0
+              }
+            },
+            "currency": 0,
+            "health": 28,
+            "maxHealth": 361,
+            "inventoryUsed": 5,
+            "bankUsed": 0,
+            "activity": null,
+            "combatTargetId": null,
+            "selectedEntityId": null,
+            "hoveredEntityId": null,
+            "questCount": 0,
+            "entityCount": 15580,
+            "assets": {
+              "manifestAssets": 700,
+              "loaded": 248,
+              "clips": 27,
+              "assetClips": 245,
+              "total": 700,
+              "requested": 234,
+              "failed": 0,
+              "queued": 0,
+              "inflight": 0
+            },
+            "navStatus": "ready",
+            "clock": {
+              "elapsedMs": 32100,
+              "tick": 321,
+              "paused": false,
+              "timeScale": 1
+            },
+            "renderer": {
+              "fps": 10,
+              "frameMs": 97.77,
+              "drawCalls": 575,
+              "triangles": 10855465
+            }
+          },
+          "player": {
+            "x": -160,
+            "y": 0.894,
+            "z": -118
+          },
+          "actor": {
+            "position": {
+              "x": -160,
+              "y": 0.894,
+              "z": -118
+            },
+            "regionId": "fallowmarch",
+            "health": 28,
+            "maxHealth": 361,
+            "inCombat": false,
+            "dead": false,
+            "moving": false,
+            "activityKind": null,
+            "combatLevelEstimate": 99,
+            "facingRad": -0.14
+          },
+          "equipment": {
+            "head": {
+              "itemId": "dragonhide_hood",
+              "quantity": 1
+            },
+            "body": {
+              "itemId": "dragonhide_robe",
+              "quantity": 1
+            },
+            "legs": {
+              "itemId": "dragonhide_leggings",
+              "quantity": 1
+            },
+            "feet": {
+              "itemId": "dragonhide_boots",
+              "quantity": 1
+            },
+            "hands": {
+              "itemId": "dragonhide_wraps",
+              "quantity": 1
+            },
+            "mainHand": {
+              "itemId": "basic_wooden_wand",
+              "quantity": 1
+            },
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "idle",
+            "clip": "Idle_Loop",
+            "time": 2.1316999999999755,
+            "duration": 2.5,
+            "timeScale": 1,
+            "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+            "clipSource": "shared",
+            "nativeStrideMps": null,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -160,
+              0.8935825228691101,
+              -118
+            ],
+            "drawnRotationY": -0.14,
+            "attachments": {
+              "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+            },
+            "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+              "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+              "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+              "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+              "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_dragonhide_robe",
+              "corealm_item_dragonhide_leggings",
+              "corealm_item_dragonhide_boots",
+              "corealm_item_dragonhide_wraps",
+              "corealm_item_dragonhide_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -159.85993604489806,
+                  0.9083727096016481,
+                  -117.70201613126835
+                ],
+                "ankle": [
+                  -159.82463996130295,
+                  0.9968421413020301,
+                  -117.84679392631378
+                ]
+              },
+              "right": {
+                "ball": [
+                  -160.24004637839434,
+                  0.9088433446175845,
+                  -118.19465063152549
+                ],
+                "ankle": [
+                  -160.12313326732345,
+                  0.9973170057880321,
+                  -118.2870464616446
+                ]
+              }
+            }
+          },
+          "camera": {
+            "position": {
+              "x": -160.604,
+              "y": 4.33,
+              "z": -123.493
+            },
+            "yaw": 3.251,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 3.251,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -160,
+              "y": 1.994,
+              "z": -118
+            }
+          },
+          "errors": []
+        },
+        "during": {
+          "timeOrigin": 1789237851141.4,
+          "world": {
+            "ready": true,
+            "version": {
+              "build": "phase1-round2",
+              "contracts": "5",
+              "content": "1"
+            },
+            "regionId": "fallowmarch",
+            "seed": 1337,
+            "skills": {
+              "melee": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "magic": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "mining": {
+                "level": 1,
+                "xp": 0
+              },
+              "woodcutting": {
+                "level": 1,
+                "xp": 0
+              },
+              "fishing": {
+                "level": 1,
+                "xp": 0
+              },
+              "smithing": {
+                "level": 1,
+                "xp": 0
+              },
+              "crafting": {
+                "level": 1,
+                "xp": 0
+              },
+              "cooking": {
+                "level": 1,
+                "xp": 0
+              },
+              "fletching": {
+                "level": 1,
+                "xp": 0
+              },
+              "agility": {
+                "level": 1,
+                "xp": 0
+              }
+            },
+            "currency": 0,
+            "health": 28,
+            "maxHealth": 361,
+            "inventoryUsed": 5,
+            "bankUsed": 0,
+            "activity": null,
+            "combatTargetId": null,
+            "selectedEntityId": null,
+            "hoveredEntityId": null,
+            "questCount": 0,
+            "entityCount": 15580,
+            "assets": {
+              "manifestAssets": 700,
+              "loaded": 248,
+              "clips": 27,
+              "assetClips": 245,
+              "total": 700,
+              "requested": 234,
+              "failed": 0,
+              "queued": 0,
+              "inflight": 0
+            },
+            "navStatus": "ready",
+            "clock": {
+              "elapsedMs": 32600,
+              "tick": 326,
+              "paused": false,
+              "timeScale": 1
+            },
+            "renderer": {
+              "fps": 11,
+              "frameMs": 90.18,
+              "drawCalls": 572,
+              "triangles": 10808092
+            }
+          },
+          "player": {
+            "x": -159.827,
+            "y": 0.894,
+            "z": -116.429
+          },
+          "actor": {
+            "position": {
+              "x": -159.827,
+              "y": 0.894,
+              "z": -116.429
+            },
+            "regionId": "fallowmarch",
+            "health": 28,
+            "maxHealth": 361,
+            "inCombat": false,
+            "dead": false,
+            "moving": true,
+            "activityKind": null,
+            "combatLevelEstimate": 99,
+            "facingRad": 0.11
+          },
+          "equipment": {
+            "head": {
+              "itemId": "dragonhide_hood",
+              "quantity": 1
+            },
+            "body": {
+              "itemId": "dragonhide_robe",
+              "quantity": 1
+            },
+            "legs": {
+              "itemId": "dragonhide_leggings",
+              "quantity": 1
+            },
+            "feet": {
+              "itemId": "dragonhide_boots",
+              "quantity": 1
+            },
+            "hands": {
+              "itemId": "dragonhide_wraps",
+              "quantity": 1
+            },
+            "mainHand": {
+              "itemId": "basic_wooden_wand",
+              "quantity": 1
+            },
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "run",
+            "clip": "Jog_Fwd_Loop",
+            "time": 0.5162537601564599,
+            "duration": 0.9333333373069763,
+            "timeScale": 1.2,
+            "clipUuid": "349c4c1b-d309-4dc4-8606-9fa70c410cc9",
+            "clipSource": "player-local",
+            "nativeStrideMps": 3.5,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -159.82811938476564,
+              0.8935825228691101,
+              -116.43775164794928
+            ],
+            "drawnRotationY": 0.1095927124023447,
+            "attachments": {
+              "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+            },
+            "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+              "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+              "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+              "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+              "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_dragonhide_robe",
+              "corealm_item_dragonhide_leggings",
+              "corealm_item_dragonhide_boots",
+              "corealm_item_dragonhide_wraps",
+              "corealm_item_dragonhide_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -159.77879964679485,
+                  1.1635420928265392,
+                  -116.79886800927538
+                ],
+                "ankle": [
+                  -159.76670962869332,
+                  1.2959878280934618,
+                  -116.68775898249513
+                ]
+              },
+              "right": {
+                "ball": [
+                  -159.90357589895058,
+                  0.9067791358543543,
+                  -116.25630850021565
+                ],
+                "ankle": [
+                  -159.91290881372157,
+                  1.0172890649402326,
+                  -116.38947646236839
+                ]
+              }
+            }
+          },
+          "camera": {
+            "position": {
+              "x": -160.484,
+              "y": 4.33,
+              "z": -122.4
+            },
+            "yaw": 3.251,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 3.251,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -159.88,
+              "y": 1.994,
+              "z": -116.907
+            }
+          },
+          "errors": []
+        },
+        "settled": {
+          "timeOrigin": 1789237851141.4,
+          "world": {
+            "ready": true,
+            "version": {
+              "build": "phase1-round2",
+              "contracts": "5",
+              "content": "1"
+            },
+            "regionId": "fallowmarch",
+            "seed": 1337,
+            "skills": {
+              "melee": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "magic": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "mining": {
+                "level": 1,
+                "xp": 0
+              },
+              "woodcutting": {
+                "level": 1,
+                "xp": 0
+              },
+              "fishing": {
+                "level": 1,
+                "xp": 0
+              },
+              "smithing": {
+                "level": 1,
+                "xp": 0
+              },
+              "crafting": {
+                "level": 1,
+                "xp": 0
+              },
+              "cooking": {
+                "level": 1,
+                "xp": 0
+              },
+              "fletching": {
+                "level": 1,
+                "xp": 0
+              },
+              "agility": {
+                "level": 1,
+                "xp": 0
+              }
+            },
+            "currency": 0,
+            "health": 28,
+            "maxHealth": 361,
+            "inventoryUsed": 5,
+            "bankUsed": 0,
+            "activity": null,
+            "combatTargetId": null,
+            "selectedEntityId": null,
+            "hoveredEntityId": null,
+            "questCount": 0,
+            "entityCount": 15580,
+            "assets": {
+              "manifestAssets": 700,
+              "loaded": 248,
+              "clips": 27,
+              "assetClips": 245,
+              "total": 700,
+              "requested": 234,
+              "failed": 0,
+              "queued": 0,
+              "inflight": 0
+            },
+            "navStatus": "ready",
+            "clock": {
+              "elapsedMs": 34800,
+              "tick": 348,
+              "paused": false,
+              "timeScale": 1
+            },
+            "renderer": {
+              "fps": 17,
+              "frameMs": 58.15,
+              "drawCalls": 585,
+              "triangles": 11157638
+            }
+          },
+          "player": {
+            "x": -159.284,
+            "y": 0.894,
+            "z": -111.489
+          },
+          "actor": {
+            "position": {
+              "x": -159.284,
+              "y": 0.894,
+              "z": -111.489
+            },
+            "regionId": "fallowmarch",
+            "health": 28,
+            "maxHealth": 361,
+            "inCombat": false,
+            "dead": false,
+            "moving": false,
+            "activityKind": null,
+            "combatLevelEstimate": 99,
+            "facingRad": 0.11
+          },
+          "equipment": {
+            "head": {
+              "itemId": "dragonhide_hood",
+              "quantity": 1
+            },
+            "body": {
+              "itemId": "dragonhide_robe",
+              "quantity": 1
+            },
+            "legs": {
+              "itemId": "dragonhide_leggings",
+              "quantity": 1
+            },
+            "feet": {
+              "itemId": "dragonhide_boots",
+              "quantity": 1
+            },
+            "hands": {
+              "itemId": "dragonhide_wraps",
+              "quantity": 1
+            },
+            "mainHand": {
+              "itemId": "basic_wooden_wand",
+              "quantity": 1
+            },
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "idle",
+            "clip": "Idle_Loop",
+            "time": 1.1165,
+            "duration": 2.5,
+            "timeScale": 1,
+            "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+            "clipSource": "shared",
+            "nativeStrideMps": null,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -159.28367614746094,
+              0.8935825228691101,
+              -111.48925018310547
+            ],
+            "drawnRotationY": 0.1095927124023447,
+            "attachments": {
+              "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+            },
+            "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+              "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+              "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+              "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+              "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+              "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_dragonhide_robe",
+              "corealm_item_dragonhide_leggings",
+              "corealm_item_dragonhide_boots",
+              "corealm_item_dragonhide_wraps",
+              "corealm_item_dragonhide_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -159.0741666197369,
+                  0.9081150158731489,
+                  -111.23552133713407
+                ],
+                "ankle": [
+                  -159.07573014371957,
+                  0.996642475452649,
+                  -111.38449687654492
+                ]
+              },
+              "right": {
+                "ball": [
+                  -159.56418647877894,
+                  0.908727082918846,
+                  -111.61900122809499
+                ],
+                "ankle": [
+                  -159.47372269160854,
+                  0.9972509789317489,
+                  -111.7373780666381
+                ]
+              }
+            }
+          },
+          "camera": {
+            "position": {
+              "x": -159.888,
+              "y": 4.33,
+              "z": -116.982
+            },
+            "yaw": 3.251,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 3.251,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -159.284,
+              "y": 1.994,
+              "z": -111.489
+            }
+          },
+          "errors": []
+        }
+      }
+    },
+    {
+      "name": "starhide",
+      "equipment": {
+        "head": "starhide_hood",
+        "body": "starhide_robe",
+        "legs": "starhide_leggings",
+        "feet": "starhide_boots",
+        "hands": "starhide_wraps"
+      },
+      "operations": [
+        {
+          "itemId": "starhide_hood",
+          "result": {
+            "slot": "head",
+            "replaced": "dragonhide_hood"
+          }
+        },
+        {
+          "itemId": "starhide_robe",
+          "result": {
+            "slot": "body",
+            "replaced": "dragonhide_robe"
+          }
+        },
+        {
+          "itemId": "starhide_leggings",
+          "result": {
+            "slot": "legs",
+            "replaced": "dragonhide_leggings"
+          }
+        },
+        {
+          "itemId": "starhide_boots",
+          "result": {
+            "slot": "feet",
+            "replaced": "dragonhide_boots"
+          }
+        },
+        {
+          "itemId": "starhide_wraps",
+          "result": {
+            "slot": "hands",
+            "replaced": "dragonhide_wraps"
+          }
+        }
+      ],
+      "before": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 29,
+          "maxHealth": 361,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 248,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 234,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 36900,
+            "tick": 369,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 17,
+            "frameMs": 57.59,
+            "drawCalls": 573,
+            "triangles": 11129266
+          }
+        },
+        "player": {
+          "x": -160.057,
+          "y": 0.894,
+          "z": -118.517
+        },
+        "actor": {
+          "position": {
+            "x": -160.057,
+            "y": 0.894,
+            "z": -118.517
+          },
+          "regionId": "fallowmarch",
+          "health": 29,
+          "maxHealth": 361,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -3.032
+        },
+        "equipment": {
+          "head": {
+            "itemId": "dragonhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "dragonhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "dragonhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "dragonhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "dragonhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 0.23330000000000295,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160.05686950683594,
+            0.8935825228691101,
+            -118.51688385009766
+          ],
+          "drawnRotationY": -3.0319999411874488,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+            "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+            "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+            "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+            "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_dragonhide_robe",
+            "corealm_item_dragonhide_leggings",
+            "corealm_item_dragonhide_boots",
+            "corealm_item_dragonhide_wraps",
+            "corealm_item_dragonhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -160.2662759566941,
+                0.9081110316129735,
+                -118.77039542834056
+              ],
+              "ankle": [
+                -160.26470759732285,
+                0.9966267147765815,
+                -118.6214129305609
+              ]
+            },
+            "right": {
+              "ball": [
+                -159.77631058488845,
+                0.9087447306298301,
+                -118.38684913578416
+              ],
+              "ankle": [
+                -159.86678476388926,
+                0.9972751067344299,
+                -118.26848508772913
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -160.659,
+            "y": 4.33,
+            "z": -123.993
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160.055,
+            "y": 1.994,
+            "z": -118.499
+          }
+        },
+        "errors": []
+      },
+      "equipped": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 30,
+          "maxHealth": 379,
+          "inventoryUsed": 10,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 253,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 239,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 43000,
+            "tick": 430,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 14,
+            "frameMs": 69.07,
+            "drawCalls": 571,
+            "triangles": 11141751
+          }
+        },
+        "player": {
+          "x": -160.057,
+          "y": 0.894,
+          "z": -118.517
+        },
+        "actor": {
+          "position": {
+            "x": -160.057,
+            "y": 0.894,
+            "z": -118.517
+          },
+          "regionId": "fallowmarch",
+          "health": 30,
+          "maxHealth": 379,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -3.032
+        },
+        "equipment": {
+          "head": {
+            "itemId": "starhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "starhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "starhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "starhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "starhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 1.3830000000000005,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160.05686950683594,
+            0.8935825228691101,
+            -118.51688385009766
+          ],
+          "drawnRotationY": -3.0319999411874488,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+            "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+            "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+            "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+            "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_starhide_robe",
+            "corealm_item_starhide_leggings",
+            "corealm_item_starhide_boots",
+            "corealm_item_starhide_wraps",
+            "corealm_item_starhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -160.2663836926711,
+                0.9081083214212271,
+                -118.77068353253702
+              ],
+              "ankle": [
+                -160.26482138643073,
+                0.9966198267288706,
+                -118.6216985047387
+              ]
+            },
+            "right": {
+              "ball": [
+                -159.77636516582703,
+                0.9086863570679556,
+                -118.38720589249397
+              ],
+              "ankle": [
+                -159.86682999368404,
+                0.997196366357086,
+                -118.2688194656399
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -160.661,
+            "y": 4.33,
+            "z": -124.01
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160.057,
+            "y": 1.994,
+            "z": -118.517
+          }
+        },
+        "errors": []
+      },
+      "movement": {
+        "before": {
+          "timeOrigin": 1789237851141.4,
+          "world": {
+            "ready": true,
+            "version": {
+              "build": "phase1-round2",
+              "contracts": "5",
+              "content": "1"
+            },
+            "regionId": "fallowmarch",
+            "seed": 1337,
+            "skills": {
+              "melee": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "magic": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "mining": {
+                "level": 1,
+                "xp": 0
+              },
+              "woodcutting": {
+                "level": 1,
+                "xp": 0
+              },
+              "fishing": {
+                "level": 1,
+                "xp": 0
+              },
+              "smithing": {
+                "level": 1,
+                "xp": 0
+              },
+              "crafting": {
+                "level": 1,
+                "xp": 0
+              },
+              "cooking": {
+                "level": 1,
+                "xp": 0
+              },
+              "fletching": {
+                "level": 1,
+                "xp": 0
+              },
+              "agility": {
+                "level": 1,
+                "xp": 0
+              }
+            },
+            "currency": 0,
+            "health": 30,
+            "maxHealth": 379,
+            "inventoryUsed": 10,
+            "bankUsed": 0,
+            "activity": null,
+            "combatTargetId": null,
+            "selectedEntityId": null,
+            "hoveredEntityId": null,
+            "questCount": 0,
+            "entityCount": 15580,
+            "assets": {
+              "manifestAssets": 700,
+              "loaded": 253,
+              "clips": 27,
+              "assetClips": 245,
+              "total": 700,
+              "requested": 239,
+              "failed": 0,
+              "queued": 0,
+              "inflight": 0
+            },
+            "navStatus": "ready",
+            "clock": {
+              "elapsedMs": 46900,
+              "tick": 469,
+              "paused": false,
+              "timeScale": 1
+            },
+            "renderer": {
+              "fps": 16,
+              "frameMs": 61.85,
+              "drawCalls": 638,
+              "triangles": 12873467
+            }
+          },
+          "player": {
+            "x": -160.057,
+            "y": 0.894,
+            "z": -118.517
+          },
+          "actor": {
+            "position": {
+              "x": -160.057,
+              "y": 0.894,
+              "z": -118.517
+            },
+            "regionId": "fallowmarch",
+            "health": 30,
+            "maxHealth": 379,
+            "inCombat": false,
+            "dead": false,
+            "moving": false,
+            "activityKind": null,
+            "combatLevelEstimate": 99,
+            "facingRad": -3.032
+          },
+          "equipment": {
+            "head": {
+              "itemId": "starhide_hood",
+              "quantity": 1
+            },
+            "body": {
+              "itemId": "starhide_robe",
+              "quantity": 1
+            },
+            "legs": {
+              "itemId": "starhide_leggings",
+              "quantity": 1
+            },
+            "feet": {
+              "itemId": "starhide_boots",
+              "quantity": 1
+            },
+            "hands": {
+              "itemId": "starhide_wraps",
+              "quantity": 1
+            },
+            "mainHand": {
+              "itemId": "basic_wooden_wand",
+              "quantity": 1
+            },
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "idle",
+            "clip": "Idle_Loop",
+            "time": 0.26619999999999644,
+            "duration": 2.5,
+            "timeScale": 1,
+            "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+            "clipSource": "shared",
+            "nativeStrideMps": null,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -160.05686950683594,
+              0.8935825228691101,
+              -118.51688385009766
+            ],
+            "drawnRotationY": -3.0319999411874488,
+            "attachments": {
+              "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+            },
+            "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+              "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+              "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+              "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+              "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_starhide_robe",
+              "corealm_item_starhide_leggings",
+              "corealm_item_starhide_boots",
+              "corealm_item_starhide_wraps",
+              "corealm_item_starhide_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -160.26621790701785,
+                  0.9081844572895944,
+                  -118.77048376099496
+                ],
+                "ankle": [
+                  -160.26464744877975,
+                  0.9966928273026144,
+                  -118.62149694096559
+                ]
+              },
+              "right": {
+                "ball": [
+                  -159.7761799493733,
+                  0.9087773708418897,
+                  -118.38710488332877
+                ],
+                "ankle": [
+                  -159.86666861267028,
+                  0.9972431476946408,
+                  -118.26870361380176
+                ]
+              }
+            }
+          },
+          "camera": {
+            "position": {
+              "x": -158.11,
+              "y": 4.33,
+              "z": -113.345
+            },
+            "yaw": 0.36,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.36,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -160.057,
+              "y": 1.994,
+              "z": -118.517
+            }
+          },
+          "errors": []
+        },
+        "during": {
+          "timeOrigin": 1789237851141.4,
+          "world": {
+            "ready": true,
+            "version": {
+              "build": "phase1-round2",
+              "contracts": "5",
+              "content": "1"
+            },
+            "regionId": "fallowmarch",
+            "seed": 1337,
+            "skills": {
+              "melee": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "magic": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "mining": {
+                "level": 1,
+                "xp": 0
+              },
+              "woodcutting": {
+                "level": 1,
+                "xp": 0
+              },
+              "fishing": {
+                "level": 1,
+                "xp": 0
+              },
+              "smithing": {
+                "level": 1,
+                "xp": 0
+              },
+              "crafting": {
+                "level": 1,
+                "xp": 0
+              },
+              "cooking": {
+                "level": 1,
+                "xp": 0
+              },
+              "fletching": {
+                "level": 1,
+                "xp": 0
+              },
+              "agility": {
+                "level": 1,
+                "xp": 0
+              }
+            },
+            "currency": 0,
+            "health": 30,
+            "maxHealth": 379,
+            "inventoryUsed": 10,
+            "bankUsed": 0,
+            "activity": null,
+            "combatTargetId": null,
+            "selectedEntityId": null,
+            "hoveredEntityId": null,
+            "questCount": 0,
+            "entityCount": 15583,
+            "assets": {
+              "manifestAssets": 700,
+              "loaded": 253,
+              "clips": 27,
+              "assetClips": 245,
+              "total": 700,
+              "requested": 239,
+              "failed": 0,
+              "queued": 0,
+              "inflight": 0
+            },
+            "navStatus": "ready",
+            "clock": {
+              "elapsedMs": 47500,
+              "tick": 475,
+              "paused": false,
+              "timeScale": 1
+            },
+            "renderer": {
+              "fps": 16,
+              "frameMs": 62.04,
+              "drawCalls": 638,
+              "triangles": 12947706
+            }
+          },
+          "player": {
+            "x": -160.797,
+            "y": 0.894,
+            "z": -120.482
+          },
+          "actor": {
+            "position": {
+              "x": -160.797,
+              "y": 0.894,
+              "z": -120.482
+            },
+            "regionId": "fallowmarch",
+            "health": 30,
+            "maxHealth": 379,
+            "inCombat": false,
+            "dead": false,
+            "moving": true,
+            "activityKind": null,
+            "combatLevelEstimate": 99,
+            "facingRad": -2.782
+          },
+          "equipment": {
+            "head": {
+              "itemId": "starhide_hood",
+              "quantity": 1
+            },
+            "body": {
+              "itemId": "starhide_robe",
+              "quantity": 1
+            },
+            "legs": {
+              "itemId": "starhide_leggings",
+              "quantity": 1
+            },
+            "feet": {
+              "itemId": "starhide_boots",
+              "quantity": 1
+            },
+            "hands": {
+              "itemId": "starhide_wraps",
+              "quantity": 1
+            },
+            "mainHand": {
+              "itemId": "basic_wooden_wand",
+              "quantity": 1
+            },
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "run",
+            "clip": "Jog_Fwd_Loop",
+            "time": 0.5501521177685571,
+            "duration": 0.9333333373069763,
+            "timeScale": 1.1999979279836874,
+            "clipUuid": "349c4c1b-d309-4dc4-8606-9fa70c410cc9",
+            "clipSource": "player-local",
+            "nativeStrideMps": 3.5,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -160.70114007568358,
+              0.8935825228691101,
+              -120.22873635101313
+            ],
+            "drawnRotationY": -2.781629089355468,
+            "attachments": {
+              "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+            },
+            "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+              "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+              "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+              "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+              "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_starhide_robe",
+              "corealm_item_starhide_leggings",
+              "corealm_item_starhide_boots",
+              "corealm_item_starhide_wraps",
+              "corealm_item_starhide_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -160.71618573259724,
+                  1.118145520679906,
+                  -119.99707424774184
+                ],
+                "ankle": [
+                  -160.74539493954347,
+                  1.2584300637768697,
+                  -120.09454384138273
+                ]
+              },
+              "right": {
+                "ball": [
+                  -160.63627382523072,
+                  0.9012790353309321,
+                  -120.31034958361408
+                ],
+                "ankle": [
+                  -160.59765660837715,
+                  1.0351800270188802,
+                  -120.207332648464
+                ]
+              }
+            }
+          },
+          "camera": {
+            "position": {
+              "x": -158.592,
+              "y": 4.33,
+              "z": -114.626
+            },
+            "yaw": 0.36,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.36,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -160.539,
+              "y": 1.994,
+              "z": -119.798
+            }
+          },
+          "errors": []
+        },
+        "settled": {
+          "timeOrigin": 1789237851141.4,
+          "world": {
+            "ready": true,
+            "version": {
+              "build": "phase1-round2",
+              "contracts": "5",
+              "content": "1"
+            },
+            "regionId": "fallowmarch",
+            "seed": 1337,
+            "skills": {
+              "melee": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "magic": {
+                "level": 99,
+                "xp": 9999879
+              },
+              "mining": {
+                "level": 1,
+                "xp": 0
+              },
+              "woodcutting": {
+                "level": 1,
+                "xp": 0
+              },
+              "fishing": {
+                "level": 1,
+                "xp": 0
+              },
+              "smithing": {
+                "level": 1,
+                "xp": 0
+              },
+              "crafting": {
+                "level": 1,
+                "xp": 0
+              },
+              "cooking": {
+                "level": 1,
+                "xp": 0
+              },
+              "fletching": {
+                "level": 1,
+                "xp": 0
+              },
+              "agility": {
+                "level": 1,
+                "xp": 0
+              }
+            },
+            "currency": 0,
+            "health": 31,
+            "maxHealth": 379,
+            "inventoryUsed": 10,
+            "bankUsed": 0,
+            "activity": null,
+            "combatTargetId": null,
+            "selectedEntityId": null,
+            "hoveredEntityId": null,
+            "questCount": 0,
+            "entityCount": 15592,
+            "assets": {
+              "manifestAssets": 700,
+              "loaded": 253,
+              "clips": 27,
+              "assetClips": 245,
+              "total": 700,
+              "requested": 239,
+              "failed": 0,
+              "queued": 0,
+              "inflight": 0
+            },
+            "navStatus": "ready",
+            "clock": {
+              "elapsedMs": 50000,
+              "tick": 500,
+              "paused": false,
+              "timeScale": 1
+            },
+            "renderer": {
+              "fps": 16,
+              "frameMs": 61.85,
+              "drawCalls": 618,
+              "triangles": 12961338
+            }
+          },
+          "player": {
+            "x": -162.914,
+            "y": 0.961,
+            "z": -126.107
+          },
+          "actor": {
+            "position": {
+              "x": -162.914,
+              "y": 0.961,
+              "z": -126.107
+            },
+            "regionId": "fallowmarch",
+            "health": 31,
+            "maxHealth": 379,
+            "inCombat": false,
+            "dead": false,
+            "moving": false,
+            "activityKind": null,
+            "combatLevelEstimate": 99,
+            "facingRad": -2.782
+          },
+          "equipment": {
+            "head": {
+              "itemId": "starhide_hood",
+              "quantity": 1
+            },
+            "body": {
+              "itemId": "starhide_robe",
+              "quantity": 1
+            },
+            "legs": {
+              "itemId": "starhide_leggings",
+              "quantity": 1
+            },
+            "feet": {
+              "itemId": "starhide_boots",
+              "quantity": 1
+            },
+            "hands": {
+              "itemId": "starhide_wraps",
+              "quantity": 1
+            },
+            "mainHand": {
+              "itemId": "basic_wooden_wand",
+              "quantity": 1
+            },
+            "offHand": null,
+            "accessory1": null,
+            "accessory2": null
+          },
+          "motion": {
+            "fishing": {
+              "sample": null,
+              "visible": false,
+              "tip": [
+                0,
+                0,
+                0
+              ],
+              "float": [
+                0,
+                0,
+                0
+              ],
+              "spot": null,
+              "bones": [
+                "root",
+                "pelvis",
+                "spine_01",
+                "spine_02",
+                "spine_03",
+                "neck_01",
+                "Head",
+                "clavicle_l",
+                "upperarm_l",
+                "lowerarm_l",
+                "hand_l",
+                "index_01_l",
+                "index_02_l",
+                "index_03_l",
+                "index_04_leaf_l",
+                "middle_01_l",
+                "middle_02_l",
+                "middle_03_l",
+                "middle_04_leaf_l",
+                "pinky_01_l",
+                "pinky_02_l",
+                "pinky_03_l",
+                "pinky_04_leaf_l",
+                "ring_01_l",
+                "ring_02_l",
+                "ring_03_l",
+                "ring_04_leaf_l",
+                "thumb_01_l",
+                "thumb_02_l",
+                "thumb_03_l",
+                "thumb_04_leaf_l",
+                "clavicle_r",
+                "upperarm_r",
+                "lowerarm_r",
+                "hand_r",
+                "index_01_r",
+                "index_02_r",
+                "index_03_r",
+                "index_04_leaf_r",
+                "middle_01_r",
+                "middle_02_r",
+                "middle_03_r",
+                "middle_04_leaf_r",
+                "pinky_01_r",
+                "pinky_02_r",
+                "pinky_03_r",
+                "pinky_04_leaf_r",
+                "ring_01_r",
+                "ring_02_r",
+                "ring_03_r",
+                "ring_04_leaf_r",
+                "thumb_01_r",
+                "thumb_02_r",
+                "thumb_03_r",
+                "thumb_04_leaf_r",
+                "thigh_l",
+                "calf_l",
+                "foot_l",
+                "ball_l",
+                "ball_leaf_l",
+                "thigh_r",
+                "calf_r",
+                "foot_r",
+                "ball_r",
+                "ball_leaf_r"
+              ],
+              "guideWorld": null,
+              "guideLocal": null,
+              "visibleTackle": 0
+            },
+            "pose": "idle",
+            "clip": "Idle_Loop",
+            "time": 1.1833000000000027,
+            "duration": 2.5,
+            "timeScale": 1,
+            "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+            "clipSource": "shared",
+            "nativeStrideMps": null,
+            "actionWeight": 1,
+            "drawnPosition": [
+              -162.91355895996094,
+              0.9609995830332991,
+              -126.10708618164062
+            ],
+            "drawnRotationY": -2.781629089355468,
+            "attachments": {
+              "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+            },
+            "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+            "layerLoadPending": false,
+            "layerMeshes": [
+              "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+              "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+              "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+              "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+              "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+              "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+            ],
+            "layerAssets": [
+              "corealm_item_starhide_robe",
+              "corealm_item_starhide_leggings",
+              "corealm_item_starhide_boots",
+              "corealm_item_starhide_wraps",
+              "corealm_item_starhide_hood"
+            ],
+            "layerMissingBones": [],
+            "hairVisible": false,
+            "attachmentLoading": {},
+            "attachmentErrors": {},
+            "activityMainHandKey": null,
+            "feet": {
+              "left": {
+                "ball": [
+                  -163.17939448231377,
+                  0.9755188725813719,
+                  -126.30095010946773
+                ],
+                "ankle": [
+                  -163.14096963556415,
+                  1.0640539072903847,
+                  -126.15701142292505
+                ]
+              },
+              "right": {
+                "ball": [
+                  -162.60964277113973,
+                  0.9761468390051126,
+                  -126.05083766123819
+                ],
+                "ankle": [
+                  -162.66795704245482,
+                  1.0646773406242565,
+                  -125.91374262534785
+                ]
+              }
+            }
+          },
+          "camera": {
+            "position": {
+              "x": -160.967,
+              "y": 4.397,
+              "z": -120.935
+            },
+            "yaw": 0.36,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.36,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -162.914,
+              "y": 2.061,
+              "z": -126.107
+            }
+          },
+          "errors": []
+        }
+      }
+    }
+  ],
+  "captures": [
+    {
+      "name": "dragonhide-front",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\dragonhide-front.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 27,
+          "maxHealth": 361,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 248,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 234,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 29100,
+            "tick": 291,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 7,
+            "frameMs": 138.88,
+            "drawCalls": 639,
+            "triangles": 12394612
+          }
+        },
+        "player": {
+          "x": -160,
+          "y": 0.894,
+          "z": -118
+        },
+        "actor": {
+          "position": {
+            "x": -160,
+            "y": 0.894,
+            "z": -118
+          },
+          "regionId": "fallowmarch",
+          "health": 27,
+          "maxHealth": 361,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -0.14
+        },
+        "equipment": {
+          "head": {
+            "itemId": "dragonhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "dragonhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "dragonhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "dragonhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "dragonhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 1.6319999999999923,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160,
+            0.8935825228691101,
+            -118
+          ],
+          "drawnRotationY": -0.14,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+            "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+            "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+            "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+            "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_dragonhide_robe",
+            "corealm_item_dragonhide_leggings",
+            "corealm_item_dragonhide_boots",
+            "corealm_item_dragonhide_wraps",
+            "corealm_item_dragonhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -159.8595224046143,
+                0.9082693201464552,
+                -117.70241885269611
+              ],
+              "ankle": [
+                -159.82424694060722,
+                0.9967786771813918,
+                -117.84717727469777
+              ]
+            },
+            "right": {
+              "ball": [
+                -160.23948545991271,
+                0.9088537194215001,
+                -118.19511052711898
+              ],
+              "ankle": [
+                -160.12259355606867,
+                0.9973860760431823,
+                -118.28747696012367
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -159.396,
+            "y": 4.33,
+            "z": -112.507
+          },
+          "yaw": 0.11,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.11,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160,
+            "y": 1.994,
+            "z": -118
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "dragonhide-back",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\dragonhide-back.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 28,
+          "maxHealth": 361,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 248,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 234,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 31400,
+            "tick": 314,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 9,
+            "frameMs": 107.22,
+            "drawCalls": 575,
+            "triangles": 10855473
+          }
+        },
+        "player": {
+          "x": -160,
+          "y": 0.894,
+          "z": -118
+        },
+        "actor": {
+          "position": {
+            "x": -160,
+            "y": 0.894,
+            "z": -118
+          },
+          "regionId": "fallowmarch",
+          "health": 28,
+          "maxHealth": 361,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -0.14
+        },
+        "equipment": {
+          "head": {
+            "itemId": "dragonhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "dragonhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "dragonhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "dragonhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "dragonhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 1.415099999999984,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160,
+            0.8935825228691101,
+            -118
+          ],
+          "drawnRotationY": -0.14,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+            "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+            "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+            "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+            "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_dragonhide_robe",
+            "corealm_item_dragonhide_leggings",
+            "corealm_item_dragonhide_boots",
+            "corealm_item_dragonhide_wraps",
+            "corealm_item_dragonhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -159.85967337398236,
+                0.9081495112866259,
+                -117.70232840702097
+              ],
+              "ankle": [
+                -159.8243866942137,
+                0.9966525160015398,
+                -117.84708798071378
+              ]
+            },
+            "right": {
+              "ball": [
+                -160.23978447200955,
+                0.908726103781763,
+                -118.19497206166649
+              ],
+              "ankle": [
+                -160.12288159124617,
+                0.997241221168423,
+                -118.28734112243448
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -160.604,
+            "y": 4.33,
+            "z": -123.493
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160,
+            "y": 1.994,
+            "z": -118
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "dragonhide-walking",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\dragonhide-walking.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 28,
+          "maxHealth": 361,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 248,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 234,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 32700,
+            "tick": 327,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 11,
+            "frameMs": 88.52,
+            "drawCalls": 574,
+            "triangles": 10803123
+          }
+        },
+        "player": {
+          "x": -159.77,
+          "y": 0.894,
+          "z": -115.913
+        },
+        "actor": {
+          "position": {
+            "x": -159.77,
+            "y": 0.894,
+            "z": -115.913
+          },
+          "regionId": "fallowmarch",
+          "health": 28,
+          "maxHealth": 361,
+          "inCombat": false,
+          "dead": false,
+          "moving": true,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": 0.11
+        },
+        "equipment": {
+          "head": {
+            "itemId": "dragonhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "dragonhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "dragonhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "dragonhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "dragonhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.6362537601564598,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.2,
+          "clipUuid": "349c4c1b-d309-4dc4-8606-9fa70c410cc9",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -159.7712498779297,
+            0.8935825228691101,
+            -115.92086779785163
+          ],
+          "drawnRotationY": 0.1095927124023447,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+            "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+            "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+            "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+            "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_dragonhide_robe",
+            "corealm_item_dragonhide_leggings",
+            "corealm_item_dragonhide_boots",
+            "corealm_item_dragonhide_wraps",
+            "corealm_item_dragonhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -159.64850103083972,
+                1.098289188223746,
+                -115.85749652535807
+              ],
+              "ankle": [
+                -159.67995734470244,
+                1.261995083402038,
+                -115.90486895086384
+              ]
+            },
+            "right": {
+              "ball": [
+                -159.8866333586476,
+                0.9176336408970315,
+                -116.15561247308925
+              ],
+              "ankle": [
+                -159.8921932804038,
+                1.0832874922591589,
+                -116.20622020618474
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -160.423,
+            "y": 4.33,
+            "z": -121.843
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -159.818,
+            "y": 1.994,
+            "z": -116.35
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "dragonhide-settled",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\dragonhide-settled.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 28,
+          "maxHealth": 361,
+          "inventoryUsed": 5,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 248,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 234,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 34000,
+            "tick": 340,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 17,
+            "frameMs": 60.18,
+            "drawCalls": 584,
+            "triangles": 11066558
+          }
+        },
+        "player": {
+          "x": -159.284,
+          "y": 0.894,
+          "z": -111.489
+        },
+        "actor": {
+          "position": {
+            "x": -159.284,
+            "y": 0.894,
+            "z": -111.489
+          },
+          "regionId": "fallowmarch",
+          "health": 28,
+          "maxHealth": 361,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": 0.11
+        },
+        "equipment": {
+          "head": {
+            "itemId": "dragonhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "dragonhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "dragonhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "dragonhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "dragonhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 0.3166000000000058,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -159.28367614746094,
+            0.8935825228691101,
+            -111.48925018310547
+          ],
+          "drawnRotationY": 0.1095927124023447,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_dragonhide_robe:corealm_item_dragonhide_robe/-/skin/-/1/-/-|corealm_item_dragonhide_leggings:corealm_item_dragonhide_leggings/-/skin/-/1/-/-|corealm_item_dragonhide_boots:corealm_item_dragonhide_boots/-/skin/-/1/-/-|corealm_item_dragonhide_wraps:corealm_item_dragonhide_wraps/-/skin/-/1/-/-|corealm_item_dragonhide_hood:corealm_item_dragonhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_dragonhide_robe-starhide-close-twill-cloth",
+            "merged-part-corealm_item_dragonhide_robe-starhide-soft-dark-lining",
+            "merged-part-corealm_item_dragonhide_robe-starhide-chased-ivory-silver",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_dragonhide_robe-starhide-fine-stitch-thread",
+            "merged-part-corealm_item_dragonhide_robe-starhide-polished-inset-stone",
+            "part-corealm_item_dragonhide_boots-starhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_dragonhide_robe",
+            "corealm_item_dragonhide_leggings",
+            "corealm_item_dragonhide_boots",
+            "corealm_item_dragonhide_wraps",
+            "corealm_item_dragonhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -159.07432788489265,
+                0.9082337170012844,
+                -111.2356080229701
+              ],
+              "ankle": [
+                -159.0758982533442,
+                0.9967524485282113,
+                -111.38458868743224
+              ]
+            },
+            "right": {
+              "ball": [
+                -159.56439962449187,
+                0.9088141952322161,
+                -111.61900188797283
+              ],
+              "ankle": [
+                -159.4739131519133,
+                0.9972891121125452,
+                -111.73739800250982
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -159.889,
+            "y": 4.33,
+            "z": -116.992
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -159.285,
+            "y": 1.994,
+            "z": -111.498
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "starhide-front",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\starhide-front.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 30,
+          "maxHealth": 379,
+          "inventoryUsed": 10,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 253,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 239,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 44000,
+            "tick": 440,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 14,
+            "frameMs": 70.18,
+            "drawCalls": 588,
+            "triangles": 11422657
+          }
+        },
+        "player": {
+          "x": -160.057,
+          "y": 0.894,
+          "z": -118.517
+        },
+        "actor": {
+          "position": {
+            "x": -160.057,
+            "y": 0.894,
+            "z": -118.517
+          },
+          "regionId": "fallowmarch",
+          "health": 30,
+          "maxHealth": 379,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -3.032
+        },
+        "equipment": {
+          "head": {
+            "itemId": "starhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "starhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "starhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "starhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "starhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 2.383100000000006,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160.05686950683594,
+            0.8935825228691101,
+            -118.51688385009766
+          ],
+          "drawnRotationY": -3.0319999411874488,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+            "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+            "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+            "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+            "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_starhide_robe",
+            "corealm_item_starhide_leggings",
+            "corealm_item_starhide_boots",
+            "corealm_item_starhide_wraps",
+            "corealm_item_starhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -160.26634803076976,
+                0.9081394889184021,
+                -118.77062153657887
+              ],
+              "ankle": [
+                -160.2647862834996,
+                0.9966550616504557,
+                -118.6216389318924
+              ]
+            },
+            "right": {
+              "ball": [
+                -159.77633204177545,
+                0.9087289721166469,
+                -118.38713661931648
+              ],
+              "ankle": [
+                -159.86679583837818,
+                0.9972528182537296,
+                -118.26875974819588
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -162.003,
+            "y": 4.33,
+            "z": -123.689
+          },
+          "yaw": 3.501,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.501,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160.057,
+            "y": 1.994,
+            "z": -118.517
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "starhide-back",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\starhide-back.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 30,
+          "maxHealth": 379,
+          "inventoryUsed": 10,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15580,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 253,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 239,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 46200,
+            "tick": 462,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 16,
+            "frameMs": 63.15,
+            "drawCalls": 638,
+            "triangles": 12873463
+          }
+        },
+        "player": {
+          "x": -160.057,
+          "y": 0.894,
+          "z": -118.517
+        },
+        "actor": {
+          "position": {
+            "x": -160.057,
+            "y": 0.894,
+            "z": -118.517
+          },
+          "regionId": "fallowmarch",
+          "health": 30,
+          "maxHealth": 379,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -3.032
+        },
+        "equipment": {
+          "head": {
+            "itemId": "starhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "starhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "starhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "starhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "starhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 2.032899999999995,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160.05686950683594,
+            0.8935825228691101,
+            -118.51688385009766
+          ],
+          "drawnRotationY": -3.0319999411874488,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+            "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+            "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+            "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+            "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_starhide_robe",
+            "corealm_item_starhide_leggings",
+            "corealm_item_starhide_boots",
+            "corealm_item_starhide_wraps",
+            "corealm_item_starhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -160.26631876489677,
+                0.9083268537703064,
+                -118.77090424328313
+              ],
+              "ankle": [
+                -160.26475852342355,
+                0.9968378138122146,
+                -118.62191887509864
+              ]
+            },
+            "right": {
+              "ball": [
+                -159.77630141657443,
+                0.9088636287751073,
+                -118.38744789847038
+              ],
+              "ankle": [
+                -159.86676874534552,
+                0.9973442924877003,
+                -118.26904144464018
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -158.11,
+            "y": 4.33,
+            "z": -113.345
+          },
+          "yaw": 0.36,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.36,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160.057,
+            "y": 1.994,
+            "z": -118.517
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "starhide-walking",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\starhide-walking.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 30,
+          "maxHealth": 379,
+          "inventoryUsed": 10,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15583,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 253,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 239,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 47600,
+            "tick": 476,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 16,
+            "frameMs": 62.04,
+            "drawCalls": 631,
+            "triangles": 12941805
+          }
+        },
+        "player": {
+          "x": -160.98,
+          "y": 0.894,
+          "z": -120.969
+        },
+        "actor": {
+          "position": {
+            "x": -160.98,
+            "y": 0.894,
+            "z": -120.969
+          },
+          "regionId": "fallowmarch",
+          "health": 30,
+          "maxHealth": 379,
+          "inCombat": false,
+          "dead": false,
+          "moving": true,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -2.782
+        },
+        "equipment": {
+          "head": {
+            "itemId": "starhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "starhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "starhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "starhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "starhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "run",
+          "clip": "Jog_Fwd_Loop",
+          "time": 0.6900718761714446,
+          "duration": 0.9333333373069763,
+          "timeScale": 1.1999979279836874,
+          "clipUuid": "349c4c1b-d309-4dc4-8606-9fa70c410cc9",
+          "clipSource": "player-local",
+          "nativeStrideMps": 3.5,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -160.91471221923825,
+            0.8935825228691101,
+            -120.79619525909413
+          ],
+          "drawnRotationY": -2.781629089355468,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+            "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+            "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+            "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+            "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_starhide_robe",
+            "corealm_item_starhide_leggings",
+            "corealm_item_starhide_boots",
+            "corealm_item_starhide_wraps",
+            "corealm_item_starhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -161.0718442575342,
+                1.1602946003208725,
+                -120.96475325398133
+              ],
+              "ankle": [
+                -161.02735531828938,
+                1.274801049495332,
+                -120.8425146151976
+              ]
+            },
+            "right": {
+              "ball": [
+                -160.69158092267222,
+                1.0846962258990196,
+                -120.4555585086951
+              ],
+              "ankle": [
+                -160.7143272082007,
+                1.2454868809548159,
+                -120.51607480844501
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -158.826,
+            "y": 4.33,
+            "z": -115.247
+          },
+          "yaw": 0.36,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.36,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160.773,
+            "y": 1.994,
+            "z": -120.419
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "starhide-settled",
+      "file": "C:\\Users\\Borg\\.t3\\worktrees\\Corealm2\\t3code-49efa56a\\test-results\\item-models\\tier50-70-r15-world\\starhide-settled.png",
+      "state": {
+        "timeOrigin": 1789237851141.4,
+        "world": {
+          "ready": true,
+          "version": {
+            "build": "phase1-round2",
+            "contracts": "5",
+            "content": "1"
+          },
+          "regionId": "fallowmarch",
+          "seed": 1337,
+          "skills": {
+            "melee": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "magic": {
+              "level": 99,
+              "xp": 9999879
+            },
+            "mining": {
+              "level": 1,
+              "xp": 0
+            },
+            "woodcutting": {
+              "level": 1,
+              "xp": 0
+            },
+            "fishing": {
+              "level": 1,
+              "xp": 0
+            },
+            "smithing": {
+              "level": 1,
+              "xp": 0
+            },
+            "crafting": {
+              "level": 1,
+              "xp": 0
+            },
+            "cooking": {
+              "level": 1,
+              "xp": 0
+            },
+            "fletching": {
+              "level": 1,
+              "xp": 0
+            },
+            "agility": {
+              "level": 1,
+              "xp": 0
+            }
+          },
+          "currency": 0,
+          "health": 31,
+          "maxHealth": 379,
+          "inventoryUsed": 10,
+          "bankUsed": 0,
+          "activity": null,
+          "combatTargetId": null,
+          "selectedEntityId": null,
+          "hoveredEntityId": null,
+          "questCount": 0,
+          "entityCount": 15592,
+          "assets": {
+            "manifestAssets": 700,
+            "loaded": 253,
+            "clips": 27,
+            "assetClips": 245,
+            "total": 700,
+            "requested": 239,
+            "failed": 0,
+            "queued": 0,
+            "inflight": 0
+          },
+          "navStatus": "ready",
+          "clock": {
+            "elapsedMs": 49100,
+            "tick": 491,
+            "paused": false,
+            "timeScale": 1
+          },
+          "renderer": {
+            "fps": 17,
+            "frameMs": 60.55,
+            "drawCalls": 618,
+            "triangles": 12962512
+          }
+        },
+        "player": {
+          "x": -162.914,
+          "y": 0.961,
+          "z": -126.107
+        },
+        "actor": {
+          "position": {
+            "x": -162.914,
+            "y": 0.961,
+            "z": -126.107
+          },
+          "regionId": "fallowmarch",
+          "health": 31,
+          "maxHealth": 379,
+          "inCombat": false,
+          "dead": false,
+          "moving": false,
+          "activityKind": null,
+          "combatLevelEstimate": 99,
+          "facingRad": -2.782
+        },
+        "equipment": {
+          "head": {
+            "itemId": "starhide_hood",
+            "quantity": 1
+          },
+          "body": {
+            "itemId": "starhide_robe",
+            "quantity": 1
+          },
+          "legs": {
+            "itemId": "starhide_leggings",
+            "quantity": 1
+          },
+          "feet": {
+            "itemId": "starhide_boots",
+            "quantity": 1
+          },
+          "hands": {
+            "itemId": "starhide_wraps",
+            "quantity": 1
+          },
+          "mainHand": {
+            "itemId": "basic_wooden_wand",
+            "quantity": 1
+          },
+          "offHand": null,
+          "accessory1": null,
+          "accessory2": null
+        },
+        "motion": {
+          "fishing": {
+            "sample": null,
+            "visible": false,
+            "tip": [
+              0,
+              0,
+              0
+            ],
+            "float": [
+              0,
+              0,
+              0
+            ],
+            "spot": null,
+            "bones": [
+              "root",
+              "pelvis",
+              "spine_01",
+              "spine_02",
+              "spine_03",
+              "neck_01",
+              "Head",
+              "clavicle_l",
+              "upperarm_l",
+              "lowerarm_l",
+              "hand_l",
+              "index_01_l",
+              "index_02_l",
+              "index_03_l",
+              "index_04_leaf_l",
+              "middle_01_l",
+              "middle_02_l",
+              "middle_03_l",
+              "middle_04_leaf_l",
+              "pinky_01_l",
+              "pinky_02_l",
+              "pinky_03_l",
+              "pinky_04_leaf_l",
+              "ring_01_l",
+              "ring_02_l",
+              "ring_03_l",
+              "ring_04_leaf_l",
+              "thumb_01_l",
+              "thumb_02_l",
+              "thumb_03_l",
+              "thumb_04_leaf_l",
+              "clavicle_r",
+              "upperarm_r",
+              "lowerarm_r",
+              "hand_r",
+              "index_01_r",
+              "index_02_r",
+              "index_03_r",
+              "index_04_leaf_r",
+              "middle_01_r",
+              "middle_02_r",
+              "middle_03_r",
+              "middle_04_leaf_r",
+              "pinky_01_r",
+              "pinky_02_r",
+              "pinky_03_r",
+              "pinky_04_leaf_r",
+              "ring_01_r",
+              "ring_02_r",
+              "ring_03_r",
+              "ring_04_leaf_r",
+              "thumb_01_r",
+              "thumb_02_r",
+              "thumb_03_r",
+              "thumb_04_leaf_r",
+              "thigh_l",
+              "calf_l",
+              "foot_l",
+              "ball_l",
+              "ball_leaf_l",
+              "thigh_r",
+              "calf_r",
+              "foot_r",
+              "ball_r",
+              "ball_leaf_r"
+            ],
+            "guideWorld": null,
+            "guideLocal": null,
+            "visibleTackle": 0
+          },
+          "pose": "idle",
+          "clip": "Idle_Loop",
+          "time": 0.3166999999999971,
+          "duration": 2.5,
+          "timeScale": 1,
+          "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+          "clipSource": "shared",
+          "nativeStrideMps": null,
+          "actionWeight": 1,
+          "drawnPosition": [
+            -162.91355895996094,
+            0.9609995830332991,
+            -126.10708618164062
+          ],
+          "drawnRotationY": -2.781629089355468,
+          "attachments": {
+            "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+          },
+          "layerSignature": "raw|corealm_item_starhide_robe:corealm_item_starhide_robe/-/skin/-/1/-/-|corealm_item_starhide_leggings:corealm_item_starhide_leggings/-/skin/-/1/-/-|corealm_item_starhide_boots:corealm_item_starhide_boots/-/skin/-/1/-/-|corealm_item_starhide_wraps:corealm_item_starhide_wraps/-/skin/-/1/-/-|corealm_item_starhide_hood:corealm_item_starhide_hood/-/skin/-/1/-/-",
+          "layerLoadPending": false,
+          "layerMeshes": [
+            "merged-part-corealm_item_starhide_robe-dragonhide-close-twill-cloth",
+            "merged-part-corealm_item_starhide_robe-dragonhide-soft-dark-lining",
+            "merged-part-corealm_item_starhide_robe-dragonhide-chased-antique-gold",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-1-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-2-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-3-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-4-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-5-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-scute-6-pebbled-hide",
+            "merged-part-corealm_item_starhide_robe-dragonhide-polished-inset-stone",
+            "merged-part-corealm_item_starhide_robe-dragonhide-fine-stitch-thread",
+            "part-corealm_item_starhide_boots-dragonhide-stacked-dark-leather-sole"
+          ],
+          "layerAssets": [
+            "corealm_item_starhide_robe",
+            "corealm_item_starhide_leggings",
+            "corealm_item_starhide_boots",
+            "corealm_item_starhide_wraps",
+            "corealm_item_starhide_hood"
+          ],
+          "layerMissingBones": [],
+          "hairVisible": false,
+          "attachmentLoading": {},
+          "attachmentErrors": {},
+          "activityMainHandKey": null,
+          "feet": {
+            "left": {
+              "ball": [
+                -163.17922309327903,
+                0.975650902135311,
+                -126.30095119857292
+              ],
+              "ankle": [
+                -163.1407897556868,
+                1.064169654564194,
+                -126.15700475262369
+              ]
+            },
+            "right": {
+              "ball": [
+                -162.6094405280314,
+                0.9762313908371106,
+                -126.05093309882561
+              ],
+              "ankle": [
+                -162.66777147374825,
+                1.0647063281212064,
+                -125.91380929046733
+              ]
+            }
+          }
+        },
+        "camera": {
+          "position": {
+            "x": -160.963,
+            "y": 4.394,
+            "z": -120.924
+          },
+          "yaw": 0.36,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.36,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -162.91,
+            "y": 2.057,
+            "z": -126.096
+          }
+        },
+        "errors": []
+      }
+    }
+  ],
+  "manifestSha256": "e972d39b78c99703c3499a2bc915aec0418ddd060e922690d9cde33ef6688f9f",
+  "assets": [
+    {
+      "itemId": "dragonhide_hood",
+      "assetId": "corealm_item_dragonhide_hood",
+      "file": "models/items/dragonhide_hood.glb",
+      "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+      "bytes": 26538312
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "assetId": "corealm_item_dragonhide_robe",
+      "file": "models/items/dragonhide_robe.glb",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+      "bytes": 33242976
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "assetId": "corealm_item_dragonhide_leggings",
+      "file": "models/items/dragonhide_leggings.glb",
+      "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+      "bytes": 29721160
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "assetId": "corealm_item_dragonhide_boots",
+      "file": "models/items/dragonhide_boots.glb",
+      "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+      "bytes": 30214548
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "assetId": "corealm_item_dragonhide_wraps",
+      "file": "models/items/dragonhide_wraps.glb",
+      "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+      "bytes": 29719228
+    },
+    {
+      "itemId": "starhide_hood",
+      "assetId": "corealm_item_starhide_hood",
+      "file": "models/items/starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+      "bytes": 25775912
+    },
+    {
+      "itemId": "starhide_robe",
+      "assetId": "corealm_item_starhide_robe",
+      "file": "models/items/starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+      "bytes": 32690644
+    },
+    {
+      "itemId": "starhide_leggings",
+      "assetId": "corealm_item_starhide_leggings",
+      "file": "models/items/starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+      "bytes": 27563876
+    },
+    {
+      "itemId": "starhide_boots",
+      "assetId": "corealm_item_starhide_boots",
+      "file": "models/items/starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+      "bytes": 29780752
+    },
+    {
+      "itemId": "starhide_wraps",
+      "assetId": "corealm_item_starhide_wraps",
+      "file": "models/items/starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24",
+      "bytes": 28427704
+    }
+  ],
+  "downloadVerification": "Actual production HTTP response bytes hashed and forwarded unchanged; no candidate replacement.",
+  "readyAtMs": 35148,
+  "beforeSetup": {
+    "timeOrigin": 1789237851141.4,
+    "world": {
+      "ready": true,
+      "version": {
+        "build": "phase1-round2",
+        "contracts": "5",
+        "content": "1"
+      },
+      "regionId": "fallowmarch",
+      "seed": 1337,
+      "skills": {
+        "melee": {
+          "level": 1,
+          "xp": 0
+        },
+        "magic": {
+          "level": 1,
+          "xp": 0
+        },
+        "mining": {
+          "level": 1,
+          "xp": 0
+        },
+        "woodcutting": {
+          "level": 1,
+          "xp": 0
+        },
+        "fishing": {
+          "level": 1,
+          "xp": 0
+        },
+        "smithing": {
+          "level": 1,
+          "xp": 0
+        },
+        "crafting": {
+          "level": 1,
+          "xp": 0
+        },
+        "cooking": {
+          "level": 1,
+          "xp": 0
+        },
+        "fletching": {
+          "level": 1,
+          "xp": 0
+        },
+        "agility": {
+          "level": 1,
+          "xp": 0
+        }
+      },
+      "currency": 0,
+      "health": 23,
+      "maxHealth": 23,
+      "inventoryUsed": 5,
+      "bankUsed": 0,
+      "activity": null,
+      "combatTargetId": null,
+      "selectedEntityId": null,
+      "hoveredEntityId": null,
+      "questCount": 0,
+      "entityCount": 15580,
+      "assets": {
+        "manifestAssets": 700,
+        "loaded": 200,
+        "clips": 27,
+        "assetClips": 245,
+        "total": 700,
+        "requested": 229,
+        "failed": 0,
+        "queued": 35,
+        "inflight": 8
+      },
+      "navStatus": "ready",
+      "clock": {
+        "elapsedMs": 700,
+        "tick": 7,
+        "paused": false,
+        "timeScale": 1
+      },
+      "renderer": {
+        "fps": 1,
+        "frameMs": 1272.17,
+        "drawCalls": 509,
+        "triangles": 9606695
+      }
+    },
+    "player": {
+      "x": -160,
+      "y": 0.894,
+      "z": -118
+    },
+    "actor": {
+      "position": {
+        "x": -160,
+        "y": 0.894,
+        "z": -118
+      },
+      "regionId": "fallowmarch",
+      "health": 23,
+      "maxHealth": 23,
+      "inCombat": false,
+      "dead": false,
+      "moving": false,
+      "activityKind": null,
+      "combatLevelEstimate": 1,
+      "facingRad": -0.14
+    },
+    "equipment": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "feet": null,
+      "hands": null,
+      "mainHand": {
+        "itemId": "basic_wooden_wand",
+        "quantity": 1
+      },
+      "offHand": null,
+      "accessory1": null,
+      "accessory2": null
+    },
+    "motion": {
+      "fishing": {
+        "sample": null,
+        "visible": false,
+        "tip": [
+          0,
+          0,
+          0
+        ],
+        "float": [
+          0,
+          0,
+          0
+        ],
+        "spot": null,
+        "bones": [
+          "root",
+          "pelvis",
+          "spine_01",
+          "spine_02",
+          "spine_03",
+          "neck_01",
+          "Head",
+          "clavicle_l",
+          "upperarm_l",
+          "lowerarm_l",
+          "hand_l",
+          "index_01_l",
+          "index_02_l",
+          "index_03_l",
+          "index_04_leaf_l",
+          "middle_01_l",
+          "middle_02_l",
+          "middle_03_l",
+          "middle_04_leaf_l",
+          "pinky_01_l",
+          "pinky_02_l",
+          "pinky_03_l",
+          "pinky_04_leaf_l",
+          "ring_01_l",
+          "ring_02_l",
+          "ring_03_l",
+          "ring_04_leaf_l",
+          "thumb_01_l",
+          "thumb_02_l",
+          "thumb_03_l",
+          "thumb_04_leaf_l",
+          "clavicle_r",
+          "upperarm_r",
+          "lowerarm_r",
+          "hand_r",
+          "index_01_r",
+          "index_02_r",
+          "index_03_r",
+          "index_04_leaf_r",
+          "middle_01_r",
+          "middle_02_r",
+          "middle_03_r",
+          "middle_04_leaf_r",
+          "pinky_01_r",
+          "pinky_02_r",
+          "pinky_03_r",
+          "pinky_04_leaf_r",
+          "ring_01_r",
+          "ring_02_r",
+          "ring_03_r",
+          "ring_04_leaf_r",
+          "thumb_01_r",
+          "thumb_02_r",
+          "thumb_03_r",
+          "thumb_04_leaf_r",
+          "thigh_l",
+          "calf_l",
+          "foot_l",
+          "ball_l",
+          "ball_leaf_l",
+          "thigh_r",
+          "calf_r",
+          "foot_r",
+          "ball_r",
+          "ball_leaf_r"
+        ],
+        "guideWorld": null,
+        "guideLocal": null,
+        "visibleTackle": 0
+      },
+      "pose": "idle",
+      "clip": "Idle_Loop",
+      "time": 0.7499000000000015,
+      "duration": 2.5,
+      "timeScale": 1,
+      "clipUuid": "6921ccb5-7694-4bd9-b641-a2e0bf2e42cb",
+      "clipSource": "shared",
+      "nativeStrideMps": null,
+      "actionWeight": 1,
+      "drawnPosition": [
+        -160,
+        0.8935825228691101,
+        -118
+      ],
+      "drawnRotationY": -0.14,
+      "attachments": {
+        "mainHand": "equip-mainHand-corealm_item_basic_wooden_wand"
+      },
+      "layerSignature": "cap|outfit_male_peasant_chest:-|outfit_male_peasant_legs:-|outfit_male_peasant_boots:-|outfit_male_peasant_gloves:-|hair_short:-",
+      "layerLoadPending": false,
+      "layerMeshes": [
+        "merged-part-outfit_male_peasant_chest-Male_Peasant_Body",
+        "part-outfit_male_peasant_gloves-Male_Peasant_Arms_1",
+        "part-outfit_male_peasant_gloves-Male_Peasant_Arms_2",
+        "part-hair_short-Hair_SimpleParted"
+      ],
+      "layerAssets": [
+        "outfit_male_peasant_chest",
+        "outfit_male_peasant_legs",
+        "outfit_male_peasant_boots",
+        "outfit_male_peasant_gloves",
+        "hair_short"
+      ],
+      "layerMissingBones": [],
+      "hairVisible": true,
+      "attachmentLoading": {},
+      "attachmentErrors": {},
+      "activityMainHandKey": null,
+      "feet": {
+        "left": {
+          "ball": [
+            -159.8597516947452,
+            0.9083220023299926,
+            -117.70216278709886
+          ],
+          "ankle": [
+            -159.8244632241291,
+            0.9968277303660631,
+            -117.8469202697616
+          ]
+        },
+        "right": {
+          "ball": [
+            -160.2398658271699,
+            0.908864060427002,
+            -118.19478585154285
+          ],
+          "ankle": [
+            -160.1229567224569,
+            0.9973543389705042,
+            -118.28717083364644
+          ]
+        }
+      }
+    },
+    "camera": {
+      "position": {
+        "x": -158.668,
+        "y": 7.459,
+        "z": -127.453
+      },
+      "yaw": 3.002,
+      "pitch": 0.52,
+      "distance": 11,
+      "requestedDistance": 11,
+      "effectivePitch": 0.52,
+      "effectiveYaw": 3.002,
+      "flatDistance": 11,
+      "occluded": false,
+      "occlusionProbe": true,
+      "freeMove": false,
+      "target": {
+        "x": -160,
+        "y": 1.994,
+        "z": -118
+      }
+    },
+    "errors": []
+  },
+  "lastEquipmentOperations": {
+    "kit": "starhide",
+    "operations": [
+      {
+        "itemId": "starhide_hood",
+        "result": {
+          "slot": "head",
+          "replaced": "dragonhide_hood"
+        }
+      },
+      {
+        "itemId": "starhide_robe",
+        "result": {
+          "slot": "body",
+          "replaced": "dragonhide_robe"
+        }
+      },
+      {
+        "itemId": "starhide_leggings",
+        "result": {
+          "slot": "legs",
+          "replaced": "dragonhide_leggings"
+        }
+      },
+      {
+        "itemId": "starhide_boots",
+        "result": {
+          "slot": "feet",
+          "replaced": "dragonhide_boots"
+        }
+      },
+      {
+        "itemId": "starhide_wraps",
+        "result": {
+          "slot": "hands",
+          "replaced": "dragonhide_wraps"
+        }
+      }
+    ],
+    "atMs": 87074
+  },
+  "servedAssetHashes": {
+    "/assets/models/items/dragonhide_hood.glb": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418",
+    "/assets/models/items/dragonhide_robe.glb": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76",
+    "/assets/models/items/dragonhide_leggings.glb": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02",
+    "/assets/models/items/dragonhide_boots.glb": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0",
+    "/assets/models/items/dragonhide_wraps.glb": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f",
+    "/assets/models/items/starhide_hood.glb": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec",
+    "/assets/models/items/starhide_robe.glb": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983",
+    "/assets/models/items/starhide_leggings.glb": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce",
+    "/assets/models/items/starhide_boots.glb": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1",
+    "/assets/models/items/starhide_wraps.glb": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+  },
+  "elapsedMs": 99507,
+  "errors": {
+    "page": [],
+    "console": [],
+    "requests": []
+  }
+}

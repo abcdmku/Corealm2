@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "productionPromoted": true,
+  "round": "aurora-r16",
+  "createdAt": "2026-09-12T22:49:24.761Z",
+  "dependencySha256": "259b67b84a4ce18b17de0b3c64cb875987134b5b1c70bc79d59f4dff9dabba53",
+  "assets": [
+    {
+      "itemId": "frostweave_hood",
+      "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "triangles": 43804,
+      "bytes": 31789208
+    },
+    {
+      "itemId": "frostweave_robe",
+      "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "triangles": 149372,
+      "bytes": 39805716
+    },
+    {
+      "itemId": "frostweave_leggings",
+      "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "triangles": 94388,
+      "bytes": 33880396
+    },
+    {
+      "itemId": "frostweave_boots",
+      "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "triangles": 111192,
+      "bytes": 36100556
+    },
+    {
+      "itemId": "frostweave_wraps",
+      "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad",
+      "triangles": 100384,
+      "bytes": 34776700
+    }
+  ],
+  "checks": {
+    "geometry": {
+      "file": "runs/aurora/geometry-materials.json",
+      "sha256": "76a38e0cec2862ac3b97624c2c864f16f52b34c5510ee2c36172611c5d32a59a"
+    },
+    "viewer": {
+      "file": "runs/aurora/viewer.json",
+      "sha256": "84b6364232247f4a3ea5458dd996c9f1b5683bf676ce6895d566196f7c1f2996"
+    },
+    "pieces": {
+      "file": "test-results/item-models/aurora-r16-pieces/report.json",
+      "sha256": "cecda47304837d7e2a96a2b2f5f5b1b8856da0c5a0429fce1e2653697796e0e1"
+    },
+    "worn": {
+      "file": "test-results/item-models/aurora-r16-worn-cast/report.json",
+      "sha256": "9674b22e94dbd2ce91cfec30ea735c9bee81afac1d7a5ba74212f19f906b0bab"
+    },
+    "world": {
+      "file": "test-results/item-models/aurora-r16-world/report.json",
+      "sha256": "02b5fedf95d2a004d1a6e101ef55129b260dfcf7bf03b1ce417a643ca33715c4"
+    },
+    "icons": {
+      "file": "runs/aurora/icons.json",
+      "sha256": "4826b4ff7c888bdec4b7acc3c95ed3c73fafb101318004ffea0fae0216fb86b4"
+    },
+    "visual": {
+      "file": "runs/aurora/visual-review.json",
+      "sha256": "2ec2c0438d4e06da67db7594fd166e9142ab4291256582faa10f374de06548fe"
+    },
+    "code": {
+      "file": "runs/aurora/code-checks.json",
+      "sha256": "dfcbfbc903031bb5cb521b694050c14137fcd229f9467a32107d566c8035e669"
+    }
+  },
+  "wornShards": [
+    {
+      "file": "runs/aurora/evidence/worn-shard-1.json",
+      "sha256": "7deef0c757b7d49ba15972a0d092034244332c1fcb201822e18361aa8816e569",
+      "source": "test-results/item-models/aurora-r16-worn-walk/report.json"
+    },
+    {
+      "file": "runs/aurora/evidence/worn-shard-2.json",
+      "sha256": "7a5c90e116d2c1f41c5030a3c67c11e812264e607f0f19d5cbe99ad636ddd9fa",
+      "source": "test-results/item-models/aurora-r16-worn-cast/cast-shard-report.json"
+    }
+  ],
+  "blend": {
+    "file": "art/aurora/aurora-set.blend",
+    "sha256": "a96cdf07f6cceafd1765f1a414c4dff4a7e07c8de1c867998e1c06268b0ec60f"
+  },
+  "renders": [
+    {
+      "file": "art/aurora/aurora-studio.json",
+      "sha256": "a078533c51a0831e7c1762a1a050cfa3c0a87ac2b28ebfb7fce7577439283dbc"
+    },
+    {
+      "file": "art/aurora/renders/frostweave_boots.json",
+      "sha256": "c3d26c37de03163efd7a6efe3f9862b9b570349d1b3f869289a51498e875eac1"
+    },
+    {
+      "file": "art/aurora/renders/frostweave_hood.json",
+      "sha256": "6d46cddd06ca5ad5309ccd7796635cac88de318676c0c377d8f2e6288680062c"
+    },
+    {
+      "file": "art/aurora/renders/frostweave_leggings.json",
+      "sha256": "ecd8db4f6425b534a3f02398036fc88817e622cb10897b8c014ecd0524fd59fb"
+    },
+    {
+      "file": "art/aurora/renders/frostweave_robe-back.json",
+      "sha256": "9ea15a739a87d1ced00979786004a5c39ccb56e748a05ef9fac1e33f39cd6156"
+    },
+    {
+      "file": "art/aurora/renders/frostweave_robe.json",
+      "sha256": "a3df2d8cef06df167d2505a34deb544bec81495dadfa9f1927463a6135123d8e"
+    },
+    {
+      "file": "art/aurora/renders/frostweave_wraps.json",
+      "sha256": "de821ed0bdb44db1dc0347bffbe0c361265aefe0af1e03a700d3bb92c9cbd12a"
+    },
+    {
+      "file": "art/aurora/icons/frostweave_boots.json",
+      "sha256": "58458360399e8522e1a52e45c62ad72cfc1bb370a1e202e2e0475d05a27b79d6"
+    },
+    {
+      "file": "art/aurora/icons/frostweave_hood.json",
+      "sha256": "07908c04054d2ec0253e3afeae15c726932dbcc3aae99a91e0a2c4a73444edf6"
+    },
+    {
+      "file": "art/aurora/icons/frostweave_leggings.json",
+      "sha256": "3dfa6efb8391106182e25d2f38e84c0c74daaf66ac740efa22c78c5bc6a8b3ff"
+    },
+    {
+      "file": "art/aurora/icons/frostweave_robe.json",
+      "sha256": "f20461cddcb73c9d8d032827ae846d96f9ca0073264064ead025551bce24d3f4"
+    },
+    {
+      "file": "art/aurora/icons/frostweave_wraps.json",
+      "sha256": "3add3dba4640ff28914743c0a7fe5aa027fe103ee181589895daea30b37d3944"
+    }
+  ],
+  "limitations": [
+    "Authored fit targets the native male skeleton. Other bodies retain the fitted fallback.",
+    "Walking and casting captures cover representative poses, not every possible animation.",
+    "Blender uses an editable thin-film approximation; the game uses glTF physical iridescence."
+  ]
+}

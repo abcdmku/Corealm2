@@ -13,6 +13,9 @@ const value = (key: string) => process.argv[process.argv.indexOf(key) + 1];
 const authors = value("--authors")?.split(","), ids = value("--items")?.split(",");
 const label = value("--out");
 const armorMotion = process.argv.includes("--armor-motion");
+const walkMotion = armorMotion || process.argv.includes("--walk-motion");
+const castMotion = process.argv.includes("--cast-motion");
+const staged = process.argv.includes("--staged");
 const motionWeapon = process.argv.includes("--motion-weapon") ? value("--motion-weapon") : undefined;
 if (!process.argv.includes("--authors") || !process.argv.includes("--items") || !authors?.length || !ids?.length
   || !label || !/^[a-z0-9-]+$/.test(label)) throw new Error("Use --authors a,b --items id,id --out label");
@@ -25,7 +28,10 @@ for (const author of authors) {
   const directory = path.resolve("art/item-models/candidates", author);
   const catalog = JSON.parse(await readFile(path.join(directory, "catalogue.json"), "utf8"));
   pack = catalog.pack;
-  for (const entry of catalog.assets) { assets.push(entry); files[entry.id] = path.join(directory, entry.file); }
+  for (const entry of catalog.assets) {
+    assets.push(staged ? { ...entry, tags: [...entry.tags, "temporary-asset-review"] } : entry);
+    files[entry.id] = path.join(directory, entry.file);
+  }
 }
 const equipment: Partial<Record<EquipSlot, string>> = {};
 for (const id of ids) {
@@ -45,14 +51,14 @@ const catalogFile = path.join(out, "catalogue.json");
 await writeFile(catalogFile, JSON.stringify({ pack, assets, files }, null, 2));
 const deadline = installTestDeadline("Authored item worn gate", 60000);
 const server = await startGameServer();
-const driver = new GameDriver(server, { viewport: { width: 1440, height: 1000 }, browserArgs: ["--enable-gpu", "--ignore-gpu-blocklist", "--use-angle=d3d11", "--mute-audio"] });
+const driver = new GameDriver(server, { viewport: process.argv.includes("--portrait") ? { width: 1200, height: 1800 } : { width: 1440, height: 1000 }, browserArgs: ["--enable-gpu", "--ignore-gpu-blocklist", "--use-angle=d3d11", "--mute-audio"] });
 const report: any = { passed: false, equipment, assets, captures: [] };
 try {
   await driver.launch();
   const page = driver.page!;
   await installAssetCandidates(page, catalogFile);
   await page.addInitScript("globalThis.__name = (target, name) => Object.defineProperty(target, 'name', {value:name, configurable:true});");
-  await driver.open(25000, "/index.html?mode=combat");
+  await driver.open(25000, `/index.html?mode=combat${staged ? "&reviewStaged=1" : ""}`);
   await page.evaluate(async equipment => {
     const lab = window.__featureLab!;
     lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true);
@@ -104,7 +110,7 @@ try {
     assert.deepEqual(state.motion.attachmentErrors ?? {}, {});
     const file = path.join(out, `${name}.png`);
     await page.screenshot({ path: file, timeout: 5000 });
-    report.captures.push({ name, file, state, ...(armorMotion ? { afterScreenshot: await read(), capturedAtMs: Date.now(),
+    report.captures.push({ name, file, state, ...((armorMotion || castMotion) ? { afterScreenshot: await read(), capturedAtMs: Date.now(),
       phase: state.motion.duration > 0 ? state.motion.time / state.motion.duration : null,
       bearing: Math.atan2(Math.sin(state.camera.yaw - state.motion.drawnRotationY), Math.cos(state.camera.yaw - state.motion.drawnRotationY)) } : {}) });
     return state;
@@ -125,7 +131,7 @@ try {
     await capture("walking");
     report.movement = { from: before.player, to: moving.player, clip: moving.motion.clip };
   } finally { await page.keyboard.up("w"); }
-  if (armorMotion) {
+  if (walkMotion) {
     report.armorMotion = { walking: [], attacks: [], walkingTimeScale: 1, attackTimeScale: .35,
       setup: "Lab equipment and target setup; keyboard locomotion, mouse camera orbit, production lab attack action" };
     for (const [view, key] of [["front", "s"], ["side", "d"], ["rear", "w"]] as const) {
@@ -158,6 +164,8 @@ try {
         report.armorMotion.walking.push({ view, key, before: origin, frames });
       } finally { await page.keyboard.up(key); }
     }
+  }
+  if (armorMotion) {
     await page.evaluate(() => (window.__gameDebug as any).setTimeScale(.35));
     try {
       for (const [view, angle] of [["front", .25], ["side", Math.PI / 2], ["rear", Math.PI + .25]] as const) {
@@ -214,25 +222,46 @@ try {
     }, combatBefore, { timeout: 5000 });
     report.combat = { before: combatBefore, after: await page.evaluate(() => window.__featureLab!.getState()) };
   }
-  if (process.argv.includes("--cast")) {
-    const castBefore = await page.evaluate(async () => {
-      const lab = window.__featureLab!;
-      await lab.perform("reset-player");
-      (window.__gameDebug as any).giveItem("earth_essence", 20, "inventory");
-      lab.setSpell("stonebrand");
-      return lab.spawnTarget("creature", lab.getCatalog().targets.creature[0]!.id, { distance: 5 });
-    });
-    await page.mouse.move(720, 500);
-    for (let index = 0; index < 25; index++) await page.mouse.wheel(0, -100);
-    await orbit(.7);
-    await page.evaluate(() => window.__featureLab!.perform("cast"));
-    await page.waitForFunction(() => /cast|magic/i.test(`${(window.__gameDebug as any).getPlayerMotion().pose} ${(window.__gameDebug as any).getPlayerMotion().clip}`), undefined, { timeout: 5000 });
-    await capture("casting");
-    await page.waitForFunction(before => {
-      const state = window.__featureLab!.getState();
-      return state.counters.spellLaunched > before.counters.spellLaunched && typeof state.target?.health === "number" && state.target.health < (before.target?.health ?? 0);
-    }, castBefore, { timeout: 8000 });
-    report.casting = { before: castBefore, after: await page.evaluate(() => window.__featureLab!.getState()) };
+  if (process.argv.includes("--cast") || castMotion) {
+    const castViews: [string, number][] = castMotion ? [["front", .4], ["side", Math.PI / 2], ["rear", Math.PI + .4]] : [["front", .7]];
+    if (castMotion) report.castMotion = [];
+    if (castMotion) await page.evaluate(() => (window.__gameDebug as any).setTimeScale(.5));
+    try {
+      for (const [view, angle] of castViews) {
+        const castBefore = await page.evaluate(async () => {
+          const lab = window.__featureLab!;
+          await lab.perform("reset-player");
+          if (!lab.getState().equipment.mainHand) await lab.equipPlayer("mainHand", "earth_wand");
+          (window.__gameDebug as any).giveItem("earth_essence", 20, "inventory");
+          lab.setSpell("stonebrand");
+          return lab.spawnTarget("creature", lab.getCatalog().targets.creature[0]!.id, { distance: 5 });
+        });
+        await page.mouse.move(720, 500);
+        for (let index = 0; index < 25; index++) await page.mouse.wheel(0, -100);
+        await orbit(angle);
+        await page.evaluate(() => window.__featureLab!.perform("cast"));
+        await page.waitForFunction(() => /cast|magic/i.test(`${(window.__gameDebug as any).getPlayerMotion().pose} ${(window.__gameDebug as any).getPlayerMotion().clip}`), undefined, { timeout: 5000, polling: "raf" });
+        const frames = [];
+        if (castMotion) {
+          await page.waitForFunction(() => {
+            const motion = (window.__gameDebug as any).getPlayerMotion();
+            return /cast|magic/i.test(`${motion.pose} ${motion.clip}`) && motion.actionWeight >= .8;
+          }, undefined, { timeout: 5000, polling: "raf" });
+          const state = await capture(`casting-${view}`);
+          assert(state.motion.actionWeight >= .8 && /cast|magic/i.test(`${state.motion.pose} ${state.motion.clip}`));
+          assert.deepEqual(state.motion.layerAssets, before.motion.layerAssets);
+          frames.push(state);
+        } else await capture("casting");
+        await page.waitForFunction(before => {
+          const state = window.__featureLab!.getState();
+          return state.counters.spellLaunched > before.counters.spellLaunched && typeof state.target?.health === "number" && state.target.health < (before.target?.health ?? 0);
+        }, castBefore, { timeout: 8000 });
+        report.casting = { before: castBefore, after: await page.evaluate(() => window.__featureLab!.getState()) };
+        if (castMotion) report.castMotion.push({ view, timeScale: .5, frames, ...report.casting });
+      }
+    } finally {
+      if (castMotion) await page.evaluate(() => (window.__gameDebug as any).setTimeScale(1));
+    }
   }
   if (process.argv.includes("--sweep")) {
     await page.evaluate(() => window.__featureLab!.perform("reset-player"));

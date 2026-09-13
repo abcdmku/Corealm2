@@ -26,3 +26,11 @@ _*.mjs
 
 # Python bytecode from the asset staging scripts.
 __pycache__/
+
+# Armor delivery files are generated locally from the versioned GLBs and sources.
+art/aurora/*.blend*
+art/aurora/*.zip
+art/tier50-70/*.blend*
+art/tier50-70/*.zip
+art/starhide/*.blend*
+art/starhide/*.zip

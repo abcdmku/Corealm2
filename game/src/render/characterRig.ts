@@ -36,6 +36,7 @@ import { FishingPoseLayer, FishingLine, FishingRodFlex, sampleFishing, type Fish
 import { TraversalPoseLayer } from "./traversalPose.js";
 import type { AssetRegistry } from "./assets.js";
 import * as equipmentVisuals from "./equipmentVisuals.js";
+import { maskLegacyClothing, type ClothingRegion, type ItemBodyCoverageSpan } from "./itemBodyCoverage.js";
 import {
   FISHING_ROD_LOOKS,
   fishingRodAssetId,
@@ -1002,7 +1003,7 @@ export class CharacterRig {
 
   /** A manifest-backed authored item replaces the legacy multipart/tint treatment. */
   private authoredItemParts(itemId: ItemId, fallback: readonly GearAppearanceLike[]): readonly GearAppearanceLike[] {
-    // Keep fitted armor; registered authored weapons and tools use their grip metadata.
+    // Only explicitly accepted native-body armor replaces the fitted legacy garments.
     const entry = this.assets.entry(`corealm_item_${itemId}`);
     // Only the separate local review server supplies this marker. Normal manifests and builds
     // retain accepted equipment even when a stale authored file remains on disk.
@@ -1010,7 +1011,17 @@ export class CharacterRig {
       && new URLSearchParams(location.search).get('mode') === 'combat'
       && new URLSearchParams(location.search).has('reviewStaged')
       && entry?.tags.includes('temporary-asset-review');
-    if (!stagedReview && fallback.some(part => part.slot === 'head' || SKIN_SLOTS.has(part.slot))) return fallback;
+    const acceptedTailoredArmor = this.bodyAssetId === 'base_male'
+      && ['dragonhide_hood', 'dragonhide_robe', 'dragonhide_leggings', 'dragonhide_boots', 'dragonhide_wraps',
+        'starhide_hood', 'starhide_robe', 'starhide_leggings', 'starhide_boots', 'starhide_wraps'].includes(itemId)
+      && entry?.itemModel?.itemId === itemId && entry.itemModel.wearable === true
+      && (entry.tags.includes('tier50-70-tailored-approved')
+        || (itemId.startsWith('starhide_') && entry.tags.includes('starhide-tailored-approved')));
+    const acceptedAuroraArmor = this.bodyAssetId === 'base_male'
+      && ['frostweave_hood', 'frostweave_robe', 'frostweave_leggings', 'frostweave_boots', 'frostweave_wraps'].includes(itemId)
+      && entry?.itemModel?.itemId === itemId && entry.itemModel.wearable === true
+      && entry.tags.includes('aurora-tailored-approved');
+    if (!stagedReview && !acceptedTailoredArmor && !acceptedAuroraArmor && fallback.some(part => part.slot === 'head' || SKIN_SLOTS.has(part.slot))) return fallback;
     const first = fallback[0];
     if (!first || entry?.itemModel?.itemId !== itemId) return fallback;
     const model = entry.itemModel;
@@ -1206,7 +1217,12 @@ export class CharacterRig {
     for (const assetId of extras) if (!ids.includes(assetId)) ids.push(assetId);
 
     const covered = this.forceHeadCap ?? HEAD_CAP_REQUIRES.every((region) => byRegion.has(region));
-    const wantCap = covered && headCapHeightFor(this.bodyAssetId) !== null;
+    const tailoredArmor = ids.some(id => {
+      const entry = this.assets.entry(id);
+      return entry?.itemModel?.itemId.startsWith("starhide_") || entry?.tags.includes('reference-tailored-candidate')
+        || entry?.tags.includes('tier50-70-tailored-approved') || entry?.tags.includes('aurora-tailored-approved');
+    });
+    const wantCap = !tailoredArmor && covered && headCapHeightFor(this.bodyAssetId) !== null;
     // The tint is in the signature: two tiers of the same asset differ only by colour, so without
     // it swapping Corven plate for Kaldite plate would look like a no-op and never rebuild.
     const signature = `${wantCap ? "cap" : "raw"}|${ids.map((id) => `${id}:${appearanceKey(worn.get(id))}`).join("|")}`;
@@ -1233,6 +1249,7 @@ export class CharacterRig {
     this.clearLayers();
     this.restoreCap();
     if (wantCap) this.applyCap();
+    if (tailoredArmor) this.applyTailoredCoverage(byRegion);
 
     const rebound: THREE.SkinnedMesh[] = [];
     for (const { assetId, source } of sources) {
@@ -1330,7 +1347,29 @@ export class CharacterRig {
     this.capped = false;
   }
 
-  /** Keep exposed limbs beneath new overlays while old garments still replace their regions. */
+  /** Tailored sleeveless armor keeps native arms; legacy garments still replace covered anatomy. */
+  private applyTailoredCoverage(byRegion: ReadonlyMap<string, string>): void {
+    const covered = new Set<ClothingRegion>();
+    const spans: ItemBodyCoverageSpan[] = [];
+    for (const [region, assetId] of byRegion) {
+      const item = this.assets.entry(assetId)?.itemModel;
+      const tailored = item?.itemId.startsWith("starhide_") || this.assets.entry(assetId)?.tags.includes('reference-tailored-candidate')
+        || this.assets.entry(assetId)?.tags.includes('tier50-70-tailored-approved') || this.assets.entry(assetId)?.tags.includes('aurora-tailored-approved');
+      if (item?.bodyCoverage) spans.push(...item.bodyCoverage);
+      if (region === "body" && !tailored) covered.add("body");
+      if (region === "hands") covered.add(tailored ? "handwear" : "hands");
+      if (region === "legs") covered.add("legs");
+      if (region === "feet") covered.add("feet");
+    }
+    if (!covered.size && !spans.length) return;
+    for (const mesh of this.bodyMeshes) {
+      const geometry = maskLegacyClothing(mesh.geometry, mesh.skeleton.bones.map(bone => bone.name), covered, spans);
+      mesh.geometry = geometry;
+      this.capGeometries.push(geometry);
+    }
+    this.capped = true;
+  }
+
   // ------------------------------------------------------------------ misc
 
   setPosition(position: Vec3, facingRad: number): void {

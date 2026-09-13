@@ -31,9 +31,17 @@ describe("3D item icon catalog", () => {
   });
 
   it("points the runtime at the 48px public derivative, never the master", () => {
+    const swappedArtwork: Record<string, string> = {
+      dragonhide_hood: 'starhide_hood', dragonhide_robe: 'starhide_robe',
+      dragonhide_leggings: 'starhide_leggings', dragonhide_boots: 'starhide_boots', dragonhide_wraps: 'starhide_wraps',
+      starhide_hood: 'dragonhide_hood', starhide_robe: 'dragonhide_robe',
+      starhide_leggings: 'dragonhide_leggings', starhide_boots: 'dragonhide_boots', starhide_wraps: 'dragonhide_wraps',
+      frostweave_hood: 'aurora_frostweave_hood', frostweave_robe: 'aurora_frostweave_robe',
+      frostweave_leggings: 'aurora_frostweave_leggings', frostweave_boots: 'aurora_frostweave_boots', frostweave_wraps: 'aurora_frostweave_wraps',
+    };
     for (const item of ALL_ITEMS) {
       const url = itemIconUrl(item);
-      expect(url, item.id).toBe(`assets/icons/items/48/${item.id}.png`);
+      expect(url, item.id).toBe(`assets/icons/items/48/${swappedArtwork[item.id] ?? item.id}.png`);
       expect(url, item.id).not.toContain("256");
       expect(url, item.id).not.toContain("art/");
     }

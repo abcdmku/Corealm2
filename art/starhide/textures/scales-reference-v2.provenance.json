@@ -1,0 +1,11 @@
+{
+  "status": "selected for production lab A/B round 3; active derivative prefix scales-reference",
+  "mode": "built-in imagegen",
+  "original": "C:/Users/Borg/.codex/generated_images/01a09439-8334-7d03-b4ce-4334d4ac4d6d/exec-9aab982c-41e3-45b6-8f32-2d646b6c21d0.png",
+  "inputs": [
+    "art/starhide/textures/scales-reference-v1.png, previous alternative edit target",
+    "art/item-icons/generated/starhide_robe.png, approved reference",
+    "art/item-icons/generated/starhide_boots.png, approved reference"
+  ],
+  "prompt": "Edit Image1 into the EXACT SCALE MATERIAL visible in the small cyan/violet inserts of the approved armor in Image2 and Image3. Image1 has TWO ERRORS TO REMOVE COMPLETELY: the botanical branching veins inside every scale and the silver metallic outlines around every cell. REMOVE BOTH. The reference is animal hide scales, small overlapping rounded teardrop or scute scales, with dark navy overlaps. It is NOT botanical leaves, leaf embroidery, tiles set in metal, fish-shaped jewelry or silver piping. Give the scales subtly convex faces with fine irregular microscopic PEBBLED HIDE texture and a naturally mottled cool blue cyan teal violet pigmentation. The overlap edges are thin dark navy with very subtle cool local sheen, NEVER bright silver frames. Small rounded teardrop/scute scales closely overlap in staggered rows like the exact robe chest inserts from Image2, slightly pointed rounded tips. Keep square full-bleed seamless texture, exactly8 scales across and12 staggered rows down, tips face UP in the source image. No border, no text, no empty background. PBR diffuse/albedo texture, flat uniform illumination, no directional painted lighting, no cast shadows beyond thin local dark overlap creases. Per-scale cool cyan/violet color variation. Fine dense irregular pebbled grain, no veins, no botanical growth lines, no silver cell edges, no wire, no white outline, no embossed stems, no filigree, no cloth, no garment borders. This texture contains ONLY the reptilian hide scale inset material sampled visually from approved armor references. 1024x1024."
+}

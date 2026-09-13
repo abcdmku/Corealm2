@@ -1,0 +1,1195 @@
+{
+  "round": "r15",
+  "passed": true,
+  "sets": [
+    {
+      "theme": "dragonhide",
+      "assets": [
+        {
+          "itemId": "dragonhide_robe",
+          "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+        },
+        {
+          "itemId": "dragonhide_hood",
+          "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418"
+        },
+        {
+          "itemId": "dragonhide_leggings",
+          "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02"
+        },
+        {
+          "itemId": "dragonhide_boots",
+          "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0"
+        },
+        {
+          "itemId": "dragonhide_wraps",
+          "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f"
+        }
+      ],
+      "materials": [
+        {
+          "item": "dragonhide_hood",
+          "scutes": [
+            {
+              "name": "starhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.42
+            }
+          ],
+          "cloth": [
+            {
+              "name": "starhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "dragonhide_robe",
+          "scutes": [
+            {
+              "name": "starhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.42
+            }
+          ],
+          "cloth": [
+            {
+              "name": "starhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "dragonhide_leggings",
+          "scutes": [
+            {
+              "name": "starhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.42
+            }
+          ],
+          "cloth": [
+            {
+              "name": "starhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "dragonhide_boots",
+          "scutes": [
+            {
+              "name": "starhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.42
+            }
+          ],
+          "cloth": [
+            {
+              "name": "starhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "dragonhide_wraps",
+          "scutes": [
+            {
+              "name": "starhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.42
+            },
+            {
+              "name": "starhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 1,
+              "ior": 1.45,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.42
+            }
+          ],
+          "cloth": [
+            {
+              "name": "starhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "screenshots": [
+        {
+          "view": "front",
+          "file": "test-results/tier50-70/r15-material-dragonhide-front.png",
+          "sha256": "f2cf607eaafbcf4191e5fa0fd3309b0eaab2c5008ad879b9363819605b9e0526"
+        },
+        {
+          "view": "orbit",
+          "file": "test-results/tier50-70/r15-material-dragonhide-orbit.png",
+          "sha256": "2a874cb80ea6b3f1d81723504dcfe419b674689f81fc3a5f641af67df114b4d6"
+        },
+        {
+          "view": "leggings-front",
+          "file": "test-results/tier50-70/r15-material-dragonhide-leggings-front.png",
+          "sha256": "cd4b8636586bebf0b1d318e00e1da8a3a22cafa19701afac06b2f8e424aed239"
+        },
+        {
+          "view": "leggings-orbit",
+          "file": "test-results/tier50-70/r15-material-dragonhide-leggings-orbit.png",
+          "sha256": "79ba28f5e9d10560b5fd3db813ebdfdcf98246d9ef4f4d56ece345721aa98fab"
+        }
+      ],
+      "thinFilmVisible": {
+        "affectedPixels": 35369,
+        "totalDelta": 908252,
+        "method": "Same camera, lights and delivered geometry. Temporarily disable only iridescence in a test-only instrumented viewer, compare RGB, then restore before orbit screenshot."
+      }
+    },
+    {
+      "theme": "starhide",
+      "assets": [
+        {
+          "itemId": "starhide_leggings",
+          "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+        },
+        {
+          "itemId": "starhide_hood",
+          "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+        },
+        {
+          "itemId": "starhide_boots",
+          "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+        },
+        {
+          "itemId": "starhide_wraps",
+          "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+        },
+        {
+          "itemId": "starhide_robe",
+          "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+        }
+      ],
+      "materials": [
+        {
+          "item": "starhide_hood",
+          "scutes": [
+            {
+              "name": "dragonhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.38
+            }
+          ],
+          "cloth": [
+            {
+              "name": "dragonhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "starhide_robe",
+          "scutes": [
+            {
+              "name": "dragonhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.38
+            }
+          ],
+          "cloth": [
+            {
+              "name": "dragonhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "starhide_leggings",
+          "scutes": [
+            {
+              "name": "dragonhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.38
+            }
+          ],
+          "cloth": [
+            {
+              "name": "dragonhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "starhide_boots",
+          "scutes": [
+            {
+              "name": "dragonhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.38
+            }
+          ],
+          "cloth": [
+            {
+              "name": "dragonhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "item": "starhide_wraps",
+          "scutes": [
+            {
+              "name": "dragonhide-scute-1-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                320
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-2-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                380
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-3-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                345
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-4-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                410
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-5-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                365
+              ],
+              "clearcoat": 0.38
+            },
+            {
+              "name": "dragonhide-scute-6-pebbled-hide",
+              "physical": true,
+              "iridescence": 0.85,
+              "ior": 1.35,
+              "thickness": [
+                100,
+                300
+              ],
+              "clearcoat": 0.38
+            }
+          ],
+          "cloth": [
+            {
+              "name": "dragonhide-close-twill-cloth",
+              "physical": true,
+              "metalness": 1,
+              "roughness": 1,
+              "ior": 1.3,
+              "clearcoat": 0,
+              "sheen": 0,
+              "normalScale": [
+                1.15,
+                -1.15
+              ],
+              "maps": [
+                {
+                  "key": "map",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "normalMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "roughnessMap",
+                  "width": 2048,
+                  "height": 2048
+                },
+                {
+                  "key": "metalnessMap",
+                  "width": 2048,
+                  "height": 2048
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "screenshots": [
+        {
+          "view": "front",
+          "file": "test-results/tier50-70/r15-material-starhide-front.png",
+          "sha256": "e2aab3cd0904b81a5cf338d342e7df4c74b4425419de7f2d6c5e7af901018aec"
+        },
+        {
+          "view": "orbit",
+          "file": "test-results/tier50-70/r15-material-starhide-orbit.png",
+          "sha256": "25663f658c25cba415e1cb9335f6c88720932fcd4a38d820092299b7877c2845"
+        },
+        {
+          "view": "leggings-front",
+          "file": "test-results/tier50-70/r15-material-starhide-leggings-front.png",
+          "sha256": "ab5ccd2db945e81890774b10f9d00ead8fbb6cd6f8145e926f1bd9b637ee4efd"
+        },
+        {
+          "view": "leggings-orbit",
+          "file": "test-results/tier50-70/r15-material-starhide-leggings-orbit.png",
+          "sha256": "12057cb768a3b160ac2fbe2ac55b6d42e42972ed93c1d3baab61499afef67938"
+        }
+      ],
+      "thinFilmVisible": {
+        "affectedPixels": 51665,
+        "totalDelta": 1333945,
+        "method": "Same camera, lights and delivered geometry. Temporarily disable only iridescence in a test-only instrumented viewer, compare RGB, then restore before orbit screenshot."
+      }
+    }
+  ],
+  "errors": []
+}

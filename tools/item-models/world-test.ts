@@ -9,7 +9,13 @@ import { startGameServer } from "../lib/server.js";
 import { installTestDeadline } from "../lib/deadline.js";
 
 // Final-world wiring proof only. Run after root acceptance and promotion of the lab candidates.
-const started = Date.now(), clearDeadline = installTestDeadline("Promoted item world integration", 60000);
+const armorTiers = process.argv.includes('--armor-tiers');
+const auroraArmor = process.argv.includes('--aurora-armor');
+const authoredArmor = armorTiers || auroraArmor;
+// Both crafted sets share one cold world boot, within the documented two-minute
+// full-world smoke budget. Detailed views and motion phases stay in the lab.
+const budget = authoredArmor ? 120000 : 60000;
+const started = Date.now(), clearDeadline = installTestDeadline("Promoted item world integration", budget);
 const outFlag = process.argv.indexOf("--out");
 const label = outFlag < 0 ? "world-promoted" : process.argv[outFlag + 1];
 assert(label && /^[a-z0-9-]+$/.test(label), "Use --out <lowercase-label>");
@@ -17,11 +23,17 @@ const out = path.resolve("test-results/item-models", label);
 await mkdir(out, { recursive: true });
 const hash = (bytes: Uint8Array | string) => createHash("sha256").update(bytes).digest("hex");
 const remaining = (maximum: number) => {
-  const available = 56000 - (Date.now() - started);
-  assert(available > 0, "World proof exhausted its 56 second work budget");
+  const available = budget - 4000 - (Date.now() - started);
+  assert(available > 0, "World proof exhausted its work budget");
   return Math.min(maximum, available);
 };
-const kits = [
+const itemsIndex = process.argv.indexOf("--items");
+const requestedItems = itemsIndex >= 0 ? process.argv[itemsIndex + 1]?.split(",") : undefined;
+assert(itemsIndex < 0 || requestedItems?.length && requestedItems.every(id => /^[a-z0-9_]+$/.test(id)), "Use --items id,id");
+assert(!armorTiers || !requestedItems, '--armor-tiers and --items are separate selections');
+assert(!auroraArmor || !armorTiers && !requestedItems, '--aurora-armor is a separate selection');
+const kits = auroraArmor ? [{ name: 'aurora', ids: ['hood', 'robe', 'leggings', 'boots', 'wraps'].map(piece => `frostweave_${piece}`) }] : armorTiers ? ['dragonhide', 'starhide'].map(theme => ({ name: theme,
+  ids: ['hood', 'robe', 'leggings', 'boots', 'wraps'].map(piece => `${theme}_${piece}`) })) : requestedItems ? [{ name: "selected", ids: requestedItems }] : [
   { name: "metal", ids: ["grithe_helm", "grithe_cuirass", "grithe_greaves", "grithe_boots", "grithe_gloves", "grithe_sword", "palewood_shield"] },
   { name: "cloth", ids: ["marchhide_hood", "marchhide_robe", "marchhide_leggings", "marchhide_boots", "marchhide_wraps", "earth_wand"] },
 ];
@@ -47,14 +59,17 @@ try {
   await driver.launch();
   const page = driver.page!;
   await page.addInitScript("globalThis.__name = (target, name) => Object.defineProperty(target, 'name', {value:name, configurable:true});");
-  const downloads: Promise<void>[] = [];
   const served = new Map<string, string>();
-  page.on("response", response => {
-    const pathname = new URL(response.url()).pathname;
-    if (!report.assets.some((asset: any) => pathname === `/assets/${asset.file}`)) return;
-    downloads.push(response.body().then(bytes => { served.set(pathname, hash(bytes)); }));
+  // Large authored GLBs can exceed Chromium's response-inspector cache. Hash the
+  // real server bytes in transit and forward them unchanged to the normal loader.
+  await page.route(url => report.assets.some((asset: any) => url.pathname === `/assets/${asset.file}`), async route => {
+    const response = await route.fetch(), bytes = await response.body();
+    served.set(new URL(route.request().url()).pathname, hash(bytes));
+    await route.fulfill({ response, body: bytes });
   });
-  await driver.open(remaining(25000), "/index.html");
+  report.downloadVerification = 'Actual production HTTP response bytes hashed and forwarded unchanged; no candidate replacement.';
+  await driver.open(remaining(authoredArmor ? 60000 : 40000), "/index.html");
+  report.readyAtMs = Date.now() - started;
   const documentOrigin = await page.evaluate(() => performance.timeOrigin);
   const servedManifest = await page.request.get(new URL("/assets/manifest.json", server.url).href, { timeout: remaining(3000) });
   assert.equal(hash(await servedManifest.body()), report.manifestSha256, "Server manifest differs from the promoted manifest");
@@ -120,13 +135,14 @@ try {
       assert(!result?.error && result?.ok !== false, `Equipment operation failed for ${id}`);
       operations.push({ itemId: id, result });
     }
+    report.lastEquipmentOperations = { kit: kit.name, operations, atMs: Date.now() - started };
     await page.waitForFunction(equipment => {
       const debug = window.__gameDebug as any, motion = debug.getPlayerMotion(), save = JSON.parse(debug.getSaveBlob());
       return !motion.layerLoadPending && !Object.keys(motion.attachmentLoading ?? {}).length
         && Object.entries(equipment).every(([slot, id]) => save.equipment[slot]?.itemId === id
           && (["mainHand", "offHand"].includes(slot) ? motion.attachments?.[slot] === `equip-${slot}-corealm_item_${id}`
             : motion.layerAssets?.includes(`corealm_item_${id}`)));
-    }, equipment, { timeout: remaining(7000) });
+    }, equipment, { timeout: remaining(authoredArmor ? 15000 : 7000) });
     const equipped = await read();
     if (!equipment.offHand) assert.equal(equipped.equipment.offHand, null);
     await orbit(.25); await capture(`${kit.name}-front`);
@@ -152,8 +168,22 @@ try {
     await capture(`${kit.name}-settled`);
     report.kits.push({ name: kit.name, equipment, operations, before, equipped,
       movement: { before: movementBefore, during: moving, settled: await read() } });
+    if (armorTiers && kit !== kits.at(-1)) {
+      // Return along the same short path with normal input. Otherwise the next
+      // set's front view can start inside the nearby gatehouse camera occluder.
+      await page.keyboard.down('s');
+      try {
+        await page.waitForFunction(origin => {
+          const p = (window.__gameDebug as any).getPlayerPosition();
+          return Math.hypot(p.x - origin.x, p.z - origin.z) < .8;
+        }, movementBefore.player, { timeout: remaining(6000) });
+      } finally { await page.keyboard.up('s'); }
+      await page.waitForFunction(() => {
+        const motion = (window.__gameDebug as any).getPlayerMotion();
+        return /idle/i.test(`${motion.pose} ${motion.clip}`) && motion.actionWeight > .98;
+      }, undefined, { timeout: remaining(2500) });
+    }
   }
-  await Promise.all(downloads);
   for (const asset of report.assets) assert.equal(served.get(`/assets/${asset.file}`), asset.sha256, `Served GLB mismatch/missing request: ${asset.assetId}`);
   report.servedAssetHashes = Object.fromEntries(served);
   assert.equal(hash(await readFile("game/public/assets/manifest.json")), report.manifestSha256, "Manifest changed during proof");
@@ -161,7 +191,7 @@ try {
   report.passed = true;
 } catch (error) {
   report.error = String(error); process.exitCode = 1;
-  if (driver?.page && Date.now() - started < 54000) {
+  if (driver?.page && Date.now() - started < budget - 2500) {
     await driver.page.screenshot({ path: path.join(out, "failure.png"), timeout: 2000 }).catch(() => {});
   }
 } finally {

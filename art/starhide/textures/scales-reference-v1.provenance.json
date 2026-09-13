@@ -1,0 +1,12 @@
+{
+  "status": "alternative awaiting lab selection; not used by materials.ts",
+  "mode": "built-in imagegen",
+  "original": "C:/Users/Borg/.codex/generated_images/01a09439-8334-7d03-b4ce-4334d4ac4d6d/exec-d6108a9b-c525-428e-b579-be6e063e27f5.png",
+  "inputs": [
+    "art/starhide/textures/scales-color.png, procedural round 2 edit target",
+    "art/item-icons/generated/starhide_robe.png, approved reference",
+    "art/item-icons/generated/starhide_boots.png, approved reference",
+    "art/item-icons/generated/starhide_hood.png, approved reference"
+  ],
+  "prompt": "Use case: style-transfer. Asset type: a high quality seamless square PBR BASE COLOR texture tile for a game armor material. Image1 is the edit target, an existing 8-column by12-row staggered overlapping scale tile. Images2,3,4 are approved armor reference art, use their SMALL overlapping cyan/teal/blue/violet organic hide leaf scales to replace the smooth flat look of Image1. Create ONLY the full-bleed tile texture, without the garments. Preserve regular seamless staggered arrangement with exactly8 leaf columns and12 staggered rows per square. Leaf tips point UP in this saved source image, as in Image1, because game UV mapping flips them downward. Match the reference scales: small convex organic shield/leaves with rounded sides and a subtle point; thin soft hide, closely overlapped, narrow dark navy overlap lines with a delicate pale-blue silver rim, and rich fine natural longitudinal grain, faint ridges and delicate branching vein detail inside every scale. Color shifts within each leaf from navy blue roots through deep cyan/teal to restrained violet patches. This is a PBR albedo map, so use flat uniform neutral unlit diffuse illumination, NO painted white specular reflections, no broad cast shadows, no studio highlight gradient, no light source, no cast garment shadows. Preserve subtle local dark contact lines. Mature fine detail matching the approved art, no toy plastic smoothness, no chunky thick bevels, no bubbles or circles, no star speckles, no glowing flecks, no emission, no gold. Fill all pixels, no borders, labels, text or watermarks. Perfectly seamless horizontally and vertically. 1024x1024 square."
+}

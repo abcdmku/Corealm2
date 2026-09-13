@@ -24,7 +24,7 @@ await mkdir("art/item-models/source-snapshots", { recursive: true });
 const snapshot = `art/item-models/source-snapshots/${entry.sourceSha256}.ts`;
 await writeFile(snapshot, source);
 registry.items[itemId] = { ...entry, status: decision, evidence, sourceSnapshot: snapshot,
-  review: "GPT-5.6 Luna max visual review, confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
+  review: "Visual review confirmed by root against the approved artwork. Runtime equipment/animation acceptance and production promotion are tracked separately.",
   promoted: false };
 await writeFile(registryFile, JSON.stringify(registry, null, 2));
 console.log(`${itemId}: ${decision}, ${entry.sha256}`);

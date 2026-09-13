@@ -1,0 +1,2302 @@
+{
+  "round": "r12",
+  "passed": true,
+  "method": "Preserve the R10-to-R11 bounded scale-relief proof, then compare all ten current GLBs to preserved R11. Exact non-robe geometry, scale geometry/textures/physical parameters, unrelated source parts, joints and rig. Only the six T70 scute baseColorFactor values may change among non-cloth materials; require the declared darker palette in linear RGB, with all other non-cloth parameters, textures and extras preserved. Map robe triangle corners to verified named source-part ranges; permit at most 12 mm only on front cloth shells and attached hem ornaments, with exact outer X/Y and seam/waist/hem guard positions. Normals and corresponding moved-vertex weights may change only within those draped parts. UVs must match the current authored source on draped parts and on explicitly named remaining cloth tails, bodice, chest, lapel and upper-back shells; those additional shells retain exact positions, normals, joints and weights. No subdivision. Verify the supplied embroidery reference, per-theme imagegen source/prompt and baked-map hashes; inferred textile relief is not measured. Require white cloth factors, matching decoded baked/embedded color and packed G roughness/B metallic channels, maroon/navy nonmetallic base fabric and warm gold metallic thread cores. Record nominal dye targets separately from actual pixel means and measure decoration coverage against preserved botanical sources when present. Verify sixty film/clearcoat materials and low-IOR base cloth.",
+  "clothReference": {
+    "file": "art/tier50-70/references/embroidered-fabric-r12.png",
+    "sha256": "9643e79ab4b76fcee70da279c55cb0e8eb9021fe890e0eda1dd51835c81c5bd1"
+  },
+  "clothProvenance": [
+    {
+      "theme": "dragonhide",
+      "file": "art/tier50-70/textures/dragonhide/provenance.json",
+      "sha256": "ef40d5d4ab7f0b46859951df4be86bb95153dc60dcc4f61f6faf71e71ef4f761",
+      "clothSource": {
+        "mode": "built-in image_gen",
+        "sourceImage": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-source.png",
+        "sourceSha256": "274fa106d5ceb81a70f2873e298c6c7a07a4aaa2f1ed5de005ea4ac959b86b74",
+        "promptFile": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-prompt.txt",
+        "promptSha256": "204413ec32436179a1fa0e84625d6b691056e701bdfff7a14c6644e812acc47d",
+        "colorSourceImage": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-source.png",
+        "colorSourceSha256": "274fa106d5ceb81a70f2873e298c6c7a07a4aaa2f1ed5de005ea4ac959b86b74",
+        "colorPromptFile": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-prompt.txt",
+        "colorPromptSha256": "204413ec32436179a1fa0e84625d6b691056e701bdfff7a14c6644e812acc47d",
+        "dyeMeanSRGB": "#571827",
+        "referenceImage": "art/tier50-70/references/embroidered-fabric-r12.png",
+        "referenceSha256": "9643e79ab4b76fcee70da279c55cb0e8eb9021fe890e0eda1dd51835c81c5bd1",
+        "editTargetImage": "art/tier50-70/textures/imagegen-r12/dragonhide-botanical-source-v1.png",
+        "editTargetSha256": "07495ff9a97815a20951a9e4be3c6376a7565b4b510e78b832562bf0fe289bf0",
+        "imagegenIntent": "edit: sparse celestial embroidery replaces botanical pattern",
+        "albedoEncoding": "Imagegen embroidered textile RGB. Base-yarn mean normalized to deep robe dye, value ratios retained with power .78. Preserve warm embroidery color at 80 percent linear reflectance. White base factor.",
+        "baker": "tools/item-models/tier50-70/materials-imagegen.ts",
+        "method": "Imagegen soft fabric from supplied reference, edited to sparse celestial threadwork. Separate hue-selected raised stitch relief and soft fabric microrelief; inferred heights, not measured material data",
+        "resolution": [
+          2048,
+          2048
+        ],
+        "nominalTileMeters": 0.35,
+        "heightGains": {
+          "broad": 0.028,
+          "medium": 0.0015,
+          "yarn": 0.0003,
+          "stitch": 0.0008
+        },
+        "packedMaterial": {
+          "file": "cloth-roughness.png",
+          "channels": {
+            "R": "unused white",
+            "G": "roughness",
+            "B": "metallic"
+          },
+          "baseCloth": {
+            "metallic": 0,
+            "roughness": [
+              0.92,
+              0.99
+            ]
+          },
+          "embroidery": {
+            "maxMetallic": 0.58,
+            "roughness": 0.46
+          },
+          "mask": "Warm-gold hue and brightness, isolated from maroon/navy base"
+        },
+        "boundary": "40-pixel Hermite closure with bounded tangents for height, RGB, roughness and metallic mask"
+      },
+      "maps": [
+        {
+          "file": "cloth-color.png",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "14fd2b17ee02caa25fff7cc71bc208b0dd294112b89b1e92b6c7fc9ec188a4d2"
+        },
+        {
+          "file": "cloth-normal.png",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "21e3716021f816dd948a80705705f525f16a46753466554d973197294e02b55f"
+        },
+        {
+          "file": "cloth-roughness.png",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "f3217163584865d920d111859c8da04dfd2d439ddba08e94be228daa0c063b99"
+        }
+      ],
+      "threadColor": {
+        "width": 2048,
+        "height": 2048,
+        "pixelSha256": "3d629c18a07153d3196c03c0a58739722d9dd6096b14f910f2d752cd67db46ef",
+        "meanSRGB": [
+          83.34609580039978,
+          16.697210788726807,
+          30.93428111076355
+        ],
+        "channelStdSRGB": [
+          20.717532561465042,
+          18.3037707822024,
+          20.34805617876572
+        ],
+        "valueStdSRGB": 18.892395203842646,
+        "chromaticResidualRms": 12.836691726469416,
+        "units": "sRGB byte values, 0 to 255",
+        "colorAndValueVariation": true
+      },
+      "embroidery": {
+        "width": 2048,
+        "height": 2048,
+        "packedChannelsSha256": "52670eba29843018fa5e979555d4f91ef74d9cc0f72fc025b19f7ef16ebc8048",
+        "roughnessMin": 0.4588235294117647,
+        "roughnessMax": 0.9882352941176471,
+        "metallicMax": 0.5803921568627451,
+        "metallicMaskCoverage": 0.009033441543579102,
+        "baseCloth": {
+          "pixels": 4156415,
+          "fraction": 0.9909665584564209,
+          "meanRoughness": 0.9513664936140759,
+          "meanMetallic": 0.0000013671283885695848,
+          "meanSRGB": [
+            82.7335855538968,
+            15.861132971563235,
+            30.486033516864893
+          ]
+        },
+        "goldEmbroidery": {
+          "pixels": 25614,
+          "fraction": 0.006106853485107422,
+          "meanRoughness": 0.45953285350995754,
+          "meanMetallic": 0.5796349116673556,
+          "meanSRGB": [
+            163.26547981572577,
+            120.70574685718748,
+            83.12973373936128
+          ]
+        },
+        "classification": {
+          "baseMetallicByteMaximum": 1,
+          "embroideryMetallicMinimum": 0.55
+        },
+        "matteBaseAndMetallicEmbroidery": true,
+        "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+      },
+      "patternDensity": {
+        "available": true,
+        "previous": {
+          "file": "art/tier50-70/textures/imagegen-r12/dragonhide-botanical-source-v1.png",
+          "sha256": "07495ff9a97815a20951a9e4be3c6376a7565b4b510e78b832562bf0fe289bf0",
+          "markedFraction": 0.15243268013000488,
+          "meanMask": 0.12812740389152227
+        },
+        "current": {
+          "file": "art/tier50-70/textures/imagegen-r12/dragonhide-embroidered-source.png",
+          "sha256": "274fa106d5ceb81a70f2873e298c6c7a07a4aaa2f1ed5de005ea4ac959b86b74",
+          "markedFraction": 0.008341073989868164,
+          "meanMask": 0.0070945028680844445
+        },
+        "coverageReduced": true,
+        "method": "Compare both 2048-pixel source images with the same warm-gold hue/brightness mask; count mask values above .05. Coverage is an image estimate, not a full-view visual acceptance."
+      }
+    },
+    {
+      "theme": "starhide",
+      "file": "art/tier50-70/textures/starhide/provenance.json",
+      "sha256": "1000d27931f91d1906add86945bd55fd9d799446911e5d0ab7ebc56dea7c1d28",
+      "clothSource": {
+        "mode": "built-in image_gen",
+        "sourceImage": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-source.png",
+        "sourceSha256": "89e8f1fc949080233d7579ee1aa984edeb7aa0cba567eb2858b3eab27df3b303",
+        "promptFile": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-prompt.txt",
+        "promptSha256": "ff1c04b90a8e0fe8fac7f22f15fb52b18d62038132edca33afcb9d7666aea983",
+        "colorSourceImage": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-source.png",
+        "colorSourceSha256": "89e8f1fc949080233d7579ee1aa984edeb7aa0cba567eb2858b3eab27df3b303",
+        "colorPromptFile": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-prompt.txt",
+        "colorPromptSha256": "ff1c04b90a8e0fe8fac7f22f15fb52b18d62038132edca33afcb9d7666aea983",
+        "dyeMeanSRGB": "#25355d",
+        "referenceImage": "art/tier50-70/references/embroidered-fabric-r12.png",
+        "referenceSha256": "9643e79ab4b76fcee70da279c55cb0e8eb9021fe890e0eda1dd51835c81c5bd1",
+        "editTargetImage": "art/tier50-70/textures/imagegen-r12/starhide-botanical-source-v1.png",
+        "editTargetSha256": "a1fb0e08d3aaf749be00659d6c6db0479fb0ced8ed6600f26ab5e1995fcddfca",
+        "imagegenIntent": "edit: sparse celestial embroidery replaces botanical pattern",
+        "albedoEncoding": "Imagegen embroidered textile RGB. Base-yarn mean normalized to deep robe dye, value ratios retained with power .78. Preserve warm embroidery color at 80 percent linear reflectance. White base factor.",
+        "baker": "tools/item-models/tier50-70/materials-imagegen.ts",
+        "method": "Imagegen soft fabric from supplied reference, edited to sparse celestial threadwork. Separate hue-selected raised stitch relief and soft fabric microrelief; inferred heights, not measured material data",
+        "resolution": [
+          2048,
+          2048
+        ],
+        "nominalTileMeters": 0.35,
+        "heightGains": {
+          "broad": 0.028,
+          "medium": 0.0015,
+          "yarn": 0.0003,
+          "stitch": 0.0008
+        },
+        "packedMaterial": {
+          "file": "cloth-roughness.png",
+          "channels": {
+            "R": "unused white",
+            "G": "roughness",
+            "B": "metallic"
+          },
+          "baseCloth": {
+            "metallic": 0,
+            "roughness": [
+              0.92,
+              0.99
+            ]
+          },
+          "embroidery": {
+            "maxMetallic": 0.58,
+            "roughness": 0.46
+          },
+          "mask": "Warm-gold hue and brightness, isolated from maroon/navy base"
+        },
+        "boundary": "40-pixel Hermite closure with bounded tangents for height, RGB, roughness and metallic mask"
+      },
+      "maps": [
+        {
+          "file": "cloth-color.png",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "32dddac2fcc02a98562c1e8debb5039028ff9d0c944f179dc7b5aa1998132fbc"
+        },
+        {
+          "file": "cloth-normal.png",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "b55675ce67e980bb36a52ccdcd3325ce42a0200621e10264ba4a680f37703b7a"
+        },
+        {
+          "file": "cloth-roughness.png",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "fbd812e2e801dfcaf25e34828afdb88b2bc8a6788d4a6c43b8673371190241f7"
+        }
+      ],
+      "threadColor": {
+        "width": 2048,
+        "height": 2048,
+        "pixelSha256": "fda31d06db2272f87e8e949915375deebcf5af939165599813946ce8d5cb304c",
+        "meanSRGB": [
+          34.430214166641235,
+          49.78566002845764,
+          89.51133728027344
+        ],
+        "channelStdSRGB": [
+          14.485859515850514,
+          15.82762120992068,
+          18.70193636304617
+        ],
+        "valueStdSRGB": 15.56720889209322,
+        "chromaticResidualRms": 6.8246767133970305,
+        "units": "sRGB byte values, 0 to 255",
+        "colorAndValueVariation": true
+      },
+      "embroidery": {
+        "width": 2048,
+        "height": 2048,
+        "packedChannelsSha256": "f3e5cc09a90a13d6a0ad0fd1527aa01072081003b2c72e6b2ded301c80e7f96f",
+        "roughnessMin": 0.4588235294117647,
+        "roughnessMax": 0.9882352941176471,
+        "metallicMax": 0.5803921568627451,
+        "metallicMaskCoverage": 0.007029294967651367,
+        "baseCloth": {
+          "pixels": 4164821,
+          "fraction": 0.9929707050323486,
+          "meanRoughness": 0.9522840806765192,
+          "meanMetallic": 3.4085686831132724e-7,
+          "meanSRGB": [
+            33.64838969069739,
+            49.20422582387094,
+            89.30464214428423
+          ]
+        },
+        "goldEmbroidery": {
+          "pixels": 11415,
+          "fraction": 0.002721548080444336,
+          "meanRoughness": 0.4618474143927562,
+          "meanMetallic": 0.5771820703753523,
+          "meanSRGB": [
+            139.64029785370127,
+            116.50275952693823,
+            95.9222076215506
+          ]
+        },
+        "classification": {
+          "baseMetallicByteMaximum": 1,
+          "embroideryMetallicMinimum": 0.55
+        },
+        "matteBaseAndMetallicEmbroidery": true,
+        "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+      },
+      "patternDensity": {
+        "available": true,
+        "previous": {
+          "file": "art/tier50-70/textures/imagegen-r12/starhide-botanical-source-v1.png",
+          "sha256": "a1fb0e08d3aaf749be00659d6c6db0479fb0ced8ed6600f26ab5e1995fcddfca",
+          "markedFraction": 0.15484881401062012,
+          "meanMask": 0.12674908822312697
+        },
+        "current": {
+          "file": "art/tier50-70/textures/imagegen-r12/starhide-embroidered-source.png",
+          "sha256": "89e8f1fc949080233d7579ee1aa984edeb7aa0cba567eb2858b3eab27df3b303",
+          "markedFraction": 0.006749629974365234,
+          "meanMask": 0.00492936067440385
+        },
+        "coverageReduced": true,
+        "method": "Compare both 2048-pixel source images with the same warm-gold hue/brightness mask; count mask values above .05. Coverage is an image estimate, not a full-view visual acceptance."
+      }
+    }
+  ],
+  "assets": [
+    {
+      "itemId": "dragonhide_hood",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_hood.glb",
+      "sha256": "35959f61fb735f2ed06585a5ca3e3197350adb76584b469309a2948092dceb19",
+      "baselineSha256": "499a1d2c0390b70a348932527e6914afeaa2a8c13d1967b9beed17d1e4e265e4",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 69270,
+        "changedScaleCorners": 30466,
+        "maxScaleDisplacement": 0.0015378317259583988,
+        "triangles": 47122,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/dragonhide_hood.glb",
+        "sha256": "372a7d6940972494a2733ab0195c6945136b25ee4b3ac677a2de9afb03ba4124",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "geometrySha256": "0f1866293b1543fffe2a89994f9b24245f939d2f846fe25a98932926d6d95dca"
+      },
+      "geometrySha256": "0953a0fb60170af3e9ed03d597959d1b5a41650ca11e32cb57b715537e66e27c",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "3d629c18a07153d3196c03c0a58739722d9dd6096b14f910f2d752cd67db46ef",
+          "meanSRGB": [
+            83.34609580039978,
+            16.697210788726807,
+            30.93428111076355
+          ],
+          "channelStdSRGB": [
+            20.717532561465042,
+            18.3037707822024,
+            20.34805617876572
+          ],
+          "valueStdSRGB": 18.892395203842646,
+          "chromaticResidualRms": 12.836691726469416,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "52670eba29843018fa5e979555d4f91ef74d9cc0f72fc025b19f7ef16ebc8048",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.009033441543579102,
+          "baseCloth": {
+            "pixels": 4156415,
+            "fraction": 0.9909665584564209,
+            "meanRoughness": 0.9513664936140759,
+            "meanMetallic": 0.0000013671283885695848,
+            "meanSRGB": [
+              82.7335855538968,
+              15.861132971563235,
+              30.486033516864893
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 25614,
+            "fraction": 0.006106853485107422,
+            "meanRoughness": 0.45953285350995754,
+            "meanMetallic": 0.5796349116673556,
+            "meanSRGB": [
+              163.26547981572577,
+              120.70574685718748,
+              83.12973373936128
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "dragonhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.06301001764564068,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 320,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.059511238155621766,
+            0.061246054224174035,
+            0.10946171076915331,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 380,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04817182422013895,
+            0.0722718506743852,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 345,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.08021982030622662,
+            0.11953842797895521,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 410,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.0722718506743852,
+            0.061246054224174035,
+            0.11193242782769693,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 365,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.04518620437910499,
+            0.08650046202808521,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 300,
+          "clearcoat": 0.38
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_robe.glb",
+      "sha256": "f70df997e049be1189eefc8b282b1cf6ce35cdfed8f08913ebb56f01adc5a60d",
+      "baselineSha256": "6aa6c36039d21fc2b599417d9f9511344c51414110730a18bdf4144c0426f7a4",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 195528,
+        "changedScaleCorners": 144052,
+        "maxScaleDisplacement": 0.0025170730084915108,
+        "triangles": 148560,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/dragonhide_robe.glb",
+        "sha256": "318206f7eb01999dcfe2913c334807de500aaccdc31c883107e2f4fb3d37a9c5",
+        "exactGeometryAndRigUnchanged": false,
+        "drape": {
+          "rigAndJointsUnchanged": true,
+          "decodedTriangleTopologyUnchanged": true,
+          "scalesAndUnrelatedPartsExact": true,
+          "fixedGuardVerticesExact": true,
+          "preservedCorners": 435852,
+          "guardCorners": 2196,
+          "changedCorners": 9540,
+          "changedUVScalars": 203436,
+          "changedWeightScalars": 21222,
+          "maxDisplacement": {
+            "outer": 0.01081298291683197,
+            "lining": 0.010810273699109018,
+            "ornament": 0.010803697553084156
+          },
+          "displacementLimit": 0.012,
+          "parts": [
+            "Dragonhide single central pointed cloth tabard",
+            "Tail 0 sculpted hem ornament curled sculpted leaf -1",
+            "Tail 0 sculpted hem ornament curled sculpted leaf 1",
+            "Tail 0 sculpted hem ornament raised scrolling stem -1",
+            "Tail 0 sculpted hem ornament raised scrolling stem 1",
+            "Tail 0 sculpted hem ornament swept sculpted leaf -1",
+            "Tail 0 sculpted hem ornament swept sculpted leaf 1"
+          ],
+          "uvOnlyParts": [
+            "Continuous upper back and curved open armholes",
+            "Open V folded lapel -1",
+            "Open V folded lapel 1",
+            "Overlapping side and back long folded cloth tail 1",
+            "Overlapping side and back long folded cloth tail 2",
+            "Overlapping side and back long folded cloth tail 3",
+            "Overlapping side and back long folded cloth tail 4",
+            "Overlapping side and back long folded cloth tail 5",
+            "Overlapping side and back long folded cloth tail 6",
+            "Overlapping side and back long folded cloth tail 7",
+            "Smooth fitted sleeveless cloth bodice"
+          ],
+          "uvOnlyPartGeometryNormalsJointsAndWeightsExact": true,
+          "triangles": 148560
+        },
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "geometrySha256": "923d93081780e22b520e1bba5cf3f426abfc781a53d7612288e52b80a698aa66"
+      },
+      "geometrySha256": "600415debc23b0edd481549cf3b443a68263aa725ee5795269ecf7aa2303b316",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "3d629c18a07153d3196c03c0a58739722d9dd6096b14f910f2d752cd67db46ef",
+          "meanSRGB": [
+            83.34609580039978,
+            16.697210788726807,
+            30.93428111076355
+          ],
+          "channelStdSRGB": [
+            20.717532561465042,
+            18.3037707822024,
+            20.34805617876572
+          ],
+          "valueStdSRGB": 18.892395203842646,
+          "chromaticResidualRms": 12.836691726469416,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "52670eba29843018fa5e979555d4f91ef74d9cc0f72fc025b19f7ef16ebc8048",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.009033441543579102,
+          "baseCloth": {
+            "pixels": 4156415,
+            "fraction": 0.9909665584564209,
+            "meanRoughness": 0.9513664936140759,
+            "meanMetallic": 0.0000013671283885695848,
+            "meanSRGB": [
+              82.7335855538968,
+              15.861132971563235,
+              30.486033516864893
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 25614,
+            "fraction": 0.006106853485107422,
+            "meanRoughness": 0.45953285350995754,
+            "meanMetallic": 0.5796349116673556,
+            "meanSRGB": [
+              163.26547981572577,
+              120.70574685718748,
+              83.12973373936128
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "dragonhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.06301001764564068,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 320,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.059511238155621766,
+            0.061246054224174035,
+            0.10946171076915331,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 380,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04817182422013895,
+            0.0722718506743852,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 345,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.08021982030622662,
+            0.11953842797895521,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 410,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.0722718506743852,
+            0.061246054224174035,
+            0.11193242782769693,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 365,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.04518620437910499,
+            0.08650046202808521,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 300,
+          "clearcoat": 0.38
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_leggings.glb",
+      "sha256": "f2c4c0d6d4b16723c9aa412ba12fa1c45cfcb7bdb542a23005e456ae9f35dba0",
+      "baselineSha256": "5858599e440c54ac99e65f3793e87f04e04a7ff7006081145309c5fc2a7682e5",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 150672,
+        "changedScaleCorners": 66928,
+        "maxScaleDisplacement": 0.002517039369484815,
+        "triangles": 104524,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/dragonhide_leggings.glb",
+        "sha256": "1eac0c326c17f7192d0f09b7a1897f3747fce21e6c416ea52d48c9857f24669f",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "geometrySha256": "259f44ad49477d9a85b24576ffd81f7176dfa45262f7f7e291d27ab058accc3a"
+      },
+      "geometrySha256": "7d14b4de4fc62b6a45f6f5a279ee12d54a3fb7cd095ba7e31df366b9fbb057e8",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "3d629c18a07153d3196c03c0a58739722d9dd6096b14f910f2d752cd67db46ef",
+          "meanSRGB": [
+            83.34609580039978,
+            16.697210788726807,
+            30.93428111076355
+          ],
+          "channelStdSRGB": [
+            20.717532561465042,
+            18.3037707822024,
+            20.34805617876572
+          ],
+          "valueStdSRGB": 18.892395203842646,
+          "chromaticResidualRms": 12.836691726469416,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "52670eba29843018fa5e979555d4f91ef74d9cc0f72fc025b19f7ef16ebc8048",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.009033441543579102,
+          "baseCloth": {
+            "pixels": 4156415,
+            "fraction": 0.9909665584564209,
+            "meanRoughness": 0.9513664936140759,
+            "meanMetallic": 0.0000013671283885695848,
+            "meanSRGB": [
+              82.7335855538968,
+              15.861132971563235,
+              30.486033516864893
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 25614,
+            "fraction": 0.006106853485107422,
+            "meanRoughness": 0.45953285350995754,
+            "meanMetallic": 0.5796349116673556,
+            "meanSRGB": [
+              163.26547981572577,
+              120.70574685718748,
+              83.12973373936128
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "dragonhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.06301001764564068,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 320,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.059511238155621766,
+            0.061246054224174035,
+            0.10946171076915331,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 380,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04817182422013895,
+            0.0722718506743852,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 345,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.08021982030622662,
+            0.11953842797895521,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 410,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.0722718506743852,
+            0.061246054224174035,
+            0.11193242782769693,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 365,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.04518620437910499,
+            0.08650046202808521,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 300,
+          "clearcoat": 0.38
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_boots.glb",
+      "sha256": "504149ecd2f17c5e192f1afb0f9d08e7ac2e66bc80a890915de87f32c6795448",
+      "baselineSha256": "9b865f0d80f71d9538d1814fbc292cf3c2d30fd04919b0c118ef1f8eb5c6198b",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 162456,
+        "changedScaleCorners": 47068,
+        "maxScaleDisplacement": 0.0025170303011707047,
+        "triangles": 109496,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/dragonhide_boots.glb",
+        "sha256": "31a574cd9fb83415a70304b138dd980963b75428fbe6448db32c5906b80204d2",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "geometrySha256": "d2cc4459eae38fd410f5df4f0358e0d5e730d8fc3a73ada05353f72bf1c3970f"
+      },
+      "geometrySha256": "4fc4069c821b3b6a1c96ddff45562895cd99b5bd3b936ec779252c43263e891f",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "3d629c18a07153d3196c03c0a58739722d9dd6096b14f910f2d752cd67db46ef",
+          "meanSRGB": [
+            83.34609580039978,
+            16.697210788726807,
+            30.93428111076355
+          ],
+          "channelStdSRGB": [
+            20.717532561465042,
+            18.3037707822024,
+            20.34805617876572
+          ],
+          "valueStdSRGB": 18.892395203842646,
+          "chromaticResidualRms": 12.836691726469416,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "52670eba29843018fa5e979555d4f91ef74d9cc0f72fc025b19f7ef16ebc8048",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.009033441543579102,
+          "baseCloth": {
+            "pixels": 4156415,
+            "fraction": 0.9909665584564209,
+            "meanRoughness": 0.9513664936140759,
+            "meanMetallic": 0.0000013671283885695848,
+            "meanSRGB": [
+              82.7335855538968,
+              15.861132971563235,
+              30.486033516864893
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 25614,
+            "fraction": 0.006106853485107422,
+            "meanRoughness": 0.45953285350995754,
+            "meanMetallic": 0.5796349116673556,
+            "meanSRGB": [
+              163.26547981572577,
+              120.70574685718748,
+              83.12973373936128
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "dragonhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.06301001764564068,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 320,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.059511238155621766,
+            0.061246054224174035,
+            0.10946171076915331,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 380,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04817182422013895,
+            0.0722718506743852,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 345,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.08021982030622662,
+            0.11953842797895521,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 410,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.0722718506743852,
+            0.061246054224174035,
+            0.11193242782769693,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 365,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.04518620437910499,
+            0.08650046202808521,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 300,
+          "clearcoat": 0.38
+        }
+      ]
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "file": "art/item-models/candidates/armor-dragonhide-reference/models/items/dragonhide_wraps.glb",
+      "sha256": "4d1a32461c69244301b5b9eee4743b9978bd323d2e3f59d25a23a5e1c4ff0ade",
+      "baselineSha256": "c6731314b7ce774f6dfc0edac9c548bbf3127d1f86881272d73810ac37481528",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 113400,
+        "changedScaleCorners": 58464,
+        "maxScaleDisplacement": 0.0018666431802148986,
+        "triangles": 97896,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/dragonhide_wraps.glb",
+        "sha256": "f741263d9e03edb9bdfbb6e06c711a23f8e39252e486b04aadba55f99c96f767",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "geometrySha256": "94aba14bc6a13b4d0d4a3212a6ae6b6fa4fa4cf18b5e98ca968dab4f85c1e507"
+      },
+      "geometrySha256": "49c8a0f83a36461a95602a54213dc51882ab0eda50db24c2018e6394f34005cc",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "3d629c18a07153d3196c03c0a58739722d9dd6096b14f910f2d752cd67db46ef",
+          "meanSRGB": [
+            83.34609580039978,
+            16.697210788726807,
+            30.93428111076355
+          ],
+          "channelStdSRGB": [
+            20.717532561465042,
+            18.3037707822024,
+            20.34805617876572
+          ],
+          "valueStdSRGB": 18.892395203842646,
+          "chromaticResidualRms": 12.836691726469416,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "52670eba29843018fa5e979555d4f91ef74d9cc0f72fc025b19f7ef16ebc8048",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.009033441543579102,
+          "baseCloth": {
+            "pixels": 4156415,
+            "fraction": 0.9909665584564209,
+            "meanRoughness": 0.9513664936140759,
+            "meanMetallic": 0.0000013671283885695848,
+            "meanSRGB": [
+              82.7335855538968,
+              15.861132971563235,
+              30.486033516864893
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 25614,
+            "fraction": 0.006106853485107422,
+            "meanRoughness": 0.45953285350995754,
+            "meanMetallic": 0.5796349116673556,
+            "meanSRGB": [
+              163.26547981572577,
+              120.70574685718748,
+              83.12973373936128
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "dragonhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.06301001764564068,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 320,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.059511238155621766,
+            0.061246054224174035,
+            0.10946171076915331,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 380,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04817182422013895,
+            0.0722718506743852,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 345,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.035601314869097636,
+            0.08021982030622662,
+            0.11953842797895521,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 410,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.0722718506743852,
+            0.061246054224174035,
+            0.11193242782769693,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 365,
+          "clearcoat": 0.38
+        },
+        {
+          "name": "dragonhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.04518620437910499,
+            0.08650046202808521,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.52,
+          "roughness": 0.6,
+          "iridescence": 0.85,
+          "ior": 1.35,
+          "thickness": 300,
+          "clearcoat": 0.38
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_hood",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_hood.glb",
+      "sha256": "cf8a507e99f7a278c60474252606e50b9d0c9e38ba1cad123cf92b99ab0ea935",
+      "baselineSha256": "2d7b45d103c6e90f1c70c1b31ce522a3eaa319ac158cbd548db260759b63bf1c",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 59718,
+        "changedScaleCorners": 16776,
+        "maxScaleDisplacement": 0.0008360012875110283,
+        "triangles": 38270,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/starhide_hood.glb",
+        "sha256": "8f60a09132ddf25e021333a88eca03f9fc94ea12edeb75cae1b452d630d8fbc3",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "scalePigmentRevision": {
+          "srgb": [
+            "#2d425b",
+            "#304765",
+            "#3a4564",
+            "#424563",
+            "#48425f",
+            "#294a58"
+          ],
+          "onlyBaseColorFactorChanged": true
+        },
+        "geometrySha256": "b714847bd97c6769d6209aa9d1676c73ede89c4f1f6db1a11d6f59dcf592cd55"
+      },
+      "geometrySha256": "03b6fa498d83092c31facb26c052259a98d49a0c43c8eea4eddc994826b4d204",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "fda31d06db2272f87e8e949915375deebcf5af939165599813946ce8d5cb304c",
+          "meanSRGB": [
+            34.430214166641235,
+            49.78566002845764,
+            89.51133728027344
+          ],
+          "channelStdSRGB": [
+            14.485859515850514,
+            15.82762120992068,
+            18.70193636304617
+          ],
+          "valueStdSRGB": 15.56720889209322,
+          "chromaticResidualRms": 6.8246767133970305,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "f3e5cc09a90a13d6a0ad0fd1527aa01072081003b2c72e6b2ded301c80e7f96f",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.007029294967651367,
+          "baseCloth": {
+            "pixels": 4164821,
+            "fraction": 0.9929707050323486,
+            "meanRoughness": 0.9522840806765192,
+            "meanMetallic": 3.4085686831132724e-7,
+            "meanSRGB": [
+              33.64838969069739,
+              49.20422582387094,
+              89.30464214428423
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 11415,
+            "fraction": 0.002721548080444336,
+            "meanRoughness": 0.4618474143927562,
+            "meanMetallic": 0.5771820703753523,
+            "meanSRGB": [
+              139.64029785370127,
+              116.50275952693823,
+              95.9222076215506
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "starhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.026241221889696346,
+            0.054480276435339814,
+            0.10461648408208657,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 320,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.02955683443236377,
+            0.06301001764564068,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 380,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04231141061442144,
+            0.059511238155621766,
+            0.12743768042608497,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 345,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.054480276435339814,
+            0.059511238155621766,
+            0.12477181755144427,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 410,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.06480326668529614,
+            0.054480276435339814,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 365,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.02217388478862708,
+            0.06847816983662762,
+            0.09758734713304495,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 300,
+          "clearcoat": 0.42
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_robe",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_robe.glb",
+      "sha256": "bd289c06c1c2ffef1118c9fc3de8c6b93d74d0f4ca69f3e6da61c24fe589e7b7",
+      "baselineSha256": "a30a7bc9406d2cd224978917c2e6eb0adbc0dfca35bf028e4b0efdf423b619bb",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 216984,
+        "changedScaleCorners": 126448,
+        "maxScaleDisplacement": 0.002520071074282206,
+        "triangles": 147440,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/starhide_robe.glb",
+        "sha256": "0e34fc84f478453234a50f5d465f51532f66f0ab3ff93f8566e451c528f3aa4a",
+        "exactGeometryAndRigUnchanged": false,
+        "drape": {
+          "rigAndJointsUnchanged": true,
+          "decodedTriangleTopologyUnchanged": true,
+          "scalesAndUnrelatedPartsExact": true,
+          "fixedGuardVerticesExact": true,
+          "preservedCorners": 418872,
+          "guardCorners": 4392,
+          "changedCorners": 22158,
+          "changedUVScalars": 219696,
+          "changedWeightScalars": 52038,
+          "maxDisplacement": {
+            "outer": 0.010824106633663177,
+            "lining": 0.010850390120426554,
+            "ornament": 0.010849409693563855
+          },
+          "displacementLimit": 0.012,
+          "parts": [
+            "Split front long folded cloth tail 0",
+            "Split front long folded cloth tail 7",
+            "Tail 0 sculpted hem ornament central open star carved diamond setting",
+            "Tail 0 sculpted hem ornament curled sculpted leaf -1",
+            "Tail 0 sculpted hem ornament curled sculpted leaf 1",
+            "Tail 0 sculpted hem ornament lower open star carved diamond setting",
+            "Tail 0 sculpted hem ornament raised scrolling stem -1",
+            "Tail 0 sculpted hem ornament raised scrolling stem 1",
+            "Tail 0 sculpted hem ornament swept sculpted leaf -1",
+            "Tail 0 sculpted hem ornament swept sculpted leaf 1",
+            "Tail 7 sculpted hem ornament central open star carved diamond setting",
+            "Tail 7 sculpted hem ornament curled sculpted leaf -1",
+            "Tail 7 sculpted hem ornament curled sculpted leaf 1",
+            "Tail 7 sculpted hem ornament lower open star carved diamond setting",
+            "Tail 7 sculpted hem ornament raised scrolling stem -1",
+            "Tail 7 sculpted hem ornament raised scrolling stem 1",
+            "Tail 7 sculpted hem ornament swept sculpted leaf -1",
+            "Tail 7 sculpted hem ornament swept sculpted leaf 1"
+          ],
+          "uvOnlyParts": [
+            "Continuous upper back and curved open armholes",
+            "Overlapping long V folded lapel -1",
+            "Overlapping long V folded lapel 1",
+            "Overlapping side and back long folded cloth tail 1",
+            "Overlapping side and back long folded cloth tail 2",
+            "Overlapping side and back long folded cloth tail 3",
+            "Overlapping side and back long folded cloth tail 4",
+            "Overlapping side and back long folded cloth tail 5",
+            "Overlapping side and back long folded cloth tail 6",
+            "Smooth fitted sleeveless cloth bodice",
+            "Starhide over crossing folded inner chest cloth",
+            "Starhide under crossing folded inner chest cloth"
+          ],
+          "uvOnlyPartGeometryNormalsJointsAndWeightsExact": true,
+          "triangles": 147440
+        },
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "scalePigmentRevision": {
+          "srgb": [
+            "#2d425b",
+            "#304765",
+            "#3a4564",
+            "#424563",
+            "#48425f",
+            "#294a58"
+          ],
+          "onlyBaseColorFactorChanged": true
+        },
+        "geometrySha256": "d9e764aa1af7d14a4e382deff8c938caa80cc1b5d6cae35dddad562dbe2a1e86"
+      },
+      "geometrySha256": "4471f341a9646ce0482c27f59e8145830b6333a9dbbedc5290ffd6dcace8d98b",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "fda31d06db2272f87e8e949915375deebcf5af939165599813946ce8d5cb304c",
+          "meanSRGB": [
+            34.430214166641235,
+            49.78566002845764,
+            89.51133728027344
+          ],
+          "channelStdSRGB": [
+            14.485859515850514,
+            15.82762120992068,
+            18.70193636304617
+          ],
+          "valueStdSRGB": 15.56720889209322,
+          "chromaticResidualRms": 6.8246767133970305,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "f3e5cc09a90a13d6a0ad0fd1527aa01072081003b2c72e6b2ded301c80e7f96f",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.007029294967651367,
+          "baseCloth": {
+            "pixels": 4164821,
+            "fraction": 0.9929707050323486,
+            "meanRoughness": 0.9522840806765192,
+            "meanMetallic": 3.4085686831132724e-7,
+            "meanSRGB": [
+              33.64838969069739,
+              49.20422582387094,
+              89.30464214428423
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 11415,
+            "fraction": 0.002721548080444336,
+            "meanRoughness": 0.4618474143927562,
+            "meanMetallic": 0.5771820703753523,
+            "meanSRGB": [
+              139.64029785370127,
+              116.50275952693823,
+              95.9222076215506
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "starhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.026241221889696346,
+            0.054480276435339814,
+            0.10461648408208657,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 320,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.02955683443236377,
+            0.06301001764564068,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 380,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04231141061442144,
+            0.059511238155621766,
+            0.12743768042608497,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 345,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.054480276435339814,
+            0.059511238155621766,
+            0.12477181755144427,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 410,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.06480326668529614,
+            0.054480276435339814,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 365,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.02217388478862708,
+            0.06847816983662762,
+            0.09758734713304495,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 300,
+          "clearcoat": 0.42
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_leggings",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_leggings.glb",
+      "sha256": "8d318f5d5056774531f68f815993e8326258601c2c0f542b136c8fd6f044dee3",
+      "baselineSha256": "d0457dfc7ac01efac9ffe361745120c11356b843b7388697388e6768d206fe0e",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 175512,
+        "changedScaleCorners": 66928,
+        "maxScaleDisplacement": 0.002517039369484815,
+        "triangles": 116168,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/starhide_leggings.glb",
+        "sha256": "494a9b7bd2bd94a7c7899a1ff0b4d6f4df9e03144f9b0e10358428fe1a79e578",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "scalePigmentRevision": {
+          "srgb": [
+            "#2d425b",
+            "#304765",
+            "#3a4564",
+            "#424563",
+            "#48425f",
+            "#294a58"
+          ],
+          "onlyBaseColorFactorChanged": true
+        },
+        "geometrySha256": "776d9fea903a43f220322e77f3a256210e17f85b2c4187e3cf71c5c413029ac1"
+      },
+      "geometrySha256": "bdb2dec7d1ad482baa9e3f01f28ddb9c46e1260b25e1beb4618be581f1f4745a",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "fda31d06db2272f87e8e949915375deebcf5af939165599813946ce8d5cb304c",
+          "meanSRGB": [
+            34.430214166641235,
+            49.78566002845764,
+            89.51133728027344
+          ],
+          "channelStdSRGB": [
+            14.485859515850514,
+            15.82762120992068,
+            18.70193636304617
+          ],
+          "valueStdSRGB": 15.56720889209322,
+          "chromaticResidualRms": 6.8246767133970305,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "f3e5cc09a90a13d6a0ad0fd1527aa01072081003b2c72e6b2ded301c80e7f96f",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.007029294967651367,
+          "baseCloth": {
+            "pixels": 4164821,
+            "fraction": 0.9929707050323486,
+            "meanRoughness": 0.9522840806765192,
+            "meanMetallic": 3.4085686831132724e-7,
+            "meanSRGB": [
+              33.64838969069739,
+              49.20422582387094,
+              89.30464214428423
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 11415,
+            "fraction": 0.002721548080444336,
+            "meanRoughness": 0.4618474143927562,
+            "meanMetallic": 0.5771820703753523,
+            "meanSRGB": [
+              139.64029785370127,
+              116.50275952693823,
+              95.9222076215506
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "starhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.026241221889696346,
+            0.054480276435339814,
+            0.10461648408208657,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 320,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.02955683443236377,
+            0.06301001764564068,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 380,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04231141061442144,
+            0.059511238155621766,
+            0.12743768042608497,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 345,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.054480276435339814,
+            0.059511238155621766,
+            0.12477181755144427,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 410,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.06480326668529614,
+            0.054480276435339814,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 365,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.02217388478862708,
+            0.06847816983662762,
+            0.09758734713304495,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 300,
+          "clearcoat": 0.42
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_boots",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_boots.glb",
+      "sha256": "86407cbc0aef37ba8865b2e1675f2c2894b85fe3cf31f279d980c6b49cdc0332",
+      "baselineSha256": "63b479840fda57a0f4d9bf44cd10dcc2898103b825e35aad621b980e1bb585d1",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 155064,
+        "changedScaleCorners": 29116,
+        "maxScaleDisplacement": 0.002517028646558176,
+        "triangles": 93624,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/starhide_boots.glb",
+        "sha256": "17ad6d9d0d3bfa7b5119fb11b1a98adda077431c5dc6fffba60752777c47f979",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "scalePigmentRevision": {
+          "srgb": [
+            "#2d425b",
+            "#304765",
+            "#3a4564",
+            "#424563",
+            "#48425f",
+            "#294a58"
+          ],
+          "onlyBaseColorFactorChanged": true
+        },
+        "geometrySha256": "4376e49e63e3de90241d7e1594ff5816ea0f8a2d6d19833ba2015dec3c608fb8"
+      },
+      "geometrySha256": "80299aa46bb9cc73bcbbead8e374143d0f9a53d3f6b58a2c457d83942de8f424",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "fda31d06db2272f87e8e949915375deebcf5af939165599813946ce8d5cb304c",
+          "meanSRGB": [
+            34.430214166641235,
+            49.78566002845764,
+            89.51133728027344
+          ],
+          "channelStdSRGB": [
+            14.485859515850514,
+            15.82762120992068,
+            18.70193636304617
+          ],
+          "valueStdSRGB": 15.56720889209322,
+          "chromaticResidualRms": 6.8246767133970305,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "f3e5cc09a90a13d6a0ad0fd1527aa01072081003b2c72e6b2ded301c80e7f96f",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.007029294967651367,
+          "baseCloth": {
+            "pixels": 4164821,
+            "fraction": 0.9929707050323486,
+            "meanRoughness": 0.9522840806765192,
+            "meanMetallic": 3.4085686831132724e-7,
+            "meanSRGB": [
+              33.64838969069739,
+              49.20422582387094,
+              89.30464214428423
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 11415,
+            "fraction": 0.002721548080444336,
+            "meanRoughness": 0.4618474143927562,
+            "meanMetallic": 0.5771820703753523,
+            "meanSRGB": [
+              139.64029785370127,
+              116.50275952693823,
+              95.9222076215506
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "starhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.026241221889696346,
+            0.054480276435339814,
+            0.10461648408208657,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 320,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.02955683443236377,
+            0.06301001764564068,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 380,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04231141061442144,
+            0.059511238155621766,
+            0.12743768042608497,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 345,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.054480276435339814,
+            0.059511238155621766,
+            0.12477181755144427,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 410,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.06480326668529614,
+            0.054480276435339814,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 365,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.02217388478862708,
+            0.06847816983662762,
+            0.09758734713304495,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 300,
+          "clearcoat": 0.42
+        }
+      ]
+    },
+    {
+      "itemId": "starhide_wraps",
+      "file": "art/item-models/candidates/armor-starhide-reference/models/items/starhide_wraps.glb",
+      "sha256": "6ef6f46740b4c24000a33fcf99871c244d029a1a61c1bc414c93d96272184809",
+      "baselineSha256": "dc9289621be5a93ec2229b77c68f997ba3b7064e412fa31ac5e6b95cf4d4884e",
+      "relief": {
+        "rigAndGarmentSilhouetteUnchanged": true,
+        "topologyAndUVLayoutUnchanged": true,
+        "preservedGarmentCorners": 125304,
+        "changedScaleCorners": 40380,
+        "maxScaleDisplacement": 0.002291364036539148,
+        "triangles": 99304,
+        "comparison": "R10 to preserved R11"
+      },
+      "r11Baseline": {
+        "available": true,
+        "file": "test-results/tier50-70/r11-texture-baseline/starhide_wraps.glb",
+        "sha256": "57ca715f25a8ea75f67ed739845632f1d625d6f6477fb81aa82b8ffadcf76650",
+        "exactGeometryAndRigUnchanged": true,
+        "nonClothTextureBytesUnchanged": true,
+        "nonClothMaterialsUnchangedExceptDeclaredPigment": true,
+        "scalePigmentRevision": {
+          "srgb": [
+            "#2d425b",
+            "#304765",
+            "#3a4564",
+            "#424563",
+            "#48425f",
+            "#294a58"
+          ],
+          "onlyBaseColorFactorChanged": true
+        },
+        "geometrySha256": "2a7b81b6d037549024fbee3009859b3368606531cc7aa2b8ef53159e79b5a890"
+      },
+      "geometrySha256": "43524bb97b519bdab57b2080f197003dbd7c136c406188969fa527aba7a0e929",
+      "cloth": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "ior": 1.3,
+        "metalness": 1,
+        "roughness": 1,
+        "threadColor": {
+          "width": 2048,
+          "height": 2048,
+          "pixelSha256": "fda31d06db2272f87e8e949915375deebcf5af939165599813946ce8d5cb304c",
+          "meanSRGB": [
+            34.430214166641235,
+            49.78566002845764,
+            89.51133728027344
+          ],
+          "channelStdSRGB": [
+            14.485859515850514,
+            15.82762120992068,
+            18.70193636304617
+          ],
+          "valueStdSRGB": 15.56720889209322,
+          "chromaticResidualRms": 6.8246767133970305,
+          "units": "sRGB byte values, 0 to 255",
+          "colorAndValueVariation": true
+        },
+        "embroidery": {
+          "width": 2048,
+          "height": 2048,
+          "packedChannelsSha256": "f3e5cc09a90a13d6a0ad0fd1527aa01072081003b2c72e6b2ded301c80e7f96f",
+          "roughnessMin": 0.4588235294117647,
+          "roughnessMax": 0.9882352941176471,
+          "metallicMax": 0.5803921568627451,
+          "metallicMaskCoverage": 0.007029294967651367,
+          "baseCloth": {
+            "pixels": 4164821,
+            "fraction": 0.9929707050323486,
+            "meanRoughness": 0.9522840806765192,
+            "meanMetallic": 3.4085686831132724e-7,
+            "meanSRGB": [
+              33.64838969069739,
+              49.20422582387094,
+              89.30464214428423
+            ]
+          },
+          "goldEmbroidery": {
+            "pixels": 11415,
+            "fraction": 0.002721548080444336,
+            "meanRoughness": 0.4618474143927562,
+            "meanMetallic": 0.5771820703753523,
+            "meanSRGB": [
+              139.64029785370127,
+              116.50275952693823,
+              95.9222076215506
+            ]
+          },
+          "classification": {
+            "baseMetallicByteMaximum": 1,
+            "embroideryMetallicMinimum": 0.55
+          },
+          "matteBaseAndMetallicEmbroidery": true,
+          "encoding": "G roughness, B metallic; sRGB byte means reported separately"
+        }
+      },
+      "scutes": [
+        {
+          "name": "starhide-scute-1-pebbled-hide",
+          "baseColor": [
+            0.026241221889696346,
+            0.054480276435339814,
+            0.10461648408208657,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 320,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-2-pebbled-hide",
+          "baseColor": [
+            0.02955683443236377,
+            0.06301001764564068,
+            0.13013647668074665,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 380,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-3-pebbled-hide",
+          "baseColor": [
+            0.04231141061442144,
+            0.059511238155621766,
+            0.12743768042608497,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 345,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-4-pebbled-hide",
+          "baseColor": [
+            0.054480276435339814,
+            0.059511238155621766,
+            0.12477181755144427,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 410,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-5-pebbled-hide",
+          "baseColor": [
+            0.06480326668529614,
+            0.054480276435339814,
+            0.11443537381770343,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 365,
+          "clearcoat": 0.42
+        },
+        {
+          "name": "starhide-scute-6-pebbled-hide",
+          "baseColor": [
+            0.02217388478862708,
+            0.06847816983662762,
+            0.09758734713304495,
+            1
+          ],
+          "metalness": 0.7,
+          "roughness": 0.48,
+          "iridescence": 1,
+          "ior": 1.45,
+          "thickness": 300,
+          "clearcoat": 0.42
+        }
+      ]
+    }
+  ]
+}

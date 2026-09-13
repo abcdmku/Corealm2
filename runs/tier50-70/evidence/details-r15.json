@@ -1,0 +1,119 @@
+{
+  "round": "r15",
+  "passed": true,
+  "assets": [
+    {
+      "url": "http://127.0.0.1:4186/models/dragonhide/robe.glb",
+      "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/starhide/leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/starhide/hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/starhide/robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/starhide/wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    },
+    {
+      "url": "http://127.0.0.1:4186/models/starhide/boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    }
+  ],
+  "shots": [
+    {
+      "name": "t50-chest-close",
+      "file": "test-results/tier50-70/r15-t50-chest-close.png",
+      "sha256": "2a556cbc05b4597e841b75dd372bc24c784ebc2cf068f201cd822feb51d385c4",
+      "state": {
+        "camera": [
+          0.19164524047909554,
+          1.497730863171902,
+          0.8539023571275336
+        ],
+        "target": [
+          -0.011572014403425085,
+          1.4053593836798473,
+          -0.06981243779301487
+        ]
+      }
+    },
+    {
+      "name": "t50-chest-oblique",
+      "file": "test-results/tier50-70/r15-t50-chest-oblique.png",
+      "sha256": "45be857adbd07f61b44278ff462f5258cb1df215490d5b039a0c8a35a55333f4",
+      "state": {
+        "camera": [
+          -0.12106249924608974,
+          1.4977319601469385,
+          0.8696330993257262
+        ],
+        "target": [
+          -0.011572037422740971,
+          1.4053604806548832,
+          -0.06981254242626891
+        ]
+      }
+    },
+    {
+      "name": "t70-rear-full",
+      "file": "test-results/tier50-70/r15-t70-rear-full.png",
+      "sha256": "faf0b080842b297c066e863f5a4c3a7ad350290897f97192eea47ba384ced4e3",
+      "state": {
+        "camera": [
+          -1.35753517157903,
+          1.3397881952342359,
+          -4.059714567451514
+        ],
+        "target": [
+          2.4017594746350565e-8,
+          0.9240556357349133,
+          -0.025242020652234853
+        ]
+      }
+    },
+    {
+      "name": "t70-rear-scales",
+      "file": "test-results/tier50-70/r15-t70-rear-scales.png",
+      "sha256": "9b45a07079ba5d11e8609013a5574def162fd5d8b5e4fa00a57b8370b4710323",
+      "state": {
+        "camera": [
+          -0.7194927954242681,
+          1.249058616750196,
+          -3.2742816061252586
+        ],
+        "target": [
+          2.4017594746350565e-8,
+          0.9240556357349133,
+          -0.025242020652234853
+        ]
+      }
+    },
+    {
+      "name": "t70-rear-oblique",
+      "file": "test-results/tier50-70/r15-t70-rear-oblique.png",
+      "sha256": "d542492867dabf8d9ad9c9614c1d957d7b60d48dc93af94f5ac45b7cb5f9d41f",
+      "state": {
+        "camera": [
+          0.8675502747513758,
+          1.2490586167501965,
+          -3.23791765128333
+        ],
+        "target": [
+          2.4017594746350565e-8,
+          0.9240556357349133,
+          -0.025242020652234853
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "normalViewerControls": true
+}

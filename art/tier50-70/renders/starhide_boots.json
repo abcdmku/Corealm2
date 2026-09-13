@@ -1,0 +1,123 @@
+{
+  "candidateId": "tier70-starhide-r15-review",
+  "set": "starhide",
+  "source": "starhide-set.blend",
+  "sourceSha256": "5bb430441886008fa4ed70171da76e5cf556c9bc87d86124abb36fc9e584b879",
+  "sourceFiles": [
+    {
+      "file": "starhide_boots.glb",
+      "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+    },
+    {
+      "file": "starhide_hood.glb",
+      "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+    },
+    {
+      "file": "starhide_leggings.glb",
+      "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+    },
+    {
+      "file": "starhide_robe.glb",
+      "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+    },
+    {
+      "file": "starhide_wraps.glb",
+      "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+    }
+  ],
+  "render": "starhide_boots.png",
+  "renderSha256": "d97788c22a49a76a050ea43927473806d781d1a7b1589aef4dd45f9deea6d870",
+  "renderer": "BLENDER_EEVEE_NEXT",
+  "blenderVersion": "4.5.11 LTS",
+  "resolution": [
+    1600,
+    1800
+  ],
+  "colorManagement": {
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -0.6499999761581421
+  },
+  "lights": [
+    {
+      "name": "Neutral large key",
+      "energy": 160.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Neutral frontal fill",
+      "energy": 72.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "Silver rim",
+      "energy": 200.0,
+      "color": [
+        0.8999999761581421,
+        0.949999988079071,
+        1.0
+      ]
+    },
+    {
+      "name": "Soft overhead",
+      "energy": 65.0,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "camera": {
+    "position": [
+      2.21726393699646,
+      -6.922410488128662,
+      1.5343161821365356
+    ],
+    "target": [
+      0.017263999208807945,
+      0.0075897229835391045,
+      0.22431620955467224
+    ],
+    "type": "ORTHO",
+    "orthoScale": 0.6236545443534851,
+    "view": "front-three-quarter",
+    "pose": "temporary arms lowered 62 degrees; saved rest pose unchanged"
+  },
+  "armorBounds": {
+    "min": [
+      -0.22467009723186493,
+      -0.1819702386856079,
+      -0.03400036320090294
+    ],
+    "max": [
+      0.22467009723186493,
+      0.1854005604982376,
+      0.4784649908542633
+    ]
+  },
+  "sourceMeshes": 12,
+  "piece": "boots",
+  "totalSourceMeshes": 103,
+  "automaticFraming": {
+    "method": "evaluated production vertices projected into camera frame",
+    "projectedWidth": 0.4574771225452423,
+    "projectedHeight": 0.5330380797386169,
+    "marginScale": 1.17
+  },
+  "visibleSourceFiles": [
+    "starhide_boots.glb"
+  ],
+  "sourceFileHashesStillMatchAfterRender": true,
+  "sourceSaved": false,
+  "sourceBlendHashUnchanged": true,
+  "note": "Standalone studio presentation of saved armor geometry. Not gameplay acceptance evidence."
+}
