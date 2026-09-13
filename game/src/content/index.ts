@@ -18,6 +18,8 @@ import recipeBalanceData from "../../content/data/balance/recipes.json";
 import { recipesBalanceSchema } from "./schema/balance.js";
 import { parseValue } from "./schema/core.js";
 import * as recipeBalance from "./balance/recipes.js";
+import { ENEMY_BALANCE } from "./enemyBalanceData.js";
+import { combatLevel } from "./balance/enemies.js";
 import type {
   EquipSlot, ItemDef, ItemId, RecipeId, SkillId, SpellElement, SpellId, SpellRung, StationKind,
 } from "../contracts.js";
@@ -451,10 +453,7 @@ export function enemyCombatLevel(def: {
   magicArmour: number;
   maxHealth: number;
 }): number {
-  const offence = (def.attackLevel + 9) * (1 + def.accuracy / 100) - 9;
-  const defence = (def.defenceLevel + 9) * (1 + (def.armour + def.magicArmour) / 2 / 100) - 9;
-  const health = def.maxHealth / PLAYER_HEALTH_PER_LEVEL;
-  return Math.max(1, Math.round(0.5 * offence + 0.25 * defence + 0.25 * health));
+  return combatLevel(ENEMY_BALANCE.combatLevel, def);
 }
 
 /**

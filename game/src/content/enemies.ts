@@ -93,6 +93,8 @@
  * ---------------------------------------------------------------------------------------------
  */
 import type { EnemyDef } from "./index.js";
+import { ENEMY_BALANCE } from "./enemyBalanceData.js";
+import { ordrunPhases } from "./balance/enemies.js";
 import {
   ENEMY_DATA, ENEMY_BLOCK_DATA, FANTASY_TIER_DATA, FANTASY_ENCOUNTER_DATA,
   ENCOUNTER_LINEAGE, enemyBlockById, registeredEnemyById,
@@ -117,16 +119,7 @@ export interface BossPhase {
   telegraphRadiusM?: number;
 }
 
-// Keep the original phase formulas, now reading the canonical JSON combat block.
-const balancedOrdrun = enemyBlockById('quarrykeeper_t10');
-export const ORDRUN_PHASES: readonly BossPhase[] = [
-  { atHealthFraction: 1.00, armour: balancedOrdrun.armour, attackSpeedMs: 3000, maxHit: balancedOrdrun.maxHit },
-  {
-    atHealthFraction: 0.55, armour: Math.round(balancedOrdrun.armour * 50 / 62), attackSpeedMs: 2400,
-    maxHit: Math.round(balancedOrdrun.maxHit * 14 / 12),
-    telegraphId: "ground_slam", telegraphWindupMs: 1800, telegraphRadiusM: 6.0,
-  },
-];
+export const ORDRUN_PHASES: readonly BossPhase[] = ordrunPhases(ENEMY_BALANCE.ordrunPhases, enemyBlockById('quarrykeeper_t10'));
 
 export const ENEMIES: readonly EnemyDef[] = ENEMY_DATA;
 export const ENEMY_BLOCKS: readonly EnemyDef[] = ENEMY_BLOCK_DATA;

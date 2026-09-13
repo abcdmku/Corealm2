@@ -1,5 +1,6 @@
 import type { EnemyDef } from "../index.js";
 import { DropSchema } from "./loot.js";
+import { EnemyDerivationSchema } from './enemyDerivation.js';
 import { arr, enumOf, id, int, lit, num, obj, opt, ref, refine, str, tuple, union, type Infer, type Schema } from "./core.js";
 
 const nonempty = () => str({ nonEmpty: true });
@@ -69,6 +70,7 @@ const RegisteredEnemyRecordSchema = obj({
   stage: lit("registered", IdentityMeta),
   registrationOrder: OrderSchema,
   fantasyTierOrder: opt(OrderSchema),
+  derivation: opt(EnemyDerivationSchema),
 });
 const LabEnemyRecordSchema = obj({
   ...EnemyRecordFields,

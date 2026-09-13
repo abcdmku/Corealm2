@@ -68,6 +68,22 @@ function request(handler: RecomputeHandler, body: unknown) {
 }
 
 describe("devdocs recompute handler", () => {
+  it('includes original enemy input identity in a preview and applies only the reviewed record', async () => {
+    const f = await fixture();
+    const params = await f.load('balance/enemies');
+    params.data.marksPerTier.ordinary[0] += 1;
+    await f.write('balance/enemies', params.data);
+    const before = await f.load('enemies');
+    const preview = parsed(await request(f.handler, { operation: 'preview', collection: 'enemies', recordId: 'frog_t1' }));
+    expect(preview.diffs).toHaveLength(1);
+    expect(preview.diffs[0]).toMatchObject({ inputIds: ['legacy/frog_t1'], before: { marks: [3, 11] }, after: { marks: [4, 11] } });
+    expect((await f.load('enemies')).text).toBe(before.text);
+    const result = await request(f.handler, { operation: 'apply', collection: 'enemies', recordId: 'frog_t1', revisions: preview.revisions });
+    expect(result?.status, result?.body).toBe(200);
+    const after = await f.load('enemies');
+    expect(after.rows.find(row => row.id === 'frog_t1')!.marks).toEqual([4, 11]);
+    expect(after.rows.filter(row => row.id !== 'frog_t1')).toEqual(before.rows.filter(row => row.id !== 'frog_t1'));
+  });
   it("previews and removes an unexpected formula-owned optional field", async () => {
     const f = await fixture();
     const items = await f.load("items");

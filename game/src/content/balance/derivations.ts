@@ -1,4 +1,7 @@
 import { gear } from "./gear.js";
+import { deriveLegacyBoss, tierMarks } from './enemies.js';
+import { EnemyBalanceSchema } from '../schema/enemyBalance.js';
+import { EnemyDerivationSchema } from '../schema/enemyDerivation.js';
 import { materialFood, type MaterialFoodItem } from "./materialFood.js";
 import { MaterialFoodBalanceSchema, MaterialFoodDerivationSchema } from "../schema/materialFoodDerivation.js";
 import { lootBalanceSchema } from "../schema/balance.js";
@@ -24,6 +27,7 @@ export interface DerivationDiff {
   collection: string;
   recordId: string;
   kind: string;
+  inputIds?: string[];
   before: Record<string, unknown>;
   after: Record<string, unknown>;
 }
@@ -46,6 +50,19 @@ function equipmentFields(fields: Record<string, unknown>): Record<string, unknow
 export function deriveRecord(collection: string, row: Record<string, unknown>, tables: DerivationCollections): Record<string, unknown> | undefined {
   if (row.derivation === undefined) return undefined;
   const tag = row.derivation as { kind?: unknown } | null;
+  if (collection === 'enemies' && (tag?.kind === 'legacyMarks.v1' || tag?.kind === 'legacyBossCombat.v1')) {
+    const inputTag = parseValue(EnemyDerivationSchema, tag, `enemies.${String(row.id)}.derivation`);
+    const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
+    if (row.catalog !== 'LEGACY_BLOCKS' || row.stage !== 'registered') throw new Error('Legacy formulas require a registered legacy canonical enemy');
+    if (inputTag.kind === 'legacyMarks.v1') {
+      const input = params.legacyMarksInputs.find(input => input.id === inputTag.inputId);
+      if (!input || input.enemyId !== row.id) throw new Error(`Invalid legacy marks input for ${String(row.id)}`);
+      return { marks: tierMarks(params.marksPerTier, input.tier, input.profile) };
+    }
+    const input = params.legacyBossInputs.find(input => input.id === inputTag.inputId);
+    if (!input || input.enemyId !== row.id) throw new Error(`Invalid legacy boss input for ${String(row.id)}`);
+    return { ...deriveLegacyBoss(params, input) };
+  }
   if (tag?.kind === "materialFood" && collection === "items") {
     const input = parseValue(MaterialFoodDerivationSchema, tag, `${collection}.${String(row.id)}.derivation`);
     if (input.itemId !== row.id) throw new Error(`Material/food identity disagrees with ${String(row.id)}`);
@@ -90,12 +107,13 @@ export function derivationDiffs(tables: DerivationCollections, kind?: string): D
   for (const [collection, value] of tables) {
     if (!Array.isArray(value)) continue;
     for (const row of value as Record<string, unknown>[]) {
-      const tag = row.derivation as { kind?: string } | undefined;
+      const tag = row.derivation as { kind?: string; inputId?: string } | undefined;
       if (!tag || (kind !== undefined && tag.kind !== kind)) continue;
       const after = deriveRecord(collection, row, tables);
       if (!after) continue;
       const before = Object.fromEntries(Object.keys(after).map(key => [key, row[key]]));
-      if (!sameValue(before, after)) result.push({ collection, recordId: String(row.id ?? row.logItemId), kind: String(tag.kind), before, after });
+      if (!sameValue(before, after)) result.push({ collection, recordId: String(row.id ?? row.logItemId), kind: String(tag.kind),
+        ...(typeof tag.inputId === 'string' ? { inputIds: [tag.inputId] } : {}), before, after });
     }
   }
   return result;

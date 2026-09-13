@@ -33,7 +33,7 @@ export function buildEnemyViews(
     recordMap.set(record.id, record);
     let row: EnemyDef;
     if (record.stage === 'registered') {
-      const { catalog: _catalog, stage: _stage, lootTableId, registrationOrder: _registration, fantasyTierOrder: _fantasy, ...stats } = record;
+      const { catalog: _catalog, stage: _stage, lootTableId, registrationOrder: _registration, fantasyTierOrder: _fantasy, derivation: _derivation, ...stats } = record;
       row = { ...stats, drops: dropsById(lootTableId) };
     } else {
       const { catalog: _catalog, stage: _stage, lootTableId, labOrder: _lab, ...stats } = record;

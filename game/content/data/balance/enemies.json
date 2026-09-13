@@ -90,5 +90,292 @@
       "tier": 20,
       "multiplier": 4
     }
-  }
+  },
+  "legacyMarksInputs": [
+    {
+      "id": "legacy/frog_t1",
+      "enemyId": "frog_t1",
+      "tier": 1,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/hen_t1",
+      "enemyId": "hen_t1",
+      "tier": 1,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/goat_t1",
+      "enemyId": "goat_t1",
+      "tier": 1,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/cattle_t1",
+      "enemyId": "cattle_t1",
+      "tier": 1,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/coney_t1",
+      "enemyId": "coney_t1",
+      "tier": 1,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/viper_t1",
+      "enemyId": "viper_t1",
+      "tier": 1,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/reaver_t1",
+      "enemyId": "reaver_t1",
+      "tier": 1,
+      "profile": "purse"
+    },
+    {
+      "id": "legacy/deer_t5",
+      "enemyId": "deer_t5",
+      "tier": 5,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/hog_t5",
+      "enemyId": "hog_t5",
+      "tier": 5,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/coyote_t5",
+      "enemyId": "coyote_t5",
+      "tier": 5,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/frog_t5",
+      "enemyId": "frog_t5",
+      "tier": 5,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/coney_t5",
+      "enemyId": "coney_t5",
+      "tier": 5,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/viper_t5",
+      "enemyId": "viper_t5",
+      "tier": 5,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/reaver_t5",
+      "enemyId": "reaver_t5",
+      "tier": 5,
+      "profile": "purse"
+    },
+    {
+      "id": "legacy/bear_t10",
+      "enemyId": "bear_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/boar_t10",
+      "enemyId": "boar_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/ibex_t10",
+      "enemyId": "ibex_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/aurochs_t10",
+      "enemyId": "aurochs_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/reaver_t10",
+      "enemyId": "reaver_t10",
+      "tier": 10,
+      "profile": "purse"
+    },
+    {
+      "id": "legacy/coyote_t10",
+      "enemyId": "coyote_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/rat_t10",
+      "enemyId": "rat_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/scorpion_t10",
+      "enemyId": "scorpion_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/crab_t10",
+      "enemyId": "crab_t10",
+      "tier": 10,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/bear_t20",
+      "enemyId": "bear_t20",
+      "tier": 20,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/boar_t20",
+      "enemyId": "boar_t20",
+      "tier": 20,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/ibex_t20",
+      "enemyId": "ibex_t20",
+      "tier": 20,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/viper_t20",
+      "enemyId": "viper_t20",
+      "tier": 20,
+      "profile": "ordinary"
+    },
+    {
+      "id": "legacy/reaver_t20",
+      "enemyId": "reaver_t20",
+      "tier": 20,
+      "profile": "purse"
+    }
+  ],
+  "legacyBossInputs": [
+    {
+      "id": "legacy/tempest_roc_t1",
+      "enemyId": "tempest_roc_t1",
+      "bossId": "tempest_roc",
+      "seed": {
+        "maxHealth": 80,
+        "attackLevel": 9,
+        "defenceLevel": 7,
+        "accuracy": 10,
+        "armour": 18,
+        "magicArmour": 24,
+        "maxHit": 6
+      }
+    },
+    {
+      "id": "legacy/rootheart_t5",
+      "enemyId": "rootheart_t5",
+      "bossId": "rootheart",
+      "seed": {
+        "maxHealth": 140,
+        "attackLevel": 18,
+        "defenceLevel": 14,
+        "accuracy": 16,
+        "armour": 48,
+        "magicArmour": 32,
+        "maxHit": 9
+      }
+    },
+    {
+      "id": "legacy/galeskin_t1",
+      "enemyId": "galeskin_t1",
+      "bossId": "galeskin",
+      "seed": {
+        "maxHealth": 50,
+        "attackLevel": 8,
+        "defenceLevel": 6,
+        "accuracy": 8,
+        "armour": 14,
+        "magicArmour": 14,
+        "maxHit": 5
+      }
+    },
+    {
+      "id": "legacy/mossbound_t5",
+      "enemyId": "mossbound_t5",
+      "bossId": "mossbound",
+      "seed": {
+        "maxHealth": 95,
+        "attackLevel": 14,
+        "defenceLevel": 10,
+        "accuracy": 12,
+        "armour": 34,
+        "magicArmour": 30,
+        "maxHit": 7
+      }
+    },
+    {
+      "id": "legacy/tideworn_t10",
+      "enemyId": "tideworn_t10",
+      "bossId": "tideworn",
+      "seed": {
+        "maxHealth": 140,
+        "attackLevel": 20,
+        "defenceLevel": 14,
+        "accuracy": 16,
+        "armour": 50,
+        "magicArmour": 40,
+        "maxHit": 9
+      }
+    },
+    {
+      "id": "legacy/cinderwake_t20",
+      "enemyId": "cinderwake_t20",
+      "bossId": "cinderwake",
+      "seed": {
+        "maxHealth": 260,
+        "attackLevel": 32,
+        "defenceLevel": 24,
+        "accuracy": 22,
+        "armour": 78,
+        "magicArmour": 45,
+        "maxHit": 15
+      }
+    },
+    {
+      "id": "legacy/quarrykeeper_t10",
+      "enemyId": "quarrykeeper_t10",
+      "bossId": "ordrun",
+      "seed": {
+        "maxHealth": 200,
+        "attackLevel": 24,
+        "defenceLevel": 20,
+        "accuracy": 15,
+        "armour": 62,
+        "magicArmour": 18,
+        "maxHit": 12
+      }
+    }
+  ],
+  "ordrunPhases": [
+    {
+      "atHealthFraction": 1,
+      "attackSpeedMs": 3000
+    },
+    {
+      "atHealthFraction": 0.55,
+      "armourNumerator": 50,
+      "armourDenominator": 62,
+      "attackSpeedMs": 2400,
+      "maxHitNumerator": 14,
+      "maxHitDenominator": 12,
+      "telegraphId": "ground_slam",
+      "telegraphWindupMs": 1800,
+      "telegraphRadiusM": 6
+    }
+  ]
 }

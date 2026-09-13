@@ -23,7 +23,11 @@
     "lootTableId": "loot_enemy_frog_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 0
+    "registrationOrder": 0,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/frog_t1"
+    }
   },
   {
     "id": "hen_t1",
@@ -49,7 +53,11 @@
     "lootTableId": "loot_enemy_hen_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 1
+    "registrationOrder": 1,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/hen_t1"
+    }
   },
   {
     "id": "goat_t1",
@@ -75,7 +83,11 @@
     "lootTableId": "loot_enemy_goat_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 2
+    "registrationOrder": 2,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/goat_t1"
+    }
   },
   {
     "id": "cattle_t1",
@@ -101,7 +113,11 @@
     "lootTableId": "loot_enemy_cattle_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 3
+    "registrationOrder": 3,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/cattle_t1"
+    }
   },
   {
     "id": "coney_t1",
@@ -127,7 +143,11 @@
     "lootTableId": "loot_enemy_coney_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 4
+    "registrationOrder": 4,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/coney_t1"
+    }
   },
   {
     "id": "viper_t1",
@@ -153,7 +173,11 @@
     "lootTableId": "loot_enemy_viper_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 5
+    "registrationOrder": 5,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/viper_t1"
+    }
   },
   {
     "id": "reaver_t1",
@@ -179,7 +203,11 @@
     "lootTableId": "loot_enemy_reaver_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 6
+    "registrationOrder": 6,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/reaver_t1"
+    }
   },
   {
     "id": "tempest_roc_t1",
@@ -205,7 +233,11 @@
     "lootTableId": "loot_enemy_tempest_roc_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 7
+    "registrationOrder": 7,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/tempest_roc_t1"
+    }
   },
   {
     "id": "deer_t5",
@@ -231,7 +263,11 @@
     "lootTableId": "loot_enemy_deer_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 8
+    "registrationOrder": 8,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/deer_t5"
+    }
   },
   {
     "id": "hog_t5",
@@ -257,7 +293,11 @@
     "lootTableId": "loot_enemy_hog_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 9
+    "registrationOrder": 9,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/hog_t5"
+    }
   },
   {
     "id": "coyote_t5",
@@ -283,7 +323,11 @@
     "lootTableId": "loot_enemy_coyote_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 10
+    "registrationOrder": 10,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/coyote_t5"
+    }
   },
   {
     "id": "frog_t5",
@@ -309,7 +353,11 @@
     "lootTableId": "loot_enemy_frog_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 11
+    "registrationOrder": 11,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/frog_t5"
+    }
   },
   {
     "id": "coney_t5",
@@ -335,7 +383,11 @@
     "lootTableId": "loot_enemy_coney_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 12
+    "registrationOrder": 12,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/coney_t5"
+    }
   },
   {
     "id": "viper_t5",
@@ -361,7 +413,11 @@
     "lootTableId": "loot_enemy_viper_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 13
+    "registrationOrder": 13,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/viper_t5"
+    }
   },
   {
     "id": "reaver_t5",
@@ -387,7 +443,11 @@
     "lootTableId": "loot_enemy_reaver_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 14
+    "registrationOrder": 14,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/reaver_t5"
+    }
   },
   {
     "id": "rootheart_t5",
@@ -413,7 +473,11 @@
     "lootTableId": "loot_enemy_rootheart_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 15
+    "registrationOrder": 15,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/rootheart_t5"
+    }
   },
   {
     "id": "bear_t10",
@@ -439,7 +503,11 @@
     "lootTableId": "loot_enemy_bear_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 16
+    "registrationOrder": 16,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/bear_t10"
+    }
   },
   {
     "id": "boar_t10",
@@ -465,7 +533,11 @@
     "lootTableId": "loot_enemy_boar_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 17
+    "registrationOrder": 17,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/boar_t10"
+    }
   },
   {
     "id": "ibex_t10",
@@ -491,7 +563,11 @@
     "lootTableId": "loot_enemy_ibex_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 18
+    "registrationOrder": 18,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/ibex_t10"
+    }
   },
   {
     "id": "aurochs_t10",
@@ -517,7 +593,11 @@
     "lootTableId": "loot_enemy_aurochs_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 19
+    "registrationOrder": 19,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/aurochs_t10"
+    }
   },
   {
     "id": "reaver_t10",
@@ -543,7 +623,11 @@
     "lootTableId": "loot_enemy_reaver_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 20
+    "registrationOrder": 20,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/reaver_t10"
+    }
   },
   {
     "id": "coyote_t10",
@@ -569,7 +653,11 @@
     "lootTableId": "loot_enemy_coyote_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 21
+    "registrationOrder": 21,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/coyote_t10"
+    }
   },
   {
     "id": "rat_t10",
@@ -595,7 +683,11 @@
     "lootTableId": "loot_enemy_rat_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 22
+    "registrationOrder": 22,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/rat_t10"
+    }
   },
   {
     "id": "scorpion_t10",
@@ -621,7 +713,11 @@
     "lootTableId": "loot_enemy_scorpion_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 23
+    "registrationOrder": 23,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/scorpion_t10"
+    }
   },
   {
     "id": "crab_t10",
@@ -647,7 +743,11 @@
     "lootTableId": "loot_enemy_crab_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 24
+    "registrationOrder": 24,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/crab_t10"
+    }
   },
   {
     "id": "bear_t20",
@@ -673,7 +773,11 @@
     "lootTableId": "loot_enemy_bear_t20",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 25
+    "registrationOrder": 25,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/bear_t20"
+    }
   },
   {
     "id": "boar_t20",
@@ -699,7 +803,11 @@
     "lootTableId": "loot_enemy_boar_t20",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 26
+    "registrationOrder": 26,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/boar_t20"
+    }
   },
   {
     "id": "ibex_t20",
@@ -725,7 +833,11 @@
     "lootTableId": "loot_enemy_ibex_t20",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 27
+    "registrationOrder": 27,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/ibex_t20"
+    }
   },
   {
     "id": "viper_t20",
@@ -751,7 +863,11 @@
     "lootTableId": "loot_enemy_viper_t20",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 28
+    "registrationOrder": 28,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/viper_t20"
+    }
   },
   {
     "id": "reaver_t20",
@@ -777,7 +893,11 @@
     "lootTableId": "loot_enemy_reaver_t20",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 29
+    "registrationOrder": 29,
+    "derivation": {
+      "kind": "legacyMarks.v1",
+      "inputId": "legacy/reaver_t20"
+    }
   },
   {
     "id": "galeskin_t1",
@@ -803,7 +923,11 @@
     "lootTableId": "loot_enemy_galeskin_t1",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 30
+    "registrationOrder": 30,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/galeskin_t1"
+    }
   },
   {
     "id": "mossbound_t5",
@@ -829,7 +953,11 @@
     "lootTableId": "loot_enemy_mossbound_t5",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 31
+    "registrationOrder": 31,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/mossbound_t5"
+    }
   },
   {
     "id": "tideworn_t10",
@@ -855,7 +983,11 @@
     "lootTableId": "loot_enemy_tideworn_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 32
+    "registrationOrder": 32,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/tideworn_t10"
+    }
   },
   {
     "id": "cinderwake_t20",
@@ -881,7 +1013,11 @@
     "lootTableId": "loot_enemy_cinderwake_t20",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 33
+    "registrationOrder": 33,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/cinderwake_t20"
+    }
   },
   {
     "id": "quarrykeeper_t10",
@@ -907,7 +1043,11 @@
     "lootTableId": "loot_enemy_quarrykeeper_t10",
     "catalog": "LEGACY_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 34
+    "registrationOrder": 34,
+    "derivation": {
+      "kind": "legacyBossCombat.v1",
+      "inputId": "legacy/quarrykeeper_t10"
+    }
   },
   {
     "id": "redbrush_fox_t1",

@@ -1,0 +1,267 @@
+{
+  "source": {
+    "path": ".baseline/game/src/content/enemies.ts",
+    "sha256": "83768128d6146ab7aab7e923841d9ca4e8966d48258bc15de4259dfc99901d2e"
+  },
+  "rows": [
+    {
+      "inputId": "legacy/frog_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 0
+    },
+    {
+      "inputId": "legacy/hen_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 1
+    },
+    {
+      "inputId": "legacy/goat_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 2
+    },
+    {
+      "inputId": "legacy/cattle_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 3
+    },
+    {
+      "inputId": "legacy/coney_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 4
+    },
+    {
+      "inputId": "legacy/viper_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 5
+    },
+    {
+      "inputId": "legacy/reaver_t1",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 6
+    },
+    {
+      "inputId": "legacy/tempest_roc_t1",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 7
+    },
+    {
+      "inputId": "legacy/deer_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 8
+    },
+    {
+      "inputId": "legacy/hog_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 9
+    },
+    {
+      "inputId": "legacy/coyote_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 10
+    },
+    {
+      "inputId": "legacy/frog_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 11
+    },
+    {
+      "inputId": "legacy/coney_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 12
+    },
+    {
+      "inputId": "legacy/viper_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 13
+    },
+    {
+      "inputId": "legacy/reaver_t5",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 14
+    },
+    {
+      "inputId": "legacy/rootheart_t5",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 15
+    },
+    {
+      "inputId": "legacy/bear_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 16
+    },
+    {
+      "inputId": "legacy/boar_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 17
+    },
+    {
+      "inputId": "legacy/ibex_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 18
+    },
+    {
+      "inputId": "legacy/aurochs_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 19
+    },
+    {
+      "inputId": "legacy/reaver_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 20
+    },
+    {
+      "inputId": "legacy/coyote_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 21
+    },
+    {
+      "inputId": "legacy/rat_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 22
+    },
+    {
+      "inputId": "legacy/scorpion_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 23
+    },
+    {
+      "inputId": "legacy/crab_t10",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 24
+    },
+    {
+      "inputId": "legacy/bear_t20",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 25
+    },
+    {
+      "inputId": "legacy/boar_t20",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 26
+    },
+    {
+      "inputId": "legacy/ibex_t20",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 27
+    },
+    {
+      "inputId": "legacy/viper_t20",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 28
+    },
+    {
+      "inputId": "legacy/reaver_t20",
+      "collection": "legacyMarksInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 29
+    },
+    {
+      "inputId": "legacy/galeskin_t1",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 30
+    },
+    {
+      "inputId": "legacy/mossbound_t5",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 31
+    },
+    {
+      "inputId": "legacy/tideworn_t10",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 32
+    },
+    {
+      "inputId": "legacy/cinderwake_t20",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 33
+    },
+    {
+      "inputId": "legacy/quarrykeeper_t10",
+      "collection": "legacyBossInputs",
+      "module": "enemies",
+      "symbol": "BLOCKS",
+      "rowIndex": 34
+    },
+    {
+      "inputId": "legacy/ordrunPhase1",
+      "collection": "ordrunPhases",
+      "module": "enemies",
+      "symbol": "ORDRUN_PHASES",
+      "rowIndex": 0
+    },
+    {
+      "inputId": "legacy/ordrunPhase2",
+      "collection": "ordrunPhases",
+      "module": "enemies",
+      "symbol": "ORDRUN_PHASES",
+      "rowIndex": 1
+    }
+  ]
+}

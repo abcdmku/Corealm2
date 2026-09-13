@@ -147,3 +147,23 @@ editor builds, typecheck, 3,152 tests with one skip, editor browser smoke, comba
 smoke pass. Root inspected the updated Review layouts at desktop and 390 px widths. Per-record
 formula preview/apply and keeping saved values both pass against temporary JSON. Enemy and loot
 formula extraction remains the next M4 slice, not completed. Stage 1 contracts are now frozen.
+
+## M4 legacy formula stage
+
+The JSON slice is committed as 97d4270. Its final read-only critic identified a canonical
+file-order gap; loader and snapshot validation now reject that reorder, with a passing direct
+regression. Stage 1 extracts the 28 original marks arguments and seven pre-tuning boss seeds,
+adds 35 verified tags, and moves combat-level, tuning and Ordrun phase arithmetic into pure
+parameterized functions. Stored runtime enemies remain unchanged until explicit recompute.
+
+Strict inputs reject unknown keys, bad graph targets, fractional final bonus minima and
+coordinated changes to original saved boss identities. Preview responses expose source input
+IDs. Root accepted fresh reviews after fixing the minimum-bonus domain. The accepted suite
+passes 3,267 tests with one skip. Typecheck, production and editor builds, content validation,
+combat lab (35.7 seconds), and final-world smoke pass. Editor smoke proves per-record marks
+apply, remaining ordinary-record recompute, and local tier/multiplier examples with no writes.
+
+The next source stage has independently reviewed pure functions, strict schemas and original
+input extractors for 24 expansion, seven starter and 25 RPG sources. Their 56 outputs match
+the baseline; JSON integration and source derivation tags are still pending. Other enemy
+generator families and loot formula extraction remain unfinished M4 work. M5-M10 continue.

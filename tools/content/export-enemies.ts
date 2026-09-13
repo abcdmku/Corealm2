@@ -1,11 +1,14 @@
 /** Original enemy/alias export. Validate both complete tables before --apply can write either. */
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import type { EnemyDef } from '../../game/src/content/index.js';
 import { EnemyRecordSchema, EnemyAliasSchema, EnemySchema, type EnemyRecord, type EnemyAlias } from '../../game/src/content/schema/enemies.js';
 import { canonicalRecords, writeContentJson } from './format.js';
 import { buildM4Baseline, type M4Baseline, type Snapshot } from './m4-baseline.js';
+import { buildLegacyEnemyInputs } from './enemy-formula-inputs.js';
+import { repoRoot } from '../lib/paths.js';
 
 function equal(expected: unknown, actual: unknown, label: string): void {
   if (!isDeepStrictEqual(expected, actual)) throw new Error(`Enemy export parity failed: ${label}`);
@@ -66,6 +69,14 @@ export function buildEnemyRecords(baseline: M4Baseline): { enemies: EnemyRecord[
   const expected = baseline.constants.find(row => row.module === 'enemies' && row.name === 'ENEMIES');
   if (!expected) throw new Error('Missing original ENEMIES snapshot');
   equal(restoreSnapshot(expected.value), actualOrder.map(id => resolved.get(id)!), 'all original ENEMIES values');
+  const inputs = buildLegacyEnemyInputs(baseline, readFileSync(path.join(repoRoot, '.baseline/game/src/content/enemies.ts'), 'utf8'));
+  for (const [rows, kind] of [[inputs.legacyMarksInputs, 'legacyMarks.v1'], [inputs.legacyBossInputs, 'legacyBossCombat.v1']] as const) {
+    for (const input of rows) {
+      const row = enemies.find(row => row.id === input.enemyId);
+      if (!row || row.stage !== 'registered' || row.catalog !== 'LEGACY_BLOCKS') throw new Error(`Invalid legacy formula target ${input.enemyId}`);
+      row.derivation = { kind, inputId: input.id };
+    }
+  }
   return { enemies, aliases };
 }
 

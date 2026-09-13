@@ -1,3 +1,4 @@
+import { validateEnemyFormulaLinks } from '../../../game/src/content/schema/enemyFormulaLinks.js';
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { SKILL_IDS, SPELL_ELEMENTS } from "../../../game/src/contracts.js";
@@ -149,6 +150,7 @@ export function validateCollectionOverlay(snapshots: CollectionSnapshots, spec: 
   if (diagnostics.some(issue => issue.severity === "error")) return { data, diagnostics };
   diagnostics.push(...collectionIdentityDiagnostics(spec, snapshots.get(spec.name)!.data, data));
   diagnostics.push(...validateCreatureCollections(values));
+  diagnostics.push(...validateEnemyFormulaLinks(values));
   const pools = livePools(values, external);
   for (const collection of CONTENT_COLLECTIONS) {
     const rows = collection.shape === "array" ? values.get(collection.name) as unknown[] : [values.get(collection.name)];

@@ -61,13 +61,14 @@ function selectedDiffs(tables: ReadonlyMap<string, unknown>, selection: Recomput
     if (spec.shape !== "array" || (selection.collection !== undefined && selection.collection !== spec.name)) continue;
     for (const row of tables.get(spec.name) as Record<string, unknown>[]) {
       const recordId = String(row[spec.idKey]);
-      const tag = row.derivation as { kind?: unknown } | undefined;
+      const tag = row.derivation as { kind?: unknown; inputId?: unknown } | undefined;
       if (!tag || (selection.recordId !== undefined && selection.recordId !== recordId)
         || (selection.kind !== undefined && selection.kind !== tag.kind)) continue;
       const after = deriveRecord(spec.name, row, tables);
       if (!after) continue;
       const before = Object.fromEntries(Object.keys(after).map(key => [key, row[key]]));
-      if (!sameValue(before, after)) diffs.push({ collection: spec.name, recordId, kind: String(tag.kind), before, after });
+      if (!sameValue(before, after)) diffs.push({ collection: spec.name, recordId, kind: String(tag.kind),
+        ...(typeof tag.inputId === 'string' ? { inputIds: [tag.inputId] } : {}), before, after });
     }
   }
   return diffs;

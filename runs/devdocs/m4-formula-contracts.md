@@ -1,6 +1,6 @@
 # M4 formula parameter and derivation contracts
 
-Status: Stage 1 frozen by root, 2026-09-13. Stages 2-4 remain proposals. The initial JSON slice has 338 canonical enemy records, 145 aliases, 246 species and 362 owner-specific loot tables. Stage 1 adds only its two closed derivation branches.
+Status: Stage 1 frozen by root, 2026-09-13. The expansion, starter and RPG branches of Stage 2 are frozen for integration; other Stage 2 branches and Stages 3-4 remain proposals. The initial JSON slice has 338 canonical enemy records, 145 aliases, 246 species and 362 owner-specific loot tables. Stage 1 adds only its two closed derivation branches.
 
 This proposal extends [m4-contracts.md](./m4-contracts.md) and [m4-plan.md](./m4-plan.md). Root owns schema changes, integration and combined gates. A worker may implement a stage only after root freezes that stage's fields and assigns each affected file one owner.
 
@@ -66,7 +66,7 @@ Keep the existing scalar blocks in `balance/enemies.json`, with the following re
 | --- | --- |
 | `marksPerTier` | `{ ordinary: Marks, purse: Marks }`, currently `[3,11]` and `[7,27]`. These are integer multipliers; do not substitute the prose estimate of 2.4 times ordinary rewards. |
 | `combatLevel` | Existing fields `rollLevelOffset: NN`, `bonusDivisor: P`, `defenceStyleCount: I`, `healthPerLevel: P`, three weights `Chance`, `minimum: I`; weights sum to one and healthWeight is greater than zero. Current values are `9,100,2,3,.5,.25,.25,1`. |
-| `tuning` | Existing fields and values remain `minimumHealth=3`, `minimumLevel=1`, `minimumBonus=0`, `maximumBonus=80`, `maximumBonusScale=1`, `maxHitExponent=.68`, search bounds `0,1`, growth `2`, iterations `48`, `healthPerCombatLevel=12`. Require ordered bonus/search bounds and growth greater than one. |
+| `tuning` | Existing fields and values remain `minimumHealth=3`, `minimumLevel=1`, `minimumBonus=0`, `maximumBonus=80`, `maximumBonusScale=1`, `maxHitExponent=.68`, search bounds `0,1`, growth `2`, iterations `48`, `healthPerCombatLevel=12`. Require ordered bonus/search bounds and growth greater than one. minimumBonus is a nonnegative integer because it is applied after rounding. |
 | `legacyMarksInputs` | Array of strict `{ id: InputId, enemyId: Id, tier: I, profile: 'ordinary'\|'purse' }`; exactly 28 original call sites. No final marks in the row. |
 | `legacyBossInputs` | Array of strict `{ id: InputId, enemyId: Id, bossId: BossId, seed: CombatInput }`; exactly seven original BLOCKS seeds. Target tier and multiplier come from `regionalBossLevels[bossId]`. |
 | `ordrunPhases` | Strict tuple of two phase parameter rows defined below. This is helper-output coverage, not another enemy tag. |
@@ -99,7 +99,7 @@ Stage 1 acceptance checks all 28 original marks call sites, all seven pre-tuning
 
 ## Stage 2: original enemy source generators
 
-Use a separate strict `sourceInputs` union inside `balance/enemies.json`. Each branch has `id: InputId` and the branch-specific fields below. `sourceInputId` always points to another input row, never to a final enemy. Topologically validate the graph, reject cycles and missing dependencies, and cache pure results by input ID. Original row order is preserved separately from graph execution order.
+Use a separate strict `sourceInputs` union inside `balance/enemies.json`. The core parameter blocks are grouped under strict `sourceParameters`, initially expansion, starter and rpg. Directly copied combat bonuses are integers; RPG parameters require positive rounded health at tier one for every role. Each branch has `id: InputId` and the branch-specific fields below. `sourceInputId` always points to another input row, never to a final enemy. Topologically validate the graph, reject cycles and missing dependencies, and cache pure results by input ID. Original row order is preserved separately from graph execution order.
 
 ```ts
 function deriveSourceEnemy(p: EnemySourceParams, input: Readonly<EnemySourceInput>,

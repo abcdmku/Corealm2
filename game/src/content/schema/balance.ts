@@ -4,6 +4,7 @@ import type { Infer } from './core.js';
 import { GearProgressionBalanceSchema } from './gearProgression.js';
 import { ItemFormulaBalanceSchema } from './itemFormula.js';
 import { MaterialFoodBalanceSchema } from './materialFoodDerivation.js';
+import { EnemyBalanceSchema } from './enemyBalance.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -70,24 +71,8 @@ export const lootBalanceSchema = obj({
   }),
 });
 
-/** enemies.ts marksFor/purseMarksFor/FANTASY_TIER_BLOCKS and encounterBalance.ts tuning. */
-export const enemiesBalanceSchema = obj({
-  marksPerTier: obj({ ordinary: orderedRange, purse: orderedRange }),
-  fantasy: obj({ tiers, minimums: obj({ maxHealth: positiveInt(), attackLevel: positiveInt(),
-    defenceLevel: positiveInt(), accuracy: nonnegative(), armour: nonnegative(),
-    magicArmour: nonnegative(), maxHit: positiveInt(), marks: nonnegative() }) }),
-  combatLevel: refine(obj({ rollLevelOffset: nonnegative(), bonusDivisor: positive(), defenceStyleCount: positiveInt(),
-    healthPerLevel: positive(), offenceWeight: probability(), defenceWeight: probability(),
-    healthWeight: probability(), minimum: positiveInt() }),
-  value => Math.abs(value.offenceWeight + value.defenceWeight + value.healthWeight - 1) < 1e-9,
-  'combat level weights must sum to one'),
-  tuning: obj({ minimumHealth: positiveInt(), minimumLevel: positiveInt(), minimumBonus: nonnegative(),
-    maximumBonus: nonnegative(), maximumBonusScale: positive(), maxHitExponent: positive(),
-    searchInitialLow: nonnegative(), searchInitialHigh: positive(), searchGrowth: num({ exclusiveMin: 1 }),
-    searchIterations: positiveInt(), healthPerCombatLevel: positive() }),
-  regionCombatTiers: rec(positiveInt()),
-  regionalBossLevels: rec(obj({ tier: positiveInt(), multiplier: positive() })),
-});
+/** Original enemy arithmetic and independently authored Stage 1 inputs. */
+export const enemiesBalanceSchema = EnemyBalanceSchema;
 
 /** jewelry.ts and universalMinibossLoot.ts profiles. Legacy id rewrites stay in TS. */
 export const jewelryBalanceSchema = obj({

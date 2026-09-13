@@ -247,6 +247,97 @@ try {
   assert.equal(handTuned.value, appliedPrice);
   assert.equal(handTuned.derivation, undefined);
   checks.perRecordFormulaApplyAndKeep = true;
+  const enemyFile = path.join(contentRoot, "data/enemies.json");
+  const enemyBalanceCollection = `${url}/__devdocs/collections/balance/enemies`;
+  const enemyBalanceResponse = await page.request.get(enemyBalanceCollection);
+  assert.equal(enemyBalanceResponse.status(), 200);
+  const enemyBalance = await enemyBalanceResponse.json() as {
+    revision: string;
+    data: { marksPerTier: { ordinary: [number, number] } };
+  };
+  const ordinaryMarks = enemyBalance.data.marksPerTier.ordinary;
+  const updatedOrdinaryMarks: [number, number] = [ordinaryMarks[0] + 1, ordinaryMarks[1]];
+  enemyBalance.data.marksPerTier.ordinary = updatedOrdinaryMarks;
+  const enemyBalanceWrite = await page.request.put(`${enemyBalanceCollection}/$collection`, { data: { revision: enemyBalance.revision, record: enemyBalance.data } });
+  assert.equal(enemyBalanceWrite.status(), 200);
+  const enemiesBeforeFormula = JSON.parse(await readFile(enemyFile, "utf8")) as Record<string, unknown>[];
+  const frogBeforeFormula = enemiesBeforeFormula.find(row => row.id === "frog_t1");
+  assert(frogBeforeFormula);
+  const previousFrogMarks = frogBeforeFormula.marks as [number, number];
+  const expectedFrogMarks: [number, number] = [
+    Math.round(Number(frogBeforeFormula.tier) * updatedOrdinaryMarks[0]),
+    Math.round(Number(frogBeforeFormula.tier) * updatedOrdinaryMarks[1]),
+  ];
+  await page.goto(`${url}/#/enemies/frog_t1`);
+  await page.getByRole("heading", { name: "Frog", exact: true }).waitFor();
+  await page.getByRole("button", { name: "Preview formula changes", exact: true }).click();
+  await page.getByRole("heading", { name: "Formula drift", exact: true }).waitFor();
+  await page.waitForFunction(() => {
+    const button = document.querySelector(".record-formula-apply button");
+    return button instanceof HTMLButtonElement && !button.disabled;
+  });
+  const marksDiff = page.locator(".record-formula-preview tbody tr").filter({ hasText: "marks" });
+  await marksDiff.waitFor();
+  const marksDiffText = await marksDiff.innerText();
+  assert(marksDiffText.includes(String(previousFrogMarks[0])));
+  assert(marksDiffText.includes(String(expectedFrogMarks[0])));
+  await page.getByText("Formula inputs: legacy/frog_t1", { exact: true }).waitFor();
+  await page.screenshot({ path: path.join(evidence, "enemy-formula-preview.png") });
+  const [enemyRecordApply] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith("/recompute") && response.request().postDataJSON()?.operation === "apply"),
+    page.getByRole("button", { name: "Apply formula values", exact: true }).click(),
+  ]);
+  assert.equal(enemyRecordApply.status(), 200);
+  const enemiesAfterFormula = JSON.parse(await readFile(enemyFile, "utf8")) as Record<string, unknown>[];
+  const frogAfterFormula = enemiesAfterFormula.find(row => row.id === "frog_t1");
+  assert(frogAfterFormula);
+  assert.deepEqual(frogAfterFormula.marks, expectedFrogMarks);
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(frogAfterFormula).filter(([key]) => key !== "marks")),
+    Object.fromEntries(Object.entries(frogBeforeFormula).filter(([key]) => key !== "marks")),
+  );
+  await page.goto(`${url}/#/balance/enemies/marksPerTier`);
+  await page.getByRole("tab", { name: "Formula", exact: true }).click();
+  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+  const applyEnemyFormulaChanges = page.getByRole("button", { name: /^Apply changes to \d+ records$/ });
+  await applyEnemyFormulaChanges.waitFor();
+  assert.equal(await applyEnemyFormulaChanges.innerText(), "Apply changes to 23 records");
+  await page.waitForFunction(() => {
+    const button = document.querySelector(".balance-apply-button");
+    return button instanceof HTMLButtonElement && !button.disabled;
+  });
+  const [enemyAllApply] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith("/recompute") && response.request().postDataJSON()?.operation === "apply"),
+    applyEnemyFormulaChanges.click(),
+  ]);
+  assert.equal(enemyAllApply.status(), 200);
+  await page.getByText(/Applied changes to 23 records/).waitFor();
+  const remainingEnemyDiffs = await (await page.request.post(`${url}/__devdocs/recompute`, { data: { operation: "preview", kind: "legacyMarks.v1" } })).json();
+  assert.deepEqual(remainingEnemyDiffs.diffs, []);
+  checks.enemyFormulaPreviewApply = { recordId: "frog_t1", marks: expectedFrogMarks, remaining: 0 };
+  const enemyParametersBeforeExamples = await readFile(path.join(contentRoot, "data/balance/enemies.json"), "utf8");
+  const enemyRecordsBeforeExamples = await readFile(enemyFile, "utf8");
+  const marksExampleBefore = await page.locator(".balance-example-result").innerText();
+  await page.getByLabel("Example input tier", { exact: true }).fill("5");
+  await page.waitForFunction(before => (document.querySelector(".balance-example-result") as HTMLElement | null)?.innerText !== before, marksExampleBefore);
+  assert.notEqual(await page.locator(".balance-example-result").innerText(), marksExampleBefore);
+  await page.getByRole("combobox", { name: "Formula", exact: true }).selectOption("legacyBossCombat.v1");
+  const multiplierInput = page.getByLabel("Example boss target multiplier", { exact: true });
+  await multiplierInput.waitFor();
+  const bossExampleBefore = await page.locator(".balance-example-result").innerText();
+  const savedMultiplier = Number(await multiplierInput.inputValue());
+  await multiplierInput.fill(String(savedMultiplier + 1));
+  await page.waitForFunction(before => (document.querySelector(".balance-example-result") as HTMLElement | null)?.innerText !== before, bossExampleBefore);
+  assert.notEqual(await page.locator(".balance-example-result").innerText(), bossExampleBefore);
+  await page.locator(".balance-example").screenshot({ path: path.join(evidence, "enemy-boss-example.png") });
+  await multiplierInput.fill("");
+  await page.getByRole("alert").filter({ hasText: /multiplier/i }).first().waitFor();
+  await page.getByRole("button", { name: "Reset inputs", exact: true }).click();
+  assert.equal(await multiplierInput.inputValue(), String(savedMultiplier));
+  assert.equal(await readFile(path.join(contentRoot, "data/balance/enemies.json"), "utf8"), enemyParametersBeforeExamples);
+  assert.equal(await readFile(enemyFile, "utf8"), enemyRecordsBeforeExamples);
+  checks.enemyLiveExamples = true;
+
   await page.goto(`${url}/#/review`);
   await page.locator('.review-validation-result.is-ok').waitFor();
   await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('.page-transition')!).opacity) >= .99);
