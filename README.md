@@ -141,7 +141,7 @@ skills/          builder and critic role instructions for the agent-driven workf
 
 The game never imports the build harness at runtime. Generated icons, world maps, and guide captures are committed; refresh text with `npm run docs:refresh` and visuals with `npm run docs:refresh:visuals` only when they should change. Pushes to `main` build the game and guide and publish them to GitHub Pages.
 
-Guide media is sized for the browser, not for the capture tool. `npm run gen-docs` derives the WebP the pages actually load — item icons at 128 and 256 px, capture thumbnails at 480 px, and the cropped armour views — from the committed sources under `docs/game/assets`. Every generated page references those through a plain `<img>` on a URL-relative path, so `tools/prepare-docs-site.ts` stages the media once into `docs-site/public` instead of leaving a second copy beside the Markdown. If you add a new oversized source by hand, `npm run docs:optimize-media` re-encodes it in place.
+Normal guide builds use committed media. `npm run gen-docs` refreshes text only. Run `npm run docs:refresh:media` explicitly to regenerate WebP item icons, capture thumbnails, cropped armour views, and the world map from their source images. `npm run docs:refresh:visuals` also refreshes the source world map and gameplay captures. Pages reference media through URL-relative `<img>` paths, and `tools/prepare-docs-site.ts` stages it into `docs-site/public`. If you add an oversized source by hand, `npm run docs:optimize-media` re-encodes it in place.
 
 ## How it was built
 

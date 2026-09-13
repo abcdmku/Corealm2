@@ -4,7 +4,8 @@
  * The Markdown and the website consume the same output. Screenshots are produced separately by
  * tools/capture-docs.ts from the running Chromium game, then referenced here by stable content id.
  *
- * Usage: npx tsx tools/gen-docs.ts [--out docs/game] [--provenance-out docs/asset-provenance-gathering.md]
+ * Uses committed media unless --refresh-media is explicitly requested.
+ * Usage: npx tsx tools/gen-docs.ts [--out docs/game] [--provenance-out docs/asset-provenance-gathering.md] [--refresh-media]
  */
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -2280,13 +2281,15 @@ async function main(): Promise<void> {
       codexCard({ href, title, body })), "compact"),
   ].join(NL));
 
-  await writeItemIcons(out);
-  await writeArmourViews(out);
-  await writeCaptureThumbs(out);
-  await sharp(path.resolve(repoRoot, "game/public/generated/world-map.png"))
-    .resize({ width: 2400, withoutEnlargement: true })
-    .webp({ quality: 88, effort: 6, smartSubsample: true })
-    .toFile(path.join(out, "assets/world-map.webp"));
+  if (args.includes("--refresh-media")) {
+    await writeItemIcons(out);
+    await writeArmourViews(out);
+    await writeCaptureThumbs(out);
+    await sharp(path.resolve(repoRoot, "game/public/generated/world-map.png"))
+      .resize({ width: 2400, withoutEnlargement: true })
+      .webp({ quality: 88, effort: 6, smartSubsample: true })
+      .toFile(path.join(out, "assets/world-map.webp"));
+  }
 
   await writeFile(path.join(out, "README.md"), index, "utf8");
   for (const [name, body] of files) {

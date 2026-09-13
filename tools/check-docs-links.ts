@@ -12,7 +12,6 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { argValue, repoRoot } from "./lib/paths.js";
 
-const dist = path.resolve(repoRoot, argValue(process.argv, "--dist") ?? "dist");
 const reference = /(?:href|src)="([^"]+)"/g;
 const identifier = /\sid="([^"]+)"/g;
 const asset = /\.(?:webp|png|jpe?g|svg|gif|json|js|css|woff2?|ico|xml|txt)$/;
@@ -33,7 +32,7 @@ function htmlFiles(dir: string): string[] {
 }
 
 /** Mirrors static hosting: `/game/items/` serves `game/items/index.html`. */
-function resolvePage(urlPath: string): string | undefined {
+function resolvePage(dist: string, urlPath: string): string | undefined {
   const relative = decodeURIComponent(urlPath).replace(/^\//, "");
   for (const candidate of [
     path.join(dist, relative, "index.html"),
@@ -45,7 +44,8 @@ function resolvePage(urlPath: string): string | undefined {
   return undefined;
 }
 
-function main(): void {
+export function checkDocsLinks(dist: string, base = "/"): { pages: number; problems: Problem[] } {
+  const basePath = `/${base.split("/").filter(Boolean).join("/")}`.replace(/\/$/, "");
   if (!existsSync(dist)) throw new Error(`No built site at ${dist}. Run npm run docs:build first.`);
   const pages = htmlFiles(dist);
   const ids = new Map<string, Set<string>>();
@@ -56,7 +56,7 @@ function main(): void {
   const problems: Problem[] = [];
   for (const file of pages) {
     const html = readFileSync(file, "utf8");
-    const pageUrl = `/${path.relative(dist, file).split(path.sep).join("/").replace(/index\.html$/, "")}`;
+    const pageUrl = `${basePath}/${path.relative(dist, file).split(path.sep).join("/").replace(/index\.html$/, "")}`;
     for (const match of html.matchAll(reference)) {
       const raw = match[1]!;
       if (raw === "" || external.test(raw)) continue;
@@ -69,13 +69,19 @@ function main(): void {
       }
       const [target = "", hash] = raw.split("#");
       const resolved = new URL(target || ".", `http://docs.local${pageUrl}`).pathname;
-      if (asset.test(resolved)) {
-        if (!existsSync(path.join(dist, decodeURIComponent(resolved).replace(/^\//, "")))) {
+      if (basePath && resolved !== basePath && !resolved.startsWith(`${basePath}/`)) {
+        problems.push({ page: pageUrl, reference: raw, reason: "reference is outside the docs base path" });
+        continue;
+      }
+      // Astro emits files relative to dist, without the deployment mount point.
+      const localPath = resolved.slice(basePath.length) || "/";
+      if (asset.test(localPath)) {
+        if (!existsSync(path.join(dist, decodeURIComponent(localPath).replace(/^\//, "")))) {
           problems.push({ page: pageUrl, reference: raw, reason: "asset is not in the build" });
         }
         continue;
       }
-      const targetFile = resolvePage(resolved);
+      const targetFile = resolvePage(dist, localPath);
       if (!targetFile) {
         problems.push({ page: pageUrl, reference: raw, reason: "no such page" });
         continue;
@@ -88,14 +94,20 @@ function main(): void {
 
   const unique = [...new Map(problems.map((problem) =>
     [`${problem.page} ${problem.reference}`, problem])).values()];
+  return { pages: pages.length, problems: unique };
+}
+
+function main(): void {
+  const dist = path.resolve(repoRoot, argValue(process.argv, "--dist") ?? "dist");
+  const { pages, problems: unique } = checkDocsLinks(dist, process.env.DOCS_BASE ?? "/");
   if (unique.length > 0) {
     for (const problem of unique.slice(0, 40)) {
       console.error(`  ${problem.page} -> ${problem.reference}  (${problem.reason})`);
     }
     if (unique.length > 40) console.error(`  ...and ${unique.length - 40} more`);
-    throw new Error(`${unique.length} broken reference(s) across ${pages.length} built pages.`);
+    throw new Error(`${unique.length} broken reference(s) across ${pages} built pages.`);
   }
-  console.log(`Checked ${pages.length} pages: every link, anchor, and asset resolves.`);
+  console.log(`Checked ${pages} pages: every link, anchor, and asset resolves.`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
