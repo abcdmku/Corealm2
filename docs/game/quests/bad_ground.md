@@ -24,12 +24,12 @@ Five Cobalt faces on terrace one, next to Stone Cavern mouth. Mining 10 is the g
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/locations/karrowmoor_terraces.webp" alt="Lower Quarry in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Lower Quarry</strong><span>Lower Quarry, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="61.667,73.697,61.667,73.697"
- style="--map-image-ratio:0.72727">
+ data-map-focus="47.879,73.697,47.879,73.697"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Bad Ground, step 1">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#lower-quarry" style="--map-x:61.6667%;--map-y:73.6970%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Lower Quarry, Highlands" title="Lower Quarry, Highlands"><span>Lower Quarry<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#lower-quarry" style="--map-x:47.8788%;--map-y:73.6970%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Lower Quarry, Highlands" title="Lower Quarry, Highlands"><span>Lower Quarry<small>Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -57,13 +57,13 @@ It runs from the Hillcrest bank at (170, -74) up to the Upper Cobalt Seam and ne
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/sunder_ledge.webp" alt="Broken Ledge in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Broken Ledge</strong><span>Hillcrest Bank, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="64.167,77.212,66.167,80.727"
- style="--map-image-ratio:0.72727">
+ data-map-focus="49.697,77.212,51.152,80.727"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Bad Ground, step 2">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#hillcrest-bank" style="--map-x:64.1667%;--map-y:77.2121%" data-map-side="left" data-map-kind="entity" data-map-marker aria-label="Broken Ledge, Highlands" title="Broken Ledge, Highlands"><span>Broken Ledge<small>Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#upper-cobalt-seam" style="--map-x:66.1667%;--map-y:80.7273%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Upper Cobalt Seam, Highlands" title="Upper Cobalt Seam, Highlands"><span>Upper Cobalt Seam<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hillcrest-bank" style="--map-x:49.6970%;--map-y:77.2121%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Broken Ledge, Highlands" title="Broken Ledge, Highlands"><span>Broken Ledge<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#upper-cobalt-seam" style="--map-x:51.1515%;--map-y:80.7273%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Upper Cobalt Seam, Highlands" title="Upper Cobalt Seam, Highlands"><span>Upper Cobalt Seam<small>Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -92,12 +92,12 @@ The Upper Cobalt Seam is only three nodes and genuinely runs dry above Mining 20
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/highcairn_bank_counter.webp" alt="Hillcrest Bank in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Hillcrest Bank</strong><span>Hillcrest Bank, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="62.500,76.970,62.500,76.970"
- style="--map-image-ratio:0.72727">
+ data-map-focus="48.485,76.970,48.485,76.970"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Bad Ground, step 3">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#hillcrest-bank" style="--map-x:62.5000%;--map-y:76.9697%" data-map-side="left" data-map-kind="entity" data-map-marker aria-label="Hillcrest Bank, Highlands" title="Hillcrest Bank, Highlands"><span>Hillcrest Bank<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hillcrest-bank" style="--map-x:48.4848%;--map-y:76.9697%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Hillcrest Bank, Highlands" title="Hillcrest Bank, Highlands"><span>Hillcrest Bank<small>Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -120,12 +120,12 @@ He is at the middle of the camp. He will have the figure already; he always does
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_foreman_arden.webp" alt="Foreman Arden in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Foreman Arden</strong><span>Hillcrest Bank, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="62.392,76.988,62.392,76.988"
- style="--map-image-ratio:0.72727">
+ data-map-focus="48.406,76.988,48.406,76.988"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Bad Ground, step 4">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#foreman-arden" style="--map-x:62.3917%;--map-y:76.9879%" data-map-side="left" data-map-kind="npc" data-map-marker aria-label="Foreman Arden, Highlands" title="Foreman Arden, Highlands"><span>Foreman Arden<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#foreman-arden" style="--map-x:48.4061%;--map-y:76.9879%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Foreman Arden, Highlands" title="Foreman Arden, Highlands"><span>Foreman Arden<small>Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

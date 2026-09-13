@@ -6,17 +6,17 @@ description: "Scree Watcher spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="66.833,73.939,75.333,83.030"
- style="--map-image-ratio:0.72727">
+ data-map-focus="51.636,73.939,57.818,83.030"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Scree Watcher">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#far-lake" style="--map-x:72.3333%;--map-y:81.2121%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Far Lake, Highlands" title="Scree Watcher, Far Lake, Highlands"><span>Scree Watcher<small>Far Lake, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#upper-cobalt-seam" style="--map-x:69.7500%;--map-y:82.7879%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Upper Cobalt Seam, Highlands" title="Scree Watcher, Upper Cobalt Seam, Highlands"><span>Scree Watcher<small>Upper Cobalt Seam, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#lake-trail" style="--map-x:72.5000%;--map-y:75.4545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Lake Trail, Highlands" title="Scree Watcher, Lake Trail, Highlands"><span>Scree Watcher<small>Lake Trail, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#water-essence-cache" style="--map-x:72.3333%;--map-y:83.0303%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Water Essence Cache, Highlands" title="Scree Watcher, Water Essence Cache, Highlands"><span>Scree Watcher<small>Water Essence Cache, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:66.8333%;--map-y:75.7576%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Mountain Lakes, Highlands" title="Scree Watcher, Mountain Lakes, Highlands"><span>Scree Watcher<small>Mountain Lakes, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:75.3333%;--map-y:73.9394%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Highland Gate, Highlands" title="Scree Watcher, Highland Gate, Highlands"><span>Scree Watcher<small>Highland Gate, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#far-lake" style="--map-x:55.6364%;--map-y:81.2121%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Far Lake, Highlands" title="Scree Watcher, Far Lake, Highlands"><span>Scree Watcher<small>Far Lake, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#upper-cobalt-seam" style="--map-x:53.7576%;--map-y:82.7879%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Upper Cobalt Seam, Highlands" title="Scree Watcher, Upper Cobalt Seam, Highlands"><span>Scree Watcher<small>Upper Cobalt Seam, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#lake-trail" style="--map-x:55.7576%;--map-y:75.4545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Lake Trail, Highlands" title="Scree Watcher, Lake Trail, Highlands"><span>Scree Watcher<small>Lake Trail, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#water-essence-cache" style="--map-x:55.6364%;--map-y:83.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Water Essence Cache, Highlands" title="Scree Watcher, Water Essence Cache, Highlands"><span>Scree Watcher<small>Water Essence Cache, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:51.6364%;--map-y:75.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Mountain Lakes, Highlands" title="Scree Watcher, Mountain Lakes, Highlands"><span>Scree Watcher<small>Mountain Lakes, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:57.8182%;--map-y:73.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Scree Watcher, Highland Gate, Highlands" title="Scree Watcher, Highland Gate, Highlands"><span>Scree Watcher<small>Highland Gate, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

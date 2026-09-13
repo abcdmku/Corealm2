@@ -6,12 +6,12 @@ description: "Plains Ogre spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="25.000,63.939,25.000,63.939"
- style="--map-image-ratio:0.72727">
+ data-map-focus="21.212,63.939,21.212,63.939"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Plains Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:25.0000%;--map-y:63.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Plains Ogre, Open Meadow, Farmland" title="Plains Ogre, Open Meadow, Farmland"><span>Plains Ogre<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:21.2121%;--map-y:63.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Plains Ogre, Open Meadow, Farmland" title="Plains Ogre, Open Meadow, Farmland"><span>Plains Ogre<small>Open Meadow, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

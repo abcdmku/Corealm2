@@ -24,12 +24,12 @@ Pick one seam and stay on it. `inspect` the node while you work: its `resource.r
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/locations/bracken_pit.webp" alt="Copper Pit in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Copper Pit</strong><span>Copper Pit, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.667,67.879,36.667,67.879"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.697,67.879,29.697,67.879"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Dorn's Tally, step 1">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:36.6667%;--map-y:67.8788%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:29.6970%;--map-y:67.8788%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -57,12 +57,12 @@ The exact figure was in the `resource.depleted` event, and the quest kept it: it
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_pitmaster_dorn.webp" alt="Pitmaster Dorn in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Pitmaster Dorn</strong><span>Millfield Bank, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.483,78.091,36.483,78.091"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.564,78.091,29.564,78.091"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Dorn's Tally, step 2">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#pitmaster-dorn" style="--map-x:36.4833%;--map-y:78.0909%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Pitmaster Dorn, Farmland" title="Pitmaster Dorn, Farmland"><span>Pitmaster Dorn<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#pitmaster-dorn" style="--map-x:29.5636%;--map-y:78.0909%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Pitmaster Dorn, Farmland" title="Pitmaster Dorn, Farmland"><span>Pitmaster Dorn<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -91,12 +91,12 @@ Walk to the bank counter and `bank("deposit", { itemId: "grithe_ore", quantity: 
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/coldbrace_bank.webp" alt="Millfield Bank in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Millfield Bank</strong><span>Millfield Bank, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.354,78.206,36.354,78.206"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.470,78.206,29.470,78.206"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Dorn's Tally, step 3">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#millfield-bank" style="--map-x:36.3542%;--map-y:78.2061%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Millfield Bank, Farmland" title="Millfield Bank, Farmland"><span>Millfield Bank<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#millfield-bank" style="--map-x:29.4697%;--map-y:78.2061%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Millfield Bank, Farmland" title="Millfield Bank, Farmland"><span>Millfield Bank<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -119,12 +119,12 @@ Back to the square. He will have a pen ready; he always has a pen ready.
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_pitmaster_dorn.webp" alt="Pitmaster Dorn in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Pitmaster Dorn</strong><span>Millfield Bank, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.483,78.091,36.483,78.091"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.564,78.091,29.564,78.091"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Dorn's Tally, step 4">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#pitmaster-dorn" style="--map-x:36.4833%;--map-y:78.0909%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Pitmaster Dorn, Farmland" title="Pitmaster Dorn, Farmland"><span>Pitmaster Dorn<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#pitmaster-dorn" style="--map-x:29.5636%;--map-y:78.0909%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Pitmaster Dorn, Farmland" title="Pitmaster Dorn, Farmland"><span>Pitmaster Dorn<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

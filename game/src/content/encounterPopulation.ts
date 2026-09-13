@@ -9,8 +9,13 @@ function hashId(id: string): number {
   return value >>> 0;
 }
 
-export function encounterPopulationCount(group: Pick<EnemyGroupDef, 'id' | 'count' | 'boss' | 'miniBoss'>): number {
+export function encounterPopulationCount(group: Pick<EnemyGroupDef, 'id' | 'count' | 'countPolicy' | 'boss' | 'miniBoss'>): number {
   if (group.boss || group.miniBoss) return 1;
+  if (group.countPolicy === 'fixed') {
+    if (!Number.isInteger(group.count) || group.count < 1 || group.count > ENCOUNTER_POPULATION_LIMITS.maximum)
+      throw new Error(`${group.id}: fixed resident count must be between 1 and ${ENCOUNTER_POPULATION_LIMITS.maximum}`);
+    return group.count;
+  }
   if (Number.isInteger(group.count) && group.count >= 7 && group.count <= 15) return group.count;
   return ENCOUNTER_POPULATION_LIMITS.minimum + hashId(group.id) % 9;
 }
@@ -33,7 +38,7 @@ export interface EncounterFormationOptions {
   readonly accepts?: (position: Spot, bodyRadius: number) => boolean;
   /** Maximum distance of the animated body from group.centre, e.g. a cave chamber or clear court. */
   readonly maxRadius?: number;
-  /** Only author a count override inside the ordinary 7–15 range. Bosses still resolve to one. */
+  /** Fixed groups allow 1–15; other ordinary groups allow 7–15. Bosses still resolve to one. */
   readonly count?: number;
   readonly rotationY?: number;
   readonly bodyGap?: number;
@@ -63,7 +68,9 @@ export function createEncounterFormation(group: EnemyGroupDef, options: Encounte
   const boss = group.boss || group.miniBoss;
   const count = boss ? 1 : options.count ?? encounterPopulationCount(group);
   if (!Number.isFinite(options.bodyRadius) || options.bodyRadius <= 0) throw new Error(`${group.id}: invalid moving body radius`);
-  if (!boss && (!Number.isInteger(count) || count < 7 || count > 15)) throw new Error(`${group.id}: ordinary population must be 7–15`);
+  const minimum = group.countPolicy === 'fixed' ? 1 : ENCOUNTER_POPULATION_LIMITS.minimum;
+  if (!boss && (!Number.isInteger(count) || count < minimum || count > 15))
+    throw new Error(`${group.id}: ordinary population must be ${minimum}–15`);
   const gap = options.bodyGap ?? ENCOUNTER_POPULATION_LIMITS.bodyGap;
   if (!Number.isFinite(gap) || gap < 0) throw new Error(`${group.id}: invalid body gap`);
   const spacing = options.bodyRadius * 2 + gap;

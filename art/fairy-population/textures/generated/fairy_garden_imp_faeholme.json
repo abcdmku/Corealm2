@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: 1024x1024 square production UV albedo texture for an animated friendly lantern imp in the Faeholme fairy region. Image 1 is EDIT TARGET albedo. Image 2 is UV layout guide ONLY, never paint wireframe. Preserve EXACT positions, shapes, orientation and scale of ALL source UV islands, eye, dark pupil, mouth, seams and wing panels. Do not rearrange, crop, invent islands or render a character. Change only painted colors and material detail. Skin regions become rich indigo blue with amethyst violet accents, contrasting pearl ivory belly sections, delicate cyan and gold freckles and painted soft scales. Add small botanical scroll markings in pearl and gold within skin islands, matching seams. Existing wing membranes become luminous pearl ivory with pastel cyan centers, fine branching iridescent veins, amethyst petal tips and gold vein accents. Wings and skin must have strongly different hue and value. Keep existing round eye exactly in present lower-right location, detailed golden luminous iris, dark pupil, tiny white highlight. Horn sections pearl with fine gold growth rings. Rich regional color variations and visible midtone pattern depth, no monochrome wash or global darkness. Preserve source ambient folds and subtle shading, UV edge bleed. Flat 2D albedo atlas only, no 3D render, scenery, UV lines, text, labels, borders or new cast shadows.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_19-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_19-uv-0.png"
+  ],
+  "generatedToolPath": "C:/Users/Borg/.codex/generated_images/01a09888-ffa4-78a3-aff5-029069ee6e05/exec-6b3087b5-48c5-4b56-bda1-ae5f3442a233.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_imp_faeholme.png",
+  "inspection": "Visually inspected: retains source atlas regions and eye location; indigo/amethyst skin contrasts with pearl/cyan wing membranes. Final UV fit requires model lab proof."
+}

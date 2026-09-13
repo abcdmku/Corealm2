@@ -22,6 +22,28 @@ description: "A dark red rune with a drop sunk into its face. It feeds invocatio
 | Dropped by | [Voidstone Colossus](../../creatures/voidstone_colossus_t70/) | 22% · 1-3 |
 | Dropped by | [Gloam Wraith](../../creatures/gloam_wraith_t70/) | 22% · 1-3 |
 | Dropped by | [Nightforge Marshal](../../creatures/nightforge_marshal_t70/) | 100% · 24-40 |
+| Dropped by | Prismatic Sprite | 18% · 1-2 |
+| Dropped by | Orchid Reaper | 18% · 1-2 |
+| Dropped by | Starroot Guardian | 18% · 1-2 |
+| Dropped by | [Amethyst Sovereign](../../creatures/amethyst_sovereign_t60/) | 100% · 3-6 |
+| Dropped by | Petal Pouncer | 18% · 1-2 |
+| Dropped by | Moss Nibbler | 18% · 1-2 |
+| Dropped by | Bloom Hopper | 18% · 1-2 |
+| Dropped by | Thicket Spirit | 18% · 1-2 |
+| Dropped by | Bramble Prowler | 18% · 1-2 |
+| Dropped by | Elder Grovebeast | 18% · 1-2 |
+| Dropped by | [Prism Spriggle](../../creatures/garden_spriggle_t60/) | 18% · 1-2 |
+| Dropped by | [Duskcap Sporekin](../../creatures/garden_sporekin_t60/) | 18% · 1-2 |
+| Dropped by | [Orchid Pondling](../../creatures/garden_frog_t60/) | 18% · 1-2 |
+| Dropped by | [Twilight Imp](../../creatures/garden_imp_t60/) | 18% · 1-2 |
+| Dropped by | [Starcap Snail](../../creatures/garden_snail_t60/) | 18% · 1-2 |
+| Dropped by | [Starporcelain Reliquary](../../creatures/garden_reliquary_t60/) | 18% · 1-2 |
+| Dropped by | [Starhorn Hart](../../creatures/garden_hart_t60/) | 18% · 1-2 |
+| Dropped by | [Orchid Veilspirit](../../creatures/garden_veilspirit_t60/) | 18% · 1-2 |
+| Dropped by | [Starroot Tender](../../creatures/garden_sapling_t60/) | 18% · 1-2 |
+| Dropped by | [Orchid Drake](../../creatures/garden_drake_t60/) | 18% · 1-2 |
+| Dropped by | [Amethyst Wardling](../../creatures/garden_wardling_t60/) | 18% · 1-2 |
+| Dropped by | [Moonstone Petalguard](../../creatures/garden_petalguard_t60/) | 18% · 1-2 |
 | Dropped by | Black Dragon Hatchling | 22% · 1-3 |
 | Dropped by | Cinder Dreadwing | 22% · 1-3 |
 | Dropped by | Red Dragon Hatchling | 22% · 1-3 |

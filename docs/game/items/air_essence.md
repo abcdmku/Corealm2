@@ -19,6 +19,10 @@ description: "A stackable charge drawn from the distant Farmland cache."
 | Dropped by | [Road Bandit](../../creatures/reaver_t1/) | 10% · 1-1 |
 | Dropped by | [Plains Ogre](../../creatures/galeskin_t1/) | 50% · 2-5 |
 | Dropped by | Gloam Fox | 25% · 1-1 |
+| Dropped by | [Pearl Knight](../../creatures/pearl_knight_t40/) | 55% · 2-4 |
+| Dropped by | [Ivory Castellan](../../creatures/ivory_castellan_t40/) | 100% · 8-14 |
+| Dropped by | [Crown Hart](../../creatures/crown_hart_t40/) | 55% · 2-4 |
+| Dropped by | [Silverthorn Harrow](../../creatures/silverthorn_harrow_t40/) | 55% · 2-4 |
 | Dropped by | Goblin Scout | 15% · 1-1 |
 | Dropped by | Goblin Archer | 15% · 1-1 |
 | Dropped by | Goblin Shaman | 45% · 1-1 |

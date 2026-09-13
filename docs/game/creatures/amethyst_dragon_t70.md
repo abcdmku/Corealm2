@@ -6,12 +6,12 @@ description: "Purple Wilderness Dragon spawn locations, combat stats, and drops.
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="69.417,20.242,69.417,20.242"
- style="--map-image-ratio:0.72727">
+ data-map-focus="53.515,20.242,53.515,20.242"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Purple Wilderness Dragon">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#nightglass-excavation" style="--map-x:69.4167%;--map-y:20.2424%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Purple Wilderness Dragon, Nightglass Excavation, Wilderness" title="Purple Wilderness Dragon, Nightglass Excavation, Wilderness"><span>Purple Wilderness Dragon<small>Nightglass Excavation, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#nightglass-excavation" style="--map-x:53.5152%;--map-y:20.2424%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Purple Wilderness Dragon, Nightglass Excavation, Wilderness" title="Purple Wilderness Dragon, Nightglass Excavation, Wilderness"><span>Purple Wilderness Dragon<small>Nightglass Excavation, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

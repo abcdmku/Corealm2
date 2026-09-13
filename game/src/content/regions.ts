@@ -108,6 +108,7 @@ import { ROOTFALL } from "./settlements/rootfall.js";
 import { resourceDef } from "./resources.js";
 import { CREATURE_ENEMY_GROUPS, CREATURE_HABITATS } from "./creatureHabitats.js";
 import { STARTER_GROUPS } from "./starterHabitats.js";
+import { RED_WORM_GROUP } from './redWormHabitat.js';
 import { WILDERNESS } from "./wilderness.js";
 import { CROWNWARD } from './crownward.js';
 import { FAIRY_REGIONS } from './fairyRegions.js';
@@ -530,6 +531,8 @@ export interface EnemyGroupDef {
   name: string;
   tier: number;
   count: number;
+  /** Compact mixed habitats split a fixed resident budget across several species. */
+  countPolicy?: 'fixed';
   /** Original one-member groups keep their bare entity ID when the pack gains residents. */
   legacyCount?: number;
   centre: Spot;
@@ -1965,7 +1968,7 @@ export const SOURCE_REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KA
 }, WILDERNESS, CROWNWARD, ...FAIRY_REGIONS].map((region) => ({
   ...region,
   dungeon: region.dungeon ? { ...region.dungeon, enemyGroups: [...region.dungeon.enemyGroups, AMETHYST_CAVE_GROUP] } : undefined,
-  enemyGroups: [...region.enemyGroups, ...REGIONAL_VARIANT_GROUPS.filter(group => REGIONAL_VARIANT_HABITATS.some(h => h.groupId === group.id && h.regionId === region.id)), ...(region.id === "fallowmarch" ? STARTER_GROUPS : []), ...CREATURE_ENEMY_GROUPS.filter((group) =>
+  enemyGroups: [...region.enemyGroups, ...REGIONAL_VARIANT_GROUPS.filter(group => REGIONAL_VARIANT_HABITATS.some(h => h.groupId === group.id && h.regionId === region.id)), ...(region.id === "fallowmarch" ? [...STARTER_GROUPS, RED_WORM_GROUP] : []), ...CREATURE_ENEMY_GROUPS.filter((group) =>
     CREATURE_HABITATS.some((habitat) => habitat.groupId === group.id && habitat.regionId === region.id))],
 }));
 

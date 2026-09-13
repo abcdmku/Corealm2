@@ -6,15 +6,15 @@ description: "Pallid Shade spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="32.917,38.121,77.167,42.303"
- style="--map-image-ratio:0.72727">
+ data-map-focus="26.970,38.121,59.152,42.303"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Pallid Shade">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-unnamed-graves" style="--map-x:32.9167%;--map-y:38.1818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, The Unnamed Graves, Wilderness" title="Pallid Shade, The Unnamed Graves, Wilderness"><span>Pallid Shade<small>The Unnamed Graves, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#cinderwatch-smithy" style="--map-x:64.5833%;--map-y:40.6061%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, Cinderwatch Smithy, Wilderness" title="Pallid Shade, Cinderwatch Smithy, Wilderness"><span>Pallid Shade<small>Cinderwatch Smithy, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-east-rampart-road" style="--map-x:57.3333%;--map-y:42.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, The East Rampart Road, Wilderness" title="Pallid Shade, The East Rampart Road, Wilderness"><span>Pallid Shade<small>The East Rampart Road, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#ember-shelter" style="--map-x:77.1667%;--map-y:38.1212%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, Ember Shelter, Wilderness" title="Pallid Shade, Ember Shelter, Wilderness"><span>Pallid Shade<small>Ember Shelter, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-unnamed-graves" style="--map-x:26.9697%;--map-y:38.1818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, The Unnamed Graves, Wilderness" title="Pallid Shade, The Unnamed Graves, Wilderness"><span>Pallid Shade<small>The Unnamed Graves, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#cinderwatch-smithy" style="--map-x:50.0000%;--map-y:40.6061%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, Cinderwatch Smithy, Wilderness" title="Pallid Shade, Cinderwatch Smithy, Wilderness"><span>Pallid Shade<small>Cinderwatch Smithy, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-east-rampart-road" style="--map-x:44.7273%;--map-y:42.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, The East Rampart Road, Wilderness" title="Pallid Shade, The East Rampart Road, Wilderness"><span>Pallid Shade<small>The East Rampart Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ember-shelter" style="--map-x:59.1515%;--map-y:38.1212%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Pallid Shade, Ember Shelter, Wilderness" title="Pallid Shade, Ember Shelter, Wilderness"><span>Pallid Shade<small>Ember Shelter, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

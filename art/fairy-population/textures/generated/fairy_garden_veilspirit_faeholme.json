@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: square 1024x1024 production UV albedo atlas for an animated enchanted forest veil spirit in Faeholme. Image 1 is EDIT TARGET material atlas. Image 2 is UV layout guide ONLY. Preserve exact quadrant boundaries at 50% width and height, all mapped island positions, shapes, orientation and scale. TOP LEFT cloak cloth, TOP RIGHT outer draped panels, BOTTOM LEFT body cloth, BOTTOM RIGHT small pale accessories. Fill quadrants edge to edge exactly as original; do not cut out or rearrange islands, never paint wireframe. Change only colors and painted material details. Paint an enchanted friendly spirit's fabric, richly detailed in multiple distinct hues. TOP LEFT: pearl ivory silk, delicate cyan leaf scrolls and gold constellation embroidery with small amethyst flower motifs, soft existing fold grain. TOP RIGHT: medium amethyst silk, pearl botanical filigree, cyan petal accents and tiny gold stars linked by fine embroidered thread, gentle folds. BOTTOM LEFT: rich indigo blue silk with broad ivory and cyan botanical vines, antique gold stitchwork, restrained violet accents; bright readable midtone patterns and soft fold shadows. BOTTOM RIGHT: ivory silk with fine gold and cyan thread leaf patterns. Preserve source cloth shading directions, material grain and quadrant seams. Patterns should be broad enough to read on a moving character. No global dark wash, no single-hue tint, no horror. Flat 2D UV albedo atlas only, no character, 3D garment render, scenery, UV lines, labels, text, borders or cast shadows.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/creature_wraith-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/creature_wraith-uv-0.png"
+  ],
+  "generatedToolPath": "C:/Users/Borg/.codex/generated_images/01a09888-ffa4-78a3-aff5-029069ee6e05/exec-00b847ef-411e-4f49-a905-f888a976c345.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_veilspirit_faeholme.png",
+  "inspection": "Visually inspected: source quadrant locations preserved, gold constellation and botanical embroidery on ivory, amethyst and indigo cloth. Final UV fit requires model lab proof."
+}

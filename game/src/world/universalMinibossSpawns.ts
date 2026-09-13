@@ -1,6 +1,7 @@
 import type { RegionId } from '../contracts.js';
 import type { EnemyGroupDef, Spot } from '../content/regions.js';
 import { Rng } from '../core/rng.js';
+import { FAIRY_MINIBOSS_POOLS } from '../content/fairyMinibossForms.js';
 import {
   UNIVERSAL_MINIBOSS_ROSTER, UNIVERSAL_MINIBOSSES_PER_REGION, universalMinibossSpecies,
 } from '../content/universalMinibosses.js';
@@ -39,7 +40,9 @@ export function buildUniversalMinibossGroups(
   const rng = new Rng(regionSeed(seed, regionId));
   const pair = rng.pick(pairs);
   if (!pair) throw new Error(`${regionId} needs two valid miniboss sockets at least ${minimumSeparation} m apart`);
-  const bodies = [...UNIVERSAL_MINIBOSS_ROSTER];
+  const fairyPool: readonly string[] | undefined = regionId === 'gloamgarden' || regionId === 'faeholme'
+    ? FAIRY_MINIBOSS_POOLS[regionId] : undefined;
+  const bodies = UNIVERSAL_MINIBOSS_ROSTER.filter(row => !fairyPool || fairyPool.includes(row.number));
   return Array.from({ length: UNIVERSAL_MINIBOSSES_PER_REGION }, (_, index) => {
     const row = bodies.splice(rng.int(0, bodies.length - 1), 1)[0]!;
     const species = universalMinibossSpecies(row.number, regionId);

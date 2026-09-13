@@ -30,6 +30,50 @@ description: "Dense green-brown essence mined beneath the Woodlands roots."
 | Dropped by | [Veil Reaper](../../creatures/veil_reaper_t20/) | 35% · 1-2 |
 | Dropped by | [Flint Mandible](../../creatures/flint_mandible_t10/) | 15% · 1-1 |
 | Dropped by | [Blind Cave Weaver](../../creatures/blind_cave_weaver_t10/) | 15% · 1-1 |
+| Dropped by | Lantern Sprite | 55% · 2-4 |
+| Dropped by | Moonpetal Stalker | 55% · 2-4 |
+| Dropped by | Dewglass Weaver | 55% · 2-4 |
+| Dropped by | [Bloomheart Matriarch](../../creatures/bloomheart_matriarch_t30/) | 100% · 8-14 |
+| Dropped by | Prismatic Sprite | 55% · 2-4 |
+| Dropped by | Orchid Reaper | 55% · 2-4 |
+| Dropped by | Starroot Guardian | 55% · 2-4 |
+| Dropped by | [Amethyst Sovereign](../../creatures/amethyst_sovereign_t60/) | 100% · 8-14 |
+| Dropped by | Petal Pouncer | 55% · 1-3 |
+| Dropped by | Moss Nibbler | 55% · 1-3 |
+| Dropped by | Bloom Hopper | 55% · 1-3 |
+| Dropped by | Thicket Spirit | 55% · 1-3 |
+| Dropped by | Bramble Prowler | 55% · 1-3 |
+| Dropped by | Elder Grovebeast | 55% · 1-3 |
+| Dropped by | Petal Pouncer | 55% · 1-3 |
+| Dropped by | Moss Nibbler | 55% · 1-3 |
+| Dropped by | Bloom Hopper | 55% · 1-3 |
+| Dropped by | Thicket Spirit | 55% · 1-3 |
+| Dropped by | Bramble Prowler | 55% · 1-3 |
+| Dropped by | Elder Grovebeast | 55% · 1-3 |
+| Dropped by | [Dewdrop Spriggle](../../creatures/garden_spriggle_t30/) | 55% · 1-3 |
+| Dropped by | [Mooncap Sporekin](../../creatures/garden_sporekin_t30/) | 55% · 1-3 |
+| Dropped by | [Glasspond Frog](../../creatures/garden_frog_t30/) | 55% · 1-3 |
+| Dropped by | [Lantern Imp](../../creatures/garden_imp_t30/) | 55% · 1-3 |
+| Dropped by | [Mooncap Snail](../../creatures/garden_snail_t30/) | 55% · 1-3 |
+| Dropped by | [Dewglass Reliquary](../../creatures/garden_reliquary_t30/) | 55% · 1-3 |
+| Dropped by | [Silverleaf Hart](../../creatures/garden_hart_t30/) | 55% · 1-3 |
+| Dropped by | [Thistledown Veilspirit](../../creatures/garden_veilspirit_t30/) | 55% · 1-3 |
+| Dropped by | [Briar Sapling](../../creatures/garden_sapling_t30/) | 55% · 1-3 |
+| Dropped by | [Petal Drake](../../creatures/garden_drake_t30/) | 55% · 1-3 |
+| Dropped by | [Dewstone Wardling](../../creatures/garden_wardling_t30/) | 55% · 1-3 |
+| Dropped by | [Silverleaf Petalguard](../../creatures/garden_petalguard_t30/) | 55% · 1-3 |
+| Dropped by | [Prism Spriggle](../../creatures/garden_spriggle_t60/) | 55% · 1-3 |
+| Dropped by | [Duskcap Sporekin](../../creatures/garden_sporekin_t60/) | 55% · 1-3 |
+| Dropped by | [Orchid Pondling](../../creatures/garden_frog_t60/) | 55% · 1-3 |
+| Dropped by | [Twilight Imp](../../creatures/garden_imp_t60/) | 55% · 1-3 |
+| Dropped by | [Starcap Snail](../../creatures/garden_snail_t60/) | 55% · 1-3 |
+| Dropped by | [Starporcelain Reliquary](../../creatures/garden_reliquary_t60/) | 55% · 1-3 |
+| Dropped by | [Starhorn Hart](../../creatures/garden_hart_t60/) | 55% · 1-3 |
+| Dropped by | [Orchid Veilspirit](../../creatures/garden_veilspirit_t60/) | 55% · 1-3 |
+| Dropped by | [Starroot Tender](../../creatures/garden_sapling_t60/) | 55% · 1-3 |
+| Dropped by | [Orchid Drake](../../creatures/garden_drake_t60/) | 55% · 1-3 |
+| Dropped by | [Amethyst Wardling](../../creatures/garden_wardling_t60/) | 55% · 1-3 |
+| Dropped by | [Moonstone Petalguard](../../creatures/garden_petalguard_t60/) | 55% · 1-3 |
 | Dropped by | Webweaver Spider | 15% · 1-1 |
 | Dropped by | Marsh Wasp | 15% · 1-1 |
 | Dropped by | Skeleton Soldier | 15% · 1-1 |
@@ -66,6 +110,7 @@ description: "Dense green-brown essence mined beneath the Woodlands roots."
 | Dropped by | Veil Reaper | 35% · 1-2 |
 | Dropped by | Veil Reaper | 35% · 1-2 |
 | Sold by | [Oakwood Trade Post](../../spells-and-shops/#oakwood-trade-post) | 200 in stock |
+| Sold by | [Moonpetal Provisions](../../spells-and-shops/#moonpetal-provisions) | 200 in stock |
 | Quest | [The Sparking Stone](../../quests/sparking_stone/) | Referenced, granted, or required |
 
 [Back to all items](../)

@@ -6,12 +6,12 @@ description: "Violet Dreadwing spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="51.417,24.061,51.417,24.061"
- style="--map-image-ratio:0.72727">
+ data-map-focus="40.424,24.061,40.424,24.061"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Violet Dreadwing">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-violet-reach" style="--map-x:51.4167%;--map-y:24.0606%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Violet Dreadwing, The Violet Reach, Wilderness" title="Violet Dreadwing, The Violet Reach, Wilderness"><span>Violet Dreadwing<small>The Violet Reach, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-violet-reach" style="--map-x:40.4242%;--map-y:24.0606%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Violet Dreadwing, The Violet Reach, Wilderness" title="Violet Dreadwing, The Violet Reach, Wilderness"><span>Violet Dreadwing<small>The Violet Reach, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

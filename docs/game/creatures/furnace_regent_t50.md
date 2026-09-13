@@ -6,12 +6,12 @@ description: "Furnace Regent spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="62.917,30.667,62.917,30.667"
- style="--map-image-ratio:0.72727">
+ data-map-focus="48.788,30.667,48.788,30.667"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Furnace Regent">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#furnace-throne" style="--map-x:62.9167%;--map-y:30.6667%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Furnace Regent, Furnace Throne, Wilderness" title="Furnace Regent, Furnace Throne, Wilderness"><span>Furnace Regent<small>Furnace Throne, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#furnace-throne" style="--map-x:48.7879%;--map-y:30.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Furnace Regent, Furnace Throne, Wilderness" title="Furnace Regent, Furnace Throne, Wilderness"><span>Furnace Regent<small>Furnace Throne, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

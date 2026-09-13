@@ -24,12 +24,12 @@ Six seams stand at the pit, 160 m north of Millfield. `moveTo({ locationId: "bra
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/locations/bracken_pit.webp" alt="Copper Pit in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Copper Pit</strong><span>Copper Pit, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.667,67.879,36.667,67.879"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.697,67.879,29.697,67.879"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Cold Iron, step 1">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:36.6667%;--map-y:67.8788%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:29.6970%;--map-y:67.8788%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -53,12 +53,12 @@ Stand at the furnace and `produce("smelt_grithe_bar", 2)`. The furnace is in the
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/coldbrace_furnace.webp" alt="Millfield Furnace in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Millfield Furnace</strong><span>Millfield East Gate, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="37.950,78.000,37.950,78.000"
- style="--map-image-ratio:0.72727">
+ data-map-focus="30.630,78.000,30.630,78.000"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Cold Iron, step 2">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#millfield-east-gate" style="--map-x:37.9500%;--map-y:78.0000%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Millfield Furnace, Farmland" title="Millfield Furnace, Farmland"><span>Millfield Furnace<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#millfield-east-gate" style="--map-x:30.6303%;--map-y:78.0000%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Millfield Furnace, Farmland" title="Millfield Furnace, Farmland"><span>Millfield Furnace<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -82,12 +82,12 @@ The anvil stands four metres from the furnace. The dagger is the cheapest thing 
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/coldbrace_anvil.webp" alt="Millfield Anvil in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Millfield Anvil</strong><span>Millfield East Gate, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="37.933,77.855,37.933,77.855"
- style="--map-image-ratio:0.72727">
+ data-map-focus="30.618,77.855,30.618,77.855"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Cold Iron, step 3">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#millfield-east-gate" style="--map-x:37.9333%;--map-y:77.8545%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Millfield Anvil, Farmland" title="Millfield Anvil, Farmland"><span>Millfield Anvil<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#millfield-east-gate" style="--map-x:30.6182%;--map-y:77.8545%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Millfield Anvil, Farmland" title="Millfield Anvil, Farmland"><span>Millfield Anvil<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -111,12 +111,12 @@ The anvil stands four metres from the furnace. The dagger is the cheapest thing 
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="45.833,75.879,45.833,75.879"
- style="--map-image-ratio:0.72727">
+ data-map-focus="36.364,75.879,36.364,75.879"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Cold Iron, step 4">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../creatures/frog_t1/" style="--map-x:45.8333%;--map-y:75.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Frog, Farmland" title="Frog, Farmland"><span>Frog<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../creatures/frog_t1/" style="--map-x:36.3636%;--map-y:75.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Frog, Farmland" title="Frog, Farmland"><span>Frog<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -139,12 +139,12 @@ Walk back into Millfield Square and `interact("npc_smith_harrow", "talk")`.
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_smith_harrow.webp" alt="Harrow the Smith in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Harrow the Smith</strong><span>Millfield Bank, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="37.717,78.024,37.717,78.024"
- style="--map-image-ratio:0.72727">
+ data-map-focus="30.461,78.024,30.461,78.024"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for Cold Iron, step 5">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#harrow-the-smith" style="--map-x:37.7167%;--map-y:78.0242%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Harrow the Smith, Farmland" title="Harrow the Smith, Farmland"><span>Harrow the Smith<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#harrow-the-smith" style="--map-x:30.4606%;--map-y:78.0242%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Harrow the Smith, Farmland" title="Harrow the Smith, Farmland"><span>Harrow the Smith<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

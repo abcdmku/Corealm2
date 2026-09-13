@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: 1024x1024 square production UV albedo texture for an animated friendly lantern imp in the Gloamgarden fairy region. Image 1 is the EDIT TARGET albedo; image 2 is only the UV layout guide, never paint its wireframe. Preserve EXACT positions, shapes, orientation and scale of ALL UV islands and existing eye, pupil, mouth, seams, wing panels. Do not rearrange, crop, invent islands or show a character render. Change only painted colors/material detail inside the existing atlas. Replace purple skin with layered warm leaf green and moss-teal skin, lighter creamy lime belly and soft coral cheek accents, tiny golden and ivory mottled freckles, subtle painted folds and scales. Existing pale wing panels become contrasting rose-coral and pearl cream membranes with teal edge accents, delicate iridescent branching veins and fine petal patterns. Keep membrane shapes exactly in place, three at right and bottom-left as source. Keep the round eye exactly at its present lower-right location; warm luminous golden iris with clear dark pupil and tiny white highlight. Horn sections have cream and antique gold growth rings. Detailed rich multi-hue material depth with readable midtone patterns. Preserve painted ambient folds, soft shading and UV edge bleed; avoid a uniform hue wash. Flat 2D texture map only, no new lighting or cast shadows, no UV lines, text, labels, borders or scenery.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_19-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_19-uv-0.png"
+  ],
+  "generatedToolPath": "C:/Users/Borg/.codex/generated_images/01a09888-ffa4-78a3-aff5-029069ee6e05/exec-2dc80c75-15bd-430d-bd0c-cff5c4932b8c.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_imp_gloamgarden.png",
+  "inspection": "Visually inspected: retains source atlas regions and eye location; green/teal skin contrasts with coral/ivory wing membranes. Final UV fit requires model lab proof."
+}

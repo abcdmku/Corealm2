@@ -6,12 +6,12 @@ description: "Cinder Dreadwing spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="77.083,35.152,77.083,35.152"
- style="--map-image-ratio:0.72727">
+ data-map-focus="59.091,35.152,59.091,35.152"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cinder Dreadwing">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#hollow-choir-cloister" style="--map-x:77.0833%;--map-y:35.1515%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cinder Dreadwing, Hollow Choir Cloister, Wilderness" title="Cinder Dreadwing, Hollow Choir Cloister, Wilderness"><span>Cinder Dreadwing<small>Hollow Choir Cloister, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hollow-choir-cloister" style="--map-x:59.0909%;--map-y:35.1515%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Dreadwing, Hollow Choir Cloister, Wilderness" title="Cinder Dreadwing, Hollow Choir Cloister, Wilderness"><span>Cinder Dreadwing<small>Hollow Choir Cloister, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

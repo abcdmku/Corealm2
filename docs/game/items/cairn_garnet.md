@@ -15,6 +15,7 @@ description: "Deep red, cut square by the rock itself. Hillcrest jewellers cage 
 | Source | Name | Details |
 | --- | --- | --- |
 | Bonus from | Cobalt Face | 7% per gather |
+| Bonus from | Dewglass Cobalt Seam | 12% per gather |
 | Dropped by | Brown Bear | 8% · 1-1 |
 | Dropped by | Ibex | 10% · 1-1 |
 | Dropped by | Aurochs | 10% · 1-1 |

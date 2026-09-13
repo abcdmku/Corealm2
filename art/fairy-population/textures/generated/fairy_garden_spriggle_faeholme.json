@@ -1,0 +1,11 @@
+{
+  "prompt": "Use case: precise-object-edit. Asset type: production game creature UV albedo texture, flat 2D square atlas at 1024x1024. Image 1 is the EDIT TARGET albedo; Image 2 is ONLY its UV wireframe guide. Preserve EXACT original atlas layout, every UV island size, orientation, boundaries, seam correspondence, face features, eye pupils and mouth locations. Repaint the existing surface within this layout. Do not rearrange islands. Do not illustrate a creature or render a 3D model. No text, borders, labels or visible UV wireframe. Keep the original padding layout. Rich painted material detail with complementary hues, varied local color, fine surface texture and larger readable patterns, never a monochrome recolor. Faeholme spriggle: moonlit faerie creature skin with deep indigo, violet mottling, broad pearl ivory patches, cyan leaf veins and antique gold flower-rune trails. Preserve eye shapes and dark mouth strokes exactly. Reinterpret the existing circuit markings as organic winding raised floral trails in the same source locations. Fine opalescent pores and midnight blue speckles, lavender and plum transitions, tiny gold pollen, richly colorful tail bands. Keep clear ivory regions and cyan accents so this is not a purple reskin. Entire output must be the unchanged flat source texture atlas layout.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_10-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_10-uv-0.png"
+  ],
+  "tool": "built-in image_gen",
+  "generatedImagePath": "C:\\Users\\Borg\\.codex\\generated_images\\01a09888-3dc3-7820-bb90-35b60f8b5c50\\exec-037f2003-c216-4c77-a07c-dc4fbd6b0bef.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_spriggle_faeholme.png",
+  "inspection": "Atlas layout and eye/mouth landmarks visually retained. Indigo/violet, ivory, cyan and gold organic floral detail present."
+}

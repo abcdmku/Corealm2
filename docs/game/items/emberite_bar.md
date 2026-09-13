@@ -18,6 +18,7 @@ description: "Three ores and two flux stones a bar, and it comes off the furnace
 | Made by | Salamander-fluxed Titanium Bar | 1 per craft |
 | Dropped by | [Fire Ogre](../../creatures/cinderwake_t20/) | 100% · 1-3 |
 | Sold by | [Kiln Row Smith](../../spells-and-shops/#kiln-row-smith) | 20 in stock |
+| Sold by | [Lantern Smith](../../spells-and-shops/#lantern-smith) | 20 in stock |
 
 ## Used to make
 

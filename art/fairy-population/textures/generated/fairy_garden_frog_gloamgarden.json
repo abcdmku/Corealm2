@@ -1,0 +1,11 @@
+{
+  "prompt": "Use case: precise-object-edit. Asset type: production game creature UV albedo texture, flat 2D square atlas at 1024x1024. Image 1 is the EDIT TARGET albedo; Image 2 is ONLY its UV wireframe guide. Preserve EXACT original atlas layout, every UV island size, orientation, boundaries, seam correspondence, face features, eye pupils and mouth locations. Repaint the existing surface within this layout. Do not rearrange islands. Do not illustrate a creature or render a 3D model. No text, borders, labels or visible UV wireframe. Keep the original padding layout. Rich painted material detail with complementary hues, varied local color, fine surface texture and larger readable patterns, never a monochrome recolor. Gloamgarden frog skin. Preserve EXACT atlas layout of image 1, especially its two golden eye islands at upper middle and lower right with vertical and horizontal black slit pupils respectively. The large rounded body island stays lower-left and limb strips stay upper and right. Repaint green skin into turquoise and teal gradients with bold orchid-like coral rose dendritic markings and fine gold speckles. Keep a broad warm cream belly and cream limb edges. Organic spotted damp amphibian skin, subtle subsurface peach-pink variegation, dark teal branching rosettes around coral islands, gentle tiny pores, avoid metallic plating. Rich complementary color and readable broad patterns. Preserve every island silhouette.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/animal_frog-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/animal_frog-uv-0.png"
+  ],
+  "tool": "built-in image_gen",
+  "generatedImagePath": "C:\\Users\\Borg\\.codex\\generated_images\\01a09888-3dc3-7820-bb90-35b60f8b5c50\\exec-6cf249d3-43b7-4f3d-afcb-9de0d5266d55.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_frog_gloamgarden.png",
+  "inspection": "Atlas arrangement and slit pupil orientations retained. Broad teal/coral dendritic patterns, cream belly and gold speckles present."
+}

@@ -6,12 +6,12 @@ description: "Turkey spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="43.083,72.242,43.083,72.242"
- style="--map-image-ratio:0.72727">
+ data-map-focus="34.364,72.242,34.364,72.242"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Turkey">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-broken-milestone" style="--map-x:43.0833%;--map-y:72.2424%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Turkey, The Broken Milestone, Farmland" title="Turkey, The Broken Milestone, Farmland"><span>Turkey<small>The Broken Milestone, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-broken-milestone" style="--map-x:34.3636%;--map-y:72.2424%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Turkey, The Broken Milestone, Farmland" title="Turkey, The Broken Milestone, Farmland"><span>Turkey<small>The Broken Milestone, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

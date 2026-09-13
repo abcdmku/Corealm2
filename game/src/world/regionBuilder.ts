@@ -32,6 +32,7 @@ import type {
 import { worldMapForRegion } from "../contracts.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { worldSiteResourceSlot, worldSitePoint } from "../content/worldSites.js";
+import { fairyNpcPresentation } from '../content/fairyNpcs.js';
 import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
 import { RngStreams, Rng } from "../core/rng.js";
 import { isStarterAnimalAsset } from "../content/fantasyEncounters.js";
@@ -1387,6 +1388,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
   }
 
   for (const npc of settlement?.npcs ?? []) {
+    const presentation = fairyNpcPresentation(npc.assetId);
     ctx.out.push({
       id: npc.id,
       archetype: "npc",
@@ -1394,7 +1396,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       tier,
       regionId,
       // NPCs move, so `systems/` handles them as circles. No solid volume here on purpose.
-      position: place(npc.position, npc.assetId, drawnScale("npc", undefined, tier)),
+      position: place(npc.position, npc.assetId, drawnScale("npc", presentation.scale, tier)),
       state: "idle",
       interactions: ["inspect", "talk"],
       // `regions.ts` authors questIds as [] because the quest table did not exist when the NPC
@@ -1408,7 +1410,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
         assetId: npc.assetId,
         partAssetIds: outfitPartsFor(npc.id, npc.assetId),
         rotationY: npc.facingRad,
-        labelHeight: npc.assetId.startsWith('npc_fey_') ? 1.2 : 2.2,
+        ...presentation,
       },
       meta: { settlementId: settlement!.id },
     });

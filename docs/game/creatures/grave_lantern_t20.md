@@ -6,14 +6,14 @@ description: "Ashen Ghoul spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="42.333,47.515,64.167,54.545"
- style="--map-image-ratio:0.72727">
+ data-map-focus="33.818,47.515,49.697,54.545"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ashen Ghoul">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#hot-springs" style="--map-x:64.1667%;--map-y:54.5455%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Hot Springs, Ashlands" title="Ashen Ghoul, Hot Springs, Ashlands"><span>Ashen Ghoul<small>Hot Springs, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:42.3333%;--map-y:53.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Quarry Postern, Ashlands" title="Ashen Ghoul, Quarry Postern, Ashlands"><span>Ashen Ghoul<small>Quarry Postern, Ashlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:42.8333%;--map-y:47.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Quarry Postern, Ashlands" title="Ashen Ghoul, Quarry Postern, Ashlands"><span>Ashen Ghoul<small>Quarry Postern, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hot-springs" style="--map-x:49.6970%;--map-y:54.5455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Hot Springs, Ashlands" title="Ashen Ghoul, Hot Springs, Ashlands"><span>Ashen Ghoul<small>Hot Springs, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:33.8182%;--map-y:53.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Quarry Postern, Ashlands" title="Ashen Ghoul, Quarry Postern, Ashlands"><span>Ashen Ghoul<small>Quarry Postern, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:34.1818%;--map-y:47.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Quarry Postern, Ashlands" title="Ashen Ghoul, Quarry Postern, Ashlands"><span>Ashen Ghoul<small>Quarry Postern, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

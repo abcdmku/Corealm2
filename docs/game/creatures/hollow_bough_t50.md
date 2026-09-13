@@ -6,14 +6,14 @@ description: "Hollow Bough spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="26.167,34.061,71.250,37.576"
- style="--map-image-ratio:0.72727">
+ data-map-focus="22.061,34.061,54.848,37.576"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Hollow Bough">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#cindervein-workings" style="--map-x:26.1667%;--map-y:34.0606%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hollow Bough, Cindervein Workings, Wilderness" title="Hollow Bough, Cindervein Workings, Wilderness"><span>Hollow Bough<small>Cindervein Workings, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#petrified-grove" style="--map-x:71.2500%;--map-y:35.1515%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Hollow Bough, Petrified Grove, Wilderness" title="Hollow Bough, Petrified Grove, Wilderness"><span>Hollow Bough<small>Petrified Grove, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#widow-watch" style="--map-x:28.3333%;--map-y:37.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hollow Bough, Widow Watch, Wilderness" title="Hollow Bough, Widow Watch, Wilderness"><span>Hollow Bough<small>Widow Watch, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#cindervein-workings" style="--map-x:22.0606%;--map-y:34.0606%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hollow Bough, Cindervein Workings, Wilderness" title="Hollow Bough, Cindervein Workings, Wilderness"><span>Hollow Bough<small>Cindervein Workings, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#petrified-grove" style="--map-x:54.8485%;--map-y:35.1515%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hollow Bough, Petrified Grove, Wilderness" title="Hollow Bough, Petrified Grove, Wilderness"><span>Hollow Bough<small>Petrified Grove, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#widow-watch" style="--map-x:23.6364%;--map-y:37.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hollow Bough, Widow Watch, Wilderness" title="Hollow Bough, Widow Watch, Wilderness"><span>Hollow Bough<small>Widow Watch, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: production 2D UV albedo texture map for an existing 3D game mesh. Input image 1 is the EDIT TARGET original albedo. Input image 2 is a UV wireframe POSITION GUIDE ONLY, never copy its lines. Preserve the exact normalized positions, outlines, orientations, sizes and padding of every UV island. Preserve eye pupils and mouths at their precise source locations. Repaint inside the existing islands with detailed hand-painted game surface texture and modest baked surface depth. Output ONLY the flat rectangular UV albedo image, never a creature rendering, illustration, scene, collage, labeled diagram, or wireframe. No text, captions, border, frame, grid or UV lines. Preserve full image framing. Rich multiple-hue material detail must read on the mesh. Square output 1024x1024 or larger. Repaint the deer atlas as the Faeholme fairy hart. Keep the EXACT source UV island layout without shifting any pixel feature. Central body island: enchanting short directional fur, cool indigo back feathering through violet to pearl ivory and pale warm lavender underside and legs. Large graceful cyan leaf-shaped markings and pearl constellation dapple clusters with restrained fine gold botanical stems create clear ornament on the coat. Multiple colors across each body region, never an overall purple wash. Preserve face anatomy, source eye locations and black pupils exactly. Pearl ivory muzzle, indigo forehead, cyan cheek leaf marks. Existing bone/horn material gets pearl ivory to golden cream striated graduation. Every original island and dark unused padding stays in place. This is a flat UV repaint, no added shapes.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/animal_deer-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/animal_deer-uv-0.png"
+  ],
+  "generatedPath": "C:/Users/Borg/.codex/generated_images/01a09888-a2b4-7430-93f0-5cc5d64168f3/exec-50e18343-98f7-48a0-bfee-64112fef0c99.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_hart_faeholme.png",
+  "inspection": "Flat UV atlas, indigo violet pearl cyan gold fur, no guide lines. Generated geometry correspondence needs mesh acceptance."
+}

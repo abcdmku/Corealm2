@@ -15,7 +15,8 @@ export function encounterBodyRadius(group: EnemyGroupDef): number {
 /** Counts and reservations are content; actual ordered spawn sockets belong to the habitat. */
 export function populationGroup(group: EnemyGroupDef): EnemyGroupDef {
   const layout = LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES[group.id];
-  const count = group.boss || group.miniBoss ? 1 : layout?.count ?? encounterPopulationCount(group);
+  const count = group.boss || group.miniBoss ? 1 : group.countPolicy === 'fixed'
+    ? encounterPopulationCount(group) : layout?.count ?? encounterPopulationCount(group);
   const radius = encounterBodyRadius(group);
   return { ...group, legacyCount: group.legacyCount ?? group.count, count,
     centre: layout?.centre ?? group.centre,

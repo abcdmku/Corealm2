@@ -15,6 +15,7 @@ description: "Grey-black flux off the Quarry Seams. Titanium refuses to run with
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Flux Stone Face | Mining level 20 |
+| Bonus from | Crownward Titanium Seam | 35% per gather |
 | Sold by | [Kiln Row Smith](../../spells-and-shops/#kiln-row-smith) | 80 in stock |
 
 ## Used to make

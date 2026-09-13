@@ -3,9 +3,31 @@ title: "People"
 description: "Every named NPC, where to find them, and the quests they give."
 ---
 
-12 named people across the March. Each card links the quests that person gives.
+24 named people across the March. Each card links the quests that person gives.
 
 
+
+## Gloamgarden
+
+<div class="codex-grid">
+<div class="codex-card" id="luma"><span class="codex-card__text"><span class="codex-card__title">Luma</span><span class="codex-card__meta">Lantern Rest, Gloamgarden</span><span class="codex-card__body">Lantern keeper at Lantern Rest. Helps visitors find their way through Gloamgarden.</span></span></div>
+<div class="codex-card" id="brindle"><span class="codex-card__text"><span class="codex-card__title">Brindle</span><span class="codex-card__meta">Lantern Rest, Gloamgarden</span><span class="codex-card__body">Tends the planted banks and cottage gardens at Lantern Rest.</span></span></div>
+<div class="codex-card" id="nyssa"><span class="codex-card__text"><span class="codex-card__title">Nyssa</span><span class="codex-card__meta">Lantern Rest, Gloamgarden</span><span class="codex-card__body">Collects seeds for the cottage gardens.</span></span></div>
+<div class="codex-card" id="pip"><span class="codex-card__text"><span class="codex-card__title">Pip</span><span class="codex-card__meta">Lantern Rest, Gloamgarden</span><span class="codex-card__body">Cooks at the Lantern Market.</span></span></div>
+<div class="codex-card" id="tansy"><span class="codex-card__text"><span class="codex-card__title">Tansy</span><span class="codex-card__meta">Lantern Rest, Gloamgarden</span><span class="codex-card__body">Works dewglass at the Lantern Forge.</span></span></div>
+<div class="codex-card" id="wren"><span class="codex-card__text"><span class="codex-card__title">Wren</span><span class="codex-card__meta">Lantern Rest, Gloamgarden</span><span class="codex-card__body">Carries news between Lantern Rest and Prism Hollow.</span></span></div>
+</div>
+
+## Faeholme
+
+<div class="codex-grid">
+<div class="codex-card" id="vesper"><span class="codex-card__text"><span class="codex-card__title">Vesper</span><span class="codex-card__meta">Prism Hollow, Faeholme</span><span class="codex-card__body">Watches the paths leading out of Prism Hollow into the deeper fairy realm.</span></span></div>
+<div class="codex-card" id="rime"><span class="codex-card__text"><span class="codex-card__title">Rime</span><span class="codex-card__meta">Prism Hollow, Faeholme</span><span class="codex-card__body">Keeps the jewel records at Prism Hollow and studies unusual monster spoils.</span></span></div>
+<div class="codex-card" id="ione"><span class="codex-card__text"><span class="codex-card__title">Ione</span><span class="codex-card__meta">Prism Hollow, Faeholme</span><span class="codex-card__body">Tends the frost orchids at Prism Hollow.</span></span></div>
+<div class="codex-card" id="aster"><span class="codex-card__text"><span class="codex-card__title">Aster</span><span class="codex-card__meta">Prism Hollow, Faeholme</span><span class="codex-card__body">Studies the light in the fairy vault.</span></span></div>
+<div class="codex-card" id="thimble"><span class="codex-card__text"><span class="codex-card__title">Thimble</span><span class="codex-card__meta">Prism Hollow, Faeholme</span><span class="codex-card__body">Mends garden clothes and traveling cloaks.</span></span></div>
+<div class="codex-card" id="serein"><span class="codex-card__text"><span class="codex-card__title">Serein</span><span class="codex-card__meta">Prism Hollow, Faeholme</span><span class="codex-card__body">Keeps gathering notes beside Prism Bank.</span></span></div>
+</div>
 
 ## Farmland
 

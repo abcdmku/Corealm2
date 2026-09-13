@@ -1,0 +1,10 @@
+{
+  "prompt": "Use case: precise-object-edit. Asset type: flat 2D production game dragon UV albedo texture, square 2048x2048. Image 1 is the EDIT TARGET source albedo. Image 2 is ONLY a UV wireframe layout guide. Preserve EXACT island locations, shapes, rotation, size, eye positions, mouth openings, wing membrane versus skin borders, claw/horn islands and padding. Generate an intricate new multicolored skin for a Petal Drake in a lush fairy garden. The skin should have layered small overlapping jade-teal and warm rose scales with pale ivory underside plates, larger coral rose petal rosettes and tiny pollen-gold highlights. Wing membranes are creamy blush silk with detailed magenta, teal and subtle gold botanical veins and pearlescent fine speckle, distinct from deeper turquoise wing bones. Horns/claws antique ivory with soft warm growth rings. Preserve the head island anatomy and eyes, give eyes a rich amber iris with dark pupil. Rich surface depth through fine scale texture and selective recessed shading, light enough to read in-game. Multiple coordinated colors distributed by body part, never a monochromatic recolor. A painted fantasy game material, no photographic lighting or scene. ONLY the flat atlas image, not a 3D creature rendering, no letters, labels, borders, UV lines or grid. Do not rearrange the atlas.",
+  "sourcePaths": [
+    "art/fairy-population/textures/source/creature_baby_red_dragon-albedo-0.png",
+    "art/fairy-population/textures/source/creature_baby_red_dragon-uv-0.png"
+  ],
+  "tool": "built-in image_gen",
+  "generatedImagePath": "C:/Users/Borg/.codex/generated_images/01a0985a-57ed-7b62-a688-0f303e680e34/exec-1bdb6734-d2d8-4322-9f21-cbb14f9924f5.png",
+  "inspection": "Source UV landmarks, wing/body boundaries and eye locations visually retained; jade and coral scales, ivory plates and botanical wing patterns. Requires model inspection."
+}

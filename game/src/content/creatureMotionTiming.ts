@@ -294,3 +294,28 @@ CREATURE_MOTION_TIMING["fairy_monster_30"] = { seconds: 1.1, contactNormalized: 
 CREATURE_PURSUIT_CEILING_MPS["fairy_monster_16"] = 3.3342;
 CREATURE_PURSUIT_CEILING_MPS["fairy_monster_27"] = 5.0565;
 CREATURE_PURSUIT_CEILING_MPS["fairy_monster_30"] = 5.0988;
+// Garden wardling: 3 Hz * 0.5312404920607205 m/s * 2 s, from the shipped run metadata.
+// Gecko 10 has no measured stride. Hovering imp 19 measures 0.0923 m/s, below the
+// existing 0.15 m/s artefact floor, so neither receives a planted-foot pursuit cap.
+CREATURE_PURSUIT_CEILING_MPS["fairy_monster_34"] = 3.1874;
+CREATURE_PURSUIT_CEILING_MPS["fairy_monster_28"] = 2.2757;
+CREATURE_PURSUIT_CEILING_MPS["fairy_monster_31"] = 2.03;
+
+// Garden skins retain these source clips. Keep aliases independent of the combat catalogue.
+for (const region of ['gloamgarden', 'faeholme']) {
+  for (const [form, source] of [
+    ['spriggle', 'fairy_monster_10'], ['sporekin', 'creature_goblin_shaman'], ['frog', 'animal_frog'],
+    ['imp', 'fairy_monster_19'], ['snail', 'creature_quarry_snail'], ['reliquary', 'fairy_monster_28'],
+    ['hart', 'animal_deer'], ['veilspirit', 'creature_wraith'], ['sapling', 'creature_briar_harrow'],
+    ['drake', 'creature_baby_red_dragon'], ['wardling', 'fairy_monster_34'], ['petalguard', 'fairy_monster_31'],
+  ] as const) {
+    const id = `fairy_garden_${form}_${region}`;
+    const timing = source.startsWith('fairy_monster_') ? { seconds: 1.1, contactNormalized: .5 } : CREATURE_MOTION_TIMING[source];
+    if (timing) CREATURE_MOTION_TIMING[id] = { ...timing };
+    const ceiling = CREATURE_PURSUIT_CEILING_MPS[source];
+    if (ceiling) CREATURE_PURSUIT_CEILING_MPS[id] = ceiling;
+  }
+  for (const number of ['02', '03', '06', '07', '08', '09']) {
+    CREATURE_MOTION_TIMING[`fairy_guardian_${number}_${region}`] = { ...CREATURE_MOTION_TIMING[`fantasy_monster_${number}`]! };
+  }
+}

@@ -23,6 +23,7 @@ description: "Dark, close-grained deepwood meat. Hangs two days before it is wor
 | Dropped by | Badger | 35% · 1-1 |
 | Dropped by | Wild Horse | 45% · 1-2 |
 | Dropped by | Tapir | 35% · 1-1 |
+| Dropped by | [Crown Hart](../../creatures/crown_hart_t40/) | 80% · 1-2 |
 | Dropped by | [Briar Harrow](../../creatures/briar_harrow_t5/) | 45% · 1-2 |
 | Dropped by | [Fen Crawler](../../creatures/fen_crawler_t5/) | 45% · 1-2 |
 | Dropped by | [Heath Jack](../../creatures/heath_jack_t5/) | 35% · 1-1 |

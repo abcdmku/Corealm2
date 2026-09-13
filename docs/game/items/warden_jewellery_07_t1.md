@@ -1,0 +1,27 @@
+---
+title: "Weathered Warden's Ring"
+description: "Jewellery recovered from a roaming Dreadroot."
+---
+
+<div class="corealm-item-detail">
+<img src="../../assets/items/warden_jewellery_07_t1.webp" alt="Weathered Warden's Ring" width="256" height="256" />
+<p>Jewellery recovered from a roaming Dreadroot.</p>
+</div>
+
+<dl class="codex-stats"><div><dt>Tier</dt><dd>1</dd></div><div><dt>Category</dt><dd>Equipment</dd></div><div><dt>Stacks</dt><dd>No</dd></div><div><dt>Buy value</dt><dd>60</dd></div><div><dt>Sell value</dt><dd>36</dd></div><div><dt>Slot</dt><dd>Accessory1</dd></div></dl>
+
+## Equipment stats
+
+<dl class="codex-stats"><div><dt>Power</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
+
+## Use and requirements
+
+- Requires Melee 1
+
+## Where it comes from
+
+| Source | Name | Details |
+| --- | --- | --- |
+| Dropped by | Dreadroot | 100% · 1-1 |
+
+[Back to all items](../)

@@ -1,0 +1,11 @@
+{
+  "prompt": "Use case: precise-object-edit. Asset type: production game creature UV albedo texture, flat 2D square atlas at 1024x1024. Image 1 is the EDIT TARGET albedo; Image 2 is ONLY its UV wireframe guide. Preserve EXACT original atlas layout, every UV island size, orientation, boundaries, seam correspondence, face features, eye pupils and mouth locations. Repaint the existing surface within this layout. Do not rearrange islands. Do not illustrate a creature or render a 3D model. No text, borders, labels or visible UV wireframe. Keep the original padding layout. Rich painted material detail with complementary hues, varied local color, fine surface texture and larger readable patterns, never a monochrome recolor. Gloamgarden snail. Preserve these EXACT existing shapes and positions: elongated cream foot island across upper-left, small tentacle/head island middle-left, tall teardrop body island lower-left, two large brown spiral shell islands upper-right and lower-right. Preserve center of each existing spiral. Turn shell into nacre with curved growth bands in pearl cream, turquoise, sea teal, coral rose and touches of warm antique gold. Moss-like fine green stippling and orchid marbling within shell bands, thin irregular organic growth striations. Distinct warm cream soft foot and belly, coral ridges and teal mottled skin, delicate damp pores. Shell should have broad multicolor spiral bands readable at game scale plus rich natural microdetail. Do not paint an assembled snail. Flat atlas with black unused regions retained.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/creature_quarry_snail-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/creature_quarry_snail-uv-0.png"
+  ],
+  "tool": "built-in image_gen",
+  "generatedImagePath": "C:\\Users\\Borg\\.codex\\generated_images\\01a09888-3dc3-7820-bb90-35b60f8b5c50\\exec-84503ed5-bf4e-45a5-984a-0cfac7b0b837.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_snail_gloamgarden.png",
+  "inspection": "All five atlas islands retain source positions and silhouettes; shell spiral center retained. Pearl/teal/coral/gold nacre bands, moss stippling, cream foot and coral ridges present."
+}

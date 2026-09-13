@@ -14,12 +14,16 @@ import { applyClip, duration, restorePose, storedPose } from '../creature-motion
 const output = 'test-results/fairy-terraces-assets/monsters';
 await mkdir(`${output}/models`, { recursive: true });
 const sources = JSON.parse(await readFile('.asset-cache/fairy-terraces/unity/sources.json', 'utf8'));
-const packageMetadata = JSON.parse(await readFile(`${output}/package-metadata.json`, 'utf8'));
+const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
+// Promoted packs already carry verified provenance, including the entitled trial archive.
+const packageMetadata = manifest.packs.filter((pack: any) => pack.archiveSha256).map((pack: any) => ({
+  archiveSha256: pack.archiveSha256, title: pack.name, source: pack.source, assetStoreId: pack.assetStoreId,
+}));
 const selected = process.argv.find(a => a.startsWith('--only='))?.split('=')[1]?.split(',');
 type MonsterSpec = {id:string;number:string;trial:boolean;model:string;texture:string;animationBase?:string;
   source:{package:string;archive:string;archiveSha256:string;model:string;texture:string};pack:string};
 const specs:MonsterSpec[] = [];
-for (const trial of [false, true]) for (const number of (trial ? ['11','14','16','21','27','30'] : ['01','02','03','04','05','06','07','08','09'])) {
+for (const trial of [false, true]) for (const number of (trial ? ['10','11','14','16','19','21','27','28','30','31','34'] : ['01','02','03','04','05','06','07','08','09'])) {
   const id = `${trial ? 'fairy' : 'fantasy'}_monster_${number}`;
   if (selected && !selected.includes(id)) continue;
   const pack = sources.find((p:any) => trial ? p.package.startsWith('FreeTrial') : !p.package.startsWith('FreeTrial') && p.package.includes(`Monster ${number}`))
@@ -39,9 +43,10 @@ const manifestPack = (spec:MonsterSpec) => {
   if(!metadata)throw Error(`Missing verified package metadata ${spec.id}`);
   return {id:spec.pack,name:metadata.title,author:'PixeliusVita',source:metadata.source,license:'Standard Unity Asset Store EULA',archiveSha256:spec.source.archiveSha256,assetStoreId:metadata.assetStoreId,sourceArchive:spec.source.package};
 };
-const hoverMotionNote='Monster 07–09 retain the original Unity hover locomotion. Toe movement does not represent planted ground contact, so no implied walk/run stride speed is published. The six source clips and their durations remain unchanged; production movement and native hover cadence need browser proof.';
+const hoverMotionNote='Monsters 07–09 and the winged imp 19 retain the original Unity hover locomotion. Toe movement does not represent planted ground contact, so no implied walk/run stride speed is published. The source clips and their durations remain unchanged; production movement and native hover cadence need browser proof.';
+const isHoverSource=(id:string)=>/^fantasy_monster_0[789]$/.test(id)||id==='fairy_monster_19';
 function applyHoverMetadata(asset:any):void {
-  if(!/^fantasy_monster_0[789]$/.test(asset.id))return;
+  if(!isHoverSource(asset.id))return;
   delete asset.impliedWalkMps;delete asset.impliedRunMps;
   asset.sourceProvenance={...asset.sourceProvenance,locomotion:'hover',motionProof:hoverMotionNote};
 }
@@ -55,7 +60,7 @@ if(process.argv.includes('--refresh-metadata')) {
     const bytes=await readFile(path.join(output,prior.files[asset.id]));
     if(createHash('sha256').update(bytes).digest('hex')!==asset.sha256)throw Error(`Changed candidate bytes ${asset.id}`);
     applyHoverMetadata(asset);
-    if(!/^fantasy_monster_0[789]$/.test(asset.id))continue;
+    if(!isHoverSource(asset.id))continue;
     const auditPath=`${output}/${asset.id}.audit.json`,audit=JSON.parse(await readFile(auditPath,'utf8'));
     audit.nonContactToeVelocity??={walk:audit.walk,run:audit.run};
     audit.asset=asset;audit.walk=null;audit.run=null;audit.gaitFootBones=[];audit.motionProof=hoverMotionNote;

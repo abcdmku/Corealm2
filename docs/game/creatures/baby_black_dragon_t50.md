@@ -6,12 +6,12 @@ description: "Black Dragon Hatchling spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="22.917,35.636,22.917,35.636"
- style="--map-image-ratio:0.72727">
+ data-map-focus="19.697,35.636,19.697,35.636"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Black Dragon Hatchling">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#widow-watch" style="--map-x:22.9167%;--map-y:35.6364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Black Dragon Hatchling, Widow Watch, Wilderness" title="Black Dragon Hatchling, Widow Watch, Wilderness"><span>Black Dragon Hatchling<small>Widow Watch, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#widow-watch" style="--map-x:19.6970%;--map-y:35.6364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Black Dragon Hatchling, Widow Watch, Wilderness" title="Black Dragon Hatchling, Widow Watch, Wilderness"><span>Black Dragon Hatchling<small>Widow Watch, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

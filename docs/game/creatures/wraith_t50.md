@@ -6,16 +6,16 @@ description: "Wraith spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="30.699,31.262,69.167,37.455"
- style="--map-image-ratio:0.72727">
+ data-map-focus="25.357,31.262,53.333,37.455"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Wraith">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-silent-stones" style="--map-x:41.6667%;--map-y:33.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Silent Stones, Wilderness" title="Wraith, The Silent Stones, Wilderness"><span>Wraith<small>The Silent Stones, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-nameless-abbey" style="--map-x:37.5120%;--map-y:35.6125%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Nameless Abbey, Wilderness" title="Wraith, The Nameless Abbey, Wilderness"><span>Wraith<small>The Nameless Abbey, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-broken-waterway" style="--map-x:30.6991%;--map-y:32.1474%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Broken Waterway, Wilderness" title="Wraith, The Broken Waterway, Wilderness"><span>Wraith<small>The Broken Waterway, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:46.7071%;--map-y:31.2615%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Grave Road, Wilderness" title="Wraith, The Grave Road, Wilderness"><span>Wraith<small>The Grave Road, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-empty-sluice" style="--map-x:69.1667%;--map-y:37.4545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Empty Sluice, Wilderness" title="Wraith, The Empty Sluice, Wilderness"><span>Wraith<small>The Empty Sluice, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-silent-stones" style="--map-x:33.3333%;--map-y:33.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Silent Stones, Wilderness" title="Wraith, The Silent Stones, Wilderness"><span>Wraith<small>The Silent Stones, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-nameless-abbey" style="--map-x:30.3117%;--map-y:35.6125%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Nameless Abbey, Wilderness" title="Wraith, The Nameless Abbey, Wilderness"><span>Wraith<small>The Nameless Abbey, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-broken-waterway" style="--map-x:25.3569%;--map-y:32.1474%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Broken Waterway, Wilderness" title="Wraith, The Broken Waterway, Wilderness"><span>Wraith<small>The Broken Waterway, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:36.9991%;--map-y:31.2615%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Grave Road, Wilderness" title="Wraith, The Grave Road, Wilderness"><span>Wraith<small>The Grave Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-empty-sluice" style="--map-x:53.3333%;--map-y:37.4545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Wraith, The Empty Sluice, Wilderness" title="Wraith, The Empty Sluice, Wilderness"><span>Wraith<small>The Empty Sluice, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

@@ -3,7 +3,8 @@ import { SKILL_IDS, ok, type EquipmentBonuses, type RegionId, type SemanticEntit
 import { content, enemyCombatLevel, type ContentTables } from '../game/src/content/index.js';
 import { ALL_ITEMS } from '../game/src/content/items.js';
 import { REGION_COMBAT_TIERS } from '../game/src/content/encounterBalance.js';
-import { FAIRY_CREATURE_SPECIES } from '../game/src/content/fairyCreatures.js';
+import { FAIRY_GARDEN_SPECIES } from '../game/src/content/fairyGardenCreatures.js';
+import { FAIRY_MINIBOSS_POOLS } from '../game/src/content/fairyMinibossForms.js';
 import { MINIBOSS_JEWELLERY } from '../game/src/content/universalMinibossLoot.js';
 import {
   UNIVERSAL_MINIBOSS_ENEMIES, UNIVERSAL_MINIBOSS_ROSTER, UNIVERSAL_MINIBOSS_SPECIES,
@@ -88,7 +89,13 @@ describe('universal miniboss placement and rewards', () => {
       const choices = new Set<string>();
       for (let seed = 1; seed <= 50; seed++) {
         const groups = buildUniversalMinibossGroups(regionId, seed, sockets);
-        groups.forEach(group => allBodies.add(group.assetId));
+        groups.forEach(group => allBodies.add(group.family));
+        if (regionId === 'gloamgarden' || regionId === 'faeholme') {
+          for (const group of groups) {
+            expect(FAIRY_MINIBOSS_POOLS[regionId].some(number => group.assetId === `fairy_guardian_${number}_${regionId}`)).toBe(true);
+            expect(isReservedUniversalMinibossAsset(group.assetId)).toBe(true);
+          }
+        }
         choices.add(JSON.stringify(groups.map(group => [group.assetId, group.centre])));
       }
       expect(choices.size).toBeGreaterThan(10);
@@ -143,13 +150,15 @@ describe('universal miniboss placement and rewards', () => {
   });
 
   it('uses the distinct ordinary pack for both fairy tiers and makes remote creatures stronger', () => {
-    expect(FAIRY_CREATURE_SPECIES).toHaveLength(12);
+    expect(FAIRY_GARDEN_SPECIES).toHaveLength(24);
     for (const regionId of ['gloamgarden', 'faeholme']) {
-      const species = FAIRY_CREATURE_SPECIES.filter(row => row.regionId === regionId);
-      expect(species).toHaveLength(6);
+      const species = FAIRY_GARDEN_SPECIES.filter(row => row.regionId === regionId);
+      expect(species).toHaveLength(12);
       expect(species.every(row => !isReservedUniversalMinibossAsset(row.assetId))).toBe(true);
-      expect(enemyCombatLevel(species[5]!.stats)).toBeGreaterThan(enemyCombatLevel(species[0]!.stats));
-      expect(species[5]!.stats.behaviour).toBe('aggressive');
+      const drake = species.find(row => row.stats.family === 'garden_drake')!;
+      const sporekin = species.find(row => row.stats.family === 'garden_sporekin')!;
+      expect(enemyCombatLevel(drake.stats)).toBeGreaterThan(enemyCombatLevel(sporekin.stats));
+      expect(drake.stats.behaviour).toBe('aggressive');
     }
     for (const row of UNIVERSAL_MINIBOSS_ROSTER) expect(isReservedUniversalMinibossAsset(`fantasy_monster_${row.number}`)).toBe(true);
     for (const id of ['creature_cinder_ravager', 'creature_basalt_maw', 'creature_gorge_mantis', 'creature_hollow_star', 'creature_amethyst_sovereign']) {

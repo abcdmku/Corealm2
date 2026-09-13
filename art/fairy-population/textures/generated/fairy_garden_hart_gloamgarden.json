@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: production 2D UV albedo texture map for an existing 3D game mesh. Input image 1 is the EDIT TARGET original albedo. Input image 2 is a UV wireframe POSITION GUIDE ONLY, never copy its lines. Preserve the exact normalized positions, outlines, orientations, sizes and padding of every UV island. Preserve eye pupils and mouths at their precise source locations. Repaint inside the existing islands with detailed hand-painted game surface texture and modest baked surface depth. Output ONLY the flat rectangular UV albedo image, never a creature rendering, illustration, scene, collage, labeled diagram, or wireframe. No text, captions, border, frame, grid or UV lines. Preserve full image framing. Rich multiple-hue material detail must read on the mesh. Square output 1024x1024 or larger. Repaint the deer atlas as the Gloamgarden fairy hart. Enchanting fine fur with the central body island keeping its existing anatomy: a cool rich teal and mint back feathering into warm ivory and soft peach underside and legs. Paint large graceful leaf-shaped markings, coral botanical accents, and ivory constellation dapple clusters over the coat, with sparse subtle gold strokes. Several distinct colors on the body, not a monochromatic wash. Short directional hair strand texture follows source fur. Preserve face anatomy and black eyes exactly, contrasting ivory muzzle with mint forehead and coral accents. Existing horn/bone areas receive warm ivory-to-muted-gold bone graduation and fine natural striation. Keep every source island in place and retain source dark unused padding.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/animal_deer-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/animal_deer-uv-0.png"
+  ],
+  "generatedPath": "C:/Users/Borg/.codex/generated_images/01a09888-a2b4-7430-93f0-5cc5d64168f3/exec-39568b60-bf19-49b4-80ee-2de84545e385.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_hart_gloamgarden.png",
+  "inspection": "Flat UV atlas, varied mint teal ivory coral gold fur, no guide lines. Generated geometry correspondence needs mesh acceptance."
+}

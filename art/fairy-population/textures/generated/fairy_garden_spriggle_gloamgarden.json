@@ -1,0 +1,11 @@
+{
+  "prompt": "Use case: precise-object-edit. Asset type: production game creature UV albedo texture, flat 2D square atlas at 1024x1024. Image 1 is the EDIT TARGET albedo; Image 2 is ONLY its UV wireframe guide. Preserve EXACT original atlas layout, every UV island size, orientation, boundaries, seam correspondence, face features, eye pupils and mouth locations. Repaint the existing surface within this layout. Do not rearrange islands. Do not illustrate a creature or render a 3D model. No text, borders, labels or visible UV wireframe. Keep the original padding layout. Rich painted material detail with complementary hues, varied local color, fine surface texture and larger readable patterns, never a monochrome recolor. Gloamgarden spriggle: a jewel garden creature. Reinterpret the blue skin with turquoise and deep teal mottling, broad warm cream regions, coral rose blush and restrained pollen gold. Replace hard cyan circuit-like markings with raised delicate flower and rune trails rooted in the same positions; petals and branching leaf veins, tiny pollen flecks, skin pores and gentle organic speckles. Give the tail multicolor cream, teal and coral bands. Preserve bright eye shapes and dark mouth strokes precisely.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_10-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_10-uv-0.png"
+  ],
+  "tool": "built-in image_gen",
+  "generatedImagePath": "C:\\Users\\Borg\\.codex\\generated_images\\01a09888-3dc3-7820-bb90-35b60f8b5c50\\exec-a891f1fe-ac00-4ddd-a548-c5c775852be3.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_spriggle_gloamgarden.png",
+  "inspection": "Atlas layout and eye/mouth landmarks visually retained. Teal, cream, coral and gold floral pattern detail present."
+}

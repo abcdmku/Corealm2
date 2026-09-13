@@ -20,5 +20,6 @@ description: "Bites through scorched bark without a second swing. Seventeen effe
 | --- | --- | --- |
 | Made by | Titanium Hatchet | 1 per craft |
 | Sold by | [Ashford Provisioners](../../spells-and-shops/#ashford-provisioners) | 3 in stock |
+| Sold by | [Moonpetal Provisions](../../spells-and-shops/#moonpetal-provisions) | 3 in stock |
 
 [Back to all items](../)

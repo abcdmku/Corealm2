@@ -6,12 +6,13 @@ description: "Furnace Grazer spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="65.833,43.394,65.833,43.394"
- style="--map-image-ratio:0.72727">
+ data-map-focus="50.909,33.333,73.636,43.394"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Furnace Grazer">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-empty-sluice" style="--map-x:65.8333%;--map-y:43.3939%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Furnace Grazer, The Empty Sluice, Wilderness" title="Furnace Grazer, The Empty Sluice, Wilderness"><span>Furnace Grazer<small>The Empty Sluice, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ashwind-shelter-bend" style="--map-x:73.6364%;--map-y:33.3333%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Furnace Grazer, Ashwind Shelter Bend, Wilderness" title="Furnace Grazer, Ashwind Shelter Bend, Wilderness"><span>Furnace Grazer<small>Ashwind Shelter Bend, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-empty-sluice" style="--map-x:50.9091%;--map-y:43.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Furnace Grazer, The Empty Sluice, Wilderness" title="Furnace Grazer, The Empty Sluice, Wilderness"><span>Furnace Grazer<small>The Empty Sluice, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -29,6 +30,7 @@ description: "Furnace Grazer spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
+| [Wilderness](../../regions/#ashwind-shelter-bend) | [Ashwind Shelter Bend](../../regions/#ashwind-shelter-bend) | Furnace Grazer | 10 |
 | [Wilderness](../../regions/#the-empty-sluice) | [The Empty Sluice](../../regions/#the-empty-sluice) | Furnace Grazer | 7 |
 
 ## Stats

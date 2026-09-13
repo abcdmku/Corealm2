@@ -44,7 +44,7 @@ try {
     .every(e => !isReservedUniversalMinibossAsset(e.view.assetId) || e.id.startsWith('universal_miniboss_')));
   evidence.terraces = FAIRY_TERRACE_ENCOUNTERS.map(({ group, habitat }) => {
     const members = all.filter(e => e.meta?.groupId === group.id);
-    assert.equal(members.length, 7, group.id);
+    assert.equal(members.length, group.count, group.id);
     for (const member of members) assert(Math.hypot(member.position[0] - habitat.centre[0],
       member.position[2] - habitat.centre[1]) + member.combat.bodyRadius + 1.5 <= habitat.radius + .01, member.id);
     return { id: group.id, members: members.map(e => ({ id: e.id, position: e.position })) };

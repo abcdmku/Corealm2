@@ -6,15 +6,15 @@ description: "Thorn Maw spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="22.500,64.667,41.333,83.273"
- style="--map-image-ratio:0.72727">
+ data-map-focus="19.394,64.667,33.091,83.273"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Thorn Maw">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:23.3333%;--map-y:78.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Pine Grove, Farmland" title="Thorn Maw, Pine Grove, Farmland"><span>Thorn Maw<small>Pine Grove, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:22.5000%;--map-y:83.2727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Air Essence Cache, Farmland" title="Thorn Maw, Air Essence Cache, Farmland"><span>Thorn Maw<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:41.3333%;--map-y:64.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Copper Pit, Farmland" title="Thorn Maw, Copper Pit, Farmland"><span>Thorn Maw<small>Copper Pit, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:25.8333%;--map-y:72.8485%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Open Meadow, Farmland" title="Thorn Maw, Open Meadow, Farmland"><span>Thorn Maw<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:20.0000%;--map-y:78.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Pine Grove, Farmland" title="Thorn Maw, Pine Grove, Farmland"><span>Thorn Maw<small>Pine Grove, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:19.3939%;--map-y:83.2727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Air Essence Cache, Farmland" title="Thorn Maw, Air Essence Cache, Farmland"><span>Thorn Maw<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:33.0909%;--map-y:64.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Copper Pit, Farmland" title="Thorn Maw, Copper Pit, Farmland"><span>Thorn Maw<small>Copper Pit, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:21.8182%;--map-y:72.8485%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Open Meadow, Farmland" title="Thorn Maw, Open Meadow, Farmland"><span>Thorn Maw<small>Open Meadow, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

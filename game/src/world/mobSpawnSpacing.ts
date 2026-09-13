@@ -23,7 +23,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     const group = groups.get(key) ?? [];
     group.push(entity); groups.set(key, group);
   }
-  type Occupant = { position: Vec3; radius: number; underground: boolean; extra: number };
+  type Occupant = { position: Vec3; radius: number; underground: boolean; extra: number; groupId?: string };
   const cells = new Map<string, Occupant[]>();
   const largestRadius = Math.max(.5, ...mobs.map(entity => entity.combat?.bodyRadius ?? .5));
   const reserve = (entry: Occupant): void => {
@@ -44,7 +44,8 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     const ordinary = members.filter(entity => entity.archetype === 'enemy');
     if (!ordinary.length) continue;
     const source = sources.get(groupId);
-    const enclosed = source && isFairyRegion(source.regionId);
+    const clusteredWorms = groupId === 'coldbrace_red_worms';
+    const enclosed = source && (isFairyRegion(source.regionId) || clusteredWorms);
     // Wilderness formations reserve room for their accepted body families. The
     // final floor search must not collapse them back to the generic minimum.
     let authoredSeparation = 0;
@@ -62,32 +63,35 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     for (const entity of ordinary) {
       const underground = ports.underground(entity.regionId);
       const radius = entity.combat?.bodyRadius ?? .5;
-      const minimum = Math.max(underground ? 5 : 6, authoredSeparation);
+      const minimum = Math.max(clusteredWorms ? 3 : underground ? 5 : 6, authoredSeparation);
       // Leave a running lane even when both residents wander toward each other.
       // Idle patches extend .75 m in caves and 1.5 m outdoors.
-      const gap = underground ? 3.5 : 5;
+      const gap = clusteredWorms ? 1 : underground ? 3.5 : 5;
       const phase = (hashId(entity.id) % 360) * Math.PI / 180;
       const desired = [entity.position[0], entity.position[2]];
       // Independent stable samples break repeated authored sockets and equal rings.
       // Variation is local to each resident, so changing another pack does not reroll it.
       const sample = (key: string): number => hashId(`${entity.id}:placement:${key}`) / 0xffffffff;
-      const extra = (underground ? 1 : 5) * groupVariation * sample('clearance');
+      const extra = (clusteredWorms ? .15 : underground ? 1 : 5) * groupVariation * sample('clearance');
       let destination: Vec3 | null = null;
       const tryPoint = (x: number, z: number): void => {
         if (destination) return;
         if (enclosed && Math.hypot(x - source.centre[0], z - source.centre[1])
           + radius + (source.roamRadius ?? 1.5) > source.radius) return;
-        const reach = Math.max(minimum, radius + largestRadius + gap) + (underground ? 1 : 5);
+        const reach = Math.max(clusteredWorms ? 6 : minimum,
+          radius + largestRadius + (clusteredWorms ? 5 : gap)) + (underground ? 1 : 5);
         for (let gx = Math.floor((x - reach) / 32); gx <= Math.floor((x + reach) / 32); gx++) {
           for (let gz = Math.floor((z - reach) / 32); gz <= Math.floor((z + reach) / 32); gz++) {
             if (cells.get(`${underground}:${gx}:${gz}`)?.some(other =>
-              Math.hypot(x - other.position[0], z - other.position[2]) < Math.max(minimum, radius + other.radius + gap)
+              Math.hypot(x - other.position[0], z - other.position[2]) < Math.max(
+                clusteredWorms && other.groupId !== groupId ? 6 : minimum,
+                radius + other.radius + (clusteredWorms && other.groupId !== groupId ? 5 : gap))
                 + Math.max(extra, other.extra))) return;
           }
         }
         destination = ports.place(entity, x, z, radius);
       };
-      const offset = (underground ? 1 : 4) * Math.sqrt(sample('offset'));
+      const offset = (clusteredWorms ? .3 : underground ? 1 : 4) * Math.sqrt(sample('offset'));
       const direction = sample('direction') * Math.PI * 2;
       tryPoint(desired[0]! + Math.cos(direction) * offset, desired[1]! + Math.sin(direction) * offset);
       tryPoint(desired[0]!, desired[1]!);
@@ -107,7 +111,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
       entity.meta = { ...entity.meta, groupId, habitatId: source?.id ?? `${groupId}_spaced`,
         spawnX: position[0], spawnZ: position[2] };
       anchors.push([position[0], position[2]]);
-      reserve({ position, radius, underground, extra });
+      reserve({ position, radius, underground, extra, groupId });
     }
     result.push({ ...source, id: source?.id ?? `${groupId}_spaced`, groupId,
       regionId: ordinary[0]!.regionId, centre,

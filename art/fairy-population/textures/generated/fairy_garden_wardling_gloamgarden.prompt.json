@@ -1,0 +1,15 @@
+﻿{
+  "creature": "wardling",
+  "realm": "gloamgarden",
+  "source": "fairy_monster_34",
+  "detail": "Repaint this separated floating rock golem atlas with living multicolored minerals and a bioluminescent mineral core. Keep every existing glowing fissure/core location and rock plate silhouette unchanged. Rock plates show jade, teal, blush coral, and cream layered mineral bands, dense fine geode rings, tiny crystal cleavage, pale moss crust, antique gold mineral flecks. Fine teal and pink veins trace existing cracks, warm cream quartz rock planes alternate with darker jade rock planes. Dark crevices stay dark; glow locations stay exactly fixed. Organic enchanted garden geology with detailed worn stone, no uniform grey stone or single hue glow wash.",
+  "tool": "built-in image_gen.imagegen",
+  "prompt": "Use case: precise-object-edit. Asset type: production game 2D UV albedo texture map, square 1024x1024 or higher. Input 1 is the edit TARGET albedo. Input 2 is supporting UV wireframe guide ONLY, never paint any wireframe lines. Change surface color and material decoration only. EXACTLY preserve UV island pixel positions, silhouettes, scale, orientation, gaps, padding, source geometric shading, seam correspondence, and all eye/gem/metal feature positions. No re-layout, no added islands, no enlarged islands. This must fit the original mesh with its unchanged UV coordinates. Keep black pupils and dark joints. Output ONLY a flat full-bleed texture atlas image, no text, captions, border, watermark, 3D render, character sheet, object view, or lighting vignette. Detail should be painted on the existing surface islands and align at the original seams. Material-separated rich colors, never monochrome or an overall hue wash. Repaint this separated floating rock golem atlas with living multicolored minerals and a bioluminescent mineral core. Keep every existing glowing fissure/core location and rock plate silhouette unchanged. Rock plates show jade, teal, blush coral, and cream layered mineral bands, dense fine geode rings, tiny crystal cleavage, pale moss crust, antique gold mineral flecks. Fine teal and pink veins trace existing cracks, warm cream quartz rock planes alternate with darker jade rock planes. Dark crevices stay dark; glow locations stay exactly fixed. Organic enchanted garden geology with detailed worn stone, no uniform grey stone or single hue glow wash.",
+  "referenced_image_paths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_34-albedo-0.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/fairy_monster_34-uv-0.png"
+  ],
+  "generated_path": "C:\\Users\\Borg\\.codex\\generated_images\\01a09889-5c0b-7210-b2ba-491ef4d4e2f2\\exec-85ffc87a-f351-40e5-9a35-d437ea797755.png",
+  "output_path": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_wardling_gloamgarden.png",
+  "inspection": "Flat atlas; source rock plate and core arrangement retained visually; distinct jade, coral, cream mineral bands with gold/moss flecks. Mesh seam acceptance requires production lab."
+}

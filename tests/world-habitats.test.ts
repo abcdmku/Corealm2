@@ -28,7 +28,7 @@ describe("authored wildlife habitats", () => {
     for (const habitat of WORLD_HABITATS) {
       const { group, region } = groupsById.get(habitat.groupId)!;
       expect(habitat.regionId, habitat.id).toBe(region.id);
-      expect(group.count, habitat.id).toBeGreaterThanOrEqual(7);
+      expect(group.count, habitat.id).toBeGreaterThanOrEqual(group.countPolicy === 'fixed' ? 1 : 7);
       expect(group.count, habitat.id).toBeLessThanOrEqual(15);
       expect(habitat.anchors.length, habitat.id).toBeGreaterThanOrEqual(group.count);
       expect(habitatForGroup(group.id), group.id).toBe(habitat);

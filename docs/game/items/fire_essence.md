@@ -15,6 +15,7 @@ description: "A hot orange charge mined at the Ashlands altar ruins. It never qu
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Fire Essence Cache | Mining level 20 |
+| Bonus from | Star Amethyst Titanium Seam | 40% per gather |
 | Dropped by | Giant Viper | 12% · 1-2 |
 | Dropped by | [Quarry Bandit](../../creatures/reaver_t20/) | 20% · 1-3 |
 | Dropped by | Salamander | 25% · 1-2 |
@@ -23,6 +24,9 @@ description: "A hot orange charge mined at the Ashlands altar ruins. It never qu
 | Dropped by | [Kiln Marrow](../../creatures/kiln_marrow_t20/) | 35% · 1-2 |
 | Dropped by | Slag Crawler | 35% · 1-2 |
 | Dropped by | [Cinder Penitent](../../creatures/cinder_penitent_t20/) | 35% · 1-2 |
+| Dropped by | [Red Dragon Whelp](../../creatures/crownward_red_hatchling_t40/) | 100% · 4-8 |
+| Dropped by | [Black Dragon Whelp](../../creatures/crownward_black_hatchling_t40/) | 100% · 4-8 |
+| Dropped by | [Red Dragon of Crownward](../../creatures/crownward_red_dragon_t40/) | 100% · 10-18 |
 | Dropped by | Skeleton Mage | 45% · 1-2 |
 | Dropped by | Plague Zombie | 15% · 1-2 |
 | Dropped by | Banshee | 45% · 1-2 |

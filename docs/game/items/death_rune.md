@@ -22,6 +22,13 @@ description: "A bone-white rune cut with a hollow skull. It holds a spell's shap
 | Dropped by | [Voidstone Colossus](../../creatures/voidstone_colossus_t70/) | 32% · 2-4 |
 | Dropped by | [Gloam Wraith](../../creatures/gloam_wraith_t70/) | 32% · 2-4 |
 | Dropped by | [Chainbound Archon](../../creatures/chainbound_archon_t70/) | 100% · 24-40 |
+| Dropped by | [Pearl Knight](../../creatures/pearl_knight_t40/) | 18% · 1-2 |
+| Dropped by | [Ivory Castellan](../../creatures/ivory_castellan_t40/) | 100% · 3-6 |
+| Dropped by | [Crown Hart](../../creatures/crown_hart_t40/) | 18% · 1-2 |
+| Dropped by | [Silverthorn Harrow](../../creatures/silverthorn_harrow_t40/) | 18% · 1-2 |
+| Dropped by | [Red Dragon Whelp](../../creatures/crownward_red_hatchling_t40/) | 35% · 1-3 |
+| Dropped by | [Black Dragon Whelp](../../creatures/crownward_black_hatchling_t40/) | 35% · 1-3 |
+| Dropped by | [Red Dragon of Crownward](../../creatures/crownward_red_dragon_t40/) | 75% · 4-7 |
 | Dropped by | Black Dragon Hatchling | 32% · 2-4 |
 | Dropped by | Cinder Dreadwing | 32% · 2-4 |
 | Dropped by | Red Dragon Hatchling | 32% · 2-4 |

@@ -21,6 +21,28 @@ description: "An orange rune scored with a jagged fork. It lets a spell break lo
 | Dropped by | [Furnace Grazer](../../creatures/furnace_grazer_t50/) | 28% · 2-3 |
 | Dropped by | [Basalt Maw](../../creatures/basalt_maw_t50/) | 28% · 2-3 |
 | Dropped by | [Furnace Regent](../../creatures/furnace_regent_t50/) | 100% · 24-40 |
+| Dropped by | Lantern Sprite | 18% · 1-2 |
+| Dropped by | Moonpetal Stalker | 18% · 1-2 |
+| Dropped by | Dewglass Weaver | 18% · 1-2 |
+| Dropped by | [Bloomheart Matriarch](../../creatures/bloomheart_matriarch_t30/) | 100% · 3-6 |
+| Dropped by | Petal Pouncer | 18% · 1-2 |
+| Dropped by | Moss Nibbler | 18% · 1-2 |
+| Dropped by | Bloom Hopper | 18% · 1-2 |
+| Dropped by | Thicket Spirit | 18% · 1-2 |
+| Dropped by | Bramble Prowler | 18% · 1-2 |
+| Dropped by | Elder Grovebeast | 18% · 1-2 |
+| Dropped by | [Dewdrop Spriggle](../../creatures/garden_spriggle_t30/) | 18% · 1-2 |
+| Dropped by | [Mooncap Sporekin](../../creatures/garden_sporekin_t30/) | 18% · 1-2 |
+| Dropped by | [Glasspond Frog](../../creatures/garden_frog_t30/) | 18% · 1-2 |
+| Dropped by | [Lantern Imp](../../creatures/garden_imp_t30/) | 18% · 1-2 |
+| Dropped by | [Mooncap Snail](../../creatures/garden_snail_t30/) | 18% · 1-2 |
+| Dropped by | [Dewglass Reliquary](../../creatures/garden_reliquary_t30/) | 18% · 1-2 |
+| Dropped by | [Silverleaf Hart](../../creatures/garden_hart_t30/) | 18% · 1-2 |
+| Dropped by | [Thistledown Veilspirit](../../creatures/garden_veilspirit_t30/) | 18% · 1-2 |
+| Dropped by | [Briar Sapling](../../creatures/garden_sapling_t30/) | 18% · 1-2 |
+| Dropped by | [Petal Drake](../../creatures/garden_drake_t30/) | 18% · 1-2 |
+| Dropped by | [Dewstone Wardling](../../creatures/garden_wardling_t30/) | 18% · 1-2 |
+| Dropped by | [Silverleaf Petalguard](../../creatures/garden_petalguard_t30/) | 18% · 1-2 |
 | Dropped by | Purple Wilderness Dragon | 28% · 2-3 |
 | Dropped by | [Banshee](../../creatures/banshee_t50/) | 28% · 2-3 |
 | Dropped by | Black Wilderness Dragon | 28% · 2-3 |
@@ -43,5 +65,6 @@ description: "An orange rune scored with a jagged fork. It lets a spell break lo
 | Dropped by | [Wraith](../../creatures/wraith_t50/) | 28% · 2-3 |
 | Sold by | [Oakwood Trade Post](../../spells-and-shops/#oakwood-trade-post) | 120 in stock |
 | Sold by | [Hillcrest Camp Store](../../spells-and-shops/#hillcrest-camp-store) | 120 in stock |
+| Sold by | [Moonpetal Provisions](../../spells-and-shops/#moonpetal-provisions) | 100 in stock |
 
 [Back to all items](../)

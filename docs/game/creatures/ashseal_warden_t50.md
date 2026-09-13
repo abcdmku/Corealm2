@@ -6,12 +6,12 @@ description: "Ashseal Warden spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="35.750,38.000,35.750,38.000"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.030,38.000,29.030,38.000"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ashseal Warden">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#ashseal-court" style="--map-x:35.7500%;--map-y:38.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashseal Warden, Ashseal Court, Wilderness" title="Ashseal Warden, Ashseal Court, Wilderness"><span>Ashseal Warden<small>Ashseal Court, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ashseal-court" style="--map-x:29.0303%;--map-y:38.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashseal Warden, Ashseal Court, Wilderness" title="Ashseal Warden, Ashseal Court, Wilderness"><span>Ashseal Warden<small>Ashseal Court, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

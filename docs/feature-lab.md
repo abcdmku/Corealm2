@@ -48,6 +48,15 @@ Evidence is disposable under `test-results/crownward-fishing/`.
 
 ### Mob spawn spacing
 
+`?mode=combat&spawnSpacing=1&population=fairy` exercises the fairy garden factory with
+four spriggles and three sporekin in one receiving floor. Run
+`npx tsx tools/fairy-population-spacing-test.ts` for body clearance, movement and reset.
+The fairy roster and guardian texture checks are documented in
+[`art/fairy-population/README.md`](../art/fairy-population/README.md). After lab acceptance,
+`npx tsx tools/fairy-population-world-test.ts --region gloamgarden --part gardens`
+checks the authored populations; repeat for `faeholme`. The `npcs-1` and `npcs-2` parts
+exercise three village conversations each within the world-test time budget.
+
 `?mode=combat&spawnSpacing=1&population=stone` exercises the production resident budget
 with Flint Mandibles, Blind Cave Weavers, Scree Watchers and hens. Karrowmoor applies
 that budget to all live spawn sources before final placement: large bodies get 2–3

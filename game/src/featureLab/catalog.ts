@@ -25,7 +25,7 @@ import { WILDERNESS_RUNE_KEEPERS } from '../content/wildernessDepth.js';
 import { CROWNWARD_DRAGON_SPECIES, crownwardDragonGroup } from '../content/crownwardDragons.js';
 import { FAIRY_CROWN_SPECIES, FAIRY_CROWN_BOSS_IDS } from '../content/fairyCrownCreatures.js';
 import { UNIVERSAL_MINIBOSS_SPECIES } from '../content/universalMinibosses.js';
-import { FAIRY_NPC_CANDIDATES } from '../content/fairyNpcs.js';
+import { FAIRY_NPC_CANDIDATES, fairyNpcPresentation } from '../content/fairyNpcs.js';
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
@@ -285,7 +285,7 @@ function createNpcEntity(
     name: npc.name,
     tier: source.preset.tier,
     regionId: source.regionId,
-    position: placeOnFlatGround(placement.groundPosition, baseY, 1),
+    position: placeOnFlatGround(placement.groundPosition, baseY, fairyNpcPresentation(npc.assetId).scale),
     state: "idle",
     interactions: ["inspect", "talk"],
     npc: {
@@ -296,7 +296,7 @@ function createNpcEntity(
       assetId: npc.assetId,
       partAssetIds: npcOutfitParts(npc.id, npc.assetId),
       rotationY: placement.rotationY ?? npc.facingRad,
-      labelHeight: npc.assetId.startsWith('npc_fey_') ? 1.2 : 2.2,
+      ...fairyNpcPresentation(npc.assetId),
     },
     meta: { settlementId: source.settlementId },
   };

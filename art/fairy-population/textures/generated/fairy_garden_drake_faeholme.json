@@ -1,0 +1,10 @@
+{
+  "prompt": "Use case: precise-object-edit. Asset type: flat 2D production game dragon UV albedo texture, square 2048x2048. Image 1 is the EDIT TARGET source albedo. Image 2 is ONLY a UV wireframe layout guide. Preserve EXACT island locations, shapes, rotation, size, eye positions, mouth openings, wing membrane versus skin borders, claw/horn islands and padding. Generate an intricate new multicolored skin for an Orchid Drake in a moonlit fairy garden. The skin should have layered small overlapping amethyst-indigo and glacial cyan scales, warm pearl ivory underside plates, large orchid-magenta and soft pale lilac petal rosettes, fine pollen-gold accents. Wing membranes are creamy pearl silk with translucent-looking orchid-pink, cyan and restrained gold botanical veining and fine pearlescent grain, distinctly brighter than indigo wing bones. Horns and claws ivory with purple-gray growth rings. Preserve the head island anatomy and eyes, eyes rich pale gold with dark pupil. Rich surface depth through fine scale texture and selective recessed shading. Readable midtones and contrasting color zones, never a monochromatic purple wash. Painted fantasy game material, no photographic lighting or scene. ONLY the flat atlas image, not a 3D creature rendering, no letters, labels, borders, UV lines or grid. Do not rearrange the atlas.",
+  "sourcePaths": [
+    "art/fairy-population/textures/source/creature_baby_red_dragon-albedo-0.png",
+    "art/fairy-population/textures/source/creature_baby_red_dragon-uv-0.png"
+  ],
+  "tool": "built-in image_gen",
+  "generatedImagePath": "C:/Users/Borg/.codex/generated_images/01a0985a-57ed-7b62-a688-0f303e680e34/exec-c66b5b3c-75a3-4fe3-82c1-e5f3454a79d2.png",
+  "inspection": "Wing/body boundaries and eye locations visually retained. Purple, cyan and ivory scales with orchid rose petal rosettes. Model inspection required."
+}

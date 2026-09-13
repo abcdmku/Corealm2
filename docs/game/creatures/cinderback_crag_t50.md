@@ -6,12 +6,14 @@ description: "Cinderback Crag spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="34.917,34.545,34.917,34.545"
- style="--map-image-ratio:0.72727">
+ data-map-focus="28.424,34.545,77.576,39.091"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cinderback Crag">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-broken-waterway" style="--map-x:34.9167%;--map-y:34.5455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinderback Crag, The Broken Waterway, Wilderness" title="Cinderback Crag, The Broken Waterway, Wilderness"><span>Cinderback Crag<small>The Broken Waterway, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#cinderward-road" style="--map-x:77.5758%;--map-y:39.0909%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cinderback Crag, Cinderward Road, Wilderness" title="Cinderback Crag, Cinderward Road, Wilderness"><span>Cinderback Crag<small>Cinderward Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ashwind-cloister-approach" style="--map-x:70.9744%;--map-y:38.6621%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cinderback Crag, Ashwind Cloister Approach, Wilderness" title="Cinderback Crag, Ashwind Cloister Approach, Wilderness"><span>Cinderback Crag<small>Ashwind Cloister Approach, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-broken-waterway" style="--map-x:28.4242%;--map-y:34.5455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinderback Crag, The Broken Waterway, Wilderness" title="Cinderback Crag, The Broken Waterway, Wilderness"><span>Cinderback Crag<small>The Broken Waterway, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -29,6 +31,8 @@ description: "Cinderback Crag spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
+| [Wilderness](../../regions/#cinderward-road) | [Cinderward Road](../../regions/#cinderward-road) | Cinderback Crag | 7 |
+| [Wilderness](../../regions/#ashwind-cloister-approach) | [Ashwind Cloister Approach](../../regions/#ashwind-cloister-approach) | Cinderback Crag | 12 |
 | [Wilderness](../../regions/#the-broken-waterway) | [The Broken Waterway](../../regions/#the-broken-waterway) | Cinderback Crag | 7 |
 
 ## Stats

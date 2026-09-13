@@ -15,5 +15,6 @@ description: "Timber cut from a willow tree."
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Willow | Woodcutting level 30 |
+| Gathered from | Gloam Willow | Woodcutting level 30 |
 
 [Back to all items](../)

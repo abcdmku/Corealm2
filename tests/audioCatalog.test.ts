@@ -248,7 +248,7 @@ describe("creature voices", () => {
       "moonpetal_stalker", "moonweave_spider", "mossback_sentinel", "mossbound", "nightforge_marshal",
       "orchid_reaper", "pallid_shade", "pearl_knight", "plague_zombie", "prismatic_sprite",
       "purple_wilderness_dragon", "quarry_nightmare", "quarry_snail", "quarrykeeper", "quillback_porcupine",
-      "reaver", "red_wilderness_dragon", "redbrush_fox", "reed_strider", "reed_wasp",
+      "reaver", "red_wilderness_dragon", "red_worm", "redbrush_fox", "reed_strider", "reed_wasp",
       "reedbank_goose", "reedjaw_crocodile", "revenant", "rift_carapace", "rimeback_tortoise",
       "rootdelve_badger", "rootheart", "scree_bustard", "scree_watcher", "shale_elemental",
       "silverthorn_harrow", "skeleton_archer", "skeleton_mage", "skeleton_soldier", "slag_centipede",
@@ -257,6 +257,8 @@ describe("creature voices", () => {
       "webweaver_spider", "wraith", "zombie",
       // These imported fairy creatures and universal guardians have no reviewed voice recordings.
       "bloom_hopper", "bramble_prowler", "elder_grovebeast", "moss_nibbler", "petal_pouncer", "thicket_spirit",
+      "garden_petalguard", "garden_sporekin", "garden_drake", "garden_veilspirit", "garden_frog", "garden_spriggle",
+      "garden_hart", "garden_imp", "garden_sapling", "garden_snail", "garden_reliquary", "garden_wardling",
       "guardian_01", "guardian_02", "guardian_03", "guardian_04", "guardian_05", "guardian_06", "guardian_07", "guardian_08", "guardian_09",
       "crownward_red_hatchling", "crownward_black_hatchling", "crownward_red_dragon",
     ].sort());

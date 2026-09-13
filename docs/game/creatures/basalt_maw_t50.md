@@ -6,12 +6,14 @@ description: "Basalt Maw spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="49.333,31.515,49.333,31.515"
- style="--map-image-ratio:0.72727">
+ data-map-focus="38.909,31.515,78.643,33.544"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Basalt Maw">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:49.3333%;--map-y:31.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Basalt Maw, The Grave Road, Wilderness" title="Basalt Maw, The Grave Road, Wilderness"><span>Basalt Maw<small>The Grave Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ashwind-shelter" style="--map-x:64.8485%;--map-y:31.8182%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Basalt Maw, Ashwind Shelter, Wilderness" title="Basalt Maw, Ashwind Shelter, Wilderness"><span>Basalt Maw<small>Ashwind Shelter, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#far-cinder-smithy-approach" style="--map-x:78.6430%;--map-y:33.5439%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Basalt Maw, Far Cinder Smithy Approach, Wilderness" title="Basalt Maw, Far Cinder Smithy Approach, Wilderness"><span>Basalt Maw<small>Far Cinder Smithy Approach, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-grave-road" style="--map-x:38.9091%;--map-y:31.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Basalt Maw, The Grave Road, Wilderness" title="Basalt Maw, The Grave Road, Wilderness"><span>Basalt Maw<small>The Grave Road, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -29,6 +31,8 @@ description: "Basalt Maw spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
+| [Wilderness](../../regions/#ashwind-shelter) | [Ashwind Shelter](../../regions/#ashwind-shelter) | Basalt Maw | 7 |
+| [Wilderness](../../regions/#far-cinder-smithy-approach) | [Far Cinder Smithy Approach](../../regions/#far-cinder-smithy-approach) | Basalt Maw | 7 |
 | [Wilderness](../../regions/#the-grave-road) | [The Grave Road](../../regions/#the-grave-road) | Basalt Maw | 7 |
 
 ## Stats

@@ -1,0 +1,46 @@
+---
+title: "Ivory Castellan"
+description: "Ivory Castellan spawn locations, combat stats, and drops."
+---
+
+<div class="corealm-creature-spawn-evidence">
+<div class="corealm-quest-scenes"></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map
+ data-map-focus="74.194,53.297,74.194,53.297"
+ style="--map-image-ratio:1.00000">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ivory Castellan">
+<div class="corealm-map-stage" data-map-stage>
+<img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
+<a class="corealm-map-marker" href="../../regions/#ivory-citadel-court" style="--map-x:74.1939%;--map-y:53.2970%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Ivory Castellan, Ivory Citadel Court, Crownward" title="Ivory Castellan, Ivory Citadel Court, Crownward"><span>Ivory Castellan<small>Ivory Citadel Court, Crownward</small></span></a>
+</div>
+<span class="corealm-map-north" aria-hidden="true">N</span>
+<div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
+<button type="button" data-map-action="out" aria-label="Zoom out" title="Zoom out">&minus;</button>
+<button type="button" data-map-action="reset" aria-label="Reset map" title="Reset map">&#x25CE;</button>
+<button type="button" data-map-action="in" aria-label="Zoom in" title="Zoom in">+</button>
+</div>
+<button class="corealm-map-expand" type="button" data-map-action="expand" aria-label="Expand map" aria-pressed="false" title="Expand map">&#x26F6;</button>
+</div>
+<figcaption>Markers use each authored spawn group's exact centre.</figcaption>
+</figure>
+</div>
+
+## Spawn locations
+
+| Region | Nearest place | Spawn group | Count |
+| --- | --- | --- | --- |
+| [Crownward](../../regions/#ivory-citadel-court) | [Ivory Citadel Court](../../regions/#ivory-citadel-court) | Ivory Castellan | 1 |
+
+## Stats
+
+<dl class="codex-stats"><div><dt>Tier</dt><dd>40</dd></div><div><dt>Health</dt><dd>492</dd></div><div><dt>Attack</dt><dd>73</dd></div><div><dt>Defence</dt><dd>76</dd></div><div><dt>Accuracy</dt><dd>3</dd></div><div><dt>Max hit</dt><dd>26</dd></div><div><dt>Attack speed</dt><dd>3.8 s</dd></div><div><dt>Armour</dt><dd>12</dd></div><div><dt>Magic armour</dt><dd>9</dd></div><div><dt>Behaviour</dt><dd>Territorial</dd></div><div><dt>Aggro</dt><dd>12 m</dd></div></dl>
+
+## Drops
+
+
+
+<div class="codex-grid codex-grid--wide">
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">480-960 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/air_essence.webp" alt="Air Essence" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/air_essence/">Air Essence</a></span><span class="codex-card__meta">8-14 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/death_rune.webp" alt="Death Rune" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/death_rune/">Death Rune</a></span><span class="codex-card__meta">3-6 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">100% chance</span></span></span></span></div>
+</div>

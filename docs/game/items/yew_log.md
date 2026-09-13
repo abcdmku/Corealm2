@@ -15,5 +15,6 @@ description: "Timber cut from a yew tree."
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Yew | Woodcutting level 60 |
+| Gathered from | Fae Yew | Woodcutting level 60 |
 
 [Back to all items](../)

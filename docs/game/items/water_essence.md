@@ -15,6 +15,7 @@ description: "Cold blue essence gathered from the far Highlands cache."
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Water Essence Cache | Mining level 10 |
+| Bonus from | Dewglass Cobalt Seam | 25% per gather |
 | Dropped by | [Highland Bandit](../../creatures/reaver_t10/) | 20% · 1-3 |
 | Dropped by | [Cave Ogre](../../creatures/tideworn_t10/) | 50% · 2-5 |
 | Dropped by | Rimeback Tortoise | 25% · 1-1 |

@@ -6,12 +6,12 @@ description: "The Hollow Star spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="48.233,20.603,48.233,20.603"
- style="--map-image-ratio:0.72727">
+ data-map-focus="38.109,20.603,38.109,20.603"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for The Hollow Star">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:48.2334%;--map-y:20.6032%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="The Hollow Star, Hollow Star Sanctum, Wilderness" title="The Hollow Star, Hollow Star Sanctum, Wilderness"><span>The Hollow Star<small>Hollow Star Sanctum, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:38.1092%;--map-y:20.6032%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="The Hollow Star, Hollow Star Sanctum, Wilderness" title="The Hollow Star, Hollow Star Sanctum, Wilderness"><span>The Hollow Star<small>Hollow Star Sanctum, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

@@ -26,5 +26,6 @@ description: "A hand-width of Titanium that never fully cools. It goes in easier
 | Made by | Titanium Dagger | 1 per craft |
 | Made by | Demon Claw Grip Titanium Dagger | 1 per craft |
 | Sold by | [Kiln Row Smith](../../spells-and-shops/#kiln-row-smith) | 2 in stock |
+| Sold by | [Lantern Smith](../../spells-and-shops/#lantern-smith) | 2 in stock |
 
 [Back to all items](../)

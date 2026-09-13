@@ -20,5 +20,6 @@ description: "The oil crisps its own skin. What a Fire Ogre attempt is provision
 | --- | --- | --- |
 | Made by | Seared Bass | 1 per craft |
 | Sold by | [Ashford Provisioners](../../spells-and-shops/#ashford-provisioners) | 40 in stock |
+| Sold by | [Moonpetal Provisions](../../spells-and-shops/#moonpetal-provisions) | 40 in stock |
 
 [Back to all items](../)

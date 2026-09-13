@@ -15,6 +15,9 @@ description: "A broad scale with a tough leather backing. Trim several into stan
 | Source | Name | Details |
 | --- | --- | --- |
 | Dropped by | Armored Dragon | 80% · 1-3 |
+| Dropped by | [Red Dragon Whelp](../../creatures/crownward_red_hatchling_t40/) | 100% · 1-3 |
+| Dropped by | [Black Dragon Whelp](../../creatures/crownward_black_hatchling_t40/) | 100% · 1-3 |
+| Dropped by | [Red Dragon of Crownward](../../creatures/crownward_red_dragon_t40/) | 100% · 4-7 |
 | Dropped by | [Slag Crawler](../../creatures/slag_crawler_t20/) | 80% · 1-3 |
 
 ## Used to make

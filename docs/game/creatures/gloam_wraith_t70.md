@@ -6,19 +6,21 @@ description: "Gloam Wraith spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="31.176,19.554,76.417,28.298"
- style="--map-image-ratio:0.72727">
+ data-map-focus="25.704,19.554,72.331,28.298"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Gloam Wraith">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-cinder-crossing" style="--map-x:47.4167%;--map-y:28.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, The Cinder Crossing, Wilderness" title="Gloam Wraith, The Cinder Crossing, Wilderness"><span>Gloam Wraith<small>The Cinder Crossing, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#moonvein-copse" style="--map-x:76.4167%;--map-y:24.1212%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Moonvein Copse, Wilderness" title="Gloam Wraith, Moonvein Copse, Wilderness"><span>Gloam Wraith<small>Moonvein Copse, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#cinder-chain-foundry" style="--map-x:31.1763%;--map-y:28.0657%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Cinder Chain Foundry, Wilderness" title="Gloam Wraith, Cinder Chain Foundry, Wilderness"><span>Gloam Wraith<small>Cinder Chain Foundry, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#cinder-chain-foundry" style="--map-x:33.8237%;--map-y:28.2979%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Cinder Chain Foundry, Wilderness" title="Gloam Wraith, Cinder Chain Foundry, Wilderness"><span>Gloam Wraith<small>Cinder Chain Foundry, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#nightforge-bastion" style="--map-x:63.2514%;--map-y:23.4086%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Nightforge Bastion, Wilderness" title="Gloam Wraith, Nightforge Bastion, Wilderness"><span>Gloam Wraith<small>Nightforge Bastion, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#nightforge-bastion" style="--map-x:65.8920%;--map-y:23.1380%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Nightforge Bastion, Wilderness" title="Gloam Wraith, Nightforge Bastion, Wilderness"><span>Gloam Wraith<small>Nightforge Bastion, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:46.9279%;--map-y:19.5542%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Hollow Star Sanctum, Wilderness" title="Gloam Wraith, Hollow Star Sanctum, Wilderness"><span>Gloam Wraith<small>Hollow Star Sanctum, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:49.7521%;--map-y:19.7189%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Hollow Star Sanctum, Wilderness" title="Gloam Wraith, Hollow Star Sanctum, Wilderness"><span>Gloam Wraith<small>Hollow Star Sanctum, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#rift-watch" style="--map-x:66.0606%;--map-y:21.8182%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Rift Watch, Wilderness" title="Gloam Wraith, Rift Watch, Wilderness"><span>Gloam Wraith<small>Rift Watch, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#nightglass-waterway-approach" style="--map-x:72.3310%;--map-y:24.3643%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Nightglass Waterway Approach, Wilderness" title="Gloam Wraith, Nightglass Waterway Approach, Wilderness"><span>Gloam Wraith<small>Nightglass Waterway Approach, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-cinder-crossing" style="--map-x:37.5152%;--map-y:28.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, The Cinder Crossing, Wilderness" title="Gloam Wraith, The Cinder Crossing, Wilderness"><span>Gloam Wraith<small>The Cinder Crossing, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#moonvein-copse" style="--map-x:58.6061%;--map-y:24.1212%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Moonvein Copse, Wilderness" title="Gloam Wraith, Moonvein Copse, Wilderness"><span>Gloam Wraith<small>Moonvein Copse, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#cinder-chain-foundry" style="--map-x:25.7039%;--map-y:28.0657%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Cinder Chain Foundry, Wilderness" title="Gloam Wraith, Cinder Chain Foundry, Wilderness"><span>Gloam Wraith<small>Cinder Chain Foundry, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#cinder-chain-foundry" style="--map-x:27.6294%;--map-y:28.2979%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Cinder Chain Foundry, Wilderness" title="Gloam Wraith, Cinder Chain Foundry, Wilderness"><span>Gloam Wraith<small>Cinder Chain Foundry, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#nightforge-bastion" style="--map-x:49.0313%;--map-y:23.4086%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Nightforge Bastion, Wilderness" title="Gloam Wraith, Nightforge Bastion, Wilderness"><span>Gloam Wraith<small>Nightforge Bastion, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#nightforge-bastion" style="--map-x:50.9518%;--map-y:23.1380%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Nightforge Bastion, Wilderness" title="Gloam Wraith, Nightforge Bastion, Wilderness"><span>Gloam Wraith<small>Nightforge Bastion, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:37.1597%;--map-y:19.5542%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Hollow Star Sanctum, Wilderness" title="Gloam Wraith, Hollow Star Sanctum, Wilderness"><span>Gloam Wraith<small>Hollow Star Sanctum, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:39.2137%;--map-y:19.7189%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Gloam Wraith, Hollow Star Sanctum, Wilderness" title="Gloam Wraith, Hollow Star Sanctum, Wilderness"><span>Gloam Wraith<small>Hollow Star Sanctum, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -36,6 +38,8 @@ description: "Gloam Wraith spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
+| [Wilderness](../../regions/#rift-watch) | [Rift Watch](../../regions/#rift-watch) | Gloam Wraith | 7 |
+| [Wilderness](../../regions/#nightglass-waterway-approach) | [Nightglass Waterway Approach](../../regions/#nightglass-waterway-approach) | Gloam Wraith | 13 |
 | [Wilderness](../../regions/#the-cinder-crossing) | [The Cinder Crossing](../../regions/#the-cinder-crossing) | Gloam Wraith | 7 |
 | [Wilderness](../../regions/#moonvein-copse) | [Moonvein Copse](../../regions/#moonvein-copse) | Gloam Wraith | 7 |
 | [Wilderness](../../regions/#cinder-chain-foundry) | [Cinder Chain Foundry](../../regions/#cinder-chain-foundry) | Gloam Wraith | 7 |

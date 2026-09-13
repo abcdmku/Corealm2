@@ -6,17 +6,17 @@ description: "Cairn Treader spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="51.500,74.303,69.250,79.758"
- style="--map-image-ratio:0.72727">
+ data-map-focus="40.485,74.303,53.394,79.758"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cairn Treader">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:57.6667%;--map-y:79.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Third Ramp, Highlands" title="Cairn Treader, Third Ramp, Highlands"><span>Cairn Treader<small>Third Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:69.0000%;--map-y:76.9697%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Mountain Lakes, Highlands" title="Cairn Treader, Mountain Lakes, Highlands"><span>Cairn Treader<small>Mountain Lakes, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:69.2500%;--map-y:75.2727%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Highland Gate, Highlands" title="Cairn Treader, Highland Gate, Highlands"><span>Cairn Treader<small>Highland Gate, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:51.5000%;--map-y:78.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Stone Cavern, Highlands" title="Cairn Treader, Stone Cavern, Highlands"><span>Cairn Treader<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:56.3333%;--map-y:77.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Second Ramp, Highlands" title="Cairn Treader, Second Ramp, Highlands"><span>Cairn Treader<small>Second Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#moor-road-bend" style="--map-x:67.3333%;--map-y:74.3030%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Moor Road Bend, Highlands" title="Cairn Treader, Moor Road Bend, Highlands"><span>Cairn Treader<small>Moor Road Bend, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:44.9697%;--map-y:79.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Third Ramp, Highlands" title="Cairn Treader, Third Ramp, Highlands"><span>Cairn Treader<small>Third Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-lakes" style="--map-x:53.2121%;--map-y:76.9697%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Mountain Lakes, Highlands" title="Cairn Treader, Mountain Lakes, Highlands"><span>Cairn Treader<small>Mountain Lakes, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#highland-gate" style="--map-x:53.3939%;--map-y:75.2727%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Highland Gate, Highlands" title="Cairn Treader, Highland Gate, Highlands"><span>Cairn Treader<small>Highland Gate, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:40.4848%;--map-y:78.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Stone Cavern, Highlands" title="Cairn Treader, Stone Cavern, Highlands"><span>Cairn Treader<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:44.0000%;--map-y:77.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Second Ramp, Highlands" title="Cairn Treader, Second Ramp, Highlands"><span>Cairn Treader<small>Second Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#moor-road-bend" style="--map-x:52.0000%;--map-y:74.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cairn Treader, Moor Road Bend, Highlands" title="Cairn Treader, Moor Road Bend, Highlands"><span>Cairn Treader<small>Moor Road Bend, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

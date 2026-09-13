@@ -1,0 +1,31 @@
+{
+  "mode": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: production 2D UV albedo texture map for an existing 3D game mesh. Input image 1 is the EDIT TARGET original albedo. Input image 2 is a UV wireframe POSITION GUIDE ONLY, never copy its lines. Preserve the exact normalized positions, outlines, orientations, sizes and padding of every UV island. Preserve eye pupils and mouths at their precise source locations. Repaint inside the existing islands with detailed hand-painted game surface texture and modest baked surface depth. Output ONLY the flat rectangular UV albedo image, never a creature rendering, illustration, scene, collage, labeled diagram, or wireframe. No text, captions, border, frame, grid or UV lines. Preserve full image framing. Rich multiple-hue material detail must read on the mesh. Landscape output with EXACT 3:2 aspect ratio, preferably 3072x2048. The image is a six-material atlas consisting of EXACTLY THREE EQUAL WIDTH COLUMNS and TWO EQUAL HEIGHT ROWS; no gutters and no border. Each square tile's UV layout stays exactly as source. Top left STAFF material, top middle HAIR material, top right EYES material. Bottom left SKIN material, bottom middle CHEST clothing material, bottom right SCARF accessory material. Pipeline crops these exact six cells into separate materials: do not blend across cells or rearrange them. Keep iris/pupil center in top-right tile EXACTLY at source position, size and angle. Keep face eye sockets and mouth in bottom-left tile EXACTLY at source positions and proportions; do not paint a new portrait. Preserve source island silhouettes within each square. All material textures rich and hand-painted. Repaint as Gloamgarden mushroom-fey sporekin. Top-left staff islands become warm mossy wood with fine grain, green moss, pale coral lichen and subtle gold sap markings. Top-middle hair becomes silk-like mint and warm ivory strands with coral accents, respecting existing strand shapes and source layout. Top-right eye stays precise in position: warm golden amber iris with black pupil and pearl sclera; surrounding skin mottled mint with warm peach hints. Bottom-left skin keeps all existing facial anatomy, hands and body islands; warm mint and teal with cream and pink spore freckles, small soft fungal mottles, ivory highlights, coral cheeks. Bottom-middle clothing becomes rich teal fabric with LARGE embroidered ivory leaves and coral spore motifs with thin gold stitch detail, warm ivory panels and tactile woven grain. Bottom-right scarf/accessories retain exact material roles but repaint silk cloth in coral and mint with cream leaf embroidery and subtle gold piping, existing glass/gem sections mint opalescent, wood sections mossy wood. Multiple hues on every important body material, no monochromatic wash. Only six-cell flat UV albedo atlas.",
+  "sourcePaths": [
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/creature_goblin_shaman-albedo-atlas.png",
+    "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/source/creature_goblin_shaman-uv-atlas.png"
+  ],
+  "generatedPath": "C:/Users/Borg/.codex/generated_images/01a09888-a2b4-7430-93f0-5cc5d64168f3/exec-d6234c51-05d5-4da5-867d-8941446f1b4b.png",
+  "outputPath": "C:/Users/Borg/Documents/GitHub/Corealm2/art/fairy-population/textures/generated/fairy_garden_sporekin_gloamgarden.png",
+  "atlas": {
+    "columns": 3,
+    "rows": 2,
+    "order": [
+      "staff",
+      "hair",
+      "eyes",
+      "skin",
+      "chest",
+      "scarf"
+    ],
+    "requestedSize": [
+      3072,
+      2048
+    ],
+    "actualSize": [
+      1536,
+      1024
+    ]
+  },
+  "inspection": "Six equal material cells; mint skin, coral cream freckles, teal ivory embroidery, moss wood, silk hair. No guide lines. Exact UV acceptance requires production mesh."
+}

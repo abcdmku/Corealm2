@@ -1,0 +1,918 @@
+[
+  {
+    "id": "fairy_monster_10",
+    "sha256": "73c3658abb4fbb87d28b859b7c811b774538dfd8d8f683b23c8f4b9b98db02a2",
+    "sourcePath": "game/public/assets/models/fairy/fairy_monster_10.glb",
+    "size": {
+      "x": 0.9569105299051524,
+      "y": 0.8326163216334834,
+      "z": 1.7005382067337773
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fairy_monster_10_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fairy_monster_10-albedo-0.png",
+        "uv": "fairy_monster_10-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 3158,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fairy_monster_10_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fairy_monster_19",
+    "sha256": "831eb0dbb30e7132390846d65701579adf7f0bfb9e808e37135006ae23231629",
+    "sourcePath": "game/public/assets/models/fairy/fairy_monster_19.glb",
+    "size": {
+      "x": 0.976063464762225,
+      "y": 0.9750815740625864,
+      "z": 0.7538298625537949
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fairy_monster_19_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fairy_monster_19-albedo-0.png",
+        "uv": "fairy_monster_19-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 6578,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fairy_monster_19_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fairy_monster_34",
+    "sha256": "f6138f10f744da4717892ded2f6a1c35f866beb53353cdc86f87ec30c574f18a",
+    "sourcePath": "game/public/assets/models/fairy/fairy_monster_34.glb",
+    "size": {
+      "x": 1.145755662857779,
+      "y": 0.9799636601793691,
+      "z": 0.46662668518681094
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fairy_monster_34_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fairy_monster_34-albedo-0.png",
+        "uv": "fairy_monster_34-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 8658,
+        "outsideUV": 23,
+        "materials": [
+          "animal_fairy_monster_34_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "animal_frog",
+    "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+    "sourcePath": "game/public/assets/models/animal/animal_frog.glb",
+    "size": {
+      "x": 0.318,
+      "y": 0.123,
+      "z": 0.291
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_frog_mat",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "animal_frog-albedo-0.png",
+        "uv": "animal_frog-uv-0.png",
+        "width": 512,
+        "height": 512,
+        "triangles": 2734,
+        "outsideUV": 0,
+        "materials": [
+          "animal_frog_mat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "creature_quarry_snail",
+    "sha256": "cfb1fc736f99631e07b6ca0b02a05391ee28fb0a34339d0c868ebe6d5ccfa298",
+    "sourcePath": "game/public/assets/models/creature/creature_quarry_snail.glb",
+    "size": {
+      "x": 0.25575055446016826,
+      "y": 0.2927195624388275,
+      "z": 0.6428402618001128
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_quarry_snail_mat",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "creature_quarry_snail-albedo-0.png",
+        "uv": "creature_quarry_snail-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 17888,
+        "outsideUV": 0,
+        "materials": [
+          "animal_quarry_snail_mat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "animal_deer",
+    "sha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+    "sourcePath": "game/public/assets/models/animal/animal_deer.glb",
+    "size": {
+      "x": 0.438,
+      "y": 1.874,
+      "z": 1.709
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_deer_mat",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "animal_deer-albedo-0.png",
+        "uv": "animal_deer-uv-0.png",
+        "width": 512,
+        "height": 512,
+        "triangles": 3728,
+        "outsideUV": 0,
+        "materials": [
+          "animal_deer_mat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "creature_briar_harrow",
+    "sha256": "178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932",
+    "sourcePath": "game/public/assets/models/creature/creature_briar_harrow.glb",
+    "size": {
+      "x": 1.9257664885209114,
+      "y": 2.684829119684765,
+      "z": 1.715155658432283
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_rpg_briar_harrow_heartwood",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "animal_rpg_briar_harrow_inner_fibres",
+        "textureIndex": -1,
+        "factor": [
+          0.035,
+          0.044,
+          0.023,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "creature_briar_harrow-albedo-0.png",
+        "uv": "creature_briar_harrow-uv-0.png",
+        "width": 1254,
+        "height": 1254,
+        "triangles": 5920,
+        "outsideUV": 6270,
+        "materials": [
+          "animal_rpg_briar_harrow_heartwood"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "creature_baby_red_dragon",
+    "sha256": "985c3848985ad424a355d083a7ca08d1286aaab35b99cf993604311fbd2f93f1",
+    "sourcePath": "game/public/assets/models/creature/creature_baby_red_dragon.glb",
+    "size": {
+      "x": 1.9411273480909257,
+      "y": 1.3583771724425642,
+      "z": 2.303843156349105
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_rpg_baby_red_dragon_native_scales",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "creature_baby_red_dragon-albedo-0.png",
+        "uv": "creature_baby_red_dragon-uv-0.png",
+        "width": 2048,
+        "height": 2048,
+        "triangles": 4686,
+        "outsideUV": 0,
+        "materials": [
+          "animal_rpg_baby_red_dragon_native_scales"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "creature_goblin_shaman",
+    "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+    "sourcePath": "game/public/assets/models/creature/creature_goblin_shaman.glb",
+    "size": {
+      "x": 0.4744402886657466,
+      "y": 1.3284037385110423,
+      "z": 1.5031728398789888
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1",
+        "textureIndex": 1,
+        "factor": [
+          0.0722718506743852,
+          0.06662593863608139,
+          0.040915196900556984,
+          1
+        ]
+      },
+      {
+        "name": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes",
+        "textureIndex": 2,
+        "factor": [
+          0.55201140150344,
+          0.45641102317066595,
+          0.12213877222015301,
+          1
+        ]
+      },
+      {
+        "name": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male",
+        "textureIndex": 3,
+        "factor": [
+          0.28314874041918053,
+          0.4019777798219466,
+          0.14702726648767014,
+          1
+        ]
+      },
+      {
+        "name": "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+        "textureIndex": 4,
+        "factor": [
+          0.4019777798219466,
+          0.36130677977297226,
+          0.31854677811435356,
+          1
+        ]
+      },
+      {
+        "name": "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight",
+        "textureIndex": 5,
+        "factor": [
+          0.4019777798219466,
+          0.36130677977297226,
+          0.31854677811435356,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "creature_goblin_shaman-albedo-0.png",
+        "uv": "creature_goblin_shaman-uv-0.png",
+        "width": 2048,
+        "height": 2048,
+        "triangles": 2616,
+        "outsideUV": 0,
+        "materials": [
+          "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material"
+        ]
+      },
+      {
+        "index": 1,
+        "albedo": "creature_goblin_shaman-albedo-1.png",
+        "uv": "creature_goblin_shaman-uv-1.png",
+        "width": 512,
+        "height": 512,
+        "triangles": 984,
+        "outsideUV": 0,
+        "materials": [
+          "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1"
+        ]
+      },
+      {
+        "index": 2,
+        "albedo": "creature_goblin_shaman-albedo-2.png",
+        "uv": "creature_goblin_shaman-uv-2.png",
+        "width": 256,
+        "height": 256,
+        "triangles": 768,
+        "outsideUV": 396,
+        "materials": [
+          "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes"
+        ]
+      },
+      {
+        "index": 3,
+        "albedo": "creature_goblin_shaman-albedo-3.png",
+        "uv": "creature_goblin_shaman-uv-3.png",
+        "width": 512,
+        "height": 512,
+        "triangles": 7466,
+        "outsideUV": 0,
+        "materials": [
+          "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male"
+        ]
+      },
+      {
+        "index": 4,
+        "albedo": "creature_goblin_shaman-albedo-4.png",
+        "uv": "creature_goblin_shaman-uv-4.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 7556,
+        "outsideUV": 0,
+        "materials": [
+          "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant"
+        ]
+      },
+      {
+        "index": 5,
+        "albedo": "creature_goblin_shaman-albedo-5.png",
+        "uv": "creature_goblin_shaman-uv-5.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 471,
+        "outsideUV": 0,
+        "materials": [
+          "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight"
+        ]
+      }
+    ],
+    "atlas": {
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 1024,
+      "albedo": "creature_goblin_shaman-albedo-atlas.png",
+      "uv": "creature_goblin_shaman-uv-atlas.png",
+      "order": [
+        {
+          "index": 0,
+          "column": 0,
+          "row": 0,
+          "materials": [
+            "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material"
+          ]
+        },
+        {
+          "index": 1,
+          "column": 1,
+          "row": 0,
+          "materials": [
+            "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1"
+          ]
+        },
+        {
+          "index": 2,
+          "column": 2,
+          "row": 0,
+          "materials": [
+            "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes"
+          ]
+        },
+        {
+          "index": 3,
+          "column": 0,
+          "row": 1,
+          "materials": [
+            "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male"
+          ]
+        },
+        {
+          "index": 4,
+          "column": 1,
+          "row": 1,
+          "materials": [
+            "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant"
+          ]
+        },
+        {
+          "index": 5,
+          "column": 2,
+          "row": 1,
+          "materials": [
+            "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "creature_wraith",
+    "sha256": "5f730d566a9370cb4deb7e3e83553b0898c430cfe0058c746f63eeb08617a34c",
+    "sourcePath": "game/public/assets/models/creature/creature_wraith.glb",
+    "size": {
+      "x": 0.5851408048182939,
+      "y": 1.7314751689466006,
+      "z": 1.2651960488508256
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "wraith_woven_shroud",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "wraith_aged_binding",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "wraith_aged_binding",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "wraith_woven_shroud",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "wraith_ash_hands",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "wraith_ash_linen_cowl",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "creature_wraith-albedo-0.png",
+        "uv": "creature_wraith-uv-0.png",
+        "width": 2048,
+        "height": 2048,
+        "triangles": 12574,
+        "outsideUV": 0,
+        "materials": [
+          "wraith_woven_shroud",
+          "wraith_aged_binding",
+          "wraith_aged_binding",
+          "wraith_woven_shroud",
+          "wraith_ash_hands",
+          "wraith_ash_linen_cowl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fantasy_monster_02",
+    "sha256": "5680159e54623b40bef9be25727aa35286ab43c5b8a2e1498ef772b1feec30ca",
+    "sourcePath": "game/public/assets/models/fairy/fantasy_monster_02.glb",
+    "size": {
+      "x": 1.3424494842463877,
+      "y": 1.9722542714144033,
+      "z": 0.6459080145532957
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fantasy_monster_02_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fantasy_monster_02-albedo-0.png",
+        "uv": "fantasy_monster_02-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 5768,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fantasy_monster_02_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fantasy_monster_03",
+    "sha256": "f217d825709f17039238d537d0d73622b37b5a8deeb969dcfaf308cc16dab3dc",
+    "sourcePath": "game/public/assets/models/fairy/fantasy_monster_03.glb",
+    "size": {
+      "x": 0.9900582778597724,
+      "y": 1.9576967123543136,
+      "z": 0.546354140059047
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fantasy_monster_03_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fantasy_monster_03-albedo-0.png",
+        "uv": "fantasy_monster_03-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 5948,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fantasy_monster_03_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fantasy_monster_06",
+    "sha256": "8494231d1ec3d8ff54fc3268985464a604e425900d8e423e2f98f5d87c1f32cf",
+    "sourcePath": "game/public/assets/models/fairy/fantasy_monster_06.glb",
+    "size": {
+      "x": 1.1797968517460746,
+      "y": 1.924163552219513,
+      "z": 1.099958875086675
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fantasy_monster_06_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fantasy_monster_06-albedo-0.png",
+        "uv": "fantasy_monster_06-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 7380,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fantasy_monster_06_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fantasy_monster_07",
+    "sha256": "5acc58bbdc2d15f01ddfb4fe7ba736e86529aecf4ae0b5744a38ad5bdf7caac4",
+    "sourcePath": "game/public/assets/models/fairy/fantasy_monster_07.glb",
+    "size": {
+      "x": 0.9401698716733404,
+      "y": 2.1619915751223937,
+      "z": 1.0420722411870955
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fantasy_monster_07_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fantasy_monster_07-albedo-0.png",
+        "uv": "fantasy_monster_07-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 7838,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fantasy_monster_07_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fantasy_monster_08",
+    "sha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa",
+    "sourcePath": "game/public/assets/models/fairy/fantasy_monster_08.glb",
+    "size": {
+      "x": 0.9284641254338459,
+      "y": 2.147067301234304,
+      "z": 1.1010816532195258
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fantasy_monster_08_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fantasy_monster_08-albedo-0.png",
+        "uv": "fantasy_monster_08-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 6817,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fantasy_monster_08_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fantasy_monster_09",
+    "sha256": "3f4ac6d5a56b1d434d59bb802804d925166dab750ba5013d8893a85e59a3d228",
+    "sourcePath": "game/public/assets/models/fairy/fantasy_monster_09.glb",
+    "size": {
+      "x": 1.9200196546487,
+      "y": 1.9919889342538095,
+      "z": 1.2499730326315064
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fantasy_monster_09_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fantasy_monster_09-albedo-0.png",
+        "uv": "fantasy_monster_09-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 7400,
+        "outsideUV": 0,
+        "materials": [
+          "animal_fantasy_monster_09_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fairy_monster_28",
+    "sha256": "6bc66757ced4134e7f16100fdc079e1c2f51ba27deca4e96f9143fa9f03348fc",
+    "sourcePath": "test-results\\fairy-terraces-assets\\monsters\\models\\fairy_monster_28.glb",
+    "size": {
+      "x": 0.6883241095913518,
+      "y": 0.9799479206373253,
+      "z": 1.081958577557687
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fairy_monster_28_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fairy_monster_28-albedo-0.png",
+        "uv": "fairy_monster_28-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 7042,
+        "outsideUV": 15,
+        "materials": [
+          "animal_fairy_monster_28_source"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fairy_monster_31",
+    "sha256": "26627646221bf893f2d8749bd1215bda4646223a82a6643531cb3c4bf231875a",
+    "sourcePath": "test-results\\fairy-terraces-assets\\monsters\\models\\fairy_monster_31.glb",
+    "size": {
+      "x": 0.4925143887078124,
+      "y": 0.8563958573538533,
+      "z": 0.5302432737401923
+    },
+    "hasUV": true,
+    "vertexPainted": false,
+    "materials": [
+      {
+        "name": "animal_fairy_monster_31_source",
+        "textureIndex": 0,
+        "factor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "index": 0,
+        "albedo": "fairy_monster_31-albedo-0.png",
+        "uv": "fairy_monster_31-uv-0.png",
+        "width": 1024,
+        "height": 1024,
+        "triangles": 7195,
+        "outsideUV": 26,
+        "materials": [
+          "animal_fairy_monster_31_source"
+        ]
+      }
+    ]
+  }
+]

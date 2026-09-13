@@ -3,6 +3,7 @@ import type { CreatureSpeciesDef } from './creatureSpecies.js';
 import type { EnemyDef } from './index.js';
 import { REGION_COMBAT_TIERS, tuneEnemyCombatLevel } from './encounterBalance.js';
 import { tierSilhouetteScale } from '../core/math.js';
+import { FAIRY_MINIBOSS_FORMS, fairyMinibossAsset } from './fairyMinibossForms.js';
 
 export const UNIVERSAL_MINIBOSS_RESPAWN_SECONDS = 30 * 60;
 export const UNIQUE_JEWELLERY_CHANCE = .02;
@@ -25,6 +26,7 @@ export type UniversalMinibossNumber = typeof UNIVERSAL_MINIBOSS_ROSTER[number]['
 /** Older aliases retain these same source bodies and are reserved as well. */
 export const RESERVED_UNIVERSAL_MINIBOSS_ASSET_IDS = new Set<string>([
   ...UNIVERSAL_MINIBOSS_ROSTER.map(row => `fantasy_monster_${row.number}`),
+  ...FAIRY_MINIBOSS_FORMS.map(row => row.assetId),
   'miniboss_cinderwake', 'miniboss_galeskin', 'miniboss_mossbound', 'miniboss_tideworn',
   'creature_cinder_ravager', 'creature_basalt_maw',
   'creature_gorge_mantis', 'creature_hollow_star', 'creature_amethyst_sovereign',
@@ -56,7 +58,7 @@ export function universalMinibossSpecies(number: UniversalMinibossNumber, region
     marks: [Math.max(15, tier * 10), Math.max(30, tier * 20)],
   };
   return {
-    id: `guardian_${number}_${regionId}`, assetId: `fantasy_monster_${number}`, regionId,
+    id: `guardian_${number}_${regionId}`, assetId: fairyMinibossAsset(number, regionId) ?? `fantasy_monster_${number}`, regionId,
     scale: 1 / tierSilhouetteScale(tier), activity: 'patrol', stats,
     description: `Fantasy Monster ${number}. A roaming ${row.name} with a thirty-minute respawn.`,
   };

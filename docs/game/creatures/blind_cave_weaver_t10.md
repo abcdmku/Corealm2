@@ -6,16 +6,16 @@ description: "Blind Cave Weaver spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="51.833,74.182,53.833,80.485"
- style="--map-image-ratio:0.72727">
+ data-map-focus="40.727,74.182,42.182,80.485"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Blind Cave Weaver">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:52.8333%;--map-y:80.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blind Cave Weaver, Second Ramp, Highlands" title="Blind Cave Weaver, Second Ramp, Highlands"><span>Blind Cave Weaver<small>Second Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:53.3333%;--map-y:77.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, Highlands" title="Blind Cave Weaver, Stone Cavern, Highlands"><span>Blind Cave Weaver<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:51.8333%;--map-y:75.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, Highlands" title="Blind Cave Weaver, Stone Cavern, Highlands"><span>Blind Cave Weaver<small>Stone Cavern, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-lit-gallery" style="--map-x:53.8333%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, The Lit Gallery" title="Blind Cave Weaver, Stone Cavern, The Lit Gallery"><span>Blind Cave Weaver<small>Stone Cavern, The Lit Gallery</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-collapse" style="--map-x:53.8333%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, The Collapse" title="Blind Cave Weaver, Stone Cavern, The Collapse"><span>Blind Cave Weaver<small>Stone Cavern, The Collapse</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#second-ramp" style="--map-x:41.4545%;--map-y:80.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blind Cave Weaver, Second Ramp, Highlands" title="Blind Cave Weaver, Second Ramp, Highlands"><span>Blind Cave Weaver<small>Second Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:41.8182%;--map-y:77.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, Highlands" title="Blind Cave Weaver, Stone Cavern, Highlands"><span>Blind Cave Weaver<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:40.7273%;--map-y:75.0303%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, Highlands" title="Blind Cave Weaver, Stone Cavern, Highlands"><span>Blind Cave Weaver<small>Stone Cavern, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-lit-gallery" style="--map-x:42.1818%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, The Lit Gallery" title="Blind Cave Weaver, Stone Cavern, The Lit Gallery"><span>Blind Cave Weaver<small>Stone Cavern, The Lit Gallery</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-collapse" style="--map-x:42.1818%;--map-y:74.1818%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Blind Cave Weaver, Stone Cavern, The Collapse" title="Blind Cave Weaver, Stone Cavern, The Collapse"><span>Blind Cave Weaver<small>Stone Cavern, The Collapse</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

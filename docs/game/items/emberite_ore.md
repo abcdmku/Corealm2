@@ -15,6 +15,8 @@ description: "Rust-orange Ashlands ore, warm off the seam. It smells faintly of 
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Titanium Seam | Mining level 20 |
+| Gathered from | Crownward Titanium Seam | Mining level 40 |
+| Gathered from | Star Amethyst Titanium Seam | Mining level 60 |
 | Dropped by | Dire Bear | 18% · 1-2 |
 | Dropped by | Dire Boar | 15% · 1-2 |
 | Dropped by | [Quarry Bandit](../../creatures/reaver_t20/) | 30% · 1-3 |

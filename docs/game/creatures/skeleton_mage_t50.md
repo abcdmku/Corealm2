@@ -6,12 +6,12 @@ description: "Skeleton Mage spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="54.583,32.909,54.583,32.909"
- style="--map-image-ratio:0.72727">
+ data-map-focus="42.727,32.909,42.727,32.909"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Skeleton Mage">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-north-rampart-road" style="--map-x:54.5833%;--map-y:32.9091%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Skeleton Mage, The North Rampart Road, Wilderness" title="Skeleton Mage, The North Rampart Road, Wilderness"><span>Skeleton Mage<small>The North Rampart Road, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-north-rampart-road" style="--map-x:42.7273%;--map-y:32.9091%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Skeleton Mage, The North Rampart Road, Wilderness" title="Skeleton Mage, The North Rampart Road, Wilderness"><span>Skeleton Mage<small>The North Rampart Road, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

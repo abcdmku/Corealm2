@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { SemanticEntity } from '../game/src/contracts.js';
 import { spreadMobSpawns } from '../game/src/world/mobSpawnSpacing.js';
 import { habitatIdleTargets } from '../game/src/world/habitatMovement.js';
+import { RED_WORM_HABITAT } from '../game/src/content/redWormHabitat.js';
 
 const mob = (id: string, groupId = 'fixed'): SemanticEntity => ({ id, archetype: 'enemy', name: id,
   regionId: 'fallowmarch', tier: 1, state: 'alive', position: [0, 0, 0], interactions: ['attack'],
@@ -9,6 +10,25 @@ const mob = (id: string, groupId = 'fixed'): SemanticEntity => ({ id, archetype:
 const ports = { underground: () => false, place: (_entity: SemanticEntity, x: number, z: number) => [x, 0, z] as [number, number, number] };
 
 describe('all-source mob spacing', () => {
+  it('keeps eight red worms in their compact verge with clearance while wandering', () => {
+    const source = RED_WORM_HABITAT;
+    const actors = source.anchors.map(([x, z], index) => ({
+      ...mob(`coldbrace_red_worms_${index + 1}`, source.groupId),
+      position: [x, 0, z] as [number, number, number],
+      combat: { ...mob('base').combat!, bodyRadius: .8757 },
+    }));
+    const [habitat] = spreadMobSpawns(actors, [source], ports);
+    expect(actors).toHaveLength(8);
+    expect(habitat!.roamRadius).toBe(.35);
+    for (const actor of actors) {
+      expect(Math.hypot(actor.position[0] - source.centre[0], actor.position[2] - source.centre[1])
+        + actor.combat.bodyRadius + habitat!.roamRadius!).toBeLessThanOrEqual(source.radius);
+      const nearest = Math.min(...actors.filter(other => other !== actor).map(other =>
+        Math.hypot(actor.position[0] - other.position[0], actor.position[2] - other.position[2])));
+      expect(nearest).toBeLessThan(4.5);
+      expect(nearest - actor.combat.bodyRadius * 2 - habitat!.roamRadius! * 2).toBeGreaterThan(.5);
+    }
+  });
   it.each([false, true])('keeps a running lane after idle wandering, underground=%s', underground => {
     const actors = Array.from({ length: 7 }, (_, index) => ({ ...mob(`large-${index}`),
       combat: { ...mob('base').combat!, bodyRadius: 3 } }));

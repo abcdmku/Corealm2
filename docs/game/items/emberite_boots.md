@@ -25,5 +25,6 @@ description: "Soled in heavy hide over Titanium shanks. Warm ground stops matter
 | Made by | Titanium Boots | 1 per craft |
 | Dropped by | [Quarry Bandit](../../creatures/reaver_t20/) | 3% · 1-1 |
 | Sold by | [Kiln Row Smith](../../spells-and-shops/#kiln-row-smith) | 2 in stock |
+| Sold by | [Lantern Smith](../../spells-and-shops/#lantern-smith) | 2 in stock |
 
 [Back to all items](../)

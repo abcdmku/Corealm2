@@ -23,12 +23,12 @@ The planks cross Iron Brook at (-78, -30) and need Agility 1. Every successful v
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/brookvault_planks.webp" alt="Brook Planks in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Brook Planks</strong><span>Farm Fields, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="43.500,74.545,43.500,74.545"
- style="--map-image-ratio:0.72727">
+ data-map-focus="34.667,74.545,34.667,74.545"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Carter's Wager, step 1">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:43.5000%;--map-y:74.5455%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Brook Planks, Farmland" title="Brook Planks, Farmland"><span>Brook Planks<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:34.6667%;--map-y:74.5455%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Brook Planks, Farmland" title="Brook Planks, Farmland"><span>Brook Planks<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -56,13 +56,13 @@ It sits on the town's north wall at (-160, -56) and needs Agility 3, which stage
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/entities/wall_vault.webp" alt="Wall Vault in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Wall Vault</strong><span>Millfield Square, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.667,76.121,36.667,77.576"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.697,76.121,29.697,77.576"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Carter's Wager, step 2">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#millfield-square" style="--map-x:36.6667%;--map-y:76.1212%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Wall Vault, Farmland" title="Wall Vault, Farmland"><span>Wall Vault<small>Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#millfield-square" style="--map-x:36.6667%;--map-y:77.5758%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Millfield Square, Farmland" title="Millfield Square, Farmland"><span>Millfield Square<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#millfield-square" style="--map-x:29.6970%;--map-y:76.1212%" data-map-side="right" data-map-kind="entity" data-map-marker aria-label="Wall Vault, Farmland" title="Wall Vault, Farmland"><span>Wall Vault<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#millfield-square" style="--map-x:29.6970%;--map-y:77.5758%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Millfield Square, Farmland" title="Millfield Square, Farmland"><span>Millfield Square<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -90,12 +90,12 @@ Every answer finishes the quest. Only one of them survives contact with the Ward
 <div class="corealm-quest-step-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img class="codex-card__shot" src="../../assets/captures/thumbs/npcs/npc_carter_bel.webp" alt="Carter Bel in the running Corealm world" width="480" height="270" loading="lazy" decoding="async" /><figcaption><strong>Carter Bel</strong><span>Millfield South Gate, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-quest-map" data-location-map
- data-map-focus="36.792,78.879,36.792,78.879"
- style="--map-image-ratio:0.72727">
+ data-map-focus="29.788,78.879,29.788,78.879"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Map for The Carter's Wager, step 3">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../npcs/#carter-bel" style="--map-x:36.7917%;--map-y:78.8788%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Carter Bel, Farmland" title="Carter Bel, Farmland"><span>Carter Bel<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../npcs/#carter-bel" style="--map-x:29.7879%;--map-y:78.8788%" data-map-side="right" data-map-kind="npc" data-map-marker aria-label="Carter Bel, Farmland" title="Carter Bel, Farmland"><span>Carter Bel<small>Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

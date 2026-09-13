@@ -6,19 +6,19 @@ description: "Thorn Maw spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="51.167,61.576,77.833,70.970"
- style="--map-image-ratio:0.72727">
+ data-map-focus="40.242,61.576,59.636,70.970"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Thorn Maw">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#forest-quarry" style="--map-x:56.3333%;--map-y:63.6364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Forest Quarry, Woodlands" title="Thorn Maw, Forest Quarry, Woodlands"><span>Thorn Maw<small>Forest Quarry, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-thicket" style="--map-x:66.3333%;--map-y:63.5152%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, The Thicket, Woodlands" title="Thorn Maw, The Thicket, Woodlands"><span>Thorn Maw<small>The Thicket, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:51.9167%;--map-y:70.9697%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Marsh Edge, Woodlands" title="Thorn Maw, Marsh Edge, Woodlands"><span>Thorn Maw<small>Marsh Edge, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#kiln-path" style="--map-x:61.0000%;--map-y:61.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Kiln Path, Woodlands" title="Thorn Maw, Kiln Path, Woodlands"><span>Thorn Maw<small>Kiln Path, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:51.1667%;--map-y:67.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Marsh Edge, Woodlands" title="Thorn Maw, Marsh Edge, Woodlands"><span>Thorn Maw<small>Marsh Edge, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:52.3333%;--map-y:69.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Marsh Edge, Woodlands" title="Thorn Maw, Marsh Edge, Woodlands"><span>Thorn Maw<small>Marsh Edge, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-thicket" style="--map-x:68.8333%;--map-y:65.9394%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, The Thicket, Woodlands" title="Thorn Maw, The Thicket, Woodlands"><span>Thorn Maw<small>The Thicket, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#ash-border" style="--map-x:77.8333%;--map-y:61.5758%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Ash Border, Woodlands" title="Thorn Maw, Ash Border, Woodlands"><span>Thorn Maw<small>Ash Border, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#forest-quarry" style="--map-x:44.0000%;--map-y:63.6364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Forest Quarry, Woodlands" title="Thorn Maw, Forest Quarry, Woodlands"><span>Thorn Maw<small>Forest Quarry, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-thicket" style="--map-x:51.2727%;--map-y:63.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, The Thicket, Woodlands" title="Thorn Maw, The Thicket, Woodlands"><span>Thorn Maw<small>The Thicket, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:40.7879%;--map-y:70.9697%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Marsh Edge, Woodlands" title="Thorn Maw, Marsh Edge, Woodlands"><span>Thorn Maw<small>Marsh Edge, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#kiln-path" style="--map-x:47.3939%;--map-y:61.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Kiln Path, Woodlands" title="Thorn Maw, Kiln Path, Woodlands"><span>Thorn Maw<small>Kiln Path, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:40.2424%;--map-y:67.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Marsh Edge, Woodlands" title="Thorn Maw, Marsh Edge, Woodlands"><span>Thorn Maw<small>Marsh Edge, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#marsh-edge" style="--map-x:41.0909%;--map-y:69.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Marsh Edge, Woodlands" title="Thorn Maw, Marsh Edge, Woodlands"><span>Thorn Maw<small>Marsh Edge, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-thicket" style="--map-x:53.0909%;--map-y:65.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, The Thicket, Woodlands" title="Thorn Maw, The Thicket, Woodlands"><span>Thorn Maw<small>The Thicket, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ash-border" style="--map-x:59.6364%;--map-y:61.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Thorn Maw, Ash Border, Woodlands" title="Thorn Maw, Ash Border, Woodlands"><span>Thorn Maw<small>Ash Border, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

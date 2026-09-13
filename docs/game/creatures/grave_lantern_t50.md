@@ -6,14 +6,14 @@ description: "Ashen Ghoul spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="29.167,32.485,42.833,43.091"
- style="--map-image-ratio:0.72727">
+ data-map-focus="24.242,32.485,34.182,43.091"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ashen Ghoul">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#broken-watch" style="--map-x:29.2500%;--map-y:43.0909%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Broken Watch, Wilderness" title="Ashen Ghoul, Broken Watch, Wilderness"><span>Ashen Ghoul<small>Broken Watch, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-nameless-abbey" style="--map-x:42.8333%;--map-y:37.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, The Nameless Abbey, Wilderness" title="Ashen Ghoul, The Nameless Abbey, Wilderness"><span>Ashen Ghoul<small>The Nameless Abbey, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#cindervein-workings" style="--map-x:29.1667%;--map-y:32.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Cindervein Workings, Wilderness" title="Ashen Ghoul, Cindervein Workings, Wilderness"><span>Ashen Ghoul<small>Cindervein Workings, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#broken-watch" style="--map-x:24.3030%;--map-y:43.0909%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Broken Watch, Wilderness" title="Ashen Ghoul, Broken Watch, Wilderness"><span>Ashen Ghoul<small>Broken Watch, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-nameless-abbey" style="--map-x:34.1818%;--map-y:37.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, The Nameless Abbey, Wilderness" title="Ashen Ghoul, The Nameless Abbey, Wilderness"><span>Ashen Ghoul<small>The Nameless Abbey, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#cindervein-workings" style="--map-x:24.2424%;--map-y:32.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashen Ghoul, Cindervein Workings, Wilderness" title="Ashen Ghoul, Cindervein Workings, Wilderness"><span>Ashen Ghoul<small>Cindervein Workings, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

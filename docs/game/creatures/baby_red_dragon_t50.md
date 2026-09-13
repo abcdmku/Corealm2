@@ -6,12 +6,12 @@ description: "Red Dragon Hatchling spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="35.167,43.394,35.167,43.394"
- style="--map-image-ratio:0.72727">
+ data-map-focus="28.606,43.394,28.606,43.394"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Red Dragon Hatchling">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#broken-watch" style="--map-x:35.1667%;--map-y:43.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Red Dragon Hatchling, Broken Watch, Wilderness" title="Red Dragon Hatchling, Broken Watch, Wilderness"><span>Red Dragon Hatchling<small>Broken Watch, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#broken-watch" style="--map-x:28.6061%;--map-y:43.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Red Dragon Hatchling, Broken Watch, Wilderness" title="Red Dragon Hatchling, Broken Watch, Wilderness"><span>Red Dragon Hatchling<small>Broken Watch, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

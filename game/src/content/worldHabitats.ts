@@ -6,6 +6,7 @@ import { DEEP_WILDERNESS_PACK_HABITATS } from './deepWildernessEncounters.js';
 import { FANTASY_ENCOUNTER_SPECIES } from "./fantasyEncounters.js";
 import { CREATURE_HABITATS } from "./creatureHabitats.js";
 import { STARTER_HABITATS } from "./starterHabitats.js";
+import { RED_WORM_HABITAT } from './redWormHabitat.js';
 import { REGIONS, WORLD_BOUNDS } from './regions.js';
 import { encounterBodyRadius } from './encounterPlacement.js';
 import { createEncounterFormation } from './encounterPopulation.js';
@@ -295,6 +296,7 @@ const AUTHORED_WORLD_HABITATS: readonly HabitatDef[] = [
   },
   ...CREATURE_HABITATS,
   ...STARTER_HABITATS,
+  RED_WORM_HABITAT,
   ...WILDERNESS_HABITATS,
 ];
 const sourceHabitats = [...AUTHORED_WORLD_HABITATS, ...BIOME_POPULATION_HABITATS, AMETHYST_CAVE_HABITAT];
@@ -317,6 +319,7 @@ const allEncounterHabitats: readonly HabitatDef[] = encounterRegions.flatMap(reg
     const dz = placedGroup.centre[1] - (source?.centre[1] ?? placedGroup.centre[1]);
     return { id: source?.id ?? `${group.id}_habitat`, groupId: group.id, regionId: region.id,
       centre: formation.group.centre, radius: formation.group.radius, anchors: formation.anchors,
+      ...(source?.roamRadius !== undefined ? { roamRadius: source.roamRadius } : {}),
       activity: FANTASY_ENCOUNTER_SPECIES[group.id] ? 'patrol' as const : source?.activity ?? 'patrol' as const,
       dressing: (source?.dressing ?? []).map(piece => ({ ...piece, x: piece.x + dx, z: piece.z + dz })),
     };

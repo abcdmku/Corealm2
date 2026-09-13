@@ -1,5 +1,7 @@
 # Agent rules
 
+Creature reskins must use intricate image-generated texture maps with layered colors and surface detail. Never use a monochromatic recolor as a finished skin. Fairy regions use fantastical creature bases; the frog, snail and hart are explicitly allowed exceptions.
+
 The root agent owns architecture, shared contracts, integration, and acceptance.
 
 1. If `game/index.html` is absent, the repo is uninitiated. Do not invent a game without a current run's `brief.md`.

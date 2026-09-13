@@ -6,17 +6,17 @@ description: "Heath Jack spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="24.333,65.576,44.833,82.667"
- style="--map-image-ratio:0.72727">
+ data-map-focus="20.727,65.576,35.636,82.667"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Heath Jack">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:26.6667%;--map-y:81.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:26.6667%;--map-y:79.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:24.4167%;--map-y:82.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:25.3333%;--map-y:75.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Pine Grove, Farmland" title="Heath Jack, Pine Grove, Farmland"><span>Heath Jack<small>Pine Grove, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:24.3333%;--map-y:66.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Open Meadow, Farmland" title="Heath Jack, Open Meadow, Farmland"><span>Heath Jack<small>Open Meadow, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#north-gate" style="--map-x:44.8333%;--map-y:65.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, North Gate, Farmland" title="Heath Jack, North Gate, Farmland"><span>Heath Jack<small>North Gate, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:22.4242%;--map-y:81.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:22.4242%;--map-y:79.6970%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#air-essence-cache" style="--map-x:20.7879%;--map-y:82.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Air Essence Cache, Farmland" title="Heath Jack, Air Essence Cache, Farmland"><span>Heath Jack<small>Air Essence Cache, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:21.4545%;--map-y:75.7576%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Pine Grove, Farmland" title="Heath Jack, Pine Grove, Farmland"><span>Heath Jack<small>Pine Grove, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:20.7273%;--map-y:66.6667%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, Open Meadow, Farmland" title="Heath Jack, Open Meadow, Farmland"><span>Heath Jack<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#north-gate" style="--map-x:35.6364%;--map-y:65.5758%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Heath Jack, North Gate, Farmland" title="Heath Jack, North Gate, Farmland"><span>Heath Jack<small>North Gate, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

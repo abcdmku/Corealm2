@@ -6,12 +6,12 @@ description: "Nightforge Marshal spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="64.758,24.234,64.758,24.234"
- style="--map-image-ratio:0.72727">
+ data-map-focus="50.127,24.234,50.127,24.234"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Nightforge Marshal">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#nightforge-bastion" style="--map-x:64.7578%;--map-y:24.2335%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Nightforge Marshal, Nightforge Bastion, Wilderness" title="Nightforge Marshal, Nightforge Bastion, Wilderness"><span>Nightforge Marshal<small>Nightforge Bastion, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#nightforge-bastion" style="--map-x:50.1269%;--map-y:24.2335%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Nightforge Marshal, Nightforge Bastion, Wilderness" title="Nightforge Marshal, Nightforge Bastion, Wilderness"><span>Nightforge Marshal<small>Nightforge Bastion, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

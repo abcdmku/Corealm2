@@ -6,13 +6,13 @@ description: "Briar Harrow spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="23.833,66.303,31.333,80.121"
- style="--map-image-ratio:0.72727">
+ data-map-focus="20.364,66.303,25.818,80.121"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Briar Harrow">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:23.8333%;--map-y:80.1212%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Pine Grove, Farmland" title="Briar Harrow, Pine Grove, Farmland"><span>Briar Harrow<small>Pine Grove, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:31.3333%;--map-y:66.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Copper Pit, Farmland" title="Briar Harrow, Copper Pit, Farmland"><span>Briar Harrow<small>Copper Pit, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:20.3636%;--map-y:80.1212%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Pine Grove, Farmland" title="Briar Harrow, Pine Grove, Farmland"><span>Briar Harrow<small>Pine Grove, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:25.8182%;--map-y:66.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Copper Pit, Farmland" title="Briar Harrow, Copper Pit, Farmland"><span>Briar Harrow<small>Copper Pit, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

@@ -6,17 +6,17 @@ description: "Briar Harrow spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="31.333,61.455,75.333,70.303"
- style="--map-image-ratio:0.72727">
+ data-map-focus="25.818,61.455,57.818,70.303"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Briar Harrow">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#kiln-road-south" style="--map-x:31.3333%;--map-y:64.1212%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Kiln Road South, Farmland" title="Briar Harrow, Kiln Road South, Farmland"><span>Briar Harrow<small>Kiln Road South, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#ash-grove" style="--map-x:50.8333%;--map-y:61.4545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Ash Grove, Woodlands" title="Briar Harrow, Ash Grove, Woodlands"><span>Briar Harrow<small>Ash Grove, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#oakwood" style="--map-x:55.3333%;--map-y:68.0606%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Oakwood, Woodlands" title="Briar Harrow, Oakwood, Woodlands"><span>Briar Harrow<small>Oakwood, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#mountain-gate" style="--map-x:74.8333%;--map-y:70.3030%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Mountain Gate, Woodlands" title="Briar Harrow, Mountain Gate, Woodlands"><span>Briar Harrow<small>Mountain Gate, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#earth-essence-cache" style="--map-x:75.3333%;--map-y:65.9394%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Earth Essence Cache, Woodlands" title="Briar Harrow, Earth Essence Cache, Woodlands"><span>Briar Harrow<small>Earth Essence Cache, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#kiln-path" style="--map-x:62.8333%;--map-y:63.3939%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Kiln Path, Woodlands" title="Briar Harrow, Kiln Path, Woodlands"><span>Briar Harrow<small>Kiln Path, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#kiln-road-south" style="--map-x:25.8182%;--map-y:64.1212%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Kiln Road South, Farmland" title="Briar Harrow, Kiln Road South, Farmland"><span>Briar Harrow<small>Kiln Road South, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ash-grove" style="--map-x:40.0000%;--map-y:61.4545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Ash Grove, Woodlands" title="Briar Harrow, Ash Grove, Woodlands"><span>Briar Harrow<small>Ash Grove, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#oakwood" style="--map-x:43.2727%;--map-y:68.0606%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Oakwood, Woodlands" title="Briar Harrow, Oakwood, Woodlands"><span>Briar Harrow<small>Oakwood, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-gate" style="--map-x:57.4545%;--map-y:70.3030%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Mountain Gate, Woodlands" title="Briar Harrow, Mountain Gate, Woodlands"><span>Briar Harrow<small>Mountain Gate, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#earth-essence-cache" style="--map-x:57.8182%;--map-y:65.9394%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Earth Essence Cache, Woodlands" title="Briar Harrow, Earth Essence Cache, Woodlands"><span>Briar Harrow<small>Earth Essence Cache, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#kiln-path" style="--map-x:48.7273%;--map-y:63.3939%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Briar Harrow, Kiln Path, Woodlands" title="Briar Harrow, Kiln Path, Woodlands"><span>Briar Harrow<small>Kiln Path, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

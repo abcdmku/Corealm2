@@ -634,8 +634,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const mobSpacingFixture: SemanticEntity[] = [];
   if (mobSpacingLab) {
     const { createMobSpacingFixture } = await import('../featureLab/mobSpawnSpacing.js');
-    mobSpacingFixture.push(...createMobSpacingFixture({ heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-      baseY: worldPorts.baseY!, assetSize: worldPorts.assetSize! }, new URLSearchParams(location.search).get('population') === 'stone'));
+    const ports = { heightAt: (x: number, z: number) => terrainAt(x, z).meshHeightAt(x, z),
+      baseY: worldPorts.baseY!, assetSize: worldPorts.assetSize! };
+    const population = new URLSearchParams(location.search).get('population');
+    if (population === 'worms') {
+      const { createRedWormFixture } = await import('../featureLab/redWorms.js');
+      const fixture = createRedWormFixture(ports);
+      mobSpacingFixture.push(...fixture.actors);
+      worldHabitats.push(fixture.habitat);
+    } else if (population === 'fairy') {
+      const { createFairyPopulationFixture } = await import('../featureLab/fairyPopulation.js');
+      mobSpacingFixture.push(...createFairyPopulationFixture(ports));
+    } else mobSpacingFixture.push(...createMobSpacingFixture(ports, population === 'stone'));
     built.entities.push(...structuredClone(mobSpacingFixture));
   }
   let currentCoastalHabitats = built.coastalHabitats ?? [];
@@ -1017,7 +1027,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
             const originalSide = side(entity.position[0], entity.position[2]);
             if (side(x, z) * Math.sign(originalSide) < radius + .4) return null;
           }
-        } else if (profile.kind === 'game' && Math.hypot(x - profile.spawn.x, z - profile.spawn.z) < radius + 25) return null;
+        } else if (profile.kind === 'game' && Math.hypot(x - profile.spawn.x, z - profile.spawn.z) < radius + 25) {
+          // The owner placed these passive worms on the south-wall verge inside
+          // the starter buffer. Keep the exception within that authored patch;
+          // normal body clearance, dry ground and navigation checks still apply.
+          const southWallWorm = entity.meta?.groupId === 'coldbrace_red_worms'
+            && entity.meta?.behaviour === 'passive' && x > -154 && x < -132 && z > -129 && z < -112;
+          if (!southWallWorm) return null;
+        }
         const floor = (px: number, pz: number): number | null => {
           if (underground) return chamberFloorAt(dungeonSpec!, [px, entity.position[1], pz]);
           if (profile.kind === 'feature-lab') return Math.abs(px) < 120 && Math.abs(pz) < 120 ? scene.meshHeightAt(px, pz) : null;

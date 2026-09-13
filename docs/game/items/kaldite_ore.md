@@ -15,6 +15,7 @@ description: "Black Highlands ore with a blue fracture. It takes a furnace twice
 | Source | Name | Details |
 | --- | --- | --- |
 | Gathered from | Cobalt Face | Mining level 10 |
+| Gathered from | Dewglass Cobalt Seam | Mining level 30 |
 | Dropped by | Brown Bear | 18% · 1-2 |
 | Dropped by | Wild Boar | 15% · 1-2 |
 | Dropped by | [Highland Bandit](../../creatures/reaver_t10/) | 30% · 1-3 |

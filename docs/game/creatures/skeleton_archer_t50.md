@@ -6,12 +6,12 @@ description: "Skeleton Archer spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="54.500,38.485,54.500,38.485"
- style="--map-image-ratio:0.72727">
+ data-map-focus="42.667,38.485,42.667,38.485"
+ style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Skeleton Archer">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#black-knight-gate" style="--map-x:54.5000%;--map-y:38.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Skeleton Archer, Black Knight Gate, Wilderness" title="Skeleton Archer, Black Knight Gate, Wilderness"><span>Skeleton Archer<small>Black Knight Gate, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#black-knight-gate" style="--map-x:42.6667%;--map-y:38.4848%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Skeleton Archer, Black Knight Gate, Wilderness" title="Skeleton Archer, Black Knight Gate, Wilderness"><span>Skeleton Archer<small>Black Knight Gate, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

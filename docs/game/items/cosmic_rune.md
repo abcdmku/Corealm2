@@ -32,6 +32,50 @@ description: "A yellow rune ringed with a wheel of stars. It spreads an invocati
 | Dropped by | [Chainbound Archon](../../creatures/chainbound_archon_t70/) | 100% · 24-40 |
 | Dropped by | [Nightforge Marshal](../../creatures/nightforge_marshal_t70/) | 100% · 24-40 |
 | Dropped by | [The Hollow Star](../../creatures/hollow_star_t70/) | 100% · 24-40 |
+| Dropped by | Lantern Sprite | 14% · 1-1 |
+| Dropped by | Moonpetal Stalker | 14% · 1-1 |
+| Dropped by | Dewglass Weaver | 14% · 1-1 |
+| Dropped by | [Bloomheart Matriarch](../../creatures/bloomheart_matriarch_t30/) | 100% · 3-5 |
+| Dropped by | Prismatic Sprite | 14% · 1-1 |
+| Dropped by | Orchid Reaper | 14% · 1-1 |
+| Dropped by | Starroot Guardian | 14% · 1-1 |
+| Dropped by | [Amethyst Sovereign](../../creatures/amethyst_sovereign_t60/) | 100% · 3-5 |
+| Dropped by | Petal Pouncer | 14% · 1-1 |
+| Dropped by | Moss Nibbler | 14% · 1-1 |
+| Dropped by | Bloom Hopper | 14% · 1-1 |
+| Dropped by | Thicket Spirit | 14% · 1-1 |
+| Dropped by | Bramble Prowler | 14% · 1-1 |
+| Dropped by | Elder Grovebeast | 14% · 1-1 |
+| Dropped by | Petal Pouncer | 14% · 1-1 |
+| Dropped by | Moss Nibbler | 14% · 1-1 |
+| Dropped by | Bloom Hopper | 14% · 1-1 |
+| Dropped by | Thicket Spirit | 14% · 1-1 |
+| Dropped by | Bramble Prowler | 14% · 1-1 |
+| Dropped by | Elder Grovebeast | 14% · 1-1 |
+| Dropped by | [Dewdrop Spriggle](../../creatures/garden_spriggle_t30/) | 14% · 1-1 |
+| Dropped by | [Mooncap Sporekin](../../creatures/garden_sporekin_t30/) | 14% · 1-1 |
+| Dropped by | [Glasspond Frog](../../creatures/garden_frog_t30/) | 14% · 1-1 |
+| Dropped by | [Lantern Imp](../../creatures/garden_imp_t30/) | 14% · 1-1 |
+| Dropped by | [Mooncap Snail](../../creatures/garden_snail_t30/) | 14% · 1-1 |
+| Dropped by | [Dewglass Reliquary](../../creatures/garden_reliquary_t30/) | 14% · 1-1 |
+| Dropped by | [Silverleaf Hart](../../creatures/garden_hart_t30/) | 14% · 1-1 |
+| Dropped by | [Thistledown Veilspirit](../../creatures/garden_veilspirit_t30/) | 14% · 1-1 |
+| Dropped by | [Briar Sapling](../../creatures/garden_sapling_t30/) | 14% · 1-1 |
+| Dropped by | [Petal Drake](../../creatures/garden_drake_t30/) | 14% · 1-1 |
+| Dropped by | [Dewstone Wardling](../../creatures/garden_wardling_t30/) | 14% · 1-1 |
+| Dropped by | [Silverleaf Petalguard](../../creatures/garden_petalguard_t30/) | 14% · 1-1 |
+| Dropped by | [Prism Spriggle](../../creatures/garden_spriggle_t60/) | 14% · 1-1 |
+| Dropped by | [Duskcap Sporekin](../../creatures/garden_sporekin_t60/) | 14% · 1-1 |
+| Dropped by | [Orchid Pondling](../../creatures/garden_frog_t60/) | 14% · 1-1 |
+| Dropped by | [Twilight Imp](../../creatures/garden_imp_t60/) | 14% · 1-1 |
+| Dropped by | [Starcap Snail](../../creatures/garden_snail_t60/) | 14% · 1-1 |
+| Dropped by | [Starporcelain Reliquary](../../creatures/garden_reliquary_t60/) | 14% · 1-1 |
+| Dropped by | [Starhorn Hart](../../creatures/garden_hart_t60/) | 14% · 1-1 |
+| Dropped by | [Orchid Veilspirit](../../creatures/garden_veilspirit_t60/) | 14% · 1-1 |
+| Dropped by | [Starroot Tender](../../creatures/garden_sapling_t60/) | 14% · 1-1 |
+| Dropped by | [Orchid Drake](../../creatures/garden_drake_t60/) | 14% · 1-1 |
+| Dropped by | [Amethyst Wardling](../../creatures/garden_wardling_t60/) | 14% · 1-1 |
+| Dropped by | [Moonstone Petalguard](../../creatures/garden_petalguard_t60/) | 14% · 1-1 |
 | Dropped by | Purple Wilderness Dragon | 40% · 2-4 |
 | Dropped by | Black Dragon Hatchling | 40% · 2-4 |
 | Dropped by | Cinder Dreadwing | 40% · 2-4 |
@@ -74,5 +118,6 @@ description: "A yellow rune ringed with a wheel of stars. It spreads an invocati
 | Sold by | [Oakwood Trade Post](../../spells-and-shops/#oakwood-trade-post) | 200 in stock |
 | Sold by | [Hillcrest Camp Store](../../spells-and-shops/#hillcrest-camp-store) | 200 in stock |
 | Sold by | [Ashford Provisioners](../../spells-and-shops/#ashford-provisioners) | 200 in stock |
+| Sold by | [Moonpetal Provisions](../../spells-and-shops/#moonpetal-provisions) | 100 in stock |
 
 [Back to all items](../)
