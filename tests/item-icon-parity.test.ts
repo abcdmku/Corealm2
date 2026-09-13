@@ -78,14 +78,14 @@ describe("inventory and held equipment parity", () => {
       'duskguard_gauntlets', 'oathguard_gauntlets', 'frostguard_gauntlets',
       'tideweave_wraps', 'nightweave_wraps', 'frostweave_wraps',
     ].sort());
-    for (const item of ALL_ITEMS.filter(item => item.equip)) {
+    for (const item of ALL_ITEMS.filter(item => item.equip && !/^(crafted_|guardian_)/.test(item.id))) {
       expect(itemIconAppearance(item.id).presentation, item.id)
         .toBe(item.equip!.slot === "hands" ? "paired-hands" : undefined);
     }
   });
 
   it("gives every expansion trophy its anatomical family and every new accessory its own construction", () => {
-    expect(CREATURE_LOOT_ITEMS).toHaveLength(32);
+    expect(CREATURE_LOOT_ITEMS).toHaveLength(24);
     for (const item of CREATURE_LOOT_ITEMS) {
       const appearance = itemIconAppearance(item.id);
       expect(appearance.parts, item.id).toHaveLength(1);

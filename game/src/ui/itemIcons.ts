@@ -132,6 +132,8 @@ const BY_EQUIP_SLOT: Record<EquipSlot, IconShape> = {
   mainHand: "sword",
   offHand: "shield",
   accessory1: "ring",
+  ring2: "ring",
+  earring2: "ring",
   accessory2: "ring",
 };
 

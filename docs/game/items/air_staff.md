@@ -12,7 +12,7 @@ description: "Pine Staff fitted with a Air Orb. Its charge pays for matching spe
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+7</dd></div><div><dt>Magic power</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+3</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+7</dd></div><div><dt>Defence</dt><dd>+3</dd></div><div><dt>Magic Power</dt><dd>+8</dd></div></dl>
 
 ## Use and requirements
 

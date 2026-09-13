@@ -6,7 +6,7 @@ import { tierSilhouetteScale } from '../core/math.js';
 import { FAIRY_MINIBOSS_FORMS, fairyMinibossAsset } from './fairyMinibossForms.js';
 
 export const UNIVERSAL_MINIBOSS_RESPAWN_SECONDS = 30 * 60;
-export const UNIQUE_JEWELLERY_CHANCE = .02;
+export const UNIQUE_JEWELLERY_CHANCE = .30;
 export const UNIVERSAL_MINIBOSSES_PER_REGION = 2;
 
 /** Each source body can appear in every region. Strength and rewards follow the region. */
@@ -43,22 +43,22 @@ const template: EnemyDef = {
   moveSpeedMps: 2.6, walkSpeedMps: .55, behaviour: 'territorial', drops: [],
 };
 
-export function universalMinibossSpecies(number: UniversalMinibossNumber, regionId: RegionId): CreatureSpeciesDef {
+export function universalMinibossSpecies(number: UniversalMinibossNumber, regionId: RegionId, tierOverride?: 70): CreatureSpeciesDef {
   const row = UNIVERSAL_MINIBOSS_ROSTER.find(candidate => candidate.number === number)!;
-  const tier = REGION_COMBAT_TIERS[regionId];
+  const tier = tierOverride ?? Math.max(10, REGION_COMBAT_TIERS[regionId]);
   const targetLevel = Math.max(12, Math.round(tier * 2.5));
   const stats: EnemyDef = {
     ...tuneEnemyCombatLevel(template, targetLevel, tier),
     id: `guardian_${number}_t${tier}`, family: `guardian_${number}`, name: row.name,
     attackStyle: row.style, respawnSeconds: UNIVERSAL_MINIBOSS_RESPAWN_SECONDS,
-    drops: [
-      { itemId: `warden_jewellery_${number}_t${tier}`, quantity: [1, 1], chance: 1 },
-      { itemId: `unique_jewellery_${number}_t${tier}`, quantity: [1, 1], chance: UNIQUE_JEWELLERY_CHANCE },
+    drops: tier < 10 ? [] : [
+      { itemId: `guardian_ring_t${tier}`, quantity: [1, 1], chance: UNIQUE_JEWELLERY_CHANCE / 2, exclusiveGroup: 'jewelry' },
+      { itemId: `guardian_earring_t${tier}`, quantity: [1, 1], chance: UNIQUE_JEWELLERY_CHANCE / 2, exclusiveGroup: 'jewelry' },
     ],
     marks: [Math.max(15, tier * 10), Math.max(30, tier * 20)],
   };
   return {
-    id: `guardian_${number}_${regionId}`, assetId: fairyMinibossAsset(number, regionId) ?? `fantasy_monster_${number}`, regionId,
+    id: `guardian_${number}_${regionId}${tierOverride ? `_t${tierOverride}` : ""}`, assetId: fairyMinibossAsset(number, regionId) ?? `fantasy_monster_${number}`, regionId,
     scale: 1 / tierSilhouetteScale(tier), activity: 'patrol', stats,
     description: `Fantasy Monster ${number}. A roaming ${row.name} with a thirty-minute respawn.`,
   };
@@ -66,7 +66,8 @@ export function universalMinibossSpecies(number: UniversalMinibossNumber, region
 
 export const UNIVERSAL_MINIBOSS_SPECIES: readonly CreatureSpeciesDef[] =
   (Object.keys(REGION_COMBAT_TIERS) as RegionId[]).flatMap(regionId =>
-    UNIVERSAL_MINIBOSS_ROSTER.map(row => universalMinibossSpecies(row.number, regionId)));
+    UNIVERSAL_MINIBOSS_ROSTER.flatMap(row => [universalMinibossSpecies(row.number, regionId),
+      ...(regionId === 'wilderness' ? [universalMinibossSpecies(row.number, regionId, 70)] : [])]));
 
 /** Cave and Karrowmoor share T10 stats; registration contains each canonical ID once. */
 export const UNIVERSAL_MINIBOSS_ENEMIES: readonly EnemyDef[] = [...new Map(

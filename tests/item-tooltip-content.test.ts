@@ -19,9 +19,8 @@ describe("shared item tooltip content", () => {
     const model = itemTooltipContent("grithe_sword", {
       skillLevels: { melee: 0 },
       wornBonuses: {
-        accuracy: 99, power: 0, armour: 0, magicAccuracy: 0,
-        magicPower: 0, magicArmour: 0, vitality: 0,
-      },
+        meleeAccuracy: 99, meleePower: 0,  magicAccuracy: 0,
+        magicPower: 0, defence: 0, health: 0, vitality: 0 },
       comparedSlotLabel: "main hand",
     });
     expect(model.requirements).toContainEqual({ text: "Requires Melee 1 — you have 0", met: false });

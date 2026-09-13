@@ -1,3 +1,6 @@
+import { jewelrySlots } from '../content/jewelry.js';
+import { EQUIPMENT_SLOT_LABELS } from './equipmentSlotGrid.js';
+import type { EquipSlot } from '../contracts.js';
 import { PanelFrame } from "./panelFrame.js";
 /**
  * The 28-slot inventory, 4 across and 7 down, exactly as the PRD lays it out.
@@ -124,8 +127,8 @@ export class InventoryPanel implements ManagedPanel {
     this.ctx.refresh();
   }
 
-  private equip(itemId: ItemId): void {
-    const result = this.ctx.api.equipItem(itemId);
+  private equip(itemId: ItemId, targetSlot?: EquipSlot): void {
+    const result = this.ctx.api.equipItem(itemId, targetSlot);
     if (result.ok) notify(`Equipped ${itemName(itemId)}.`, "success");
     else report(result);
     this.ctx.refresh();
@@ -157,6 +160,13 @@ export class InventoryPanel implements ManagedPanel {
         label: `Equip ${name}`,
         enabled: true,
         onSelect: () => this.equip(stack.itemId),
+      });
+    }
+
+    if (def?.equip && jewelrySlots(def.equip.slot).length > 1) {
+      for (const slot of jewelrySlots(def.equip.slot)) items.push({
+        id: `equip-${slot}`, label: `Equip in ${EQUIPMENT_SLOT_LABELS[slot]}`, enabled: true,
+        onSelect: () => this.equip(stack.itemId, slot),
       });
     }
 

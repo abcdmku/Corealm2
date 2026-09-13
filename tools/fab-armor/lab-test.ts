@@ -37,7 +37,7 @@ interface ShimmerRow {
 const SLOTS = ['head', 'body', 'legs', 'hands', 'feet'] as const;
 const CRAFT: Record<number, string> = { 1: 'marchhide', 5: 'bramblehide', 10: 'cairnpelt', 20: 'charhide', 50: 'dragonhide', 70: 'starhide' };
 const empty = (): Equipment => ({ head: null, body: null, legs: null, hands: null, feet: null,
-  mainHand: null, offHand: null, accessory1: null, accessory2: null });
+  mainHand: null, offHand: null, accessory1: null, accessory2: null , ring2: null, earring2: null });
 
 function casesFor(kind: string, tier: number, body: Body, style?: 'melee' | 'magic'): Scenario[] {
   if (kind === 'craft') {

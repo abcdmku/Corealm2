@@ -12,7 +12,7 @@ description: "Cleated for wet cairn stone."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+3</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+1</dd></div><div><dt>Defence</dt><dd>+3</dd></div><div><dt>Health</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

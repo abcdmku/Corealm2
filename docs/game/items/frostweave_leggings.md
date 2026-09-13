@@ -12,7 +12,7 @@ description: "Aurora Frostweave leggings for level 90 Magic."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+13</dd></div><div><dt>Magic accuracy</dt><dd>+25</dd></div><div><dt>Magic power</dt><dd>+12</dd></div><div><dt>Magic armour</dt><dd>+65</dd></div><div><dt>Vitality</dt><dd>+17</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+25</dd></div><div><dt>Defence</dt><dd>+65</dd></div><div><dt>Health</dt><dd>+17</dd></div><div><dt>Magic Power</dt><dd>+12</dd></div></dl>
 
 ## Use and requirements
 

@@ -1,3 +1,4 @@
+import { JEWELRY_RECIPES } from "../game/src/content/jewelry.js";
 import { describe, expect, it } from "vitest";
 import type { ItemDef, ItemId } from "../game/src/contracts.js";
 import { GATHER_TICK_MS } from "../game/src/core/time.js";
@@ -76,7 +77,7 @@ describe("generated gathering and production matrix", () => {
         items.pickaxe, items.hatchet,
         items.cookedFish, items.cookedMeat,
         definition.magic.wand, definition.magic.staff,
-        items.meleeRing, items.meleePendant, items.magicRing, items.magicCharm,
+        ...JEWELRY_RECIPES.filter(recipe => recipe.tier === tier).map(recipe => recipe.output.itemId),
         items.robe, items.magicLegs, items.hood, items.magicBoots, items.wraps,
         items.shaft, items.handle, items.staff, items.wand, items.shield, items.rod,
         ...(definition.magic.basicWand ? [definition.magic.basicWand] : []),
@@ -169,7 +170,7 @@ describe("generated gathering and production matrix", () => {
       expect(wandBonuses?.magicAccuracy).toBeLessThan(staffBonuses?.magicAccuracy ?? 0);
       expect(wandBonuses?.magicPower).toBeLessThan(staffBonuses?.magicPower ?? 0);
       expect(wand?.equip?.attackSpeedMs).toBeLessThan(staff?.equip?.attackSpeedMs ?? 0);
-      expect(wandBonuses?.power).toBe(0);
+      expect(wandBonuses?.meleePower).toBe(0);
       expect(wand?.value).toBeLessThan(staff?.value ?? 0);
     }
   });

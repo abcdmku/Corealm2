@@ -90,7 +90,6 @@ export interface GatheringProductionTierDef {
     dagger: ItemId; sword: ItemId; helm: ItemId; body: ItemId; legs: ItemId;
     boots: ItemId; gloves: ItemId; pickaxe: ItemId; hatchet: ItemId;
     staff: ItemId; wand: ItemId; rod: ItemId; shield: ItemId;
-    meleeRing: ItemId; meleePendant: ItemId; magicRing: ItemId; magicCharm: ItemId;
     hood: ItemId; robe: ItemId; magicLegs: ItemId; magicBoots: ItemId; wraps: ItemId;
   }>;
   /** The elemental upgrade unlocked alongside this production tier. */
@@ -217,7 +216,7 @@ export interface EnemyDef {
   walkSpeedMps?: number;
   /** Behaviour selector. Bosses add phases on top. */
   behaviour: "passive" | "aggressive" | "territorial";
-  drops: { itemId: ItemId; quantity: [number, number]; chance: number }[];
+  drops: { itemId: ItemId; quantity: [number, number]; chance: number; exclusiveGroup?: string }[];
   /** Currency drop range. */
   marks?: [number, number];
 }

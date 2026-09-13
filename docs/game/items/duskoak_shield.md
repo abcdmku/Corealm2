@@ -12,7 +12,7 @@ description: "Laminated ash over an Iron boss. Heavy enough to lean on."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+1</dd></div><div><dt>Defence</dt><dd>+8</dd></div><div><dt>Health</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

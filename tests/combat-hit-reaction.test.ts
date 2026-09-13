@@ -7,7 +7,7 @@ import { Store } from "../game/src/state/store.js";
 import { CombatSystem } from "../game/src/systems/combat.js";
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
 
-const NO_GEAR: EquipmentBonuses = { accuracy:0,power:0,armour:0,magicAccuracy:0,magicPower:0,magicArmour:0,vitality:0 };
+const NO_GEAR: EquipmentBonuses = { meleeAccuracy:0,meleePower:0,magicAccuracy:0,magicPower:0,defence: 0,health:0 , vitality: 0 };
 function fixture(kind: "melee"|"ranged"|"magic" = "melee") {
   const store=new Store(7,0), state=store.get(), events=new EventBus();
   state.player.position=[0,0,0];state.player.health=state.player.maxHealth=10000;

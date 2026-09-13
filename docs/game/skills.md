@@ -48,7 +48,7 @@ Mining, Woodcutting, and Fishing attempt an action every **1.8 seconds**. Succes
 
 ## How combat resolves
 
-Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment vitality. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.
+Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment Health. Vitality adds critical hit chance. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.
 
 ## What each level unlocks
 
@@ -125,9 +125,9 @@ These rows come from the same tier, resource, recipe, and item tables used by th
 
 | Level | Unlocks |
 | --- | --- |
-| 1 | 1× Air Wand, 1× Air Staff, 1× Copper Ring, 1× Copper Pendant, 1× Ember Ring, 1× Ember Charm, 1× Hide Robe, 1× Hide Leggings, 1× Hide Hood, 1× Hide Boots, 1× Hide Wraps, 1× Fox Fur Ring, 1× Hide Robe, 1× Turkey Plume Charm |
-| 5 | 1× Earth Wand, 1× Earth Staff, 1× Iron Ring, 1× Iron Pendant, 1× Stone Ring, 1× Stone Charm, 1× Thick Hide Robe, 1× Thick Hide Leggings, 1× Thick Hide Hood, 1× Thick Hide Boots, 1× Thick Hide Wraps, 1× Lynx Sinew Ring, 1× Thick Hide Leggings, 2× Thick Hide, 1× Heron Quill Charm, 1× Thick Hide Robe |
-| 10 | 1× Water Wand, 1× Water Staff, 1× Cobalt Ring, 1× Cobalt Pendant, 1× Storm Ring, 1× Storm Charm, 1× Fur Robe, 1× Fur Leggings, 1× Fur Hood, 1× Fur Boots, 1× Fur Wraps, 1× Porcupine Quill Ring, 1× Fur Leggings, 1× Antler Charm, 2× Fur Boots, 1× Fur Robe |
-| 20 | 1× Fire Wand, 1× Fire Staff, 1× Titanium Ring, 1× Titanium Pendant, 1× Cinder Ring, 1× Cinder Charm, 1× Heavy Hide Robe, 1× Heavy Hide Leggings, 1× Heavy Hide Hood, 1× Heavy Hide Boots, 1× Heavy Hide Wraps, 1× Chitin Ring, 2× Heavy Hide, 1× Mantis Edge Charm |
+| 1 | 1× Air Wand, 1× Air Staff, 1× Hide Robe, 1× Hide Leggings, 1× Hide Hood, 1× Hide Boots, 1× Hide Wraps, 1× Hide Robe |
+| 5 | 1× Earth Wand, 1× Earth Staff, 1× Thick Hide Robe, 1× Thick Hide Leggings, 1× Thick Hide Hood, 1× Thick Hide Boots, 1× Thick Hide Wraps, 1× Thick Hide Leggings, 2× Thick Hide, 1× Thick Hide Robe |
+| 10 | 1× Cobalt Garnet Ring, 1× Cobalt Garnet Earring, 1× Water Wand, 1× Water Staff, 1× Fur Robe, 1× Fur Leggings, 1× Fur Hood, 1× Fur Boots, 1× Fur Wraps, 1× Fur Leggings, 2× Fur Boots, 1× Fur Robe |
+| 20 | 1× Titanium Opal Ring, 1× Titanium Opal Earring, 1× Fire Wand, 1× Fire Staff, 1× Heavy Hide Robe, 1× Heavy Hide Leggings, 1× Heavy Hide Hood, 1× Heavy Hide Boots, 1× Heavy Hide Wraps, 2× Heavy Hide |
 
 </details>

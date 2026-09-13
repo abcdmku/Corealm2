@@ -12,7 +12,7 @@ description: "Copper pattern, but the edge whistles on the backswing. Plains Ogr
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+8</dd></div><div><dt>Power</dt><dd>+9</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+8</dd></div><div><dt>Melee Power</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

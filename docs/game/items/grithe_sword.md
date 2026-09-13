@@ -12,7 +12,7 @@ description: "Two bars of Copper beaten flat and given an edge. Heavier than the
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+7</dd></div><div><dt>Power</dt><dd>+8</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+7</dd></div><div><dt>Melee Power</dt><dd>+8</dd></div></dl>
 
 ## Use and requirements
 

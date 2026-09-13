@@ -12,7 +12,7 @@ description: "A punch of black Cobalt with a needle point. It goes through moor-
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+24</dd></div><div><dt>Power</dt><dd>+22</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+24</dd></div><div><dt>Melee Power</dt><dd>+22</dd></div></dl>
 
 ## Use and requirements
 

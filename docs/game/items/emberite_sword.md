@@ -12,7 +12,7 @@ description: "Kiln-forged and quenched twice. The edge holds a dull orange line 
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+48</dd></div><div><dt>Power</dt><dd>+45</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+48</dd></div><div><dt>Melee Power</dt><dd>+45</dd></div></dl>
 
 ## Use and requirements
 

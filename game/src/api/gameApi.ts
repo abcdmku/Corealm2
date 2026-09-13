@@ -92,7 +92,7 @@ export interface SystemHooks {
   equipment?: {
     slots(): Record<EquipSlot, ItemStack | null>;
     totals(): EquipmentBonuses;
-    equip(itemId: ItemId): Result<{ slot: EquipSlot; replaced: ItemId | null }>;
+    equip(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }>;
     unequip(slot: EquipSlot): Result<{ itemId: ItemId }>;
   };
   production?: {
@@ -622,10 +622,10 @@ export class CorealmGameApi implements GameApiContract {
     return hook.use(itemId, target);
   }
 
-  equipItem(itemId: ItemId): Result<{ slot: EquipSlot; replaced: ItemId | null }> {
+  equipItem(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }> {
     const hook = this.hooks.equipment;
     if (!hook) return err("UNAVAILABLE", "Equipment system is not available yet");
-    return hook.equip(itemId);
+    return hook.equip(itemId, targetSlot);
   }
 
   unequipItem(slot: EquipSlot): Result<{ itemId: ItemId }> {
@@ -968,5 +968,5 @@ export class CorealmGameApi implements GameApiContract {
 }
 
 export function emptyBonuses(): EquipmentBonuses {
-  return { accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0 };
+  return { meleeAccuracy: 0, meleePower: 0, defence: 0, magicAccuracy: 0, magicPower: 0, health: 0, vitality: 0 };
 }

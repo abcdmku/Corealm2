@@ -4,7 +4,7 @@
  * PRD 2.3, in full:
  *
  *   vitalityLevel = max(1, floor((melee + magic) / 2))
- *   maxHealth     = 20 + 3 * vitalityLevel + sum(equipped.vitality)
+ *   maxHealth     = 20 + 3 * vitalityLevel + sum(equipped.health)
  *
  * There is no Health skill and no Health XP. Max health moves when Melee or Magic moves, or when
  * gear changes, which is why this system recomputes it every tick instead of trusting anyone to
@@ -72,7 +72,7 @@ export class HealthSystem implements TickSystem {
    * class of bug: no caller has to remember to refresh after a level-up, an equip, or a load.
    */
   refreshMaxHealth(state: GameState): number {
-    const max = computeMaxHealth(state, this.deps.equipment.totals().vitality);
+    const max = computeMaxHealth(state, this.deps.equipment.totals().health);
     if (max === state.player.maxHealth && state.player.health <= max) return max;
 
     state.player.maxHealth = max;

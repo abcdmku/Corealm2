@@ -12,7 +12,7 @@ description: "Hillcrest's best. Cobalt holds an edge through stone, which is the
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+28</dd></div><div><dt>Power</dt><dd>+26</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+28</dd></div><div><dt>Melee Power</dt><dd>+26</dd></div></dl>
 
 ## Use and requirements
 

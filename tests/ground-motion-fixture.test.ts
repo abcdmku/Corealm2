@@ -51,7 +51,7 @@ describe('production ground motion circuits', () => {
     state.player.position = [...fixture.spawn]; state.player.regionId = 'fallowmarch';
     const entities = { all: () => fixture.entities, get: (id: string) => fixture.entities.find(actor => actor.id === id) };
     const combat = new CombatSystem({ store, events, entities, rng: new RngStreams(7),
-      equipment: { totals: () => ({ accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0 }), slots: () => state.equipment },
+      equipment: { totals: () => ({ meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0 , vitality: 0 }), slots: () => state.equipment },
       inventory: { addItem: (_id, count) => ok(count), removeItem: (_id, count) => ok(count), countItem: () => 0, freeSlots: () => 28, hasRoomFor: () => true },
       dispatcher: new InteractionDispatcher({ get: entities.get, playerPosition: () => state.player.position, skillLevels: () => Object.fromEntries(Object.entries(state.skills).map(([id, skill]) => [id, skill.level])) as any }),
     });

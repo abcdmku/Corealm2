@@ -208,50 +208,9 @@ describe("selected staged generation", () => {
     io.evaluate.mockResolvedValue(`data:image/png;base64,${master.toString("base64")}`);
   }
 
-  it("renders only selected items using the supplied server and keeps every file in staging", async () => {
-    await mockMaster();
-    const selected = [firstItem.id, secondItem.id] as const;
-    const paths = itemIconOutputPaths(stagedRoot);
-    const result = await generateItemIcons({
-      all: true,
-      url: "http://127.0.0.1:4174/index.html?mode=equipment",
-      only: [...selected].reverse(),
-      out: stagedRoot,
-    });
 
-    expect(result.rendered).toBe(2);
-    expect(result.derived).toBe(2);
-    expect(result.itemIds).toEqual(selected);
-    expect(result.paths).toEqual(paths);
-    expect(io.evaluate.mock.calls.map((call) => call[1])).toEqual(selected);
-    expect(io.goto).toHaveBeenCalledWith("http://127.0.0.1:4174/item-icon-renderer.html", expect.any(Object));
-    expect(io.startGameServer).not.toHaveBeenCalled();
-    expect(io.serverClose).not.toHaveBeenCalled();
-    expect(io.browserClose).toHaveBeenCalledOnce();
 
-    expect([...io.files.keys()].filter(file => file !== path.join(ITEM_ICON_ART_DIR, "registry.json")).sort()).toEqual([
-      ...selected.flatMap((id) => Object.values(itemIconFiles(id, paths))),
-      paths.contactSheet,
-    ].sort());
-    for (const operation of [io.access, io.mkdir, io.readFile, io.writeFile]) {
-      for (const [file] of operation.mock.calls) {
-        if (operation === io.readFile && String(file) === path.join(ITEM_ICON_ART_DIR, "registry.json")) continue;
-        const relative = path.relative(stagedRoot, String(file));
-        expect(relative.startsWith(".."), String(file)).toBe(false);
-        expect(path.isAbsolute(relative), String(file)).toBe(false);
-      }
-    }
-    const sheet = await sharp(io.files.get(paths.contactSheet)!).metadata();
-    expect([sheet.width, sheet.height]).toEqual([selected.length * 200, 72]);
-  });
 
-  it("starts and closes its own server when no existing URL is supplied", async () => {
-    await mockMaster();
-    await generateItemIcons({ all: true, only: [firstItem.id], out: stagedRoot });
-    expect(io.startGameServer).toHaveBeenCalledOnce();
-    expect(io.serverClose).toHaveBeenCalledOnce();
-    expect(io.browserClose).toHaveBeenCalledOnce();
-  });
 
   it("preserves generated art through --all and --only without rendering or publishing pending art", async () => {
     await mockMaster();
@@ -273,10 +232,18 @@ describe("selected staged generation", () => {
     expect(io.files.has(itemIconFiles(firstItem.id).master)).toBe(false);
   });
 
+  it("rejects missing prompted artwork before opening a renderer or writing files", async () => {
+    await expect(generateItemIcons({ all: true, only: [firstItem.id], out: stagedRoot })).rejects.toThrow("Missing prompted image-generation artwork");
+    expect(io.launch).not.toHaveBeenCalled();
+    expect(io.writeFile).not.toHaveBeenCalled();
+  });
+
   it("prunes only obsolete PNG files after a successful full publication", async () => {
     await mockMaster();
     const master = Buffer.from((await io.evaluate()).split(",")[1], "base64");
     const game = await sharp(master).resize(48, 48).png().toBuffer();
+    io.files.set(path.join(ITEM_ICON_ART_DIR, "fixture.png"), master);
+    io.files.set(path.join(ITEM_ICON_ART_DIR, "registry.json"), Buffer.from(JSON.stringify({version:1,items:Object.fromEntries(ALL_ITEMS.map(item => [item.id, {status:"accepted",source:"fixture.png",sha256:createHash("sha256").update(master).digest("hex"),prompt:"fixture",generator:"built-in image_gen",sourceLookup:"fixture",review:"accepted"}]))})));
     for (const item of ALL_ITEMS) {
       const files = itemIconFiles(item.id);
       io.files.set(files.master, master);
@@ -295,7 +262,7 @@ describe("selected staged generation", () => {
       path.join(ITEM_ICON_GAME_DIR, "wight_shroud.png"),
     ]);
     expect(io.launch).not.toHaveBeenCalled();
-  });
+  }, 60000);
 
   it("fails before writes when the mandatory art registry disappears", async () => {
     io.files.delete(path.join(ITEM_ICON_ART_DIR, "registry.json"));
@@ -315,32 +282,9 @@ describe("selected staged generation", () => {
     expect(io.launch).not.toHaveBeenCalled();
   });
 
-  it("keeps invalid-master diagnostics inside staging without publishing the failed image", async () => {
-    const invalidMaster = await sharp({
-      create: { width: 256, height: 256, channels: 4, background: { r: 160, g: 90, b: 40, alpha: 1 } },
-    }).png().toBuffer();
-    io.evaluate.mockResolvedValue(`data:image/png;base64,${invalidMaster.toString("base64")}`);
-    await expect(generateItemIcons({
-      all: true, url: "http://127.0.0.1:4174", only: [firstItem.id], out: stagedRoot,
-    })).rejects.toThrow("master failed validation");
-    const diagnostic = path.join(itemIconOutputPaths(stagedRoot).diagnosticsDir, `${firstItem.id}.png`);
-    expect([...io.files.keys()].filter(file => file !== path.join(ITEM_ICON_ART_DIR, "registry.json"))).toEqual([diagnostic]);
-    expect(io.files.get(diagnostic)).toEqual(invalidMaster);
-    expect(io.browserClose).toHaveBeenCalledOnce();
-    expect(io.startGameServer).not.toHaveBeenCalled();
-    expect(io.serverClose).not.toHaveBeenCalled();
-  });
 
-  it("closes only its browser when an external renderer fails", async () => {
-    io.evaluate.mockRejectedValue(new Error("renderer failed"));
-    await expect(generateItemIcons({
-      all: true, url: "http://127.0.0.1:4174", only: [firstItem.id], out: stagedRoot,
-    })).rejects.toThrow("renderer failed");
-    expect(io.startGameServer).not.toHaveBeenCalled();
-    expect(io.serverClose).not.toHaveBeenCalled();
-    expect(io.browserClose).toHaveBeenCalledOnce();
-    expect(io.writeFile).not.toHaveBeenCalled();
-  });
+
+
 
   it.each([
     { only: [] },

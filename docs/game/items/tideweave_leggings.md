@@ -12,7 +12,7 @@ description: "Chitin Tideweave leggings for level 50 Magic. A rare boss reward."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+7</dd></div><div><dt>Magic accuracy</dt><dd>+14</dd></div><div><dt>Magic power</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+36</dd></div><div><dt>Vitality</dt><dd>+10</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+14</dd></div><div><dt>Defence</dt><dd>+36</dd></div><div><dt>Health</dt><dd>+10</dd></div><div><dt>Magic Power</dt><dd>+8</dd></div></dl>
 
 ## Use and requirements
 

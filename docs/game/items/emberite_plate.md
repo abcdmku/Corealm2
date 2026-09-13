@@ -12,7 +12,7 @@ description: "Five bars of Titanium. It keeps the warmth of the forge for a full
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+6</dd></div><div><dt>Armour</dt><dd>+30</dd></div><div><dt>Magic armour</dt><dd>+7</dd></div><div><dt>Vitality</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+6</dd></div><div><dt>Defence</dt><dd>+30</dd></div><div><dt>Health</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

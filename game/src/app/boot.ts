@@ -1,3 +1,4 @@
+import { CRAFTED_JEWELRY, JEWELRY_RECIPES, isRetiredJewelry } from '../content/jewelry.js';
 import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
 import { createRiverSurface } from '../render/riverSurface.js';
 import { isFairyRegion, worldMapForRegion } from '../contracts.js';
@@ -306,8 +307,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     content.register({ enemies: [...content.allEnemies(), ...RPG_BESTIARY_STAGED.map((entry) => entry.stats)] });
     const species = [...WILDERNESS_CREATURE_SPECIES, ...WILDERNESS_DRAGONS];
     content.register({
-      items: [...new Map([...content.allItems(), ...WILDERNESS_LOOT_ITEMS].map(row => [row.id, row])).values()],
-      recipes: [...new Map([...content.allRecipes(), ...WILDERNESS_LOOT_RECIPES].map(row => [row.id, row])).values()],
+      items: [...new Map([...content.allItems(), ...WILDERNESS_LOOT_ITEMS.filter(item => !isRetiredJewelry(item.id))].map(row => [row.id, row])).values()],
+      recipes: [...new Map([...content.allRecipes(), ...WILDERNESS_LOOT_RECIPES.filter(recipe => !isRetiredJewelry(recipe.output.itemId))].map(row => [row.id, row])).values()],
       resources: [...new Map([...content.allResources(), ...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES].map(row => [row.id, row])).values()],
       enemies: [...new Map([...content.allEnemies(), ...REGIONAL_BOSS_SPECIES.map(row => row.stats),
         ...species.map(row => ({ ...row.stats, drops: wildernessDrops(row.id, row.stats.tier,
@@ -2187,7 +2188,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       state.player.position = [...landed] as Vec3;
       state.player.regionId = spawnSpec.regionId;
       state.player.facingRad = spawnFacing;
-      state.player.maxHealth = computeMaxHealth(state, equipmentSystem!.totals().vitality);
+      state.player.maxHealth = computeMaxHealth(state, equipmentSystem!.totals().health);
       state.player.health = state.player.maxHealth;
       movement.stop(state, clock.elapsedMs, "feature-lab-reset");
       input.clear();

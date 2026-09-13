@@ -40,8 +40,8 @@ function dispose(object: THREE.Object3D): void {
 
 describe('Wilderness loot icon appearances', () => {
   it('accepts all 62 candidate items without missing rows or phantom item IDs', () => {
-    expect(WILDERNESS_LOOT_ITEMS).toHaveLength(62);
-    expect([...ITEM_ICON_APPEARANCE_IDS].sort()).toEqual(ALL_ITEMS.map(item => item.id).sort());
+    expect(WILDERNESS_LOOT_ITEMS).toHaveLength(54);
+    expect([...ITEM_ICON_APPEARANCE_IDS].sort()).toEqual(ALL_ITEMS.filter(item => !/^(crafted_|guardian_)/.test(item.id)).map(item => item.id).sort());
     for (const item of WILDERNESS_LOOT_ITEMS) {
       expect(itemIconAppearance(item.id).itemId).toBe(item.id);
       expect(itemIconAppearance(item.id).parts.length, item.id).toBeGreaterThan(0);
@@ -97,19 +97,7 @@ describe('Wilderness loot icon appearances', () => {
     }
   });
 
-  it('distinguishes forged and thread-bound opal jewellery without borrowing another tier metal', () => {
-    const jewellery = WILDERNESS_LOOT_ITEMS.filter(item => item.equip?.slot.startsWith('accessory'));
-    expect(jewellery).toHaveLength(8);
-    expect(new Set(jewellery.map(item => JSON.stringify(itemIconAppearance(item.id).parts))).size).toBe(8);
-    for (const [metal, tint] of [['cindersteel', 0x8f7867], ['nightglass', 0x697b98]] as const) {
-      for (const suffix of ['ring', 'pendant']) {
-        expect(itemIconAppearance(`${metal}_${suffix}`).parts[0]).toMatchObject({ colour: tint, accent: 0xdb874c });
-      }
-    }
-    for (const id of ['emberweave_ring', 'starweave_ring']) {
-      expect(itemIconAppearance(id).parts[0]).toMatchObject({ primitive: 'ring', variant: 2 });
-    }
-  });
+
 
   it('resolves each imported model to a real shipped GLB', () => {
     const referenced = new Set(WILDERNESS_LOOT_ITEMS.flatMap(item => assetPartsIfAny(item.id)));

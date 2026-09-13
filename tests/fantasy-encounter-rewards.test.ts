@@ -75,7 +75,8 @@ describe('fantasy encounter reward and combat continuity', () => {
     expect([...retained].sort()).toEqual(requiredTrophies.sort());
     for (const itemId of requiredTrophies) {
       expect(CREATURE_LOOT_ITEMS.some(item => item.id === itemId), itemId).toBe(true);
-      expect(CREATURE_LOOT_RECIPES.some(recipe => recipe.inputs.some(input => input.itemId === itemId)), itemId).toBe(true);
+      // Retired jewelry ingredients remain sellable trophies.
+      expect(CREATURE_LOOT_ITEMS.find(item => item.id === itemId)!.value, itemId).toBeGreaterThan(0);
     }
   });
 

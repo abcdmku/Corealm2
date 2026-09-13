@@ -38,9 +38,8 @@ afterAll(() => {
 });
 
 const HERO_BONUSES: EquipmentBonuses = {
-  accuracy: 500, power: 500, armour: 500,
-  magicAccuracy: 0, magicPower: 0, magicArmour: 500, vitality: 0,
-};
+  meleeAccuracy: 500, meleePower: 500,
+  magicAccuracy: 0, magicPower: 0, defence: 500, health: 0, vitality: 0 };
 
 function minibossEntity(
   groupId: string,

@@ -131,7 +131,7 @@ export function buildDocs(): DocEntry[] {
       + "Magic beats high-armour, low-magic-armour targets; melee "
       + "beats the reverse. You gain 4 experience per point of damage dealt, plus twice the target's "
       + "maximum health when it dies. Health is derived: 20 + 3 * floor((Melee + Magic) / 2) plus any "
-      + "vitality from equipment. Out of combat you regain 1 health every 6 seconds.",
+      + "health from equipment. Out of combat you regain 1 health every 6 seconds.",
     keywords: ["melee", "magic", "damage", "accuracy", "max hit", "health", "hp", "spell"],
   });
 

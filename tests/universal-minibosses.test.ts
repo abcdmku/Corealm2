@@ -28,8 +28,7 @@ afterAll(() => content.register(original));
 afterEach(() => vi.restoreAllMocks());
 
 const hero: EquipmentBonuses = {
-  accuracy: 500, power: 500, armour: 500, magicAccuracy: 0, magicPower: 0, magicArmour: 500, vitality: 0,
-};
+  meleeAccuracy: 500, meleePower: 500,  magicAccuracy: 0, magicPower: 0, defence: 500, health: 0, vitality: 0 };
 
 function encounter(seed = 7) {
   const store = new Store(seed, 0), state = store.get();
@@ -85,7 +84,7 @@ describe('universal miniboss placement and rewards', () => {
       expect(new Set(first.map(group => group.assetId)).size).toBe(2);
       expect(new Set(first.map(group => group.centre.join(':'))).size).toBe(2);
       expect(first.every(group => group.miniBoss && group.count === 1 && group.radius === 0)).toBe(true);
-      expect(first.every(group => group.tier === REGION_COMBAT_TIERS[regionId])).toBe(true);
+      expect(first.map(group => group.tier)).toEqual(regionId === "wilderness" ? [50, 70] : [Math.max(10, REGION_COMBAT_TIERS[regionId]), Math.max(10, REGION_COMBAT_TIERS[regionId])]);
       const choices = new Set<string>();
       for (let seed = 1; seed <= 50; seed++) {
         const groups = buildUniversalMinibossGroups(regionId, seed, sockets);
@@ -122,31 +121,21 @@ describe('universal miniboss placement and rewards', () => {
     expect(() => buildUniversalMinibossGroups('faeholme', 42, sockets.map(socket => ({ ...socket, regionId: 'faeholme' })))).toThrow('56 m');
   });
 
-  it('keeps every source body at miniboss strength and its jewellery on the regional ladder', () => {
+  it('keeps every source body strong with a matching exclusive jewelry pair', () => {
     for (const species of UNIVERSAL_MINIBOSS_SPECIES) {
-      expect(species.stats.tier).toBe(REGION_COMBAT_TIERS[species.regionId]);
+      expect(species.stats.tier).toBe(species.id.endsWith('_t70') ? 70 : Math.max(10, REGION_COMBAT_TIERS[species.regionId]));
       expect(enemyCombatLevel(species.stats)).toBe(Math.max(12, Math.round(species.stats.tier * 2.5)));
       expect(species.stats.respawnSeconds).toBe(1800);
-      const [standardDrop, uniqueDrop] = species.stats.drops;
-      expect(standardDrop!.chance).toBe(1);
-      expect(uniqueDrop!.chance).toBe(.02);
-      const standard = MINIBOSS_JEWELLERY.find(item => item.id === standardDrop!.itemId)!;
-      const unique = MINIBOSS_JEWELLERY.find(item => item.id === uniqueDrop!.itemId)!;
-      expect(standard.tier).toBe(species.stats.tier);
-      expect(unique.tier).toBe(species.stats.tier);
-      for (const key of ['armour', 'magicArmour', 'vitality'] as const) {
-        expect(unique.equip!.bonuses[key]).toBeGreaterThan(standard.equip!.bonuses[key]);
-      }
-      const power = species.stats.attackStyle === 'magic' ? 'magicPower' : 'power';
-      expect(unique.equip!.bonuses[power]).toBeGreaterThan(standard.equip!.bonuses[power]);
+      const [ringDrop, earringDrop] = species.stats.drops;
+      expect(species.stats.drops.map(drop => drop.itemId)).toEqual([`guardian_ring_t${species.stats.tier}`, `guardian_earring_t${species.stats.tier}`]);
+      expect(ringDrop!.chance).toBe(.15); expect(earringDrop!.chance).toBe(.15);
+      expect(ringDrop!.exclusiveGroup).toBe(earringDrop!.exclusiveGroup);
+      const ring = MINIBOSS_JEWELLERY.find(item => item.id === ringDrop!.itemId)!;
+      const earring = MINIBOSS_JEWELLERY.find(item => item.id === earringDrop!.itemId)!;
+      expect(ring.tier).toBe(species.stats.tier);
+      expect(earring.equip!.bonuses).toEqual(ring.equip!.bonuses);
     }
-    expect(new Set(MINIBOSS_JEWELLERY.map(item => item.id)).size).toBe(MINIBOSS_JEWELLERY.length);
-    for (const item of MINIBOSS_JEWELLERY) {
-      expect(item.name).not.toMatch(/\bT\d+\b|\btier\b/i);
-      expect(item.name).toMatch(/Ring|Pendant/);
-    }
-    expect(MINIBOSS_JEWELLERY.find(item => item.id === 'unique_jewellery_01_t30')!.name).toBe('Moonpetal Brambleheart Ring');
-    expect(MINIBOSS_JEWELLERY.find(item => item.id === 'unique_jewellery_01_t60')!.name).toBe('Starwoven Brambleheart Ring');
+    expect(new Set(MINIBOSS_JEWELLERY.map(item => item.id)).size).toBe(14);
   });
 
   it('uses the distinct ordinary pack for both fairy tiers and makes remote creatures stronger', () => {
@@ -166,17 +155,19 @@ describe('universal miniboss placement and rewards', () => {
     }
   });
 
-  it('rolls guaranteed standard jewellery and rare independent unique jewellery through real kills', () => {
-    let uniqueCount = 0;
+  it('rolls one exclusive ring or earring on thirty percent of real kills', () => {
+    let uniqueCount = 0; const shapes = new Set<string>();
     for (let seed = 1; seed <= 300; seed++) {
       const sim = encounter(seed);
       sim.kill();
       const items = Object.values(sim.state.world.lootPiles).flatMap(pile => pile.items);
-      expect(items.find(item => item.itemId === 'warden_jewellery_01_t30')?.quantity).toBe(1);
-      if (items.some(item => item.itemId === 'unique_jewellery_01_t30')) uniqueCount++;
+      const jewelry = items.filter(item => item.itemId.startsWith('guardian_'));
+      expect(jewelry.length).toBeLessThanOrEqual(1);
+      if (jewelry.length) { uniqueCount++; shapes.add(jewelry[0]!.itemId); }
     }
-    expect(uniqueCount).toBeGreaterThan(0);
-    expect(uniqueCount).toBeLessThan(15);
+    expect(uniqueCount).toBeGreaterThan(65);
+    expect(uniqueCount).toBeLessThan(115);
+    expect(shapes.size).toBe(2);
   });
 });
 

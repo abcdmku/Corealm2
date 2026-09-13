@@ -12,7 +12,7 @@ description: "Heavy Hide to the ankle, weighted so foothill gusts leave it alone
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+2</dd></div><div><dt>Magic accuracy</dt><dd>+7</dd></div><div><dt>Magic power</dt><dd>+4</dd></div><div><dt>Magic armour</dt><dd>+18</dd></div><div><dt>Vitality</dt><dd>+4</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+7</dd></div><div><dt>Defence</dt><dd>+18</dd></div><div><dt>Health</dt><dd>+4</dd></div><div><dt>Magic Power</dt><dd>+4</dd></div></dl>
 
 ## Use and requirements
 

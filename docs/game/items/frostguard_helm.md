@@ -12,7 +12,7 @@ description: "Aurora Frostguard helm for level 90 Melee."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+12</dd></div><div><dt>Armour</dt><dd>+51</dd></div><div><dt>Magic armour</dt><dd>+17</dd></div><div><dt>Vitality</dt><dd>+11</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+12</dd></div><div><dt>Defence</dt><dd>+51</dd></div><div><dt>Health</dt><dd>+11</dd></div></dl>
 
 ## Use and requirements
 

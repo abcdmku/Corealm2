@@ -4,13 +4,13 @@ import { content } from "../content/index.js";
 import { SKILLS } from "../content/skills.js";
 
 const BONUS_LABELS: readonly [keyof EquipmentBonuses, string][] = [
-  ["accuracy", "Accuracy"],
-  ["power", "Power"],
-  ["armour", "Armour"],
-  ["magicAccuracy", "Magic accuracy"],
-  ["magicPower", "Magic power"],
-  ["magicArmour", "Magic armour"],
-  ["vitality", "Vitality"],
+  ["meleeAccuracy", "Melee Accuracy"],
+  ["magicAccuracy", "Magic Accuracy"],
+  ["defence", "Defence"],
+  ["health", "Health"],
+  ["meleePower", "Melee Power"],
+  ["magicPower", "Magic Power"],
+  ["vitality", "Vitality (crit %)"],
 ];
 
 const ELEMENT_LABELS: Readonly<Record<SpellElement, string>> = {

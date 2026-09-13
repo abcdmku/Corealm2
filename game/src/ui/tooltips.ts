@@ -1,3 +1,5 @@
+import { EQUIPMENT_SLOT_LABELS } from './equipmentSlotGrid.js';
+import { selectEquipmentSlot } from '../content/jewelry.js';
 /**
  * The one tooltip in the game.
  *
@@ -25,7 +27,7 @@ export type TooltipContent =
   | { kind: "text"; title: string; lines: string[]; runeCosts?: SpellRow["runes"] };
 
 const EMPTY_BONUSES: EquipmentBonuses = {
-  accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
+  meleeAccuracy: 0, meleePower: 0, defence: 0, magicAccuracy: 0, magicPower: 0, health: 0, vitality: 0,
 };
 
 export function liveWeaponChargeFor(
@@ -174,14 +176,14 @@ export class Tooltip {
 
   private renderItem(spec: Extract<TooltipContent, { kind: "item" }>): HTMLElement[] {
     const def = content.item(spec.itemId);
-    const worn = def?.equip && spec.compareEquipped ? this.wornBonuses(def.equip.slot, def.id) : null;
+    const worn = def?.equip && spec.compareEquipped ? this.wornBonuses(selectEquipmentSlot(def.equip.slot, this.api.getEquipment().slots), def.id) : null;
     const liveCharge = def?.magicWeapon?.charge
       ? liveWeaponChargeFor(def.id, this.api.getSpellbook().equippedWeapon)
       : null;
     const model = itemTooltipContent(spec.itemId, {
       quantity: spec.quantity,
       skillLevels: this.api.getSkills(),
-      ...(worn ? { wornBonuses: worn, comparedSlotLabel: this.slotLabel(def!.equip!.slot) } : {}),
+      ...(worn ? { wornBonuses: worn, comparedSlotLabel: this.slotLabel(selectEquipmentSlot(def!.equip!.slot, this.api.getEquipment().slots)) } : {}),
       liveWeaponCharges: liveCharge,
       footer: spec.footer,
     });
@@ -287,7 +289,7 @@ export class Tooltip {
   }
 
   private slotLabel(slot: EquipSlot): string {
-    return slot.replace(/([A-Z])/g, " $1").replace(/(\d)/g, " $1").toLowerCase().trim();
+    return EQUIPMENT_SLOT_LABELS[slot];
   }
 
   private position(anchor: Element): void {

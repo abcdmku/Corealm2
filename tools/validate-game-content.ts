@@ -113,6 +113,15 @@ function validateQuestRefTargets(entityIds: ReadonlySet<string>, locationIds: Re
 /** Throws before Vite packages a release if its canonical content has unresolved references. */
 export async function validateGameContent(): Promise<GameContentValidation> {
   const manifest = JSON.parse(await readFile(path.join(gameRoot, "public/assets/manifest.json"), "utf8")) as AssetManifest;
+  const iconRegistry = JSON.parse(await readFile(path.resolve(gameRoot, "../art/item-icons/generated/registry.json"), "utf8"));
+  const promptedIconIds = new Set<string>();
+  for (const [id, entry] of Object.entries(iconRegistry.items) as [string, {status:string;source:string;sha256:string}][]) {
+    if (entry.status !== "accepted") continue;
+    const bytes = await readFile(path.resolve(gameRoot, "../art/item-icons/generated", entry.source));
+    if (createHash("sha256").update(bytes).digest("hex") !== entry.sha256) throw new Error(`Icon source hash mismatch: ${id}`);
+    await readFile(path.join(gameRoot, "public/assets/icons/items/48", `${id}.png`));
+    promptedIconIds.add(id);
+  }
   const verifiedSourceHashes = new Map<string, string>();
   const sourcePaths = new Set(manifest.packs.flatMap((pack) => {
     const reference = (pack as typeof pack & { sourceReference?: { file: string } }).sourceReference;
@@ -146,6 +155,7 @@ export async function validateGameContent(): Promise<GameContentValidation> {
       verifiedSourceHashes,
       clusters: REGIONS.flatMap((region) => region.clusters),
       stations: REGIONS.flatMap((region) => [...(region.settlement?.stations ?? []), ...region.stations]),
+      promptedIconIds,
       itemAppearances: ITEM_ICON_APPEARANCE_IDS.map((id) => itemIconAppearance(id)),
     }).map((problem) => `gathering-production: ${problem}`),
   ];

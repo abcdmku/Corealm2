@@ -12,7 +12,7 @@ description: "Walnut the fire chose not to eat. The empty cage sheds a slow drif
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+7</dd></div><div><dt>Magic accuracy</dt><dd>+44</dd></div><div><dt>Magic power</dt><dd>+38</dd></div><div><dt>Magic armour</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+44</dd></div><div><dt>Defence</dt><dd>+7</dd></div><div><dt>Melee Power</dt><dd>+7</dd></div><div><dt>Magic Power</dt><dd>+38</dd></div></dl>
 
 ## Use and requirements
 

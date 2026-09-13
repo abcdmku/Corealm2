@@ -1,3 +1,4 @@
+import { jewelrySlots, selectEquipmentSlot } from '../content/jewelry.js';
 /**
  * The ten worn slots.
  *
@@ -5,7 +6,7 @@
  * a failed swap rolls back to exactly the state it started in.
  *
  * MAX HEALTH IS NOT DERIVED HERE, and the header used to say it was. `systems/health.ts` calls
- * `computeMaxHealth(state, totals.vitality)` and clamps current health at the top of every tick
+ * `computeMaxHealth(state, totals.health)` and clamps current health at the top of every tick
  * (health.ts:54), and its comment says it does that so no caller has to remember. This file carried
  * a second copy of the identical derivation and ran it on every equip and unequip. Both copies were
  * measured to produce the same numbers — a Kaldite Plate moves maxHealth 140 -> 145 and unequipping
@@ -33,7 +34,7 @@ export interface EquipmentDeps {
 }
 
 export function emptyEquipmentBonuses(): EquipmentBonuses {
-  return { accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0 };
+  return { meleeAccuracy: 0, meleePower: 0, defence: 0, magicAccuracy: 0, magicPower: 0, health: 0, vitality: 0 };
 }
 
 /**
@@ -53,13 +54,13 @@ export function equipmentTotalsOf(slots: Readonly<Record<EquipSlot, ItemStack | 
     if (!worn) continue;
     const bonuses = content.item(worn.itemId)?.equip?.bonuses;
     if (!bonuses) continue;
-    totals.accuracy += bonuses.accuracy;
-    totals.power += bonuses.power;
-    totals.armour += bonuses.armour;
+    totals.meleeAccuracy += bonuses.meleeAccuracy;
+    totals.meleePower += bonuses.meleePower;
+    totals.defence += bonuses.defence;
     totals.magicAccuracy += bonuses.magicAccuracy;
     totals.magicPower += bonuses.magicPower;
-    totals.magicArmour += bonuses.magicArmour;
     totals.vitality += bonuses.vitality;
+    totals.health += bonuses.health;
   }
   return totals;
 }
@@ -91,7 +92,7 @@ export class EquipmentSystem {
     return equipmentTotalsOf(this.state.equipment);
   }
 
-  equip(itemId: ItemId): Result<{ slot: EquipSlot; replaced: ItemId | null }> {
+  equip(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }> {
     const def = content.item(itemId);
     if (!def) return err("NOT_FOUND", `No item with id ${itemId}`);
     const equip = def.equip;
@@ -105,7 +106,8 @@ export class EquipmentSystem {
       return err("REQUIREMENTS_NOT_MET", `${def.name} needs ${unmet.join(", ")}`);
     }
 
-    const slot = equip.slot;
+    const slot = targetSlot ?? selectEquipmentSlot(equip.slot, this.state.equipment);
+    if (!jewelrySlots(equip.slot).includes(slot)) return err("INVALID_ARGUMENT", "This item does not fit that slot");
     if (def.magicWeapon?.hands === 2) {
       if (slot !== "mainHand") {
         return err("REQUIREMENTS_NOT_MET", `${def.name} must be equipped in your main hand`);

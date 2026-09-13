@@ -12,7 +12,7 @@ description: "A closed helm with a smoke-vent crown. Built for standing close to
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+4</dd></div><div><dt>Armour</dt><dd>+14</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div><div><dt>Vitality</dt><dd>+3</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+4</dd></div><div><dt>Defence</dt><dd>+14</dd></div><div><dt>Health</dt><dd>+3</dd></div></dl>
 
 ## Use and requirements
 

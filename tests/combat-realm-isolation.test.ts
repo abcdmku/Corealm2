@@ -13,8 +13,7 @@ import { InteractionDispatcher } from "../game/src/world/interactions.js";
 type Weapon = "melee" | "essence" | "charge";
 type Participant = "source" | "target" | "both";
 const GEAR: EquipmentBonuses = {
-  accuracy: 500, power: 50, armour: 0, magicAccuracy: 500, magicPower: 50, magicArmour: 0, vitality: 0,
-};
+  meleeAccuracy: 500, meleePower: 50,  magicAccuracy: 500, magicPower: 50, defence: 0, health: 0, vitality: 0 };
 
 function fixture(weapon: Weapon = "melee") {
   const store = new Store(7, 0);

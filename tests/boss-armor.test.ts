@@ -77,10 +77,10 @@ describe('rare boss armor', () => {
     for (const set of BOSS_ARMOR_SETS) {
       expect(set.thresholds.map(row => row.pieces)).toEqual(Object.keys(set.members).length === 4 ? [2, 3, 4] : [2, 4, 5]);
       const defence = set.tier === 50 ? 10 : set.tier === 70 ? 14 : 18;
-      expect(set.thresholds[0]!.bonuses[set.style === 'melee' ? 'armour' : 'magicArmour']).toBe(defence);
-      expect(set.thresholds[2]!.bonuses[set.style === 'melee' ? 'magicArmour' : 'armour']).toBe(defence);
+      expect(set.thresholds[0]!.bonuses[set.style === 'melee' ? 'defence' : 'defence']).toBe(defence);
+      expect(set.thresholds[2]!.bonuses[set.style === 'melee' ? 'defence' : 'defence']).toBe(defence);
       for (const threshold of set.thresholds) {
-        expect(threshold.bonuses.power + threshold.bonuses.magicPower + threshold.bonuses.accuracy + threshold.bonuses.magicAccuracy).toBe(0);
+        expect(threshold.bonuses.meleePower + threshold.bonuses.magicPower + threshold.bonuses.meleeAccuracy + threshold.bonuses.magicAccuracy).toBe(0);
       }
       if (set.tier !== 90) continue;
       const lowPrefix = set.style === 'melee' ? 'cindersteel' : 'dragonhide';

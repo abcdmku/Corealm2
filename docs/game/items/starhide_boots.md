@@ -12,7 +12,7 @@ description: "Starhide boots sewn with Void Thread. Requires level 70 Magic."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+4</dd></div><div><dt>Magic accuracy</dt><dd>+6</dd></div><div><dt>Magic armour</dt><dd>+15</dd></div><div><dt>Vitality</dt><dd>+6</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+6</dd></div><div><dt>Defence</dt><dd>+15</dd></div><div><dt>Health</dt><dd>+6</dd></div></dl>
 
 ## Use and requirements
 

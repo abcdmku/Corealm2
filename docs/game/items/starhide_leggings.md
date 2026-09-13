@@ -12,7 +12,7 @@ description: "Starhide leggings sewn with Void Thread. Requires level 70 Magic."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+9</dd></div><div><dt>Magic accuracy</dt><dd>+18</dd></div><div><dt>Magic power</dt><dd>+9</dd></div><div><dt>Magic armour</dt><dd>+46</dd></div><div><dt>Vitality</dt><dd>+12</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+18</dd></div><div><dt>Defence</dt><dd>+46</dd></div><div><dt>Health</dt><dd>+12</dd></div><div><dt>Magic Power</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

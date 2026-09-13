@@ -1,3 +1,5 @@
+import { canonicalJewelryId, jewelrySlots } from '../content/jewelry.js';
+import { EQUIP_SLOTS } from '../contracts.js';
 import { SAVE_VERSION, type GameState } from "../state/store.js";
 import { normalizeHuntContracts } from "../systems/huntContracts.js";
 
@@ -234,6 +236,7 @@ export function migrate(raw: unknown): MigrationResult {
   migrateMagicItems(state);
   migrateProductionWorld(state, version);
   removeFarmingContent(state);
+  migrateJewelry(state);
   state.meta.saveVersion = SAVE_VERSION;
   return { ok: true, state, fromVersion: version };
 }
@@ -246,4 +249,40 @@ function withNodeCapacity(
     ? Math.max(0, Math.floor(node.maxYields))
     : remaining;
   return { ...node, remaining, maxYields: Math.max(remaining, savedMaximum) };
+}
+
+/** Idempotent v8 item aliases preserve quantities in all saved physical containers. */
+function migrateJewelry(state: GameState): void {
+  const visit = (value: unknown): void => {
+    if (!value || typeof value !== 'object') return;
+    const row = value as Record<string, unknown>;
+    if (typeof row.itemId === 'string') row.itemId = canonicalJewelryId(row.itemId);
+    for (const nested of Object.values(row)) visit(nested);
+  };
+  visit(state);
+  state.equipment ??= {} as GameState['equipment'];
+  for (const slot of EQUIP_SLOTS) state.equipment[slot] ??= null;
+  const jewelry = EQUIP_SLOTS.flatMap(slot => {
+    const item = state.equipment[slot];
+    if (!item || !/^(crafted_(ring|earring)_t|guardian_(ring|earring)_t)/.test(item.itemId)) return [];
+    const primary = item.itemId.includes("_earring_") ? "accessory2" : "accessory1";
+    if (jewelrySlots(primary).includes(slot)) return [];
+    state.equipment[slot] = null;
+    return [item];
+  });
+  for (const item of jewelry) {
+    const primary = item.itemId.includes('_earring_') ? 'accessory2' : 'accessory1';
+    const slot = jewelrySlots(primary).find(slot => !state.equipment[slot]);
+    if (slot) state.equipment[slot] = item;
+    else preserveStack(state, item);
+  }
+  if (state.bank?.slots) {
+    const merged = new Map<string, LooseStack>();
+    for (const item of state.bank.slots) {
+      const prior = merged.get(item.itemId);
+      if (prior) prior.quantity += item.quantity;
+      else merged.set(item.itemId, { ...item });
+    }
+    state.bank.slots = [...merged.values()];
+  }
 }

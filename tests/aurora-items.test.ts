@@ -31,8 +31,8 @@ describe('five-piece Aurora Frostweave', () => {
   it('names the new hood correctly and keeps the established linear T90 stats', () => {
     const hood = BOSS_ARMOR_ITEMS.find(item => item.id === members.head)!;
     expect(hood?.name).toBe('Aurora Frostweave Hood');
-    expect(hood?.equip?.bonuses).toEqual({ accuracy: 0, power: 0, armour: 10,
-      magicAccuracy: 28, magicPower: 14, magicArmour: 54, vitality: 14 });
+    expect(hood?.equip?.bonuses).toEqual({ meleeAccuracy: 0, meleePower: 0,
+      magicAccuracy: 28, magicPower: 14, defence: 54, health: 14 , vitality: 0 });
     expect(BOSS_ARMOR_ITEMS.find(item => item.id === 'tideweave_hood')?.name).toBe('Chitin Tideweave Headwrap');
     expect(BOSS_ARMOR_ITEMS.find(item => item.id === 'nightweave_hood')?.name).toBe('Void Nightweave Headwrap');
   });

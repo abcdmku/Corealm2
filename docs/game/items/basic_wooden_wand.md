@@ -12,7 +12,7 @@ description: "Plain brown wood from grip to socket, with no light or elemental c
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+2</dd></div><div><dt>Magic power</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+2</dd></div><div><dt>Magic Power</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

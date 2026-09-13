@@ -30,14 +30,13 @@ afterAll(() => {
 });
 
 const NO_BONUSES: EquipmentBonuses = {
-  accuracy: 0,
-  power: 0,
-  armour: 0,
+  meleeAccuracy: 0,
+  meleePower: 0,
+
   magicAccuracy: 0,
   magicPower: 0,
-  magicArmour: 0,
-  vitality: 0,
-};
+  defence: 0,
+  health: 0, vitality: 0 };
 
 function enemy(id: string, position: [number, number, number]): SemanticEntity {
   return {

@@ -1,5 +1,7 @@
 # Existing equipment texture revision
 
+September 12, 2026 item-art amendment: follow [item icon rules](../../docs/item-icons.md). New and replacement icons start with prompted image generation, never basic procedural geometry or screenshots of fake 3D items. Accept the icon before deriving any required 3D asset. Minor jewelry requires no dedicated model. Existing armor preservation requirements below still apply.
+
 The owner stopped the procedural armor rebuild. The current authorized scope is to use the established armor and weapon models, remove scarves from melee armor, and replace the textures of melee armor and all weapons with detailed surfaces based on the approved item icons.
 
 No new armor geometry is authorized. Magic armor receives no texture changes. Existing mesh positions, topology, UVs, skeletons, weights, and animations must be preserved. Scarf removal uses the existing separate Knight scarf parts.

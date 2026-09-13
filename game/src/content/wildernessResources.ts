@@ -13,10 +13,10 @@ export const WILDERNESS_TREE_VARIANTS = [
 
 export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = [
   { id: 'cindervein_vein', name: 'Cindervein Deposit', archetype: 'ore', skill: 'mining', tier: 50, reqLevel: 50,
-    itemId: 'cindervein_ore', yieldRange: [5, 9], respawnSeconds: 75,
+    itemId: 'cindervein_ore', bonus: [{ itemId: 'cairn_garnet', chance: .07 }], yieldRange: [5, 9], respawnSeconds: 75,
     presentation: { availableAssetIds: ['corealm_ore_cindervein'], depletedAssetId: 'corealm_ore_cindervein_spent', targetWorldSize: 1.55, variantScale: [.94, 1.10], materialTier: 50 } },
   { id: 'nightglass_vein', name: 'Nightglass Deposit', archetype: 'ore', skill: 'mining', tier: 70, reqLevel: 70,
-    itemId: 'nightglass_ore', yieldRange: [4, 8], respawnSeconds: 95,
+    itemId: 'nightglass_ore', bonus: [{ itemId: 'fire_opal', chance: .07 }], yieldRange: [4, 8], respawnSeconds: 95,
     presentation: { availableAssetIds: ['corealm_ore_nightglass'], depletedAssetId: 'corealm_ore_nightglass_spent', targetWorldSize: 1.55, variantScale: [.94, 1.10], materialTier: 70 } },
 ];
 

@@ -12,7 +12,7 @@ description: "A Iron blade grown through with moss that will not die. It never r
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+16</dd></div><div><dt>Power</dt><dd>+16</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+16</dd></div><div><dt>Melee Power</dt><dd>+16</dd></div></dl>
 
 ## Use and requirements
 

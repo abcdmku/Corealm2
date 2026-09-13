@@ -12,7 +12,7 @@ description: "Ash Wand fitted with a Earth Orb. Its charge pays for matching spe
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic accuracy</dt><dd>+12</dd></div><div><dt>Magic power</dt><dd>+8</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+12</dd></div><div><dt>Defence</dt><dd>+4</dd></div><div><dt>Health</dt><dd>+1</dd></div><div><dt>Magic Power</dt><dd>+8</dd></div></dl>
 
 ## Use and requirements
 

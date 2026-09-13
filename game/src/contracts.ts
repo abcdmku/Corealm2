@@ -94,11 +94,11 @@ export type AudioCueId = (typeof AUDIO_CUE_IDS)[number];
 
 export type EquipSlot =
   | "head" | "body" | "legs" | "feet" | "hands"
-  | "mainHand" | "offHand" | "accessory1" | "accessory2";
+  | "mainHand" | "offHand" | "accessory1" | "accessory2" | "ring2" | "earring2";
 
 export const EQUIP_SLOTS: readonly EquipSlot[] = [
   "head", "body", "legs", "feet", "hands",
-  "mainHand", "offHand", "accessory1", "accessory2",
+  "mainHand", "offHand", "accessory1", "accessory2", "ring2", "earring2",
 ] as const;
 
 export type EntityId = string;
@@ -244,12 +244,12 @@ export interface LootTakeResult {
 }
 
 export interface EquipmentBonuses {
-  accuracy: number;
-  power: number;
-  armour: number;
+  meleeAccuracy: number;
   magicAccuracy: number;
+  defence: number;
+  health: number;
+  meleePower: number;
   magicPower: number;
-  magicArmour: number;
   vitality: number;
 }
 
@@ -1371,7 +1371,7 @@ export interface GameApi {
   /** Takes one displayed stack from a world loot container. Omit `stackIndex` to take all. */
   takeLoot(entityId: EntityId, stackIndex?: number): Result<LootTakeResult>;
   useItem(itemId: ItemId, target?: { itemId: ItemId }): Result<{ effect: string }>;
-  equipItem(itemId: ItemId): Result<{ slot: EquipSlot; replaced: ItemId | null }>;
+  equipItem(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }>;
   unequipItem(slot: EquipSlot): Result<{ itemId: ItemId }>;
   /** Compatibility command: uses the nearest valid station. */
   produce(recipeId: RecipeId, quantity: number): Result<{ queued: number; durationMs: number }>;

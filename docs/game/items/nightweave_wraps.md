@@ -12,7 +12,7 @@ description: "Void Nightweave wraps for level 70 Magic. A rare boss reward."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+4</dd></div><div><dt>Magic accuracy</dt><dd>+7</dd></div><div><dt>Magic armour</dt><dd>+17</dd></div><div><dt>Vitality</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+7</dd></div><div><dt>Defence</dt><dd>+17</dd></div><div><dt>Health</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

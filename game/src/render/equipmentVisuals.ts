@@ -1,3 +1,4 @@
+import { CRAFTED_JEWELRY, isRetiredJewelry } from '../content/jewelry.js';
 /**
  * Item-to-model mappings, hand sockets, and per-item material treatment for worn gear.
  *
@@ -502,14 +503,15 @@ function buildTable(): Map<ItemId, GearVisual> {
   }
 
   // Jewelry follows the established accessory path: explicit slot coverage and inventory art.
-  for (const item of MINIBOSS_JEWELLERY) {
+  for (const item of [...MINIBOSS_JEWELLERY, ...CRAFTED_JEWELRY]) {
     const slot = item.equip?.slot;
-    if (slot !== 'accessory1' && slot !== 'accessory2') {
+    if (slot !== 'accessory1' && slot !== 'accessory2' && slot !== 'ring2' && slot !== 'earring2') {
       throw new Error(`Miniboss jewellery has an unsupported slot: ${item.id}`);
     }
     table.set(item.id, { slot, parts: [] });
   }
 
+  for (const id of table.keys()) if (isRetiredJewelry(id)) table.delete(id);
   return table;
 }
 

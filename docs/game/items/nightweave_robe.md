@@ -12,7 +12,7 @@ description: "Void Nightweave robe for level 70 Magic. A rare boss reward."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+12</dd></div><div><dt>Magic accuracy</dt><dd>+34</dd></div><div><dt>Magic power</dt><dd>+17</dd></div><div><dt>Magic armour</dt><dd>+74</dd></div><div><dt>Vitality</dt><dd>+20</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+34</dd></div><div><dt>Defence</dt><dd>+74</dd></div><div><dt>Health</dt><dd>+20</dd></div><div><dt>Magic Power</dt><dd>+17</dd></div></dl>
 
 ## Use and requirements
 

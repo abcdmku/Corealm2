@@ -65,8 +65,8 @@ function canonicalDropItems(block: EnemyDef): void {
 
 describe('final Wilderness content integration', () => {
   it('publishes all 62 items and 49 recipes once, with real items and usable world stations', () => {
-    expect(WILDERNESS_LOOT_ITEMS).toHaveLength(62);
-    expect(WILDERNESS_LOOT_RECIPES).toHaveLength(49);
+    expect(WILDERNESS_LOOT_ITEMS).toHaveLength(54);
+    expect(WILDERNESS_LOOT_RECIPES).toHaveLength(41);
     for (const item of WILDERNESS_LOOT_ITEMS) {
       expect(ALL_ITEMS.filter(row => row.id === item.id), item.id).toHaveLength(1);
       expect(content.item(item.id)).toEqual(item);

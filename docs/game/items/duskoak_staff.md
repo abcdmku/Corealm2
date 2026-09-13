@@ -12,7 +12,7 @@ description: "Dark ash banded in Iron around an empty, unlit crown."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+2</dd></div><div><dt>Magic accuracy</dt><dd>+12</dd></div><div><dt>Magic power</dt><dd>+11</dd></div><div><dt>Magic armour</dt><dd>+2</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+12</dd></div><div><dt>Defence</dt><dd>+2</dd></div><div><dt>Melee Power</dt><dd>+2</dd></div><div><dt>Magic Power</dt><dd>+11</dd></div></dl>
 
 ## Use and requirements
 

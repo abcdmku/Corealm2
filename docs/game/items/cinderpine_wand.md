@@ -12,7 +12,7 @@ description: "Polished walnut with an empty Titanium socket. It stays unlit unti
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+27</dd></div><div><dt>Magic power</dt><dd>+23</dd></div><div><dt>Magic armour</dt><dd>+5</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+27</dd></div><div><dt>Defence</dt><dd>+5</dd></div><div><dt>Magic Power</dt><dd>+23</dd></div></dl>
 
 ## Use and requirements
 

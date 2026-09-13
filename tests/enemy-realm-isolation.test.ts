@@ -11,8 +11,7 @@ import { EnemyAiSystem } from "../game/src/systems/enemyAI.js";
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
 
 const NO_GEAR: EquipmentBonuses = {
-  accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
-};
+  meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0, vitality: 0 };
 
 function enemy(id: string, regionId: RegionId, position: Vec3, passive = false): SemanticEntity {
   return {

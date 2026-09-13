@@ -93,7 +93,7 @@ function createWorldTools({ api, session }: ToolDeps): ToolDef[] {
 
     defineTool(TOOL_SPECS.corealm_equip, (args) => {
       if (typeof args.unequipSlot === "string") return unwrap(api.unequipItem(args.unequipSlot as EquipSlot));
-      if (typeof args.itemId === "string") return unwrap(api.equipItem(args.itemId));
+      if (typeof args.itemId === "string") return unwrap(api.equipItem(args.itemId, typeof args.targetSlot === "string" ? args.targetSlot as EquipSlot : undefined));
       return failure("INVALID_ARGUMENT", "Give either itemId or unequipSlot");
     }),
 

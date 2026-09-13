@@ -12,7 +12,7 @@ description: "Nightglass boots forged for level 70 melee combat."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+5</dd></div><div><dt>Armour</dt><dd>+24</dd></div><div><dt>Magic armour</dt><dd>+11</dd></div><div><dt>Vitality</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+5</dd></div><div><dt>Defence</dt><dd>+24</dd></div><div><dt>Health</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

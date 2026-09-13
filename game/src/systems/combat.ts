@@ -1,3 +1,4 @@
+import { criticalDamage, rollItemDrops } from './equipmentCombat.js';
 /**
  * Combat resolution — PRD 2.4, exactly.
  *
@@ -861,10 +862,10 @@ export class CombatSystem implements TickSystem {
       this.awardXp(state, "magic", spell.baseXp, atMs);
     } else {
       chance = hitChance(
-        attackRoll(state.skills.melee.level, gear.accuracy, MELEE_STYLE_FACTOR),
+        attackRoll(state.skills.melee.level, gear.meleeAccuracy, MELEE_STYLE_FACTOR),
         defenceRoll(def.defenceLevel, def.armour),
       );
-      maxHit = meleeMaxHit(state.skills.melee.level, gear.power);
+      maxHit = meleeMaxHit(state.skills.melee.level, gear.meleePower);
       intervalMs = attackIntervalMs(this.weaponSpeedMs());
     }
 
@@ -872,7 +873,7 @@ export class CombatSystem implements TickSystem {
     this.markInCombat(state, atMs);
 
     const landed = this.combatRng.chance(chance);
-    const damage = landed ? Math.max(1, this.combatRng.int(1, Math.max(1, maxHit))) : 0;
+    const damage = landed ? criticalDamage(Math.max(1, this.combatRng.int(1, Math.max(1, maxHit))), spell && isAdvancedSpell(spell) ? 0 : gear.vitality, this.combatRng) : 0;
 
     // A SPELL DOES NOT HURT ANYTHING UNTIL IT ARRIVES.
     //
@@ -1051,7 +1052,7 @@ export class CombatSystem implements TickSystem {
         const share = Math.max(1, Math.round(maxHit * pulse.damage / reference));
         this.pendingSpellHits.push({
           landsAtMs: atMs + pulse.at, sourceId: state.player.id, realm, targetId: entity.id,
-          spellId: spell.id, damage: Math.max(1, this.combatRng.int(1, share)), hit: true, maxHit: share,
+          spellId: spell.id, damage: criticalDamage(Math.max(1, this.combatRng.int(1, share)), this.deps.equipment.totals().vitality, this.combatRng), hit: true, maxHit: share,
           ...(area ? { area } : {}),
         });
       }
@@ -1133,7 +1134,7 @@ export class CombatSystem implements TickSystem {
       const chance = hitChance(
         attackRoll(def.attackLevel, def.accuracy, def.attackStyle === "magic" ? MAGIC_STYLE_FACTOR : MELEE_STYLE_FACTOR),
         defenceRoll(def.attackStyle === "magic" ? state.skills.magic.level : state.skills.melee.level,
-          def.attackStyle === "magic" ? gear.magicArmour : gear.armour),
+          gear.defence),
       );
       const landed = this.combatRng.chance(chance);
       const damage = landed ? Math.max(1, this.combatRng.int(1, Math.max(1, def.maxHit))) : 0;
@@ -1374,17 +1375,9 @@ export class CombatSystem implements TickSystem {
   /** Drop rolls run on the seeded `loot` stream so a kill never shifts the next hit roll. */
   private rollDrops(state: GameState, entity: SemanticEntity, def: EnemyDef, atMs: number): void {
     const items: ItemStack[] = [];
-    for (const drop of def.drops) {
-      // An Orb used to awaken its altar is permanently accounted for by `consumedOrbs`. Before use, custody in
-      // equipment, storage, inventory, recovery, or ground loot suppresses duplicate boss drops.
-      if (
-        content.item(drop.itemId)?.orb
-        && (state.magic.consumedOrbs[drop.itemId] || ownsPhysicalItem(state, drop.itemId, items))
-      ) continue;
-      if (!this.lootRng.chance(drop.chance)) continue;
-      const quantity = this.lootRng.int(drop.quantity[0], drop.quantity[1]);
-      if (quantity > 0) items.push({ itemId: drop.itemId, quantity });
-    }
+    items.push(...rollItemDrops(def.drops, this.lootRng, itemId => !(
+      content.item(itemId)?.orb && (state.magic.consumedOrbs[itemId] || ownsPhysicalItem(state, itemId, items))
+    )));
 
     if (def.marks) {
       const marks = this.lootRng.int(def.marks[0], def.marks[1]);
@@ -1590,12 +1583,12 @@ export class CombatSystem implements TickSystem {
         defenceRoll(def.defenceLevel, def.magicArmour),
       )
       : hitChance(
-        attackRoll(state.skills.melee.level, gear.accuracy, MELEE_STYLE_FACTOR),
+        attackRoll(state.skills.melee.level, gear.meleeAccuracy, MELEE_STYLE_FACTOR),
         defenceRoll(def.defenceLevel, def.armour),
       );
     const maxHit = spell
       ? magicMaxHit(state.skills.magic.level, gear.magicPower, spell)
-      : meleeMaxHit(state.skills.melee.level, gear.power);
+      : meleeMaxHit(state.skills.melee.level, gear.meleePower);
     const intervalMs = spell
       ? (magicLoadout(state)?.castMs ?? 3_000)
       : attackIntervalMs(this.weaponSpeedMs());
@@ -1603,7 +1596,7 @@ export class CombatSystem implements TickSystem {
 
     const enemyChance = hitChance(
       attackRoll(def.attackLevel, def.accuracy, MELEE_STYLE_FACTOR),
-      defenceRoll(state.skills.melee.level, gear.armour),
+      defenceRoll(state.skills.melee.level, gear.defence),
     );
     const incomingDps = expectedDamagePerSwing(enemyChance, def.maxHit)
       / (attackIntervalMs(def.attackSpeedMs) / 1000);

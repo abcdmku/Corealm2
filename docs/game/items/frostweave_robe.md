@@ -12,7 +12,7 @@ description: "Aurora Frostweave robe for level 90 Magic."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+15</dd></div><div><dt>Magic accuracy</dt><dd>+43</dd></div><div><dt>Magic power</dt><dd>+21</dd></div><div><dt>Magic armour</dt><dd>+95</dd></div><div><dt>Vitality</dt><dd>+25</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+43</dd></div><div><dt>Defence</dt><dd>+95</dd></div><div><dt>Health</dt><dd>+25</dd></div><div><dt>Magic Power</dt><dd>+21</dd></div></dl>
 
 ## Use and requirements
 

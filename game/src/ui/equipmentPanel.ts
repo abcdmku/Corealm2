@@ -19,13 +19,13 @@ import type { ManagedPanel, UiContext } from "./panels.js";
 import { itemDef, itemName, report, stackSignature } from "./panels.js";
 
 const BONUS_ROWS: readonly [keyof EquipmentBonuses, string][] = [
-  ["accuracy", "Accuracy"],
-  ["power", "Power"],
-  ["armour", "Armour"],
-  ["magicAccuracy", "Magic accuracy"],
-  ["magicPower", "Magic power"],
-  ["magicArmour", "Magic armour"],
-  ["vitality", "Vitality"],
+  ["meleeAccuracy", "Melee Accuracy"],
+  ["magicAccuracy", "Magic Accuracy"],
+  ["defence", "Defence"],
+  ["health", "Health"],
+  ["meleePower", "Melee Power"],
+  ["magicPower", "Magic Power"],
+  ["vitality", "Vitality (crit %)"],
 ];
 
 /** Compact enough for the main-hand slot while keeping current and maximum values exact. */

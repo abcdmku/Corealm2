@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   await mkdir(screenshotDir, { recursive: true });
 
   const server = await startGameServer();
-  const driver = new GameDriver(server, { viewport: { width: 1440, height: 900 } });
+  const driver = new GameDriver(server, { viewport: { width: 1440, height: 900 }, browserArgs: ["--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio", "--use-angle=d3d11"] });
   try {
     await driver.launch();
     await driver.open(60_000);
@@ -35,7 +35,7 @@ async function main(): Promise<void> {
 
     const representative = [
       "grithe_ore", "palewood_log", "silt_minnow", "grithe_bar", "coarse_hide",
-      "grithe_pickaxe", "grithe_sword", "grithe_helm", "grithe_ring",
+      "grithe_pickaxe", "grithe_sword", "grithe_helm", "crafted_ring_t10",
       "basic_wooden_wand", "palewood_staff", "cairnpine_wand", "marchhide_robe",
       "air_orb", "earth_orb", "water_orb",
       "air_essence", "earth_essence", "water_essence",
@@ -124,8 +124,9 @@ async function main(): Promise<void> {
 
     const equipmentIds = [
       "air_wand", "palewood_shield", "grithe_helm", "grithe_cuirass", "grithe_greaves",
-      "grithe_boots", "grithe_gloves", "grithe_ring", "grithe_pendant",
+      "grithe_boots", "grithe_gloves", "crafted_ring_t10", "crafted_earring_t10",
     ];
+    await driver.callDebug("setSkillLevel", ["melee", 10]);
     const equipmentSetup = await page.evaluate(async (itemIds) => {
       const api = window.__gameDebug as unknown as {
         clearInventory(): void;

@@ -25,8 +25,7 @@ const driver = new GameDriver(server, {
 });
 const equipment: Record<EquipSlot, string | null> = {
   head: 'corven_helm', body: 'corven_plate', legs: 'corven_greaves', feet: 'corven_boots',
-  hands: 'corven_gauntlets', mainHand: 'corven_sword', offHand: null, accessory1: null, accessory2: null,
-};
+  hands: 'corven_gauntlets', mainHand: 'corven_sword', offHand: null, accessory1: null, accessory2: null, ring2: null, earring2: null };
 const report: any = { passed: false, captures: [], actions: [], equipment,
   setup: 'Production lab equipment and target controls. Normal mouse orbit at nearest gameplay zoom. Diagnostic .35 simulation speed during action capture, restored before damage receipt.' };
 let stage = 'boot';

@@ -18,7 +18,7 @@ import { createInitialHuntContracts, type HuntContractsState } from "../systems/
 
 export const INVENTORY_SLOTS = 28;
 export const BANK_CAPACITY = 400;
-export const SAVE_VERSION = 7;
+export const SAVE_VERSION = 8;
 
 export type ActivityState =
   | {
@@ -312,7 +312,7 @@ export function setSkillLevel(state: GameState, skill: SkillId, level: number): 
 /**
  * Derived max health, per PRD 2.3:
  *   vitalityLevel = max(1, floor((melee + magic) / 2))
- *   maxHealth     = 20 + 3 * vitalityLevel + equipped vitality
+ *   maxHealth     = 20 + 3 * vitalityLevel + equipped health
  */
 export function computeMaxHealth(state: GameState, equipmentVitality: number): number {
   const vitalityLevel = Math.max(1, Math.floor((state.skills.melee.level + state.skills.magic.level) / 2));

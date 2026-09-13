@@ -12,7 +12,7 @@ description: "A two-handed walnut shaft crowned with an empty Titanium cage, dar
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+7</dd></div><div><dt>Magic accuracy</dt><dd>+40</dd></div><div><dt>Magic power</dt><dd>+34</dd></div><div><dt>Magic armour</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+40</dd></div><div><dt>Defence</dt><dd>+7</dd></div><div><dt>Melee Power</dt><dd>+7</dd></div><div><dt>Magic Power</dt><dd>+34</dd></div></dl>
 
 ## Use and requirements
 

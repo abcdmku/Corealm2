@@ -12,7 +12,7 @@ description: "A long Iron blade. The standard by which a Woodlands hand is judge
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+14</dd></div><div><dt>Power</dt><dd>+14</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+14</dd></div><div><dt>Melee Power</dt><dd>+14</dd></div></dl>
 
 ## Use and requirements
 

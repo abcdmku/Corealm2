@@ -1,3 +1,4 @@
+import { JEWELRY_RECIPES } from './jewelry.js';
 /**
  * Every production recipe: smelting, smithing, cooking, crafting and fletching at tiers 1, 5 and 10.
  *
@@ -181,22 +182,6 @@ function recipesForTier(definition: GatheringProductionTierDef): RecipeDef[] {
 
     // ------------------------------------------------------------------ crafting (table)
     row(t, {
-      id: `craft_${m.meleeRing}`, name: nameOf(m.meleeRing), kind: "craft", stations: ["crafting_table"],
-      weight: W.amuletOrRing, inputs: [q(m.bar, 1), q(m.gem, 1)], output: q(m.meleeRing, 1),
-    }),
-    row(t, {
-      id: `craft_${m.meleePendant}`, name: nameOf(m.meleePendant), kind: "craft", stations: ["crafting_table"],
-      weight: W.amuletOrRing, inputs: [q(m.bar, 1), q(m.gem, 1)], output: q(m.meleePendant, 1),
-    }),
-    row(t, {
-      id: `craft_${m.magicRing}`, name: nameOf(m.magicRing), kind: "craft", stations: ["crafting_table"],
-      weight: W.amuletOrRing, inputs: [q(m.bar, 1), q(m.gem, 2)], output: q(m.magicRing, 1),
-    }),
-    row(t, {
-      id: `craft_${m.magicCharm}`, name: nameOf(m.magicCharm), kind: "craft", stations: ["crafting_table"],
-      weight: W.amuletOrRing, inputs: [q(m.gem, 2)], output: q(m.magicCharm, 1),
-    }),
-    row(t, {
       id: `craft_${m.robe}`, name: nameOf(m.robe), kind: "craft", stations: ["crafting_table"],
       weight: W.leatherBody, inputs: [q(m.hide, 3)], output: q(m.robe, 1),
     }),
@@ -275,7 +260,7 @@ function basicMagicRecipes(definition: GatheringProductionTierDef): RecipeDef[] 
 }
 
 /** Canonical production matrix plus the two replaceable starter-weapon recipes. */
-export const RECIPES: readonly RecipeDef[] = [...GATHERING_PRODUCTION_TIERS.flatMap((definition) => [
+export const RECIPES: readonly RecipeDef[] = [...JEWELRY_RECIPES,...GATHERING_PRODUCTION_TIERS.flatMap((definition) => [
   ...recipesForTier(definition),
   ...basicMagicRecipes(definition),
 ]), ...CREATURE_LOOT_RECIPES, ...WILDERNESS_LOOT_RECIPES, ...CROWNWARD_FISH_RECIPES];

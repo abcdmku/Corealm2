@@ -21,9 +21,8 @@ beforeAll(() => content.register({ items: ALL_ITEMS, spells: SPELLS }));
 afterAll(() => content.register(originalContent));
 
 const GEAR: EquipmentBonuses = {
-  accuracy: 500, power: 50, armour: 0,
-  magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
-};
+  meleeAccuracy: 500, meleePower: 50,
+  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0, vitality: 0 };
 
 function setup(meleeTiming?: CombatDeps["meleeTiming"], movement?: CombatDeps["movement"]) {
   const store = new Store(7, 0);

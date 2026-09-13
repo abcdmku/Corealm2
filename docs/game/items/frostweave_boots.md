@@ -12,7 +12,7 @@ description: "Aurora Frostweave boots for level 90 Magic."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+6</dd></div><div><dt>Magic accuracy</dt><dd>+9</dd></div><div><dt>Magic armour</dt><dd>+22</dd></div><div><dt>Vitality</dt><dd>+9</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+9</dd></div><div><dt>Defence</dt><dd>+22</dd></div><div><dt>Health</dt><dd>+9</dd></div></dl>
 
 ## Use and requirements
 

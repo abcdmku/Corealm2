@@ -5,6 +5,7 @@
  * keeps validation independent of registry order and makes malformed fixtures straightforward to
  * test. Every returned string is fatal to the foundation.
  */
+import { JEWELRY_RECIPES } from "./jewelry.js";
 import type { ItemDef, ItemId, RecipeId, StationKind } from "../contracts.js";
 import type { GatheringProductionTierDef, RecipeDef, ResourceDef } from "./index.js";
 import { isUserSuppliedAssetPack, isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "./assetLicenses.js";
@@ -78,6 +79,7 @@ export interface GatheringProductionValidationInput {
   stations?: readonly GatheringProductionStationRef[];
   /** One explicit icon appearance per item. */
   itemAppearances: readonly GatheringProductionItemAppearanceRef[];
+  promptedIconIds?: ReadonlySet<string>;
 }
 
 const VALID_STATIONS = new Set<string>(GATHERING_PRODUCTION_STATION_KINDS);
@@ -315,10 +317,7 @@ function canonicalTierRecipeExpectations(
       requiredInputItemIds: [m.staff],
       forbiddenInputItemIds: [tier.magic.orb],
     },
-    craft("melee ring", m.meleeRing),
-    craft("melee pendant", m.meleePendant),
-    craft("magic ring", m.magicRing),
-    craft("magic charm", m.magicCharm),
+    ...JEWELRY_RECIPES.filter(recipe => recipe.tier === tier.tier).map(recipe => craft("jewelry", recipe.output.itemId, recipe.id)),
     craft("robe", m.robe),
     craft("magic leg armour", m.magicLegs),
     craft("hood", m.hood),
@@ -736,6 +735,7 @@ export function validateGatheringProduction(
   }
 
   for (const item of input.items) {
+    if (input.promptedIconIds?.has(item.id)) continue;
     const appearance = appearancesByItem.get(item.id);
     if (!appearance) {
       problems.push(`item ${item.id} has no icon appearance`);

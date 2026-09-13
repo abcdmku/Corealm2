@@ -1,3 +1,4 @@
+import { CRAFTED_JEWELRY } from "../game/src/content/jewelry.js";
 import { describe, expect, it } from "vitest";
 import { content } from "../game/src/content/index.js";
 import { CREATURE_LOOT_ITEMS } from "../game/src/content/creatureLoot.js";
@@ -6,8 +7,8 @@ import { describeProductionCompletion } from "../game/src/ui/hud.js";
 
 describe("production receipt display names", () => {
   it("uses ordinary catalogue names for monster-drop recipes and altar weapons", () => {
-    content.register({items:[...CREATURE_LOOT_ITEMS,...ELEMENTAL_MAGIC_WEAPONS]});
-    expect(describeProductionCompletion({itemId:"foxhair_ring",quantity:1})).toBe("Made 1 × Fox Fur Ring.");
+    content.register({items:[...CRAFTED_JEWELRY,...CREATURE_LOOT_ITEMS,...ELEMENTAL_MAGIC_WEAPONS]});
+    expect(describeProductionCompletion({itemId:"crafted_ring_t10",quantity:1})).toBe("Made 1 × Cobalt Garnet Ring.");
     expect(describeProductionCompletion({itemId:"air_staff",quantity:1})).toBe("Made 1 × Air Staff.");
   });
   it("does not expose an underscored fallback when content is missing", () => {

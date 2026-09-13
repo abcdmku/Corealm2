@@ -12,7 +12,7 @@ description: "Pelt strips to the wrist. Garnet dust worked into the weave."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+1</dd></div><div><dt>Magic accuracy</dt><dd>+1</dd></div><div><dt>Magic armour</dt><dd>+3</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+1</dd></div><div><dt>Defence</dt><dd>+3</dd></div><div><dt>Health</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

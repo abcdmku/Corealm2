@@ -12,7 +12,7 @@ description: "Dragonhide hood sewn with Grave Thread. Requires level 50 Magic."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+5</dd></div><div><dt>Magic accuracy</dt><dd>+15</dd></div><div><dt>Magic power</dt><dd>+7</dd></div><div><dt>Magic armour</dt><dd>+27</dd></div><div><dt>Vitality</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+15</dd></div><div><dt>Defence</dt><dd>+27</dd></div><div><dt>Health</dt><dd>+7</dd></div><div><dt>Magic Power</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

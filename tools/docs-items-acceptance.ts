@@ -37,7 +37,7 @@ try {
   }
   if (failures.length) throw new Error(`Broken item pages or images: ${failures.join(", ")}`);
   const observations: unknown[] = [];
-  for (const id of ["basic_wooden_staff", "grithe_ring", "nightglass_sword", "mind_rune"]) {
+  for (const id of ["basic_wooden_staff", "crafted_ring_t10", "nightglass_sword", "mind_rune"]) {
     const tile = page.locator(`[data-item-id="${id}"]`);
     await tile.hover();
     const tip = tile.locator(".tooltip");
@@ -49,14 +49,14 @@ try {
       throw new Error(`Clipped hover: ${id}: ${JSON.stringify(bounds)}`);
     }
     observations.push({ id, bounds, text: await tip.innerText() });
-    if (id === "grithe_ring") await page.screenshot({ path: path.join(out, "gallery-hover.png"), timeout: 5000 });
+    if (id === "crafted_ring_t10") await page.screenshot({ path: path.join(out, "gallery-hover.png"), timeout: 5000 });
   }
-  const ring = page.locator('[data-item-id="grithe_ring"]');
+  const ring = page.locator('[data-item-id="crafted_ring_t10"]');
   await ring.focus();
   if (!await ring.locator(".tooltip").isVisible()) throw new Error("Keyboard focus has no tooltip");
   if (await page.getByRole("link", { name: "Copper Ring", exact: true }).count() !== 1) throw new Error("Tooltip inflated the accessible link name");
   await page.keyboard.press("Enter");
-  await page.waitForURL("**/game/items/grithe_ring/");
+  await page.waitForURL("**/game/items/crafted_ring_t10/");
   if (await page.locator("h1").innerText() !== "Copper Ring") throw new Error("Wrong detail page");
   await page.screenshot({ path: path.join(out, "item-detail.png"), timeout: 5000 });
   await page.setViewportSize({ width: 390, height: 844 });

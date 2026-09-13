@@ -127,7 +127,7 @@ describe('Wilderness equipment tiers', () => {
     for (const skill of ['melee', 'magic'] as const) {
       const gear = rows.filter((item) => item.equip?.requires[skill] === def.tier);
       const slots = new Set(gear.map((item) => item.equip!.slot));
-      const expected: EquipSlot[] = ['mainHand', 'head', 'body', 'legs', 'feet', 'hands', 'accessory1', 'accessory2'];
+      const expected: EquipSlot[] = ['mainHand', 'head', 'body', 'legs', 'feet', 'hands'];
       if (skill === 'melee') expected.push('offHand');
       for (const slot of expected) expect(slots.has(slot), `${def.tier} ${skill}: ${slot}`).toBe(true);
     }
@@ -144,14 +144,14 @@ describe('Wilderness equipment tiers', () => {
 
   it('improves the preceding gear without letting melee armour add weapon damage', () => {
     const stats = (id: string) => ITEMS.get(id)!.equip!.bonuses;
-    expect(stats('cindersteel_sword').power).toBeGreaterThan(stats('emberite_sword').power);
-    expect(stats('nightglass_sword').power).toBeGreaterThan(stats('cindersteel_sword').power);
-    expect(stats('starhide_robe').magicArmour).toBeGreaterThan(stats('dragonhide_robe').magicArmour);
+    expect(stats('cindersteel_sword').meleePower).toBeGreaterThan(stats('emberite_sword').meleePower);
+    expect(stats('nightglass_sword').meleePower).toBeGreaterThan(stats('cindersteel_sword').meleePower);
+    expect(stats('starhide_robe').defence).toBeGreaterThan(stats('dragonhide_robe').defence);
     for (const def of WILDERNESS_CRAFTING_TIERS) {
-      for (const part of ['helm', 'plate', 'greaves', 'boots', 'gauntlets']) expect(stats(`${def.metal}_${part}`).power).toBe(0);
+      for (const part of ['helm', 'plate', 'greaves', 'boots', 'gauntlets']) expect(stats(`${def.metal}_${part}`).meleePower).toBe(0);
     }
-    expect(stats('chainbound_sword').power).toBeGreaterThan(stats('nightglass_sword').power);
-    expect(stats('nightmarshal_plate').armour).toBeGreaterThan(stats('nightglass_plate').armour);
+    expect(stats('chainbound_sword').meleePower).toBeGreaterThan(stats('nightglass_sword').meleePower);
+    expect(stats('nightmarshal_plate').defence).toBeGreaterThan(stats('nightglass_plate').defence);
     expect(stats('hollowstar_staff').magicPower).toBeGreaterThan(stats('magic_staff').magicPower);
   });
 });

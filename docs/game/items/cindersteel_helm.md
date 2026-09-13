@@ -12,7 +12,7 @@ description: "Cindersteel helm forged for level 50 melee combat."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+7</dd></div><div><dt>Armour</dt><dd>+28</dd></div><div><dt>Magic armour</dt><dd>+9</dd></div><div><dt>Vitality</dt><dd>+6</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+7</dd></div><div><dt>Defence</dt><dd>+28</dd></div><div><dt>Health</dt><dd>+6</dd></div></dl>
 
 ## Use and requirements
 

@@ -12,7 +12,7 @@ description: "Soft-soled. Quiet, which matters more than it sounds."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic armour</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Defence</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

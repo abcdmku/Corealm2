@@ -17,10 +17,4 @@ description: "Dark overlapping plates. Small segments fit an armored ring withou
 | Dropped by | Giant Centipede | 70% · 1-3 |
 | Dropped by | [Slag Crawler](../../creatures/slag_crawler_t20/) | 70% · 1-3 |
 
-## Used to make
-
-<div class="codex-grid codex-grid--wide">
-<div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/chitin_ring.webp" alt="Chitin Ring" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__eyebrow">Crafting 20</span><span class="codex-card__title"><a class="codex-card__link" href="../chitin_ring/">Chitin Ring</a></span><span class="codex-card__meta">Takes 3 × Centipede Chitin</span><span class="codex-card__footer"><a class="codex-item-chip" href="../../items/chitin_ring/"><img class="codex-icon" src="../../assets/items/thumb/chitin_ring.webp" alt="Chitin Ring" width="128" height="128" loading="lazy" decoding="async" /><b class="codex-item-chip__count">1×</b><span>Chitin Ring</span></a></span></span></div>
-</div>
-
 [Back to all items](../)

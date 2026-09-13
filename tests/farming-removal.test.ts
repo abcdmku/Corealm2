@@ -51,7 +51,7 @@ describe("farming removal", () => {
     const migrated = migrate(legacy);
     expect(migrated.ok).toBe(true);
     const state = migrated.state as unknown as Record<string, any>;
-    expect(state.meta.saveVersion).toBe(7);
+    expect(state.meta.saveVersion).toBe(8);
     expect(state.skills.farming).toBeUndefined();
     expect(state.quests.bright_water).toBeUndefined();
     expect(state.farming).toBeUndefined();

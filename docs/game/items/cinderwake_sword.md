@@ -12,7 +12,7 @@ description: "Titanium quenched in the arena's own spring. The orange line down 
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+53</dd></div><div><dt>Power</dt><dd>+50</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+53</dd></div><div><dt>Melee Power</dt><dd>+50</dd></div></dl>
 
 ## Use and requirements
 

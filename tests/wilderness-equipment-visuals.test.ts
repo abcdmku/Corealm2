@@ -18,7 +18,7 @@ const rewards = ['ashseal_guard', 'regent_staff', 'chainbound_sword', 'nightmars
 
 describe('Wilderness equipment appearance', () => {
   it('renders every visible crafting and keeper reward slot for both player bodies', () => {
-    expect(equipment).toHaveLength(41);
+    expect(equipment).toHaveLength(33);
     expect(visible).toHaveLength(33);
     for (const item of equipment) expect(GEAR_APPEARANCE_IDS, item.id).toContain(item.id);
     for (const body of ['male', 'female'] as const) {

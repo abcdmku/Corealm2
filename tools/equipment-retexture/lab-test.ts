@@ -47,7 +47,7 @@ interface Case {
 function kit(metal: string): Record<EquipSlot, string | null> {
   return { head: `${metal}_helm`, body: `${metal}_${metal === 'grithe' ? 'cuirass' : 'plate'}`,
     legs: `${metal}_greaves`, feet: `${metal}_boots`, hands: `${metal}_${metal === 'grithe' ? 'gloves' : 'gauntlets'}`,
-    mainHand: `${metal}_sword`, offHand: null, accessory1: null, accessory2: null };
+    mainHand: `${metal}_sword`, offHand: null, accessory1: null, accessory2: null , ring2: null, earring2: null };
 }
 const armour = ['grithe', 'corven', 'kaldite', 'emberite', 'cindersteel', 'nightglass']
   .map(metal => ({ id: metal, equipment: kit(metal) }));

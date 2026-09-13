@@ -1,3 +1,4 @@
+import { JEWELRY_RECIPES, isRetiredJewelry } from '../content/jewelry.js';
 import type { EntityId, SemanticEntity, Vec3 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
 import type { GameState, Store } from "../state/store.js";
@@ -85,7 +86,8 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
       interactionPosition,
       state: "idle",
       interactions: ["inspect", "produce"],
-      station: { kind: source!.kind, skill: source!.skill, recipeIds: [...new Set([...source!.recipeIds,
+      station: { kind: source!.kind, skill: source!.skill, recipeIds: [...new Set([...source!.recipeIds.filter(id => !isRetiredJewelry(id.replace(/^craft_/, ""))),
+        ...JEWELRY_RECIPES.map(recipe => recipe.id),
         ...WILDERNESS_LOOT_RECIPES.filter(recipe => recipe.stations?.includes(source!.kind)).map(recipe => recipe.id)])] },
       view: {
         assetId, rotationY: source!.rotationY, scale: source!.scale, labelHeight: 1.6,

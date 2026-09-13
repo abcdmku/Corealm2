@@ -12,7 +12,7 @@ description: "Cobalt worked smooth as sea glass. It swings like it remembers the
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+31</dd></div><div><dt>Power</dt><dd>+29</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+31</dd></div><div><dt>Melee Power</dt><dd>+29</dd></div></dl>
 
 ## Use and requirements
 

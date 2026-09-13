@@ -12,7 +12,7 @@ description: "Nightglass Plate reinforced with the bastion's old seals. Heavy ov
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+14</dd></div><div><dt>Armour</dt><dd>+98</dd></div><div><dt>Magic armour</dt><dd>+30</dd></div><div><dt>Vitality</dt><dd>+25</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+14</dd></div><div><dt>Defence</dt><dd>+98</dd></div><div><dt>Health</dt><dd>+25</dd></div></dl>
 
 ## Use and requirements
 

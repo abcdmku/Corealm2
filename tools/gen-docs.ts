@@ -1256,7 +1256,7 @@ function skillsDoc(): string {
     "",
     "## How combat resolves",
     "",
-    "Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment vitality. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.",
+    "Melee attacks resolve on a 600 ms combat tick. Magic launches and bolt arrivals resolve on the 100 ms simulation tick, so wands keep their exact 2.2 second cadence and staffs keep their exact 3.0 second cadence. Melee supplies physical defence; Magic supplies magical defence. Health is `20 + 3 × floor((Melee + Magic) / 2)` plus equipment Health. Vitality adds critical hit chance. Magic is 15% more accurate. Each cast spends one matching elemental-weapon charge first, then one carried Essence.",
     "",
     "## What each level unlocks",
     "",
@@ -1405,7 +1405,7 @@ export function itemDetailDoc(item: typeof ALL_ITEMS[number]): string {
     ["Tier", item.tier], ["Category", sentenceCase(item.category)], ["Stacks", item.stackable ? "Yes" : "No"],
     ["Buy value", item.value.toLocaleString("en-US")], ["Sell value", sellPrice(item.value).toLocaleString("en-US")],
   ];
-  if (item.equip) facts.push(["Slot", sentenceCase(item.equip.slot.replace(/([A-Z])/g, " $1"))]);
+  if (item.equip) facts.push(["Slot", (item.equip.slot === "accessory1" ? "Ring" : item.equip.slot === "accessory2" ? "Earring" : sentenceCase(item.equip.slot.replace(/([A-Z])/g, " $1")))]);
   if (!model.released) facts.push(["Availability", "Unreleased"]);
 
   const sections: string[] = [

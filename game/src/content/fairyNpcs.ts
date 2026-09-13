@@ -212,7 +212,7 @@ export const FAIRY_NPC_DIALOGUE: readonly DialogueNodeDef[] = [
   },
   {
     id: 'fey_rime_jewels', speaker: 'Rime',
-    text: 'The roaming great monsters sometimes carry them. Ordinary jewelry is much more common. A rare piece can hold defense, vitality and strength together; those are the ones I record carefully.',
+    text: 'The roaming great monsters sometimes carry them. Ordinary jewelry is much more common. A rare piece can hold defense, health and strength together; those are the ones I record carefully.',
     options: [{ id: 'fey_rime_jewels#bye', text: 'That sounds worth the trouble.', next: null }],
   },
 ];

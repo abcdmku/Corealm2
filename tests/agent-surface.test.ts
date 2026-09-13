@@ -46,7 +46,7 @@ function mockApi(): GameApi & { calls: string[] } {
     }),
     getSkills: () => ({ mining: { level: 1, xp: 0, xpToNext: 83 } }),
     getInventory: () => ({ slots: [{ itemId: "worn_pickaxe", quantity: 1, slotIndex: 0 }, ...new Array(27).fill(null)], freeSlots: 27 }),
-    getEquipment: () => ({ slots: { mainHand: null }, totals: { accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0 } }),
+    getEquipment: () => ({ slots: { mainHand: null }, totals: { meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0 , vitality: 0 } }),
     getActivity: () => null,
     getQuests: () => [{ id: "cold_iron", name: "Cold Iron", regionId: "fallowmarch", status: "unstarted", stage: 0, stageCount: 4, currentObjective: null, currentObjectiveRefs: [], requirements: {} }],
     getCurrency: () => 0,

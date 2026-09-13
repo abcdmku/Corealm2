@@ -12,7 +12,7 @@ description: "Resin-dark oak with an empty Cobalt socket and no light of its own
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+18</dd></div><div><dt>Magic power</dt><dd>+14</dd></div><div><dt>Magic armour</dt><dd>+3</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+18</dd></div><div><dt>Defence</dt><dd>+3</dd></div><div><dt>Magic Power</dt><dd>+14</dd></div></dl>
 
 ## Use and requirements
 

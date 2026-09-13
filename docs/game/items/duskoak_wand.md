@@ -12,7 +12,7 @@ description: "Dark ash with an empty crown. Its polished wood remains unlit on i
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+9</dd></div><div><dt>Magic power</dt><dd>+6</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+9</dd></div><div><dt>Defence</dt><dd>+1</dd></div><div><dt>Magic Power</dt><dd>+6</dd></div></dl>
 
 ## Use and requirements
 

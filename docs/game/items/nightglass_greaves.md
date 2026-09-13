@@ -12,7 +12,7 @@ description: "Nightglass greaves forged for level 70 melee combat."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+9</dd></div><div><dt>Armour</dt><dd>+51</dd></div><div><dt>Magic armour</dt><dd>+16</dd></div><div><dt>Vitality</dt><dd>+14</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+9</dd></div><div><dt>Defence</dt><dd>+51</dd></div><div><dt>Health</dt><dd>+14</dd></div></dl>
 
 ## Use and requirements
 

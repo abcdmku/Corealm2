@@ -12,7 +12,7 @@ description: "Pale wood with an empty socket at the tip. It stays unlit until up
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+4</dd></div><div><dt>Magic power</dt><dd>+3</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+4</dd></div><div><dt>Magic Power</dt><dd>+3</dd></div></dl>
 
 ## Use and requirements
 

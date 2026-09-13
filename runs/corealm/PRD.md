@@ -2,6 +2,8 @@
 
 Scope: Phase 1 only. Content tiers 1, 5, 10 across three regions. The architecture must handle levels 1 to 99 and tiers 1 to 99 without schema changes, but no tier above 10 is authored in this run.
 
+September 12, 2026 item-art amendment: [item icon rules](../../docs/item-icons.md) supersede every procedural or model-rendered inventory-icon instruction below. Generate and accept prompted item artwork first. Derive 3D assets from that artwork only where gameplay needs them; minor jewelry needs no dedicated model. The proposed [jewelry and stats revision](../jewelry-stats/PRD.md) records the separate gameplay changes awaiting approval.
+
 Status: **Approved.** The project owner approved the gathering and production amendment below on August 30, 2026 by directing implementation of the complete plan. That directive satisfies the approval gate in `AGENTS.md`.
 
 Everything here is meant to be implemented literally. Where a number appears, it is the number. Where a name appears, it is the name.

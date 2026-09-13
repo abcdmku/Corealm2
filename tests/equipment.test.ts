@@ -38,26 +38,25 @@ const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT, ...BOSS_ARMOR_ITEM
 
 function kitTotals(kit: keyof typeof KITS): EquipmentBonuses {
   const totals: EquipmentBonuses = {
-    accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
-  };
+    meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0, vitality: 0 };
   for (const id of KITS[kit] ?? []) {
     const bonuses = BY_ID.get(id)?.equip?.bonuses;
     if (!bonuses) throw new Error(`KITS.${kit} names ${id}, which is not an equippable row`);
-    totals.accuracy += bonuses.accuracy;
-    totals.power += bonuses.power;
-    totals.armour += bonuses.armour;
+    totals.meleeAccuracy += bonuses.meleeAccuracy;
+    totals.meleePower += bonuses.meleePower;
+    totals.defence += bonuses.defence;
     totals.magicAccuracy += bonuses.magicAccuracy;
     totals.magicPower += bonuses.magicPower;
-    totals.magicArmour += bonuses.magicArmour;
     totals.vitality += bonuses.vitality;
+    totals.health += bonuses.health;
   }
   return totals;
 }
 
 describe("the gear ladder", () => {
   it("has 95 equippable rows with unique ids", () => {
-    expect(EQUIPMENT).toHaveLength(95);
-    expect(BY_ID.size).toBe(95);
+    expect(EQUIPMENT).toHaveLength(93);
+    expect(BY_ID.size).toBe(93);
     for (const def of EQUIPMENT) {
       expect(def.equip, `${def.id} has no equip block`).toBeDefined();
       expect(def.category).toBe("equipment");
@@ -119,7 +118,7 @@ describe("the gear ladder", () => {
     for (const kit of Object.keys(KITS)) {
       const ids = KITS[kit] ?? [];
       const slots = ids.map((id) => BY_ID.get(id)?.equip?.slot);
-      const expectedLength = kit.startsWith("magic_") ? 8 : 9;
+      const expectedLength = kit.startsWith("magic_") ? 6 : 7;
       expect(ids, kit).toHaveLength(expectedLength);
       expect(new Set(slots).size, `${kit} wears two items in one slot`).toBe(expectedLength);
     }
@@ -131,23 +130,17 @@ describe("the gear ladder", () => {
   // seven fields are pinned, not just the five that were written down.
   it("sums to the totals the header solves from the PRD", () => {
     expect(kitTotals("melee_t1")).toEqual({
-      accuracy: 11, power: 8, armour: 16, magicAccuracy: 0, magicPower: 0, magicArmour: 5, vitality: 6,
-    });
+      meleeAccuracy: 9, meleePower: 8,  magicAccuracy: 0, magicPower: 0, defence: 16, health: 6, vitality: 0 });
     expect(kitTotals("melee_t5")).toEqual({
-      accuracy: 23, power: 14, armour: 33, magicAccuracy: 1, magicPower: 0, magicArmour: 12, vitality: 14,
-    });
+      meleeAccuracy: 21, meleePower: 14,  magicAccuracy: 0, magicPower: 0, defence: 33, health: 14, vitality: 0 });
     expect(kitTotals("melee_t10")).toEqual({
-      accuracy: 42, power: 26, armour: 58, magicAccuracy: 2, magicPower: 0, magicArmour: 19, vitality: 16,
-    });
+      meleeAccuracy: 40, meleePower: 26,  magicAccuracy: 0, magicPower: 0, defence: 58, health: 16, vitality: 0 });
     expect(kitTotals("magic_t1")).toEqual({
-      accuracy: 0, power: 0, armour: 3, magicAccuracy: 12, magicPower: 9, magicArmour: 13, vitality: 4,
-    });
+      meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 10, magicPower: 9, defence: 12, health: 4, vitality: 0 });
     expect(kitTotals("magic_t5")).toEqual({
-      accuracy: 0, power: 2, armour: 4, magicAccuracy: 24, magicPower: 16, magicArmour: 28, vitality: 10,
-    });
+      meleeAccuracy: 0, meleePower: 2,  magicAccuracy: 23, magicPower: 16, defence: 26, health: 10, vitality: 0 });
     expect(kitTotals("magic_t10")).toEqual({
-      accuracy: 0, power: 4, armour: 8, magicAccuracy: 47, magicPower: 32, magicArmour: 50, vitality: 12,
-    });
+      meleeAccuracy: 0, meleePower: 4,  magicAccuracy: 45, magicPower: 31, defence: 47, health: 12, vitality: 0 });
   });
 
   it("reproduces PRD 2.3's derived-health column at the levels it quotes", () => {
@@ -155,7 +148,7 @@ describe("the gear ladder", () => {
       const state = createInitialState(1337, 0);
       setSkillLevel(state, "melee", melee);
       setSkillLevel(state, "magic", magic);
-      return computeMaxHealth(state, kitTotals(kit).vitality);
+      return computeMaxHealth(state, kitTotals(kit).health);
     };
     expect(health(10, 1, "melee_t1")).toBe(41);
     expect(health(12, 5, "melee_t5")).toBe(58);
@@ -167,8 +160,8 @@ describe("the gear ladder", () => {
     // "Melee 18, tier 10 kit -> maxHit 12" stops holding.
     for (const def of EQUIPMENT) {
       const equip = def.equip;
-      if (!equip || equip.slot === "mainHand") continue;
-      expect(equip.bonuses.power, `${def.id} gives power from a non-weapon slot`).toBe(0);
+      if (!equip || equip.slot === "mainHand" || def.id.startsWith("crafted_")) continue;
+      expect(equip.bonuses.meleePower, `${def.id} gives meleePower from a non-weapon slot`).toBe(0);
     }
   });
 });
@@ -183,10 +176,10 @@ const MANIFEST_IDS = new Set(manifest.assets.map((asset) => asset.id));
 
 describe("gear appearance", () => {
   it("covers every id in the content table and nothing else", () => {
-    expect(EQUIPMENT).toHaveLength(95);
-    expect(WILDERNESS_EQUIPMENT).toHaveLength(41);
-    expect(MINIBOSS_JEWELLERY).toHaveLength(144);
-    expect(ALL_EQUIPMENT).toHaveLength(307);
+    expect(EQUIPMENT).toHaveLength(93);
+    expect(WILDERNESS_EQUIPMENT).toHaveLength(33);
+    expect(MINIBOSS_JEWELLERY).toHaveLength(14);
+    expect(ALL_EQUIPMENT).toHaveLength(168);
     expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(ALL_EQUIPMENT.length);
     expect([...GEAR_APPEARANCE_IDS].sort()).toEqual(ALL_EQUIPMENT.map((def) => def.id).sort());
   });
@@ -538,8 +531,8 @@ describe("item icons", () => {
     expect(iconShapeFor(BY_ID.get("cairnpine_staff"))).toBe("staff");
     expect(iconShapeFor(BY_ID.get("kaldite_dagger"))).toBe("dagger");
     expect(iconShapeFor(ALL_BY_ID.get("air_orb"))).toBe("orb");
-    expect(iconShapeFor(BY_ID.get("storm_charm"))).toBe("amulet");
-    expect(iconShapeFor(BY_ID.get("grithe_pendant"))).toBe("amulet");
+    expect(iconShapeFor(BY_ID.get("crafted_earring_t10"))).toBe("ring");
+    expect(iconShapeFor(BY_ID.get("crafted_earring_t20"))).toBe("ring");
     expect(iconShapeFor(BY_ID.get("cairnpelt_robe"))).toBe("robe");
     expect(iconShapeFor(BY_ID.get("marchhide_hood"))).toBe("hood");
   });
@@ -547,7 +540,7 @@ describe("item icons", () => {
   it("still falls back to the slot for everything else", () => {
     expect(iconShapeFor(BY_ID.get("kaldite_sword"))).toBe("sword");
     expect(iconShapeFor(BY_ID.get("cairnpine_shield"))).toBe("shield");
-    expect(iconShapeFor(BY_ID.get("storm_ring"))).toBe("ring");
+    expect(iconShapeFor(BY_ID.get("crafted_ring_t10"))).toBe("ring");
     expect(iconShapeFor(BY_ID.get("kaldite_helm"))).toBe("helm");
     expect(iconShapeFor(BY_ID.get("kaldite_boots"))).toBe("boot");
   });

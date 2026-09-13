@@ -45,7 +45,7 @@ export function buildUniversalMinibossGroups(
   const bodies = UNIVERSAL_MINIBOSS_ROSTER.filter(row => !fairyPool || fairyPool.includes(row.number));
   return Array.from({ length: UNIVERSAL_MINIBOSSES_PER_REGION }, (_, index) => {
     const row = bodies.splice(rng.int(0, bodies.length - 1), 1)[0]!;
-    const species = universalMinibossSpecies(row.number, regionId);
+    const species = universalMinibossSpecies(row.number, regionId, regionId === 'wilderness' && index === 1 ? 70 : undefined);
     return {
       id: `universal_miniboss_${regionId}_${index + 1}`, family: species.stats.family,
       name: species.stats.name, tier: species.stats.tier, assetId: species.assetId,

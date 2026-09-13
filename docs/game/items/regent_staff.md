@@ -12,7 +12,7 @@ description: "Three pieces of the Furnace Regent's crown brace a Teak Staff. Cas
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+17</dd></div><div><dt>Magic accuracy</dt><dd>+89</dd></div><div><dt>Magic power</dt><dd>+81</dd></div><div><dt>Magic armour</dt><dd>+16</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+89</dd></div><div><dt>Defence</dt><dd>+16</dd></div><div><dt>Melee Power</dt><dd>+17</dd></div><div><dt>Magic Power</dt><dd>+81</dd></div></dl>
 
 ## Use and requirements
 

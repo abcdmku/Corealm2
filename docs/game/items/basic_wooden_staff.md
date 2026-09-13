@@ -12,7 +12,7 @@ description: "A plain two-handed staff with an empty brown socket and no glow of
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+3</dd></div><div><dt>Magic power</dt><dd>+7</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+3</dd></div><div><dt>Magic Power</dt><dd>+7</dd></div></dl>
 
 ## Use and requirements
 

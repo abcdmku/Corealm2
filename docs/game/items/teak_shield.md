@@ -12,7 +12,7 @@ description: "Layered teak faced in Cindersteel."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+6</dd></div><div><dt>Armour</dt><dd>+43</dd></div><div><dt>Magic armour</dt><dd>+19</dd></div><div><dt>Vitality</dt><dd>+5</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+6</dd></div><div><dt>Defence</dt><dd>+43</dd></div><div><dt>Health</dt><dd>+5</dd></div></dl>
 
 ## Use and requirements
 

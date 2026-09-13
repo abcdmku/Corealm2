@@ -16,9 +16,8 @@ import { EnemyAiSystem, type EnemyNavPort } from "../game/src/systems/enemyAI.js
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
 
 const NO_GEAR: EquipmentBonuses = {
-  accuracy: 0, power: 0, armour: 0,
-  magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
-};
+  meleeAccuracy: 0, meleePower: 0,
+  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0, vitality: 0 };
 const distance = (a: Vec3, b: Vec3) => Math.hypot(a[0] - b[0], a[2] - b[2]);
 const point = ([x, z]: readonly [number, number]): Vec3 => [x, 0, z];
 

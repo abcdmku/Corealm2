@@ -12,7 +12,7 @@ description: "A plate front laced over a leather back. Cheap, loud, and better t
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+1</dd></div><div><dt>Armour</dt><dd>+5</dd></div><div><dt>Magic armour</dt><dd>+1</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+1</dd></div><div><dt>Defence</dt><dd>+5</dd></div><div><dt>Health</dt><dd>+2</dd></div></dl>
 
 ## Use and requirements
 

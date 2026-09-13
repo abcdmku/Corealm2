@@ -12,7 +12,7 @@ description: "A blue-black glass edge on a magic-wood grip. Requires level 70 Me
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+125</dd></div><div><dt>Power</dt><dd>+128</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+125</dd></div><div><dt>Melee Power</dt><dd>+128</dd></div></dl>
 
 ## Use and requirements
 

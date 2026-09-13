@@ -332,7 +332,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
 
         discardFromSetupInventory(itemId);
         requireOk(deps.inventory.addItem(itemId, 1, { silent: true }), `stage ${itemId}`);
-        const equipped = requireOk(deps.equipment.equip(itemId), `equip ${itemId}`);
+        const equipped = requireOk(deps.equipment.equip(itemId, slot), `equip ${itemId}`);
         if (equipped.replaced) discardFromSetupInventory(equipped.replaced);
         return getState();
       });

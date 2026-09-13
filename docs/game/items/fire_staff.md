@@ -12,7 +12,7 @@ description: "Walnut Staff fitted with a Fire Orb. Its charge pays for matching 
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+7</dd></div><div><dt>Armour</dt><dd>+3</dd></div><div><dt>Magic accuracy</dt><dd>+49</dd></div><div><dt>Magic power</dt><dd>+40</dd></div><div><dt>Magic armour</dt><dd>+16</dd></div><div><dt>Vitality</dt><dd>+2</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+49</dd></div><div><dt>Defence</dt><dd>+16</dd></div><div><dt>Health</dt><dd>+2</dd></div><div><dt>Melee Power</dt><dd>+7</dd></div><div><dt>Magic Power</dt><dd>+40</dd></div></dl>
 
 ## Use and requirements
 

@@ -12,7 +12,7 @@ description: "Aurora Frostguard boots for level 90 Melee."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+7</dd></div><div><dt>Armour</dt><dd>+33</dd></div><div><dt>Magic armour</dt><dd>+15</dd></div><div><dt>Vitality</dt><dd>+10</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+7</dd></div><div><dt>Defence</dt><dd>+33</dd></div><div><dt>Health</dt><dd>+10</dd></div></dl>
 
 ## Use and requirements
 

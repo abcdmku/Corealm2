@@ -196,6 +196,7 @@ export const TOOL_SPECS = {
       + "staffs occupy mainHand. Boss Orbs are altar keys and cannot be equipped.",
     inputSchema: obj({
       itemId: STR("Item to equip"),
+      targetSlot: ENUM(EQUIP_SLOTS, "Optional compatible slot; rings and earrings each have two slots"),
       unequipSlot: ENUM(EQUIP_SLOTS, `Slot to clear. Slots: ${EQUIP_SLOTS.join(", ")}`),
     }),
   },

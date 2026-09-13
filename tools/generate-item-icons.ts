@@ -1,13 +1,10 @@
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { access, mkdir, readFile, writeFile, readdir, unlink } from "node:fs/promises";
-import { chromium, type Browser, type Page } from "playwright";
 import sharp from "sharp";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import type { ItemDef, ItemId } from "../game/src/contracts.js";
-import { itemIconAppearance } from "../game/src/render/itemIconAppearances.js";
 import { repoRoot } from "./lib/paths.js";
-import { startGameServer, type RunningGameServer } from "./lib/server.js";
 import { ITEM_ICON_ART_DIR, generatedItemIconMaster, readItemIconArtRegistry } from "./lib/item-icon-art.js";
 
 export const ITEM_ICON_MASTER_SIZE = 256;
@@ -21,7 +18,7 @@ export const ITEM_ICON_CONTACT_SHEET = path.join(repoRoot, "art", "item-icons", 
 export interface GenerateItemIconOptions {
   /** Force fresh masters and derivatives for the selected items. */
   readonly all?: boolean;
-  /** Reuse an existing Vite server. The generator does not start or close that server. */
+  /** Legacy URL option, validated for compatibility; prompted artwork needs no renderer. */
   readonly url?: string;
   /** Exact item IDs. Output order follows the catalog, independent of argument order. */
   readonly only?: readonly ItemId[];
@@ -207,7 +204,7 @@ async function fileExists(file: string): Promise<boolean> {
   }
 }
 
-async function deriveGameIcon(master: Buffer): Promise<Buffer> {
+export async function deriveGameIcon(master: Buffer): Promise<Buffer> {
   const { data, info } = await sharp(master)
     .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 }, threshold: 8 })
     .resize(ITEM_ICON_CONTENT_SIZE, ITEM_ICON_CONTENT_SIZE, {
@@ -255,47 +252,6 @@ async function deriveGameIcon(master: Buffer): Promise<Buffer> {
     .toBuffer();
 }
 
-function decodePngDataUrl(value: string): Buffer {
-  const match = /^data:image\/png;base64,(.+)$/.exec(value);
-  if (!match?.[1]) throw new Error("Item icon renderer returned a non-PNG data URL");
-  return Buffer.from(match[1], "base64");
-}
-
-async function openRenderer(rendererUrl?: string): Promise<{
-  server: RunningGameServer | undefined;
-  browser: Browser;
-  page: Page;
-  errors: string[];
-}> {
-  const server = rendererUrl === undefined ? await startGameServer({ logLevel: "error" }) : undefined;
-  let browser: Browser | undefined;
-  try {
-    browser = await chromium.launch({ headless: true, args: ["--enable-unsafe-swiftshader", "--mute-audio"] });
-    const page = await browser.newPage({ viewport: { width: ITEM_ICON_MASTER_SIZE, height: ITEM_ICON_MASTER_SIZE } });
-    const errors: string[] = [];
-    page.on("console", (message) => {
-      if (message.type() === "error") errors.push(message.text().slice(0, 1000));
-    });
-    page.on("pageerror", (error) => errors.push(String(error).slice(0, 1000)));
-    await page.goto(rendererUrl ?? itemIconRendererUrl(server!.url), { waitUntil: "load", timeout: 30_000 });
-    await page.waitForFunction(() => window.__itemIconRenderer?.ready === true, undefined, { timeout: 30_000 });
-    return { server, browser, page, errors };
-  } catch (error) {
-    await browser?.close().catch(() => undefined);
-    await server?.close().catch(() => undefined);
-    throw error;
-  }
-}
-
-async function renderMaster(page: Page, itemId: ItemId): Promise<Buffer> {
-  const dataUrl = await page.evaluate(async (id) => {
-    const api = window.__itemIconRenderer;
-    if (!api?.ready) throw new Error("window.__itemIconRenderer is not ready");
-    return api.render(id);
-  }, itemId);
-  return decodePngDataUrl(dataUrl);
-}
-
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
@@ -330,7 +286,7 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
   // Validate selection and destinations before touching the filesystem or opening a browser.
   const items = selectedItems(options.only);
   const paths = itemIconOutputPaths(options.out);
-  const rendererUrl = options.url === undefined ? undefined : itemIconRendererUrl(options.url);
+  if (options.url !== undefined) itemIconRendererUrl(options.url); // Validate legacy CLI option.
   const artRegistry = await readItemIconArtRegistry();
   if (options.only === undefined && options.out === undefined) {
     const registeredSources = new Set(Object.values(artRegistry).map(entry => path.resolve(ITEM_ICON_ART_DIR, entry.source)));
@@ -345,10 +301,11 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
   const artMasters = new Map<ItemId, Buffer>();
   for (const item of items) {
     const entry = artRegistry[item.id];
+    if (!entry) throw new Error(`Missing prompted image-generation artwork: ${item.id}`);
     if (entry?.status === "pending" && options.out === undefined) throw new Error(`Generated item icon awaits visual acceptance: ${item.id}; stage with --out before publishing`);
     if (entry) artMasters.set(item.id, await generatedItemIconMaster(entry, ITEM_ICON_MASTER_SIZE));
   }
-  for (const item of items) itemIconAppearance(item.id);
+  // Inventory artwork has no dependency on a 3D appearance mapping.
 
   await mkdir(paths.masterDir, { recursive: true });
   await mkdir(paths.gameDir, { recursive: true });
@@ -365,13 +322,12 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
 
   let rendered = 0;
   let derived = 0;
-  let rendererSession: Awaited<ReturnType<typeof openRenderer>> | undefined;
-  try {
+  {
     if (masterNeeded.size > 0) {
-      if ([...masterNeeded].some(id => !artMasters.has(id))) rendererSession = await openRenderer(rendererUrl);
+
       for (const item of items) {
         if (!masterNeeded.has(item.id)) continue;
-        const master = artMasters.get(item.id) ?? await renderMaster(rendererSession!.page, item.id);
+        const master = artMasters.get(item.id)!;
         const check = await inspectImage(master, ITEM_ICON_MASTER_SIZE);
         if (!check.ok) {
           const diagnostic = path.join(paths.diagnosticsDir, `${item.id}.png`);
@@ -382,9 +338,6 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
         await writeFile(itemIconFiles(item.id, paths).master, master);
         rendered += 1;
         process.stdout.write(`rendered ${item.id}\n`);
-      }
-      if (rendererSession && rendererSession.errors.length > 0) {
-        throw new Error(`Item icon renderer reported browser errors:\n${rendererSession.errors.join("\n")}`);
       }
     }
 
@@ -401,9 +354,6 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
     if (options.out !== undefined || options.only !== undefined || rendered > 0 || derived > 0 || !(await fileExists(paths.contactSheet))) {
       await writeContactSheet(items, paths);
     }
-  } finally {
-    await rendererSession?.browser.close().catch(() => undefined);
-    await rendererSession?.server?.close().catch(() => undefined);
   }
 
   // Only a successful complete publication owns the full catalog. Selections and staging never prune.

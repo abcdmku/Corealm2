@@ -12,7 +12,7 @@ description: "Oak bleached and salt-cured. The cage weeps a little in the cold."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+4</dd></div><div><dt>Magic accuracy</dt><dd>+27</dd></div><div><dt>Magic power</dt><dd>+22</dd></div><div><dt>Magic armour</dt><dd>+4</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+27</dd></div><div><dt>Defence</dt><dd>+4</dd></div><div><dt>Melee Power</dt><dd>+4</dd></div><div><dt>Magic Power</dt><dd>+22</dd></div></dl>
 
 ## Use and requirements
 

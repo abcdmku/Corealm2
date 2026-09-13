@@ -36,8 +36,7 @@ function item(id: string): ItemDef {
 
 function kitTotals(kit: readonly string[]): EquipmentBonuses {
   const totals: EquipmentBonuses = {
-    accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
-  };
+    meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0, vitality: 0 };
   for (const id of kit) {
     const bonuses = item(id).equip?.bonuses;
     if (!bonuses) throw new Error(`${id} is not equipment`);
@@ -166,13 +165,13 @@ describe("fire release", () => {
 
 describe("rare miniboss weapons", () => {
   const RULE: readonly [rareId: string, baseId: string, boosted: readonly (keyof EquipmentBonuses)[]][] = [
-    ["galeskin_sword", "grithe_sword", ["accuracy", "power"]],
+    ["galeskin_sword", "grithe_sword", ["meleeAccuracy", "meleePower"]],
     ["galeskin_staff", "palewood_staff", ["magicAccuracy", "magicPower"]],
-    ["mossbound_sword", "corven_sword", ["accuracy", "power"]],
+    ["mossbound_sword", "corven_sword", ["meleeAccuracy", "meleePower"]],
     ["mossbound_staff", "duskoak_staff", ["magicAccuracy", "magicPower"]],
-    ["tideworn_sword", "kaldite_sword", ["accuracy", "power"]],
+    ["tideworn_sword", "kaldite_sword", ["meleeAccuracy", "meleePower"]],
     ["tideworn_staff", "cairnpine_staff", ["magicAccuracy", "magicPower"]],
-    ["cinderwake_sword", "emberite_sword", ["accuracy", "power"]],
+    ["cinderwake_sword", "emberite_sword", ["meleeAccuracy", "meleePower"]],
     ["cinderwake_staff", "cinderpine_staff", ["magicAccuracy", "magicPower"]],
   ];
 
@@ -289,10 +288,10 @@ describe("tier-20 combat bands", () => {
 
   function meleeTtk(block: { maxHealth: number; defenceLevel: number; armour: number }): number {
     const kit = meleeKit();
-    const attackRoll = (20 + 9) * (1 + kit.accuracy / 100);
+    const attackRoll = (20 + 9) * (1 + kit.meleeAccuracy / 100);
     const defenceRoll = (block.defenceLevel + 9) * (1 + block.armour / 100);
     const hitChance = Math.min(0.95, Math.max(0.05, attackRoll / (attackRoll + defenceRoll)));
-    const maxHit = Math.floor(2 + (20 + kit.power) / 4.2);
+    const maxHit = Math.floor(2 + (20 + kit.meleePower) / 4.2);
     const dps = (hitChance * (1 + maxHit)) / 2 / 2.4;
     return block.maxHealth / dps;
   }
@@ -310,16 +309,16 @@ describe("tier-20 combat bands", () => {
 
   it("authors the tier-20 kits at the amendment's solved totals", () => {
     const melee = meleeKit();
-    expect(melee.accuracy).toBe(75);
-    expect(melee.armour).toBe(95);
-    expect(item("emberite_sword").equip!.bonuses.power).toBe(45);
+    expect(melee.meleeAccuracy).toBe(71);
+    expect(melee.defence).toBe(95);
+    expect(item("emberite_sword").equip!.bonuses.meleePower).toBe(45);
     // PRD 2.4's own tier-20 checkpoint: level 20 with +45 gearPower reads maxHit 17.
-    expect(Math.floor(2 + (20 + melee.power) / 4.2)).toBe(17);
+    expect(Math.floor(2 + (20 + melee.meleePower) / 4.2)).toBe(17);
     const magic = magicKit();
     // The kit wears the charged Fire Staff, as every tier's magic kit wears its element's staff:
     // 75/50 from the Charhide pieces and uncharged staff, plus the Fire Staff's +9/+6.
-    expect(magic.magicAccuracy).toBe(84);
-    expect(magic.magicPower).toBe(56);
+    expect(magic.magicAccuracy).toBe(80);
+    expect(magic.magicPower).toBe(54);
   });
 
   it("lands every ordinary tier-20 encounter in the 25-40 s on-tier band", () => {

@@ -12,7 +12,7 @@ description: "Aurora Frostguard greaves for level 90 Melee."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+12</dd></div><div><dt>Armour</dt><dd>+69</dd></div><div><dt>Magic armour</dt><dd>+22</dd></div><div><dt>Vitality</dt><dd>+20</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+12</dd></div><div><dt>Defence</dt><dd>+69</dd></div><div><dt>Health</dt><dd>+20</dd></div></dl>
 
 ## Use and requirements
 

@@ -12,7 +12,7 @@ description: "Oak Staff fitted with a Water Orb. Its charge pays for matching sp
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Power</dt><dd>+4</dd></div><div><dt>Armour</dt><dd>+2</dd></div><div><dt>Magic accuracy</dt><dd>+30</dd></div><div><dt>Magic power</dt><dd>+24</dd></div><div><dt>Magic armour</dt><dd>+10</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+30</dd></div><div><dt>Defence</dt><dd>+10</dd></div><div><dt>Health</dt><dd>+1</dd></div><div><dt>Melee Power</dt><dd>+4</dd></div><div><dt>Magic Power</dt><dd>+24</dd></div></dl>
 
 ## Use and requirements
 

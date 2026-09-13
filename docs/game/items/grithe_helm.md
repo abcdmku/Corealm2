@@ -12,7 +12,7 @@ description: "An open-faced cap. You can hear things coming, which is most of th
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Armour</dt><dd>+2</dd></div><div><dt>Vitality</dt><dd>+1</dd></div></dl>
+<dl class="codex-stats"><div><dt>Defence</dt><dd>+2</dd></div><div><dt>Health</dt><dd>+1</dd></div></dl>
 
 ## Use and requirements
 

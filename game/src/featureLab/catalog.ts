@@ -1,3 +1,4 @@
+import { CRAFTED_JEWELRY, isRetiredJewelry, jewelrySlots } from '../content/jewelry.js';
 import {
   EQUIP_SLOTS,
   SKILL_IDS,
@@ -176,9 +177,9 @@ export const FEATURE_LAB_CATALOG = {
   equipment: EQUIP_SLOTS.map((slot) => ({
     slot,
     label: titleCaseIdentifier(slot),
-    items: [...new Map([...ALL_ITEMS, ...WILDERNESS_LOOT_ITEMS,
+    items: [...new Map([...ALL_ITEMS.filter(item => !isRetiredJewelry(item.id)), ...CRAFTED_JEWELRY, ...WILDERNESS_LOOT_ITEMS.filter(item => !isRetiredJewelry(item.id)),
     ].map(item => [item.id, item])).values()]
-      .filter((item) => item.equip?.slot === slot)
+      .filter((item) => item.equip && jewelrySlots(item.equip.slot).includes(slot))
       .map((item) => ({ id: item.id, label: item.name })),
   })),
   skills: SKILL_IDS.map((id) => ({ id, label: SKILLS[id].name })),

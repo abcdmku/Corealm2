@@ -48,12 +48,10 @@ function kit(tier: 50 | 70, kind: 'melee' | 'magic', weapon: 'wand' | 'staff' = 
   return kind === 'melee' ? {
     head: `${row.metal}_helm`, body: `${row.metal}_plate`, legs: `${row.metal}_greaves`,
     feet: `${row.metal}_boots`, hands: `${row.metal}_gauntlets`, mainHand: `${row.metal}_sword`,
-    offHand: `${row.wood}_shield`, accessory1: `${row.metal}_ring`, accessory2: `${row.metal}_pendant`,
-  } : {
+    offHand: `${row.wood}_shield`, accessory1: `${row.metal}_ring`, accessory2: `${row.metal}_pendant`, ring2: null, earring2: null } : {
     head: `${row.hide}_hood`, body: `${row.hide}_robe`, legs: `${row.hide}_leggings`,
     feet: `${row.hide}_boots`, hands: `${row.hide}_wraps`, mainHand: `${row.wood}_${weapon}`,
-    offHand: null, accessory1: `${row.jewellery}_ring`, accessory2: `${row.jewellery}_charm`,
-  };
+    offHand: null, accessory1: `${row.jewellery}_ring`, accessory2: `${row.jewellery}_charm`, ring2: null, earring2: null };
 }
 
 const CASES: Readonly<Record<string, readonly Case[]>> = {

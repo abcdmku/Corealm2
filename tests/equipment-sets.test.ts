@@ -26,7 +26,7 @@ describe("derived armour sets", () => {
     it(`${set.name} activates and removes cumulative thresholds without changing damage or accuracy`, () => {
       const slots: EquipmentSetSlots = {};
       const defence = [2, 3, 4, 6, 10, 14, 18][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
-      const vitality = [1, 2, 3, 4, 7, 10, 13][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
+      const health = [1, 2, 3, 4, 7, 10, 13][[1, 5, 10, 20, 50, 70, 90].indexOf(set.tier)]!;
       const memberSlots = ARMOUR_SET_SLOTS.filter(slot => set.members[slot]);
       const full = memberSlots.length;
       for (let count = 0; count <= full; count++) {
@@ -35,14 +35,13 @@ describe("derived armour sets", () => {
           slots[slot] = { itemId: set.members[slot]!, quantity: 1 };
         }
         const result = getEquipmentSetBonuses(slots);
-        expect(result).toEqual({ accuracy: 0, power: 0, magicAccuracy: 0, magicPower: 0,
-          armour: count >= (set.style === "melee" ? 2 : full) ? defence : 0,
-          magicArmour: count >= (set.style === "magic" ? 2 : full) ? defence : 0,
-          vitality: count >= full - 1 ? vitality : 0 });
+        expect(result).toEqual({ meleeAccuracy: 0, meleePower: 0, magicAccuracy: 0, magicPower: 0,
+          defence: (count >= 2 ? defence : 0) + (count >= full ? defence : 0),
+          health: count >= full - 1 ? health : 0 , vitality: 0 });
       }
       slots.feet = null;
       expect(inferEquipmentSets(slots)[0]?.activeThresholds.map((row) => row.pieces)).toEqual([2, full - 1]);
-      expect(getEquipmentSetBonuses(slots)[set.style === "melee" ? "magicArmour" : "armour"]).toBe(0);
+      expect(getEquipmentSetBonuses(slots).defence).toBe(defence);
     });
   }
 
@@ -66,9 +65,9 @@ describe("derived armour sets", () => {
       body: Object.freeze({ itemId: "grithe_cuirass", quantity: 1 }),
       hands: Object.freeze({ itemId: "marchhide_wraps", quantity: 1 }),
       feet: Object.freeze({ itemId: "marchhide_boots", quantity: 1 }) });
-    expect(getEquipmentSetBonuses(slots)).toMatchObject({ armour: 2, magicArmour: 2, vitality: 0 });
+    expect(getEquipmentSetBonuses(slots)).toMatchObject({ defence: 4, health: 0, vitality: 0 });
     const first = getEquipmentSetBonuses(slots);
-    first.armour = 100;
-    expect(getEquipmentSetBonuses(slots).armour).toBe(2);
+    first.defence = 100;
+    expect(getEquipmentSetBonuses(slots).defence).toBe(4);
   });
 });

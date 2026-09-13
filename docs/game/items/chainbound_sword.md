@@ -12,7 +12,7 @@ description: "Living foundry chain wound through a Nightglass blade. The edge ti
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+141</dd></div><div><dt>Power</dt><dd>+141</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+141</dd></div><div><dt>Melee Power</dt><dd>+141</dd></div></dl>
 
 ## Use and requirements
 

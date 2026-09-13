@@ -12,7 +12,7 @@ description: "Magic wrapped with Void Thread. A fast one-handed weapon; carried 
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Magic accuracy</dt><dd>+74</dd></div><div><dt>Magic power</dt><dd>+63</dd></div><div><dt>Magic armour</dt><dd>+13</dd></div></dl>
+<dl class="codex-stats"><div><dt>Magic Accuracy</dt><dd>+74</dd></div><div><dt>Defence</dt><dd>+13</dd></div><div><dt>Magic Power</dt><dd>+63</dd></div></dl>
 
 ## Use and requirements
 

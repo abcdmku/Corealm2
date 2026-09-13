@@ -12,7 +12,7 @@ description: "Deepwood steel, dark and slightly oily to the touch."
 
 ## Equipment stats
 
-<dl class="codex-stats"><div><dt>Accuracy</dt><dd>+12</dd></div><div><dt>Power</dt><dd>+11</dd></div></dl>
+<dl class="codex-stats"><div><dt>Melee Accuracy</dt><dd>+12</dd></div><div><dt>Melee Power</dt><dd>+11</dd></div></dl>
 
 ## Use and requirements
 

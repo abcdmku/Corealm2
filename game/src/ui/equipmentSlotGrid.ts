@@ -22,20 +22,24 @@ export const EQUIPMENT_SLOT_LABELS: Readonly<Record<EquipSlot, string>> = {
   hands: "Hands",
   mainHand: "Main",
   offHand: "Off",
-  accessory1: "Acc 1",
-  accessory2: "Acc 2",
+  accessory1: "Ring 1",
+  ring2: "Ring 2",
+  accessory2: "Earring 1",
+  earring2: "Earring 2",
 };
 
 /** Row, column. A three-wide grid with the body down the middle, arms either side. */
 export const EQUIPMENT_SLOT_CELLS: Readonly<Record<EquipSlot, readonly [number, number]>> = {
   head: [1, 2],
   accessory1: [1, 3],
+  ring2: [1, 1],
   mainHand: [2, 1],
   body: [2, 2],
   offHand: [2, 3],
   hands: [3, 1],
   legs: [3, 2],
   accessory2: [3, 3],
+  earring2: [4, 3],
   feet: [4, 2],
 };
 
