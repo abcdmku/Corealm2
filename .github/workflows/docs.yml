@@ -48,7 +48,8 @@ jobs:
   verify:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Includes asset checkout, guide image encoding, and Chromium acceptance.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
         with:
@@ -86,7 +87,8 @@ jobs:
   publish:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Asset checkout can consume half of the former five-minute job budget.
+    timeout-minutes: 15
     permissions:
       contents: read
       pages: write
