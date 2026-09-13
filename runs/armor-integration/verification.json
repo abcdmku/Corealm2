@@ -1,0 +1,868 @@
+{
+  "passed": true,
+  "date": "2026-09-13T01:23:59.814Z",
+  "armorCommit": "b81b6b3",
+  "mainBase": "acb4342acf50ba8bde1f86441fed715e2ac8f084",
+  "cleanup": {
+    "bytesRemoved": 3311700350,
+    "scopedTargets": 443,
+    "retained": "Current source textures, all 15 candidate and production GLBs, latest editable Blender files, local delivery archives and final acceptance evidence."
+  },
+  "rebase": {
+    "assets": {
+      "retainedFromMain": 753,
+      "armorChanges": [
+        "corealm_item_dragonhide_hood",
+        "corealm_item_dragonhide_robe",
+        "corealm_item_dragonhide_leggings",
+        "corealm_item_dragonhide_boots",
+        "corealm_item_dragonhide_wraps",
+        "corealm_item_starhide_hood",
+        "corealm_item_starhide_robe",
+        "corealm_item_starhide_leggings",
+        "corealm_item_starhide_boots",
+        "corealm_item_starhide_wraps",
+        "corealm_item_frostweave_hood",
+        "corealm_item_frostweave_robe",
+        "corealm_item_frostweave_leggings",
+        "corealm_item_frostweave_boots",
+        "corealm_item_frostweave_wraps"
+      ],
+      "mergedCount": 768
+    },
+    "packs": {
+      "retainedFromMain": 65,
+      "armorChanges": [
+        "corealm-icon-item-models"
+      ],
+      "mergedCount": 65
+    }
+  },
+  "code": {
+    "typecheck": true,
+    "productionBuild": true,
+    "targetedTests": 134,
+    "testFiles": 12,
+    "checks": [
+      {
+        "name": "typecheck",
+        "passed": true,
+        "exitCode": 0,
+        "file": "test-results/aurora/typecheck-final.log"
+      },
+      {
+        "name": "tests",
+        "passed": true,
+        "exitCode": 0,
+        "file": "test-results/aurora/tests-final.log"
+      },
+      {
+        "name": "production-build",
+        "passed": true,
+        "exitCode": 0,
+        "file": "test-results/aurora/production-build-final.log"
+      }
+    ],
+    "additionalTestLog": "test-results/armor-integration-icons/integration-tests.log"
+  },
+  "lab": [
+    {
+      "set": "aurora",
+      "passed": true,
+      "file": "test-results/item-models/armor-merge-aurora/report.json",
+      "sha256": "3225fc2d17f657af4ea6268b043829279638e7f55bbe5cfbb373ccd489775d1c",
+      "equipment": {
+        "head": "frostweave_hood",
+        "body": "frostweave_robe",
+        "legs": "frostweave_leggings",
+        "hands": "frostweave_wraps",
+        "feet": "frostweave_boots"
+      },
+      "assets": [
+        {
+          "id": "corealm_item_frostweave_hood",
+          "sha256": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3"
+        },
+        {
+          "id": "corealm_item_frostweave_robe",
+          "sha256": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27"
+        },
+        {
+          "id": "corealm_item_frostweave_leggings",
+          "sha256": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3"
+        },
+        {
+          "id": "corealm_item_frostweave_boots",
+          "sha256": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571"
+        },
+        {
+          "id": "corealm_item_frostweave_wraps",
+          "sha256": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad"
+        }
+      ],
+      "movement": {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "to": {
+          "x": -0.52,
+          "y": 0,
+          "z": -2.035
+        },
+        "clip": "Jog_Fwd_Loop"
+      },
+      "loadedLayers": [
+        "corealm_item_frostweave_robe",
+        "corealm_item_frostweave_leggings",
+        "corealm_item_frostweave_boots",
+        "corealm_item_frostweave_wraps",
+        "corealm_item_frostweave_hood"
+      ],
+      "captures": [
+        {
+          "name": "front",
+          "file": "test-results/item-models/armor-merge-aurora/front.png",
+          "sha256": "6b8df4c796c137dd6177324ba67604c108dff35260cbcaa8a978339856c26a19",
+          "camera": {
+            "position": {
+              "x": 1.365,
+              "y": 3.437,
+              "z": 5.355
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "side",
+          "file": "test-results/item-models/armor-merge-aurora/side.png",
+          "sha256": "34a406abdf8a20ff9b13f3e0bd2c4a8ea749f8b514e9cd1e92e67e361c3c4263",
+          "camera": {
+            "position": {
+              "x": 5.526,
+              "y": 3.437,
+              "z": 0.002
+            },
+            "yaw": 1.57,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 1.57,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "back",
+          "file": "test-results/item-models/armor-merge-aurora/back.png",
+          "sha256": "711b2e79604fe0de68f5f65d5aa43729785bfad608089dafb38698b2ccc89dc8",
+          "camera": {
+            "position": {
+              "x": -1.243,
+              "y": 3.437,
+              "z": -5.385
+            },
+            "yaw": 3.368,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 3.368,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "walking",
+          "file": "test-results/item-models/armor-merge-aurora/walking.png",
+          "sha256": "3abcbdb416f136a8d364445b7e5c257164271f7d9502ba08c3d649aa49e2de5c",
+          "camera": {
+            "position": {
+              "x": 1.079,
+              "y": 3.437,
+              "z": 4.221
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -0.29,
+              "y": 1.1,
+              "z": -1.133
+            }
+          }
+        }
+      ]
+    },
+    {
+      "set": "t50",
+      "passed": true,
+      "file": "test-results/item-models/armor-merge-t50/report.json",
+      "sha256": "b3b6b8b2c7a61c3fc95214a1f821edd1902763719497e91f14a4c8fb1863ae5a",
+      "equipment": {
+        "head": "dragonhide_hood",
+        "body": "dragonhide_robe",
+        "legs": "dragonhide_leggings",
+        "hands": "dragonhide_wraps",
+        "feet": "dragonhide_boots"
+      },
+      "assets": [
+        {
+          "id": "corealm_item_dragonhide_hood",
+          "sha256": "1aac481219a1d5cf06b6e3f36ad2f1af96c4434216d2f10a3239f191b9980418"
+        },
+        {
+          "id": "corealm_item_dragonhide_robe",
+          "sha256": "a82a64f356429f0692686323abcf35c0aa30e33cfb89739294c7f4a340810b76"
+        },
+        {
+          "id": "corealm_item_dragonhide_leggings",
+          "sha256": "c365f300a3ad9a8537fccd572481f0b3ccb49531fad889d1aad87aded544ef02"
+        },
+        {
+          "id": "corealm_item_dragonhide_boots",
+          "sha256": "15fb997622c0bb4544a5f9b09269446bc9ebd599df66f9266c3138970fb84ac0"
+        },
+        {
+          "id": "corealm_item_dragonhide_wraps",
+          "sha256": "ba9ea7a50ad73dff6ab6f120d2f148fb4343f659fea6c4a7af1841302147966f"
+        }
+      ],
+      "movement": {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "to": {
+          "x": -0.52,
+          "y": 0,
+          "z": -2.035
+        },
+        "clip": "Jog_Fwd_Loop"
+      },
+      "loadedLayers": [
+        "corealm_item_dragonhide_robe",
+        "corealm_item_dragonhide_leggings",
+        "corealm_item_dragonhide_boots",
+        "corealm_item_dragonhide_wraps",
+        "corealm_item_dragonhide_hood"
+      ],
+      "captures": [
+        {
+          "name": "front",
+          "file": "test-results/item-models/armor-merge-t50/front.png",
+          "sha256": "7648c9e04748b44749004ab85fcbf0b440a76c736847dac4a1bbf6cd7bd4f341",
+          "camera": {
+            "position": {
+              "x": 1.365,
+              "y": 3.437,
+              "z": 5.355
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "side",
+          "file": "test-results/item-models/armor-merge-t50/side.png",
+          "sha256": "c421f694ace256560f8ee5514b4377421d18d6886c912033ce74e6b39c2ed4c0",
+          "camera": {
+            "position": {
+              "x": 5.526,
+              "y": 3.437,
+              "z": 0.002
+            },
+            "yaw": 1.57,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 1.57,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "back",
+          "file": "test-results/item-models/armor-merge-t50/back.png",
+          "sha256": "c2e404a6cb9e6d6aa04335c77bedea991141fa9a2bcc71caec41db087135bfdf",
+          "camera": {
+            "position": {
+              "x": -1.243,
+              "y": 3.437,
+              "z": -5.385
+            },
+            "yaw": 3.368,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 3.368,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "walking",
+          "file": "test-results/item-models/armor-merge-t50/walking.png",
+          "sha256": "49e958a2ee3e8c4fe4206096c2bf8365184404c6dcc04cdfdca5fa4683f1f5f7",
+          "camera": {
+            "position": {
+              "x": 1.079,
+              "y": 3.437,
+              "z": 4.219
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -0.29,
+              "y": 1.1,
+              "z": -1.135
+            }
+          }
+        }
+      ]
+    },
+    {
+      "set": "t70",
+      "passed": true,
+      "file": "test-results/item-models/armor-merge-t70/report.json",
+      "sha256": "4602d1e71291e90075542ba63623facada48eadae031f65f92e31b50374f81af",
+      "equipment": {
+        "head": "starhide_hood",
+        "body": "starhide_robe",
+        "legs": "starhide_leggings",
+        "hands": "starhide_wraps",
+        "feet": "starhide_boots"
+      },
+      "assets": [
+        {
+          "id": "corealm_item_starhide_hood",
+          "sha256": "290ab02cbed8981e76a108d0758c7fab7d17f206ec83884c2d2d1d8c8f42a7ec"
+        },
+        {
+          "id": "corealm_item_starhide_robe",
+          "sha256": "9443e4f8724bac55f67ef0e17f5c2bc5af93572144a7945c7953984b67f67983"
+        },
+        {
+          "id": "corealm_item_starhide_leggings",
+          "sha256": "024d128c32b613116ef711b9fe7d49892e23822aebcdd73d2f714089d477e4ce"
+        },
+        {
+          "id": "corealm_item_starhide_boots",
+          "sha256": "5bc35b0c0279f254bbf12c5875d37cee3c5ae5422a1128706cc9a740ebee29d1"
+        },
+        {
+          "id": "corealm_item_starhide_wraps",
+          "sha256": "eb9212e94a03178d7fa6d025a90635a0821d92d64f81a7b9dd96ef770bebba24"
+        }
+      ],
+      "movement": {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "to": {
+          "x": -0.52,
+          "y": 0,
+          "z": -2.035
+        },
+        "clip": "Jog_Fwd_Loop"
+      },
+      "loadedLayers": [
+        "corealm_item_starhide_robe",
+        "corealm_item_starhide_leggings",
+        "corealm_item_starhide_boots",
+        "corealm_item_starhide_wraps",
+        "corealm_item_starhide_hood"
+      ],
+      "captures": [
+        {
+          "name": "front",
+          "file": "test-results/item-models/armor-merge-t70/front.png",
+          "sha256": "8fae9d4b969f1cb08eb01026eb90c406d8c6d341a61bc2354426a9dfbbc89441",
+          "camera": {
+            "position": {
+              "x": 1.365,
+              "y": 3.437,
+              "z": 5.355
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "side",
+          "file": "test-results/item-models/armor-merge-t70/side.png",
+          "sha256": "af500314e3b8267cf76a855e0a3b43800b9a85face543f7fb385ffddf00d9b4a",
+          "camera": {
+            "position": {
+              "x": 5.526,
+              "y": 3.437,
+              "z": 0.002
+            },
+            "yaw": 1.57,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 1.57,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "back",
+          "file": "test-results/item-models/armor-merge-t70/back.png",
+          "sha256": "0e8395bfe964f5dda47b977042a9a7500b4eff1a9c548514e9fd13da77076ea0",
+          "camera": {
+            "position": {
+              "x": -1.243,
+              "y": 3.437,
+              "z": -5.385
+            },
+            "yaw": 3.368,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 3.368,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": 0,
+              "y": 1.1,
+              "z": 0
+            }
+          }
+        },
+        {
+          "name": "walking",
+          "file": "test-results/item-models/armor-merge-t70/walking.png",
+          "sha256": "ba7c989e6ff0b77266dc08b3ebbded8c063136a1091ed20f2cbfd7e81266abfd",
+          "camera": {
+            "position": {
+              "x": 1.079,
+              "y": 3.437,
+              "z": 4.221
+            },
+            "yaw": 0.25,
+            "pitch": 0.4,
+            "distance": 6,
+            "requestedDistance": 6,
+            "effectivePitch": 0.4,
+            "effectiveYaw": 0.25,
+            "flatDistance": 6,
+            "occluded": false,
+            "occlusionProbe": true,
+            "freeMove": false,
+            "target": {
+              "x": -0.29,
+              "y": 1.1,
+              "z": -1.134
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "world": {
+    "passed": true,
+    "file": "test-results/item-models/armor-merge-world/report.json",
+    "sha256": "dd1aea310ea404741d24a196b73659ed975fdb71c13649d41a9b6d9d54ecf345",
+    "elapsedMs": 50889,
+    "readyAtMs": 29496,
+    "candidateOverride": false,
+    "manifestSha256": "0629d3cc9b5e711008605565f33c0acebd4efe7da2d5bb5cf27ede40480b3f51",
+    "servedAssetHashes": {
+      "/assets/models/items/frostweave_hood.glb": "44c71a75deba3dc9ab903dd424add46377e4b1041c2323c51823944954cebcb3",
+      "/assets/models/items/frostweave_robe.glb": "024fcdace59c68044dfff771ce2b4c06331020cbe6cf76919c604a03b6771c27",
+      "/assets/models/items/frostweave_leggings.glb": "1ae100e010951a24971eb9b6d62863c197cdb7377db6e2b63260789aa44bfcf3",
+      "/assets/models/items/frostweave_boots.glb": "4775f2eadd0972e7a275fe526883cf955033b6e476a1a93872ccfd27c9b13571",
+      "/assets/models/items/frostweave_wraps.glb": "a22aab2bf4236094ba58973d7ffb14fb125cf55d36dbc4b155981bdf0dc974ad"
+    },
+    "equipment": [
+      {
+        "head": "frostweave_hood",
+        "body": "frostweave_robe",
+        "legs": "frostweave_leggings",
+        "feet": "frostweave_boots",
+        "hands": "frostweave_wraps"
+      }
+    ],
+    "movement": [
+      {
+        "name": "aurora",
+        "before": {
+          "x": -160,
+          "y": 0.894,
+          "z": -118
+        },
+        "during": {
+          "x": -159.77,
+          "y": 0.894,
+          "z": -115.913
+        },
+        "settled": {
+          "x": -159.227,
+          "y": 0.894,
+          "z": -110.972
+        },
+        "clip": "Jog_Fwd_Loop"
+      }
+    ],
+    "captures": [
+      {
+        "name": "aurora-front",
+        "file": "test-results/item-models/armor-merge-world/aurora-front.png",
+        "sha256": "19ffc77bf3bb1e88265468768bef40766fef5393f962a565e65369f68ac1eb95",
+        "camera": {
+          "position": {
+            "x": -159.396,
+            "y": 4.33,
+            "z": -112.507
+          },
+          "yaw": 0.11,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 0.11,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160,
+            "y": 1.994,
+            "z": -118
+          }
+        }
+      },
+      {
+        "name": "aurora-back",
+        "file": "test-results/item-models/armor-merge-world/aurora-back.png",
+        "sha256": "a406ff0c96d389c07658c83cc43445f17bbaf210208c6f135f900c34037a44f4",
+        "camera": {
+          "position": {
+            "x": -160.604,
+            "y": 4.33,
+            "z": -123.493
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -160,
+            "y": 1.994,
+            "z": -118
+          }
+        }
+      },
+      {
+        "name": "aurora-walking",
+        "file": "test-results/item-models/armor-merge-world/aurora-walking.png",
+        "sha256": "203216fcd00fe71cd4a7c03f1c3a57ae52b898a72584f4e7f3ade7d2bb162296",
+        "camera": {
+          "position": {
+            "x": -160.364,
+            "y": 4.33,
+            "z": -121.307
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -159.759,
+            "y": 1.994,
+            "z": -115.814
+          }
+        }
+      },
+      {
+        "name": "aurora-settled",
+        "file": "test-results/item-models/armor-merge-world/aurora-settled.png",
+        "sha256": "5b444c4d094fadf13590a96f46381c48d10d11d1a355f3fb76f33d86cd6cc44a",
+        "camera": {
+          "position": {
+            "x": -159.832,
+            "y": 4.33,
+            "z": -116.471
+          },
+          "yaw": 3.251,
+          "pitch": 0.4,
+          "distance": 6,
+          "requestedDistance": 6,
+          "effectivePitch": 0.4,
+          "effectiveYaw": 3.251,
+          "flatDistance": 6,
+          "occluded": false,
+          "occlusionProbe": true,
+          "freeMove": false,
+          "target": {
+            "x": -159.227,
+            "y": 1.994,
+            "z": -110.977
+          }
+        }
+      }
+    ],
+    "errors": {
+      "page": [],
+      "console": [],
+      "requests": []
+    }
+  },
+  "mainIconRepair": {
+    "reason": "Nine existing Crownward fishing items in main had neither master nor runtime inventory icons. Rendered only these IDs with the existing production item-icon renderer and unchanged appearance definitions.",
+    "icons": [
+      {
+        "id": "crown_trout",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/crown_trout.png",
+            "sha256": "c6fa0a6cf5bf838f37134439443afd599d1873b084e8458c8619e2b4f748918e"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/crown_trout.png",
+            "sha256": "0d6203da51785967b4aac72e715074d641d6a20d0957e063a5e57ed4c8676840"
+          }
+        ]
+      },
+      {
+        "id": "cooked_crown_trout",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/cooked_crown_trout.png",
+            "sha256": "9aeb8057994a36cc51cb5717d187c2f1e5210331ecf0ad19a56e7972568fa0ce"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/cooked_crown_trout.png",
+            "sha256": "0027fd3139c10cb03c4aab0569c1bffa9d0a6d54ac8f86a36ee94042ddc7f2d5"
+          }
+        ]
+      },
+      {
+        "id": "burnt_crown_trout",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/burnt_crown_trout.png",
+            "sha256": "7f49afadab7652c238dcef681d9f036670dfbfb208e229fe33057f0976f2d8f0"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/burnt_crown_trout.png",
+            "sha256": "b6db588f084fc5fe4c1dc2cbc493baade80466eb75af77f26aeddfe9f92ed3eb"
+          }
+        ]
+      },
+      {
+        "id": "crown_tuna",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/crown_tuna.png",
+            "sha256": "032e140b19779bbce9b17c517629e6b9c2dea8c6bcf5a472471b75bc179bbd08"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/crown_tuna.png",
+            "sha256": "cf5376e178a0a7d1d3776e9ecec8ac2ace3926c30679851c02dc9c0b73fa3f24"
+          }
+        ]
+      },
+      {
+        "id": "cooked_crown_tuna",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/cooked_crown_tuna.png",
+            "sha256": "9aeb8057994a36cc51cb5717d187c2f1e5210331ecf0ad19a56e7972568fa0ce"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/cooked_crown_tuna.png",
+            "sha256": "0027fd3139c10cb03c4aab0569c1bffa9d0a6d54ac8f86a36ee94042ddc7f2d5"
+          }
+        ]
+      },
+      {
+        "id": "burnt_crown_tuna",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/burnt_crown_tuna.png",
+            "sha256": "7f49afadab7652c238dcef681d9f036670dfbfb208e229fe33057f0976f2d8f0"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/burnt_crown_tuna.png",
+            "sha256": "b6db588f084fc5fe4c1dc2cbc493baade80466eb75af77f26aeddfe9f92ed3eb"
+          }
+        ]
+      },
+      {
+        "id": "pearlwater_salmon",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/pearlwater_salmon.png",
+            "sha256": "52efd057729674f727774821d620232afc04c0f27673b02f3c15c4af8af9fca1"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/pearlwater_salmon.png",
+            "sha256": "fc067fb862b001cac40083468e3f492cc6bd02e28c3ef002e41127da81590249"
+          }
+        ]
+      },
+      {
+        "id": "cooked_pearlwater_salmon",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/cooked_pearlwater_salmon.png",
+            "sha256": "9aeb8057994a36cc51cb5717d187c2f1e5210331ecf0ad19a56e7972568fa0ce"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/cooked_pearlwater_salmon.png",
+            "sha256": "0027fd3139c10cb03c4aab0569c1bffa9d0a6d54ac8f86a36ee94042ddc7f2d5"
+          }
+        ]
+      },
+      {
+        "id": "burnt_pearlwater_salmon",
+        "outputs": [
+          {
+            "file": "art/item-icons/256/burnt_pearlwater_salmon.png",
+            "sha256": "7f49afadab7652c238dcef681d9f036670dfbfb208e229fe33057f0976f2d8f0"
+          },
+          {
+            "file": "game/public/assets/icons/items/48/burnt_pearlwater_salmon.png",
+            "sha256": "b6db588f084fc5fe4c1dc2cbc493baade80466eb75af77f26aeddfe9f92ed3eb"
+          }
+        ]
+      }
+    ]
+  },
+  "worldRevision": "1f4db6f3e3628c24d003d039bc30e707d759a96d615b3e13b7beecc921171ad4",
+  "sourceReview": {
+    "reviewer": "armor_merge_critic",
+    "passed": true,
+    "findings": "All main assets and registry rows retained; prepareItems preserved; candidate/production/source hashes match; no build archives or temporary output tracked; missing icons and generated world revision accepted."
+  },
+  "visualReview": {
+    "passed": true,
+    "reviewer": "root",
+    "inspected": [
+      "aurora front, side, walking",
+      "t50 front, walking",
+      "t70 front, walking",
+      "aurora final-world front and walking",
+      "nine-icon staging contact sheet"
+    ],
+    "findings": "Rebased armor retains the accepted fitted silhouette, tier colors, layered Aurora shoulders and flared robe. Equipment stays attached during the sampled walk. New inventory icons are readable and consistent with existing item appearances.",
+    "limits": "Representative native male poses and ordinary gameplay cameras; unchanged geometry retains prior detailed R16/R15 acceptance."
+  },
+  "evidencePolicy": "New browser screenshots and raw reports remain disposable in ignored test-results. This compact integration record is promoted as durable evidence; original detailed armor acceptance remains in runs/aurora and runs/tier50-70."
+}
