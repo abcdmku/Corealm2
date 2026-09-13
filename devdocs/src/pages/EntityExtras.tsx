@@ -7,7 +7,7 @@ import type { CollectionResponse } from "../../shared/contracts.js";
 import type { ViewerSource } from "../viewer/types.js";
 
 const AssetViewer = lazy(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
-const JOIN_COLLECTIONS = ["items", "recipes", "resources", "equipmentSets", "shops", "quests", "enemies", "creatures"];
+const JOIN_COLLECTIONS = ["items", "recipes", "resources", "equipmentSets", "shops", "quests", "enemies", "creatures", "enemyAliases", "lootTables"];
 export function viewerSource({ collection, record }: EntityDetailProps): ViewerSource | undefined {
   if (collection === "equipmentSets") return { mode: "outfit", itemIds: Object.values(record.members as Record<string, string>) };
   if (collection === "items") {

@@ -1,7 +1,5 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
-import { RPG_BESTIARY_BY_ID } from './rpgBestiary.js';
-import { REGIONAL_BOSS_LEVELS, tuneEnemyCombatLevel } from './encounterBalance.js';
-import { tierSilhouetteScale } from '../core/math.js';
+import { creatureRows } from './creatureData.js';
 
 /** Separate authored bodies preserve all seven saved encounter and orb identities. */
 export const REGIONAL_BOSS_BODIES = {
@@ -27,26 +25,4 @@ export const REGIONAL_BOSS_BODIES = {
     description: 'A furnace tyrant with a fused slag mantle, open barred chest, recessed iron face and asymmetric hammer arm.' },
 } as const;
 
-const SOURCES = {
-  tempest_roc: ['beetle_golem', 'Storm Scarab', 'fallowmarch'],
-  galeskin: ['mossback_sentinel', 'Plains Ogre', 'fallowmarch'],
-  rootheart: ['mossback_sentinel', 'Rootbound Colossus', 'vellenwood'],
-  mossbound: ['beetle_golem', 'Forest Ogre', 'vellenwood'],
-  tideworn: ['beetle_golem', 'Cave Ogre', 'karrowmoor'],
-  ordrun: ['iron_golem', 'Quarry Warden', 'gravelmaw'],
-  cinderwake: ['lava_golem', 'Fire Ogre', 'kilnhalt'],
-} as const;
-
-/** Root exposes these as candidate:boss_<id> in the production lab before world promotion. */
-export const REGIONAL_BOSS_SPECIES: readonly CreatureSpeciesDef[] = Object.entries(REGIONAL_BOSS_BODIES).map(([key, body]) => {
-  const id = key as keyof typeof REGIONAL_BOSS_BODIES;
-  const [sourceId, name, regionId] = SOURCES[id];
-  const source = RPG_BESTIARY_BY_ID.get(sourceId)!;
-  const { tier, multiplier } = REGIONAL_BOSS_LEVELS[id];
-  const stats = tuneEnemyCombatLevel(source.stats, tier * multiplier, tier);
-  // The lab has to draw the body at the size the world draws it, or gait and silhouette are
-  // accepted against a scale that never ships. fantasyEncounter divides the same authored scale
-  // back out by tier silhouette, so this mirrors it rather than pinning every boss to 1.
-  return { id: `boss_${id}`, ...body, scale: body.scale / tierSilhouetteScale(tier), regionId, activity: 'patrol',
-    stats: { ...stats, id: `boss_${id}_t${tier}`, family: `boss_${id}`, name, behaviour: 'territorial' } };
-});
+export const REGIONAL_BOSS_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('REGIONAL_BOSS_SPECIES');

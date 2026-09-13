@@ -82,6 +82,20 @@ try {
   const creature = await moving(page);
   checks.creature = { clip: creature.clip, clips: creature.clips.length, time: creature.time };
   await page.screenshot({ path: path.join(evidence, "creature.png") });
+  await page.getByRole('heading', { name: 'Red Fox', exact: true }).waitFor();
+  await page.getByRole('tab', { name: 'Overview', exact: true }).click();
+  await page.getByRole('button', { name: 'Open combat record', exact: true }).click();
+  await page.waitForFunction(() => location.hash.endsWith('/enemies/redbrush_fox_t1'));
+  await page.getByRole('tab', { name: 'Edit', exact: true }).click();
+  await page.getByRole('spinbutton', { name: /^Max health$/i }).fill('9');
+  const [enemySave] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith('/collections/enemies/redbrush_fox_t1') && response.request().method() === 'PUT'),
+    page.getByRole('button', { name: 'Save changes', exact: true }).click(),
+  ]);
+  assert.equal(enemySave.status(), 200);
+  const savedEnemies = JSON.parse(await readFile(path.join(contentRoot, 'data/enemies.json'), 'utf8'));
+  assert.equal(savedEnemies.find((row: { id: string }) => row.id === 'redbrush_fox_t1').maxHealth, 9);
+  checks.creatureCombatEdit = true;
   await page.getByRole("button", { name: "Switch to light theme" }).click();
   assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
   await page.goto(`${url}/#/items`);
@@ -109,8 +123,11 @@ try {
   await page.getByRole("tab", { name: "Overview", exact: true }).click();
   await page.getByRole("tab", { name: "Edit", exact: true }).click();
   assert.equal(await description.inputValue(), "A copper sword edited by the isolated browser smoke.");
-  await page.getByRole("button", { name: "Save changes", exact: true }).click();
-  await page.getByText("Changes saved", { exact: true }).waitFor();
+  const [itemSave] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith('/collections/items/grithe_sword') && response.request().method() === 'PUT'),
+    page.getByRole('button', { name: 'Save changes', exact: true }).click(),
+  ]);
+  assert.equal(itemSave.status(), 200);
   const itemFile = path.join(contentRoot, "data/items.json");
   const savedItems = JSON.parse(await readFile(itemFile, "utf8")) as { id: string; description: string }[];
   assert.equal(savedItems.find(row => row.id === "grithe_sword")!.description, "A copper sword edited by the isolated browser smoke.");
@@ -195,6 +212,49 @@ try {
   assert(report.requests.some((row: { entityId: string }) => row.entityId === "grithe_sword"));
   assert((await readFile(path.join(contentRoot, "meta/items.meta.json"), "utf8")).includes("smoke-grip"));
   checks.isolatedRequestWrite = true;
+  const changeWornPrice = async () => {
+    const parameters = await (await page.request.get(`${url}/__devdocs/collections/balance/gear`)).json();
+    const baseline = parameters.data.baselines.find((row: { id: string }) => row.id === 'worn_sword');
+    baseline.value += 1;
+    const response = await page.request.put(`${url}/__devdocs/collections/balance/gear/$collection`, { data: { revision: parameters.revision, record: parameters.data } });
+    assert.equal(response.status(), 200);
+    return baseline.value;
+  };
+  const appliedPrice = await changeWornPrice();
+  await page.goto(`${url}/#/items/worn_sword`);
+  await page.getByRole('button', { name: 'Preview formula changes', exact: true }).click();
+  await page.getByRole('heading', { name: 'Formula drift', exact: true }).waitFor();
+  await page.waitForFunction(() => {
+    const button = document.querySelector('.record-formula-apply button');
+    return button instanceof HTMLButtonElement && !button.disabled;
+  });
+  await page.screenshot({ path: path.join(evidence, 'record-formula-preview.png') });
+  const [recordApply] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith('/recompute') && response.request().postDataJSON()?.operation === 'apply'),
+    page.getByRole('button', { name: 'Apply formula values', exact: true }).click(),
+  ]);
+  assert.equal(recordApply.status(), 200);
+  assert.equal(JSON.parse(await readFile(itemFile, 'utf8')).find((row: { id: string }) => row.id === 'worn_sword').value, appliedPrice);
+  await changeWornPrice();
+  await page.getByRole('button', { name: 'Refresh preview', exact: true }).click();
+  await page.getByRole('heading', { name: 'Formula drift', exact: true }).waitFor();
+  const [kept] = await Promise.all([
+    page.waitForResponse(response => response.url().endsWith('/collections/items/worn_sword') && response.request().method() === 'PUT'),
+    page.getByRole('button', { name: 'Keep these values', exact: true }).click(),
+  ]);
+  assert.equal(kept.status(), 200);
+  const handTuned = JSON.parse(await readFile(itemFile, 'utf8')).find((row: { id: string }) => row.id === 'worn_sword');
+  assert.equal(handTuned.value, appliedPrice);
+  assert.equal(handTuned.derivation, undefined);
+  checks.perRecordFormulaApplyAndKeep = true;
+  await page.goto(`${url}/#/review`);
+  await page.locator('.review-validation-result.is-ok').waitFor();
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('.page-transition')!).opacity) >= .99);
+  await page.screenshot({ path: path.join(evidence, 'review.png') });
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 390);
+  await page.screenshot({ path: path.join(evidence, 'review-mobile.png') });
+  checks.reviewPage = true;
   assert.deepEqual(errors, []);
   await writeFile(path.join(evidence, "report.json"), JSON.stringify({ passed: true, checks, errors }, null, 2));
   console.log(JSON.stringify({ passed: true, checks, errors }, null, 2));

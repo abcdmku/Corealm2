@@ -1,14 +1,6 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
-import { regionalFabricDrops } from './regionalTierEquipment.js';
+import { creatureRows } from './creatureData.js';
 import type { EnemyDef } from './index.js';
-import { tierSilhouetteScale } from '../core/math.js';
-import { tuneEnemyCombatLevel } from './encounterBalance.js';
-import { CREATURE_EXPANSION } from './creatureExpansion.js';
-import { RPG_BESTIARY } from './rpgBestiary.js';
-import { FOREST_CREATURE_REDESIGNS } from './forestCreatureRedesigns.js';
-import { ASH_CREATURE_REDESIGNS } from './ashCreatureRedesigns.js';
-import { REGIONAL_BOSS_SPECIES } from './regionalBossBodies.js';
-import { WILDERNESS_CREATURE_SPECIES } from './wildernessCreatureSpecies.js';
 
 interface RegionalForm {
   readonly id: string;
@@ -85,43 +77,4 @@ export const FAIRY_CROWN_SOURCE_ASSETS: Readonly<Record<string, string>> = Objec
 
 export const FAIRY_CROWN_BOSS_IDS = FAIRY_CROWN_FORMS.filter(form => form.boss).map(form => form.id);
 
-const sourceSpecies = new Map([
-  ...CREATURE_EXPANSION, ...RPG_BESTIARY, ...FOREST_CREATURE_REDESIGNS,
-  ...ASH_CREATURE_REDESIGNS, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_CREATURE_SPECIES,
-].map(species => [species.id, species]));
-
-function dropsFor(form: RegionalForm): EnemyDef['drops'] {
-  const fairy = form.regionId !== 'crownward';
-  const essence = fairy ? 'earth_essence' : 'air_essence';
-  const rune = form.tier === 30 ? 'chaos_rune' : form.tier === 40 ? 'death_rune' : 'blood_rune';
-  return [
-    ...regionalFabricDrops(form.tier, form.boss),
-    { itemId: essence, quantity: form.boss ? [8, 14] : [2, 4], chance: form.boss ? 1 : .55 },
-    { itemId: rune, quantity: form.boss ? [3, 6] : [1, 2], chance: form.boss ? 1 : .18 },
-    ...(fairy ? [{ itemId: 'cosmic_rune', quantity: (form.boss ? [3, 5] : [1, 1]) as [number, number], chance: form.boss ? 1 : .14 }] : []),
-    ...(form.id === 'crown_hart' ? [{ itemId: 'raw_venison', quantity: [1, 2] as [number, number], chance: .8 }] : []),
-  ];
-}
-
-/** Lab registration does not create any final-world encounters. */
-export const FAIRY_CROWN_SPECIES: readonly CreatureSpeciesDef[] = FAIRY_CROWN_FORMS.map(form => {
-  const source = sourceSpecies.get(form.sourceSpeciesId);
-  if (!source) throw new Error(`Missing source creature ${form.sourceSpeciesId} for ${form.id}`);
-  const base = source.stats;
-  const stats = tuneEnemyCombatLevel({
-    ...base, id: `${form.id}_t${form.tier}`, family: form.id, name: form.name,
-    tier: form.tier, behaviour: form.behaviour,
-    // Keep the source motion within its existing cadence when the drawn body becomes smaller.
-    ...(base.moveSpeedMps === undefined ? {} : { moveSpeedMps: base.moveSpeedMps * Math.min(1, form.nativeScale) }),
-    ...(base.walkSpeedMps === undefined ? {} : { walkSpeedMps: base.walkSpeedMps * Math.min(1, form.nativeScale) }),
-    attackRangeM: form.boss ? Math.max(2.4, base.attackRangeM ?? 2) : Math.min(2, base.attackRangeM ?? 1.8),
-    aggroRadius: form.boss ? 12 : form.behaviour === 'passive' ? 4 : form.behaviour === 'territorial' ? 5 : 8,
-    marks: form.boss ? [form.tier * 12, form.tier * 24] : [form.tier * 3, form.tier * 7],
-    drops: dropsFor(form),
-  }, form.level, form.tier);
-  return {
-    id: form.id, assetId: `creature_${form.id}`, regionId: form.regionId,
-    scale: form.nativeScale / tierSilhouetteScale(form.tier),
-    activity: form.activity, description: form.description, stats,
-  };
-});
+export const FAIRY_CROWN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('FAIRY_CROWN_SPECIES');

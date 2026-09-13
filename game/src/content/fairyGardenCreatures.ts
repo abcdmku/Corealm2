@@ -1,8 +1,5 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
-import { regionalFabricDrops } from './regionalTierEquipment.js';
-import type { EnemyDef } from './index.js';
-import { tierSilhouetteScale } from '../core/math.js';
-import { tuneEnemyCombatLevel } from './encounterBalance.js';
+import { creatureRows } from './creatureData.js';
 
 /** Regional variants share their source bodies. World placement is separate. */
 export const FAIRY_GARDEN_FORMS = [
@@ -26,27 +23,4 @@ export const FAIRY_GARDEN_VARIANTS = ([{ regionId: 'gloamgarden', tier: 30 }, { 
     assetId: `fairy_garden_${form.id}_${regionId}`,
   })));
 
-const template: EnemyDef = {
-  id: 'fairy_garden', family: 'fairy_garden', name: 'Garden Creature', tier: 30,
-  maxHealth: 70, attackLevel: 8, defenceLevel: 7, accuracy: 18, armour: 20, magicArmour: 12,
-  maxHit: 6, attackSpeedMs: 2400, aggroRadius: 5, moveSpeedMps: 1, walkSpeedMps: .3,
-  behaviour: 'territorial', drops: [],
-};
-
-export const FAIRY_GARDEN_SPECIES: readonly CreatureSpeciesDef[] = FAIRY_GARDEN_VARIANTS.map(form => ({
-  id: form.id, assetId: form.assetId, regionId: form.regionId,
-  scale: form.scale / tierSilhouetteScale(form.tier), activity: form.activity, description: form.description,
-  stats: {
-    ...tuneEnemyCombatLevel(template, form.tier + form.level, form.tier),
-    id: form.id, family: form.family, name: form.name,
-    behaviour: form.behaviour, moveSpeedMps: form.speed, walkSpeedMps: Math.min(.35, form.speed * .45),
-    aggroRadius: form.behaviour === 'aggressive' ? 7 : 4,
-    drops: [
-      ...regionalFabricDrops(form.tier),
-      { itemId: 'earth_essence', quantity: [1, 3], chance: .55 },
-      { itemId: form.tier === 30 ? 'chaos_rune' : 'blood_rune', quantity: [1, 2], chance: .18 },
-      { itemId: 'cosmic_rune', quantity: [1, 1], chance: .14 },
-    ], marks: [form.tier * 3, form.tier * 7],
-  },
-}));
-
+export const FAIRY_GARDEN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('FAIRY_GARDEN_SPECIES');

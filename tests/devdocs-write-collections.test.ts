@@ -11,7 +11,10 @@ import { repoRoot } from "../tools/lib/paths.js";
 
 type Row = Record<string, any>;
 const roots: string[] = [];
-afterEach(async () => { await Promise.all(roots.splice(0).map(root => rm(root, { recursive: true, force: true }))); });
+afterEach(async () => { await Promise.all(roots.splice(0).map(root => {
+  if (path.dirname(path.resolve(root)) !== path.resolve(os.tmpdir()) || !path.basename(root).startsWith('corealm-write-collections-')) throw new Error('Unexpected fixture cleanup path');
+  return rm(root, { recursive: true, force: true });
+})); });
 // Files are the fixture source. Importing gameplay loaders here would hide stale-cache regressions.
 const seed = Promise.all(CONTENT_COLLECTIONS.map(async spec => ({ spec,
   text: await readFile(path.join(repoRoot, "game", "content", spec.file), "utf8"),
@@ -56,6 +59,19 @@ function diagnostics(response: DevdocsJsonResponse | undefined): string {
 }
 
 describe("devdocs collection writes", () => {
+  it('keeps dependency rows available when one formula cannot run', async () => {
+    const { root, handler, load } = await fixture();
+    const items = await load('items');
+    const broken = items.rows.find(row => row.derivation?.kind === 'gear')!;
+    broken.derivation.baselineId = items.rows.find(row => row.category === 'resource')!.id;
+    await writeFile(path.join(root, 'data/items.json'), JSON.stringify(items.rows, null, 2) + '\n');
+    const shops = await load('shops');
+    const shop: Row = { ...shops.rows[0]!, name: 'Still editable' };
+    const result = await put(handler, 'shops', shop.id, shops.revision, shop);
+    expect(result?.status, result?.body).toBe(200);
+    const issues = parsed<{ diagnostics: { path: string; message: string }[] }>(result).diagnostics;
+    expect(issues.filter(issue => issue.message.startsWith('Cannot derive')).map(issue => issue.path)).toEqual([`items.${broken.id}`]);
+  });
   it("updates a validated existing row in file order and writes no other collection", async () => {
     const { root, handler, load } = await fixture();
     const before = await load("shops");

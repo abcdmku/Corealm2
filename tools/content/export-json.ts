@@ -5,6 +5,7 @@ import { repoRoot } from "../lib/paths.js";
 
 const EXPORTERS = [
   "people", "story", "spells", "audio", "items", "recipes", "resources", "sets", "gathering-tiers", "crafting-tiers", "campfire-fuels",
+  "loot", "enemies", "creatures",
 ] as const;
 
 function applyRequested(args: readonly string[]): boolean {

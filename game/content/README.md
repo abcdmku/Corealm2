@@ -1,9 +1,9 @@
 # Corealm content store
 
 Items, equipment sets, recipes, resources, gathering and crafting tiers, campfire fuels, shops,
-NPCs, quests, dialogue, spells, and audio load from `data/` through schemas in
-`game/src/content/schema/`. Their existing TypeScript exports remain available. Creatures and
-world placement still use TypeScript tables while their migration continues. Pure item, recipe,
+NPCs, quests, dialogue, spells, audio, enemies, species and loot load from `data/` through schemas in
+`game/src/content/schema/`. Their existing TypeScript exports remain available. World placement
+still uses TypeScript tables while its migration continues. Pure item, recipe,
 jewelry, set, and campfire formulas read explicit balance parameters.
 See `runs/devdocs/PRD.md` for the full app plan. Git records authored changes.
 
@@ -44,6 +44,13 @@ references, existing production cross-table checks, and save identity against HE
 arrays. It rejects unregistered JSON files. It is part of `check` and `check:fast`.
 Tagged records are recomputed during the check and rejected if their stored fields have drifted.
 Spawn formation checks will join it when placements migrate.
+
+The enemy store separates 338 canonical blocks, 145 encounter aliases, 246 species, and 362
+owner-specific loot tables. Production registration contains 327 blocks plus 145 aliases; the
+other 11 blocks remain lab-only. Alias order, fantasy order, stages, canonical links and loot
+ownership are checked against the same parsed snapshot in the app and CLI. Four original staged
+RPG species still reference unpromoted model IDs; missing lab-only models are reported as
+warnings. A missing model on a registered species remains a blocking reference error.
 
 `npm run content:export` validates the migration without writing; `-- --apply` replaces JSON from
 the saved `.baseline` TypeScript snapshot. Do not rerun it over authored edits.

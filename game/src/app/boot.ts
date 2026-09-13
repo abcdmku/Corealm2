@@ -35,12 +35,11 @@ import * as THREE from "three";
 import { WILDERNESS_LAVA_CHANNELS, lavaSections, WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
 import { WildernessEffects, wildernessEffectsLabTorches, deepWildernessEffectsLabTorches, torchFlameOrigin, type WildernessTorch } from "../render/wildernessEffects.js";
 import { WildernessCreatureEffects, type WildernessCreatureEmitter } from '../render/wildernessCreatureEffects.js';
-import { WILDERNESS_CREATURE_SPECIES } from '../content/wildernessCreatureSpecies.js';
-import { WILDERNESS_DRAGONS } from '../content/wildernessDragons.js';
-import { REGIONAL_BOSS_SPECIES } from '../content/regionalBossBodies.js';
-import { WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES, wildernessDrops } from '../content/wildernessLoot.js';
+import { LAB_ONLY_ENEMY_DATA } from '../content/enemyData.js';
+import { assertCreatureCatalog } from '../content/creatureCatalog.js';
+import { WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES } from '../content/wildernessLoot.js';
 import { WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES } from '../content/wildernessResources.js';
-import { WILDERNESS_RUNE_KEEPERS, wildernessMagicAt } from '../content/wildernessDepth.js';
+import { wildernessMagicAt } from '../content/wildernessDepth.js';
 import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
 import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js';
 import { lavaObstacles } from "../world/lavaObstacles.js";
@@ -328,6 +327,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // read through `content`, so this has to happen before the first tick and before buildDocs().
   const packId = profile.kind === "feature-lab" ? new URLSearchParams(location.search).get("pack") : null;
   const packContent = packId ? await import("../content/regionalPacks.js") : null;
+  assertCreatureCatalog();
   content.register({
     items: ALL_ITEMS,
     resources: RESOURCES,
@@ -337,16 +337,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     shops: SHOPS,
   });
   if (profile.kind === "feature-lab") {
-    const { RPG_BESTIARY_STAGED } = await import("../content/rpgBestiary.js");
-    content.register({ enemies: [...content.allEnemies(), ...RPG_BESTIARY_STAGED.map((entry) => entry.stats)] });
-    const species = [...WILDERNESS_CREATURE_SPECIES, ...WILDERNESS_DRAGONS];
     content.register({
       items: [...new Map([...content.allItems(), ...WILDERNESS_LOOT_ITEMS.filter(item => !isRetiredJewelry(item.id))].map(row => [row.id, row])).values()],
       recipes: [...new Map([...content.allRecipes(), ...WILDERNESS_LOOT_RECIPES.filter(recipe => !isRetiredJewelry(recipe.output.itemId))].map(row => [row.id, row])).values()],
       resources: [...new Map([...content.allResources(), ...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES].map(row => [row.id, row])).values()],
-      enemies: [...new Map([...content.allEnemies(), ...REGIONAL_BOSS_SPECIES.map(row => row.stats),
-        ...species.map(row => ({ ...row.stats, drops: wildernessDrops(row.id, row.stats.tier,
-          WILDERNESS_RUNE_KEEPERS.some(keeper => keeper.id === row.id) ? row.id : undefined) }))].map(row => [row.id, row])).values()],
+      enemies: [...new Map([...content.allEnemies(), ...LAB_ONLY_ENEMY_DATA].map(row => [row.id, row])).values()],
     });
   }
 

@@ -24,6 +24,7 @@ export interface SourceUseLink {
   detail: string;
   quantity?: number | readonly [number, number];
   chance?: number;
+  exclusiveGroup?: string;
   /** Whether the source row has an id the UI can use as a navigation target. */
   targetKnown: boolean;
 }
@@ -56,12 +57,20 @@ const RESOURCE_COLLECTIONS = ["resources"] as const;
 const SHOP_COLLECTIONS = ["shops"] as const;
 const QUEST_COLLECTIONS = ["quests"] as const;
 const SET_COLLECTIONS = ["equipmentSets", "sets"] as const;
+const CANONICAL_ENEMY_COLLECTIONS = ["enemies", "enemyBlocks"] as const;
+const SPECIES_COLLECTIONS = ["creatures", "enemySpecies", "creatureSpecies"] as const;
+const ALIAS_COLLECTIONS = ["enemyAliases"] as const;
+const LOOT_COLLECTIONS = ["lootTables"] as const;
+const ID_KEYED_COLLECTIONS = new Set<string>([
+  ...CANONICAL_ENEMY_COLLECTIONS,
+  ...SPECIES_COLLECTIONS,
+  ...ALIAS_COLLECTIONS,
+  ...LOOT_COLLECTIONS,
+]);
 const ENEMY_COLLECTIONS = [
-  "enemies",
-  "creatures",
-  "enemyBlocks",
-  "enemySpecies",
-  "creatureSpecies",
+  ...CANONICAL_ENEMY_COLLECTIONS,
+  ...SPECIES_COLLECTIONS,
+  ...ALIAS_COLLECTIONS,
 ] as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -147,7 +156,7 @@ function normalizeCollections(collections: LoadedCollections): NormalizedTable[]
       }];
     }
     const idKey = "id";
-    return [{ name, idKey, rows: rowsForData(value, undefined, idKey) }];
+    return [{ name, idKey, rows: rowsForData(value, undefined, idKey, ID_KEYED_COLLECTIONS.has(name)) }];
   });
 }
 
@@ -223,6 +232,10 @@ function stackItemId(value: unknown): string | undefined {
   return isRecord(value) ? itemReference(value.itemId) : undefined;
 }
 
+function exclusiveGroupValue(value: unknown): string | undefined {
+  return nonEmptyString(value);
+}
+
 function addLink(
   links: SourceUseLink[],
   kind: SourceUseKind,
@@ -231,18 +244,21 @@ function addLink(
   detail: string,
   quantity?: number | readonly [number, number],
   chance?: number,
+  exclusiveGroup?: string,
+  source?: { collection: string; recordId: string; recordLabel: string },
 ): void {
-  const recordId = rowId(row, table.idKey);
+  const recordId = source?.recordId ?? rowId(row, table.idKey);
   const link: SourceUseLink = {
     kind,
-    collection: table.name,
+    collection: source?.collection ?? table.name,
     recordId,
-    recordLabel: rowLabel(row, recordId),
+    recordLabel: source?.recordLabel ?? rowLabel(row, recordId),
     detail,
     targetKnown: recordId.length > 0,
   };
   if (quantity !== undefined) link.quantity = quantity;
   if (chance !== undefined) link.chance = chance;
+  if (exclusiveGroup !== undefined) link.exclusiveGroup = exclusiveGroup;
   links.push(link);
 }
 
@@ -359,14 +375,138 @@ function enemyDrops(row: ContentRow): readonly unknown[] {
   return Array.isArray(row.drops) ? row.drops : [];
 }
 
-function enemyLinks(itemId: string, table: NormalizedTable, links: SourceUseLink[]): void {
-  for (const row of table.rows) {
-    for (const drop of enemyDrops(row)) {
+function enemyLinkCollection(table: NormalizedTable): string {
+  if (tableMatches(table, CANONICAL_ENEMY_COLLECTIONS)) return "enemies";
+  if (tableMatches(table, SPECIES_COLLECTIONS)) return "creatures";
+  if (tableMatches(table, ALIAS_COLLECTIONS)) return "enemyAliases";
+  return table.name;
+}
+
+function enemyLinks(itemId: string, table: NormalizedTable, links: SourceUseLink[], seenLootLinks: Set<string>): void {
+  for (const [rowIndex, row] of table.rows.entries()) {
+    const drops = enemyDrops(row);
+    const lootTableId = itemReference(row.lootTableId);
+    const sourceRecordId = rowId(row, table.idKey);
+    for (const [dropIndex, drop] of drops.entries()) {
       if (!isRecord(drop) || stackItemId(drop) !== itemId) continue;
       const quantity = quantityValue(drop.quantity);
       const chance = chanceValue(drop.chance);
+      const exclusiveGroup = exclusiveGroupValue(drop.exclusiveGroup);
+      const key = lootTableId
+        ? `loot:${lootTableId}:${itemId}:${dropIndex}`
+        : sourceRecordId
+          ? `inline:${enemyLinkCollection(table)}:${sourceRecordId}:${itemId}:${dropIndex}`
+          : `inline:${table.name}:row:${rowIndex}:${itemId}:${dropIndex}`;
+      if (seenLootLinks.has(key)) continue;
+      seenLootLinks.add(key);
       addLink(links, "enemy-drop", table, row,
-        detailText("Drops", quantity, chance), quantity, chance);
+        detailText("Drops", quantity, chance), quantity, chance, exclusiveGroup);
+    }
+  }
+}
+
+interface NormalizedLootTable {
+  id: string;
+  ownerId: string;
+  catalog: string;
+  drops: readonly unknown[];
+  table: NormalizedTable;
+  row: ContentRow;
+}
+
+function findRow(
+  tables: readonly NormalizedTable[],
+  names: readonly string[],
+  id: string,
+): { table: NormalizedTable; row: ContentRow } | undefined {
+  if (!id) return undefined;
+  for (const table of tables) {
+    if (!tableMatches(table, names)) continue;
+    const row = table.rows.find(candidate => rowId(candidate, table.idKey) === id);
+    if (row) return { table, row };
+  }
+  return undefined;
+}
+
+function normalizedLootTables(tables: readonly NormalizedTable[]): NormalizedLootTable[] {
+  const seen = new Set<string>();
+  const result: NormalizedLootTable[] = [];
+  for (const table of tables) {
+    if (!tableMatches(table, LOOT_COLLECTIONS)) continue;
+    for (const row of table.rows) {
+      const id = rowId(row, table.idKey);
+      const ownerId = nonEmptyString(row.ownerId);
+      const catalog = nonEmptyString(row.catalog);
+      if (!id || !ownerId || !catalog || !Array.isArray(row.drops) || seen.has(id)) continue;
+      seen.add(id);
+      result.push({ id, ownerId, catalog, drops: row.drops, table, row });
+    }
+  }
+  return result;
+}
+
+function normalizedOwnerSource(
+  loot: NormalizedLootTable,
+  tables: readonly NormalizedTable[],
+): { collection: string; recordId: string; recordLabel: string } | undefined {
+  if (loot.catalog === "ENEMY_BLOCK_LOOT") {
+    const owner = findRow(tables, CANONICAL_ENEMY_COLLECTIONS, loot.ownerId);
+    if (!owner) return undefined;
+    return { collection: owner.table.name, recordId: loot.ownerId, recordLabel: rowLabel(owner.row, loot.ownerId) };
+  }
+
+  if (loot.catalog === "CREATURE_SOURCE_LOOT") {
+    const owner = findRow(tables, SPECIES_COLLECTIONS, loot.ownerId);
+    if (!owner) return undefined;
+    const blockId = itemReference(owner.row.blockId);
+    const block = blockId ? findRow(tables, CANONICAL_ENEMY_COLLECTIONS, blockId) : undefined;
+    return {
+      collection: owner.table.name,
+      recordId: loot.ownerId,
+      recordLabel: rowLabel(owner.row, loot.ownerId) === loot.ownerId && block
+        ? rowLabel(block.row, blockId!)
+        : rowLabel(owner.row, loot.ownerId),
+    };
+  }
+
+  if (loot.catalog === "ENEMY_ALIAS_LOOT") {
+    const owner = findRow(tables, ALIAS_COLLECTIONS, loot.ownerId);
+    if (!owner) return undefined;
+    const overrides = isRecord(owner.row.overrides) ? owner.row.overrides : undefined;
+    const overrideName = nonEmptyString(overrides?.name);
+    const blockId = itemReference(owner.row.blockId);
+    const block = blockId ? findRow(tables, CANONICAL_ENEMY_COLLECTIONS, blockId) : undefined;
+    return {
+      collection: owner.table.name,
+      recordId: loot.ownerId,
+      recordLabel: overrideName ?? (rowLabel(owner.row, loot.ownerId) === loot.ownerId && block
+        ? rowLabel(block.row, blockId!)
+        : rowLabel(owner.row, loot.ownerId)),
+    };
+  }
+
+  return undefined;
+}
+
+function normalizedEnemyLinks(
+  itemId: string,
+  tables: readonly NormalizedTable[],
+  links: SourceUseLink[],
+  seenLootLinks: Set<string>,
+): void {
+  for (const loot of normalizedLootTables(tables)) {
+    const source = normalizedOwnerSource(loot, tables);
+    if (!source) continue;
+    for (const [dropIndex, drop] of loot.drops.entries()) {
+      if (!isRecord(drop) || stackItemId(drop) !== itemId) continue;
+      const quantity = quantityValue(drop.quantity);
+      const chance = chanceValue(drop.chance);
+      const exclusiveGroup = exclusiveGroupValue(drop.exclusiveGroup);
+      const key = `loot:${loot.id}:${itemId}:${dropIndex}`;
+      if (seenLootLinks.has(key)) continue;
+      seenLootLinks.add(key);
+      addLink(links, "enemy-drop", loot.table, loot.row,
+        detailText("Drops", quantity, chance), quantity, chance, exclusiveGroup, source);
     }
   }
 }
@@ -400,8 +540,13 @@ export function sourceUses(itemId: string, collections: LoadedCollections): Sour
   const sets = firstTable(tables, SET_COLLECTIONS);
   if (sets) setLinks(itemId, sets, links);
 
+  const seenLootLinks = new Set<string>();
+  // Normalized loot rows own the source identity. Resolve them before legacy inline drops so a
+  // caller that has both representations gets one link while still retaining separate rolls in a
+  // single table.
+  normalizedEnemyLinks(itemId, tables, links, seenLootLinks);
   for (const enemyTable of tables.filter((table) => tableMatches(table, ENEMY_COLLECTIONS))) {
-    enemyLinks(itemId, enemyTable, links);
+    enemyLinks(itemId, enemyTable, links, seenLootLinks);
   }
 
   return { itemId, links, targetKnown };

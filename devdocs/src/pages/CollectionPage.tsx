@@ -5,7 +5,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowDown, ArrowUp, ArrowUpDown, ChevronRight, Layers2, Search, X } from "lucide-react";
 import { collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
-import { contentRows, rowId, rowName } from "../model/rows.js";
+import { contentRows, displayRows, rowId, rowName } from "../model/rows.js";
 import { descriptions, labelFor } from "../ui/library.js";
 import { EmptyState, ErrorState, LoadingRows } from "../ui/States.js";
 import { ItemIcon } from "../ui/ItemIcon.js";
@@ -17,15 +17,17 @@ const noRows: ContentRow[] = [];
 
 export function CollectionPage({ collection, recordId, navigate }: AppProps & { collection: string }) {
   const query = useQuery(collectionQuery(collection));
-  const rows = useMemo(() => query.data ? contentRows(query.data) : noRows, [query.data]);
+  const enemyQuery = useQuery({ ...collectionQuery("enemies"), enabled: collection === "creatures" || collection === "enemyAliases" });
+  const rawRows = useMemo(() => query.data ? contentRows(query.data) : noRows, [query.data]);
+  const rows = useMemo(() => query.data ? displayRows(query.data, enemyQuery.data) : noRows, [query.data, enemyQuery.data]);
   const idKey = query.data?.collection.idKey ?? "id";
   if (query.isPending) return <div className="collection-page"><header className="page-heading"><h1>{labelFor(collection)}</h1><p>Loading records…</p></header><LoadingRows/></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()}/>;
   if (recordId !== undefined) {
     const record = query.data.collection.shape === "object" && recordId === "$collection"
       ? { ...(query.data.data as ContentRow), id: "$collection", name: labelFor(collection) }
-      : rows.find(r => rowId(r, idKey) === recordId);
-    return record ? <EntityDetail key={`${collection}:${recordId}`} collection={collection} record={record} recordId={recordId} editable={query.data.collection.editable} collectionShape={query.data.collection.shape} navigate={navigate}/> : <EmptyState title="Record not found">The record "{recordId}" is not in {labelFor(collection).toLowerCase()}. <button className="text-button" onClick={() => navigate(collection)}>Return to the collection</button></EmptyState>;
+      : rawRows.find(r => rowId(r, idKey) === recordId);
+    return record ? <EntityDetail key={`${collection}:${recordId}`} collection={collection} record={record} displayRecord={rows.find(r => rowId(r, idKey) === recordId)} recordId={recordId} editable={query.data.collection.editable} collectionShape={query.data.collection.shape} navigate={navigate}/> : <EmptyState title="Record not found">The record "{recordId}" is not in {labelFor(collection).toLowerCase()}. <button className="text-button" onClick={() => navigate(collection)}>Return to the collection</button></EmptyState>;
   }
   return <CollectionTable key={collection} collection={collection} rows={rows} idKey={idKey} navigate={navigate}/>;
 }

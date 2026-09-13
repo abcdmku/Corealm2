@@ -6,9 +6,11 @@ import { ItemIcon } from "../ui/ItemIcon.js";
 import { iconFor, labelFor } from "../ui/library.js";
 import { EntityModel, ItemConnections, viewerSource } from "./EntityExtras.js";
 import * as Tabs from "@radix-ui/react-tabs";
+import { CreatureDetails } from './CreatureDetails.js';
 const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/NotesPanel.js"));
 const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/EntityEditor.js"));
 const BalancePanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/BalancePanel.js"));
+const RecordFormulaStatus = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import('../dev/RecordFormulaStatus.js'));
 
 export function fieldLabel(key: string) { return key.replace(/([a-z\d])([A-Z])/g, "$1 $2").replace(/_/g, " ").replace(/^./, c => c.toUpperCase()).replace(/\bXp\b/g, "XP").replace(/\bId\b/g, "ID"); }
 export function compactValue(value: unknown): string {
@@ -22,7 +24,8 @@ export function compactValue(value: unknown): string {
 export function ValueView({ value, name = "", navigate, depth = 0 }: { value: unknown; name?: string; navigate?: AppProps["navigate"]; depth?: number }) {
   if (value === null || value === undefined) return <span className="muted">Not set</span>;
   if (typeof value !== "object") {
-    if (typeof value === "string" && navigate && ["itemId", "outputItemId", "yieldItemId"].includes(name)) return <button className="reference-link" onClick={() => navigate("items", value)}>{value}<ChevronRight size={13}/></button>;
+    const references: Record<string, string> = { itemId: 'items', outputItemId: 'items', yieldItemId: 'items', blockId: 'enemies', speciesId: 'creatures', lootTableId: 'lootTables', assetId: 'assets', resourceId: 'resources', npcId: 'npcs', questId: 'quests', shopId: 'shops' };
+    if (typeof value === "string" && navigate && references[name]) return <button className="reference-link" onClick={() => navigate(references[name], value)}>{value}<ChevronRight size={13}/></button>;
     return <span className={typeof value === "number" ? "numeric-value" : undefined}>{compactValue(value)}</span>;
   }
   if (Array.isArray(value)) {
@@ -38,7 +41,8 @@ export function EntityDetail(props: EntityDetailProps) {
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("overview");
   const [visited, setVisited] = useState(() => new Set(["overview"]));
-  const name = rowName(record, record.id === undefined && record.itemId ? "itemId" : record.id === undefined && record.tier !== undefined ? "tier" : "id");
+  const display = props.displayRecord ?? record;
+  const name = rowName(display, record.id === undefined && record.itemId ? "itemId" : record.id === undefined && record.tier !== undefined ? "tier" : "id");
   const id = props.recordId ?? String(record.id ?? record.itemId ?? record.logItemId ?? record.tier ?? "");
   const canEdit = !__DEVDOCS_PLAYER__ && props.editable;
   const Icon = iconFor(collection);
@@ -49,10 +53,11 @@ export function EntityDetail(props: EntityDetailProps) {
   return <article className="entity-detail">
     <header className="entity-header"><div className="entity-heading">
       {collection === "items" ? <ItemIcon key={id} id={id} name="" large/> : <span className="entity-symbol"><Icon size={32}/></span>}
-      <div><div className="eyebrow">{labelFor(collection)}{record.tier !== undefined && <> / Tier {String(record.tier)}</>}</div>
+      <div><div className="eyebrow">{labelFor(collection)}{display.tier !== undefined && <> / Tier {String(display.tier)}</>}</div>
         <h1>{name}</h1><button className="id-copy" title="Copy record ID" onClick={() => void copyId()}><code>{id}</code>{copied ? <Check size={13}/> : <Copy size={13}/>}</button>
       </div></div>{description && <p className="entity-description">{description}</p>}
     </header>
+    {canEdit && props.collectionShape === 'array' && RecordFormulaStatus && <Suspense fallback={null}><RecordFormulaStatus collection={collection} recordId={id}/></Suspense>}
     <Tabs.Root className="entity-tabs" value={tab} onValueChange={value => { setTab(value); setVisited(previous => new Set(previous).add(value)); }}>
       <Tabs.List aria-label="Record detail" className="entity-tab-list">
         <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
@@ -64,7 +69,7 @@ export function EntityDetail(props: EntityDetailProps) {
         {canEdit && <Tabs.Trigger value="notes">Notes</Tabs.Trigger>}
       </Tabs.List>
       <div className="detail-body">
-        <Tabs.Content value="overview"><section className="detail-section"><div className="section-heading"><h2>{collection.startsWith("balance/") ? "Parameters" : "Overview"}</h2><span>{Object.keys(fields).length} fields</span></div><ValueView value={fields} navigate={navigate}/></section></Tabs.Content>
+        <Tabs.Content value="overview"><section className="detail-section"><div className="section-heading"><h2>{collection.startsWith("balance/") ? "Parameters" : "Overview"}</h2><span>{Object.keys(fields).length} fields</span></div><ValueView value={fields} navigate={navigate}/></section>{['creatures', 'enemies', 'enemyAliases'].includes(collection) && (record.blockId || record.lootTableId) ? <CreatureDetails {...props}/> : null}</Tabs.Content>
         {hasModel && <Tabs.Content value="model"><EntityModel {...props}/></Tabs.Content>}
         {collection === "items" && <Tabs.Content value="connections"><ItemConnections {...props}/></Tabs.Content>}
         <Tabs.Content value="source"><pre className="record-source">{JSON.stringify(record, null, 2)}</pre></Tabs.Content>

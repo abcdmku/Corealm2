@@ -126,3 +126,24 @@ combat lab and final-world smoke pass. Root accepted fresh read-only source revi
 optional-field absence locks. The two new absence regressions pass through the checker and
 server preview/apply path. M2 and the M3 shell/viewers/Kits are accepted; the editing and
 recompute groundwork is included, while the remaining M4-M10 requirements continue.
+
+## M4 JSON integration slice
+
+Added strict normalized stores for 338 canonical enemies, 145 aliases, 246 species and 362
+owner-specific loot tables. Runtime arrays and callable helpers retain original names, values,
+order and optional fields. Source views reuse cached objects, including Fire/Lava provenance.
+The root normalized lab registration to the same 11 lab-only blocks after initial combat-lab
+acceptance. Central reference validation operates on raw proposed collections, including owner
+links, contiguous order and stage compatibility. Four pre-existing staged-only model references
+remain explicit warnings; registered missing assets still block.
+
+The app now joins species combat names without adding fields to source JSON, links combat and
+loot records, and supports an actual enemy health edit in the isolated browser fixture. Review
+shows git diffs and validation results. Browser smoke passed these paths with no console, page
+or request errors; root inspected desktop/mobile Review captures and increased diff text size.
+A fresh read-only M4 source critic found no blocker in the JSON slice. The first full suite found
+one Fire/Lava nested reference regression; its fix passes 16 targeted tests. Final production and
+editor builds, typecheck, 3,152 tests with one skip, editor browser smoke, combat lab and world
+smoke pass. Root inspected the updated Review layouts at desktop and 390 px widths. Per-record
+formula preview/apply and keeping saved values both pass against temporary JSON. Enemy and loot
+formula extraction remains the next M4 slice, not completed. Stage 1 contracts are now frozen.

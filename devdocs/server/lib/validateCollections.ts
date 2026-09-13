@@ -8,8 +8,9 @@ import {
 } from "../../../game/src/content/schema/core.js";
 import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../tools/content/collections.js";
 import { checkIdentity } from "../../../tools/content/identity.js";
-import { checkReferences, type ReferencePools } from "../../../tools/content/references.js";
+import { collectionReferenceIssues, type ReferencePools } from "../../../tools/content/references.js";
 import type { ApiDiagnostic } from "../../shared/contracts.js";
+import { creatureCollectionPools, validateCreatureCollections } from '../../../game/src/content/schema/creatureLinks.js';
 
 export interface CollectionSnapshot { data: unknown; text: string }
 export type CollectionSnapshots = ReadonlyMap<string, CollectionSnapshot>;
@@ -104,6 +105,7 @@ function livePools(values: ReadonlyMap<string, unknown>, external: ReferencePool
     audio: new Set([...Object.keys(audio?.cues ?? {}), ...Object.keys(audio?.loops ?? {})]),
   };
   if (values.has("campfireFuels")) pools.campfireFuel = ids("campfireFuels", "logItemId");
+  Object.assign(pools, creatureCollectionPools(values));
   return pools;
 }
 
@@ -115,15 +117,19 @@ function driftDiagnostics(values: ReadonlyMap<string, unknown>, target: { collec
   try { derivationDiffs(values).forEach(append); }
   catch {
     // A missing parameter for one existing row must not prevent editing an unrelated record.
-    const isolated = new Map([...values].map(([name, value]) => [name, Array.isArray(value) ? [] : value]));
+    // Suppress other tags, not their source rows: food formulas still need the raw fish item.
+    const isolated = new Map([...values].map(([name, value]) => [name, Array.isArray(value)
+      ? value.map(({ derivation: _tag, ...row }) => row) : value]));
     for (const [collection, rows] of values) {
       if (!Array.isArray(rows)) continue;
-      for (const row of rows as Record<string, unknown>[]) {
+      const inputs = isolated.get(collection) as Record<string, unknown>[];
+      for (const [index, row] of (rows as Record<string, unknown>[]).entries()) {
         if (!row.derivation) continue;
-        isolated.set(collection, [row]);
+        const selected = [...inputs]; selected[index] = row;
+        isolated.set(collection, selected);
         try { derivationDiffs(isolated).forEach(append); }
         catch { diagnostics.push({ path: `${collection}.${String(row.id)}`, severity: severity(collection, String(row.id)), message: "Cannot derive this tagged record from current balance parameters" }); }
-        isolated.set(collection, []);
+        isolated.set(collection, inputs);
       }
     }
   }
@@ -142,15 +148,13 @@ export function validateCollectionOverlay(snapshots: CollectionSnapshots, spec: 
   const data = values.get(spec.name);
   if (diagnostics.some(issue => issue.severity === "error")) return { data, diagnostics };
   diagnostics.push(...collectionIdentityDiagnostics(spec, snapshots.get(spec.name)!.data, data));
+  diagnostics.push(...validateCreatureCollections(values));
   const pools = livePools(values, external);
   for (const collection of CONTENT_COLLECTIONS) {
     const rows = collection.shape === "array" ? values.get(collection.name) as unknown[] : [values.get(collection.name)];
     rows.forEach((row, index) => {
       const at = collection.shape === "array" ? `${collection.name}[${index}]` : collection.name;
-      for (const message of checkReferences(collection.schema, row, pools, at)) {
-        const separator = message.indexOf(": ");
-        diagnostics.push({ path: message.slice(0, separator), message: message.slice(separator + 2), severity: "error" });
-      }
+      diagnostics.push(...collectionReferenceIssues(collection.name, collection.schema, row, pools, at));
     });
   }
   // Option ids are global saved identities, while their containing node schema only checks local shape.

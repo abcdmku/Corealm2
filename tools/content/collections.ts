@@ -11,6 +11,9 @@ import { GatheringTierSchema } from "../../game/src/content/schema/gatheringTier
 import { EquipmentSetRecordSchema } from "../../game/src/content/schema/equipmentSets.js";
 import { CraftingTierRecordSchema } from "../../game/src/content/schema/craftingTiers.js";
 import { CampfireFuelRecordSchema } from "../../game/src/content/schema/campfireFuels.js";
+import { EnemyRecordSchema, EnemyAliasSchema } from '../../game/src/content/schema/enemies.js';
+import { CreatureRecordSchema } from '../../game/src/content/schema/creatures.js';
+import { LootTableSchema } from '../../game/src/content/schema/loot.js';
 
 /** The editor, formatter and checker share this registration. Paths are never supplied by HTTP clients. */
 export interface ContentCollection {
@@ -30,6 +33,8 @@ export const CONTENT_COLLECTIONS: readonly ContentCollection[] = [
   collection("campfireFuels", CampfireFuelRecordSchema, "logItemId"),
   collection("equipmentSets", EquipmentSetRecordSchema),
   collection("craftingTiers", CraftingTierRecordSchema, "tier"),
+  ...[collection('enemies', EnemyRecordSchema), collection('enemyAliases', EnemyAliasSchema),
+    collection('creatures', CreatureRecordSchema), collection('lootTables', LootTableSchema)].map(spec => ({ ...spec, ordered: true })),
   collection("shops", shopSchema), collection("npcs", npcRecordSchema),
   collection("quests", questSchema), collection("dialogue", dialogueRecordSchema),
   collection("spells", SpellRecordSchema), collection("spellRunes", SpellRuneSchema, "itemId"),

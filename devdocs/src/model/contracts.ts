@@ -8,6 +8,8 @@ export interface AppProps {
 export interface EntityDetailProps {
   collection: string;
   record: ContentRow;
+  /** Display-only joins never become editable fields or source JSON. */
+  displayRecord?: ContentRow;
   recordId?: string;
   editable?: boolean;
   collectionShape?: "array" | "object";

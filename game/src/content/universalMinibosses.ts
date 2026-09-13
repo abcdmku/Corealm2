@@ -1,3 +1,4 @@
+import { creatureRows } from './creatureData.js';
 import type { RegionId } from '../contracts.js';
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
 import type { EnemyDef } from './index.js';
@@ -64,10 +65,7 @@ export function universalMinibossSpecies(number: UniversalMinibossNumber, region
   };
 }
 
-export const UNIVERSAL_MINIBOSS_SPECIES: readonly CreatureSpeciesDef[] =
-  (Object.keys(REGION_COMBAT_TIERS) as RegionId[]).flatMap(regionId =>
-    UNIVERSAL_MINIBOSS_ROSTER.flatMap(row => [universalMinibossSpecies(row.number, regionId),
-      ...(regionId === 'wilderness' ? [universalMinibossSpecies(row.number, regionId, 70)] : [])]));
+export const UNIVERSAL_MINIBOSS_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('UNIVERSAL_MINIBOSS_SPECIES');
 
 /** Cave and Karrowmoor share T10 stats; registration contains each canonical ID once. */
 export const UNIVERSAL_MINIBOSS_ENEMIES: readonly EnemyDef[] = [...new Map(

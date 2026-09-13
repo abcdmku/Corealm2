@@ -1,9 +1,21 @@
 import {
   ArraySchema, DiscriminatedSchema, ObjectSchema, RecordSchema, TupleSchema, UnionSchema,
-  unwrap, type RefKind, type Schema,
+  unwrap, type RefKind, type Schema, type SchemaIssue,
 } from "../../game/src/content/schema/core.js";
 
 export type ReferencePools = Partial<Record<RefKind, ReadonlySet<string>>>;
+
+/** Unpromoted lab-only creature models remain visible warnings; shipped assets are required. */
+export function collectionReferenceIssues(collection: string, schema: Schema, row: unknown, pools: ReferencePools, at: string): SchemaIssue[] {
+  const staged = collection === 'creatures' && row !== null && typeof row === 'object'
+    && (row as Record<string, unknown>).stage === 'labOnly';
+  return checkReferences(schema, row, pools, at).map(message => {
+    const separator = message.indexOf(': ');
+    const path = message.slice(0, separator);
+    return { path, message: message.slice(separator + 2),
+      severity: staged && path === `${at}.assetId` ? 'warning' : 'error' };
+  });
+}
 
 /** Follow schema metadata, including nested quest predicates and conditional dialogue branches. */
 export function checkReferences(schema: Schema, value: unknown, pools: ReferencePools, at: string): string[] {

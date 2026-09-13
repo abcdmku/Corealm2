@@ -7,8 +7,9 @@ import { contentDataRoot, contentPath, formatContentJson } from "./format.js";
 import { checkIdentity } from "./identity.js";
 import { listMetaCollections, readMeta } from "./meta.js";
 import { repoRoot } from "../lib/paths.js";
-import { checkReferences, type ReferencePools } from "./references.js";
+import { collectionReferenceIssues, type ReferencePools } from "./references.js";
 import { derivationDiffs } from "../../game/src/content/balance/derivations.js";
+import { creatureCollectionPools, validateCreatureCollections } from '../../game/src/content/schema/creatureLinks.js';
 
 export interface ContentCheckReport { ok: boolean; collections: number; errors: string[]; warnings: string[] }
 
@@ -31,6 +32,7 @@ export async function checkContent(options: { allowIdentityChange?: boolean; cro
     } catch (error) { errors.push(`${spec.name}: ${error instanceof Error ? error.message : String(error)}`); }
   }
   const registered = new Set(CONTENT_COLLECTIONS.map(spec => spec.file.slice(5)));
+  if (errors.length === 0) errors.push(...validateCreatureCollections(values).map(issue => `${issue.path}: ${issue.message}`));
   if (errors.length === 0) {
     try { errors.push(...derivationDiffs(values).map(diff => `${diff.collection}.${diff.recordId}: drifted from ${diff.kind}; recompute or remove derivation to hand-tune`)); }
     catch (error) { errors.push(error instanceof Error ? error.message : String(error)); }
@@ -62,14 +64,17 @@ export async function checkContent(options: { allowIdentityChange?: boolean; cro
       };
       const { validateGameContent } = await import("../validate-game-content.js");
       await validateGameContent(worldPools => Object.assign(pools, worldPools));
+      Object.assign(pools, creatureCollectionPools(values));
       // Audio schemas reference actual public files rather than manifest model IDs.
       const publicRoot = path.join(repoRoot, "game/public");
       const audioFiles = await readdir(path.join(publicRoot, "audio"), { recursive: true, withFileTypes: true });
       pools.asset = new Set([...pools.asset ?? [], ...audioFiles.filter(entry => entry.isFile()).map(entry => path.relative(publicRoot, path.join(entry.parentPath, entry.name)).replaceAll("\\", "/"))]);
       for (const spec of CONTENT_COLLECTIONS) {
         const raw = values.get(spec.name);
-        if (spec.shape === "array") (raw as unknown[]).forEach((row, index) => errors.push(...checkReferences(spec.schema, row, pools, `${spec.name}[${index}]`)));
-        else errors.push(...checkReferences(spec.schema, raw, pools, spec.name));
+        const rows = spec.shape === 'array' ? raw as unknown[] : [raw];
+        rows.forEach((row, index) => collectionReferenceIssues(spec.name, spec.schema, row, pools,
+          spec.shape === 'array' ? `${spec.name}[${index}]` : spec.name).forEach(issue =>
+          (issue.severity === 'error' ? errors : warnings).push(`${issue.path}: ${issue.message}`)));
       }
       const { validateDialogue } = await import("../../game/src/content/dialogue.js");
       errors.push(...validateDialogue());

@@ -14,7 +14,8 @@ const leafOutputs = {
 } as const;
 const allOutputs = [...new Set(Object.values(leafOutputs).flat()),
   "data/items.json", "data/recipes.json", "data/resources.json", "data/equipmentSets.json",
-  "data/gatheringTiers.json", "data/craftingTiers.json", "data/campfireFuels.json"];
+  "data/gatheringTiers.json", "data/craftingTiers.json", "data/campfireFuels.json",
+  "data/enemies.json", "data/enemyAliases.json", "data/creatures.json", "data/lootTables.json"];
 
 function fileHash(relative: string): string {
   return createHash("sha256").update(readFileSync(path.join(repoRoot, "game", "content", relative))).digest("hex");
@@ -50,7 +51,7 @@ describe.skipIf(!existsSync(path.join(repoRoot, ".baseline/game/src/content/item
     const before = snapshot(allOutputs);
     const result = runExporter("json");
     expect(result.status, result.output).toBe(0);
-    expect(result.output).toContain("Preflight passed for all 11 exporters");
+    expect(result.output).toContain("Preflight passed for all 14 exporters");
     expect(result.output).toContain("Dry run: no files written");
     expect(snapshot(allOutputs)).toEqual(before);
   });
