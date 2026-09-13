@@ -121,8 +121,14 @@ export function emptyMetaRecord(status: MetaStatus = "draft"): MetaRecord {
 }
 
 export function metaFileName(collection: string): string {
+  if (/^balance\/[a-z][a-z0-9-]*$/i.test(collection)) return `meta/${collection.replace("/", "--")}.meta.json`;
   if (!/^[a-z][a-z0-9-]*$/i.test(collection)) throw new Error(`Invalid meta collection name: ${collection}`);
   return `meta/${collection}.meta.json`;
+}
+
+export function metaCollectionName(fileName: string): string | undefined {
+  if (!/^[a-z][a-z0-9-]*\.meta\.json$/i.test(fileName)) return undefined;
+  return fileName.slice(0, -".meta.json".length).replace(/^balance--/, "balance/");
 }
 
 export async function readMeta(collection: string): Promise<MetaFile> {
@@ -177,7 +183,7 @@ export async function withMetaUpdate(collection: string, expectedRevision: strin
 export async function listMetaCollections(): Promise<string[]> {
   try {
     const names = await readdir(contentMetaRoot);
-    return names.filter((name) => name.endsWith(".meta.json")).map((name) => name.slice(0, -".meta.json".length)).sort();
+    return names.map(metaCollectionName).filter((name): name is string => name !== undefined).sort();
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
     throw error;

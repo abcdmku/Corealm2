@@ -28,7 +28,7 @@ export type RefKind =
   | "item" | "recipe" | "resource" | "resourceCluster" | "enemy" | "species" | "lootTable"
   | "npc" | "shop" | "quest" | "dialogue" | "spell" | "rune" | "set"
   | "asset" | "audio" | "region" | "skill" | "station" | "element"
-  | "entity" | "location" | "settlement" | "enemyFamily";
+  | "entity" | "location" | "settlement" | "enemyFamily" | "campfireFuel";
 
 export interface FieldMeta {
   /** Short form label. Defaults to the field name. */
@@ -446,11 +446,12 @@ export function validateCollection<T>(schema: Schema<T>, raw: unknown, options: 
     fail(ctx, options.name, `expected an array of records, got ${typeName(raw)}`);
     return { records: [], issues: ctx.issues };
   }
-  const seen = new Map<string, number>();
+  const seen = new Map<string | number, number>();
   const records = raw.map((row, index) => {
     const rowId = row !== null && typeof row === "object" ? (row as Record<string, unknown>)[idKey] : undefined;
-    const path = typeof rowId === "string" ? `${options.name}[${index}:${rowId}]` : `${options.name}[${index}]`;
-    if (typeof rowId === "string") {
+    const hasId = typeof rowId === "string" || typeof rowId === "number";
+    const path = hasId ? `${options.name}[${index}:${rowId}]` : `${options.name}[${index}]`;
+    if (hasId) {
       const first = seen.get(rowId);
       if (first !== undefined) fail(ctx, path, `duplicate ${idKey} "${rowId}" (first at index ${first})`);
       else seen.set(rowId, index);

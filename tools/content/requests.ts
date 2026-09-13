@@ -207,9 +207,9 @@ const fileStore: RequestsStore = {
   async hasEntity(collection, entityId) {
     const spec = CONTENT_COLLECTIONS.find((entry) => entry.name === collection);
     if (!spec) throw new Error(`Collection is not registered: ${collection}`);
-    if (spec.shape !== "array") throw new Error(`Opening requests for object collection ${collection} requires an entity mapping`);
+    if (spec.shape === "object") return entityId === "$collection";
     const rows = parseContentCollection(spec, await readContentJson(spec.file)) as Record<string, unknown>[];
-    return rows.some((row) => row[spec.idKey] === entityId);
+    return rows.some((row) => String(row[spec.idKey]) === entityId);
   },
 };
 

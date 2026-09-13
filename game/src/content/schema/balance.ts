@@ -1,6 +1,9 @@
-/** M0 parameter snapshots. Production formulas do not read these files yet. See docs/balance.md. */
+/** Typed balance inputs for pure formulas and the remaining migration snapshots. See docs/balance.md. */
 import { arr, enumOf, id, int, num, obj, rec, refine, tuple } from './core.js';
 import type { Infer } from './core.js';
+import { GearProgressionBalanceSchema } from './gearProgression.js';
+import { ItemFormulaBalanceSchema } from './itemFormula.js';
+import { MaterialFoodBalanceSchema } from './materialFoodDerivation.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -30,7 +33,7 @@ export const gearBalanceSchema = obj({
     minimumHitChance: probability(), maximumHitChance: probability() }),
   value => value.minimumHitChance <= value.maximumHitChance, 'hit chance bounds must be ordered'),
   baselines: refine(arr(obj({ id: id(), tier: int({ min: 0 }), value: int({ min: 0 }),
-    slot: enumOf(['mainHand', 'offHand', 'head', 'body', 'legs', 'feet', 'hands']),
+    slot: enumOf(['mainHand', 'offHand', 'head', 'body', 'legs', 'feet', 'hands'] as const),
     requires: rec(positiveInt(), skill), bonuses,
   }), { minLength: 1 }), values => new Set(values.map(value => value.id)).size === values.length,
   'baseline item ids must be unique'),
@@ -107,9 +110,14 @@ export const formationBalanceSchema = refine(obj({ minimum: positiveInt(), maxim
 'population bounds and hash range must agree');
 
 /** Each file is a single object, so callers must use parseValue, not parseCollection. */
+export const campfiresBalanceSchema = obj({ buildTimeMs: positiveInt(), lifetimeBaseMs: positiveInt(), lifetimePerTierMs: nonnegative(), buildXpGatherMultiplier: nonnegative() });
+
 export const BALANCE_SCHEMAS = {
   gear: gearBalanceSchema, recipes: recipesBalanceSchema, sets: setsBalanceSchema, loot: lootBalanceSchema,
-  enemies: enemiesBalanceSchema, jewelry: jewelryBalanceSchema, formation: formationBalanceSchema,
+  enemies: enemiesBalanceSchema, jewelry: jewelryBalanceSchema, formation: formationBalanceSchema, campfires: campfiresBalanceSchema,
+  gearProgression: GearProgressionBalanceSchema,
+  itemFormula: ItemFormulaBalanceSchema,
+  materialFood: MaterialFoodBalanceSchema,
 } as const;
 export type GearBalance = Infer<typeof gearBalanceSchema>;
 export type RecipesBalance = Infer<typeof recipesBalanceSchema>;
@@ -118,3 +126,4 @@ export type LootBalance = Infer<typeof lootBalanceSchema>;
 export type EnemiesBalance = Infer<typeof enemiesBalanceSchema>;
 export type JewelryBalance = Infer<typeof jewelryBalanceSchema>;
 export type FormationBalance = Infer<typeof formationBalanceSchema>;
+export type CampfiresBalance = Infer<typeof campfiresBalanceSchema>;

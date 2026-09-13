@@ -1,0 +1,171 @@
+{
+  "cookedValueMultiplier": 1.4,
+  "cookedFoods": [
+    {
+      "itemId": "roast_game",
+      "rawItemId": "raw_game_meat",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "roast_venison",
+      "rawItemId": "raw_venison",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "roast_haunch",
+      "rawItemId": "raw_haunch",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "roast_ember_haunch",
+      "rawItemId": "raw_ember_haunch",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "seared_minnow",
+      "rawItemId": "silt_minnow",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "seared_trout",
+      "rawItemId": "bramble_trout",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "seared_cragfin",
+      "rawItemId": "cragfin",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "seared_ashfin",
+      "rawItemId": "ashfin",
+      "catalog": "ITEMS"
+    },
+    {
+      "itemId": "cooked_crown_trout",
+      "rawItemId": "crown_trout",
+      "catalog": "CROWNWARD_FISH_ITEMS"
+    },
+    {
+      "itemId": "cooked_crown_tuna",
+      "rawItemId": "crown_tuna",
+      "catalog": "CROWNWARD_FISH_ITEMS"
+    },
+    {
+      "itemId": "cooked_pearlwater_salmon",
+      "rawItemId": "pearlwater_salmon",
+      "catalog": "CROWNWARD_FISH_ITEMS"
+    }
+  ],
+  "regional": {
+    "checkpointTiers": [
+      20,
+      50,
+      70
+    ],
+    "values": [
+      {
+        "role": "ore",
+        "values": [
+          160,
+          360,
+          590
+        ]
+      },
+      {
+        "role": "bar",
+        "values": [
+          600,
+          1250,
+          2050
+        ]
+      },
+      {
+        "role": "hide",
+        "values": [
+          150,
+          340,
+          560
+        ]
+      },
+      {
+        "role": "thread",
+        "values": [
+          40,
+          90,
+          150
+        ]
+      },
+      {
+        "role": "handle",
+        "values": [
+          220,
+          640,
+          1010
+        ]
+      }
+    ],
+    "identities": [
+      {
+        "itemId": "dewglass_ore",
+        "role": "ore"
+      },
+      {
+        "itemId": "dewglass_bar",
+        "role": "bar"
+      },
+      {
+        "itemId": "mistweave",
+        "role": "hide"
+      },
+      {
+        "itemId": "mistweave_thread",
+        "role": "thread"
+      },
+      {
+        "itemId": "willow_handle",
+        "role": "handle"
+      },
+      {
+        "itemId": "crownsilver_ore",
+        "role": "ore"
+      },
+      {
+        "itemId": "crownsilver_bar",
+        "role": "bar"
+      },
+      {
+        "itemId": "crownhide",
+        "role": "hide"
+      },
+      {
+        "itemId": "crownhide_thread",
+        "role": "thread"
+      },
+      {
+        "itemId": "maple_handle",
+        "role": "handle"
+      },
+      {
+        "itemId": "star_amethyst_ore",
+        "role": "ore"
+      },
+      {
+        "itemId": "staramethyst_bar",
+        "role": "bar"
+      },
+      {
+        "itemId": "faesilk",
+        "role": "hide"
+      },
+      {
+        "itemId": "faesilk_thread",
+        "role": "thread"
+      },
+      {
+        "itemId": "yew_handle",
+        "role": "handle"
+      }
+    ]
+  }
+}

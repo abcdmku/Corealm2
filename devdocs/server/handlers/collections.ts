@@ -28,6 +28,10 @@ export interface DevdocsJsonResponse {
 export interface CollectionsHandlerOptions {
   /** Absolute or relative `game/content` root. Defaults to this repository's content root. */
   contentRoot?: string;
+  /** Read-only production catalogs until their authored JSON migration is complete. */
+  extraCollections?: () => Promise<readonly CollectionResponse[]>;
+  /** Set only when the companion write handler is mounted. */
+  editable?: boolean;
 }
 
 export type CollectionsHandler = (request: DevdocsRequest) => Promise<DevdocsJsonResponse | undefined>;
@@ -200,24 +204,22 @@ function collectionCount(spec: ContentCollection, data: unknown): number {
   return data !== null && typeof data === "object" && !Array.isArray(data) ? Object.keys(data).length : 0;
 }
 
-async function readCollection(contentRoot: string, spec: ContentCollection): Promise<{ data: unknown; revision: string; summary: CollectionSummary }> {
+async function readCollection(contentRoot: string, spec: ContentCollection, editable = false): Promise<{ data: unknown; revision: string; summary: CollectionSummary }> {
   const text = await readFile(safeCollectionFile(contentRoot, spec), "utf8");
   const raw: unknown = JSON.parse(text);
   const data = parseContentCollection(spec, raw);
   const summary: CollectionSummary = {
     name: spec.name,
     count: collectionCount(spec, data),
-    // This round is read-only. The summary must not advertise a write capability that the
-    // mounted API does not currently provide.
-    editable: false,
+    editable,
     idKey: spec.idKey,
     shape: spec.shape,
   };
   return { data, revision: contentRevision(text), summary };
 }
 
-async function readSummaries(contentRoot: string): Promise<CollectionSummary[]> {
-  const results = await Promise.all(CONTENT_COLLECTIONS.map(async (spec) => (await readCollection(contentRoot, spec)).summary));
+async function readSummaries(contentRoot: string, editable = false): Promise<CollectionSummary[]> {
+  const results = await Promise.all(CONTENT_COLLECTIONS.map(async (spec) => (await readCollection(contentRoot, spec, editable)).summary));
   return results;
 }
 
@@ -248,11 +250,19 @@ export function createCollectionsHandler(options: CollectionsHandlerOptions = {}
     if (method !== "GET") return errorResponse(405, "Method not allowed", { Allow: "GET" });
 
     try {
-      if (route.kind === "list") return json(200, await readSummaries(contentRoot));
+      if (route.kind === "list") {
+        const summaries = await readSummaries(contentRoot, options.editable);
+        const names = new Set(summaries.map(row => row.name));
+        const extra = await options.extraCollections?.() ?? [];
+        return json(200, [...summaries, ...extra.filter(row => !names.has(row.collection.name)).map(row => row.collection)]);
+      }
 
       const spec = findCollection(route.name);
-      if (!spec) return errorResponse(404, "Unknown collection");
-      const result = await readCollection(contentRoot, spec);
+      if (!spec) {
+        const extra = (await options.extraCollections?.() ?? []).find(row => row.collection.name === route.name);
+        return extra ? json(200, extra) : errorResponse(404, "Unknown collection");
+      }
+      const result = await readCollection(contentRoot, spec, options.editable);
       const response: CollectionResponse = {
         collection: result.summary,
         revision: result.revision,

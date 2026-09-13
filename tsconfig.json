@@ -6,6 +6,7 @@
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": false,
     "strict": true,
+    "jsx": "react-jsx",
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "verbatimModuleSyntax": true,
@@ -14,6 +15,6 @@
     "skipLibCheck": true,
     "types": ["node", "vite/client", "vitest/globals"]
   },
-  "include": ["game/src", "game/vite.config.ts", "tools", "tests"]
+  "include": ["game/src", "game/vite.config.ts", "tools", "tests", "devdocs"]
 }
 

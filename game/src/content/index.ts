@@ -14,11 +14,17 @@
  */
 import { CREATURE_PURSUIT_CEILING_MPS } from "./creatureMotionTiming.js";
 import { tierSilhouetteScale } from "../core/math.js";
+import recipeBalanceData from "../../content/data/balance/recipes.json";
+import { recipesBalanceSchema } from "./schema/balance.js";
+import { parseValue } from "./schema/core.js";
+import * as recipeBalance from "./balance/recipes.js";
 import type {
   EquipSlot, ItemDef, ItemId, RecipeId, SkillId, SpellElement, SpellId, SpellRung, StationKind,
 } from "../contracts.js";
 
 // ---------------------------------------------------------------- resources
+
+const RECIPE_BALANCE = parseValue(recipesBalanceSchema, recipeBalanceData, "balance/recipes");
 
 export type GatheringResourceArchetype = "ore" | "tree" | "fishing_spot";
 
@@ -341,7 +347,7 @@ export function gatherSuccessChance(effectiveLevel: number, reqLevel: number): n
 
 /** PRD 2.5. XP for one successful gather at a tier. */
 export function gatherXp(tier: number): number {
-  return Math.round(10 * Math.pow(tier, 0.55));
+  return recipeBalance.gatherXp(RECIPE_BALANCE, tier);
 }
 
 /** PRD 2.6, with the root's correction R3: the low-tier floor is 8, matching the brief's band. */
@@ -359,7 +365,7 @@ export function respawnSeconds(tier: number): number {
 
 /** PRD 2.7. Food restores this much health. */
 export function healAmount(tier: number): number {
-  return Math.round(2 + 1.35 * Math.pow(tier, 0.85));
+  return recipeBalance.healAmount(RECIPE_BALANCE, tier);
 }
 
 /** PRD 2.7. Cooking is the only production skill that can fail. */
@@ -369,7 +375,7 @@ export function burnChance(cookingLevel: number, reqLevel: number): number {
 
 /** PRD 2.7. */
 export function recipeXp(tier: number, craftWeight: number): number {
-  return Math.round(gatherXp(tier) * craftWeight);
+  return recipeBalance.recipeXp(RECIPE_BALANCE, { tier, craftWeight });
 }
 
 /**
@@ -391,7 +397,7 @@ export function agilitySuccessChance(agilityLevel: number, reqLevel: number): nu
 
 /** PRD 2.5. Tool bonus in effective levels, capped at 40. */
 export function toolBonus(tier: number): number {
-  return Math.min(40, Math.round(1.6 + 0.75 * tier));
+  return recipeBalance.toolBonus(RECIPE_BALANCE, tier);
 }
 
 /** Sell price is 60% of the item's value, per the frozen ItemDef contract. */

@@ -9,8 +9,11 @@ change, and generated-world manifest edit were already present at the start of t
 - Commit 455b553, with the in-progress foundation changes above.
 - TypeScript passed.
 - Full tests: 2,908 assertions, 2,898 passed, nine failed, one skipped.
-- Existing failures: bear-hit.test.ts, three planted-paw assertions; hooved-hit.test.ts, six
-  cattle/boar contact assertions. The disposable report is test-results/devdocs-baseline.json.
+- The nine failures were initially misidentified as gameplay assertions. M2 inspection of the full
+  error paths showed they came from duplicate tests under `.baseline/tools/creature-motion`, which
+  cannot load the absent `.baseline/game/public` GLBs. Vitest now excludes `.baseline/**`; the
+  original production tests remain in the suite. The disposable initial report is
+  test-results/devdocs-baseline.json.
 - Real Chromium game smoke passed movement, banking, reset, renderer and error checks.
 - Production combat lab passed all checks in 46.4 seconds, including equipment, bank transfer,
   melee damage and animation, spell particles/damage and animation. Root inspected its screenshot.
@@ -19,22 +22,22 @@ change, and generated-world manifest edit were already present at the start of t
 
 - M0 schema combinators, atomic JSON writer, SHA-256 revisions, cross-process metadata locks,
   formatter, explicit schema registry, identity and foreign-key validation, baseline/parity tools.
-- Seven balance snapshots with schemas and focused checks against current formulas.
+- Eleven balance snapshots with schemas and focused checks against current formulas.
 - M1 JSON loaders for nine shops, 24 NPCs, nine quests, 103 dialogue nodes, 36 gameplay spells,
   six runes, 24 elemental spell presentation records, and audio. Worker baseline parity passed.
 - Fairy NPC and dialogue aggregate views preserve shared object identity.
 - Request CLI supports list/open/claim/reply and revision conflicts. It never closes or approves.
 - Strict runtime item schema prepared for M2; all 399 current item rows pass.
-- GET-only devdocs server implemented against root-owned devdocs/shared/contracts.ts. A real Vite
-  HTTP smoke listed 15 collections, read nine shops with a SHA-256 revision, and rejected PUT.
+- Devdocs server implemented against root-owned devdocs/shared/contracts.ts. A real Vite HTTP smoke
+  listed 26 collections, read nine shops with a SHA-256 revision, and rejected an unsupported PUT.
 
 ## M0/M1 integration evidence
 
 - TypeScript, content:check, and production build pass. Initial application JS is 0.743 MB gzip
   against its 1 MB budget.
-- Full suite after migration retained the nine baseline animation failures. A stale-world assertion
-  also failed while the rebuild was running; after the rebuild all world-release, shipped-world,
-  and shipped-navigation checks passed, along with focused request and reference checks.
+- The first full suite also discovered duplicate tests inside the untracked .baseline snapshot.
+  Its nine failures were missing snapshot assets, not production gameplay failures. Vitest now
+  excludes .baseline. A stale-world assertion was resolved by the normal rebuild.
 - World rebuild completed 336 tiles, 128.78 MB compressed. Generated navigation and revision
   outputs changed through the normal build tooling.
 - All 339 baked world record descriptors and the tile list exactly match HEAD; only the manifest
@@ -53,13 +56,73 @@ local authoring application and its API tests use temporary content, not altered
 
 ## Remaining scope
 
-M2 item/set/recipe/resource loaders and pure balance functions; M3 app shell, browsing and viewers;
+- Fresh M2 review acceptance; M3 app shell, browsing and viewers;
 M4 creatures/enemies; M5 write UI and review; M6 spawns and map; M7 approvals/promotion/import;
 M8 legacy cleanup; M9 player build/CI replacement; M10 browser smoke and polish.
 
 Fairy NPC stands remain authored TS until M6. Audio now reads Crownward music areas from JSON;
 the migration test also checks that those areas still match the original castle geometry.
 
-The handoff requires a frontend-design skill before the shell. It was not in the available skills
-or local skill folders. A question is pending about using the PRD design requirements instead.
-This does not block the data and tooling work.
+The user selected tasteskill v2. Found and read
+`C:/Users/Borg/.agents/skills/design-taste-frontend/SKILL.md`; shell work uses its contextual guidance
+with the PRD's editor requirements. Design dials: variance 3, motion 3, density 8. Dark olive and
+warm neutrals, Geist, Radix controls, light theme and reduced motion. No pending skill question.
+
+M0/M1 committed as b1d9995. Regional music browser checks also passed all seven cases.
+M2 now has JSON items (399), recipes (236), resources (35), gathering tiers (4), campfire fuels (9),
+sets (24), and crafting tiers (5), with baseline export parity and focused checks. Its formula
+coverage is 285 item tags, 236 recipe tags, 24 set threshold tags and 9 campfire fuel rows: 554
+locked records in total. The devdocs catalog exposes 26 collections.
+The React/Vite editor boots at 127.0.0.1:4190 in Chromium and reads the collection API without errors.
+The browsing shell and production-backed viewer now boot and pass the initial devdocs smoke.
+The real browser searched399items with fewer than100mounted rows, opened the 256px icon master,
+followed recipe connections, played a sword on hand_r, bound five female armor parts with no
+missing bones, advanced a native creature clip, scrubbed a paused animation, navigated by keyboard,
+switched themes, opened mobile balance navigation and wrote an isolated temporary request. Root
+inspected item, sword, female set and creature screenshots. Mobile capture needs its page transition
+to finish before a final readable screenshot. Tools/devdocs-smoke.ts is repeatable and uses a temp root.
+
+The game build passed and production combat lab passed in 42.461 seconds with semantic state and
+screenshots. No original bear/hoof assertion failures remain after excluding duplicate baseline tests.
+The full regression suite passes 3,109 tests with one skip; final source parity and browser evidence
+are recorded below.
+
+Fresh M2 review found duplicate gameplay fields in TREE_SPECIES/CROWNWARD_FISH, dead jewelry
+recipe parameters and an ineffective umbrella export dry run. Those fixes are complete. Campfire
+fuel constants now live in data, and gear, charged-weapon, regional/Wilderness, boss, material,
+food and campfire formulas have explicit parameter tables. Per-module CLI baseline parity has
+passed repeatedly. Root compared 71 original public exports across 16 migrated modules against
+the original source snapshot, with zero differences. Permanent derivation tests independently
+check the stored formula outputs.
+
+## Current integration round
+
+The campfire catalog has nine rows, shared by gathering tiers through campfireFuelId.
+Gear progression now locks 88 regional and Wilderness rows in addition to base gear and jewelry.
+All 102 base recipes also check their W-table duration, preserving the original craft-role mapping.
+The remaining item formulas now use explicit parameter tables. A fresh review found and verified
+the fix for missing absence checks on formula-owned optional fields. Twenty focused tests pass,
+including a preview/apply regression that removes an unexpected tool bonus without losing
+authored fields. The final build and editor smoke are being refreshed after that checker change.
+
+The editor has schema forms, formula field locks, notes and a requests list. Real browser smoke
+passed an item description save into temporary JSON, a concurrent-save conflict that preserved
+the draft and newer disk contents, explicit reset, and a request created from the Notes tab.
+The same smoke passes the production viewers, themes, keyboard navigation and mobile layout.
+Root inspected edit-conflict, notes-request and readable mobile screenshots.
+
+The recompute API previews server-derived patches with a complete collection revision snapshot.
+Apply revalidates under shared locks and restores captured bytes after a failed write. Its focused
+tests cover cross-collection updates, stale inputs, references and injected write failure.
+The devdocs build and a fresh-cache browser smoke now pass. Typecheck, content checks and the full
+regression suite pass 3,109 tests with one skip. The final-world browser smoke and combat lab also
+pass; source parity is clean. Fresh source review has accepted the absence-check fix.
+
+## Accepted M2 and app foundation
+
+The final suite passes 3,115 tests with one skip, including four optional M4 baseline inventory
+tests. Production and devdocs builds, typecheck, content validation, the refreshed editor smoke,
+combat lab and final-world smoke pass. Root accepted fresh read-only source review after fixing
+optional-field absence locks. The two new absence regressions pass through the checker and
+server preview/apply path. M2 and the M3 shell/viewers/Kits are accepted; the editing and
+recompute groundwork is included, while the remaining M4-M10 requirements continue.

@@ -1,6 +1,7 @@
+import { itemRows } from "./itemData.js";
 import type { EquipmentBonuses, EquipSlot, ItemDef, ItemStack } from '../contracts.js';
 import type { RecipeDef } from './index.js';
-import { recipeXp } from './index.js';
+import { recipeRows } from "./recipeData.js";
 
 export const JEWELRY_TIERS = [10, 20, 30, 40, 50, 60, 70] as const;
 export const JEWELRY_STATS = ['meleeAccuracy', 'magicAccuracy', 'defence', 'health', 'meleePower', 'magicPower', 'vitality'] as const;
@@ -29,24 +30,9 @@ export function selectEquipmentSlot(slot: EquipSlot, equipment: Partial<Record<E
   return jewelrySlots(slot).find(candidate => !equipment[candidate]) ?? slot;
 }
 
-export const CRAFTED_JEWELRY: readonly ItemDef[] = JEWELRY_TIERS.flatMap((tier, index) =>
-  JEWELRY_SHAPES.map(shape => ({
-    id: `crafted_${shape}_t${tier}`, name: `${JEWELRY_MATERIALS[index]![0]} ${shape === 'ring' ? 'Ring' : 'Earring'}`,
-    tier, category: 'equipment' as const, stackable: false, value: tier * 80,
-    description: `A ${shape} set with ${JEWELRY_MATERIALS[index]![2].replaceAll('_', ' ')}. Grants only ${JEWELRY_STATS[index]!.replace(/([A-Z])/g, ' $1').toLowerCase()}${tier === 70 ? ', critical hit chance' : ''}.`,
-    equip: { slot: shape === 'ring' ? 'accessory1' as const : 'accessory2' as const,
-      requires: { [index === 1 || index === 5 ? 'magic' : 'melee']: tier },
-      bonuses: jewelryBonuses({ [JEWELRY_STATS[index]!]: tier / 10 * (index === 3 ? 3 : 1) }),
-    },
-  })));
+export const CRAFTED_JEWELRY: readonly ItemDef[] = itemRows("CRAFTED_JEWELRY");
 
-export const JEWELRY_RECIPES: readonly RecipeDef[] = CRAFTED_JEWELRY.map(item => {
-  const material = JEWELRY_MATERIALS[JEWELRY_TIERS.indexOf(item.tier as typeof JEWELRY_TIERS[number])]!;
-  return { id: `craft_${item.id}`, name: item.name, kind: 'craft', stations: ['crafting_table'],
-    skill: 'crafting', reqLevel: item.tier, tier: item.tier, durationMs: 3000,
-    xp: recipeXp(item.tier, 3), inputs: [{ itemId: material[1], quantity: 1 }, { itemId: material[2], quantity: 1 }],
-    output: { itemId: item.id, quantity: 1 } };
-});
+export const JEWELRY_RECIPES: readonly RecipeDef[] = recipeRows("JEWELRY_RECIPES");
 
 // Saved IDs remain readable, but retired jewelry is not registered as obtainable content.
 const legacyTiers: Record<string, number> = {

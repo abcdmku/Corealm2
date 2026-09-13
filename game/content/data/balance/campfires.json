@@ -1,0 +1,6 @@
+{
+  "buildTimeMs": 3000,
+  "lifetimeBaseMs": 60000,
+  "lifetimePerTierMs": 12000,
+  "buildXpGatherMultiplier": 0.2
+}

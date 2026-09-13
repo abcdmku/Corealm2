@@ -1,0 +1,897 @@
+[
+  {
+    "id": "fish_crown_trout",
+    "name": "Trout Fishing Spot",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 30,
+    "reqLevel": 30,
+    "itemId": "crown_trout",
+    "yieldRange": [
+      30,
+      45
+    ],
+    "respawnSeconds": 35,
+    "presentation": {
+      "availableAssetIds": [
+        "fish_trout"
+      ],
+      "targetWorldSize": 0.72,
+      "waterOffset": -0.3,
+      "materialTier": 30
+    },
+    "catalog": "CROWNWARD_FISH_RESOURCES"
+  },
+  {
+    "id": "fish_crown_tuna",
+    "name": "Tuna Fishing Spot",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 40,
+    "reqLevel": 40,
+    "itemId": "crown_tuna",
+    "yieldRange": [
+      30,
+      45
+    ],
+    "respawnSeconds": 35,
+    "presentation": {
+      "availableAssetIds": [
+        "fish_cragfin"
+      ],
+      "targetWorldSize": 0.9,
+      "waterOffset": -0.3,
+      "materialTier": 40
+    },
+    "catalog": "CROWNWARD_FISH_RESOURCES"
+  },
+  {
+    "id": "fish_pearlwater_salmon",
+    "name": "Salmon Fishing Spot",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 60,
+    "reqLevel": 60,
+    "itemId": "pearlwater_salmon",
+    "yieldRange": [
+      30,
+      45
+    ],
+    "respawnSeconds": 35,
+    "presentation": {
+      "availableAssetIds": [
+        "animal_salmon"
+      ],
+      "targetWorldSize": 0.8,
+      "waterOffset": -0.3,
+      "materialTier": 60
+    },
+    "catalog": "CROWNWARD_FISH_RESOURCES"
+  },
+  {
+    "id": "ore_grithe",
+    "name": "Copper Seam",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 1,
+    "reqLevel": 1,
+    "itemId": "grithe_ore",
+    "bonus": [
+      {
+        "itemId": "pale_quartz",
+        "chance": 0.06
+      }
+    ],
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_grithe"
+      ],
+      "depletedAssetId": "corealm_ore_grithe_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.92,
+        1.08
+      ],
+      "materialTier": 1
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "ore_marchstone",
+    "name": "Limestone Face",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 1,
+    "reqLevel": 1,
+    "itemId": "march_stone",
+    "bonus": [
+      {
+        "itemId": "pale_quartz",
+        "chance": 0.03
+      }
+    ],
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_stone"
+      ],
+      "depletedAssetId": "corealm_ore_stone_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.06
+      ],
+      "materialTier": 1
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "tree_palewood",
+    "name": "Pine",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 1,
+    "reqLevel": 1,
+    "itemId": "palewood_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_pine_1",
+        "corealm_pine_2",
+        "corealm_pine_3",
+        "corealm_pine_4",
+        "corealm_pine_5"
+      ],
+      "depletedAssetId": "corealm_stump_pine",
+      "targetWorldSize": 8,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 1
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "fish_silt_minnow",
+    "name": "River Shallow",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 1,
+    "reqLevel": 1,
+    "itemId": "silt_minnow",
+    "presentation": {
+      "availableAssetIds": [
+        "fish_minnow"
+      ],
+      "targetWorldSize": 0.42,
+      "waterOffset": -0.32,
+      "materialTier": 1
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "ore_corven",
+    "name": "Iron Seam",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 5,
+    "reqLevel": 5,
+    "itemId": "corven_ore",
+    "bonus": [
+      {
+        "itemId": "vell_amber",
+        "chance": 0.06
+      }
+    ],
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_corven"
+      ],
+      "depletedAssetId": "corealm_ore_corven_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.92,
+        1.08
+      ],
+      "materialTier": 5
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "tree_duskoak",
+    "name": "Ash",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 5,
+    "reqLevel": 5,
+    "itemId": "duskoak_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ash_1",
+        "corealm_ash_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 10,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 5
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "fish_bramble_trout",
+    "name": "Blackwater Pool",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 5,
+    "reqLevel": 5,
+    "itemId": "bramble_trout",
+    "presentation": {
+      "availableAssetIds": [
+        "fish_trout"
+      ],
+      "targetWorldSize": 0.72,
+      "waterOffset": -0.23,
+      "materialTier": 5
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "ore_kaldite",
+    "name": "Cobalt Face",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 10,
+    "reqLevel": 10,
+    "itemId": "kaldite_ore",
+    "bonus": [
+      {
+        "itemId": "cairn_garnet",
+        "chance": 0.07
+      }
+    ],
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_kaldite"
+      ],
+      "depletedAssetId": "corealm_ore_kaldite_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.92,
+        1.08
+      ],
+      "materialTier": 10
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "tree_cairnpine",
+    "name": "Oak",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 10,
+    "reqLevel": 10,
+    "itemId": "cairnpine_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_oak_1",
+        "corealm_oak_2",
+        "corealm_oak_3",
+        "corealm_oak_4",
+        "corealm_oak_5"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 16,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 10
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "fish_cragfin",
+    "name": "Mountain Lake",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 10,
+    "reqLevel": 10,
+    "itemId": "cragfin",
+    "presentation": {
+      "availableAssetIds": [
+        "fish_cragfin"
+      ],
+      "targetWorldSize": 0.92,
+      "waterOffset": -0.22,
+      "materialTier": 10
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "ore_emberite",
+    "name": "Titanium Seam",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 20,
+    "reqLevel": 20,
+    "itemId": "emberite_ore",
+    "bonus": [
+      {
+        "itemId": "fire_opal",
+        "chance": 0.07
+      }
+    ],
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_emberite"
+      ],
+      "depletedAssetId": "corealm_ore_emberite_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.92,
+        1.08
+      ],
+      "materialTier": 20
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "ore_kilnstone",
+    "name": "Flux Stone Face",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 20,
+    "reqLevel": 20,
+    "itemId": "kilnstone",
+    "bonus": [
+      {
+        "itemId": "fire_opal",
+        "chance": 0.03
+      }
+    ],
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_kilnstone"
+      ],
+      "depletedAssetId": "corealm_ore_kilnstone_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.06
+      ],
+      "materialTier": 20
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "tree_cinderpine",
+    "name": "Walnut",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 20,
+    "reqLevel": 20,
+    "itemId": "cinderpine_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_walnut_1",
+        "corealm_walnut_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 17,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 20
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "fish_ashfin",
+    "name": "Hot Spring",
+    "archetype": "fishing_spot",
+    "skill": "fishing",
+    "tier": 20,
+    "reqLevel": 20,
+    "itemId": "ashfin",
+    "presentation": {
+      "availableAssetIds": [
+        "fish_cragfin"
+      ],
+      "targetWorldSize": 0.92,
+      "waterOffset": -0.22,
+      "materialTier": 20
+    },
+    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+  },
+  {
+    "id": "essence_air",
+    "name": "Air Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 1,
+    "reqLevel": 1,
+    "itemId": "air_essence",
+    "yieldRange": [
+      40,
+      90
+    ],
+    "respawnSeconds": 30,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 1
+    },
+    "catalog": "ESSENCE_RESOURCES"
+  },
+  {
+    "id": "essence_earth",
+    "name": "Earth Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 5,
+    "reqLevel": 5,
+    "itemId": "earth_essence",
+    "yieldRange": [
+      40,
+      90
+    ],
+    "respawnSeconds": 30,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 5
+    },
+    "catalog": "ESSENCE_RESOURCES"
+  },
+  {
+    "id": "essence_water",
+    "name": "Water Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 10,
+    "reqLevel": 10,
+    "itemId": "water_essence",
+    "yieldRange": [
+      40,
+      90
+    ],
+    "respawnSeconds": 30,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 10
+    },
+    "catalog": "ESSENCE_RESOURCES"
+  },
+  {
+    "id": "essence_fire",
+    "name": "Fire Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 20,
+    "reqLevel": 20,
+    "itemId": "fire_essence",
+    "yieldRange": [
+      40,
+      90
+    ],
+    "respawnSeconds": 30,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 20
+    },
+    "catalog": "ESSENCE_RESOURCES"
+  },
+  {
+    "id": "tree_willow",
+    "name": "Willow",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 30,
+    "reqLevel": 30,
+    "itemId": "willow_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_willow_1",
+        "corealm_willow_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 10,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 30
+    },
+    "catalog": "HIGH_TIER_TREE_RESOURCES"
+  },
+  {
+    "id": "tree_maple",
+    "name": "Maple",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 40,
+    "reqLevel": 40,
+    "itemId": "maple_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_maple_1",
+        "corealm_maple_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 11,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 40
+    },
+    "catalog": "HIGH_TIER_TREE_RESOURCES"
+  },
+  {
+    "id": "tree_teak",
+    "name": "Teak",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 50,
+    "reqLevel": 50,
+    "itemId": "teak_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_teak_1",
+        "corealm_teak_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 12,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 50
+    },
+    "catalog": "HIGH_TIER_TREE_RESOURCES"
+  },
+  {
+    "id": "tree_yew",
+    "name": "Yew",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 60,
+    "reqLevel": 60,
+    "itemId": "yew_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_yew_1",
+        "corealm_yew_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 8,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 60
+    },
+    "catalog": "HIGH_TIER_TREE_RESOURCES"
+  },
+  {
+    "id": "tree_magic",
+    "name": "Magic",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 70,
+    "reqLevel": 70,
+    "itemId": "magic_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_magic_1",
+        "corealm_magic_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 14,
+      "variantScale": [
+        0.86,
+        1.12
+      ],
+      "materialTier": 70
+    },
+    "catalog": "HIGH_TIER_TREE_RESOURCES"
+  },
+  {
+    "id": "cindervein_vein",
+    "name": "Cindervein Deposit",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 50,
+    "reqLevel": 50,
+    "itemId": "cindervein_ore",
+    "bonus": [
+      {
+        "itemId": "cairn_garnet",
+        "chance": 0.07
+      }
+    ],
+    "yieldRange": [
+      5,
+      9
+    ],
+    "respawnSeconds": 75,
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_cindervein"
+      ],
+      "depletedAssetId": "corealm_ore_cindervein_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.1
+      ],
+      "materialTier": 50
+    },
+    "catalog": "WILDERNESS_ORE_RESOURCES"
+  },
+  {
+    "id": "nightglass_vein",
+    "name": "Nightglass Deposit",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 70,
+    "reqLevel": 70,
+    "itemId": "nightglass_ore",
+    "bonus": [
+      {
+        "itemId": "fire_opal",
+        "chance": 0.07
+      }
+    ],
+    "yieldRange": [
+      4,
+      8
+    ],
+    "respawnSeconds": 95,
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_nightglass"
+      ],
+      "depletedAssetId": "corealm_ore_nightglass_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.1
+      ],
+      "materialTier": 70
+    },
+    "catalog": "WILDERNESS_ORE_RESOURCES"
+  },
+  {
+    "id": "tree_wilderness_teak",
+    "name": "Veinwood",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 50,
+    "reqLevel": 50,
+    "itemId": "teak_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_teak_lastroot",
+        "corealm_teak_embershelter"
+      ],
+      "depletedAssetId": "corealm_stump_wilderness_teak",
+      "targetWorldSize": 11,
+      "variantScale": [
+        0.86,
+        1.1
+      ],
+      "materialTier": 50
+    },
+    "catalog": "WILDERNESS_TREE_RESOURCES"
+  },
+  {
+    "id": "tree_wilderness_magic",
+    "name": "Magic Tree",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 70,
+    "reqLevel": 70,
+    "itemId": "magic_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_magic_starwood",
+        "corealm_magic_moonvein"
+      ],
+      "depletedAssetId": "corealm_stump_wilderness_magic",
+      "targetWorldSize": 14,
+      "variantScale": [
+        0.9,
+        1.08
+      ],
+      "materialTier": 70
+    },
+    "catalog": "WILDERNESS_TREE_RESOURCES"
+  },
+  {
+    "id": "dewglass_ore",
+    "name": "Dewglass Seam",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 30,
+    "reqLevel": 30,
+    "itemId": "dewglass_ore",
+    "bonus": [
+      {
+        "itemId": "pale_quartz",
+        "chance": 0.07
+      },
+      {
+        "itemId": "water_essence",
+        "chance": 0.25
+      }
+    ],
+    "yieldRange": [
+      7,
+      11
+    ],
+    "respawnSeconds": 60,
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_kaldite"
+      ],
+      "depletedAssetId": "corealm_ore_kaldite_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.08
+      ],
+      "materialTier": 30
+    },
+    "catalog": "FAIRY_ORE_RESOURCES"
+  },
+  {
+    "id": "crown_silver_ore",
+    "name": "Crownsilver Seam",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 40,
+    "reqLevel": 40,
+    "itemId": "crownsilver_ore",
+    "bonus": [
+      {
+        "itemId": "vell_amber",
+        "chance": 0.07
+      },
+      {
+        "itemId": "kilnstone",
+        "chance": 0.35
+      }
+    ],
+    "yieldRange": [
+      8,
+      12
+    ],
+    "respawnSeconds": 70,
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_corven"
+      ],
+      "depletedAssetId": "corealm_ore_corven_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.08
+      ],
+      "materialTier": 40
+    },
+    "catalog": "FAIRY_ORE_RESOURCES"
+  },
+  {
+    "id": "star_amethyst_ore",
+    "name": "Star Amethyst Seam",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 60,
+    "reqLevel": 60,
+    "itemId": "star_amethyst_ore",
+    "bonus": [
+      {
+        "itemId": "fire_opal",
+        "chance": 0.07
+      },
+      {
+        "itemId": "fire_essence",
+        "chance": 0.4
+      }
+    ],
+    "yieldRange": [
+      10,
+      15
+    ],
+    "respawnSeconds": 85,
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_ore_nightglass"
+      ],
+      "depletedAssetId": "corealm_ore_nightglass_spent",
+      "targetWorldSize": 1.55,
+      "variantScale": [
+        0.94,
+        1.08
+      ],
+      "materialTier": 60
+    },
+    "catalog": "FAIRY_ORE_RESOURCES"
+  },
+  {
+    "id": "tree_gloam_willow",
+    "name": "Gloam Willow",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 30,
+    "reqLevel": 30,
+    "itemId": "willow_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_willow_gloam_1",
+        "corealm_willow_gloam_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 10,
+      "variantScale": [
+        0.86,
+        1.1
+      ],
+      "materialTier": 30
+    },
+    "catalog": "FAIRY_TREE_RESOURCES"
+  },
+  {
+    "id": "tree_fae_yew",
+    "name": "Fae Yew",
+    "archetype": "tree",
+    "skill": "woodcutting",
+    "tier": 60,
+    "reqLevel": 60,
+    "itemId": "yew_log",
+    "presentation": {
+      "availableAssetIds": [
+        "corealm_yew_fae_1",
+        "corealm_yew_fae_2"
+      ],
+      "depletedAssetId": "corealm_stump_oak",
+      "targetWorldSize": 9,
+      "variantScale": [
+        0.9,
+        1.1
+      ],
+      "materialTier": 60
+    },
+    "catalog": "FAIRY_TREE_RESOURCES"
+  }
+]

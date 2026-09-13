@@ -8,6 +8,7 @@ import { checkIdentity } from "./identity.js";
 import { listMetaCollections, readMeta } from "./meta.js";
 import { repoRoot } from "../lib/paths.js";
 import { checkReferences, type ReferencePools } from "./references.js";
+import { derivationDiffs } from "../../game/src/content/balance/derivations.js";
 
 export interface ContentCheckReport { ok: boolean; collections: number; errors: string[]; warnings: string[] }
 
@@ -30,6 +31,10 @@ export async function checkContent(options: { allowIdentityChange?: boolean; cro
     } catch (error) { errors.push(`${spec.name}: ${error instanceof Error ? error.message : String(error)}`); }
   }
   const registered = new Set(CONTENT_COLLECTIONS.map(spec => spec.file.slice(5)));
+  if (errors.length === 0) {
+    try { errors.push(...derivationDiffs(values).map(diff => `${diff.collection}.${diff.recordId}: drifted from ${diff.kind}; recompute or remove derivation to hand-tune`)); }
+    catch (error) { errors.push(error instanceof Error ? error.message : String(error)); }
+  }
   for (const entry of await readdir(contentDataRoot, { recursive: true, withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith(".json")) continue;
     const relative = path.relative(contentDataRoot, path.join(entry.parentPath, entry.name)).replaceAll("\\", "/");
@@ -48,6 +53,7 @@ export async function checkContent(options: { allowIdentityChange?: boolean; cro
       const audio = values.get("audio") as { cues: object; loops: object };
       const pools: ReferencePools = {
         item: new Set(ALL_ITEMS.map(row => row.id)), recipe: new Set(RECIPES.map(row => row.id)),
+        resource: ids("resources"), set: ids("equipmentSets"), campfireFuel: ids("campfireFuels", "logItemId"),
         // Gravelmaw is an underground map and has no authored surface RegionDef.
         region: new Set([...REGIONS.map(row => row.id), "gravelmaw"]), skill: new Set(SKILL_IDS),
         npc: ids("npcs"), shop: ids("shops"), quest: ids("quests"), dialogue: ids("dialogue"),

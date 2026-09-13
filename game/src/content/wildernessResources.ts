@@ -1,4 +1,5 @@
 import type { ResourceDef } from './index.js';
+import { resourceRows } from './resourceData.js';
 import type { LocationDef, ResourceClusterDef } from './regions.js';
 import type { WorldSite } from './worldSites.js';
 import { WILDERNESS_RESOURCE_INTENTS } from './wildernessDepth.js';
@@ -11,22 +12,10 @@ export const WILDERNESS_TREE_VARIANTS = [
   { assetId: 'corealm_magic_moonvein', speciesId: 'magic', resourceId: 'tree_wilderness_magic', itemId: 'magic_log', tier: 70 },
 ] as const;
 
-export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = [
-  { id: 'cindervein_vein', name: 'Cindervein Deposit', archetype: 'ore', skill: 'mining', tier: 50, reqLevel: 50,
-    itemId: 'cindervein_ore', bonus: [{ itemId: 'cairn_garnet', chance: .07 }], yieldRange: [5, 9], respawnSeconds: 75,
-    presentation: { availableAssetIds: ['corealm_ore_cindervein'], depletedAssetId: 'corealm_ore_cindervein_spent', targetWorldSize: 1.55, variantScale: [.94, 1.10], materialTier: 50 } },
-  { id: 'nightglass_vein', name: 'Nightglass Deposit', archetype: 'ore', skill: 'mining', tier: 70, reqLevel: 70,
-    itemId: 'nightglass_ore', bonus: [{ itemId: 'fire_opal', chance: .07 }], yieldRange: [4, 8], respawnSeconds: 95,
-    presentation: { availableAssetIds: ['corealm_ore_nightglass'], depletedAssetId: 'corealm_ore_nightglass_spent', targetWorldSize: 1.55, variantScale: [.94, 1.10], materialTier: 70 } },
-];
+export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = resourceRows('WILDERNESS_ORE_RESOURCES');
 
 /** Authored groves select Wilderness bodies while yielding the existing production timber. */
-export const WILDERNESS_TREE_RESOURCES: readonly ResourceDef[] = [
-  { id: 'tree_wilderness_teak', name: 'Veinwood', archetype: 'tree', skill: 'woodcutting', tier: 50, reqLevel: 50, itemId: 'teak_log',
-    presentation: { availableAssetIds: ['corealm_teak_lastroot', 'corealm_teak_embershelter'], depletedAssetId: 'corealm_stump_wilderness_teak', targetWorldSize: 11, variantScale: [.86, 1.10], materialTier: 50 } },
-  { id: 'tree_wilderness_magic', name: 'Magic Tree', archetype: 'tree', skill: 'woodcutting', tier: 70, reqLevel: 70, itemId: 'magic_log',
-    presentation: { availableAssetIds: ['corealm_magic_starwood', 'corealm_magic_moonvein'], depletedAssetId: 'corealm_stump_wilderness_magic', targetWorldSize: 14, variantScale: [.90, 1.08], materialTier: 70 } },
-];
+export const WILDERNESS_TREE_RESOURCES: readonly ResourceDef[] = resourceRows('WILDERNESS_TREE_RESOURCES');
 
 const labels: Record<string, string> = {
   cindervein_workings: 'Cindervein Workings', nightglass_excavation: 'Nightglass Excavation', lastroot_teak: 'Lastroot Shelter',

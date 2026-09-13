@@ -1,3 +1,5 @@
+import { resourceById, resourceRows } from "./resourceData.js";
+import { ITEM_DATA, itemRows } from "./itemData.js";
 import type { ItemDef } from "../contracts.js";
 import type { ResourceDef } from "./index.js";
 
@@ -15,25 +17,50 @@ export interface TreeSpeciesDef {
   logValue: number;
 }
 
-/** Legacy resource/item IDs keep saves, quests, and existing recipes connected. */
-export const TREE_SPECIES: readonly TreeSpeciesDef[] = [
-  { id: "pine", name: "Pine", level: 1, resourceId: "tree_palewood", logId: "palewood_log", variants: 5, trunkRadius: .23, height: 8, logValue: 10 },
-  { id: "ash", name: "Ash", level: 5, resourceId: "tree_duskoak", logId: "duskoak_log", variants: 2, trunkRadius: .20, height: 10, logValue: 38 },
-  { id: "oak", name: "Oak", level: 10, resourceId: "tree_cairnpine", logId: "cairnpine_log", variants: 5, trunkRadius: .58, height: 16, logValue: 88 },
-  { id: "walnut", name: "Walnut", level: 20, resourceId: "tree_cinderpine", logId: "cinderpine_log", variants: 2, trunkRadius: .52, height: 17, logValue: 195 },
-  { id: "willow", name: "Willow", level: 30, resourceId: "tree_willow", logId: "willow_log", variants: 2, trunkRadius: .34, height: 10, logValue: 310 },
-  { id: "maple", name: "Maple", level: 40, resourceId: "tree_maple", logId: "maple_log", variants: 2, trunkRadius: .27, height: 11, logValue: 440 },
-  { id: "teak", name: "Teak", level: 50, resourceId: "tree_teak", logId: "teak_log", variants: 2, trunkRadius: .24, height: 12, logValue: 590 },
-  { id: "yew", name: "Yew", level: 60, resourceId: "tree_yew", logId: "yew_log", variants: 2, trunkRadius: .32, height: 8, logValue: 755 },
-  { id: "magic", name: "Magic", level: 70, resourceId: "tree_magic", logId: "magic_log", variants: 2, trunkRadius: .72, height: 14, logValue: 940 },
-];
+/** Stable species/resource links and measured trunk geometry are world-authoring data. */
+const TREE_IDENTITIES = [
+  { id: "pine", resourceId: "tree_palewood", trunkRadius: .23 },
+  { id: "ash", resourceId: "tree_duskoak", trunkRadius: .20 },
+  { id: "oak", resourceId: "tree_cairnpine", trunkRadius: .58 },
+  { id: "walnut", resourceId: "tree_cinderpine", trunkRadius: .52 },
+  { id: "willow", resourceId: "tree_willow", trunkRadius: .34 },
+  { id: "maple", resourceId: "tree_maple", trunkRadius: .27 },
+  { id: "teak", resourceId: "tree_teak", trunkRadius: .24 },
+  { id: "yew", resourceId: "tree_yew", trunkRadius: .32 },
+  { id: "magic", resourceId: "tree_magic", trunkRadius: .72 },
+] as const;
+
+/** Project editable gameplay fields without modifying the supplied records. */
+export function projectTreeSpecies(identity: Pick<TreeSpeciesDef, "id" | "resourceId" | "trunkRadius">,
+  resource: ResourceDef, items: readonly ItemDef[]): TreeSpeciesDef {
+  if (resource.id !== identity.resourceId || resource.archetype !== "tree") {
+    throw new Error(`Invalid tree resource for ${identity.id}: ${resource.id}`);
+  }
+  const item = items.find(row => row.id === resource.itemId);
+  if (!item) throw new Error(`Missing tree yield item ${resource.itemId}`);
+  return { id: identity.id, name: resource.name, level: resource.reqLevel, resourceId: resource.id,
+    logId: resource.itemId, variants: resource.presentation.availableAssetIds.length,
+    trunkRadius: identity.trunkRadius, height: resource.presentation.targetWorldSize, logValue: item.value };
+}
+
+export const TREE_SPECIES: readonly TreeSpeciesDef[] = TREE_IDENTITIES.map(identity =>
+  projectTreeSpecies(identity, resourceById(identity.resourceId), ITEM_DATA));
+
+function nativeTreeResource(species: TreeSpeciesDef): ResourceDef {
+  return resourceById(TREE_IDENTITIES.find(row => row.id === species.id)!.resourceId);
+}
+
+export function projectTreeAssetIds(resource: ResourceDef): string[] {
+  return [...resource.presentation.availableAssetIds];
+}
 
 export function treeAssetIds(species: TreeSpeciesDef): string[] {
-  return Array.from({ length: species.variants }, (_, index) => `corealm_${species.id}_${index + 1}`);
+  return projectTreeAssetIds(nativeTreeResource(species));
 }
 
 const speciesByAsset = new Map(TREE_SPECIES.flatMap(species => treeAssetIds(species).map(id => [id, species] as const)));
-// Native metadata also applies when these candidates are served in the isolated lab.
+// These regional names and geometry are presentation overrides of native species metadata.
+// They also apply when the candidates are served in the isolated lab.
 for (const [id, speciesId] of [
   ['corealm_teak_lastroot', 'teak'], ['corealm_teak_embershelter', 'teak'],
   ['corealm_magic_starwood', 'magic'], ['corealm_magic_moonvein', 'magic'],
@@ -69,19 +96,15 @@ export function treeResource(species: TreeSpeciesDef): ResourceDef {
     id: species.resourceId, name: species.name, archetype: "tree", skill: "woodcutting",
     tier: species.level, reqLevel: species.level, itemId: species.logId,
     presentation: {
+      ...nativeTreeResource(species).presentation,
       availableAssetIds: treeAssetIds(species),
-      depletedAssetId: species.id === "pine" ? "corealm_stump_pine" : "corealm_stump_oak",
-      targetWorldSize: species.height, variantScale: [.86, 1.12], materialTier: species.level,
+      targetWorldSize: species.height, materialTier: species.level,
     },
   };
 }
 
-export const HIGH_TIER_TREE_RESOURCES = TREE_SPECIES.filter(species => species.level > 20).map(treeResource);
-export const HIGH_TIER_LOG_ITEMS: readonly ItemDef[] = TREE_SPECIES.filter(species => species.level > 20).map(species => ({
-  id: species.logId, name: `${species.name} Log`, tier: species.level,
-  description: `Timber cut from a ${species.name.toLowerCase()} tree.`,
-  stackable: false, value: species.logValue, category: "resource",
-}));
+export const HIGH_TIER_TREE_RESOURCES: readonly ResourceDef[] = resourceRows("HIGH_TIER_TREE_RESOURCES");
+export const HIGH_TIER_LOG_ITEMS: readonly ItemDef[] = itemRows("HIGH_TIER_LOG_ITEMS");
 
 /** Regional preference within a mixed forest; higher tiers remain visible at declining frequency. */
 export function treeEncounterWeight(species: TreeSpeciesDef, areaLevel: number): number {

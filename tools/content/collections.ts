@@ -4,6 +4,13 @@ import { questSchema, dialogueRecordSchema } from "../../game/src/content/schema
 import { SpellRecordSchema, SpellRuneSchema, ElementalSpellSchema } from "../../game/src/content/schema/spells.js";
 import { audioCatalogSchema } from "../../game/src/content/schema/audio.js";
 import { BALANCE_SCHEMAS } from "../../game/src/content/schema/balance.js";
+import { ItemRecordSchema } from "../../game/src/content/schema/itemRecords.js";
+import { RecipeRecordSchema } from "../../game/src/content/schema/recipes.js";
+import { ResourceRecordSchema } from "../../game/src/content/schema/resources.js";
+import { GatheringTierSchema } from "../../game/src/content/schema/gatheringTiers.js";
+import { EquipmentSetRecordSchema } from "../../game/src/content/schema/equipmentSets.js";
+import { CraftingTierRecordSchema } from "../../game/src/content/schema/craftingTiers.js";
+import { CampfireFuelRecordSchema } from "../../game/src/content/schema/campfireFuels.js";
 
 /** The editor, formatter and checker share this registration. Paths are never supplied by HTTP clients. */
 export interface ContentCollection {
@@ -17,6 +24,12 @@ export interface ContentCollection {
 
 const collection = (name: string, schema: Schema, idKey = "id"): ContentCollection => ({ name, file: `data/${name}.json`, schema, shape: "array", idKey });
 export const CONTENT_COLLECTIONS: readonly ContentCollection[] = [
+  collection("items", ItemRecordSchema),
+  collection("recipes", RecipeRecordSchema), collection("resources", ResourceRecordSchema),
+  collection("gatheringTiers", GatheringTierSchema, "tier"),
+  collection("campfireFuels", CampfireFuelRecordSchema, "logItemId"),
+  collection("equipmentSets", EquipmentSetRecordSchema),
+  collection("craftingTiers", CraftingTierRecordSchema, "tier"),
   collection("shops", shopSchema), collection("npcs", npcRecordSchema),
   collection("quests", questSchema), collection("dialogue", dialogueRecordSchema),
   collection("spells", SpellRecordSchema), collection("spellRunes", SpellRuneSchema, "itemId"),

@@ -2,10 +2,15 @@
 
 The fenced sections below preserve the header comments from `equipment.ts`, `recipes.ts`
 and `enemies.ts` verbatim. They describe the historical derivation, including old item names
-and stat examples. Production modules still contain those comments and still own their formulas.
+and stat examples. JSON now owns the migrated item, recipe, resource and set records.
 
-M0 extracts parameter snapshots into `game/content/data/balance/`. Editing these files does
-not change gameplay yet. Each file has a schema in `game/src/content/schema/balance.ts`;
+Balance parameters live in `game/content/data/balance/`. Pure functions under
+`game/src/content/balance/` calculate gear, progression, item, jewelry, recipe, set, material,
+food and campfire outputs from explicit inputs. The runtime gather-XP, recipe-XP, food and tool
+helpers now read recipe parameters, while campfire timing and build XP read their dedicated table.
+Stored tagged records are never silently rewritten when parameters change. `content:check`
+and `tests/content-derivation.test.ts` detect drift and require recomputation or removing the tag
+to hand-tune that record. Each parameter file has a schema in `game/src/content/schema/balance.ts`;
 `BALANCE_SCHEMAS` registers its single-object shape for `content:check`. Focused parity checks
 in `tests/content-balance-parameters.test.ts` compare the extracted data with production behavior.
 
@@ -14,19 +19,22 @@ in `tests/content-balance-parameters.test.ts` compare the extracted data with pr
 | File | Current source and scope |
 | --- | --- |
 | `gear.json` | `equipment.ts` starter and authored T1/T5/T10/T20 base rows, swing and cast cadence, and `rare()` multipliers. Baselines store the effective `bonuses()` output, including merged defence. Tier numbers come from `GATHERING_PRODUCTION_TIERS`, `REGIONAL_CRAFTING_TIERS`, and `WILDERNESS_CRAFTING_TIERS`. Combat arithmetic comes from `systems/combat.ts`, which implements the header equations. |
-| `recipes.json` | `recipes.ts` complete `W` table, including duration. `content/index.ts` supplies `gatherXp`, `healAmount` and `toolBonus` constants. `recipeXp` rounds the gather curve before multiplying by the weight; it has no separate multiplier. `W_HIDE_SMALL` uses `helmBootsGloves`, and `W_HIDE_LEGS` uses `leatherBody`. `amuletOrRing` is retained from `W` although current jewelry recipes use their own duration. |
+| `recipes.json` | `recipes.ts` complete `W` table, including duration. `game/src/content/balance/recipes.ts` derives `gatherXp`, `recipeXp`, `healAmount` and `toolBonus`; `recipeXp` rounds the gather curve before multiplying by the weight. `recipeFieldsFromDerivation` restores W duration only for base `RECIPES` rows. `W_HIDE_SMALL` uses `helmBootsGloves`, and `W_HIDE_LEGS` uses `leatherBody`. `amuletOrRing` is retained from `W` although current jewelry recipes use their own duration. |
 | `sets.json` | `equipmentSets.ts` `defineSet()` defence and health values by tier, plus `bossArmor.ts` T90 and bareheaded thresholds. Bonuses are cumulative: both defence thresholds grant the listed defence value. |
 | `loot.json` | `creatureLoot.ts` `MATERIAL_VALUE`, `bossArmorDrops()` expected-piece budget, `regionalFabricDrops()` roll inputs, and `wildernessDrops()` quantity/chance inputs. Rune ranks 1/2 belong to the shallow band and 3/4/5 to the deep band. Item selection and species classification remain in TS. |
 | `enemies.json` | `enemies.ts` `marksFor()` and `purseMarksFor()` per-tier endpoints, fantasy tier list and stat floors. Fantasy scaling is `targetTier / baseTier`, followed by rounding and the floor. `index.ts` supplies combat-level weights; `encounterBalance.ts` supplies tuning constants, regional tiers, and boss multipliers. |
 | `jewelry.json` | `jewelry.ts` crafted profile order, material pairs, requirements, value/bonus arithmetic and recipe numbers. `universalMinibossLoot.ts` supplies guardian stat profiles, requirements, value multiplier and fixed +2 bonuses. |
 | `formation.json` | `encounterPopulation.ts` population limits, body gap, fixed/boss counts, hash range, radius multiplier, search cap and clearance tolerance. The FNV hash and hexagonal geometry remain algorithms, not editable tuning. |
+| `gearProgression.json` | `game/src/content/balance/gearProgression.ts` regional 20/50/70 checkpoint interpolation and Wilderness 50/70 pairs for the 14 gear roles, tools and special gear. Shared bonus defaults and weapon profiles carry attack speed and hand counts; tools reuse `recipes.ts` `toolBonus`. |
+| `itemFormula.json` | `game/src/content/balance/itemFormula.ts` base-tool identities, six boss armor sets with 50/70 baselines and T90 extrapolation, slot value rates and the 1.1 premium, plus four elemental weapon profiles, base references, charges and added bonuses. Base weapon projection reuses `gear.ts`; tool bonuses reuse `recipes.ts`. |
+| `materialFood.json` | `game/src/content/balance/materialFood.ts` eight base and three Crownward cooked-food identities, the 1.4 Crownward value multiplier, and 15 regional material identities across ore, bar, hide, thread and handle roles. Regional values interpolate at 20/50/70; creature material values come from `loot.json`, and healing comes from `recipes.ts`. |
+| `campfires.json` | `game/src/content/balance/campfires.ts` shared 3,000 ms build time, 60,000 ms base lifetime, 12,000 ms per-tier lifetime and the 0.2 gather-XP build multiplier. The nine `campfireFuels.json` rows retain each log identity, tier and visual asset while deriving timing and build XP. |
 
-These snapshots do not complete R2b. The pure parameterized formula modules, loader migration,
-derivation tags, drift detection, recompute previews and Balance UI are later milestones.
-Regional and Wilderness gear interpolation inputs, charged-weapon deltas and charge profiles,
-boss armor piece baselines, remaining item/recipe generators, species-specific loot selection,
-and Wilderness enemy progression still need migration. Full gathering resource rows also stay
-in their production tables; the two extracted tier lists contain only numeric unlock tiers.
+Current formula coverage is 285 item tags, 236 recipe tags, 24 set threshold tags and 9 campfire
+fuel rows: 554 locked records in total. The content registry now exposes 26 collections. Resource
+and gathering rows live in JSON; gathering tiers reference the canonical resource rows by ID.
+The server recompute preview and Balance editor are implemented. Progression and item-formula
+locks also enforce the absence of generated optional fields; an extra tool bonus is drift.
 
 Enemy time-to-kill figures below remain historical design examples. They are not presented as
 current live tuning targets. Production combat-level tuning parameters are extracted separately

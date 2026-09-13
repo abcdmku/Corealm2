@@ -1,0 +1,1320 @@
+[
+  {
+    "id": "dewglass",
+    "name": "Dewglass",
+    "tier": 30,
+    "style": "melee",
+    "members": {
+      "head": "dewglass_helm",
+      "body": "dewglass_plate",
+      "legs": "dewglass_greaves",
+      "hands": "dewglass_gauntlets",
+      "feet": "dewglass_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 7,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 5,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 7,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "mistweave",
+    "name": "Mistweave",
+    "tier": 30,
+    "style": "magic",
+    "members": {
+      "head": "mistweave_hood",
+      "body": "mistweave_robe",
+      "legs": "mistweave_leggings",
+      "hands": "mistweave_wraps",
+      "feet": "mistweave_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 7,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 5,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 7,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "crownsilver",
+    "name": "Crownsilver",
+    "tier": 40,
+    "style": "melee",
+    "members": {
+      "head": "crownsilver_helm",
+      "body": "crownsilver_plate",
+      "legs": "crownsilver_greaves",
+      "hands": "crownsilver_gauntlets",
+      "feet": "crownsilver_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 9,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 6,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 9,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "crownhide",
+    "name": "Crownhide",
+    "tier": 40,
+    "style": "magic",
+    "members": {
+      "head": "crownhide_hood",
+      "body": "crownhide_robe",
+      "legs": "crownhide_leggings",
+      "hands": "crownhide_wraps",
+      "feet": "crownhide_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 9,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 6,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 9,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "staramethyst",
+    "name": "Star Amethyst",
+    "tier": 60,
+    "style": "melee",
+    "members": {
+      "head": "staramethyst_helm",
+      "body": "staramethyst_plate",
+      "legs": "staramethyst_greaves",
+      "hands": "staramethyst_gauntlets",
+      "feet": "staramethyst_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 12,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 9,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 12,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "faesilk",
+    "name": "Faesilk",
+    "tier": 60,
+    "style": "magic",
+    "members": {
+      "head": "faesilk_hood",
+      "body": "faesilk_robe",
+      "legs": "faesilk_leggings",
+      "hands": "faesilk_wraps",
+      "feet": "faesilk_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 12,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 9,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 12,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "duskguard",
+    "name": "Chitin Duskguard",
+    "tier": 50,
+    "style": "melee",
+    "members": {
+      "body": "duskguard_plate",
+      "legs": "duskguard_greaves",
+      "hands": "duskguard_gauntlets",
+      "feet": "duskguard_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 3,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 7,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "BOSS_ARMOR_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "oathguard",
+    "name": "Void Oathguard",
+    "tier": 70,
+    "style": "melee",
+    "members": {
+      "body": "oathguard_plate",
+      "legs": "oathguard_greaves",
+      "hands": "oathguard_gauntlets",
+      "feet": "oathguard_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 3,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 10,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "BOSS_ARMOR_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "frostguard",
+    "name": "Aurora Frostguard",
+    "tier": 90,
+    "style": "melee",
+    "members": {
+      "head": "frostguard_helm",
+      "body": "frostguard_plate",
+      "legs": "frostguard_greaves",
+      "hands": "frostguard_gauntlets",
+      "feet": "frostguard_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 18,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 13,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 18,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "BOSS_ARMOR_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "tideweave",
+    "name": "Chitin Tideweave",
+    "tier": 50,
+    "style": "magic",
+    "members": {
+      "head": "tideweave_hood",
+      "body": "tideweave_robe",
+      "legs": "tideweave_leggings",
+      "hands": "tideweave_wraps",
+      "feet": "tideweave_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 7,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "BOSS_ARMOR_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "nightweave",
+    "name": "Void Nightweave",
+    "tier": 70,
+    "style": "magic",
+    "members": {
+      "head": "nightweave_hood",
+      "body": "nightweave_robe",
+      "legs": "nightweave_leggings",
+      "hands": "nightweave_wraps",
+      "feet": "nightweave_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 10,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "BOSS_ARMOR_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "frostweave",
+    "name": "Aurora Frostweave",
+    "tier": 90,
+    "style": "magic",
+    "members": {
+      "head": "frostweave_hood",
+      "body": "frostweave_robe",
+      "legs": "frostweave_leggings",
+      "hands": "frostweave_wraps",
+      "feet": "frostweave_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 18,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 13,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 18,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "BOSS_ARMOR_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "copper",
+    "name": "Copper",
+    "tier": 1,
+    "style": "melee",
+    "members": {
+      "head": "grithe_helm",
+      "body": "grithe_cuirass",
+      "legs": "grithe_greaves",
+      "hands": "grithe_gloves",
+      "feet": "grithe_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 2,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 1,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 2,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "iron",
+    "name": "Iron",
+    "tier": 5,
+    "style": "melee",
+    "members": {
+      "head": "corven_helm",
+      "body": "corven_plate",
+      "legs": "corven_greaves",
+      "hands": "corven_gauntlets",
+      "feet": "corven_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 3,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 2,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 3,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "cobalt",
+    "name": "Cobalt",
+    "tier": 10,
+    "style": "melee",
+    "members": {
+      "head": "kaldite_helm",
+      "body": "kaldite_plate",
+      "legs": "kaldite_greaves",
+      "hands": "kaldite_gauntlets",
+      "feet": "kaldite_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 4,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 3,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 4,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "titanium",
+    "name": "Titanium",
+    "tier": 20,
+    "style": "melee",
+    "members": {
+      "head": "emberite_helm",
+      "body": "emberite_plate",
+      "legs": "emberite_greaves",
+      "hands": "emberite_gauntlets",
+      "feet": "emberite_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 6,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 4,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 6,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "hide",
+    "name": "Hide",
+    "tier": 1,
+    "style": "magic",
+    "members": {
+      "head": "marchhide_hood",
+      "body": "marchhide_robe",
+      "legs": "marchhide_leggings",
+      "hands": "marchhide_wraps",
+      "feet": "marchhide_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 2,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 1,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 2,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "thick_hide",
+    "name": "Thick Hide",
+    "tier": 5,
+    "style": "magic",
+    "members": {
+      "head": "bramblehide_hood",
+      "body": "bramblehide_robe",
+      "legs": "bramblehide_leggings",
+      "hands": "bramblehide_wraps",
+      "feet": "bramblehide_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 3,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 2,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 3,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "fur",
+    "name": "Fur",
+    "tier": 10,
+    "style": "magic",
+    "members": {
+      "head": "cairnpelt_hood",
+      "body": "cairnpelt_robe",
+      "legs": "cairnpelt_leggings",
+      "hands": "cairnpelt_wraps",
+      "feet": "cairnpelt_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 4,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 3,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 4,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "heavy_hide",
+    "name": "Heavy Hide",
+    "tier": 20,
+    "style": "magic",
+    "members": {
+      "head": "charhide_hood",
+      "body": "charhide_robe",
+      "legs": "charhide_leggings",
+      "hands": "charhide_wraps",
+      "feet": "charhide_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 6,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 4,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 6,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "cindersteel",
+    "name": "Cindersteel",
+    "tier": 50,
+    "style": "melee",
+    "members": {
+      "head": "cindersteel_helm",
+      "body": "cindersteel_plate",
+      "legs": "cindersteel_greaves",
+      "hands": "cindersteel_gauntlets",
+      "feet": "cindersteel_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 7,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "dragonhide",
+    "name": "Dragonhide",
+    "tier": 50,
+    "style": "magic",
+    "members": {
+      "head": "dragonhide_hood",
+      "body": "dragonhide_robe",
+      "legs": "dragonhide_leggings",
+      "hands": "dragonhide_wraps",
+      "feet": "dragonhide_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 7,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 10,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "nightglass",
+    "name": "Nightglass",
+    "tier": 70,
+    "style": "melee",
+    "members": {
+      "head": "nightglass_helm",
+      "body": "nightglass_plate",
+      "legs": "nightglass_greaves",
+      "hands": "nightglass_gauntlets",
+      "feet": "nightglass_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 10,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  },
+  {
+    "id": "starhide",
+    "name": "Starhide",
+    "tier": 70,
+    "style": "magic",
+    "members": {
+      "head": "starhide_hood",
+      "body": "starhide_robe",
+      "legs": "starhide_leggings",
+      "hands": "starhide_wraps",
+      "feet": "starhide_boots"
+    },
+    "thresholds": [
+      {
+        "pieces": 2,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 4,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 0,
+          "health": 10,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      },
+      {
+        "pieces": 5,
+        "bonuses": {
+          "meleeAccuracy": 0,
+          "magicAccuracy": 0,
+          "defence": 14,
+          "health": 0,
+          "meleePower": 0,
+          "magicPower": 0,
+          "vitality": 0
+        }
+      }
+    ],
+    "catalog": "EQUIPMENT_SETS",
+    "derivation": {
+      "kind": "setThresholds"
+    }
+  }
+]

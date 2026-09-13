@@ -333,7 +333,14 @@ export class AssetTextureCache {
   }
 }
 
+export interface AssetRegistryOptions {
+  manifestUrl?: string;
+  /** URL of the assets directory, including its trailing slash. */
+  assetBaseUrl?: string;
+}
+
 export class AssetRegistry {
+  constructor(private readonly urls: AssetRegistryOptions = {}) {}
   private manifest: AssetManifest | null = null;
   private byId = new Map<string, AssetEntry>();
   private readonly textureCache = new AssetTextureCache();
@@ -393,10 +400,10 @@ export class AssetRegistry {
   private assetClips = new Map<string, THREE.AnimationClip>();
 
   async loadManifest(): Promise<AssetManifest> {
-    const response = await fetch(ASSET_MANIFEST_URL);
+    const response = await fetch(this.urls.manifestUrl ?? ASSET_MANIFEST_URL);
     if (!response.ok) throw new Error(`Asset manifest failed: ${response.status} ${response.statusText}`);
     const manifest = (await response.json()) as AssetManifest;
-    configureAssetDelivery(ASSET_BASE_URL, manifest.compactTextures, manifest.optimizedTextures);
+    configureAssetDelivery(this.urls.assetBaseUrl ?? ASSET_BASE_URL, manifest.compactTextures, manifest.optimizedTextures);
     this.manifest = manifest;
     this.byId.clear();
     for (const entry of manifest.assets) {
@@ -721,9 +728,10 @@ export class AssetRegistry {
           return group;
         }
         const entry = request.entry;
-        const url = `${ASSET_BASE_URL}${entry.file.replace(/^\/+/, "")}`;
+        const baseUrl = this.urls.assetBaseUrl ?? ASSET_BASE_URL;
+        const url = `${baseUrl}${entry.file.replace(/^\/+/, "")}`;
         const gltf = entry.compactFile ? await (async () => {
-          const response = await fetch(`${ASSET_BASE_URL}${entry.compactFile}`);
+          const response = await fetch(`${baseUrl}${entry.compactFile}`);
           if (!response.ok || !response.body) throw new Error(`Model download failed: ${entry.id} (${response.status})`);
           const bytes = await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
           return this.preparation.run(() => this.loader.parseAsync(bytes, url.slice(0, url.lastIndexOf('/') + 1)),

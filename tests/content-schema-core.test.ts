@@ -149,6 +149,11 @@ describe("schema combinators", () => {
     expect(stripped).toEqual({ id: "a", tier: 1 });
     expect(record.catalog).toBe("EQUIPMENT");
   });
+  it("rejects duplicate numeric identities in tier tables", () => {
+    const schema = obj({ tier: int({ min: 1 }) });
+    expect(() => parseCollection(schema, [{ tier: 10 }, { tier: 10 }], { name: "tiers", idKey: "tier" }))
+      .toThrow('duplicate tier "10"');
+  });
 
   it("extends and omits object fields for layered record schemas", () => {
     const Stored = Row.extend({ catalog: opt(str()) });

@@ -1,0 +1,7206 @@
+[
+  {
+    "id": "craft_crafted_ring_t10",
+    "name": "Cobalt Garnet Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cairn_garnet",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t10",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 105,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 10,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t10",
+    "name": "Cobalt Garnet Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cairn_garnet",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t10",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 105,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 10,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "craft_crafted_ring_t20",
+    "name": "Titanium Opal Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "fire_opal",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t20",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 156,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 20,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t20",
+    "name": "Titanium Opal Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "fire_opal",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t20",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 156,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 20,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "craft_crafted_ring_t30",
+    "name": "Dewglass Quartz Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "pale_quartz",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t30",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 195,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 30,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t30",
+    "name": "Dewglass Quartz Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "pale_quartz",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t30",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 195,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 30,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "craft_crafted_ring_t40",
+    "name": "Titanium Amber Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "vell_amber",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t40",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 228,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 40,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t40",
+    "name": "Titanium Amber Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "vell_amber",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t40",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 228,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 40,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "craft_crafted_ring_t50",
+    "name": "Cindersteel Garnet Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cairn_garnet",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t50",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 258,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 50,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t50",
+    "name": "Cindersteel Garnet Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cairn_garnet",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t50",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 258,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 50,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "craft_crafted_ring_t60",
+    "name": "Cindersteel Opal Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "fire_opal",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t60",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 285,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 60,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t60",
+    "name": "Cindersteel Opal Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "fire_opal",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t60",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 285,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 60,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "craft_crafted_ring_t70",
+    "name": "Nightglass Opal Ring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "fire_opal",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_ring_t70",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 309,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 70,
+      "shape": "ring"
+    }
+  },
+  {
+    "id": "craft_crafted_earring_t70",
+    "name": "Nightglass Opal Earring",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "fire_opal",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crafted_earring_t70",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 309,
+    "catalog": "JEWELRY_RECIPES",
+    "derivation": {
+      "kind": "jewelryRecipe",
+      "tier": 70,
+      "shape": "earring"
+    }
+  },
+  {
+    "id": "smelt_grithe_bar",
+    "name": "Copper Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_ore",
+        "quantity": 1
+      },
+      {
+        "itemId": "march_stone",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 8,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "smith_grithe_dagger",
+    "name": "Copper Dagger",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "palewood_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_dagger",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 20,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "dagger"
+    }
+  },
+  {
+    "id": "smith_grithe_sword",
+    "name": "Copper Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "palewood_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 35,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "smith_grithe_helm",
+    "name": "Copper Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "grithe_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 25,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_grithe_cuirass",
+    "name": "Copper Body",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "grithe_cuirass",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 50,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_grithe_greaves",
+    "name": "Copper Legs",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "grithe_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 50,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_grithe_boots",
+    "name": "Copper Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 25,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_grithe_gloves",
+    "name": "Copper Gloves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_gloves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 25,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_grithe_pickaxe",
+    "name": "Copper Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "palewood_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 22,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_grithe_hatchet",
+    "name": "Copper Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "grithe_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "palewood_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "grithe_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 22,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "cook_seared_minnow",
+    "name": "Seared Minnow",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "silt_minnow",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "seared_minnow",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 15,
+    "burntItemId": "burnt_minnow",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "cook_roast_game",
+    "name": "Roast Game",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "raw_game_meat",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "roast_game",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 15,
+    "burntItemId": "burnt_game",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "craft_air_wand",
+    "name": "Air Wand",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_wand",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "air_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 24,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "craft_air_staff",
+    "name": "Air Staff",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_staff",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "air_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 32,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_marchhide_robe",
+    "name": "Hide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "coarse_hide",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "marchhide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 40,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_marchhide_leggings",
+    "name": "Hide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "coarse_hide",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "marchhide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 40,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_marchhide_hood",
+    "name": "Hide Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "coarse_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "marchhide_hood",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 25,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_marchhide_boots",
+    "name": "Hide Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "coarse_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "marchhide_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 25,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_marchhide_wraps",
+    "name": "Hide Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "coarse_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "marchhide_wraps",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 25,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_palewood_shaft",
+    "name": "Pine Shafts",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "palewood_shaft",
+      "quantity": 4
+    },
+    "durationMs": 1800,
+    "xp": 10,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_palewood_handle",
+    "name": "Pine Handles",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "palewood_handle",
+      "quantity": 2
+    },
+    "durationMs": 1800,
+    "xp": 10,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_palewood_staff",
+    "name": "Pine Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_shaft",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "palewood_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 32,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "fletch_palewood_wand",
+    "name": "Pine Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "palewood_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 24,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_palewood_shield",
+    "name": "Pine Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "grithe_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "palewood_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 28,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "fletch_palewood_rod",
+    "name": "Pine Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_shaft",
+        "quantity": 2
+      },
+      {
+        "itemId": "coarse_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "palewood_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 18,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "fletch_basic_wooden_wand",
+    "name": "Basic Wooden Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_shaft",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "basic_wooden_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 24,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_basic_wooden_staff",
+    "name": "Basic Wooden Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "palewood_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "basic_wooden_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 32,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "smelt_corven_bar",
+    "name": "Iron Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_ore",
+        "quantity": 2
+      },
+      {
+        "itemId": "march_stone",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 19,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "smith_corven_dagger",
+    "name": "Iron Dagger",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "duskoak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_dagger",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 48,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "dagger"
+    }
+  },
+  {
+    "id": "smith_corven_sword",
+    "name": "Iron Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "duskoak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 84,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "smith_corven_helm",
+    "name": "Iron Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "corven_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 60,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_corven_plate",
+    "name": "Iron Body",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "corven_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 120,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_corven_greaves",
+    "name": "Iron Legs",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "corven_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 120,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_corven_boots",
+    "name": "Iron Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 60,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_corven_gauntlets",
+    "name": "Iron Gloves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 60,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_corven_pickaxe",
+    "name": "Iron Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "duskoak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 53,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_corven_hatchet",
+    "name": "Iron Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "corven_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "duskoak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "corven_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 53,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "cook_seared_trout",
+    "name": "Seared Trout",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "bramble_trout",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "seared_trout",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 36,
+    "burntItemId": "burnt_trout",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "cook_roast_venison",
+    "name": "Roast Venison",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "raw_venison",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "roast_venison",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 36,
+    "burntItemId": "burnt_venison",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "craft_earth_wand",
+    "name": "Earth Wand",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_wand",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "earth_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 58,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "craft_earth_staff",
+    "name": "Earth Staff",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_staff",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "earth_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 77,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_bramblehide_robe",
+    "name": "Thick Hide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bramble_hide",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 96,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_bramblehide_leggings",
+    "name": "Thick Hide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bramble_hide",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 96,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_bramblehide_hood",
+    "name": "Thick Hide Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bramble_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_hood",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 60,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_bramblehide_boots",
+    "name": "Thick Hide Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bramble_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 60,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_bramblehide_wraps",
+    "name": "Thick Hide Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bramble_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_wraps",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 60,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_duskoak_shaft",
+    "name": "Ash Shafts",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_shaft",
+      "quantity": 4
+    },
+    "durationMs": 1800,
+    "xp": 24,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_duskoak_handle",
+    "name": "Ash Handles",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_handle",
+      "quantity": 2
+    },
+    "durationMs": 1800,
+    "xp": 24,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_duskoak_staff",
+    "name": "Ash Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_shaft",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 77,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "fletch_duskoak_wand",
+    "name": "Ash Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 58,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_duskoak_shield",
+    "name": "Ash Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "corven_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 67,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "fletch_duskoak_rod",
+    "name": "Ash Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "duskoak_shaft",
+        "quantity": 2
+      },
+      {
+        "itemId": "bramble_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 43,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "smelt_kaldite_bar",
+    "name": "Cobalt Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_ore",
+        "quantity": 2
+      },
+      {
+        "itemId": "march_stone",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 28,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "smith_kaldite_dagger",
+    "name": "Cobalt Dagger",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cairnpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_dagger",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 70,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "dagger"
+    }
+  },
+  {
+    "id": "smith_kaldite_sword",
+    "name": "Cobalt Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "cairnpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 123,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "smith_kaldite_helm",
+    "name": "Cobalt Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_kaldite_plate",
+    "name": "Cobalt Body",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 175,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_kaldite_greaves",
+    "name": "Cobalt Legs",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 175,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_kaldite_boots",
+    "name": "Cobalt Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_kaldite_gauntlets",
+    "name": "Cobalt Gloves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_kaldite_pickaxe",
+    "name": "Cobalt Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "cairnpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 77,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_kaldite_hatchet",
+    "name": "Cobalt Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "cairnpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 77,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "cook_seared_cragfin",
+    "name": "Seared Perch",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "cragfin",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "seared_cragfin",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 53,
+    "burntItemId": "burnt_cragfin",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "cook_roast_haunch",
+    "name": "Roast Haunch",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "raw_haunch",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "roast_haunch",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 53,
+    "burntItemId": "burnt_haunch",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "craft_water_wand",
+    "name": "Water Wand",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_wand",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "water_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 84,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "craft_water_staff",
+    "name": "Water Staff",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_staff",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "water_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 112,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_cairnpelt_robe",
+    "name": "Fur Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 140,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_cairnpelt_leggings",
+    "name": "Fur Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 140,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_cairnpelt_hood",
+    "name": "Fur Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_hood",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_cairnpelt_boots",
+    "name": "Fur Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_cairnpelt_wraps",
+    "name": "Fur Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_wraps",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_cairnpine_shaft",
+    "name": "Oak Shafts",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_shaft",
+      "quantity": 4
+    },
+    "durationMs": 1800,
+    "xp": 35,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_cairnpine_handle",
+    "name": "Oak Handles",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_handle",
+      "quantity": 2
+    },
+    "durationMs": 1800,
+    "xp": 35,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_cairnpine_staff",
+    "name": "Oak Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_shaft",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 112,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "fletch_cairnpine_wand",
+    "name": "Oak Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 84,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_cairnpine_shield",
+    "name": "Oak Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 98,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "fletch_cairnpine_rod",
+    "name": "Oak Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cairnpine_shaft",
+        "quantity": 2
+      },
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 63,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "smelt_emberite_bar",
+    "name": "Titanium Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_ore",
+        "quantity": 3
+      },
+      {
+        "itemId": "kilnstone",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "emberite_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 42,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "smith_emberite_dagger",
+    "name": "Titanium Dagger",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cinderpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_dagger",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 104,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "dagger"
+    }
+  },
+  {
+    "id": "smith_emberite_sword",
+    "name": "Titanium Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "cinderpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 182,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "smith_emberite_helm",
+    "name": "Titanium Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "emberite_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 130,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_emberite_plate",
+    "name": "Titanium Body",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "emberite_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 260,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_emberite_greaves",
+    "name": "Titanium Legs",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "emberite_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 260,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_emberite_boots",
+    "name": "Titanium Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 130,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_emberite_gauntlets",
+    "name": "Titanium Gloves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 130,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_emberite_pickaxe",
+    "name": "Titanium Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "cinderpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 114,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_emberite_hatchet",
+    "name": "Titanium Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "emberite_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "cinderpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 114,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "cook_seared_ashfin",
+    "name": "Seared Bass",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "ashfin",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "seared_ashfin",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 78,
+    "burntItemId": "burnt_ashfin",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "cook_roast_ember_haunch",
+    "name": "Roast Prime Haunch",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "raw_ember_haunch",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "roast_ember_haunch",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 78,
+    "burntItemId": "burnt_ember_haunch",
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "craft_fire_wand",
+    "name": "Fire Wand",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_wand",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "fire_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 125,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "craft_fire_staff",
+    "name": "Fire Staff",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "essence_altar"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_staff",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "fire_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 166,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_charhide_robe",
+    "name": "Heavy Hide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "charhide",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "charhide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 208,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_charhide_leggings",
+    "name": "Heavy Hide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "charhide",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "charhide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 208,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_charhide_hood",
+    "name": "Heavy Hide Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "charhide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "charhide_hood",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 130,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_charhide_boots",
+    "name": "Heavy Hide Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "charhide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "charhide_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 130,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_charhide_wraps",
+    "name": "Heavy Hide Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "charhide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "charhide_wraps",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 130,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_cinderpine_shaft",
+    "name": "Walnut Shafts",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_shaft",
+      "quantity": 4
+    },
+    "durationMs": 1800,
+    "xp": 52,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_cinderpine_handle",
+    "name": "Walnut Handles",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_handle",
+      "quantity": 2
+    },
+    "durationMs": 1800,
+    "xp": 52,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "fletch_cinderpine_staff",
+    "name": "Walnut Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_shaft",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 166,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "fletch_cinderpine_wand",
+    "name": "Walnut Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 125,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_cinderpine_shield",
+    "name": "Walnut Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 146,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "fletch_cinderpine_rod",
+    "name": "Walnut Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "cinderpine_shaft",
+        "quantity": 2
+      },
+      {
+        "itemId": "charhide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 94,
+    "catalog": "RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "creature_badger_bristle",
+    "name": "Bristle-lined Thick Hide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "badger_bristle",
+        "quantity": 3
+      },
+      {
+        "itemId": "bramble_hide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 96,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "creature_horse_tailhair",
+    "name": "Horsehair Maple Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "horse_tailhair",
+        "quantity": 3
+      },
+      {
+        "itemId": "duskoak_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 43,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "creature_bighorn_fleece",
+    "name": "Fleece-lined Fur Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bighorn_fleece",
+        "quantity": 3
+      },
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 140,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "creature_tapir_leather",
+    "name": "Trim Tapir Hide Sheets",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "tapir_leather",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "bramble_hide",
+      "quantity": 2
+    },
+    "durationMs": 2400,
+    "xp": 24,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "craftWeight": 1
+    }
+  },
+  {
+    "id": "creature_crocodile_scute",
+    "name": "Scute-soled Fur Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crocodile_scute",
+        "quantity": 3
+      },
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_boots",
+      "quantity": 2
+    },
+    "durationMs": 2400,
+    "xp": 88,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "creature_salamander_secretion",
+    "name": "Salamander-fluxed Titanium Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "salamander_secretion",
+        "quantity": 3
+      },
+      {
+        "itemId": "emberite_ore",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "emberite_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 42,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "creature_tortoise_shell_plate",
+    "name": "Shell-backed Pine Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "tortoise_shell_plate",
+        "quantity": 3
+      },
+      {
+        "itemId": "cairnpine_log",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cairnpine_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 98,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "creature_monitor_sinew",
+    "name": "Sinew-bound Cedar Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "monitor_sinew",
+        "quantity": 3
+      },
+      {
+        "itemId": "cinderpine_shaft",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cinderpine_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 94,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "creature_goose_down",
+    "name": "Down-lined Hide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 1,
+    "tier": 1,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "goose_down",
+        "quantity": 3
+      },
+      {
+        "itemId": "coarse_hide",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "marchhide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 40,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "creature_bustard_plume",
+    "name": "Plume-lined Fur Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "bustard_plume",
+        "quantity": 3
+      },
+      {
+        "itemId": "cairn_pelt",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cairnpelt_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 140,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "creature_snail_mucus",
+    "name": "Glue-bound Maple Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "snail_mucus",
+        "quantity": 3
+      },
+      {
+        "itemId": "duskoak_log",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "duskoak_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 67,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "creature_beetle_mandible",
+    "name": "Mandible-braced Cobalt Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "beetle_mandible",
+        "quantity": 3
+      },
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "cairnpine_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 77,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "creature_spider_thread",
+    "name": "Silk-stitched Thick Hide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 5,
+    "tier": 5,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "spider_thread",
+        "quantity": 3
+      },
+      {
+        "itemId": "bramble_hide",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "bramblehide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 96,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "creature_ravager_talon",
+    "name": "Demon Claw Grip Titanium Dagger",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "ravager_talon",
+        "quantity": 3
+      },
+      {
+        "itemId": "emberite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "emberite_dagger",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 104,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "dagger"
+    }
+  },
+  {
+    "id": "creature_drake_scale",
+    "name": "Trim Armored Dragon Hide Sheets",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 20,
+    "tier": 20,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "drake_scale",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "charhide",
+      "quantity": 2
+    },
+    "durationMs": 2400,
+    "xp": 52,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "craftWeight": 1
+    }
+  },
+  {
+    "id": "creature_nightmare_plate",
+    "name": "Pale Dragon Plated Cobalt Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 10,
+    "tier": 10,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightmare_plate",
+        "quantity": 3
+      },
+      {
+        "itemId": "kaldite_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "kaldite_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 88,
+    "catalog": "CREATURE_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smelt_cindersteel_bar",
+    "name": "Cindersteel Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindervein_ore",
+        "quantity": 3
+      },
+      {
+        "itemId": "molten_heart",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 69,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "fletch_teak_handle",
+    "name": "Teak Handle",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "teak_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "teak_handle",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 86,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "smith_cindersteel_sword",
+    "name": "Cindersteel Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 3
+      },
+      {
+        "itemId": "teak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 301,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "fletch_teak_shield",
+    "name": "Teak Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "teak_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "teak_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 241,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "smith_cindersteel_helm",
+    "name": "Cindersteel Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 215,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_cindersteel_plate",
+    "name": "Cindersteel Plate",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 430,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_cindersteel_greaves",
+    "name": "Cindersteel Greaves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 430,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_cindersteel_boots",
+    "name": "Cindersteel Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 215,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_cindersteel_gauntlets",
+    "name": "Cindersteel Gauntlets",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 215,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_teak_wand",
+    "name": "Teak Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "teak_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "teak_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 206,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_teak_staff",
+    "name": "Teak Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "teak_log",
+        "quantity": 3
+      },
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 5
+      }
+    ],
+    "output": {
+      "itemId": "teak_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 275,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_dragonhide_hood",
+    "name": "Dragonhide Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "dragonhide",
+        "quantity": 2
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "dragonhide_hood",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 215,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_dragonhide_robe",
+    "name": "Dragonhide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "dragonhide",
+        "quantity": 4
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "dragonhide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 344,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_dragonhide_leggings",
+    "name": "Dragonhide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "dragonhide",
+        "quantity": 4
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "dragonhide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 344,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_dragonhide_boots",
+    "name": "Dragonhide Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "dragonhide",
+        "quantity": 1
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "dragonhide_boots",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 215,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_dragonhide_wraps",
+    "name": "Dragonhide Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "dragonhide",
+        "quantity": 1
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "dragonhide_wraps",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 215,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_cindersteel_pickaxe",
+    "name": "Cindersteel Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "teak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 189,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_cindersteel_hatchet",
+    "name": "Cindersteel Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "teak_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cindersteel_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 189,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smelt_nightglass_bar",
+    "name": "Nightglass Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_ore",
+        "quantity": 3
+      },
+      {
+        "itemId": "astral_core",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 82,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "fletch_magic_handle",
+    "name": "Magic Handle",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "magic_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "magic_handle",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 103,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "smith_nightglass_sword",
+    "name": "Nightglass Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 3
+      },
+      {
+        "itemId": "magic_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 361,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "fletch_magic_shield",
+    "name": "Magic Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "magic_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "magic_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 288,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "smith_nightglass_helm",
+    "name": "Nightglass Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 258,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_nightglass_plate",
+    "name": "Nightglass Plate",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 515,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_nightglass_greaves",
+    "name": "Nightglass Greaves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 515,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_nightglass_boots",
+    "name": "Nightglass Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 258,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_nightglass_gauntlets",
+    "name": "Nightglass Gauntlets",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 258,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_magic_wand",
+    "name": "Magic Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "magic_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "magic_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 247,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_magic_staff",
+    "name": "Magic Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "magic_log",
+        "quantity": 3
+      },
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 5
+      }
+    ],
+    "output": {
+      "itemId": "magic_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 330,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_starhide_hood",
+    "name": "Starhide Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "starhide",
+        "quantity": 2
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "starhide_hood",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 258,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_starhide_robe",
+    "name": "Starhide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "starhide",
+        "quantity": 4
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "starhide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 412,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_starhide_leggings",
+    "name": "Starhide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "starhide",
+        "quantity": 4
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "starhide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 412,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_starhide_boots",
+    "name": "Starhide Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "starhide",
+        "quantity": 1
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "starhide_boots",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 258,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_starhide_wraps",
+    "name": "Starhide Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "starhide",
+        "quantity": 1
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "starhide_wraps",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 258,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_nightglass_pickaxe",
+    "name": "Nightglass Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "magic_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 227,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_nightglass_hatchet",
+    "name": "Nightglass Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "magic_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "nightglass_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 227,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_ashseal_guard",
+    "name": "Ashseal Guard",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "teak_shield",
+        "quantity": 1
+      },
+      {
+        "itemId": "ashseal_iron",
+        "quantity": 3
+      },
+      {
+        "itemId": "cindersteel_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "ashseal_guard",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 241,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "fletch_regent_staff",
+    "name": "Regent Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 50,
+    "tier": 50,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "teak_staff",
+        "quantity": 1
+      },
+      {
+        "itemId": "furnace_crown",
+        "quantity": 3
+      },
+      {
+        "itemId": "grave_thread",
+        "quantity": 6
+      }
+    ],
+    "output": {
+      "itemId": "regent_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 275,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "smith_chainbound_sword",
+    "name": "Chainbound Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_sword",
+        "quantity": 1
+      },
+      {
+        "itemId": "chainbound_link",
+        "quantity": 3
+      },
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "chainbound_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 361,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "smith_nightmarshal_plate",
+    "name": "Nightmarshal Plate",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "nightglass_plate",
+        "quantity": 1
+      },
+      {
+        "itemId": "nightforge_seal",
+        "quantity": 3
+      },
+      {
+        "itemId": "nightglass_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "nightmarshal_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 515,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "fletch_hollowstar_staff",
+    "name": "Hollowstar Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 70,
+    "tier": 70,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "magic_staff",
+        "quantity": 1
+      },
+      {
+        "itemId": "hollow_star_fragment",
+        "quantity": 3
+      },
+      {
+        "itemId": "void_thread",
+        "quantity": 6
+      }
+    ],
+    "output": {
+      "itemId": "hollowstar_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 330,
+    "catalog": "WILDERNESS_LOOT_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "cook_crown_trout",
+    "name": "Cooked Trout",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "crown_trout",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cooked_crown_trout",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 98,
+    "burntItemId": "burnt_crown_trout",
+    "catalog": "CROWNWARD_FISH_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "cook_crown_tuna",
+    "name": "Cooked Tuna",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "crown_tuna",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cooked_crown_tuna",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 114,
+    "burntItemId": "burnt_crown_tuna",
+    "catalog": "CROWNWARD_FISH_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "cook_pearlwater_salmon",
+    "name": "Cooked Salmon",
+    "kind": "cook",
+    "skill": "cooking",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "inputs": [
+      {
+        "itemId": "pearlwater_salmon",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "cooked_pearlwater_salmon",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 143,
+    "burntItemId": "burnt_pearlwater_salmon",
+    "catalog": "CROWNWARD_FISH_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "cookedFood"
+    }
+  },
+  {
+    "id": "smelt_dewglass_bar",
+    "name": "Dewglass Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_ore",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 52,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "fletch_willow_handle",
+    "name": "Willow Handle",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "willow_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "willow_handle",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 65,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "craft_mistweave_thread",
+    "name": "Mistweave Thread",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "mistweave",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "mistweave_thread",
+      "quantity": 4
+    },
+    "durationMs": 2400,
+    "xp": 52,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "craftWeight": 0.8
+    }
+  },
+  {
+    "id": "smith_dewglass_sword",
+    "name": "Dewglass Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 3
+      },
+      {
+        "itemId": "willow_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 228,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "fletch_willow_shield",
+    "name": "Willow Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "willow_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "willow_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 182,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "smith_dewglass_helm",
+    "name": "Dewglass Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 163,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_dewglass_plate",
+    "name": "Dewglass Plate",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 325,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_dewglass_greaves",
+    "name": "Dewglass Greaves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 325,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_dewglass_boots",
+    "name": "Dewglass Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 163,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_dewglass_gauntlets",
+    "name": "Dewglass Gauntlets",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 163,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_willow_wand",
+    "name": "Willow Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "willow_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "willow_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 156,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_willow_staff",
+    "name": "Willow Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "willow_log",
+        "quantity": 3
+      },
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 5
+      }
+    ],
+    "output": {
+      "itemId": "willow_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 208,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_mistweave_hood",
+    "name": "Mistweave Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "mistweave",
+        "quantity": 2
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "mistweave_hood",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 163,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_mistweave_robe",
+    "name": "Mistweave Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "mistweave",
+        "quantity": 4
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "mistweave_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 260,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_mistweave_leggings",
+    "name": "Mistweave Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "mistweave",
+        "quantity": 4
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "mistweave_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 260,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_mistweave_boots",
+    "name": "Mistweave Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "mistweave",
+        "quantity": 1
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "mistweave_boots",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 163,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_mistweave_wraps",
+    "name": "Mistweave Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "mistweave",
+        "quantity": 1
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "mistweave_wraps",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 163,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_dewglass_pickaxe",
+    "name": "Dewglass Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "willow_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 143,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_dewglass_hatchet",
+    "name": "Dewglass Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "willow_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "dewglass_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 143,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "fletch_willow_rod",
+    "name": "Willow Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 30,
+    "tier": 30,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "willow_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "dewglass_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "mistweave_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "willow_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 117,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "smelt_crownsilver_bar",
+    "name": "Crownsilver Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_ore",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 61,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "fletch_maple_handle",
+    "name": "Maple Handle",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "maple_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "maple_handle",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 76,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "craft_crownhide_thread",
+    "name": "Crownhide Lacing",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownhide",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crownhide_thread",
+      "quantity": 4
+    },
+    "durationMs": 2400,
+    "xp": 61,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "craftWeight": 0.8
+    }
+  },
+  {
+    "id": "smith_crownsilver_sword",
+    "name": "Crownsilver Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 3
+      },
+      {
+        "itemId": "maple_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 266,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "fletch_maple_shield",
+    "name": "Maple Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "maple_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "maple_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 213,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "smith_crownsilver_helm",
+    "name": "Crownsilver Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 190,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_crownsilver_plate",
+    "name": "Crownsilver Plate",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 380,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_crownsilver_greaves",
+    "name": "Crownsilver Greaves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 380,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_crownsilver_boots",
+    "name": "Crownsilver Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 190,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_crownsilver_gauntlets",
+    "name": "Crownsilver Gauntlets",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 190,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_maple_wand",
+    "name": "Maple Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "maple_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "maple_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 182,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_maple_staff",
+    "name": "Maple Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "maple_log",
+        "quantity": 3
+      },
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 5
+      }
+    ],
+    "output": {
+      "itemId": "maple_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 243,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_crownhide_hood",
+    "name": "Crownhide Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownhide",
+        "quantity": 2
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "crownhide_hood",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 190,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_crownhide_robe",
+    "name": "Crownhide Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownhide",
+        "quantity": 4
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "crownhide_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 304,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_crownhide_leggings",
+    "name": "Crownhide Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownhide",
+        "quantity": 4
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "crownhide_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 304,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_crownhide_boots",
+    "name": "Crownhide Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownhide",
+        "quantity": 1
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "crownhide_boots",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 190,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_crownhide_wraps",
+    "name": "Crownhide Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownhide",
+        "quantity": 1
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "crownhide_wraps",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 190,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_crownsilver_pickaxe",
+    "name": "Crownsilver Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "maple_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 167,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_crownsilver_hatchet",
+    "name": "Crownsilver Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "maple_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "crownsilver_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 167,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "fletch_maple_rod",
+    "name": "Maple Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 40,
+    "tier": 40,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "maple_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "crownsilver_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "crownhide_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "maple_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 137,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  },
+  {
+    "id": "smelt_staramethyst_bar",
+    "name": "Star Amethyst Bar",
+    "kind": "smelt",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "furnace"
+    ],
+    "inputs": [
+      {
+        "itemId": "star_amethyst_ore",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_bar",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 76,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "smeltBar"
+    }
+  },
+  {
+    "id": "fletch_yew_handle",
+    "name": "Yew Handle",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "yew_log",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "yew_handle",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 95,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHandle"
+    }
+  },
+  {
+    "id": "craft_faesilk_thread",
+    "name": "Faesilk Thread",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "faesilk",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "faesilk_thread",
+      "quantity": 4
+    },
+    "durationMs": 2400,
+    "xp": 76,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "craftWeight": 0.8
+    }
+  },
+  {
+    "id": "smith_staramethyst_sword",
+    "name": "Star Amethyst Sword",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 3
+      },
+      {
+        "itemId": "yew_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_sword",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 333,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "sword"
+    }
+  },
+  {
+    "id": "fletch_yew_shield",
+    "name": "Yew Shield",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "yew_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "yew_shield",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 266,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "woodenShield"
+    }
+  },
+  {
+    "id": "smith_staramethyst_helm",
+    "name": "Star Amethyst Helm",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_helm",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 238,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_staramethyst_plate",
+    "name": "Star Amethyst Plate",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_plate",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 475,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_staramethyst_greaves",
+    "name": "Star Amethyst Greaves",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_greaves",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 475,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "bodyOrLegs"
+    }
+  },
+  {
+    "id": "smith_staramethyst_boots",
+    "name": "Star Amethyst Boots",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_boots",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 238,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_staramethyst_gauntlets",
+    "name": "Star Amethyst Gauntlets",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_gauntlets",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 238,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "fletch_yew_wand",
+    "name": "Yew Wand",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "yew_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "yew_wand",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 228,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "wand"
+    }
+  },
+  {
+    "id": "fletch_yew_staff",
+    "name": "Yew Staff",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "yew_log",
+        "quantity": 3
+      },
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 5
+      }
+    ],
+    "output": {
+      "itemId": "yew_staff",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 304,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "staff"
+    }
+  },
+  {
+    "id": "craft_faesilk_hood",
+    "name": "Faesilk Hood",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "faesilk",
+        "quantity": 2
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "faesilk_hood",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 238,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_faesilk_robe",
+    "name": "Faesilk Robe",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "faesilk",
+        "quantity": 4
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "faesilk_robe",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 380,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_faesilk_leggings",
+    "name": "Faesilk Leggings",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "faesilk",
+        "quantity": 4
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 4
+      }
+    ],
+    "output": {
+      "itemId": "faesilk_leggings",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 380,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "leatherBody"
+    }
+  },
+  {
+    "id": "craft_faesilk_boots",
+    "name": "Faesilk Boots",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "faesilk",
+        "quantity": 1
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "faesilk_boots",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 238,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "craft_faesilk_wraps",
+    "name": "Faesilk Wraps",
+    "kind": "craft",
+    "skill": "crafting",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "crafting_table"
+    ],
+    "inputs": [
+      {
+        "itemId": "faesilk",
+        "quantity": 1
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 2
+      }
+    ],
+    "output": {
+      "itemId": "faesilk_wraps",
+      "quantity": 1
+    },
+    "durationMs": 2400,
+    "xp": 238,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "helmBootsGloves"
+    }
+  },
+  {
+    "id": "smith_staramethyst_pickaxe",
+    "name": "Star Amethyst Pickaxe",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "yew_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_pickaxe",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 209,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "smith_staramethyst_hatchet",
+    "name": "Star Amethyst Hatchet",
+    "kind": "smith",
+    "skill": "smithing",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "anvil"
+    ],
+    "inputs": [
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 2
+      },
+      {
+        "itemId": "yew_handle",
+        "quantity": 1
+      }
+    ],
+    "output": {
+      "itemId": "staramethyst_hatchet",
+      "quantity": 1
+    },
+    "durationMs": 3000,
+    "xp": 209,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "toolHead"
+    }
+  },
+  {
+    "id": "fletch_yew_rod",
+    "name": "Yew Rod",
+    "kind": "fletch",
+    "skill": "fletching",
+    "reqLevel": 60,
+    "tier": 60,
+    "stations": [
+      "fletching_bench"
+    ],
+    "inputs": [
+      {
+        "itemId": "yew_log",
+        "quantity": 2
+      },
+      {
+        "itemId": "staramethyst_bar",
+        "quantity": 1
+      },
+      {
+        "itemId": "faesilk_thread",
+        "quantity": 3
+      }
+    ],
+    "output": {
+      "itemId": "yew_rod",
+      "quantity": 1
+    },
+    "durationMs": 1800,
+    "xp": 171,
+    "catalog": "REGIONAL_TIER_RECIPES",
+    "derivation": {
+      "kind": "recipeXp",
+      "weightKey": "fishingRod"
+    }
+  }
+]

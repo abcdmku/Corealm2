@@ -1,0 +1,4 @@
+import { AlertCircle, SearchX } from "lucide-react";
+export function LoadingRows() { return <div className="loading-rows" aria-label="Loading content" role="status">{Array.from({ length: 9 }, (_, i) => <div className="skeleton-row" key={i}><span className="skeleton skeleton-icon"/><span className="skeleton skeleton-name"/><span className="skeleton skeleton-value"/></div>)}</div>; }
+export function ErrorState({ message, retry }: { message: string; retry?: () => void }) { return <div className="state-message" role="alert"><AlertCircle size={26}/><h2>Could not load this content</h2><p>{message}</p>{retry && <button className="button" onClick={retry}>Try again</button>}</div>; }
+export function EmptyState({ title = "No matching records", children }: { title?: string; children?: React.ReactNode }) { return <div className="state-message"><SearchX size={27}/><h2>{title}</h2><p>{children ?? "Try another name, ID or type."}</p></div>; }

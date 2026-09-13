@@ -2,6 +2,7 @@ node_modules/
 game/dist/
 game/public/generated/world-lab/
 dist/
+dist-devdocs/
 pages-dist/
 devdocs/generated/
 .astro/

@@ -1,9 +1,10 @@
 # Corealm content store
 
-The JSON migration is in progress. Shops, NPCs, quests, dialogue, spells, and audio now load from
-`data/` through schemas in `game/src/content/schema/`. Their existing TypeScript exports remain
-available. Items, recipes, creatures, and world placement still use their TypeScript tables.
-Balance JSON currently holds checked parameter snapshots; production formulas are not migrated yet.
+Items, equipment sets, recipes, resources, gathering and crafting tiers, campfire fuels, shops,
+NPCs, quests, dialogue, spells, and audio load from `data/` through schemas in
+`game/src/content/schema/`. Their existing TypeScript exports remain available. Creatures and
+world placement still use TypeScript tables while their migration continues. Pure item, recipe,
+jewelry, set, and campfire formulas read explicit balance parameters.
 See `runs/devdocs/PRD.md` for the full app plan. Git records authored changes.
 
 ## Layout
@@ -41,9 +42,10 @@ The rule: if a loader reads it, it is data. If only humans or the app read it, i
 `npm run content:check` validates every registered JSON schema, canonical formatting, metadata,
 references, existing production cross-table checks, and save identity against HEAD for migrated
 arrays. It rejects unregistered JSON files. It is part of `check` and `check:fast`.
-Derivation and spawn formation checks will join it when those records migrate.
+Tagged records are recomputed during the check and rejected if their stored fields have drifted.
+Spawn formation checks will join it when placements migrate.
 
-`npm run content:export` previews the leaf-table migration; `-- --apply` replaces leaf JSON from
+`npm run content:export` validates the migration without writing; `-- --apply` replaces JSON from
 the saved `.baseline` TypeScript snapshot. Do not rerun it over authored edits.
 `npm run content:baseline` creates that snapshot from HEAD only if it does not already exist.
 
@@ -51,5 +53,9 @@ the saved `.baseline` TypeScript snapshot. Do not rerun it over authored edits.
 to requests. Claim and reply require the revision returned by listing. They cannot close requests
 or approve assets.
 
-After changing `data/`, run `npm run world:build` when spawns, clusters or habitats changed: the
+The local editor runs with `npm run devdocs`. Saves validate current JSON and file revisions;
+stale drafts remain visible until you reset them. Formula changes do not rewrite stored records.
+Preview their recompute diff before applying it. Notes and requests are stored separately in `meta/`.
+
+After changing shipped `data/`, run `npm run world:build`: the
 shipped world manifest pins the content revision.
