@@ -111,7 +111,14 @@ function validateQuestRefTargets(entityIds: ReadonlySet<string>, locationIds: Re
 }
 
 /** Throws before Vite packages a release if its canonical content has unresolved references. */
-export async function validateGameContent(): Promise<GameContentValidation> {
+export interface GameContentReferencePools {
+  asset: ReadonlySet<string>;
+  entity: ReadonlySet<string>;
+  location: ReadonlySet<string>;
+  settlement: ReadonlySet<string>;
+}
+
+export async function validateGameContent(onReferences?: (pools: GameContentReferencePools) => void): Promise<GameContentValidation> {
   const manifest = JSON.parse(await readFile(path.join(gameRoot, "public/assets/manifest.json"), "utf8")) as AssetManifest;
   const iconRegistry = JSON.parse(await readFile(path.resolve(gameRoot, "../art/item-icons/generated/registry.json"), "utf8"));
   const promptedIconIds = new Set<string>();
@@ -177,6 +184,12 @@ export async function validateGameContent(): Promise<GameContentValidation> {
   const questProblems = validateQuestRefTargets(
     new Set(world.entities.map((entity) => entity.id)), new Set(world.routeNodes.map((node) => node.id)),
   );
+  onReferences?.({
+    asset: knownAssetIds,
+    entity: new Set(world.entities.map(entity => entity.id)),
+    location: new Set(world.routeNodes.map(node => node.id)),
+    settlement: new Set(REGIONS.flatMap(region => region.settlement ? [region.settlement.id] : [])),
+  });
   if (questProblems.length > 0) throw new Error(`Game quest target validation failed:\n${questProblems.map((problem) => `- ${problem}`).join("\n")}`);
   return { seed, assets: assets.size, items: tables.items.length, recipes: tables.recipes.length,
     entities: world.entities.length, routeLocations: world.routeNodes.length };

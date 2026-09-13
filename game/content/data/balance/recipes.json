@@ -1,0 +1,74 @@
+{
+  "gatherXp": {
+    "multiplier": 10,
+    "exponent": 0.55
+  },
+  "healAmount": {
+    "base": 2,
+    "multiplier": 1.35,
+    "exponent": 0.85
+  },
+  "toolBonus": {
+    "maximum": 40,
+    "base": 1.6,
+    "perTier": 0.75
+  },
+  "weights": {
+    "smeltBar": {
+      "weight": 0.8,
+      "ms": 2400
+    },
+    "dagger": {
+      "weight": 2,
+      "ms": 3000
+    },
+    "sword": {
+      "weight": 3.5,
+      "ms": 3000
+    },
+    "bodyOrLegs": {
+      "weight": 5,
+      "ms": 3000
+    },
+    "helmBootsGloves": {
+      "weight": 2.5,
+      "ms": 3000
+    },
+    "toolHead": {
+      "weight": 2.2,
+      "ms": 3000
+    },
+    "cookedFood": {
+      "weight": 1.5,
+      "ms": 2400
+    },
+    "amuletOrRing": {
+      "weight": 3,
+      "ms": 2400
+    },
+    "leatherBody": {
+      "weight": 4,
+      "ms": 2400
+    },
+    "staff": {
+      "weight": 3.2,
+      "ms": 1800
+    },
+    "wand": {
+      "weight": 2.4,
+      "ms": 1800
+    },
+    "toolHandle": {
+      "weight": 1,
+      "ms": 1800
+    },
+    "fishingRod": {
+      "weight": 1.8,
+      "ms": 1800
+    },
+    "woodenShield": {
+      "weight": 2.8,
+      "ms": 1800
+    }
+  }
+}

@@ -23,8 +23,8 @@
     "dev": "tsx tools/dev-game.ts",
     "assets:review": "tsx tools/asset-review/server.ts",
     "build": "tsx tools/build-game.ts",
-    "check": "npm run typecheck && npm test && npm run build && npm run docs:build",
-    "check:fast": "npm run typecheck && npm test",
+    "check": "npm run typecheck && npm test && npm run content:check && npm run build && npm run docs:build",
+    "check:fast": "npm run typecheck && npm test && npm run content:check",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:gathering-production": "vitest run tests/gathering-production-matrix.test.ts tests/gathering-integrity.test.ts tests/production-integrity.test.ts tests/eating-activity.test.ts tests/campfire-system.test.ts tests/campfire-persistence-integrity.test.ts tests/save-v3-campfire.test.ts tests/persistence-v3-integrity.test.ts tests/fishing-render-visibility.test.ts tests/resource-presentation-stability.test.ts",
@@ -86,7 +86,13 @@
     "contact-sheets:gathering-production": "tsx tools/build-gathering-contact-sheets.ts --run runs/corealm",
     "verify:gathering-production": "tsx tools/verify-gathering-production.ts --run runs/corealm",
     "multiplayer:authored": "tsx tools/multiplayer-authored-test.ts",
-    "multiplayer:render": "tsx tools/multiplayer-render-test.ts"
+    "multiplayer:render": "tsx tools/multiplayer-render-test.ts",
+    "content:export": "tsx tools/content/export-json.ts",
+    "content:check": "tsx tools/content/check.ts",
+    "content:format": "tsx tools/content/format-all.ts",
+    "content:parity": "tsx tools/content/parity.ts",
+    "content:baseline": "tsx tools/content/baseline.ts",
+    "devdocs:requests": "tsx tools/content/requests.ts"
   },
   "dependencies": {
     "@recast-navigation/core": "0.43.1",

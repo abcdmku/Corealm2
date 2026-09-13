@@ -1,0 +1,874 @@
+[
+  {
+    "id": "voltrend",
+    "name": "Voltrend",
+    "element": "wind",
+    "rung": "lash",
+    "reqLevel": 1,
+    "tier": 1,
+    "baseMax": 3,
+    "divisor": 8,
+    "baseXp": 5,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1
+    },
+    "description": "A compact wind charm with a pale leading edge and a rippling pressure wake.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "stonebrand",
+    "name": "Stonebrand",
+    "element": "earth",
+    "rung": "lash",
+    "reqLevel": 5,
+    "tier": 5,
+    "baseMax": 5,
+    "divisor": 7,
+    "baseXp": 12,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1
+    },
+    "description": "A small green-gold charm carrying fine stone grit into a sharp magical impact.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "rimewash",
+    "name": "Rimewash",
+    "element": "water",
+    "rung": "lash",
+    "reqLevel": 10,
+    "tier": 10,
+    "baseMax": 8,
+    "divisor": 6,
+    "baseXp": 22,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1
+    },
+    "description": "A bright water charm that streams toward one target and breaks into fine liquid spray.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "emberlash",
+    "name": "Emberlash",
+    "element": "fire",
+    "rung": "lash",
+    "reqLevel": 15,
+    "tier": 10,
+    "baseMax": 9,
+    "divisor": 6,
+    "baseXp": 30,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1
+    },
+    "description": "A small, living flame gathered at the weapon tip and released with a trail of sparks.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "skirlbolt",
+    "name": "Skirlbolt",
+    "element": "wind",
+    "rung": "bolt",
+    "reqLevel": 17,
+    "tier": 10,
+    "baseMax": 11,
+    "divisor": 5.5,
+    "baseXp": 36,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1
+    },
+    "description": "A stronger wind charm with a wider pressure wake and more luminous motes.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "sleetbolt",
+    "name": "Sleetbolt",
+    "element": "water",
+    "rung": "bolt",
+    "reqLevel": 23,
+    "tier": 20,
+    "baseMax": 13,
+    "divisor": 5.2,
+    "baseXp": 47,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1
+    },
+    "description": "A stronger water charm with a fuller flowing wake and a denser splash on contact.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "shalebolt",
+    "name": "Shalebolt",
+    "element": "earth",
+    "rung": "bolt",
+    "reqLevel": 29,
+    "tier": 20,
+    "baseMax": 15,
+    "divisor": 5,
+    "baseXp": 59,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1
+    },
+    "description": "A stronger earth charm with a brighter mineral wake and more scattered grit.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "cinderbolt",
+    "name": "Cinderbolt",
+    "element": "fire",
+    "rung": "bolt",
+    "reqLevel": 35,
+    "tier": 30,
+    "baseMax": 17,
+    "divisor": 4.8,
+    "baseXp": 71,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1
+    },
+    "description": "A stronger flame charm with a fuller burning core and a longer ember wake.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "galeburst",
+    "name": "Galeburst",
+    "element": "wind",
+    "rung": "burst",
+    "reqLevel": 41,
+    "tier": 40,
+    "baseMax": 19,
+    "divisor": 4.6,
+    "baseXp": 84,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1
+    },
+    "description": "A broad wind charm that drives a dense, shimmering pressure wake into one target.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "spateburst",
+    "name": "Spateburst",
+    "element": "water",
+    "rung": "burst",
+    "reqLevel": 47,
+    "tier": 40,
+    "baseMax": 21,
+    "divisor": 4.4,
+    "baseXp": 97,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1
+    },
+    "description": "A broad water charm with rolling liquid highlights and a dense burst of spray.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "cragburst",
+    "name": "Cragburst",
+    "element": "earth",
+    "rung": "burst",
+    "reqLevel": 53,
+    "tier": 50,
+    "baseMax": 23,
+    "divisor": 4.2,
+    "baseXp": 111,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1
+    },
+    "description": "A broad earth charm with a dense green-gold wake that scatters tiny fragments on contact.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "pyreburst",
+    "name": "Pyreburst",
+    "element": "fire",
+    "rung": "burst",
+    "reqLevel": 59,
+    "tier": 50,
+    "baseMax": 25,
+    "divisor": 4,
+    "baseXp": 125,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1
+    },
+    "description": "A broad flame charm with curling fire and a dense shower of embers on contact.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "squallsurge",
+    "name": "Squallsurge",
+    "element": "wind",
+    "rung": "surge",
+    "reqLevel": 62,
+    "tier": 60,
+    "baseMax": 27,
+    "divisor": 3.8,
+    "baseXp": 133,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1
+    },
+    "description": "The strongest wind charm: a wide luminous wake, dense motes, and one concentrated impact.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "tidesurge",
+    "name": "Tidesurge",
+    "element": "water",
+    "rung": "surge",
+    "reqLevel": 65,
+    "tier": 60,
+    "baseMax": 29,
+    "divisor": 3.6,
+    "baseXp": 141,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1
+    },
+    "description": "The strongest water charm: a full flowing wake and a brilliant, concentrated splash.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "scarpsurge",
+    "name": "Scarpsurge",
+    "element": "earth",
+    "rung": "surge",
+    "reqLevel": 68,
+    "tier": 60,
+    "baseMax": 31,
+    "divisor": 3.5,
+    "baseXp": 149,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1
+    },
+    "description": "The strongest earth charm: a broad mineral glow and dense fragments released on impact.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "kilnsurge",
+    "name": "Kilnsurge",
+    "element": "fire",
+    "rung": "surge",
+    "reqLevel": 70,
+    "tier": 70,
+    "baseMax": 33,
+    "divisor": 3.4,
+    "baseXp": 155,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1
+    },
+    "description": "The strongest flame charm: a full organic flame wake and a concentrated burst of glowing embers.",
+    "catalog": "SPELLS"
+  },
+  {
+    "id": "air-needle",
+    "name": "Air needle",
+    "element": "wind",
+    "rung": "bolt",
+    "rank": 1,
+    "aoe": false,
+    "reqLevel": 20,
+    "tier": 20,
+    "baseMax": 14,
+    "divisor": 5,
+    "baseXp": 40,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "mind_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "A concentrated silver-blue dart slips through rippling air. Its tapered wake sheds fine sparks and opens into two short swooshes on contact. One 18-damage strike within 1.1 m.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "flint-shot",
+    "name": "Flint shot",
+    "element": "earth",
+    "rung": "bolt",
+    "rank": 1,
+    "aoe": false,
+    "reqLevel": 22,
+    "tier": 20,
+    "baseMax": 15,
+    "divisor": 5,
+    "baseXp": 44,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "mind_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "A bright jade lance carries a small flint core under a curved light wake. One 1.2 m impact deals 24 damage, splitting the core into 72 pieces inside a fan of glowing mineral sparks.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "waterjet",
+    "name": "Waterjet",
+    "element": "water",
+    "rung": "bolt",
+    "rank": 1,
+    "aoe": false,
+    "reqLevel": 24,
+    "tier": 20,
+    "baseMax": 16,
+    "divisor": 5,
+    "baseXp": 48,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "mind_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Two narrow cobalt light jets carry liquid threads inside their wakes, shedding turquoise spray. Two close 11-damage impacts arrive 120 ms apart in a 1.2 m pocket and leave a short slow.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "ember-dart",
+    "name": "Ember dart",
+    "element": "fire",
+    "rung": "bolt",
+    "rank": 1,
+    "aoe": false,
+    "reqLevel": 26,
+    "tier": 20,
+    "baseMax": 17,
+    "divisor": 5,
+    "baseXp": 52,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "mind_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "A tapered gold-red comet leaves a bright curled wake, then scatters embers on contact. The initial hit deals 15 damage, followed by two small 4-damage burns.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "razor-crescent",
+    "name": "Razor crescent",
+    "element": "wind",
+    "rung": "burst",
+    "rank": 2,
+    "aoe": true,
+    "reqLevel": 32,
+    "tier": 30,
+    "baseMax": 18,
+    "divisor": 4.6,
+    "baseXp": 66,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "chaos_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Three luminous wind cuts bank across the target line 140 ms apart. Each has its own tilt, broad leading edge and scattered wake. Each deals 14 damage within 2.2 m and pushes targets sideways.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "faultline",
+    "name": "Faultline",
+    "element": "earth",
+    "rung": "burst",
+    "rank": 2,
+    "aoe": true,
+    "reqLevel": 34,
+    "tier": 30,
+    "baseMax": 19,
+    "divisor": 4.6,
+    "baseXp": 70,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "chaos_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "A low jagged seam races down the lane, throwing jade light across the ground as short rock ridges heave beneath it. Five sections strike 150 ms apart for 19 damage within 1.8 m, briefly staggering targets.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "tidal-fan",
+    "name": "Tidal fan",
+    "element": "water",
+    "rung": "burst",
+    "rank": 2,
+    "aoe": true,
+    "reqLevel": 36,
+    "tier": 30,
+    "baseMax": 20,
+    "divisor": 4.6,
+    "baseXp": 74,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "chaos_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Five luminous blue wakes bank across a 10 m arc and arrive 35 ms apart. Each has a different bend, breadth and spray direction. Each deals 16 damage in a 1.6 m pocket and slows movement.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "furnace-whip",
+    "name": "Furnace whip",
+    "element": "fire",
+    "rung": "burst",
+    "rank": 2,
+    "aoe": true,
+    "reqLevel": 38,
+    "tier": 30,
+    "baseMax": 21,
+    "divisor": 4.6,
+    "baseXp": 78,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "chaos_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "One broad ribbon of fire unfurls into the front line, then cracks sideways across six targets. The trailing flame follows the tip and tears into cinders. Six successive contacts deal 13 damage each.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "vacuum-coil",
+    "name": "Vacuum coil",
+    "element": "wind",
+    "rung": "burst",
+    "rank": 3,
+    "aoe": true,
+    "reqLevel": 44,
+    "tier": 40,
+    "baseMax": 22,
+    "divisor": 4.2,
+    "baseXp": 92,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "death_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Open spirals of silver light and pressure draw targets inward. Four 9-damage contractions pull targets within 5.5 m toward the empty eye, followed by a 28-damage pressure rupture.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "basalt-jaw",
+    "name": "Basalt jaw",
+    "element": "earth",
+    "rung": "burst",
+    "rank": 3,
+    "aoe": true,
+    "reqLevel": 46,
+    "tier": 40,
+    "baseMax": 23,
+    "divisor": 4.2,
+    "baseXp": 96,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "death_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Opposing mineral rakes sweep inward above low broken stone. Six outer strikes bind targets before a concentrated crossing burst crushes the centre for 40 damage. The ground stays visible between the light paths.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "geyser-chain",
+    "name": "Geyser chain",
+    "element": "water",
+    "rung": "burst",
+    "rank": 3,
+    "aoe": true,
+    "reqLevel": 48,
+    "tier": 40,
+    "baseMax": 24,
+    "divisor": 4.2,
+    "baseXp": 100,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "death_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Three branching spring bursts climb along the aim line. Separate glowing arcs carry thin liquid threads and falling spray. Each area takes 24 damage, then another 12 as the spray lands.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "cinder-mine",
+    "name": "Cinder mine",
+    "element": "fire",
+    "rung": "burst",
+    "rank": 3,
+    "aoe": true,
+    "reqLevel": 50,
+    "tier": 50,
+    "baseMax": 25,
+    "divisor": 4.2,
+    "baseXp": 104,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "death_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Low ember streams draw inward, pause, then burst into separate flame tongues around an open blast front. The first strike deals 55 damage in 4.5 m; a later 15-damage wave reaches 6 m.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "thunder-lance",
+    "name": "Thunder lance",
+    "element": "wind",
+    "rung": "surge",
+    "rank": 4,
+    "aoe": true,
+    "reqLevel": 56,
+    "tier": 50,
+    "baseMax": 27,
+    "divisor": 3.8,
+    "baseXp": 120,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "blood_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "One concentrated light wake drives a corkscrew of compressed air down the lane. Five unequal contact bursts deal 26 damage each within 1.7 m and briefly stagger victims.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "siege-boulder",
+    "name": "Siege boulder",
+    "element": "earth",
+    "rung": "surge",
+    "rank": 4,
+    "aoe": true,
+    "reqLevel": 58,
+    "tier": 50,
+    "baseMax": 28,
+    "divisor": 3.8,
+    "baseXp": 124,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "blood_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "A heavy braided jade comet carries a small bound stone core through a high arc. Its first strike deals 65 damage within 5 m and breaks the core into 180 pieces. A later 18-damage ground sweep reaches 7 m.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "undertow",
+    "name": "Undertow",
+    "element": "water",
+    "rung": "surge",
+    "rank": 4,
+    "aoe": true,
+    "reqLevel": 60,
+    "tier": 60,
+    "baseMax": 29,
+    "divisor": 3.8,
+    "baseXp": 128,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "blood_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Low blue wakes curve inward through a shallow whirlpool. Three 12-damage pulses gather targets over 1.1 seconds, then the eye pinches shut in collapsing foam, striking the group for 35 damage inside 3.5 m.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "phoenix-pass",
+    "name": "Kiln rupture",
+    "element": "fire",
+    "rung": "surge",
+    "rank": 4,
+    "aoe": true,
+    "reqLevel": 62,
+    "tier": 60,
+    "baseMax": 30,
+    "divisor": 3.8,
+    "baseXp": 132,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "blood_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Seven uneven vents split the ground in sequence, each erupting into torn red-gold flames and rising ash. Each vent deals 32 damage within 2.7 m and burns targets.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "skybreaker",
+    "name": "Skybreaker",
+    "element": "wind",
+    "rung": "surge",
+    "rank": 5,
+    "aoe": true,
+    "reqLevel": 74,
+    "tier": 70,
+    "baseMax": 40,
+    "divisor": 3.2,
+    "baseXp": 170,
+    "castMs": 3000,
+    "cost": {
+      "element": "wind",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "wrath_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Loose storm currents form overhead and descend into a broad 11 m tornado. Touchdown deals 45 damage, then three sweeping fronts deal 18 each. After circulation breaks, lifted debris falls and settles. The full cast lasts 4.95 seconds.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "mountainfall",
+    "name": "Mountainfall",
+    "element": "earth",
+    "rung": "surge",
+    "rank": 5,
+    "aoe": true,
+    "reqLevel": 76,
+    "tier": 70,
+    "baseMax": 41,
+    "divisor": 3.2,
+    "baseXp": 174,
+    "castMs": 3000,
+    "cost": {
+      "element": "earth",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "wrath_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Jade currents gather around five stone anchors across an 18 m field, then crush inward and erupt as mineral light. The first rupture deals 50 damage, eight outer surges deal 32 each and the implosion deals 22 across 10 m. Fragments settle over 4.41 seconds.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "deluge",
+    "name": "Deluge",
+    "element": "water",
+    "rung": "surge",
+    "rank": 5,
+    "aoe": true,
+    "reqLevel": 78,
+    "tier": 70,
+    "baseMax": 42,
+    "divisor": 3.2,
+    "baseXp": 178,
+    "castMs": 3000,
+    "cost": {
+      "element": "water",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "wrath_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "Heavy teal waves gather around a 20 m field, then crash inward. Three converging sets of four 20-damage contacts pull targets toward the centre. The collision throws a towering splash upward, followed by falling spray over a 4.95-second cast.",
+    "catalog": "ADVANCED_SPELLS"
+  },
+  {
+    "id": "starfall",
+    "name": "Sunfall",
+    "element": "fire",
+    "rung": "surge",
+    "rank": 5,
+    "aoe": true,
+    "reqLevel": 80,
+    "tier": 80,
+    "baseMax": 43,
+    "divisor": 3.2,
+    "baseXp": 182,
+    "castMs": 3000,
+    "cost": {
+      "element": "fire",
+      "charges": 1,
+      "runes": [
+        {
+          "itemId": "wrath_rune",
+          "quantity": 1
+        },
+        {
+          "itemId": "cosmic_rune",
+          "quantity": 1
+        }
+      ]
+    },
+    "description": "A large sun gathers a torn burning corona and accelerates into one 110-damage impact across 9 m. Tall rolling flames, airborne embers and dark ash linger from that single blast. The full cast lasts 4.3 seconds.",
+    "catalog": "ADVANCED_SPELLS"
+  }
+]

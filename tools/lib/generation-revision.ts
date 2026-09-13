@@ -1,13 +1,24 @@
 import { createHash } from "node:crypto";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import type { Plugin } from "vite";
 
-function generationInputs(root: string): string[] {
+function filesUnder(directory: string): string[] {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory, { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile()).map(entry => path.join(entry.parentPath, entry.name));
+}
+
+/**
+ * Every file whose bytes can change derived world data. Exported so a test can prove the shipped
+ * JSON content store is covered while the dev-only `content/meta` (notes, approvals) is not.
+ */
+export function generationInputs(root: string): string[] {
   // Recursive source coverage includes separate terrain maps, region content and compositions
   // such as realmTerrain, Crownward and the fairy regions without maintaining a second file list.
-  return [...readdirSync(path.join(root, "src"), { recursive: true, withFileTypes: true })
-    .filter(entry => entry.isFile()).map(entry => path.join(entry.parentPath, entry.name)),
+  // `content/data` holds the JSON tables the loaders under `src/content` import; `content/meta`
+  // is deliberately absent because approval state must never invalidate a baked world.
+  return [...filesUnder(path.join(root, "src")), ...filesUnder(path.join(root, "content/data")),
     path.join(root, "public/assets/manifest.json"), path.join(root, "../package-lock.json")].sort();
 }
 

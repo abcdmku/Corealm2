@@ -1,0 +1,163 @@
+{
+  "materialValues": [
+    {
+      "tier": 1,
+      "value": 3
+    },
+    {
+      "tier": 5,
+      "value": 8
+    },
+    {
+      "tier": 10,
+      "value": 17
+    },
+    {
+      "tier": 20,
+      "value": 35
+    }
+  ],
+  "bossArmorExpectedPieces": 0.02,
+  "regionalFabric": {
+    "ordinary": {
+      "quantity": [
+        1,
+        3
+      ],
+      "chance": 0.75
+    },
+    "boss": {
+      "quantity": [
+        4,
+        7
+      ],
+      "chance": 1
+    }
+  },
+  "wilderness": {
+    "deepTier": 70,
+    "keeper": {
+      "material": {
+        "quantity": [
+          5,
+          9
+        ],
+        "chance": 1
+      },
+      "component": {
+        "quantity": [
+          1,
+          2
+        ],
+        "chance": 1
+      },
+      "rune": {
+        "quantity": [
+          24,
+          40
+        ],
+        "chance": 1
+      },
+      "cosmicRune": {
+        "quantity": [
+          24,
+          40
+        ],
+        "chance": 1
+      },
+      "ore": {
+        "quantity": [
+          3,
+          6
+        ],
+        "chance": 1
+      },
+      "gem": {
+        "quantity": [
+          1,
+          2
+        ],
+        "chance": 0.35
+      }
+    },
+    "ordinary": {
+      "material": {
+        "quantity": [
+          1,
+          3
+        ],
+        "chance": 1
+      },
+      "cosmicRune": {
+        "quantity": [
+          2,
+          4
+        ],
+        "chance": 0.4
+      },
+      "ore": {
+        "quantity": [
+          1,
+          2
+        ],
+        "chance": 0.25
+      },
+      "gem": {
+        "quantity": [
+          1,
+          1
+        ],
+        "chance": 0.04
+      },
+      "structureComponent": {
+        "quantity": [
+          1,
+          1
+        ],
+        "chance": 0.12
+      },
+      "runes": [
+        {
+          "quantity": [
+            2,
+            4
+          ],
+          "chance": 0.4,
+          "rank": 1
+        },
+        {
+          "quantity": [
+            2,
+            3
+          ],
+          "chance": 0.28,
+          "rank": 2
+        },
+        {
+          "quantity": [
+            2,
+            4
+          ],
+          "chance": 0.32,
+          "rank": 3
+        },
+        {
+          "quantity": [
+            1,
+            3
+          ],
+          "chance": 0.22,
+          "rank": 4
+        },
+        {
+          "quantity": [
+            1,
+            2
+          ],
+          "chance": 0.1,
+          "rank": 5
+        }
+      ]
+    }
+  }
+}

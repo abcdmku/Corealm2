@@ -1,0 +1,38 @@
+[
+  {
+    "itemId": "mind_rune",
+    "name": "Mind Rune",
+    "tier": 1,
+    "description": "A pale rune etched with a single clear eye. It steadies the caster's thought onto one mark. Spent by every rank-one invocation."
+  },
+  {
+    "itemId": "chaos_rune",
+    "name": "Chaos Rune",
+    "tier": 2,
+    "description": "An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Spent by every rank-two invocation."
+  },
+  {
+    "itemId": "death_rune",
+    "name": "Death Rune",
+    "tier": 3,
+    "description": "A bone-white rune cut with a hollow skull. It holds a spell's shape while it gathers and closes. Spent by every rank-three invocation."
+  },
+  {
+    "itemId": "blood_rune",
+    "name": "Blood Rune",
+    "tier": 4,
+    "description": "A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Spent by every rank-four invocation."
+  },
+  {
+    "itemId": "wrath_rune",
+    "name": "Wrath Rune",
+    "tier": 5,
+    "description": "A black rune split through with slow red light. Spent by the four finales and by nothing smaller."
+  },
+  {
+    "itemId": "cosmic_rune",
+    "name": "Cosmic Rune",
+    "tier": 0,
+    "description": "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Spent alongside the tier rune by every area invocation."
+  }
+]

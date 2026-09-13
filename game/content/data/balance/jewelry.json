@@ -1,0 +1,127 @@
+{
+  "crafted": {
+    "valuePerTier": 80,
+    "bonusTierDivisor": 10,
+    "healthMultiplier": 3,
+    "otherMultiplier": 1,
+    "recipeDurationMs": 3000,
+    "recipeWeight": 3,
+    "ingredientQuantity": 1,
+    "outputQuantity": 1,
+    "profiles": [
+      {
+        "tier": 10,
+        "stat": "meleeAccuracy",
+        "requirementSkill": "melee",
+        "bar": "kaldite_bar",
+        "gem": "cairn_garnet"
+      },
+      {
+        "tier": 20,
+        "stat": "magicAccuracy",
+        "requirementSkill": "magic",
+        "bar": "emberite_bar",
+        "gem": "fire_opal"
+      },
+      {
+        "tier": 30,
+        "stat": "defence",
+        "requirementSkill": "melee",
+        "bar": "kaldite_bar",
+        "gem": "pale_quartz"
+      },
+      {
+        "tier": 40,
+        "stat": "health",
+        "requirementSkill": "melee",
+        "bar": "emberite_bar",
+        "gem": "vell_amber"
+      },
+      {
+        "tier": 50,
+        "stat": "meleePower",
+        "requirementSkill": "melee",
+        "bar": "cindersteel_bar",
+        "gem": "cairn_garnet"
+      },
+      {
+        "tier": 60,
+        "stat": "magicPower",
+        "requirementSkill": "magic",
+        "bar": "cindersteel_bar",
+        "gem": "fire_opal"
+      },
+      {
+        "tier": 70,
+        "stat": "vitality",
+        "requirementSkill": "melee",
+        "bar": "nightglass_bar",
+        "gem": "fire_opal"
+      }
+    ]
+  },
+  "miniboss": {
+    "valuePerTier": 360,
+    "bonusPerStat": 2,
+    "profiles": [
+      {
+        "tier": 10,
+        "stats": [
+          "meleeAccuracy",
+          "defence"
+        ],
+        "requirementSkill": "melee"
+      },
+      {
+        "tier": 20,
+        "stats": [
+          "magicAccuracy",
+          "defence"
+        ],
+        "requirementSkill": "magic"
+      },
+      {
+        "tier": 30,
+        "stats": [
+          "defence",
+          "health"
+        ],
+        "requirementSkill": "melee"
+      },
+      {
+        "tier": 40,
+        "stats": [
+          "meleeAccuracy",
+          "meleePower"
+        ],
+        "requirementSkill": "melee"
+      },
+      {
+        "tier": 50,
+        "stats": [
+          "magicAccuracy",
+          "magicPower"
+        ],
+        "requirementSkill": "magic"
+      },
+      {
+        "tier": 60,
+        "stats": [
+          "meleeAccuracy",
+          "meleePower",
+          "defence"
+        ],
+        "requirementSkill": "melee"
+      },
+      {
+        "tier": 70,
+        "stats": [
+          "magicAccuracy",
+          "magicPower",
+          "defence"
+        ],
+        "requirementSkill": "magic"
+      }
+    ]
+  }
+}

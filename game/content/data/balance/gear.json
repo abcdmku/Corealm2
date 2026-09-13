@@ -1,0 +1,1168 @@
+{
+  "gatheringTiers": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "craftingTiers": [
+    1,
+    5,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70
+  ],
+  "attackSpeedMs": {
+    "melee": 2400,
+    "staff": 3000,
+    "wand": 2200
+  },
+  "rare": {
+    "bonusMultiplier": 1.1,
+    "valueMultiplier": 1.5
+  },
+  "combat": {
+    "meleeBase": 2,
+    "meleeDivisor": 4.2,
+    "rollLevelOffset": 9,
+    "bonusDivisor": 100,
+    "meleeStyleFactor": 1,
+    "magicStyleFactor": 1.15,
+    "minimumHitChance": 0.05,
+    "maximumHitChance": 0.95
+  },
+  "baselines": [
+    {
+      "id": "worn_sword",
+      "tier": 0,
+      "value": 15,
+      "slot": "mainHand",
+      "requires": {},
+      "bonuses": {
+        "meleeAccuracy": 3,
+        "meleePower": 3,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "basic_wooden_wand",
+      "tier": 0,
+      "value": 12,
+      "slot": "mainHand",
+      "requires": {},
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 0,
+        "magicAccuracy": 2,
+        "magicPower": 1,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "basic_wooden_staff",
+      "tier": 0,
+      "value": 20,
+      "slot": "mainHand",
+      "requires": {},
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 0,
+        "magicAccuracy": 3,
+        "magicPower": 7,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_dagger",
+      "tier": 1,
+      "value": 90,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 6,
+        "meleePower": 6,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_sword",
+      "tier": 1,
+      "value": 180,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 7,
+        "meleePower": 8,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "palewood_shield",
+      "tier": 1,
+      "value": 70,
+      "slot": "offHand",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 4,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_helm",
+      "tier": 1,
+      "value": 110,
+      "slot": "head",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_cuirass",
+      "tier": 1,
+      "value": 220,
+      "slot": "body",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 5,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_greaves",
+      "tier": 1,
+      "value": 200,
+      "slot": "legs",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 3,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_boots",
+      "tier": 1,
+      "value": 80,
+      "slot": "feet",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "grithe_gloves",
+      "tier": 1,
+      "value": 80,
+      "slot": "hands",
+      "requires": {
+        "melee": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_dagger",
+      "tier": 5,
+      "value": 320,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 12,
+        "meleePower": 11,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_sword",
+      "tier": 5,
+      "value": 620,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 14,
+        "meleePower": 14,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "duskoak_shield",
+      "tier": 5,
+      "value": 240,
+      "slot": "offHand",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 8,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_helm",
+      "tier": 5,
+      "value": 380,
+      "slot": "head",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 5,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_plate",
+      "tier": 5,
+      "value": 760,
+      "slot": "body",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 2,
+        "meleePower": 0,
+        "defence": 10,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 4,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_greaves",
+      "tier": 5,
+      "value": 700,
+      "slot": "legs",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 7,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 3,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_boots",
+      "tier": 5,
+      "value": 260,
+      "slot": "feet",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "corven_gauntlets",
+      "tier": 5,
+      "value": 260,
+      "slot": "hands",
+      "requires": {
+        "melee": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_dagger",
+      "tier": 10,
+      "value": 760,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 9
+      },
+      "bonuses": {
+        "meleeAccuracy": 24,
+        "meleePower": 22,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_sword",
+      "tier": 10,
+      "value": 1450,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 28,
+        "meleePower": 26,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpine_shield",
+      "tier": 10,
+      "value": 560,
+      "slot": "offHand",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 2,
+        "meleePower": 0,
+        "defence": 14,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_helm",
+      "tier": 10,
+      "value": 880,
+      "slot": "head",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 2,
+        "meleePower": 0,
+        "defence": 9,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_plate",
+      "tier": 10,
+      "value": 1760,
+      "slot": "body",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 3,
+        "meleePower": 0,
+        "defence": 18,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 5,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_greaves",
+      "tier": 10,
+      "value": 1620,
+      "slot": "legs",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 2,
+        "meleePower": 0,
+        "defence": 12,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 4,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_boots",
+      "tier": 10,
+      "value": 600,
+      "slot": "feet",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 1,
+        "meleePower": 0,
+        "defence": 3,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "kaldite_gauntlets",
+      "tier": 10,
+      "value": 600,
+      "slot": "hands",
+      "requires": {
+        "melee": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 2,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_dagger",
+      "tier": 20,
+      "value": 1700,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 19
+      },
+      "bonuses": {
+        "meleeAccuracy": 42,
+        "meleePower": 38,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_sword",
+      "tier": 20,
+      "value": 3200,
+      "slot": "mainHand",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 48,
+        "meleePower": 45,
+        "defence": 0,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cinderpine_shield",
+      "tier": 20,
+      "value": 1250,
+      "slot": "offHand",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 3,
+        "meleePower": 0,
+        "defence": 22,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_helm",
+      "tier": 20,
+      "value": 1950,
+      "slot": "head",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 4,
+        "meleePower": 0,
+        "defence": 14,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 3,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_plate",
+      "tier": 20,
+      "value": 3900,
+      "slot": "body",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 6,
+        "meleePower": 0,
+        "defence": 30,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 7,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_greaves",
+      "tier": 20,
+      "value": 3600,
+      "slot": "legs",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 4,
+        "meleePower": 0,
+        "defence": 19,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 5,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_boots",
+      "tier": 20,
+      "value": 1350,
+      "slot": "feet",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 2,
+        "meleePower": 0,
+        "defence": 6,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "emberite_gauntlets",
+      "tier": 20,
+      "value": 1350,
+      "slot": "hands",
+      "requires": {
+        "melee": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 4,
+        "meleePower": 0,
+        "defence": 4,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 3,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "palewood_wand",
+      "tier": 1,
+      "value": 95,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 0,
+        "magicAccuracy": 4,
+        "magicPower": 3,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "palewood_staff",
+      "tier": 1,
+      "value": 140,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 6,
+        "magicPower": 7,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "marchhide_hood",
+      "tier": 1,
+      "value": 90,
+      "slot": "head",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 1,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "marchhide_robe",
+      "tier": 1,
+      "value": 170,
+      "slot": "body",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 3,
+        "magicAccuracy": 1,
+        "magicPower": 1,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "marchhide_leggings",
+      "tier": 1,
+      "value": 150,
+      "slot": "legs",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 1,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "marchhide_boots",
+      "tier": 1,
+      "value": 65,
+      "slot": "feet",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "marchhide_wraps",
+      "tier": 1,
+      "value": 65,
+      "slot": "hands",
+      "requires": {
+        "magic": 1
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "duskoak_wand",
+      "tier": 5,
+      "value": 340,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 1,
+        "magicAccuracy": 9,
+        "magicPower": 6,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "duskoak_staff",
+      "tier": 5,
+      "value": 500,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 2,
+        "defence": 2,
+        "magicAccuracy": 12,
+        "magicPower": 11,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "bramblehide_hood",
+      "tier": 5,
+      "value": 300,
+      "slot": "head",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 4,
+        "magicAccuracy": 2,
+        "magicPower": 1,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "bramblehide_robe",
+      "tier": 5,
+      "value": 600,
+      "slot": "body",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 8,
+        "magicAccuracy": 3,
+        "magicPower": 1,
+        "health": 3,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "bramblehide_leggings",
+      "tier": 5,
+      "value": 540,
+      "slot": "legs",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 5,
+        "magicAccuracy": 2,
+        "magicPower": 1,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "bramblehide_boots",
+      "tier": 5,
+      "value": 220,
+      "slot": "feet",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 1,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "bramblehide_wraps",
+      "tier": 5,
+      "value": 220,
+      "slot": "hands",
+      "requires": {
+        "magic": 5
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 2,
+        "magicAccuracy": 0,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpine_wand",
+      "tier": 10,
+      "value": 820,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 3,
+        "magicAccuracy": 18,
+        "magicPower": 14,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpine_staff",
+      "tier": 10,
+      "value": 1180,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 4,
+        "defence": 4,
+        "magicAccuracy": 24,
+        "magicPower": 20,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpelt_hood",
+      "tier": 10,
+      "value": 700,
+      "slot": "head",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 8,
+        "magicAccuracy": 4,
+        "magicPower": 2,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpelt_robe",
+      "tier": 10,
+      "value": 1400,
+      "slot": "body",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 14,
+        "magicAccuracy": 6,
+        "magicPower": 3,
+        "health": 4,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpelt_leggings",
+      "tier": 10,
+      "value": 1260,
+      "slot": "legs",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 9,
+        "magicAccuracy": 3,
+        "magicPower": 2,
+        "health": 3,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpelt_boots",
+      "tier": 10,
+      "value": 500,
+      "slot": "feet",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 3,
+        "magicAccuracy": 1,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cairnpelt_wraps",
+      "tier": 10,
+      "value": 500,
+      "slot": "hands",
+      "requires": {
+        "magic": 10
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 3,
+        "magicAccuracy": 1,
+        "magicPower": 0,
+        "health": 1,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cinderpine_wand",
+      "tier": 20,
+      "value": 1900,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 5,
+        "magicAccuracy": 27,
+        "magicPower": 23,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "cinderpine_staff",
+      "tier": 20,
+      "value": 2700,
+      "slot": "mainHand",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 7,
+        "defence": 7,
+        "magicAccuracy": 40,
+        "magicPower": 34,
+        "health": 0,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "charhide_hood",
+      "tier": 20,
+      "value": 1650,
+      "slot": "head",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 15,
+        "magicAccuracy": 8,
+        "magicPower": 4,
+        "health": 3,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "charhide_robe",
+      "tier": 20,
+      "value": 3300,
+      "slot": "body",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 26,
+        "magicAccuracy": 12,
+        "magicPower": 6,
+        "health": 6,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "charhide_leggings",
+      "tier": 20,
+      "value": 2950,
+      "slot": "legs",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 18,
+        "magicAccuracy": 7,
+        "magicPower": 4,
+        "health": 4,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "charhide_boots",
+      "tier": 20,
+      "value": 1150,
+      "slot": "feet",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 5,
+        "magicAccuracy": 2,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    },
+    {
+      "id": "charhide_wraps",
+      "tier": 20,
+      "value": 1150,
+      "slot": "hands",
+      "requires": {
+        "magic": 20
+      },
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "meleePower": 0,
+        "defence": 5,
+        "magicAccuracy": 2,
+        "magicPower": 0,
+        "health": 2,
+        "vitality": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "minimum": 7,
+  "maximum": 15,
+  "bodyGap": 0.5,
+  "bossCount": 1,
+  "fixedMinimum": 1,
+  "populationHashRange": 9,
+  "defaultRadiusSpacingMultiplier": 4,
+  "maximumRings": 128,
+  "clearanceEpsilon": 0.000001
+}

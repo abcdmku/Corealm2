@@ -1,0 +1,94 @@
+{
+  "marksPerTier": {
+    "ordinary": [
+      3,
+      11
+    ],
+    "purse": [
+      7,
+      27
+    ]
+  },
+  "fantasy": {
+    "tiers": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "minimums": {
+      "maxHealth": 1,
+      "attackLevel": 1,
+      "defenceLevel": 1,
+      "accuracy": 0,
+      "armour": 0,
+      "magicArmour": 0,
+      "maxHit": 1,
+      "marks": 0
+    }
+  },
+  "combatLevel": {
+    "rollLevelOffset": 9,
+    "bonusDivisor": 100,
+    "defenceStyleCount": 2,
+    "healthPerLevel": 3,
+    "offenceWeight": 0.5,
+    "defenceWeight": 0.25,
+    "healthWeight": 0.25,
+    "minimum": 1
+  },
+  "tuning": {
+    "minimumHealth": 3,
+    "minimumLevel": 1,
+    "minimumBonus": 0,
+    "maximumBonus": 80,
+    "maximumBonusScale": 1,
+    "maxHitExponent": 0.68,
+    "searchInitialLow": 0,
+    "searchInitialHigh": 1,
+    "searchGrowth": 2,
+    "searchIterations": 48,
+    "healthPerCombatLevel": 12
+  },
+  "regionCombatTiers": {
+    "fallowmarch": 1,
+    "vellenwood": 5,
+    "karrowmoor": 10,
+    "gravelmaw": 10,
+    "kilnhalt": 20,
+    "wilderness": 50,
+    "crownward": 40,
+    "gloamgarden": 30,
+    "faeholme": 60
+  },
+  "regionalBossLevels": {
+    "galeskin": {
+      "tier": 1,
+      "multiplier": 11
+    },
+    "tempest_roc": {
+      "tier": 1,
+      "multiplier": 13
+    },
+    "mossbound": {
+      "tier": 5,
+      "multiplier": 3
+    },
+    "rootheart": {
+      "tier": 5,
+      "multiplier": 5
+    },
+    "tideworn": {
+      "tier": 10,
+      "multiplier": 4
+    },
+    "ordrun": {
+      "tier": 10,
+      "multiplier": 5
+    },
+    "cinderwake": {
+      "tier": 20,
+      "multiplier": 4
+    }
+  }
+}

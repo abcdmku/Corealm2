@@ -1,0 +1,1008 @@
+{
+  "cues": {
+    "ui.click": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/ui-button-press-01.ogg",
+          "startOffsetS": 0.038
+        }
+      ],
+      "gain": 0.34,
+      "maxConcurrent": 2,
+      "minIntervalMs": 70
+    },
+    "ui.confirm": {
+      "variants": [
+        "audio/sfx/tommusic/lock-unlock.ogg"
+      ],
+      "gain": 0.46,
+      "playbackRate": [
+        1.02,
+        1.08
+      ]
+    },
+    "ui.cancel": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/door-latch-01.ogg",
+          "startOffsetS": 0.108
+        }
+      ],
+      "gain": 0.2,
+      "playbackRate": 0.9
+    },
+    "ui.error": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/shield-metal-strike-01.ogg",
+          "startOffsetS": 0.038
+        }
+      ],
+      "gain": 0.08,
+      "playbackRate": 0.82
+    },
+    "ui.level_up": {
+      "variants": [
+        "audio/sfx/custom/starter-plains-drums.ogg"
+      ],
+      "gain": 0.4,
+      "maxConcurrent": 1,
+      "minIntervalMs": 180,
+      "playbackRate": 1
+    },
+    "movement.footstep_grass": {
+      "variants": [
+        "audio/sfx/nox/footstep-grass-01.ogg",
+        {
+          "url": "audio/sfx/nox/footstep-grass-02.ogg",
+          "gain": 0.93
+        }
+      ],
+      "gain": 1.64,
+      "maxConcurrent": 2,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "movement.footstep_dirt": {
+      "variants": [
+        {
+          "url": "audio/sfx/oga/footstep-ground-01.ogg",
+          "startOffsetS": 0.081
+        },
+        {
+          "url": "audio/sfx/oga/footstep-ground-02.ogg",
+          "gain": 0.57,
+          "startOffsetS": 0.076
+        }
+      ],
+      "gain": 0.47,
+      "maxConcurrent": 2,
+      "playbackRate": 0.82
+    },
+    "movement.footstep_forest": {
+      "variants": [
+        {
+          "url": "audio/sfx/nox/footstep-forest-01.ogg",
+          "gain": 0.74
+        },
+        "audio/sfx/nox/footstep-forest-02.ogg"
+      ],
+      "gain": 1.26,
+      "maxConcurrent": 2,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "movement.footstep_stone": {
+      "variants": [
+        {
+          "url": "audio/sfx/nox/footstep-stone-01.ogg",
+          "gain": 0.59,
+          "startOffsetS": 0.032
+        },
+        "audio/sfx/nox/footstep-stone-02.ogg"
+      ],
+      "gain": 0.66,
+      "maxConcurrent": 2,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "movement.footstep_wood": {
+      "variants": [
+        "audio/sfx/nox/footstep-wood-01.ogg",
+        {
+          "url": "audio/sfx/nox/footstep-wood-02.ogg",
+          "gain": 0.42
+        }
+      ],
+      "gain": 0.92,
+      "maxConcurrent": 2,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "movement.footstep_cave": {
+      "variants": [
+        {
+          "url": "audio/sfx/nox/footstep-cave-01.ogg",
+          "gain": 0.64
+        },
+        "audio/sfx/nox/footstep-cave-02.ogg"
+      ],
+      "gain": 1.05,
+      "maxConcurrent": 2,
+      "playbackRate": [
+        0.95,
+        1.03
+      ]
+    },
+    "gather.mining_swing": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/sword-swing-01.ogg",
+          "startOffsetS": 0.053
+        },
+        {
+          "url": "audio/sfx/tommusic/sword-swing-02.ogg",
+          "startOffsetS": 0.118
+        }
+      ],
+      "gain": 0.35,
+      "minIntervalMs": 240,
+      "playbackRate": [
+        0.72,
+        0.8
+      ]
+    },
+    "gather.mining_impact": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/mining-rock-impact-01.ogg",
+          "gain": 0.45,
+          "startOffsetS": 0.039
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/mining-rock-impact-02.ogg",
+          "gain": 0.52,
+          "startOffsetS": 0.061
+        },
+        "audio/sfx/oga/mining-impact-stone-01.ogg"
+      ],
+      "gain": 0.54,
+      "minIntervalMs": 240,
+      "playbackRate": [
+        0.94,
+        1.04
+      ]
+    },
+    "gather.rock_break": {
+      "variants": [
+        "audio/sfx/oga/rock-break.ogg"
+      ],
+      "gain": 0.4,
+      "maxConcurrent": 1
+    },
+    "gather.wood_swing": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/sword-swing-01.ogg",
+          "startOffsetS": 0.053
+        },
+        {
+          "url": "audio/sfx/tommusic/sword-swing-02.ogg",
+          "startOffsetS": 0.118
+        }
+      ],
+      "gain": 0.35,
+      "minIntervalMs": 240,
+      "playbackRate": [
+        0.84,
+        0.92
+      ]
+    },
+    "gather.wood_impact": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/wood-chop-impact-01.ogg",
+          "gain": 0.84
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/wood-chop-impact-02.ogg",
+          "gain": 0.75,
+          "startOffsetS": 0.053
+        },
+        "audio/sfx/filmcow-v1/wood-hit-light-01.ogg"
+      ],
+      "gain": 0.43,
+      "minIntervalMs": 240,
+      "playbackRate": [
+        0.94,
+        1.04
+      ]
+    },
+    "gather.tree_fall": {
+      "variants": [
+        {
+          "url": "audio/sfx/oga/tree-chop-fall.ogg",
+          "gain": 0.24,
+          "startOffsetS": 0.044
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/tree-wood-break-01.ogg",
+          "startOffsetS": 0.1
+        }
+      ],
+      "gain": 0.66,
+      "maxConcurrent": 1
+    },
+    "gather.fishing_cast": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/fishing-splash-small-01.ogg",
+          "startOffsetS": 0.169
+        }
+      ],
+      "gain": 0.46,
+      "maxConcurrent": 1
+    },
+    "gather.fishing_reel": {
+      "variants": [
+        "audio/sfx/tommusic/fishing-splash-01.ogg",
+        {
+          "url": "audio/sfx/tommusic/fishing-splash-02.ogg",
+          "gain": 0.76
+        }
+      ],
+      "gain": 0.59,
+      "minIntervalMs": 240,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "gather.fishing_catch": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/fishing-fish-flop-01.ogg",
+          "startOffsetS": 0.07
+        }
+      ],
+      "gain": 0.28,
+      "maxConcurrent": 1
+    },
+    "production.smith": {
+      "variants": [
+        {
+          "url": "audio/sfx/oga/smithing-anvil.ogg",
+          "gain": 0.86
+        },
+        {
+          "url": "audio/sfx/oga/smithing-metal-hit-01.ogg",
+          "gain": 0.62
+        },
+        "audio/sfx/oga/smithing-metal-hit-02.ogg"
+      ],
+      "gain": 0.32,
+      "minIntervalMs": 220,
+      "playbackRate": [
+        0.96,
+        1.03
+      ]
+    },
+    "production.smelt": {
+      "variants": [
+        "audio/sfx/oga/metal-sheet.ogg",
+        {
+          "url": "audio/sfx/oga/smithing-metal-hit-01.ogg",
+          "gain": 0.67
+        }
+      ],
+      "gain": 0.3,
+      "minIntervalMs": 320,
+      "playbackRate": [
+        0.9,
+        0.98
+      ]
+    },
+    "production.craft": {
+      "variants": [
+        {
+          "url": "audio/sfx/oga/building-hammer-01.ogg",
+          "gain": 0.64
+        },
+        {
+          "url": "audio/sfx/oga/building-hammer-02.ogg",
+          "gain": 0.9
+        },
+        "audio/sfx/oga/craft-hammer.ogg"
+      ],
+      "gain": 0.38,
+      "minIntervalMs": 220,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "production.cook": {
+      "variants": [
+        "audio/sfx/nox/campfire-crackle-01.ogg"
+      ],
+      "gain": 1,
+      "minIntervalMs": 320
+    },
+    "production.fletch": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/wood-hit-light-01.ogg",
+          "gain": 0.59
+        },
+        {
+          "url": "audio/sfx/filmcow-v1/cloth-ruffle-01.ogg",
+          "startOffsetS": 0.143
+        }
+      ],
+      "gain": 0.41,
+      "minIntervalMs": 220,
+      "playbackRate": [
+        1.02,
+        1.1
+      ]
+    },
+    "combat.melee_swing": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/sword-swing-01.ogg",
+          "startOffsetS": 0.053
+        },
+        {
+          "url": "audio/sfx/tommusic/sword-swing-02.ogg",
+          "startOffsetS": 0.118
+        }
+      ],
+      "gain": 0.56,
+      "minIntervalMs": 180,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "combat.melee_hit": {
+      "variants": [
+        "audio/sfx/tommusic/sword-impact-01.ogg",
+        {
+          "url": "audio/sfx/tommusic/sword-impact-02.ogg",
+          "gain": 0.64
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/armour-hit-01.ogg",
+          "gain": 0.12,
+          "startOffsetS": 0.044
+        }
+      ],
+      "gain": 1,
+      "minIntervalMs": 180,
+      "playbackRate": [
+        0.95,
+        1.04
+      ]
+    },
+    "combat.melee_miss": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/sword-swing-01.ogg",
+          "startOffsetS": 0.053
+        },
+        {
+          "url": "audio/sfx/tommusic/sword-swing-02.ogg",
+          "startOffsetS": 0.118
+        }
+      ],
+      "gain": 0.35,
+      "minIntervalMs": 180,
+      "playbackRate": [
+        1.08,
+        1.16
+      ]
+    },
+    "combat.magic_cast": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/magic-ember-cast-01.ogg",
+          "gain": 0.85
+        },
+        "audio/sfx/tommusic/magic-ember-cast-02.ogg",
+        {
+          "url": "audio/sfx/tommusic/magic-stone-cast-01.ogg",
+          "gain": 0.98
+        },
+        {
+          "url": "audio/sfx/tommusic/magic-stone-cast-02.ogg",
+          "gain": 0.89
+        }
+      ],
+      "gain": 0.58,
+      "minIntervalMs": 180,
+      "playbackRate": [
+        0.97,
+        1.04
+      ]
+    },
+    "combat.magic_hit": {
+      "variants": [
+        "audio/sfx/tommusic/magic-impact-01.ogg",
+        {
+          "url": "audio/sfx/tommusic/magic-impact-02.ogg",
+          "gain": 0.89
+        }
+      ],
+      "gain": 0.58,
+      "minIntervalMs": 180,
+      "playbackRate": [
+        0.96,
+        1.05
+      ]
+    },
+    "combat.special": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/boss-ground-impact-01.ogg",
+          "startOffsetS": 0.068
+        }
+      ],
+      "gain": 0.49,
+      "maxConcurrent": 1
+    },
+    "combat.player_hit": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/damage-body-impact-01.ogg",
+          "startOffsetS": 0.139
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/damage-body-impact-02.ogg",
+          "gain": 0.92,
+          "startOffsetS": 0.128
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/armour-hit-01.ogg",
+          "gain": 0.52,
+          "startOffsetS": 0.044
+        }
+      ],
+      "gain": 0.29,
+      "minIntervalMs": 160,
+      "playbackRate": [
+        0.94,
+        1.03
+      ]
+    },
+    "combat.enemy_death": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/melee-body-impact-01.ogg",
+          "startOffsetS": 0.083
+        },
+        {
+          "url": "audio/sfx/filmcow-v4/damage-body-impact-02.ogg",
+          "gain": 0.8,
+          "startOffsetS": 0.128
+        }
+      ],
+      "gain": 0.29,
+      "maxConcurrent": 2,
+      "playbackRate": [
+        0.82,
+        0.92
+      ]
+    },
+    "combat.player_death": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v4/damage-body-impact-01.ogg",
+          "startOffsetS": 0.139
+        }
+      ],
+      "gain": 0.36,
+      "maxConcurrent": 1,
+      "playbackRate": 0.72
+    },
+    "interaction.door_open": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/door-open-01.ogg",
+          "gain": 0.95,
+          "startOffsetS": 0.032
+        },
+        {
+          "url": "audio/sfx/tommusic/door-open-02.ogg",
+          "startOffsetS": 0.214
+        },
+        {
+          "url": "audio/sfx/filmcow-v1/door-open-wood-01.ogg",
+          "gain": 0.44,
+          "startOffsetS": 0.032
+        }
+      ],
+      "gain": 0.87,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        0.97,
+        1.03
+      ]
+    },
+    "interaction.portal": {
+      "variants": [
+        "audio/sfx/tommusic/magic-stone-cast-01.ogg",
+        {
+          "url": "audio/sfx/tommusic/magic-stone-cast-02.ogg",
+          "gain": 0.91
+        }
+      ],
+      "gain": 0.47,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        0.78,
+        0.86
+      ]
+    },
+    "interaction.climb": {
+      "variants": [
+        "audio/sfx/filmcow-v1/cloth-movement-01.ogg"
+      ],
+      "gain": 0.51,
+      "maxConcurrent": 1,
+      "playbackRate": 0.94
+    },
+    "interaction.vault": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/cloth-ruffle-01.ogg",
+          "startOffsetS": 0.143
+        }
+      ],
+      "gain": 0.29,
+      "maxConcurrent": 1,
+      "playbackRate": 1.08
+    },
+    "interaction.loot": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/loot-rocks-handle-01.ogg",
+          "startOffsetS": 0.041
+        },
+        {
+          "url": "audio/sfx/filmcow-v1/loot-metal-drop-01.ogg",
+          "gain": 0.46
+        }
+      ],
+      "gain": 0.49,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        0.97,
+        1.04
+      ]
+    },
+    "interaction.equip": {
+      "variants": [
+        {
+          "url": "audio/sfx/tommusic/weapon-unsheathe-01.ogg",
+          "gain": 0.49,
+          "startOffsetS": 0.046
+        },
+        {
+          "url": "audio/sfx/tommusic/weapon-sheathe-01.ogg",
+          "gain": 0.79,
+          "startOffsetS": 0.059
+        },
+        "audio/sfx/filmcow-v1/cloth-movement-01.ogg"
+      ],
+      "gain": 0.72,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        0.98,
+        1.04
+      ]
+    },
+    "interaction.consume": {
+      "variants": [
+        "audio/sfx/oga/apple-bite.ogg"
+      ],
+      "gain": 0.57,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        0.96,
+        1.04
+      ]
+    },
+    "interaction.bank": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/chest-open-wood-01.ogg",
+          "gain": 0.76,
+          "startOffsetS": 0.047
+        },
+        {
+          "url": "audio/sfx/tommusic/chest-open-01.ogg",
+          "gain": 0.77,
+          "startOffsetS": 0.102
+        },
+        {
+          "url": "audio/sfx/tommusic/chest-open-02.ogg",
+          "startOffsetS": 0.034
+        }
+      ],
+      "gain": 0.69,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        0.97,
+        1.03
+      ]
+    },
+    "interaction.trade": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/loot-metal-drop-01.ogg",
+          "gain": 0.22
+        },
+        {
+          "url": "audio/sfx/filmcow-v1/parchment-handle-01.ogg",
+          "startOffsetS": 0.131
+        }
+      ],
+      "gain": 0.82,
+      "maxConcurrent": 1,
+      "playbackRate": [
+        1,
+        1.06
+      ]
+    },
+    "interaction.dialogue_open": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/parchment-handle-01.ogg",
+          "startOffsetS": 0.131
+        }
+      ],
+      "gain": 0.33,
+      "maxConcurrent": 1,
+      "playbackRate": 1.05
+    },
+    "interaction.dialogue_close": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/parchment-handle-01.ogg",
+          "startOffsetS": 0.131
+        }
+      ],
+      "gain": 0.33,
+      "maxConcurrent": 1,
+      "playbackRate": 0.92
+    },
+    "interaction.activity_stop": {
+      "variants": [
+        {
+          "url": "audio/sfx/filmcow-v1/cloth-ruffle-01.ogg",
+          "startOffsetS": 0.143
+        }
+      ],
+      "gain": 0.16,
+      "minIntervalMs": 180,
+      "playbackRate": 0.88
+    },
+    "creature.hen_cluck": {
+      "variants": [
+        "audio/sfx/animals/hen-cluck-01.ogg",
+        {
+          "url": "audio/sfx/animals/hen-cluck-02.ogg",
+          "gain": 0.93
+        }
+      ],
+      "gain": 0.3,
+      "maxConcurrent": 2,
+      "minIntervalMs": 900,
+      "playbackRate": [
+        1.06,
+        1.18
+      ]
+    },
+    "creature.frog_croak": {
+      "variants": [
+        "audio/sfx/animals/frog-croak-01.ogg",
+        "audio/sfx/animals/frog-croak-02.ogg",
+        "audio/sfx/animals/frog-croak-03.ogg",
+        "audio/sfx/animals/frog-ribbit-01.ogg"
+      ],
+      "gain": 0.79,
+      "maxConcurrent": 3,
+      "minIntervalMs": 700,
+      "playbackRate": [
+        0.94,
+        1.08
+      ]
+    },
+    "creature.goat_bleat": {
+      "variants": [
+        "audio/sfx/animals/goat-bleat-01.ogg"
+      ],
+      "gain": 0.65,
+      "maxConcurrent": 2,
+      "minIntervalMs": 1100,
+      "playbackRate": [
+        0.92,
+        1.06
+      ]
+    },
+    "creature.cow_low": {
+      "variants": [
+        {
+          "url": "audio/sfx/animals/cow-moo-01.ogg",
+          "gain": 0.64
+        },
+        "audio/sfx/animals/cow-moo-02.ogg"
+      ],
+      "gain": 0.25,
+      "maxConcurrent": 2,
+      "minIntervalMs": 1400,
+      "playbackRate": [
+        0.86,
+        0.96
+      ]
+    },
+    "creature.coney_squeak": {
+      "variants": [
+        "audio/sfx/animals/rodent-squeak-01.ogg",
+        {
+          "url": "audio/sfx/animals/rodent-squeak-02.ogg",
+          "gain": 0.51
+        }
+      ],
+      "gain": 0.53,
+      "maxConcurrent": 2,
+      "minIntervalMs": 800,
+      "playbackRate": [
+        1.1,
+        1.25
+      ]
+    },
+    "creature.viper_hiss": {
+      "variants": [
+        "audio/sfx/animals/serpent-hiss-01.ogg",
+        {
+          "url": "audio/sfx/animals/serpent-hiss-02.ogg",
+          "gain": 0.2
+        }
+      ],
+      "gain": 0.74,
+      "maxConcurrent": 2,
+      "minIntervalMs": 1000,
+      "playbackRate": [
+        0.94,
+        1.05
+      ]
+    },
+    "creature.stag_bell": {
+      "variants": [
+        {
+          "url": "audio/sfx/animals/stag-bellow-01.ogg",
+          "gain": 0.72
+        },
+        "audio/sfx/animals/stag-bellow-02.ogg"
+      ],
+      "gain": 0.25,
+      "maxConcurrent": 1,
+      "minIntervalMs": 1600,
+      "playbackRate": [
+        0.9,
+        1
+      ]
+    },
+    "creature.hog_grunt": {
+      "variants": [
+        "audio/sfx/animals/boar-grunt-01.ogg",
+        {
+          "url": "audio/sfx/animals/boar-grunt-02.ogg",
+          "gain": 0.84
+        },
+        {
+          "url": "audio/sfx/animals/boar-grunt-03.ogg",
+          "gain": 0.31
+        }
+      ],
+      "gain": 0.33,
+      "maxConcurrent": 2,
+      "minIntervalMs": 900,
+      "playbackRate": [
+        0.9,
+        1.04
+      ]
+    },
+    "creature.coyote_howl": {
+      "variants": [
+        {
+          "url": "audio/sfx/animals/coyote-howl-01.ogg",
+          "gain": 0.79
+        },
+        "audio/sfx/animals/coyote-bark-01.ogg",
+        {
+          "url": "audio/sfx/animals/coyote-bark-02.ogg",
+          "gain": 0.84
+        }
+      ],
+      "gain": 0.23,
+      "maxConcurrent": 2,
+      "minIntervalMs": 1200,
+      "playbackRate": [
+        0.98,
+        1.1
+      ]
+    },
+    "creature.bear_roar": {
+      "variants": [
+        {
+          "url": "audio/sfx/animals/bear-growl-01.ogg",
+          "gain": 0.8
+        },
+        "audio/sfx/animals/bear-growl-02.ogg",
+        {
+          "url": "audio/sfx/animals/bear-roar-01.ogg",
+          "gain": 0.75
+        }
+      ],
+      "gain": 0.46,
+      "maxConcurrent": 1,
+      "minIntervalMs": 1600,
+      "playbackRate": [
+        0.88,
+        0.98
+      ]
+    },
+    "creature.chitin_click": {
+      "variants": [
+        {
+          "url": "audio/sfx/animals/chitin-click-01.ogg",
+          "gain": 0.83
+        },
+        "audio/sfx/animals/chitin-click-02.ogg",
+        {
+          "url": "audio/sfx/animals/chitin-click-03.ogg",
+          "gain": 0.79
+        }
+      ],
+      "gain": 0.28,
+      "maxConcurrent": 3,
+      "minIntervalMs": 700,
+      "playbackRate": [
+        0.96,
+        1.12
+      ]
+    }
+  },
+  "loops": {
+    "music.starter-plains": {
+      "url": "audio/music/starter-plains.mp3",
+      "bus": "music",
+      "gain": 0.22,
+      "fadeMs": 1800
+    },
+    "music.distant-plains": {
+      "url": "audio/music/distant-plains.mp3",
+      "bus": "music",
+      "gain": 0.22,
+      "fadeMs": 1800
+    },
+    "music.deep-woodland": {
+      "url": "audio/music/deep-woodland.mp3",
+      "bus": "music",
+      "gain": 0.22,
+      "fadeMs": 1800
+    },
+    "music.stone-city": {
+      "url": "audio/music/stone-city.mp3",
+      "bus": "music",
+      "gain": 0.22,
+      "fadeMs": 1800
+    },
+    "music.fairy": {
+      "url": "audio/music/fairy.mp3",
+      "bus": "music",
+      "gain": 0.224,
+      "fadeMs": 1800
+    },
+    "music.fairy-mire": {
+      "url": "audio/music/fairy-mire.mp3",
+      "bus": "music",
+      "gain": 0.193,
+      "fadeMs": 1800
+    },
+    "music.castle": {
+      "url": "audio/music/castle.mp3",
+      "bus": "music",
+      "gain": 0.305,
+      "fadeMs": 1800
+    },
+    "ambient.open-plains": {
+      "url": "audio/ambience/nox/open-plains-wind.ogg",
+      "bus": "ambient",
+      "gain": 1,
+      "fadeMs": 1400
+    },
+    "ambient.deep-woodland": {
+      "url": "audio/ambience/nox/deep-woodland-birds.ogg",
+      "bus": "ambient",
+      "gain": 0.5,
+      "fadeMs": 1400
+    },
+    "ambient.rocky-highlands": {
+      "url": "audio/ambience/nox/rocky-highlands-wind.ogg",
+      "bus": "ambient",
+      "gain": 1,
+      "fadeMs": 1400
+    },
+    "ambient.cave": {
+      "url": "audio/ambience/nox/cave-room-tone.ogg",
+      "bus": "ambient",
+      "gain": 0.3,
+      "fadeMs": 1400
+    }
+  },
+  "regions": {
+    "fallowmarch": {
+      "music": "music.starter-plains",
+      "ambient": "ambient.open-plains"
+    },
+    "vellenwood": {
+      "music": "music.deep-woodland",
+      "ambient": "ambient.deep-woodland"
+    },
+    "karrowmoor": {
+      "music": "music.stone-city",
+      "ambient": "ambient.rocky-highlands"
+    },
+    "kilnhalt": {
+      "ambient": "ambient.rocky-highlands"
+    },
+    "gravelmaw": {
+      "ambient": "ambient.cave"
+    },
+    "crownward": {
+      "music": "music.distant-plains",
+      "ambient": "ambient.open-plains",
+      "musicAreas": [
+        {
+          "id": "crownward_white_castle",
+          "music": "music.castle",
+          "centre": [
+            550,
+            -60
+          ],
+          "radius": 55.32499797947623,
+          "exitPadding": 5
+        },
+        {
+          "id": "crownward_ivory_citadel",
+          "music": "music.castle",
+          "centre": [
+            560,
+            320
+          ],
+          "radius": 59.98610423947299,
+          "exitPadding": 5
+        }
+      ]
+    },
+    "gloamgarden": {
+      "music": "music.fairy",
+      "ambient": "ambient.cave"
+    },
+    "faeholme": {
+      "music": "music.fairy-mire",
+      "ambient": "ambient.cave"
+    }
+  }
+}

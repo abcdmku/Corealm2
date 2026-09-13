@@ -3,6 +3,7 @@ game/dist/
 game/public/generated/world-lab/
 dist/
 pages-dist/
+devdocs/generated/
 .astro/
 docs-site/src/content/docs/game/
 docs-site/public/game/locations/assets/
