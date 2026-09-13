@@ -42,11 +42,11 @@ try {
   assert(Math.hypot(after.player.x-positionBefore.x,after.player.z-positionBefore.z)>.5);
   for(const {entity,ground,bounds} of after.actors) {
     assert.equal(entity.view.assetId,'creature_red_worm');
-    assert.equal(entity.view.scale,9.6);
-    assert(entity.position[2]<-111 && entity.position[2]>-130,'On the south-wall verge');
-    assert(entity.position[0]>-154,'Clear of the gate approach');
+    assert.equal(entity.view.scale,4.8);
+    assert(entity.position[2]<-110 && entity.position[2]>-120.5,'Within 12.5 m of the south wall');
+    assert(entity.position[0]>-153 && entity.position[0]<-135,'Between the wall and road merge');
     assert(Math.abs(entity.position[1]-ground)<.1,'Grounded actor');
-    assert(bounds && bounds.height>.15 && bounds.height<.9,'Visible small worm');
+    assert(bounds && bounds.height>.1 && bounds.height<.5,'Visible small worm');
   }
   assert.deepEqual(after.errors,[]);assert.deepEqual(driver.pageErrors,[]);assert.deepEqual(driver.consoleErrors,[]);
   await page.screenshot({path:`${out}/worms-after-walking.png`});

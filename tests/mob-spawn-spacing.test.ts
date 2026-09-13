@@ -15,7 +15,7 @@ describe('all-source mob spacing', () => {
     const actors = source.anchors.map(([x, z], index) => ({
       ...mob(`coldbrace_red_worms_${index + 1}`, source.groupId),
       position: [x, 0, z] as [number, number, number],
-      combat: { ...mob('base').combat!, bodyRadius: .8757 },
+      combat: { ...mob('base').combat!, bodyRadius: .43785 },
     }));
     const [habitat] = spreadMobSpawns(actors, [source], ports);
     expect(actors).toHaveLength(8);
