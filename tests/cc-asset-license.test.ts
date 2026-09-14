@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { ccAssetCredits, validateCcAssetPack } from "../tools/lib/cc-asset-license.js";
-import { validateManifestPack } from "../tools/gen-docs.js";
 import { validateGatheringManifestProvenance } from "../game/src/content/validateGatheringProduction.js";
 
 const fixture = (shareAlike = true) => ({
@@ -17,7 +16,6 @@ describe("explicit Creative Commons asset provenance", () => {
   it.each([true, false])("accepts complete pinned metadata, share-alike=%s", (shareAlike) => {
     const pack = fixture(shareAlike);
     expect(() => validateCcAssetPack(pack)).not.toThrow();
-    expect(() => validateManifestPack(pack, { generatedAt: "", packs: [pack], assets: [] })).not.toThrow();
     expect(validateGatheringManifestProvenance({ packs: [pack], assets: [] }, new Map())).toEqual([]);
     const credits = ccAssetCredits(pack);
     for (const value of [pack.author, pack.source, pack.attribution, pack.derivation, pack.licenseUrl]) expect(credits).toContain(value);

@@ -50,7 +50,15 @@ export function normalizeHuntContracts(raw: unknown, seed = 1337): HuntContracts
     || (a.status === "active" ? a.kills >= a.offer.requiredKills : a.kills !== a.offer.requiredKills))) {
     throw new Error("Invalid hunt progress save");
   }
-  return structuredClone(s);
+  const restored = structuredClone(s);
+  // One-time saved-content migration. The old encounter identity is rewritten on load,
+  // while earned kills, reward and serials remain untouched.
+  for (const offer of [...restored.offers, ...(restored.active ? [restored.active.offer] : [])]) {
+    if (offer.regionId === 'vellenwood') {
+      offer.enemyDefIds = offer.enemyDefIds.map(id => id === 'beetle_golem_t10' ? 'bramble_hogs' : id);
+    }
+  }
+  return restored;
 }
 
 export interface HuntContractsDeps {

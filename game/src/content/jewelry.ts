@@ -1,7 +1,7 @@
-import { itemRows } from "./itemData.js";
+import { ITEM_DATA } from "./itemData.js";
 import type { EquipmentBonuses, EquipSlot, ItemDef, ItemStack } from '../contracts.js';
 import type { RecipeDef } from './index.js';
-import { recipeRows } from "./recipeData.js";
+import { RECIPE_DATA } from "./recipeData.js";
 
 export const JEWELRY_TIERS = [10, 20, 30, 40, 50, 60, 70] as const;
 export const JEWELRY_STATS = ['meleeAccuracy', 'magicAccuracy', 'defence', 'health', 'meleePower', 'magicPower', 'vitality'] as const;
@@ -30,9 +30,9 @@ export function selectEquipmentSlot(slot: EquipSlot, equipment: Partial<Record<E
   return jewelrySlots(slot).find(candidate => !equipment[candidate]) ?? slot;
 }
 
-export const CRAFTED_JEWELRY: readonly ItemDef[] = itemRows("CRAFTED_JEWELRY");
+export const CRAFTED_JEWELRY: readonly ItemDef[] = ITEM_DATA.filter(item => item.id.startsWith("crafted_"));
 
-export const JEWELRY_RECIPES: readonly RecipeDef[] = recipeRows("JEWELRY_RECIPES");
+export const JEWELRY_RECIPES: readonly RecipeDef[] = RECIPE_DATA.filter(recipe => recipe.output.itemId.startsWith("crafted_"));
 
 // Saved IDs remain readable, but retired jewelry is not registered as obtainable content.
 const legacyTiers: Record<string, number> = {

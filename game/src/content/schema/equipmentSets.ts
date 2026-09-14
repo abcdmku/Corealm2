@@ -26,12 +26,5 @@ export const EquipmentSetSchema = obj({
     "thresholds must have unique, increasing piece counts"),
 }) satisfies Schema<EquipmentSetDefinition>;
 
-export const SET_SOURCE_CATALOGS = ["BOSS_ARMOR_SETS", "EQUIPMENT_SETS"] as const;
-export type SetCatalog = typeof SET_SOURCE_CATALOGS[number];
-export const EquipmentSetRecordSchema = EquipmentSetSchema.extend({
-  catalog: enumOf(SET_SOURCE_CATALOGS, { hidden: true }),
-  derivation: opt(obj({ kind: lit("setThresholds", { readOnly: true }) }), {
-    label: "Threshold derivation", help: "Thresholds are checked against the set balance parameters using this set's tier and head membership. Remove to hand-tune.",
-  }),
-});
+export const EquipmentSetRecordSchema = EquipmentSetSchema.extend({ acquisition: enumOf(['boss', 'crafting'] as const) });
 export type EquipmentSetRecord = Infer<typeof EquipmentSetRecordSchema>;

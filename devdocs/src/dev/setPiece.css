@@ -16,6 +16,11 @@
   align-items: center;
 }
 
+.set-piece-assets {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
 .set-piece-header {
   justify-content: space-between;
   align-items: flex-start;

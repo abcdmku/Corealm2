@@ -78,10 +78,6 @@ function ownNumericTier(row: ContentRow): boolean {
   return Object.hasOwn(row, "tier") && typeof row.tier === "number" && Number.isFinite(row.tier);
 }
 
-function formulaLinked(row: ContentRow): boolean {
-  return Object.hasOwn(row, "derivation");
-}
-
 function DiffRecord({ diff }: { diff: BulkResponse["diffs"][number] }) {
   const changes = changedFields(diff.before, diff.after);
   const shown = changes.slice(0, 10);
@@ -102,7 +98,6 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
   const [noteText, setNoteText] = useState("");
   const [noteLabel, setNoteLabel] = useState("");
   const [retierTierText, setRetierTierText] = useState("");
-  const [unlinkFormulas, setUnlinkFormulas] = useState(false);
   const [preview, setPreview] = useState<PreviewState>();
   const [busy, setBusy] = useState<"preview" | "apply">();
   const [error, setError] = useState<PanelError>();
@@ -111,7 +106,6 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
   const rowsById = useMemo(() => new Map(rows.map(row => [rowId(row, idKey), row])), [rows, idKey]);
   const selectedRows = useMemo(() => selectedIds.map(id => rowsById.get(id)), [selectedIds, rowsById]);
   const missingRowsCount = selectedRows.filter(row => row === undefined).length;
-  const formulaLinkedCount = selectedRows.filter((row): row is ContentRow => row !== undefined && formulaLinked(row)).length;
   const withoutNumericTierCount = missingRowsCount + selectedRows.filter((row): row is ContentRow => row !== undefined && !ownNumericTier(row)).length;
   const canRetier = selectedIds.length > 0 && withoutNumericTierCount === 0;
   const parsedTier = Number(retierTierText);
@@ -119,9 +113,9 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
   const action = useMemo<BulkAction>(() => {
     if (actionKind === "status") return { kind: "status", status };
     if (actionKind === "note") return { kind: "note", text: noteText.trim(), ...(noteLabel.trim() ? { label: noteLabel.trim() } : {}) };
-    return { kind: "retier", tier: tierValid ? parsedTier : 1, unlinkFormulas };
-  }, [actionKind, status, noteText, noteLabel, tierValid, parsedTier, unlinkFormulas]);
-  const requestKey = useMemo(() => JSON.stringify({ collection, revision, ids: [...selectedIds].sort(), actionKind, status, noteText, noteLabel, retierTierText, unlinkFormulas }), [collection, revision, selectedIds, actionKind, status, noteText, noteLabel, retierTierText, unlinkFormulas]);
+    return { kind: "retier", tier: tierValid ? parsedTier : 1 };
+  }, [actionKind, status, noteText, noteLabel, tierValid, parsedTier]);
+  const requestKey = useMemo(() => JSON.stringify({ collection, revision, ids: [...selectedIds].sort(), actionKind, status, noteText, noteLabel, retierTierText }), [collection, revision, selectedIds, actionKind, status, noteText, noteLabel, retierTierText]);
   requestKeyRef.current = requestKey;
   const currentPreview = preview?.signature === requestKey ? preview : undefined;
   const validationMessage = actionKind === "note" && !noteText.trim()
@@ -130,9 +124,7 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
       ? "Enter a positive whole number for the new tier."
       : actionKind === "retier" && !canRetier
         ? `Retier is unavailable because ${withoutNumericTierCount} selected ${withoutNumericTierCount === 1 ? "record does not own" : "records do not own"} a numeric tier.`
-        : actionKind === "retier" && formulaLinkedCount > 0 && !unlinkFormulas
-          ? "Choose whether to unlink formula links before previewing."
-          : undefined;
+        : undefined;
   const canPreview = selectedIds.length > 0 && !busy && !validationMessage;
   const canApply = Boolean(currentPreview && !currentPreview.stale && currentPreview.response.diffs.length && !busy);
 
@@ -201,7 +193,7 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
   return <section className="bulk-actions" aria-labelledby="bulk-actions-title">
     <header className="bulk-actions-header">
       <div><p className="bulk-eyebrow">Batch editor</p><h2 id="bulk-actions-title">Bulk actions</h2><p>Choose one action, preview every changed row, then apply the reviewed batch.</p></div>
-      <div className="bulk-selection-metrics" aria-label="Selection details"><span><strong>{selectedIds.length}</strong> selected</span><span><strong>{formulaLinkedCount}</strong> formula linked</span>{withoutNumericTierCount > 0 && <span><strong>{withoutNumericTierCount}</strong> without owned numeric tier</span>}</div>
+      <div className="bulk-selection-metrics" aria-label="Selection details"><span><strong>{selectedIds.length}</strong> selected</span>{withoutNumericTierCount > 0 && <span><strong>{withoutNumericTierCount}</strong> without owned numeric tier</span>}</div>
     </header>
     <form className="bulk-actions-form" onSubmit={event => { event.preventDefault(); void request("preview"); }} noValidate>
       <div className="bulk-form-grid">
@@ -213,7 +205,7 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
         </>}
         {actionKind === "retier" && <>
           <label className="bulk-field"><span>New tier</span><input type="number" min={1} step={1} inputMode="numeric" value={retierTierText} onChange={event => setRetierTierText(event.target.value)} placeholder="1" disabled={Boolean(busy)} aria-describedby="bulk-retier-help" /></label>
-          <div className="bulk-field bulk-field-wide bulk-retier-options"><span>Formula links</span><label className="bulk-check"><input type="checkbox" checked={unlinkFormulas} onChange={event => setUnlinkFormulas(event.target.checked)} disabled={Boolean(busy)} /><span>Keep other values and unlink formulas</span></label><small id="bulk-retier-help">{formulaLinkedCount ? `${formulaLinkedCount} selected ${formulaLinkedCount === 1 ? "record has" : "records have"} a formula link. Check this box to remove those links while keeping other values.` : "No selected records carry a formula link. This choice is sent explicitly with the request."}</small></div>
+          <p id="bulk-retier-help">Preview recalculates generated values at the new tier. Explicit adjustments stay on their authored records.</p>
         </>}
       </div>
       {validationMessage && <p className="bulk-validation" role="alert"><CircleAlert size={14} />{validationMessage}</p>}

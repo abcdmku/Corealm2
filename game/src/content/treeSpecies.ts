@@ -1,5 +1,5 @@
-import { resourceById, resourceRows } from "./resourceData.js";
-import { ITEM_DATA, itemRows } from "./itemData.js";
+import { resourceById, RESOURCE_DATA } from "./resourceData.js";
+import { ITEM_DATA } from "./itemData.js";
 import type { ItemDef } from "../contracts.js";
 import type { ResourceDef } from "./index.js";
 
@@ -103,8 +103,8 @@ export function treeResource(species: TreeSpeciesDef): ResourceDef {
   };
 }
 
-export const HIGH_TIER_TREE_RESOURCES: readonly ResourceDef[] = resourceRows("HIGH_TIER_TREE_RESOURCES");
-export const HIGH_TIER_LOG_ITEMS: readonly ItemDef[] = itemRows("HIGH_TIER_LOG_ITEMS");
+export const HIGH_TIER_TREE_RESOURCES: readonly ResourceDef[] = RESOURCE_DATA.filter(resource => resource.archetype === "tree" && resource.tier >= 30 && !resource.id.includes("wilderness") && !resource.id.includes("gloam") && !resource.id.includes("fae"));
+export const HIGH_TIER_LOG_ITEMS: readonly ItemDef[] = ITEM_DATA.filter(item => item.id.endsWith("_log") && item.tier >= 30);
 
 /** Regional preference within a mixed forest; higher tiers remain visible at declining frequency. */
 export function treeEncounterWeight(species: TreeSpeciesDef, areaLevel: number): number {

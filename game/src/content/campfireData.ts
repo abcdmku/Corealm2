@@ -1,10 +1,11 @@
-import rawCampfireFuels from "../../content/data/campfireFuels.json";
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
+const rawCampfireFuels = RESOLVED_TABLES["campfireFuels"];
 import type { ItemId } from "../contracts.js";
 import type { CampfireFuelDef } from "./index.js";
 import { parseCollection } from "./schema/core.js";
 import { CampfireFuelRecordSchema, type CampfireFuelRecord } from "./schema/campfireFuels.js";
 
-/** Parsed fuel records retain derivation metadata for editor and balance checks. */
+/** Fuel records come from the accepted catalog revision. */
 export const CAMPFIRE_FUEL_RECORDS: readonly CampfireFuelRecord[] = parseCollection(
   CampfireFuelRecordSchema,
   rawCampfireFuels,
@@ -12,9 +13,7 @@ export const CAMPFIRE_FUEL_RECORDS: readonly CampfireFuelRecord[] = parseCollect
 );
 
 /** Runtime fuel rows share their objects with the gathering tier campfire fields. */
-export const CAMPFIRE_FUELS: readonly CampfireFuelDef[] = CAMPFIRE_FUEL_RECORDS.map(
-  ({ derivation: _derivation, ...fuel }) => fuel,
-);
+export const CAMPFIRE_FUELS: readonly CampfireFuelDef[] = CAMPFIRE_FUEL_RECORDS;
 
 const CAMPFIRE_FUEL_BY_LOG = new Map(CAMPFIRE_FUELS.map((fuel) => [fuel.logItemId, fuel] as const));
 

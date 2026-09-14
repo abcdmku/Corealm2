@@ -77,4 +77,4 @@ export const FAIRY_CROWN_SOURCE_ASSETS: Readonly<Record<string, string>> = Objec
 
 export const FAIRY_CROWN_BOSS_IDS = FAIRY_CROWN_FORMS.filter(form => form.boss).map(form => form.id);
 
-export const FAIRY_CROWN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('FAIRY_CROWN_SPECIES');
+export const FAIRY_CROWN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["pearl_knight", "ivory_castellan", "crown_hart", "silverthorn_harrow", "lantern_sprite", "moonpetal_stalker", "dewglass_weaver", "bloomheart_matriarch", "prismatic_sprite", "orchid_reaper", "starroot_guardian", "amethyst_sovereign"]);

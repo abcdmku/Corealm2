@@ -1,13 +1,15 @@
-import rawTiers from "../../content/data/craftingTiers.json";
-import { parseCollection } from "./schema/core.js";
-import { CraftingTierRecordSchema, type CraftingTierRecord } from "./schema/craftingTiers.js";
-
-export const CRAFTING_TIER_RECORDS: readonly CraftingTierRecord[] = parseCollection(
-  CraftingTierRecordSchema, rawTiers, { name: "craftingTiers", idKey: "tier" },
-);
-export const REGIONAL_CRAFTING_TIER_DATA = CRAFTING_TIER_RECORDS
-  .filter((row) => row.catalog === "REGIONAL_CRAFTING_TIERS")
-  .map(({ catalog: _catalog, ...row }) => row);
-export const WILDERNESS_CRAFTING_TIER_DATA = CRAFTING_TIER_RECORDS
-  .filter((row) => row.catalog === "WILDERNESS_CRAFTING_TIERS")
-  .map(({ catalog: _catalog, ...row }) => row);
+import { COMPILED_PROGRESSION } from './compiler/runtime.js';
+/** Crafting and acquisition pages select rows from the same authored progression. */
+export const PROGRESSION_TIERS = COMPILED_PROGRESSION.progression;
+export const CRAFTING_TIER_RECORDS = PROGRESSION_TIERS;
+const materialItem = (id: string | undefined) => COMPILED_PROGRESSION.materials.find(row => row.id === id)?.itemId ?? '';
+export const REGIONAL_CRAFTING_TIER_DATA = PROGRESSION_TIERS.filter(row => row.materials.thread && !row.materials.flux).map(row => ({
+  ...row.presentation, tier: row.tier, hide: materialItem(row.materials.hide), thread: materialItem(row.materials.thread),
+  metal: row.presentation.metal ?? '', wood: row.presentation.wood ?? '', jewellery: row.presentation.jewellery ?? '',
+  ore: materialItem(row.materials.ore), flux: materialItem(row.materials.flux), gem: materialItem(row.materials.gem),
+}));
+export const WILDERNESS_CRAFTING_TIER_DATA = PROGRESSION_TIERS.filter(row => row.materials.thread && row.materials.flux).map(row => ({
+  ...row.presentation, tier: row.tier, hide: materialItem(row.materials.hide), thread: materialItem(row.materials.thread),
+  metal: row.presentation.metal ?? '', wood: row.presentation.wood ?? '', jewellery: row.presentation.jewellery ?? '',
+  ore: materialItem(row.materials.ore), flux: materialItem(row.materials.flux), gem: materialItem(row.materials.gem),
+}));

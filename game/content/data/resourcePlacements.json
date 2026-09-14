@@ -1,0 +1,615 @@
+[
+  {
+    "id": "bracken_pit_grithe",
+    "resourceId": "ore_grithe",
+    "count": 6,
+    "centre": [
+      -160,
+      80
+    ],
+    "radius": 11,
+    "locationId": "bracken_pit",
+    "regionId": "fallowmarch"
+  },
+  {
+    "id": "bracken_pit_stone",
+    "resourceId": "ore_marchstone",
+    "count": 2,
+    "centre": [
+      -146,
+      88
+    ],
+    "radius": 5,
+    "locationId": "bracken_pit",
+    "regionId": "fallowmarch"
+  },
+  {
+    "id": "palewood_copse_trees",
+    "resourceId": "tree_palewood",
+    "count": 8,
+    "centre": [
+      -334,
+      -64
+    ],
+    "radius": 15,
+    "locationId": "palewood_copse",
+    "regionId": "fallowmarch"
+  },
+  {
+    "id": "redsill_spots",
+    "resourceId": "fish_silt_minnow",
+    "count": 4,
+    "centre": [
+      -40,
+      -60
+    ],
+    "radius": 9,
+    "locationId": "redsill_shallows",
+    "regionId": "fallowmarch"
+  },
+  {
+    "id": "fallowmarch_air_essence_cache",
+    "resourceId": "essence_air",
+    "count": 5,
+    "centre": [
+      -250,
+      -150
+    ],
+    "radius": 12,
+    "ringRadius": 12,
+    "essenceElement": "wind",
+    "locationId": "fallowmarch_air_cache",
+    "regionId": "fallowmarch"
+  },
+  {
+    "id": "hollowcut_corven",
+    "resourceId": "ore_corven",
+    "count": 5,
+    "centre": [
+      94,
+      145
+    ],
+    "radius": 9,
+    "locationId": "hollowcut_seam",
+    "regionId": "vellenwood"
+  },
+  {
+    "id": "duskoak_stand_trees",
+    "resourceId": "tree_duskoak",
+    "count": 10,
+    "centre": [
+      14,
+      166
+    ],
+    "radius": 20,
+    "locationId": "vellenwood_canopy",
+    "regionId": "vellenwood"
+  },
+  {
+    "id": "blackwater_spots",
+    "resourceId": "fish_bramble_trout",
+    "count": 5,
+    "centre": [
+      128,
+      84
+    ],
+    "radius": 12,
+    "locationId": "blackwater_pools",
+    "regionId": "vellenwood"
+  },
+  {
+    "id": "vellenwood_earth_essence_cache",
+    "resourceId": "essence_earth",
+    "count": 5,
+    "centre": [
+      262,
+      176
+    ],
+    "radius": 12,
+    "ringRadius": 12,
+    "essenceElement": "earth",
+    "locationId": "vellenwood_earth_cache",
+    "regionId": "vellenwood"
+  },
+  {
+    "id": "lower_quarry_kaldite",
+    "resourceId": "ore_kaldite",
+    "count": 5,
+    "centre": [
+      140,
+      -16
+    ],
+    "radius": 10,
+    "locationId": "karrowmoor_terraces",
+    "regionId": "karrowmoor"
+  },
+  {
+    "id": "upper_karrow_kaldite",
+    "resourceId": "ore_kaldite",
+    "count": 3,
+    "centre": [
+      194,
+      -132
+    ],
+    "radius": 7,
+    "locationId": "upper_karrow_seam",
+    "regionId": "karrowmoor"
+  },
+  {
+    "id": "ridge_pines_trees",
+    "resourceId": "tree_cairnpine",
+    "count": 8,
+    "centre": [
+      250,
+      -96
+    ],
+    "radius": 18,
+    "locationId": "ridge_pines",
+    "regionId": "karrowmoor"
+  },
+  {
+    "id": "cairn_tarn_spots",
+    "resourceId": "fish_cragfin",
+    "count": 2,
+    "centre": [
+      206,
+      -88
+    ],
+    "radius": 8,
+    "locationId": "cairn_tarns",
+    "regionId": "karrowmoor"
+  },
+  {
+    "id": "far_tarn_spots",
+    "resourceId": "fish_cragfin",
+    "count": 2,
+    "centre": [
+      284,
+      -110
+    ],
+    "radius": 7,
+    "locationId": "far_tarn",
+    "regionId": "karrowmoor"
+  },
+  {
+    "id": "karrowmoor_water_essence_cache",
+    "resourceId": "essence_water",
+    "count": 5,
+    "centre": [
+      328,
+      -176
+    ],
+    "radius": 12,
+    "ringRadius": 12,
+    "essenceElement": "water",
+    "locationId": "karrowmoor_water_cache",
+    "regionId": "karrowmoor"
+  },
+  {
+    "id": "clinker_emberite",
+    "resourceId": "ore_emberite",
+    "count": 6,
+    "centre": [
+      -250,
+      330
+    ],
+    "radius": 12,
+    "locationId": "clinker_quarry",
+    "regionId": "kilnhalt"
+  },
+  {
+    "id": "clinker_kilnstone",
+    "resourceId": "ore_kilnstone",
+    "count": 2,
+    "centre": [
+      -238,
+      318
+    ],
+    "radius": 6,
+    "locationId": "clinker_quarry",
+    "regionId": "kilnhalt"
+  },
+  {
+    "id": "cinderpine_stand_trees",
+    "resourceId": "tree_cinderpine",
+    "count": 8,
+    "centre": [
+      240,
+      340
+    ],
+    "radius": 18,
+    "locationId": "cinderpine_stand",
+    "regionId": "kilnhalt"
+  },
+  {
+    "id": "ashfin_spring_spots",
+    "resourceId": "fish_ashfin",
+    "count": 4,
+    "centre": [
+      210,
+      250
+    ],
+    "radius": 9,
+    "locationId": "ashfin_springs",
+    "regionId": "kilnhalt"
+  },
+  {
+    "id": "kilnhalt_fire_essence_cache",
+    "resourceId": "essence_fire",
+    "count": 5,
+    "centre": [
+      290,
+      400
+    ],
+    "radius": 12,
+    "ringRadius": 12,
+    "essenceElement": "fire",
+    "locationId": "kilnhalt_fire_cache",
+    "regionId": "kilnhalt"
+  },
+  {
+    "id": "cindervein_workings_resources",
+    "resourceId": "cindervein_vein",
+    "count": 7,
+    "centre": [
+      -285,
+      680
+    ],
+    "radius": 13,
+    "locationId": "cindervein_workings",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "nightglass_excavation_resources",
+    "resourceId": "nightglass_vein",
+    "count": 7,
+    "centre": [
+      285,
+      895
+    ],
+    "radius": 13,
+    "locationId": "nightglass_excavation",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "lastroot_teak_resources",
+    "resourceId": "tree_wilderness_teak",
+    "count": 9,
+    "centre": [
+      -285,
+      490
+    ],
+    "radius": 18,
+    "locationId": "lastroot_teak",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "ember_shelter_teak_resources",
+    "resourceId": "tree_wilderness_teak",
+    "count": 9,
+    "centre": [
+      280,
+      585
+    ],
+    "radius": 18,
+    "locationId": "ember_shelter_teak",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "starwood_hollow_resources",
+    "resourceId": "tree_wilderness_magic",
+    "count": 9,
+    "centre": [
+      -285,
+      850
+    ],
+    "radius": 18,
+    "locationId": "starwood_hollow",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "moonvein_copse_resources",
+    "resourceId": "tree_wilderness_magic",
+    "count": 9,
+    "centre": [
+      285,
+      755
+    ],
+    "radius": 18,
+    "locationId": "moonvein_copse",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "east_cinder_cut_resources",
+    "resourceId": "cindervein_vein",
+    "count": 7,
+    "centre": [
+      668,
+      492
+    ],
+    "radius": 13,
+    "locationId": "east_cinder_cut",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "ashwind_shelter_resources",
+    "resourceId": "tree_wilderness_teak",
+    "count": 9,
+    "centre": [
+      435,
+      600
+    ],
+    "radius": 18,
+    "locationId": "ashwind_shelter",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "nightglass_ridge_resources",
+    "resourceId": "nightglass_vein",
+    "count": 7,
+    "centre": [
+      650,
+      830
+    ],
+    "radius": 13,
+    "locationId": "nightglass_ridge",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "starfall_copse_resources",
+    "resourceId": "tree_wilderness_magic",
+    "count": 9,
+    "centre": [
+      500,
+      905
+    ],
+    "radius": 18,
+    "locationId": "starfall_copse",
+    "regionId": "wilderness"
+  },
+  {
+    "id": "crownmere_trout_spots",
+    "locationId": "crownmere_trout",
+    "resourceId": "fish_crown_trout",
+    "centre": [
+      468,
+      228
+    ],
+    "radius": 22,
+    "count": 3,
+    "waterBodyId": "lake:crownmere",
+    "regionId": "crownward"
+  },
+  {
+    "id": "crownmere_tuna_spots",
+    "locationId": "crownmere_tuna",
+    "resourceId": "fish_crown_tuna",
+    "centre": [
+      468,
+      228
+    ],
+    "radius": 22,
+    "count": 3,
+    "waterBodyId": "lake:crownmere",
+    "regionId": "crownward"
+  },
+  {
+    "id": "pearlwater_salmon_1_spots",
+    "locationId": "pearlwater_salmon_1",
+    "resourceId": "fish_pearlwater_salmon",
+    "centre": [
+      572.791122214657,
+      195.88110163862487
+    ],
+    "radius": 5,
+    "count": 3,
+    "waterBodyId": "river:pearlwater:",
+    "regionId": "crownward"
+  },
+  {
+    "id": "pearlwater_salmon_2_spots",
+    "locationId": "pearlwater_salmon_2",
+    "resourceId": "fish_pearlwater_salmon",
+    "centre": [
+      629.8756339363837,
+      173.1643251953704
+    ],
+    "radius": 5,
+    "count": 3,
+    "waterBodyId": "river:pearlwater:",
+    "regionId": "crownward"
+  },
+  {
+    "id": "pearlwater_salmon_3_spots",
+    "locationId": "pearlwater_salmon_3",
+    "resourceId": "fish_pearlwater_salmon",
+    "centre": [
+      680.4400448823048,
+      180
+    ],
+    "radius": 5,
+    "count": 3,
+    "waterBodyId": "river:pearlwater:",
+    "regionId": "crownward"
+  },
+  {
+    "id": "crown_silver_quarry_resources",
+    "resourceId": "crown_silver_ore",
+    "count": 7,
+    "centre": [
+      625,
+      -135
+    ],
+    "radius": 13,
+    "locationId": "crown_silver_quarry",
+    "regionId": "crownward"
+  },
+  {
+    "id": "argent_high_cut_resources",
+    "resourceId": "crown_silver_ore",
+    "count": 7,
+    "centre": [
+      640,
+      220
+    ],
+    "radius": 13,
+    "locationId": "argent_high_cut",
+    "regionId": "crownward"
+  },
+  {
+    "id": "royal_maple_grove_resources",
+    "resourceId": "tree_maple",
+    "count": 9,
+    "centre": [
+      445,
+      -115
+    ],
+    "radius": 18,
+    "locationId": "royal_maple_grove",
+    "regionId": "crownward"
+  },
+  {
+    "id": "silverthorn_park_resources",
+    "resourceId": "tree_maple",
+    "count": 9,
+    "centre": [
+      630,
+      105
+    ],
+    "radius": 18,
+    "locationId": "silverthorn_park",
+    "regionId": "crownward"
+  },
+  {
+    "id": "whitebough_copse_resources",
+    "resourceId": "tree_maple",
+    "count": 9,
+    "centre": [
+      445,
+      310
+    ],
+    "radius": 18,
+    "locationId": "whitebough_copse",
+    "regionId": "crownward"
+  },
+  {
+    "id": "dewglass_workings_resources",
+    "resourceId": "dewglass_ore",
+    "count": 7,
+    "centre": [
+      2175,
+      -135
+    ],
+    "radius": 13,
+    "locationId": "dewglass_workings",
+    "regionId": "gloamgarden"
+  },
+  {
+    "id": "lantern_seam_resources",
+    "resourceId": "dewglass_ore",
+    "count": 7,
+    "centre": [
+      2505,
+      60
+    ],
+    "radius": 13,
+    "locationId": "lantern_seam",
+    "regionId": "gloamgarden"
+  },
+  {
+    "id": "moonpetal_grove_resources",
+    "resourceId": "tree_gloam_willow",
+    "count": 9,
+    "centre": [
+      2250,
+      -55
+    ],
+    "radius": 18,
+    "locationId": "moonpetal_grove",
+    "regionId": "gloamgarden"
+  },
+  {
+    "id": "lantern_willows_resources",
+    "resourceId": "tree_gloam_willow",
+    "count": 9,
+    "centre": [
+      2470,
+      -110
+    ],
+    "radius": 18,
+    "locationId": "lantern_willows",
+    "regionId": "gloamgarden"
+  },
+  {
+    "id": "dewsong_copse_resources",
+    "resourceId": "tree_gloam_willow",
+    "count": 9,
+    "centre": [
+      2115,
+      40
+    ],
+    "radius": 18,
+    "locationId": "dewsong_copse",
+    "regionId": "gloamgarden"
+  },
+  {
+    "id": "star_amethyst_cut_resources",
+    "resourceId": "star_amethyst_ore",
+    "count": 7,
+    "centre": [
+      2170,
+      240
+    ],
+    "radius": 13,
+    "locationId": "star_amethyst_cut",
+    "regionId": "faeholme"
+  },
+  {
+    "id": "sovereign_lode_resources",
+    "resourceId": "star_amethyst_ore",
+    "count": 7,
+    "centre": [
+      2500,
+      370
+    ],
+    "radius": 13,
+    "locationId": "sovereign_lode",
+    "regionId": "faeholme"
+  },
+  {
+    "id": "orchid_yew_grove_resources",
+    "resourceId": "tree_fae_yew",
+    "count": 9,
+    "centre": [
+      2420,
+      210
+    ],
+    "radius": 18,
+    "locationId": "orchid_yew_grove",
+    "regionId": "faeholme"
+  },
+  {
+    "id": "starroot_garden_resources",
+    "resourceId": "tree_fae_yew",
+    "count": 9,
+    "centre": [
+      2300,
+      365
+    ],
+    "radius": 18,
+    "locationId": "starroot_garden",
+    "regionId": "faeholme"
+  },
+  {
+    "id": "twilight_copse_resources",
+    "resourceId": "tree_fae_yew",
+    "count": 9,
+    "centre": [
+      2075,
+      350
+    ],
+    "radius": 18,
+    "locationId": "twilight_copse",
+    "regionId": "faeholme"
+  }
+]

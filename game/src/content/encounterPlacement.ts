@@ -12,15 +12,9 @@ export function encounterBodyRadius(group: EnemyGroupDef): number {
     * (group.boss ? 1.6 : group.miniBoss ? 1.3 : 1);
 }
 
-/** Counts and reservations are content; actual ordered spawn sockets belong to the habitat. */
+/** Procedural callers share population rules; authored placements carry their final count directly. */
 export function populationGroup(group: EnemyGroupDef): EnemyGroupDef {
-  const layout = LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES[group.id];
-  const count = group.boss || group.miniBoss ? 1 : group.countPolicy === 'fixed'
-    ? encounterPopulationCount(group) : layout?.count ?? encounterPopulationCount(group);
-  const radius = encounterBodyRadius(group);
-  return { ...group, legacyCount: group.legacyCount ?? group.count, count,
-    centre: layout?.centre ?? group.centre,
-    radius: group.boss || group.miniBoss ? group.radius : layout?.radius
-      ?? Math.max(group.radius, Math.ceil(Math.sqrt(count) - 1) * (radius * 2 + .5) + radius),
-  };
+  const count = encounterPopulationCount(group);
+  const bodyRadius = encounterBodyRadius(group);
+  return { ...group, legacyCount: group.legacyCount ?? group.count, count, radius: Math.max(group.radius, Math.ceil(Math.sqrt(count) - 1) * (bodyRadius * 2 + .5) + bodyRadius) };
 }

@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import rawSets from "../game/content/data/equipmentSets.json";
-import rawTiers from "../game/content/data/gatheringTiers.json";
+import rawProgression from "../game/content/data/progression.json";
 import rawBalance from "../game/content/data/balance/sets.json";
 import { createMetaHandler, isMetaPath, type MetaHandler, type MetaResponse } from "../devdocs/server/handlers/meta.js";
 import type { DevdocsJsonResponse } from "../devdocs/server/handlers/collections.js";
@@ -27,7 +27,7 @@ async function fixture(): Promise<{ root: string; handler: MetaHandler }> {
     { id: "__proto__", name: "Unusual Shop", buyMultiplier: 1, sellMultiplier: 0.5, stock: [] },
   ]));
   await writeFile(path.join(root, "data", "equipmentSets.json"), JSON.stringify(rawSets));
-  await writeFile(path.join(root, "data", "gatheringTiers.json"), JSON.stringify(rawTiers));
+  await writeFile(path.join(root, "data", "progression.json"), JSON.stringify(rawProgression));
   await writeFile(path.join(root, "data", "balance", "sets.json"), JSON.stringify(rawBalance));
   return { root, handler: createMetaHandler({ contentRoot: root, actor: "Borg", now: () => at }) };
 }
@@ -137,8 +137,8 @@ describe("devdocs metadata handler", () => {
     for (const target of ["/__devdocs/meta/noSuchCollection/x", "/__devdocs/meta/shops/noSuchEntity", "/__devdocs/meta/balance/sets/byTier"]) {
       expect((await handler({ url: target }))?.status).toBe(404);
     }
-    const numeric = await get(handler, `/__devdocs/meta/gatheringTiers/${rawTiers[0]!.tier}`);
-    expect(numeric.entityId).toBe(String(rawTiers[0]!.tier));
+    const numeric = await get(handler, `/__devdocs/meta/progression/${rawProgression[0]!.id}`);
+    expect(numeric.entityId).toBe(rawProgression[0]!.id);
     const encoded = "/__devdocs/meta/balance%2Fsets/%24collection";
     const split = "/__devdocs/meta/balance/sets/$collection";
     expect(await get(handler, encoded)).toEqual(await get(handler, split));

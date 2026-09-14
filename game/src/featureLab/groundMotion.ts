@@ -50,7 +50,7 @@ export function createGroundMotionFixture(ports: {
     const [x, z] = row.centre, entityId = `ground-motion:${row.assetId}`;
     const anchors = [[x - .8, z - .8], [x + .8, z - .8], [x + .8, z + .8], [x - .8, z + .8]] as const;
     const point = anchors[0];
-    const entity = createFeatureLabEntity(preset, { entityId, groundPosition: [point[0], ports.heightAt(point[0], point[1]), point[1]], baseY: ports.baseY, assetSize: ports.assetSize, rotationY: Math.PI / 2 });
+    const entity = createFeatureLabEntity(preset, { entityId, creatureAssetId: row.assetId, groundPosition: [point[0], ports.heightAt(point[0], point[1]), point[1]], baseY: ports.baseY, assetSize: ports.assetSize, rotationY: Math.PI / 2 });
     if (entity.view?.assetId !== row.assetId) throw new Error(`Ground motion source changed ${row.assetId}`);
     entity.regionId = 'fallowmarch';
     entity.meta = { ...entity.meta, groundMotionFixture: true };

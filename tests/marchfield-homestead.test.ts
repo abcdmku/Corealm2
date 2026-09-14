@@ -26,7 +26,6 @@ describe("Marchfield homestead", () => {
     expect(hens.centre).toEqual([-93, -21]);
     expect(hens.radius).toBeLessThanOrEqual(4.4);
     expect(cattle.count).toBe(7);
-    expect(cattle.legacyCount).toBe(4);
     expect(cattle.name).toBe("Cow");
     expect(cattle.centre).toEqual([-115, -40]);
     expect(Math.hypot(cattle.centre[0] + 96, cattle.centre[1] + 22)).toBeLessThan(30);

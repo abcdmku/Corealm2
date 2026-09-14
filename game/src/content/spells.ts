@@ -1,3 +1,4 @@
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
 /**
  * The sixteen attack spells, ordered by Magic requirement.
  *
@@ -12,8 +13,8 @@
  */
 import type { ItemId, SpellElement, SpellRung } from "../contracts.js";
 import type { SpellDef } from "./index.js";
-import spellData from "../../content/data/spells.json";
-import runeData from "../../content/data/spellRunes.json";
+const spellData = RESOLVED_TABLES["spells"];
+const runeData = RESOLVED_TABLES["spellRunes"];
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { SpellRecordSchema, SpellRuneSchema } from "./schema/spells.js";
 

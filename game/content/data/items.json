@@ -6,8 +6,7 @@
     "description": "Fresh trout from Crownmere. Cook it over a range or campfire.",
     "stackable": false,
     "value": 310,
-    "category": "resource",
-    "catalog": "CROWNWARD_FISH_ITEMS"
+    "category": "resource"
   },
   {
     "id": "cooked_crown_trout",
@@ -19,13 +18,6 @@
     "category": "food",
     "food": {
       "healAmount": 26
-    },
-    "catalog": "CROWNWARD_FISH_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "cooked_crown_trout",
-      "rawItemId": "crown_trout"
     }
   },
   {
@@ -35,8 +27,7 @@
     "description": "Charred through and inedible.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "CROWNWARD_FISH_ITEMS"
+    "category": "food"
   },
   {
     "id": "crown_tuna",
@@ -45,8 +36,7 @@
     "description": "Fresh tuna from Crownmere. Cook it over a range or campfire.",
     "stackable": false,
     "value": 420,
-    "category": "resource",
-    "catalog": "CROWNWARD_FISH_ITEMS"
+    "category": "resource"
   },
   {
     "id": "cooked_crown_tuna",
@@ -58,13 +48,6 @@
     "category": "food",
     "food": {
       "healAmount": 33
-    },
-    "catalog": "CROWNWARD_FISH_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "cooked_crown_tuna",
-      "rawItemId": "crown_tuna"
     }
   },
   {
@@ -74,8 +57,7 @@
     "description": "Charred through and inedible.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "CROWNWARD_FISH_ITEMS"
+    "category": "food"
   },
   {
     "id": "pearlwater_salmon",
@@ -84,8 +66,7 @@
     "description": "Fresh salmon from Pearlwater. Cook it over a range or campfire.",
     "stackable": false,
     "value": 650,
-    "category": "resource",
-    "catalog": "CROWNWARD_FISH_ITEMS"
+    "category": "resource"
   },
   {
     "id": "cooked_pearlwater_salmon",
@@ -97,13 +78,6 @@
     "category": "food",
     "food": {
       "healAmount": 46
-    },
-    "catalog": "CROWNWARD_FISH_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "cooked_pearlwater_salmon",
-      "rawItemId": "pearlwater_salmon"
     }
   },
   {
@@ -113,8 +87,7 @@
     "description": "Charred through and inedible.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "CROWNWARD_FISH_ITEMS"
+    "category": "food"
   },
   {
     "id": "marks",
@@ -123,8 +96,7 @@
     "description": "Stamped Trade Company scrip. Every settlement between here and the moor takes it.",
     "stackable": true,
     "value": 1,
-    "category": "currency",
-    "catalog": "ITEMS"
+    "category": "currency"
   },
   {
     "id": "grithe_ore",
@@ -133,8 +105,7 @@
     "description": "Grey ore, streaked rust-red. Smelts easily, which is the only nice thing about it.",
     "stackable": false,
     "value": 12,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "march_stone",
@@ -143,8 +114,7 @@
     "description": "Crumbly limestone from the Copper Pit. Every furnace on the frontier runs on it as flux.",
     "stackable": false,
     "value": 5,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "corven_ore",
@@ -153,8 +123,7 @@
     "description": "Dark deepwood ore. Heavier than it looks and slightly oily on the break.",
     "stackable": false,
     "value": 42,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "kaldite_ore",
@@ -163,8 +132,7 @@
     "description": "Black Highlands ore with a blue fracture. It takes a furnace twice to give anything up.",
     "stackable": false,
     "value": 95,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "emberite_ore",
@@ -173,8 +141,7 @@
     "description": "Rust-orange Ashlands ore, warm off the seam. It smells faintly of a banked fire.",
     "stackable": false,
     "value": 210,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "kilnstone",
@@ -183,8 +150,7 @@
     "description": "Grey-black flux off the Quarry Seams. Titanium refuses to run without it.",
     "stackable": false,
     "value": 12,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "palewood_log",
@@ -193,8 +159,7 @@
     "description": "Pale, straight-grained, and dries in a day. The march is short of everything except this.",
     "stackable": false,
     "value": 10,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "duskoak_log",
@@ -203,8 +168,7 @@
     "description": "Close-grained ash from the Woodlands canopy. Seasoned for strong handles and shields.",
     "stackable": false,
     "value": 38,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "cairnpine_log",
@@ -213,8 +177,7 @@
     "description": "Dense oak with a coarse, durable grain. It holds a Cobalt ferrule without splitting.",
     "stackable": false,
     "value": 88,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "cinderpine_log",
@@ -223,8 +186,7 @@
     "description": "Dark walnut heartwood from broad, spreading crowns. It cuts cleanly and takes a smooth finish.",
     "stackable": false,
     "value": 195,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "silt_minnow",
@@ -233,8 +195,7 @@
     "description": "A palm-sized fish out of the River shallows. Raw, it is mostly bone.",
     "stackable": false,
     "value": 14,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "bramble_trout",
@@ -243,8 +204,7 @@
     "description": "Black-backed trout from the Blackwater pools. Fights the line the whole way in.",
     "stackable": false,
     "value": 44,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "cragfin",
@@ -253,8 +213,7 @@
     "description": "A slab-sided tarn fish with a spined dorsal. Hillcrest eats little else.",
     "stackable": false,
     "value": 96,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "ashfin",
@@ -263,8 +222,7 @@
     "description": "A dark-finned spring fish that thrives where the water runs warm. Oily and rich.",
     "stackable": false,
     "value": 215,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "grithe_bar",
@@ -273,8 +231,7 @@
     "description": "One ore, one stone, one bar. The first thing anybody makes.",
     "stackable": false,
     "value": 30,
-    "category": "bar",
-    "catalog": "ITEMS"
+    "category": "bar"
   },
   {
     "id": "corven_bar",
@@ -283,8 +240,7 @@
     "description": "Dark and dense. Rings a full tone lower than Copper on the anvil.",
     "stackable": false,
     "value": 110,
-    "category": "bar",
-    "catalog": "ITEMS"
+    "category": "bar"
   },
   {
     "id": "kaldite_bar",
@@ -293,8 +249,7 @@
     "description": "Black with a blue sheen. Holds an edge through cairn stone, which is why Hillcrest exists.",
     "stackable": false,
     "value": 250,
-    "category": "bar",
-    "catalog": "ITEMS"
+    "category": "bar"
   },
   {
     "id": "emberite_bar",
@@ -303,8 +258,7 @@
     "description": "Three ores and two flux stones a bar, and it comes off the furnace still glowing at the core.",
     "stackable": false,
     "value": 760,
-    "category": "bar",
-    "catalog": "ITEMS"
+    "category": "bar"
   },
   {
     "id": "pale_quartz",
@@ -313,8 +267,7 @@
     "description": "A milky chip out of a Copper seam. Holds a charge just long enough to be useful.",
     "stackable": true,
     "value": 20,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "vell_amber",
@@ -323,8 +276,7 @@
     "description": "Fossil resin from under the deepwood. Warm in the hand and nobody knows why.",
     "stackable": true,
     "value": 70,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cairn_garnet",
@@ -333,8 +285,7 @@
     "description": "Deep red, cut square by the rock itself. Hillcrest jewellers cage it in Cobalt.",
     "stackable": true,
     "value": 160,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "fire_opal",
@@ -343,8 +294,7 @@
     "description": "An orange stone with a live spark in it. Ashford cages them in Titanium claws.",
     "stackable": true,
     "value": 350,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "palewood_shaft",
@@ -353,8 +303,7 @@
     "description": "A shaved length of pine. Handle, haft, or half a staff.",
     "stackable": true,
     "value": 4,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "duskoak_shaft",
@@ -363,8 +312,7 @@
     "description": "Ash, turned down and oiled. Will not warp in Woodlands damp.",
     "stackable": true,
     "value": 14,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cairnpine_shaft",
@@ -373,8 +321,7 @@
     "description": "Resinous, springy, and heavy. Takes a Cobalt ferrule without splitting.",
     "stackable": true,
     "value": 32,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cinderpine_shaft",
@@ -383,8 +330,7 @@
     "description": "A straight walnut shaft, shaped and seasoned for rods and staves.",
     "stackable": true,
     "value": 70,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "palewood_handle",
@@ -393,8 +339,7 @@
     "description": "A short pine grip, shaped for a Copper tang or tool head.",
     "stackable": true,
     "value": 6,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "duskoak_handle",
@@ -403,8 +348,7 @@
     "description": "Oiled ash with enough weight to balance an Iron head.",
     "stackable": true,
     "value": 23,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cairnpine_handle",
@@ -413,8 +357,7 @@
     "description": "Oak shaped around the grain so a Cobalt tang will not split it.",
     "stackable": true,
     "value": 53,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cinderpine_handle",
@@ -423,8 +366,7 @@
     "description": "An oiled walnut grip shaped to hold a Titanium tang securely.",
     "stackable": true,
     "value": 117,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "coarse_hide",
@@ -433,8 +375,7 @@
     "description": "Goat and rabbit skins, scraped and salted together. Stiff until you work it.",
     "stackable": false,
     "value": 16,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "bramble_hide",
@@ -443,8 +384,7 @@
     "description": "Deepwood deer and hog, thorns still in the seam. Nothing in Woodlands tans clean.",
     "stackable": false,
     "value": 55,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cairn_pelt",
@@ -453,8 +393,7 @@
     "description": "Winter coat off something that lived above the treeline. Takes no dye and does not tear.",
     "stackable": false,
     "value": 130,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "charhide",
@@ -463,8 +402,7 @@
     "description": "Foothill hide seared grey at the edges. Sheds heat the way fur pelt sheds cold.",
     "stackable": false,
     "value": 290,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "air_essence",
@@ -473,8 +411,7 @@
     "description": "A stackable charge drawn from the distant Farmland cache.",
     "stackable": true,
     "value": 9,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "earth_essence",
@@ -483,8 +420,7 @@
     "description": "Dense green-brown essence mined beneath the Woodlands roots.",
     "stackable": true,
     "value": 24,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "water_essence",
@@ -493,8 +429,7 @@
     "description": "Cold blue essence gathered from the far Highlands cache.",
     "stackable": true,
     "value": 55,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "fire_essence",
@@ -503,8 +438,7 @@
     "description": "A hot orange charge mined at the Ashlands altar ruins. It never quite cools.",
     "stackable": true,
     "value": 120,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "mind_rune",
@@ -513,8 +447,7 @@
     "description": "A pale rune etched with a single clear eye. It steadies the caster's thought onto one mark. Rank-one invocations spend one per cast.",
     "stackable": true,
     "value": 30,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "chaos_rune",
@@ -523,8 +456,7 @@
     "description": "An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Rank-two invocations spend one per cast.",
     "stackable": true,
     "value": 45,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "death_rune",
@@ -533,8 +465,7 @@
     "description": "A bone-white rune cut with a hollow skull. It holds a spell's shape while it gathers and closes. Rank-three invocations spend one per cast.",
     "stackable": true,
     "value": 70,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "blood_rune",
@@ -543,8 +474,7 @@
     "description": "A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Rank-four invocations spend one per cast.",
     "stackable": true,
     "value": 110,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "wrath_rune",
@@ -553,8 +483,7 @@
     "description": "A black rune split through with slow red light. The four finales spend one per cast, and nothing smaller touches it.",
     "stackable": true,
     "value": 180,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "cosmic_rune",
@@ -563,8 +492,7 @@
     "description": "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune.",
     "stackable": true,
     "value": 40,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "hen_feather",
@@ -573,8 +501,7 @@
     "description": "Barred brown, still stiff at the quill. Fletchers buy them by the double handful.",
     "stackable": true,
     "value": 3,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "hen_egg",
@@ -583,8 +510,7 @@
     "description": "Warm when you find it, which is how you know you were quick enough.",
     "stackable": true,
     "value": 6,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "curl_horn",
@@ -593,8 +519,7 @@
     "description": "One horn from a goat. Hollow, and loud if you know how to blow it.",
     "stackable": false,
     "value": 22,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "ox_horn",
@@ -603,8 +528,7 @@
     "description": "Short, thick and scarred at the base. Millfield turns them into cups and lamp horn.",
     "stackable": false,
     "value": 26,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "coney_foot",
@@ -613,8 +537,7 @@
     "description": "Carried for luck by everyone who has ever admitted the moor frightens them.",
     "stackable": true,
     "value": 18,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "marsh_gland",
@@ -623,8 +546,7 @@
     "description": "Pale sac from behind a frog's jaw. Keeps essence wet, which is most of the trick.",
     "stackable": true,
     "value": 15,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "viper_skin",
@@ -633,8 +555,7 @@
     "description": "Shed whole and inside out. Copper fletchers back their nocks with it.",
     "stackable": false,
     "value": 24,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "venom_gland",
@@ -643,8 +564,7 @@
     "description": "Still full. Handled with the same care you would give a lit lamp in a barn.",
     "stackable": true,
     "value": 64,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "stag_antler",
@@ -653,8 +573,7 @@
     "description": "A six-point stag antler. Cut and polished, it makes a strong knife handle.",
     "stackable": false,
     "value": 78,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "curved_tusk",
@@ -663,8 +582,7 @@
     "description": "Ivory, yellowed, and ground to an edge by the animal's own jaw.",
     "stackable": false,
     "value": 72,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "coyote_fang",
@@ -673,8 +591,7 @@
     "description": "Long in the root, which is the part nobody expects until they pull one.",
     "stackable": true,
     "value": 58,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "bear_claw",
@@ -683,8 +600,7 @@
     "description": "Longer than a finger and blunt from stone. Hillcrest hangs them over doorways.",
     "stackable": true,
     "value": 150,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "boar_bristle",
@@ -693,8 +609,7 @@
     "description": "A fistful of black wire off a wild boar's shoulder. It will not lie flat.",
     "stackable": true,
     "value": 96,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "ibex_horn",
@@ -703,8 +618,7 @@
     "description": "Ridged the whole length, one ring a winter. This one counted eleven.",
     "stackable": false,
     "value": 165,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "aurochs_horn",
@@ -713,8 +627,7 @@
     "description": "As long as your arm and heavier. The terrace herds are the last ones anywhere.",
     "stackable": false,
     "value": 178,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "rat_tail",
@@ -723,8 +636,7 @@
     "description": "Stone Cavern pays a bounty per tail. Nobody in Hillcrest asks what the count is for.",
     "stackable": true,
     "value": 84,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "scorpion_stinger",
@@ -733,8 +645,7 @@
     "description": "Barb and bulb both intact. Dry, it is a needle; wet, it is still a problem.",
     "stackable": true,
     "value": 140,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "crab_claw",
@@ -743,8 +654,7 @@
     "description": "Off a giant crab, and big enough to have taken a pick handle in half.",
     "stackable": false,
     "value": 158,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "ashback_claw",
@@ -753,8 +663,7 @@
     "description": "Grey to the root, like the bear it came off. Ashford doors hang two, crossed.",
     "stackable": true,
     "value": 320,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "cinder_tusk",
@@ -763,8 +672,7 @@
     "description": "A boar tusk stained kiln-black. The point still goes through boot leather.",
     "stackable": false,
     "value": 300,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "emberhorn",
@@ -773,8 +681,7 @@
     "description": "Ridged ibex horn with a red cast the foothill dust never washes out of.",
     "stackable": false,
     "value": 360,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "kiln_fang",
@@ -783,8 +690,7 @@
     "description": "An viper fang the colour of cooling slag. Hot to the touch for a day after the kill.",
     "stackable": true,
     "value": 310,
-    "category": "component",
-    "catalog": "ITEMS"
+    "category": "component"
   },
   {
     "id": "raw_game_meat",
@@ -793,8 +699,7 @@
     "description": "Whatever the Farmland was carrying. Fowl, goat or rabbit, jointed the same way.",
     "stackable": false,
     "value": 12,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "roast_game",
@@ -806,13 +711,6 @@
     "category": "food",
     "food": {
       "healAmount": 3
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "roast_game",
-      "rawItemId": "raw_game_meat"
     }
   },
   {
@@ -822,8 +720,7 @@
     "description": "Left on the range. Black through and nothing left worth eating.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "raw_venison",
@@ -832,8 +729,7 @@
     "description": "Dark, close-grained deepwood meat. Hangs two days before it is worth cooking.",
     "stackable": false,
     "value": 46,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "roast_venison",
@@ -845,13 +741,6 @@
     "category": "food",
     "food": {
       "healAmount": 7
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "roast_venison",
-      "rawItemId": "raw_venison"
     }
   },
   {
@@ -861,8 +750,7 @@
     "description": "A stag walked all summer for this and you left it on the coals.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "raw_haunch",
@@ -871,8 +759,7 @@
     "description": "A whole hind quarter off something that lived above the treeline. Heavy.",
     "stackable": false,
     "value": 88,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "roast_haunch",
@@ -884,13 +771,6 @@
     "category": "food",
     "food": {
       "healAmount": 12
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "roast_haunch",
-      "rawItemId": "raw_haunch"
     }
   },
   {
@@ -900,8 +780,7 @@
     "description": "Ruined, and it was the biggest thing you killed all week.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "raw_ember_haunch",
@@ -910,8 +789,7 @@
     "description": "A hind quarter off a foothill beast, marbled from a life spent on warm ground.",
     "stackable": false,
     "value": 190,
-    "category": "resource",
-    "catalog": "ITEMS"
+    "category": "resource"
   },
   {
     "id": "roast_ember_haunch",
@@ -923,13 +801,6 @@
     "category": "food",
     "food": {
       "healAmount": 19
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "roast_ember_haunch",
-      "rawItemId": "raw_ember_haunch"
     }
   },
   {
@@ -939,8 +810,7 @@
     "description": "The one place in Ashlands where more fire was not the answer.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "seared_minnow",
@@ -952,13 +822,6 @@
     "category": "food",
     "food": {
       "healAmount": 3
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "seared_minnow",
-      "rawItemId": "silt_minnow"
     }
   },
   {
@@ -968,8 +831,7 @@
     "description": "Charred through. Nothing left worth eating.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "seared_trout",
@@ -981,13 +843,6 @@
     "category": "food",
     "food": {
       "healAmount": 7
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "seared_trout",
-      "rawItemId": "bramble_trout"
     }
   },
   {
@@ -997,8 +852,7 @@
     "description": "You left it on. It happens until Cooking 20.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "seared_cragfin",
@@ -1010,13 +864,6 @@
     "category": "food",
     "food": {
       "healAmount": 12
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "seared_cragfin",
-      "rawItemId": "cragfin"
     }
   },
   {
@@ -1026,8 +873,7 @@
     "description": "Ninety-six marks of fish, ruined. Hillcrest has opinions about this.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "seared_ashfin",
@@ -1039,13 +885,6 @@
     "category": "food",
     "food": {
       "healAmount": 19
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "cookedFood",
-      "itemId": "seared_ashfin",
-      "rawItemId": "ashfin"
     }
   },
   {
@@ -1055,8 +894,7 @@
     "description": "It cooked itself the rest of the way while you watched.",
     "stackable": false,
     "value": 1,
-    "category": "food",
-    "catalog": "ITEMS"
+    "category": "food"
   },
   {
     "id": "worn_pickaxe",
@@ -1069,8 +907,7 @@
     "tool": {
       "skill": "mining",
       "gatherBonus": 1
-    },
-    "catalog": "ITEMS"
+    }
   },
   {
     "id": "worn_hatchet",
@@ -1083,8 +920,7 @@
     "tool": {
       "skill": "woodcutting",
       "gatherBonus": 1
-    },
-    "catalog": "ITEMS"
+    }
   },
   {
     "id": "worn_rod",
@@ -1097,8 +933,7 @@
     "tool": {
       "skill": "fishing",
       "gatherBonus": 1
-    },
-    "catalog": "ITEMS"
+    }
   },
   {
     "id": "grithe_pickaxe",
@@ -1111,12 +946,6 @@
     "tool": {
       "skill": "mining",
       "gatherBonus": 2
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "grithe_pickaxe"
     }
   },
   {
@@ -1130,12 +959,6 @@
     "tool": {
       "skill": "mining",
       "gatherBonus": 5
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "corven_pickaxe"
     }
   },
   {
@@ -1149,12 +972,6 @@
     "tool": {
       "skill": "mining",
       "gatherBonus": 9
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "kaldite_pickaxe"
     }
   },
   {
@@ -1168,12 +985,6 @@
     "tool": {
       "skill": "woodcutting",
       "gatherBonus": 2
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "grithe_hatchet"
     }
   },
   {
@@ -1187,12 +998,6 @@
     "tool": {
       "skill": "woodcutting",
       "gatherBonus": 5
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "corven_hatchet"
     }
   },
   {
@@ -1206,12 +1011,6 @@
     "tool": {
       "skill": "woodcutting",
       "gatherBonus": 9
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "kaldite_hatchet"
     }
   },
   {
@@ -1225,12 +1024,6 @@
     "tool": {
       "skill": "fishing",
       "gatherBonus": 2
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "palewood_rod"
     }
   },
   {
@@ -1244,12 +1037,6 @@
     "tool": {
       "skill": "fishing",
       "gatherBonus": 5
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "duskoak_rod"
     }
   },
   {
@@ -1263,12 +1050,6 @@
     "tool": {
       "skill": "fishing",
       "gatherBonus": 9
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "cairnpine_rod"
     }
   },
   {
@@ -1282,12 +1063,6 @@
     "tool": {
       "skill": "mining",
       "gatherBonus": 17
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "emberite_pickaxe"
     }
   },
   {
@@ -1301,12 +1076,6 @@
     "tool": {
       "skill": "woodcutting",
       "gatherBonus": 17
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "emberite_hatchet"
     }
   },
   {
@@ -1320,12 +1089,6 @@
     "tool": {
       "skill": "fishing",
       "gatherBonus": 17
-    },
-    "catalog": "ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "baseTool",
-      "toolId": "cinderpine_rod"
     }
   },
   {
@@ -1335,8 +1098,7 @@
     "description": "Timber cut from a willow tree.",
     "stackable": false,
     "value": 310,
-    "category": "resource",
-    "catalog": "HIGH_TIER_LOG_ITEMS"
+    "category": "resource"
   },
   {
     "id": "maple_log",
@@ -1345,8 +1107,7 @@
     "description": "Timber cut from a maple tree.",
     "stackable": false,
     "value": 440,
-    "category": "resource",
-    "catalog": "HIGH_TIER_LOG_ITEMS"
+    "category": "resource"
   },
   {
     "id": "teak_log",
@@ -1355,8 +1116,7 @@
     "description": "Timber cut from a teak tree.",
     "stackable": false,
     "value": 590,
-    "category": "resource",
-    "catalog": "HIGH_TIER_LOG_ITEMS"
+    "category": "resource"
   },
   {
     "id": "yew_log",
@@ -1365,8 +1125,7 @@
     "description": "Timber cut from a yew tree.",
     "stackable": false,
     "value": 755,
-    "category": "resource",
-    "catalog": "HIGH_TIER_LOG_ITEMS"
+    "category": "resource"
   },
   {
     "id": "magic_log",
@@ -1375,8 +1134,7 @@
     "description": "Timber cut from a magic tree.",
     "stackable": false,
     "value": 940,
-    "category": "resource",
-    "catalog": "HIGH_TIER_LOG_ITEMS"
+    "category": "resource"
   },
   {
     "id": "air_orb",
@@ -1389,8 +1147,7 @@
     "orb": {
       "element": "wind",
       "released": true
-    },
-    "catalog": "MAGIC_ORBS"
+    }
   },
   {
     "id": "earth_orb",
@@ -1403,8 +1160,7 @@
     "orb": {
       "element": "earth",
       "released": true
-    },
-    "catalog": "MAGIC_ORBS"
+    }
   },
   {
     "id": "water_orb",
@@ -1417,8 +1173,7 @@
     "orb": {
       "element": "water",
       "released": true
-    },
-    "catalog": "MAGIC_ORBS"
+    }
   },
   {
     "id": "fire_orb",
@@ -1431,8 +1186,7 @@
     "orb": {
       "element": "fire",
       "released": true
-    },
-    "catalog": "MAGIC_ORBS"
+    }
   },
   {
     "id": "crafted_ring_t10",
@@ -1456,13 +1210,6 @@
       "requires": {
         "melee": 10
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 10,
-      "shape": "ring"
     }
   },
   {
@@ -1487,13 +1234,6 @@
       "requires": {
         "melee": 10
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 10,
-      "shape": "earring"
     }
   },
   {
@@ -1518,13 +1258,6 @@
       "requires": {
         "magic": 20
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 20,
-      "shape": "ring"
     }
   },
   {
@@ -1549,13 +1282,6 @@
       "requires": {
         "magic": 20
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 20,
-      "shape": "earring"
     }
   },
   {
@@ -1580,13 +1306,6 @@
       "requires": {
         "melee": 30
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 30,
-      "shape": "ring"
     }
   },
   {
@@ -1611,13 +1330,6 @@
       "requires": {
         "melee": 30
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 30,
-      "shape": "earring"
     }
   },
   {
@@ -1642,13 +1354,6 @@
       "requires": {
         "melee": 40
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 40,
-      "shape": "ring"
     }
   },
   {
@@ -1673,13 +1378,6 @@
       "requires": {
         "melee": 40
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 40,
-      "shape": "earring"
     }
   },
   {
@@ -1704,13 +1402,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 50,
-      "shape": "ring"
     }
   },
   {
@@ -1735,13 +1426,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 50,
-      "shape": "earring"
     }
   },
   {
@@ -1766,13 +1450,6 @@
       "requires": {
         "magic": 60
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 60,
-      "shape": "ring"
     }
   },
   {
@@ -1797,13 +1474,6 @@
       "requires": {
         "magic": 60
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 60,
-      "shape": "earring"
     }
   },
   {
@@ -1828,13 +1498,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 70,
-      "shape": "ring"
     }
   },
   {
@@ -1859,13 +1522,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "CRAFTED_JEWELRY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "crafted",
-      "tier": 70,
-      "shape": "earring"
     }
   },
   {
@@ -1889,13 +1545,6 @@
       },
       "attackSpeedMs": 2400,
       "requires": {}
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "worn_sword",
-      "attackKind": "melee"
     }
   },
   {
@@ -1923,13 +1572,6 @@
     "magicWeapon": {
       "kind": "wand",
       "hands": 1
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "basic_wooden_wand",
-      "attackKind": "wand"
     }
   },
   {
@@ -1957,1877 +1599,6 @@
     "magicWeapon": {
       "kind": "staff",
       "hands": 2
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "basic_wooden_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "grithe_dagger",
-    "name": "Copper Dagger",
-    "tier": 1,
-    "description": "A short blade of dull grey Copper. The first real weapon anyone out here owns.",
-    "stackable": false,
-    "value": 90,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 6,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 6,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_dagger",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "grithe_sword",
-    "name": "Copper Sword",
-    "tier": 1,
-    "description": "Two bars of Copper beaten flat and given an edge. Heavier than the dagger, and hits like it.",
-    "stackable": false,
-    "value": 180,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 7,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 8,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "palewood_shield",
-    "name": "Pine Shield",
-    "tier": 1,
-    "description": "Planks of pale march wood banded at the rim. It stops a claw once.",
-    "stackable": false,
-    "value": 70,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 4,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "palewood_shield"
-    }
-  },
-  {
-    "id": "grithe_helm",
-    "name": "Copper Helm",
-    "tier": 1,
-    "description": "An open-faced cap. You can hear things coming, which is most of the job.",
-    "stackable": false,
-    "value": 110,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 2,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_helm"
-    }
-  },
-  {
-    "id": "grithe_cuirass",
-    "name": "Copper Cuirass",
-    "tier": 1,
-    "description": "A plate front laced over a leather back. Cheap, loud, and better than nothing.",
-    "stackable": false,
-    "value": 220,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 5,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_cuirass"
-    }
-  },
-  {
-    "id": "grithe_greaves",
-    "name": "Copper Greaves",
-    "tier": 1,
-    "description": "Shin and thigh plates on a march-issue belt.",
-    "stackable": false,
-    "value": 200,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 3,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_greaves"
-    }
-  },
-  {
-    "id": "grithe_boots",
-    "name": "Copper Boots",
-    "tier": 1,
-    "description": "Iron-shod boots for scree and bracken.",
-    "stackable": false,
-    "value": 80,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 1,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_boots"
-    }
-  },
-  {
-    "id": "grithe_gloves",
-    "name": "Copper Gloves",
-    "tier": 1,
-    "description": "Studded gloves. They keep the grip when the haft goes wet.",
-    "stackable": false,
-    "value": 80,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 1,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "grithe_gloves"
-    }
-  },
-  {
-    "id": "corven_dagger",
-    "name": "Iron Dagger",
-    "tier": 5,
-    "description": "Deepwood steel, dark and slightly oily to the touch.",
-    "stackable": false,
-    "value": 320,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 12,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 11,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_dagger",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "corven_sword",
-    "name": "Iron Sword",
-    "tier": 5,
-    "description": "A long Iron blade. The standard by which a Woodlands hand is judged.",
-    "stackable": false,
-    "value": 620,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 14,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 14,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "duskoak_shield",
-    "name": "Ash Shield",
-    "tier": 5,
-    "description": "Laminated ash over an Iron boss. Heavy enough to lean on.",
-    "stackable": false,
-    "value": 240,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 8,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "duskoak_shield"
-    }
-  },
-  {
-    "id": "corven_helm",
-    "name": "Iron Helm",
-    "tier": 5,
-    "description": "A full helm with a narrow sight slit.",
-    "stackable": false,
-    "value": 380,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 5,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_helm"
-    }
-  },
-  {
-    "id": "corven_plate",
-    "name": "Iron Plate",
-    "tier": 5,
-    "description": "Three bars of Iron, articulated at the waist so you can still bend to pick things up.",
-    "stackable": false,
-    "value": 760,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 2,
-        "magicAccuracy": 0,
-        "defence": 10,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_plate"
-    }
-  },
-  {
-    "id": "corven_greaves",
-    "name": "Iron Greaves",
-    "tier": 5,
-    "description": "Plated legs. Slower over a root field, worth it under a husk.",
-    "stackable": false,
-    "value": 700,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 7,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_greaves"
-    }
-  },
-  {
-    "id": "corven_boots",
-    "name": "Iron Boots",
-    "tier": 5,
-    "description": "Plated over the toe, soft in the sole. Deepwood floor is not forgiving.",
-    "stackable": false,
-    "value": 260,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 2,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_boots"
-    }
-  },
-  {
-    "id": "corven_gauntlets",
-    "name": "Iron Gauntlets",
-    "tier": 5,
-    "description": "Fingered plate. You can hold a rod in these, badly.",
-    "stackable": false,
-    "value": 260,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 1,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "corven_gauntlets"
-    }
-  },
-  {
-    "id": "kaldite_dagger",
-    "name": "Cobalt Dagger",
-    "tier": 10,
-    "description": "A punch of black Cobalt with a needle point. It goes through moor-rot like paper.",
-    "stackable": false,
-    "value": 760,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 24,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 22,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 9
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_dagger",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "kaldite_sword",
-    "name": "Cobalt Sword",
-    "tier": 10,
-    "description": "Hillcrest's best. Cobalt holds an edge through stone, which is the whole point up here.",
-    "stackable": false,
-    "value": 1450,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 28,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 26,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "cairnpine_shield",
-    "name": "Oak Shield",
-    "tier": 10,
-    "description": "Oak faced in Cobalt. It rings when a bear hits it, and the bear stops.",
-    "stackable": false,
-    "value": 560,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 2,
-        "magicAccuracy": 0,
-        "defence": 14,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpine_shield"
-    }
-  },
-  {
-    "id": "kaldite_helm",
-    "name": "Cobalt Helm",
-    "tier": 10,
-    "description": "A closed helm with a stone-cutter's brow ridge.",
-    "stackable": false,
-    "value": 880,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 2,
-        "magicAccuracy": 0,
-        "defence": 9,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_helm"
-    }
-  },
-  {
-    "id": "kaldite_plate",
-    "name": "Cobalt Plate",
-    "tier": 10,
-    "description": "Three bars of Cobalt. Quarry crews were buried in these, which is not a selling point.",
-    "stackable": false,
-    "value": 1760,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 3,
-        "magicAccuracy": 0,
-        "defence": 18,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_plate"
-    }
-  },
-  {
-    "id": "kaldite_greaves",
-    "name": "Cobalt Greaves",
-    "tier": 10,
-    "description": "Full leg plate, hinged at the knee.",
-    "stackable": false,
-    "value": 1620,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 2,
-        "magicAccuracy": 0,
-        "defence": 12,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_greaves"
-    }
-  },
-  {
-    "id": "kaldite_boots",
-    "name": "Cobalt Boots",
-    "tier": 10,
-    "description": "Cleated for wet cairn stone.",
-    "stackable": false,
-    "value": 600,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 1,
-        "magicAccuracy": 0,
-        "defence": 3,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_boots"
-    }
-  },
-  {
-    "id": "kaldite_gauntlets",
-    "name": "Cobalt Gauntlets",
-    "tier": 10,
-    "description": "Cobalt over the knuckle, garnet rivets. Loud.",
-    "stackable": false,
-    "value": 600,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 2,
-        "magicAccuracy": 0,
-        "defence": 2,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "kaldite_gauntlets"
-    }
-  },
-  {
-    "id": "emberite_dagger",
-    "name": "Titanium Dagger",
-    "tier": 20,
-    "description": "A hand-width of Titanium that never fully cools. It goes in easier than it comes out.",
-    "stackable": false,
-    "value": 1700,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 42,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 38,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 19
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_dagger",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "emberite_sword",
-    "name": "Titanium Sword",
-    "tier": 20,
-    "description": "Kiln-forged and quenched twice. The edge holds a dull orange line in the dark.",
-    "stackable": false,
-    "value": 3200,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 48,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 45,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "cinderpine_shield",
-    "name": "Walnut Shield",
-    "tier": 20,
-    "description": "Layered walnut faced in Titanium. Built to withstand heavy blows.",
-    "stackable": false,
-    "value": 1250,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 3,
-        "magicAccuracy": 0,
-        "defence": 22,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cinderpine_shield"
-    }
-  },
-  {
-    "id": "emberite_helm",
-    "name": "Titanium Helm",
-    "tier": 20,
-    "description": "A closed helm with a smoke-vent crown. Built for standing close to heat.",
-    "stackable": false,
-    "value": 1950,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 4,
-        "magicAccuracy": 0,
-        "defence": 14,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_helm"
-    }
-  },
-  {
-    "id": "emberite_plate",
-    "name": "Titanium Plate",
-    "tier": 20,
-    "description": "Five bars of Titanium. It keeps the warmth of the forge for a full day's walk.",
-    "stackable": false,
-    "value": 3900,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 6,
-        "magicAccuracy": 0,
-        "defence": 30,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_plate"
-    }
-  },
-  {
-    "id": "emberite_greaves",
-    "name": "Titanium Greaves",
-    "tier": 20,
-    "description": "Full leg plate, smoke-blued. Ember and scree both stay outside it.",
-    "stackable": false,
-    "value": 3600,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 4,
-        "magicAccuracy": 0,
-        "defence": 19,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_greaves"
-    }
-  },
-  {
-    "id": "emberite_boots",
-    "name": "Titanium Boots",
-    "tier": 20,
-    "description": "Soled in heavy hide over Titanium shanks. Warm ground stops mattering.",
-    "stackable": false,
-    "value": 1350,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 2,
-        "magicAccuracy": 0,
-        "defence": 6,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_boots"
-    }
-  },
-  {
-    "id": "emberite_gauntlets",
-    "name": "Titanium Gauntlets",
-    "tier": 20,
-    "description": "Fingered plate with fire-opal rivets. They tick as they cool.",
-    "stackable": false,
-    "value": 1350,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 4,
-        "magicAccuracy": 0,
-        "defence": 4,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "emberite_gauntlets"
-    }
-  },
-  {
-    "id": "palewood_wand",
-    "name": "Pine Wand",
-    "tier": 1,
-    "description": "Pale wood with an empty socket at the tip. It stays unlit until upgraded.",
-    "stackable": false,
-    "value": 95,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 4,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 3,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 1
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "palewood_wand",
-      "attackKind": "wand"
-    }
-  },
-  {
-    "id": "palewood_staff",
-    "name": "Pine Staff",
-    "tier": 1,
-    "description": "A pale two-handed shaft with an empty socket. The wood itself gives off no light.",
-    "stackable": false,
-    "value": 140,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 6,
-        "defence": 1,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 7,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 1
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "palewood_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "marchhide_hood",
-    "name": "Hide Hood",
-    "tier": 1,
-    "description": "Cured wolf hide, hood up against the march wind.",
-    "stackable": false,
-    "value": 90,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 1,
-        "defence": 2,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "marchhide_hood"
-    }
-  },
-  {
-    "id": "marchhide_robe",
-    "name": "Hide Robe",
-    "tier": 1,
-    "description": "Three hides stitched into something between a coat and a tent.",
-    "stackable": false,
-    "value": 170,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 1,
-        "defence": 3,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 1,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "marchhide_robe"
-    }
-  },
-  {
-    "id": "marchhide_leggings",
-    "name": "Hide Leggings",
-    "tier": 1,
-    "description": "Hide leggings, laced at the calf.",
-    "stackable": false,
-    "value": 150,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 1,
-        "defence": 2,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "marchhide_leggings"
-    }
-  },
-  {
-    "id": "marchhide_boots",
-    "name": "Hide Boots",
-    "tier": 1,
-    "description": "Soft-soled. Quiet, which matters more than it sounds.",
-    "stackable": false,
-    "value": 65,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 1,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "marchhide_boots"
-    }
-  },
-  {
-    "id": "marchhide_wraps",
-    "name": "Hide Wraps",
-    "tier": 1,
-    "description": "Hide strips wound to the knuckle, fingertips left bare.",
-    "stackable": false,
-    "value": 65,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 1,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 1
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "marchhide_wraps"
-    }
-  },
-  {
-    "id": "duskoak_wand",
-    "name": "Ash Wand",
-    "tier": 5,
-    "description": "Dark ash with an empty crown. Its polished wood remains unlit on its own.",
-    "stackable": false,
-    "value": 340,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 9,
-        "defence": 1,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 6,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 5
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "duskoak_wand",
-      "attackKind": "wand"
-    }
-  },
-  {
-    "id": "duskoak_staff",
-    "name": "Ash Staff",
-    "tier": 5,
-    "description": "Dark ash banded in Iron around an empty, unlit crown.",
-    "stackable": false,
-    "value": 500,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 12,
-        "defence": 2,
-        "health": 0,
-        "meleePower": 2,
-        "magicPower": 11,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 5
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "duskoak_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "bramblehide_hood",
-    "name": "Thick Hide Hood",
-    "tier": 5,
-    "description": "Deepwood hide, still faintly thorned along the seam.",
-    "stackable": false,
-    "value": 300,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 2,
-        "defence": 4,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 1,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "bramblehide_hood"
-    }
-  },
-  {
-    "id": "bramblehide_robe",
-    "name": "Thick Hide Robe",
-    "tier": 5,
-    "description": "Heavy hide, waxed. Sheds a Thornbound's spores and most of the rain.",
-    "stackable": false,
-    "value": 600,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 3,
-        "defence": 8,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 1,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "bramblehide_robe"
-    }
-  },
-  {
-    "id": "bramblehide_leggings",
-    "name": "Thick Hide Leggings",
-    "tier": 5,
-    "description": "Long hide leggings cut for a full stride.",
-    "stackable": false,
-    "value": 540,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 2,
-        "defence": 5,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 1,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "bramblehide_leggings"
-    }
-  },
-  {
-    "id": "bramblehide_boots",
-    "name": "Thick Hide Boots",
-    "tier": 5,
-    "description": "Laced to the knee against the root field.",
-    "stackable": false,
-    "value": 220,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 1,
-        "defence": 2,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "bramblehide_boots"
-    }
-  },
-  {
-    "id": "bramblehide_wraps",
-    "name": "Thick Hide Wraps",
-    "tier": 5,
-    "description": "Wrapped to the second knuckle. Casting hand stays free.",
-    "stackable": false,
-    "value": 220,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 0,
-        "defence": 2,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 5
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "bramblehide_wraps"
-    }
-  },
-  {
-    "id": "cairnpine_wand",
-    "name": "Oak Wand",
-    "tier": 10,
-    "description": "Resin-dark oak with an empty Cobalt socket and no light of its own.",
-    "stackable": false,
-    "value": 820,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 18,
-        "defence": 3,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 14,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 10
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpine_wand",
-      "attackKind": "wand"
-    }
-  },
-  {
-    "id": "cairnpine_staff",
-    "name": "Oak Staff",
-    "tier": 10,
-    "description": "A two-handed oak shaft with an empty Cobalt cage. It stays dark until upgraded.",
-    "stackable": false,
-    "value": 1180,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 24,
-        "defence": 4,
-        "health": 0,
-        "meleePower": 4,
-        "magicPower": 20,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 10
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpine_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "cairnpelt_hood",
-    "name": "Fur Hood",
-    "tier": 10,
-    "description": "Cut from a bear's winter coat. It does not take dye and it does not tear.",
-    "stackable": false,
-    "value": 700,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 4,
-        "defence": 8,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 2,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpelt_hood"
-    }
-  },
-  {
-    "id": "cairnpelt_robe",
-    "name": "Fur Robe",
-    "tier": 10,
-    "description": "Three pelts, stitched with Cobalt wire. Quarry Warden's floor is survivable in this.",
-    "stackable": false,
-    "value": 1400,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 6,
-        "defence": 14,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 3,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpelt_robe"
-    }
-  },
-  {
-    "id": "cairnpelt_leggings",
-    "name": "Fur Leggings",
-    "tier": 10,
-    "description": "Pelt to the ankle, weighted at the hem so it does not lift on the moor.",
-    "stackable": false,
-    "value": 1260,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 3,
-        "defence": 9,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 2,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpelt_leggings"
-    }
-  },
-  {
-    "id": "cairnpelt_boots",
-    "name": "Fur Boots",
-    "tier": 10,
-    "description": "Silent on stone. The quarry crews would have hated them.",
-    "stackable": false,
-    "value": 500,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 1,
-        "defence": 3,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpelt_boots"
-    }
-  },
-  {
-    "id": "cairnpelt_wraps",
-    "name": "Fur Wraps",
-    "tier": 10,
-    "description": "Pelt strips to the wrist. Garnet dust worked into the weave.",
-    "stackable": false,
-    "value": 500,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 1,
-        "defence": 3,
-        "health": 1,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 10
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cairnpelt_wraps"
-    }
-  },
-  {
-    "id": "cinderpine_wand",
-    "name": "Walnut Wand",
-    "tier": 20,
-    "description": "Polished walnut with an empty Titanium socket. It stays unlit until the altar takes it.",
-    "stackable": false,
-    "value": 1900,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 27,
-        "defence": 5,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 23,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 20
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cinderpine_wand",
-      "attackKind": "wand"
-    }
-  },
-  {
-    "id": "cinderpine_staff",
-    "name": "Walnut Staff",
-    "tier": 20,
-    "description": "A two-handed walnut shaft crowned with an empty Titanium cage, dark until charged.",
-    "stackable": false,
-    "value": 2700,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 40,
-        "defence": 7,
-        "health": 0,
-        "meleePower": 7,
-        "magicPower": 34,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 20
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "cinderpine_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "charhide_hood",
-    "name": "Heavy Hide Hood",
-    "tier": 20,
-    "description": "Seared hide with the grain still showing. Kiln heat rolls off it.",
-    "stackable": false,
-    "value": 1650,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 8,
-        "defence": 15,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 4,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "charhide_hood"
-    }
-  },
-  {
-    "id": "charhide_robe",
-    "name": "Heavy Hide Robe",
-    "tier": 20,
-    "description": "Three heavy hides stitched with Titanium wire. The Fire Ogre arena is survivable in this.",
-    "stackable": false,
-    "value": 3300,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 12,
-        "defence": 26,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 6,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "charhide_robe"
-    }
-  },
-  {
-    "id": "charhide_leggings",
-    "name": "Heavy Hide Leggings",
-    "tier": 20,
-    "description": "Heavy Hide to the ankle, weighted so foothill gusts leave it alone.",
-    "stackable": false,
-    "value": 2950,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 7,
-        "defence": 18,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 4,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "charhide_leggings"
-    }
-  },
-  {
-    "id": "charhide_boots",
-    "name": "Heavy Hide Boots",
-    "tier": 20,
-    "description": "Silent on warm rock. Ash does not hold a footprint in these.",
-    "stackable": false,
-    "value": 1150,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 2,
-        "defence": 5,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "charhide_boots"
-    }
-  },
-  {
-    "id": "charhide_wraps",
-    "name": "Heavy Hide Wraps",
-    "tier": 20,
-    "description": "Seared strips wound to the wrist, fire-opal dust in the weave.",
-    "stackable": false,
-    "value": 1150,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 2,
-        "defence": 5,
-        "health": 2,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 20
-      }
-    },
-    "catalog": "EQUIPMENT",
-    "derivation": {
-      "kind": "gear",
-      "variant": "base",
-      "baselineId": "charhide_wraps"
     }
   },
   {
@@ -3866,13 +1637,6 @@
         "orbItemId": "air_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "wind",
-      "weapon": "wand"
     }
   },
   {
@@ -3911,13 +1675,6 @@
         "orbItemId": "air_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "wind",
-      "weapon": "staff"
     }
   },
   {
@@ -3956,13 +1713,6 @@
         "orbItemId": "earth_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "earth",
-      "weapon": "wand"
     }
   },
   {
@@ -4001,13 +1751,6 @@
         "orbItemId": "earth_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "earth",
-      "weapon": "staff"
     }
   },
   {
@@ -4046,13 +1789,6 @@
         "orbItemId": "water_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "water",
-      "weapon": "wand"
     }
   },
   {
@@ -4091,13 +1827,6 @@
         "orbItemId": "water_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "water",
-      "weapon": "staff"
     }
   },
   {
@@ -4136,13 +1865,6 @@
         "orbItemId": "fire_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "fire",
-      "weapon": "wand"
     }
   },
   {
@@ -4181,285 +1903,6 @@
         "orbItemId": "fire_orb",
         "released": true
       }
-    },
-    "catalog": "ELEMENTAL_MAGIC_WEAPONS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "elemental",
-      "element": "fire",
-      "weapon": "staff"
-    }
-  },
-  {
-    "id": "galeskin_sword",
-    "name": "Plains Ogre Sword",
-    "tier": 1,
-    "description": "Copper pattern, but the edge whistles on the backswing. Plains Ogre carried it point-down.",
-    "stackable": false,
-    "value": 270,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 8,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 9,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 1
-      }
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "grithe_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "galeskin_staff",
-    "name": "Plains Ogre Staff",
-    "tier": 1,
-    "description": "Pine scoured silver by wind. The empty socket hums in weather.",
-    "stackable": false,
-    "value": 210,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 7,
-        "defence": 1,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 8,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 1
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "palewood_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "mossbound_sword",
-    "name": "Forest Ogre Sword",
-    "tier": 5,
-    "description": "A Iron blade grown through with moss that will not die. It never rusts.",
-    "stackable": false,
-    "value": 930,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 16,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 16,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 5
-      }
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "corven_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "mossbound_staff",
-    "name": "Forest Ogre Staff",
-    "tier": 5,
-    "description": "Ash with a living green seam. Warm at the grip like a root in summer.",
-    "stackable": false,
-    "value": 750,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 14,
-        "defence": 2,
-        "health": 0,
-        "meleePower": 2,
-        "magicPower": 13,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 5
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "duskoak_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "tideworn_sword",
-    "name": "Cave Ogre Sword",
-    "tier": 10,
-    "description": "Cobalt worked smooth as sea glass. It swings like it remembers the water.",
-    "stackable": false,
-    "value": 2175,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 31,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 29,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 10
-      }
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "kaldite_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "tideworn_staff",
-    "name": "Cave Ogre Staff",
-    "tier": 10,
-    "description": "Oak bleached and salt-cured. The cage weeps a little in the cold.",
-    "stackable": false,
-    "value": 1770,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 27,
-        "defence": 4,
-        "health": 0,
-        "meleePower": 4,
-        "magicPower": 22,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 10
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "cairnpine_staff",
-      "attackKind": "staff"
-    }
-  },
-  {
-    "id": "cinderwake_sword",
-    "name": "Fire Ogre Sword",
-    "tier": 20,
-    "description": "Titanium quenched in the arena's own spring. The orange line down the edge never fades.",
-    "stackable": false,
-    "value": 4800,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 53,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 50,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 20
-      }
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "emberite_sword",
-      "attackKind": "melee"
-    }
-  },
-  {
-    "id": "cinderwake_staff",
-    "name": "Fire Ogre Staff",
-    "tier": 20,
-    "description": "Walnut the fire chose not to eat. The empty cage sheds a slow drift of sparks.",
-    "stackable": false,
-    "value": 4050,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 44,
-        "defence": 7,
-        "health": 0,
-        "meleePower": 7,
-        "magicPower": 38,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 20
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "RARE_MINIBOSS_WEAPONS",
-    "derivation": {
-      "kind": "gear",
-      "variant": "rare",
-      "baselineId": "cinderpine_staff",
-      "attackKind": "staff"
     }
   },
   {
@@ -4469,14 +1912,7 @@
     "description": "Coarse red hair from a fox's back. Bind it around a Copper band for a padded guard ring.",
     "stackable": true,
     "value": 3,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "fox_guardhair",
-      "tier": 1
-    }
+    "category": "component"
   },
   {
     "id": "lynx_sinew",
@@ -4485,14 +1921,7 @@
     "description": "Springy tendon, cleaned and dried. A tight winding gives a hunter's ring its grip.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "lynx_sinew",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "badger_bristle",
@@ -4501,14 +1930,7 @@
     "description": "Stiff black and silver bristles. Worked into leg linings, they save a sheet of hide.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "badger_bristle",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "porcupine_quill",
@@ -4517,14 +1939,7 @@
     "description": "A thick hollow quill with a hard point. Short sections can be set around a guard ring.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "porcupine_quill",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "horse_tailhair",
@@ -4533,14 +1948,7 @@
     "description": "Long strong strands. Braided into fishing line, they replace a rod's hide binding.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "horse_tailhair",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "bighorn_fleece",
@@ -4549,14 +1957,7 @@
     "description": "Dense wool from a ridge ram. A felted lining stretches a pelt into a pair of leggings.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "bighorn_fleece",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "moose_antler_palm",
@@ -4565,14 +1966,7 @@
     "description": "A flat antler section. Cut and polished, it makes a broad protective charm.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "moose_antler_palm",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "tapir_leather",
@@ -4581,14 +1975,7 @@
     "description": "Thick strips from a tapir's flank. Trim three strips into two standard hide sheets.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "tapir_leather",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "crocodile_scute",
@@ -4597,14 +1984,7 @@
     "description": "A hard plate from a crocodile's back. Scute soles let one pelt cover two pairs of boots.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "crocodile_scute",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "salamander_secretion",
@@ -4613,14 +1993,7 @@
     "description": "A heat-stable mineral paste. Ashford uses it instead of mined flux stone.",
     "stackable": true,
     "value": 35,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "salamander_secretion",
-      "tier": 20
-    }
+    "category": "component"
   },
   {
     "id": "tortoise_shell_plate",
@@ -4629,14 +2002,7 @@
     "description": "A curved shell section. Lash several across a wooden shield in place of its metal boss.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "tortoise_shell_plate",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "monitor_sinew",
@@ -4645,14 +2011,7 @@
     "description": "Heat-tough tendon from a monitor's tail. Twisted into line, it binds a Cedar rod.",
     "stackable": true,
     "value": 35,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "monitor_sinew",
-      "tier": 20
-    }
+    "category": "component"
   },
   {
     "id": "goose_down",
@@ -4661,14 +2020,7 @@
     "description": "Soft breast feathers. Pack them between hide panels to finish a robe with less leather.",
     "stackable": true,
     "value": 3,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "goose_down",
-      "tier": 1
-    }
+    "category": "component"
   },
   {
     "id": "heron_quill",
@@ -4677,14 +2029,7 @@
     "description": "A long hollow flight quill. Cut around an amber bead, it steadies a casting charm.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "heron_quill",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "bustard_plume",
@@ -4693,14 +2038,7 @@
     "description": "A broad feather from a heavy moorland bird. Layered plumes replace a robe's inner pelt.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "bustard_plume",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "turkey_tailfeather",
@@ -4709,14 +2047,7 @@
     "description": "A barred tail feather. Millfield hunters bind a fan of them around a small warding charm.",
     "stackable": true,
     "value": 3,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "turkey_tailfeather",
-      "tier": 1
-    }
+    "category": "component"
   },
   {
     "id": "snail_mucus",
@@ -4725,14 +2056,7 @@
     "description": "A sealed dab of clear adhesive. It bonds a wooden shield's layers in place of a metal boss.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "snail_mucus",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "beetle_mandible",
@@ -4741,14 +2065,7 @@
     "description": "A hooked jaw hard enough to score stone. Several brace a pick head with less metal.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "beetle_mandible",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "centipede_chitin",
@@ -4757,14 +2074,7 @@
     "description": "Dark overlapping plates. Small segments fit an armored ring without spoiling its grip.",
     "stackable": true,
     "value": 35,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "centipede_chitin",
-      "tier": 20
-    }
+    "category": "component"
   },
   {
     "id": "spider_thread",
@@ -4773,14 +2083,7 @@
     "description": "A reel of strong dry silk. Close stitching makes a full robe from fewer hide panels.",
     "stackable": true,
     "value": 8,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "spider_thread",
-      "tier": 5
-    }
+    "category": "component"
   },
   {
     "id": "ravager_talon",
@@ -4789,14 +2092,7 @@
     "description": "A hooked black claw. Cut down, it replaces the wooden grip beneath a Titanium blade.",
     "stackable": true,
     "value": 35,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "ravager_talon",
-      "tier": 20
-    }
+    "category": "component"
   },
   {
     "id": "drake_scale",
@@ -4805,14 +2101,7 @@
     "description": "A broad scale with a tough leather backing. Trim several into standard heavy hide sheets.",
     "stackable": true,
     "value": 35,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "drake_scale",
-      "tier": 20
-    }
+    "category": "component"
   },
   {
     "id": "mantis_scythe",
@@ -4821,14 +2110,7 @@
     "description": "A curved cutting spur. Its sharpened edge can be caged inside an aggressive hunting charm.",
     "stackable": true,
     "value": 35,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "mantis_scythe",
-      "tier": 20
-    }
+    "category": "component"
   },
   {
     "id": "nightmare_plate",
@@ -4837,14 +2119,7 @@
     "description": "A ridged shoulder plate. Riveted over a helm, it replaces part of the Cobalt shell.",
     "stackable": true,
     "value": 17,
-    "category": "component",
-    "catalog": "CREATURE_LOOT_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "creatureMaterial",
-      "itemId": "nightmare_plate",
-      "tier": 10
-    }
+    "category": "component"
   },
   {
     "id": "cindervein_ore",
@@ -4853,8 +2128,7 @@
     "description": "Black ore shot through with copper-red seams. Smelt three with a Molten Heart into Cindersteel.",
     "stackable": false,
     "value": 360,
-    "category": "resource",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "resource"
   },
   {
     "id": "nightglass_ore",
@@ -4863,8 +2137,7 @@
     "description": "Violet ore with a blue fracture. Smelt three with an Astral Core into a Nightglass Bar.",
     "stackable": false,
     "value": 590,
-    "category": "resource",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "resource"
   },
   {
     "id": "cindersteel_bar",
@@ -4873,8 +2146,7 @@
     "description": "Dense dark steel cast with a molten stone heart. Used for level 50 armour, weapons and tools.",
     "stackable": false,
     "value": 1250,
-    "category": "bar",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "bar"
   },
   {
     "id": "nightglass_bar",
@@ -4883,8 +2155,7 @@
     "description": "A solid bar of blue-black glass metal. Used for level 70 armour, weapons and tools.",
     "stackable": false,
     "value": 2050,
-    "category": "bar",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "bar"
   },
   {
     "id": "molten_heart",
@@ -4893,8 +2164,7 @@
     "description": "A cooled kernel from a living stone creature. It replaces flux when smelting Cindersteel.",
     "stackable": true,
     "value": 110,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "dragonhide",
@@ -4903,8 +2173,7 @@
     "description": "Supple hide beneath a young dragon's scales. Grave Thread binds it into level 50 casting armour.",
     "stackable": true,
     "value": 340,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "grave_thread",
@@ -4913,8 +2182,7 @@
     "description": "Black binding drawn from the Wilderness dead. Stitch Dragonhide or wind it into a Teak casting weapon.",
     "stackable": true,
     "value": 90,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "astral_core",
@@ -4923,8 +2191,7 @@
     "description": "A blue-violet heart from a deep Wilderness creature. It fuses Nightglass Ore without shattering it.",
     "stackable": true,
     "value": 180,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "starhide",
@@ -4933,8 +2200,7 @@
     "description": "Adult dragon hide steeped in deep magic. Void Thread stitches it into level 70 casting armour.",
     "stackable": true,
     "value": 560,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "void_thread",
@@ -4943,8 +2209,7 @@
     "description": "A dark strand pulled from a deep spirit. Binds Starhide and the crowns of Magic casting weapons.",
     "stackable": true,
     "value": 150,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "teak_handle",
@@ -4953,8 +2218,7 @@
     "description": "Oiled teak cut for a Cindersteel sword, pickaxe or hatchet.",
     "stackable": true,
     "value": 640,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "magic_handle",
@@ -4963,8 +2227,7 @@
     "description": "A carved magic-wood grip for Nightglass weapons and gathering tools.",
     "stackable": true,
     "value": 1010,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "ashseal_iron",
@@ -4973,8 +2236,7 @@
     "description": "The Ashseal Warden's dense shield iron. Rivet it across a Teak Shield to make an Ashseal Guard.",
     "stackable": true,
     "value": 1700,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "furnace_crown",
@@ -4983,8 +2245,7 @@
     "description": "A piece of the Furnace Regent's crucible crown. Set three around a Teak Staff to make a Regent Staff.",
     "stackable": true,
     "value": 2100,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "chainbound_link",
@@ -4993,8 +2254,7 @@
     "description": "A living link carried by the foundry guard and Chainbound Archon. Three bind a Nightglass Sword into a Chainbound Sword.",
     "stackable": true,
     "value": 2400,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "nightforge_seal",
@@ -5003,8 +2263,7 @@
     "description": "A breastplate stamp taken from the bastion guard or Nightforge Marshal. Reinforces Nightglass Plate into Nightmarshal Plate.",
     "stackable": true,
     "value": 2600,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
+    "category": "component"
   },
   {
     "id": "hollow_star_fragment",
@@ -5013,978 +2272,7 @@
     "description": "A heavy black shard carried by the sanctum guard and Hollow Star. Three form the crown of a Hollowstar Staff.",
     "stackable": true,
     "value": 3000,
-    "category": "component",
-    "catalog": "WILDERNESS_LOOT_ITEMS"
-  },
-  {
-    "id": "cindersteel_sword",
-    "name": "Cindersteel Sword",
-    "tier": 50,
-    "description": "A broad dark blade on an oiled teak grip. Requires level 50 Melee.",
-    "stackable": false,
-    "value": 8200,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 92,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 92,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "metal_sword"
-    }
-  },
-  {
-    "id": "teak_shield",
-    "name": "Teak Shield",
-    "tier": 50,
-    "description": "Layered teak faced in Cindersteel.",
-    "stackable": false,
-    "value": 4700,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 6,
-        "magicAccuracy": 0,
-        "defence": 43,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "wood_shield"
-    }
-  },
-  {
-    "id": "cindersteel_helm",
-    "name": "Cindersteel Helm",
-    "tier": 50,
-    "description": "Cindersteel helm forged for level 50 melee combat.",
-    "stackable": false,
-    "value": 5500,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 7,
-        "magicAccuracy": 0,
-        "defence": 28,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "metal_helm"
-    }
-  },
-  {
-    "id": "cindersteel_plate",
-    "name": "Cindersteel Plate",
-    "tier": 50,
-    "description": "Cindersteel plate forged for level 50 melee combat.",
-    "stackable": false,
-    "value": 9400,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 10,
-        "magicAccuracy": 0,
-        "defence": 60,
-        "health": 14,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "metal_plate"
-    }
-  },
-  {
-    "id": "cindersteel_greaves",
-    "name": "Cindersteel Greaves",
-    "tier": 50,
-    "description": "Cindersteel greaves forged for level 50 melee combat.",
-    "stackable": false,
-    "value": 8700,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 7,
-        "magicAccuracy": 0,
-        "defence": 39,
-        "health": 10,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "metal_greaves"
-    }
-  },
-  {
-    "id": "cindersteel_boots",
-    "name": "Cindersteel Boots",
-    "tier": 50,
-    "description": "Cindersteel boots forged for level 50 melee combat.",
-    "stackable": false,
-    "value": 4200,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 4,
-        "magicAccuracy": 0,
-        "defence": 18,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "metal_boots"
-    }
-  },
-  {
-    "id": "cindersteel_gauntlets",
-    "name": "Cindersteel Gauntlets",
-    "tier": 50,
-    "description": "Cindersteel gauntlets forged for level 50 melee combat.",
-    "stackable": false,
-    "value": 4200,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 6,
-        "magicAccuracy": 0,
-        "defence": 16,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "metal_gauntlets"
-    }
-  },
-  {
-    "id": "teak_wand",
-    "name": "Teak Wand",
-    "tier": 50,
-    "description": "Teak wrapped with Grave Thread. A fast one-handed weapon; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 5400,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 54,
-        "defence": 9,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 46,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 50
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "wood_wand"
-    }
-  },
-  {
-    "id": "teak_staff",
-    "name": "Teak Staff",
-    "tier": 50,
-    "description": "Teak crowned with Cindersteel. A heavy two-handed casting weapon; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 7200,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 80,
-        "defence": 13,
-        "health": 0,
-        "meleePower": 15,
-        "magicPower": 69,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 50
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "wood_staff"
-    }
-  },
-  {
-    "id": "dragonhide_hood",
-    "name": "Dragonhide Hood",
-    "tier": 50,
-    "description": "Dragonhide hood sewn with Grave Thread. Requires level 50 Magic.",
-    "stackable": false,
-    "value": 4800,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 15,
-        "defence": 27,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 7,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "hide_hood"
-    }
-  },
-  {
-    "id": "dragonhide_robe",
-    "name": "Dragonhide Robe",
-    "tier": 50,
-    "description": "Dragonhide robe sewn with Grave Thread. Requires level 50 Magic.",
-    "stackable": false,
-    "value": 8300,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 23,
-        "defence": 48,
-        "health": 13,
-        "meleePower": 0,
-        "magicPower": 11,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "hide_robe"
-    }
-  },
-  {
-    "id": "dragonhide_leggings",
-    "name": "Dragonhide Leggings",
-    "tier": 50,
-    "description": "Dragonhide leggings sewn with Grave Thread. Requires level 50 Magic.",
-    "stackable": false,
-    "value": 7500,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 13,
-        "defence": 33,
-        "health": 9,
-        "meleePower": 0,
-        "magicPower": 7,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "hide_leggings"
-    }
-  },
-  {
-    "id": "dragonhide_boots",
-    "name": "Dragonhide Boots",
-    "tier": 50,
-    "description": "Dragonhide boots sewn with Grave Thread. Requires level 50 Magic.",
-    "stackable": false,
-    "value": 3500,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 4,
-        "defence": 10,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "hide_boots"
-    }
-  },
-  {
-    "id": "dragonhide_wraps",
-    "name": "Dragonhide Wraps",
-    "tier": 50,
-    "description": "Dragonhide wraps sewn with Grave Thread. Requires level 50 Magic.",
-    "stackable": false,
-    "value": 3500,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 4,
-        "defence": 10,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 50
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "hide_wraps"
-    }
-  },
-  {
-    "id": "cindersteel_pickaxe",
-    "name": "Cindersteel Pickaxe",
-    "tier": 50,
-    "description": "Cindersteel on a teak handle. Adds 39 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 4000,
-    "category": "tool",
-    "tool": {
-      "skill": "mining",
-      "gatherBonus": 39
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "pickaxe"
-    }
-  },
-  {
-    "id": "cindersteel_hatchet",
-    "name": "Cindersteel Hatchet",
-    "tier": 50,
-    "description": "Cindersteel on a teak handle. Adds 39 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 4000,
-    "category": "tool",
-    "tool": {
-      "skill": "woodcutting",
-      "gatherBonus": 39
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "hatchet"
-    }
-  },
-  {
-    "id": "nightglass_sword",
-    "name": "Nightglass Sword",
-    "tier": 70,
-    "description": "A blue-black glass edge on a magic-wood grip. Requires level 70 Melee.",
-    "stackable": false,
-    "value": 13700,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 125,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 128,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "metal_sword"
-    }
-  },
-  {
-    "id": "magic_shield",
-    "name": "Magic Shield",
-    "tier": 70,
-    "description": "Layered magic faced in Nightglass.",
-    "stackable": false,
-    "value": 7600,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 8,
-        "magicAccuracy": 0,
-        "defence": 56,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "wood_shield"
-    }
-  },
-  {
-    "id": "nightglass_helm",
-    "name": "Nightglass Helm",
-    "tier": 70,
-    "description": "Nightglass helm forged for level 70 melee combat.",
-    "stackable": false,
-    "value": 9000,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 9,
-        "magicAccuracy": 0,
-        "defence": 37,
-        "health": 8,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "metal_helm"
-    }
-  },
-  {
-    "id": "nightglass_plate",
-    "name": "Nightglass Plate",
-    "tier": 70,
-    "description": "Nightglass plate forged for level 70 melee combat.",
-    "stackable": false,
-    "value": 15400,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 13,
-        "magicAccuracy": 0,
-        "defence": 79,
-        "health": 19,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "metal_plate"
-    }
-  },
-  {
-    "id": "nightglass_greaves",
-    "name": "Nightglass Greaves",
-    "tier": 70,
-    "description": "Nightglass greaves forged for level 70 melee combat.",
-    "stackable": false,
-    "value": 14200,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 9,
-        "magicAccuracy": 0,
-        "defence": 51,
-        "health": 14,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "metal_greaves"
-    }
-  },
-  {
-    "id": "nightglass_boots",
-    "name": "Nightglass Boots",
-    "tier": 70,
-    "description": "Nightglass boots forged for level 70 melee combat.",
-    "stackable": false,
-    "value": 6900,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 24,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "metal_boots"
-    }
-  },
-  {
-    "id": "nightglass_gauntlets",
-    "name": "Nightglass Gauntlets",
-    "tier": 70,
-    "description": "Nightglass gauntlets forged for level 70 melee combat.",
-    "stackable": false,
-    "value": 6900,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 8,
-        "magicAccuracy": 0,
-        "defence": 21,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "metal_gauntlets"
-    }
-  },
-  {
-    "id": "magic_wand",
-    "name": "Magic Wand",
-    "tier": 70,
-    "description": "Magic wrapped with Void Thread. A fast one-handed weapon; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 8700,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 74,
-        "defence": 13,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 63,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 70
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "wood_wand"
-    }
-  },
-  {
-    "id": "magic_staff",
-    "name": "Magic Staff",
-    "tier": 70,
-    "description": "Magic crowned with Nightglass. A heavy two-handed casting weapon; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 11700,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 110,
-        "defence": 19,
-        "health": 0,
-        "meleePower": 21,
-        "magicPower": 94,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 70
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "wood_staff"
-    }
-  },
-  {
-    "id": "starhide_hood",
-    "name": "Starhide Hood",
-    "tier": 70,
-    "description": "Starhide hood sewn with Void Thread. Requires level 70 Magic.",
-    "stackable": false,
-    "value": 7800,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 20,
-        "defence": 38,
-        "health": 10,
-        "meleePower": 0,
-        "magicPower": 10,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hide_hood"
-    }
-  },
-  {
-    "id": "starhide_robe",
-    "name": "Starhide Robe",
-    "tier": 70,
-    "description": "Starhide robe sewn with Void Thread. Requires level 70 Magic.",
-    "stackable": false,
-    "value": 13500,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 31,
-        "defence": 67,
-        "health": 18,
-        "meleePower": 0,
-        "magicPower": 15,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hide_robe"
-    }
-  },
-  {
-    "id": "starhide_leggings",
-    "name": "Starhide Leggings",
-    "tier": 70,
-    "description": "Starhide leggings sewn with Void Thread. Requires level 70 Magic.",
-    "stackable": false,
-    "value": 12200,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 18,
-        "defence": 46,
-        "health": 12,
-        "meleePower": 0,
-        "magicPower": 9,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hide_leggings"
-    }
-  },
-  {
-    "id": "starhide_boots",
-    "name": "Starhide Boots",
-    "tier": 70,
-    "description": "Starhide boots sewn with Void Thread. Requires level 70 Magic.",
-    "stackable": false,
-    "value": 5700,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 6,
-        "defence": 15,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hide_boots"
-    }
-  },
-  {
-    "id": "starhide_wraps",
-    "name": "Starhide Wraps",
-    "tier": 70,
-    "description": "Starhide wraps sewn with Void Thread. Requires level 70 Magic.",
-    "stackable": false,
-    "value": 5700,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 6,
-        "defence": 15,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 70
-      }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hide_wraps"
-    }
-  },
-  {
-    "id": "nightglass_pickaxe",
-    "name": "Nightglass Pickaxe",
-    "tier": 70,
-    "description": "Nightglass on a magic handle. Adds 40 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 6500,
-    "category": "tool",
-    "tool": {
-      "skill": "mining",
-      "gatherBonus": 40
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "pickaxe"
-    }
-  },
-  {
-    "id": "nightglass_hatchet",
-    "name": "Nightglass Hatchet",
-    "tier": 70,
-    "description": "Nightglass on a magic handle. Adds 40 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 6500,
-    "category": "tool",
-    "tool": {
-      "skill": "woodcutting",
-      "gatherBonus": 40
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hatchet"
-    }
+    "category": "component"
   },
   {
     "id": "ashseal_guard",
@@ -6008,13 +2296,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "ashseal_guard"
     }
   },
   {
@@ -6044,13 +2325,6 @@
     "magicWeapon": {
       "kind": "staff",
       "hands": 2
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 50,
-      "role": "regent_staff"
     }
   },
   {
@@ -6076,13 +2350,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "chainbound_sword"
     }
   },
   {
@@ -6107,13 +2374,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "nightmarshal_plate"
     }
   },
   {
@@ -6143,13 +2403,6 @@
     "magicWeapon": {
       "kind": "staff",
       "hands": 2
-    },
-    "catalog": "WILDERNESS_LOOT_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "WILDERNESS_LOOT_ITEMS",
-      "ladderTier": 70,
-      "role": "hollowstar_staff"
     }
   },
   {
@@ -6174,13 +2427,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "duskguard",
-      "slot": "body"
     }
   },
   {
@@ -6205,13 +2451,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "duskguard",
-      "slot": "legs"
     }
   },
   {
@@ -6236,13 +2475,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "duskguard",
-      "slot": "hands"
     }
   },
   {
@@ -6267,13 +2499,6 @@
       "requires": {
         "melee": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "duskguard",
-      "slot": "feet"
     }
   },
   {
@@ -6298,13 +2523,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "oathguard",
-      "slot": "body"
     }
   },
   {
@@ -6329,13 +2547,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "oathguard",
-      "slot": "legs"
     }
   },
   {
@@ -6360,13 +2571,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "oathguard",
-      "slot": "hands"
     }
   },
   {
@@ -6391,13 +2595,6 @@
       "requires": {
         "melee": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "oathguard",
-      "slot": "feet"
     }
   },
   {
@@ -6422,13 +2619,6 @@
       "requires": {
         "melee": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostguard",
-      "slot": "head"
     }
   },
   {
@@ -6453,13 +2643,6 @@
       "requires": {
         "melee": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostguard",
-      "slot": "body"
     }
   },
   {
@@ -6484,13 +2667,6 @@
       "requires": {
         "melee": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostguard",
-      "slot": "legs"
     }
   },
   {
@@ -6515,13 +2691,6 @@
       "requires": {
         "melee": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostguard",
-      "slot": "hands"
     }
   },
   {
@@ -6546,13 +2715,6 @@
       "requires": {
         "melee": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostguard",
-      "slot": "feet"
     }
   },
   {
@@ -6577,13 +2739,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "tideweave",
-      "slot": "head"
     }
   },
   {
@@ -6608,13 +2763,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "tideweave",
-      "slot": "body"
     }
   },
   {
@@ -6639,13 +2787,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "tideweave",
-      "slot": "legs"
     }
   },
   {
@@ -6670,13 +2811,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "tideweave",
-      "slot": "hands"
     }
   },
   {
@@ -6701,13 +2835,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "tideweave",
-      "slot": "feet"
     }
   },
   {
@@ -6732,13 +2859,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "nightweave",
-      "slot": "head"
     }
   },
   {
@@ -6763,13 +2883,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "nightweave",
-      "slot": "body"
     }
   },
   {
@@ -6794,13 +2907,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "nightweave",
-      "slot": "legs"
     }
   },
   {
@@ -6825,13 +2931,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "nightweave",
-      "slot": "hands"
     }
   },
   {
@@ -6856,13 +2955,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "nightweave",
-      "slot": "feet"
     }
   },
   {
@@ -6887,13 +2979,6 @@
       "requires": {
         "magic": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostweave",
-      "slot": "head"
     }
   },
   {
@@ -6918,13 +3003,6 @@
       "requires": {
         "magic": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostweave",
-      "slot": "body"
     }
   },
   {
@@ -6949,13 +3027,6 @@
       "requires": {
         "magic": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostweave",
-      "slot": "legs"
     }
   },
   {
@@ -6980,13 +3051,6 @@
       "requires": {
         "magic": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostweave",
-      "slot": "hands"
     }
   },
   {
@@ -7011,13 +3075,6 @@
       "requires": {
         "magic": 90
       }
-    },
-    "catalog": "BOSS_ARMOR_ITEMS",
-    "derivation": {
-      "kind": "itemFormula",
-      "variant": "bossArmor",
-      "setId": "frostweave",
-      "slot": "feet"
     }
   },
   {
@@ -7042,13 +3099,6 @@
       "requires": {
         "melee": 10
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 10,
-      "shape": "ring"
     }
   },
   {
@@ -7073,13 +3123,6 @@
       "requires": {
         "melee": 10
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 10,
-      "shape": "earring"
     }
   },
   {
@@ -7104,13 +3147,6 @@
       "requires": {
         "magic": 20
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 20,
-      "shape": "ring"
     }
   },
   {
@@ -7135,13 +3171,6 @@
       "requires": {
         "magic": 20
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 20,
-      "shape": "earring"
     }
   },
   {
@@ -7166,13 +3195,6 @@
       "requires": {
         "melee": 30
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 30,
-      "shape": "ring"
     }
   },
   {
@@ -7197,13 +3219,6 @@
       "requires": {
         "melee": 30
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 30,
-      "shape": "earring"
     }
   },
   {
@@ -7228,13 +3243,6 @@
       "requires": {
         "melee": 40
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 40,
-      "shape": "ring"
     }
   },
   {
@@ -7259,13 +3267,6 @@
       "requires": {
         "melee": 40
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 40,
-      "shape": "earring"
     }
   },
   {
@@ -7290,13 +3291,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 50,
-      "shape": "ring"
     }
   },
   {
@@ -7321,13 +3315,6 @@
       "requires": {
         "magic": 50
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 50,
-      "shape": "earring"
     }
   },
   {
@@ -7352,13 +3339,6 @@
       "requires": {
         "melee": 60
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 60,
-      "shape": "ring"
     }
   },
   {
@@ -7383,13 +3363,6 @@
       "requires": {
         "melee": 60
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 60,
-      "shape": "earring"
     }
   },
   {
@@ -7414,13 +3387,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 70,
-      "shape": "ring"
     }
   },
   {
@@ -7445,13 +3411,6 @@
       "requires": {
         "magic": 70
       }
-    },
-    "catalog": "MINIBOSS_JEWELLERY",
-    "derivation": {
-      "kind": "jewelry",
-      "variant": "miniboss",
-      "tier": 70,
-      "shape": "earring"
     }
   },
   {
@@ -7461,15 +3420,7 @@
     "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. Rough mineral fragments in a dark stone matrix; smelt three into one bar.",
     "stackable": false,
     "value": 227,
-    "category": "resource",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "dewglass_ore",
-      "tier": 30,
-      "role": "ore"
-    }
+    "category": "resource"
   },
   {
     "id": "dewglass_bar",
@@ -7478,15 +3429,7 @@
     "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A solid cast ingot with beveled ends and a stamped maker's mark.",
     "stackable": false,
     "value": 817,
-    "category": "bar",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "dewglass_bar",
-      "tier": 30,
-      "role": "bar"
-    }
+    "category": "bar"
   },
   {
     "id": "mistweave",
@@ -7495,15 +3438,7 @@
     "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A folded bolt with a visible woven edge. Cut into garments or binding thread.",
     "stackable": true,
     "value": 213,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "mistweave",
-      "tier": 30,
-      "role": "hide"
-    }
+    "category": "component"
   },
   {
     "id": "mistweave_thread",
@@ -7512,15 +3447,7 @@
     "description": "Fine Mistweave thread wound around a carved wooden spool. Used for seams, casting grips and fishing line.",
     "stackable": true,
     "value": 57,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "mistweave_thread",
-      "tier": 30,
-      "role": "thread"
-    }
+    "category": "component"
   },
   {
     "id": "willow_handle",
@@ -7529,520 +3456,7 @@
     "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A shaped grip with a shouldered tang socket for swords, pickaxes and hatchets.",
     "stackable": true,
     "value": 360,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "willow_handle",
-      "tier": 30,
-      "role": "handle"
-    }
-  },
-  {
-    "id": "dewglass_sword",
-    "name": "Dewglass Sword",
-    "tier": 30,
-    "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A solid double-edged blade with beveled cutting edges, a shaped crossguard and a wrapped wood grip.",
-    "stackable": false,
-    "value": 4867,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 63,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 61,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "metal_sword"
-    }
-  },
-  {
-    "id": "willow_shield",
-    "name": "Willow Shield",
-    "tier": 30,
-    "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A curved layered-wood shield with a reinforced metal rim, central boss and two leather straps on its back.",
-    "stackable": false,
-    "value": 2400,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 4,
-        "magicAccuracy": 0,
-        "defence": 29,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "wood_shield"
-    }
-  },
-  {
-    "id": "dewglass_helm",
-    "name": "Dewglass Helm",
-    "tier": 30,
-    "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A fitted helmet with a raised brow, layered cheek guards and a protective nape.",
-    "stackable": false,
-    "value": 3133,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 19,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "metal_helm"
-    }
-  },
-  {
-    "id": "dewglass_plate",
-    "name": "Dewglass Plate",
-    "tier": 30,
-    "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A shaped breastplate and backplate with overlapping shoulder plates, a fitted waist and articulated lower lames.",
-    "stackable": false,
-    "value": 5733,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 7,
-        "magicAccuracy": 0,
-        "defence": 40,
-        "health": 9,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "metal_plate"
-    }
-  },
-  {
-    "id": "dewglass_greaves",
-    "name": "Dewglass Greaves",
-    "tier": 30,
-    "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A matched pair of leg guards with separate thigh shells, raised knee cups and shin plates over leather lining.",
-    "stackable": false,
-    "value": 5300,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 26,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "metal_greaves"
-    }
-  },
-  {
-    "id": "dewglass_boots",
-    "name": "Dewglass Boots",
-    "tier": 30,
-    "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A matched pair of leather-soled boots with overlapping metal toe plates, ankle guards and rear buckles.",
-    "stackable": false,
-    "value": 2300,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 3,
-        "magicAccuracy": 0,
-        "defence": 10,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "metal_boots"
-    }
-  },
-  {
-    "id": "dewglass_gauntlets",
-    "name": "Dewglass Gauntlets",
-    "tier": 30,
-    "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A matched pair of five-fingered gauntlets with articulated knuckles, flared cuffs and leather palms.",
-    "stackable": false,
-    "value": 2300,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 8,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "metal_gauntlets"
-    }
-  },
-  {
-    "id": "willow_wand",
-    "name": "Willow Wand",
-    "tier": 30,
-    "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A short tapered wand with a wrapped grip and a small crystal held in an open metal tip cage. One-handed; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 3067,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 36,
-        "defence": 6,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 31,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 30
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "wood_wand"
-    }
-  },
-  {
-    "id": "willow_staff",
-    "name": "Willow Staff",
-    "tier": 30,
-    "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A long willow staff with a bent branch loop around a Dewglass crystal. Two-handed; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 4200,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 53,
-        "defence": 9,
-        "health": 0,
-        "meleePower": 10,
-        "magicPower": 46,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 30
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "wood_staff"
-    }
-  },
-  {
-    "id": "mistweave_hood",
-    "name": "Mistweave Hood",
-    "tier": 30,
-    "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A deep open-faced hood with an embroidered brow, folded lining and a short shoulder cowl.",
-    "stackable": false,
-    "value": 2700,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 10,
-        "defence": 19,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 5,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "hide_hood"
-    }
-  },
-  {
-    "id": "mistweave_robe",
-    "name": "Mistweave Robe",
-    "tier": 30,
-    "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A fitted robe with flared sleeves, pale botanical embroidery and split pointed tails.",
-    "stackable": false,
-    "value": 4967,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 16,
-        "defence": 33,
-        "health": 8,
-        "meleePower": 0,
-        "magicPower": 8,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "hide_robe"
-    }
-  },
-  {
-    "id": "mistweave_leggings",
-    "name": "Mistweave Leggings",
-    "tier": 30,
-    "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A fitted pair of trousers with a reinforced waistband, separate legs, stitched knee panels and tapered ankle cuffs.",
-    "stackable": false,
-    "value": 4467,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 9,
-        "defence": 23,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 5,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "hide_leggings"
-    }
-  },
-  {
-    "id": "mistweave_boots",
-    "name": "Mistweave Boots",
-    "tier": 30,
-    "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A matched pair of soft casting boots with turned cuffs, side lacing, embroidered uppers and dark leather soles.",
-    "stackable": false,
-    "value": 1933,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 3,
-        "defence": 7,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "hide_boots"
-    }
-  },
-  {
-    "id": "mistweave_wraps",
-    "name": "Mistweave Wraps",
-    "tier": 30,
-    "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A matched pair of fingerless hand wraps with layered wrist bands, fitted thumb openings and embroidered cuff borders.",
-    "stackable": false,
-    "value": 1933,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 3,
-        "defence": 7,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 30
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "hide_wraps"
-    }
-  },
-  {
-    "id": "dewglass_pickaxe",
-    "name": "Dewglass Pickaxe",
-    "tier": 30,
-    "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A curved two-ended Dewglass mining head with a pointed pick and a flat chisel. Adds 24 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 2267,
-    "category": "tool",
-    "tool": {
-      "skill": "mining",
-      "gatherBonus": 24
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "pickaxe"
-    }
-  },
-  {
-    "id": "dewglass_hatchet",
-    "name": "Dewglass Hatchet",
-    "tier": 30,
-    "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A broad bearded Dewglass axe head with a honed edge and wedge-fastened eye. Adds 24 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 2233,
-    "category": "tool",
-    "tool": {
-      "skill": "woodcutting",
-      "gatherBonus": 24
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "hatchet"
-    }
-  },
-  {
-    "id": "willow_rod",
-    "name": "Willow Rod",
-    "tier": 30,
-    "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A flexible fishing rod with spaced line guides, a working reel, crank knob and hanging float. Adds 24 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 1800,
-    "category": "tool",
-    "tool": {
-      "skill": "fishing",
-      "gatherBonus": 24
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 30,
-      "role": "rod"
-    }
+    "category": "component"
   },
   {
     "id": "crownsilver_ore",
@@ -8051,15 +3465,7 @@
     "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. Rough mineral fragments in a dark stone matrix; smelt three into one bar.",
     "stackable": false,
     "value": 293,
-    "category": "resource",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "crownsilver_ore",
-      "tier": 40,
-      "role": "ore"
-    }
+    "category": "resource"
   },
   {
     "id": "crownsilver_bar",
@@ -8068,15 +3474,7 @@
     "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A solid cast ingot with beveled ends and a stamped maker's mark.",
     "stackable": false,
     "value": 1033,
-    "category": "bar",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "crownsilver_bar",
-      "tier": 40,
-      "role": "bar"
-    }
+    "category": "bar"
   },
   {
     "id": "crownhide",
@@ -8085,15 +3483,7 @@
     "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A folded tanned hide with a natural irregular edge. Cut into garments or binding thread.",
     "stackable": true,
     "value": 277,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "crownhide",
-      "tier": 40,
-      "role": "hide"
-    }
+    "category": "component"
   },
   {
     "id": "crownhide_thread",
@@ -8102,15 +3492,7 @@
     "description": "Narrow tan leather lacing braided around an ivory spool. Used for seams, casting grips and fishing line.",
     "stackable": true,
     "value": 73,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "crownhide_thread",
-      "tier": 40,
-      "role": "thread"
-    }
+    "category": "component"
   },
   {
     "id": "maple_handle",
@@ -8119,520 +3501,7 @@
     "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A shaped grip with a shouldered tang socket for swords, pickaxes and hatchets.",
     "stackable": true,
     "value": 500,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "maple_handle",
-      "tier": 40,
-      "role": "handle"
-    }
-  },
-  {
-    "id": "crownsilver_sword",
-    "name": "Crownsilver Sword",
-    "tier": 40,
-    "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A solid double-edged blade with beveled cutting edges, a shaped crossguard and a wrapped wood grip.",
-    "stackable": false,
-    "value": 6533,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 77,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 76,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "metal_sword"
-    }
-  },
-  {
-    "id": "maple_shield",
-    "name": "Maple Shield",
-    "tier": 40,
-    "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A curved layered-wood shield with a reinforced metal rim, central boss and two leather straps on its back.",
-    "stackable": false,
-    "value": 3550,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 36,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "wood_shield"
-    }
-  },
-  {
-    "id": "crownsilver_helm",
-    "name": "Crownsilver Helm",
-    "tier": 40,
-    "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A fitted helmet with a raised brow, layered cheek guards and a protective nape.",
-    "stackable": false,
-    "value": 4317,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 6,
-        "magicAccuracy": 0,
-        "defence": 23,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "metal_helm"
-    }
-  },
-  {
-    "id": "crownsilver_plate",
-    "name": "Crownsilver Plate",
-    "tier": 40,
-    "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A shaped breastplate and backplate with overlapping shoulder plates, a fitted waist and articulated lower lames.",
-    "stackable": false,
-    "value": 7567,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 9,
-        "magicAccuracy": 0,
-        "defence": 50,
-        "health": 12,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "metal_plate"
-    }
-  },
-  {
-    "id": "crownsilver_greaves",
-    "name": "Crownsilver Greaves",
-    "tier": 40,
-    "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A matched pair of leg guards with separate thigh shells, raised knee cups and shin plates over leather lining.",
-    "stackable": false,
-    "value": 7000,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 6,
-        "magicAccuracy": 0,
-        "defence": 32,
-        "health": 8,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "metal_greaves"
-    }
-  },
-  {
-    "id": "crownsilver_boots",
-    "name": "Crownsilver Boots",
-    "tier": 40,
-    "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A matched pair of leather-soled boots with overlapping metal toe plates, ankle guards and rear buckles.",
-    "stackable": false,
-    "value": 3250,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 3,
-        "magicAccuracy": 0,
-        "defence": 14,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "metal_boots"
-    }
-  },
-  {
-    "id": "crownsilver_gauntlets",
-    "name": "Crownsilver Gauntlets",
-    "tier": 40,
-    "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A matched pair of five-fingered gauntlets with articulated knuckles, flared cuffs and leather palms.",
-    "stackable": false,
-    "value": 3250,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 12,
-        "health": 4,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "metal_gauntlets"
-    }
-  },
-  {
-    "id": "maple_wand",
-    "name": "Maple Wand",
-    "tier": 40,
-    "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A short tapered wand with a wrapped grip and a small crystal held in an open metal tip cage. One-handed; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 4233,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 45,
-        "defence": 8,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 38,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 40
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "wood_wand"
-    }
-  },
-  {
-    "id": "maple_staff",
-    "name": "Maple Staff",
-    "tier": 40,
-    "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A long staff with a forked metal crown around a large crystal, wrapped handhold and reinforced foot. Two-handed; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 5700,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 67,
-        "defence": 11,
-        "health": 0,
-        "meleePower": 12,
-        "magicPower": 57,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 40
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "wood_staff"
-    }
-  },
-  {
-    "id": "crownhide_hood",
-    "name": "Crownhide Hood",
-    "tier": 40,
-    "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A deep open-faced hood with an embroidered brow, folded lining and a short shoulder cowl.",
-    "stackable": false,
-    "value": 3750,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 13,
-        "defence": 23,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 6,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "hide_hood"
-    }
-  },
-  {
-    "id": "crownhide_robe",
-    "name": "Crownhide Robe",
-    "tier": 40,
-    "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A fitted sleeveless robe with a belted waist, overlapping front panels and split flowing tails. Open armholes leave the arms visible.",
-    "stackable": false,
-    "value": 6633,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 19,
-        "defence": 41,
-        "health": 11,
-        "meleePower": 0,
-        "magicPower": 9,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "hide_robe"
-    }
-  },
-  {
-    "id": "crownhide_leggings",
-    "name": "Crownhide Leggings",
-    "tier": 40,
-    "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A fitted pair of trousers with a reinforced waistband, separate legs, stitched knee panels and tapered ankle cuffs.",
-    "stackable": false,
-    "value": 5983,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 11,
-        "defence": 28,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 6,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "hide_leggings"
-    }
-  },
-  {
-    "id": "crownhide_boots",
-    "name": "Crownhide Boots",
-    "tier": 40,
-    "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A matched pair of soft casting boots with turned cuffs, side lacing, embroidered uppers and dark leather soles.",
-    "stackable": false,
-    "value": 2717,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 3,
-        "defence": 8,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "hide_boots"
-    }
-  },
-  {
-    "id": "crownhide_wraps",
-    "name": "Crownhide Wraps",
-    "tier": 40,
-    "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A matched pair of fingerless hand wraps with layered wrist bands, fitted thumb openings and embroidered cuff borders.",
-    "stackable": false,
-    "value": 2717,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 3,
-        "defence": 8,
-        "health": 3,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 40
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "hide_wraps"
-    }
-  },
-  {
-    "id": "crownsilver_pickaxe",
-    "name": "Crownsilver Pickaxe",
-    "tier": 40,
-    "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A curved two-ended Crownsilver mining head with a pointed pick and a flat chisel. Adds 32 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 3133,
-    "category": "tool",
-    "tool": {
-      "skill": "mining",
-      "gatherBonus": 32
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "pickaxe"
-    }
-  },
-  {
-    "id": "crownsilver_hatchet",
-    "name": "Crownsilver Hatchet",
-    "tier": 40,
-    "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A broad bearded Crownsilver axe head with a honed edge and wedge-fastened eye. Adds 32 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 3117,
-    "category": "tool",
-    "tool": {
-      "skill": "woodcutting",
-      "gatherBonus": 32
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "hatchet"
-    }
-  },
-  {
-    "id": "maple_rod",
-    "name": "Maple Rod",
-    "tier": 40,
-    "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A flexible fishing rod with spaced line guides, a working reel, crank knob and hanging float. Adds 32 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 2500,
-    "category": "tool",
-    "tool": {
-      "skill": "fishing",
-      "gatherBonus": 32
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 40,
-      "role": "rod"
-    }
+    "category": "component"
   },
   {
     "id": "star_amethyst_ore",
@@ -8641,15 +3510,7 @@
     "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. Rough mineral fragments in a dark stone matrix; smelt three into one bar.",
     "stackable": false,
     "value": 475,
-    "category": "resource",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "star_amethyst_ore",
-      "tier": 60,
-      "role": "ore"
-    }
+    "category": "resource"
   },
   {
     "id": "staramethyst_bar",
@@ -8658,15 +3519,7 @@
     "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A solid cast ingot with beveled ends and a stamped maker's mark.",
     "stackable": false,
     "value": 1650,
-    "category": "bar",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "staramethyst_bar",
-      "tier": 60,
-      "role": "bar"
-    }
+    "category": "bar"
   },
   {
     "id": "faesilk",
@@ -8675,15 +3528,7 @@
     "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A folded bolt with a visible woven edge. Cut into garments or binding thread.",
     "stackable": true,
     "value": 450,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "faesilk",
-      "tier": 60,
-      "role": "hide"
-    }
+    "category": "component"
   },
   {
     "id": "faesilk_thread",
@@ -8692,15 +3537,7 @@
     "description": "Fine Faesilk thread wound around a carved wooden spool. Used for seams, casting grips and fishing line.",
     "stackable": true,
     "value": 120,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "faesilk_thread",
-      "tier": 60,
-      "role": "thread"
-    }
+    "category": "component"
   },
   {
     "id": "yew_handle",
@@ -8709,519 +3546,6 @@
     "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A shaped grip with a shouldered tang socket for swords, pickaxes and hatchets.",
     "stackable": true,
     "value": 825,
-    "category": "component",
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "materialFood",
-      "variant": "regionalMaterial",
-      "itemId": "yew_handle",
-      "tier": 60,
-      "role": "handle"
-    }
-  },
-  {
-    "id": "staramethyst_sword",
-    "name": "Star Amethyst Sword",
-    "tier": 60,
-    "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A solid double-edged blade with beveled cutting edges, a shaped crossguard and a wrapped wood grip.",
-    "stackable": false,
-    "value": 10950,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 109,
-        "magicAccuracy": 0,
-        "defence": 0,
-        "health": 0,
-        "meleePower": 110,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2400,
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "metal_sword"
-    }
-  },
-  {
-    "id": "yew_shield",
-    "name": "Yew Shield",
-    "tier": 60,
-    "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A curved layered-wood shield with a reinforced metal rim, central boss and two leather straps on its back.",
-    "stackable": false,
-    "value": 6150,
-    "category": "equipment",
-    "equip": {
-      "slot": "offHand",
-      "bonuses": {
-        "meleeAccuracy": 7,
-        "magicAccuracy": 0,
-        "defence": 50,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "wood_shield"
-    }
-  },
-  {
-    "id": "staramethyst_helm",
-    "name": "Star Amethyst Helm",
-    "tier": 60,
-    "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A fitted helmet with a raised brow, layered cheek guards and a protective nape.",
-    "stackable": false,
-    "value": 7250,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 8,
-        "magicAccuracy": 0,
-        "defence": 33,
-        "health": 7,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "metal_helm"
-    }
-  },
-  {
-    "id": "staramethyst_plate",
-    "name": "Star Amethyst Plate",
-    "tier": 60,
-    "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A shaped breastplate and backplate with overlapping shoulder plates, a fitted waist and articulated lower lames.",
-    "stackable": false,
-    "value": 12400,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 12,
-        "magicAccuracy": 0,
-        "defence": 70,
-        "health": 17,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "metal_plate"
-    }
-  },
-  {
-    "id": "staramethyst_greaves",
-    "name": "Star Amethyst Greaves",
-    "tier": 60,
-    "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A matched pair of leg guards with separate thigh shells, raised knee cups and shin plates over leather lining.",
-    "stackable": false,
-    "value": 11450,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 8,
-        "magicAccuracy": 0,
-        "defence": 45,
-        "health": 12,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "metal_greaves"
-    }
-  },
-  {
-    "id": "staramethyst_boots",
-    "name": "Star Amethyst Boots",
-    "tier": 60,
-    "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A matched pair of leather-soled boots with overlapping metal toe plates, ankle guards and rear buckles.",
-    "stackable": false,
-    "value": 5550,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 5,
-        "magicAccuracy": 0,
-        "defence": 21,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "metal_boots"
-    }
-  },
-  {
-    "id": "staramethyst_gauntlets",
-    "name": "Star Amethyst Gauntlets",
-    "tier": 60,
-    "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A matched pair of five-fingered gauntlets with articulated knuckles, flared cuffs and leather palms.",
-    "stackable": false,
-    "value": 5550,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 7,
-        "magicAccuracy": 0,
-        "defence": 19,
-        "health": 6,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "melee": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "metal_gauntlets"
-    }
-  },
-  {
-    "id": "yew_wand",
-    "name": "Yew Wand",
-    "tier": 60,
-    "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A short tapered wand with a wrapped grip and a small crystal held in an open metal tip cage. One-handed; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 7050,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 64,
-        "defence": 11,
-        "health": 0,
-        "meleePower": 0,
-        "magicPower": 55,
-        "vitality": 0
-      },
-      "attackSpeedMs": 2200,
-      "requires": {
-        "magic": 60
-      }
-    },
-    "magicWeapon": {
-      "kind": "wand",
-      "hands": 1
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "wood_wand"
-    }
-  },
-  {
-    "id": "yew_staff",
-    "name": "Yew Staff",
-    "tier": 60,
-    "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A long staff with a forked metal crown around a large crystal, wrapped handhold and reinforced foot. Two-handed; carried Essence pays for spells.",
-    "stackable": false,
-    "value": 9450,
-    "category": "equipment",
-    "equip": {
-      "slot": "mainHand",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 95,
-        "defence": 16,
-        "health": 0,
-        "meleePower": 18,
-        "magicPower": 82,
-        "vitality": 0
-      },
-      "attackSpeedMs": 3000,
-      "requires": {
-        "magic": 60
-      }
-    },
-    "magicWeapon": {
-      "kind": "staff",
-      "hands": 2
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "wood_staff"
-    }
-  },
-  {
-    "id": "faesilk_hood",
-    "name": "Faesilk Hood",
-    "tier": 60,
-    "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A deep open-faced hood with an embroidered brow, folded lining and a short shoulder cowl.",
-    "stackable": false,
-    "value": 6300,
-    "category": "equipment",
-    "equip": {
-      "slot": "head",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 18,
-        "defence": 33,
-        "health": 9,
-        "meleePower": 0,
-        "magicPower": 9,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "hide_hood"
-    }
-  },
-  {
-    "id": "faesilk_robe",
-    "name": "Faesilk Robe",
-    "tier": 60,
-    "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A fitted sleeveless robe with a belted waist, overlapping front panels and split flowing tails. Open armholes leave the arms visible.",
-    "stackable": false,
-    "value": 10900,
-    "category": "equipment",
-    "equip": {
-      "slot": "body",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 27,
-        "defence": 58,
-        "health": 16,
-        "meleePower": 0,
-        "magicPower": 13,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "hide_robe"
-    }
-  },
-  {
-    "id": "faesilk_leggings",
-    "name": "Faesilk Leggings",
-    "tier": 60,
-    "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A fitted pair of trousers with a reinforced waistband, separate legs, stitched knee panels and tapered ankle cuffs.",
-    "stackable": false,
-    "value": 9850,
-    "category": "equipment",
-    "equip": {
-      "slot": "legs",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 16,
-        "defence": 40,
-        "health": 11,
-        "meleePower": 0,
-        "magicPower": 8,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "hide_leggings"
-    }
-  },
-  {
-    "id": "faesilk_boots",
-    "name": "Faesilk Boots",
-    "tier": 60,
-    "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A matched pair of soft casting boots with turned cuffs, side lacing, embroidered uppers and dark leather soles.",
-    "stackable": false,
-    "value": 4600,
-    "category": "equipment",
-    "equip": {
-      "slot": "feet",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 5,
-        "defence": 13,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "hide_boots"
-    }
-  },
-  {
-    "id": "faesilk_wraps",
-    "name": "Faesilk Wraps",
-    "tier": 60,
-    "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A matched pair of fingerless hand wraps with layered wrist bands, fitted thumb openings and embroidered cuff borders.",
-    "stackable": false,
-    "value": 4600,
-    "category": "equipment",
-    "equip": {
-      "slot": "hands",
-      "bonuses": {
-        "meleeAccuracy": 0,
-        "magicAccuracy": 5,
-        "defence": 13,
-        "health": 5,
-        "meleePower": 0,
-        "magicPower": 0,
-        "vitality": 0
-      },
-      "requires": {
-        "magic": 60
-      }
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "hide_wraps"
-    }
-  },
-  {
-    "id": "staramethyst_pickaxe",
-    "name": "Star Amethyst Pickaxe",
-    "tier": 60,
-    "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A curved two-ended Star Amethyst mining head with a pointed pick and a flat chisel. Adds 40 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 5250,
-    "category": "tool",
-    "tool": {
-      "skill": "mining",
-      "gatherBonus": 40
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "pickaxe"
-    }
-  },
-  {
-    "id": "staramethyst_hatchet",
-    "name": "Star Amethyst Hatchet",
-    "tier": 60,
-    "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A broad bearded Star Amethyst axe head with a honed edge and wedge-fastened eye. Adds 40 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 5250,
-    "category": "tool",
-    "tool": {
-      "skill": "woodcutting",
-      "gatherBonus": 40
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "hatchet"
-    }
-  },
-  {
-    "id": "yew_rod",
-    "name": "Yew Rod",
-    "tier": 60,
-    "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A flexible fishing rod with spaced line guides, a working reel, crank knob and hanging float. Adds 40 effective gathering levels; resource requirements still apply.",
-    "stackable": false,
-    "value": 4250,
-    "category": "tool",
-    "tool": {
-      "skill": "fishing",
-      "gatherBonus": 40
-    },
-    "catalog": "REGIONAL_TIER_ITEMS",
-    "derivation": {
-      "kind": "gearProgression",
-      "catalog": "REGIONAL_TIER_ITEMS",
-      "ladderTier": 60,
-      "role": "rod"
-    }
+    "category": "component"
   }
 ]

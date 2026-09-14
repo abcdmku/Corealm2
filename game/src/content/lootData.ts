@@ -1,4 +1,5 @@
-import rawLootTables from "../../content/data/lootTables.json";
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
+const rawLootTables = RESOLVED_TABLES["lootTables"];
 import type { EnemyDef } from "./index.js";
 import { parseCollection } from "./schema/core.js";
 import { LootTableSchema, type LootTableRecord } from "./schema/loot.js";

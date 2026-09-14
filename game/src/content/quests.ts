@@ -1,3 +1,4 @@
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
 /**
  * The nine Phase 1 quests, as pure data.
  *
@@ -25,7 +26,7 @@ import type {
   EntityId, ItemId, ItemStack, QuestId, QuestObjectiveRef, RecipeId, RegionId, SkillId,
 } from "../contracts.js";
 
-import questData from "../../content/data/quests.json";
+const questData = RESOLVED_TABLES["quests"];
 import { parseCollection } from "./schema/core.js";
 import { questSchema } from "./schema/story.js";
 

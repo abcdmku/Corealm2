@@ -7,7 +7,7 @@ import type { GameEvent, ItemStack, SemanticEntity } from '../../game/src/contra
 import type { GameState } from '../../game/src/state/store.js';
 import type { EnemyDef } from '../../game/src/content/index.js';
 import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS } from '../../game/src/content/bossArmor.js';
-import { wildernessDrops } from '../../game/src/content/wildernessLoot.js';
+import { wildernessDropsForCreature } from '../../game/src/content/wildernessLoot.js';
 import { RngStreams } from '../../game/src/core/rng.js';
 import { CAMERA } from '../../game/src/app/config.js';
 import { GameDriver } from '../lib/driver.js';
@@ -49,7 +49,7 @@ async function main(): Promise<void> {
   assert(tier === 50 || tier === 70, '--tier must be 50 or 70');
   const catalog = argValue(args, '--catalog'); assert(catalog, '--catalog is required');
   const keeperName = tier === 50 ? 'furnace_regent' : 'nightforge_marshal';
-  const drops = wildernessDrops(keeperName, tier, keeperName);
+  const drops = wildernessDropsForCreature(keeperName);
   const prediction = chooseSeed(drops, tier);
   const item = BOSS_ARMOR_ITEMS.find(item => item.id === prediction.itemId)!;
   const set = BOSS_ARMOR_SETS.find(set => Object.values(set.members).includes(item.id))!;

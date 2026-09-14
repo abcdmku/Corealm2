@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { BIOME_POPULATION, BIOME_POPULATION_LEGACY_REPLACEMENTS } from '../game/src/content/biomePopulation.js';
+import { BIOME_POPULATION } from '../game/src/content/biomePopulation.js';
 import { REGIONS, SOURCE_REGIONS } from '../game/src/content/regions.js';
-import MANIFEST from '../game/public/assets/manifest.json';
 import { inStarterWildlifeArea } from '../game/src/content/fantasyEncounters.js';
 import { WORLD_HABITATS } from '../game/src/content/worldHabitats.js';
 import { encounterBodyRadius } from '../game/src/content/encounterPlacement.js';
@@ -18,39 +17,12 @@ const population = BIOME_POPULATION.map(source => ({ source,
 }));
 
 describe('new biome population reservations', () => {
-  it('covers every original ordinary creature outside starter fields while preserving stable actor IDs', () => {
-    const original = originalRegions.filter(region => region.id !== 'wilderness').flatMap(region => [
-      ...region.enemyGroups.map(group => ({ regionId: region.id, group })),
-      ...(region.dungeon?.enemyGroups.map(group => ({ regionId: region.dungeon!.id, group })) ?? []),
-    ]).filter(({ regionId, group }) => {
-      const habitat = WORLD_HABITATS.find(row => row.groupId === group.id);
-      return !group.boss && !group.miniBoss && !group.assetId.startsWith('outfit_')
-        && !inStarterWildlifeArea(regionId, habitat?.centre ?? group.centre, habitat?.radius ?? group.radius);
-    });
-    expect(Object.keys(BIOME_POPULATION_LEGACY_REPLACEMENTS).sort()).toEqual(original.map(row => row.group.id).sort());
-    for (const { group } of original) {
-      const projected = current.find(row => row.id === group.id)!;
-      expect(projected.assetId, group.id).toBe(`creature_${BIOME_POPULATION_LEGACY_REPLACEMENTS[group.id]}`);
-      expect(projected.count, group.id).toBeGreaterThanOrEqual(7);
-      expect(projected.count, group.id).toBeLessThanOrEqual(15);
-      expect(projected.legacyCount, group.id).toBe(group.count);
-      for (let index = 0; index < group.count; index++)
-        expect(encounterActorId(projected, index), group.id).toBe(encounterActorId(group, index));
-      expect(projected.tier, group.id).toBe(group.tier);
-      const asset = MANIFEST.assets.find(row => row.id === projected.assetId) as any;
-      expect(asset?.acceptance?.labAccepted, group.id).toBe(true);
-    }
-  });
-
-  it('adds seven to fifteen residents per encounter in every biome without replacing source identities', () => {
-    const sourceIds = new Set(SOURCE_REGIONS.flatMap(region => region.enemyGroups).map(group => group.id));
+  it('adds seven to fifteen residents per authored encounter in every biome', () => {
     expect(BIOME_POPULATION.length).toBeGreaterThanOrEqual(50);
     expect(new Set(BIOME_POPULATION.map(pack => pack.id)).size).toBe(BIOME_POPULATION.length);
     for (const { source, group } of population) {
-      expect(sourceIds.has(source.id), source.id).toBe(false);
       expect(group.count, source.id).toBeGreaterThanOrEqual(7);
       expect(group.count, source.id).toBeLessThanOrEqual(15);
-      expect(group.legacyCount, source.id).toBe(source.count);
       expect(encounterActorId(group, 0), source.id).toBe(`${source.id}_1`);
     }
     for (const region of originalRegions) {

@@ -12,14 +12,18 @@ import {
 import { createRequestsHandler, isRequestsPath } from "./handlers/requests.js";
 import { createMetaHandler, isMetaPath } from "./handlers/meta.js";
 import { BodyError, readJsonBody } from "./lib/body.js";
+import { createAssetsHandler, isAssetsPath, ASSET_UPLOAD_MAX_REQUEST_BYTES } from './handlers/assets.js';
 import { readRuntimeCatalogs } from "./catalogs.js";
 import { isIconMasterPath, readIconMaster } from "./handlers/icons.js";
 import { createCollectionWriteHandler, type CollectionWriteHandlerOptions } from "./handlers/writeCollections.js";
 import { readDevdocsReferencePools } from "./lib/referencePools.js";
-import { createRecomputeHandler, isRecomputePath } from "./handlers/recompute.js";
+import { createTransactionHandler, isTransactionPath } from "./handlers/transaction.js";
+import { createFormulasHandler, isFormulasPath } from "./handlers/formulas.js";
+import { installFormulaWatcher } from "./lib/formulaWatcher.js";
 import { createValidateHandler, isValidatePath } from "./handlers/validate.js";
 import { createGitHandler, isGitPath } from "./handlers/git.js";
 import { createBulkHandler, isBulkPath } from './handlers/bulk.js';
+
 
 export type DevdocsPluginOptions = CollectionsHandlerOptions & CollectionWriteHandlerOptions;
 
@@ -32,23 +36,31 @@ function send(response: ServerResponse, result: Omit<DevdocsJsonResponse, "body"
 
 function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginOptions): void {
   const handleCollections = createCollectionsHandler({ extraCollections: readRuntimeCatalogs, ...options, editable: true });
+  const formulaServices = installFormulaWatcher(server, options);
+  options = {...options, compiler: formulaServices.compiler};
   const handleWrite = createCollectionWriteHandler({ referencePools: readDevdocsReferencePools, ...options });
-  const handleRecompute = createRecomputeHandler({ referencePools: readDevdocsReferencePools, ...options });
+  const handleTransaction = createTransactionHandler({referencePools: readDevdocsReferencePools,...options});
+  const handleFormulas = createFormulasHandler(formulaServices);
   const handleValidate = createValidateHandler({ referencePools: readDevdocsReferencePools, ...options });
   const handleGit = createGitHandler();
   const handleBulk = createBulkHandler({ referencePools: readDevdocsReferencePools, ...options });
   const handleRequests = createRequestsHandler(options);
   const handleMeta = createMetaHandler(options);
+  const handleAssets = createAssetsHandler(options);
+
   server.middlewares.use((request, response, next) => {
     const collections = isCollectionsPath(request.url);
     const requests = isRequestsPath(request.url);
     const meta = isMetaPath(request.url);
     const icon = isIconMasterPath(request.url);
-    const recompute = isRecomputePath(request.url);
+    const transaction = isTransactionPath(request.url);
+    const formulas = isFormulasPath(request.url);
     const validate = isValidatePath(request.url);
     const git = isGitPath(request.url);
     const bulk = isBulkPath(request.url);
-    if (!collections && !requests && !meta && !icon && !recompute && !validate && !git && !bulk) {
+    const assets = isAssetsPath(request.url);
+
+    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets) {
       next();
       return;
     }
@@ -57,10 +69,12 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
       // Check origin before reading a mutation body, including malformed or oversized bodies.
       if (!isLoopbackDevdocsRequest(request)) return { status: 403, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ error: "Dev docs API accepts loopback requests only" }) };
       if (icon) return readIconMaster(requestFromIncoming(request));
+      if (assets) return handleAssets({ ...requestFromIncoming(request), body: ['POST', 'PUT'].includes(request.method ?? '') ? await readJsonBody(request, ASSET_UPLOAD_MAX_REQUEST_BYTES) : undefined });
+
       if (git) return handleGit(requestFromIncoming(request));
       if (validate) return handleValidate(requestFromIncoming(request));
       if (bulk) return handleBulk({ ...requestFromIncoming(request), method: request.method, body: request.method === 'POST' ? await readJsonBody(request) : undefined });
-      if (recompute) return handleRecompute({ method: request.method, url: request.url, headers: request.headers, socket: request.socket, body: request.method === "POST" ? await readJsonBody(request) : undefined });
+      if (transaction || formulas) return (transaction ? handleTransaction : handleFormulas)({...requestFromIncoming(request), body:request.method === "POST" ? await readJsonBody(request) : undefined});
       if (collections && (request.method === "PUT" || request.method === "DELETE")) return handleWrite({ method: request.method, url: request.url, headers: request.headers, socket: request.socket, body: await readJsonBody(request) });
       if (meta) return handleMeta({ ...requestFromIncoming(request), method: request.method, url: request.url, headers: request.headers, socket: request.socket,
         body: request.method === "PATCH" ? await readJsonBody(request) : undefined });

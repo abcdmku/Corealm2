@@ -1,7 +1,7 @@
-import { itemRows } from "./itemData.js";
+import { ITEM_DATA } from "./itemData.js";
 import type { ItemDef } from "../contracts.js";
 import type { RecipeDef } from "./index.js";
-import { recipeRows } from "./recipeData.js";
+import { RECIPE_DATA } from "./recipeData.js";
 /** Each species keeps its own material even when several recipes make familiar equipment. */
 export const CREATURE_TROPHY_BY_SPECIES = {
     redbrush_fox: "fox_guardhair",
@@ -29,5 +29,5 @@ export const CREATURE_TROPHY_BY_SPECIES = {
     gorge_mantis: "mantis_scythe",
     quarry_nightmare: "nightmare_plate"
 } as const;
-export const CREATURE_LOOT_ITEMS: readonly ItemDef[] = itemRows("CREATURE_LOOT_ITEMS");
-export const CREATURE_LOOT_RECIPES: readonly RecipeDef[] = recipeRows("CREATURE_LOOT_RECIPES");
+export const CREATURE_LOOT_ITEMS: readonly ItemDef[] = ITEM_DATA.filter(item => item.category === "resource" || item.category === "component");
+export const CREATURE_LOOT_RECIPES: readonly RecipeDef[] = RECIPE_DATA.filter(recipe => recipe.kind === "craft");

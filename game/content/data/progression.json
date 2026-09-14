@@ -1,0 +1,5584 @@
+[
+  {
+    "id": "tier_1",
+    "name": "Level 1",
+    "tier": 1,
+    "reqLevel": 1,
+    "materials": {
+      "ore": "grithe_ore",
+      "flux": "march_stone",
+      "gem": "pale_quartz",
+      "bar": "grithe_bar",
+      "log": "palewood_log",
+      "shaft": "palewood_shaft",
+      "handle": "palewood_handle",
+      "hide": "coarse_hide",
+      "rawFish": "silt_minnow",
+      "cookedFish": "seared_minnow",
+      "burntFish": "burnt_minnow",
+      "rawMeat": "raw_game_meat",
+      "cookedMeat": "roast_game",
+      "burntMeat": "burnt_game",
+      "dagger": "grithe_dagger",
+      "sword": "grithe_sword",
+      "helm": "grithe_helm",
+      "body": "grithe_cuirass",
+      "legs": "grithe_greaves",
+      "boots": "grithe_boots",
+      "gloves": "grithe_gloves",
+      "pickaxe": "grithe_pickaxe",
+      "hatchet": "grithe_hatchet",
+      "staff": "palewood_staff",
+      "wand": "palewood_wand",
+      "rod": "palewood_rod",
+      "shield": "palewood_shield",
+      "hood": "marchhide_hood",
+      "robe": "marchhide_robe",
+      "magicLegs": "marchhide_leggings",
+      "magicBoots": "marchhide_boots",
+      "wraps": "marchhide_wraps"
+    },
+    "resourceIds": [
+      "ore_grithe",
+      "ore_marchstone",
+      "tree_palewood",
+      "fish_silt_minnow",
+      "essence_air"
+    ],
+    "equipment": [
+      {
+        "id": "grithe_dagger",
+        "name": "Copper Dagger",
+        "description": "A short blade of dull grey Copper. The first real weapon anyone out here owns.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "grithe_sword",
+        "name": "Copper Sword",
+        "description": "Two bars of Copper beaten flat and given an edge. Heavier than the dagger, and hits like it.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "palewood_shield",
+        "name": "Pine Shield",
+        "description": "Planks of pale march wood banded at the rim. It stops a claw once.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "grithe_helm",
+        "name": "Copper Helm",
+        "description": "An open-faced cap. You can hear things coming, which is most of the job.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "grithe_cuirass",
+        "name": "Copper Cuirass",
+        "description": "A plate front laced over a leather back. Cheap, loud, and better than nothing.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "grithe_greaves",
+        "name": "Copper Greaves",
+        "description": "Shin and thigh plates on a march-issue belt.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "grithe_boots",
+        "name": "Copper Boots",
+        "description": "Iron-shod boots for scree and bracken.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "grithe_gloves",
+        "name": "Copper Gloves",
+        "description": "Studded gloves. They keep the grip when the haft goes wet.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "palewood_wand",
+        "name": "Pine Wand",
+        "description": "Pale wood with an empty socket at the tip. It stays unlit until upgraded.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "palewood_staff",
+        "name": "Pine Staff",
+        "description": "A pale two-handed shaft with an empty socket. The wood itself gives off no light.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "marchhide_hood",
+        "name": "Hide Hood",
+        "description": "Cured wolf hide, hood up against the march wind.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "marchhide_robe",
+        "name": "Hide Robe",
+        "description": "Three hides stitched into something between a coat and a tent.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "marchhide_leggings",
+        "name": "Hide Leggings",
+        "description": "Hide leggings, laced at the calf.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "marchhide_boots",
+        "name": "Hide Boots",
+        "description": "Soft-soled. Quiet, which matters more than it sounds.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "marchhide_wraps",
+        "name": "Hide Wraps",
+        "description": "Hide strips wound to the knuckle, fingertips left bare.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "galeskin_sword",
+        "name": "Plains Ogre Sword",
+        "description": "Copper pattern, but the edge whistles on the backswing. Plains Ogre carried it point-down.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "galeskin_staff",
+        "name": "Plains Ogre Staff",
+        "description": "Pine scoured silver by wind. The empty socket hums in weather.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      }
+    ],
+    "production": [
+      {
+        "id": "smelt_grithe_bar",
+        "name": "Copper Bar",
+        "inputs": [
+          {
+            "itemId": "grithe_ore",
+            "quantity": 1
+          },
+          {
+            "itemId": "march_stone",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "smith_grithe_dagger",
+        "name": "Copper Dagger",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "palewood_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_dagger",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_sword",
+        "name": "Copper Sword",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "palewood_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_helm",
+        "name": "Copper Helm",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "grithe_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_cuirass",
+        "name": "Copper Body",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "grithe_cuirass",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_greaves",
+        "name": "Copper Legs",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "grithe_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_boots",
+        "name": "Copper Boots",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_gloves",
+        "name": "Copper Gloves",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_gloves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_pickaxe",
+        "name": "Copper Pickaxe",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "palewood_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_grithe_hatchet",
+        "name": "Copper Hatchet",
+        "inputs": [
+          {
+            "itemId": "grithe_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "palewood_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "grithe_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "cook_seared_minnow",
+        "name": "Seared Minnow",
+        "inputs": [
+          {
+            "itemId": "silt_minnow",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "seared_minnow",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_minnow"
+      },
+      {
+        "id": "cook_roast_game",
+        "name": "Roast Game",
+        "inputs": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "roast_game",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_game"
+      },
+      {
+        "id": "craft_air_wand",
+        "name": "Air Wand",
+        "inputs": [
+          {
+            "itemId": "palewood_wand",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "air_wand",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_air_staff",
+        "name": "Air Staff",
+        "inputs": [
+          {
+            "itemId": "palewood_staff",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "air_staff",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_marchhide_robe",
+        "name": "Hide Robe",
+        "inputs": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "marchhide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_marchhide_leggings",
+        "name": "Hide Leggings",
+        "inputs": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "marchhide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_marchhide_hood",
+        "name": "Hide Hood",
+        "inputs": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "marchhide_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_marchhide_boots",
+        "name": "Hide Boots",
+        "inputs": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "marchhide_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_marchhide_wraps",
+        "name": "Hide Wraps",
+        "inputs": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "marchhide_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "fletch_palewood_shaft",
+        "name": "Pine Shafts",
+        "inputs": [
+          {
+            "itemId": "palewood_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "palewood_shaft",
+          "quantity": 4
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_palewood_handle",
+        "name": "Pine Handles",
+        "inputs": [
+          {
+            "itemId": "palewood_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "palewood_handle",
+          "quantity": 2
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_palewood_staff",
+        "name": "Pine Staff",
+        "inputs": [
+          {
+            "itemId": "palewood_shaft",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "palewood_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_palewood_wand",
+        "name": "Pine Wand",
+        "inputs": [
+          {
+            "itemId": "palewood_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "palewood_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_palewood_shield",
+        "name": "Pine Shield",
+        "inputs": [
+          {
+            "itemId": "palewood_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "grithe_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "palewood_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_palewood_rod",
+        "name": "Pine Rod",
+        "inputs": [
+          {
+            "itemId": "palewood_shaft",
+            "quantity": 2
+          },
+          {
+            "itemId": "coarse_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "palewood_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_basic_wooden_wand",
+        "name": "Basic Wooden Wand",
+        "inputs": [
+          {
+            "itemId": "palewood_shaft",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "basic_wooden_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_basic_wooden_staff",
+        "name": "Basic Wooden Staff",
+        "inputs": [
+          {
+            "itemId": "palewood_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "basic_wooden_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_goose_down",
+        "name": "Down-lined Hide Robe",
+        "inputs": [
+          {
+            "itemId": "goose_down",
+            "quantity": 3
+          },
+          {
+            "itemId": "coarse_hide",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "marchhide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      }
+    ],
+    "presentation": {
+      "metalName": "Copper",
+      "woodName": "Pine"
+    },
+    "magic": {
+      "element": "wind",
+      "essence": "air_essence",
+      "orb": "air_orb",
+      "staff": "air_staff",
+      "wand": "air_wand",
+      "basicStaff": "basic_wooden_staff",
+      "basicWand": "basic_wooden_wand"
+    },
+    "smelting": {
+      "orePerBar": 1,
+      "fluxPerBar": 1
+    },
+    "campfireFuelId": "palewood_log"
+  },
+  {
+    "id": "tier_5",
+    "name": "Level 5",
+    "tier": 5,
+    "reqLevel": 5,
+    "materials": {
+      "ore": "corven_ore",
+      "flux": "march_stone",
+      "gem": "vell_amber",
+      "bar": "corven_bar",
+      "log": "duskoak_log",
+      "shaft": "duskoak_shaft",
+      "handle": "duskoak_handle",
+      "hide": "bramble_hide",
+      "rawFish": "bramble_trout",
+      "cookedFish": "seared_trout",
+      "burntFish": "burnt_trout",
+      "rawMeat": "raw_venison",
+      "cookedMeat": "roast_venison",
+      "burntMeat": "burnt_venison",
+      "dagger": "corven_dagger",
+      "sword": "corven_sword",
+      "helm": "corven_helm",
+      "body": "corven_plate",
+      "legs": "corven_greaves",
+      "boots": "corven_boots",
+      "gloves": "corven_gauntlets",
+      "pickaxe": "corven_pickaxe",
+      "hatchet": "corven_hatchet",
+      "staff": "duskoak_staff",
+      "wand": "duskoak_wand",
+      "rod": "duskoak_rod",
+      "shield": "duskoak_shield",
+      "hood": "bramblehide_hood",
+      "robe": "bramblehide_robe",
+      "magicLegs": "bramblehide_leggings",
+      "magicBoots": "bramblehide_boots",
+      "wraps": "bramblehide_wraps"
+    },
+    "resourceIds": [
+      "ore_corven",
+      "tree_duskoak",
+      "fish_bramble_trout",
+      "essence_earth"
+    ],
+    "equipment": [
+      {
+        "id": "corven_dagger",
+        "name": "Iron Dagger",
+        "description": "Deepwood steel, dark and slightly oily to the touch.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "corven_sword",
+        "name": "Iron Sword",
+        "description": "A long Iron blade. The standard by which a Woodlands hand is judged.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "duskoak_shield",
+        "name": "Ash Shield",
+        "description": "Laminated ash over an Iron boss. Heavy enough to lean on.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "corven_helm",
+        "name": "Iron Helm",
+        "description": "A full helm with a narrow sight slit.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "corven_plate",
+        "name": "Iron Plate",
+        "description": "Three bars of Iron, articulated at the waist so you can still bend to pick things up.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "corven_greaves",
+        "name": "Iron Greaves",
+        "description": "Plated legs. Slower over a root field, worth it under a husk.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "corven_boots",
+        "name": "Iron Boots",
+        "description": "Plated over the toe, soft in the sole. Deepwood floor is not forgiving.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "corven_gauntlets",
+        "name": "Iron Gauntlets",
+        "description": "Fingered plate. You can hold a rod in these, badly.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "duskoak_wand",
+        "name": "Ash Wand",
+        "description": "Dark ash with an empty crown. Its polished wood remains unlit on its own.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "duskoak_staff",
+        "name": "Ash Staff",
+        "description": "Dark ash banded in Iron around an empty, unlit crown.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "bramblehide_hood",
+        "name": "Thick Hide Hood",
+        "description": "Deepwood hide, still faintly thorned along the seam.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "bramblehide_robe",
+        "name": "Thick Hide Robe",
+        "description": "Heavy hide, waxed. Sheds a Thornbound's spores and most of the rain.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "bramblehide_leggings",
+        "name": "Thick Hide Leggings",
+        "description": "Long hide leggings cut for a full stride.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "bramblehide_boots",
+        "name": "Thick Hide Boots",
+        "description": "Laced to the knee against the root field.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "bramblehide_wraps",
+        "name": "Thick Hide Wraps",
+        "description": "Wrapped to the second knuckle. Casting hand stays free.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "mossbound_sword",
+        "name": "Forest Ogre Sword",
+        "description": "A Iron blade grown through with moss that will not die. It never rusts.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "mossbound_staff",
+        "name": "Forest Ogre Staff",
+        "description": "Ash with a living green seam. Warm at the grip like a root in summer.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      }
+    ],
+    "production": [
+      {
+        "id": "smelt_corven_bar",
+        "name": "Iron Bar",
+        "inputs": [
+          {
+            "itemId": "corven_ore",
+            "quantity": 2
+          },
+          {
+            "itemId": "march_stone",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "smith_corven_dagger",
+        "name": "Iron Dagger",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "duskoak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_dagger",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_sword",
+        "name": "Iron Sword",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "duskoak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_helm",
+        "name": "Iron Helm",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "corven_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_plate",
+        "name": "Iron Body",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "corven_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_greaves",
+        "name": "Iron Legs",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "corven_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_boots",
+        "name": "Iron Boots",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_gauntlets",
+        "name": "Iron Gloves",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_pickaxe",
+        "name": "Iron Pickaxe",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "duskoak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_corven_hatchet",
+        "name": "Iron Hatchet",
+        "inputs": [
+          {
+            "itemId": "corven_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "duskoak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "corven_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "cook_seared_trout",
+        "name": "Seared Trout",
+        "inputs": [
+          {
+            "itemId": "bramble_trout",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "seared_trout",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_trout"
+      },
+      {
+        "id": "cook_roast_venison",
+        "name": "Roast Venison",
+        "inputs": [
+          {
+            "itemId": "raw_venison",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "roast_venison",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_venison"
+      },
+      {
+        "id": "craft_earth_wand",
+        "name": "Earth Wand",
+        "inputs": [
+          {
+            "itemId": "duskoak_wand",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "earth_wand",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_earth_staff",
+        "name": "Earth Staff",
+        "inputs": [
+          {
+            "itemId": "duskoak_staff",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "earth_staff",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_bramblehide_robe",
+        "name": "Thick Hide Robe",
+        "inputs": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_bramblehide_leggings",
+        "name": "Thick Hide Leggings",
+        "inputs": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_bramblehide_hood",
+        "name": "Thick Hide Hood",
+        "inputs": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_bramblehide_boots",
+        "name": "Thick Hide Boots",
+        "inputs": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_bramblehide_wraps",
+        "name": "Thick Hide Wraps",
+        "inputs": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "fletch_duskoak_shaft",
+        "name": "Ash Shafts",
+        "inputs": [
+          {
+            "itemId": "duskoak_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_shaft",
+          "quantity": 4
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_duskoak_handle",
+        "name": "Ash Handles",
+        "inputs": [
+          {
+            "itemId": "duskoak_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_handle",
+          "quantity": 2
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_duskoak_staff",
+        "name": "Ash Staff",
+        "inputs": [
+          {
+            "itemId": "duskoak_shaft",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_duskoak_wand",
+        "name": "Ash Wand",
+        "inputs": [
+          {
+            "itemId": "duskoak_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_duskoak_shield",
+        "name": "Ash Shield",
+        "inputs": [
+          {
+            "itemId": "duskoak_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "corven_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_duskoak_rod",
+        "name": "Ash Rod",
+        "inputs": [
+          {
+            "itemId": "duskoak_shaft",
+            "quantity": 2
+          },
+          {
+            "itemId": "bramble_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_badger_bristle",
+        "name": "Bristle-lined Thick Hide Leggings",
+        "inputs": [
+          {
+            "itemId": "badger_bristle",
+            "quantity": 3
+          },
+          {
+            "itemId": "bramble_hide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "creature_horse_tailhair",
+        "name": "Horsehair Maple Rod",
+        "inputs": [
+          {
+            "itemId": "horse_tailhair",
+            "quantity": 3
+          },
+          {
+            "itemId": "duskoak_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_tapir_leather",
+        "name": "Trim Tapir Hide Sheets",
+        "inputs": [
+          {
+            "itemId": "tapir_leather",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "bramble_hide",
+          "quantity": 2
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "creature_snail_mucus",
+        "name": "Glue-bound Maple Shield",
+        "inputs": [
+          {
+            "itemId": "snail_mucus",
+            "quantity": 3
+          },
+          {
+            "itemId": "duskoak_log",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "duskoak_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_spider_thread",
+        "name": "Silk-stitched Thick Hide Robe",
+        "inputs": [
+          {
+            "itemId": "spider_thread",
+            "quantity": 3
+          },
+          {
+            "itemId": "bramble_hide",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "bramblehide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      }
+    ],
+    "presentation": {
+      "metalName": "Iron",
+      "woodName": "Ash"
+    },
+    "magic": {
+      "element": "earth",
+      "essence": "earth_essence",
+      "orb": "earth_orb",
+      "staff": "earth_staff",
+      "wand": "earth_wand"
+    },
+    "smelting": {
+      "orePerBar": 2,
+      "fluxPerBar": 1
+    },
+    "campfireFuelId": "duskoak_log"
+  },
+  {
+    "id": "tier_10",
+    "name": "Level 10",
+    "tier": 10,
+    "reqLevel": 10,
+    "materials": {
+      "ore": "kaldite_ore",
+      "flux": "march_stone",
+      "gem": "cairn_garnet",
+      "bar": "kaldite_bar",
+      "log": "cairnpine_log",
+      "shaft": "cairnpine_shaft",
+      "handle": "cairnpine_handle",
+      "hide": "cairn_pelt",
+      "rawFish": "cragfin",
+      "cookedFish": "seared_cragfin",
+      "burntFish": "burnt_cragfin",
+      "rawMeat": "raw_haunch",
+      "cookedMeat": "roast_haunch",
+      "burntMeat": "burnt_haunch",
+      "dagger": "kaldite_dagger",
+      "sword": "kaldite_sword",
+      "helm": "kaldite_helm",
+      "body": "kaldite_plate",
+      "legs": "kaldite_greaves",
+      "boots": "kaldite_boots",
+      "gloves": "kaldite_gauntlets",
+      "pickaxe": "kaldite_pickaxe",
+      "hatchet": "kaldite_hatchet",
+      "staff": "cairnpine_staff",
+      "wand": "cairnpine_wand",
+      "rod": "cairnpine_rod",
+      "shield": "cairnpine_shield",
+      "hood": "cairnpelt_hood",
+      "robe": "cairnpelt_robe",
+      "magicLegs": "cairnpelt_leggings",
+      "magicBoots": "cairnpelt_boots",
+      "wraps": "cairnpelt_wraps"
+    },
+    "resourceIds": [
+      "ore_kaldite",
+      "tree_cairnpine",
+      "fish_cragfin",
+      "essence_water"
+    ],
+    "equipment": [
+      {
+        "id": "kaldite_dagger",
+        "name": "Cobalt Dagger",
+        "description": "A punch of black Cobalt with a needle point. It goes through moor-rot like paper.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "kaldite_sword",
+        "name": "Cobalt Sword",
+        "description": "Hillcrest's best. Cobalt holds an edge through stone, which is the whole point up here.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "cairnpine_shield",
+        "name": "Oak Shield",
+        "description": "Oak faced in Cobalt. It rings when a bear hits it, and the bear stops.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "kaldite_helm",
+        "name": "Cobalt Helm",
+        "description": "A closed helm with a stone-cutter's brow ridge.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "kaldite_plate",
+        "name": "Cobalt Plate",
+        "description": "Three bars of Cobalt. Quarry crews were buried in these, which is not a selling point.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "kaldite_greaves",
+        "name": "Cobalt Greaves",
+        "description": "Full leg plate, hinged at the knee.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "kaldite_boots",
+        "name": "Cobalt Boots",
+        "description": "Cleated for wet cairn stone.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "kaldite_gauntlets",
+        "name": "Cobalt Gauntlets",
+        "description": "Cobalt over the knuckle, garnet rivets. Loud.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "cairnpine_wand",
+        "name": "Oak Wand",
+        "description": "Resin-dark oak with an empty Cobalt socket and no light of its own.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "cairnpine_staff",
+        "name": "Oak Staff",
+        "description": "A two-handed oak shaft with an empty Cobalt cage. It stays dark until upgraded.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "cairnpelt_hood",
+        "name": "Fur Hood",
+        "description": "Cut from a bear's winter coat. It does not take dye and it does not tear.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "cairnpelt_robe",
+        "name": "Fur Robe",
+        "description": "Three pelts, stitched with Cobalt wire. Quarry Warden's floor is survivable in this.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "cairnpelt_leggings",
+        "name": "Fur Leggings",
+        "description": "Pelt to the ankle, weighted at the hem so it does not lift on the moor.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "cairnpelt_boots",
+        "name": "Fur Boots",
+        "description": "Silent on stone. The quarry crews would have hated them.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "cairnpelt_wraps",
+        "name": "Fur Wraps",
+        "description": "Pelt strips to the wrist. Garnet dust worked into the weave.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "tideworn_sword",
+        "name": "Cave Ogre Sword",
+        "description": "Cobalt worked smooth as sea glass. It swings like it remembers the water.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "tideworn_staff",
+        "name": "Cave Ogre Staff",
+        "description": "Oak bleached and salt-cured. The cage weeps a little in the cold.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t10",
+        "name": "Cobalt Garnet Ring",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cairn_garnet",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t10",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t10",
+        "name": "Cobalt Garnet Earring",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cairn_garnet",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t10",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "smelt_kaldite_bar",
+        "name": "Cobalt Bar",
+        "inputs": [
+          {
+            "itemId": "kaldite_ore",
+            "quantity": 2
+          },
+          {
+            "itemId": "march_stone",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "smith_kaldite_dagger",
+        "name": "Cobalt Dagger",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cairnpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_dagger",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_sword",
+        "name": "Cobalt Sword",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "cairnpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_helm",
+        "name": "Cobalt Helm",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_plate",
+        "name": "Cobalt Body",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_greaves",
+        "name": "Cobalt Legs",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_boots",
+        "name": "Cobalt Boots",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_gauntlets",
+        "name": "Cobalt Gloves",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_pickaxe",
+        "name": "Cobalt Pickaxe",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "cairnpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_kaldite_hatchet",
+        "name": "Cobalt Hatchet",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "cairnpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "cook_seared_cragfin",
+        "name": "Seared Perch",
+        "inputs": [
+          {
+            "itemId": "cragfin",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "seared_cragfin",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_cragfin"
+      },
+      {
+        "id": "cook_roast_haunch",
+        "name": "Roast Haunch",
+        "inputs": [
+          {
+            "itemId": "raw_haunch",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "roast_haunch",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_haunch"
+      },
+      {
+        "id": "craft_water_wand",
+        "name": "Water Wand",
+        "inputs": [
+          {
+            "itemId": "cairnpine_wand",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "water_wand",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_water_staff",
+        "name": "Water Staff",
+        "inputs": [
+          {
+            "itemId": "cairnpine_staff",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "water_staff",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_cairnpelt_robe",
+        "name": "Fur Robe",
+        "inputs": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_cairnpelt_leggings",
+        "name": "Fur Leggings",
+        "inputs": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_cairnpelt_hood",
+        "name": "Fur Hood",
+        "inputs": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_cairnpelt_boots",
+        "name": "Fur Boots",
+        "inputs": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_cairnpelt_wraps",
+        "name": "Fur Wraps",
+        "inputs": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "fletch_cairnpine_shaft",
+        "name": "Oak Shafts",
+        "inputs": [
+          {
+            "itemId": "cairnpine_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_shaft",
+          "quantity": 4
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cairnpine_handle",
+        "name": "Oak Handles",
+        "inputs": [
+          {
+            "itemId": "cairnpine_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_handle",
+          "quantity": 2
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cairnpine_staff",
+        "name": "Oak Staff",
+        "inputs": [
+          {
+            "itemId": "cairnpine_shaft",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cairnpine_wand",
+        "name": "Oak Wand",
+        "inputs": [
+          {
+            "itemId": "cairnpine_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cairnpine_shield",
+        "name": "Oak Shield",
+        "inputs": [
+          {
+            "itemId": "cairnpine_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cairnpine_rod",
+        "name": "Oak Rod",
+        "inputs": [
+          {
+            "itemId": "cairnpine_shaft",
+            "quantity": 2
+          },
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_bighorn_fleece",
+        "name": "Fleece-lined Fur Leggings",
+        "inputs": [
+          {
+            "itemId": "bighorn_fleece",
+            "quantity": 3
+          },
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "creature_crocodile_scute",
+        "name": "Scute-soled Fur Boots",
+        "inputs": [
+          {
+            "itemId": "crocodile_scute",
+            "quantity": 3
+          },
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_boots",
+          "quantity": 2
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "creature_tortoise_shell_plate",
+        "name": "Shell-backed Pine Shield",
+        "inputs": [
+          {
+            "itemId": "tortoise_shell_plate",
+            "quantity": 3
+          },
+          {
+            "itemId": "cairnpine_log",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cairnpine_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_bustard_plume",
+        "name": "Plume-lined Fur Robe",
+        "inputs": [
+          {
+            "itemId": "bustard_plume",
+            "quantity": 3
+          },
+          {
+            "itemId": "cairn_pelt",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cairnpelt_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "creature_beetle_mandible",
+        "name": "Mandible-braced Cobalt Pickaxe",
+        "inputs": [
+          {
+            "itemId": "beetle_mandible",
+            "quantity": 3
+          },
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cairnpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "creature_nightmare_plate",
+        "name": "Pale Dragon Plated Cobalt Helm",
+        "inputs": [
+          {
+            "itemId": "nightmare_plate",
+            "quantity": 3
+          },
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "kaldite_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      }
+    ],
+    "presentation": {
+      "metalName": "Cobalt",
+      "woodName": "Oak"
+    },
+    "magic": {
+      "element": "water",
+      "essence": "water_essence",
+      "orb": "water_orb",
+      "staff": "water_staff",
+      "wand": "water_wand"
+    },
+    "smelting": {
+      "orePerBar": 2,
+      "fluxPerBar": 2
+    },
+    "campfireFuelId": "cairnpine_log"
+  },
+  {
+    "id": "tier_20",
+    "name": "Level 20",
+    "tier": 20,
+    "reqLevel": 20,
+    "materials": {
+      "ore": "emberite_ore",
+      "flux": "kilnstone",
+      "gem": "fire_opal",
+      "bar": "emberite_bar",
+      "log": "cinderpine_log",
+      "shaft": "cinderpine_shaft",
+      "handle": "cinderpine_handle",
+      "hide": "charhide",
+      "rawFish": "ashfin",
+      "cookedFish": "seared_ashfin",
+      "burntFish": "burnt_ashfin",
+      "rawMeat": "raw_ember_haunch",
+      "cookedMeat": "roast_ember_haunch",
+      "burntMeat": "burnt_ember_haunch",
+      "dagger": "emberite_dagger",
+      "sword": "emberite_sword",
+      "helm": "emberite_helm",
+      "body": "emberite_plate",
+      "legs": "emberite_greaves",
+      "boots": "emberite_boots",
+      "gloves": "emberite_gauntlets",
+      "pickaxe": "emberite_pickaxe",
+      "hatchet": "emberite_hatchet",
+      "staff": "cinderpine_staff",
+      "wand": "cinderpine_wand",
+      "rod": "cinderpine_rod",
+      "shield": "cinderpine_shield",
+      "hood": "charhide_hood",
+      "robe": "charhide_robe",
+      "magicLegs": "charhide_leggings",
+      "magicBoots": "charhide_boots",
+      "wraps": "charhide_wraps"
+    },
+    "resourceIds": [
+      "ore_emberite",
+      "ore_kilnstone",
+      "tree_cinderpine",
+      "fish_ashfin",
+      "essence_fire"
+    ],
+    "equipment": [
+      {
+        "id": "emberite_dagger",
+        "name": "Titanium Dagger",
+        "description": "A hand-width of Titanium that never fully cools. It goes in easier than it comes out.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "emberite_sword",
+        "name": "Titanium Sword",
+        "description": "Kiln-forged and quenched twice. The edge holds a dull orange line in the dark.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "cinderpine_shield",
+        "name": "Walnut Shield",
+        "description": "Layered walnut faced in Titanium. Built to withstand heavy blows.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "emberite_helm",
+        "name": "Titanium Helm",
+        "description": "A closed helm with a smoke-vent crown. Built for standing close to heat.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "emberite_plate",
+        "name": "Titanium Plate",
+        "description": "Five bars of Titanium. It keeps the warmth of the forge for a full day's walk.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "emberite_greaves",
+        "name": "Titanium Greaves",
+        "description": "Full leg plate, smoke-blued. Ember and scree both stay outside it.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "emberite_boots",
+        "name": "Titanium Boots",
+        "description": "Soled in heavy hide over Titanium shanks. Warm ground stops mattering.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "emberite_gauntlets",
+        "name": "Titanium Gauntlets",
+        "description": "Fingered plate with fire-opal rivets. They tick as they cool.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "cinderpine_wand",
+        "name": "Walnut Wand",
+        "description": "Polished walnut with an empty Titanium socket. It stays unlit until the altar takes it.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "cinderpine_staff",
+        "name": "Walnut Staff",
+        "description": "A two-handed walnut shaft crowned with an empty Titanium cage, dark until charged.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "charhide_hood",
+        "name": "Heavy Hide Hood",
+        "description": "Seared hide with the grain still showing. Kiln heat rolls off it.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "charhide_robe",
+        "name": "Heavy Hide Robe",
+        "description": "Three heavy hides stitched with Titanium wire. The Fire Ogre arena is survivable in this.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "charhide_leggings",
+        "name": "Heavy Hide Leggings",
+        "description": "Heavy Hide to the ankle, weighted so foothill gusts leave it alone.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "charhide_boots",
+        "name": "Heavy Hide Boots",
+        "description": "Silent on warm rock. Ash does not hold a footprint in these.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "charhide_wraps",
+        "name": "Heavy Hide Wraps",
+        "description": "Seared strips wound to the wrist, fire-opal dust in the weave.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "cinderwake_sword",
+        "name": "Fire Ogre Sword",
+        "description": "Titanium quenched in the arena's own spring. The orange line down the edge never fades.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "cinderwake_staff",
+        "name": "Fire Ogre Staff",
+        "description": "Walnut the fire chose not to eat. The empty cage sheds a slow drift of sparks.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t20",
+        "name": "Titanium Opal Ring",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t20",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t20",
+        "name": "Titanium Opal Earring",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t20",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "smelt_emberite_bar",
+        "name": "Titanium Bar",
+        "inputs": [
+          {
+            "itemId": "emberite_ore",
+            "quantity": 3
+          },
+          {
+            "itemId": "kilnstone",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "emberite_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "smith_emberite_dagger",
+        "name": "Titanium Dagger",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cinderpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_dagger",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_sword",
+        "name": "Titanium Sword",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "cinderpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_helm",
+        "name": "Titanium Helm",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "emberite_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_plate",
+        "name": "Titanium Body",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "emberite_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_greaves",
+        "name": "Titanium Legs",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "emberite_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_boots",
+        "name": "Titanium Boots",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_gauntlets",
+        "name": "Titanium Gloves",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_pickaxe",
+        "name": "Titanium Pickaxe",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "cinderpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_emberite_hatchet",
+        "name": "Titanium Hatchet",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "cinderpine_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "cook_seared_ashfin",
+        "name": "Seared Bass",
+        "inputs": [
+          {
+            "itemId": "ashfin",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "seared_ashfin",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_ashfin"
+      },
+      {
+        "id": "cook_roast_ember_haunch",
+        "name": "Roast Prime Haunch",
+        "inputs": [
+          {
+            "itemId": "raw_ember_haunch",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "roast_ember_haunch",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_ember_haunch"
+      },
+      {
+        "id": "craft_fire_wand",
+        "name": "Fire Wand",
+        "inputs": [
+          {
+            "itemId": "cinderpine_wand",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "fire_wand",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_fire_staff",
+        "name": "Fire Staff",
+        "inputs": [
+          {
+            "itemId": "cinderpine_staff",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "fire_staff",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_essence_altar"
+      },
+      {
+        "id": "craft_charhide_robe",
+        "name": "Heavy Hide Robe",
+        "inputs": [
+          {
+            "itemId": "charhide",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "charhide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_charhide_leggings",
+        "name": "Heavy Hide Leggings",
+        "inputs": [
+          {
+            "itemId": "charhide",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "charhide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_charhide_hood",
+        "name": "Heavy Hide Hood",
+        "inputs": [
+          {
+            "itemId": "charhide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "charhide_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_charhide_boots",
+        "name": "Heavy Hide Boots",
+        "inputs": [
+          {
+            "itemId": "charhide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "charhide_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_charhide_wraps",
+        "name": "Heavy Hide Wraps",
+        "inputs": [
+          {
+            "itemId": "charhide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "charhide_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "fletch_cinderpine_shaft",
+        "name": "Walnut Shafts",
+        "inputs": [
+          {
+            "itemId": "cinderpine_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_shaft",
+          "quantity": 4
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cinderpine_handle",
+        "name": "Walnut Handles",
+        "inputs": [
+          {
+            "itemId": "cinderpine_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_handle",
+          "quantity": 2
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cinderpine_staff",
+        "name": "Walnut Staff",
+        "inputs": [
+          {
+            "itemId": "cinderpine_shaft",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cinderpine_wand",
+        "name": "Walnut Wand",
+        "inputs": [
+          {
+            "itemId": "cinderpine_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cinderpine_shield",
+        "name": "Walnut Shield",
+        "inputs": [
+          {
+            "itemId": "cinderpine_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_cinderpine_rod",
+        "name": "Walnut Rod",
+        "inputs": [
+          {
+            "itemId": "cinderpine_shaft",
+            "quantity": 2
+          },
+          {
+            "itemId": "charhide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_salamander_secretion",
+        "name": "Salamander-fluxed Titanium Bar",
+        "inputs": [
+          {
+            "itemId": "salamander_secretion",
+            "quantity": 3
+          },
+          {
+            "itemId": "emberite_ore",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "emberite_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "creature_monitor_sinew",
+        "name": "Sinew-bound Cedar Rod",
+        "inputs": [
+          {
+            "itemId": "monitor_sinew",
+            "quantity": 3
+          },
+          {
+            "itemId": "cinderpine_shaft",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cinderpine_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "creature_ravager_talon",
+        "name": "Demon Claw Grip Titanium Dagger",
+        "inputs": [
+          {
+            "itemId": "ravager_talon",
+            "quantity": 3
+          },
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "emberite_dagger",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "creature_drake_scale",
+        "name": "Trim Armored Dragon Hide Sheets",
+        "inputs": [
+          {
+            "itemId": "drake_scale",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "charhide",
+          "quantity": 2
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      }
+    ],
+    "presentation": {
+      "metalName": "Titanium",
+      "woodName": "Walnut"
+    },
+    "magic": {
+      "element": "fire",
+      "essence": "fire_essence",
+      "orb": "fire_orb",
+      "staff": "fire_staff",
+      "wand": "fire_wand"
+    },
+    "smelting": {
+      "orePerBar": 3,
+      "fluxPerBar": 2
+    },
+    "campfireFuelId": "cinderpine_log"
+  },
+  {
+    "id": "tier_30",
+    "name": "Level 30",
+    "tier": 30,
+    "reqLevel": 30,
+    "materials": {
+      "ore": "dewglass_ore",
+      "hide": "mistweave",
+      "thread": "mistweave_thread",
+      "bar": "dewglass_bar",
+      "log": "willow_log"
+    },
+    "resourceIds": [
+      "fish_crown_trout",
+      "tree_willow",
+      "dewglass_ore",
+      "tree_gloam_willow"
+    ],
+    "equipment": [
+      {
+        "id": "dewglass_sword",
+        "name": "Dewglass Sword",
+        "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A solid double-edged blade with beveled cutting edges, a shaped crossguard and a wrapped wood grip.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "willow_shield",
+        "name": "Willow Shield",
+        "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A curved layered-wood shield with a reinforced metal rim, central boss and two leather straps on its back.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "dewglass_helm",
+        "name": "Dewglass Helm",
+        "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A fitted helmet with a raised brow, layered cheek guards and a protective nape.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "dewglass_plate",
+        "name": "Dewglass Plate",
+        "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A shaped breastplate and backplate with overlapping shoulder plates, a fitted waist and articulated lower lames.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "dewglass_greaves",
+        "name": "Dewglass Greaves",
+        "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A matched pair of leg guards with separate thigh shells, raised knee cups and shin plates over leather lining.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "dewglass_boots",
+        "name": "Dewglass Boots",
+        "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A matched pair of leather-soled boots with overlapping metal toe plates, ankle guards and rear buckles.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "dewglass_gauntlets",
+        "name": "Dewglass Gauntlets",
+        "description": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps. A matched pair of five-fingered gauntlets with articulated knuckles, flared cuffs and leather palms.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "willow_wand",
+        "name": "Willow Wand",
+        "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A short tapered wand with a wrapped grip and a small crystal held in an open metal tip cage. One-handed; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "willow_staff",
+        "name": "Willow Staff",
+        "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A long willow staff with a bent branch loop around a Dewglass crystal. Two-handed; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "mistweave_hood",
+        "name": "Mistweave Hood",
+        "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A deep open-faced hood with an embroidered brow, folded lining and a short shoulder cowl.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "mistweave_robe",
+        "name": "Mistweave Robe",
+        "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A fitted robe with flared sleeves, pale botanical embroidery and split pointed tails.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "mistweave_leggings",
+        "name": "Mistweave Leggings",
+        "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A fitted pair of trousers with a reinforced waistband, separate legs, stitched knee panels and tapered ankle cuffs.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "mistweave_boots",
+        "name": "Mistweave Boots",
+        "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A matched pair of soft casting boots with turned cuffs, side lacing, embroidered uppers and dark leather soles.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "mistweave_wraps",
+        "name": "Mistweave Wraps",
+        "description": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds. A matched pair of fingerless hand wraps with layered wrist bands, fitted thumb openings and embroidered cuff borders.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "dewglass_pickaxe",
+        "name": "Dewglass Pickaxe",
+        "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A curved two-ended Dewglass mining head with a pointed pick and a flat chisel. Adds 24 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_mining"
+      },
+      {
+        "id": "dewglass_hatchet",
+        "name": "Dewglass Hatchet",
+        "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A broad bearded Dewglass axe head with a honed edge and wedge-fastened eye. Adds 24 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_woodcutting"
+      },
+      {
+        "id": "willow_rod",
+        "name": "Willow Rod",
+        "description": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings. A flexible fishing rod with spaced line guides, a working reel, crank knob and hanging float. Adds 24 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_fishing"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t30",
+        "name": "Dewglass Quartz Ring",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "pale_quartz",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t30",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t30",
+        "name": "Dewglass Quartz Earring",
+        "inputs": [
+          {
+            "itemId": "kaldite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "pale_quartz",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t30",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "cook_crown_trout",
+        "name": "Cooked Trout",
+        "inputs": [
+          {
+            "itemId": "crown_trout",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cooked_crown_trout",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_crown_trout"
+      },
+      {
+        "id": "smelt_dewglass_bar",
+        "name": "Dewglass Bar",
+        "inputs": [
+          {
+            "itemId": "dewglass_ore",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "fletch_willow_handle",
+        "name": "Willow Handle",
+        "inputs": [
+          {
+            "itemId": "willow_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "willow_handle",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_mistweave_thread",
+        "name": "Mistweave Thread",
+        "inputs": [
+          {
+            "itemId": "mistweave",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "mistweave_thread",
+          "quantity": 4
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_dewglass_sword",
+        "name": "Dewglass Sword",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 3
+          },
+          {
+            "itemId": "willow_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_willow_shield",
+        "name": "Willow Shield",
+        "inputs": [
+          {
+            "itemId": "willow_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "willow_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_dewglass_helm",
+        "name": "Dewglass Helm",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_dewglass_plate",
+        "name": "Dewglass Plate",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_dewglass_greaves",
+        "name": "Dewglass Greaves",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_dewglass_boots",
+        "name": "Dewglass Boots",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_dewglass_gauntlets",
+        "name": "Dewglass Gauntlets",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_willow_wand",
+        "name": "Willow Wand",
+        "inputs": [
+          {
+            "itemId": "willow_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "willow_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_willow_staff",
+        "name": "Willow Staff",
+        "inputs": [
+          {
+            "itemId": "willow_log",
+            "quantity": 3
+          },
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 5
+          }
+        ],
+        "output": {
+          "itemId": "willow_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_mistweave_hood",
+        "name": "Mistweave Hood",
+        "inputs": [
+          {
+            "itemId": "mistweave",
+            "quantity": 2
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "mistweave_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_mistweave_robe",
+        "name": "Mistweave Robe",
+        "inputs": [
+          {
+            "itemId": "mistweave",
+            "quantity": 4
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "mistweave_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_mistweave_leggings",
+        "name": "Mistweave Leggings",
+        "inputs": [
+          {
+            "itemId": "mistweave",
+            "quantity": 4
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "mistweave_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_mistweave_boots",
+        "name": "Mistweave Boots",
+        "inputs": [
+          {
+            "itemId": "mistweave",
+            "quantity": 1
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "mistweave_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_mistweave_wraps",
+        "name": "Mistweave Wraps",
+        "inputs": [
+          {
+            "itemId": "mistweave",
+            "quantity": 1
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "mistweave_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_dewglass_pickaxe",
+        "name": "Dewglass Pickaxe",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "willow_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_dewglass_hatchet",
+        "name": "Dewglass Hatchet",
+        "inputs": [
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "willow_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "dewglass_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_willow_rod",
+        "name": "Willow Rod",
+        "inputs": [
+          {
+            "itemId": "willow_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "dewglass_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "mistweave_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "willow_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      }
+    ],
+    "presentation": {
+      "metal": "dewglass",
+      "metalName": "Dewglass",
+      "wood": "willow",
+      "woodName": "Willow",
+      "hideName": "Mistweave",
+      "threadName": "Mistweave Thread",
+      "metalArt": "Translucent turquoise mineral-metal with pearly silver edges, overlapping leaf-shaped plates and dark leather straps",
+      "clothArt": "Layered blue-green cloth with pointed petal panels, pale embroidered seams and softly shaded folds",
+      "woodArt": "Pale willow with bent flowing grain, turquoise bindings and pearly silver Dewglass fittings"
+    }
+  },
+  {
+    "id": "tier_40",
+    "name": "Level 40",
+    "tier": 40,
+    "reqLevel": 40,
+    "materials": {
+      "ore": "crownsilver_ore",
+      "hide": "crownhide",
+      "thread": "crownhide_thread",
+      "bar": "crownsilver_bar",
+      "log": "maple_log"
+    },
+    "resourceIds": [
+      "fish_crown_tuna",
+      "tree_maple",
+      "crown_silver_ore"
+    ],
+    "equipment": [
+      {
+        "id": "crownsilver_sword",
+        "name": "Crownsilver Sword",
+        "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A solid double-edged blade with beveled cutting edges, a shaped crossguard and a wrapped wood grip.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "maple_shield",
+        "name": "Maple Shield",
+        "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A curved layered-wood shield with a reinforced metal rim, central boss and two leather straps on its back.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "crownsilver_helm",
+        "name": "Crownsilver Helm",
+        "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A fitted helmet with a raised brow, layered cheek guards and a protective nape.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "crownsilver_plate",
+        "name": "Crownsilver Plate",
+        "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A shaped breastplate and backplate with overlapping shoulder plates, a fitted waist and articulated lower lames.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "crownsilver_greaves",
+        "name": "Crownsilver Greaves",
+        "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A matched pair of leg guards with separate thigh shells, raised knee cups and shin plates over leather lining.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "crownsilver_boots",
+        "name": "Crownsilver Boots",
+        "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A matched pair of leather-soled boots with overlapping metal toe plates, ankle guards and rear buckles.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "crownsilver_gauntlets",
+        "name": "Crownsilver Gauntlets",
+        "description": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer. A matched pair of five-fingered gauntlets with articulated knuckles, flared cuffs and leather palms.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "maple_wand",
+        "name": "Maple Wand",
+        "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A short tapered wand with a wrapped grip and a small crystal held in an open metal tip cage. One-handed; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "maple_staff",
+        "name": "Maple Staff",
+        "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A long staff with a forked metal crown around a large crystal, wrapped handhold and reinforced foot. Two-handed; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "crownhide_hood",
+        "name": "Crownhide Hood",
+        "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A deep open-faced hood with an embroidered brow, folded lining and a short shoulder cowl.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "crownhide_robe",
+        "name": "Crownhide Robe",
+        "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A fitted sleeveless robe with a belted waist, overlapping front panels and split flowing tails. Open armholes leave the arms visible.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "crownhide_leggings",
+        "name": "Crownhide Leggings",
+        "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A fitted pair of trousers with a reinforced waistband, separate legs, stitched knee panels and tapered ankle cuffs.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "crownhide_boots",
+        "name": "Crownhide Boots",
+        "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A matched pair of soft casting boots with turned cuffs, side lacing, embroidered uppers and dark leather soles.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "crownhide_wraps",
+        "name": "Crownhide Wraps",
+        "description": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching. A matched pair of fingerless hand wraps with layered wrist bands, fitted thumb openings and embroidered cuff borders.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "crownsilver_pickaxe",
+        "name": "Crownsilver Pickaxe",
+        "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A curved two-ended Crownsilver mining head with a pointed pick and a flat chisel. Adds 32 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_mining"
+      },
+      {
+        "id": "crownsilver_hatchet",
+        "name": "Crownsilver Hatchet",
+        "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A broad bearded Crownsilver axe head with a honed edge and wedge-fastened eye. Adds 32 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_woodcutting"
+      },
+      {
+        "id": "maple_rod",
+        "name": "Maple Rod",
+        "description": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings. A flexible fishing rod with spaced line guides, a working reel, crank knob and hanging float. Adds 32 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_fishing"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t40",
+        "name": "Titanium Amber Ring",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "vell_amber",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t40",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t40",
+        "name": "Titanium Amber Earring",
+        "inputs": [
+          {
+            "itemId": "emberite_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "vell_amber",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t40",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "cook_crown_tuna",
+        "name": "Cooked Tuna",
+        "inputs": [
+          {
+            "itemId": "crown_tuna",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cooked_crown_tuna",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_crown_tuna"
+      },
+      {
+        "id": "smelt_crownsilver_bar",
+        "name": "Crownsilver Bar",
+        "inputs": [
+          {
+            "itemId": "crownsilver_ore",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "fletch_maple_handle",
+        "name": "Maple Handle",
+        "inputs": [
+          {
+            "itemId": "maple_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "maple_handle",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_crownhide_thread",
+        "name": "Crownhide Lacing",
+        "inputs": [
+          {
+            "itemId": "crownhide",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crownhide_thread",
+          "quantity": 4
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_crownsilver_sword",
+        "name": "Crownsilver Sword",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 3
+          },
+          {
+            "itemId": "maple_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_maple_shield",
+        "name": "Maple Shield",
+        "inputs": [
+          {
+            "itemId": "maple_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "maple_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_crownsilver_helm",
+        "name": "Crownsilver Helm",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_crownsilver_plate",
+        "name": "Crownsilver Plate",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_crownsilver_greaves",
+        "name": "Crownsilver Greaves",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_crownsilver_boots",
+        "name": "Crownsilver Boots",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_crownsilver_gauntlets",
+        "name": "Crownsilver Gauntlets",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_maple_wand",
+        "name": "Maple Wand",
+        "inputs": [
+          {
+            "itemId": "maple_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "maple_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_maple_staff",
+        "name": "Maple Staff",
+        "inputs": [
+          {
+            "itemId": "maple_log",
+            "quantity": 3
+          },
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 5
+          }
+        ],
+        "output": {
+          "itemId": "maple_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_crownhide_hood",
+        "name": "Crownhide Hood",
+        "inputs": [
+          {
+            "itemId": "crownhide",
+            "quantity": 2
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "crownhide_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_crownhide_robe",
+        "name": "Crownhide Robe",
+        "inputs": [
+          {
+            "itemId": "crownhide",
+            "quantity": 4
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "crownhide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_crownhide_leggings",
+        "name": "Crownhide Leggings",
+        "inputs": [
+          {
+            "itemId": "crownhide",
+            "quantity": 4
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "crownhide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_crownhide_boots",
+        "name": "Crownhide Boots",
+        "inputs": [
+          {
+            "itemId": "crownhide",
+            "quantity": 1
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "crownhide_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_crownhide_wraps",
+        "name": "Crownhide Wraps",
+        "inputs": [
+          {
+            "itemId": "crownhide",
+            "quantity": 1
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "crownhide_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_crownsilver_pickaxe",
+        "name": "Crownsilver Pickaxe",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "maple_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_crownsilver_hatchet",
+        "name": "Crownsilver Hatchet",
+        "inputs": [
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "maple_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crownsilver_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_maple_rod",
+        "name": "Maple Rod",
+        "inputs": [
+          {
+            "itemId": "maple_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "crownsilver_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "crownhide_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "maple_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      }
+    ],
+    "presentation": {
+      "metal": "crownsilver",
+      "metalName": "Crownsilver",
+      "wood": "maple",
+      "woodName": "Maple",
+      "hideName": "Crownhide",
+      "threadName": "Crownhide Lacing",
+      "metalArt": "Ivory silver with shaped fluting, brass fasteners and a dark navy underlayer",
+      "clothArt": "Cream and tan pebbled leather with dark blue gussets, brass buckles, braided leather borders and visible saddle stitching",
+      "woodArt": "Amber-red maple with figured grain, warm leather grips and silver and brass fittings"
+    }
+  },
+  {
+    "id": "tier_50",
+    "name": "Level 50",
+    "tier": 50,
+    "reqLevel": 50,
+    "materials": {
+      "ore": "cindervein_ore",
+      "hide": "dragonhide",
+      "thread": "grave_thread",
+      "flux": "molten_heart",
+      "gem": "fire_opal",
+      "bar": "cindersteel_bar",
+      "log": "teak_log"
+    },
+    "resourceIds": [
+      "tree_teak",
+      "cindervein_vein",
+      "tree_wilderness_teak"
+    ],
+    "equipment": [
+      {
+        "id": "cindersteel_sword",
+        "name": "Cindersteel Sword",
+        "description": "A broad dark blade on an oiled teak grip. Requires level 50 Melee.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "teak_shield",
+        "name": "Teak Shield",
+        "description": "Layered teak faced in Cindersteel.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "cindersteel_helm",
+        "name": "Cindersteel Helm",
+        "description": "Cindersteel helm forged for level 50 melee combat.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "cindersteel_plate",
+        "name": "Cindersteel Plate",
+        "description": "Cindersteel plate forged for level 50 melee combat.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "cindersteel_greaves",
+        "name": "Cindersteel Greaves",
+        "description": "Cindersteel greaves forged for level 50 melee combat.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "cindersteel_boots",
+        "name": "Cindersteel Boots",
+        "description": "Cindersteel boots forged for level 50 melee combat.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "cindersteel_gauntlets",
+        "name": "Cindersteel Gauntlets",
+        "description": "Cindersteel gauntlets forged for level 50 melee combat.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "teak_wand",
+        "name": "Teak Wand",
+        "description": "Teak wrapped with Grave Thread. A fast one-handed weapon; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "teak_staff",
+        "name": "Teak Staff",
+        "description": "Teak crowned with Cindersteel. A heavy two-handed casting weapon; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "dragonhide_hood",
+        "name": "Dragonhide Hood",
+        "description": "Dragonhide hood sewn with Grave Thread. Requires level 50 Magic.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "dragonhide_robe",
+        "name": "Dragonhide Robe",
+        "description": "Dragonhide robe sewn with Grave Thread. Requires level 50 Magic.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "dragonhide_leggings",
+        "name": "Dragonhide Leggings",
+        "description": "Dragonhide leggings sewn with Grave Thread. Requires level 50 Magic.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "dragonhide_boots",
+        "name": "Dragonhide Boots",
+        "description": "Dragonhide boots sewn with Grave Thread. Requires level 50 Magic.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "dragonhide_wraps",
+        "name": "Dragonhide Wraps",
+        "description": "Dragonhide wraps sewn with Grave Thread. Requires level 50 Magic.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "cindersteel_pickaxe",
+        "name": "Cindersteel Pickaxe",
+        "description": "Cindersteel on a teak handle. Adds 39 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_mining"
+      },
+      {
+        "id": "cindersteel_hatchet",
+        "name": "Cindersteel Hatchet",
+        "description": "Cindersteel on a teak handle. Adds 39 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_woodcutting"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t50",
+        "name": "Cindersteel Garnet Ring",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cairn_garnet",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t50",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t50",
+        "name": "Cindersteel Garnet Earring",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "cairn_garnet",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t50",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "smelt_cindersteel_bar",
+        "name": "Cindersteel Bar",
+        "inputs": [
+          {
+            "itemId": "cindervein_ore",
+            "quantity": 3
+          },
+          {
+            "itemId": "molten_heart",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "fletch_teak_handle",
+        "name": "Teak Handle",
+        "inputs": [
+          {
+            "itemId": "teak_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "teak_handle",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_cindersteel_sword",
+        "name": "Cindersteel Sword",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 3
+          },
+          {
+            "itemId": "teak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_teak_shield",
+        "name": "Teak Shield",
+        "inputs": [
+          {
+            "itemId": "teak_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "teak_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_cindersteel_helm",
+        "name": "Cindersteel Helm",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_cindersteel_plate",
+        "name": "Cindersteel Plate",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_cindersteel_greaves",
+        "name": "Cindersteel Greaves",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_cindersteel_boots",
+        "name": "Cindersteel Boots",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_cindersteel_gauntlets",
+        "name": "Cindersteel Gauntlets",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_teak_wand",
+        "name": "Teak Wand",
+        "inputs": [
+          {
+            "itemId": "teak_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "teak_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_teak_staff",
+        "name": "Teak Staff",
+        "inputs": [
+          {
+            "itemId": "teak_log",
+            "quantity": 3
+          },
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 5
+          }
+        ],
+        "output": {
+          "itemId": "teak_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_dragonhide_hood",
+        "name": "Dragonhide Hood",
+        "inputs": [
+          {
+            "itemId": "dragonhide",
+            "quantity": 2
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "dragonhide_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_dragonhide_robe",
+        "name": "Dragonhide Robe",
+        "inputs": [
+          {
+            "itemId": "dragonhide",
+            "quantity": 4
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "dragonhide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_dragonhide_leggings",
+        "name": "Dragonhide Leggings",
+        "inputs": [
+          {
+            "itemId": "dragonhide",
+            "quantity": 4
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "dragonhide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_dragonhide_boots",
+        "name": "Dragonhide Boots",
+        "inputs": [
+          {
+            "itemId": "dragonhide",
+            "quantity": 1
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "dragonhide_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_dragonhide_wraps",
+        "name": "Dragonhide Wraps",
+        "inputs": [
+          {
+            "itemId": "dragonhide",
+            "quantity": 1
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "dragonhide_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_cindersteel_pickaxe",
+        "name": "Cindersteel Pickaxe",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "teak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_cindersteel_hatchet",
+        "name": "Cindersteel Hatchet",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "teak_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cindersteel_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_ashseal_guard",
+        "name": "Ashseal Guard",
+        "inputs": [
+          {
+            "itemId": "teak_shield",
+            "quantity": 1
+          },
+          {
+            "itemId": "ashseal_iron",
+            "quantity": 3
+          },
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "ashseal_guard",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_regent_staff",
+        "name": "Regent Staff",
+        "inputs": [
+          {
+            "itemId": "teak_staff",
+            "quantity": 1
+          },
+          {
+            "itemId": "furnace_crown",
+            "quantity": 3
+          },
+          {
+            "itemId": "grave_thread",
+            "quantity": 6
+          }
+        ],
+        "output": {
+          "itemId": "regent_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      }
+    ],
+    "presentation": {
+      "metal": "cindersteel",
+      "metalName": "Cindersteel",
+      "wood": "teak",
+      "woodName": "Teak",
+      "hideName": "Dragonhide",
+      "jewellery": "emberweave"
+    }
+  },
+  {
+    "id": "tier_60",
+    "name": "Level 60",
+    "tier": 60,
+    "reqLevel": 60,
+    "materials": {
+      "ore": "star_amethyst_ore",
+      "hide": "faesilk",
+      "thread": "faesilk_thread",
+      "bar": "staramethyst_bar",
+      "log": "yew_log"
+    },
+    "resourceIds": [
+      "fish_pearlwater_salmon",
+      "tree_yew",
+      "star_amethyst_ore",
+      "tree_fae_yew"
+    ],
+    "equipment": [
+      {
+        "id": "staramethyst_sword",
+        "name": "Star Amethyst Sword",
+        "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A solid double-edged blade with beveled cutting edges, a shaped crossguard and a wrapped wood grip.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "yew_shield",
+        "name": "Yew Shield",
+        "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A curved layered-wood shield with a reinforced metal rim, central boss and two leather straps on its back.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "staramethyst_helm",
+        "name": "Star Amethyst Helm",
+        "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A fitted helmet with a raised brow, layered cheek guards and a protective nape.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "staramethyst_plate",
+        "name": "Star Amethyst Plate",
+        "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A shaped breastplate and backplate with overlapping shoulder plates, a fitted waist and articulated lower lames.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "staramethyst_greaves",
+        "name": "Star Amethyst Greaves",
+        "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A matched pair of leg guards with separate thigh shells, raised knee cups and shin plates over leather lining.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "staramethyst_boots",
+        "name": "Star Amethyst Boots",
+        "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A matched pair of leather-soled boots with overlapping metal toe plates, ankle guards and rear buckles.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "staramethyst_gauntlets",
+        "name": "Star Amethyst Gauntlets",
+        "description": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay. A matched pair of five-fingered gauntlets with articulated knuckles, flared cuffs and leather palms.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "yew_wand",
+        "name": "Yew Wand",
+        "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A short tapered wand with a wrapped grip and a small crystal held in an open metal tip cage. One-handed; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "yew_staff",
+        "name": "Yew Staff",
+        "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A long staff with a forked metal crown around a large crystal, wrapped handhold and reinforced foot. Two-handed; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "faesilk_hood",
+        "name": "Faesilk Hood",
+        "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A deep open-faced hood with an embroidered brow, folded lining and a short shoulder cowl.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "faesilk_robe",
+        "name": "Faesilk Robe",
+        "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A fitted sleeveless robe with a belted waist, overlapping front panels and split flowing tails. Open armholes leave the arms visible.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "faesilk_leggings",
+        "name": "Faesilk Leggings",
+        "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A fitted pair of trousers with a reinforced waistband, separate legs, stitched knee panels and tapered ankle cuffs.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "faesilk_boots",
+        "name": "Faesilk Boots",
+        "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A matched pair of soft casting boots with turned cuffs, side lacing, embroidered uppers and dark leather soles.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "faesilk_wraps",
+        "name": "Faesilk Wraps",
+        "description": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures. A matched pair of fingerless hand wraps with layered wrist bands, fitted thumb openings and embroidered cuff borders.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "staramethyst_pickaxe",
+        "name": "Star Amethyst Pickaxe",
+        "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A curved two-ended Star Amethyst mining head with a pointed pick and a flat chisel. Adds 40 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_mining"
+      },
+      {
+        "id": "staramethyst_hatchet",
+        "name": "Star Amethyst Hatchet",
+        "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A broad bearded Star Amethyst axe head with a honed edge and wedge-fastened eye. Adds 40 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_woodcutting"
+      },
+      {
+        "id": "yew_rod",
+        "name": "Yew Rod",
+        "description": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings. A flexible fishing rod with spaced line guides, a working reel, crank knob and hanging float. Adds 40 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_fishing"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t60",
+        "name": "Cindersteel Opal Ring",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t60",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t60",
+        "name": "Cindersteel Opal Earring",
+        "inputs": [
+          {
+            "itemId": "cindersteel_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t60",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "cook_pearlwater_salmon",
+        "name": "Cooked Salmon",
+        "inputs": [
+          {
+            "itemId": "pearlwater_salmon",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "cooked_pearlwater_salmon",
+          "quantity": 1
+        },
+        "templateId": "production_cook_cooking_range_campfire",
+        "burntItemId": "burnt_pearlwater_salmon"
+      },
+      {
+        "id": "smelt_staramethyst_bar",
+        "name": "Star Amethyst Bar",
+        "inputs": [
+          {
+            "itemId": "star_amethyst_ore",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "fletch_yew_handle",
+        "name": "Yew Handle",
+        "inputs": [
+          {
+            "itemId": "yew_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "yew_handle",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_faesilk_thread",
+        "name": "Faesilk Thread",
+        "inputs": [
+          {
+            "itemId": "faesilk",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "faesilk_thread",
+          "quantity": 4
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_staramethyst_sword",
+        "name": "Star Amethyst Sword",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 3
+          },
+          {
+            "itemId": "yew_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_yew_shield",
+        "name": "Yew Shield",
+        "inputs": [
+          {
+            "itemId": "yew_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "yew_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_staramethyst_helm",
+        "name": "Star Amethyst Helm",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_staramethyst_plate",
+        "name": "Star Amethyst Plate",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_staramethyst_greaves",
+        "name": "Star Amethyst Greaves",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_staramethyst_boots",
+        "name": "Star Amethyst Boots",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_staramethyst_gauntlets",
+        "name": "Star Amethyst Gauntlets",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_yew_wand",
+        "name": "Yew Wand",
+        "inputs": [
+          {
+            "itemId": "yew_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "yew_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_yew_staff",
+        "name": "Yew Staff",
+        "inputs": [
+          {
+            "itemId": "yew_log",
+            "quantity": 3
+          },
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 5
+          }
+        ],
+        "output": {
+          "itemId": "yew_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_faesilk_hood",
+        "name": "Faesilk Hood",
+        "inputs": [
+          {
+            "itemId": "faesilk",
+            "quantity": 2
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "faesilk_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_faesilk_robe",
+        "name": "Faesilk Robe",
+        "inputs": [
+          {
+            "itemId": "faesilk",
+            "quantity": 4
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "faesilk_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_faesilk_leggings",
+        "name": "Faesilk Leggings",
+        "inputs": [
+          {
+            "itemId": "faesilk",
+            "quantity": 4
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "faesilk_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_faesilk_boots",
+        "name": "Faesilk Boots",
+        "inputs": [
+          {
+            "itemId": "faesilk",
+            "quantity": 1
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "faesilk_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_faesilk_wraps",
+        "name": "Faesilk Wraps",
+        "inputs": [
+          {
+            "itemId": "faesilk",
+            "quantity": 1
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "faesilk_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_staramethyst_pickaxe",
+        "name": "Star Amethyst Pickaxe",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "yew_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_staramethyst_hatchet",
+        "name": "Star Amethyst Hatchet",
+        "inputs": [
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "yew_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "staramethyst_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_yew_rod",
+        "name": "Yew Rod",
+        "inputs": [
+          {
+            "itemId": "yew_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "staramethyst_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "faesilk_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "yew_rod",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      }
+    ],
+    "presentation": {
+      "metal": "staramethyst",
+      "metalName": "Star Amethyst",
+      "wood": "yew",
+      "woodName": "Yew",
+      "hideName": "Faesilk",
+      "threadName": "Faesilk Thread",
+      "metalArt": "Dark violet crystalline metal with blue-violet depths, sharp facets and silver branching inlay",
+      "clothArt": "Lavender and teal silk with silver embroidery, layered pointed hems and silver closures",
+      "woodArt": "Reddish yew heartwood with pale sapwood edges, teal bindings and silver and amethyst fittings"
+    }
+  },
+  {
+    "id": "tier_70",
+    "name": "Level 70",
+    "tier": 70,
+    "reqLevel": 70,
+    "materials": {
+      "ore": "nightglass_ore",
+      "hide": "starhide",
+      "thread": "void_thread",
+      "flux": "astral_core",
+      "gem": "fire_opal",
+      "bar": "nightglass_bar",
+      "log": "magic_log"
+    },
+    "resourceIds": [
+      "tree_magic",
+      "nightglass_vein",
+      "tree_wilderness_magic"
+    ],
+    "equipment": [
+      {
+        "id": "nightglass_sword",
+        "name": "Nightglass Sword",
+        "description": "A blue-black glass edge on a magic-wood grip. Requires level 70 Melee.",
+        "familyId": "gear_mainHand_melee_2400"
+      },
+      {
+        "id": "magic_shield",
+        "name": "Magic Shield",
+        "description": "Layered magic faced in Nightglass.",
+        "familyId": "gear_offHand_melee_0"
+      },
+      {
+        "id": "nightglass_helm",
+        "name": "Nightglass Helm",
+        "description": "Nightglass helm forged for level 70 melee combat.",
+        "familyId": "gear_head_melee_0"
+      },
+      {
+        "id": "nightglass_plate",
+        "name": "Nightglass Plate",
+        "description": "Nightglass plate forged for level 70 melee combat.",
+        "familyId": "gear_body_melee_0"
+      },
+      {
+        "id": "nightglass_greaves",
+        "name": "Nightglass Greaves",
+        "description": "Nightglass greaves forged for level 70 melee combat.",
+        "familyId": "gear_legs_melee_0"
+      },
+      {
+        "id": "nightglass_boots",
+        "name": "Nightglass Boots",
+        "description": "Nightglass boots forged for level 70 melee combat.",
+        "familyId": "gear_feet_melee_0"
+      },
+      {
+        "id": "nightglass_gauntlets",
+        "name": "Nightglass Gauntlets",
+        "description": "Nightglass gauntlets forged for level 70 melee combat.",
+        "familyId": "gear_hands_melee_0"
+      },
+      {
+        "id": "magic_wand",
+        "name": "Magic Wand",
+        "description": "Magic wrapped with Void Thread. A fast one-handed weapon; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_wand_2200"
+      },
+      {
+        "id": "magic_staff",
+        "name": "Magic Staff",
+        "description": "Magic crowned with Nightglass. A heavy two-handed casting weapon; carried Essence pays for spells.",
+        "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "starhide_hood",
+        "name": "Starhide Hood",
+        "description": "Starhide hood sewn with Void Thread. Requires level 70 Magic.",
+        "familyId": "gear_head_magic_0"
+      },
+      {
+        "id": "starhide_robe",
+        "name": "Starhide Robe",
+        "description": "Starhide robe sewn with Void Thread. Requires level 70 Magic.",
+        "familyId": "gear_body_magic_0"
+      },
+      {
+        "id": "starhide_leggings",
+        "name": "Starhide Leggings",
+        "description": "Starhide leggings sewn with Void Thread. Requires level 70 Magic.",
+        "familyId": "gear_legs_magic_0"
+      },
+      {
+        "id": "starhide_boots",
+        "name": "Starhide Boots",
+        "description": "Starhide boots sewn with Void Thread. Requires level 70 Magic.",
+        "familyId": "gear_feet_magic_0"
+      },
+      {
+        "id": "starhide_wraps",
+        "name": "Starhide Wraps",
+        "description": "Starhide wraps sewn with Void Thread. Requires level 70 Magic.",
+        "familyId": "gear_hands_magic_0"
+      },
+      {
+        "id": "nightglass_pickaxe",
+        "name": "Nightglass Pickaxe",
+        "description": "Nightglass on a magic handle. Adds 40 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_mining"
+      },
+      {
+        "id": "nightglass_hatchet",
+        "name": "Nightglass Hatchet",
+        "description": "Nightglass on a magic handle. Adds 40 effective gathering levels; resource requirements still apply.",
+        "familyId": "gear_woodcutting"
+      }
+    ],
+    "production": [
+      {
+        "id": "craft_crafted_ring_t70",
+        "name": "Nightglass Opal Ring",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_ring_t70",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "craft_crafted_earring_t70",
+        "name": "Nightglass Opal Earring",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "crafted_earring_t70",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table"
+      },
+      {
+        "id": "smelt_nightglass_bar",
+        "name": "Nightglass Bar",
+        "inputs": [
+          {
+            "itemId": "nightglass_ore",
+            "quantity": 3
+          },
+          {
+            "itemId": "astral_core",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_bar",
+          "quantity": 1
+        },
+        "templateId": "production_smelt_smithing_furnace"
+      },
+      {
+        "id": "fletch_magic_handle",
+        "name": "Magic Handle",
+        "inputs": [
+          {
+            "itemId": "magic_log",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "magic_handle",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_nightglass_sword",
+        "name": "Nightglass Sword",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 3
+          },
+          {
+            "itemId": "magic_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_magic_shield",
+        "name": "Magic Shield",
+        "inputs": [
+          {
+            "itemId": "magic_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "magic_shield",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "smith_nightglass_helm",
+        "name": "Nightglass Helm",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_helm",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_nightglass_plate",
+        "name": "Nightglass Plate",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_nightglass_greaves",
+        "name": "Nightglass Greaves",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_greaves",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_nightglass_boots",
+        "name": "Nightglass Boots",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_boots",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_nightglass_gauntlets",
+        "name": "Nightglass Gauntlets",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_gauntlets",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_magic_wand",
+        "name": "Magic Wand",
+        "inputs": [
+          {
+            "itemId": "magic_log",
+            "quantity": 2
+          },
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 1
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 3
+          }
+        ],
+        "output": {
+          "itemId": "magic_wand",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "fletch_magic_staff",
+        "name": "Magic Staff",
+        "inputs": [
+          {
+            "itemId": "magic_log",
+            "quantity": 3
+          },
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 5
+          }
+        ],
+        "output": {
+          "itemId": "magic_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      },
+      {
+        "id": "craft_starhide_hood",
+        "name": "Starhide Hood",
+        "inputs": [
+          {
+            "itemId": "starhide",
+            "quantity": 2
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "starhide_hood",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_starhide_robe",
+        "name": "Starhide Robe",
+        "inputs": [
+          {
+            "itemId": "starhide",
+            "quantity": 4
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "starhide_robe",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_starhide_leggings",
+        "name": "Starhide Leggings",
+        "inputs": [
+          {
+            "itemId": "starhide",
+            "quantity": 4
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 4
+          }
+        ],
+        "output": {
+          "itemId": "starhide_leggings",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_starhide_boots",
+        "name": "Starhide Boots",
+        "inputs": [
+          {
+            "itemId": "starhide",
+            "quantity": 1
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "starhide_boots",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "craft_starhide_wraps",
+        "name": "Starhide Wraps",
+        "inputs": [
+          {
+            "itemId": "starhide",
+            "quantity": 1
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "starhide_wraps",
+          "quantity": 1
+        },
+        "templateId": "production_craft_crafting_crafting_table",
+        "adjustments": {
+          "durationMs": 2400
+        }
+      },
+      {
+        "id": "smith_nightglass_pickaxe",
+        "name": "Nightglass Pickaxe",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "magic_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_pickaxe",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_nightglass_hatchet",
+        "name": "Nightglass Hatchet",
+        "inputs": [
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          },
+          {
+            "itemId": "magic_handle",
+            "quantity": 1
+          }
+        ],
+        "output": {
+          "itemId": "nightglass_hatchet",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_chainbound_sword",
+        "name": "Chainbound Sword",
+        "inputs": [
+          {
+            "itemId": "nightglass_sword",
+            "quantity": 1
+          },
+          {
+            "itemId": "chainbound_link",
+            "quantity": 3
+          },
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "chainbound_sword",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "smith_nightmarshal_plate",
+        "name": "Nightmarshal Plate",
+        "inputs": [
+          {
+            "itemId": "nightglass_plate",
+            "quantity": 1
+          },
+          {
+            "itemId": "nightforge_seal",
+            "quantity": 3
+          },
+          {
+            "itemId": "nightglass_bar",
+            "quantity": 2
+          }
+        ],
+        "output": {
+          "itemId": "nightmarshal_plate",
+          "quantity": 1
+        },
+        "templateId": "production_smith_smithing_anvil"
+      },
+      {
+        "id": "fletch_hollowstar_staff",
+        "name": "Hollowstar Staff",
+        "inputs": [
+          {
+            "itemId": "magic_staff",
+            "quantity": 1
+          },
+          {
+            "itemId": "hollow_star_fragment",
+            "quantity": 3
+          },
+          {
+            "itemId": "void_thread",
+            "quantity": 6
+          }
+        ],
+        "output": {
+          "itemId": "hollowstar_staff",
+          "quantity": 1
+        },
+        "templateId": "production_fletch_fletching_fletching_bench"
+      }
+    ],
+    "presentation": {
+      "metal": "nightglass",
+      "metalName": "Nightglass",
+      "wood": "magic",
+      "woodName": "Magic",
+      "hideName": "Starhide",
+      "jewellery": "starweave"
+    }
+  }
+]

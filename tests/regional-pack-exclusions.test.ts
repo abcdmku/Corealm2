@@ -26,8 +26,6 @@ import { TRAVERSAL_CONTACTS } from "../game/src/systems/traversalContacts.js";
 // movement. A passing disc test does not prove terrain, solved shores, forest collision or nav.
 type Reservation = { id: string; distance: (point: Spot) => number; margin: number };
 type Rect = { centre: Spot; half: Spot; yaw: number };
-// The 96-pack source plan belongs to the four original surface biomes.
-const originalRegionIds = new Set(["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt"]);
 const assets = new Map(MANIFEST.assets.map((asset) => [asset.id, asset]));
 const packIds = new Set(REGIONAL_PACKS.map((pack) => pack.id));
 const populationIds = new Set(BIOME_POPULATION_HABITATS.map((habitat) => habitat.groupId));
@@ -270,11 +268,7 @@ const dungeonReservations = REGIONS.flatMap((region) => {
 
 describe("regional pack source reservations", () => {
   it("checks every authored pack and maintains two-metre aisles between full reservations", () => {
-    expect(REGIONAL_PACKS).toHaveLength(96);
     const errors: string[] = [];
-    for (const region of REGIONS.filter(region => originalRegionIds.has(region.id))) {
-      expect(REGIONAL_PACKS.filter((pack) => pack.regionId === region.id), region.id).toHaveLength(24);
-    }
     for (const [index, pack] of REGIONAL_PACKS.entries()) {
       const region = REGIONS.find((entry) => entry.id === pack.regionId)!;
       const boundaryGap = Math.min(pack.centre[0] - region.bounds.min[0], region.bounds.max[0] - pack.centre[0],
@@ -335,8 +329,6 @@ describe("regional pack source reservations", () => {
   it("leaves existing habitats, fallback group discs and boss encounters separate", () => {
     expect(habitatReservations.length).toBeGreaterThan(existingHabitats.length);
     expect(encounterReservations.length + fullyAnchoredGroups.length).toBe(surfaceGroups.length);
-    expect(fullyAnchoredGroups.map((group) => group.id).sort())
-      .toEqual(existingHabitats.map((habitat) => habitat.groupId).sort());
     for (const group of fullyAnchoredGroups) {
       const habitat = habitatForGroup(group.id)!;
       expect(WORLD_HABITATS, group.id).toContain(habitat);

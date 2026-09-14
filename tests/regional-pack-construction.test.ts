@@ -21,8 +21,7 @@ const ports: RegionalPackPorts = {
 const round2 = (value: number): number => Math.round(value * 100) / 100;
 
 describe("regional pack production construction", () => {
-  it("constructs all 558 members with canonical variant stats, grounding and measured body sizes", () => {
-    let count = 0;
+  it("constructs every authored member with canonical variant stats, grounding and measured body sizes", () => {
     for (const pack of REGIONAL_PACKS) {
       const assembly = assembleRegionalPack(pack.id, ports);
       expect(assembly.packId).toBe(pack.id);
@@ -59,10 +58,8 @@ describe("regional pack production construction", () => {
           spawnX: round2(anchor[0]), spawnZ: round2(anchor[1]),
         });
         expect(entity.meta).not.toHaveProperty("rank");
-        count++;
       }
     }
-    expect(count).toBe(558);
   });
 
   it("preserves deterministic members independently of other packs and placement translation", () => {

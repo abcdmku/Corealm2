@@ -1,128 +1,101 @@
 [
-  {
-    "logItemId": "palewood_log",
-    "tier": 1,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 72000,
-    "buildXp": {
-      "fletching": 2,
-      "crafting": 2
+    {
+        "logItemId":  "palewood_log",
+        "tier":  1,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  72000,
+        "buildXp":  {
+                        "fletching":  2,
+                        "crafting":  2
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "duskoak_log",
-    "tier": 5,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 120000,
-    "buildXp": {
-      "fletching": 5,
-      "crafting": 5
+    {
+        "logItemId":  "duskoak_log",
+        "tier":  5,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  120000,
+        "buildXp":  {
+                        "fletching":  5,
+                        "crafting":  5
+                    },
+        "visualLogAssetId":  "nature_wood_log_moss"
     },
-    "visualLogAssetId": "nature_wood_log_moss",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "cairnpine_log",
-    "tier": 10,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 180000,
-    "buildXp": {
-      "fletching": 7,
-      "crafting": 7
+    {
+        "logItemId":  "cairnpine_log",
+        "tier":  10,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  180000,
+        "buildXp":  {
+                        "fletching":  7,
+                        "crafting":  7
+                    },
+        "visualLogAssetId":  "nature_wood_log_snow"
     },
-    "visualLogAssetId": "nature_wood_log_snow",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "cinderpine_log",
-    "tier": 20,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 300000,
-    "buildXp": {
-      "fletching": 10,
-      "crafting": 10
+    {
+        "logItemId":  "cinderpine_log",
+        "tier":  20,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  300000,
+        "buildXp":  {
+                        "fletching":  10,
+                        "crafting":  10
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "willow_log",
-    "tier": 30,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 420000,
-    "buildXp": {
-      "fletching": 13,
-      "crafting": 13
+    {
+        "logItemId":  "willow_log",
+        "tier":  30,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  420000,
+        "buildXp":  {
+                        "fletching":  13,
+                        "crafting":  13
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "maple_log",
-    "tier": 40,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 540000,
-    "buildXp": {
-      "fletching": 15,
-      "crafting": 15
+    {
+        "logItemId":  "maple_log",
+        "tier":  40,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  540000,
+        "buildXp":  {
+                        "fletching":  15,
+                        "crafting":  15
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "teak_log",
-    "tier": 50,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 660000,
-    "buildXp": {
-      "fletching": 17,
-      "crafting": 17
+    {
+        "logItemId":  "teak_log",
+        "tier":  50,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  660000,
+        "buildXp":  {
+                        "fletching":  17,
+                        "crafting":  17
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  },
-  {
-    "logItemId": "yew_log",
-    "tier": 60,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 780000,
-    "buildXp": {
-      "fletching": 19,
-      "crafting": 19
+    {
+        "logItemId":  "yew_log",
+        "tier":  60,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  780000,
+        "buildXp":  {
+                        "fletching":  19,
+                        "crafting":  19
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
+    {
+        "logItemId":  "magic_log",
+        "tier":  70,
+        "buildTimeMs":  3000,
+        "lifetimeMs":  900000,
+        "buildXp":  {
+                        "fletching":  21,
+                        "crafting":  21
+                    },
+        "visualLogAssetId":  "nature_wood_log"
     }
-  },
-  {
-    "logItemId": "magic_log",
-    "tier": 70,
-    "buildTimeMs": 3000,
-    "lifetimeMs": 900000,
-    "buildXp": {
-      "fletching": 21,
-      "crafting": 21
-    },
-    "visualLogAssetId": "nature_wood_log",
-    "derivation": {
-      "kind": "campfireFuel"
-    }
-  }
 ]

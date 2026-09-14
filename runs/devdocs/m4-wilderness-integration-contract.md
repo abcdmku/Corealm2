@@ -73,3 +73,9 @@ show the expected dependency changes without using output seeds. Prove stale
 context preview rejection and unchanged context revision after enemy recompute.
 Root owns full tests, editor browser proof, production build, combat lab and world
 smoke. Workers have nonoverlapping file ownership and stop at contract gaps.
+
+Alias projections may include optional `omitFields`, a unique array limited to
+moveSpeedMps, walkSpeedMps, marks, attackStyle, attackRangeM and respawnSeconds.
+This represents generated absence when a canonical result has an optional field.
+Runtime and editor joins delete these fields after applying sparse overrides.
+The alias formula owns both overrides and omitFields; baseline rows omit the list.

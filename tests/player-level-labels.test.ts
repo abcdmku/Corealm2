@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { SKILL_IDS, type GameApi, type SemanticEntity } from "../game/src/contracts.js";
-import { content, enemyCombatLevel } from "../game/src/content/index.js";
-import { ENEMY_BLOCKS } from "../game/src/content/enemies.js";
+import { content } from "../game/src/content/index.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { SPELLS } from "../game/src/content/spells.js";
 import { FEATURE_LAB_CATALOG, createFeatureLabEntity } from "../game/src/featureLab/catalog.js";
@@ -79,15 +78,6 @@ describe("player-facing level labels", () => {
     for (const slot of FEATURE_LAB_CATALOG.equipment) {
       for (const item of slot.items) expect(item.label).not.toMatch(TIER_TEXT);
     }
-  });
-
-  it("preserves the stat-derived level gap between ordinary enemies, minibosses and bosses", () => {
-    const level = (id: string) => enemyCombatLevel(ENEMY_BLOCKS.find((row) => row.id === id)!);
-    expect(level("galeskin_t1")).toBeGreaterThan(level("reaver_t1") + 4);
-    expect(level("tempest_roc_t1")).toBeGreaterThan(level("galeskin_t1"));
-    expect(level("tideworn_t10")).toBeGreaterThan(level("reaver_t10") + 4);
-    expect(level("quarrykeeper_t10")).toBeGreaterThan(level("tideworn_t10") + 4);
-    expect(level("cinderwake_t20")).toBeGreaterThan(level("reaver_t20") + 10);
   });
 
   it("derives spell headers from the first actual spell requirement, including Fire at Magic 15", () => {

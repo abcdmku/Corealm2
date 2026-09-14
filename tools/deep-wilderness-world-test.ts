@@ -20,7 +20,7 @@ import type { GameState } from '../game/src/state/store.js';
 import { activatedRegionalPackIds } from '../game/src/content/regionalPackActivation.js';
 import { WILDERNESS_DEPTH, WILDERNESS_EXPANSION_SITES, wildernessMagicAt, wildernessTierAt } from '../game/src/content/wildernessDepth.js';
 import { DEEP_WILDERNESS_PACKS, DEEP_WILDERNESS_KEEPERS } from '../game/src/content/deepWildernessEncounters.js';
-import { WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES, wildernessDrops } from '../game/src/content/wildernessLoot.js';
+import { WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES, wildernessDropsForCreature } from '../game/src/content/wildernessLoot.js';
 import { WILDERNESS_RESOURCE_CLUSTERS, WILDERNESS_RESOURCE_SITES } from '../game/src/content/wildernessResources.js';
 import { WILDERNESS_LAVA_EXPANSION_CHANNELS, lavaSections, sampleLavaChannel, type LavaChannel } from '../game/src/content/wildernessLava.js';
 import { DEEP_WILDERNESS_STRUCTURES, buildDeepWildernessStructure, buildDeepWildernessStructureCollisionParts } from '../game/src/render/compositions/deepWildernessStructures.js';
@@ -261,7 +261,7 @@ try {
       assert(block, `${actor.id}: live enemyDefId does not resolve in canonical ENEMIES`);
       assert.equal(actor.combat?.maxHealth, block.maxHealth);
       assert.equal(actor.combat?.level, enemyCombatLevel(block));
-      const expected = wildernessDrops(pack.speciesId, actor.tier, undefined, pack.siteId as Parameters<typeof wildernessDrops>[3]);
+      const expected = wildernessDropsForCreature(block.id);
       assert.deepEqual(block.drops, expected, `${actor.id}: canonical drops differ from Wilderness contract`);
     }
     canonicalDrops.push({ groupId: pack.id, enemyDefIds: [...new Set(rows.map(row => row.meta?.enemyDefId))], scope: 'Node canonical drops plus live actor mapping' });
@@ -277,7 +277,7 @@ try {
     const block = ENEMIES.find(row => row.id === actor.meta?.enemyDefId);
     assert(block, `${keeper.id}: missing canonical enemy definition`);
     assert.equal(actor.combat?.maxHealth, block.maxHealth);
-    assert.deepEqual(block.drops, wildernessDrops(keeper.id, keeper.tier, keeper.id));
+    assert.deepEqual(block.drops, wildernessDropsForCreature(block.id));
   }
   await record({ census: [...groups].map(([id, rows]) => ({ id, count: rows.length, region: rows[0]!.regionId,
     tier: rows[0]!.tier, ranks: [...new Set(rows.map(row => row.meta?.rank ?? 'ordinary'))] })),

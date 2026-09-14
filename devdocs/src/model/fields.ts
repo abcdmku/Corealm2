@@ -56,7 +56,7 @@ export function serialFieldSpec(schema: Schema, name = ""): SerialFieldSpec {
   }
   const meta: FieldMeta = Object.assign({}, ...layers.reverse());
   const spec: SerialFieldSpec = { ...meta, kind: node.kind, label: meta.label ?? fieldTitle(name), optional, nullable, refinements };
-  if (meta.identity || name === "count" || name === "legacyCount") spec.readOnly = true;
+  if (meta.identity) spec.readOnly = true;
   if (node instanceof NumberSchema) { Object.assign(spec, node.options); spec.step = meta.step ?? (node.options.integer ? 1 : undefined); }
   if (node instanceof StringSchema) { spec.minLength = node.options.minLength ?? (node.options.nonEmpty ? 1 : undefined); spec.maxLength = node.options.maxLength; spec.pattern = node.options.pattern?.source; }
   if (node instanceof ArraySchema) Object.assign(spec, node.options);

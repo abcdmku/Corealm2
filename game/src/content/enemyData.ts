@@ -1,102 +1,71 @@
-import rawEnemies from '../../content/data/enemies.json';
-import rawAliases from '../../content/data/enemyAliases.json';
 import type { EnemyDef } from './index.js';
-import { parseCollection } from './schema/core.js';
-import { EnemyRecordSchema, EnemyAliasSchema, type EnemyRecord, type EnemyAlias, type EnemyCatalog } from './schema/enemies.js';
-import { lootDrops } from './lootData.js';
+import { CREATURE_CATALOG } from './creatureRuntime.js';
 
-export const ENEMY_RECORDS: readonly EnemyRecord[] = parseCollection(EnemyRecordSchema, rawEnemies, { name: 'enemies' });
-export const ENEMY_ALIAS_RECORDS: readonly EnemyAlias[] = parseCollection(EnemyAliasSchema, rawAliases, { name: 'enemyAliases' });
-
-function requireRow<T>(value: T | undefined, message: string): T {
-  if (value === undefined) throw new Error(message);
-  return value;
+export const ENEMY_DATA: readonly EnemyDef[] = CREATURE_CATALOG.enemies;
+export const ENEMY_BLOCK_DATA = ENEMY_DATA;
+export const LAB_ONLY_ENEMY_DATA = CREATURE_CATALOG.creatures.filter(row => row.availability === 'lab').map(row => row.enemy);
+export function enemyBlockById(id: string): EnemyDef {
+  const enemy = CREATURE_CATALOG.byEnemyId.get(id);
+  if (!enemy) throw new Error(`Unknown creature combat ${id}`);
+  return enemy;
 }
-
-/** Order is content identity; duplicates and gaps must fail before any runtime views are exported. */
-function ordered<T>(rows: readonly T[], ordinal: (row: T) => number, label: string): T[] {
-  const result = [...rows].sort((a, b) => ordinal(a) - ordinal(b));
-  result.forEach((row, index) => {
-    if (ordinal(row) !== index) throw new Error(`${label}: expected unique contiguous order ${index}, got ${ordinal(row)}`);
-  });
-  return result;
+export function registeredEnemyById(id: string): EnemyDef | undefined {
+  const row = CREATURE_CATALOG.byCreatureId.get(id);
+  return row?.availability === 'world' ? row.enemy : undefined;
 }
-
-/** Pure projection for focused data-edit checks; callers pass parsed records and a loot resolver. */
-export function buildEnemyViews(
-  records: readonly EnemyRecord[], aliases: readonly EnemyAlias[], dropsById: (id: string) => EnemyDef['drops'],
-) {
-  const blockMap = new Map<string, EnemyDef>();
-  const recordMap = new Map<string, EnemyRecord>();
-  for (const record of records) {
-    if (recordMap.has(record.id)) throw new Error(`Duplicate canonical enemy ${record.id}`);
-    recordMap.set(record.id, record);
-    let row: EnemyDef;
-    if (record.stage === 'registered') {
-      const { catalog: _catalog, stage: _stage, lootTableId, registrationOrder: _registration, fantasyTierOrder: _fantasy, derivation: _derivation, ...stats } = record;
-      row = { ...stats, drops: dropsById(lootTableId) };
-    } else {
-      const { catalog: _catalog, stage: _stage, lootTableId, labOrder: _lab, derivation: _derivation, ...stats } = record;
-      row = { ...stats, drops: dropsById(lootTableId) };
-    }
-    blockMap.set(record.id, row);
-  }
-  const registeredRecords = records.filter(row => row.stage === 'registered');
-  if (registeredRecords.some((row, index) => index > 0 && row.registrationOrder <= registeredRecords[index - 1]!.registrationOrder)) {
-    throw new Error('Canonical enemy file order must follow registration order');
-  }
-  const labRecords = records.filter(row => row.stage === 'labOnly');
-  const aliasMap = new Map<string, EnemyDef>();
-  for (const alias of aliases) {
-    if (blockMap.has(alias.id) || aliasMap.has(alias.id)) throw new Error(`Duplicate enemy alias ${alias.id}`);
-    const baseRecord = requireRow(recordMap.get(alias.blockId), `Unknown canonical alias base ${alias.blockId}`);
-    if (baseRecord.stage !== 'registered') throw new Error(`Alias ${alias.id} targets lab-only block ${alias.blockId}`);
-    const base = blockMap.get(alias.blockId)!;
-    aliasMap.set(alias.id, { ...base, ...alias.overrides, id: alias.id,
-      drops: alias.lootTableId === undefined ? base.drops : dropsById(alias.lootTableId) });
-  }
-  const orderedRegistered = ordered([...registeredRecords, ...aliases], row => row.registrationOrder, 'Enemy registration');
-  const enemyData = orderedRegistered.map(row => requireRow(blockMap.get(row.id) ?? aliasMap.get(row.id), `Missing resolved enemy ${row.id}`));
-  const registeredMap = new Map(enemyData.map(row => [row.id, row]));
-  const enemyBlockData = registeredRecords.map(row => blockMap.get(row.id)!);
-  const labOnlyEnemyData = ordered(labRecords, row => row.labOrder, 'Lab enemy').map(row => blockMap.get(row.id)!);
-  const fantasyRecords = registeredRecords.filter(row => row.fantasyTierOrder !== undefined);
-  const fantasyTierData = ordered(fantasyRecords, row => row.fantasyTierOrder!, 'Fantasy tier').map(row => blockMap.get(row.id)!);
-  const fantasyAliases = aliases.filter(row => row.catalog === 'FANTASY_ENCOUNTER_BLOCKS');
-  const fantasyEncounterData = fantasyAliases.map(row => aliasMap.get(row.id)!);
-  const encounterLineage: Readonly<Record<string, readonly [string, string]>> = Object.fromEntries(fantasyAliases.map(row => [row.id, row.lineage]));
-  const biomeReplacementSpecies: Readonly<Record<string, string>> = Object.fromEntries(fantasyAliases.map(row => [row.id, row.speciesId]));
-  const alternateLootCache = new Map<string, Map<string, EnemyDef>>();
-  const enemyBlockById = (id: string): EnemyDef => requireRow(blockMap.get(id), `Unknown canonical enemy ${id}`);
-  return {
-    enemyData, enemyBlockData, labOnlyEnemyData, fantasyTierData, fantasyEncounterData, encounterLineage, biomeReplacementSpecies,
-    enemyBlockById,
-    registeredEnemyById: (id: string): EnemyDef | undefined => registeredMap.get(id),
-    enemyBlockRows: (catalog: EnemyCatalog | readonly EnemyCatalog[]): readonly EnemyDef[] => {
-      const selected = new Set<EnemyCatalog>(typeof catalog === 'string' ? [catalog] : catalog);
-      return records.filter(row => selected.has(row.catalog)).map(row => blockMap.get(row.id)!);
-    },
-    enemyWithLoot: (blockId: string, lootTableId: string): EnemyDef => {
-      const base = enemyBlockById(blockId);
-      if (recordMap.get(blockId)!.lootTableId === lootTableId) return base;
-      let alternatives = alternateLootCache.get(blockId);
-      if (!alternatives) { alternatives = new Map(); alternateLootCache.set(blockId, alternatives); }
-      let alternate = alternatives.get(lootTableId);
-      if (!alternate) { alternate = { ...base, drops: dropsById(lootTableId) }; alternatives.set(lootTableId, alternate); }
-      return alternate;
-    },
-  };
-}
-
-const views = buildEnemyViews(ENEMY_RECORDS, ENEMY_ALIAS_RECORDS, lootDrops);
-export const ENEMY_BLOCK_DATA: readonly EnemyDef[] = views.enemyBlockData;
-export const LAB_ONLY_ENEMY_DATA: readonly EnemyDef[] = views.labOnlyEnemyData;
-export const ENEMY_DATA: readonly EnemyDef[] = views.enemyData;
-export const FANTASY_TIER_DATA: readonly EnemyDef[] = views.fantasyTierData;
-export const FANTASY_ENCOUNTER_DATA: readonly EnemyDef[] = views.fantasyEncounterData;
-export const ENCOUNTER_LINEAGE = views.encounterLineage;
-export const BIOME_REPLACEMENT_SPECIES = views.biomeReplacementSpecies;
-export const enemyBlockById = views.enemyBlockById;
-export const registeredEnemyById = views.registeredEnemyById;
-export const enemyBlockRows = views.enemyBlockRows;
-export const enemyWithLoot = views.enemyWithLoot;
+export const BIOME_REPLACEMENT_SPECIES: Readonly<Record<string, string>> = {
+  "palewood_adders": "thorn_maw",
+  "regional_gloam_fox": "heath_jack",
+  "regional_redbrush_fox": "heath_jack",
+  "pack_fallowmarch_palewood_far_south_scrub": "thorn_maw",
+  "pack_fallowmarch_palewood_heath_scrub": "heath_jack",
+  "pack_fallowmarch_palewood_reed_scrub": "reed_strider",
+  "pack_fallowmarch_bracken_northeast_spiders": "thorn_maw",
+  "marchwild_horse_residents": "briar_harrow",
+  "duskoak_stags": "briar_harrow",
+  "bramble_hogs": "fen_crawler",
+  "deepwood_coyotes": "heath_jack",
+  "blackwater_frogs": "reed_strider",
+  "rootfall_coneys": "thorn_maw",
+  "thornline_adders": "thorn_maw",
+  "pack_vellenwood_marchgate_south_bramble": "thorn_maw",
+  "pack_vellenwood_mossbound_west_bramble": "fen_crawler",
+  "duskoak_lynx_residents": "heath_jack",
+  "rootdelve_badger_residents": "briar_harrow",
+  "marsh_moose_residents": "briar_harrow",
+  "bracken_tapir_residents": "fen_crawler",
+  "blackwater_heron_residents": "reed_strider",
+  "quarry_snail_residents": "thorn_maw",
+  "hollowroot_spider_residents": "thorn_maw",
+  "highcairn_bears": "cairn_treader",
+  "scree_boars": "vault_custodian",
+  "ridge_ibex": "scree_watcher",
+  "terrace_aurochs": "vault_custodian",
+  "tarn_coyotes": "cairn_treader",
+  "pack_karrowmoor_tarn_track_east_mandibles": "flint_mandible",
+  "pack_karrowmoor_moor_road_far_west_watch": "vault_custodian",
+  "quillback_porcupine_residents": "scree_watcher",
+  "cairn_bighorn_residents": "cairn_treader",
+  "reedjaw_crocodile_residents": "flint_mandible",
+  "slateback_tortoise_residents": "vault_custodian",
+  "scree_bustard_residents": "scree_watcher",
+  "antler_beetle_residents": "flint_mandible",
+  "quarry_nightmare_residents": "cairn_treader",
+  "gravelmaw_ch1_rats": "blind_cave_weaver",
+  "gravelmaw_ch2_scorpions": "blind_cave_weaver",
+  "gravelmaw_ch2_crabs": "flint_mandible",
+  "gravelmaw_ch3_bears": "vault_custodian",
+  "gravelmaw_amethyst_spiders": "blind_cave_weaver",
+  "ashback_bears": "kiln_marrow",
+  "cinder_boars": "slag_crawler",
+  "emberhorn_ibex": "cinder_penitent",
+  "cinder_adders": "grave_lantern",
+  "pack_kilnhalt_clinker_southern_approach_west": "kiln_marrow",
+  "pack_kilnhalt_cinderpine_northwest_outer": "slag_crawler",
+  "kiln_salamander_residents": "slag_crawler",
+  "ashscale_monitor_residents": "cinder_penitent",
+  "slag_centipede_residents": "slag_crawler",
+  "cinder_ravager_residents": "kiln_marrow",
+  "basalt_drake_residents": "slag_crawler",
+  "gorge_mantis_residents": "veil_reaper"
+};

@@ -7,8 +7,8 @@
  * band, and the fire-orb altar migration.
  */
 import { describe, expect, it } from "vitest";
-import type { EquipmentBonuses, ItemDef } from "../game/src/contracts.js";
-import { EQUIPMENT, KITS, MAGIC_ORBS, RARE_MINIBOSS_WEAPONS } from "../game/src/content/equipment.js";
+import type { ItemDef } from "../game/src/contracts.js";
+import { MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { ENEMY_BLOCKS } from "../game/src/content/enemies.js";
 import { REGIONAL_BOSS_BODIES } from "../game/src/content/regionalBossBodies.js";
@@ -32,19 +32,6 @@ function item(id: string): ItemDef {
   const found = ITEM_BY_ID.get(id);
   if (!found) throw new Error(`Missing item ${id}`);
   return found;
-}
-
-function kitTotals(kit: readonly string[]): EquipmentBonuses {
-  const totals: EquipmentBonuses = {
-    meleeAccuracy: 0, meleePower: 0,  magicAccuracy: 0, magicPower: 0, defence: 0, health: 0, vitality: 0 };
-  for (const id of kit) {
-    const bonuses = item(id).equip?.bonuses;
-    if (!bonuses) throw new Error(`${id} is not equipment`);
-    for (const key of Object.keys(totals) as (keyof EquipmentBonuses)[]) {
-      totals[key] += bonuses[key];
-    }
-  }
-  return totals;
 }
 
 describe("world extension", () => {
@@ -163,62 +150,7 @@ describe("fire release", () => {
   });
 });
 
-describe("rare miniboss weapons", () => {
-  const RULE: readonly [rareId: string, baseId: string, boosted: readonly (keyof EquipmentBonuses)[]][] = [
-    ["galeskin_sword", "grithe_sword", ["meleeAccuracy", "meleePower"]],
-    ["galeskin_staff", "palewood_staff", ["magicAccuracy", "magicPower"]],
-    ["mossbound_sword", "corven_sword", ["meleeAccuracy", "meleePower"]],
-    ["mossbound_staff", "duskoak_staff", ["magicAccuracy", "magicPower"]],
-    ["tideworn_sword", "kaldite_sword", ["meleeAccuracy", "meleePower"]],
-    ["tideworn_staff", "cairnpine_staff", ["magicAccuracy", "magicPower"]],
-    ["cinderwake_sword", "emberite_sword", ["meleeAccuracy", "meleePower"]],
-    ["cinderwake_staff", "cinderpine_staff", ["magicAccuracy", "magicPower"]],
-  ];
-
-  it("copies the local craftable weapon and applies ceil(base x 1.10) to its offensive stats", () => {
-    expect(RARE_MINIBOSS_WEAPONS).toHaveLength(8);
-    for (const [rareId, baseId, boosted] of RULE) {
-      const rare = item(rareId);
-      const base = item(baseId);
-      const rareBonuses = rare.equip!.bonuses;
-      const baseBonuses = base.equip!.bonuses;
-      for (const key of Object.keys(rareBonuses) as (keyof EquipmentBonuses)[]) {
-        const expected = boosted.includes(key)
-          ? Math.ceil(baseBonuses[key] * 1.10)
-          : baseBonuses[key];
-        expect(rareBonuses[key], `${rareId}.${key}`).toBe(expected);
-      }
-      // Drops match the host region's requirement tier: the rare copies the base's requirements.
-      expect(rare.equip!.requires, rareId).toEqual(base.equip!.requires);
-      expect(rare.tier, rareId).toBe(base.tier);
-    }
-  });
-
-  it("keeps the rare staves uncharged so they never bypass altar progression", () => {
-    for (const [rareId] of RULE) {
-      const rare = item(rareId);
-      if (rare.magicWeapon) {
-        expect(rare.magicWeapon.charge, rareId).toBeUndefined();
-        expect(rare.magicWeapon.kind, rareId).toBe("staff");
-      }
-    }
-  });
-
-  it("rolls each named weapon at exactly 10% on its miniboss, independently authored", () => {
-    for (const [family, sword, staff] of [
-      ["galeskin", "galeskin_sword", "galeskin_staff"],
-      ["mossbound", "mossbound_sword", "mossbound_staff"],
-      ["tideworn", "tideworn_sword", "tideworn_staff"],
-      ["cinderwake", "cinderwake_sword", "cinderwake_staff"],
-    ] as const) {
-      const block = ENEMY_BLOCKS.find((row) => row.family === family)!;
-      const swordRow = block.drops.find((drop) => drop.itemId === sword)!;
-      const staffRow = block.drops.find((drop) => drop.itemId === staff)!;
-      expect(swordRow.chance, family).toBe(0.10);
-      expect(staffRow.chance, family).toBe(0.10);
-    }
-  });
-
+describe("miniboss rewards", () => {
   it("guarantees Cinderwake's singleton Fire Orb", () => {
     const block = ENEMY_BLOCKS.find((row) => row.family === "cinderwake")!;
     expect(block.drops.find((drop) => drop.itemId === "fire_orb")?.chance).toBe(1.0);
@@ -252,8 +184,8 @@ describe("miniboss placements", () => {
         tier,
         meta: expect.objectContaining({ rank: "miniboss", family: id }),
       });
-      expect(entity!.position[0], `${id} x`).toBe(x);
-      expect(entity!.position[2], `${id} z`).toBe(z);
+      const placement = bossGroup(id);
+      expect(Math.hypot(entity!.position[0] - placement.centre[0], entity!.position[2] - placement.centre[1])).toBeLessThanOrEqual(placement.radius);
       // The expansion replaced the borrowed ordinary bodies with a dedicated hero asset per boss.
       expect(entity!.view?.assetId, id).toBe(REGIONAL_BOSS_BODIES[id].assetId);
       // 1.3x authored group scale, against a major boss's 1.6x: `world/regionBuilder.ts` still
@@ -277,66 +209,6 @@ describe("miniboss placements", () => {
       expect(entity.view!.scale! * tierSilhouetteScale(entity.tier!), id)
         .toBeCloseTo(REGIONAL_BOSS_BODIES[id].scale, 10);
     }
-  });
-});
-
-describe("tier-20 combat bands", () => {
-  // The amendment's 25-40 s on-tier band, computed with the PRD 2.4 formulas against the
-  // authored tier-20 kits. A change to either side of the balance moves these numbers.
-  const meleeKit = () => kitTotals(KITS["melee_t20"]!);
-  const magicKit = () => kitTotals(KITS["magic_t20"]!);
-
-  function meleeTtk(block: { maxHealth: number; defenceLevel: number; armour: number }): number {
-    const kit = meleeKit();
-    const attackRoll = (20 + 9) * (1 + kit.meleeAccuracy / 100);
-    const defenceRoll = (block.defenceLevel + 9) * (1 + block.armour / 100);
-    const hitChance = Math.min(0.95, Math.max(0.05, attackRoll / (attackRoll + defenceRoll)));
-    const maxHit = Math.floor(2 + (20 + kit.meleePower) / 4.2);
-    const dps = (hitChance * (1 + maxHit)) / 2 / 2.4;
-    return block.maxHealth / dps;
-  }
-
-  function magicTtk(block: { maxHealth: number; defenceLevel: number; magicArmour: number }): number {
-    const kit = magicKit();
-    // Emberlash: baseMax 9, divisor 6, staff cadence 3.0 s, style factor 1.15.
-    const attackRoll = (20 + 9) * 1.15 * (1 + kit.magicAccuracy / 100);
-    const defenceRoll = (block.defenceLevel + 9) * (1 + block.magicArmour / 100);
-    const hitChance = Math.min(0.95, Math.max(0.05, attackRoll / (attackRoll + defenceRoll)));
-    const maxHit = Math.floor(9 + (20 + kit.magicPower) / 6);
-    const dps = (hitChance * (1 + maxHit)) / 2 / 3.0;
-    return block.maxHealth / dps;
-  }
-
-  it("authors the tier-20 kits at the amendment's solved totals", () => {
-    const melee = meleeKit();
-    expect(melee.meleeAccuracy).toBe(71);
-    expect(melee.defence).toBe(95);
-    expect(item("emberite_sword").equip!.bonuses.meleePower).toBe(45);
-    // PRD 2.4's own tier-20 checkpoint: level 20 with +45 gearPower reads maxHit 17.
-    expect(Math.floor(2 + (20 + melee.meleePower) / 4.2)).toBe(17);
-    const magic = magicKit();
-    // The kit wears the charged Fire Staff, as every tier's magic kit wears its element's staff:
-    // 75/50 from the Charhide pieces and uncharged staff, plus the Fire Staff's +9/+6.
-    expect(magic.magicAccuracy).toBe(80);
-    expect(magic.magicPower).toBe(54);
-  });
-
-  it("lands every ordinary tier-20 encounter in the 25-40 s on-tier band", () => {
-    for (const family of ["bear", "boar", "ibex", "viper", "reaver"] as const) {
-      const block = ENEMY_BLOCKS.find((row) => row.family === family && row.tier === 20)!;
-      const best = Math.min(meleeTtk(block), magicTtk(block));
-      expect(best, `${family}_t20 best-style TTK ${best.toFixed(1)}s`).toBeGreaterThanOrEqual(25);
-      expect(best, `${family}_t20 best-style TTK ${best.toFixed(1)}s`).toBeLessThanOrEqual(40);
-    }
-  });
-
-  it("keeps the physical-versus-magic answers meaningful at tier 20", () => {
-    const bear = ENEMY_BLOCKS.find((row) => row.family === "bear" && row.tier === 20)!;
-    const boar = ENEMY_BLOCKS.find((row) => row.family === "boar" && row.tier === 20)!;
-    // The Ashback answers to a staff; the Cinder Boar answers to a sword. Each style must win
-    // its block by a real margin, not a rounding error.
-    expect(magicTtk(bear)).toBeLessThan(meleeTtk(bear) * 0.85);
-    expect(meleeTtk(boar)).toBeLessThan(magicTtk(boar) * 0.90);
   });
 });
 

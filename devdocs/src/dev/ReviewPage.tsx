@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { apiGet } from "../api/client.js";
 import type { ApiDiagnostic } from "../../shared/contracts.js";
+import AssetCandidates from "./AssetCandidates.js";
 import "../styles/review.css";
 
 /** The JSON shape returned by GET /__devdocs/git/status. */
@@ -206,6 +207,8 @@ export default function ReviewPage({ navigate }: ReviewPageProps) {
         <button type="button" className="review-requests-link" onClick={() => navigate("requests")}><span>Open Requests</span><ArrowUpRight size={15}/></button>
       </div>
     </header>
+
+    <AssetCandidates showUpload={false} />
 
     <div className="review-layout">
       <FilesPanel

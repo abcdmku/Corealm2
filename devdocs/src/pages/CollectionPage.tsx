@@ -5,6 +5,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowDown, ArrowUp, ArrowUpDown, ChevronRight, Layers2, Search, X } from "lucide-react";
 import { collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
+import type { CollectionResponse } from "../../shared/contracts.js";
 import { contentRows, displayRows, rowId, rowName } from "../model/rows.js";
 import { descriptions, labelFor } from "../ui/library.js";
 import { EmptyState, ErrorState, LoadingRows } from "../ui/States.js";
@@ -19,24 +20,44 @@ const helper = createColumnHelper<typeof features, ContentRow>();
 const noRows: ContentRow[] = [];
 const FormulaStatusObserver = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/FormulaStatusObserver.js"));
 const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/BulkActionsPanel.js"));
+const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/RecordActions.js"));
+const isGeneratedRow = (row: ContentRow): boolean => row.__compiled === true;
 
 export function CollectionPage({ collection, recordId, navigate }: AppProps & { collection: string }) {
   const query = useQuery(collectionQuery(collection));
   const enemyQuery = useQuery({ ...collectionQuery("enemies"), enabled: collection === "creatures" || collection === "enemyAliases" });
-  const rawRows = useMemo(() => query.data ? contentRows(query.data) : noRows, [query.data]);
-  const rows = useMemo(() => query.data ? displayRows(query.data, enemyQuery.data) : noRows, [query.data, enemyQuery.data]);
+  const compiledItemsQuery = useQuery({ ...collectionQuery("compiled-items"), enabled: collection === "items" });
+  const authoredRows = useMemo(() => {
+    if (!query.data) return noRows;
+    const loaded = contentRows(query.data);
+    return collection.startsWith("compiled-") ? loaded.map(row => ({ ...row, __compiled: true })) : loaded;
+  }, [query.data, collection]);
+  const rows = useMemo(() => {
+    if (!query.data) return noRows;
+    if (collection !== "items" || !compiledItemsQuery.data) {
+      const response = collection.startsWith("compiled-") ? { ...query.data, data: authoredRows } as CollectionResponse : query.data;
+      return displayRows(response, enemyQuery.data);
+    }
+    const known = new Set(authoredRows.map(row => rowId(row, query.data!.collection.idKey)));
+    const compiledRows = contentRows(compiledItemsQuery.data)
+      .filter(row => !known.has(rowId(row, compiledItemsQuery.data!.collection.idKey)))
+      .map(row => ({ ...row, __compiled: true }));
+    const response = { ...query.data, data: [...authoredRows, ...compiledRows] } as CollectionResponse;
+    return displayRows(response, enemyQuery.data);
+  }, [query.data, enemyQuery.data, collection, compiledItemsQuery.data, authoredRows]);
   const idKey = query.data?.collection.idKey ?? "id";
   if (query.isPending) return <div className="collection-page"><header className="page-heading"><h1>{labelFor(collection)}</h1><p>Loading records...</p></header><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   if (recordId !== undefined) {
     const record = query.data.collection.shape === "object" && recordId === "$collection"
       ? { ...(query.data.data as ContentRow), id: "$collection", name: labelFor(collection) }
-      : rawRows.find(row => rowId(row, idKey) === recordId);
+      : rows.find(row => rowId(row, idKey) === recordId);
+    const generated = record ? isGeneratedRow(record) : false;
     return record
-      ? <EntityDetail key={`${collection}:${recordId}`} collection={collection} record={record} displayRecord={rows.find(row => rowId(row, idKey) === recordId)} recordId={recordId} editable={query.data.collection.editable} collectionShape={query.data.collection.shape} navigate={navigate} />
+      ? <EntityDetail key={`${collection}:${recordId}`} collection={collection} record={record} displayRecord={rows.find(row => rowId(row, idKey) === recordId)} recordId={recordId} editable={query.data.collection.editable && !generated} collectionShape={query.data.collection.shape} navigate={navigate} />
       : <EmptyState title="Record not found">The record "{recordId}" is not in {labelFor(collection).toLowerCase()}. <button className="text-button" onClick={() => navigate(collection)}>Return to the collection</button></EmptyState>;
   }
-  return <CollectionTable key={collection} collection={collection} rows={rows} rawRows={rawRows} idKey={idKey} revision={query.data.revision} editable={query.data.collection.editable && query.data.collection.shape === "array"} navigate={navigate} />;
+  return <CollectionTable key={collection} collection={collection} rows={rows} rawRows={authoredRows} idKey={idKey} revision={query.data.revision} editable={query.data.collection.editable && query.data.collection.shape === "array"} navigate={navigate} />;
 }
 
 function CollectionTable({ collection, rows, rawRows, idKey, revision, editable, navigate }: {
@@ -50,7 +71,7 @@ function CollectionTable({ collection, rows, rawRows, idKey, revision, editable,
 }) {
   const [formulaStatuses, setFormulaStatuses] = useState<FormulaStatusesResult>();
   const [search, setSearch] = useState("");
-  const [group, setGroup] = useState(collection === "items" ? "tier" : "");
+  const [group, setGroup] = useState(collection === "items" || collection === "compiled-items" ? "tier" : "");
   const [active, setActive] = useState(-1);
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -85,7 +106,7 @@ function CollectionTable({ collection, rows, rawRows, idKey, revision, editable,
       .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
       .flatMap(([label, records]): DisplayRow[] => [{ kind: "group", label: `${fieldLabel(group)} ${label}`, count: records.length }, ...records.map(record => ({ kind: "record" as const, record }))]);
   }, [sorted, group]);
-  const visibleRecordIds = useMemo(() => display.flatMap(row => row.kind === "record" ? [rowId(row.record, idKey)] : []), [display, idKey]);
+  const visibleRecordIds = useMemo(() => display.flatMap(row => row.kind === "record" && !isGeneratedRow(row.record) ? [rowId(row.record, idKey)] : []), [display, idKey]);
   const selectedIds = useMemo(() => [...selected], [selected]);
   const selectedVisibleCount = useMemo(() => visibleRecordIds.reduce((count, id) => count + (selected.has(id) ? 1 : 0), 0), [visibleRecordIds, selected]);
   const selectedHiddenCount = selectedIds.length - selectedVisibleCount;
@@ -137,6 +158,7 @@ function CollectionTable({ collection, rows, rawRows, idKey, revision, editable,
       <div className="heading-title"><h1>{labelFor(collection)}</h1><span className="count-badge">{rows.length}</span></div>
       <p>{descriptions[collection] ?? (collection.startsWith("balance/") ? "The parameters used by Corealm's balance formulas." : "Browse records and inspect their details.")}</p>
       {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <button className="button" onClick={() => navigate(collection, "$collection")}>Open formula and parameters</button>}
+      {editable && RecordActions && <div style={{ marginTop: 15 }}><Suspense fallback={null}><RecordActions collection={collection} mode="collection" templateRecord={rawRows[0]} knownIds={rawRows.map(row => rowId(row, idKey))} editable={editable} idKey={idKey} navigate={navigate} /></Suspense></div>}
     </header>
     <div className="collection-toolbar">
       <label className="search-field"><Search size={17} /><input aria-label={`Search ${labelFor(collection).toLowerCase()}`} placeholder="Search names, IDs, types..." value={search} onChange={event => setSearch(event.target.value)} />{search ? <button aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={15} /></button> : <kbd>/</kbd>}</label>
@@ -157,11 +179,12 @@ function CollectionTable({ collection, rows, rawRows, idKey, revision, editable,
           if (row.kind === "group") return <div key={item.key} role="row" className="table-group" style={{ height: item.size, transform: `translateY(${item.start}px)` }}><span role="gridcell">{row.label}</span><span className="group-count">{row.count}</span></div>;
           const id = rowId(row.record, idKey);
           const isSelected = selected.has(id);
-          const formulaStatus = editable ? formulaStatuses?.statuses.get(id) : undefined;
+          const rowEditable = editable && !isGeneratedRow(row.record);
+          const formulaStatus = rowEditable ? formulaStatuses?.statuses.get(id) : undefined;
           return <div id={`content-row-${item.index}`} key={item.key} role="row" aria-rowindex={item.index + 2} aria-selected={isSelected} className={`table-row${active === item.index ? " is-active" : ""}${isSelected ? " is-selected" : ""}`} style={{ height: item.size, gridTemplateColumns: gridColumns, transform: `translateY(${item.start}px)` }} onClick={() => navigate(collection, id)}>
-            {editable && <div role="gridcell" className="selection-cell"><label className="row-select" onClick={event => event.stopPropagation()} onMouseDown={event => event.stopPropagation()}><input type="checkbox" checked={isSelected} aria-label={`Select record ${id}`} onChange={() => toggleSelection(id)} onClick={event => event.stopPropagation()} onMouseDown={event => event.stopPropagation()} /><span className="sr-only">Select record {id}</span></label></div>}
+            {editable && <div role="gridcell" className="selection-cell">{rowEditable ? <label className="row-select" onClick={event => event.stopPropagation()} onMouseDown={event => event.stopPropagation()}><input type="checkbox" checked={isSelected} aria-label={`Select record ${id}`} onChange={() => toggleSelection(id)} onClick={event => event.stopPropagation()} onMouseDown={event => event.stopPropagation()} /><span className="sr-only">Select record {id}</span></label> : <span className="muted" title="Generated records are read-only">·</span>}</div>}
             <div role="gridcell" className="name-cell">
-              {collection === "items" && <ItemIcon id={id} />}<button tabIndex={-1} className="row-name"><strong>{rowName(row.record, idKey)}</strong><span className="row-record-meta"><code>{id}</code>{formulaStatus && <span className="formula-list-status" data-status={formulaStatus}>{FORMULA_STATUS_LABELS[formulaStatus]}</span>}</span></button>
+              {(collection === "items" || collection === "compiled-items") && <ItemIcon id={id} />}<button tabIndex={-1} className="row-name"><strong>{rowName(row.record, idKey)}</strong><span className="row-record-meta"><code>{id}</code>{isGeneratedRow(row.record) && <span className="formula-list-status" data-status="generated">Generated</span>}{formulaStatus && <span className="formula-list-status" data-status={formulaStatus}>{FORMULA_STATUS_LABELS[formulaStatus]}</span>}</span></button>
             </div>
             {fields.map(field => <div role="gridcell" key={field} className={typeof row.record[field] === "number" ? "numeric-cell" : "text-cell"}>{field === "tier" && row.record[field] !== undefined ? <span className="tier-tag">{String(row.record[field])}</span> : compactValue(row.record[field])}</div>)}
             <ChevronRight className="row-chevron" size={15} />

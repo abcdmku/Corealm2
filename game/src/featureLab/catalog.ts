@@ -12,6 +12,7 @@ import {
 import { tierSilhouetteScale } from "../core/math.js";
 import { enemyCombatLevel } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
+import { creatureById } from '../content/creatureData.js';
 import { CREATURE_SPECIES } from "../content/creatureSpecies.js";
 import { RPG_BESTIARY, RPG_BESTIARY_REVIEW_BY_ID } from "../content/rpgBestiary.js";
 import { CREATURE_REDESIGNS } from "../content/creatureRedesign.js";
@@ -235,6 +236,8 @@ export interface FeatureLabEntityPlacement {
     | { x: number; y: number; z: number } | null;
   /** Optional lab-facing override. NPCs otherwise use authored facing; creatures default to zero. */
   readonly rotationY?: number;
+  /** An isolated animation fixture can exercise an accepted rig with the selected combat binding. */
+  readonly creatureAssetId?: string;
 }
 
 /**
@@ -255,9 +258,13 @@ export function createFeatureLabEntity(
     assertFinite("Feature-lab rotation", placement.rotationY);
   }
 
-  const source = TARGET_SOURCE_BY_KEY.get(targetKey(preset));
+  let source = TARGET_SOURCE_BY_KEY.get(targetKey(preset));
   if (source === undefined) {
     throw new Error(`Unknown feature-lab ${preset.kind} preset: ${preset.id}`);
+  }
+
+  if (source.kind === 'creature' && placement.creatureAssetId) {
+    source = { ...source, group: { ...source.group, assetId: placement.creatureAssetId } };
   }
 
   const assetId = source.kind === "npc" ? source.npc.assetId : source.group.assetId;
@@ -315,6 +322,7 @@ function createCreatureEntity(
   // creature whose numbers differ from the one in the world.
   const stats = group.id.startsWith("candidate:")
     ? REVIEW_CREATURES.get(group.id.slice("candidate:".length))?.stats
+    : group.id.startsWith('species:') ? creatureById(group.id.slice('species:'.length)).stats
     : enemyBlockFor(group.id, group.family, group.tier);
   if (!stats) {
     throw new Error(

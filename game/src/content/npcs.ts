@@ -1,3 +1,4 @@
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
 /**
  * The twelve Phase 1 NPCs.
  *
@@ -14,7 +15,7 @@
  * Nothing here imports a system. Content is data; the quest and dialogue systems read it.
  */
 import type { EntityId, QuestId, RegionId } from "../contracts.js";
-import npcData from "../../content/data/npcs.json";
+const npcData = RESOLVED_TABLES["npcs"];
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { npcRecordSchema } from "./schema/people.js";
 import { FAIRY_NPC_CANDIDATES } from './fairyNpcs.js';

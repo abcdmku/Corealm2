@@ -23,4 +23,4 @@ export const FAIRY_GARDEN_VARIANTS = ([{ regionId: 'gloamgarden', tier: 30 }, { 
     assetId: `fairy_garden_${form.id}_${regionId}`,
   })));
 
-export const FAIRY_GARDEN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('FAIRY_GARDEN_SPECIES');
+export const FAIRY_GARDEN_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["garden_spriggle_t30", "garden_sporekin_t30", "garden_frog_t30", "garden_imp_t30", "garden_snail_t30", "garden_reliquary_t30", "garden_hart_t30", "garden_veilspirit_t30", "garden_sapling_t30", "garden_drake_t30", "garden_wardling_t30", "garden_petalguard_t30", "garden_spriggle_t60", "garden_sporekin_t60", "garden_frog_t60", "garden_imp_t60", "garden_snail_t60", "garden_reliquary_t60", "garden_hart_t60", "garden_veilspirit_t60", "garden_sapling_t60", "garden_drake_t60", "garden_wardling_t60", "garden_petalguard_t60"]);

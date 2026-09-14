@@ -13,8 +13,9 @@ Keep the exception narrow. Build reusable structures, foliage assets, materials,
 
 - `game/src/contracts.ts` is frozen shared state. Stop and report if a task needs a contract change;
   the root changes the contract and all callers together.
-- `game/src/content/regions.ts` owns semantic regions, locations, settlements, resource clusters, and
-  interactable content. Its coordinates drive quests, navigation, and player region state.
+- `game/content/data/worldRegions.json`, `encounters.json`, `placements.json`, and
+  `resourcePlacements.json` own authored world geometry and populations. The shared compiler publishes
+  their resolved catalog; `game/src/content/regions.ts` exposes that catalog to gameplay.
 - `game/src/content/worldSites.ts` owns local mine, grove and fishery layouts. Resource slots retain
   their cluster/index IDs while site transforms place veins, trees and fishing access meaningfully.
 - `game/src/app/worldSpec.ts` is the authored Corealm terrain and visual-field configuration. It is

@@ -7,6 +7,7 @@ import type { CollectionResponse } from "../../shared/contracts.js";
 import { collectionQuery } from "../api/client.js";
 import { contentRows, rowName } from "../model/rows.js";
 import { ItemIcon } from "../ui/ItemIcon.js";
+import AssetCandidates from "./AssetCandidates.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
 import "./setPiece.css";
 
@@ -347,6 +348,7 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
             <label className="set-piece-field" htmlFor={statusId}><span>Status</span><select id={statusId} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label>
             <label className="set-piece-field set-piece-note-field" htmlFor={noteId}><span>Note <em>Optional</em></span><textarea id={noteId} rows={2} value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Add a piece-specific note" disabled={saveDisabled}/></label>
             <div className="set-piece-actions"><span className={`set-piece-dirty${dirty ? " is-dirty" : ""}`} aria-live="polite">{dirty ? "Unsaved changes" : "Saved"}</span><button className="button set-piece-button set-piece-save" type="button" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={13}/>{mutation.isPending ? "Saving..." : "Save piece"}</button></div>
+            <div className="set-piece-assets"><AssetCandidates collection={collection} entityId={recordId} slot={slot} targetLabel={`${setName} / ${slotLabel(slot)} / ${name}`} compact/></div>
           </div>
         </li>;
       })}

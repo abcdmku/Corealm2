@@ -13,8 +13,6 @@ describe("editor field metadata", () => {
   it("keeps identity, read-only, hidden and reference metadata across wrappers", () => {
     expect(serialFieldSpec(opt(id()), "id")).toMatchObject({ identity: true, readOnly: true, optional: true });
     expect(serialFieldSpec(ref("item", { label: "Output", hidden: true }))).toMatchObject({ ref: "item", label: "Output", hidden: true, minLength: 1 });
-    expect(serialFieldSpec(num(), "legacyCount").readOnly).toBe(true);
-    expect(serialFieldSpec(num(), "count").readOnly).toBe(true);
     expect(serialFieldSpec(id().describe({ identity: false, readOnly: false, ref: "item" }))).toMatchObject({ identity: false, readOnly: false, ref: "item" });
   });
   it("reports regex and exclusive bounds without non-serializable values", () => {

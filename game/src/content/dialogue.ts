@@ -1,3 +1,4 @@
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
 /**
  * Every dialogue tree in Phase 1, as a node graph.
  *
@@ -20,7 +21,7 @@
  */
 import type { ItemId, QuestId, SkillId } from "../contracts.js";
 
-import dialogueData from "../../content/data/dialogue.json";
+const dialogueData = RESOLVED_TABLES["dialogue"];
 import { FAIRY_NPC_DIALOGUE } from "./fairyNpcs.js";
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { dialogueRecordSchema } from "./schema/story.js";
@@ -84,7 +85,7 @@ export interface DialogueNodeDef {
 /** Fairy nodes are shared with their source export, including object identity. */
 export const DIALOGUE_NODES: readonly DialogueNodeDef[] = [
   ...FAIRY_NPC_DIALOGUE,
-  ...parseCollection(dialogueRecordSchema, dialogueData.filter((row) => row.catalog === "base"), { name: "dialogue" })
+  ...parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" }).filter(row => row.catalog === 'base')
     .map((row) => stripExtras(row, ["catalog"])),
 ];
 

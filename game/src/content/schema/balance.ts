@@ -1,14 +1,7 @@
 /** Typed balance inputs for pure formulas and the remaining migration snapshots. See docs/balance.md. */
-import { arr, enumOf, id, int, num, obj, rec, refine, tuple } from './core.js';
+import { arr, enumOf, id, int, num, obj, rec, refine, tuple, ref, str } from './core.js';
 import type { Infer } from './core.js';
-import { GearProgressionBalanceSchema } from './gearProgression.js';
-import { ItemFormulaBalanceSchema } from './itemFormula.js';
-import { MaterialFoodBalanceSchema } from './materialFoodDerivation.js';
 import { EnemyBalanceSchema } from './enemyBalance.js';
-import { SourceLootParamsSchema, SourceLootOwnersSchema } from './sourceLoot.js';
-import { SourceLootGraphInputsSchema } from './sourceLootGraph.js';
-import { DescendantLootParamsSchema } from './descendantLoot.js';
-import { ActorLootParamsSchema, RegionalFabricParamsSchema } from './actorLoot.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -26,23 +19,6 @@ const orderedRange = refine(tuple([nonnegative(), nonnegative()] as const),
 const quantityRange = refine(tuple([positiveInt(), positiveInt()] as const),
   ([minimum, maximum]) => minimum <= maximum, 'minimum quantity must not exceed maximum quantity');
 const roll = obj({ quantity: quantityRange, chance: probability() });
-
-/** equipment.ts authored base rows and rare(); combat.ts roll/damage arithmetic. */
-export const gearBalanceSchema = obj({
-  gatheringTiers: tiers,
-  craftingTiers: tiers,
-  attackSpeedMs: obj({ melee: positiveInt(), staff: positiveInt(), wand: positiveInt() }, {}, { unit: 'ms' }),
-  rare: obj({ bonusMultiplier: positive(), valueMultiplier: positive() }),
-  combat: refine(obj({ meleeBase: nonnegative(), meleeDivisor: positive(), rollLevelOffset: nonnegative(),
-    bonusDivisor: positive(), meleeStyleFactor: positive(), magicStyleFactor: positive(),
-    minimumHitChance: probability(), maximumHitChance: probability() }),
-  value => value.minimumHitChance <= value.maximumHitChance, 'hit chance bounds must be ordered'),
-  baselines: refine(arr(obj({ id: id(), tier: int({ min: 0 }), value: int({ min: 0 }),
-    slot: enumOf(['mainHand', 'offHand', 'head', 'body', 'legs', 'feet', 'hands'] as const),
-    requires: rec(positiveInt(), skill), bonuses,
-  }), { minLength: 1 }), values => new Set(values.map(value => value.id)).size === values.length,
-  'baseline item ids must be unique'),
-});
 
 const weight = obj({ weight: positive(), ms: positiveInt() });
 /** recipes.ts W; index.ts rounds gatherXp before multiplying by the recipe weight. */
@@ -63,37 +39,18 @@ export const setsBalanceSchema = obj({
   byTier: arr(obj({ tier: positiveInt(), defence: nonnegative(), health: nonnegative() }), { minLength: 1 }),
 });
 
-/** creatureLoot.ts MATERIAL_VALUE and production drop roll inputs. Item selection stays in TS. */
+/** Region reward associations; creature definitions own all actual loot rolls. */
 export const lootBalanceSchema = obj({
-  sourceLoot: SourceLootParamsSchema,
-  sourceInputs: SourceLootGraphInputsSchema,
-  actorLootParameters: ActorLootParamsSchema,
-  descendantLootParameters: DescendantLootParamsSchema,
-  sourceOwners: SourceLootOwnersSchema,
-  materialValues: arr(obj({ tier: positiveInt(), value: nonnegative() }), { minLength: 1 }),
-  bossArmorExpectedPieces: nonnegative(),
-  regionalFabric: RegionalFabricParamsSchema,
-  wilderness: obj({ deepTier: positiveInt(),
-    keeper: obj({ material: roll, component: roll, rune: roll, cosmicRune: roll, ore: roll, gem: roll }),
-    ordinary: obj({ material: roll, cosmicRune: roll, ore: roll, gem: roll, structureComponent: roll,
-      runes: arr(roll.extend({ rank: positiveInt() }), { minLength: 1 }) }),
+  wildernessParameters: obj({
+    keeperRewards: refine(arr(obj({ keeperId: ref('enemy'), rune: ref('item'), component: ref('item') })),
+      rows => new Set(rows.map(row => row.keeperId)).size === rows.length, 'duplicate keeper reward'),
+    structureComponents: refine(arr(obj({ structureId: str({ nonEmpty: true }), itemId: ref('item') })),
+      rows => new Set(rows.map(row => row.structureId)).size === rows.length, 'duplicate structure component'),
   }),
 });
 
 /** Original enemy arithmetic and independently authored Stage 1 inputs. */
 export const enemiesBalanceSchema = EnemyBalanceSchema;
-
-/** jewelry.ts and universalMinibossLoot.ts profiles. Legacy id rewrites stay in TS. */
-export const jewelryBalanceSchema = obj({
-  crafted: obj({ valuePerTier: nonnegative(), bonusTierDivisor: positive(), healthMultiplier: positive(),
-    otherMultiplier: positive(), recipeDurationMs: positiveInt(), recipeWeight: positive(),
-    ingredientQuantity: positiveInt(), outputQuantity: positiveInt(),
-    profiles: arr(obj({ tier: positiveInt(), stat, requirementSkill: skill, bar: id(), gem: id() }), { minLength: 1 }),
-  }),
-  miniboss: obj({ valuePerTier: nonnegative(), bonusPerStat: nonnegative(),
-    profiles: arr(obj({ tier: positiveInt(), stats: arr(stat, { minLength: 1 }), requirementSkill: skill }), { minLength: 1 }),
-  }),
-});
 
 /** encounterPopulation.ts tunable limits. Hash algorithm and hex geometry remain code. */
 export const formationBalanceSchema = refine(obj({ minimum: positiveInt(), maximum: positiveInt(),
@@ -107,17 +64,12 @@ export const formationBalanceSchema = refine(obj({ minimum: positiveInt(), maxim
 export const campfiresBalanceSchema = obj({ buildTimeMs: positiveInt(), lifetimeBaseMs: positiveInt(), lifetimePerTierMs: nonnegative(), buildXpGatherMultiplier: nonnegative() });
 
 export const BALANCE_SCHEMAS = {
-  gear: gearBalanceSchema, recipes: recipesBalanceSchema, sets: setsBalanceSchema, loot: lootBalanceSchema,
-  enemies: enemiesBalanceSchema, jewelry: jewelryBalanceSchema, formation: formationBalanceSchema, campfires: campfiresBalanceSchema,
-  gearProgression: GearProgressionBalanceSchema,
-  itemFormula: ItemFormulaBalanceSchema,
-  materialFood: MaterialFoodBalanceSchema,
+  recipes: recipesBalanceSchema, sets: setsBalanceSchema, loot: lootBalanceSchema,
+  enemies: enemiesBalanceSchema, formation: formationBalanceSchema, campfires: campfiresBalanceSchema,
 } as const;
-export type GearBalance = Infer<typeof gearBalanceSchema>;
 export type RecipesBalance = Infer<typeof recipesBalanceSchema>;
 export type SetsBalance = Infer<typeof setsBalanceSchema>;
 export type LootBalance = Infer<typeof lootBalanceSchema>;
 export type EnemiesBalance = Infer<typeof enemiesBalanceSchema>;
-export type JewelryBalance = Infer<typeof jewelryBalanceSchema>;
 export type FormationBalance = Infer<typeof formationBalanceSchema>;
 export type CampfiresBalance = Infer<typeof campfiresBalanceSchema>;

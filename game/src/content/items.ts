@@ -1,9 +1,8 @@
 /** Item catalog views share the validated records in game/content/data/items.json. */
 import type { EquipSlot, ItemDef, ItemStack } from "../contracts.js";
-import { ITEM_DATA, itemRows } from "./itemData.js";
-import { ITEM_SOURCE_VIEWS } from "./schema/itemRecords.js";
+import { ITEM_DATA } from "./itemData.js";
 
-export const ITEMS: readonly ItemDef[] = itemRows(ITEM_SOURCE_VIEWS.ITEMS);
+export const ITEMS: readonly ItemDef[] = ITEM_DATA;
 /** The table registered by the game, in the same order as the authored JSON file. */
 export const ALL_ITEMS: readonly ItemDef[] = ITEM_DATA;
 

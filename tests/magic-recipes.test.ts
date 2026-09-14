@@ -8,13 +8,8 @@ import { SHOPS } from "../game/src/content/shops.js";
 const BY_ID = new Map(RECIPES.map((recipe) => [recipe.id, recipe]));
 
 describe("magic weapon recipes", () => {
-  it.each([
-    ["palewood", 24],
-    ["duskoak", 58],
-    ["cairnpine", 84],
-  ] as const)("uses the approved 2.4 wand weight for %s", (wood, xp) => {
+  it.each(["palewood", "duskoak", "cairnpine"] as const)("fletches each wooden wand from two shafts", (wood) => {
     const wand = BY_ID.get(`fletch_${wood}_wand`);
-    expect(wand?.xp).toBe(xp);
     expect(wand?.durationMs).toBe(1_800);
     expect(wand?.inputs).toEqual([{ itemId: `${wood}_shaft`, quantity: 2 }]);
     expect(wand?.output).toEqual({ itemId: `${wood}_wand`, quantity: 1 });

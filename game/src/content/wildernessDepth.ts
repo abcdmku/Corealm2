@@ -1,6 +1,14 @@
+import { CREATURE_CATALOG } from './creatureRuntime.js';
+import { LOOT_BALANCE } from './lootBalanceData.js';
+import type { ItemId } from '../contracts.js';
+
 /** Root-owned depth contract. Semantic ownership stays `wilderness`; these are progression bands. */
 export const WILDERNESS_DEPTH = {
-  south: 460, divide: 700, north: 940, shallowTier: 50, deepTier: 70,
+  south: 460,
+  divide: 700,
+  north: 940,
+  shallowTier: 50,
+  deepTier: 70,
   magicFadeStart: 650, magicFadeEnd: 810,
 } as const;
 
@@ -17,13 +25,12 @@ export function wildernessMagicAt(x: number, z: number): number {
 }
 
 /** Five invocation runes from the merged magic system; Cosmic Runes supplement their drops. */
-export const WILDERNESS_RUNE_KEEPERS = [
-  { id: 'ashseal_warden', name: 'Ashseal Warden', tier: 50, multiplier: 3, rune: 'mind_rune' },
-  { id: 'furnace_regent', name: 'Furnace Regent', tier: 50, multiplier: 4, rune: 'chaos_rune' },
-  { id: 'chainbound_archon', name: 'Chainbound Archon', tier: 70, multiplier: 3, rune: 'death_rune' },
-  { id: 'nightforge_marshal', name: 'Nightforge Marshal', tier: 70, multiplier: 4, rune: 'blood_rune' },
-  { id: 'hollow_star', name: 'The Hollow Star', tier: 70, multiplier: 5, rune: 'wrath_rune' },
-] as const;
+export const WILDERNESS_RUNE_KEEPERS: readonly { id: string; name: string; tier: number; rune: ItemId }[] =
+  LOOT_BALANCE.wildernessParameters.keeperRewards.map(reward => {
+    const creature = CREATURE_CATALOG.byCreatureId.get(reward.keeperId);
+    if (!creature) throw new Error(`Unknown Wilderness keeper ${reward.keeperId}`);
+    return { id: reward.keeperId, name: creature.enemy.name, tier: creature.enemy.tier, rune: reward.rune };
+  });
 
 /** Reservable authored intentions, shared by placement workers before final-world registration. */
 export const WILDERNESS_EXPANSION_SITES = [

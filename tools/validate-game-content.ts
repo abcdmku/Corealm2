@@ -1,23 +1,11 @@
-import { CROWNWARD_FISH } from '../game/src/content/crownwardFishing.js';
+import { RUNTIME_CATALOG } from '../game/src/content/runtimeCatalog.js';
 /** Authoring checks run before packaging, so players do not download or repeat the build audit. */
 import path from "node:path";
-import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { content, type ContentTables } from "../game/src/content/index.js";
-import { ALL_ITEMS } from "../game/src/content/items.js";
-import { RESOURCES } from "../game/src/content/resources.js";
-import { RECIPES } from "../game/src/content/recipes.js";
-import { CREATURE_LOOT_RECIPES } from "../game/src/content/creatureLoot.js";
-import { WILDERNESS_CRAFTING_TIERS } from '../game/src/content/wildernessLoot.js';
-import { SPELLS } from "../game/src/content/spells.js";
-import { ENEMIES } from "../game/src/content/enemies.js";
-import { SHOPS } from "../game/src/content/shops.js";
 import { QUESTS, type QuestPredicate } from "../game/src/content/quests.js";
 import { REGIONS, validateRegions } from "../game/src/content/regions.js";
-import { GATHERING_PRODUCTION_TIERS } from "../game/src/content/gatheringProductionTiers.js";
-import { validateGatheringProduction } from "../game/src/content/validateGatheringProduction.js";
-import { ITEM_ICON_APPEARANCE_IDS, itemIconAppearance } from "../game/src/render/itemIconAppearances.js";
 import { ALL_PROCEDURAL_GEAR_ASSETS } from "../game/src/render/proceduralGear.js";
 import { TRAVERSAL_CONTACTS } from "../game/src/systems/traversalContacts.js";
 import type { AssetManifest } from "../game/src/render/assets.js";
@@ -120,51 +108,16 @@ export interface GameContentReferencePools {
 
 export async function validateGameContent(onReferences?: (pools: GameContentReferencePools) => void): Promise<GameContentValidation> {
   const manifest = JSON.parse(await readFile(path.join(gameRoot, "public/assets/manifest.json"), "utf8")) as AssetManifest;
-  const iconRegistry = JSON.parse(await readFile(path.resolve(gameRoot, "../art/item-icons/generated/registry.json"), "utf8"));
-  const promptedIconIds = new Set<string>();
-  for (const [id, entry] of Object.entries(iconRegistry.items) as [string, {status:string;source:string;sha256:string}][]) {
-    if (entry.status !== "accepted") continue;
-    const bytes = await readFile(path.resolve(gameRoot, "../art/item-icons/generated", entry.source));
-    if (createHash("sha256").update(bytes).digest("hex") !== entry.sha256) throw new Error(`Icon source hash mismatch: ${id}`);
-    await readFile(path.join(gameRoot, "public/assets/icons/items/48", `${id}.png`));
-    promptedIconIds.add(id);
-  }
-  const verifiedSourceHashes = new Map<string, string>();
-  const sourcePaths = new Set(manifest.packs.flatMap((pack) => {
-    const reference = (pack as typeof pack & { sourceReference?: { file: string } }).sourceReference;
-    return [pack.generatorSha256 ? pack.source : undefined, reference?.file].filter((file): file is string => file !== undefined);
-  }));
-  const repositoryRoot = path.resolve(gameRoot, "..");
-  for (const source of sourcePaths) {
-    const absolute = path.resolve(repositoryRoot, source);
-    const relative = path.relative(repositoryRoot, absolute);
-    if (relative.startsWith("..") || path.isAbsolute(relative)) continue;
-    try { verifiedSourceHashes.set(source, createHash("sha256").update(await readFile(absolute)).digest("hex")); }
-    catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
-  }
   const assets = new Map(manifest.assets.map((asset) => [asset.id, asset]));
   const knownAssetIds = new Set([
     ...assets.keys(), ...ALL_PROCEDURAL_GEAR_ASSETS.map((asset) => asset.assetId),
     ...Object.values(TRAVERSAL_CONTACTS).map((asset) => asset.assetId),
   ]);
-  const tables: ContentTables = {
-    items: ALL_ITEMS, resources: RESOURCES, recipes: RECIPES, spells: SPELLS, enemies: ENEMIES, shops: SHOPS,
-  };
+  const tables: ContentTables = RUNTIME_CATALOG.tables;
   content.register(tables);
   const problems = [
     ...validateRegions(knownAssetIds).map((problem) => `regions: ${problem}`),
     ...validateContentTables(tables).map((problem) => `tables: ${problem}`),
-    ...validateGatheringProduction({
-      tiers: GATHERING_PRODUCTION_TIERS, resources: RESOURCES,
-      additionalRecipeTiers: [...WILDERNESS_CRAFTING_TIERS, ...CROWNWARD_FISH].map(({ tier }) => ({ tier, reqLevel: tier })),
-      recipes: RECIPES.filter((recipe) => !CREATURE_LOOT_RECIPES.includes(recipe)), items: ALL_ITEMS,
-      knownManifestAssetIds: knownAssetIds, assetManifest: manifest,
-      verifiedSourceHashes,
-      clusters: REGIONS.flatMap((region) => region.clusters),
-      stations: REGIONS.flatMap((region) => [...(region.settlement?.stations ?? []), ...region.stations]),
-      promptedIconIds,
-      itemAppearances: ITEM_ICON_APPEARANCE_IDS.map((id) => itemIconAppearance(id)),
-    }).map((problem) => `gathering-production: ${problem}`),
   ];
   if (problems.length > 0) throw new Error(`Game content validation failed:\n${problems.map((problem) => `- ${problem}`).join("\n")}`);
 

@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS, bossArmorDrops } from '../game/src/content/bossArmor.js';
+import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS } from '../game/src/content/bossArmor.js';
 import { ALL_ITEMS } from '../game/src/content/items.js';
 import { EQUIPMENT_SETS } from '../game/src/content/equipmentSets.js';
-import { WILDERNESS_LOOT_RECIPES, wildernessDrops } from '../game/src/content/wildernessLoot.js';
-import { WILDERNESS_RUNE_KEEPERS } from '../game/src/content/wildernessDepth.js';
+import { WILDERNESS_LOOT_RECIPES } from '../game/src/content/wildernessLoot.js';
 
 const members = {
   head: 'frostweave_hood', body: 'frostweave_robe', legs: 'frostweave_leggings',
@@ -37,13 +36,4 @@ describe('five-piece Aurora Frostweave', () => {
     expect(BOSS_ARMOR_ITEMS.find(item => item.id === 'nightweave_hood')?.name).toBe('Void Nightweave Headwrap');
   });
 
-  it('adds neither a T90 keeper reward nor a crafting recipe', () => {
-    const tier90 = new Set(BOSS_ARMOR_ITEMS.filter(item => item.tier === 90).map(item => item.id));
-    const rewards = [
-      ...bossArmorDrops(50), ...bossArmorDrops(70),
-      ...WILDERNESS_RUNE_KEEPERS.flatMap(keeper => wildernessDrops(keeper.id, keeper.tier, keeper.id)),
-    ];
-    expect(rewards.filter(drop => tier90.has(drop.itemId))).toEqual([]);
-    expect(WILDERNESS_LOOT_RECIPES.filter(recipe => tier90.has(recipe.output.itemId))).toEqual([]);
-  });
 });

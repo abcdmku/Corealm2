@@ -1,19 +1,6 @@
-import { validateSourceLootLinks } from './schema/sourceLootLinks.js';
-import rawLootBalance from '../../content/data/balance/loot.json';
-import { ENEMY_RECORDS, ENEMY_ALIAS_RECORDS } from './enemyData.js';
-import { CREATURE_RECORDS } from './creatureData.js';
-import { LOOT_RECORDS } from './lootData.js';
-import { validateCreatureCollections } from './schema/creatureLinks.js';
-import { validateEnemyFormulaLinks } from './schema/enemyFormulaLinks.js';
-import { ENEMY_BALANCE } from './enemyBalanceData.js';
+import { CREATURE_CATALOG } from './creatureRuntime.js';
 
-/** Boot validates the same joins as editor writes, before registering gameplay tables. */
+/** Importing the shared compiler validates sources, direct bases, profiles and combat outputs. */
 export function assertCreatureCatalog(): void {
-  const tables = new Map<string, unknown>([
-    ['enemies', ENEMY_RECORDS], ['enemyAliases', ENEMY_ALIAS_RECORDS],
-    ['creatures', CREATURE_RECORDS], ['lootTables', LOOT_RECORDS],
-    ['balance/enemies', ENEMY_BALANCE], ['balance/loot', rawLootBalance],
-  ]);
-  const issues = [...validateCreatureCollections(tables), ...validateEnemyFormulaLinks(tables), ...validateSourceLootLinks(tables)];
-  if (issues.length) throw new Error(issues.map(issue => `${issue.path}: ${issue.message}`).join('\n'));
+  if (!CREATURE_CATALOG.creatures.length) throw new Error('Creature catalog must not be empty');
 }

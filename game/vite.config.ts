@@ -5,6 +5,7 @@ import { generationRevisionPlugin } from "../tools/lib/generation-revision.js";
 import { worldDataBuildGuard } from "../tools/lib/world-artifact.js";
 import { releaseTexturePackPlugin } from '../tools/lib/asset-texture-pack.js';
 import { releaseNavigationPlugin } from '../tools/lib/release-navigation.js';
+import { runtimeCatalogPlugin } from '../tools/lib/runtime-catalog-plugin.js';
 
 const APPLICATION_INITIAL_JS_GZIP_BUDGET = 1_000_000;
 const CRITICAL_JS_AND_WASM_GZIP_BUDGET = 1_500_000;
@@ -242,7 +243,7 @@ export default defineConfig({
       "@recast-navigation/wasm/wasm",
     ],
   },
-  plugins: [generationRevisionPlugin(), releaseNavigationPlugin(), worldDataBuildGuard(), wasmMimePlugin(), compressedBundleBudgetPlugin(), releaseTexturePackPlugin()],
+  plugins: [runtimeCatalogPlugin(), generationRevisionPlugin(), releaseNavigationPlugin(), worldDataBuildGuard(), wasmMimePlugin(), compressedBundleBudgetPlugin(), releaseTexturePackPlugin()],
   build: {
     outDir: "dist",
     emptyOutDir: true,

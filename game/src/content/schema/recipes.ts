@@ -1,8 +1,6 @@
 import { SKILL_IDS } from "../../contracts.js";
 import type { StationKind } from "../../contracts.js";
 import type { RecipeDef, RecipeKind } from "../index.js";
-import { RecipeDerivationSchema } from "./recipeDerivation.js";
-import { JewelryRecipeDerivationSchema } from "./jewelryDerivation.js";
 import { arr, enumOf, id, int, nullable, num, obj, opt, ref, str, union, type Schema } from "./core.js";
 
 const ingredient = obj({
@@ -28,22 +26,5 @@ export const RecipeSchema = obj({
   burntItemId: opt(ref("item"), { label: "Burnt output", help: "Item produced when cooking fails." }),
 }) satisfies Schema<RecipeDef>;
 
-/** Exclusive leaf catalogs followed by the remaining base recipes. */
-export const RECIPE_SOURCE_CATALOGS = [
-  "JEWELRY_RECIPES", "CREATURE_LOOT_RECIPES", "WILDERNESS_LOOT_RECIPES",
-  "CROWNWARD_FISH_RECIPES", "REGIONAL_TIER_RECIPES", "RECIPES",
-] as const;
-export type RecipeCatalog = typeof RECIPE_SOURCE_CATALOGS[number];
-
-export const RecipeRecordSchema = RecipeSchema.extend({
-  catalog: enumOf(RECIPE_SOURCE_CATALOGS, { hidden: true }),
-  derivation: opt(union([RecipeDerivationSchema, JewelryRecipeDerivationSchema] as const), {
-    label: "Balance derivation",
-    help: "Locks the fields supplied by this recipe's source formula, including XP and base-table duration. Remove this tag to hand tune them.",
-  }),
-});
-
-export type RecipeRecord = RecipeDef & {
-  catalog: RecipeCatalog;
-  derivation?: import("./recipeDerivation.js").RecipeDerivation | import("./jewelryDerivation.js").JewelryRecipeDerivation;
-};
+export const RecipeRecordSchema = RecipeSchema;
+export type RecipeRecord = RecipeDef;

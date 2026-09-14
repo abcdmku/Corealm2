@@ -1,6 +1,6 @@
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { discriminated, enumOf, obj, opt, parseValue, refine, str, type Infer, type ParseContext } from "../../../game/src/content/schema/core.js";
+import { discriminated, enumOf, obj, opt, parseValue, refine, str, unknown as unknownSchema, type Infer, type ParseContext } from "../../../game/src/content/schema/core.js";
 import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../tools/content/collections.js";
 import { contentRevision, formatContentJson } from "../../../tools/content/format.js";
 import { withFileLock } from "../../../tools/content/locks.js";
@@ -8,6 +8,7 @@ import { emptyMetaRecord, MetaFileSchema, REQUEST_KINDS, type MetaFile, type Met
 import { openRequest } from "../../../tools/content/requests.js";
 import { atomicReplaceFile } from "../../../tools/lib/atomic-replace-file.js";
 import { repoRoot } from "../../../tools/lib/paths.js";
+import { readRuntimeCatalogs } from '../catalogs.js';
 import { isLoopbackDevdocsRequest, type DevdocsJsonResponse, type DevdocsRequest } from "./collections.js";
 
 export interface MetaHandlerOptions {
@@ -83,10 +84,31 @@ async function snapshot(file: string, collection: string): Promise<MetaSnapshot>
   return { records: parseValue(MetaFileSchema, JSON.parse(text), `${collection}.meta`), revision: contentRevision(text) };
 }
 async function entity(root: string, spec: ContentCollection, entityId: string): Promise<Record<string, unknown> | undefined> {
+  if(spec.name==='assets'){const catalog=(await readRuntimeCatalogs()).find(row=>row.collection.name==='assets');return (catalog?.data as Record<string,unknown>[]|undefined)?.find(row=>row.id===entityId);}
   const text = await readFile(containedFile(root, spec.file), "utf8");
   const data = parseContentCollection(spec, JSON.parse(text));
   if (spec.shape === "object") return entityId === "$collection" ? data as Record<string, unknown> : undefined;
-  return (data as Record<string, unknown>[]).find(row => String(row[spec.idKey]) === entityId);
+  const authored = (data as Record<string, unknown>[]).find(row => String(row[spec.idKey]) === entityId);
+  if (authored) return authored;
+  // Generated items retain their own review identity even though progression owns their values.
+  // Resolve against the accepted catalog only; metadata must never trigger a content rebuild.
+  try {
+    const build = JSON.parse(await readFile(containedFile(root, 'compiled/catalog.json'), 'utf8')) as { tables: Record<string, unknown> };
+    const resolved = build.tables[spec.name];
+    const record = Array.isArray(resolved) ? (resolved as Record<string, unknown>[]).find(row => String(row[spec.idKey]) === entityId) : undefined;
+    if(record)return record;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  // A new workspace may not have a build yet. Membership IDs are explicit authored identities,
+  // so notes can attach to them without calculating or publishing a generated record.
+  const members = spec.name === 'items' ? 'equipment' : spec.name === 'recipes' ? 'production' : undefined;
+  const progression = CONTENT_COLLECTIONS.find(row => row.name === 'progression');
+  if(members && progression){
+    const tiers=parseContentCollection(progression,JSON.parse(await readFile(containedFile(root,progression.file),'utf8'))) as Record<string,unknown>[];
+    for(const tier of tiers){const record=(tier[members] as Record<string,unknown>[]).find(row=>row.id===entityId);if(record)return record;}
+  }
+  return undefined;
 }
 function ownRecord(records: MetaFile, entityId: string): MetaRecord {
   if (!Object.hasOwn(records, entityId)) {
@@ -148,7 +170,9 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
     if (!target) return failure(400, "Malformed metadata URL");
     const method = (request.method ?? "GET").toUpperCase();
     if (method !== "GET" && method !== "PATCH") return json(405, { error: "Method not allowed" }, { Allow: "GET, PATCH" });
-    const spec = CONTENT_COLLECTIONS.find(row => row.name === target.collection);
+    // Both the authored and resolved inspection pages share one metadata record.
+    const collection = target.collection.startsWith('compiled-') ? target.collection.slice('compiled-'.length) : target.collection;
+    const spec = CONTENT_COLLECTIONS.find(row => row.name === collection) ?? (collection==='assets'?{name:'assets',file:'',schema:unknownSchema(),shape:'array' as const,idKey:'id'}:undefined);
     if (!spec) return failure(404, "Unknown collection");
     let patch: MetaPatch | undefined;
     if (method === "PATCH") {
@@ -178,6 +202,7 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
         const validated = parseValue(MetaFileSchema, updated, `${spec.name}.meta`);
         const ordered = Object.fromEntries(Object.keys(validated).sort().map(id => [id, validated[id]]));
         const text = formatContentJson(ordered);
+        await mkdir(path.dirname(file), {recursive:true});
         await atomicReplaceFile(file, text);
         return response({ records: validated, revision: contentRevision(text) });
       });

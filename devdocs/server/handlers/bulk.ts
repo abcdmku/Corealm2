@@ -1,3 +1,4 @@
+import { transact } from './transaction.js';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { arr, bool, discriminated, enumOf, num, obj, opt, parseValue, refine, str, type ParseContext } from '../../../game/src/content/schema/core.js';
@@ -9,7 +10,7 @@ import type { ReferencePools } from '../../../tools/content/references.js';
 import { atomicReplaceFile } from '../../../tools/lib/atomic-replace-file.js';
 import { repoRoot } from '../../../tools/lib/paths.js';
 import type { ApiDiagnostic, BulkRequest, BulkResponse } from '../../shared/contracts.js';
-import { collectionFile, loadCollectionSnapshots, parseAuthoredCollection, validateCollectionOverlay } from '../lib/validateCollections.js';
+import { collectionFile, parseAuthoredCollection } from '../lib/validateCollections.js';
 import { isLoopbackDevdocsRequest, type DevdocsJsonResponse, type DevdocsRequest } from './collections.js';
 import { applyMetaOperation, metadataFile, readMetadataSnapshot } from './meta.js';
 
@@ -27,7 +28,7 @@ const revision = str({ pattern: /^[a-f0-9]{64}$/ });
 const actionSchema = discriminated('kind', {
   status: obj({ kind: enumOf(['status'] as const), status: enumOf(['draft', 'candidate', 'rejected'] as const) }),
   note: obj({ kind: enumOf(['note'] as const), text: nonblank, label: opt(str()) }),
-  retier: obj({ kind: enumOf(['retier'] as const), tier: num({ integer: true, min: 1 }), unlinkFormulas: bool() }),
+  retier: obj({ kind: enumOf(['retier'] as const), tier: num({ integer: true, min: 1 }) }),
 });
 const requestSchema = obj({
   operation: enumOf(['preview', 'apply'] as const), collection: nonblank,
@@ -75,6 +76,17 @@ export function createBulkHandler(options: BulkHandlerOptions = {}): BulkHandler
     if (!spec) return failure(404, 'Unknown collection');
     if (spec.shape !== 'array') return failure(422, 'Bulk operations require an array collection');
     try {
+      if(body.action.kind==='retier'){
+        const text=await readFile(collectionFile(root,spec),'utf8');const rows=JSON.parse(text) as Record<string,unknown>[];
+        const current=contentRevision(text);const selected=rows.filter(row=>body.recordIds.includes(String(row[spec.idKey])));
+        if(selected.length!==body.recordIds.length)return failure(422,'Every selected record must exist');
+        const tier=body.action.tier;
+        if(selected.some(row=>typeof row.tier!=='number'))return failure(422,'Every selected record must own a numeric tier');
+        const result=await transact({operation:body.operation==='apply'?'save':'preview',revisions:{[spec.name]:body.revisions?.content??current},changes:selected.map(row=>({kind:'put',collection:spec.name,id:String(row[spec.idKey]),record:{...row,tier}}))},options);
+        if(result.status!==200)return result;
+        const payload=JSON.parse(result.body);
+        return json(200,{collection:spec.name,recordIds:body.recordIds,action:body.action,revisions:{content:body.operation==='apply'?(payload.revisions[spec.name]??current):current},diffs:selected.filter(row=>row.tier!==tier).map(row=>({recordId:String(row[spec.idKey]),before:{tier:row.tier},after:{tier}})),diagnostics:payload.diagnostics});
+      }
       const file = collectionFile(root, spec);
       return await withFileLock(path.join(root, '.collection-write'), () => withFileLock(file, async () => {
         const currentText = await readFile(file, 'utf8');
@@ -93,40 +105,7 @@ export function createBulkHandler(options: BulkHandlerOptions = {}): BulkHandler
           .map(id => ({ path: `${spec.name}.${id}`, message: 'Unknown record', severity: 'error' })));
         const recordIds = selected.map(row => String(row[spec.idKey]));
         const action = body.action;
-        if (action.kind === 'retier') {
-          const diagnostics: ApiDiagnostic[] = [];
-          for (const row of selected) {
-            const at = `${spec.name}.${String(row[spec.idKey])}`;
-            if (!Object.hasOwn(row, 'tier') || typeof row.tier !== 'number' || !Number.isFinite(row.tier)) {
-              diagnostics.push({ path: `${at}.tier`, message: 'Record must own a numeric tier', severity: 'error' });
-            }
-            if (Object.hasOwn(row, 'derivation') && !action.unlinkFormulas) {
-              diagnostics.push({ path: `${at}.derivation`, message: 'Retiering a formula record requires explicit unlinkFormulas', severity: 'error' });
-            }
-          }
-          if (diagnostics.length) return failure(422, 'Bulk retier failed validation', diagnostics);
-          const proposed = rows.map(row => {
-            if (!wanted.has(String(row[spec.idKey]))) return row;
-            const changed: Record<string, unknown> = { ...row, tier: action.tier };
-            if (action.unlinkFormulas) delete changed.derivation;
-            return changed;
-          });
-          const snapshots = await loadCollectionSnapshots(root);
-          snapshots.set(spec.name, { data: raw, text: currentText });
-          const external = await options.referencePools?.() ?? {};
-          const result = validateCollectionOverlay(snapshots, spec, proposed, recordIds, external);
-          if (result.diagnostics.some(issue => issue.severity === 'error')) return failure(422, 'Bulk retier failed validation', result.diagnostics);
-          const diffs = selected.filter(row => row.tier !== action.tier || Object.hasOwn(row, 'derivation')).map(row => ({ recordId: String(row[spec.idKey]),
-            before: { ...(row.tier !== action.tier ? { tier: row.tier } : {}), ...(Object.hasOwn(row, 'derivation') ? { derivation: row.derivation } : {}) },
-            after: { ...(row.tier !== action.tier ? { tier: action.tier } : {}) } }));
-          let nextContent = content;
-          if (body.operation === 'apply') {
-            const text = formatContentJson(result.data);
-            await atomicReplaceFile(file, text);
-            nextContent = contentRevision(text);
-          }
-          return json(200, { collection: spec.name, recordIds, action, revisions: { content: nextContent }, diffs, diagnostics: result.diagnostics } satisfies BulkResponse);
-        }
+        if(action.kind==='retier')throw new Error('Retier must use the content transaction');
         const metaFile = metadataFile(root, spec.name);
         // Coordinate with individual metadata and CLI writers after taking content locks.
         return withFileLock(metaFile, async () => {
@@ -157,7 +136,8 @@ export function createBulkHandler(options: BulkHandlerOptions = {}): BulkHandler
           return json(200, { collection: spec.name, recordIds, action, revisions: { content, meta }, diffs, diagnostics: [] } satisfies BulkResponse);
         });
       }));
-    } catch {
+    } catch (error) {
+
       return failure(500, 'Unable to process bulk operation');
     }
   };

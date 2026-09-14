@@ -1,0 +1,93 @@
+[
+  {
+    "id": "production_craft_crafting_crafting_table",
+    "name": "Craft crafting",
+    "formula": "production.linear",
+    "kind": "craft",
+    "skill": "crafting",
+    "stations": [
+      "crafting_table"
+    ],
+    "parameters": {
+      "durationMs": 3000,
+      "xpBase": 5,
+      "xpPerLevel": 10
+    }
+  },
+  {
+    "id": "production_smelt_smithing_furnace",
+    "name": "Smelt smithing",
+    "formula": "production.linear",
+    "kind": "smelt",
+    "skill": "smithing",
+    "stations": [
+      "furnace"
+    ],
+    "parameters": {
+      "durationMs": 2400,
+      "xpBase": 5,
+      "xpPerLevel": 10
+    }
+  },
+  {
+    "id": "production_smith_smithing_anvil",
+    "name": "Smith smithing",
+    "formula": "production.linear",
+    "kind": "smith",
+    "skill": "smithing",
+    "stations": [
+      "anvil"
+    ],
+    "parameters": {
+      "durationMs": 3000,
+      "xpBase": 5,
+      "xpPerLevel": 10
+    }
+  },
+  {
+    "id": "production_cook_cooking_range_campfire",
+    "name": "Cook cooking",
+    "formula": "production.linear",
+    "kind": "cook",
+    "skill": "cooking",
+    "stations": [
+      "range",
+      "campfire"
+    ],
+    "parameters": {
+      "durationMs": 2400,
+      "xpBase": 5,
+      "xpPerLevel": 10
+    }
+  },
+  {
+    "id": "production_craft_crafting_essence_altar",
+    "name": "Craft crafting",
+    "formula": "production.linear",
+    "kind": "craft",
+    "skill": "crafting",
+    "stations": [
+      "essence_altar"
+    ],
+    "parameters": {
+      "durationMs": 1800,
+      "xpBase": 5,
+      "xpPerLevel": 10
+    }
+  },
+  {
+    "id": "production_fletch_fletching_fletching_bench",
+    "name": "Fletch fletching",
+    "formula": "production.linear",
+    "kind": "fletch",
+    "skill": "fletching",
+    "stations": [
+      "fletching_bench"
+    ],
+    "parameters": {
+      "durationMs": 1800,
+      "xpBase": 5,
+      "xpPerLevel": 10
+    }
+  }
+]

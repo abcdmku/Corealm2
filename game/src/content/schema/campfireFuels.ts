@@ -1,5 +1,5 @@
 import type { CampfireFuelDef } from "../index.js";
-import { int, lit, num, obj, opt, ref, type Infer, type Schema } from "./core.js";
+import { int, num, obj, ref, type Infer, type Schema } from "./core.js";
 
 const buildXpSchema = obj({
   fletching: num({ min: 0 }, { label: "Fletching XP", unit: "xp" }),
@@ -16,16 +16,6 @@ export const CampfireFuelSchema = obj({
   visualLogAssetId: ref("asset", { label: "Log asset" }),
 }) satisfies Schema<CampfireFuelDef>;
 
-/** The only current campfire derivation locks the numeric runtime fields to balance parameters. */
-export const CampfireFuelDerivationSchema = obj({
-  kind: lit("campfireFuel", { readOnly: true }),
-});
-
-export const CampfireFuelRecordSchema = CampfireFuelSchema.extend({
-  derivation: opt(CampfireFuelDerivationSchema, {
-    label: "Balance derivation",
-    help: "Recomputes campfire timing and build XP from balance/campfires.json and balance/recipes.json.",
-  }),
-});
+export const CampfireFuelRecordSchema = CampfireFuelSchema;
 
 export type CampfireFuelRecord = Infer<typeof CampfireFuelRecordSchema>;

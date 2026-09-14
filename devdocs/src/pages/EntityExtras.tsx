@@ -7,10 +7,10 @@ import type { CollectionResponse } from "../../shared/contracts.js";
 import type { ViewerSource } from "../viewer/types.js";
 
 const AssetViewer = lazy(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
-const JOIN_COLLECTIONS = ["items", "recipes", "resources", "equipmentSets", "shops", "quests", "enemies", "creatures", "enemyAliases", "lootTables"];
+const JOIN_COLLECTIONS = ["items", "compiled-items", "recipes", "compiled-recipes", "resources", "compiled-resources", "equipmentSets", "shops", "quests", "enemies", "creatures", "enemyAliases", "lootTables"];
 export function viewerSource({ collection, record }: EntityDetailProps): ViewerSource | undefined {
   if (collection === "equipmentSets") return { mode: "outfit", itemIds: Object.values(record.members as Record<string, string>) };
-  if (collection === "items") {
+  if (collection === "items" || collection === "compiled-items") {
     const equip = record.equip as { slot?: string } | undefined;
     const id = String(record.id);
     if (equip?.slot === "mainHand" || record.tool) return { mode: "outfit", itemIds: [], mainHandId: id };
@@ -18,6 +18,8 @@ export function viewerSource({ collection, record }: EntityDetailProps): ViewerS
     if (equip?.slot && ["head", "body", "legs", "feet", "hands"].includes(equip.slot)) return { mode: "outfit", itemIds: [id] };
   }
   if (["creatures", "enemies"].includes(collection) && typeof record.assetId === "string") return { mode: "creature", assetId: record.assetId };
+  const presentation = record.presentation as { assetId?: unknown } | undefined;
+  if (collection === "creatureDefinitions" && typeof presentation?.assetId === "string") return { mode: "creature", assetId: presentation.assetId };
   if (collection === "assets") return { mode: "asset", assetId: String(record.id) };
   return undefined;
 }
@@ -43,7 +45,7 @@ export function ItemConnections({ record, navigate }: EntityDetailProps) {
 export function EntityExtras(props: EntityDetailProps) {
   const source = viewerSource(props);
   return <>{source && <section className="detail-section"><Suspense fallback={<p role="status">Loading 3D viewer…</p>}><AssetViewer source={source} label={String(props.record.name ?? "Model")}/></Suspense></section>}
-    {props.collection === "items" && <ItemConnections {...props}/>}</>;
+    {(props.collection === "items" || props.collection === "compiled-items") && <ItemConnections {...props}/>}</>;
 }
 
 export function EntityModel(props: EntityDetailProps) {

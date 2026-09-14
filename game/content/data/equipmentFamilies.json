@@ -1,0 +1,537 @@
+[
+  {
+    "id": "gear_mainHand_melee_2400",
+    "name": "Mainhand Melee 2400",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 195.71428571428572,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 1.7857142857142858,
+        "magicAccuracy": 0.0,
+        "defence": 0.0,
+        "health": 0.0,
+        "meleePower": 1.8285714285714285,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "mainHand",
+    "attackSpeedMs": 2400
+  },
+  {
+    "id": "gear_offHand_melee_0",
+    "name": "Offhand Melee 0",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 108.57142857142857,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.11428571428571428,
+        "magicAccuracy": 0.0,
+        "defence": 0.8,
+        "health": 0.1,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "offHand"
+  },
+  {
+    "id": "gear_head_melee_0",
+    "name": "Head Melee 0",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 128.57142857142858,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.12857142857142856,
+        "magicAccuracy": 0.0,
+        "defence": 0.5285714285714286,
+        "health": 0.11428571428571428,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "head"
+  },
+  {
+    "id": "gear_body_melee_0",
+    "name": "Body Melee 0",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 220.0,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.18571428571428572,
+        "magicAccuracy": 0.0,
+        "defence": 1.1285714285714286,
+        "health": 0.2714285714285714,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "body"
+  },
+  {
+    "id": "gear_legs_melee_0",
+    "name": "Legs Melee 0",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 202.85714285714286,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.12857142857142856,
+        "magicAccuracy": 0.0,
+        "defence": 0.7285714285714285,
+        "health": 0.2,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "legs"
+  },
+  {
+    "id": "gear_feet_melee_0",
+    "name": "Feet Melee 0",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 98.57142857142857,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.07142857142857142,
+        "magicAccuracy": 0.0,
+        "defence": 0.34285714285714286,
+        "health": 0.1,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "feet"
+  },
+  {
+    "id": "gear_hands_melee_0",
+    "name": "Hands Melee 0",
+    "category": "equipment",
+    "skill": "melee",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 98.57142857142857,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.11428571428571428,
+        "magicAccuracy": 0.0,
+        "defence": 0.3,
+        "health": 0.1,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "hands"
+  },
+  {
+    "id": "gear_mainHand_magic_wand_2200",
+    "name": "Mainhand Magic Wand 2200",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 124.28571428571429,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 1.0571428571428572,
+        "defence": 0.18571428571428572,
+        "health": 0.0,
+        "meleePower": 0.0,
+        "magicPower": 0.9,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "mainHand",
+    "attackSpeedMs": 2200,
+    "magicWeapon": {
+      "kind": "wand",
+      "hands": 1
+    }
+  },
+  {
+    "id": "gear_mainHand_magic_staff_3000",
+    "name": "Mainhand Magic Staff 3000",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 167.14285714285714,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 1.5714285714285714,
+        "defence": 0.2714285714285714,
+        "health": 0.0,
+        "meleePower": 0.3,
+        "magicPower": 1.3428571428571427,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "mainHand",
+    "attackSpeedMs": 3000,
+    "magicWeapon": {
+      "kind": "staff",
+      "hands": 2
+    }
+  },
+  {
+    "id": "gear_head_magic_0",
+    "name": "Head Magic 0",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 111.42857142857143,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 0.2857142857142857,
+        "defence": 0.5428571428571428,
+        "health": 0.14285714285714285,
+        "meleePower": 0.0,
+        "magicPower": 0.14285714285714285,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "head"
+  },
+  {
+    "id": "gear_body_magic_0",
+    "name": "Body Magic 0",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 192.85714285714286,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 0.44285714285714284,
+        "defence": 0.9571428571428572,
+        "health": 0.2571428571428571,
+        "meleePower": 0.0,
+        "magicPower": 0.21428571428571427,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "body"
+  },
+  {
+    "id": "gear_legs_magic_0",
+    "name": "Legs Magic 0",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 174.28571428571428,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 0.2571428571428571,
+        "defence": 0.6571428571428571,
+        "health": 0.17142857142857143,
+        "meleePower": 0.0,
+        "magicPower": 0.12857142857142856,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "legs"
+  },
+  {
+    "id": "gear_feet_magic_0",
+    "name": "Feet Magic 0",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 81.42857142857143,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 0.08571428571428572,
+        "defence": 0.21428571428571427,
+        "health": 0.08571428571428572,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "feet"
+  },
+  {
+    "id": "gear_hands_magic_0",
+    "name": "Hands Magic 0",
+    "category": "equipment",
+    "skill": "magic",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 81.42857142857143,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0.0,
+        "magicAccuracy": 0.08571428571428572,
+        "defence": 0.21428571428571427,
+        "health": 0.08571428571428572,
+        "meleePower": 0.0,
+        "magicPower": 0.0,
+        "vitality": 0.0
+      },
+      "gatherBonusPerLevel": 1
+    },
+    "slot": "hands"
+  },
+  {
+    "id": "gear_mining",
+    "name": "Mining",
+    "category": "tool",
+    "skill": "mining",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 92.85714285714286,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "gatherBonusPerLevel": 1
+    }
+  },
+  {
+    "id": "gear_woodcutting",
+    "name": "Woodcutting",
+    "category": "tool",
+    "skill": "woodcutting",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 92.85714285714286,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "gatherBonusPerLevel": 1
+    }
+  },
+  {
+    "id": "gear_fishing",
+    "name": "Fishing",
+    "category": "tool",
+    "skill": "fishing",
+    "formula": "equipment.linear",
+    "parameters": {
+      "valueBase": 0,
+      "valuePerLevel": 70.83333333333333,
+      "bonusesBase": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "bonusesPerLevel": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "gatherBonusPerLevel": 1
+    }
+  }
+]

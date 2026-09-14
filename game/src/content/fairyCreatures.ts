@@ -2,7 +2,7 @@ import type { CreatureSpeciesDef } from './creatureSpecies.js';
 import { creatureRows } from './creatureData.js';
 
 export {
-  UNIVERSAL_MINIBOSS_RESPAWN_SECONDS, UNIQUE_JEWELLERY_CHANCE, UNIVERSAL_MINIBOSS_ROSTER,
+  UNIVERSAL_MINIBOSS_RESPAWN_SECONDS, UNIVERSAL_MINIBOSS_ROSTER,
   UNIVERSAL_MINIBOSS_SPECIES,
 } from './universalMinibosses.js';
 export { MINIBOSS_JEWELLERY } from './universalMinibossLoot.js';
@@ -17,4 +17,4 @@ export const FAIRY_CREATURE_ROSTER = [
   { number: '30', id: 'elder_grovebeast', name: 'Elder Grovebeast', levelOffset: 14, nativeScale: 1.2 },
 ] as const;
 
-export const FAIRY_CREATURE_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('FAIRY_CREATURE_SPECIES');
+export const FAIRY_CREATURE_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["petal_pouncer_t30", "moss_nibbler_t30", "bloom_hopper_t30", "thicket_spirit_t30", "bramble_prowler_t30", "elder_grovebeast_t30", "petal_pouncer_t60", "moss_nibbler_t60", "bloom_hopper_t60", "thicket_spirit_t60", "bramble_prowler_t60", "elder_grovebeast_t60"]);

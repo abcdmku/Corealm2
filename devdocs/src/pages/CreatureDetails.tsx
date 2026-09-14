@@ -12,6 +12,9 @@ export function CreatureDetails({ collection, record, navigate }: EntityDetailPr
   const blockId = collection === 'enemies' ? String(record.id) : String(record.blockId);
   const base = collection === 'enemies' ? record : (enemies.data?.data as ContentRow[] | undefined)?.find(row => row.id === blockId);
   const block = base && collection === 'enemyAliases' ? { ...base, ...(record.overrides as ContentRow) } : base;
+  if (block && collection === 'enemyAliases' && Array.isArray(record.omitFields)) {
+    for (const field of record.omitFields) if (typeof field === 'string') delete block[field];
+  }
   const lootId = record.lootTableId ?? block?.lootTableId;
   const table = (loot.data?.data as ContentRow[] | undefined)?.find(row => row.id === lootId);
   const errors = [enemies, loot].filter(query => query.isError);

@@ -33,14 +33,5 @@ export const ResourceSchema = obj({
   presentation: ResourcePresentationSchema,
 }) satisfies Schema<ResourceDef>;
 
-/** Exclusive membership tags preserve the existing named source exports. */
-export const RESOURCE_SOURCE_CATALOGS = [
-  "CROWNWARD_FISH_RESOURCES", "GATHERING_PRODUCTION_RESOURCES", "ESSENCE_RESOURCES",
-  "HIGH_TIER_TREE_RESOURCES", "WILDERNESS_ORE_RESOURCES", "WILDERNESS_TREE_RESOURCES",
-  "FAIRY_ORE_RESOURCES", "FAIRY_TREE_RESOURCES",
-] as const;
-export type ResourceCatalog = typeof RESOURCE_SOURCE_CATALOGS[number];
-export const ResourceRecordSchema = ResourceSchema.extend({
-  catalog: enumOf(RESOURCE_SOURCE_CATALOGS, { hidden: true }),
-});
-export type ResourceRecord = Infer<typeof ResourceRecordSchema>;
+export const ResourceRecordSchema = ResourceSchema;
+export type ResourceRecord = ResourceDef;

@@ -209,3 +209,33 @@ Pure final Wilderness assembly, progression and loot groundwork exists, but it r
 M5 has an integrated bulk preview/apply endpoint and collection selection UI, plus equipment-set
 piece notes/status controls. Bulk status no-ops preserve history, bytes and revisions. Browser
 fixtures cover bulk conflicts, per-piece saves and actor recompute. M4-M10 remain unfinished.
+
+
+## Final M4 Wilderness formulas and M5 inline editing (in acceptance)
+
+The final independent assembly replays 360 pre-Wilderness rows, 235 ordered source
+species and all 130 Wilderness outputs. JSON now contains the authored assembly
+remainders, assembly membership, progression operands and final loot parameters.
+There are 337 tagged enemies (red worm remains authored), 73 tagged Wilderness
+aliases and 291 tagged loot tables. Source loot remains 253 inputs and 298 owners,
+including 228 formulas and 70 authored owners; the final Wilderness tags add 63
+separate formula tables. All original saved values matched before tags were added.
+
+World context is transient: 61 production bindings plus 12 population bindings,
+resolved against independently derived species. Fresh capture detects authoring
+changes and recompute checks its revision before writes. Context never enters a
+content JSON file. Public depth, progression and loot helpers now use the same
+parameters while preserving their original argument and callback behavior.
+
+A fresh critic accepted source/ownership/context behavior after root fixed the
+editor alias join to honor explicit omitted optional fields. Focused public-helper,
+context and final-derivation checks pass. The combined content/editor test run passed
+699 tests; its two failures were the shared fixture missing the newly required
+context, now repaired with all three fixture tests passing. Typecheck, editor build
+and content validation pass. Full regression, fresh world bake and browser acceptance
+are underway.
+
+Overview now contains one inline editor. Pristine records follow newer server
+revisions; dirty drafts survive tab changes and conflicts. The separate Edit tab is
+removed. Browser acceptance is still pending for this change and the four final
+Wilderness formula controls. M6-M10 remain unfinished.

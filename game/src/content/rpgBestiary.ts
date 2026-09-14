@@ -20,10 +20,10 @@ export interface RpgBestiaryEntry extends CreatureSpeciesDef {
 }
 
 
-export const RPG_BESTIARY: readonly RpgBestiaryEntry[] = rpgCreatureRows('RPG_BESTIARY');
+export const RPG_BESTIARY: readonly RpgBestiaryEntry[] = rpgCreatureRows('world');
 export const RPG_BESTIARY_BY_ID: ReadonlyMap<string, RpgBestiaryEntry> = new Map(RPG_BESTIARY.map(row => [row.id, row]));
 /** Explicit lab-only candidates. */
-export const RPG_BESTIARY_STAGED: readonly RpgBestiaryEntry[] = rpgCreatureRows('RPG_BESTIARY_STAGED');
+export const RPG_BESTIARY_STAGED: readonly RpgBestiaryEntry[] = rpgCreatureRows('lab');
 export const RPG_BESTIARY_STAGED_BY_ID: ReadonlyMap<string,RpgBestiaryEntry> = new Map(RPG_BESTIARY_STAGED.map(row=>[row.id,row]));
 /** Historical explicit candidate aliases remain available after accepted content activation. */
 export const RPG_BESTIARY_REVIEW_BY_ID: ReadonlyMap<string,RpgBestiaryEntry> = new Map([...RPG_BESTIARY, ...RPG_BESTIARY_STAGED].map(row=>[row.id,row]));

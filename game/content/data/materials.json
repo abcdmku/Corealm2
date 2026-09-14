@@ -1,0 +1,767 @@
+[
+  {
+    "id": "grithe_ore",
+    "name": "Copper Ore",
+    "itemId": "grithe_ore"
+  },
+  {
+    "id": "march_stone",
+    "name": "Limestone",
+    "itemId": "march_stone"
+  },
+  {
+    "id": "pale_quartz",
+    "name": "Quartz",
+    "itemId": "pale_quartz"
+  },
+  {
+    "id": "grithe_bar",
+    "name": "Copper Bar",
+    "itemId": "grithe_bar"
+  },
+  {
+    "id": "palewood_log",
+    "name": "Pine Log",
+    "itemId": "palewood_log"
+  },
+  {
+    "id": "palewood_shaft",
+    "name": "Pine Shaft",
+    "itemId": "palewood_shaft"
+  },
+  {
+    "id": "palewood_handle",
+    "name": "Pine Handle",
+    "itemId": "palewood_handle"
+  },
+  {
+    "id": "coarse_hide",
+    "name": "Coarse Hide",
+    "itemId": "coarse_hide"
+  },
+  {
+    "id": "silt_minnow",
+    "name": "Minnow",
+    "itemId": "silt_minnow"
+  },
+  {
+    "id": "seared_minnow",
+    "name": "Seared Minnow",
+    "itemId": "seared_minnow"
+  },
+  {
+    "id": "burnt_minnow",
+    "name": "Burnt Minnow",
+    "itemId": "burnt_minnow"
+  },
+  {
+    "id": "raw_game_meat",
+    "name": "Raw Game Meat",
+    "itemId": "raw_game_meat"
+  },
+  {
+    "id": "roast_game",
+    "name": "Roast Game",
+    "itemId": "roast_game"
+  },
+  {
+    "id": "burnt_game",
+    "name": "Burnt Game",
+    "itemId": "burnt_game"
+  },
+  {
+    "id": "grithe_dagger",
+    "name": "Copper Dagger",
+    "itemId": "grithe_dagger"
+  },
+  {
+    "id": "grithe_sword",
+    "name": "Copper Sword",
+    "itemId": "grithe_sword"
+  },
+  {
+    "id": "grithe_helm",
+    "name": "Copper Helm",
+    "itemId": "grithe_helm"
+  },
+  {
+    "id": "grithe_cuirass",
+    "name": "Copper Cuirass",
+    "itemId": "grithe_cuirass"
+  },
+  {
+    "id": "grithe_greaves",
+    "name": "Copper Greaves",
+    "itemId": "grithe_greaves"
+  },
+  {
+    "id": "grithe_boots",
+    "name": "Copper Boots",
+    "itemId": "grithe_boots"
+  },
+  {
+    "id": "grithe_gloves",
+    "name": "Copper Gloves",
+    "itemId": "grithe_gloves"
+  },
+  {
+    "id": "grithe_pickaxe",
+    "name": "Copper Pickaxe",
+    "itemId": "grithe_pickaxe"
+  },
+  {
+    "id": "grithe_hatchet",
+    "name": "Copper Hatchet",
+    "itemId": "grithe_hatchet"
+  },
+  {
+    "id": "palewood_staff",
+    "name": "Pine Staff",
+    "itemId": "palewood_staff"
+  },
+  {
+    "id": "palewood_wand",
+    "name": "Pine Wand",
+    "itemId": "palewood_wand"
+  },
+  {
+    "id": "palewood_rod",
+    "name": "Pine Rod",
+    "itemId": "palewood_rod"
+  },
+  {
+    "id": "palewood_shield",
+    "name": "Pine Shield",
+    "itemId": "palewood_shield"
+  },
+  {
+    "id": "marchhide_hood",
+    "name": "Hide Hood",
+    "itemId": "marchhide_hood"
+  },
+  {
+    "id": "marchhide_robe",
+    "name": "Hide Robe",
+    "itemId": "marchhide_robe"
+  },
+  {
+    "id": "marchhide_leggings",
+    "name": "Hide Leggings",
+    "itemId": "marchhide_leggings"
+  },
+  {
+    "id": "marchhide_boots",
+    "name": "Hide Boots",
+    "itemId": "marchhide_boots"
+  },
+  {
+    "id": "marchhide_wraps",
+    "name": "Hide Wraps",
+    "itemId": "marchhide_wraps"
+  },
+  {
+    "id": "corven_ore",
+    "name": "Iron Ore",
+    "itemId": "corven_ore"
+  },
+  {
+    "id": "vell_amber",
+    "name": "Amber",
+    "itemId": "vell_amber"
+  },
+  {
+    "id": "corven_bar",
+    "name": "Iron Bar",
+    "itemId": "corven_bar"
+  },
+  {
+    "id": "duskoak_log",
+    "name": "Ash Log",
+    "itemId": "duskoak_log"
+  },
+  {
+    "id": "duskoak_shaft",
+    "name": "Ash Shaft",
+    "itemId": "duskoak_shaft"
+  },
+  {
+    "id": "duskoak_handle",
+    "name": "Ash Handle",
+    "itemId": "duskoak_handle"
+  },
+  {
+    "id": "bramble_hide",
+    "name": "Thick Hide",
+    "itemId": "bramble_hide"
+  },
+  {
+    "id": "bramble_trout",
+    "name": "Trout",
+    "itemId": "bramble_trout"
+  },
+  {
+    "id": "seared_trout",
+    "name": "Seared Trout",
+    "itemId": "seared_trout"
+  },
+  {
+    "id": "burnt_trout",
+    "name": "Burnt Trout",
+    "itemId": "burnt_trout"
+  },
+  {
+    "id": "raw_venison",
+    "name": "Raw Venison",
+    "itemId": "raw_venison"
+  },
+  {
+    "id": "roast_venison",
+    "name": "Roast Venison",
+    "itemId": "roast_venison"
+  },
+  {
+    "id": "burnt_venison",
+    "name": "Burnt Venison",
+    "itemId": "burnt_venison"
+  },
+  {
+    "id": "corven_dagger",
+    "name": "Iron Dagger",
+    "itemId": "corven_dagger"
+  },
+  {
+    "id": "corven_sword",
+    "name": "Iron Sword",
+    "itemId": "corven_sword"
+  },
+  {
+    "id": "corven_helm",
+    "name": "Iron Helm",
+    "itemId": "corven_helm"
+  },
+  {
+    "id": "corven_plate",
+    "name": "Iron Plate",
+    "itemId": "corven_plate"
+  },
+  {
+    "id": "corven_greaves",
+    "name": "Iron Greaves",
+    "itemId": "corven_greaves"
+  },
+  {
+    "id": "corven_boots",
+    "name": "Iron Boots",
+    "itemId": "corven_boots"
+  },
+  {
+    "id": "corven_gauntlets",
+    "name": "Iron Gauntlets",
+    "itemId": "corven_gauntlets"
+  },
+  {
+    "id": "corven_pickaxe",
+    "name": "Iron Pickaxe",
+    "itemId": "corven_pickaxe"
+  },
+  {
+    "id": "corven_hatchet",
+    "name": "Iron Hatchet",
+    "itemId": "corven_hatchet"
+  },
+  {
+    "id": "duskoak_staff",
+    "name": "Ash Staff",
+    "itemId": "duskoak_staff"
+  },
+  {
+    "id": "duskoak_wand",
+    "name": "Ash Wand",
+    "itemId": "duskoak_wand"
+  },
+  {
+    "id": "duskoak_rod",
+    "name": "Ash Rod",
+    "itemId": "duskoak_rod"
+  },
+  {
+    "id": "duskoak_shield",
+    "name": "Ash Shield",
+    "itemId": "duskoak_shield"
+  },
+  {
+    "id": "bramblehide_hood",
+    "name": "Thick Hide Hood",
+    "itemId": "bramblehide_hood"
+  },
+  {
+    "id": "bramblehide_robe",
+    "name": "Thick Hide Robe",
+    "itemId": "bramblehide_robe"
+  },
+  {
+    "id": "bramblehide_leggings",
+    "name": "Thick Hide Leggings",
+    "itemId": "bramblehide_leggings"
+  },
+  {
+    "id": "bramblehide_boots",
+    "name": "Thick Hide Boots",
+    "itemId": "bramblehide_boots"
+  },
+  {
+    "id": "bramblehide_wraps",
+    "name": "Thick Hide Wraps",
+    "itemId": "bramblehide_wraps"
+  },
+  {
+    "id": "kaldite_ore",
+    "name": "Cobalt Ore",
+    "itemId": "kaldite_ore"
+  },
+  {
+    "id": "cairn_garnet",
+    "name": "Garnet",
+    "itemId": "cairn_garnet"
+  },
+  {
+    "id": "kaldite_bar",
+    "name": "Cobalt Bar",
+    "itemId": "kaldite_bar"
+  },
+  {
+    "id": "cairnpine_log",
+    "name": "Oak Log",
+    "itemId": "cairnpine_log"
+  },
+  {
+    "id": "cairnpine_shaft",
+    "name": "Oak Shaft",
+    "itemId": "cairnpine_shaft"
+  },
+  {
+    "id": "cairnpine_handle",
+    "name": "Oak Handle",
+    "itemId": "cairnpine_handle"
+  },
+  {
+    "id": "cairn_pelt",
+    "name": "Fur Pelt",
+    "itemId": "cairn_pelt"
+  },
+  {
+    "id": "cragfin",
+    "name": "Perch",
+    "itemId": "cragfin"
+  },
+  {
+    "id": "seared_cragfin",
+    "name": "Seared Perch",
+    "itemId": "seared_cragfin"
+  },
+  {
+    "id": "burnt_cragfin",
+    "name": "Burnt Perch",
+    "itemId": "burnt_cragfin"
+  },
+  {
+    "id": "raw_haunch",
+    "name": "Raw Haunch",
+    "itemId": "raw_haunch"
+  },
+  {
+    "id": "roast_haunch",
+    "name": "Roast Haunch",
+    "itemId": "roast_haunch"
+  },
+  {
+    "id": "burnt_haunch",
+    "name": "Burnt Haunch",
+    "itemId": "burnt_haunch"
+  },
+  {
+    "id": "kaldite_dagger",
+    "name": "Cobalt Dagger",
+    "itemId": "kaldite_dagger"
+  },
+  {
+    "id": "kaldite_sword",
+    "name": "Cobalt Sword",
+    "itemId": "kaldite_sword"
+  },
+  {
+    "id": "kaldite_helm",
+    "name": "Cobalt Helm",
+    "itemId": "kaldite_helm"
+  },
+  {
+    "id": "kaldite_plate",
+    "name": "Cobalt Plate",
+    "itemId": "kaldite_plate"
+  },
+  {
+    "id": "kaldite_greaves",
+    "name": "Cobalt Greaves",
+    "itemId": "kaldite_greaves"
+  },
+  {
+    "id": "kaldite_boots",
+    "name": "Cobalt Boots",
+    "itemId": "kaldite_boots"
+  },
+  {
+    "id": "kaldite_gauntlets",
+    "name": "Cobalt Gauntlets",
+    "itemId": "kaldite_gauntlets"
+  },
+  {
+    "id": "kaldite_pickaxe",
+    "name": "Cobalt Pickaxe",
+    "itemId": "kaldite_pickaxe"
+  },
+  {
+    "id": "kaldite_hatchet",
+    "name": "Cobalt Hatchet",
+    "itemId": "kaldite_hatchet"
+  },
+  {
+    "id": "cairnpine_staff",
+    "name": "Oak Staff",
+    "itemId": "cairnpine_staff"
+  },
+  {
+    "id": "cairnpine_wand",
+    "name": "Oak Wand",
+    "itemId": "cairnpine_wand"
+  },
+  {
+    "id": "cairnpine_rod",
+    "name": "Oak Rod",
+    "itemId": "cairnpine_rod"
+  },
+  {
+    "id": "cairnpine_shield",
+    "name": "Oak Shield",
+    "itemId": "cairnpine_shield"
+  },
+  {
+    "id": "cairnpelt_hood",
+    "name": "Fur Hood",
+    "itemId": "cairnpelt_hood"
+  },
+  {
+    "id": "cairnpelt_robe",
+    "name": "Fur Robe",
+    "itemId": "cairnpelt_robe"
+  },
+  {
+    "id": "cairnpelt_leggings",
+    "name": "Fur Leggings",
+    "itemId": "cairnpelt_leggings"
+  },
+  {
+    "id": "cairnpelt_boots",
+    "name": "Fur Boots",
+    "itemId": "cairnpelt_boots"
+  },
+  {
+    "id": "cairnpelt_wraps",
+    "name": "Fur Wraps",
+    "itemId": "cairnpelt_wraps"
+  },
+  {
+    "id": "emberite_ore",
+    "name": "Titanium Ore",
+    "itemId": "emberite_ore"
+  },
+  {
+    "id": "kilnstone",
+    "name": "Flux Stone",
+    "itemId": "kilnstone"
+  },
+  {
+    "id": "fire_opal",
+    "name": "Fire Opal",
+    "itemId": "fire_opal"
+  },
+  {
+    "id": "emberite_bar",
+    "name": "Titanium Bar",
+    "itemId": "emberite_bar"
+  },
+  {
+    "id": "cinderpine_log",
+    "name": "Walnut Log",
+    "itemId": "cinderpine_log"
+  },
+  {
+    "id": "cinderpine_shaft",
+    "name": "Walnut Shaft",
+    "itemId": "cinderpine_shaft"
+  },
+  {
+    "id": "cinderpine_handle",
+    "name": "Walnut Handle",
+    "itemId": "cinderpine_handle"
+  },
+  {
+    "id": "charhide",
+    "name": "Heavy Hide",
+    "itemId": "charhide"
+  },
+  {
+    "id": "ashfin",
+    "name": "Bass",
+    "itemId": "ashfin"
+  },
+  {
+    "id": "seared_ashfin",
+    "name": "Seared Bass",
+    "itemId": "seared_ashfin"
+  },
+  {
+    "id": "burnt_ashfin",
+    "name": "Burnt Bass",
+    "itemId": "burnt_ashfin"
+  },
+  {
+    "id": "raw_ember_haunch",
+    "name": "Raw Prime Haunch",
+    "itemId": "raw_ember_haunch"
+  },
+  {
+    "id": "roast_ember_haunch",
+    "name": "Roast Prime Haunch",
+    "itemId": "roast_ember_haunch"
+  },
+  {
+    "id": "burnt_ember_haunch",
+    "name": "Burnt Prime Haunch",
+    "itemId": "burnt_ember_haunch"
+  },
+  {
+    "id": "emberite_dagger",
+    "name": "Titanium Dagger",
+    "itemId": "emberite_dagger"
+  },
+  {
+    "id": "emberite_sword",
+    "name": "Titanium Sword",
+    "itemId": "emberite_sword"
+  },
+  {
+    "id": "emberite_helm",
+    "name": "Titanium Helm",
+    "itemId": "emberite_helm"
+  },
+  {
+    "id": "emberite_plate",
+    "name": "Titanium Plate",
+    "itemId": "emberite_plate"
+  },
+  {
+    "id": "emberite_greaves",
+    "name": "Titanium Greaves",
+    "itemId": "emberite_greaves"
+  },
+  {
+    "id": "emberite_boots",
+    "name": "Titanium Boots",
+    "itemId": "emberite_boots"
+  },
+  {
+    "id": "emberite_gauntlets",
+    "name": "Titanium Gauntlets",
+    "itemId": "emberite_gauntlets"
+  },
+  {
+    "id": "emberite_pickaxe",
+    "name": "Titanium Pickaxe",
+    "itemId": "emberite_pickaxe"
+  },
+  {
+    "id": "emberite_hatchet",
+    "name": "Titanium Hatchet",
+    "itemId": "emberite_hatchet"
+  },
+  {
+    "id": "cinderpine_staff",
+    "name": "Walnut Staff",
+    "itemId": "cinderpine_staff"
+  },
+  {
+    "id": "cinderpine_wand",
+    "name": "Walnut Wand",
+    "itemId": "cinderpine_wand"
+  },
+  {
+    "id": "cinderpine_rod",
+    "name": "Walnut Rod",
+    "itemId": "cinderpine_rod"
+  },
+  {
+    "id": "cinderpine_shield",
+    "name": "Walnut Shield",
+    "itemId": "cinderpine_shield"
+  },
+  {
+    "id": "charhide_hood",
+    "name": "Heavy Hide Hood",
+    "itemId": "charhide_hood"
+  },
+  {
+    "id": "charhide_robe",
+    "name": "Heavy Hide Robe",
+    "itemId": "charhide_robe"
+  },
+  {
+    "id": "charhide_leggings",
+    "name": "Heavy Hide Leggings",
+    "itemId": "charhide_leggings"
+  },
+  {
+    "id": "charhide_boots",
+    "name": "Heavy Hide Boots",
+    "itemId": "charhide_boots"
+  },
+  {
+    "id": "charhide_wraps",
+    "name": "Heavy Hide Wraps",
+    "itemId": "charhide_wraps"
+  },
+  {
+    "id": "dewglass_ore",
+    "name": "Dewglass Ore",
+    "itemId": "dewglass_ore"
+  },
+  {
+    "id": "mistweave",
+    "name": "Mistweave",
+    "itemId": "mistweave"
+  },
+  {
+    "id": "mistweave_thread",
+    "name": "Mistweave Thread",
+    "itemId": "mistweave_thread"
+  },
+  {
+    "id": "dewglass_bar",
+    "name": "Dewglass Bar",
+    "itemId": "dewglass_bar"
+  },
+  {
+    "id": "willow_log",
+    "name": "Willow Log",
+    "itemId": "willow_log"
+  },
+  {
+    "id": "crownsilver_ore",
+    "name": "Crownsilver Ore",
+    "itemId": "crownsilver_ore"
+  },
+  {
+    "id": "crownhide",
+    "name": "Crownhide",
+    "itemId": "crownhide"
+  },
+  {
+    "id": "crownhide_thread",
+    "name": "Crownhide Lacing",
+    "itemId": "crownhide_thread"
+  },
+  {
+    "id": "crownsilver_bar",
+    "name": "Crownsilver Bar",
+    "itemId": "crownsilver_bar"
+  },
+  {
+    "id": "maple_log",
+    "name": "Maple Log",
+    "itemId": "maple_log"
+  },
+  {
+    "id": "cindervein_ore",
+    "name": "Cindervein Ore",
+    "itemId": "cindervein_ore"
+  },
+  {
+    "id": "dragonhide",
+    "name": "Dragonhide",
+    "itemId": "dragonhide"
+  },
+  {
+    "id": "grave_thread",
+    "name": "Grave Thread",
+    "itemId": "grave_thread"
+  },
+  {
+    "id": "molten_heart",
+    "name": "Molten Heart",
+    "itemId": "molten_heart"
+  },
+  {
+    "id": "cindersteel_bar",
+    "name": "Cindersteel Bar",
+    "itemId": "cindersteel_bar"
+  },
+  {
+    "id": "teak_log",
+    "name": "Teak Log",
+    "itemId": "teak_log"
+  },
+  {
+    "id": "star_amethyst_ore",
+    "name": "Star Amethyst Ore",
+    "itemId": "star_amethyst_ore"
+  },
+  {
+    "id": "faesilk",
+    "name": "Faesilk",
+    "itemId": "faesilk"
+  },
+  {
+    "id": "faesilk_thread",
+    "name": "Faesilk Thread",
+    "itemId": "faesilk_thread"
+  },
+  {
+    "id": "staramethyst_bar",
+    "name": "Star Amethyst Bar",
+    "itemId": "staramethyst_bar"
+  },
+  {
+    "id": "yew_log",
+    "name": "Yew Log",
+    "itemId": "yew_log"
+  },
+  {
+    "id": "nightglass_ore",
+    "name": "Nightglass Ore",
+    "itemId": "nightglass_ore"
+  },
+  {
+    "id": "starhide",
+    "name": "Starhide",
+    "itemId": "starhide"
+  },
+  {
+    "id": "void_thread",
+    "name": "Void Thread",
+    "itemId": "void_thread"
+  },
+  {
+    "id": "astral_core",
+    "name": "Astral Core",
+    "itemId": "astral_core"
+  },
+  {
+    "id": "nightglass_bar",
+    "name": "Nightglass Bar",
+    "itemId": "nightglass_bar"
+  },
+  {
+    "id": "magic_log",
+    "name": "Magic Log",
+    "itemId": "magic_log"
+  }
+]

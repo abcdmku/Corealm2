@@ -718,7 +718,7 @@ async function testCombat(
   if (!creaturePreset) throw new Error("Feature lab has no creature presets");
   // The boot target is already a production creature with a live screen projection. Reusing it
   // for pointer proof avoids an unnecessary entity-view rebuild before the dedicated melee target.
-  const targetBase = ready;
+  const targetBase = await readState(targetPage);
   remember(targetBase);
   const canvas = targetPage.locator("#viewport");
   const canvasBox = await canvas.boundingBox();

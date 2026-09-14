@@ -1,3 +1,4 @@
+import { RESOLVED_TABLES } from './resolvedCatalog.js';
 /**
  * Shop stock for the seven shops `content/regions.ts` places.
  *
@@ -22,7 +23,7 @@
  */
 import type { ShopDef } from "./index.js";
 
-import shopData from "../../content/data/shops.json";
+const shopData = RESOLVED_TABLES["shops"];
 import { parseCollection } from "./schema/core.js";
 import { shopSchema } from "./schema/people.js";
 

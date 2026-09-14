@@ -1,5 +1,5 @@
 import { ASSET_BASE_URL } from "./config.js";
-import { CRAFTED_JEWELRY, JEWELRY_RECIPES, isRetiredJewelry } from '../content/jewelry.js';
+import { runtimeTables } from '../content/runtimeCatalog.js';
 import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
 import { createRiverSurface } from '../render/riverSurface.js';
 import { isFairyRegion, worldMapForRegion } from '../contracts.js';
@@ -35,10 +35,7 @@ import * as THREE from "three";
 import { WILDERNESS_LAVA_CHANNELS, lavaSections, WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
 import { WildernessEffects, wildernessEffectsLabTorches, deepWildernessEffectsLabTorches, torchFlameOrigin, type WildernessTorch } from "../render/wildernessEffects.js";
 import { WildernessCreatureEffects, type WildernessCreatureEmitter } from '../render/wildernessCreatureEffects.js';
-import { LAB_ONLY_ENEMY_DATA } from '../content/enemyData.js';
 import { assertCreatureCatalog } from '../content/creatureCatalog.js';
-import { WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES } from '../content/wildernessLoot.js';
-import { WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES } from '../content/wildernessResources.js';
 import { wildernessMagicAt } from '../content/wildernessDepth.js';
 import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
 import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js';
@@ -144,13 +141,7 @@ import {
   getRegion,
 } from "../content/regions.js";
 import { content } from "../content/index.js";
-import { ALL_ITEMS } from "../content/items.js";
 import { GATHERING_PRODUCTION_TIERS } from "../content/gatheringProductionTiers.js";
-import { RESOURCES } from "../content/resources.js";
-import { RECIPES } from "../content/recipes.js";
-import { ALL_SPELLS } from "../content/spells.js";
-import { ENEMIES } from "../content/enemies.js";
-import { SHOPS } from "../content/shops.js";
 import { QUESTS } from "../content/quests.js";
 import { worldExclusions, type ScatterResult } from "../world/scatter.js";
 import { ScatterStreamingController } from "../world/scatterStreaming.js";
@@ -328,22 +319,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const packId = profile.kind === "feature-lab" ? new URLSearchParams(location.search).get("pack") : null;
   const packContent = packId ? await import("../content/regionalPacks.js") : null;
   assertCreatureCatalog();
-  content.register({
-    items: ALL_ITEMS,
-    resources: RESOURCES,
-    recipes: RECIPES,
-    spells: ALL_SPELLS,
-    enemies: packContent ? [...ENEMIES, ...packContent.REGIONAL_PACK_VARIANTS.map((variant) => variant.stats)] : ENEMIES,
-    shops: SHOPS,
-  });
-  if (profile.kind === "feature-lab") {
-    content.register({
-      items: [...new Map([...content.allItems(), ...WILDERNESS_LOOT_ITEMS.filter(item => !isRetiredJewelry(item.id))].map(row => [row.id, row])).values()],
-      recipes: [...new Map([...content.allRecipes(), ...WILDERNESS_LOOT_RECIPES.filter(recipe => !isRetiredJewelry(recipe.output.itemId))].map(row => [row.id, row])).values()],
-      resources: [...new Map([...content.allResources(), ...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES].map(row => [row.id, row])).values()],
-      enemies: [...new Map([...content.allEnemies(), ...LAB_ONLY_ENEMY_DATA].map(row => [row.id, row])).values()],
-    });
-  }
+  const catalog = runtimeTables(profile.kind === 'feature-lab');
+  content.register(packContent
+    ? { ...catalog, enemies: [...catalog.enemies, ...packContent.REGIONAL_PACK_VARIANTS.map(variant => variant.stats)] }
+    : catalog);
 
   // 3 + 4. Start the manifest beside navigation initialization. These requests are independent; making
   // them serial put an entire network round trip on the critical path before any world work began.
@@ -686,32 +665,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const packFixture = packLab && packId ? packLab.assembleRegionalPackFixture(packId, {
     heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
   }, rpgPackCatalogue) : null;
-  // Final-world regional packs. Activation is the root's recorded decision in
-  // `regionalPackActivation.ts`, region by region; nothing in the URL can switch it on. The
-  // catalogue is measured from the public asset registry, so an unpromoted occupant fails boot
-  // loudly here instead of spawning an estimate.
-  const worldPackIds = profile.kind === "game" ? activatedRegionalPackIds() : [];
-  const worldPackCatalogue = worldPackIds.length
-    ? (await import("../content/rpgRegionalPacks.js")).createRpgRegionalPackCatalogue((id) => {
-      const entry = assets.entry(id);
-      return entry?.base ? { size: entry.size, base: entry.base } : null;
-    }, worldPackIds, REGIONAL_PACK_ACTIVATION.assignmentOverrides) : undefined;
-  const packBuilder = worldPackCatalogue ? await import("../world/regionalPackEntities.js") : undefined;
-  const worldHabitats: HabitatDef[] = [...WORLD_HABITATS, ...(worldPackCatalogue?.habitats ?? [])];
-  const worldPackHabitats = new Map((worldPackCatalogue?.habitats ?? []).map((habitat) => [habitat.groupId, habitat]));
-  if (worldPackCatalogue) {
-    // `register` replaces the enemies table, so keep every existing definition and add variants by id.
-    const enemies = new Map(content.allEnemies().map((enemy) => [enemy.id, enemy]));
-    for (const variant of worldPackCatalogue.variants) enemies.set(variant.id, variant.stats);
-    content.register({ enemies: [...enemies.values()] });
-  }
-  // Fresh construction on every build keeps dead health or moved coordinates from leaking out of a
-  // cached assembly. Member IDs, coordinates and bindings are authored; the seed only orients them.
-  const buildWorldPackEntities = (): SemanticEntity[] => worldPackCatalogue && packBuilder
-    ? worldPackCatalogue.packs.flatMap((pack) => packBuilder.assembleRegionalPack(pack.id, {
-      heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
-    }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
-    : [];
+  const worldHabitats: HabitatDef[] = [...WORLD_HABITATS];
+  const worldPackHabitats = new Map<string, HabitatDef>();
   type BuiltWorld = ReturnType<typeof profile.buildSemanticWorld>;
   const built = await bootTelemetry.measureAsync("boot.world.semantic", () => cachedWorldValue(generationCache,
     'assembly/semantic', () => profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts),
@@ -756,7 +711,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (huntFixture) built.entities.push(...structuredClone(huntFixture.entities));
   if (terrainSpec.lavaChannels?.length) built.solids.push(...lavaObstacles(terrainSpec.lavaChannels, (x, z) => terrainAt(x, z).meshHeightAt(x, z)));
   if (packFixture) built.entities.push(...structuredClone(packFixture.entities));
-  if (worldPackCatalogue) built.entities.push(...buildWorldPackEntities());
+
   if (fairyPortalFixture) {
     built.entities.push(...structuredClone(fairyPortalFixture.entities));
     built.solids.push(...fairyPortalFixture.solids);
@@ -3255,11 +3210,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     currentCoastalHabitats = rebuilt.coastalHabitats ?? [];
     for (const habitat of currentCoastalHabitats) worldPackHabitats.set(habitat.groupId, habitat);
     worldHabitats.splice(0, worldHabitats.length, ...WORLD_HABITATS,
-      ...(worldPackCatalogue?.habitats ?? []), ...currentCoastalHabitats);
+      ...currentCoastalHabitats);
     if (huntFixture) rebuilt.entities.push(...structuredClone(huntFixture.entities));
     if (groundMotionFixture) rebuilt.entities.push(...structuredClone(groundMotionFixture.entities));
     if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
-    if (worldPackCatalogue) rebuilt.entities.push(...buildWorldPackEntities());
+
     if (mobSpacingLab) rebuilt.entities.push(...structuredClone(mobSpacingFixture));
     if (fairyPortalFixture) {
       rebuilt.entities.push(...structuredClone(fairyPortalFixture.entities));

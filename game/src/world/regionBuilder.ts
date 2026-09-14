@@ -42,6 +42,7 @@ import { DEEP_WILDERNESS_PACKS } from '../content/deepWildernessEncounters.js';
 import { content, enemyCombatLevel } from "../content/index.js";
 import type { EnemyDef, GatheringResourceArchetype, ResourceDef } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
+import { WORLD_CONTENT } from '../content/worldData.js';
 import { QUESTS } from "../content/quests.js";
 import { resourceDef } from "../content/resources.js";
 import {
@@ -2180,7 +2181,7 @@ export function buildEnemyGroup(
   // carries any of them. See the level comment below. Read straight off the table rather than
   // through `content.enemy`, so building a world does not depend on boot having registered first.
   if (options && options.members.length !== group.count) throw new Error(`Pack ${group.id} has mismatched members`);
-  const enemyBlock = options?.members[0]?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
+  const enemyBlock = options?.members[0]?.stats ?? WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
   if (!enemyBlock) {
     // Loud rather than silent. Without a block there is no health, no level and no behaviour, and
     // the old fallback fields that used to paper over this are gone. `content/regions.ts`

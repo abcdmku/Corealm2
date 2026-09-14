@@ -49,10 +49,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "mistweave",
@@ -104,10 +101,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "crownsilver",
@@ -159,10 +153,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "crownhide",
@@ -214,10 +205,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "staramethyst",
@@ -269,10 +257,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "faesilk",
@@ -324,10 +309,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "duskguard",
@@ -378,10 +360,7 @@
         }
       }
     ],
-    "catalog": "BOSS_ARMOR_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "boss"
   },
   {
     "id": "oathguard",
@@ -432,10 +411,7 @@
         }
       }
     ],
-    "catalog": "BOSS_ARMOR_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "boss"
   },
   {
     "id": "frostguard",
@@ -487,10 +463,7 @@
         }
       }
     ],
-    "catalog": "BOSS_ARMOR_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "boss"
   },
   {
     "id": "tideweave",
@@ -542,10 +515,7 @@
         }
       }
     ],
-    "catalog": "BOSS_ARMOR_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "boss"
   },
   {
     "id": "nightweave",
@@ -597,10 +567,7 @@
         }
       }
     ],
-    "catalog": "BOSS_ARMOR_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "boss"
   },
   {
     "id": "frostweave",
@@ -652,10 +619,7 @@
         }
       }
     ],
-    "catalog": "BOSS_ARMOR_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "boss"
   },
   {
     "id": "copper",
@@ -707,10 +671,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "iron",
@@ -762,10 +723,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "cobalt",
@@ -817,10 +775,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "titanium",
@@ -872,10 +827,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "hide",
@@ -927,10 +879,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "thick_hide",
@@ -982,10 +931,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "fur",
@@ -1037,10 +983,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "heavy_hide",
@@ -1092,10 +1035,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "cindersteel",
@@ -1147,10 +1087,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "dragonhide",
@@ -1202,10 +1139,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "nightglass",
@@ -1257,10 +1191,7 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   },
   {
     "id": "starhide",
@@ -1312,9 +1243,6 @@
         }
       }
     ],
-    "catalog": "EQUIPMENT_SETS",
-    "derivation": {
-      "kind": "setThresholds"
-    }
+    "acquisition": "crafting"
   }
 ]

@@ -22,24 +22,6 @@ function dataFile(name: string): unknown {
 }
 
 describe("sourceUses", () => {
-  it("joins the current recipe JSON, including its burnt output", () => {
-    const recipes = dataFile("recipes");
-    const result = sourceUses("burnt_minnow", [response("recipes", recipes)]);
-
-    expect(result.targetKnown).toBe(false);
-    expect(result.links).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        kind: "recipe-output",
-        collection: "recipes",
-        recordId: "cook_seared_minnow",
-        recordLabel: "Seared Minnow",
-        quantity: 1,
-        detail: expect.stringContaining("Burnt output"),
-        targetKnown: true,
-      }),
-    ]));
-  });
-
   it("reads quest rewards from the authored grant shape and ignores objective/take references", () => {
     const quests = dataFile("quests") as Array<Record<string, unknown>>;
     const coldIron = quests.find((quest) => quest.id === "cold_iron");

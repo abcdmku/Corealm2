@@ -19,8 +19,7 @@
       "targetWorldSize": 0.72,
       "waterOffset": -0.3,
       "materialTier": 30
-    },
-    "catalog": "CROWNWARD_FISH_RESOURCES"
+    }
   },
   {
     "id": "fish_crown_tuna",
@@ -42,8 +41,7 @@
       "targetWorldSize": 0.9,
       "waterOffset": -0.3,
       "materialTier": 40
-    },
-    "catalog": "CROWNWARD_FISH_RESOURCES"
+    }
   },
   {
     "id": "fish_pearlwater_salmon",
@@ -65,8 +63,7 @@
       "targetWorldSize": 0.8,
       "waterOffset": -0.3,
       "materialTier": 60
-    },
-    "catalog": "CROWNWARD_FISH_RESOURCES"
+    }
   },
   {
     "id": "ore_grithe",
@@ -93,8 +90,7 @@
         1.08
       ],
       "materialTier": 1
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "ore_marchstone",
@@ -121,8 +117,7 @@
         1.06
       ],
       "materialTier": 1
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "tree_palewood",
@@ -147,8 +142,7 @@
         1.12
       ],
       "materialTier": 1
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "fish_silt_minnow",
@@ -165,8 +159,7 @@
       "targetWorldSize": 0.42,
       "waterOffset": -0.32,
       "materialTier": 1
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "ore_corven",
@@ -193,8 +186,7 @@
         1.08
       ],
       "materialTier": 5
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "tree_duskoak",
@@ -216,8 +208,7 @@
         1.12
       ],
       "materialTier": 5
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "fish_bramble_trout",
@@ -234,8 +225,7 @@
       "targetWorldSize": 0.72,
       "waterOffset": -0.23,
       "materialTier": 5
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "ore_kaldite",
@@ -262,8 +252,7 @@
         1.08
       ],
       "materialTier": 10
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "tree_cairnpine",
@@ -288,8 +277,7 @@
         1.12
       ],
       "materialTier": 10
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "fish_cragfin",
@@ -306,8 +294,7 @@
       "targetWorldSize": 0.92,
       "waterOffset": -0.22,
       "materialTier": 10
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "ore_emberite",
@@ -334,8 +321,7 @@
         1.08
       ],
       "materialTier": 20
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "ore_kilnstone",
@@ -362,8 +348,7 @@
         1.06
       ],
       "materialTier": 20
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "tree_cinderpine",
@@ -385,8 +370,7 @@
         1.12
       ],
       "materialTier": 20
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "fish_ashfin",
@@ -403,8 +387,7 @@
       "targetWorldSize": 0.92,
       "waterOffset": -0.22,
       "materialTier": 20
-    },
-    "catalog": "GATHERING_PRODUCTION_RESOURCES"
+    }
   },
   {
     "id": "essence_air",
@@ -429,8 +412,7 @@
         1.04
       ],
       "materialTier": 1
-    },
-    "catalog": "ESSENCE_RESOURCES"
+    }
   },
   {
     "id": "essence_earth",
@@ -455,8 +437,7 @@
         1.04
       ],
       "materialTier": 5
-    },
-    "catalog": "ESSENCE_RESOURCES"
+    }
   },
   {
     "id": "essence_water",
@@ -481,8 +462,7 @@
         1.04
       ],
       "materialTier": 10
-    },
-    "catalog": "ESSENCE_RESOURCES"
+    }
   },
   {
     "id": "essence_fire",
@@ -507,8 +487,7 @@
         1.04
       ],
       "materialTier": 20
-    },
-    "catalog": "ESSENCE_RESOURCES"
+    }
   },
   {
     "id": "tree_willow",
@@ -530,8 +509,7 @@
         1.12
       ],
       "materialTier": 30
-    },
-    "catalog": "HIGH_TIER_TREE_RESOURCES"
+    }
   },
   {
     "id": "tree_maple",
@@ -553,8 +531,7 @@
         1.12
       ],
       "materialTier": 40
-    },
-    "catalog": "HIGH_TIER_TREE_RESOURCES"
+    }
   },
   {
     "id": "tree_teak",
@@ -576,8 +553,7 @@
         1.12
       ],
       "materialTier": 50
-    },
-    "catalog": "HIGH_TIER_TREE_RESOURCES"
+    }
   },
   {
     "id": "tree_yew",
@@ -599,8 +575,7 @@
         1.12
       ],
       "materialTier": 60
-    },
-    "catalog": "HIGH_TIER_TREE_RESOURCES"
+    }
   },
   {
     "id": "tree_magic",
@@ -622,8 +597,7 @@
         1.12
       ],
       "materialTier": 70
-    },
-    "catalog": "HIGH_TIER_TREE_RESOURCES"
+    }
   },
   {
     "id": "cindervein_vein",
@@ -655,8 +629,7 @@
         1.1
       ],
       "materialTier": 50
-    },
-    "catalog": "WILDERNESS_ORE_RESOURCES"
+    }
   },
   {
     "id": "nightglass_vein",
@@ -688,8 +661,7 @@
         1.1
       ],
       "materialTier": 70
-    },
-    "catalog": "WILDERNESS_ORE_RESOURCES"
+    }
   },
   {
     "id": "tree_wilderness_teak",
@@ -711,8 +683,7 @@
         1.1
       ],
       "materialTier": 50
-    },
-    "catalog": "WILDERNESS_TREE_RESOURCES"
+    }
   },
   {
     "id": "tree_wilderness_magic",
@@ -734,8 +705,7 @@
         1.08
       ],
       "materialTier": 70
-    },
-    "catalog": "WILDERNESS_TREE_RESOURCES"
+    }
   },
   {
     "id": "dewglass_ore",
@@ -771,8 +741,7 @@
         1.08
       ],
       "materialTier": 30
-    },
-    "catalog": "FAIRY_ORE_RESOURCES"
+    }
   },
   {
     "id": "crown_silver_ore",
@@ -808,8 +777,7 @@
         1.08
       ],
       "materialTier": 40
-    },
-    "catalog": "FAIRY_ORE_RESOURCES"
+    }
   },
   {
     "id": "star_amethyst_ore",
@@ -845,8 +813,7 @@
         1.08
       ],
       "materialTier": 60
-    },
-    "catalog": "FAIRY_ORE_RESOURCES"
+    }
   },
   {
     "id": "tree_gloam_willow",
@@ -868,8 +835,7 @@
         1.1
       ],
       "materialTier": 30
-    },
-    "catalog": "FAIRY_TREE_RESOURCES"
+    }
   },
   {
     "id": "tree_fae_yew",
@@ -891,7 +857,6 @@
         1.1
       ],
       "materialTier": 60
-    },
-    "catalog": "FAIRY_TREE_RESOURCES"
+    }
   }
 ]

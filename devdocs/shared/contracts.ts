@@ -14,9 +14,26 @@ export interface CollectionResponse {
 export interface ApiDiagnostic { path: string; message: string; severity: "error" | "warning" }
 export interface ApiError { error: string; diagnostics?: ApiDiagnostic[] }
 
+export type ContentOperation =
+  | { kind: 'put'; collection: string; id: string; record: unknown; create?: boolean }
+  | { kind: 'delete'; collection: string; id: string }
+  | { kind: 'rename'; collection: string; id: string; nextId: string };
+export interface ContentTransactionRequest {
+  operation: 'preview' | 'save';
+  revisions: Record<string, string>;
+  changes: ContentOperation[];
+}
+export interface ContentTransactionResponse {
+  revision: string;
+  collections: CollectionResponse[];
+  affected: { collection: string; id: string }[];
+  diagnostics: ApiDiagnostic[];
+  compiled: unknown;
+}
+
 export type BulkAction = { kind: 'status'; status: 'draft' | 'candidate' | 'rejected' }
   | { kind: 'note'; text: string; label?: string }
-  | { kind: 'retier'; tier: number; unlinkFormulas: boolean };
+  | { kind: 'retier'; tier: number };
 export interface BulkRequest {
   operation: 'preview' | 'apply'; collection: string; recordIds: string[]; action: BulkAction;
   revisions?: { content: string; meta?: string };

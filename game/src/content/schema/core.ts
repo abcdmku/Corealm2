@@ -28,7 +28,8 @@ export type RefKind =
   | "item" | "recipe" | "resource" | "resourceCluster" | "enemy" | "species" | "lootTable"
   | "npc" | "shop" | "quest" | "dialogue" | "spell" | "rune" | "set"
   | "asset" | "audio" | "region" | "skill" | "station" | "element"
-  | "entity" | "location" | "settlement" | "enemyFamily" | "campfireFuel";
+  | "entity" | "location" | "settlement" | "enemyFamily" | "campfireFuel"
+  | "material" | "equipmentFamily" | "recipeTemplate" | "creatureProfile" | "encounter";
 
 export interface FieldMeta {
   /** Short form label. Defaults to the field name. */

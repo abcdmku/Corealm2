@@ -1,8 +1,8 @@
-import { resourceById, resourceRows } from "./resourceData.js";
-import { ITEM_DATA, itemRows } from "./itemData.js";
+import { resourceById, RESOURCE_DATA } from "./resourceData.js";
+import { ITEM_DATA } from "./itemData.js";
 import type { ItemDef } from '../contracts.js';
 import type { ResourceDef, RecipeDef } from './index.js';
-import { recipeRows } from "./recipeData.js";
+import { RECIPE_DATA } from "./recipeData.js";
 import type { ResourceClusterDef } from './regions.js';
 import type { WorldSite } from './worldSites.js';
 import { riverSections, type RiverChannel } from '../world/riverChannels.js';
@@ -26,11 +26,11 @@ export const CROWNWARD_FISH = [
   projectCrownwardFish('pearlwater_salmon', resourceById('fish_pearlwater_salmon'), ITEM_DATA),
 ] as const;
 
-export const CROWNWARD_FISH_RESOURCES: readonly ResourceDef[] = resourceRows("CROWNWARD_FISH_RESOURCES");
+export const CROWNWARD_FISH_RESOURCES: readonly ResourceDef[] = RESOURCE_DATA.filter(resource => resource.skill === "fishing" && resource.tier >= 30);
 
-export const CROWNWARD_FISH_ITEMS: readonly ItemDef[] = itemRows("CROWNWARD_FISH_ITEMS");
+export const CROWNWARD_FISH_ITEMS: readonly ItemDef[] = ITEM_DATA.filter(item => item.tier >= 30 && (item.category === "food" || item.id.includes("fish") || item.id.includes("trout") || item.id.includes("tuna") || item.id.includes("salmon")));
 
-export const CROWNWARD_FISH_RECIPES: readonly RecipeDef[] = recipeRows("CROWNWARD_FISH_RECIPES");
+export const CROWNWARD_FISH_RECIPES: readonly RecipeDef[] = RECIPE_DATA.filter(recipe => recipe.kind === "cook" && recipe.tier >= 30);
 
 /** Same authored fishery construction in the compact river fixture and final channels. */
 export function crownwardFisheries(channels: readonly RiverChannel[]): { sites: WorldSite[]; clusters: ResourceClusterDef[] } {

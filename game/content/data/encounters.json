@@ -1,0 +1,2257 @@
+[
+  {
+    "id": "redsill_frogs_forage",
+    "name": "Frog",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "redsill_frogs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "marchfield_hens_forage",
+    "name": "Hen",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "marchfield_hens",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "bracken_hens_forage",
+    "name": "Speckled Hen",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "bracken_hens",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "open_march_goats_graze",
+    "name": "Goat",
+    "activity": "graze",
+    "members": [
+      {
+        "creatureId": "open_march_goats",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "redsill_cattle_graze",
+    "name": "Cow",
+    "activity": "graze",
+    "members": [
+      {
+        "creatureId": "redsill_cattle",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "marchfield_coneys_forage",
+    "name": "Rabbit",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "marchfield_coneys",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "palewood_adders_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "palewood_adders",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "march_road_reavers_patrol",
+    "name": "Road Bandit",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "march_road_reavers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "tempest_roc_patrol",
+    "name": "Storm Scarab",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "tempest_roc",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "galeskin_patrol",
+    "name": "Plains Ogre",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "galeskin",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "regional_gloam_fox_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "regional_gloam_fox",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "regional_redbrush_fox_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "regional_redbrush_fox",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "grass_viper_t1_prowl",
+    "name": "Grass Viper",
+    "activity": "prowl",
+    "members": [
+      {
+        "creatureId": "grass_viper_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_fallowmarch_palewood_far_south_scrub_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_fallowmarch_palewood_far_south_scrub",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_fallowmarch_palewood_heath_scrub_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_fallowmarch_palewood_heath_scrub",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_fallowmarch_palewood_reed_scrub_patrol",
+    "name": "Reed Strider",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_fallowmarch_palewood_reed_scrub",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "creek_crab_t1_forage",
+    "name": "Creek Crab",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "creek_crab_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_fallowmarch_bracken_northeast_spiders_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_fallowmarch_bracken_northeast_spiders",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "granary_rat_t1_forage",
+    "name": "Granary Rat",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "granary_rat_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "red_worm_t1_forage",
+    "name": "Red Worm",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "red_worm_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "redbrush_fox_t1_forage",
+    "name": "Red Fox",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "redbrush_fox_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "marchwild_horse_residents_patrol",
+    "name": "Briar Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "marchwild_horse_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "reedbank_goose_t1_forage",
+    "name": "Goose",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "reedbank_goose_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "marchfield_turkey_t1_forage",
+    "name": "Turkey",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "marchfield_turkey_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "briar_harrow_t1_patrol",
+    "name": "Briar Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "briar_harrow_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "heath_jack_t1_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "heath_jack_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "thorn_maw_t1_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "thorn_maw_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "fen_crawler_t1_patrol",
+    "name": "Fen Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "fen_crawler_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "reed_strider_t1_patrol",
+    "name": "Reed Strider",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "reed_strider_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "duskoak_stags_patrol",
+    "name": "Briar Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "duskoak_stags",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "bramble_hogs_patrol",
+    "name": "Fen Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "bramble_hogs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "deepwood_coyotes_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "deepwood_coyotes",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "blackwater_frogs_patrol",
+    "name": "Reed Strider",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "blackwater_frogs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "rootfall_coneys_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "rootfall_coneys",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "thornline_adders_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "thornline_adders",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gorge_reavers_patrol",
+    "name": "Forest Bandit",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gorge_reavers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "rootheart_patrol",
+    "name": "Rootbound Colossus",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "rootheart",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "mossbound_patrol",
+    "name": "Forest Ogre",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "mossbound",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_vellenwood_marchgate_south_bramble_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_vellenwood_marchgate_south_bramble",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_vellenwood_mossbound_west_bramble_patrol",
+    "name": "Fen Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_vellenwood_mossbound_west_bramble",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "duskoak_lynx_residents_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "duskoak_lynx_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "rootdelve_badger_residents_patrol",
+    "name": "Briar Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "rootdelve_badger_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "marsh_moose_residents_patrol",
+    "name": "Briar Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "marsh_moose_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "bracken_tapir_residents_patrol",
+    "name": "Fen Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "bracken_tapir_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "blackwater_heron_residents_patrol",
+    "name": "Reed Strider",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "blackwater_heron_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "quarry_snail_residents_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "quarry_snail_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "hollowroot_spider_residents_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "hollowroot_spider_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "thorn_maw_t5_patrol",
+    "name": "Thorn Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "thorn_maw_t5",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "fen_crawler_t5_patrol",
+    "name": "Fen Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "fen_crawler_t5",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "reed_strider_t5_patrol",
+    "name": "Reed Strider",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "reed_strider_t5",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "briar_harrow_t5_patrol",
+    "name": "Briar Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "briar_harrow_t5",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "heath_jack_t5_patrol",
+    "name": "Heath Jack",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "heath_jack_t5",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "highcairn_bears_patrol",
+    "name": "Cairn Treader",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "highcairn_bears",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "scree_boars_patrol",
+    "name": "Vault Custodian",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "scree_boars",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ridge_ibex_patrol",
+    "name": "Scree Watcher",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ridge_ibex",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "terrace_aurochs_patrol",
+    "name": "Vault Custodian",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "terrace_aurochs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "tarn_coyotes_patrol",
+    "name": "Cairn Treader",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "tarn_coyotes",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "karrow_reavers_patrol",
+    "name": "Highland Bandit",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "karrow_reavers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "tideworn_patrol",
+    "name": "Cave Ogre",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "tideworn",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_karrowmoor_tarn_track_east_mandibles_patrol",
+    "name": "Flint Mandible",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_karrowmoor_tarn_track_east_mandibles",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_karrowmoor_moor_road_far_west_watch_patrol",
+    "name": "Vault Custodian",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_karrowmoor_moor_road_far_west_watch",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "quillback_porcupine_residents_patrol",
+    "name": "Scree Watcher",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "quillback_porcupine_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cairn_bighorn_residents_patrol",
+    "name": "Cairn Treader",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cairn_bighorn_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "reedjaw_crocodile_residents_patrol",
+    "name": "Flint Mandible",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "reedjaw_crocodile_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "slateback_tortoise_residents_patrol",
+    "name": "Vault Custodian",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "slateback_tortoise_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "scree_bustard_residents_patrol",
+    "name": "Scree Watcher",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "scree_bustard_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "antler_beetle_residents_patrol",
+    "name": "Flint Mandible",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "antler_beetle_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "quarry_nightmare_residents_patrol",
+    "name": "Cairn Treader",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "quarry_nightmare_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "blind_cave_weaver_t10_patrol",
+    "name": "Blind Cave Weaver",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "blind_cave_weaver_t10",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "vault_custodian_t10_patrol",
+    "name": "Vault Custodian",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "vault_custodian_t10",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "flint_mandible_t10_patrol",
+    "name": "Flint Mandible",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "flint_mandible_t10",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "scree_watcher_t10_patrol",
+    "name": "Scree Watcher",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "scree_watcher_t10",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cairn_treader_t10_patrol",
+    "name": "Cairn Treader",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cairn_treader_t10",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gravelmaw_ch1_rats_patrol",
+    "name": "Blind Cave Weaver",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gravelmaw_ch1_rats",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gravelmaw_ch1_reavers_patrol",
+    "name": "Highland Bandit",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gravelmaw_ch1_reavers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gravelmaw_ch2_scorpions_patrol",
+    "name": "Blind Cave Weaver",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gravelmaw_ch2_scorpions",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gravelmaw_ch2_crabs_patrol",
+    "name": "Flint Mandible",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gravelmaw_ch2_crabs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gravelmaw_ch3_bears_patrol",
+    "name": "Vault Custodian",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gravelmaw_ch3_bears",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ordrun_patrol",
+    "name": "Quarry Warden",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ordrun",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gravelmaw_amethyst_spiders_patrol",
+    "name": "Blind Cave Weaver",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gravelmaw_amethyst_spiders",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ashback_bears_patrol",
+    "name": "Kiln Marrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ashback_bears",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinder_boars_patrol",
+    "name": "Slag Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinder_boars",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "emberhorn_ibex_patrol",
+    "name": "Cinder Penitent",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "emberhorn_ibex",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinder_adders_patrol",
+    "name": "Ashen Ghoul",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinder_adders",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "kilnroad_reavers_patrol",
+    "name": "Quarry Bandit",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "kilnroad_reavers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinderwake_patrol",
+    "name": "Fire Ogre",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinderwake",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_kilnhalt_clinker_southern_approach_west_patrol",
+    "name": "Kiln Marrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_kilnhalt_clinker_southern_approach_west",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pack_kilnhalt_cinderpine_northwest_outer_patrol",
+    "name": "Slag Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pack_kilnhalt_cinderpine_northwest_outer",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "kiln_salamander_residents_patrol",
+    "name": "Slag Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "kiln_salamander_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ashscale_monitor_residents_patrol",
+    "name": "Cinder Penitent",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ashscale_monitor_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "slag_centipede_residents_patrol",
+    "name": "Slag Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "slag_centipede_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinder_ravager_residents_patrol",
+    "name": "Kiln Marrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinder_ravager_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "basalt_drake_residents_patrol",
+    "name": "Slag Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "basalt_drake_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "gorge_mantis_residents_patrol",
+    "name": "Veil Reaper",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gorge_mantis_residents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "slag_crawler_t20_patrol",
+    "name": "Slag Crawler",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "slag_crawler_t20",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "kiln_marrow_t20_patrol",
+    "name": "Kiln Marrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "kiln_marrow_t20",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinder_penitent_t20_patrol",
+    "name": "Cinder Penitent",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinder_penitent_t20",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "grave_lantern_t20_patrol",
+    "name": "Ashen Ghoul",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "grave_lantern_t20",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "veil_reaper_t20_patrol",
+    "name": "Veil Reaper",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "veil_reaper_t20",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_broken_watch_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_broken_watch",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_west_graves_patrol",
+    "name": "Pallid Shade",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_west_graves",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_dead_boughs_patrol",
+    "name": "Hollow Bough",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_dead_boughs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_lost_procession_patrol",
+    "name": "Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_lost_procession",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_sunken_bones_patrol",
+    "name": "Grave Ghoul",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_sunken_bones",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "black_keep_gate_guard_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "black_keep_gate_guard",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "black_keep_gate_archers_patrol",
+    "name": "Skeleton Archer",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "black_keep_gate_archers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "black_keep_court_guard_patrol",
+    "name": "Revenant",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "black_keep_court_guard",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "black_keep_north_graves_patrol",
+    "name": "Skeleton Mage",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "black_keep_north_graves",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_east_shades_patrol",
+    "name": "Pallid Shade",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_east_shades",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_petrified_grove_patrol",
+    "name": "Hollow Bough",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_petrified_grove",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_bone_patrol_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_bone_patrol",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_lament_patrol",
+    "name": "Banshee",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_lament",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "broken_watch_tower_haunt_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "broken_watch_tower_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "nameless_abbey_haunt_patrol",
+    "name": "Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "nameless_abbey_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "dead_smithy_haunt_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "dead_smithy_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "fallen_aqueduct_haunt_patrol",
+    "name": "Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "fallen_aqueduct_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "outer_watch_haunt_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "outer_watch_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "forgotten_forge_haunt_patrol",
+    "name": "Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "forgotten_forge_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "eastern_cloister_haunt_patrol",
+    "name": "Skeleton Soldier",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "eastern_cloister_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "eastern_aqueduct_haunt_patrol",
+    "name": "Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "eastern_aqueduct_haunt",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_east_cinderback_shelf_patrol",
+    "name": "Cinderback Crag",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_east_cinderback_shelf",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_east_furnace_herd_patrol",
+    "name": "Furnace Grazer",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_east_furnace_herd",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_east_basalt_prowl_patrol",
+    "name": "Basalt Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_east_basalt_prowl",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_east_rift_carapaces_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_east_rift_carapaces",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_far_east_colossi_patrol",
+    "name": "Voidstone Colossus",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_far_east_colossi",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_east_gloam_patrol_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_east_gloam_patrol",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_northeast_carapaces_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_northeast_carapaces",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ashwind_cloister_sentries_patrol",
+    "name": "Cinderback Crag",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ashwind_cloister_sentries",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "far_cinder_smithy_sentries_patrol",
+    "name": "Basalt Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "far_cinder_smithy_sentries",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "nightglass_waterway_sentries_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "nightglass_waterway_sentries",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "starless_abbey_sentries_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "starless_abbey_sentries",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_red_hatchling_nest_patrol",
+    "name": "Red Dragon Hatchling",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_red_hatchling_nest",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_black_hatchling_nest_patrol",
+    "name": "Black Dragon Hatchling",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_black_hatchling_nest",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_lava_hatchling_nest_patrol",
+    "name": "Cinder Dreadwing",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_lava_hatchling_nest",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_cinderback_scree_patrol",
+    "name": "Cinderback Crag",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_cinderback_scree",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_furnace_grazers_patrol",
+    "name": "Furnace Grazer",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_furnace_grazers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_basalt_maw_hollow_patrol",
+    "name": "Basalt Maw",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_basalt_maw_hollow",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_foundry_west_carapaces_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_foundry_west_carapaces",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_foundry_north_carapaces_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_foundry_north_carapaces",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_rift_mouth_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_rift_mouth_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_midnight_carapaces_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_midnight_carapaces",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_nightforge_east_colossi_patrol",
+    "name": "Voidstone Colossus",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_nightforge_east_colossi",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_northwest_black_dragons_patrol",
+    "name": "Black Wilderness Dragon",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_northwest_black_dragons",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_northwest_red_dragons_patrol",
+    "name": "Red Wilderness Dragon",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_northwest_red_dragons",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_central_purple_dragons_patrol",
+    "name": "Violet Dreadwing",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_central_purple_dragons",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_eastern_red_dragons_patrol",
+    "name": "Purple Wilderness Dragon",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_eastern_red_dragons",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_eastern_gloam_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_eastern_gloam_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_sanctum_east_carapaces_patrol",
+    "name": "Rift Carapace",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_sanctum_east_carapaces",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "wilderness_sanctum_west_colossi_patrol",
+    "name": "Voidstone Colossus",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "wilderness_sanctum_west_colossi",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinder_chain_foundry_west_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinder_chain_foundry_west_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "cinder_chain_foundry_east_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "cinder_chain_foundry_east_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "nightforge_bastion_west_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "nightforge_bastion_west_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "nightforge_bastion_east_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "nightforge_bastion_east_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "hollow_star_sanctum_west_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "hollow_star_sanctum_west_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "hollow_star_sanctum_east_conclave_patrol",
+    "name": "Gloam Wraith",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "hollow_star_sanctum_east_conclave",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ashseal_warden_patrol",
+    "name": "Ashseal Warden",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ashseal_warden",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "furnace_regent_patrol",
+    "name": "Furnace Regent",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "furnace_regent",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "chainbound_archon_patrol",
+    "name": "Chainbound Archon",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "chainbound_archon",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "nightforge_marshal_patrol",
+    "name": "Nightforge Marshal",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "nightforge_marshal",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "hollow_star_patrol",
+    "name": "The Hollow Star",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "hollow_star",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_broken_watch_lanterns_patrol",
+    "name": "Ashen Ghoul",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_broken_watch_lanterns",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_last_light_west_penitents_patrol",
+    "name": "Cinder Penitent",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_last_light_west_penitents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_last_light_east_shades_patrol",
+    "name": "Pallid Shade",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_last_light_east_shades",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_east_march_reapers_patrol",
+    "name": "Veil Reaper",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_east_march_reapers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_deadwood_west_boughs_patrol",
+    "name": "Hollow Bough",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_deadwood_west_boughs",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_abbey_east_lanterns_patrol",
+    "name": "Ashen Ghoul",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_abbey_east_lanterns",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_black_keep_east_reapers_patrol",
+    "name": "Veil Reaper",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_black_keep_east_reapers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_petrified_grove_south_shades_patrol",
+    "name": "Pallid Shade",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_petrified_grove_south_shades",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_aqueduct_west_lanterns_patrol",
+    "name": "Ashen Ghoul",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_aqueduct_west_lanterns",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_silent_stones_reapers_patrol",
+    "name": "Veil Reaper",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_silent_stones_reapers",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_black_keep_north_penitents_patrol",
+    "name": "Cinder Penitent",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_black_keep_north_penitents",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "population_lava_east_marrow_patrol",
+    "name": "Kiln Marrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "population_lava_east_marrow",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "crownward_red_hatchling_t40_patrol",
+    "name": "Red Dragon Whelp",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "crownward_red_hatchling_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "crownward_black_hatchling_t40_patrol",
+    "name": "Black Dragon Whelp",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "crownward_black_hatchling_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "crownward_red_dragon_t40_patrol",
+    "name": "Red Dragon of Crownward",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "crownward_red_dragon_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "crown_hart_t40_patrol",
+    "name": "Crown Hart",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "crown_hart_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "pearl_knight_t40_patrol",
+    "name": "Pearl Knight",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "pearl_knight_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "silverthorn_harrow_t40_patrol",
+    "name": "Silverthorn Harrow",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "silverthorn_harrow_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "ivory_castellan_t40_patrol",
+    "name": "Ivory Castellan",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "ivory_castellan_t40",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_spriggle_t30_forage",
+    "name": "Dewdrop Spriggle",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_spriggle_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_sporekin_t30_forage",
+    "name": "Mooncap Sporekin",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_sporekin_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_drake_t30_prowl",
+    "name": "Petal Drake",
+    "activity": "prowl",
+    "members": [
+      {
+        "creatureId": "garden_drake_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_wardling_t30_patrol",
+    "name": "Dewstone Wardling",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_wardling_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_hart_t30_graze",
+    "name": "Silverleaf Hart",
+    "activity": "graze",
+    "members": [
+      {
+        "creatureId": "garden_hart_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_veilspirit_t30_prowl",
+    "name": "Thistledown Veilspirit",
+    "activity": "prowl",
+    "members": [
+      {
+        "creatureId": "garden_veilspirit_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_frog_t30_forage",
+    "name": "Glasspond Frog",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_frog_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_snail_t30_forage",
+    "name": "Mooncap Snail",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_snail_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_sapling_t30_patrol",
+    "name": "Briar Sapling",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_sapling_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_petalguard_t30_patrol",
+    "name": "Silverleaf Petalguard",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_petalguard_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_reliquary_t30_patrol",
+    "name": "Dewglass Reliquary",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_reliquary_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_imp_t30_forage",
+    "name": "Lantern Imp",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_imp_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "bloomheart_matriarch_t30_patrol",
+    "name": "Bloomheart Matriarch",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "bloomheart_matriarch_t30",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_spriggle_t60_forage",
+    "name": "Prism Spriggle",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_spriggle_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_sporekin_t60_forage",
+    "name": "Duskcap Sporekin",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_sporekin_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_drake_t60_prowl",
+    "name": "Orchid Drake",
+    "activity": "prowl",
+    "members": [
+      {
+        "creatureId": "garden_drake_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_wardling_t60_patrol",
+    "name": "Amethyst Wardling",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_wardling_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_hart_t60_graze",
+    "name": "Starhorn Hart",
+    "activity": "graze",
+    "members": [
+      {
+        "creatureId": "garden_hart_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_veilspirit_t60_prowl",
+    "name": "Orchid Veilspirit",
+    "activity": "prowl",
+    "members": [
+      {
+        "creatureId": "garden_veilspirit_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_frog_t60_forage",
+    "name": "Orchid Pondling",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_frog_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_snail_t60_forage",
+    "name": "Starcap Snail",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_snail_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_sapling_t60_patrol",
+    "name": "Starroot Tender",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_sapling_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_petalguard_t60_patrol",
+    "name": "Moonstone Petalguard",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_petalguard_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_reliquary_t60_patrol",
+    "name": "Starporcelain Reliquary",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "garden_reliquary_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "garden_imp_t60_forage",
+    "name": "Twilight Imp",
+    "activity": "forage",
+    "members": [
+      {
+        "creatureId": "garden_imp_t60",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "amethyst_sovereign_t60_patrol",
+    "name": "Amethyst Sovereign",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "amethyst_sovereign_t60",
+        "weight": 1
+      }
+    ]
+  }
+]

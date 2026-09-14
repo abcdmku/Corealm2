@@ -1,11 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Check, LockKeyhole, Plus, RotateCcw, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../tools/content/collections.js";
 import { ArraySchema, DiscriminatedSchema, ObjectSchema, RecordSchema, TupleSchema, UnionSchema, type Schema, type SchemaIssue } from "../../../game/src/content/schema/core.js";
-import { deriveRecord } from "../../../game/src/content/balance/derivations.js";
 import { collectionQuery, collectionsQuery } from "../api/client.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
 import { contentRows, rowId, rowName } from "../model/rows.js";
@@ -15,8 +14,9 @@ import "./editor.css";
 type Draft = { record: unknown };
 type Change = (value: unknown) => void;
 const refs: Record<string, string> = { item: "items", recipe: "recipes", resource: "resources", npc: "npcs", shop: "shops", quest: "quests", dialogue: "dialogue", spell: "spells", rune: "spellRunes", set: "equipmentSets", enemy: "enemies", species: "creatures", resourceCluster: "resourceClusters", lootTable: "lootTables", campfireFuel: "campfireFuels", asset: "assets" };
-const balanceCollections = CONTENT_COLLECTIONS.filter(collection => collection.name.startsWith("balance/") || collection.name === "craftingTiers");
+const balanceCollections = CONTENT_COLLECTIONS.filter(collection => collection.name.startsWith("balance/")).map(collection => collection.name);
 const badKeys = new Set(["__proto__", "prototype", "constructor"]);
+const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration"]);
 const elementId = (path: string) => `edit-${encodeURIComponent(path || "record")}`;
 const childPath = (path: string, key: string | number) => typeof key === "number" ? `${path}[${key}]` : path ? `${path}.${key}` : key;
 const asObject = (value: unknown) => value !== null && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
@@ -46,34 +46,51 @@ function DraftEditor({ spec, recordId, initial }: { spec: ContentCollection; rec
   const [saveError, setSaveError] = useState("");
   const [conflict, setConflict] = useState(false);
   const [resetting, setResetting] = useState(false);
+  const transitionRef = useRef(false);
+  const ownMutationRef = useRef<{ base: string; target: string } | undefined>(undefined);
   const form = useForm<Draft>({ mode: "onChange", defaultValues: { record: structuredClone(editableRecord(initial, spec, recordId)) } });
   const controller = useController({ name: "record", control: form.control, rules: { validate: value => fieldIssues(spec.schema, value).every(issue => issue.severity !== "error") || "Check the highlighted fields." } });
   const value = controller.field.value;
   const formulaLinked = asObject(value).derivation !== undefined;
-  const balances = useQueries({ queries: balanceCollections.map(collection => ({ ...collectionQuery(collection.name), enabled: formulaLinked })) });
+  const balances = useQueries({ queries: balanceCollections.map(collection => ({ ...collectionQuery(collection), enabled: formulaLinked })) });
   const formula = useMemo(() => {
     if (!formulaLinked) return { keys: [] as string[], blocked: false, message: "" };
     const protectAll = Object.keys(asObject(value)).filter(key => key !== "derivation");
     if (balances.some(query => query.isPending)) return { keys: protectAll, blocked: true, message: "Loading formula parameters. Fields remain protected until the formula can be checked." };
     if (balances.some(query => query.isError)) return { keys: protectAll, blocked: true, message: "Formula parameters could not be loaded. Fields remain protected and saving is paused. Retry loading, or remove the formula link to hand tune this record." };
-    try {
-      const tables = new Map(balances.flatMap(query => query.data ? [[query.data.collection.name, query.data.data] as const] : []));
-      tables.set(spec.name, initial.data);
-      // Only the field keys are needed. Use the valid saved row so an unrelated invalid draft
-      // value cannot prevent the user correcting that field while its formula stays linked.
-      const saved = asObject(editableRecord(initial, spec, recordId));
-      const derived = deriveRecord(spec.name, { ...saved, derivation: asObject(value).derivation }, tables);
-      return { keys: Object.keys(derived ?? {}), blocked: false, message: "Formula-controlled fields are read only. Remove the formula link below to hand tune them." };
-    } catch (error) { return { keys: protectAll, blocked: true, message: `The formula could not be checked. Fields remain protected. ${error instanceof Error ? error.message : "Retry loading the parameters."}` }; }
+    // Formula outputs are compiled by the shared content compiler. The editor only needs to
+    // protect authored fields while that linked source is present; importing the retired
+    // balance derivation layer here would create a second calculation path.
+    return { keys: protectAll, blocked: false, message: "Formula-controlled fields are read only. Remove the formula link below to hand tune them." };
   }, [formulaLinked, value, balances, initial, spec, recordId]);
   const clientIssues = useMemo(() => fieldIssues(spec.schema, value), [spec.schema, value]);
   const issues = [...clientIssues, ...serverIssues];
   const invalid = clientIssues.some(issue => issue.severity === "error");
   const busy = form.formState.isSubmitting || resetting;
+  const dirty = form.formState.isDirty;
   const focusSection = spec.shape === "object" && recordId !== "$collection" ? recordId : undefined;
+  useEffect(() => {
+    const ownMutation = ownMutationRef.current;
+    if (initial.revision === revision) {
+      if (ownMutation?.target === initial.revision) ownMutationRef.current = undefined;
+      return;
+    }
+    if (ownMutation) {
+      if (initial.revision === ownMutation.base) return;
+      ownMutationRef.current = undefined;
+    }
+    if (transitionRef.current || busy || conflict || dirty) return;
+    const fresh = editableRecord(initial, spec, recordId);
+    if (fresh === undefined) return;
+    form.reset({ record: structuredClone(fresh) });
+    setRevision(initial.revision);
+    setSaveError(""); setServerIssues([]);
+  }, [busy, conflict, dirty, form, initial, recordId, revision, spec]);
   function change(next: unknown) { controller.field.onChange(next); setServerIssues([]); if (!conflict) setSaveError(""); }
   async function save(draft: Draft) {
-    if (conflict || formula.blocked) return;
+    if (conflict || formula.blocked || transitionRef.current) return;
+    const baseRevision = revision;
+    transitionRef.current = true;
     setSaveError(""); setServerIssues([]);
     try {
       const target = spec.shape === "object" ? "$collection" : recordId;
@@ -87,6 +104,7 @@ function DraftEditor({ spec, recordId, initial }: { spec: ContentCollection; rec
       }
       if (!body.collection || typeof body.revision !== "string") throw new Error("The server returned an incomplete save response. Your draft has been kept; reload the file before retrying.");
       const saved = editableRecord(body, spec, recordId);
+      ownMutationRef.current = { base: baseRevision, target: body.revision };
       queryClient.setQueryData(collectionQuery(spec.name).queryKey, body);
       setRevision(body.revision);
       form.reset({ record: structuredClone(saved) });
@@ -94,17 +112,23 @@ function DraftEditor({ spec, recordId, initial }: { spec: ContentCollection; rec
       toast.success("Changes saved");
     } catch (error) {
       setSaveError(error instanceof Error ? error.message : "The save could not be completed. Your draft is still here.");
+    } finally {
+      transitionRef.current = false;
     }
   }
   async function resetDraft() {
+    if (transitionRef.current) return;
+    const baseRevision = revision;
+    transitionRef.current = true;
     setResetting(true);
     try {
       const response = await queryClient.fetchQuery({ ...collectionQuery(spec.name), staleTime: 0 });
       const fresh = editableRecord(response, spec, recordId);
       if (fresh === undefined) throw new Error("The record no longer exists. The draft has been kept.");
+      ownMutationRef.current = { base: baseRevision, target: response.revision };
       form.reset({ record: structuredClone(fresh) }); setRevision(response.revision); setSaveError(""); setServerIssues([]); setConflict(false);
     } catch (error) { setSaveError(error instanceof Error ? error.message : "Could not reload the file. The draft has been kept."); }
-    finally { setResetting(false); }
+    finally { transitionRef.current = false; setResetting(false); }
   }
   return <form className="entity-editor" onSubmit={form.handleSubmit(save)} noValidate><div className="editor-toolbar"><div><h2>Edit content</h2><p>{spec.shape === "object" ? "Save updates this parameter file. All sections are included." : "Changes are validated before they are saved."}</p></div><div className="editor-actions"><span className="editor-dirty" role="status">{form.formState.isDirty ? "Unsaved changes" : <><Check size={13}/> Saved</>}</span><button type="button" className="button" disabled={busy || (!form.formState.isDirty && !conflict)} onClick={() => void resetDraft()}><RotateCcw size={14}/>{resetting ? "Reloading…" : "Reset draft"}</button><button type="submit" className="button editor-save" disabled={busy || !form.formState.isDirty || invalid || conflict || formula.blocked}><Save size={14}/>{form.formState.isSubmitting ? "Saving…" : "Save changes"}</button></div></div>{formulaLinked && <div className="editor-formula-notice" role="status"><LockKeyhole size={15}/><p>{formula.message}</p>{formula.blocked && <button type="button" className="editor-small-button" onClick={() => balances.forEach(query => void query.refetch())}>Retry parameters</button>}</div>}{saveError && <div className="editor-error-summary" role="alert"><AlertCircle size={17}/><p>{saveError}</p></div>}{issues.length > 0 && <div className="editor-diagnostics" aria-label="Validation diagnostics"><h3>{issues.filter(issue => issue.severity === "error").length ? "Review these fields" : "Validation notes"}</h3><ul>{issues.map((issue, index) => <li key={`${issue.path}:${index}`}><button type="button" onClick={() => { const target = document.getElementById(elementId(issue.path)); target?.scrollIntoView({ block: "center", behavior: "instant" }); target?.querySelector<HTMLElement>("input,select,textarea,button")?.focus(); }}><span>{issue.path || "Record"}</span> {issue.message}</button></li>)}</ul></div>}<fieldset disabled={busy} className="editor-fields"><FieldNode schema={spec.schema} value={value} onChange={change} name="record" path="" issues={issues} root idKey={spec.shape === "array" ? spec.idKey : undefined} focusSection={focusSection} lockedKeys={formula.keys}/></fieldset></form>;
 }
@@ -113,7 +137,7 @@ interface FieldNodeProps { schema: Schema; value: unknown; onChange: Change; nam
 function FieldNode({ schema, value, onChange, name, path, issues, locked = false, root = false, idKey, focusSection, lockedKeys, lockedReason, embedded = false }: FieldNodeProps) {
   const spec = serialFieldSpec(schema, name);
   const node = fieldCore(schema);
-  if (spec.hidden) return null;
+  if (spec.hidden || ADVANCED_FIELDS.has(name)) return null;
   const formulaTag = path === "derivation";
   const readOnly = locked || formulaTag || Boolean(spec.readOnly || spec.identity);
   const ownIssues = issues.filter(issue => issue.path === path);
@@ -132,7 +156,7 @@ function FieldNode({ schema, value, onChange, name, path, issues, locked = false
   else if (node instanceof ObjectSchema) {
     const entries = Object.entries(node.fields) as [string, Schema][];
     if (focusSection) entries.sort(([a], [b]) => a === focusSection ? -1 : b === focusSection ? 1 : 0);
-    content = <div className={root ? "editor-root-fields" : "editor-object"}>{entries.map(([key, field]) => <FieldNode key={key} schema={field} value={asObject(value)[key]} onChange={next => replaceKey(key, next)} name={key} path={childPath(path, key)} issues={issues} locked={root && (key === idKey || lockedKeys?.includes(key))} lockedReason={root && lockedKeys?.includes(key) ? "Controlled by formula" : undefined}/>)}{Object.keys(asObject(value)).filter(key => !Object.hasOwn(node.fields, key)).map(key => <div className="editor-preserved" key={key}><strong>{fieldTitle(key)}</strong><ReadValue value={asObject(value)[key]}/><small>Unrecognized field preserved in this draft.</small></div>)}</div>;
+    content = <div className={root ? "editor-root-fields" : "editor-object"}>{entries.map(([key, field]) => <FieldNode key={key} schema={field} value={asObject(value)[key]} onChange={next => replaceKey(key, next)} name={key} path={childPath(path, key)} issues={issues} locked={root && (key === idKey || lockedKeys?.includes(key))} lockedReason={root && lockedKeys?.includes(key) ? "Controlled by formula" : undefined}/>)}{Object.keys(asObject(value)).filter(key => !Object.hasOwn(node.fields, key) && !ADVANCED_FIELDS.has(key)).map(key => <div className="editor-preserved" key={key}><strong>{fieldTitle(key)}</strong><ReadValue value={asObject(value)[key]}/><small>Unrecognized field preserved in this draft.</small></div>)}</div>;
   } else if (node instanceof ArraySchema || node instanceof TupleSchema) {
     const entries = Array.isArray(value) ? value : [];
     const fixed = node instanceof TupleSchema;
@@ -166,7 +190,7 @@ function RecordFields({ schema, value, path, issues, onChange }: { schema: Recor
   const keyIssues = schema.key && key ? fieldIssues(schema.key, key) : [];
   const identity = containsIdentity(schema.value);
   const validKey = Boolean(key && !Object.hasOwn(value, key) && !badKeys.has(key) && !keyIssues.length);
-  return <div className="editor-record">{Object.entries(value).map(([entryKey, entry]) => <div className="editor-record-entry" key={entryKey}><FieldNode schema={schema.value} value={entry} onChange={next => onChange({ ...value, [entryKey]: next })} name={entryKey} path={childPath(path, entryKey)} issues={issues}/>{!identity && <button type="button" className="editor-small-button" aria-label={`Remove ${entryKey}`} onClick={() => { const next = { ...value }; delete next[entryKey]; onChange(next); }}><Trash2 size={12}/>Remove {entryKey}</button>}</div>)}{!identity && <div className="editor-record-add"><label>New key<input aria-label={`New key for ${path || "record"}`} value={key} onChange={event => setKey(event.target.value)} placeholder="Enter a key"/></label><button type="button" className="editor-small-button" disabled={!validKey} onClick={() => { if (validKey) { onChange({ ...value, [key]: defaultFieldValue(schema.value) }); setKey(""); } }}><Plus size={13}/>Add key</button>{key && !validKey && <p className="editor-help">{Object.hasOwn(value, key) ? "This key already exists." : keyIssues[0]?.message ?? "Choose a different key."}</p>}</div>}</div>;
+  return <div className="editor-record">{Object.entries(value).filter(([entryKey]) => !ADVANCED_FIELDS.has(entryKey)).map(([entryKey, entry]) => <div className="editor-record-entry" key={entryKey}><FieldNode schema={schema.value} value={entry} onChange={next => onChange({ ...value, [entryKey]: next })} name={entryKey} path={childPath(path, entryKey)} issues={issues}/>{!identity && <button type="button" className="editor-small-button" aria-label={`Remove ${entryKey}`} onClick={() => { const next = { ...value }; delete next[entryKey]; onChange(next); }}><Trash2 size={12}/>Remove {entryKey}</button>}</div>)}{!identity && <div className="editor-record-add"><label>New key<input aria-label={`New key for ${path || "record"}`} value={key} onChange={event => setKey(event.target.value)} placeholder="Enter a key"/></label><button type="button" className="editor-small-button" disabled={!validKey} onClick={() => { if (validKey) { onChange({ ...value, [key]: defaultFieldValue(schema.value) }); setKey(""); } }}><Plus size={13}/>Add key</button>{key && !validKey && <p className="editor-help">{Object.hasOwn(value, key) ? "This key already exists." : keyIssues[0]?.message ?? "Choose a different key."}</p>}</div>}</div>;
 }
 
 function ReadValue({ value }: { value: unknown }) {

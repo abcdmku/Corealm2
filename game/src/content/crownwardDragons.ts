@@ -17,7 +17,7 @@ export const CROWNWARD_DRAGON_FORMS = [
 
 export type CrownwardDragonSpeciesId = typeof CROWNWARD_DRAGON_FORMS[number]['id'];
 
-export const CROWNWARD_DRAGON_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('CROWNWARD_DRAGON_SPECIES');
+export const CROWNWARD_DRAGON_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["crownward_red_hatchling", "crownward_black_hatchling", "crownward_red_dragon"]);
 
 /** Locations are supplied only after the river, bridges and dry encounter clearings are accepted. */
 export const CROWNWARD_DRAGON_ENCOUNTER_INTENTS = [

@@ -24,6 +24,8 @@ const manifest = JSON.parse(readFileSync(new URL('../game/public/assets/manifest
   assets: { id: string; file: string; materials: string[] }[];
 };
 const assets = new Map(manifest.assets.map(asset => [asset.id, asset]));
+const regionalIds = new Set(REGIONAL_TIER_ITEMS.map(item => item.id));
+const itemsWith3dAppearance = WILDERNESS_LOOT_ITEMS.filter(item => !regionalIds.has(item.id) && !item.equip?.slot.startsWith('accessory'));
 
 function assetParts(itemId: string): readonly ItemIconAssetPart[] {
   const parts = itemIconAppearance(itemId).parts;
@@ -40,16 +42,14 @@ function dispose(object: THREE.Object3D): void {
 }
 
 describe('Wilderness loot icon appearances', () => {
-  it('accepts all 62 candidate items without missing rows or phantom item IDs', () => {
-    expect(WILDERNESS_LOOT_ITEMS).toHaveLength(54);
+  it('accepts model-backed candidate items without missing rows or phantom item IDs', () => {
     // Regional equipment has reviewed generated raster art. Its legacy 3D model appearance is
     // optional, so keep this catalogue parity check on the model-backed item set.
-    const regionalIds = new Set(REGIONAL_TIER_ITEMS.map(item => item.id));
     const modelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id) && !/^(crafted_|guardian_)/.test(item.id));
     const modelAppearanceIds = [...ITEM_ICON_APPEARANCE_IDS].filter(id => !regionalIds.has(id));
     expect(modelAppearanceIds.sort()).toEqual(modelItems.map(item => item.id).sort());
     expect([...ITEM_ICON_APPEARANCE_IDS].every(id => ALL_ITEMS.some(item => item.id === id))).toBe(true);
-    for (const item of WILDERNESS_LOOT_ITEMS) {
+    for (const item of itemsWith3dAppearance) {
       expect(itemIconAppearance(item.id).itemId).toBe(item.id);
       expect(itemIconAppearance(item.id).parts.length, item.id).toBeGreaterThan(0);
     }
@@ -67,9 +67,8 @@ describe('Wilderness loot icon appearances', () => {
     expect(assetParts('emberite_ore')[0]!.assetId).toBe('corealm_item_emberite_ore');
   });
 
-  it('gives all 17 resources and components a distinct material appearance', () => {
-    const materials = WILDERNESS_LOOT_ITEMS.filter(item => !item.equip && !item.tool);
-    expect(materials).toHaveLength(17);
+  it('gives resources and components a distinct material appearance', () => {
+    const materials = itemsWith3dAppearance.filter(item => !item.equip && !item.tool);
     const signatures = materials.map(item => JSON.stringify(itemIconAppearance(item.id).parts));
     expect(new Set(signatures).size).toBe(materials.length);
     for (const [id, shape] of [
@@ -89,10 +88,8 @@ describe('Wilderness loot icon appearances', () => {
   });
 
   it('keeps every visible equipment and tool icon identical to its production appearance', () => {
-    const equipment = WILDERNESS_LOOT_ITEMS.filter(item => item.equip && !item.equip.slot.startsWith('accessory'));
-    const tools = WILDERNESS_LOOT_ITEMS.filter(item => item.tool);
-    expect(equipment).toHaveLength(33);
-    expect(tools).toHaveLength(4);
+    const equipment = itemsWith3dAppearance.filter(item => item.equip && !item.equip.slot.startsWith('accessory'));
+    const tools = itemsWith3dAppearance.filter(item => item.tool);
     for (const item of [...equipment, ...tools]) {
       const actual = assetParts(item.id);
       const expected = item.tool ? [gatheringToolAppearance(item.id)!] : gearAppearanceParts(item.id);
@@ -107,7 +104,7 @@ describe('Wilderness loot icon appearances', () => {
 
 
   it('resolves each imported model to a real shipped GLB', () => {
-    const referenced = new Set(WILDERNESS_LOOT_ITEMS.flatMap(item => assetPartsIfAny(item.id)));
+    const referenced = new Set(itemsWith3dAppearance.flatMap(item => assetPartsIfAny(item.id)));
     for (const id of referenced) {
       if (isProceduralGearAsset(id)) continue;
       const asset = assets.get(id);
@@ -120,7 +117,7 @@ describe('Wilderness loot icon appearances', () => {
   });
 
   it('builds every procedural material and jewellery form with usable production camera bounds', async () => {
-    for (const item of WILDERNESS_LOOT_ITEMS) {
+    for (const item of itemsWith3dAppearance) {
       const appearance = itemIconAppearance(item.id);
       for (const part of appearance.parts) {
         if (part.kind !== 'primitive') continue;

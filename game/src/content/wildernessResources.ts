@@ -1,5 +1,5 @@
 import type { ResourceDef } from './index.js';
-import { resourceRows } from './resourceData.js';
+import { RESOURCE_DATA } from './resourceData.js';
 import type { LocationDef, ResourceClusterDef } from './regions.js';
 import type { WorldSite } from './worldSites.js';
 import { WILDERNESS_RESOURCE_INTENTS } from './wildernessDepth.js';
@@ -12,10 +12,10 @@ export const WILDERNESS_TREE_VARIANTS = [
   { assetId: 'corealm_magic_moonvein', speciesId: 'magic', resourceId: 'tree_wilderness_magic', itemId: 'magic_log', tier: 70 },
 ] as const;
 
-export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = resourceRows('WILDERNESS_ORE_RESOURCES');
+export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = RESOURCE_DATA.filter(resource => resource.archetype === "ore" && [50,70].includes(resource.tier));
 
 /** Authored groves select Wilderness bodies while yielding the existing production timber. */
-export const WILDERNESS_TREE_RESOURCES: readonly ResourceDef[] = resourceRows('WILDERNESS_TREE_RESOURCES');
+export const WILDERNESS_TREE_RESOURCES: readonly ResourceDef[] = RESOURCE_DATA.filter(resource => resource.id.startsWith("tree_wilderness_"));
 
 const labels: Record<string, string> = {
   cindervein_workings: 'Cindervein Workings', nightglass_excavation: 'Nightglass Excavation', lastroot_teak: 'Lastroot Shelter',

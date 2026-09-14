@@ -1,0 +1,3122 @@
+{
+  "authoredAssemblySources": {
+    "sources": [
+      {
+        "module": "enemies",
+        "path": ".baseline/game/src/content/enemies.ts",
+        "sha256": "83768128d6146ab7aab7e923841d9ca4e8966d48258bc15de4259dfc99901d2e"
+      },
+      {
+        "module": "redWorms",
+        "path": ".baseline/game/src/content/redWorms.ts",
+        "sha256": "a8793215079860fdfc44c3ad9694ee6df247932e9a3a8836ed02bd73cfab8d6b"
+      }
+    ],
+    "rows": [
+      {
+        "inputId": "assembly/legacy/frog_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 0,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/frog_t1",
+        "lootInputId": "legacy/frog_t1"
+      },
+      {
+        "inputId": "assembly/legacy/hen_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 1,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/hen_t1",
+        "lootInputId": "legacy/hen_t1"
+      },
+      {
+        "inputId": "assembly/legacy/goat_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 2,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/goat_t1",
+        "lootInputId": "legacy/goat_t1"
+      },
+      {
+        "inputId": "assembly/legacy/cattle_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 3,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/cattle_t1",
+        "lootInputId": "legacy/cattle_t1"
+      },
+      {
+        "inputId": "assembly/legacy/coney_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 4,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/coney_t1",
+        "lootInputId": "legacy/coney_t1"
+      },
+      {
+        "inputId": "assembly/legacy/viper_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 5,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/viper_t1",
+        "lootInputId": "legacy/viper_t1"
+      },
+      {
+        "inputId": "assembly/legacy/reaver_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 6,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/reaver_t1",
+        "lootInputId": "legacy/reaver_t1"
+      },
+      {
+        "inputId": "assembly/legacy/tempest_roc_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 7,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/tempest_roc_t1",
+        "lootInputId": "legacy/tempest_roc_t1"
+      },
+      {
+        "inputId": "assembly/legacy/deer_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 8,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/deer_t5",
+        "lootInputId": "legacy/deer_t5"
+      },
+      {
+        "inputId": "assembly/legacy/hog_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 9,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/hog_t5",
+        "lootInputId": "legacy/hog_t5"
+      },
+      {
+        "inputId": "assembly/legacy/coyote_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 10,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/coyote_t5",
+        "lootInputId": "legacy/coyote_t5"
+      },
+      {
+        "inputId": "assembly/legacy/frog_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 11,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/frog_t5",
+        "lootInputId": "legacy/frog_t5"
+      },
+      {
+        "inputId": "assembly/legacy/coney_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 12,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/coney_t5",
+        "lootInputId": "legacy/coney_t5"
+      },
+      {
+        "inputId": "assembly/legacy/viper_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 13,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/viper_t5",
+        "lootInputId": "legacy/viper_t5"
+      },
+      {
+        "inputId": "assembly/legacy/reaver_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 14,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/reaver_t5",
+        "lootInputId": "legacy/reaver_t5"
+      },
+      {
+        "inputId": "assembly/legacy/rootheart_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 15,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/rootheart_t5",
+        "lootInputId": "legacy/rootheart_t5"
+      },
+      {
+        "inputId": "assembly/legacy/bear_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 16,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/bear_t10",
+        "lootInputId": "legacy/bear_t10"
+      },
+      {
+        "inputId": "assembly/legacy/boar_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 17,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/boar_t10",
+        "lootInputId": "legacy/boar_t10"
+      },
+      {
+        "inputId": "assembly/legacy/ibex_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 18,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/ibex_t10",
+        "lootInputId": "legacy/ibex_t10"
+      },
+      {
+        "inputId": "assembly/legacy/aurochs_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 19,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/aurochs_t10",
+        "lootInputId": "legacy/aurochs_t10"
+      },
+      {
+        "inputId": "assembly/legacy/reaver_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 20,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/reaver_t10",
+        "lootInputId": "legacy/reaver_t10"
+      },
+      {
+        "inputId": "assembly/legacy/coyote_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 21,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/coyote_t10",
+        "lootInputId": "legacy/coyote_t10"
+      },
+      {
+        "inputId": "assembly/legacy/rat_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 22,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/rat_t10",
+        "lootInputId": "legacy/rat_t10"
+      },
+      {
+        "inputId": "assembly/legacy/scorpion_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 23,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/scorpion_t10",
+        "lootInputId": "legacy/scorpion_t10"
+      },
+      {
+        "inputId": "assembly/legacy/crab_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 24,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/crab_t10",
+        "lootInputId": "legacy/crab_t10"
+      },
+      {
+        "inputId": "assembly/legacy/bear_t20",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 25,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/bear_t20",
+        "lootInputId": "legacy/bear_t20"
+      },
+      {
+        "inputId": "assembly/legacy/boar_t20",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 26,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/boar_t20",
+        "lootInputId": "legacy/boar_t20"
+      },
+      {
+        "inputId": "assembly/legacy/ibex_t20",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 27,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/ibex_t20",
+        "lootInputId": "legacy/ibex_t20"
+      },
+      {
+        "inputId": "assembly/legacy/viper_t20",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 28,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/viper_t20",
+        "lootInputId": "legacy/viper_t20"
+      },
+      {
+        "inputId": "assembly/legacy/reaver_t20",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 29,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour"
+        ],
+        "legacyInputId": "legacy/reaver_t20",
+        "lootInputId": "legacy/reaver_t20"
+      },
+      {
+        "inputId": "assembly/legacy/galeskin_t1",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 30,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/galeskin_t1",
+        "lootInputId": "legacy/galeskin_t1"
+      },
+      {
+        "inputId": "assembly/legacy/mossbound_t5",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 31,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/mossbound_t5",
+        "lootInputId": "legacy/mossbound_t5"
+      },
+      {
+        "inputId": "assembly/legacy/tideworn_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 32,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/tideworn_t10",
+        "lootInputId": "legacy/tideworn_t10"
+      },
+      {
+        "inputId": "assembly/legacy/cinderwake_t20",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 33,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/cinderwake_t20",
+        "lootInputId": "legacy/cinderwake_t20"
+      },
+      {
+        "inputId": "assembly/legacy/quarrykeeper_t10",
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "rowIndex": 34,
+        "authoredFields": [
+          "id",
+          "name",
+          "family",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ],
+        "legacyInputId": "legacy/quarrykeeper_t10",
+        "lootInputId": "legacy/quarrykeeper_t10"
+      },
+      {
+        "inputId": "assembly/authored/red_worm",
+        "module": "redWorms",
+        "symbol": "RED_WORM_SPECIES",
+        "rowIndex": 0,
+        "authoredFields": [
+          "id",
+          "family",
+          "name",
+          "tier",
+          "maxHealth",
+          "attackLevel",
+          "defenceLevel",
+          "accuracy",
+          "armour",
+          "magicArmour",
+          "maxHit",
+          "attackSpeedMs",
+          "aggroRadius",
+          "moveSpeedMps",
+          "walkSpeedMps",
+          "behaviour",
+          "marks"
+        ]
+      }
+    ]
+  },
+  "preWildernessAssembly": {
+    "sources": [
+      {
+        "module": "creatureExpansion",
+        "path": ".baseline/game/src/content/creatureExpansion.ts",
+        "sha256": "47ead48b59553ee78d283c35e67963d82c7e3da9cfe97c34b3db0211d1f11a2a"
+      },
+      {
+        "module": "starterCreatures",
+        "path": ".baseline/game/src/content/starterCreatures.ts",
+        "sha256": "cac98d87bc17e7e9844232c66905e245aa80ee1151ace1f6a95c937fe43c0dd6"
+      },
+      {
+        "module": "rpgBestiary",
+        "path": ".baseline/game/src/content/rpgBestiary.ts",
+        "sha256": "de767d33a62cfb18f9c8ab00d76fa98ec6148d920ea14d117b307c94dc62054b"
+      },
+      {
+        "module": "regionalCreatureVariants",
+        "path": ".baseline/game/src/content/regionalCreatureVariants.ts",
+        "sha256": "d41a6ee257ae0dfecde36e47a5713f6f77d72edadfd34703a21891657ff3370b"
+      },
+      {
+        "module": "creatureRedesign",
+        "path": ".baseline/game/src/content/creatureRedesign.ts",
+        "sha256": "591f7c3741ab67551067fa958198ddc85b5d1b53c94abaa3af5a3fd0cd24650a"
+      },
+      {
+        "module": "forestCreatureRedesigns",
+        "path": ".baseline/game/src/content/forestCreatureRedesigns.ts",
+        "sha256": "ab170e51afa136f981cc5e8b860f545fdcd47faa9479c48437a95c14a0a4e371"
+      },
+      {
+        "module": "ashCreatureRedesigns",
+        "path": ".baseline/game/src/content/ashCreatureRedesigns.ts",
+        "sha256": "121149513d35a470ae54b276753f932960756acdaa25fa633a71b31cd314856f"
+      },
+      {
+        "module": "stoneCreatureRedesigns",
+        "path": ".baseline/game/src/content/stoneCreatureRedesigns.ts",
+        "sha256": "62b9de4c15bed01309e418b8f45ce4763a7ab9f6d240714299066e1a0074463d"
+      },
+      {
+        "module": "enemies",
+        "path": ".baseline/game/src/content/enemies.ts",
+        "sha256": "83768128d6146ab7aab7e923841d9ca4e8966d48258bc15de4259dfc99901d2e"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "path": ".baseline/game/src/content/wildernessCreatureSpecies.ts",
+        "sha256": "c1f37be1dd170f842addc00dbeda6e48de5855632170e1ca4fa5497beb082495"
+      },
+      {
+        "module": "wildernessDragons",
+        "path": ".baseline/game/src/content/wildernessDragons.ts",
+        "sha256": "8ea5ca13411dab6dc7c30637538ca4307f7cef9a559824193afbf0f810878c93"
+      },
+      {
+        "module": "regionalBossBodies",
+        "path": ".baseline/game/src/content/regionalBossBodies.ts",
+        "sha256": "653b81a6087aad61f372ef327c375e9b12119d6678ec6d3b8a039a5a30a4c9b2"
+      },
+      {
+        "module": "wildernessDepth",
+        "path": ".baseline/game/src/content/wildernessDepth.ts",
+        "sha256": "79719ae827466c85c3769442113f9c0b8a20cefb12e09a808fced75ae3b56a97"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "path": ".baseline/game/src/content/fairyCrownCreatures.ts",
+        "sha256": "086ff26036e217f4c8c6695b00a3a369641092b4262bcc0e01d8bc230671dd2e"
+      },
+      {
+        "module": "crownwardDragons",
+        "path": ".baseline/game/src/content/crownwardDragons.ts",
+        "sha256": "60997daa1e538a78e6f3e6396c6f774154f42a4a32343c781e9dbba775b640d3"
+      },
+      {
+        "module": "universalMinibosses",
+        "path": ".baseline/game/src/content/universalMinibosses.ts",
+        "sha256": "4a8326b9600126dddf2344da2cd0d7499613543e895a83f936ce8ef9d61e3b15"
+      },
+      {
+        "module": "fairyCreatures",
+        "path": ".baseline/game/src/content/fairyCreatures.ts",
+        "sha256": "87b190d636798510e27f852d0981132ff120cf5f47882fc7a76edbf15cdd6096"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "path": ".baseline/game/src/content/fairyGardenCreatures.ts",
+        "sha256": "44821914d9f1547906d447381e89d77e91653f1357103d8f8beb0f05e364f394"
+      },
+      {
+        "module": "encounterBalance",
+        "path": ".baseline/game/src/content/encounterBalance.ts",
+        "sha256": "e96cc1e117c8aee986ea1e4e72148e4f60b978d0c7707a9f526f7efd3cc85940"
+      },
+      {
+        "module": "creatureSpecies",
+        "path": ".baseline/game/src/content/creatureSpecies.ts",
+        "sha256": "8efb067cc82f5172fd86a46ddcd99ad3d346fa7fef504023e8a2e18a98f97145"
+      },
+      {
+        "module": "redWorms",
+        "path": ".baseline/game/src/content/redWorms.ts",
+        "sha256": "a8793215079860fdfc44c3ad9694ee6df247932e9a3a8836ed02bd73cfab8d6b"
+      },
+      {
+        "module": "biomePopulation",
+        "path": ".baseline/game/src/content/biomePopulation.ts",
+        "sha256": "20f29fa15b7e0b610f484c9d29e0eeb125d6cee0c46ee08903e3344ba4776c77"
+      },
+      {
+        "module": "fairyMinibossForms",
+        "path": ".baseline/game/src/content/fairyMinibossForms.ts",
+        "sha256": "43e29c1bb436c1c2bc31d00fafacbc8553b4ab8e30a95e8c6b4dc3bb813188cb"
+      }
+    ],
+    "species": [
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 0,
+        "speciesId": "redbrush_fox",
+        "sourceInputId": "expansion/redbrush_fox"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 1,
+        "speciesId": "duskoak_lynx",
+        "sourceInputId": "expansion/duskoak_lynx"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 2,
+        "speciesId": "rootdelve_badger",
+        "sourceInputId": "expansion/rootdelve_badger"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 3,
+        "speciesId": "quillback_porcupine",
+        "sourceInputId": "expansion/quillback_porcupine"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 4,
+        "speciesId": "marchwild_horse",
+        "sourceInputId": "expansion/marchwild_horse"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 5,
+        "speciesId": "cairn_bighorn",
+        "sourceInputId": "expansion/cairn_bighorn"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 6,
+        "speciesId": "marsh_moose",
+        "sourceInputId": "expansion/marsh_moose"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 7,
+        "speciesId": "bracken_tapir",
+        "sourceInputId": "expansion/bracken_tapir"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 8,
+        "speciesId": "reedjaw_crocodile",
+        "sourceInputId": "expansion/reedjaw_crocodile"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 9,
+        "speciesId": "kiln_salamander",
+        "sourceInputId": "expansion/kiln_salamander"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 10,
+        "speciesId": "slateback_tortoise",
+        "sourceInputId": "expansion/slateback_tortoise"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 11,
+        "speciesId": "ashscale_monitor",
+        "sourceInputId": "expansion/ashscale_monitor"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 12,
+        "speciesId": "reedbank_goose",
+        "sourceInputId": "expansion/reedbank_goose"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 13,
+        "speciesId": "blackwater_heron",
+        "sourceInputId": "expansion/blackwater_heron"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 14,
+        "speciesId": "scree_bustard",
+        "sourceInputId": "expansion/scree_bustard"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 15,
+        "speciesId": "marchfield_turkey",
+        "sourceInputId": "expansion/marchfield_turkey"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 16,
+        "speciesId": "quarry_snail",
+        "sourceInputId": "expansion/quarry_snail"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 17,
+        "speciesId": "antler_beetle",
+        "sourceInputId": "expansion/antler_beetle"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 18,
+        "speciesId": "slag_centipede",
+        "sourceInputId": "expansion/slag_centipede"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 19,
+        "speciesId": "hollowroot_spider",
+        "sourceInputId": "expansion/hollowroot_spider"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 20,
+        "speciesId": "cinder_ravager",
+        "sourceInputId": "expansion/cinder_ravager"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 21,
+        "speciesId": "basalt_drake",
+        "sourceInputId": "expansion/basalt_drake"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 22,
+        "speciesId": "gorge_mantis",
+        "sourceInputId": "expansion/gorge_mantis"
+      },
+      {
+        "module": "creatureExpansion",
+        "symbol": "CREATURE_EXPANSION",
+        "rowIndex": 23,
+        "speciesId": "quarry_nightmare",
+        "sourceInputId": "expansion/quarry_nightmare"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 0,
+        "speciesId": "grass_viper",
+        "sourceInputId": "starter/grass_viper"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 1,
+        "speciesId": "field_wasp",
+        "sourceInputId": "starter/field_wasp"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 2,
+        "speciesId": "heath_wasp",
+        "sourceInputId": "starter/heath_wasp"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 3,
+        "speciesId": "reed_wasp",
+        "sourceInputId": "starter/reed_wasp"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 4,
+        "speciesId": "creek_crab",
+        "sourceInputId": "starter/creek_crab"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 5,
+        "speciesId": "briar_spider",
+        "sourceInputId": "starter/briar_spider"
+      },
+      {
+        "module": "starterCreatures",
+        "symbol": "STARTER_CREATURES",
+        "rowIndex": 6,
+        "speciesId": "granary_rat",
+        "sourceInputId": "starter/granary_rat"
+      },
+      {
+        "module": "redWorms",
+        "symbol": "RED_WORM_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "red_worm",
+        "sourceInputId": "assembly/authored/red_worm"
+      },
+      {
+        "module": "regionalCreatureVariants",
+        "symbol": "REGIONAL_CREATURE_VARIANTS",
+        "rowIndex": 0,
+        "speciesId": "gloam_fox",
+        "sourceInputId": "variant/gloam_fox"
+      },
+      {
+        "module": "regionalCreatureVariants",
+        "symbol": "REGIONAL_CREATURE_VARIANTS",
+        "rowIndex": 1,
+        "speciesId": "moonweave_spider",
+        "sourceInputId": "variant/moonweave_spider"
+      },
+      {
+        "module": "regionalCreatureVariants",
+        "symbol": "REGIONAL_CREATURE_VARIANTS",
+        "rowIndex": 2,
+        "speciesId": "rimeback_tortoise",
+        "sourceInputId": "variant/rimeback_tortoise"
+      },
+      {
+        "module": "regionalCreatureVariants",
+        "symbol": "REGIONAL_CREATURE_VARIANTS",
+        "rowIndex": 3,
+        "speciesId": "cindercrest_salamander",
+        "sourceInputId": "variant/cindercrest_salamander"
+      },
+      {
+        "module": "regionalCreatureVariants",
+        "symbol": "REGIONAL_CREATURE_VARIANTS",
+        "rowIndex": 4,
+        "speciesId": "amethyst_spider",
+        "sourceInputId": "variant/amethyst_spider"
+      },
+      {
+        "module": "creatureRedesign",
+        "symbol": "CREATURE_REDESIGNS",
+        "rowIndex": 0,
+        "speciesId": "chalk_warden",
+        "sourceInputId": "basic/chalk_warden"
+      },
+      {
+        "module": "creatureRedesign",
+        "symbol": "CREATURE_REDESIGNS",
+        "rowIndex": 1,
+        "speciesId": "hollow_bough",
+        "sourceInputId": "basic/hollow_bough"
+      },
+      {
+        "module": "creatureRedesign",
+        "symbol": "CREATURE_REDESIGNS",
+        "rowIndex": 2,
+        "speciesId": "pallid_shade",
+        "sourceInputId": "basic/pallid_shade"
+      },
+      {
+        "module": "forestCreatureRedesigns",
+        "symbol": "FOREST_CREATURE_REDESIGNS",
+        "rowIndex": 0,
+        "speciesId": "briar_harrow",
+        "sourceInputId": "forest/briar_harrow"
+      },
+      {
+        "module": "forestCreatureRedesigns",
+        "symbol": "FOREST_CREATURE_REDESIGNS",
+        "rowIndex": 1,
+        "speciesId": "fen_crawler",
+        "sourceInputId": "forest/fen_crawler"
+      },
+      {
+        "module": "forestCreatureRedesigns",
+        "symbol": "FOREST_CREATURE_REDESIGNS",
+        "rowIndex": 2,
+        "speciesId": "reed_strider",
+        "sourceInputId": "forest/reed_strider"
+      },
+      {
+        "module": "forestCreatureRedesigns",
+        "symbol": "FOREST_CREATURE_REDESIGNS",
+        "rowIndex": 3,
+        "speciesId": "thorn_maw",
+        "sourceInputId": "forest/thorn_maw"
+      },
+      {
+        "module": "forestCreatureRedesigns",
+        "symbol": "FOREST_CREATURE_REDESIGNS",
+        "rowIndex": 4,
+        "speciesId": "heath_jack",
+        "sourceInputId": "forest/heath_jack"
+      },
+      {
+        "module": "ashCreatureRedesigns",
+        "symbol": "ASH_CREATURE_REDESIGNS",
+        "rowIndex": 0,
+        "speciesId": "kiln_marrow",
+        "sourceInputId": "ash/kiln_marrow"
+      },
+      {
+        "module": "ashCreatureRedesigns",
+        "symbol": "ASH_CREATURE_REDESIGNS",
+        "rowIndex": 1,
+        "speciesId": "slag_crawler",
+        "sourceInputId": "ash/slag_crawler"
+      },
+      {
+        "module": "ashCreatureRedesigns",
+        "symbol": "ASH_CREATURE_REDESIGNS",
+        "rowIndex": 2,
+        "speciesId": "cinder_penitent",
+        "sourceInputId": "ash/cinder_penitent"
+      },
+      {
+        "module": "ashCreatureRedesigns",
+        "symbol": "ASH_CREATURE_REDESIGNS",
+        "rowIndex": 3,
+        "speciesId": "grave_lantern",
+        "sourceInputId": "ash/grave_lantern"
+      },
+      {
+        "module": "ashCreatureRedesigns",
+        "symbol": "ASH_CREATURE_REDESIGNS",
+        "rowIndex": 4,
+        "speciesId": "veil_reaper",
+        "sourceInputId": "ash/veil_reaper"
+      },
+      {
+        "module": "stoneCreatureRedesigns",
+        "symbol": "STONE_CREATURE_REDESIGNS",
+        "rowIndex": 0,
+        "speciesId": "cairn_treader",
+        "sourceInputId": "stone/cairn_treader"
+      },
+      {
+        "module": "stoneCreatureRedesigns",
+        "symbol": "STONE_CREATURE_REDESIGNS",
+        "rowIndex": 1,
+        "speciesId": "flint_mandible",
+        "sourceInputId": "stone/flint_mandible"
+      },
+      {
+        "module": "stoneCreatureRedesigns",
+        "symbol": "STONE_CREATURE_REDESIGNS",
+        "rowIndex": 2,
+        "speciesId": "vault_custodian",
+        "sourceInputId": "stone/vault_custodian"
+      },
+      {
+        "module": "stoneCreatureRedesigns",
+        "symbol": "STONE_CREATURE_REDESIGNS",
+        "rowIndex": 3,
+        "speciesId": "blind_cave_weaver",
+        "sourceInputId": "stone/blind_cave_weaver"
+      },
+      {
+        "module": "stoneCreatureRedesigns",
+        "symbol": "STONE_CREATURE_REDESIGNS",
+        "rowIndex": 4,
+        "speciesId": "scree_watcher",
+        "sourceInputId": "stone/scree_watcher"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 0,
+        "speciesId": "baby_red_dragon",
+        "sourceInputId": "wildernessDragon/baby_red_dragon"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 1,
+        "speciesId": "baby_black_dragon",
+        "sourceInputId": "wildernessDragon/baby_black_dragon"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 2,
+        "speciesId": "baby_lava_dragon",
+        "sourceInputId": "wildernessDragon/baby_lava_dragon"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 3,
+        "speciesId": "red_wilderness_dragon",
+        "sourceInputId": "wildernessDragon/red_wilderness_dragon"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 4,
+        "speciesId": "black_wilderness_dragon",
+        "sourceInputId": "wildernessDragon/black_wilderness_dragon"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 5,
+        "speciesId": "purple_wilderness_dragon",
+        "sourceInputId": "wildernessDragon/purple_wilderness_dragon"
+      },
+      {
+        "module": "wildernessDragons",
+        "symbol": "WILDERNESS_DRAGONS",
+        "rowIndex": 6,
+        "speciesId": "amethyst_dragon",
+        "sourceInputId": "wildernessDragon/amethyst_dragon"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "cinderback_crag",
+        "sourceInputId": "wildernessBody/cinderback_crag"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 1,
+        "speciesId": "furnace_grazer",
+        "sourceInputId": "wildernessBody/furnace_grazer"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 2,
+        "speciesId": "basalt_maw",
+        "sourceInputId": "wildernessBody/basalt_maw"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 3,
+        "speciesId": "rift_carapace",
+        "sourceInputId": "wildernessBody/rift_carapace"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 4,
+        "speciesId": "voidstone_colossus",
+        "sourceInputId": "wildernessBody/voidstone_colossus"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 5,
+        "speciesId": "gloam_wraith",
+        "sourceInputId": "wildernessBody/gloam_wraith"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 6,
+        "speciesId": "ashseal_warden",
+        "sourceInputId": "wildernessBody/ashseal_warden"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 7,
+        "speciesId": "furnace_regent",
+        "sourceInputId": "wildernessBody/furnace_regent"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 8,
+        "speciesId": "chainbound_archon",
+        "sourceInputId": "wildernessBody/chainbound_archon"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 9,
+        "speciesId": "nightforge_marshal",
+        "sourceInputId": "wildernessBody/nightforge_marshal"
+      },
+      {
+        "module": "wildernessCreatureSpecies",
+        "symbol": "WILDERNESS_CREATURE_SPECIES",
+        "rowIndex": 10,
+        "speciesId": "hollow_star",
+        "sourceInputId": "wildernessBody/hollow_star"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "pearl_knight",
+        "sourceInputId": "fairyCrown/pearl_knight"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 1,
+        "speciesId": "ivory_castellan",
+        "sourceInputId": "fairyCrown/ivory_castellan"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 2,
+        "speciesId": "crown_hart",
+        "sourceInputId": "fairyCrown/crown_hart"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 3,
+        "speciesId": "silverthorn_harrow",
+        "sourceInputId": "fairyCrown/silverthorn_harrow"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 4,
+        "speciesId": "lantern_sprite",
+        "sourceInputId": "fairyCrown/lantern_sprite"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 5,
+        "speciesId": "moonpetal_stalker",
+        "sourceInputId": "fairyCrown/moonpetal_stalker"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 6,
+        "speciesId": "dewglass_weaver",
+        "sourceInputId": "fairyCrown/dewglass_weaver"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 7,
+        "speciesId": "bloomheart_matriarch",
+        "sourceInputId": "fairyCrown/bloomheart_matriarch"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 8,
+        "speciesId": "prismatic_sprite",
+        "sourceInputId": "fairyCrown/prismatic_sprite"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 9,
+        "speciesId": "orchid_reaper",
+        "sourceInputId": "fairyCrown/orchid_reaper"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 10,
+        "speciesId": "starroot_guardian",
+        "sourceInputId": "fairyCrown/starroot_guardian"
+      },
+      {
+        "module": "fairyCrownCreatures",
+        "symbol": "FAIRY_CROWN_SPECIES",
+        "rowIndex": 11,
+        "speciesId": "amethyst_sovereign",
+        "sourceInputId": "fairyCrown/amethyst_sovereign"
+      },
+      {
+        "module": "crownwardDragons",
+        "symbol": "CROWNWARD_DRAGON_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "crownward_red_hatchling",
+        "sourceInputId": "crownwardDragon/crownward_red_hatchling"
+      },
+      {
+        "module": "crownwardDragons",
+        "symbol": "CROWNWARD_DRAGON_SPECIES",
+        "rowIndex": 1,
+        "speciesId": "crownward_black_hatchling",
+        "sourceInputId": "crownwardDragon/crownward_black_hatchling"
+      },
+      {
+        "module": "crownwardDragons",
+        "symbol": "CROWNWARD_DRAGON_SPECIES",
+        "rowIndex": 2,
+        "speciesId": "crownward_red_dragon",
+        "sourceInputId": "crownwardDragon/crownward_red_dragon"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "petal_pouncer_t30",
+        "sourceInputId": "fairy/petal_pouncer_t30"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 1,
+        "speciesId": "moss_nibbler_t30",
+        "sourceInputId": "fairy/moss_nibbler_t30"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 2,
+        "speciesId": "bloom_hopper_t30",
+        "sourceInputId": "fairy/bloom_hopper_t30"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 3,
+        "speciesId": "thicket_spirit_t30",
+        "sourceInputId": "fairy/thicket_spirit_t30"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 4,
+        "speciesId": "bramble_prowler_t30",
+        "sourceInputId": "fairy/bramble_prowler_t30"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 5,
+        "speciesId": "elder_grovebeast_t30",
+        "sourceInputId": "fairy/elder_grovebeast_t30"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 6,
+        "speciesId": "petal_pouncer_t60",
+        "sourceInputId": "fairy/petal_pouncer_t60"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 7,
+        "speciesId": "moss_nibbler_t60",
+        "sourceInputId": "fairy/moss_nibbler_t60"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 8,
+        "speciesId": "bloom_hopper_t60",
+        "sourceInputId": "fairy/bloom_hopper_t60"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 9,
+        "speciesId": "thicket_spirit_t60",
+        "sourceInputId": "fairy/thicket_spirit_t60"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 10,
+        "speciesId": "bramble_prowler_t60",
+        "sourceInputId": "fairy/bramble_prowler_t60"
+      },
+      {
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "rowIndex": 11,
+        "speciesId": "elder_grovebeast_t60",
+        "sourceInputId": "fairy/elder_grovebeast_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "garden_spriggle_t30",
+        "sourceInputId": "garden/garden_spriggle_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 1,
+        "speciesId": "garden_sporekin_t30",
+        "sourceInputId": "garden/garden_sporekin_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 2,
+        "speciesId": "garden_frog_t30",
+        "sourceInputId": "garden/garden_frog_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 3,
+        "speciesId": "garden_imp_t30",
+        "sourceInputId": "garden/garden_imp_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 4,
+        "speciesId": "garden_snail_t30",
+        "sourceInputId": "garden/garden_snail_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 5,
+        "speciesId": "garden_reliquary_t30",
+        "sourceInputId": "garden/garden_reliquary_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 6,
+        "speciesId": "garden_hart_t30",
+        "sourceInputId": "garden/garden_hart_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 7,
+        "speciesId": "garden_veilspirit_t30",
+        "sourceInputId": "garden/garden_veilspirit_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 8,
+        "speciesId": "garden_sapling_t30",
+        "sourceInputId": "garden/garden_sapling_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 9,
+        "speciesId": "garden_drake_t30",
+        "sourceInputId": "garden/garden_drake_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 10,
+        "speciesId": "garden_wardling_t30",
+        "sourceInputId": "garden/garden_wardling_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 11,
+        "speciesId": "garden_petalguard_t30",
+        "sourceInputId": "garden/garden_petalguard_t30"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 12,
+        "speciesId": "garden_spriggle_t60",
+        "sourceInputId": "garden/garden_spriggle_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 13,
+        "speciesId": "garden_sporekin_t60",
+        "sourceInputId": "garden/garden_sporekin_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 14,
+        "speciesId": "garden_frog_t60",
+        "sourceInputId": "garden/garden_frog_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 15,
+        "speciesId": "garden_imp_t60",
+        "sourceInputId": "garden/garden_imp_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 16,
+        "speciesId": "garden_snail_t60",
+        "sourceInputId": "garden/garden_snail_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 17,
+        "speciesId": "garden_reliquary_t60",
+        "sourceInputId": "garden/garden_reliquary_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 18,
+        "speciesId": "garden_hart_t60",
+        "sourceInputId": "garden/garden_hart_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 19,
+        "speciesId": "garden_veilspirit_t60",
+        "sourceInputId": "garden/garden_veilspirit_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 20,
+        "speciesId": "garden_sapling_t60",
+        "sourceInputId": "garden/garden_sapling_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 21,
+        "speciesId": "garden_drake_t60",
+        "sourceInputId": "garden/garden_drake_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 22,
+        "speciesId": "garden_wardling_t60",
+        "sourceInputId": "garden/garden_wardling_t60"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "rowIndex": 23,
+        "speciesId": "garden_petalguard_t60",
+        "sourceInputId": "garden/garden_petalguard_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 0,
+        "speciesId": "guardian_01_fallowmarch",
+        "sourceInputId": "universal/guardian_01_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 1,
+        "speciesId": "guardian_02_fallowmarch",
+        "sourceInputId": "universal/guardian_02_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 2,
+        "speciesId": "guardian_03_fallowmarch",
+        "sourceInputId": "universal/guardian_03_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 3,
+        "speciesId": "guardian_04_fallowmarch",
+        "sourceInputId": "universal/guardian_04_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 4,
+        "speciesId": "guardian_05_fallowmarch",
+        "sourceInputId": "universal/guardian_05_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 5,
+        "speciesId": "guardian_06_fallowmarch",
+        "sourceInputId": "universal/guardian_06_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 6,
+        "speciesId": "guardian_07_fallowmarch",
+        "sourceInputId": "universal/guardian_07_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 7,
+        "speciesId": "guardian_08_fallowmarch",
+        "sourceInputId": "universal/guardian_08_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 8,
+        "speciesId": "guardian_09_fallowmarch",
+        "sourceInputId": "universal/guardian_09_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 9,
+        "speciesId": "guardian_01_vellenwood",
+        "sourceInputId": "universal/guardian_01_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 10,
+        "speciesId": "guardian_02_vellenwood",
+        "sourceInputId": "universal/guardian_02_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 11,
+        "speciesId": "guardian_03_vellenwood",
+        "sourceInputId": "universal/guardian_03_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 12,
+        "speciesId": "guardian_04_vellenwood",
+        "sourceInputId": "universal/guardian_04_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 13,
+        "speciesId": "guardian_05_vellenwood",
+        "sourceInputId": "universal/guardian_05_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 14,
+        "speciesId": "guardian_06_vellenwood",
+        "sourceInputId": "universal/guardian_06_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 15,
+        "speciesId": "guardian_07_vellenwood",
+        "sourceInputId": "universal/guardian_07_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 16,
+        "speciesId": "guardian_08_vellenwood",
+        "sourceInputId": "universal/guardian_08_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 17,
+        "speciesId": "guardian_09_vellenwood",
+        "sourceInputId": "universal/guardian_09_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 18,
+        "speciesId": "guardian_01_karrowmoor",
+        "sourceInputId": "universal/guardian_01_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 19,
+        "speciesId": "guardian_02_karrowmoor",
+        "sourceInputId": "universal/guardian_02_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 20,
+        "speciesId": "guardian_03_karrowmoor",
+        "sourceInputId": "universal/guardian_03_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 21,
+        "speciesId": "guardian_04_karrowmoor",
+        "sourceInputId": "universal/guardian_04_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 22,
+        "speciesId": "guardian_05_karrowmoor",
+        "sourceInputId": "universal/guardian_05_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 23,
+        "speciesId": "guardian_06_karrowmoor",
+        "sourceInputId": "universal/guardian_06_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 24,
+        "speciesId": "guardian_07_karrowmoor",
+        "sourceInputId": "universal/guardian_07_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 25,
+        "speciesId": "guardian_08_karrowmoor",
+        "sourceInputId": "universal/guardian_08_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 26,
+        "speciesId": "guardian_09_karrowmoor",
+        "sourceInputId": "universal/guardian_09_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 27,
+        "speciesId": "guardian_01_gravelmaw",
+        "sourceInputId": "universal/guardian_01_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 28,
+        "speciesId": "guardian_02_gravelmaw",
+        "sourceInputId": "universal/guardian_02_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 29,
+        "speciesId": "guardian_03_gravelmaw",
+        "sourceInputId": "universal/guardian_03_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 30,
+        "speciesId": "guardian_04_gravelmaw",
+        "sourceInputId": "universal/guardian_04_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 31,
+        "speciesId": "guardian_05_gravelmaw",
+        "sourceInputId": "universal/guardian_05_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 32,
+        "speciesId": "guardian_06_gravelmaw",
+        "sourceInputId": "universal/guardian_06_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 33,
+        "speciesId": "guardian_07_gravelmaw",
+        "sourceInputId": "universal/guardian_07_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 34,
+        "speciesId": "guardian_08_gravelmaw",
+        "sourceInputId": "universal/guardian_08_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 35,
+        "speciesId": "guardian_09_gravelmaw",
+        "sourceInputId": "universal/guardian_09_t10"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 36,
+        "speciesId": "guardian_01_kilnhalt",
+        "sourceInputId": "universal/guardian_01_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 37,
+        "speciesId": "guardian_02_kilnhalt",
+        "sourceInputId": "universal/guardian_02_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 38,
+        "speciesId": "guardian_03_kilnhalt",
+        "sourceInputId": "universal/guardian_03_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 39,
+        "speciesId": "guardian_04_kilnhalt",
+        "sourceInputId": "universal/guardian_04_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 40,
+        "speciesId": "guardian_05_kilnhalt",
+        "sourceInputId": "universal/guardian_05_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 41,
+        "speciesId": "guardian_06_kilnhalt",
+        "sourceInputId": "universal/guardian_06_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 42,
+        "speciesId": "guardian_07_kilnhalt",
+        "sourceInputId": "universal/guardian_07_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 43,
+        "speciesId": "guardian_08_kilnhalt",
+        "sourceInputId": "universal/guardian_08_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 44,
+        "speciesId": "guardian_09_kilnhalt",
+        "sourceInputId": "universal/guardian_09_t20"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 45,
+        "speciesId": "guardian_01_wilderness",
+        "sourceInputId": "universal/guardian_01_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 46,
+        "speciesId": "guardian_01_wilderness_t70",
+        "sourceInputId": "universal/guardian_01_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 47,
+        "speciesId": "guardian_02_wilderness",
+        "sourceInputId": "universal/guardian_02_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 48,
+        "speciesId": "guardian_02_wilderness_t70",
+        "sourceInputId": "universal/guardian_02_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 49,
+        "speciesId": "guardian_03_wilderness",
+        "sourceInputId": "universal/guardian_03_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 50,
+        "speciesId": "guardian_03_wilderness_t70",
+        "sourceInputId": "universal/guardian_03_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 51,
+        "speciesId": "guardian_04_wilderness",
+        "sourceInputId": "universal/guardian_04_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 52,
+        "speciesId": "guardian_04_wilderness_t70",
+        "sourceInputId": "universal/guardian_04_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 53,
+        "speciesId": "guardian_05_wilderness",
+        "sourceInputId": "universal/guardian_05_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 54,
+        "speciesId": "guardian_05_wilderness_t70",
+        "sourceInputId": "universal/guardian_05_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 55,
+        "speciesId": "guardian_06_wilderness",
+        "sourceInputId": "universal/guardian_06_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 56,
+        "speciesId": "guardian_06_wilderness_t70",
+        "sourceInputId": "universal/guardian_06_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 57,
+        "speciesId": "guardian_07_wilderness",
+        "sourceInputId": "universal/guardian_07_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 58,
+        "speciesId": "guardian_07_wilderness_t70",
+        "sourceInputId": "universal/guardian_07_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 59,
+        "speciesId": "guardian_08_wilderness",
+        "sourceInputId": "universal/guardian_08_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 60,
+        "speciesId": "guardian_08_wilderness_t70",
+        "sourceInputId": "universal/guardian_08_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 61,
+        "speciesId": "guardian_09_wilderness",
+        "sourceInputId": "universal/guardian_09_t50"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 62,
+        "speciesId": "guardian_09_wilderness_t70",
+        "sourceInputId": "universal/guardian_09_t70"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 63,
+        "speciesId": "guardian_01_crownward",
+        "sourceInputId": "universal/guardian_01_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 64,
+        "speciesId": "guardian_02_crownward",
+        "sourceInputId": "universal/guardian_02_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 65,
+        "speciesId": "guardian_03_crownward",
+        "sourceInputId": "universal/guardian_03_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 66,
+        "speciesId": "guardian_04_crownward",
+        "sourceInputId": "universal/guardian_04_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 67,
+        "speciesId": "guardian_05_crownward",
+        "sourceInputId": "universal/guardian_05_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 68,
+        "speciesId": "guardian_06_crownward",
+        "sourceInputId": "universal/guardian_06_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 69,
+        "speciesId": "guardian_07_crownward",
+        "sourceInputId": "universal/guardian_07_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 70,
+        "speciesId": "guardian_08_crownward",
+        "sourceInputId": "universal/guardian_08_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 71,
+        "speciesId": "guardian_09_crownward",
+        "sourceInputId": "universal/guardian_09_t40"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 72,
+        "speciesId": "guardian_01_gloamgarden",
+        "sourceInputId": "universal/guardian_01_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 73,
+        "speciesId": "guardian_02_gloamgarden",
+        "sourceInputId": "universal/guardian_02_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 74,
+        "speciesId": "guardian_03_gloamgarden",
+        "sourceInputId": "universal/guardian_03_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 75,
+        "speciesId": "guardian_04_gloamgarden",
+        "sourceInputId": "universal/guardian_04_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 76,
+        "speciesId": "guardian_05_gloamgarden",
+        "sourceInputId": "universal/guardian_05_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 77,
+        "speciesId": "guardian_06_gloamgarden",
+        "sourceInputId": "universal/guardian_06_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 78,
+        "speciesId": "guardian_07_gloamgarden",
+        "sourceInputId": "universal/guardian_07_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 79,
+        "speciesId": "guardian_08_gloamgarden",
+        "sourceInputId": "universal/guardian_08_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 80,
+        "speciesId": "guardian_09_gloamgarden",
+        "sourceInputId": "universal/guardian_09_t30"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 81,
+        "speciesId": "guardian_01_faeholme",
+        "sourceInputId": "universal/guardian_01_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 82,
+        "speciesId": "guardian_02_faeholme",
+        "sourceInputId": "universal/guardian_02_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 83,
+        "speciesId": "guardian_03_faeholme",
+        "sourceInputId": "universal/guardian_03_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 84,
+        "speciesId": "guardian_04_faeholme",
+        "sourceInputId": "universal/guardian_04_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 85,
+        "speciesId": "guardian_05_faeholme",
+        "sourceInputId": "universal/guardian_05_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 86,
+        "speciesId": "guardian_06_faeholme",
+        "sourceInputId": "universal/guardian_06_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 87,
+        "speciesId": "guardian_07_faeholme",
+        "sourceInputId": "universal/guardian_07_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 88,
+        "speciesId": "guardian_08_faeholme",
+        "sourceInputId": "universal/guardian_08_t60"
+      },
+      {
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_SPECIES",
+        "rowIndex": 89,
+        "speciesId": "guardian_09_faeholme",
+        "sourceInputId": "universal/guardian_09_t60"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 0,
+        "speciesId": "webweaver_spider",
+        "sourceInputId": "rpg/webweaver_spider"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 1,
+        "speciesId": "marsh_wasp",
+        "sourceInputId": "rpg/marsh_wasp"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 2,
+        "speciesId": "goblin_scout",
+        "sourceInputId": "rpg/goblin_scout"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 3,
+        "speciesId": "goblin_archer",
+        "sourceInputId": "rpg/goblin_archer"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 4,
+        "speciesId": "goblin_shaman",
+        "sourceInputId": "rpg/goblin_shaman"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 5,
+        "speciesId": "skeleton_soldier",
+        "sourceInputId": "rpg/skeleton_soldier"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 6,
+        "speciesId": "skeleton_archer",
+        "sourceInputId": "rpg/skeleton_archer"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 7,
+        "speciesId": "skeleton_mage",
+        "sourceInputId": "rpg/skeleton_mage"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 8,
+        "speciesId": "zombie",
+        "sourceInputId": "rpg/zombie"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 9,
+        "speciesId": "plague_zombie",
+        "sourceInputId": "rpg/plague_zombie"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 10,
+        "speciesId": "grave_ghoul",
+        "sourceInputId": "rpg/grave_ghoul"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 11,
+        "speciesId": "wraith",
+        "sourceInputId": "rpg/wraith"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 12,
+        "speciesId": "banshee",
+        "sourceInputId": "rpg/banshee"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 13,
+        "speciesId": "revenant",
+        "sourceInputId": "rpg/revenant"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 14,
+        "speciesId": "stone_golem",
+        "sourceInputId": "rpg/stone_golem"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 15,
+        "speciesId": "iron_golem",
+        "sourceInputId": "rpg/iron_golem"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 16,
+        "speciesId": "fire_golem",
+        "sourceInputId": "rpg/fire_golem"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 17,
+        "speciesId": "shale_elemental",
+        "sourceInputId": "rpg/shale_elemental"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 18,
+        "speciesId": "lava_golem",
+        "sourceInputId": "rpg/lava_golem"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 19,
+        "speciesId": "mossback_sentinel",
+        "sourceInputId": "rpg/mossback_sentinel"
+      },
+      {
+        "module": "rpgBestiary",
+        "symbol": "RPG_BESTIARY",
+        "rowIndex": 20,
+        "speciesId": "beetle_golem",
+        "sourceInputId": "rpg/beetle_golem"
+      }
+    ],
+    "assembly": {
+      "legacy": {
+        "module": "enemies",
+        "symbol": "BLOCKS",
+        "inputIds": [
+          "assembly/legacy/frog_t1",
+          "assembly/legacy/hen_t1",
+          "assembly/legacy/goat_t1",
+          "assembly/legacy/cattle_t1",
+          "assembly/legacy/coney_t1",
+          "assembly/legacy/viper_t1",
+          "assembly/legacy/reaver_t1",
+          "assembly/legacy/tempest_roc_t1",
+          "assembly/legacy/deer_t5",
+          "assembly/legacy/hog_t5",
+          "assembly/legacy/coyote_t5",
+          "assembly/legacy/frog_t5",
+          "assembly/legacy/coney_t5",
+          "assembly/legacy/viper_t5",
+          "assembly/legacy/reaver_t5",
+          "assembly/legacy/rootheart_t5",
+          "assembly/legacy/bear_t10",
+          "assembly/legacy/boar_t10",
+          "assembly/legacy/ibex_t10",
+          "assembly/legacy/aurochs_t10",
+          "assembly/legacy/reaver_t10",
+          "assembly/legacy/coyote_t10",
+          "assembly/legacy/rat_t10",
+          "assembly/legacy/scorpion_t10",
+          "assembly/legacy/crab_t10",
+          "assembly/legacy/bear_t20",
+          "assembly/legacy/boar_t20",
+          "assembly/legacy/ibex_t20",
+          "assembly/legacy/viper_t20",
+          "assembly/legacy/reaver_t20",
+          "assembly/legacy/galeskin_t1",
+          "assembly/legacy/mossbound_t5",
+          "assembly/legacy/tideworn_t10",
+          "assembly/legacy/cinderwake_t20",
+          "assembly/legacy/quarrykeeper_t10"
+        ]
+      },
+      "catalogOrder": {
+        "module": "creatureSpecies",
+        "symbol": "CREATURE_SPECIES",
+        "catalogs": [
+          "CREATURE_EXPANSION",
+          "STARTER_CREATURES",
+          "RED_WORM_SPECIES",
+          "REGIONAL_CREATURE_VARIANTS",
+          "CREATURE_REDESIGNS",
+          "FOREST_CREATURE_REDESIGNS",
+          "ASH_CREATURE_REDESIGNS",
+          "STONE_CREATURE_REDESIGNS",
+          "WILDERNESS_DRAGONS",
+          "WILDERNESS_CREATURE_SPECIES",
+          "FAIRY_CROWN_SPECIES",
+          "CROWNWARD_DRAGON_SPECIES",
+          "FAIRY_CREATURE_SPECIES",
+          "FAIRY_GARDEN_SPECIES",
+          "UNIVERSAL_MINIBOSS_SPECIES"
+        ]
+      },
+      "groupPairs": {
+        "module": "enemies",
+        "symbol": "GROUP_BLOCK",
+        "rows": [
+          {
+            "id": "redsill_frogs",
+            "baseEnemyId": "frog_t1"
+          },
+          {
+            "id": "marchfield_hens",
+            "baseEnemyId": "hen_t1"
+          },
+          {
+            "id": "bracken_hens",
+            "baseEnemyId": "hen_t1"
+          },
+          {
+            "id": "open_march_goats",
+            "baseEnemyId": "goat_t1"
+          },
+          {
+            "id": "redsill_cattle",
+            "baseEnemyId": "cattle_t1"
+          },
+          {
+            "id": "marchfield_coneys",
+            "baseEnemyId": "coney_t1"
+          },
+          {
+            "id": "palewood_adders",
+            "baseEnemyId": "viper_t1"
+          },
+          {
+            "id": "march_road_reavers",
+            "baseEnemyId": "reaver_t1"
+          },
+          {
+            "id": "tempest_roc",
+            "baseEnemyId": "tempest_roc_t1"
+          },
+          {
+            "id": "duskoak_stags",
+            "baseEnemyId": "deer_t5"
+          },
+          {
+            "id": "bramble_hogs",
+            "baseEnemyId": "hog_t5"
+          },
+          {
+            "id": "deepwood_coyotes",
+            "baseEnemyId": "coyote_t5"
+          },
+          {
+            "id": "blackwater_frogs",
+            "baseEnemyId": "frog_t5"
+          },
+          {
+            "id": "rootfall_coneys",
+            "baseEnemyId": "coney_t5"
+          },
+          {
+            "id": "thornline_adders",
+            "baseEnemyId": "viper_t5"
+          },
+          {
+            "id": "gorge_reavers",
+            "baseEnemyId": "reaver_t5"
+          },
+          {
+            "id": "rootheart",
+            "baseEnemyId": "rootheart_t5"
+          },
+          {
+            "id": "highcairn_bears",
+            "baseEnemyId": "bear_t10"
+          },
+          {
+            "id": "scree_boars",
+            "baseEnemyId": "boar_t10"
+          },
+          {
+            "id": "ridge_ibex",
+            "baseEnemyId": "ibex_t10"
+          },
+          {
+            "id": "terrace_aurochs",
+            "baseEnemyId": "aurochs_t10"
+          },
+          {
+            "id": "tarn_coyotes",
+            "baseEnemyId": "coyote_t10"
+          },
+          {
+            "id": "karrow_reavers",
+            "baseEnemyId": "reaver_t10"
+          },
+          {
+            "id": "ashback_bears",
+            "baseEnemyId": "bear_t20"
+          },
+          {
+            "id": "cinder_boars",
+            "baseEnemyId": "boar_t20"
+          },
+          {
+            "id": "emberhorn_ibex",
+            "baseEnemyId": "ibex_t20"
+          },
+          {
+            "id": "cinder_adders",
+            "baseEnemyId": "viper_t20"
+          },
+          {
+            "id": "kilnroad_reavers",
+            "baseEnemyId": "reaver_t20"
+          },
+          {
+            "id": "galeskin",
+            "baseEnemyId": "galeskin_t1"
+          },
+          {
+            "id": "mossbound",
+            "baseEnemyId": "mossbound_t5"
+          },
+          {
+            "id": "tideworn",
+            "baseEnemyId": "tideworn_t10"
+          },
+          {
+            "id": "cinderwake",
+            "baseEnemyId": "cinderwake_t20"
+          },
+          {
+            "id": "gravelmaw_ch1_rats",
+            "baseEnemyId": "rat_t10"
+          },
+          {
+            "id": "gravelmaw_ch1_reavers",
+            "baseEnemyId": "reaver_t10"
+          },
+          {
+            "id": "gravelmaw_ch2_scorpions",
+            "baseEnemyId": "scorpion_t10"
+          },
+          {
+            "id": "gravelmaw_ch2_crabs",
+            "baseEnemyId": "crab_t10"
+          },
+          {
+            "id": "gravelmaw_ch3_bears",
+            "baseEnemyId": "bear_t10"
+          },
+          {
+            "id": "ordrun",
+            "baseEnemyId": "quarrykeeper_t10"
+          }
+        ]
+      },
+      "fantasyLineage": {
+        "module": "enemies",
+        "symbol": "FANTASY_ENCOUNTER_LINEAGE"
+      },
+      "fantasyReplacements": {
+        "module": "biomePopulation",
+        "symbol": "BIOME_POPULATION_LEGACY_REPLACEMENTS"
+      }
+    }
+  },
+  "wildernessProgression": {
+    "sources": [
+      {
+        "module": "wildernessDepth",
+        "path": ".baseline/game/src/content/wildernessDepth.ts",
+        "sha256": "79719ae827466c85c3769442113f9c0b8a20cefb12e09a808fced75ae3b56a97"
+      },
+      {
+        "module": "wildernessEnemyProgression",
+        "path": ".baseline/game/src/content/wildernessEnemyProgression.ts",
+        "sha256": "39da00afba08f2c6931f2e9539d5212be3df6ffd0f8217600622bf5458c5db05"
+      }
+    ],
+    "parameters": [
+      {
+        "parameterPath": "depth",
+        "module": "wildernessDepth",
+        "symbol": "WILDERNESS_DEPTH"
+      },
+      {
+        "parameterPath": "bands",
+        "module": "wildernessEnemyProgression",
+        "symbol": "wildernessEnemyLevelAt"
+      },
+      {
+        "parameterPath": "legacyProgressLevels",
+        "module": "wildernessEnemyProgression",
+        "symbol": "wildernessEnemyLevelAt"
+      },
+      {
+        "parameterPath": "nativeProgressLevels",
+        "module": "wildernessEnemyProgression",
+        "symbol": "wildernessEnemyLevelAt"
+      },
+      {
+        "parameterPath": "legacySourceTierThreshold",
+        "module": "wildernessEnemyProgression",
+        "symbol": "wildernessEnemyLevelAt"
+      },
+      {
+        "parameterPath": "fallbackTiers",
+        "module": "wildernessEnemyProgression",
+        "symbol": "TIERS+LEGACY_TIERS"
+      },
+      {
+        "parameterPath": "marks",
+        "module": "wildernessEnemyProgression",
+        "symbol": "scaledMarks"
+      }
+    ]
+  },
+  "wildernessLoot": {
+    "sources": [
+      {
+        "module": "wildernessLoot",
+        "path": ".baseline/game/src/content/wildernessLoot.ts",
+        "sha256": "a301c4b0775010a6de422a3588f729c34b18c6e67178a0bc8b076efd2a05bc17"
+      },
+      {
+        "module": "wildernessEnemyProgression",
+        "path": ".baseline/game/src/content/wildernessEnemyProgression.ts",
+        "sha256": "39da00afba08f2c6931f2e9539d5212be3df6ffd0f8217600622bf5458c5db05"
+      },
+      {
+        "module": "wildernessDepth",
+        "path": ".baseline/game/src/content/wildernessDepth.ts",
+        "sha256": "79719ae827466c85c3769442113f9c0b8a20cefb12e09a808fced75ae3b56a97"
+      },
+      {
+        "module": "spells",
+        "path": ".baseline/game/src/content/spells.ts",
+        "sha256": "f8ddda1a90a45e697c198fc8702d48586ce5e63d30e6e2245be7e4dc2912087d"
+      }
+    ],
+    "parameters": [
+      {
+        "module": "wildernessLoot",
+        "symbol": "wildernessDrops",
+        "fields": [
+          "dragonTokens",
+          "stoneTokens",
+          "ordinaryRanks"
+        ]
+      },
+      {
+        "module": "wildernessLoot",
+        "symbol": "STONE_SPECIES",
+        "fields": [
+          "stoneSpeciesIds"
+        ]
+      },
+      {
+        "module": "wildernessLoot",
+        "symbol": "WILDERNESS_KEEPER_COMPONENTS",
+        "fields": [
+          "keeperRewards.component"
+        ]
+      },
+      {
+        "module": "wildernessLoot",
+        "symbol": "WILDERNESS_STRUCTURE_COMPONENTS",
+        "fields": [
+          "structureComponents"
+        ]
+      },
+      {
+        "module": "wildernessDepth",
+        "symbol": "WILDERNESS_RUNE_KEEPERS",
+        "fields": [
+          "keeperRewards.keeperId",
+          "keeperRewards.rune"
+        ]
+      },
+      {
+        "module": "spells",
+        "symbol": "SPELL_RUNES",
+        "fields": [
+          "runesByRank"
+        ]
+      },
+      {
+        "module": "spells",
+        "symbol": "COSMIC_RUNE_ID",
+        "fields": [
+          "cosmicRuneId"
+        ]
+      },
+      {
+        "module": "wildernessEnemyProgression",
+        "symbol": "wildernessStructureLootForGroup",
+        "fields": [
+          "groupSuffixes"
+        ]
+      }
+    ]
+  },
+  "armorEligibility": {
+    "path": "game/content/data/items.json",
+    "catalog": "BOSS_ARMOR_ITEMS",
+    "rows": [
+      {
+        "tier": 50,
+        "itemId": "duskguard_plate",
+        "itemIndex": 291
+      },
+      {
+        "tier": 50,
+        "itemId": "duskguard_greaves",
+        "itemIndex": 292
+      },
+      {
+        "tier": 50,
+        "itemId": "duskguard_gauntlets",
+        "itemIndex": 293
+      },
+      {
+        "tier": 50,
+        "itemId": "duskguard_boots",
+        "itemIndex": 294
+      },
+      {
+        "tier": 70,
+        "itemId": "oathguard_plate",
+        "itemIndex": 295
+      },
+      {
+        "tier": 70,
+        "itemId": "oathguard_greaves",
+        "itemIndex": 296
+      },
+      {
+        "tier": 70,
+        "itemId": "oathguard_gauntlets",
+        "itemIndex": 297
+      },
+      {
+        "tier": 70,
+        "itemId": "oathguard_boots",
+        "itemIndex": 298
+      },
+      {
+        "tier": 50,
+        "itemId": "tideweave_hood",
+        "itemIndex": 304
+      },
+      {
+        "tier": 50,
+        "itemId": "tideweave_robe",
+        "itemIndex": 305
+      },
+      {
+        "tier": 50,
+        "itemId": "tideweave_leggings",
+        "itemIndex": 306
+      },
+      {
+        "tier": 50,
+        "itemId": "tideweave_wraps",
+        "itemIndex": 307
+      },
+      {
+        "tier": 50,
+        "itemId": "tideweave_boots",
+        "itemIndex": 308
+      },
+      {
+        "tier": 70,
+        "itemId": "nightweave_hood",
+        "itemIndex": 309
+      },
+      {
+        "tier": 70,
+        "itemId": "nightweave_robe",
+        "itemIndex": 310
+      },
+      {
+        "tier": 70,
+        "itemId": "nightweave_leggings",
+        "itemIndex": 311
+      },
+      {
+        "tier": 70,
+        "itemId": "nightweave_wraps",
+        "itemIndex": 312
+      },
+      {
+        "tier": 70,
+        "itemId": "nightweave_boots",
+        "itemIndex": 313
+      }
+    ]
+  },
+  "authoredDependencies": [
+    {
+      "path": "game/content/data/balance/enemies.json",
+      "sha256": "cb431b33263b50fccfdf0eac051b80d7059d40a597898ad460fbe027d2809573"
+    },
+    {
+      "path": "game/content/data/balance/loot.json",
+      "sha256": "5e989e5d149fdbe7bc525bf55fdc796f1778040d5b8178cab570ab2836cd8875"
+    },
+    {
+      "path": "game/content/data/craftingTiers.json",
+      "sha256": "44ead4a2ab9173484e3e5c188e32157ccc94e64049be2b48872b474f2c13916e"
+    },
+    {
+      "path": "game/content/data/items.json",
+      "sha256": "d233311e7fa8fafacf0af33157d04d54ec1f566900b6dbbbc2da8a93b921023f"
+    }
+  ]
+}

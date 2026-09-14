@@ -123,6 +123,22 @@ npm run screenshot -- --run runs/corealm --name checkpoint
 npm run docs:dev             # the player guide, regenerated from canonical content
 ```
 
+## Authoring content
+
+Devdocs is the local editor for game content. Start it with `npm run devdocs`, then use the
+task-oriented workspaces to create or edit progression tiers, equipment families, recipe templates,
+creatures, variants, encounters, and placements. The editor previews the affected records with the
+same compiler used by the game and commits a source transaction with one **Save** action.
+
+Canonical formula functions live in `game/src/content/formulas/` as typed TypeScript. The formula
+inspector shows each function's inputs, parameters, result, consumers, and source location, with an
+Open in VS Code link for logic changes. The compiler writes the resolved catalog to
+`game/content/compiled/catalog.json`; generated values are not edited as a second source.
+
+Read [docs/content-authoring.md](./docs/content-authoring.md) for the tier, family, recipe, creature
+variant, placement, and formula workflows. `npm run content:check` validates the authored data and
+compiler output. An ordinary edit has no recompute or parity stage.
+
 Playwright's Chromium ships no WebMCP, so the audit and proofs inject a test stand-in before the page loads (`tools/lib/webmcp-polyfill.ts`). The game recognises it and reports `binding: "polyfill", native: false`, and the audit refuses to run if the adapter ever mistakes the stand-in for a real browser.
 
 Development builds also expose `window.__gameDebug` (`teleport`, `setSkillLevel`, `giveItem`, `advanceGameTime`, `reset`, ...) for setting up deterministic tests. It is for setup only; nothing reachable through WebMCP or `window.corealm.agent` can bypass the session gate.

@@ -25,4 +25,4 @@ export const REGIONAL_BOSS_BODIES = {
     description: 'A furnace tyrant with a fused slag mantle, open barred chest, recessed iron face and asymmetric hammer arm.' },
 } as const;
 
-export const REGIONAL_BOSS_SPECIES: readonly CreatureSpeciesDef[] = creatureRows('REGIONAL_BOSS_SPECIES');
+export const REGIONAL_BOSS_SPECIES: readonly CreatureSpeciesDef[] = creatureRows(["boss_tempest_roc", "boss_galeskin", "boss_rootheart", "boss_mossbound", "boss_tideworn", "boss_ordrun", "boss_cinderwake"]);

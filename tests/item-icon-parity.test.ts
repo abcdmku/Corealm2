@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ALL_ITEMS } from "../game/src/content/items.js";
-import { CREATURE_LOOT_ITEMS } from "../game/src/content/creatureLoot.js";
+import { CREATURE_LOOT_ITEMS, CREATURE_TROPHY_BY_SPECIES } from "../game/src/content/creatureLoot.js";
 import {
   gatheringToolAppearance, gearAppearanceParts,
 } from "../game/src/render/equipmentVisuals.js";
@@ -89,9 +89,11 @@ describe("inventory and held equipment parity", () => {
     }
   });
 
-  it("gives every expansion trophy its anatomical family and every new accessory its own construction", () => {
-    expect(CREATURE_LOOT_ITEMS).toHaveLength(24);
-    for (const item of CREATURE_LOOT_ITEMS) {
+  it("gives each creature trophy its anatomical family", () => {
+    const trophyIds = new Set<string>(Object.values(CREATURE_TROPHY_BY_SPECIES));
+    const trophies = CREATURE_LOOT_ITEMS.filter(item => trophyIds.has(item.id));
+    expect(trophies.length).toBeGreaterThan(0);
+    for (const item of trophies) {
       const appearance = itemIconAppearance(item.id);
       expect(appearance.parts, item.id).toHaveLength(1);
       const part = appearance.parts[0]!;

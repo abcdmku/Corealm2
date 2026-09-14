@@ -52,8 +52,11 @@ interface NormalizedTable {
   rows: readonly ContentRow[];
 }
 
-const RECIPE_COLLECTIONS = ["recipes"] as const;
-const RESOURCE_COLLECTIONS = ["resources"] as const;
+// Compiled tables contain both authored and generated rows. Prefer them when available so
+// source usage includes generated recipes and yields without duplicating authored links.
+const ITEM_COLLECTIONS = ["compiled-items", "items"] as const;
+const RECIPE_COLLECTIONS = ["compiled-recipes", "recipes"] as const;
+const RESOURCE_COLLECTIONS = ["compiled-resources", "resources"] as const;
 const SHOP_COLLECTIONS = ["shops"] as const;
 const QUEST_COLLECTIONS = ["quests"] as const;
 const SET_COLLECTIONS = ["equipmentSets", "sets"] as const;
@@ -519,7 +522,7 @@ export function sourceUses(itemId: string, collections: LoadedCollections): Sour
   const tables = normalizeCollections(collections);
   const links: SourceUseLink[] = [];
 
-  const items = firstTable(tables, ["items"]);
+  const items = firstTable(tables, ITEM_COLLECTIONS);
   const targetKnown = itemId.length > 0
     && items?.rows.some((row) => rowId(row, items.idKey) === itemId) === true;
 

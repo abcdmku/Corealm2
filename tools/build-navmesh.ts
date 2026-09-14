@@ -126,8 +126,12 @@ const CHROMIUM_ARGS = [
 ];
 
 export async function fingerprintNavmeshSources(): Promise<NavigationAuthoredInputs> {
+  const catalog = JSON.parse(await readFile(path.join(repoRoot, 'game/content/compiled/catalog.json'), 'utf8')) as { tables: { world: unknown } };
   const entries = await Promise.all(Object.entries(SOURCE_GROUPS).map(async ([name, files]) => {
     const hash = createHash("sha256");
+    // Placement and region geometry are compiler output now. Balance-only catalog edits do not
+    // alter this hash, while accepted world edits invalidate navigation before publication.
+    if (name === 'terrainGeometry') hash.update(JSON.stringify(catalog.tables.world));
     for (const file of files) {
       hash.update(file);
       hash.update("\0");

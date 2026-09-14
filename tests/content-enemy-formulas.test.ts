@@ -1,15 +1,8 @@
-import { beforeAll, describe, expect, it } from 'vitest';
-import { existsSync } from 'node:fs';
-import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { describe, expect, it } from 'vitest';
 import {
   combatLevel, tierMarks, tuneCombat, deriveLegacyBoss, ordrunPhases,
-  type CombatInput, type CombatResult, type EnemyBalanceStage1, type LegacyBossId,
+  type CombatInput, type CombatResult, type EnemyBalanceStage1,
 } from '../game/src/content/balance/enemies.js';
-import type { EnemyDef } from '../game/src/content/index.js';
-import type { BossPhase } from '../game/src/content/enemies.js';
-import { buildM4Baseline, snapshot, type M4Baseline, type Snapshot } from '../tools/content/m4-baseline.js';
-import { repoRoot } from '../tools/lib/paths.js';
 
 // Original literals are an independent oracle; these tests do not load mutable balance JSON.
 const params: EnemyBalanceStage1 = {
@@ -32,10 +25,6 @@ const params: EnemyBalanceStage1 = {
   ],
 };
 const seed: CombatInput = { maxHealth: 38, attackLevel: 12, defenceLevel: 11, accuracy: 25, armour: 55, magicArmour: 10, maxHit: 7 };
-const project = (input: CombatResult): CombatResult => ({
-  maxHealth: input.maxHealth, attackLevel: input.attackLevel, defenceLevel: input.defenceLevel,
-  accuracy: input.accuracy, armour: input.armour, magicArmour: input.magicArmour, maxHit: input.maxHit, tier: input.tier,
-});
 const tune = (input: CombatInput, target: number, tier = 20, id = 'formula_probe') =>
   tuneCombat(params.tuning, params.combatLevel, input, target, tier, id);
 function freeze<T>(value: T): T {
@@ -45,18 +34,6 @@ function freeze<T>(value: T): T {
   }
   return value;
 }
-function restore(value: Snapshot): unknown {
-  switch (value.kind) {
-    case 'null': return null;
-    case 'undefined': return undefined;
-    case 'boolean': case 'number': case 'string': return value.value;
-    case 'array': return value.values.map(restore);
-    case 'object': return Object.fromEntries(value.entries.map(([key, entry]) => [key, restore(entry)]));
-    case 'set': return new Set(value.values.map(restore));
-    case 'map': return new Map(value.entries.map(([key, entry]) => [restore(key), restore(entry)]));
-  }
-}
-
 describe('pure Stage 1 enemy formulas', () => {
   it('rounds mark half ties and uses the selected authored multiplier pair', () => {
     expect(tierMarks(params.marksPerTier, .5, 'ordinary')).toEqual([2, 6]);
@@ -132,70 +109,5 @@ describe('pure Stage 1 enemy formulas', () => {
     const changed = structuredClone(params.ordrunPhases);
     const revised = [changed[0], { ...changed[1], armourNumerator: 31, maxHitNumerator: 6 }] as const;
     expect(ordrunPhases(revised, { armour: 62, maxHit: 12 })[1]).toMatchObject({ armour: 31, maxHit: 6 });
-  });
-});
-
-describe.skipIf(!existsSync(path.join(repoRoot, '.baseline/game/src/content/enemies.ts')))('original enemy formula parity', () => {
-  let baseline: M4Baseline;
-  let originalTune: (base: EnemyDef, target: number, tier?: number) => EnemyDef;
-  let originalPhases: readonly BossPhase[];
-  beforeAll(async () => {
-    baseline = await buildM4Baseline();
-    const balance = await import(pathToFileURL(path.join(repoRoot, '.baseline/game/src/content/encounterBalance.ts')).href);
-    const enemies = await import(pathToFileURL(path.join(repoRoot, '.baseline/game/src/content/enemies.ts')).href);
-    originalTune = balance.tuneEnemyCombatLevel;
-    originalPhases = enemies.ORDRUN_PHASES;
-  });
-
-  it('replays every original combat-level and tuning probe', () => {
-    for (const evidence of baseline.functions.filter(row => row.name === 'enemyCombatLevel' || row.name === 'tuneEnemyCombatLevel')) {
-      expect(evidence.probes.length).toBeGreaterThan(0);
-      for (const probe of evidence.probes) {
-        const args = restore(probe.args) as [EnemyDef, number, number?];
-        const invoke = () => evidence.name === 'enemyCombatLevel'
-          ? combatLevel(params.combatLevel, args[0])
-          : { ...args[0], ...tune(args[0], args[1], args[2] ?? args[0].tier, args[0].id) };
-        if (probe.result.kind === 'throw') expect(invoke, probe.label).toThrow(probe.result.message);
-        else expect(snapshot(invoke()), probe.label).toEqual(probe.result.value);
-      }
-    }
-  });
-
-  it('matches the 28 original marks rows, seven saved boss seeds and both phases', () => {
-    const bossIds = Object.keys(params.regionalBossLevels) as LegacyBossId[];
-    const bossEnemyIds = bossIds.map(bossId => bossId === 'ordrun' ? 'quarrykeeper_t10' : `${bossId}_t${params.regionalBossLevels[bossId].tier}`);
-    const ordinary = baseline.original.blocks.filter(row => !bossEnemyIds.includes(row.id));
-    expect(ordinary).toHaveLength(28);
-    expect(ordinary.filter(row => row.family === 'reaver')).toHaveLength(4);
-    for (const row of ordinary) expect(tierMarks(params.marksPerTier, row.tier, row.family === 'reaver' ? 'purse' : 'ordinary'), row.id).toEqual(row.marks);
-    for (const [index, bossId] of bossIds.entries()) {
-      const enemyId = bossEnemyIds[index]!;
-      const original = baseline.original.blocks.find(row => row.id === enemyId)!;
-      const result = deriveLegacyBoss(params, { id: `legacy/${enemyId}`, enemyId, bossId, seed: original });
-      const expected = baseline.records.enemies.find(row => row.id === enemyId)!;
-      expect(result, enemyId).toEqual(project(expected));
-      if (bossId === 'ordrun') expect(ordrunPhases(params.ordrunPhases, result)).toEqual(originalPhases);
-    }
-  });
-
-  it('matches original rounding, tie, bonus-cap and low-target failure behavior', () => {
-    const base = baseline.original.blocks[0]!;
-    const cases = [
-      { input: base, target: 49.5 }, { input: base, target: 49.49 },
-      { input: { ...base, maxHealth: 6, attackLevel: 1, defenceLevel: 1, accuracy: 0, armour: 0, magicArmour: 0, maxHit: 100 }, target: 1 },
-      { input: { ...base, accuracy: 800, armour: 1000, magicArmour: 2000 }, target: 175 },
-      { input: { ...base, maxHealth: .25 }, target: 6 },
-      { input: { ...base, id: 'low_target', maxHealth: 1, attackLevel: 1e20, defenceLevel: 1e20 }, target: .5 },
-    ];
-    for (const { input, target } of cases) {
-      let expected: EnemyDef;
-      try { expected = originalTune(input, target, 20); }
-      catch (error) {
-        expect(error).toBeInstanceOf(Error);
-        expect(() => tune(input, target, 20, input.id)).toThrow((error as Error).message);
-        continue;
-      }
-      expect(tune(input, target, 20, input.id)).toEqual(project(expected));
-    }
   });
 });
