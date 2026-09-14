@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useState } from "react";
-import { AlertCircle, ArrowUpRight, CheckCircle2, FileCode2, GitBranch, LoaderCircle, RefreshCw, ShieldCheck } from "lucide-react";
+import { AlertCircle, ArrowUpRight, CheckCircle2, FileCode2, LoaderCircle, RefreshCw, ShieldCheck } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { apiGet } from "../api/client.js";
@@ -88,8 +88,13 @@ function statusLabel(status: string): string {
   return code === "??" ? "Untracked" : "Changed";
 }
 
-function statusClass(status: string): string {
-  return displayStatus(status).replace(/[^a-z\d]+/gi, "-").toLowerCase();
+function statusTone(status: string): "ok" | "warn" | "danger" | "info" | undefined {
+  const code = status.trim();
+  if (code.includes("A")) return "ok";
+  if (code.includes("D")) return "danger";
+  if (code.includes("R")) return "info";
+  if (code.includes("M")) return "warn";
+  return undefined;
 }
 
 function errorMessage(value: unknown, fallback: string): string {
@@ -152,8 +157,13 @@ function validationLabel(response: ValidationResponse | undefined, pending: bool
   return response.ok ? (diagnosticsOf(response).some(issue => issue.severity === "warning") ? "Passes with warnings" : "Passed") : "Needs attention";
 }
 
+function validationTone(response: ValidationResponse | undefined, pending: boolean, error: boolean): "ok" | "warn" | "danger" | undefined {
+  if (pending) return undefined;
+  if (error || !response) return "danger";
+  return response.ok ? (diagnosticsOf(response).some(issue => issue.severity === "warning") ? "warn" : "ok") : "danger";
+}
+
 export default function ReviewPage({ navigate }: ReviewPageProps) {
-  const titleId = useId();
   const filesHeadingId = useId();
   const diffHeadingId = useId();
   const validationHeadingId = useId();
@@ -192,24 +202,7 @@ export default function ReviewPage({ navigate }: ReviewPageProps) {
   const validationErrors = validationDiagnostics.filter(issue => issue.severity === "error").length;
   const validationWarnings = validationDiagnostics.filter(issue => issue.severity === "warning").length;
 
-  return <section className="review-page" aria-labelledby={titleId}>
-    <header className="review-header">
-      <div className="review-header-copy">
-        <span className="review-eyebrow"><GitBranch size={14}/> Change review</span>
-        <h1 id={titleId}>Review</h1>
-        <p>Inspect the local content diff and run the validator before accepting a change.</p>
-      </div>
-      <div className="review-header-actions">
-        <dl className="review-summary" aria-label="Review summary">
-          <div><dt>Changed files</dt><dd>{statusQuery.isSuccess ? changes.length : "—"}</dd></div>
-          <div><dt>Validation</dt><dd>{validationLabel(validationQuery.data, validationQuery.isPending, validationQuery.isError)}</dd></div>
-        </dl>
-        <button type="button" className="review-requests-link" onClick={() => navigate("requests")}><span>Open Requests</span><ArrowUpRight size={15}/></button>
-      </div>
-    </header>
-
-    <AssetCandidates showUpload={false} />
-
+  return <section className="review-page" aria-label="Review">
     <div className="review-layout">
       <FilesPanel
         headingId={filesHeadingId}
@@ -238,6 +231,8 @@ export default function ReviewPage({ navigate }: ReviewPageProps) {
       warnings={validationWarnings}
       navigate={navigate}
     />
+
+    <AssetCandidates showUpload={false} />
   </section>;
 }
 
@@ -258,9 +253,9 @@ function FilesPanel({
   onRetry: () => void;
   onSelect: (path: string) => void;
 }) {
-  return <section className="review-panel review-files" aria-labelledby={headingId}>
-    <header className="review-panel-heading"><div><span className="review-section-kicker">Git status</span><h2 id={headingId}>Changed files</h2></div><span className="review-panel-count">{pending ? "…" : changes.length}</span></header>
-    {pending ? <LoadingFiles/> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load file status"/> : changes.length ? <div className="review-file-list" role="listbox" aria-labelledby={headingId} aria-label="Reviewable changed files">
+  return <section className="panel review-files" aria-labelledby={headingId}>
+    <header className="panel-header"><FileCode2 size={14} /><h2 id={headingId}>Changed files</h2><span className="count-badge">{pending ? "…" : changes.length}</span></header>
+    {pending ? <LoadingFiles /> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load file status" /> : changes.length ? <div className="review-file-list" role="listbox" aria-labelledby={headingId} aria-label="Reviewable changed files">
       {changes.map(change => <button
         type="button"
         role="option"
@@ -269,11 +264,11 @@ function FilesPanel({
         key={`${change.status}:${change.path}`}
         onClick={() => onSelect(change.path)}
       >
-        <span className={`review-status review-status-${statusClass(change.status)}`} title={statusLabel(change.status)}>{displayStatus(change.status)}</span>
+        <span className="badge badge-mono" data-tone={statusTone(change.status)} title={statusLabel(change.status)}>{displayStatus(change.status)}</span>
         <span className="review-file-path"><code>{change.path}</code>{change.originalPath && <small>from {change.originalPath}</small>}</span>
-        <ArrowUpRight className="review-file-arrow" size={14}/>
+        <ArrowUpRight className="review-file-arrow" size={13} />
       </button>)}
-    </div> : <div className="review-empty review-empty-files"><FileCode2 size={22}/><strong>No reviewable content changes</strong><p>Only tracked files under content data, metadata, or devdocs can be opened here.</p></div>}
+    </div> : <p className="empty-inline review-empty">No reviewable content changes.</p>}
   </section>;
 }
 
@@ -292,9 +287,9 @@ function DiffPanel({
   diff: string | undefined;
   onRetry: () => void;
 }) {
-  return <section className="review-panel review-diff-panel" aria-labelledby={headingId}>
-    <header className="review-panel-heading review-diff-heading"><div><span className="review-section-kicker">Read only</span><h2 id={headingId}>{change?.path ?? "File diff"}</h2></div>{change && <span className={`review-status review-status-${statusClass(change.status)}`}>{statusLabel(change.status)}</span>}</header>
-    {!change ? <div className="review-empty"><FileCode2 size={22}/><strong>Select a changed file</strong><p>Choose a tracked content path to inspect its diff.</p></div> : pending ? <LoadingDiff/> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load this diff"/> : diff?.trim() ? <DiffText value={diff}/> : <div className="review-empty"><FileCode2 size={22}/><strong>No textual diff</strong><p>Git returned no text for this selected path.</p></div>}
+  return <section className="panel review-diff-panel" aria-labelledby={headingId}>
+    <header className="panel-header review-diff-heading"><h2 id={headingId} className="review-diff-title" title={change?.path}>{change?.path ?? "File diff"}</h2>{change && <div className="panel-header-actions"><span className="badge" data-tone={statusTone(change.status)}>{statusLabel(change.status)}</span></div>}</header>
+    {!change ? <p className="empty-inline review-empty">Select a changed file to see its diff.</p> : pending ? <LoadingDiff /> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load this diff" /> : diff?.trim() ? <DiffText value={diff} /> : <p className="empty-inline review-empty">Git returned no text for this path.</p>}
   </section>;
 }
 
@@ -321,35 +316,46 @@ function ValidationPanel({
   warnings: number;
   navigate: ReviewPageProps["navigate"];
 }) {
-  return <section className="review-panel review-validation" aria-labelledby={headingId}>
-    <header className="review-panel-heading"><div><span className="review-section-kicker">Content gate</span><h2 id={headingId}>Validation</h2></div><button type="button" className="review-action" disabled={query.isFetching} onClick={() => void query.refetch()}><RefreshCw size={14} className={query.isFetching ? "review-spin" : undefined}/>{query.isFetching ? "Validating…" : "Run again"}</button></header>
-    {query.isPending ? <LoadingValidation/> : query.isError ? <ReviewError message={query.error.message} retry={() => void query.refetch()} label="Could not run validation"/> : query.data ? <div className="review-validation-body">
-      <div className={`review-validation-result${query.data.ok ? " is-ok" : " is-failed"}`} role="status" aria-live="polite">
-        {query.data.ok ? <CheckCircle2 size={21}/> : <AlertCircle size={21}/>}<div><strong>{query.data.ok ? (warnings ? "Content passes with warnings" : "Content is valid") : "Content needs attention"}</strong><p>{query.data.ok ? "The current disk snapshot passed the blocking checks." : "Resolve the diagnostics before accepting the current content snapshot."}</p></div>
-      </div>
-      <dl className="review-validation-stats" aria-label="Validation totals"><div><dt>Collections</dt><dd>{query.data.collections}</dd></div><div><dt>Errors</dt><dd>{errors}</dd></div><div><dt>Warnings</dt><dd>{warnings}</dd></div></dl>
-      {diagnostics.length ? <div className="review-diagnostics"><div className="review-diagnostics-heading"><h3>Diagnostics</h3><span>{diagnostics.length}</span></div><ol>{diagnostics.map((diagnostic, index) => <DiagnosticRow key={`${diagnostic.path}:${diagnostic.message}:${index}`} diagnostic={diagnostic} navigate={navigate}/>)}</ol></div> : <div className="review-no-diagnostics"><ShieldCheck size={18}/><p>No diagnostics returned by the content validator.</p></div>}
+  const label = validationLabel(query.data, query.isPending, query.isError);
+  const tone = validationTone(query.data, query.isPending, query.isError);
+  return <section className="panel review-validation" aria-labelledby={headingId}>
+    <header className="panel-header">
+      <ShieldCheck size={14} /><h2 id={headingId}>Validation</h2>
+      <span className="badge" data-tone={tone} role="status" aria-live="polite">{query.data?.ok === true ? <CheckCircle2 size={11} /> : query.data?.ok === false ? <AlertCircle size={11} /> : null}{label}</span>
+      <div className="panel-header-actions"><button type="button" className="button button-small" disabled={query.isFetching} onClick={() => void query.refetch()}><RefreshCw size={13} className={query.isFetching ? "review-spin" : undefined} />{query.isFetching ? "Validating…" : "Run again"}</button></div>
+    </header>
+    {query.isPending ? <LoadingValidation /> : query.isError ? <ReviewError message={query.error.message} retry={() => void query.refetch()} label="Could not run validation" /> : query.data ? <div className="panel-body review-validation-body">
+      <dl className="stat-grid review-validation-stats" aria-label="Validation totals">
+        <div className="stat"><dt>Collections</dt><dd>{query.data.collections}</dd></div>
+        <div className="stat"><dt>Errors</dt><dd style={errors ? { color: "var(--danger)" } : undefined}>{errors}</dd></div>
+        <div className="stat"><dt>Warnings</dt><dd style={warnings ? { color: "var(--warn)" } : undefined}>{warnings}</dd></div>
+      </dl>
+      {diagnostics.length ? <div className="review-diagnostics"><div className="section-heading"><h3>Diagnostics</h3><span>{diagnostics.length}</span></div><ol>{diagnostics.map((diagnostic, index) => <DiagnosticRow key={`${diagnostic.path}:${diagnostic.message}:${index}`} diagnostic={diagnostic} navigate={navigate} />)}</ol></div> : <p className="empty-inline review-no-diagnostics"><ShieldCheck size={13} /> No diagnostics.</p>}
     </div> : null}
   </section>;
 }
 
 function DiagnosticRow({ diagnostic, navigate }: { diagnostic: ApiDiagnostic; navigate: ReviewPageProps["navigate"] }) {
   const target = diagnosticTarget(diagnostic.path);
-  return <li className={`review-diagnostic review-diagnostic-${diagnostic.severity}`}><div className="review-diagnostic-meta"><span className="review-severity">{diagnostic.severity}</span><code>{diagnostic.path || "content"}</code></div><p>{diagnostic.message}</p>{target && <button type="button" className="review-diagnostic-link" onClick={() => navigate(target.collection, target.recordId)}>Open {collectionLabel(target.collection)} <code>{target.recordId}</code><ArrowUpRight size={13}/></button>}</li>;
+  return <li className={`review-diagnostic review-diagnostic-${diagnostic.severity}`}>
+    <span className="badge" data-tone={diagnostic.severity === "error" ? "danger" : "warn"}>{diagnostic.severity}</span>
+    <div className="review-diagnostic-body"><code>{diagnostic.path || "content"}</code><p>{diagnostic.message}</p></div>
+    {target && <button type="button" className="button button-small button-ghost" onClick={() => navigate(target.collection, target.recordId)}>{collectionLabel(target.collection)} <code>{target.recordId}</code><ArrowUpRight size={12} /></button>}
+  </li>;
 }
 
 function ReviewError({ message, retry, label }: { message: string; retry: () => void; label: string }) {
-  return <div className="review-error" role="alert"><AlertCircle size={19}/><div><strong>{label}</strong><p>{message}</p><button type="button" className="review-action review-action-secondary" onClick={retry}><RefreshCw size={14}/>Try again</button></div></div>;
+  return <div className="review-error" role="alert"><AlertCircle size={16} /><div><strong>{label}</strong><p>{message}</p><button type="button" className="button button-small" onClick={retry}><RefreshCw size={13} />Try again</button></div></div>;
 }
 
 function LoadingFiles() {
-  return <div className="review-loading-files" role="status" aria-label="Loading changed files">{Array.from({ length: 7 }, (_, index) => <span key={index}/>)}</div>;
+  return <div className="review-loading-files" role="status" aria-label="Loading changed files">{Array.from({ length: 6 }, (_, index) => <span className="skeleton" key={index} />)}</div>;
 }
 
 function LoadingDiff() {
-  return <div className="review-loading-diff" role="status" aria-label="Loading diff">{Array.from({ length: 14 }, (_, index) => <span key={index}/>)}</div>;
+  return <div className="review-loading-diff" role="status" aria-label="Loading diff">{Array.from({ length: 12 }, (_, index) => <span className="skeleton" key={index} />)}</div>;
 }
 
 function LoadingValidation() {
-  return <div className="review-loading-validation" role="status" aria-label="Running validation"><LoaderCircle size={18} className="review-spin"/><p>Checking every registered content collection…</p></div>;
+  return <div className="review-loading-validation" role="status" aria-label="Running validation"><LoaderCircle size={15} className="review-spin" /><span>Checking every content collection…</span></div>;
 }

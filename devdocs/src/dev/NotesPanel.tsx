@@ -16,6 +16,7 @@ type RequestKind = (typeof REQUEST_KINDS)[number];
 type AuthoredStatus = (typeof AUTHORED_STATUSES)[number];
 type MetaOperation = MetaPatch["operation"];
 type MetaQueryKey = readonly ["meta", string, string];
+type Tone = "accent" | "ok" | "warn" | "danger" | "info" | undefined;
 
 export const metaQueryKey = (collection: string, entityId: string): MetaQueryKey => ["meta", collection, entityId];
 
@@ -104,12 +105,20 @@ function displayStatus(status: MetaRecord["status"]): string {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
+function statusTone(status: MetaRecord["status"]): Tone {
+  return status === "candidate" ? "info" : status === "approved" || status === "live" ? "ok" : status === "rejected" ? "danger" : undefined;
+}
+
 function displayKind(kind: MetaRequest["kind"]): string {
   return kind.charAt(0).toUpperCase() + kind.slice(1);
 }
 
 function displayState(state: MetaRequest["state"]): string {
   return state.charAt(0).toUpperCase() + state.slice(1);
+}
+
+function stateTone(state: MetaRequest["state"]): Tone {
+  return state === "open" ? "warn" : state === "claimed" ? "info" : state === "replied" ? "ok" : undefined;
 }
 
 function timestampLabel(value: string): string {
@@ -129,7 +138,7 @@ function chronologicalNotes(notes: readonly MetaNote[]): MetaNote[] {
 }
 
 function fieldError(id: string, message: string | undefined) {
-  return message ? <p className="notes-field-error" id={id} role="alert">{message}</p> : null;
+  return message ? <p className="notes-field-error" id={id} role="alert"><CircleAlert size={12} />{message}</p> : null;
 }
 
 interface SaveContext {
@@ -256,11 +265,11 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
   }
 
   if (query.isPending) {
-    return <section className="notes-panel" aria-labelledby="notes-panel-title"><NotesPanelHeading/><div className="notes-loading" role="status" aria-label="Loading notes"><span/><span/><span/></div></section>;
+    return <section className="notes-panel" aria-labelledby="notes-panel-title"><NotesPanelHeading loading /><div className="notes-loading" role="status" aria-label="Loading notes"><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /></div></section>;
   }
 
   if (query.isError) {
-    return <section className="notes-panel" aria-labelledby="notes-panel-title"><NotesPanelHeading/><div className="notes-error" role="alert"><CircleAlert size={17}/><div><strong>Could not load notes</strong><p>{query.error.message}</p><button className="notes-button notes-button-secondary" type="button" onClick={() => void query.refetch()}><RefreshCw size={14}/>Try again</button></div></div></section>;
+    return <section className="notes-panel" aria-labelledby="notes-panel-title"><NotesPanelHeading /><div className="notes-error" role="alert"><CircleAlert size={16} /><div><strong>Could not load notes</strong><p>{query.error.message}</p><button className="button button-small" type="button" onClick={() => void query.refetch()}><RefreshCw size={13} />Try again</button></div></div></section>;
   }
 
   if (!data) return null;
@@ -268,61 +277,66 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
   const editableStatus = AUTHORED_STATUSES.includes(currentStatus as AuthoredStatus);
 
   return <section className="notes-panel" aria-labelledby="notes-panel-title">
-    <header className="notes-panel-header">
-      <div>
-        <p className="notes-eyebrow">Developer notes</p>
-        <h2 id="notes-panel-title">Notes and requests</h2>
-        <p className="notes-panel-subtitle">Keep review context beside this record.</p>
-      </div>
-      <div className="notes-status-summary">
-        <span>Authored status</span>
-        <strong className={`notes-status notes-status-${currentStatus}`}>{displayStatus(currentStatus)}</strong>
-      </div>
-    </header>
+    <NotesPanelHeading count={notes.length} refreshing={query.isFetching}>
+      {editableStatus
+        ? <div className="segmented" role="group" aria-label="Authored status">{AUTHORED_STATUSES.map(status => <button key={status} type="button" className={currentStatus === status ? "is-active" : ""} aria-pressed={currentStatus === status} disabled={saveDisabled} onClick={() => updateStatus(status)}>{displayStatus(status)}</button>)}</div>
+        : <span className="badge" data-tone={statusTone(currentStatus)} title="This status is managed by review">{displayStatus(currentStatus)}</span>}
+    </NotesPanelHeading>
 
-    {feedback && <div className={`notes-feedback${conflict ? " notes-feedback-conflict" : ""}`} role="alert"><CircleAlert size={15}/><span>{feedback}</span>{conflict && <button className="notes-button notes-button-secondary" type="button" onClick={reloadMetadata}><RefreshCw size={13}/>Reload metadata</button>}</div>}
+    {feedback && <div className={`notes-feedback${conflict ? " notes-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <button className="button button-small" type="button" onClick={reloadMetadata}><RefreshCw size={12} />Reload</button>}</div>}
 
-    <div className="notes-layout">
-      <div className="notes-column notes-history-column">
-        <div className="notes-section-heading"><div><h3>Chronology</h3><p>{notes.length ? `${notes.length} ${notes.length === 1 ? "entry" : "entries"}` : "No entries yet"}</p></div>{query.isFetching && <LoaderCircle className="notes-spin" size={15} aria-label="Refreshing metadata"/>}</div>
-        {notes.length ? <ol className="notes-list" aria-label="Notes chronology">{notes.map((note, index) => <li className="notes-entry" key={`${note.at}-${note.request?.id ?? "note"}-${index}`}>
-          <div className="notes-entry-rail" aria-hidden="true"><span/></div>
-          <article>
-            <header className="notes-entry-meta"><span className={note.request ? "notes-kind notes-kind-request" : "notes-kind"}>{note.request ? `Request · ${displayKind(note.request.kind)}` : (note.label || "Note")}</span>{note.request && note.label && <span className="notes-entry-label">{note.label}</span>}<time dateTime={note.at} title={note.at}>{timestampLabel(note.at)}</time><span>by {note.by}</span></header>
-            <p className="notes-entry-text">{note.text}</p>
-            {note.request && <RequestDetails request={note.request} onClose={closeRequest} disabled={saveDisabled}/>}
-          </article>
-        </li>)}</ol> : <div className="notes-empty"><MessageSquare size={21}/><strong>No notes yet</strong><p>Add a short observation or open a request from the forms.</p></div>}
+    <form className="notes-composer panel" onSubmit={submitNote}>
+      <label className="notes-composer-text">
+        <span className="sr-only">{flagAsRequest ? "Request" : "Note"}</span>
+        <textarea value={noteText} onChange={event => { setNoteText(event.target.value); setFormError(undefined); }} onKeyDown={event => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder={flagAsRequest ? "Describe the change to make…" : "Add a note for the next reviewer…"} rows={3} required aria-describedby="notes-note-help" disabled={saveDisabled} />
+      </label>
+      <div className="notes-composer-row">
+        <label className="field-input notes-composer-label"><span className="sr-only">Label</span><input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={saveDisabled} /></label>
+        <label className="notes-request-toggle"><input type="checkbox" checked={flagAsRequest} onChange={event => setFlagAsRequest(event.target.checked)} disabled={saveDisabled} /><span>Flag as request</span></label>
+        {flagAsRequest && <label className="select"><span className="sr-only">Request kind</span><select aria-label="Request kind" value={requestKind} onChange={event => setRequestKind(event.target.value as RequestKind)} disabled={saveDisabled}>{REQUEST_KINDS.map(kind => <option key={kind} value={kind}>{displayKind(kind)}</option>)}</select></label>}
+        <span className="notes-composer-spacer" />
+        <small id="notes-note-help" className="notes-composer-hint"><kbd>Ctrl</kbd> <kbd>↵</kbd></small>
+        <button className="button button-primary button-small" type="submit" disabled={saveDisabled}><Send size={13} />{mutation.isPending ? "Saving" : flagAsRequest ? "Open request" : "Add note"}</button>
       </div>
+      {fieldError("notes-form-error", formError)}
+    </form>
 
-      <div className="notes-column notes-forms-column">
-        <div className="notes-section-heading"><div><h3>Authored status</h3><p>Record state only. Candidate approval stays in review.</p></div></div>
-        {editableStatus ? <label className="notes-field"><span>Authored status</span><select value={currentStatus as AuthoredStatus} onChange={event => updateStatus(event.target.value as AuthoredStatus)} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label> : <div className="notes-status-readonly"><span>Authored status</span><strong>{displayStatus(currentStatus)}</strong><small>This status is managed by review.</small></div>}
-
-        <form className="notes-form" onSubmit={submitNote}>
-          <div className="notes-form-heading"><div><h3>{flagAsRequest ? "Open a request" : "Add a note"}</h3><p>{flagAsRequest ? "Ask for a focused change and track its reply here." : "Capture a decision, observation, or follow-up."}</p></div>{flagAsRequest ? <CircleAlert size={16}/> : <MessageSquare size={16}/>}</div>
-          <label className="notes-field"><span>{flagAsRequest ? "Request" : "Note"}</span><textarea value={noteText} onChange={event => { setNoteText(event.target.value); setFormError(undefined); }} onKeyDown={event => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder={flagAsRequest ? "Describe the change to make" : "What should the next reviewer know?"} rows={4} required aria-describedby="notes-note-help" disabled={saveDisabled}/><small id="notes-note-help">Ctrl or Cmd + Enter to save. A request ID is generated when you flag this note.</small></label>
-          <label className="notes-field"><span>Label <em>Optional</em></span><input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="For example, balance" disabled={saveDisabled}/></label>
-          <label className="notes-request-toggle"><input type="checkbox" checked={flagAsRequest} onChange={event => setFlagAsRequest(event.target.checked)} disabled={saveDisabled}/><span>Flag as request</span></label>
-          {flagAsRequest && <label className="notes-field"><span>Request kind</span><select aria-label="Request kind" value={requestKind} onChange={event => setRequestKind(event.target.value as RequestKind)} disabled={saveDisabled}>{REQUEST_KINDS.map(kind => <option key={kind} value={kind}>{displayKind(kind)}</option>)}</select></label>}
-          {fieldError("notes-form-error", formError)}
-          <button className="notes-button notes-button-primary" type="submit" disabled={saveDisabled}><Send size={14}/>{mutation.isPending ? "Saving" : flagAsRequest ? "Open request" : "Add note"}</button>
-        </form>
-      </div>
-    </div>
+    {notes.length ? <ol className="notes-list" aria-label="Notes chronology">{notes.map((note, index) => <li className="notes-entry" key={`${note.at}-${note.request?.id ?? "note"}-${index}`}>
+      <div className="notes-entry-rail" aria-hidden="true"><span /></div>
+      <article className="notes-entry-body">
+        <header className="notes-entry-meta">
+          {note.request ? <span className="badge" data-tone="accent">Request · {displayKind(note.request.kind)}</span> : <span className="badge">{note.label || "Note"}</span>}
+          {note.request && note.label && <span className="badge">{note.label}</span>}
+          <time dateTime={note.at} title={note.at}>{timestampLabel(note.at)}</time>
+          <span>{note.by}</span>
+        </header>
+        <p className="notes-entry-text">{note.text}</p>
+        {note.request && <RequestDetails request={note.request} onClose={closeRequest} disabled={saveDisabled} />}
+      </article>
+    </li>)}</ol> : <p className="empty-inline notes-empty"><MessageSquare size={13} /> No notes yet.</p>}
   </section>;
 }
 
 function RequestDetails({ request, onClose, disabled }: { request: MetaRequest; onClose: (requestId: string) => void; disabled: boolean }) {
   const canClose = request.state === "open" || request.state === "claimed" || request.state === "replied";
   return <div className="notes-request-details">
-    <div className="notes-request-state"><span className={`notes-state notes-state-${request.state}`}>{displayState(request.state)}</span><code>{request.id}</code>{canClose && <button className="notes-close-button" type="button" onClick={() => onClose(request.id)} disabled={disabled}><X size={13}/>Close request</button>}{request.state === "closed" && <Check size={14} aria-label="Closed"/>}</div>
-    {request.claimedBy && <p><strong>Claimed by</strong> {request.claimedBy}{request.claimedAt && <time dateTime={request.claimedAt}> on {timestampLabel(request.claimedAt)}</time>}</p>}
+    <div className="notes-request-state">
+      <span className="badge" data-tone={stateTone(request.state)}>{displayState(request.state)}</span>
+      <code title={request.id}>{request.id}</code>
+      {request.state === "closed" && <Check size={13} aria-label="Closed" className="notes-request-closed" />}
+      {canClose && <button className="button button-small button-ghost notes-close-button" type="button" onClick={() => onClose(request.id)} disabled={disabled}><X size={12} />Close request</button>}
+    </div>
+    {request.claimedBy && <p><strong>Claimed by</strong> {request.claimedBy}{request.claimedAt && <time dateTime={request.claimedAt}> {timestampLabel(request.claimedAt)}</time>}</p>}
     {request.reply !== undefined && <div className="notes-request-reply"><strong>Reply</strong><p>{request.reply || "No reply text"}</p>{request.repliedAt && <time dateTime={request.repliedAt}>{timestampLabel(request.repliedAt)}</time>}</div>}
     {request.closedAt && <p className="notes-closed-at">Closed {timestampLabel(request.closedAt)}</p>}
   </div>;
 }
 
-function NotesPanelHeading() {
-  return <header className="notes-panel-header"><div><p className="notes-eyebrow">Developer notes</p><h2 id="notes-panel-title">Notes and requests</h2><p className="notes-panel-subtitle">Keep review context beside this record.</p></div><span className="notes-loading-mark"><LoaderCircle size={17} className="notes-spin"/></span></header>;
+function NotesPanelHeading({ count, refreshing = false, loading = false, children }: { count?: number; refreshing?: boolean; loading?: boolean; children?: React.ReactNode }) {
+  return <header className="notes-panel-header">
+    <h2 id="notes-panel-title">Notes</h2>
+    {count !== undefined && <span className="count-badge">{count}</span>}
+    {(refreshing || loading) && <LoaderCircle size={13} className="notes-spin" aria-label={loading ? "Loading notes" : "Refreshing metadata"} />}
+    <div className="notes-panel-header-actions">{children}</div>
+  </header>;
 }

@@ -1,28 +1,13 @@
-.record-formula { max-width: 1100px; margin-bottom: 26px; padding: 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); font-size: 11px; line-height: 1.8; }
-.record-formula-heading { display: flex; align-items: flex-start; gap: 10px; }
-.record-formula-heading > svg { color: var(--accent); margin-top: 3px; flex-shrink: 0; }
-.record-formula h2 { font-size: 13px; font-weight: 550; }
-.record-formula-heading p { color: var(--muted); margin-top: 4px; max-width: 750px; }
-.record-formula-note, .record-formula-notice { color: var(--muted); font-size: 10px; margin-top: 12px; }
-.record-formula-note > svg, .record-formula-notice > svg { vertical-align: -3px; margin-right: 6px; }
-.record-formula-notice { color: var(--accent); }
-.record-formula-error { border-left: 3px solid #cb8979; padding: 8px 12px; margin-top: 12px; overflow-wrap: anywhere; }
-.record-formula-error > svg { vertical-align: -3px; margin-right: 8px; }
-.record-formula-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.record-formula .button { display: inline-flex; gap: 7px; align-items: center; justify-content: center; font-size: 11px; }
-.record-formula .button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.record-formula .button:disabled { opacity: .5; cursor: not-allowed; }
-.record-formula-preview { border-top: 1px solid var(--border); margin-top: 18px; padding-top: 15px; }
-.record-formula-preview h3 { font-size: 11px; font-weight: 550; }
-.record-formula-scroll { overflow-x: auto; margin-top: 12px; scrollbar-width: thin; }
-.record-formula table { border-collapse: collapse; width: 100%; min-width: 430px; text-align: left; table-layout: fixed; }
-.record-formula th, .record-formula td { padding: 10px; vertical-align: top; border-bottom: 1px solid var(--border-subtle); overflow-wrap: anywhere; }
-.record-formula th { color: var(--muted); font-weight: 400; }
-.record-formula tbody th { font-family: var(--font-mono); width: 25%; }
-.record-formula td:last-child { color: var(--accent); }
-.record-formula pre { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; font-family: var(--font-mono); font-size: 10px; line-height: 1.8; }
-.record-formula-absent { color: var(--faint); font-style: italic; }
-.record-formula-apply { display: flex; gap: 18px; align-items: center; justify-content: space-between; margin-top: 16px; }
-.record-formula-apply p { color: var(--muted); font-size: 10px; }
-.record-formula-apply .button { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); flex-shrink: 0; }
-@media (max-width: 650px) { .record-formula { padding: 14px; } .record-formula-apply { flex-direction: column; align-items: flex-start; gap: 10px; } }
+/* Calculated-record notice above the editor: one badge row and an optional inspector. */
+.record-formula { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; padding: 6px 10px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--panel); font-size: 12px; }
+.record-formula-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 22px; }
+.record-formula-hint { color: var(--faint); font-size: 11px; }
+.record-formula-details summary { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 11.5px; cursor: pointer; list-style: none; }
+.record-formula-details summary::-webkit-details-marker { display: none; }
+.record-formula-details summary:hover { color: var(--text); }
+.record-formula-details summary svg { transition: transform .12s; }
+.record-formula-details[open] summary svg { transform: rotate(90deg); }
+.record-formula-workspace { margin-top: 8px; }
+.record-formula-workspace .formula-layout { grid-template-columns: 1fr; }
+.record-formula-workspace .formula-index { position: static; }
+.record-formula-workspace .formula-nav { max-height: 160px; }

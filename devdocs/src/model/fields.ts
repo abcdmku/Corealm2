@@ -66,7 +66,13 @@ export function serialFieldSpec(schema: Schema, name = ""): SerialFieldSpec {
   if (node instanceof UnionSchema) {
     const members = node.members as readonly Schema[];
     if (members.every(member => fieldCore(member) instanceof LiteralSchema)) spec.choices = members.map(member => (fieldCore(member) as LiteralSchema<string>).value);
-    else spec.variants = members.map((member, index) => { const core = fieldCore(member); const tag = core instanceof ObjectSchema ? (Object.values(core.fields) as Schema[]).find(field => fieldCore(field) instanceof LiteralSchema) : undefined; return { key: String(index), label: member.meta.label ?? (tag ? fieldTitle(String((fieldCore(tag) as LiteralSchema<string>).value)) : fieldTitle(core.kind)) }; });
+    else spec.variants = members.map((member, index) => {
+      const core = fieldCore(member);
+      const tag = core instanceof ObjectSchema ? (Object.values(core.fields) as Schema[]).find(field => fieldCore(field) instanceof LiteralSchema) : undefined;
+      // Untagged object variants are told apart by their leading fields ("Table ID" vs "Drops").
+      const keys = core instanceof ObjectSchema ? Object.keys(core.fields).filter(key => !serialFieldSpec(core.fields[key] as Schema, key).optional).slice(0, 2).map(fieldTitle).join(" + ") : "";
+      return { key: String(index), label: member.meta.label ?? (tag ? fieldTitle(String((fieldCore(tag) as LiteralSchema<string>).value)) : keys || fieldTitle(core.kind)) };
+    });
   }
   return spec;
 }

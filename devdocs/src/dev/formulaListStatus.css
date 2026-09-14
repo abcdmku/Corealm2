@@ -1,38 +1,15 @@
-.formula-list-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.4;
-  white-space: nowrap;
-}
-
-.formula-list-status::before {
-  width: 6px;
-  height: 6px;
-  flex: 0 0 6px;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  content: "";
-}
-
-.formula-list-status[data-status="aligned"] { color: var(--accent); }
-.formula-list-status[data-status="drift"] { color: #e5b36f; }
-.formula-list-status[data-status="handTuned"] { color: var(--muted); }
-.formula-list-status[data-status="error"] { color: #ef9c8f; }
+/* Formula status in record lists: a compact badge with a tone per state. */
+.formula-list-status { display: inline-flex; align-items: center; gap: 4px; height: 17px; padding: 0 5px; border-radius: 4px; background: var(--panel-raised); color: var(--muted); font-size: 10.5px; font-weight: 500; white-space: nowrap; }
+.formula-list-status::before { content: ""; width: 5px; height: 5px; flex: 0 0 5px; border-radius: 50%; background: currentColor; opacity: .7; }
+.formula-list-status[data-status="compiled"], .formula-list-status[data-status="aligned"] { color: var(--accent); background: var(--accent-soft); }
+.formula-list-status[data-status="authored"], .formula-list-status[data-status="handTuned"] { color: var(--muted); }
+.formula-list-status[data-status="drift"] { color: var(--warn); background: var(--warn-soft); }
+.formula-list-status[data-status="error"] { color: var(--danger); background: var(--danger-soft); }
 .formula-list-status[data-status="loading"] { color: var(--faint); }
-.formula-list-status[data-status="aligned"]::before { background: currentColor; }
-.formula-list-status[data-status="error"]::before { border-radius: 1px; }
-
-:root[data-theme="light"] .formula-list-status[data-status="drift"] { color: #815316; }
-:root[data-theme="light"] .formula-list-status[data-status="error"] { color: #a43e32; }
 
 @media (prefers-reduced-motion: no-preference) {
   .formula-list-status[data-status="loading"]::before { animation: formula-status-pulse 1.4s ease-in-out infinite; }
-  @keyframes formula-status-pulse { 50% { opacity: .35; } }
+  @keyframes formula-status-pulse { 50% { opacity: .25; } }
 }
 
-.row-record-meta { display: flex; align-items: center; gap: 12px; min-width: 0; max-width: 100%; }
-.row-record-meta code { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .row-record-meta .formula-list-status { flex-shrink: 0; }

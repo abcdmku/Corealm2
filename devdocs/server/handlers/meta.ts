@@ -19,6 +19,8 @@ export interface MetaHandlerOptions {
 }
 export type MetaHandlerRequest = DevdocsRequest & { body?: unknown };
 export interface MetaResponse { collection: string; entityId: string; revision: string; data: MetaRecord }
+export interface MetaDigestEntry { status: MetaRecord["status"]; openRequests: number; notes: number; candidates: number }
+export interface MetaDigestResponse { collection: string; revision: string; records: Record<string, MetaDigestEntry> }
 export type MetaHandler = (request: MetaHandlerRequest) => Promise<DevdocsJsonResponse | undefined>;
 
 const nonblank = refine(str({ nonEmpty: true }), value => value.trim().length > 0, "must not be blank");
@@ -186,6 +188,18 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
         collection: spec.name, entityId: target.entityId, revision: current.revision,
         data: Object.hasOwn(current.records, target.entityId) ? current.records[target.entityId]! : emptyMetaRecord(),
       } satisfies MetaResponse);
+      if (method === "GET" && target.entityId === "$all") {
+        // A per-collection digest so browsers can badge status and open requests without one
+        // request per record. Notes and history stay on the per-entity route.
+        const current = await snapshot(file, spec.name);
+        const records = Object.fromEntries(Object.entries(current.records).map(([id, record]) => [id, {
+          status: record.status,
+          openRequests: record.notes.filter(note => note.request && note.request.state !== "closed").length,
+          notes: record.notes.length,
+          candidates: (record.candidates ?? []).filter(candidate => candidate.status === "candidate" || candidate.status === "draft").length,
+        }]));
+        return json(200, { collection: spec.name, revision: current.revision, records } satisfies MetaDigestResponse);
+      }
       if (method === "GET") {
         if (!await entity(root, spec, target.entityId)) return failure(404, "Unknown entity");
         return response(await snapshot(file, spec.name));

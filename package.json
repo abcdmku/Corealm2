@@ -90,6 +90,7 @@
     "devdocs:smoke": "tsx tools/devdocs-smoke.ts"
   },
   "dependencies": {
+    "@fontsource-variable/source-sans-3": "^5.3.0",
     "@recast-navigation/core": "0.43.1",
     "@recast-navigation/generators": "^0.43.1",
     "@recast-navigation/wasm": "0.43.1",

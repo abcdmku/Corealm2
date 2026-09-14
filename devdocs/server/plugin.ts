@@ -23,9 +23,10 @@ import { installFormulaWatcher } from "./lib/formulaWatcher.js";
 import { createValidateHandler, isValidatePath } from "./handlers/validate.js";
 import { createGitHandler, isGitPath } from "./handlers/git.js";
 import { createBulkHandler, isBulkPath } from './handlers/bulk.js';
+import { createThumbnailsHandler, isThumbnailsPath, THUMBNAIL_MAX_REQUEST_BYTES, type ThumbnailsHandlerOptions } from './handlers/thumbnails.js';
 
 
-export type DevdocsPluginOptions = CollectionsHandlerOptions & CollectionWriteHandlerOptions;
+export type DevdocsPluginOptions = CollectionsHandlerOptions & CollectionWriteHandlerOptions & ThumbnailsHandlerOptions;
 
 function send(response: ServerResponse, result: Omit<DevdocsJsonResponse, "body"> & { body: string | Uint8Array }): void {
   response.statusCode = result.status;
@@ -47,8 +48,10 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
   const handleRequests = createRequestsHandler(options);
   const handleMeta = createMetaHandler(options);
   const handleAssets = createAssetsHandler(options);
+  const handleThumbnails = createThumbnailsHandler(options);
 
   server.middlewares.use((request, response, next) => {
+    const thumbnails = isThumbnailsPath(request.url);
     const collections = isCollectionsPath(request.url);
     const requests = isRequestsPath(request.url);
     const meta = isMetaPath(request.url);
@@ -60,7 +63,7 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
     const bulk = isBulkPath(request.url);
     const assets = isAssetsPath(request.url);
 
-    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets) {
+    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets && !thumbnails) {
       next();
       return;
     }
@@ -69,6 +72,7 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
       // Check origin before reading a mutation body, including malformed or oversized bodies.
       if (!isLoopbackDevdocsRequest(request)) return { status: 403, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ error: "Dev docs API accepts loopback requests only" }) };
       if (icon) return readIconMaster(requestFromIncoming(request));
+      if (thumbnails) return handleThumbnails({ ...requestFromIncoming(request), body: request.method === 'PUT' ? await readJsonBody(request, THUMBNAIL_MAX_REQUEST_BYTES) : undefined });
       if (assets) return handleAssets({ ...requestFromIncoming(request), body: ['POST', 'PUT'].includes(request.method ?? '') ? await readJsonBody(request, ASSET_UPLOAD_MAX_REQUEST_BYTES) : undefined });
 
       if (git) return handleGit(requestFromIncoming(request));

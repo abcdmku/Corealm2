@@ -1,12 +1,14 @@
-import { useId, useMemo, useState } from "react";
-import { ArrowUpRight, Search, Shield, Sparkles, Swords, Wrench, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Search, Shirt, Sparkles, Swords, Wrench, X, type LucideIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import { contentRows } from "../model/rows.js";
+import { noContext, summarize, type RecordSummary } from "../model/summaries.js";
 import { EmptyState, ErrorState, LoadingRows } from "../ui/States.js";
-import { ItemIcon } from "../ui/ItemIcon.js";
+import { RecordTile } from "../ui/RecordTile.js";
+import { Thumb } from "../ui/Thumb.js";
 import "./kits.css";
 
 type KitFamily = "melee" | "magic" | "tools";
@@ -46,8 +48,9 @@ const KIND_LABELS: Readonly<Record<KitKind, string>> = {
   pickaxe: "Pickaxe", hatchet: "Hatchet", rod: "Rod",
 };
 const FAMILY_LABELS: Readonly<Record<KitFamily, string>> = {
-  melee: "Melee kit", magic: "Magic kit", tools: "Gathering tools",
+  melee: "Melee", magic: "Magic", tools: "Tools",
 };
+const FAMILY_ICONS: Readonly<Record<KitFamily, LucideIcon>> = { melee: Swords, magic: Sparkles, tools: Wrench };
 
 function record(value: unknown): ContentRow | undefined {
   return value !== null && typeof value === "object" && !Array.isArray(value)
@@ -140,15 +143,6 @@ function formatTier(tier: number): string {
   return Number.isInteger(tier) ? String(tier) : String(Number(tier.toFixed(2)));
 }
 
-function formatRequirement(row: ContentRow): string | undefined {
-  const equip = record(row.equip);
-  const requires = record(equip?.requires);
-  if (!requires) return undefined;
-  const entries = Object.entries(requires).filter(([, value]) => typeof value === "number" && Number.isFinite(value));
-  if (!entries.length) return undefined;
-  return entries.map(([skill, level]) => `${skill} ${String(level)}`).join(" · ");
-}
-
 function formatSearchValues(item: KitItem): string {
   return `${item.id} ${item.name} ${item.kind} ${item.tier}`.toLowerCase();
 }
@@ -158,12 +152,10 @@ function setSearchValues(set: ArmorSet, itemsById: ReadonlyMap<string, ContentRo
   return `${set.id} ${set.name} ${set.style} ${set.tier} ${memberNames}`.toLowerCase();
 }
 
-function familyIcon(family: KitFamily) {
-  return family === "melee" ? Swords : family === "magic" ? Sparkles : Wrench;
-}
-
-function itemKinds(family: KitFamily): readonly KitKind[] {
-  return FAMILY_KINDS[family];
+/** A kit item's summary with its kind as the leading badge, so the ladder reads by role. */
+function kitSummary(item: KitItem): RecordSummary {
+  const summary = summarize("items", item.row, noContext);
+  return { ...summary, badges: [{ text: KIND_LABELS[item.kind], tone: "info" }, ...summary.badges.filter(badge => badge.text !== KIND_LABELS[item.kind]).slice(0, 1)] };
 }
 
 export function KitsPage({ navigate = noopNavigate }: KitsPageProps = {}) {
@@ -171,6 +163,7 @@ export function KitsPage({ navigate = noopNavigate }: KitsPageProps = {}) {
   const setsQuery = useQuery(collectionQuery("equipmentSets"));
   const [search, setSearch] = useState("");
   const [tierFilter, setTierFilter] = useState<"all" | number>("all");
+  const [familyFilter, setFamilyFilter] = useState<"all" | KitFamily>("all");
 
   const items = useMemo(() => itemsQuery.data ? contentRows(itemsQuery.data) : [], [itemsQuery.data]);
   const sets = useMemo(() => setsQuery.data ? contentRows(setsQuery.data) : [], [setsQuery.data]);
@@ -182,49 +175,57 @@ export function KitsPage({ navigate = noopNavigate }: KitsPageProps = {}) {
   })), [items]);
   const filteredItems = useMemo(() => {
     const needle = search.trim().toLowerCase();
-    return kitItems.filter((item) => !needle || formatSearchValues(item).includes(needle));
-  }, [kitItems, search]);
+    return kitItems.filter((item) => (!needle || formatSearchValues(item).includes(needle)) && (familyFilter === "all" || kitFamily(item.kind) === familyFilter));
+  }, [kitItems, search, familyFilter]);
   const filteredSets = useMemo(() => {
     const needle = search.trim().toLowerCase();
     return armorSets.filter((set) => !needle || setSearchValues(set, itemsById).includes(needle));
   }, [armorSets, itemsById, search]);
   const tiers = useMemo(() => [...new Set([...filteredItems.map((item) => item.tier), ...filteredSets.map((set) => set.tier)])].sort((a, b) => a - b), [filteredItems, filteredSets]);
+  const allTiers = useMemo(() => [...new Set([...kitItems.map((item) => item.tier), ...armorSets.map((set) => set.tier)])].sort((a, b) => a - b), [kitItems, armorSets]);
   const visibleTiers = useMemo(() => tierFilter === "all" ? tiers : tiers.filter((tier) => tier === tierFilter), [tierFilter, tiers]);
-  const totalKitItems = kitItems.length;
-  const totalSets = armorSets.length;
 
   if (itemsQuery.isPending || setsQuery.isPending) {
-    return <div className="kits-page"><KitsIntro itemCount={0} setCount={0}/><LoadingRows/></div>;
+    return <div className="kits-page"><KitsHeading itemCount={0} setCount={0} /><LoadingRows /></div>;
   }
   if (itemsQuery.isError || setsQuery.isError) {
     const message = itemsQuery.error?.message ?? setsQuery.error?.message ?? "The item and armor-set collections could not be loaded.";
-    return <div className="kits-page"><KitsIntro itemCount={0} setCount={0}/><ErrorState message={message} retry={() => { void itemsQuery.refetch(); void setsQuery.refetch(); }}/></div>;
+    return <div className="kits-page"><KitsHeading itemCount={0} setCount={0} /><ErrorState message={message} retry={() => { void itemsQuery.refetch(); void setsQuery.refetch(); }} /></div>;
   }
 
   return <div className="kits-page">
-    <KitsIntro itemCount={totalKitItems} setCount={totalSets}/>
-    <div className="kits-controls" aria-label="Filter kits">
-      <label className="kits-search">
-        <Search size={16}/>
+    <KitsHeading itemCount={kitItems.length} setCount={armorSets.length} />
+    <div className="browser-toolbar" aria-label="Filter kits">
+      <label className="search-field kits-search">
+        <Search size={14} />
         <span className="sr-only">Search kits</span>
-        <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search items, sets, or tiers…" aria-label="Search kits"/>
-        {search ? <button type="button" aria-label="Clear kit search" onClick={() => setSearch("")}><X size={14}/></button> : <kbd>/</kbd>}
+        <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search items, sets, or tiers…" aria-label="Search kits" />
+        {search ? <button type="button" className="icon-button" aria-label="Clear kit search" onClick={() => setSearch("")}><X size={13} /></button> : <kbd>/</kbd>}
       </label>
-      <div className="kits-tiers" role="group" aria-label="Filter by tier">
-        <span className="kits-filter-label">Tier</span>
-        <button type="button" className={tierFilter === "all" ? "is-active" : ""} aria-pressed={tierFilter === "all"} onClick={() => setTierFilter("all")}>All</button>
-        {tiers.map((tier) => <button type="button" className={tierFilter === tier ? "is-active" : ""} aria-pressed={tierFilter === tier} onClick={() => setTierFilter(tier)} key={tier}>{formatTier(tier)}</button>)}
+      <span className="result-count" aria-live="polite">{visibleTiers.length ? `${visibleTiers.length} tier${visibleTiers.length === 1 ? "" : "s"}` : "No matches"}</span>
+      {(search || tierFilter !== "all" || familyFilter !== "all") && <button type="button" className="text-button" onClick={() => { setSearch(""); setTierFilter("all"); setFamilyFilter("all"); }}>Clear filters</button>}
+    </div>
+    <div className="facets">
+      <div className="facet" role="group" aria-label="Filter by tier">
+        <span>Tier</span>
+        <button type="button" className={`filter-chip${tierFilter === "all" ? " is-active" : ""}`} aria-pressed={tierFilter === "all"} onClick={() => setTierFilter("all")}>All</button>
+        {allTiers.map((tier) => <button type="button" className={`filter-chip${tierFilter === tier ? " is-active" : ""}`} aria-pressed={tierFilter === tier} onClick={() => setTierFilter(tier)} key={tier}>{formatTier(tier)}<small>{kitItems.filter(item => item.tier === tier).length}</small></button>)}
       </div>
-      <span className="kits-result-count" aria-live="polite">{visibleTiers.length ? `${visibleTiers.length} tier${visibleTiers.length === 1 ? "" : "s"}` : "No matches"}</span>
+      <div className="facet" role="group" aria-label="Filter by family">
+        <span>Family</span>
+        <button type="button" className={`filter-chip${familyFilter === "all" ? " is-active" : ""}`} aria-pressed={familyFilter === "all"} onClick={() => setFamilyFilter("all")}>All</button>
+        {FAMILY_ORDER.map((family) => { const Icon = FAMILY_ICONS[family]; return <button type="button" className={`filter-chip${familyFilter === family ? " is-active" : ""}`} aria-pressed={familyFilter === family} onClick={() => setFamilyFilter(family)} key={family}><Icon size={12} />{FAMILY_LABELS[family]}</button>; })}
+      </div>
     </div>
 
-    {!visibleTiers.length ? <EmptyState title={search || tierFilter !== "all" ? "No kits match these filters" : "No kit records are available"}>Try another item, set, or tier.</EmptyState> : <div className="kits-ladder">
+    {!visibleTiers.length ? <EmptyState title={search || tierFilter !== "all" || familyFilter !== "all" ? "No kits match these filters" : "No kit records are available"}>Try another item, set, or tier.</EmptyState> : <div className="kits-ladder">
       {visibleTiers.map((tier) => <TierSection
         key={tier}
         tier={tier}
         items={filteredItems.filter((item) => item.tier === tier)}
         catalogItems={kitItems.filter((item) => item.tier === tier)}
         sets={filteredSets.filter((set) => set.tier === tier)}
+        families={familyFilter === "all" ? FAMILY_ORDER : [familyFilter]}
         itemsById={itemsById}
         navigate={navigate}
       />)}
@@ -232,18 +233,12 @@ export function KitsPage({ navigate = noopNavigate }: KitsPageProps = {}) {
   </div>;
 }
 
-function KitsIntro({ itemCount, setCount }: { itemCount: number; setCount: number }) {
-  return <header className="kits-intro">
-    <div>
-      <span className="kits-eyebrow"><Shield size={14}/> Equipment ladder</span>
-      <h1>Kits</h1>
-      <p>Weapons, gathering tools, and armor sets by tier.</p>
-    </div>
-    <dl className="kits-summary" aria-label="Kit totals">
-      <div><dt>Items</dt><dd>{itemCount}</dd></div>
-      <div><dt>Armor sets</dt><dd>{setCount}</dd></div>
-    </dl>
-  </header>;
+function KitsHeading({ itemCount, setCount }: { itemCount: number; setCount: number }) {
+  return <div className="page-heading">
+    <h1>Kits</h1>
+    <span className="badge">{itemCount} items</span>
+    <span className="badge">{setCount} armor sets</span>
+  </div>;
 }
 
 function TierSection({
@@ -251,6 +246,7 @@ function TierSection({
   items,
   catalogItems,
   sets,
+  families,
   itemsById,
   navigate,
 }: {
@@ -258,66 +254,40 @@ function TierSection({
   items: readonly KitItem[];
   catalogItems: readonly KitItem[];
   sets: readonly ArmorSet[];
+  families: readonly KitFamily[];
   itemsById: ReadonlyMap<string, ContentRow>;
   navigate: AppProps["navigate"];
 }) {
   return <section className="kits-tier" aria-labelledby={`kits-tier-${tier}`}>
-    <div className="kits-tier-heading">
-      <span className="kits-tier-number">{formatTier(tier)}</span>
-      <div><h2 id={`kits-tier-${tier}`}>Tier {formatTier(tier)}</h2><p>{sets.length ? `${sets.length} armor set${sets.length === 1 ? "" : "s"}` : "No armor set cataloged"}</p></div>
-    </div>
-    <div className="kits-tier-content">
-      <div className="kit-families">
-        {FAMILY_ORDER.map((family) => <KitFamilySection key={family} family={family} items={items} catalogItems={catalogItems} navigate={navigate}/>) }
-      </div>
-      <ArmorSetsSection sets={sets} itemsById={itemsById} navigate={navigate}/>
-    </div>
-  </section>;
-}
-
-function KitFamilySection({ family, items, catalogItems, navigate }: { family: KitFamily; items: readonly KitItem[]; catalogItems: readonly KitItem[]; navigate: AppProps["navigate"] }) {
-  const Icon = familyIcon(family);
-  const heading = useId();
-  return <section className="kit-family" aria-labelledby={heading}>
-    <header className="kit-family-heading"><span className="kit-family-icon"><Icon size={16}/></span><div><h3 id={heading}>{FAMILY_LABELS[family]}</h3><p>{family === "tools" ? "Tools for mining, woodcutting, and fishing." : family === "magic" ? "Wands and staffs from the magic ladder." : "Close combat weapons and shields."}</p></div></header>
-    <div className="kit-slots">
-      {itemKinds(family).flatMap((kind) => {
+    <div className="group-heading"><span id={`kits-tier-${tier}`}>Tier {formatTier(tier)}</span><small>{items.length} items · {sets.length} {sets.length === 1 ? "set" : "sets"}</small></div>
+    <div className="tile-grid kits-item-grid" data-density="compact">
+      {families.flatMap((family) => FAMILY_KINDS[family].flatMap((kind) => {
         const matching = items.filter((item) => item.kind === kind);
-        if (matching.length) return matching.map((item) => <KitItemTile item={item} key={item.id} navigate={navigate}/>);
+        if (matching.length) return matching.map((item) => <RecordTile key={item.id} collection="items" id={item.id} summary={kitSummary(item)} mode="grid" onOpen={(id) => navigate("items", id)} hoverCard />);
         const cataloged = catalogItems.some((item) => item.kind === kind);
-        return [<div className="kit-missing" key={`missing-${kind}`}><span>—</span><div><strong>{cataloged ? `No matching ${KIND_LABELS[kind].toLowerCase()}` : `No ${KIND_LABELS[kind].toLowerCase()} cataloged`}</strong><small>{cataloged ? "Hidden by the current search" : "Nothing in this tier"}</small></div></div>];
-      })}
+        return [<div className="kit-missing" key={`missing-${kind}`} title={cataloged ? "Hidden by the current search" : "Nothing in this tier"}><span className="kit-missing-art">—</span><span className="kit-missing-copy"><span className="tile-title">{KIND_LABELS[kind]}</span><span className="tile-subtitle">{cataloged ? "Hidden by search" : "Not cataloged"}</span></span></div>];
+      }))}
     </div>
-  </section>;
-}
-
-function KitItemTile({ item, navigate }: { item: KitItem; navigate: AppProps["navigate"] }) {
-  const requirement = formatRequirement(item.row);
-  return <button type="button" className="kit-item-tile" onClick={() => navigate("items", item.id)} aria-label={`Open ${item.name}`}>
-    <ItemIcon id={item.id} name={item.name} large/>
-    <span className="kit-item-copy"><strong>{item.name}</strong><code>{item.id}</code><small>{requirement ?? `Tier ${formatTier(item.tier)}`}</small></span>
-    <ArrowUpRight className="kit-item-arrow" size={14}/>
-  </button>;
-}
-
-function ArmorSetsSection({ sets, itemsById, navigate }: { sets: readonly ArmorSet[]; itemsById: ReadonlyMap<string, ContentRow>; navigate: AppProps["navigate"] }) {
-  const heading = useId();
-  return <section className="armor-sets" aria-labelledby={heading}>
-    <header className="armor-sets-heading"><div><span className="kits-section-kicker">Armor</span><h3 id={heading}>Sets by style</h3></div><span>{sets.length ? `${sets.length} linked` : "No cataloged set"}</span></header>
-    {sets.length ? <div className="armor-set-grid">{sets.map((set) => <ArmorSetCard key={set.id} set={set} itemsById={itemsById} navigate={navigate}/>)}</div> : <p className="armor-empty">No armor set is assigned to this tier.</p>}
+    {sets.length > 0 && <div className="kits-sets">{sets.map((set) => <ArmorSetCard key={set.id} set={set} itemsById={itemsById} navigate={navigate} />)}</div>}
   </section>;
 }
 
 function ArmorSetCard({ set, itemsById, navigate }: { set: ArmorSet; itemsById: ReadonlyMap<string, ContentRow>; navigate: AppProps["navigate"] }) {
-  return <article className="armor-set-card">
-    <header className="armor-set-card-heading"><button type="button" className="armor-set-link" onClick={() => navigate("equipmentSets", set.id)}><strong>{set.name}</strong><code>{set.id}</code></button><span className={`set-style set-style-${set.style}`}>{set.style}</span></header>
-    <div className="armor-slots">
+  const summary = summarize("equipmentSets", set.row, noContext);
+  return <article className="panel kits-set">
+    <header className="panel-header kits-set-header">
+      <button type="button" className="kits-set-link" onClick={() => navigate("equipmentSets", set.id)} title={`Equipment sets · ${set.id}`}><Thumb spec={summary.thumb} size="s" /><span className="kits-set-name">{set.name}</span></button>
+      <span className="badge" data-tone="info">{set.style}</span>
+      <span className="count-badge">{Object.keys(set.members).length} pieces</span>
+    </header>
+    <div className="slot-grid kits-set-slots">
       {ARMOR_SLOTS.map((slot) => {
         const itemId = set.members[slot];
         const item = itemId ? itemsById.get(itemId) : undefined;
         const itemName = item && itemId ? sourceName(item, itemId) : itemId;
-        return itemId && item ? <button type="button" className="armor-slot" key={slot} onClick={() => navigate("items", itemId)} aria-label={`Open ${itemName}`}><ItemIcon id={itemId} name={itemName}/><span><small>{slot}</small><strong>{itemName}</strong></span></button>
-          : <div className="armor-slot armor-slot-missing" key={slot}><span className="armor-slot-empty">—</span><span><small>{slot}</small><strong>{itemId ? `Uncatalogued ${itemId}` : `Missing ${slot}`}</strong></span></div>;
+        return itemId && item
+          ? <button type="button" className="slot-tile" key={slot} onClick={() => navigate("items", itemId)} aria-label={`Open ${itemName}`} title={`${itemName} · ${itemId}`}><Thumb spec={{ kind: "item", id: itemId }} size="l" /><small>{slot}</small><strong>{itemName}</strong></button>
+          : <div className="slot-tile is-empty" key={slot}><Thumb spec={{ kind: "glyph", icon: Shirt }} size="l" /><small>{slot}</small><strong>{itemId ? `Uncatalogued ${itemId}` : "Missing"}</strong></div>;
       })}
     </div>
   </article>;

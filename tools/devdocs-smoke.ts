@@ -257,23 +257,30 @@ async function exerciseWorldAuthoring(url: string): Promise<void> {
   assert(page, "Browser page is not ready");
   await page.goto(`${url}/#/world`);
   await waitForHeading("World");
-  const newId = page.getByLabel("New ID", { exact: true });
-  await newId.waitFor();
-  await newId.fill("smoke_ui_encounter");
+  const placementsPanel = page.getByRole("complementary", { name: "Placements", exact: true });
+  await placementsPanel.getByRole("button", { name: "New", exact: true }).waitFor();
+  // Encounter: the "+ New" menu opens an inline ID form; members are picked from a searchable popover.
+  await placementsPanel.getByRole("button", { name: "New", exact: true }).click();
+  await page.getByRole("button", { name: "Encounter", exact: true }).click();
+  await page.getByLabel("New encounter ID", { exact: true }).fill("smoke_ui_encounter");
   await page.getByRole("button", { name: "Add encounter", exact: true }).click();
-  await page.locator('.world-encounters > label select').selectOption("smoke_ui_encounter");
-  await page.locator('.world-member select').first().selectOption("smoke_frog_variant");
-  await newId.fill("smoke_ui_placement");
+  await page.getByLabel("Encounter definition", { exact: true }).selectOption("smoke_ui_encounter");
+  await page.getByRole("button", { name: "Change creature", exact: true }).first().click();
+  await page.getByLabel("Search Creatures", { exact: true }).fill("smoke_frog_variant");
+  await page.getByRole("option", { name: /smoke_frog_variant/ }).first().click();
+  await placementsPanel.getByRole("button", { name: "New", exact: true }).click();
+  await page.getByRole("button", { name: "Placement at map centre", exact: true }).click();
+  await page.getByLabel("New placement ID", { exact: true }).fill("smoke_ui_placement");
   await page.getByRole("button", { name: "Add placement", exact: true }).click();
-  await page.locator(".world-list").getByRole("button", { name: /smoke_ui_placement/ }).click();
+  await page.locator('.world-list [data-id="smoke_ui_placement"] .ref-row').click();
   const centreX = page.getByRole("spinbutton", { name: "Centre X", exact: true });
   await centreX.fill("-97");
   const worldPreview = page.waitForResponse(response => response.url().endsWith('/__devdocs/transaction'));
-  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
+  await page.getByRole("button", { name: "Preview", exact: true }).click();
   const worldPreviewResponse = await worldPreview;
   assert.equal(worldPreviewResponse.status(), 200, await worldPreviewResponse.text());
-  await page.getByText(/affected records/i).waitFor();
-  await page.locator(".world-save").click();
+  await page.getByText(/affected ·/i).waitFor();
+  await page.getByRole("button", { name: /^Save \d+$/ }).click();
   await page.getByRole("status").filter({ hasText: /Saved \d+ source changes/ }).waitFor();
   const placements = await readJson<JsonRecord[]>(path.join(contentRoot, "data/placements.json"));
   const encounters = await readJson<JsonRecord[]>(path.join(contentRoot, "data/encounters.json"));
@@ -317,6 +324,8 @@ try {
   page.on("response", response => {
     if (response.status() < 400) return;
     if (response.status() === 404 && response.url().endsWith('/__devdocs/icons/smoke_unique_item.png')) return;
+    // Model thumbnails are rendered on demand; a miss is the expected first response.
+    if (response.status() === 404 && response.url().includes('/__devdocs/thumbnails/')) return;
     if (expectedConflict && response.status() === 409) return;
     if (expectedValidationFailure && response.status() === 422) return;
     errors.push(`${response.status()} ${response.url()}`);
@@ -325,10 +334,10 @@ try {
   // This first load includes Vite's optimizer and is intentionally outside the acceptance budget.
   await page.goto(`${url}/#/`);
   const sidebar = page.locator(".sidebar");
-  for (const label of ["Progression", "World", "Formulas", "Work queue"]) {
+  for (const label of ["Tiers", "World map", "Formulas", "Work queue"]) {
     await sidebar.getByRole("button", { name: label, exact: true }).waitFor();
   }
-  checks.taskNavigation = ["Progression", "World", "Formulas", "Work queue"];
+  checks.taskNavigation = ["Tiers", "World map", "Formulas", "Work queue"];
   await page.waitForFunction(async () => {
     const response = await fetch('/__devdocs/formulas');
     const result = await response.json();
@@ -338,15 +347,15 @@ try {
   await screenshot("overview.png");
   const deadline = Date.now() + 60_000;
 
-  await sidebar.getByRole("button", { name: "Progression", exact: true }).click();
-  await waitForHeading(/^Progression/);
-  assert.equal(await sidebar.getByRole("button", { name: "Progression", exact: true }).getAttribute("aria-current"), "page");
+  await sidebar.getByRole("button", { name: "Tiers", exact: true }).click();
+  await waitForHeading(/^Tiers/);
+  assert.equal(await sidebar.getByRole("button", { name: "Tiers", exact: true }).getAttribute("aria-current"), "page");
   await screenshot("progression.png");
   deadlineGuard(deadline, "progression navigation");
 
-  await sidebar.getByRole("button", { name: "World", exact: true }).click();
-  await waitForHeading("World");
-  assert.equal(await sidebar.getByRole("button", { name: "World", exact: true }).getAttribute("aria-current"), "page");
+  await sidebar.getByRole("button", { name: "World map", exact: true }).click();
+  await waitForHeading(/World/);
+  assert.equal(await sidebar.getByRole("button", { name: "World map", exact: true }).getAttribute("aria-current"), "page");
   await screenshot("world.png");
   deadlineGuard(deadline, "world navigation");
 
@@ -377,13 +386,14 @@ try {
   deadlineGuard(deadline, "content transactions");
 
   await page.goto(`${url}/#/progression`);
-  await waitForHeading(/^Progression/);
-  await page.getByText("Smoke Tier", { exact: true }).waitFor();
+  await waitForHeading(/^Tiers/);
+  await page.getByText("Smoke Tier", { exact: true }).first().waitFor();
   await page.goto(`${url}/#/items/smoke_unique_item`);
   await waitForHeading("Smoke Compass");
   await page.goto(`${url}/#/creatureDefinitions/smoke_frog_variant`);
   await waitForHeading("Smoke Frog");
-  await page.getByText("frog_t1", { exact: true }).waitFor();
+  // The base creature is shown as a reference chip (its name, not its id) in the Base ID field.
+  await page.getByRole("button", { name: "Frog", exact: true }).first().waitFor();
   checks.authoredRecordsVisible = true;
 
   await exerciseWorldAuthoring(url);

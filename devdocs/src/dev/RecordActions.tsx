@@ -1,7 +1,8 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertCircle, Check, Copy, Eye, GitBranch, LoaderCircle, Pencil, Plus, RefreshCw, Trash2, X } from "lucide-react";
+import { AlertCircle, Check, Copy, Eye, GitBranch, LoaderCircle, MoreHorizontal, Pencil, Plus, RefreshCw, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
+import { Menu } from "../ui/Menu.js";
 import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../tools/content/collections.js";
 import { defaultFieldValue, fieldIssues } from "../model/fields.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
@@ -22,6 +23,8 @@ export interface RecordActionsProps {
   editable?: boolean;
   idKey?: string;
   navigate: AppProps["navigate"];
+  /** Fold record actions into one menu button. */
+  compact?: boolean;
 }
 
 interface TransactionResult extends ContentTransactionResponse {
@@ -154,7 +157,7 @@ function responseRevisionMap(result: TransactionResult, fallback: Record<string,
   return revisions;
 }
 
-export default function RecordActions({ collection, record, recordId, mode = "record", templateRecord, knownIds = [], editable, idKey, navigate }: RecordActionsProps) {
+export default function RecordActions({ collection, record, recordId, mode = "record", templateRecord, knownIds = [], editable, idKey, navigate, compact = false }: RecordActionsProps) {
   const queryClient = useQueryClient();
   const collectionQueryResult = useQuery({ ...collectionQuery(collection), enabled: mode === "collection" || Boolean(record) });
   const summaries = useQuery({ ...collectionsQuery(), enabled: false });
@@ -315,8 +318,14 @@ export default function RecordActions({ collection, record, recordId, mode = "re
   if (!canOpen) return null;
   return <>
     <div className="editor-actions" aria-label={`${displayCollection(collection)} record actions`}>
-      {canCreate && <button className="button" type="button" data-record-action="create" aria-label={`Create ${displayCollection(collection)} record`} onClick={() => openAction("create")}><Plus size={14} />Create</button>}
-      {canRecordAction && <><button className="button" type="button" onClick={() => openAction("duplicate")}><Copy size={14} />Duplicate</button><button className="button" type="button" onClick={() => openAction("variant")}><GitBranch size={14} />Create variant</button><button className="button" type="button" onClick={() => openAction("rename")}><Pencil size={14} />Rename</button><button className="button" type="button" onClick={() => openAction("delete")}><Trash2 size={14} />Delete</button></>}
+      {canCreate && <button className={`button${compact ? " button-small button-primary" : ""}`} type="button" data-record-action="create" aria-label={`Create ${displayCollection(collection)} record`} onClick={() => openAction("create")}><Plus size={14} />Create</button>}
+      {canRecordAction && compact && <Menu trigger={<button className="button button-small" type="button" aria-label="Record actions"><MoreHorizontal size={14} />Actions</button>} items={[
+        { label: "Duplicate", icon: <Copy size={14} />, onSelect: () => openAction("duplicate") },
+        { label: "Create variant", icon: <GitBranch size={14} />, onSelect: () => openAction("variant") },
+        { label: "Rename", icon: <Pencil size={14} />, onSelect: () => openAction("rename") },
+        { label: "Delete", icon: <Trash2 size={14} />, tone: "danger", separator: true, onSelect: () => openAction("delete") },
+      ]} />}
+      {canRecordAction && !compact && <><button className="button" type="button" onClick={() => openAction("duplicate")}><Copy size={14} />Duplicate</button><button className="button" type="button" onClick={() => openAction("variant")}><GitBranch size={14} />Create variant</button><button className="button" type="button" onClick={() => openAction("rename")}><Pencil size={14} />Rename</button><button className="button" type="button" onClick={() => openAction("delete")}><Trash2 size={14} />Delete</button></>}
     </div>
     {action && <ActionDialog
       action={action}

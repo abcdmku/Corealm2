@@ -1,12 +1,12 @@
 import { useId, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CircleAlert, ExternalLink, LoaderCircle, RefreshCw, Save, ShieldCheck } from "lucide-react";
+import { CircleAlert, ExternalLink, Images, LoaderCircle, RefreshCw, Save } from "lucide-react";
 import { toast } from "sonner";
 import type { MetaPatch, MetaRecord, MetaResponse } from "../../shared/metaContracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
 import { collectionQuery } from "../api/client.js";
 import { contentRows, rowName } from "../model/rows.js";
-import { ItemIcon } from "../ui/ItemIcon.js";
+import { Thumb } from "../ui/Thumb.js";
 import AssetCandidates from "./AssetCandidates.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
 import "./setPiece.css";
@@ -23,6 +23,7 @@ type AuthoredStatus = (typeof AUTHORED_STATUSES)[number];
 type PieceOperation = Extract<MetaPatch["operation"], { kind: "piece" }>;
 type ContentRow = Record<string, unknown>;
 type MetaPiece = NonNullable<MetaRecord["pieces"]>[string];
+type Tone = "accent" | "ok" | "warn" | "danger" | "info" | undefined;
 
 interface PieceDraft {
   note: string;
@@ -78,8 +79,8 @@ function displayStatus(status: string): string {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
-function statusClass(status: string): string {
-  return status.toLowerCase().replace(/[^a-z0-9_-]/g, "-");
+function statusTone(status: string): Tone {
+  return status === "candidate" ? "info" : status === "approved" || status === "live" ? "ok" : status === "rejected" ? "danger" : undefined;
 }
 
 function slotLabel(slot: PieceSlot): string {
@@ -164,7 +165,7 @@ function optimisticResponse(current: MetaResponse, operation: PieceOperation): M
 /** Per-piece review is available only on equipment-set records. */
 export default function SetPiecePanel(props: SetPiecePanelProps) {
   if (props.collection !== "equipmentSets") return null;
-  return <SetPiecePanelContent key={`${props.collection}:${props.recordId}`} {...props}/>;
+  return <SetPiecePanelContent key={`${props.collection}:${props.recordId}`} {...props} />;
 }
 
 function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
@@ -184,6 +185,7 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
   const [drafts, setDrafts] = useState<Partial<Record<PieceSlot, PieceDraft>>>({});
   const [feedback, setFeedback] = useState<string>();
   const [conflict, setConflict] = useState(false);
+  const [activeSlot, setActiveSlot] = useState<PieceSlot>();
 
   const setRow = useMemo(() => findRow(setQuery.data, recordId), [setQuery.data, recordId]);
   const itemRows = useMemo(() => responseRows(itemsQuery.data), [itemsQuery.data]);
@@ -278,19 +280,19 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
   }
 
   if (setQuery.isPending || itemsQuery.isPending || metaQuery.isPending) {
-    return <LoadingPanel titleId={titleId}/>;
+    return <LoadingPanel titleId={titleId} />;
   }
 
   const queryError = setQuery.error ?? itemsQuery.error ?? metaQuery.error;
   if (queryError) {
     return <section className="set-piece-panel" aria-labelledby={titleId}>
-      <PanelHeading titleId={titleId} setName={recordId}/>
+      <PanelHeading titleId={titleId} />
       <div className="set-piece-error" role="alert">
-        <CircleAlert size={17}/>
+        <CircleAlert size={16} />
         <div>
           <strong>Could not load piece review</strong>
           <p>{queryError.message}</p>
-          <button className="button set-piece-button" type="button" onClick={() => { void setQuery.refetch(); void itemsQuery.refetch(); void metaQuery.refetch(); }}><RefreshCw size={14}/>Try again</button>
+          <button className="button button-small" type="button" onClick={() => { void setQuery.refetch(); void itemsQuery.refetch(); void metaQuery.refetch(); }}><RefreshCw size={13} />Try again</button>
         </div>
       </div>
     </section>;
@@ -298,9 +300,9 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
 
   if (!setRow) {
     return <section className="set-piece-panel" aria-labelledby={titleId}>
-      <PanelHeading titleId={titleId} setName={recordId}/>
+      <PanelHeading titleId={titleId} />
       <div className="set-piece-error" role="alert">
-        <CircleAlert size={17}/>
+        <CircleAlert size={16} />
         <div><strong>Armor set not found</strong><p>The saved set could not be matched to this record.</p></div>
       </div>
     </section>;
@@ -309,28 +311,18 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
   const setName = rowName(setRow, "id");
   const setStatus = metaQuery.data?.data.status ?? "draft";
   const saveDisabled = mutation.isPending || conflict || !metaQuery.data;
+  const candidates = metaQuery.data?.data.candidates ?? [];
+  const shownSlot = activeSlot && pieces.some(piece => piece.slot === activeSlot) ? activeSlot : pieces[0]?.slot;
+  const shownPiece = pieces.find(piece => piece.slot === shownSlot);
 
   return <section className="set-piece-panel" aria-labelledby={titleId}>
-    <header className="set-piece-header">
-      <div>
-        <p className="set-piece-eyebrow"><ShieldCheck size={14}/> Set review</p>
-        <h2 id={titleId}>Armor pieces</h2>
-        <p className="set-piece-subtitle">Review the saved members of {setName} one piece at a time.</p>
-      </div>
-      <div className="set-piece-status-summary">
-        <span>Set status</span>
-        <strong className={`set-piece-status set-piece-status-${statusClass(setStatus)}`}>{displayStatus(setStatus)}</strong>
-      </div>
-    </header>
+    <PanelHeading titleId={titleId} count={pieces.length} refreshing={metaQuery.isFetching}>
+      <span className="badge" data-tone={statusTone(setStatus)} title="Set status">{displayStatus(setStatus)}</span>
+    </PanelHeading>
 
-    {feedback && <div className={`set-piece-feedback${conflict ? " set-piece-feedback-conflict" : ""}`} role="alert"><CircleAlert size={15}/><span>{feedback}</span>{conflict && <button className="button set-piece-button set-piece-reload" type="button" onClick={reloadMetadata}><RefreshCw size={13}/>Reload metadata</button>}</div>}
+    {feedback && <div className={`set-piece-feedback${conflict ? " set-piece-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <button className="button button-small" type="button" onClick={reloadMetadata}><RefreshCw size={12} />Reload</button>}</div>}
 
-    <div className="set-piece-section-heading">
-      <div><h3>Member review</h3><p>{pieces.length} {pieces.length === 1 ? "piece" : "pieces"} linked to this set. Notes are saved with the set metadata.</p></div>
-      {metaQuery.isFetching && <LoaderCircle className="set-piece-spin" size={15} aria-label="Refreshing metadata"/>}
-    </div>
-
-    {pieces.length ? <ol className="set-piece-list" aria-label={`${setName} armor pieces`}>
+    {pieces.length ? <ol className="slot-grid set-piece-list" aria-label={`${setName} armor pieces`}>
       {pieces.map(({ slot, itemId }) => {
         const item = itemsById.get(itemId);
         const name = itemLabel(item, itemId);
@@ -338,28 +330,41 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
         const dirty = isDirty(slot);
         const statusId = `${titleId}-${slot}-status`;
         const noteId = `${titleId}-${slot}-note`;
-        return <li className={`set-piece-row${dirty ? " set-piece-row-dirty" : ""}`} key={slot}>
-          <a className="set-piece-item-link" href={itemPath(itemId)} aria-label={`Open ${name} item detail`}>
-            <ItemIcon id={itemId} name={name}/>
-            <span className="set-piece-item-copy"><span className="set-piece-slot">{slotLabel(slot)}</span><strong>{name}</strong><code>{itemId}</code></span>
-            <ExternalLink size={14} aria-hidden="true"/>
+        const candidateCount = candidates.filter(candidate => candidate.slot === slot).length;
+        return <li className={`panel set-piece-card${dirty ? " is-dirty" : ""}${shownSlot === slot ? " is-active" : ""}`} key={slot}>
+          <a className="set-piece-item-link" href={itemPath(itemId)} aria-label={`Open ${name} item detail`} title={`${name} · ${itemId}`}>
+            <Thumb spec={{ kind: "item", id: itemId }} size="l" />
+            <span className="set-piece-item-copy"><small>{slotLabel(slot)}</small><strong>{name}</strong></span>
+            <ExternalLink size={12} aria-hidden="true" />
           </a>
           <div className="set-piece-fields">
-            <label className="set-piece-field" htmlFor={statusId}><span>Status</span><select id={statusId} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label>
-            <label className="set-piece-field set-piece-note-field" htmlFor={noteId}><span>Note <em>Optional</em></span><textarea id={noteId} rows={2} value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Add a piece-specific note" disabled={saveDisabled}/></label>
-            <div className="set-piece-actions"><span className={`set-piece-dirty${dirty ? " is-dirty" : ""}`} aria-live="polite">{dirty ? "Unsaved changes" : "Saved"}</span><button className="button set-piece-button set-piece-save" type="button" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={13}/>{mutation.isPending ? "Saving..." : "Save piece"}</button></div>
-            <div className="set-piece-assets"><AssetCandidates collection={collection} entityId={recordId} slot={slot} targetLabel={`${setName} / ${slotLabel(slot)} / ${name}`} compact/></div>
+            <label className="select set-piece-status" htmlFor={statusId}><span className="sr-only">Status</span><select id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label>
+            <label className="set-piece-note" htmlFor={noteId}><span className="sr-only">Note</span><textarea id={noteId} rows={2} value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Note (optional)" disabled={saveDisabled} /></label>
+          </div>
+          <div className="set-piece-actions">
+            <button type="button" className={`filter-chip${shownSlot === slot ? " is-active" : ""}`} aria-pressed={shownSlot === slot} onClick={() => setActiveSlot(slot)} title="Show asset candidates for this piece"><Images size={11} />{candidateCount}</button>
+            <span className={`badge set-piece-dirty${dirty ? " is-dirty" : ""}`} data-tone={dirty ? "warn" : undefined} aria-live="polite">{dirty ? "Unsaved" : "Saved"}</span>
+            <button className="button button-small button-primary set-piece-save" type="button" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={12} />{mutation.isPending ? "Saving…" : "Save"}</button>
           </div>
         </li>;
       })}
-    </ol> : <div className="set-piece-empty"><strong>No armor members are saved</strong><p>This set does not have any linked pieces to review.</p></div>}
+    </ol> : <p className="empty-inline">No armor members are saved on this set.</p>}
+
+    {shownPiece && <div className="set-piece-assets">
+      <AssetCandidates key={shownPiece.slot} collection={collection} entityId={recordId} slot={shownPiece.slot} targetLabel={`${setName} / ${slotLabel(shownPiece.slot)} / ${itemLabel(itemsById.get(shownPiece.itemId), shownPiece.itemId)}`} compact />
+    </div>}
   </section>;
 }
 
-function PanelHeading({ titleId, setName }: { titleId: string; setName: string }) {
-  return <header className="set-piece-header"><div><p className="set-piece-eyebrow"><ShieldCheck size={14}/> Set review</p><h2 id={titleId}>Armor pieces</h2><p className="set-piece-subtitle">Loading the saved members of {setName}.</p></div><LoaderCircle className="set-piece-spin" size={17} aria-label="Loading piece review"/></header>;
+function PanelHeading({ titleId, count, refreshing = false, loading = false, children }: { titleId: string; count?: number; refreshing?: boolean; loading?: boolean; children?: React.ReactNode }) {
+  return <header className="set-piece-header">
+    <h2 id={titleId}>Pieces</h2>
+    {count !== undefined && <span className="count-badge">{count}</span>}
+    {(refreshing || loading) && <LoaderCircle className="set-piece-spin" size={13} aria-label={loading ? "Loading piece review" : "Refreshing metadata"} />}
+    <div className="set-piece-header-actions">{children}</div>
+  </header>;
 }
 
 function LoadingPanel({ titleId }: { titleId: string }) {
-  return <section className="set-piece-panel" aria-labelledby={titleId} aria-busy="true"><PanelHeading titleId={titleId} setName="this set"/><div className="set-piece-loading" role="status" aria-label="Loading armor pieces"><span/><span/><span/><span/></div></section>;
+  return <section className="set-piece-panel" aria-labelledby={titleId} aria-busy="true"><PanelHeading titleId={titleId} loading /><div className="slot-grid set-piece-loading" role="status" aria-label="Loading armor pieces"><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /></div></section>;
 }

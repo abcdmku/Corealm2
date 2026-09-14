@@ -5,6 +5,7 @@ import { apiGet } from "../api/client.js";
 import type { AppProps } from "../model/contracts.js";
 import RequestsPage from "../dev/RequestsPage.js";
 import ReviewPage from "../dev/ReviewPage.js";
+import "../styles/review.css";
 
 interface RequestsResponse { requests?: unknown[] }
 interface GitStatusResponse { changes?: unknown[] }
@@ -28,25 +29,22 @@ export default function WorkQueuePage({ navigate }: AppProps) {
   });
   const requestCount = Array.isArray(requests.data?.requests) ? requests.data.requests.length : "—";
   const changeCount = Array.isArray(changes.data?.changes) ? changes.data.changes.length : "—";
+  const refreshing = requests.isFetching || changes.isFetching;
 
-  return <section className="review-page" aria-labelledby="work-queue-title">
-    <header className="review-header">
-      <div className="review-header-copy">
-        <span className="review-eyebrow"><ClipboardList size={14} /> Authoring queue</span>
-        <h1 id="work-queue-title">Work queue</h1>
-        <p>Keep incoming record work and local content changes in one place. Open a request to work on a record, or review the files waiting in this checkout.</p>
+  return <section className="page work-queue" aria-labelledby="work-queue-title">
+    <div className="page-heading">
+      <h1 id="work-queue-title">Work queue</h1>
+      <span className="badge" data-tone={typeof requestCount === "number" && requestCount > 0 ? "warn" : undefined}>{requestCount} {requestCount === 1 ? "request" : "requests"}</span>
+      <span className="badge" data-tone={typeof changeCount === "number" && changeCount > 0 ? "info" : undefined}>{changeCount} changed {changeCount === 1 ? "file" : "files"}</span>
+      {refreshing && <span role="status" aria-label="Refreshing work queue" className="muted" style={{ display: "inline-flex" }}><RefreshCw size={13} className="review-spin" /></span>}
+      <div className="page-heading-actions">
+        <div className="segmented" role="tablist" aria-label="Work queue views">
+          <button type="button" role="tab" aria-selected={view === "requests"} className={view === "requests" ? "is-active" : ""} onClick={() => setView("requests")}><ClipboardList size={13} />Requests</button>
+          <button type="button" role="tab" aria-selected={view === "review"} className={view === "review" ? "is-active" : ""} onClick={() => setView("review")}><FileDiff size={13} />Changes</button>
+        </div>
       </div>
-      <dl className="review-summary" aria-label="Work queue summary">
-        <div><dt>Requests</dt><dd>{requestCount}</dd></div>
-        <div><dt>Changed files</dt><dd>{changeCount}</dd></div>
-      </dl>
-    </header>
-    <nav aria-label="Work queue views" style={{ display: "flex", gap: 8, marginTop: 22, borderBottom: "1px solid var(--border)" }}>
-      <button type="button" role="tab" aria-selected={view === "requests"} className={view === "requests" ? "review-requests-link" : "review-action"} onClick={() => setView("requests")}><ClipboardList size={14} />Requests</button>
-      <button type="button" role="tab" aria-selected={view === "review"} className={view === "review" ? "review-requests-link" : "review-action"} onClick={() => setView("review")}><FileDiff size={14} />Changes and validation</button>
-      {(requests.isFetching || changes.isFetching) && <span role="status" aria-label="Refreshing work queue" style={{ display: "inline-flex", alignItems: "center", marginLeft: "auto", color: "var(--muted)" }}><RefreshCw size={14} className="review-spin" /></span>}
-    </nav>
-    <div role="tabpanel" aria-label={view === "requests" ? "Requests" : "Changes and validation"} style={{ marginTop: 18, marginLeft: -36, marginRight: -36 }}>
+    </div>
+    <div role="tabpanel" aria-label={view === "requests" ? "Requests" : "Changes and validation"}>
       {view === "requests" ? <RequestsPage navigate={navigate} /> : <ReviewPage navigate={navigate} />}
     </div>
   </section>;

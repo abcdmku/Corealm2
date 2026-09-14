@@ -82,11 +82,11 @@ function DiffRecord({ diff }: { diff: BulkResponse["diffs"][number] }) {
   const changes = changedFields(diff.before, diff.after);
   const shown = changes.slice(0, 10);
   return <article className="bulk-diff-row">
-    <div className="bulk-diff-record"><code>{diff.recordId}</code><span>{changes.length} changed</span></div>
+    <div className="bulk-diff-record"><code>{diff.recordId}</code><span className="badge badge-mono">{changes.length}</span></div>
     <div className="bulk-diff-values">
-      {shown.map(change => <div className="bulk-diff-change" key={change.key}><code>{change.key}</code><span className="bulk-diff-before">{formatValue(change.before)}</span><ArrowRight size={13} aria-hidden="true" /><span className="bulk-diff-after">{formatValue(change.after)}</span></div>)}
-      {changes.length > shown.length && <small>{changes.length - shown.length} more field changes</small>}
-      {!changes.length && <span className="bulk-diff-empty">The server returned no changed fields for this row.</span>}
+      {shown.map(change => <div className="bulk-diff-change" key={change.key}><code>{change.key}</code><span className="bulk-diff-before">{formatValue(change.before)}</span><ArrowRight size={11} aria-hidden="true" /><span className="bulk-diff-after">{formatValue(change.after)}</span></div>)}
+      {changes.length > shown.length && <small>+{changes.length - shown.length} more</small>}
+      {!changes.length && <span className="bulk-diff-empty">No changed fields.</span>}
     </div>
   </article>;
 }
@@ -190,39 +190,46 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
     }
   }
 
-  return <section className="bulk-actions" aria-labelledby="bulk-actions-title">
-    <header className="bulk-actions-header">
-      <div><p className="bulk-eyebrow">Batch editor</p><h2 id="bulk-actions-title">Bulk actions</h2><p>Choose one action, preview every changed row, then apply the reviewed batch.</p></div>
-      <div className="bulk-selection-metrics" aria-label="Selection details"><span><strong>{selectedIds.length}</strong> selected</span>{withoutNumericTierCount > 0 && <span><strong>{withoutNumericTierCount}</strong> without owned numeric tier</span>}</div>
+  const diffCount = currentPreview?.response.diffs.length ?? 0;
+
+  return <section className="panel bulk-actions" aria-labelledby="bulk-actions-title">
+    <header className="panel-header">
+      <h2 id="bulk-actions-title">Bulk actions</h2>
+      <span className="badge" data-tone="accent" aria-label="Selection details">{selectedIds.length} selected</span>
+      {withoutNumericTierCount > 0 && <span className="badge" data-tone="warn" title="Retier needs an owned numeric tier">{withoutNumericTierCount} without tier</span>}
+      {busy === "preview" && <LoaderCircle className="bulk-spinner" size={13} aria-label="Calculating preview" />}
     </header>
-    <form className="bulk-actions-form" onSubmit={event => { event.preventDefault(); void request("preview"); }} noValidate>
-      <div className="bulk-form-grid">
-        <label className="bulk-field"><span>Bulk action</span><select value={actionKind} onChange={event => setActionKind(event.target.value as ActionKind)} disabled={Boolean(busy)}><option value="status">Set status</option><option value="note">Add note</option><option value="retier" disabled={!canRetier}>Retier records{canRetier ? "" : " (numeric tier required)"}</option></select></label>
-        {actionKind === "status" && <label className="bulk-field"><span>New status</span><select value={status} onChange={event => setStatus(event.target.value as AuthoredStatus)} disabled={Boolean(busy)}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label>}
+    <form className="panel-body bulk-actions-form" onSubmit={event => { event.preventDefault(); void request("preview"); }} noValidate>
+      <div className="bulk-form-row">
+        <label className="select"><span className="sr-only">Bulk action</span><select aria-label="Bulk action" value={actionKind} onChange={event => setActionKind(event.target.value as ActionKind)} disabled={Boolean(busy)}><option value="status">Set status</option><option value="note">Add note</option><option value="retier" disabled={!canRetier}>Retier records{canRetier ? "" : " (numeric tier required)"}</option></select></label>
+        {actionKind === "status" && <label className="select"><span className="sr-only">New status</span><select aria-label="New status" value={status} onChange={event => setStatus(event.target.value as AuthoredStatus)} disabled={Boolean(busy)}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label>}
         {actionKind === "note" && <>
-          <label className="bulk-field bulk-field-wide"><span>Note text</span><textarea value={noteText} onChange={event => setNoteText(event.target.value)} placeholder="Add context for the selected records" rows={3} disabled={Boolean(busy)} aria-describedby="bulk-note-help" /><small id="bulk-note-help">The note is added to each selected record.</small></label>
-          <label className="bulk-field"><span>Note label <em>optional</em></span><input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="For example, art review" disabled={Boolean(busy)} /></label>
+          <label className="field-input bulk-note-text"><span className="sr-only">Note text</span><textarea aria-label="Note text" value={noteText} onChange={event => setNoteText(event.target.value)} placeholder="Note added to each selected record" rows={1} disabled={Boolean(busy)} aria-describedby="bulk-note-help" /></label>
+          <label className="field-input bulk-note-label"><span className="sr-only">Note label</span><input aria-label="Note label" value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={Boolean(busy)} /></label>
+          <span id="bulk-note-help" className="sr-only">The note is added to each selected record.</span>
         </>}
         {actionKind === "retier" && <>
-          <label className="bulk-field"><span>New tier</span><input type="number" min={1} step={1} inputMode="numeric" value={retierTierText} onChange={event => setRetierTierText(event.target.value)} placeholder="1" disabled={Boolean(busy)} aria-describedby="bulk-retier-help" /></label>
-          <p id="bulk-retier-help">Preview recalculates generated values at the new tier. Explicit adjustments stay on their authored records.</p>
+          <label className="field-input bulk-tier"><span className="sr-only">New tier</span><input aria-label="New tier" type="number" min={1} step={1} inputMode="numeric" value={retierTierText} onChange={event => setRetierTierText(event.target.value)} placeholder="Tier" disabled={Boolean(busy)} aria-describedby="bulk-retier-help" /></label>
+          <small id="bulk-retier-help" className="bulk-hint">Generated values recalculate at the new tier; explicit adjustments stay.</small>
         </>}
+        <span className="bulk-form-spacer" />
+        <button type="submit" className="button button-small button-primary" disabled={!canPreview}><Eye size={13} />{busy === "preview" ? "Previewing…" : currentPreview ? "Refresh preview" : "Preview"}</button>
       </div>
-      {validationMessage && <p className="bulk-validation" role="alert"><CircleAlert size={14} />{validationMessage}</p>}
-      {error && <div className={`bulk-feedback${error.conflict ? " bulk-feedback-conflict" : ""}`} role="alert"><CircleAlert size={15} /><div><strong>{error.message}</strong>{error.diagnostics.length > 0 && <ul>{error.diagnostics.map((diagnostic, index) => <li key={`${diagnostic.path}:${index}`}><code>{diagnostic.path || "content"}</code><span>{diagnostic.message}</span></li>)}</ul>}</div></div>}
-      <div className="bulk-form-actions"><p>Previewing does not write content or metadata.</p><button type="submit" className="bulk-button bulk-button-primary" disabled={!canPreview}><Eye size={14} />{busy === "preview" ? "Previewing..." : currentPreview ? "Refresh preview" : "Preview changes"}</button></div>
+      {validationMessage && <p className="bulk-validation" role="alert"><CircleAlert size={12} />{validationMessage}</p>}
+      {error && <div className={`bulk-feedback${error.conflict ? " bulk-feedback-conflict" : ""}`} role="alert"><CircleAlert size={13} /><div><strong>{error.message}</strong>{error.diagnostics.length > 0 && <ul>{error.diagnostics.map((diagnostic, index) => <li key={`${diagnostic.path}:${index}`}><code>{diagnostic.path || "content"}</code><span>{diagnostic.message}</span></li>)}</ul>}</div></div>}
     </form>
-    <section className="bulk-preview" aria-labelledby="bulk-preview-title">
-      <header className="bulk-preview-header"><div><h3 id="bulk-preview-title">Review before apply</h3><p>{currentPreview ? `${currentPreview.response.diffs.length} row${currentPreview.response.diffs.length === 1 ? "" : "s"} with changes` : "A preview is required before anything can be applied."}</p></div>{busy === "preview" && <LoaderCircle className="bulk-spinner" size={16} aria-label="Calculating preview" />}</header>
-      {currentPreview?.stale && <p className="bulk-stale" role="status"><RefreshCw size={14} />This preview is out of date. Refresh it before applying.</p>}
-      {!currentPreview && !error && <p className="bulk-preview-empty">No preview yet. Choose an action and review the proposed rows here.</p>}
-      {currentPreview && !currentPreview.response.diffs.length && <p className="bulk-preview-empty bulk-preview-clean" role="status"><Check size={16} />No selected rows would change.</p>}
-      {currentPreview && currentPreview.response.diffs.length > 0 && <>
-        <div className="bulk-diff-legend"><span>Record</span><span>Before <ArrowRight size={12} /> After</span></div>
+    {(currentPreview || (!error && selectedIds.length > 0)) && <section className="bulk-preview" aria-labelledby="bulk-preview-title">
+      <header className="bulk-preview-header">
+        <h3 id="bulk-preview-title">Preview</h3>
+        {currentPreview ? <span className="count-badge">{diffCount} {diffCount === 1 ? "row" : "rows"} change</span> : <span className="count-badge">none yet</span>}
+        {currentPreview?.stale && <span className="badge" data-tone="warn" role="status"><RefreshCw size={11} />Out of date</span>}
+        {currentPreview && diffCount > 0 && <div className="panel-header-actions"><button type="button" className="button button-small button-primary" disabled={!canApply} onClick={() => void request("apply")}>{busy === "apply" ? "Applying…" : `Apply to ${diffCount}`}</button></div>}
+      </header>
+      {currentPreview && !diffCount && <p className="empty-inline bulk-preview-clean" role="status"><Check size={13} />No selected rows would change.</p>}
+      {currentPreview && diffCount > 0 && <>
         <div className="bulk-diff-list">{currentPreview.response.diffs.slice(0, 40).map(diff => <DiffRecord key={diff.recordId} diff={diff} />)}</div>
-        {currentPreview.response.diffs.length > 40 && <p className="bulk-diff-more">Showing 40 of {currentPreview.response.diffs.length} changed rows. Apply covers the full preview.</p>}
-        <footer className="bulk-apply-row"><p>Apply this reviewed batch to all {currentPreview.response.diffs.length} changed rows.</p><button type="button" className="bulk-button bulk-button-apply" disabled={!canApply} onClick={() => void request("apply")}>{busy === "apply" ? "Applying..." : "Apply reviewed changes"}</button></footer>
+        {diffCount > 40 && <p className="empty-inline bulk-diff-more">Showing 40 of {diffCount}. Apply covers the full preview.</p>}
       </>}
-    </section>
+    </section>}
   </section>;
 }

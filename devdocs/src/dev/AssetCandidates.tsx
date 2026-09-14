@@ -13,6 +13,7 @@ import "./assetCandidates.css";
 const BODY_VALUES = ["male", "female", "creature"] as const;
 type CandidateBody = (typeof BODY_VALUES)[number];
 type CandidateStatus = MetaCandidate["status"];
+type Tone = "accent" | "ok" | "warn" | "danger" | "info" | undefined;
 
 export interface AssetCandidatesProps {
   /** When omitted, this is the review queue and shows candidates across all targets. */
@@ -137,6 +138,10 @@ function statusLabel(value: CandidateStatus): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+function statusTone(value: CandidateStatus): Tone {
+  return value === "candidate" ? "info" : value === "approved" ? "accent" : value === "live" ? "ok" : value === "rejected" ? "danger" : undefined;
+}
+
 function targetLabelFor(candidate: AssetCandidateView): string {
   return `${candidate.collection} / ${candidate.entityId}${candidate.slot ? ` / ${candidate.slot}` : ""}`;
 }
@@ -205,7 +210,7 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
     const rows = candidatesQuery.data?.candidates ?? [];
     return slot ? rows.filter(candidate => candidate.slot === slot) : rows;
   }, [candidatesQuery.data?.candidates, slot]);
-  const title = target ? targetLabel ?? `Asset candidates for ${collection} / ${entityId}` : "Asset candidate review";
+  const title = target ? targetLabel ?? `Asset candidates for ${collection} / ${entityId}` : "Asset candidates";
 
   function selectFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selected = event.target.files?.[0];
@@ -236,33 +241,32 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
     actionMutation.mutate({ candidateId: candidate.candidateId, revision: candidate.revision, action: "promote" });
   }
 
-  return <section className={`asset-candidates${compact ? " asset-candidates-compact" : ""}`} aria-labelledby={titleId}>
-    <header className="asset-candidates-header">
-      <div>
-        <p className="asset-candidates-eyebrow"><GitCompareArrows size={14}/> Asset workflow</p>
-        <h3 id={titleId}>{title}</h3>
-        <p className="asset-candidates-subtitle">Upload, compare, review, and promote one inspected candidate at a time.</p>
-      </div>
-      <div className="asset-candidates-header-actions"><span className="asset-candidates-count">{candidatesQuery.isPending ? "…" : `${candidates.length} ${candidates.length === 1 ? "candidate" : "candidates"}`}</span><button type="button" className="asset-candidates-icon-button" aria-label="Refresh asset candidates" onClick={refresh} disabled={candidatesQuery.isFetching}><RefreshCw size={14} className={candidatesQuery.isFetching ? "asset-candidates-spin" : undefined}/></button></div>
+  return <section className={`asset-candidates${compact ? " asset-candidates-compact" : " panel"}`} aria-labelledby={titleId}>
+    <header className={compact ? "asset-candidates-header" : "panel-header asset-candidates-header"}>
+      <GitCompareArrows size={14} />
+      <h3 id={titleId} className="asset-candidates-title" title={title}>{title}</h3>
+      <span className="count-badge">{candidatesQuery.isPending ? "…" : candidates.length}</span>
+      <div className="panel-header-actions"><button type="button" className="icon-button" aria-label="Refresh asset candidates" onClick={refresh} disabled={candidatesQuery.isFetching}><RefreshCw size={13} className={candidatesQuery.isFetching ? "asset-candidates-spin" : undefined} /></button></div>
     </header>
 
-    {feedback && <div className="asset-candidates-feedback" role="status"><ShieldCheck size={15}/><span>{feedback}</span><button type="button" aria-label="Dismiss asset feedback" onClick={() => setFeedback(undefined)}><X size={14}/></button></div>}
+    <div className={compact ? "asset-candidates-body" : "panel-body asset-candidates-body"}>
+      {feedback && <div className="asset-candidates-feedback" role="status"><ShieldCheck size={13} /><span>{feedback}</span><button type="button" className="icon-button" aria-label="Dismiss asset feedback" onClick={() => setFeedback(undefined)}><X size={13} /></button></div>}
 
-    {showUpload && target && <form className="asset-upload-form" onSubmit={submitUpload}>
-      <div className="asset-upload-copy"><UploadCloud size={18}/><div><strong>Upload a candidate</strong><p>GLB files are inspected and kept under the local candidate archive until review.</p></div></div>
-      <label className="asset-upload-file"><FileUp size={15}/><span>{file?.name ?? "Choose a GLB file"}</span><input ref={fileInput} type="file" accept=".glb,model/gltf-binary" onChange={selectFile}/></label>
-      <label className="asset-upload-field"><span>Body <em>Optional</em></span><select value={uploadBody} onChange={event => setUploadBody(event.target.value as CandidateBody | "")}><option value="">Any</option>{BODY_VALUES.map(value => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</select></label>
-      <label className="asset-upload-field asset-upload-source"><span>Source <em>Optional</em></span><input value={source} onChange={event => setSource(event.target.value)} placeholder="Pack, URL, or local source"/></label>
-      <button type="submit" className="asset-candidates-button asset-upload-submit" disabled={uploadMutation.isPending || !metaQuery.data}><UploadCloud size={14}/>{uploadMutation.isPending ? "Inspecting…" : "Upload candidate"}</button>
-      {formError && <p className="asset-candidates-form-error" role="alert"><CircleAlert size={14}/>{formError}</p>}
-    </form>}
+      {showUpload && target && <form className="asset-upload-form" onSubmit={submitUpload}>
+        <label className="button button-small asset-upload-file"><FileUp size={13} /><span>{file?.name ?? "Choose GLB…"}</span><input ref={fileInput} type="file" accept=".glb,model/gltf-binary" onChange={selectFile} aria-label="Candidate GLB file" /></label>
+        <label className="select"><span className="sr-only">Body</span><select aria-label="Body" value={uploadBody} onChange={event => setUploadBody(event.target.value as CandidateBody | "")}><option value="">Any body</option>{BODY_VALUES.map(value => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</select></label>
+        <label className="field-input asset-upload-source"><span className="sr-only">Source</span><input aria-label="Source" value={source} onChange={event => setSource(event.target.value)} placeholder="Source (pack, URL…)" /></label>
+        <button type="submit" className="button button-small button-primary" disabled={uploadMutation.isPending || !metaQuery.data}><UploadCloud size={13} />{uploadMutation.isPending ? "Inspecting…" : "Upload"}</button>
+        {formError && <p className="asset-candidates-form-error" role="alert"><CircleAlert size={12} />{formError}</p>}
+      </form>}
 
-    {!target && showUpload && <p className="asset-candidates-queue-note">Open a record to upload a new file. The queue below can still compare, approve, reject, and promote existing candidates.</p>}
+      {!target && showUpload && <p className="empty-inline">Open a record to upload a new file.</p>}
 
-    {candidatesQuery.isPending ? <div className="asset-candidates-loading" role="status"><LoaderCircle size={17} className="asset-candidates-spin"/><span>Loading candidates…</span></div>
-      : candidatesQuery.isError ? <div className="asset-candidates-error" role="alert"><CircleAlert size={17}/><div><strong>Could not load candidates</strong><p>{candidatesQuery.error.message}</p><button type="button" className="asset-candidates-button" onClick={refresh}>Try again</button></div></div>
-      : candidates.length ? <div className="asset-candidate-list">{candidates.map(candidate => <CandidateCard key={candidate.candidateId} candidate={candidate} currentAssetId={currentAssetId} approving={actionMutation.isPending && actionMutation.variables?.candidateId === candidate.candidateId} approvalBody={approvalBody[candidate.candidateId]} onApprovalBody={value => setApprovalBody(previous => ({ ...previous, [candidate.candidateId]: value }))} rejecting={rejecting === candidate.candidateId} reason={rejectReason} onReason={setRejectReason} onStartReject={() => { setRejecting(candidate.candidateId); setRejectReason(""); setFeedback(undefined); }} onCancelReject={() => { setRejecting(undefined); setRejectReason(""); }} onApprove={() => approve(candidate)} onReject={() => reject(candidate)} onPromote={() => promote(candidate)}/>)}</div>
-      : <div className="asset-candidates-empty"><GitCompareArrows size={19}/><strong>No candidates for this target</strong><p>Upload a GLB to start the review path.</p></div>}
+      {candidatesQuery.isPending ? <div className="asset-candidates-loading" role="status"><LoaderCircle size={14} className="asset-candidates-spin" /><span>Loading candidates…</span></div>
+        : candidatesQuery.isError ? <div className="asset-candidates-error" role="alert"><CircleAlert size={15} /><div><strong>Could not load candidates</strong><p>{candidatesQuery.error.message}</p><button type="button" className="button button-small" onClick={refresh}>Try again</button></div></div>
+        : candidates.length ? <div className="tile-grid asset-candidate-list">{candidates.map(candidate => <CandidateCard key={candidate.candidateId} candidate={candidate} currentAssetId={currentAssetId} approving={actionMutation.isPending && actionMutation.variables?.candidateId === candidate.candidateId} approvalBody={approvalBody[candidate.candidateId]} onApprovalBody={value => setApprovalBody(previous => ({ ...previous, [candidate.candidateId]: value }))} rejecting={rejecting === candidate.candidateId} reason={rejectReason} onReason={setRejectReason} onStartReject={() => { setRejecting(candidate.candidateId); setRejectReason(""); setFeedback(undefined); }} onCancelReject={() => { setRejecting(undefined); setRejectReason(""); }} onApprove={() => approve(candidate)} onReject={() => reject(candidate)} onPromote={() => promote(candidate)} />)}</div>
+        : <p className="empty-inline">{target ? "No candidates for this target." : "No candidates waiting."}</p>}
+    </div>
   </section>;
 }
 
@@ -280,26 +284,35 @@ function CandidateCard({ candidate, currentAssetId, approving, approvalBody, onA
   onApprove: () => void;
   onReject: () => void;
   onPromote: () => void;
-  }) {
-    const approvals = approvalValues(candidate);
-    const setCandidate = candidate.collection === "equipmentSets" && candidate.kind === "glb";
-    const canApprove = candidate.status === "candidate" || candidate.status === "draft";
-    const isActionBusy = approving;
-    const [comparisonOpen, setComparisonOpen] = useState(false);
-   const approvalChoice = approvalBody ?? (candidate.body === "female" ? "female" : "male");
-    return <article className={`asset-candidate-card asset-candidate-status-${candidate.status}`}>
-    <header className="asset-candidate-card-header"><div><div className="asset-candidate-meta"><span className={`asset-candidate-status asset-candidate-status-chip-${candidate.status}`}>{candidate.status === "approved" ? <Check size={12}/> : null}{statusLabel(candidate.status)}</span><code>{candidate.candidateId}</code></div><strong>{targetLabelFor(candidate)}</strong><p>{bytesLabel(candidate.bytes)} · uploaded {timestamp(candidate.uploadedAt)}{candidate.uploadedBy ? ` by ${candidate.uploadedBy}` : ""}</p></div><span className="asset-candidate-hash" title={candidate.sha256}>{candidate.sha256.slice(0, 12)}…</span></header>
-    <div className="asset-candidate-details"><dl><div><dt>Slot</dt><dd>{candidate.slot ?? "Any"}</dd></div><div><dt>Body</dt><dd>{candidate.body ?? "Any"}</dd></div><div><dt>Materials</dt><dd>{candidate.materials?.length ?? 0}</dd></div><div><dt>Animations</dt><dd>{candidate.animations?.length ?? 0}</dd></div></dl>{candidate.reasons?.length ? <p className="asset-candidate-reason"><strong>Review reasons</strong>{candidate.reasons.join(" · ")}</p> : null}</div>
-    {setCandidate && <div className="asset-candidate-approvals"><span>Set sign-off</span><span className={approvals.male ? "is-approved" : ""}><span className="asset-candidate-dot"/>Male</span><span className={approvals.female ? "is-approved" : ""}><span className="asset-candidate-dot"/>Female</span></div>}
-    <div className="asset-candidate-actions">
-      {canApprove && <>{setCandidate && <label className="asset-candidate-body-select"><span>Sign off</span><select aria-label={`Sign off body for ${candidate.candidateId}`} value={approvalChoice} onChange={event => onApprovalBody(event.target.value as CandidateBody)}><option value="male">Male</option><option value="female">Female</option></select></label>}<button type="button" className="asset-candidates-button asset-candidate-approve" onClick={onApprove} disabled={isActionBusy}><ShieldCheck size={14}/>{isActionBusy ? "Saving…" : setCandidate ? "Save sign-off" : "Approve"}</button></>}
-      {candidate.status === "approved" && candidate.kind === "glb" && <button type="button" className="asset-candidates-button asset-candidate-promote" onClick={onPromote} disabled={isActionBusy}><ArrowRight size={14}/>{isActionBusy ? "Promoting…" : "Promote to live"}</button>}
-      {candidate.status !== "live" && candidate.status !== "rejected" && !rejecting && <button type="button" className="asset-candidates-button asset-candidate-reject" onClick={onStartReject} disabled={isActionBusy}>Reject</button>}
-      {candidate.status === "live" && <span className="asset-candidate-live"><Check size={13}/> Live in manifest</span>}
+}) {
+  const approvals = approvalValues(candidate);
+  const setCandidate = candidate.collection === "equipmentSets" && candidate.kind === "glb";
+  const canApprove = candidate.status === "candidate" || candidate.status === "draft";
+  const isActionBusy = approving;
+  const [comparisonOpen, setComparisonOpen] = useState(false);
+  const approvalChoice = approvalBody ?? (candidate.body === "female" ? "female" : "male");
+  return <article className={`panel asset-candidate-card asset-candidate-status-${candidate.status}`}>
+    <header className="asset-candidate-card-header">
+      <span className="badge" data-tone={statusTone(candidate.status)}>{candidate.status === "approved" ? <Check size={11} /> : null}{statusLabel(candidate.status)}</span>
+      <span className="badge badge-mono">{candidate.kind}</span>
+      <code className="asset-candidate-hash" title={`${candidate.candidateId} · ${candidate.sha256}`}>{candidate.sha256.slice(0, 10)}</code>
+    </header>
+    <div className="asset-candidate-copy">
+      <strong title={candidate.candidateId}>{targetLabelFor(candidate)}</strong>
+      <span className="asset-candidate-meta">{bytesLabel(candidate.bytes)} · {timestamp(candidate.uploadedAt)}{candidate.uploadedBy ? ` · ${candidate.uploadedBy}` : ""}</span>
+      <span className="asset-candidate-meta">Slot {candidate.slot ?? "any"} · Body {candidate.body ?? "any"} · {candidate.materials?.length ?? 0} materials · {candidate.animations?.length ?? 0} clips</span>
+      {candidate.reasons?.length ? <span className="asset-candidate-reason" title={candidate.reasons.join(" · ")}>{candidate.reasons.join(" · ")}</span> : null}
     </div>
-    {rejecting && <div className="asset-candidate-reject-form"><label htmlFor={`${candidate.candidateId}-reason`}>Reason</label><textarea id={`${candidate.candidateId}-reason`} rows={2} value={reason} onChange={event => onReason(event.target.value)} placeholder="Explain what needs to change"/><div><button type="button" className="asset-candidates-button asset-candidate-reject" onClick={onReject} disabled={isActionBusy}>Save rejection</button><button type="button" className="asset-candidates-button" onClick={onCancelReject}>Cancel</button></div></div>}
+    {setCandidate && <div className="asset-candidate-approvals" aria-label="Set sign-off"><span className="badge" data-tone={approvals.male ? "ok" : undefined}>{approvals.male && <Check size={10} />}Male</span><span className="badge" data-tone={approvals.female ? "ok" : undefined}>{approvals.female && <Check size={10} />}Female</span></div>}
+    <div className="asset-candidate-actions">
+      {canApprove && <>{setCandidate && <label className="select"><span className="sr-only">Sign off</span><select aria-label={`Sign off body for ${candidate.candidateId}`} value={approvalChoice} onChange={event => onApprovalBody(event.target.value as CandidateBody)}><option value="male">Male</option><option value="female">Female</option></select></label>}<button type="button" className="button button-small button-primary" onClick={onApprove} disabled={isActionBusy}><ShieldCheck size={12} />{isActionBusy ? "Saving…" : setCandidate ? "Sign off" : "Approve"}</button></>}
+      {candidate.status === "approved" && candidate.kind === "glb" && <button type="button" className="button button-small" onClick={onPromote} disabled={isActionBusy}><ArrowRight size={12} />{isActionBusy ? "Promoting…" : "Promote to live"}</button>}
+      {candidate.status !== "live" && candidate.status !== "rejected" && !rejecting && <button type="button" className="button button-small button-ghost button-danger" onClick={onStartReject} disabled={isActionBusy}>Reject</button>}
+      {candidate.status === "live" && <span className="badge" data-tone="ok"><Check size={11} /> Live in manifest</span>}
+    </div>
+    {rejecting && <div className="asset-candidate-reject-form"><label htmlFor={`${candidate.candidateId}-reason`} className="sr-only">Reason</label><textarea id={`${candidate.candidateId}-reason`} rows={2} value={reason} onChange={event => onReason(event.target.value)} placeholder="Reason for rejecting…" /><div><button type="button" className="button button-small button-danger" onClick={onReject} disabled={isActionBusy}>Save rejection</button><button type="button" className="button button-small button-ghost" onClick={onCancelReject}>Cancel</button></div></div>}
     {candidate.kind === "glb"
-      ? <details className="asset-candidate-compare" open={comparisonOpen} onToggle={event => setComparisonOpen(event.currentTarget.open)}><summary><GitCompareArrows size={14}/> Compare candidate{currentAssetId ? " with live asset" : " preview"}</summary>{comparisonOpen && <div className={`asset-candidate-viewers${currentAssetId ? " has-live" : ""}`}>{currentAssetId && <AssetViewer source={{ mode: "asset", assetId: currentAssetId }} label="Live asset"/>}<AssetViewer source={{ mode: "glb", url: candidate.fileUrl }} label="Candidate asset"/></div>}</details>
-      : <a className="asset-candidate-file-link" href={candidate.fileUrl} target="_blank" rel="noreferrer">Open icon candidate</a>}
+      ? <details className="asset-candidate-compare" open={comparisonOpen} onToggle={event => setComparisonOpen(event.currentTarget.open)}><summary><GitCompareArrows size={12} /> Compare{currentAssetId ? " with live asset" : " preview"}</summary>{comparisonOpen && <div className={`asset-candidate-viewers${currentAssetId ? " has-live" : ""}`}>{currentAssetId && <AssetViewer source={{ mode: "asset", assetId: currentAssetId }} label="Live asset" />}<AssetViewer source={{ mode: "glb", url: candidate.fileUrl }} label="Candidate asset" /></div>}</details>
+      : <a className="text-button asset-candidate-file-link" href={candidate.fileUrl} target="_blank" rel="noreferrer">Open icon candidate</a>}
   </article>;
 }

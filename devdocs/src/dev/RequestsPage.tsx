@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { CircleAlert, LoaderCircle, RefreshCw, Search } from "lucide-react";
+import { CircleAlert, LoaderCircle, RefreshCw, Search, X } from "lucide-react";
 import { apiGet } from "../api/client.js";
 import type { MetaRequest, MetaNote } from "../../shared/metaContracts.js";
+import { findRecord, refKindForCollection, summaryContext, useReferenceIndex } from "../model/refs.js";
+import { RefChip } from "../ui/RefChip.js";
+import { labelFor } from "../ui/library.js";
 import "./requests.css";
 
 export interface RequestsPageProps {
@@ -25,6 +28,7 @@ interface RequestEntry {
 const REQUEST_KINDS = ["art", "balance", "placement", "audio", "text"] as const;
 type RequestKind = (typeof REQUEST_KINDS)[number];
 type StateFilter = "all" | MetaRequest["state"];
+type Tone = "accent" | "ok" | "warn" | "danger" | "info" | undefined;
 
 function displayKind(kind: MetaRequest["kind"]): string {
   return kind.charAt(0).toUpperCase() + kind.slice(1);
@@ -34,11 +38,8 @@ function displayState(state: MetaRequest["state"]): string {
   return state.charAt(0).toUpperCase() + state.slice(1);
 }
 
-function displayCollection(collection: string): string {
-  return collection
-    .replace(/^balance\//, "Balance / ")
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .replace(/^./, value => value.toUpperCase());
+function stateTone(state: MetaRequest["state"]): Tone {
+  return state === "open" ? "warn" : state === "claimed" ? "info" : state === "replied" ? "ok" : undefined;
 }
 
 function timestampLabel(value: string): string {
@@ -86,6 +87,8 @@ export default function RequestsPage({ navigate }: RequestsPageProps) {
     staleTime: 5_000,
     refetchOnWindowFocus: false,
   });
+  const { index, loading: indexLoading } = useReferenceIndex();
+  const ctx = useMemo(() => summaryContext(index), [index]);
 
   const requests = query.data?.requests ?? [];
   const filtered = useMemo(() => {
@@ -97,43 +100,50 @@ export default function RequestsPage({ navigate }: RequestsPageProps) {
     });
   }, [kind, requests, search, state]);
 
-  if (query.isPending) return <LoadingRequestsPage/>;
-  if (query.isError) return <section className="requests-page" aria-labelledby="requests-title"><RequestsHeading count={undefined}/><div className="requests-error" role="alert"><CircleAlert size={19}/><div><strong>Could not load requests</strong><p>{query.error.message}</p><button className="requests-button requests-button-secondary" type="button" onClick={() => void query.refetch()}><RefreshCw size={14}/>Try again</button></div></div></section>;
+  if (query.isPending) return <LoadingRequestsPage />;
+  if (query.isError) return <section className="requests-page" aria-label="Requests"><div className="requests-error" role="alert"><CircleAlert size={16} /><div><strong>Could not load requests</strong><p>{query.error.message}</p><button className="button button-small" type="button" onClick={() => void query.refetch()}><RefreshCw size={13} />Try again</button></div></div></section>;
 
-  return <section className="requests-page" aria-labelledby="requests-title">
-    <RequestsHeading count={filtered.length} refreshing={query.isFetching}/>
-    <div className="requests-toolbar" role="group" aria-label="Request filters">
-      <label className="requests-search"><Search size={15}/><span className="sr-only">Search requests</span><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search requests" aria-label="Search requests"/><kbd>/</kbd></label>
-      <label className="requests-filter"><span>Kind</span><select value={kind} onChange={event => setKind(event.target.value as RequestKind | "all")} aria-label="Filter by request kind"><option value="all">All kinds</option>{REQUEST_KINDS.map(value => <option key={value} value={value}>{displayKind(value)}</option>)}</select></label>
-      <label className="requests-filter"><span>State</span><select value={state} onChange={event => setState(event.target.value as StateFilter)} aria-label="Filter by request state"><option value="all">All states</option><option value="open">Open</option><option value="claimed">Claimed</option><option value="replied">Replied</option></select></label>
-      <span className="requests-filter-count" aria-live="polite">{filtered.length === requests.length ? `${requests.length} ${requests.length === 1 ? "request" : "requests"}` : `${filtered.length} of ${requests.length}`}</span>
+  return <section className="requests-page" aria-label="Requests">
+    <div className="browser-toolbar" role="group" aria-label="Request filters">
+      <label className="search-field requests-search"><Search size={14} /><span className="sr-only">Search requests</span><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search requests…" aria-label="Search requests" />{search ? <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button> : <kbd>/</kbd>}</label>
+      <label className="select"><span className="sr-only">Kind</span><select value={kind} onChange={event => setKind(event.target.value as RequestKind | "all")} aria-label="Filter by request kind"><option value="all">All kinds</option>{REQUEST_KINDS.map(value => <option key={value} value={value}>{displayKind(value)}</option>)}</select></label>
+      <label className="select"><span className="sr-only">State</span><select value={state} onChange={event => setState(event.target.value as StateFilter)} aria-label="Filter by request state"><option value="all">All states</option><option value="open">Open</option><option value="claimed">Claimed</option><option value="replied">Replied</option></select></label>
+      <div className="toolbar-right">
+        <span className="result-count" aria-live="polite">{filtered.length === requests.length ? `${requests.length} ${requests.length === 1 ? "request" : "requests"}` : `${filtered.length} of ${requests.length}`}</span>
+        {query.isFetching && <LoaderCircle size={13} className="requests-spin" aria-label="Refreshing requests" />}
+      </div>
     </div>
 
-    {!filtered.length ? <div className="requests-empty"><Search size={22}/><strong>{requests.length ? "No matching requests" : "No open requests"}</strong><p>{requests.length ? "Try a different search or filter." : "Open a request from a record to see it here."}</p></div> : <ol className="requests-list">{filtered.map((entry, index) => <RequestRow key={`${entry.collection}:${entry.entityId}:${entry.request.id}:${index}`} entry={entry} navigate={navigate}/>)}</ol>}
+    {!filtered.length
+      ? <p className="empty-inline">{requests.length ? "No requests match these filters." : "No open requests."}</p>
+      : <ol className="ref-rows requests-list">{filtered.map((entry, position) => <RequestRow key={`${entry.collection}:${entry.entityId}:${entry.request.id}:${position}`} entry={entry} navigate={navigate} ctx={ctx} lookup={(collection, id) => { const refKind = refKindForCollection(collection); return (refKind ? ctx.lookup(refKind, id) : undefined) ?? findRecord(index, collection, id); }} resolving={indexLoading} />)}</ol>}
   </section>;
 }
 
-function RequestsHeading({ count, refreshing = false }: { count: number | undefined; refreshing?: boolean }) {
-  return <header className="requests-header"><div><p className="requests-eyebrow">Review queue</p><h1 id="requests-title">Requests</h1><p className="requests-subtitle">Open work from the Corealm records.</p></div>{count !== undefined ? <div className="requests-heading-count"><strong>{count}</strong><span>{count === 1 ? "visible request" : "visible requests"}</span>{refreshing && <LoaderCircle size={14} className="requests-spin" aria-label="Refreshing requests"/>}</div> : <LoaderCircle size={17} className="requests-spin" aria-label="Loading requests"/>}</header>;
-}
-
-function RequestRow({ entry, navigate }: { entry: RequestEntry; navigate: RequestsPageProps["navigate"] }) {
+function RequestRow({ entry, navigate, ctx, lookup, resolving }: { entry: RequestEntry; navigate: RequestsPageProps["navigate"]; ctx: ReturnType<typeof summaryContext>; lookup: (collection: string, id: string) => ReturnType<typeof findRecord>; resolving: boolean }) {
   const { note, request } = entry;
-  return <li className="request-row">
-    <header className="request-row-header">
-      <div className="request-row-source"><button type="button" className="request-record-link" onClick={() => navigate(entry.collection, entry.entityId)}><span>{displayCollection(entry.collection)}</span><code>{entry.entityId}</code></button><span className={`request-kind request-kind-${request.kind}`}>{displayKind(request.kind)}</span></div>
-      <span className={`request-state request-state-${request.state}`}>{displayState(request.state)}</span>
-    </header>
-    <div className="request-row-content"><p className="request-row-text">{note.text}</p>{note.label && <span className="request-label">{note.label}</span>}</div>
-    <div className="request-row-meta">
-      <div className="request-meta-item"><span>Opened</span><time dateTime={note.at} title={note.at}>{timestampLabel(note.at)}</time><small>by {note.by}</small></div>
-      <div className="request-meta-item"><span>Claim</span>{request.claimedBy ? <p>Claimed by <strong>{request.claimedBy}</strong>{request.claimedAt && <time dateTime={request.claimedAt}> on {timestampLabel(request.claimedAt)}</time>}</p> : <p className="request-meta-muted">Unclaimed</p>}</div>
-      <div className="request-meta-item request-reply-item"><span>Reply</span>{request.reply !== undefined ? <p className="request-reply">{request.reply || "No reply text"}{request.repliedAt && <time dateTime={request.repliedAt}>{timestampLabel(request.repliedAt)}</time>}</p> : <p className="request-meta-muted">Waiting for a reply</p>}</div>
+  const record = lookup(entry.collection, entry.entityId);
+  return <li className="ref-row request-row">
+    <div className="request-row-target">
+      <RefChip collection={entry.collection} record={record} id={entry.entityId} ctx={ctx} onOpen={(collection, id) => navigate(collection, id)} missing={!record && !resolving} detail={labelFor(entry.collection)} />
     </div>
-    <footer className="request-row-footer"><code>{request.id}</code><span>{displayState(request.state)} request</span></footer>
+    <div className="ref-row-body request-row-body">
+      <span className="request-row-text" title={note.text}>{note.text}</span>
+      <span className="ref-row-sub request-row-lines">
+        <span>Opened <time dateTime={note.at} title={note.at}>{timestampLabel(note.at)}</time> by {note.by}</span>
+        {note.label && <span>· {note.label}</span>}
+        <span>· {request.claimedBy ? <>Claimed by <strong>{request.claimedBy}</strong>{request.claimedAt && <time dateTime={request.claimedAt}> {timestampLabel(request.claimedAt)}</time>}</> : "Unclaimed"}</span>
+        <span>· {request.reply !== undefined ? <>Reply: {request.reply || "no text"}{request.repliedAt && <time dateTime={request.repliedAt}> {timestampLabel(request.repliedAt)}</time>}</> : "No reply yet"}</span>
+      </span>
+    </div>
+    <div className="ref-row-meta request-row-meta">
+      <span className="badge" data-tone="accent">{displayKind(request.kind)}</span>
+      <span className="badge" data-tone={stateTone(request.state)}>{displayState(request.state)}</span>
+      <code className="request-row-id" title={request.id}>{request.id}</code>
+    </div>
   </li>;
 }
 
 function LoadingRequestsPage() {
-  return <section className="requests-page" aria-labelledby="requests-title"><RequestsHeading count={undefined}/><div className="requests-toolbar requests-toolbar-loading" aria-hidden="true"><span/><span/><span/></div><div className="requests-loading" role="status" aria-label="Loading requests">{Array.from({ length: 4 }, (_, index) => <div className="requests-loading-row" key={index}><span/><span/><span/></div>)}</div></section>;
+  return <section className="requests-page" aria-label="Requests"><div className="requests-loading" role="status" aria-label="Loading requests">{Array.from({ length: 4 }, (_, index) => <div className="skeleton-row" key={index}><span className="skeleton skeleton-icon" /><span className="skeleton skeleton-name" /><span className="skeleton skeleton-value" /></div>)}</div></section>;
 }
