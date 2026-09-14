@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { LayoutGrid, Layers, List, Map as MapIcon, Search, X } from "lucide-react";
+import { LayoutGrid, List, Search, X } from "lucide-react";
 import { apiGet, collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
@@ -9,7 +9,7 @@ import type { MetaDigestResponse as MetaDigest } from "../../shared/metaContract
 import { contentRows, rowId } from "../model/rows.js";
 import { summaryContext, useReferenceIndex } from "../model/refs.js";
 import { facetsFor, prefersGrid, summarize, titleCase, type RecordSummary } from "../model/summaries.js";
-import { descriptions, isGeneratedCollection, labelFor } from "../ui/library.js";
+import { isGeneratedCollection, labelFor } from "../ui/library.js";
 import { EmptyState, ErrorState, LoadingRows } from "../ui/States.js";
 import { RecordTile } from "../ui/RecordTile.js";
 import { EntityDetail } from "./EntityDetail.js";
@@ -139,17 +139,12 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
   const open = (id: string) => navigate(collection, id);
   const groupOptions = [...(hasTier ? [{ key: "tier", label: "Tier" }] : []), ...facetValues.map(item => ({ key: item.facet.key, label: item.facet.label }))];
   const activeFilters = Object.entries(filters).filter(([, value]) => value);
-  const description = descriptions[collection] ?? (collection.startsWith("balance/") ? "Parameters used by the balance formulas." : "");
 
   return <div className="collection-page">
     <div className="page-heading">
-      <h1>{labelFor(collection)}</h1>
+      <h1 className="sr-only">{labelFor(collection)}</h1>
       <span className="count-badge">{filtered.length === rows.length ? rows.length : `${filtered.length} / ${rows.length}`}</span>
-      {isGeneratedCollection(collection) && <span className="badge" data-tone="warn">Generated · read only</span>}
-      {description && <span className="muted" style={{ fontSize: 12 }}>{description}</span>}
       <div className="page-heading-actions">
-        {collection === "items" && <button className="button button-small" onClick={() => navigate("kits")}><Layers size={13} /> Ladder</button>}
-        {(collection === "placements" || collection === "encounters" || collection === "worldRegions") && <button className="button button-small" onClick={() => navigate("world")}><MapIcon size={13} /> Map</button>}
         {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <button className="button button-small" onClick={() => navigate(collection, "$collection")}>Open parameters</button>}
         {editable && RecordActions && <Suspense fallback={null}><RecordActions collection={collection} mode="collection" templateRecord={rawRows[0]} knownIds={rawRows.map(row => rowId(row, idKey))} editable={editable} idKey={idKey} navigate={navigate} compact /></Suspense>}
       </div>

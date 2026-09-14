@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState, type ComponentType, type ReactNode } from "react";
-import { ExternalLink, Pencil, Plus, Trash2, X } from "lucide-react";
+import { Keyboard, Pencil, Plus, Trash2, X } from "lucide-react";
 import type { Schema, SchemaIssue } from "../../../game/src/content/schema/core.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import { REF_COLLECTIONS, refKindForKey, refTargetCollection, type ReferenceIndex } from "../model/refs.js";
@@ -41,11 +41,13 @@ export function RefField({ kind, value, onChange, readOnly, fieldProps, name }: 
   if (raw || !REF_COLLECTIONS[kind]) {
     return <div className="ref-field"><input {...fieldProps} className="ref-field-raw" value={id} type="text" onChange={event => onChange(event.target.value)} placeholder={`${titleCase(kind)} id`} />{REF_COLLECTIONS[kind] && <button type="button" className="editor-small-button" onClick={() => setRaw(false)}>Pick</button>}</div>;
   }
+  // The chip opens the record; the pencil picks another; the keyboard icon types a raw id. Hover reveals the tools.
   return <div className="ref-field">
     {id ? <RefChip collection={target} id={id} record={record} ctx={ctx} onOpen={navigate} missing={!record} /> : <span className="empty-inline">No {titleCase(kind).toLowerCase()} chosen</span>}
-    {!readOnly && <RecordPicker collection={target} value={id} ctx={ctx} onPick={picked => onChange(picked)} trigger={<button type="button" className="button button-small" aria-label={`Choose ${name}`}><Pencil size={12} />{id ? "Change" : "Choose"}</button>} />}
-    {id && navigate && <button type="button" className="icon-button" aria-label="Open record" title="Open record" onClick={() => navigate(target, id)}><ExternalLink size={13} /></button>}
-    {!readOnly && <button type="button" className="editor-small-button" onClick={() => setRaw(true)}>Type id</button>}
+    {!readOnly && <span className="ref-field-tools">
+      <RecordPicker collection={target} value={id} ctx={ctx} onPick={picked => onChange(picked)} trigger={<button type="button" className={id ? "icon-button" : "button button-small"} aria-label={`Choose ${name}`} title={id ? "Change" : undefined}><Pencil size={12} />{id ? null : "Choose"}</button>} />
+      <button type="button" className="icon-button" aria-label="Type id" title="Type an id" onClick={() => setRaw(true)}><Keyboard size={13} /></button>
+    </span>}
   </div>;
 }
 

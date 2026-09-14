@@ -1,12 +1,12 @@
 /* Set pieces: five slot cards in a row, then the candidates for the picked slot. */
 .set-piece-panel { display: flex; flex-direction: column; gap: 10px; min-width: 0; color: var(--text); }
 .set-piece-header { display: flex; align-items: center; gap: 8px; min-height: 30px; }
-.set-piece-header h2 { font-size: 12.5px; font-weight: 600; }
+.set-piece-header h2 { font-size: 12px; font-weight: 600; }
 .set-piece-header-actions { margin-left: auto; display: flex; align-items: center; gap: 6px; }
 .set-piece-spin { color: var(--muted); animation: set-piece-spin .9s linear infinite; }
 @keyframes set-piece-spin { to { transform: rotate(360deg); } }
 
-.set-piece-feedback { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--danger); border-radius: 8px; background: var(--danger-soft); font-size: 12px; }
+.set-piece-feedback { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--danger); border-radius: 6px; background: var(--danger-soft); font-size: 12px; }
 .set-piece-feedback > svg { color: var(--danger); flex-shrink: 0; }
 .set-piece-feedback > span { flex: 1; }
 .set-piece-feedback-conflict { border-color: var(--warn); background: var(--warn-soft); }
@@ -20,7 +20,7 @@
 .set-piece-item-link > svg { color: var(--faint); }
 .set-piece-item-link:hover strong { color: var(--accent); }
 .set-piece-item-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.set-piece-item-copy small { color: var(--faint); font-size: 10.5px; text-transform: uppercase; letter-spacing: .4px; }
+.set-piece-item-copy small { color: var(--faint); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; }
 .set-piece-item-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 500; }
 
 .set-piece-fields { display: flex; flex-direction: column; gap: 6px; }
@@ -42,6 +42,6 @@
 .set-piece-error > div { display: grid; gap: 6px; justify-items: start; }
 .set-piece-error strong { color: var(--text); font-weight: 500; }
 .set-piece-error p { margin: 0; }
-.set-piece-loading span { height: 180px; border-radius: 10px; }
+.set-piece-loading span { height: 180px; border-radius: 8px; }
 
 @media (prefers-reduced-motion: reduce) { .set-piece-spin { animation: none; } }

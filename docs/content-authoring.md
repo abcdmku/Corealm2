@@ -30,7 +30,7 @@ source revision it used.
 
 ### Create a tier
 
-Open **Progression** and create a tier record with a stable ID, display name, tier number, and
+Open **Tuning › Tiers** and create a tier record with a stable ID, display name, tier number, and
 required skill level. Add the material IDs for the roles used at that tier, the resources the tier
 can acquire, and its presentation fields. Add optional magic or smelting settings only when that
 tier uses them.
@@ -49,7 +49,7 @@ pressing Save. A new tier should not require hand edits to separate gathering an
 
 ### Add an equipment family member
 
-Create or choose a family in the **Items** or **Progression** workspace. A family declares its slot,
+Create or choose a family from a column header of the **Items › Ladder** matrix, or under **Tuning › Equipment families**. A family declares its slot,
 skill, category, formula, and parameters. `equipment.linear` accepts a typed value curve, bonus
 curve, and gathering curve. Tools use the same family shape with a gathering skill; equipment can
 also declare attack speed or magic-weapon details.
@@ -88,9 +88,9 @@ the base.
 
 ## World encounters and placements
 
-Create an encounter in **World** to describe reusable composition. Give it a name and activity, then
-add one or more creature members with positive weights. The encounter points to creature IDs; it
-does not copy combat blocks.
+On the **World** map choose **Add spawn**, click the map and pick the creature. That creates the
+placement and its encounter together; the inspector shows the creatures, weights and activity inline.
+The encounter points to creature IDs; it does not copy combat blocks.
 
 Create a placement for that encounter. Set its region, centre, population count, radius, optional
 rank or level, and formation. Grid and ring formations use spacing and rotation. An authored

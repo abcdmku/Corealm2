@@ -4,13 +4,21 @@ import type { RecordSummary } from "../model/summaries.js";
 import { HoverCard } from "./RefChip.js";
 import { Thumb } from "./Thumb.js";
 
+const STATE_TONES = new Set(["ok", "warn", "danger"]);
+
+/** State badges stay badges; descriptive ones (slot, category, style) read as a line of facts. */
 export function Badges({ badges, limit = 3 }: { badges: RecordSummary["badges"]; limit?: number }) {
-  if (!badges.length) return null;
-  return <span className="tile-badges">{badges.slice(0, limit).map((badge, index) => <span key={index} className={`badge${badge.mono ? " badge-mono" : ""}`} data-tone={badge.tone} title={badge.title}>{badge.text}</span>)}</span>;
+  const state = badges.filter(badge => badge.tone && STATE_TONES.has(badge.tone) && badge.text !== "Generated").slice(0, limit);
+  const facts = badges.filter(badge => !badge.tone || !STATE_TONES.has(badge.tone)).slice(0, limit);
+  if (!state.length && !facts.length) return null;
+  return <span className="tile-badges">
+    {state.map((badge, index) => <span key={`s${index}`} className={`badge${badge.mono ? " badge-mono" : ""}`} data-tone={badge.tone} title={badge.title}>{badge.text}</span>)}
+    {facts.length > 0 && <span className="facts">{facts.map((badge, index) => <span key={`f${index}`} title={badge.title}>{badge.text}</span>)}</span>}
+  </span>;
 }
 
 /** A record as a card (grid) or a compact row (list). Selection is a corner checkbox. */
-export function RecordTile({ collection, id, summary, mode, selectable, selected, active, onToggle, onOpen, generated, hoverCard = false }: {
+export function RecordTile({ collection, id, summary, mode, selectable, selected, active, onToggle, onOpen, hoverCard = false }: {
   collection: string;
   id: string;
   summary: RecordSummary;
@@ -20,6 +28,7 @@ export function RecordTile({ collection, id, summary, mode, selectable, selected
   active?: boolean;
   onToggle?: (id: string, shiftKey: boolean) => void;
   onOpen: (id: string) => void;
+  /** Kept for callers; generated rows are no longer marked. */
   generated?: boolean;
   hoverCard?: boolean;
 }) {
@@ -41,7 +50,7 @@ export function RecordTile({ collection, id, summary, mode, selectable, selected
       <span className="tile-body">
         <span className="tile-title" title={`${summary.title} · ${id}`}>{summary.title}</span>
         {summary.subtitle && <span className="tile-subtitle" title={summary.subtitle}>{summary.subtitle}</span>}
-        <Badges badges={generated ? [{ text: "Generated", tone: "warn" }, ...summary.badges] : summary.badges} limit={mode === "grid" ? 2 : 4} />
+        <Badges badges={summary.badges} limit={mode === "grid" ? 2 : 4} />
       </span>
       {mode === "row" && summary.tier !== undefined && <span className="tier-tag" title="Tier">{summary.tier}</span>}
       {mode === "row" && <ChevronRight size={14} className="row-chevron" />}

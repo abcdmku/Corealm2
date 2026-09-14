@@ -290,7 +290,7 @@ export function summarize(collection: string, row: ContentRow, ctx: SummaryConte
       return { title: name, subtitle: giver ? `From ${rowName(giver)}` : text(row.summary)?.slice(0, 90), badges, thumb: ids.length ? { kind: "items", ids: ids.slice(0, 4) } : { kind: "glyph", icon: ScrollText, hue: hueFor(id) }, stats: [] };
     }
     case "dialogue":
-      return { title: text(row.speaker) ? `${row.speaker}: ${text(row.text)?.slice(0, 60) ?? ""}` : name, subtitle: id, badges: [{ text: `${list(row.options).length} options`, mono: true }], thumb: { kind: "glyph", icon: MessageCircle, hue: hueFor(text(row.speaker) ?? id) }, stats: [] };
+      return { title: text(row.speaker) ? `${row.speaker}: ${(text(row.text) ?? "").length > 42 ? `${text(row.text)!.slice(0, 40).trimEnd()}…` : text(row.text) ?? ""}` : name, subtitle: id, badges: [{ text: `${list(row.options).length} options`, mono: true }], thumb: { kind: "glyph", icon: MessageCircle, hue: hueFor(text(row.speaker) ?? id) }, stats: [] };
     case "spells": {
       const element = text(row.element) ?? "";
       const cost = asRecord(row.cost);

@@ -1,0 +1,10 @@
+/* Spells workspace: the element × rung matrix. */
+.spell-matrix table { width: 100%; table-layout: fixed; }
+.spell-matrix th:first-child, .spell-matrix td:first-child { width: 120px; }
+.spell-matrix td { vertical-align: top; padding: 6px 8px; }
+.spell-element { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.spell-cell-stack { display: flex; flex-direction: column; gap: 2px; }
+.spell-matrix td .spell-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding: 2px 4px; margin: 0 -4px; width: calc(100% + 8px); }
+.spell-cell-name { font-weight: 600; font-size: 12px; }
+.spell-cell-meta { font-size: 11px; color: var(--muted); font-family: var(--font-mono); }
+.spell-cell:hover .spell-cell-name { color: var(--link); }

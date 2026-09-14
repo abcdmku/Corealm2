@@ -3,8 +3,8 @@
 .formula-build { display: flex; flex-direction: column; gap: 4px; }
 .formula-build-status { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; }
 .formula-build-status code { color: var(--faint); font-size: 11px; }
-.formula-build-hint { color: var(--muted); font-size: 11.5px; }
-.formula-error { margin: 0; padding: 6px 10px; border: 1px solid var(--danger); border-radius: 8px; background: var(--danger-soft); color: var(--text); font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-sans); }
+.formula-build-hint { color: var(--muted); font-size: 12px; }
+.formula-error { margin: 0; padding: 6px 10px; border: 1px solid var(--danger); border-radius: 6px; background: var(--danger-soft); color: var(--text); font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-sans); }
 .formula-error code { color: var(--danger); }
 
 .formula-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 10px; align-items: start; }
@@ -16,14 +16,14 @@
 .formula-nav button:hover { background: var(--hover); color: var(--text); }
 .formula-nav button.is-active { background: var(--selected); color: var(--text); }
 .formula-nav-title { font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.formula-nav button small { grid-column: 1; color: var(--faint); font-family: var(--font-mono); font-size: 10.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.formula-nav button small { grid-column: 1; color: var(--faint); font-family: var(--font-mono); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .formula-nav-chevron { grid-column: 2; grid-row: 1 / span 2; color: var(--faint); opacity: 0; }
 .formula-nav button.is-active .formula-nav-chevron, .formula-nav button:hover .formula-nav-chevron { opacity: 1; }
 
 .formula-inspector { min-width: 0; }
 .formula-inspector-header { min-width: 0; }
 .formula-inspector-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.formula-source { color: var(--faint); font-size: 10.5px; white-space: nowrap; }
+.formula-source { color: var(--faint); font-size: 11px; white-space: nowrap; }
 .formula-inspector-body { display: flex; flex-direction: column; gap: 14px; }
 .formula-description { color: var(--muted); font-size: 12px; line-height: 1.5; }
 .formula-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
@@ -42,24 +42,24 @@
 .formula-stats .stat[data-accent] strong { color: var(--accent); }
 .formula-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .formula-compare-column { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.formula-compare-label { color: var(--faint); font-size: 10.5px; text-transform: uppercase; letter-spacing: .5px; }
-.formula-json { margin: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--sidebar); color: var(--muted); font-family: var(--font-mono); font-size: 11px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 260px; overflow: auto; }
+.formula-compare-label { color: var(--faint); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+.formula-json { margin: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 6px; background: var(--sidebar); color: var(--muted); font-family: var(--font-mono); font-size: 11px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 260px; overflow: auto; }
 
-.formula-table-scroll { overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: 8px; scrollbar-width: thin; }
-.formula-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.formula-table-scroll { overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: 6px; scrollbar-width: thin; }
+.formula-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .formula-table th, .formula-table td { padding: 5px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-subtle); }
-.formula-table thead th { color: var(--faint); font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; background: var(--panel-raised); }
+.formula-table thead th { color: var(--faint); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; background: var(--panel-raised); }
 .formula-table tbody tr:last-child th, .formula-table tbody tr:last-child td { border-bottom: 0; }
 .formula-table tbody th { font-weight: 400; color: var(--muted); white-space: nowrap; }
 .formula-table tbody th code { font-size: 11px; color: var(--text); }
 .formula-table .formula-json { max-height: 160px; }
 .formula-after { color: var(--accent); }
-.formula-inline-stats { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--font-mono); font-size: 11.5px; }
-.formula-inline-stats small { color: var(--faint); font-size: 10.5px; margin-right: 4px; }
+.formula-inline-stats { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--font-mono); font-size: 12px; }
+.formula-inline-stats small { color: var(--faint); font-size: 11px; margin-right: 4px; }
 
 .formula-consumers { list-style: none; margin: 0; padding: 0; }
 .formula-consumer { flex-wrap: wrap; cursor: default; }
-.formula-consumer .reference-link { font-family: var(--font-mono); font-size: 11.5px; }
+.formula-consumer .reference-link { font-family: var(--font-mono); font-size: 12px; }
 .formula-consumer-inputs { margin-left: auto; font-size: 11px; color: var(--muted); }
 .formula-consumer-inputs summary { cursor: pointer; list-style: none; }
 .formula-consumer-inputs summary::-webkit-details-marker { display: none; }

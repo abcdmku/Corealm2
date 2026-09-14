@@ -94,7 +94,7 @@ async function saveItemDescription(url: string, description: string): Promise<vo
     page.getByRole("button", { name: "Save changes", exact: true }).click(),
   ]);
   assert.equal(response.status(), 200, await response.text());
-  await page.locator(".editor-dirty").filter({ hasText: "Saved" }).waitFor();
+  await page.locator("[data-sonner-toast]").filter({ hasText: "Saved" }).first().waitFor();
   const rows = await readJson<JsonRecord[]>(path.join(contentRoot, "data/items.json"));
   assert.equal(rows.find(row => row.id === "worn_sword")?.description, description);
   checks.uiEditSave = { collection: "items", id: "worn_sword", field: "description" };
@@ -123,7 +123,7 @@ async function exerciseUiConflict(url: string): Promise<void> {
   expectedConflict = false;
   await page.getByRole("alert").filter({ hasText: "This file changed after you opened it" }).waitFor();
   assert.equal(await editor.inputValue(), draft);
-  assert(await page.getByRole("button", { name: "Save changes", exact: true }).isDisabled());
+  assert.equal(await page.getByRole("button", { name: "Save changes", exact: true }).count(), 0, "Save must be withheld while the draft conflicts");
   await screenshot("edit-conflict.png");
 
   await page.getByRole("button", { name: "Reset draft", exact: true }).click();
@@ -256,42 +256,39 @@ async function exerciseTransactionConflict(url: string): Promise<void> {
 async function exerciseWorldAuthoring(url: string): Promise<void> {
   assert(page, "Browser page is not ready");
   await page.goto(`${url}/#/world`);
-  await waitForHeading("World");
-  const placementsPanel = page.getByRole("complementary", { name: "Placements", exact: true });
-  await placementsPanel.getByRole("button", { name: "New", exact: true }).waitFor();
-  // Encounter: the "+ New" menu opens an inline ID form; members are picked from a searchable popover.
-  await placementsPanel.getByRole("button", { name: "New", exact: true }).click();
-  await page.getByRole("button", { name: "Encounter", exact: true }).click();
-  await page.getByLabel("New encounter ID", { exact: true }).fill("smoke_ui_encounter");
-  await page.getByRole("button", { name: "Add encounter", exact: true }).click();
-  await page.getByLabel("Encounter definition", { exact: true }).selectOption("smoke_ui_encounter");
-  await page.getByRole("button", { name: "Change creature", exact: true }).first().click();
+  const map = page.locator('svg[aria-label="World map"]');
+  await map.waitFor();
+  await page.getByLabel("Fit region", { exact: true }).selectOption("fallowmarch");
+  await page.waitForTimeout(300);
+  // A spawn is placed by choosing the tool, clicking the map, and picking the creature.
+  await page.getByRole("button", { name: "Add spawn", exact: true }).click();
+  const box = await map.boundingBox();
+  assert(box, "The map must be laid out");
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
   await page.getByLabel("Search Creatures", { exact: true }).fill("smoke_frog_variant");
-  await page.getByRole("option", { name: /smoke_frog_variant/ }).first().click();
-  await placementsPanel.getByRole("button", { name: "New", exact: true }).click();
-  await page.getByRole("button", { name: "Placement at map centre", exact: true }).click();
-  await page.getByLabel("New placement ID", { exact: true }).fill("smoke_ui_placement");
-  await page.getByRole("button", { name: "Add placement", exact: true }).click();
-  await page.locator('.world-list [data-id="smoke_ui_placement"] .ref-row').click();
-  const centreX = page.getByRole("spinbutton", { name: "Centre X", exact: true });
+  await page.getByRole("option", { name: /smoke_frog_variant|Smoke Frog/ }).first().click();
+  const inspector = page.getByRole("complementary", { name: "Inspector", exact: true });
+  await inspector.getByRole("button", { name: "Add creature", exact: true }).waitFor();
+  const centreX = inspector.getByRole("spinbutton", { name: "Centre x", exact: true });
   await centreX.fill("-97");
+  await centreX.blur();
   const worldPreview = page.waitForResponse(response => response.url().endsWith('/__devdocs/transaction'));
-  await page.getByRole("button", { name: "Preview", exact: true }).click();
+  await page.getByRole("button", { name: "Preview changes", exact: true }).click();
   const worldPreviewResponse = await worldPreview;
   assert.equal(worldPreviewResponse.status(), 200, await worldPreviewResponse.text());
-  await page.getByText(/affected ·/i).waitFor();
-  await page.getByRole("button", { name: /^Save \d+$/ }).click();
-  await page.getByRole("status").filter({ hasText: /Saved \d+ source changes/ }).waitFor();
+  const worldSave = page.waitForResponse(response => response.url().endsWith('/__devdocs/transaction'));
+  await page.getByRole("button", { name: "Save changes", exact: true }).click();
+  const worldSaveResponse = await worldSave;
+  assert.equal(worldSaveResponse.status(), 200, await worldSaveResponse.text());
+  await page.locator("[data-sonner-toast]").filter({ hasText: /Saved \d+ change/ }).first().waitFor();
   const placements = await readJson<JsonRecord[]>(path.join(contentRoot, "data/placements.json"));
   const encounters = await readJson<JsonRecord[]>(path.join(contentRoot, "data/encounters.json"));
-  const placement = placements.find(row => row.id === "smoke_ui_placement");
-  const encounter = encounters.find(row => row.id === "smoke_ui_encounter");
-  assert(placement, "World UI did not save the new placement");
+  const encounter = encounters.find(row => ((row.members as JsonRecord[] | undefined) ?? []).some(member => member.creatureId === "smoke_frog_variant"));
   assert(encounter, "World UI did not save the new encounter");
+  const placement = placements.find(row => row.encounterId === encounter.id);
+  assert(placement, "World UI did not save the new placement");
   assert.equal((placement.centre as number[])[0], -97);
-  assert.equal(placement.encounterId, "smoke_ui_encounter");
-  assert.equal(((encounter.members as JsonRecord[])[0]?.creatureId), "smoke_frog_variant");
-  checks.worldAuthoring = { placement: "smoke_ui_placement", encounter: "smoke_ui_encounter", variant: "smoke_frog_variant" };
+  checks.worldAuthoring = { placement: String(placement.id), encounter: String(encounter.id), variant: "smoke_frog_variant" };
   await screenshot("world-authoring.png");
 }
 
@@ -334,10 +331,11 @@ try {
   // This first load includes Vite's optimizer and is intentionally outside the acceptance budget.
   await page.goto(`${url}/#/`);
   const sidebar = page.locator(".sidebar");
-  for (const label of ["Tiers", "World map", "Formulas", "Work queue"]) {
+  const tabs = page.getByRole("banner");
+  for (const label of ["Home", "Items", "Creatures", "World", "Story", "Tuning"]) {
     await sidebar.getByRole("button", { name: label, exact: true }).waitFor();
   }
-  checks.taskNavigation = ["Tiers", "World map", "Formulas", "Work queue"];
+  checks.taskNavigation = ["Home", "Items", "Creatures", "World", "Story", "Tuning"];
   await page.waitForFunction(async () => {
     const response = await fetch('/__devdocs/formulas');
     const result = await response.json();
@@ -347,20 +345,22 @@ try {
   await screenshot("overview.png");
   const deadline = Date.now() + 60_000;
 
-  await sidebar.getByRole("button", { name: "Tiers", exact: true }).click();
-  await waitForHeading(/^Tiers/);
-  assert.equal(await sidebar.getByRole("button", { name: "Tiers", exact: true }).getAttribute("aria-current"), "page");
+  await sidebar.getByRole("button", { name: "Tuning", exact: true }).click();
+  await tabs.getByRole("button", { name: "Tiers", exact: true }).click();
+  await page.getByText("Level 1", { exact: true }).first().waitFor();
+  assert.equal(await sidebar.getByRole("button", { name: "Tuning", exact: true }).getAttribute("aria-current"), "page");
+  assert.equal(await tabs.getByRole("button", { name: "Tiers", exact: true }).getAttribute("aria-current"), "page");
   await screenshot("progression.png");
   deadlineGuard(deadline, "progression navigation");
 
-  await sidebar.getByRole("button", { name: "World map", exact: true }).click();
-  await waitForHeading(/World/);
-  assert.equal(await sidebar.getByRole("button", { name: "World map", exact: true }).getAttribute("aria-current"), "page");
+  await sidebar.getByRole("button", { name: "World", exact: true }).click();
+  await page.locator('svg[aria-label="World map"]').waitFor();
+  assert.equal(await sidebar.getByRole("button", { name: "World", exact: true }).getAttribute("aria-current"), "page");
   await screenshot("world.png");
   deadlineGuard(deadline, "world navigation");
 
-  await sidebar.getByRole("button", { name: "Formulas", exact: true }).click();
-  await waitForHeading("Formulas");
+  await sidebar.getByRole("button", { name: "Tuning", exact: true }).click();
+  await tabs.getByRole("button", { name: "Formulas", exact: true }).click();
   await page.getByRole("navigation", { name: "Formula index", exact: true }).waitFor();
   await page.getByLabel("Find a formula", { exact: true }).waitFor();
   const formulaCount = await page.getByRole("navigation", { name: "Formula index", exact: true }).getByRole("button").count();
@@ -369,9 +369,10 @@ try {
   await screenshot("formulas.png");
   deadlineGuard(deadline, "formula workspace");
 
-  await sidebar.getByRole("button", { name: "Work queue", exact: true }).click();
-  await waitForHeading(/Work queue|Requests|Review/);
-  assert.equal(await sidebar.getByRole("button", { name: "Work queue", exact: true }).getAttribute("aria-current"), "page");
+  await sidebar.getByRole("button", { name: "Home", exact: true }).click();
+  await tabs.getByRole("button", { name: "Requests", exact: true }).click();
+  await page.locator('section[aria-label="Requests"]').first().waitFor();
+  assert.equal(await sidebar.getByRole("button", { name: "Home", exact: true }).getAttribute("aria-current"), "page");
   checks.workQueue = true;
   await screenshot("work-queue.png");
   deadlineGuard(deadline, "work queue");
@@ -385,8 +386,8 @@ try {
   await page.reload();
   deadlineGuard(deadline, "content transactions");
 
-  await page.goto(`${url}/#/progression`);
-  await waitForHeading(/^Tiers/);
+  await page.goto(`${url}/#/tuning/tiers`);
+  await page.getByText("Level 1", { exact: true }).first().waitFor();
   await page.getByText("Smoke Tier", { exact: true }).first().waitFor();
   await page.goto(`${url}/#/items/smoke_unique_item`);
   await waitForHeading("Smoke Compass");

@@ -10,13 +10,11 @@ import { displayRows, rowId, rowName } from "../model/rows.js";
 import { summaryContext } from "../model/refs.js";
 import { summarize, type RecordSummary } from "../model/summaries.js";
 import { Thumb } from "./Thumb.js";
-import { iconFor, isGeneratedCollection, labelFor } from "./library.js";
+import { labelFor } from "./library.js";
+import { WORKSPACES } from "./workspaces.js";
 
-/** Generated catalogs share labels with their authored source; mark them so the two groups read apart. */
-function groupLabel(collection: string): string {
-  const label = labelFor(collection);
-  return isGeneratedCollection(collection) && !/generated/i.test(label) ? `${label} (generated)` : label;
-}
+/** Expanded catalogs share labels with their authored source; both groups read under the same name. */
+function groupLabel(collection: string): string { return labelFor(collection).replace(/ (generated)$/i, ""); }
 
 interface Match { collection: string; id: string; name: string; summary: RecordSummary; haystack: string }
 
@@ -29,7 +27,9 @@ export function CommandPalette({ open, onOpenChange, collections, navigate }: { 
     const loaded = queries.flatMap(q => q.data ? [q.data] : []);
     const ctx = summaryContext({ collections: new Map(loaded.map(response => [response.collection.name, response])) });
     const enemies = loaded.find(response => response.collection.name === "enemies");
-    return loaded.flatMap(response => displayRows(response, enemies).map((record): Match => {
+    const authored = new Set(loaded.map(response => response.collection.name));
+    const skip = (name: string) => name === "compiled-enemies" || name === "compiled-species" || (name === "compiled-items" && authored.has("items")) || (name === "compiled-resources");
+    return loaded.filter(response => !skip(response.collection.name)).flatMap(response => displayRows(response, enemies).map((record): Match => {
       const id = rowId(record, response.collection.idKey);
       const name = rowName(record, response.collection.idKey);
       const summary = summarize(response.collection.name, record, ctx);
@@ -48,5 +48,5 @@ export function CommandPalette({ open, onOpenChange, collections, navigate }: { 
     return [...byCollection.entries()].map(([collection, list]) => ({ collection, matches: list }));
   }, [needle, entries]);
   function go(collection?: string, id?: string) { navigate(collection, id); onOpenChange(false); setSearch(""); }
-  return <Dialog.Root open={open} onOpenChange={onOpenChange}><Dialog.Portal><Dialog.Overlay className="dialog-overlay" /><Dialog.Content className="command-dialog" aria-describedby="command-help"><Dialog.Title className="sr-only">Search the codex</Dialog.Title><Command shouldFilter={false} label="Search the codex"><div className="command-input-wrap"><Search size={17} /><Command.Input value={search} onValueChange={setSearch} placeholder="Search collections, names or IDs…" autoFocus /><Dialog.Close className="icon-button" aria-label="Close search"><X size={16} /></Dialog.Close></div><Command.List><Command.Empty>No matches. Try another name or ID.</Command.Empty><Command.Group heading="Collections">{collections.filter(c => labelFor(c.name).toLowerCase().includes(needle) || c.name.includes(needle)).map(c => { const Icon = iconFor(c.name); return <Command.Item key={c.name} value={`collection:${c.name}`} onSelect={() => go(c.name)}><span className="thumb" data-size="s"><span className="thumb-glyph"><Icon /></span></span><span>{labelFor(c.name)}</span><small>{c.count}</small><ArrowUpRight size={14} /></Command.Item>; })}</Command.Group>{groups.map(group => <Command.Group key={group.collection} heading={groupLabel(group.collection)}>{group.matches.map(r => <Command.Item key={`${r.collection}:${r.id}`} value={`${r.collection}:${r.id}`} onSelect={() => go(r.collection, r.id)}><Thumb spec={r.summary.thumb} size="s" alt="" /><span>{r.summary.title}</span><small>{r.summary.subtitle ?? r.id}</small><ArrowUpRight size={14} /></Command.Item>)}</Command.Group>)}{open && queries.some(q => q.isLoading) && <Command.Loading>Loading records…</Command.Loading>}</Command.List></Command><p className="command-footer" id="command-help"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>↵</kbd> to open</span><span><kbd>esc</kbd> to close</span></p></Dialog.Content></Dialog.Portal></Dialog.Root>;
+  return <Dialog.Root open={open} onOpenChange={onOpenChange}><Dialog.Portal><Dialog.Overlay className="dialog-overlay" /><Dialog.Content className="command-dialog" aria-describedby="command-help"><Dialog.Title className="sr-only">Search the codex</Dialog.Title><Command shouldFilter={false} label="Search the codex"><div className="command-input-wrap"><Search size={17} /><Command.Input value={search} onValueChange={setSearch} placeholder="Search collections, names or IDs…" autoFocus /><Dialog.Close className="icon-button" aria-label="Close search"><X size={16} /></Dialog.Close></div><Command.List><Command.Empty>No matches. Try another name or ID.</Command.Empty><Command.Group heading="Go to">{WORKSPACES.filter(workspace => !workspace.devOnly || !__DEVDOCS_PLAYER__).flatMap(workspace => workspace.views.filter(view => !view.hidden).map(view => ({ workspace, view }))).filter(({ workspace, view }) => !needle || `${workspace.label} ${view.label}`.toLowerCase().includes(needle)).map(({ workspace, view }) => { const Icon = workspace.icon; return <Command.Item key={`${workspace.key}/${view.key}`} value={`view:${workspace.key}/${view.key}`} onSelect={() => go(`${workspace.key}/${view.key}`)}><span className="thumb" data-size="s"><span className="thumb-glyph"><Icon /></span></span><span>{workspace.label} · {view.label}</span><ArrowUpRight size={14} /></Command.Item>; })}</Command.Group>{groups.map(group => <Command.Group key={group.collection} heading={groupLabel(group.collection)}>{group.matches.map(r => <Command.Item key={`${r.collection}:${r.id}`} value={`${r.collection}:${r.id}`} onSelect={() => go(r.collection, r.id)}><Thumb spec={r.summary.thumb} size="s" alt="" /><span>{r.summary.title}</span><small>{r.summary.subtitle ?? r.id}</small><ArrowUpRight size={14} /></Command.Item>)}</Command.Group>)}{open && queries.some(q => q.isLoading) && <Command.Loading>Loading records…</Command.Loading>}</Command.List></Command><p className="command-footer" id="command-help"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>↵</kbd> to open</span><span><kbd>esc</kbd> to close</span></p></Dialog.Content></Dialog.Portal></Dialog.Root>;
 }

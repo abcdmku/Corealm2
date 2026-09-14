@@ -1,16 +1,17 @@
 import { createHashHistory, createRootRoute, createRoute, createRouter, useLocation, useNavigate } from "@tanstack/react-router";
 import App from "./App.js";
+import { parseRoute, routePath } from "./ui/workspaces.js";
+
 function RoutedApp() {
   const pathname = useLocation({ select: location => location.pathname });
   const navigate = useNavigate();
   const segments = pathname.split("/").filter(Boolean).map(decodeURIComponent);
-  const collection = segments[0] === "balance" && segments[1] ? `balance/${segments[1]}` : segments[0];
-  const recordId = segments[segments[0] === "balance" ? 2 : 1];
-  return <App collection={collection} recordId={recordId} navigate={(collection, recordId) => {
-    if (!collection) { void navigate({ to: "/" }); return; }
-    // TanStack encodes splat segments. Pre-encoding them double-encodes the balance slash.
-    const path = [collection, recordId].filter(value => value !== undefined).join("/");
-    void navigate({ to: "/$", params: { _splat: path } });
+  const route = parseRoute(segments);
+  return <App route={route} navigate={(target, recordId) => {
+    const path = routePath(target, recordId);
+    if (path === "/") { void navigate({ to: "/" }); return; }
+    // TanStack encodes splat segments. Pre-encoding them would double-encode the slashes.
+    void navigate({ to: "/$", params: { _splat: path.slice(1) } });
   }} />;
 }
 const rootRoute = createRootRoute({ component: RoutedApp });

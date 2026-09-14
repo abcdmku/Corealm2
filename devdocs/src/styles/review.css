@@ -15,13 +15,13 @@
 .review-file-row .badge { min-width: 30px; justify-content: center; }
 .review-file-path { display: flex; min-width: 0; flex-direction: column; gap: 1px; }
 .review-file-path code { overflow: hidden; color: var(--text); font-size: 11px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
-.review-file-path small { overflow: hidden; color: var(--faint); font-size: 10.5px; text-overflow: ellipsis; white-space: nowrap; }
+.review-file-path small { overflow: hidden; color: var(--faint); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
 .review-file-arrow { color: var(--faint); opacity: 0; }
 .review-file-row:hover .review-file-arrow, .review-file-row.is-selected .review-file-arrow { color: var(--accent); opacity: 1; }
 
 .review-diff-heading { min-width: 0; }
-.review-diff-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-mono); font-weight: 500 !important; font-size: 11.5px !important; }
-.review-diff { min-height: 320px; max-height: 640px; margin: 0; overflow: auto; color: var(--muted); background: var(--sidebar); font: 11.5px/1.6 var(--font-mono); scrollbar-color: var(--border) transparent; scrollbar-width: thin; }
+.review-diff-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-mono); font-weight: 500 !important; font-size: 12px !important; }
+.review-diff { min-height: 320px; max-height: 640px; margin: 0; overflow: auto; color: var(--muted); background: var(--sidebar); font: 12px/1.6 var(--font-mono); scrollbar-color: var(--border) transparent; scrollbar-width: thin; }
 .review-diff-line { display: flex; min-width: max-content; min-height: 1.6em; padding-right: 20px; }
 .review-line-number { width: 44px; flex: 0 0 44px; padding-left: 8px; color: var(--faint); opacity: .7; text-align: right; user-select: none; }
 .review-line-text { padding-left: 12px; white-space: pre; }
@@ -33,12 +33,12 @@
 .review-validation-body { display: flex; flex-direction: column; gap: 12px; }
 .review-validation-stats { margin: 0; max-width: 420px; }
 .review-diagnostics ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
-.review-diagnostic { display: flex; align-items: flex-start; gap: 8px; padding: 6px 8px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--panel); }
+.review-diagnostic { display: flex; align-items: flex-start; gap: 8px; padding: 6px 8px; border: 1px solid var(--border-subtle); border-radius: 6px; background: var(--panel); }
 .review-diagnostic .badge { text-transform: capitalize; margin-top: 1px; }
 .review-diagnostic-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.review-diagnostic-body code { overflow: hidden; color: var(--faint); font-size: 10.5px; text-overflow: ellipsis; white-space: nowrap; }
+.review-diagnostic-body code { overflow: hidden; color: var(--faint); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
 .review-diagnostic-body p { color: var(--text); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
-.review-diagnostic .button code { font-size: 10.5px; color: var(--faint); }
+.review-diagnostic .button code { font-size: 11px; color: var(--faint); }
 .review-no-diagnostics { display: inline-flex; align-items: center; gap: 6px; color: var(--ok); padding: 0; }
 
 .review-error { display: flex; align-items: flex-start; gap: 9px; padding: 12px; color: var(--muted); font-size: 12px; }

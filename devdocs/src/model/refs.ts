@@ -46,7 +46,7 @@ const KEY_KINDS: Readonly<Record<string, string>> = {
   regionId: "region", encounterId: "encounter", resourceId: "resource", lootTableId: "lootTable", tableId: "lootTable",
   creatureId: "enemy", baseId: "enemy", enemyId: "enemy", speciesId: "species", profileId: "creatureProfile",
   npcId: "npc", giverNpcId: "npc", questId: "quest", questIds: "quest", prerequisiteQuestIds: "quest",
-  dialogueRootId: "dialogue", dialogueNodeId: "dialogue", recipeId: "recipe", templateId: "recipeTemplate",
+  dialogueRootId: "dialogue", dialogueNodeId: "dialogue", next: "dialogue", recipeId: "recipe", templateId: "recipeTemplate",
   familyId: "equipmentFamily", campfireFuelId: "campfireFuel", spellId: "spell", shopId: "shop", setId: "set",
   resourceIds: "resource", placementId: "placement", firstActorUsesPlacementId: "placement",
 };
@@ -127,6 +127,9 @@ export interface ReferenceIndex {
   available: Set<string>;
 }
 
+/** Compiled tables whose rows are projections of an authored collection with a different name. */
+const COMPILED_SOURCE: Readonly<Record<string, string>> = { "compiled-enemies": "creatureDefinitions", "compiled-species": "creatureDefinitions" };
+
 export function buildReferenceIndex(responses: readonly CollectionResponse[]): ReferenceIndex {
   const incoming = new Map<string, Map<string, IncomingReference[]>>();
   const collections = new Map<string, CollectionResponse>();
@@ -134,7 +137,7 @@ export function buildReferenceIndex(responses: readonly CollectionResponse[]): R
     collections.set(response.collection.name, response);
     // Compiled catalogs duplicate their authored rows; index only authored sources plus the
     // compiled tables that have no authored counterpart loaded.
-    const authoredName = response.collection.name.replace(/^compiled-/, "");
+    const authoredName = COMPILED_SOURCE[response.collection.name] ?? response.collection.name.replace(/^compiled-/, "");
     if (response.collection.name.startsWith("compiled-") && responses.some(other => other.collection.name === authoredName && contentRows(other).length > 0)) continue;
     const idKey = response.collection.idKey;
     for (const record of contentRows(response)) {

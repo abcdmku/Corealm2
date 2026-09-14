@@ -1,0 +1,112 @@
+/*
+  Items workspace. Builds on workspace.css (.matrix, .record, .kv, .drawer) and theme.css primitives.
+  Same scale: type 11/12/13/15/18, controls 24px, rows 28px.
+*/
+
+/* ---------- Ladder ---------- */
+.ladder-page { max-width: none; }
+.ladder { max-height: calc(100dvh - 110px); }
+.ladder table { table-layout: fixed; min-width: 0; }
+.ladder th, .ladder td { vertical-align: middle; }
+.ladder thead th { text-align: center; }
+.ladder thead .ladder-groups th { height: 26px; top: 0; font-size: 11px; letter-spacing: .4px; text-transform: uppercase; color: var(--faint); }
+.ladder thead .ladder-roles th { top: 26px; height: 28px; }
+.ladder thead .ladder-roles th.is-live { color: var(--accent); }
+.ladder th:first-child { width: 132px; min-width: 132px; text-align: left; }
+.ladder tbody th { position: sticky; left: 0; z-index: 1; background: var(--panel-raised); text-align: left; font-weight: 600; }
+.ladder tbody td { width: 108px; min-width: 108px; padding: 3px 6px; }
+.ladder[data-mode="numbers"] tbody td { width: 84px; min-width: 84px; }
+.ladder tbody tr:hover th { background: var(--hover); }
+.ladder-tier-head { display: flex; flex-direction: column; gap: 0; line-height: 1.2; padding: 2px 0; }
+.ladder-tier-head strong { font-size: 13px; }
+.ladder-tier-head span { font-size: 12px; font-weight: 500; color: var(--text); }
+.ladder-tier-head small { font-size: 11px; font-weight: 400; color: var(--faint); }
+.ladder .cell { width: 100%; align-items: center; }
+.ladder .cell.is-missing { color: var(--danger); }
+.ladder .cell-name { font-size: 12px; line-height: 1.2; white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-align: left; }
+.ladder .cell-number { display: inline-flex; align-items: baseline; gap: 4px; font-size: 12px; }
+.ladder .cell-number strong { font-weight: 600; }
+.ladder .cell-number small { font-size: 11px; color: var(--faint); }
+.ladder .cell-number.is-changed strong { color: var(--accent); }
+.ladder-set th { font-weight: 500; }
+.ladder-set td { background: var(--panel); }
+.ladder-set-name { display: flex; align-items: baseline; gap: 6px; padding: 0; }
+.ladder-set-name span { font-size: 12px; }
+.ladder-set-name small { font-size: 11px; color: var(--faint); }
+.ladder-set-row { position: sticky; left: 140px; display: inline-flex; align-items: center; gap: 10px; width: auto; }
+.ladder-set-pieces { display: inline-flex; gap: 3px; }
+.ladder-slot-empty { border-style: dashed; background: transparent; }
+.ladder-set-thresholds { font-size: 11px; color: var(--muted); }
+
+/* ---------- Drawer additions ---------- */
+.drawer.is-wide { width: min(620px, 92vw); }
+.drawer.is-stacked { z-index: 47; }
+.drawer-scrim.is-stacked { z-index: 46; }
+.drawer .record-main { max-width: none; }
+.drawer .record-head { margin-bottom: 8px; }
+.drawer .record-title h1 { font-size: 15px; }
+.drawer .kv-row { grid-template-columns: 120px minmax(0, 1fr); }
+
+/* Curve drawers: a base + tier × perLevel pair on one row, and the live member table. */
+.param-pair { display: inline-flex; align-items: center; gap: 6px; }
+.param-pair .muted { font-size: 11px; white-space: nowrap; }
+.param-pair .kv-input[data-width="num"] { width: 104px; }
+.members-table { max-height: 50vh; margin-top: 2px; }
+.members-table td, .members-table th { padding: 2px 8px; height: 26px; }
+.members-table td:first-child, .members-table th:first-child { position: static; font-weight: 500; background: transparent; }
+.members-table th:first-child { background: var(--panel-raised); }
+.members-table .cell { padding: 0; }
+.change { display: inline-flex; align-items: center; gap: 4px; }
+.change s { color: var(--faint); }
+.change strong { color: var(--accent); font-weight: 600; }
+.change svg { color: var(--faint); }
+
+/* ---------- Item page ---------- */
+.recipe-line { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-height: 28px; }
+.recipe-part { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+.recipe-part small { color: var(--faint); font-size: 11px; }
+.recipe-part .cell { padding: 0; }
+.add-blocks { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.item-pick { max-width: 260px; }
+.item-pick.is-empty { color: var(--muted); border-style: dashed; padding-left: 8px; }
+.item-pick svg { flex-shrink: 0; }
+.record-rail .entity-summary { padding: 0; border: 0; background: transparent; }
+
+/* ---------- Sets ---------- */
+.sets-page { max-width: 1400px; }
+.sets-group { margin-bottom: 16px; }
+.sets-group h2 { font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px; }
+.sets-group .tile-grid { --tile-min: 300px; }
+.set-tile { flex-direction: row; align-items: center; gap: 10px; padding: 6px 10px 6px 6px; }
+.set-tile .thumb[data-size="xl"] { width: 72px; height: 72px; }
+.set-tile .thumb-composite { padding: 6%; gap: 3%; }
+.set-tile .tile-body { flex: 1; gap: 3px; }
+.set-tile .tile-title { font-size: 13px; }
+.set-tile .tile-subtitle.facts { display: flex; }
+.set-tile .tile-subtitle.mono { font-size: 11px; white-space: normal; line-height: 1.3; }
+.slot-grid .slot-tile { cursor: pointer; }
+.slot-grid .slot-tile:disabled { cursor: default; }
+.slot-grid .slot-tile .thumb[data-size="l"]:empty { border-style: dashed; background: transparent; }
+.thresholds-table { margin: 2px 0 6px; }
+.thresholds-table th, .thresholds-table td { padding: 3px 6px; }
+.thresholds-table td:first-child, .thresholds-table th:first-child { position: static; background: transparent; font-weight: 500; }
+.thresholds-table th:first-child { background: var(--panel-raised); }
+.thresholds-table .kv-input[data-width="num"] { width: 56px; }
+.thresholds-table td:first-child .kv-input[data-width="num"] { width: 48px; }
+.threshold-state { font-size: 11px; color: var(--faint); }
+.threshold-state[data-state="matches"] { color: var(--ok); }
+.threshold-state[data-state="differs"] { color: var(--warn); }
+.threshold-state .text-button { margin-left: 8px; font-size: 11px; }
+
+/* ---------- Recipes ---------- */
+.recipes-page { max-width: 1400px; }
+.recipes-table { max-height: calc(100dvh - 110px); }
+.recipes-table th, .recipes-table td { vertical-align: middle; height: 28px; }
+.recipes-table td:first-child, .recipes-table th:first-child { position: static; background: transparent; font-weight: 500; }
+.recipes-table thead th:first-child { background: var(--panel-raised); }
+.recipes-tier th { position: static; background: var(--panel-raised); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--faint); height: 24px; }
+.recipes-tier th small { margin-left: 8px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.recipes-row { cursor: pointer; }
+.recipes-row .cell { padding: 0; }
+.recipes-arrow { padding: 0 2px; width: 20px; }
+.recipes-table .recipe-line { min-height: 0; gap: 4px 8px; flex-wrap: nowrap; }

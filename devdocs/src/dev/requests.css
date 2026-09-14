@@ -8,12 +8,12 @@
 .request-row-target { flex: 0 0 auto; max-width: 280px; min-width: 0; padding-top: 1px; }
 .request-row-target .ref-chip { max-width: 100%; }
 .request-row-body { gap: 3px; }
-.request-row-text { font-size: 12.5px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); }
+.request-row-text { font-size: 12px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); }
 .request-row-lines { display: flex; flex-wrap: wrap; gap: 0 4px; white-space: normal; line-height: 1.5; color: var(--muted); font-size: 11px; }
 .request-row-lines strong { color: var(--text); font-weight: 500; }
-.request-row-lines time { color: var(--faint); font-family: var(--font-mono); font-size: 10.5px; }
+.request-row-lines time { color: var(--faint); font-family: var(--font-mono); font-size: 11px; }
 .request-row-meta { flex-wrap: wrap; justify-content: flex-end; max-width: 240px; gap: 4px; }
-.request-row-id { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--faint); font-size: 10.5px; }
+.request-row-id { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--faint); font-size: 11px; }
 
 .requests-error { display: flex; align-items: flex-start; gap: 9px; padding: 12px 0; color: var(--muted); font-size: 12px; }
 .requests-error > svg { flex: 0 0 auto; color: var(--danger); margin-top: 1px; }

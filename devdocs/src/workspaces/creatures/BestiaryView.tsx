@@ -1,0 +1,113 @@
+import { useMemo, useState } from "react";
+import { LayoutGrid, List, Search, X } from "lucide-react";
+import { Facts } from "../../ui/Sheet.js";
+import { Thumb } from "../../ui/Thumb.js";
+import { LoadingRows } from "../../ui/States.js";
+import type { ViewProps } from "../types.js";
+import { CreaturePage } from "./CreaturePage.js";
+import { thumbFor, titleCase, useCreatureData, type CreatureData, type ResolvedCreature } from "./shared.js";
+import "./creatures.css";
+
+type GroupBy = "region" | "level" | "family" | "role";
+type Kind = "all" | "bases" | "variants";
+const GROUPS: readonly { value: GroupBy; label: string }[] = [{ value: "region", label: "Region" }, { value: "level", label: "Level" }, { value: "family", label: "Family" }, { value: "role", label: "Role" }];
+const ROLE_ORDER = ["grazer", "skirmisher", "brute", "guardian", "caster", "boss"];
+
+/** Every creature as a rendered tile, grouped by where it lives, how strong it is, or what it is. */
+export default function BestiaryView({ recordId, navigate }: ViewProps) {
+  if (recordId) return <CreaturePage key={recordId} id={recordId} navigate={navigate} />;
+  return <BestiaryGrid navigate={navigate} />;
+}
+
+interface Group { key: string; label: string; rows: ResolvedCreature[] }
+
+function groupCreatures(data: CreatureData, rows: ResolvedCreature[], by: GroupBy): Group[] {
+  const groups = new Map<string, Group>();
+  const keyOf = (row: ResolvedCreature): [string, string] => {
+    switch (by) {
+      case "region": return [row.regionId ?? "~", data.regionName(row.regionId)];
+      case "level": return [String(row.level).padStart(3, "0"), `Level ${row.level}`];
+      case "family": return [row.family ?? "~", row.family ? titleCase(row.family) : "No family"];
+      case "role": return [row.profile ? String(ROLE_ORDER.indexOf(row.profile.role)) : "~", row.profile?.name ?? "No role"];
+    }
+  };
+  for (const row of rows) {
+    const [key, label] = keyOf(row);
+    let group = groups.get(key);
+    if (!group) { group = { key, label, rows: [] }; groups.set(key, group); }
+    group.rows.push(row);
+  }
+  const regionOrder = new Map(data.regions.map((region, index) => [region.id, index]));
+  const ordered = [...groups.values()].sort((a, b) => by === "region" ? (regionOrder.get(a.key) ?? 99) - (regionOrder.get(b.key) ?? 99) || a.key.localeCompare(b.key) : a.key.localeCompare(b.key));
+  for (const group of ordered) group.rows = orderRows(group.rows, by === "family");
+  return ordered;
+}
+
+/** Bases first, each followed by its variants, when the grouping keeps families together. Otherwise by level then name. */
+function orderRows(rows: ResolvedCreature[], byFamily: boolean): ResolvedCreature[] {
+  const byLevel = (a: ResolvedCreature, b: ResolvedCreature) => a.level - b.level || a.name.localeCompare(b.name);
+  if (!byFamily) return [...rows].sort(byLevel);
+  const present = new Set(rows.map(row => row.id));
+  const bases = rows.filter(row => !row.variant || !present.has(row.definition.baseId ?? "")).sort(byLevel);
+  const variants = rows.filter(row => row.variant && present.has(row.definition.baseId ?? "")).sort(byLevel);
+  return bases.flatMap(base => [base, ...variants.filter(variant => variant.definition.baseId === base.id)]);
+}
+
+function BestiaryGrid({ navigate }: { navigate: ViewProps["navigate"] }) {
+  const data = useCreatureData();
+  const [search, setSearch] = useState("");
+  const [groupBy, setGroupBy] = useState<GroupBy>("region");
+  const [availability, setAvailability] = useState<"world" | "lab" | undefined>(undefined);
+  const [kind, setKind] = useState<Kind>("all");
+  const [mode, setMode] = useState<"grid" | "list">("grid");
+
+  const filtered = useMemo(() => {
+    const needle = search.trim().toLowerCase();
+    return data.resolved.filter(row => {
+      if (availability && row.availability !== availability) return false;
+      if (kind === "bases" && row.variant) return false;
+      if (kind === "variants" && !row.variant) return false;
+      if (!needle) return true;
+      return `${row.name} ${row.id} ${row.family ?? ""} ${row.regionId ?? ""} ${row.profile?.name ?? ""}`.toLowerCase().includes(needle);
+    });
+  }, [data, search, availability, kind]);
+  const groups = useMemo(() => groupCreatures(data, filtered, groupBy), [data, filtered, groupBy]);
+
+  return <div className="ws-page bestiary">
+    <div className="bestiary-toolbar">
+      <label className="search-field"><Search size={14} /><input aria-label="Search creatures" placeholder="Search name, family, region…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button>}</label>
+      <div className="segmented" role="group" aria-label="Group by">{GROUPS.map(group => <button type="button" key={group.value} className={groupBy === group.value ? "is-active" : ""} onClick={() => setGroupBy(group.value)}>{group.label}</button>)}</div>
+      <div className="chip-row">
+        <button type="button" className={`filter-chip${availability === "world" ? " is-active" : ""}`} aria-pressed={availability === "world"} onClick={() => setAvailability(availability === "world" ? undefined : "world")}>World</button>
+        <button type="button" className={`filter-chip${availability === "lab" ? " is-active" : ""}`} aria-pressed={availability === "lab"} onClick={() => setAvailability(availability === "lab" ? undefined : "lab")}>Lab</button>
+        <button type="button" className={`filter-chip${kind === "bases" ? " is-active" : ""}`} aria-pressed={kind === "bases"} onClick={() => setKind(kind === "bases" ? "all" : "bases")}>Bases only</button>
+        <button type="button" className={`filter-chip${kind === "variants" ? " is-active" : ""}`} aria-pressed={kind === "variants"} onClick={() => setKind(kind === "variants" ? "all" : "variants")}>Variants</button>
+      </div>
+      <span className="bestiary-count mono">{data.loading ? "" : `${filtered.length} of ${data.resolved.length}`}</span>
+      <div className="segmented" role="group" aria-label="Layout">
+        <button type="button" className={mode === "grid" ? "is-active" : ""} aria-label="Grid" title="Grid" onClick={() => setMode("grid")}><LayoutGrid size={13} /></button>
+        <button type="button" className={mode === "list" ? "is-active" : ""} aria-label="List" title="List" onClick={() => setMode("list")}><List size={13} /></button>
+      </div>
+    </div>
+    {data.loading && !data.resolved.length && <LoadingRows />}
+    {!data.loading && !filtered.length && <p className="empty-inline">No creatures match.</p>}
+    {groups.map(group => <section className="bestiary-group" key={group.key}>
+      <h2>{group.label}</h2>
+      <div className={mode === "grid" ? "tile-grid" : "bestiary-list"} data-density="compact">
+        {group.rows.map(row => <CreatureTile key={row.id} row={row} data={data} mode={mode} indent={groupBy === "family" && row.variant} onOpen={() => navigate("creatureDefinitions", row.id)} />)}
+      </div>
+    </section>)}
+  </div>;
+}
+
+function CreatureTile({ row, data, mode, indent, onOpen }: { row: ResolvedCreature; data: CreatureData; mode: "grid" | "list"; indent: boolean; onOpen: () => void }) {
+  const thumb = thumbFor(row, data.ctx);
+  const facts = [`Level ${row.level}`, row.profile?.name, row.regionId ? data.regionName(row.regionId) : undefined, row.availability === "lab" ? "Lab" : undefined];
+  return <div role="button" tabIndex={0} className={`tile${mode === "list" ? " tile-row" : ""}${indent ? " is-variant" : ""}`} data-id={row.id} onClick={onOpen} onKeyDown={event => { if (event.key === "Enter") onOpen(); }} title={`${row.name} · ${row.id}`}>
+    <span className="tile-art"><Thumb spec={thumb} size={mode === "grid" ? "xl" : "m"} alt="" /></span>
+    <span className="tile-body">
+      <span className="tile-title">{row.name}{row.variant && mode === "list" && <span className="muted"> · {row.id}</span>}</span>
+      <Facts className="tile-subtitle" items={facts} />
+    </span>
+  </div>;
+}
