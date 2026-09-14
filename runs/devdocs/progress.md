@@ -177,3 +177,35 @@ A fresh source review found missing unscaled fantasy inheritance in the recomput
 Isolated groundwork also captures 99 universal/fairy/garden actor source inputs and their original templates, plus the M6 baseline inventory. These are not yet wired into shipped records. M4 and M5-M10 remain unfinished.
 
 Editor acceptance applies 25 RPG health changes and seven starter loot chance changes in temporary JSON, checks untouched fields and zero remaining drift, and proves local source health/fantasy tier/loot chance inputs change calculations without writes. Root inspected fresh unobscured screenshots. M6 strict storage schemas pass 11 original-projection tests but remain unwired. Actor source review flags universal minimum-region-tier resolution and the public helper as explicit next-integration work; 99 actor inputs are not yet shipped.
+
+## M4 actor and Wilderness sources, M5 batch editing (accepted checkpoint)
+
+The current working tree has 218 independently extracted enemy source inputs: 79 core/variant,
+99 universal/fairy/garden actor inputs, and 40 Wilderness/descendant inputs, consisting of 25
+pre-progression Wilderness body/dragon/regional-boss inputs and 15 fairy-crown/Crownward-dragon
+descendants. The 99 actor inputs and all 40 descendant inputs are integrated.
+There are 280 enemy formula tags, including 200 `sourceEnemy.v1` tags and seven regional lab
+bosses. The 18 Wilderness body and dragon source results remain separate from the final
+progression records. Five shared keeper rows supply identity and unrounded target operands.
+The enemy exporter still matches all 338 canonical records and 145 aliases against the original
+runtime exports.
+
+The loot graph now has 253 inputs, 298 owners, 228 formula tables and 70 authored tables.
+Fairy fabric joins the actual craftingTiers store.
+Public regional fabric and universal jewelry helpers read these parameters. Explicit custom
+tiers retain original dynamic jewelry IDs, while stored formula inputs require known item tiers.
+Universal helper minimum-region-tier resolution applies to explicit helper calls; canonical
+source input tiers remain fixed until the author edits those inputs.
+
+Fresh read-only critics accepted source and descendant loot plus public helper semantics and the
+Wilderness source slice. Typecheck, editor and production builds, and content:check across all
+30 collections pass. The combined Chromium editor smoke passed 63 universal recomputes, 36 fairy
+loot cases, bulk status/note/re-tier/formula unlink/conflict flows, and equipment-piece
+notes/conflict flows; root inspected the desktop and mobile screenshots. The world rebuild
+completed 336 tiles at 128.78 MB. The quiet full suite passes 3,520 tests with one skip across 451 files.
+Combat lab passes in 41.2 seconds, and final-world semantic smoke passes in 36.0 seconds.
+Pure final Wilderness assembly, progression and loot groundwork exists, but it remains unwired.
+
+M5 has an integrated bulk preview/apply endpoint and collection selection UI, plus equipment-set
+piece notes/status controls. Bulk status no-ops preserve history, bytes and revisions. Browser
+fixtures cover bulk conflicts, per-piece saves and actor recompute. M4-M10 remain unfinished.

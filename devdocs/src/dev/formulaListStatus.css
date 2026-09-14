@@ -1,0 +1,38 @@
+.formula-list-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.formula-list-status::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  content: "";
+}
+
+.formula-list-status[data-status="aligned"] { color: var(--accent); }
+.formula-list-status[data-status="drift"] { color: #e5b36f; }
+.formula-list-status[data-status="handTuned"] { color: var(--muted); }
+.formula-list-status[data-status="error"] { color: #ef9c8f; }
+.formula-list-status[data-status="loading"] { color: var(--faint); }
+.formula-list-status[data-status="aligned"]::before { background: currentColor; }
+.formula-list-status[data-status="error"]::before { border-radius: 1px; }
+
+:root[data-theme="light"] .formula-list-status[data-status="drift"] { color: #815316; }
+:root[data-theme="light"] .formula-list-status[data-status="error"] { color: #a43e32; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .formula-list-status[data-status="loading"]::before { animation: formula-status-pulse 1.4s ease-in-out infinite; }
+  @keyframes formula-status-pulse { 50% { opacity: .35; } }
+}
+
+.row-record-meta { display: flex; align-items: center; gap: 12px; min-width: 0; max-width: 100%; }
+.row-record-meta code { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.row-record-meta .formula-list-status { flex-shrink: 0; }

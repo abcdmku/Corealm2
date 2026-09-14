@@ -4118,6 +4118,10 @@
         "chance": 0.18
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/pearl_knight"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "pearl_knight_t40"
   },
@@ -4149,6 +4153,10 @@
         "chance": 1
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/ivory_castellan"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "ivory_castellan_t40"
   },
@@ -4188,6 +4196,10 @@
         "chance": 0.8
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/crown_hart"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "crown_hart_t40"
   },
@@ -4219,6 +4231,10 @@
         "chance": 0.18
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/silverthorn_harrow"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "silverthorn_harrow_t40"
   },
@@ -4258,6 +4274,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/lantern_sprite"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "lantern_sprite_t30"
   },
@@ -4297,6 +4317,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/moonpetal_stalker"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "moonpetal_stalker_t30"
   },
@@ -4336,6 +4360,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/dewglass_weaver"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "dewglass_weaver_t30"
   },
@@ -4375,6 +4403,10 @@
         "chance": 1
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/bloomheart_matriarch"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "bloomheart_matriarch_t30"
   },
@@ -4414,6 +4446,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/prismatic_sprite"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "prismatic_sprite_t60"
   },
@@ -4453,6 +4489,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/orchid_reaper"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "orchid_reaper_t60"
   },
@@ -4492,6 +4532,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/starroot_guardian"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "starroot_guardian_t60"
   },
@@ -4531,6 +4575,10 @@
         "chance": 1
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairyCrown/amethyst_sovereign"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "amethyst_sovereign_t60"
   },
@@ -4570,6 +4618,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "crownwardDragon/crownward_red_hatchling"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "crownward_red_hatchling_t40"
   },
@@ -4609,6 +4661,10 @@
         "chance": 0.35
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "crownwardDragon/crownward_black_hatchling"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "crownward_black_hatchling_t40"
   },
@@ -4648,6 +4704,10 @@
         "chance": 0.75
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "crownwardDragon/crownward_red_dragon"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "crownward_red_dragon_t40"
   },
@@ -4687,6 +4747,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/petal_pouncer_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "petal_pouncer_t30"
   },
@@ -4726,6 +4790,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/moss_nibbler_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "moss_nibbler_t30"
   },
@@ -4765,6 +4833,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/bloom_hopper_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "bloom_hopper_t30"
   },
@@ -4804,6 +4876,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/thicket_spirit_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "thicket_spirit_t30"
   },
@@ -4843,6 +4919,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/bramble_prowler_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "bramble_prowler_t30"
   },
@@ -4882,6 +4962,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/elder_grovebeast_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "elder_grovebeast_t30"
   },
@@ -4921,6 +5005,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/petal_pouncer_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "petal_pouncer_t60"
   },
@@ -4960,6 +5048,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/moss_nibbler_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "moss_nibbler_t60"
   },
@@ -4999,6 +5091,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/bloom_hopper_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "bloom_hopper_t60"
   },
@@ -5038,6 +5134,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/thicket_spirit_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "thicket_spirit_t60"
   },
@@ -5077,6 +5177,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/bramble_prowler_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "bramble_prowler_t60"
   },
@@ -5116,6 +5220,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "fairy/elder_grovebeast_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "elder_grovebeast_t60"
   },
@@ -5155,6 +5263,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_spriggle_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_spriggle_t30"
   },
@@ -5194,6 +5306,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_sporekin_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_sporekin_t30"
   },
@@ -5233,6 +5349,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_frog_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_frog_t30"
   },
@@ -5272,6 +5392,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_imp_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_imp_t30"
   },
@@ -5311,6 +5435,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_snail_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_snail_t30"
   },
@@ -5350,6 +5478,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_reliquary_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_reliquary_t30"
   },
@@ -5389,6 +5521,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_hart_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_hart_t30"
   },
@@ -5428,6 +5564,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_veilspirit_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_veilspirit_t30"
   },
@@ -5467,6 +5607,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_sapling_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_sapling_t30"
   },
@@ -5506,6 +5650,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_drake_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_drake_t30"
   },
@@ -5545,6 +5693,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_wardling_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_wardling_t30"
   },
@@ -5584,6 +5736,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_petalguard_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_petalguard_t30"
   },
@@ -5623,6 +5779,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_spriggle_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_spriggle_t60"
   },
@@ -5662,6 +5822,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_sporekin_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_sporekin_t60"
   },
@@ -5701,6 +5865,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_frog_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_frog_t60"
   },
@@ -5740,6 +5908,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_imp_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_imp_t60"
   },
@@ -5779,6 +5951,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_snail_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_snail_t60"
   },
@@ -5818,6 +5994,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_reliquary_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_reliquary_t60"
   },
@@ -5857,6 +6037,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_hart_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_hart_t60"
   },
@@ -5896,6 +6080,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_veilspirit_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_veilspirit_t60"
   },
@@ -5935,6 +6123,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_sapling_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_sapling_t60"
   },
@@ -5974,6 +6166,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_drake_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_drake_t60"
   },
@@ -6013,6 +6209,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_wardling_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_wardling_t60"
   },
@@ -6052,6 +6252,10 @@
         "chance": 0.14
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "garden/garden_petalguard_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "garden_petalguard_t60"
   },
@@ -6077,6 +6281,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t10"
   },
@@ -6102,6 +6310,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t10"
   },
@@ -6127,6 +6339,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t10"
   },
@@ -6152,6 +6368,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t10"
   },
@@ -6177,6 +6397,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t10"
   },
@@ -6202,6 +6426,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t10"
   },
@@ -6227,6 +6455,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t10"
   },
@@ -6252,6 +6484,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t10"
   },
@@ -6277,6 +6513,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t10"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t10"
   },
@@ -6302,6 +6542,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t20"
   },
@@ -6327,6 +6571,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t20"
   },
@@ -6352,6 +6600,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t20"
   },
@@ -6377,6 +6629,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t20"
   },
@@ -6402,6 +6658,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t20"
   },
@@ -6427,6 +6687,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t20"
   },
@@ -6452,6 +6716,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t20"
   },
@@ -6477,6 +6745,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t20"
   },
@@ -6502,6 +6774,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t20"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t20"
   },
@@ -6527,6 +6803,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t50"
   },
@@ -6552,6 +6832,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t70"
   },
@@ -6577,6 +6861,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t50"
   },
@@ -6602,6 +6890,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t70"
   },
@@ -6627,6 +6919,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t50"
   },
@@ -6652,6 +6948,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t70"
   },
@@ -6677,6 +6977,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t50"
   },
@@ -6702,6 +7006,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t70"
   },
@@ -6727,6 +7035,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t50"
   },
@@ -6752,6 +7064,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t70"
   },
@@ -6777,6 +7093,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t50"
   },
@@ -6802,6 +7122,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t70"
   },
@@ -6827,6 +7151,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t50"
   },
@@ -6852,6 +7180,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t70"
   },
@@ -6877,6 +7209,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t50"
   },
@@ -6902,6 +7238,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t70"
   },
@@ -6927,6 +7267,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t50"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t50"
   },
@@ -6952,6 +7296,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t70"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t70"
   },
@@ -6977,6 +7325,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t40"
   },
@@ -7002,6 +7354,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t40"
   },
@@ -7027,6 +7383,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t40"
   },
@@ -7052,6 +7412,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t40"
   },
@@ -7077,6 +7441,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t40"
   },
@@ -7102,6 +7470,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t40"
   },
@@ -7127,6 +7499,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t40"
   },
@@ -7152,6 +7528,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t40"
   },
@@ -7177,6 +7557,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t40"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t40"
   },
@@ -7202,6 +7586,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t30"
   },
@@ -7227,6 +7615,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t30"
   },
@@ -7252,6 +7644,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t30"
   },
@@ -7277,6 +7673,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t30"
   },
@@ -7302,6 +7702,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t30"
   },
@@ -7327,6 +7731,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t30"
   },
@@ -7352,6 +7760,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t30"
   },
@@ -7377,6 +7789,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t30"
   },
@@ -7402,6 +7818,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t30"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t30"
   },
@@ -7427,6 +7847,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_01_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_01_t60"
   },
@@ -7452,6 +7876,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_02_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_02_t60"
   },
@@ -7477,6 +7905,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_03_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_03_t60"
   },
@@ -7502,6 +7934,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_04_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_04_t60"
   },
@@ -7527,6 +7963,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_05_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_05_t60"
   },
@@ -7552,6 +7992,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_06_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_06_t60"
   },
@@ -7577,6 +8021,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_07_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_07_t60"
   },
@@ -7602,6 +8050,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_08_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_08_t60"
   },
@@ -7627,6 +8079,10 @@
         "exclusiveGroup": "jewelry"
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "universal/guardian_09_t60"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "guardian_09_t60"
   },
@@ -11013,6 +11469,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_tempest_roc"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_tempest_roc_t1"
   },
@@ -11028,6 +11488,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_galeskin"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_galeskin_t1"
   },
@@ -11043,6 +11507,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_rootheart"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_rootheart_t5"
   },
@@ -11058,6 +11526,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_mossbound"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_mossbound_t5"
   },
@@ -11073,6 +11545,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_tideworn"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_tideworn_t10"
   },
@@ -11088,6 +11564,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_ordrun"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_ordrun_t10"
   },
@@ -11103,6 +11583,10 @@
         "chance": 0.15
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "regionalBossBody/boss_cinderwake"
+    },
     "catalog": "ENEMY_BLOCK_LOOT",
     "ownerId": "boss_cinderwake_t20"
   },
@@ -11126,6 +11610,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/baby_red_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "baby_red_dragon"
   },
@@ -11149,6 +11637,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/baby_black_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "baby_black_dragon"
   },
@@ -11172,6 +11664,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/baby_lava_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "baby_lava_dragon"
   },
@@ -11195,6 +11691,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/red_wilderness_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "red_wilderness_dragon"
   },
@@ -11218,6 +11718,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/black_wilderness_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "black_wilderness_dragon"
   },
@@ -11241,6 +11745,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/purple_wilderness_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "purple_wilderness_dragon"
   },
@@ -11264,6 +11772,10 @@
         "chance": 0.65
       }
     ],
+    "derivation": {
+      "kind": "sourceLoot.v1",
+      "inputId": "wildernessDragon/amethyst_dragon"
+    },
     "catalog": "CREATURE_SOURCE_LOOT",
     "ownerId": "amethyst_dragon"
   },

@@ -15,7 +15,7 @@ import "./editor.css";
 type Draft = { record: unknown };
 type Change = (value: unknown) => void;
 const refs: Record<string, string> = { item: "items", recipe: "recipes", resource: "resources", npc: "npcs", shop: "shops", quest: "quests", dialogue: "dialogue", spell: "spells", rune: "spellRunes", set: "equipmentSets", enemy: "enemies", species: "creatures", resourceCluster: "resourceClusters", lootTable: "lootTables", campfireFuel: "campfireFuels", asset: "assets" };
-const balanceCollections = CONTENT_COLLECTIONS.filter(collection => collection.name.startsWith("balance/"));
+const balanceCollections = CONTENT_COLLECTIONS.filter(collection => collection.name.startsWith("balance/") || collection.name === "craftingTiers");
 const badKeys = new Set(["__proto__", "prototype", "constructor"]);
 const elementId = (path: string) => `edit-${encodeURIComponent(path || "record")}`;
 const childPath = (path: string, key: string | number) => typeof key === "number" ? `${path}[${key}]` : path ? `${path}.${key}` : key;

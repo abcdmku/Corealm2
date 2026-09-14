@@ -13,6 +13,15 @@ import { deriveCoreEnemy } from '../../game/src/content/balance/enemySources.js'
 import { buildVariantEnemySources } from './enemy-source-variant-inputs.js';
 import { deriveEnemySourceGraph } from '../../game/src/content/balance/enemySourceGraph.js';
 import { scaleFantasy } from '../../game/src/content/balance/enemySourceVariants.js';
+import { buildActorEnemySources } from './enemy-actor-source-inputs.js';
+import { buildDescendantEnemySources, DESCENDANT_SOURCE_MODULES, type DescendantEnemySources } from './enemy-descendant-source-inputs.js';
+import { deriveDescendantEnemy } from '../../game/src/content/balance/enemyDescendantSources.js';
+import { buildWildernessEnemySources, WILDERNESS_SOURCE_MODULES, type WildernessEnemySources } from './enemy-wilderness-source-inputs.js';
+import { deriveWildernessSourceEnemy } from '../../game/src/content/balance/enemyWildernessSources.js';
+import { deriveActorEnemy } from '../../game/src/content/balance/enemyActorSources.js';
+import rawEnemyParameters from '../../game/content/data/balance/enemies.json';
+import { EnemyBalanceSchema } from '../../game/src/content/schema/enemyBalance.js';
+import { parseValue } from '../../game/src/content/schema/core.js';
 import { repoRoot } from '../lib/paths.js';
 
 function equal(expected: unknown, actual: unknown, label: string): void {
@@ -118,6 +127,39 @@ export function buildEnemyRecords(baseline: M4Baseline): { enemies: EnemyRecord[
       for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Fantasy ${sourceInputId}.${key}`);
       row.derivation = { kind: 'fantasyScale.v1', sourceInputId, tier };
     }
+  }
+  const actors = buildActorEnemySources(baseline, {
+    universalMinibosses: sourceText('universalMinibosses'), fairyCreatures: sourceText('fairyCreatures'),
+    fairyGardenCreatures: sourceText('fairyGardenCreatures'), encounterBalance: sourceText('encounterBalance'),
+  });
+  // Shared combat operands are editable data. A changed balance must still pass exact
+  // original parity before this migration exporter can replace the saved baseline.
+  const combat = parseValue(EnemyBalanceSchema, rawEnemyParameters, 'balance/enemies');
+  for (const input of actors.inputs) {
+    const output = deriveActorEnemy(actors.params, input, combat);
+    const row = enemies.find(row => row.id === output.id);
+    if (!row || row.derivation || row.catalog !== 'CREATURE_SPECIES_BLOCKS') throw new Error(`Invalid actor source ${output.id}`);
+    for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Actor ${input.id}.${key}`);
+    row.derivation = { kind: 'sourceEnemy.v1', inputId: input.id };
+  }
+  const wilderness = buildWildernessEnemySources(baseline, Object.fromEntries(WILDERNESS_SOURCE_MODULES.map(name => [name, sourceText(name)])) as WildernessEnemySources, core.inputs);
+  const descendantsBase = new Map(graph);
+  for (const input of wilderness.inputs) {
+    const output = deriveWildernessSourceEnemy(wilderness.params, input, { ...combat, keepers: wilderness.keepers, resolveSource: id => descendantsBase.get(id) });
+    descendantsBase.set(input.id, output);
+    if (input.kind !== 'regionalBossBody') continue;
+    const row = enemies.find(row => row.id === output.id);
+    if (!row || row.derivation || row.catalog !== 'REGIONAL_BOSS_BLOCKS' || row.stage !== 'labOnly') throw new Error(`Invalid regional boss source ${output.id}`);
+    for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Regional boss ${input.id}.${key}`);
+    row.derivation = { kind: 'sourceEnemy.v1', inputId: input.id };
+  }
+  const descendants = buildDescendantEnemySources(baseline, Object.fromEntries(DESCENDANT_SOURCE_MODULES.map(name => [name, sourceText(name)])) as DescendantEnemySources, [...core.inputs, ...variants.inputs, ...wilderness.inputs]);
+  for (const input of descendants.inputs) {
+    const output = deriveDescendantEnemy(descendants.params, input, { ...combat, resolveSource: id => descendantsBase.get(id) });
+    const row = enemies.find(row => row.id === output.id);
+    if (!row || row.derivation || row.catalog !== 'CREATURE_SPECIES_BLOCKS') throw new Error(`Invalid descendant source ${output.id}`);
+    for (const key of Object.keys(output) as (keyof typeof output)[]) equal(output[key], row[key], `Descendant ${input.id}.${key}`);
+    row.derivation = { kind: 'sourceEnemy.v1', inputId: input.id };
   }
   return { enemies, aliases };
 }

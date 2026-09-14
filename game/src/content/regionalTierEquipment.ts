@@ -3,6 +3,8 @@ import { itemRows } from "./itemData.js";
 import type { ItemDef } from '../contracts.js';
 import type { RecipeDef, EnemyDef } from './index.js';
 import { recipeRows } from "./recipeData.js";
+import { LOOT_BALANCE } from './lootBalanceData.js';
+import { regionalFabricDrops as deriveRegionalFabricDrops } from './balance/actorLoot.js';
 
 /** Standalone regional catalog. Root registers this after production-lab acceptance. */
 export const REGIONAL_CRAFTING_TIERS = REGIONAL_CRAFTING_TIER_DATA;
@@ -10,7 +12,6 @@ export const REGIONAL_TIER_ITEMS: readonly ItemDef[] = itemRows("REGIONAL_TIER_I
 
 /** Regional creatures supply the fabric or hide; its own recipe makes the matching binding. */
 export function regionalFabricDrops(tier: number, boss = false): EnemyDef['drops'] {
-  const row = REGIONAL_CRAFTING_TIERS.find(row => row.tier === tier);
-  return row ? [{ itemId: row.hide, quantity: boss ? [4, 7] : [1, 3], chance: boss ? 1 : .75 }] : [];
+  return deriveRegionalFabricDrops(LOOT_BALANCE.regionalFabric, REGIONAL_CRAFTING_TIERS, tier, boss);
 }
 export const REGIONAL_TIER_RECIPES: readonly RecipeDef[] = recipeRows("REGIONAL_TIER_RECIPES");

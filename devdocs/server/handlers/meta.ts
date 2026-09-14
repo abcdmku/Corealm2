@@ -191,3 +191,5 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
 export function metaHandler(request: MetaHandlerRequest, options: MetaHandlerOptions = {}): Promise<DevdocsJsonResponse | undefined> {
   return createMetaHandler(options)(request);
 }
+
+export { metadataFile, snapshot as readMetadataSnapshot, applyOperation as applyMetaOperation };

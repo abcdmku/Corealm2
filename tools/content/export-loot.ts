@@ -12,14 +12,23 @@ import { buildCoreEnemySources } from './enemy-source-inputs.js';
 import { buildVariantEnemySources } from './enemy-source-variant-inputs.js';
 import { deriveEnemySourceGraph } from '../../game/src/content/balance/enemySourceGraph.js';
 import { deriveSourceLootGraph } from '../../game/src/content/balance/sourceLootGraph.js';
+import { buildActorLootSources, ACTOR_LOOT_MODULES, type ActorLootSources } from './actor-loot-inputs.js';
+import { buildDescendantLootSources, DESCENDANT_LOOT_MODULES, type DescendantLootSources } from './descendant-loot-inputs.js';
 
 export async function buildLootSourceBundle() {
   const baseline = await buildM4Baseline();
   const sources = Object.fromEntries(CORE_SOURCE_LOOT_MODULES.map(name => [name,
     readFileSync(path.join(repoRoot, '.baseline/game/src/content', `${name}.ts`), 'utf8')])) as CoreSourceLootSources;
   const extracted = buildCoreSourceLoot(baseline, sources);
+  const actorSources = Object.fromEntries(ACTOR_LOOT_MODULES.map(name => [name,
+    readFileSync(path.join(repoRoot, '.baseline/game/src/content', `${name}.ts`), 'utf8')])) as ActorLootSources;
+  const actors = buildActorLootSources(baseline, actorSources);
   const core = buildCoreEnemySources(baseline, { creatureExpansion: sources.creatureExpansion, starterCreatures: sources.starterCreatures, rpgBestiary: sources.rpgBestiary });
   const variants = buildVariantEnemySources(baseline, { enemies: sources.enemies, regionalCreatureVariants: sources.regionalCreatureVariants, creatureRedesign: sources.creatureRedesign, forestCreatureRedesigns: sources.forestCreatureRedesigns, ashCreatureRedesigns: sources.ashCreatureRedesigns, stoneCreatureRedesigns: sources.stoneCreatureRedesigns }, core.inputs);
+  const descendantSources = Object.fromEntries(DESCENDANT_LOOT_MODULES.map(name => [name,
+    readFileSync(path.join(repoRoot, '.baseline/game/src/content', `${name}.ts`), 'utf8')])) as DescendantLootSources;
+  const descendants = buildDescendantLootSources(baseline, descendantSources, [...core.inputs, ...variants.inputs]);
+  if (!isDeepStrictEqual(actors.externalFabric, descendants.externalFabric)) throw new Error('Original shared fabric dependencies disagree');
   const enemies = deriveEnemySourceGraph({ ...core.params, ...variants.params }, [...core.inputs, ...variants.inputs]);
   const owners = extracted.ownerProposals.map(owner => ({ id: owner.lootTableId, inputId: owner.inputId,
     mode: owner.formula ? 'formula' as const : 'authored' as const }));
@@ -29,7 +38,13 @@ export async function buildLootSourceBundle() {
       id: `loot_enemy_${source.family}_t${tier}`, inputId, mode: 'formula',
     });
   }
-  const outputs = deriveSourceLootGraph(extracted.params, extracted.inputs);
+  owners.push(...actors.ownerProposals.map(owner => ({ id: owner.lootTableId, inputId: owner.inputId, mode: 'formula' as const })));
+  owners.push(...descendants.ownerProposals.map(owner => ({ id: owner.lootTableId, inputId: owner.inputId,
+    mode: owner.formula ? 'formula' as const : 'authored' as const })));
+  // Append source inputs after the established core/actor prefix. Inherited boss loot resolves to its original RPG source.
+  const sourceInputs = [...extracted.inputs, ...actors.inputs, ...descendants.inputs];
+  const outputs = deriveSourceLootGraph(extracted.params, sourceInputs, { ...actors.externalFabric,
+    actorLootParameters: actors.params, descendantLootParameters: descendants.params });
   const records = canonicalRecords(LootTableSchema, baseline.records.lootTables, 'lootTables');
   for (const owner of owners) {
     const record = records.find(row => row.id === owner.id);
@@ -37,7 +52,21 @@ export async function buildLootSourceBundle() {
     if (owner.mode === 'formula') record.derivation = { kind: 'sourceLoot.v1', inputId: owner.inputId };
   }
   if (new Set(owners.map(owner => owner.id)).size !== owners.length) throw new Error('Duplicate source loot owner');
-  return { records: canonicalRecords(LootTableSchema, records, 'lootTables'), sourceLoot: extracted.params, sourceInputs: extracted.inputs, sourceOwners: owners, manifest: extracted.manifest };
+  if (sourceInputs.length !== 253 || owners.length !== 298 || owners.filter(owner => owner.mode === 'authored').length !== 70
+    || records.filter(record => record.derivation?.kind === 'sourceLoot.v1').length !== 228) {
+    throw new Error('Unexpected source loot coverage counts');
+  }
+  const manifestSources = [...extracted.manifest.sources, ...actors.manifest.sources, ...descendants.manifest.sources]
+    .filter((file, index, all) => all.findIndex(candidate => candidate.path === file.path) === index);
+  return { records: canonicalRecords(LootTableSchema, records, 'lootTables'), sourceLoot: extracted.params,
+    actorLootParameters: actors.params, descendantLootParameters: descendants.params, sourceInputs, sourceOwners: owners, externalFabric: actors.externalFabric,
+    manifest: { sources: manifestSources,
+      rows: [...extracted.manifest.rows, ...actors.manifest.rows, ...descendants.manifest.rows],
+      parameters: [...extracted.manifest.parameters, ...actors.manifest.parameters.map(row => ({
+        ...row, parameterPath: `actorLootParameters.${row.parameterPath}`,
+      })), ...descendants.manifest.parameters.map(row => ({
+        ...row, parameterPath: `descendantLootParameters.${row.parameterPath}`,
+      }))], externalParameters: actors.manifest.externalParameters } };
 }
 
 /** Rebuilds the canonical loot rows from the immutable M4 baseline. */

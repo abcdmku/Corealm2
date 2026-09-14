@@ -25,7 +25,9 @@ import { RecipeRecordSchema } from "../schema/recipes.js";
 import { recipeFieldsFromDerivation } from "./recipes.js";
 import { GearDerivationSchema } from "../schema/gearDerivation.js";
 import { EquipmentSetRecordSchema } from "../schema/equipmentSets.js";
-import { parseValue } from "../schema/core.js";
+import { arr, parseValue } from "../schema/core.js";
+import { CraftingTierRecordSchema } from "../schema/craftingTiers.js";
+import { RegionalFabricTiersSchema } from "../schema/actorLoot.js";
 
 export interface DerivationDiff {
   collection: string;
@@ -59,7 +61,9 @@ export function deriveRecord(collection: string, row: Record<string, unknown>, t
     const params = parseValue(lootBalanceSchema, tables.get('balance/loot'), 'balance/loot');
     const owner = params.sourceOwners.find(owner => owner.id === row.id);
     if (!owner || owner.mode !== 'formula' || owner.inputId !== inputTag.inputId) throw new Error(`Loot source ownership disagrees for ${String(row.id)}`);
-    const drops = deriveSourceLootGraph(params.sourceLoot, params.sourceInputs).get(inputTag.inputId);
+    const craftingTiers = parseValue(arr(CraftingTierRecordSchema), tables.get("craftingTiers"), "craftingTiers");
+    const regionalCraftingTiers = parseValue(RegionalFabricTiersSchema, craftingTiers.filter(row => row.catalog === "REGIONAL_CRAFTING_TIERS").map(({ tier, hide }) => ({ tier, hide })), "regional fabric tiers");
+    const drops = deriveSourceLootGraph(params.sourceLoot, params.sourceInputs, { ...params, regionalCraftingTiers }).get(inputTag.inputId);
     if (!drops) throw new Error(`Missing loot source ${inputTag.inputId}`);
     return { drops };
   }
@@ -67,7 +71,7 @@ export function deriveRecord(collection: string, row: Record<string, unknown>, t
     const inputTag = parseValue(FantasyEnemyDerivationSchema, tag, `enemies.${String(row.id)}.derivation`);
     const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
     if (!params.fantasy.sourceInputIds.includes(inputTag.sourceInputId) || !params.fantasy.tiers.includes(inputTag.tier)) throw new Error('Unknown fantasy source or tier');
-    const source = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs).get(inputTag.sourceInputId);
+    const source = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs, params).get(inputTag.sourceInputId);
     if (!source || row.catalog !== 'FANTASY_TIER_BLOCKS' || row.stage !== 'registered' || inputTag.tier === source.tier) throw new Error(`Invalid fantasy source for ${String(row.id)}`);
     const output = scaleFantasy(params.fantasy, { ...source, drops: [] }, inputTag.tier);
     if (output.id !== row.id) throw new Error(`Fantasy source belongs to ${output.id}, not ${String(row.id)}`);
@@ -80,9 +84,9 @@ export function deriveRecord(collection: string, row: Record<string, unknown>, t
     const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
     const input = params.sourceInputs.find(input => input.id === inputTag.inputId);
     if (!input) throw new Error(`Missing original source input ${inputTag.inputId}`);
-    const catalogs = input.kind === 'rpg' ? ['RPG_BESTIARY_BLOCKS', 'RPG_BESTIARY_STAGED_BLOCKS'] : ['CREATURE_SPECIES_BLOCKS'];
+    const catalogs = input.kind === 'regionalBossBody' ? ['REGIONAL_BOSS_BLOCKS'] : input.kind === 'rpg' ? ['RPG_BESTIARY_BLOCKS', 'RPG_BESTIARY_STAGED_BLOCKS'] : ['CREATURE_SPECIES_BLOCKS'];
     if (!catalogs.includes(String(row.catalog))) throw new Error(`Source formula catalog disagrees for ${String(row.id)}`);
-    const output = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs).get(input.id)!;
+    const output = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs, params).get(input.id)!;
     if (output.id !== row.id) throw new Error(`Source input ${input.id} belongs to ${output.id}, not ${String(row.id)}`);
     return { moveSpeedMps: undefined, walkSpeedMps: undefined, marks: undefined, attackStyle: undefined,
       attackRangeM: undefined, respawnSeconds: undefined, ...output };

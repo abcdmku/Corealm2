@@ -2,12 +2,15 @@ import { creatureRows } from './creatureData.js';
 import type { RegionId } from '../contracts.js';
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
 import type { EnemyDef } from './index.js';
-import { REGION_COMBAT_TIERS, tuneEnemyCombatLevel } from './encounterBalance.js';
+import { ENEMY_BALANCE } from './enemyBalanceData.js';
+import { LOOT_BALANCE } from './lootBalanceData.js';
+import { deriveActorEnemy, resolveUniversalActorTier } from './balance/enemyActorSources.js';
+import { universalJewelryDrops } from './balance/actorLoot.js';
 import { tierSilhouetteScale } from '../core/math.js';
 import { FAIRY_MINIBOSS_FORMS, fairyMinibossAsset } from './fairyMinibossForms.js';
 
-export const UNIVERSAL_MINIBOSS_RESPAWN_SECONDS = 30 * 60;
-export const UNIQUE_JEWELLERY_CHANCE = .30;
+export const UNIVERSAL_MINIBOSS_RESPAWN_SECONDS = ENEMY_BALANCE.actorSourceParameters.universal.respawnSeconds;
+export const UNIQUE_JEWELLERY_CHANCE = LOOT_BALANCE.actorLootParameters.universalJewelry.totalChance;
 export const UNIVERSAL_MINIBOSSES_PER_REGION = 2;
 
 /** Each source body can appear in every region. Strength and rewards follow the region. */
@@ -37,26 +40,17 @@ export function isReservedUniversalMinibossAsset(assetId: string): boolean {
   return RESERVED_UNIVERSAL_MINIBOSS_ASSET_IDS.has(assetId);
 }
 
-const template: EnemyDef = {
-  id: 'universal_guardian', family: 'guardian', name: 'Guardian', tier: 30,
-  maxHealth: 180, attackLevel: 14, defenceLevel: 12, accuracy: 22, armour: 32, magicArmour: 24,
-  maxHit: 8, attackSpeedMs: 2600, aggroRadius: 9, attackRangeM: 2.6,
-  moveSpeedMps: 2.6, walkSpeedMps: .55, behaviour: 'territorial', drops: [],
-};
-
 export function universalMinibossSpecies(number: UniversalMinibossNumber, regionId: RegionId, tierOverride?: 70): CreatureSpeciesDef {
   const row = UNIVERSAL_MINIBOSS_ROSTER.find(candidate => candidate.number === number)!;
-  const tier = tierOverride ?? Math.max(10, REGION_COMBAT_TIERS[regionId]);
-  const targetLevel = Math.max(12, Math.round(tier * 2.5));
+  const params = ENEMY_BALANCE.actorSourceParameters;
+  const tier = resolveUniversalActorTier(params.universal, ENEMY_BALANCE.regionCombatTiers, regionId, tierOverride);
   const stats: EnemyDef = {
-    ...tuneEnemyCombatLevel(template, targetLevel, tier),
-    id: `guardian_${number}_t${tier}`, family: `guardian_${number}`, name: row.name,
-    attackStyle: row.style, respawnSeconds: UNIVERSAL_MINIBOSS_RESPAWN_SECONDS,
-    drops: tier < 10 ? [] : [
-      { itemId: `guardian_ring_t${tier}`, quantity: [1, 1], chance: UNIQUE_JEWELLERY_CHANCE / 2, exclusiveGroup: 'jewelry' },
-      { itemId: `guardian_earring_t${tier}`, quantity: [1, 1], chance: UNIQUE_JEWELLERY_CHANCE / 2, exclusiveGroup: 'jewelry' },
-    ],
-    marks: [Math.max(15, tier * 10), Math.max(30, tier * 20)],
+    ...deriveActorEnemy(params, {
+      id: `universal/guardian_${number}_t${tier}`, kind: 'universal', number, tier,
+      // The original helper tunes before reading the roster fields, including on invalid calls.
+      get name() { return row.name; }, get style() { return row.style; },
+    }, ENEMY_BALANCE),
+    drops: universalJewelryDrops(LOOT_BALANCE.actorLootParameters.universalJewelry, tier, true),
   };
   return {
     id: `guardian_${number}_${regionId}${tierOverride ? `_t${tierOverride}` : ""}`, assetId: fairyMinibossAsset(number, regionId) ?? `fantasy_monster_${number}`, regionId,

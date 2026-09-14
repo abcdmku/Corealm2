@@ -294,4 +294,38 @@ No whole-game gate, browser session or final-world build was run for this propos
 
 ### Current source graph integration
 
-The core and redesign graph has 79 original inputs, with 35 legacy and 45 scaled fantasy records bringing enemy tag coverage to 159. Fantasy records own the complete original source spread, including unscaled name, behaviour, speed and optional fields; only drops have separate loot ownership. The loot graph has 114 original inputs and 159 explicit owner mappings. Of these, 59 are authored literals and remain untagged; 100 formula owners carry `sourceLoot.v1`. Source owner identity and formula/authored mode are read-only. Removing a derivation tag keeps the stored values without removing source ownership. None of these counts imply completion of actor families or Wilderness progression.
+The implemented graph has 218 source inputs: 79 core/variants, 99 actor inputs and 40
+Wilderness/descendant inputs, consisting of 25 pre-progression Wilderness body/dragon/regional-
+boss sources and 15 fairy-crown/Crownward-dragon descendants. The 99 actor inputs and all 40
+descendant inputs are integrated. It owns 200 `sourceEnemy.v1` tags; 35 legacy and 45 scaled
+fantasy records bring enemy coverage to 280. Eleven tagged rows are lab-only. Eighteen
+pre-progression Wilderness body/dragon inputs deliberately have no source tag on their
+overwritten final canonical record. Fantasy projections own the full original source spread,
+including unscaled name, behaviour, speeds and optional fields; drops have separate ownership.
+
+EnemyBalanceSchema keeps sourceParameters for core/variants, actorSourceParameters,
+wildernessSourceParameters, descendantSourceParameters and one shared keepers array.
+The combined sourceInputs union and dependency resolver preserve missing-field semantics,
+original tuning order and unrounded keeper targets. Helper tier resolution consumes the
+actor minimum region tier; stored canonical actor input tiers remain explicit saved inputs.
+
+The loot graph now has 253 inputs and 298 owner mappings. Seventy owners are authored literals
+and remain untagged; 228 carry `sourceLoot.v1`. Actor parameters live in
+actorLootParameters, separate from the original core sourceLoot object. Fairy fabric reads
+regionalFabric rolls plus actual craftingTiers rows. It does not duplicate those item maps
+inside the balance file. Core-only graphs may omit actor dependencies; actor nodes require
+them. Public helpers use the same parsed parameters. Known jewelry tiers use explicit item
+references, while explicit custom-tier public calls preserve original dynamic IDs.
+
+Owner identity and formula/authored mode are read-only. Removing a tag keeps saved values
+without removing independently authored source ownership. Fresh read-only critics accepted
+source and descendant loot plus public helper semantics. Typecheck, editor and production builds,
+and content:check across all 30 collections pass. The combined Chromium editor smoke passed 63
+universal recomputes, 36 fairy loot cases, bulk status/note/re-tier/formula unlink/conflict
+flows, and equipment-piece notes/conflict flows; root inspected the desktop and mobile
+screenshots. The world rebuild completed 336 tiles at 128.78 MB. The quiet full suite passes 3,520 tests with one skip across 451 files.
+Combat lab passes in 41.2 seconds, and final-world semantic smoke passes in 36.0 seconds.
+
+Pure final Wilderness assembly, progression and loot groundwork exists, but it remains unwired.
+M4-M10 remain unfinished. Later parameter paths in proposals above yield to the implemented
+typed schemas as root freezes each remaining integration.

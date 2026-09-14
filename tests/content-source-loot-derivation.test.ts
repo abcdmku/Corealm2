@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import rawTables from '../game/content/data/lootTables.json';
 import rawParameters from '../game/content/data/balance/loot.json';
+import rawCraftingTiers from '../game/content/data/craftingTiers.json';
 import { deriveRecord, derivationDiffs } from '../game/src/content/balance/derivations.js';
 import { deriveSourceLootGraph } from '../game/src/content/balance/sourceLootGraph.js';
 import { lootBalanceSchema } from '../game/src/content/schema/balance.js';
-import { SourceLootInputsSchema } from '../game/src/content/schema/sourceLoot.js';
+import { SourceLootGraphInputsSchema } from '../game/src/content/schema/sourceLootGraph.js';
+import { CraftingTierRecordSchema } from '../game/src/content/schema/craftingTiers.js';
 import { SourceLootDerivationSchema } from '../game/src/content/schema/lootDerivation.js';
 import { validateSourceLootLinks } from '../game/src/content/schema/sourceLootLinks.js';
 import { LootTableSchema } from '../game/src/content/schema/loot.js';
@@ -20,7 +22,8 @@ import { FANTASY_TIER_BLOCKS } from '../game/src/content/enemies.js';
 function proposal() {
   const rows = parseCollection(LootTableSchema, structuredClone(rawTables), { name: 'lootTables' });
   const params = parseValue(lootBalanceSchema, structuredClone(rawParameters), 'balance/loot');
-  return { rows, params, tables: new Map<string, unknown>([['lootTables', rows], ['balance/loot', params]]) };
+  const craftingTiers = parseCollection(CraftingTierRecordSchema, structuredClone(rawCraftingTiers), { name: 'craftingTiers', idKey: 'tier' });
+  return { rows, params, tables: new Map<string, unknown>([['lootTables', rows], ['balance/loot', params], ['craftingTiers', craftingTiers]]) };
 }
 function rowFor(rows: ReturnType<typeof proposal>['rows'], id: string) {
   const row = rows.find(row => row.id === id); if (!row) throw new Error(`Missing test loot owner ${id}`); return row;
@@ -30,15 +33,24 @@ function runtimeViews() {
     rpg: RPG_BESTIARY, stagedRpg: RPG_BESTIARY_STAGED, variants: REGIONAL_CREATURE_VARIANTS,
     stone: STONE_CREATURE_REDESIGNS, fantasy: FANTASY_TIER_BLOCKS };
 }
+function originalCoreInputs(params: ReturnType<typeof proposal>['params']) {
+  const prefixes = new Set(['legacy', 'expansion', 'starter', 'rpg', 'variant', 'basic', 'forest', 'ash', 'stone']);
+  return params.sourceInputs.filter(input => prefixes.has(input.id.split('/')[0]!));
+}
 
 describe('source loot derivation ownership and previews', () => {
-  it('recomputes all 100 shipped formula owners while the 59 authored owners remain untagged', () => {
+  it('recomputes all 228 shipped formula owners while the 70 authored owners remain untagged', () => {
     const { rows, params, tables } = proposal();
-    expect(params.sourceInputs).toHaveLength(114); expect(params.sourceOwners).toHaveLength(159);
+    expect(params.sourceInputs).toHaveLength(253); expect(params.sourceOwners).toHaveLength(298);
+    const coreInputs = originalCoreInputs(params), coreIds = new Set(coreInputs.map(input => input.id));
+    expect(coreInputs).toHaveLength(114);
+    expect(params.sourceOwners.filter(owner => coreIds.has(owner.inputId))).toHaveLength(159);
     const formula = params.sourceOwners.filter(owner => owner.mode === 'formula');
     const authored = params.sourceOwners.filter(owner => owner.mode === 'authored');
-    expect(formula).toHaveLength(100); expect(authored).toHaveLength(59);
-    expect(rows.filter(row => row.derivation?.kind === 'sourceLoot.v1')).toHaveLength(100);
+    expect(formula).toHaveLength(228); expect(authored).toHaveLength(70);
+    expect(authored.filter(owner => coreIds.has(owner.inputId))).toHaveLength(59);
+    expect(authored.filter(owner => owner.inputId.startsWith('wildernessBody/'))).toHaveLength(11);
+    expect(rows.filter(row => row.derivation?.kind === 'sourceLoot.v1')).toHaveLength(228);
     expect(validateSourceLootLinks(tables)).toEqual([]); expect(derivationDiffs(tables)).toEqual([]);
     for (const owner of formula) {
       const row = rowFor(rows, owner.id);
@@ -120,8 +132,9 @@ describe('source loot derivation ownership and previews', () => {
 describe('source loot graph validation', () => {
   it('resolves dependencies before consumers and clones inherited drop arrays', () => {
     const { params } = proposal(), saved = structuredClone(params);
-    const graph = deriveSourceLootGraph(params.sourceLoot, params.sourceInputs);
-    const reversedInputs = [...params.sourceInputs].reverse(), reversed = deriveSourceLootGraph(params.sourceLoot, reversedInputs);
+    const coreInputs = originalCoreInputs(params);
+    const graph = deriveSourceLootGraph(params.sourceLoot, coreInputs);
+    const reversedInputs = [...coreInputs].reverse(), reversed = deriveSourceLootGraph(params.sourceLoot, reversedInputs);
     expect(graph.size).toBe(114); expect([...reversed.keys()]).toEqual(reversedInputs.map(input => input.id));
     for (const [id, drops] of graph) expect(reversed.get(id), id).toEqual(drops);
     const base = graph.get('rpg/shale_elemental')!, inherited = graph.get('stone/cairn_treader')!;
@@ -138,9 +151,9 @@ describe('source loot graph validation', () => {
     if (kind === 'two-row cycle') { first.sourceInputId = second.id; second.sourceInputId = first.id; }
     if (kind === 'missing dependency') first.sourceInputId = 'rpg/missing';
     if (kind === 'duplicate input') params.sourceInputs.push(structuredClone(first));
-    expect(() => parseValue(SourceLootInputsSchema, params.sourceInputs, 'sourceInputs')).toThrow(/unique|dependencies|cycles/);
+    expect(() => parseValue(SourceLootGraphInputsSchema, params.sourceInputs, 'sourceInputs')).toThrow(/unique|dependencies|cycles/);
     expect(() => validateSourceLootLinks(tables)).toThrow(/unique|dependencies|cycles/);
-    expect(() => deriveSourceLootGraph(params.sourceLoot, params.sourceInputs)).toThrow(/Circular|Missing|Duplicate/);
+    expect(() => deriveSourceLootGraph(params.sourceLoot, originalCoreInputs(params))).toThrow(/Circular|Missing|Duplicate/);
     expect(() => derivationDiffs(tables)).toThrow(/unique|dependencies|cycles/);
   });
 

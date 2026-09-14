@@ -1,0 +1,273 @@
+{
+  "sources": [
+    {
+      "module": "wildernessCreatureSpecies",
+      "path": ".baseline/game/src/content/wildernessCreatureSpecies.ts",
+      "sha256": "c1f37be1dd170f842addc00dbeda6e48de5855632170e1ca4fa5497beb082495"
+    },
+    {
+      "module": "wildernessDragons",
+      "path": ".baseline/game/src/content/wildernessDragons.ts",
+      "sha256": "8ea5ca13411dab6dc7c30637538ca4307f7cef9a559824193afbf0f810878c93"
+    },
+    {
+      "module": "regionalBossBodies",
+      "path": ".baseline/game/src/content/regionalBossBodies.ts",
+      "sha256": "653b81a6087aad61f372ef327c375e9b12119d6678ec6d3b8a039a5a30a4c9b2"
+    },
+    {
+      "module": "wildernessDepth",
+      "path": ".baseline/game/src/content/wildernessDepth.ts",
+      "sha256": "79719ae827466c85c3769442113f9c0b8a20cefb12e09a808fced75ae3b56a97"
+    }
+  ],
+  "rows": [
+    {
+      "inputId": "wildernessBody/cinderback_crag",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodies",
+      "rowIndex": 0,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "cinderback_crag"
+    },
+    {
+      "inputId": "wildernessBody/furnace_grazer",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodies",
+      "rowIndex": 1,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "furnace_grazer"
+    },
+    {
+      "inputId": "wildernessBody/basalt_maw",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodies",
+      "rowIndex": 2,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "basalt_maw"
+    },
+    {
+      "inputId": "wildernessBody/rift_carapace",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodies",
+      "rowIndex": 3,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "rift_carapace"
+    },
+    {
+      "inputId": "wildernessBody/voidstone_colossus",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodies",
+      "rowIndex": 4,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "voidstone_colossus"
+    },
+    {
+      "inputId": "wildernessBody/gloam_wraith",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodies",
+      "rowIndex": 5,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "gloam_wraith"
+    },
+    {
+      "inputId": "wildernessBody/ashseal_warden",
+      "module": "wildernessDepth",
+      "symbol": "WILDERNESS_RUNE_KEEPERS",
+      "rowIndex": 0,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "ashseal_warden"
+    },
+    {
+      "inputId": "wildernessBody/furnace_regent",
+      "module": "wildernessDepth",
+      "symbol": "WILDERNESS_RUNE_KEEPERS",
+      "rowIndex": 1,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "furnace_regent"
+    },
+    {
+      "inputId": "wildernessBody/chainbound_archon",
+      "module": "wildernessDepth",
+      "symbol": "WILDERNESS_RUNE_KEEPERS",
+      "rowIndex": 2,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "chainbound_archon"
+    },
+    {
+      "inputId": "wildernessBody/nightforge_marshal",
+      "module": "wildernessDepth",
+      "symbol": "WILDERNESS_RUNE_KEEPERS",
+      "rowIndex": 3,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "nightforge_marshal"
+    },
+    {
+      "inputId": "wildernessBody/hollow_star",
+      "module": "wildernessDepth",
+      "symbol": "WILDERNESS_RUNE_KEEPERS",
+      "rowIndex": 4,
+      "catalog": "WILDERNESS_CREATURE_SPECIES",
+      "catalogModule": "wildernessCreatureSpecies",
+      "speciesId": "hollow_star"
+    },
+    {
+      "inputId": "wildernessDragon/baby_red_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 0,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "baby_red_dragon"
+    },
+    {
+      "inputId": "wildernessDragon/baby_black_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 1,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "baby_black_dragon"
+    },
+    {
+      "inputId": "wildernessDragon/baby_lava_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 2,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "baby_lava_dragon"
+    },
+    {
+      "inputId": "wildernessDragon/red_wilderness_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 3,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "red_wilderness_dragon"
+    },
+    {
+      "inputId": "wildernessDragon/black_wilderness_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 4,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "black_wilderness_dragon"
+    },
+    {
+      "inputId": "wildernessDragon/purple_wilderness_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 5,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "purple_wilderness_dragon"
+    },
+    {
+      "inputId": "wildernessDragon/amethyst_dragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES",
+      "rowIndex": 6,
+      "catalog": "WILDERNESS_DRAGONS",
+      "catalogModule": "wildernessDragons",
+      "speciesId": "amethyst_dragon"
+    },
+    {
+      "inputId": "regionalBossBody/boss_tempest_roc",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 0,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_tempest_roc"
+    },
+    {
+      "inputId": "regionalBossBody/boss_galeskin",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 1,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_galeskin"
+    },
+    {
+      "inputId": "regionalBossBody/boss_rootheart",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 2,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_rootheart"
+    },
+    {
+      "inputId": "regionalBossBody/boss_mossbound",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 3,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_mossbound"
+    },
+    {
+      "inputId": "regionalBossBody/boss_tideworn",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 4,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_tideworn"
+    },
+    {
+      "inputId": "regionalBossBody/boss_ordrun",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 5,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_ordrun"
+    },
+    {
+      "inputId": "regionalBossBody/boss_cinderwake",
+      "module": "regionalBossBodies",
+      "symbol": "SOURCES",
+      "rowIndex": 6,
+      "catalog": "REGIONAL_BOSS_SPECIES",
+      "catalogModule": "regionalBossBodies",
+      "speciesId": "boss_cinderwake"
+    }
+  ],
+  "parameters": [
+    {
+      "parameterPath": "wildernessBody",
+      "module": "wildernessCreatureSpecies",
+      "symbol": "bodyStats"
+    },
+    {
+      "parameterPath": "wildernessDragon",
+      "module": "wildernessDragons",
+      "symbol": "DRAGON_SPECIES"
+    },
+    {
+      "parameterPath": "regionalBossBody",
+      "module": "regionalBossBodies",
+      "symbol": "REGIONAL_BOSS_SPECIES"
+    },
+    {
+      "parameterPath": "keepers",
+      "module": "wildernessDepth",
+      "symbol": "WILDERNESS_RUNE_KEEPERS"
+    }
+  ]
+}

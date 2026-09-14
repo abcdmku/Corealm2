@@ -523,6 +523,293 @@
       }
     }
   },
+  "actorSourceParameters": {
+    "universal": {
+      "template": {
+        "id": "universal_guardian",
+        "family": "guardian",
+        "name": "Guardian",
+        "tier": 30,
+        "maxHealth": 180,
+        "attackLevel": 14,
+        "defenceLevel": 12,
+        "accuracy": 22,
+        "armour": 32,
+        "magicArmour": 24,
+        "maxHit": 8,
+        "attackSpeedMs": 2600,
+        "aggroRadius": 9,
+        "moveSpeedMps": 2.6,
+        "walkSpeedMps": 0.55,
+        "behaviour": "territorial",
+        "attackRangeM": 2.6
+      },
+      "minimumRegionTier": 10,
+      "minimumTargetLevel": 12,
+      "targetLevelMultiplier": 2.5,
+      "respawnSeconds": 1800,
+      "marksMinimum": [
+        15,
+        30
+      ],
+      "marksPerTier": [
+        10,
+        20
+      ]
+    },
+    "fairy": {
+      "template": {
+        "id": "fairy_creature",
+        "family": "fairy_creature",
+        "name": "Fairy Creature",
+        "tier": 30,
+        "maxHealth": 70,
+        "attackLevel": 8,
+        "defenceLevel": 7,
+        "accuracy": 18,
+        "armour": 20,
+        "magicArmour": 12,
+        "maxHit": 6,
+        "attackSpeedMs": 2400,
+        "aggroRadius": 6,
+        "moveSpeedMps": 2.1,
+        "walkSpeedMps": 0.45,
+        "behaviour": "territorial"
+      },
+      "aggressiveLevelOffset": 8,
+      "aggroRadius": {
+        "aggressive": 8,
+        "other": 5
+      },
+      "marksPerTier": [
+        3,
+        7
+      ]
+    },
+    "garden": {
+      "template": {
+        "id": "fairy_garden",
+        "family": "fairy_garden",
+        "name": "Garden Creature",
+        "tier": 30,
+        "maxHealth": 70,
+        "attackLevel": 8,
+        "defenceLevel": 7,
+        "accuracy": 18,
+        "armour": 20,
+        "magicArmour": 12,
+        "maxHit": 6,
+        "attackSpeedMs": 2400,
+        "aggroRadius": 5,
+        "moveSpeedMps": 1,
+        "walkSpeedMps": 0.3,
+        "behaviour": "territorial"
+      },
+      "walkSpeedCap": 0.35,
+      "walkSpeedMultiplier": 0.45,
+      "aggroRadius": {
+        "aggressive": 7,
+        "other": 4
+      },
+      "marksPerTier": [
+        3,
+        7
+      ]
+    }
+  },
+  "wildernessSourceParameters": {
+    "wildernessBody": {
+      "heavyRoles": [
+        "heavy",
+        "keeper"
+      ],
+      "magicRoles": [
+        "ghost"
+      ],
+      "magicSpeciesIds": [
+        "chainbound_archon",
+        "hollow_star"
+      ],
+      "deepTier": 70,
+      "attackLevelMultiplier": {
+        "magic": 0.83,
+        "heavy": 0.74,
+        "other": 0.87
+      },
+      "defenceLevelMultiplier": {
+        "heavy": 0.77,
+        "other": 0.62
+      },
+      "healthPerLevel": {
+        "heavy": 5,
+        "other": 3
+      },
+      "accuracy": {
+        "magic": 20,
+        "predator": 15,
+        "other": 8
+      },
+      "armour": {
+        "magic": 10,
+        "heavy": 35,
+        "other": 20
+      },
+      "magicArmour": {
+        "magic": 40,
+        "deep": 25,
+        "other": 10
+      },
+      "maxHitPerTier": {
+        "keeper": 0.76,
+        "heavy": 0.49,
+        "other": 0.4
+      },
+      "attackRangeM": {
+        "magic": 8,
+        "heavy": 2.6,
+        "other": 1.9
+      },
+      "attackSpeedMs": {
+        "keeper": 3800,
+        "heavy": 3400,
+        "magic": 2900,
+        "other": 2500
+      },
+      "aggroRadius": {
+        "keeper": 15,
+        "magic": 10,
+        "other": 8
+      },
+      "moveSpeedMps": {
+        "magic": 1.6,
+        "heavy": 1.1,
+        "other": 1.5
+      },
+      "walkSpeedMps": {
+        "heavy": 0.32,
+        "other": 0.42
+      },
+      "marks": {
+        "minimumPerTier": 1,
+        "maximumPerTier": {
+          "keeper": 12,
+          "other": 3
+        }
+      }
+    },
+    "wildernessDragon": {
+      "shallowTier": 50,
+      "healthPerTier": 3,
+      "attackLevelOffset": -3,
+      "defenceLevelOffset": -5,
+      "accuracy": 12,
+      "armour": 24,
+      "magicArmour": 32,
+      "maxHitPerTier": 0.32,
+      "marksPerTier": [
+        2,
+        6
+      ],
+      "shallow": {
+        "attackSpeedMs": 2800,
+        "attackRangeM": 2.3,
+        "aggroRadius": 8,
+        "moveSpeedMps": 1.4,
+        "walkSpeedMps": 0.65
+      },
+      "deep": {
+        "attackSpeedMs": 3600,
+        "attackRangeM": 3.5,
+        "aggroRadius": 11,
+        "moveSpeedMps": 1.8,
+        "walkSpeedMps": 0.8
+      }
+    },
+    "regionalBossBody": {
+      "behaviour": "territorial"
+    }
+  },
+  "descendantSourceParameters": {
+    "fairyCrown": {
+      "movementScaleCap": 1,
+      "attackRangeM": {
+        "boss": {
+          "minimum": 2.4,
+          "fallback": 2
+        },
+        "ordinary": {
+          "maximum": 2,
+          "fallback": 1.8
+        }
+      },
+      "aggroRadius": {
+        "boss": 12,
+        "passive": 4,
+        "territorial": 5,
+        "aggressive": 8
+      },
+      "marksPerTier": {
+        "ordinary": [
+          3,
+          7
+        ],
+        "boss": [
+          12,
+          24
+        ]
+      }
+    },
+    "crownwardDragon": {
+      "tier": 40,
+      "behaviour": "territorial",
+      "aggroRadius": {
+        "miniboss": 7,
+        "boss": 11
+      },
+      "marks": {
+        "miniboss": [
+          220,
+          380
+        ],
+        "boss": [
+          600,
+          1000
+        ]
+      }
+    }
+  },
+  "keepers": [
+    {
+      "id": "ashseal_warden",
+      "name": "Ashseal Warden",
+      "tier": 50,
+      "multiplier": 3
+    },
+    {
+      "id": "furnace_regent",
+      "name": "Furnace Regent",
+      "tier": 50,
+      "multiplier": 4
+    },
+    {
+      "id": "chainbound_archon",
+      "name": "Chainbound Archon",
+      "tier": 70,
+      "multiplier": 3
+    },
+    {
+      "id": "nightforge_marshal",
+      "name": "Nightforge Marshal",
+      "tier": 70,
+      "multiplier": 4
+    },
+    {
+      "id": "hollow_star",
+      "name": "The Hollow Star",
+      "tier": 70,
+      "multiplier": 5
+    }
+  ],
   "sourceInputs": [
     {
       "id": "expansion/redbrush_fox",
@@ -1687,6 +1974,1249 @@
       "tier": 10,
       "behaviour": "territorial",
       "profile": "stone"
+    },
+    {
+      "id": "universal/guardian_01_t10",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_02_t10",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_03_t10",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_04_t10",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_05_t10",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_06_t10",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_07_t10",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_08_t10",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_09_t10",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_01_t20",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_02_t20",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_03_t20",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_04_t20",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_05_t20",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_06_t20",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_07_t20",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_08_t20",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_09_t20",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_01_t50",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_01_t70",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_02_t50",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_02_t70",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_03_t50",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_03_t70",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_04_t50",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_04_t70",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_05_t50",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_05_t70",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_06_t50",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_06_t70",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_07_t50",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_07_t70",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_08_t50",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_08_t70",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_09_t50",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_09_t70",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_01_t40",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_02_t40",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_03_t40",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_04_t40",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_05_t40",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_06_t40",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_07_t40",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_08_t40",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_09_t40",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_01_t30",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_02_t30",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_03_t30",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_04_t30",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_05_t30",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_06_t30",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_07_t30",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_08_t30",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_09_t30",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_01_t60",
+      "kind": "universal",
+      "number": "01",
+      "name": "Bramblehorn",
+      "style": "melee",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_02_t60",
+      "kind": "universal",
+      "number": "02",
+      "name": "Gloamwarden",
+      "style": "magic",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_03_t60",
+      "kind": "universal",
+      "number": "03",
+      "name": "Thorn Sovereign",
+      "style": "melee",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_04_t60",
+      "kind": "universal",
+      "number": "04",
+      "name": "Hollow Crown",
+      "style": "magic",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_05_t60",
+      "kind": "universal",
+      "number": "05",
+      "name": "Stonevein",
+      "style": "melee",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_06_t60",
+      "kind": "universal",
+      "number": "06",
+      "name": "Nightbloom",
+      "style": "magic",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_07_t60",
+      "kind": "universal",
+      "number": "07",
+      "name": "Dreadroot",
+      "style": "melee",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_08_t60",
+      "kind": "universal",
+      "number": "08",
+      "name": "Veilkeeper",
+      "style": "magic",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_09_t60",
+      "kind": "universal",
+      "number": "09",
+      "name": "Elder Thorne",
+      "style": "melee",
+      "tier": 60
+    },
+    {
+      "id": "fairy/petal_pouncer_t30",
+      "speciesId": "petal_pouncer_t30",
+      "family": "petal_pouncer",
+      "name": "Petal Pouncer",
+      "tier": 30,
+      "levelOffset": -4,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/moss_nibbler_t30",
+      "speciesId": "moss_nibbler_t30",
+      "family": "moss_nibbler",
+      "name": "Moss Nibbler",
+      "tier": 30,
+      "levelOffset": -2,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/bloom_hopper_t30",
+      "speciesId": "bloom_hopper_t30",
+      "family": "bloom_hopper",
+      "name": "Bloom Hopper",
+      "tier": 30,
+      "levelOffset": 0,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/thicket_spirit_t30",
+      "speciesId": "thicket_spirit_t30",
+      "family": "thicket_spirit",
+      "name": "Thicket Spirit",
+      "tier": 30,
+      "levelOffset": 3,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/bramble_prowler_t30",
+      "speciesId": "bramble_prowler_t30",
+      "family": "bramble_prowler",
+      "name": "Bramble Prowler",
+      "tier": 30,
+      "levelOffset": 8,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/elder_grovebeast_t30",
+      "speciesId": "elder_grovebeast_t30",
+      "family": "elder_grovebeast",
+      "name": "Elder Grovebeast",
+      "tier": 30,
+      "levelOffset": 14,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/petal_pouncer_t60",
+      "speciesId": "petal_pouncer_t60",
+      "family": "petal_pouncer",
+      "name": "Petal Pouncer",
+      "tier": 60,
+      "levelOffset": -4,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/moss_nibbler_t60",
+      "speciesId": "moss_nibbler_t60",
+      "family": "moss_nibbler",
+      "name": "Moss Nibbler",
+      "tier": 60,
+      "levelOffset": -2,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/bloom_hopper_t60",
+      "speciesId": "bloom_hopper_t60",
+      "family": "bloom_hopper",
+      "name": "Bloom Hopper",
+      "tier": 60,
+      "levelOffset": 0,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/thicket_spirit_t60",
+      "speciesId": "thicket_spirit_t60",
+      "family": "thicket_spirit",
+      "name": "Thicket Spirit",
+      "tier": 60,
+      "levelOffset": 3,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/bramble_prowler_t60",
+      "speciesId": "bramble_prowler_t60",
+      "family": "bramble_prowler",
+      "name": "Bramble Prowler",
+      "tier": 60,
+      "levelOffset": 8,
+      "kind": "fairy"
+    },
+    {
+      "id": "fairy/elder_grovebeast_t60",
+      "speciesId": "elder_grovebeast_t60",
+      "family": "elder_grovebeast",
+      "name": "Elder Grovebeast",
+      "tier": 60,
+      "levelOffset": 14,
+      "kind": "fairy"
+    },
+    {
+      "id": "garden/garden_spriggle_t30",
+      "speciesId": "garden_spriggle_t30",
+      "family": "garden_spriggle",
+      "name": "Dewdrop Spriggle",
+      "tier": 30,
+      "levelOffset": -3,
+      "kind": "garden",
+      "speed": 0.8,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_sporekin_t30",
+      "speciesId": "garden_sporekin_t30",
+      "family": "garden_sporekin",
+      "name": "Mooncap Sporekin",
+      "tier": 30,
+      "levelOffset": -6,
+      "kind": "garden",
+      "speed": 1.1,
+      "behaviour": "passive"
+    },
+    {
+      "id": "garden/garden_frog_t30",
+      "speciesId": "garden_frog_t30",
+      "family": "garden_frog",
+      "name": "Glasspond Frog",
+      "tier": 30,
+      "levelOffset": -4,
+      "kind": "garden",
+      "speed": 0.65,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_imp_t30",
+      "speciesId": "garden_imp_t30",
+      "family": "garden_imp",
+      "name": "Lantern Imp",
+      "tier": 30,
+      "levelOffset": 1,
+      "kind": "garden",
+      "speed": 1.1,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_snail_t30",
+      "speciesId": "garden_snail_t30",
+      "family": "garden_snail",
+      "name": "Mooncap Snail",
+      "tier": 30,
+      "levelOffset": -2,
+      "kind": "garden",
+      "speed": 0.3,
+      "behaviour": "passive"
+    },
+    {
+      "id": "garden/garden_reliquary_t30",
+      "speciesId": "garden_reliquary_t30",
+      "family": "garden_reliquary",
+      "name": "Dewglass Reliquary",
+      "tier": 30,
+      "levelOffset": 0,
+      "kind": "garden",
+      "speed": 0.55,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_hart_t30",
+      "speciesId": "garden_hart_t30",
+      "family": "garden_hart",
+      "name": "Silverleaf Hart",
+      "tier": 30,
+      "levelOffset": 2,
+      "kind": "garden",
+      "speed": 1.2,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_veilspirit_t30",
+      "speciesId": "garden_veilspirit_t30",
+      "family": "garden_veilspirit",
+      "name": "Thistledown Veilspirit",
+      "tier": 30,
+      "levelOffset": 4,
+      "kind": "garden",
+      "speed": 1.2,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_sapling_t30",
+      "speciesId": "garden_sapling_t30",
+      "family": "garden_sapling",
+      "name": "Briar Sapling",
+      "tier": 30,
+      "levelOffset": 7,
+      "kind": "garden",
+      "speed": 0.85,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_drake_t30",
+      "speciesId": "garden_drake_t30",
+      "family": "garden_drake",
+      "name": "Petal Drake",
+      "tier": 30,
+      "levelOffset": 9,
+      "kind": "garden",
+      "speed": 0.9,
+      "behaviour": "aggressive"
+    },
+    {
+      "id": "garden/garden_wardling_t30",
+      "speciesId": "garden_wardling_t30",
+      "family": "garden_wardling",
+      "name": "Dewstone Wardling",
+      "tier": 30,
+      "levelOffset": 11,
+      "kind": "garden",
+      "speed": 1,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_petalguard_t30",
+      "speciesId": "garden_petalguard_t30",
+      "family": "garden_petalguard",
+      "name": "Silverleaf Petalguard",
+      "tier": 30,
+      "levelOffset": 5,
+      "kind": "garden",
+      "speed": 0.7,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_spriggle_t60",
+      "speciesId": "garden_spriggle_t60",
+      "family": "garden_spriggle",
+      "name": "Prism Spriggle",
+      "tier": 60,
+      "levelOffset": -3,
+      "kind": "garden",
+      "speed": 0.8,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_sporekin_t60",
+      "speciesId": "garden_sporekin_t60",
+      "family": "garden_sporekin",
+      "name": "Duskcap Sporekin",
+      "tier": 60,
+      "levelOffset": -6,
+      "kind": "garden",
+      "speed": 1.1,
+      "behaviour": "passive"
+    },
+    {
+      "id": "garden/garden_frog_t60",
+      "speciesId": "garden_frog_t60",
+      "family": "garden_frog",
+      "name": "Orchid Pondling",
+      "tier": 60,
+      "levelOffset": -4,
+      "kind": "garden",
+      "speed": 0.65,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_imp_t60",
+      "speciesId": "garden_imp_t60",
+      "family": "garden_imp",
+      "name": "Twilight Imp",
+      "tier": 60,
+      "levelOffset": 1,
+      "kind": "garden",
+      "speed": 1.1,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_snail_t60",
+      "speciesId": "garden_snail_t60",
+      "family": "garden_snail",
+      "name": "Starcap Snail",
+      "tier": 60,
+      "levelOffset": -2,
+      "kind": "garden",
+      "speed": 0.3,
+      "behaviour": "passive"
+    },
+    {
+      "id": "garden/garden_reliquary_t60",
+      "speciesId": "garden_reliquary_t60",
+      "family": "garden_reliquary",
+      "name": "Starporcelain Reliquary",
+      "tier": 60,
+      "levelOffset": 0,
+      "kind": "garden",
+      "speed": 0.55,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_hart_t60",
+      "speciesId": "garden_hart_t60",
+      "family": "garden_hart",
+      "name": "Starhorn Hart",
+      "tier": 60,
+      "levelOffset": 2,
+      "kind": "garden",
+      "speed": 1.2,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_veilspirit_t60",
+      "speciesId": "garden_veilspirit_t60",
+      "family": "garden_veilspirit",
+      "name": "Orchid Veilspirit",
+      "tier": 60,
+      "levelOffset": 4,
+      "kind": "garden",
+      "speed": 1.2,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_sapling_t60",
+      "speciesId": "garden_sapling_t60",
+      "family": "garden_sapling",
+      "name": "Starroot Tender",
+      "tier": 60,
+      "levelOffset": 7,
+      "kind": "garden",
+      "speed": 0.85,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_drake_t60",
+      "speciesId": "garden_drake_t60",
+      "family": "garden_drake",
+      "name": "Orchid Drake",
+      "tier": 60,
+      "levelOffset": 9,
+      "kind": "garden",
+      "speed": 0.9,
+      "behaviour": "aggressive"
+    },
+    {
+      "id": "garden/garden_wardling_t60",
+      "speciesId": "garden_wardling_t60",
+      "family": "garden_wardling",
+      "name": "Amethyst Wardling",
+      "tier": 60,
+      "levelOffset": 11,
+      "kind": "garden",
+      "speed": 1,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "garden/garden_petalguard_t60",
+      "speciesId": "garden_petalguard_t60",
+      "family": "garden_petalguard",
+      "name": "Moonstone Petalguard",
+      "tier": 60,
+      "levelOffset": 5,
+      "kind": "garden",
+      "speed": 0.7,
+      "behaviour": "territorial"
+    },
+    {
+      "id": "wildernessBody/cinderback_crag",
+      "kind": "wildernessBody",
+      "role": "crawler",
+      "speciesId": "cinderback_crag",
+      "name": "Cinderback Crag",
+      "tier": 50,
+      "targetLevel": 48
+    },
+    {
+      "id": "wildernessBody/furnace_grazer",
+      "kind": "wildernessBody",
+      "role": "heavy",
+      "speciesId": "furnace_grazer",
+      "name": "Furnace Grazer",
+      "tier": 50,
+      "targetLevel": 53
+    },
+    {
+      "id": "wildernessBody/basalt_maw",
+      "kind": "wildernessBody",
+      "role": "predator",
+      "speciesId": "basalt_maw",
+      "name": "Basalt Maw",
+      "tier": 50,
+      "targetLevel": 57
+    },
+    {
+      "id": "wildernessBody/rift_carapace",
+      "kind": "wildernessBody",
+      "role": "crawler",
+      "speciesId": "rift_carapace",
+      "name": "Rift Carapace",
+      "tier": 70,
+      "targetLevel": 69
+    },
+    {
+      "id": "wildernessBody/voidstone_colossus",
+      "kind": "wildernessBody",
+      "role": "heavy",
+      "speciesId": "voidstone_colossus",
+      "name": "Voidstone Colossus",
+      "tier": 70,
+      "targetLevel": 76
+    },
+    {
+      "id": "wildernessBody/gloam_wraith",
+      "kind": "wildernessBody",
+      "role": "ghost",
+      "speciesId": "gloam_wraith",
+      "name": "Gloam Wraith",
+      "tier": 70,
+      "targetLevel": 73
+    },
+    {
+      "id": "wildernessBody/ashseal_warden",
+      "kind": "wildernessBody",
+      "role": "keeper",
+      "keeperId": "ashseal_warden"
+    },
+    {
+      "id": "wildernessBody/furnace_regent",
+      "kind": "wildernessBody",
+      "role": "keeper",
+      "keeperId": "furnace_regent"
+    },
+    {
+      "id": "wildernessBody/chainbound_archon",
+      "kind": "wildernessBody",
+      "role": "keeper",
+      "keeperId": "chainbound_archon"
+    },
+    {
+      "id": "wildernessBody/nightforge_marshal",
+      "kind": "wildernessBody",
+      "role": "keeper",
+      "keeperId": "nightforge_marshal"
+    },
+    {
+      "id": "wildernessBody/hollow_star",
+      "kind": "wildernessBody",
+      "role": "keeper",
+      "keeperId": "hollow_star"
+    },
+    {
+      "id": "wildernessDragon/baby_red_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "baby_red_dragon",
+      "name": "Red Dragon Hatchling",
+      "tier": 50,
+      "targetLevel": 50
+    },
+    {
+      "id": "wildernessDragon/baby_black_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "baby_black_dragon",
+      "name": "Black Dragon Hatchling",
+      "tier": 50,
+      "targetLevel": 53
+    },
+    {
+      "id": "wildernessDragon/baby_lava_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "baby_lava_dragon",
+      "name": "Cinder Dreadwing",
+      "tier": 50,
+      "targetLevel": 56
+    },
+    {
+      "id": "wildernessDragon/red_wilderness_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "red_wilderness_dragon",
+      "name": "Red Wilderness Dragon",
+      "tier": 70,
+      "targetLevel": 72
+    },
+    {
+      "id": "wildernessDragon/black_wilderness_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "black_wilderness_dragon",
+      "name": "Black Wilderness Dragon",
+      "tier": 70,
+      "targetLevel": 75
+    },
+    {
+      "id": "wildernessDragon/purple_wilderness_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "purple_wilderness_dragon",
+      "name": "Violet Dreadwing",
+      "tier": 70,
+      "targetLevel": 78
+    },
+    {
+      "id": "wildernessDragon/amethyst_dragon",
+      "kind": "wildernessDragon",
+      "speciesId": "amethyst_dragon",
+      "name": "Purple Wilderness Dragon",
+      "tier": 70,
+      "targetLevel": 78
+    },
+    {
+      "id": "regionalBossBody/boss_tempest_roc",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_tempest_roc",
+      "name": "Storm Scarab",
+      "sourceInputId": "rpg/beetle_golem",
+      "bossId": "tempest_roc"
+    },
+    {
+      "id": "regionalBossBody/boss_galeskin",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_galeskin",
+      "name": "Plains Ogre",
+      "sourceInputId": "rpg/mossback_sentinel",
+      "bossId": "galeskin"
+    },
+    {
+      "id": "regionalBossBody/boss_rootheart",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_rootheart",
+      "name": "Rootbound Colossus",
+      "sourceInputId": "rpg/mossback_sentinel",
+      "bossId": "rootheart"
+    },
+    {
+      "id": "regionalBossBody/boss_mossbound",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_mossbound",
+      "name": "Forest Ogre",
+      "sourceInputId": "rpg/beetle_golem",
+      "bossId": "mossbound"
+    },
+    {
+      "id": "regionalBossBody/boss_tideworn",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_tideworn",
+      "name": "Cave Ogre",
+      "sourceInputId": "rpg/beetle_golem",
+      "bossId": "tideworn"
+    },
+    {
+      "id": "regionalBossBody/boss_ordrun",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_ordrun",
+      "name": "Quarry Warden",
+      "sourceInputId": "rpg/iron_golem",
+      "bossId": "ordrun"
+    },
+    {
+      "id": "regionalBossBody/boss_cinderwake",
+      "kind": "regionalBossBody",
+      "speciesId": "boss_cinderwake",
+      "name": "Fire Ogre",
+      "sourceInputId": "rpg/lava_golem",
+      "bossId": "cinderwake"
+    },
+    {
+      "id": "fairyCrown/pearl_knight",
+      "speciesId": "pearl_knight",
+      "name": "Pearl Knight",
+      "sourceInputId": "wildernessBody/nightforge_marshal",
+      "targetLevel": 40,
+      "kind": "fairyCrown",
+      "tier": 40,
+      "nativeScale": 0.66,
+      "behaviour": "territorial",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/ivory_castellan",
+      "speciesId": "ivory_castellan",
+      "name": "Ivory Castellan",
+      "sourceInputId": "wildernessBody/nightforge_marshal",
+      "targetLevel": 100,
+      "kind": "fairyCrown",
+      "tier": 40,
+      "nativeScale": 1.05,
+      "behaviour": "territorial",
+      "boss": true
+    },
+    {
+      "id": "fairyCrown/crown_hart",
+      "speciesId": "crown_hart",
+      "name": "Crown Hart",
+      "sourceInputId": "expansion/marchwild_horse",
+      "targetLevel": 36,
+      "kind": "fairyCrown",
+      "tier": 40,
+      "nativeScale": 1.1,
+      "behaviour": "passive",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/silverthorn_harrow",
+      "speciesId": "silverthorn_harrow",
+      "name": "Silverthorn Harrow",
+      "sourceInputId": "forest/briar_harrow",
+      "targetLevel": 44,
+      "kind": "fairyCrown",
+      "tier": 40,
+      "nativeScale": 1.05,
+      "behaviour": "territorial",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/lantern_sprite",
+      "speciesId": "lantern_sprite",
+      "name": "Lantern Sprite",
+      "sourceInputId": "rpg/marsh_wasp",
+      "targetLevel": 28,
+      "kind": "fairyCrown",
+      "tier": 30,
+      "nativeScale": 0.58,
+      "behaviour": "territorial",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/moonpetal_stalker",
+      "speciesId": "moonpetal_stalker",
+      "name": "Moonpetal Stalker",
+      "sourceInputId": "forest/heath_jack",
+      "targetLevel": 32,
+      "kind": "fairyCrown",
+      "tier": 30,
+      "nativeScale": 0.85,
+      "behaviour": "aggressive",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/dewglass_weaver",
+      "speciesId": "dewglass_weaver",
+      "name": "Dewglass Weaver",
+      "sourceInputId": "forest/fen_crawler",
+      "targetLevel": 30,
+      "kind": "fairyCrown",
+      "tier": 30,
+      "nativeScale": 0.9,
+      "behaviour": "aggressive",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/bloomheart_matriarch",
+      "speciesId": "bloomheart_matriarch",
+      "name": "Bloomheart Matriarch",
+      "sourceInputId": "regionalBossBody/boss_rootheart",
+      "targetLevel": 75,
+      "kind": "fairyCrown",
+      "tier": 30,
+      "nativeScale": 1.35,
+      "behaviour": "territorial",
+      "boss": true
+    },
+    {
+      "id": "fairyCrown/prismatic_sprite",
+      "speciesId": "prismatic_sprite",
+      "name": "Prismatic Sprite",
+      "sourceInputId": "rpg/marsh_wasp",
+      "targetLevel": 58,
+      "kind": "fairyCrown",
+      "tier": 60,
+      "nativeScale": 0.85,
+      "behaviour": "territorial",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/orchid_reaper",
+      "speciesId": "orchid_reaper",
+      "name": "Orchid Reaper",
+      "sourceInputId": "ash/veil_reaper",
+      "targetLevel": 62,
+      "kind": "fairyCrown",
+      "tier": 60,
+      "nativeScale": 0.85,
+      "behaviour": "aggressive",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/starroot_guardian",
+      "speciesId": "starroot_guardian",
+      "name": "Starroot Guardian",
+      "sourceInputId": "forest/briar_harrow",
+      "targetLevel": 66,
+      "kind": "fairyCrown",
+      "tier": 60,
+      "nativeScale": 1.2,
+      "behaviour": "territorial",
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/amethyst_sovereign",
+      "speciesId": "amethyst_sovereign",
+      "name": "Amethyst Sovereign",
+      "sourceInputId": "wildernessBody/hollow_star",
+      "targetLevel": 150,
+      "kind": "fairyCrown",
+      "tier": 60,
+      "nativeScale": 1.25,
+      "behaviour": "territorial",
+      "boss": true
+    },
+    {
+      "id": "crownwardDragon/crownward_red_hatchling",
+      "speciesId": "crownward_red_hatchling",
+      "name": "Red Dragon Whelp",
+      "sourceInputId": "wildernessDragon/baby_red_dragon",
+      "targetLevel": 65,
+      "kind": "crownwardDragon",
+      "rank": "miniboss"
+    },
+    {
+      "id": "crownwardDragon/crownward_black_hatchling",
+      "speciesId": "crownward_black_hatchling",
+      "name": "Black Dragon Whelp",
+      "sourceInputId": "wildernessDragon/baby_black_dragon",
+      "targetLevel": 68,
+      "kind": "crownwardDragon",
+      "rank": "miniboss"
+    },
+    {
+      "id": "crownwardDragon/crownward_red_dragon",
+      "speciesId": "crownward_red_dragon",
+      "name": "Red Dragon of Crownward",
+      "sourceInputId": "wildernessDragon/red_wilderness_dragon",
+      "targetLevel": 110,
+      "kind": "crownwardDragon",
+      "rank": "boss"
     }
   ]
 }

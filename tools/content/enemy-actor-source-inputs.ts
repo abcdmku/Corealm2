@@ -288,5 +288,3 @@ export function buildActorEnemySources(baseline: M4Baseline, sources: ActorEnemy
     { parameterPath: 'garden', module: 'fairyGardenCreatures', symbol: 'FAIRY_GARDEN_SPECIES', templateSymbol: 'template' },
   ] } };
 }
-
-

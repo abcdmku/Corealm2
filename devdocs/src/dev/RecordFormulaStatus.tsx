@@ -13,7 +13,7 @@ type Props = { collection: string; recordId: string };
 type Preview = { diffs: DerivationDiff[]; revisions: Record<string, string> };
 type Failure = { error?: string; diagnostics?: { path: string; message: string }[] };
 type KeepDraft = { record: Row; revision: string };
-const balanceNames = CONTENT_COLLECTIONS.filter(spec => spec.name.startsWith("balance/")).map(spec => spec.name);
+const balanceNames = [...CONTENT_COLLECTIONS.filter(spec => spec.name.startsWith("balance/")).map(spec => spec.name), "craftingTiers"];
 const object = (value: unknown): value is Row => value !== null && typeof value === "object" && !Array.isArray(value);
 const recordIn = (response: CollectionResponse | undefined, id: string): Row | undefined => response?.collection.shape === "array" && Array.isArray(response.data)
   ? response.data.find((row: unknown): row is Row => object(row) && String(row[response.collection.idKey]) === id) : undefined;

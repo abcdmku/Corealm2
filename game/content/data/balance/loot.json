@@ -2438,8 +2438,989 @@
       "id": "stone/scree_watcher",
       "kind": "inherit",
       "sourceInputId": "rpg/stone_golem"
+    },
+    {
+      "id": "universal/guardian_01_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_02_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_03_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_04_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_05_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_06_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_07_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_08_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_09_t10",
+      "kind": "universalJewelry",
+      "tier": 10
+    },
+    {
+      "id": "universal/guardian_01_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_02_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_03_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_04_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_05_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_06_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_07_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_08_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_09_t20",
+      "kind": "universalJewelry",
+      "tier": 20
+    },
+    {
+      "id": "universal/guardian_01_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_01_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_02_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_02_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_03_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_03_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_04_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_04_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_05_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_05_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_06_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_06_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_07_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_07_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_08_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_08_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_09_t50",
+      "kind": "universalJewelry",
+      "tier": 50
+    },
+    {
+      "id": "universal/guardian_09_t70",
+      "kind": "universalJewelry",
+      "tier": 70
+    },
+    {
+      "id": "universal/guardian_01_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_02_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_03_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_04_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_05_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_06_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_07_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_08_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_09_t40",
+      "kind": "universalJewelry",
+      "tier": 40
+    },
+    {
+      "id": "universal/guardian_01_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_02_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_03_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_04_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_05_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_06_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_07_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_08_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_09_t30",
+      "kind": "universalJewelry",
+      "tier": 30
+    },
+    {
+      "id": "universal/guardian_01_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_02_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_03_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_04_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_05_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_06_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_07_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_08_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "universal/guardian_09_t60",
+      "kind": "universalJewelry",
+      "tier": 60
+    },
+    {
+      "id": "fairy/petal_pouncer_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "fairy/moss_nibbler_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "fairy/bloom_hopper_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "fairy/thicket_spirit_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "fairy/bramble_prowler_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "fairy/elder_grovebeast_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "fairy/petal_pouncer_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "fairy/moss_nibbler_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "fairy/bloom_hopper_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "fairy/thicket_spirit_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "fairy/bramble_prowler_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "fairy/elder_grovebeast_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_spriggle_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_sporekin_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_frog_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_imp_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_snail_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_reliquary_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_hart_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_veilspirit_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_sapling_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_drake_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_wardling_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_petalguard_t30",
+      "kind": "fairy",
+      "tier": 30
+    },
+    {
+      "id": "garden/garden_spriggle_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_sporekin_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_frog_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_imp_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_snail_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_reliquary_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_hart_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_veilspirit_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_sapling_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_drake_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_wardling_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "garden/garden_petalguard_t60",
+      "kind": "fairy",
+      "tier": 60
+    },
+    {
+      "id": "wildernessBody/cinderback_crag",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/furnace_grazer",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/basalt_maw",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/rift_carapace",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/voidstone_colossus",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/gloam_wraith",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/ashseal_warden",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/furnace_regent",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/chainbound_archon",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/nightforge_marshal",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessBody/hollow_star",
+      "kind": "authored",
+      "drops": []
+    },
+    {
+      "id": "wildernessDragon/baby_red_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 50
+    },
+    {
+      "id": "wildernessDragon/baby_black_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 50
+    },
+    {
+      "id": "wildernessDragon/baby_lava_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 50
+    },
+    {
+      "id": "wildernessDragon/red_wilderness_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 70
+    },
+    {
+      "id": "wildernessDragon/black_wilderness_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 70
+    },
+    {
+      "id": "wildernessDragon/purple_wilderness_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 70
+    },
+    {
+      "id": "wildernessDragon/amethyst_dragon",
+      "kind": "wildernessDragonSource",
+      "tier": 70
+    },
+    {
+      "id": "regionalBossBody/boss_tempest_roc",
+      "kind": "inherit",
+      "sourceInputId": "rpg/beetle_golem"
+    },
+    {
+      "id": "regionalBossBody/boss_galeskin",
+      "kind": "inherit",
+      "sourceInputId": "rpg/mossback_sentinel"
+    },
+    {
+      "id": "regionalBossBody/boss_rootheart",
+      "kind": "inherit",
+      "sourceInputId": "rpg/mossback_sentinel"
+    },
+    {
+      "id": "regionalBossBody/boss_mossbound",
+      "kind": "inherit",
+      "sourceInputId": "rpg/beetle_golem"
+    },
+    {
+      "id": "regionalBossBody/boss_tideworn",
+      "kind": "inherit",
+      "sourceInputId": "rpg/beetle_golem"
+    },
+    {
+      "id": "regionalBossBody/boss_ordrun",
+      "kind": "inherit",
+      "sourceInputId": "rpg/iron_golem"
+    },
+    {
+      "id": "regionalBossBody/boss_cinderwake",
+      "kind": "inherit",
+      "sourceInputId": "rpg/lava_golem"
+    },
+    {
+      "id": "fairyCrown/pearl_knight",
+      "kind": "fairyCrown",
+      "speciesId": "pearl_knight",
+      "regionId": "crownward",
+      "tier": 40,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/ivory_castellan",
+      "kind": "fairyCrown",
+      "speciesId": "ivory_castellan",
+      "regionId": "crownward",
+      "tier": 40,
+      "boss": true
+    },
+    {
+      "id": "fairyCrown/crown_hart",
+      "kind": "fairyCrown",
+      "speciesId": "crown_hart",
+      "regionId": "crownward",
+      "tier": 40,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/silverthorn_harrow",
+      "kind": "fairyCrown",
+      "speciesId": "silverthorn_harrow",
+      "regionId": "crownward",
+      "tier": 40,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/lantern_sprite",
+      "kind": "fairyCrown",
+      "speciesId": "lantern_sprite",
+      "regionId": "gloamgarden",
+      "tier": 30,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/moonpetal_stalker",
+      "kind": "fairyCrown",
+      "speciesId": "moonpetal_stalker",
+      "regionId": "gloamgarden",
+      "tier": 30,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/dewglass_weaver",
+      "kind": "fairyCrown",
+      "speciesId": "dewglass_weaver",
+      "regionId": "gloamgarden",
+      "tier": 30,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/bloomheart_matriarch",
+      "kind": "fairyCrown",
+      "speciesId": "bloomheart_matriarch",
+      "regionId": "gloamgarden",
+      "tier": 30,
+      "boss": true
+    },
+    {
+      "id": "fairyCrown/prismatic_sprite",
+      "kind": "fairyCrown",
+      "speciesId": "prismatic_sprite",
+      "regionId": "faeholme",
+      "tier": 60,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/orchid_reaper",
+      "kind": "fairyCrown",
+      "speciesId": "orchid_reaper",
+      "regionId": "faeholme",
+      "tier": 60,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/starroot_guardian",
+      "kind": "fairyCrown",
+      "speciesId": "starroot_guardian",
+      "regionId": "faeholme",
+      "tier": 60,
+      "boss": false
+    },
+    {
+      "id": "fairyCrown/amethyst_sovereign",
+      "kind": "fairyCrown",
+      "speciesId": "amethyst_sovereign",
+      "regionId": "faeholme",
+      "tier": 60,
+      "boss": true
+    },
+    {
+      "id": "crownwardDragon/crownward_red_hatchling",
+      "kind": "crownwardDragon",
+      "boss": false
+    },
+    {
+      "id": "crownwardDragon/crownward_black_hatchling",
+      "kind": "crownwardDragon",
+      "boss": false
+    },
+    {
+      "id": "crownwardDragon/crownward_red_dragon",
+      "kind": "crownwardDragon",
+      "boss": true
     }
   ],
+  "actorLootParameters": {
+    "fairy": {
+      "earth": {
+        "itemId": "earth_essence",
+        "roll": {
+          "quantity": [
+            1,
+            3
+          ],
+          "chance": 0.55
+        }
+      },
+      "cosmic": {
+        "itemId": "cosmic_rune",
+        "roll": {
+          "quantity": [
+            1,
+            1
+          ],
+          "chance": 0.14
+        }
+      },
+      "rune": {
+        "roll": {
+          "quantity": [
+            1,
+            2
+          ],
+          "chance": 0.18
+        },
+        "items": [
+          {
+            "tier": 30,
+            "itemId": "chaos_rune"
+          },
+          {
+            "tier": 60,
+            "itemId": "blood_rune"
+          }
+        ]
+      }
+    },
+    "universalJewelry": {
+      "minimumTier": 10,
+      "totalChance": 0.3,
+      "exclusiveGroup": "jewelry",
+      "quantity": [
+        1,
+        1
+      ],
+      "items": [
+        {
+          "tier": 10,
+          "ringItemId": "guardian_ring_t10",
+          "earringItemId": "guardian_earring_t10"
+        },
+        {
+          "tier": 20,
+          "ringItemId": "guardian_ring_t20",
+          "earringItemId": "guardian_earring_t20"
+        },
+        {
+          "tier": 30,
+          "ringItemId": "guardian_ring_t30",
+          "earringItemId": "guardian_earring_t30"
+        },
+        {
+          "tier": 40,
+          "ringItemId": "guardian_ring_t40",
+          "earringItemId": "guardian_earring_t40"
+        },
+        {
+          "tier": 50,
+          "ringItemId": "guardian_ring_t50",
+          "earringItemId": "guardian_earring_t50"
+        },
+        {
+          "tier": 60,
+          "ringItemId": "guardian_ring_t60",
+          "earringItemId": "guardian_earring_t60"
+        },
+        {
+          "tier": 70,
+          "ringItemId": "guardian_ring_t70",
+          "earringItemId": "guardian_earring_t70"
+        }
+      ]
+    }
+  },
+  "descendantLootParameters": {
+    "fairyCrown": {
+      "essence": {
+        "crownwardItemId": "air_essence",
+        "fairyItemId": "earth_essence",
+        "ordinary": {
+          "quantity": [
+            2,
+            4
+          ],
+          "chance": 0.55
+        },
+        "boss": {
+          "quantity": [
+            8,
+            14
+          ],
+          "chance": 1
+        }
+      },
+      "rune": {
+        "ordinary": {
+          "quantity": [
+            1,
+            2
+          ],
+          "chance": 0.18
+        },
+        "boss": {
+          "quantity": [
+            3,
+            6
+          ],
+          "chance": 1
+        },
+        "items": [
+          {
+            "tier": 30,
+            "itemId": "chaos_rune"
+          },
+          {
+            "tier": 40,
+            "itemId": "death_rune"
+          },
+          {
+            "tier": 60,
+            "itemId": "blood_rune"
+          }
+        ]
+      },
+      "cosmic": {
+        "itemId": "cosmic_rune",
+        "ordinary": {
+          "quantity": [
+            1,
+            1
+          ],
+          "chance": 0.14
+        },
+        "boss": {
+          "quantity": [
+            3,
+            5
+          ],
+          "chance": 1
+        }
+      },
+      "venison": {
+        "speciesId": "crown_hart",
+        "itemId": "raw_venison",
+        "roll": {
+          "quantity": [
+            1,
+            2
+          ],
+          "chance": 0.8
+        }
+      }
+    },
+    "crownwardDragon": {
+      "tier": 40,
+      "scales": {
+        "itemId": "drake_scale",
+        "ordinary": {
+          "quantity": [
+            1,
+            3
+          ],
+          "chance": 1
+        },
+        "boss": {
+          "quantity": [
+            4,
+            7
+          ],
+          "chance": 1
+        }
+      },
+      "fireEssence": {
+        "itemId": "fire_essence",
+        "ordinary": {
+          "quantity": [
+            4,
+            8
+          ],
+          "chance": 1
+        },
+        "boss": {
+          "quantity": [
+            10,
+            18
+          ],
+          "chance": 1
+        }
+      },
+      "rune": {
+        "itemId": "death_rune",
+        "ordinary": {
+          "quantity": [
+            1,
+            3
+          ],
+          "chance": 0.35
+        },
+        "boss": {
+          "quantity": [
+            4,
+            7
+          ],
+          "chance": 0.75
+        }
+      }
+    },
+    "wildernessDragonSource": {
+      "shallowTier": 50,
+      "scales": {
+        "itemId": "drake_scale",
+        "quantity": {
+          "shallow": [
+            1,
+            2
+          ],
+          "deep": [
+            1,
+            4
+          ]
+        },
+        "chance": 0.85
+      },
+      "fireEssence": {
+        "itemId": "fire_essence",
+        "roll": {
+          "quantity": [
+            2,
+            5
+          ],
+          "chance": 0.65
+        }
+      }
+    }
+  },
   "sourceOwners": [
     {
       "id": "loot_enemy_frog_t1",
@@ -3234,6 +4215,701 @@
     {
       "id": "loot_enemy_veil_reaper_t10",
       "inputId": "ash/veil_reaper",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t10",
+      "inputId": "universal/guardian_01_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t10",
+      "inputId": "universal/guardian_02_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t10",
+      "inputId": "universal/guardian_03_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t10",
+      "inputId": "universal/guardian_04_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t10",
+      "inputId": "universal/guardian_05_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t10",
+      "inputId": "universal/guardian_06_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t10",
+      "inputId": "universal/guardian_07_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t10",
+      "inputId": "universal/guardian_08_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t10",
+      "inputId": "universal/guardian_09_t10",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t20",
+      "inputId": "universal/guardian_01_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t20",
+      "inputId": "universal/guardian_02_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t20",
+      "inputId": "universal/guardian_03_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t20",
+      "inputId": "universal/guardian_04_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t20",
+      "inputId": "universal/guardian_05_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t20",
+      "inputId": "universal/guardian_06_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t20",
+      "inputId": "universal/guardian_07_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t20",
+      "inputId": "universal/guardian_08_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t20",
+      "inputId": "universal/guardian_09_t20",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t50",
+      "inputId": "universal/guardian_01_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t70",
+      "inputId": "universal/guardian_01_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t50",
+      "inputId": "universal/guardian_02_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t70",
+      "inputId": "universal/guardian_02_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t50",
+      "inputId": "universal/guardian_03_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t70",
+      "inputId": "universal/guardian_03_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t50",
+      "inputId": "universal/guardian_04_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t70",
+      "inputId": "universal/guardian_04_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t50",
+      "inputId": "universal/guardian_05_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t70",
+      "inputId": "universal/guardian_05_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t50",
+      "inputId": "universal/guardian_06_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t70",
+      "inputId": "universal/guardian_06_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t50",
+      "inputId": "universal/guardian_07_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t70",
+      "inputId": "universal/guardian_07_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t50",
+      "inputId": "universal/guardian_08_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t70",
+      "inputId": "universal/guardian_08_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t50",
+      "inputId": "universal/guardian_09_t50",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t70",
+      "inputId": "universal/guardian_09_t70",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t40",
+      "inputId": "universal/guardian_01_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t40",
+      "inputId": "universal/guardian_02_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t40",
+      "inputId": "universal/guardian_03_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t40",
+      "inputId": "universal/guardian_04_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t40",
+      "inputId": "universal/guardian_05_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t40",
+      "inputId": "universal/guardian_06_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t40",
+      "inputId": "universal/guardian_07_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t40",
+      "inputId": "universal/guardian_08_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t40",
+      "inputId": "universal/guardian_09_t40",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t30",
+      "inputId": "universal/guardian_01_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t30",
+      "inputId": "universal/guardian_02_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t30",
+      "inputId": "universal/guardian_03_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t30",
+      "inputId": "universal/guardian_04_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t30",
+      "inputId": "universal/guardian_05_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t30",
+      "inputId": "universal/guardian_06_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t30",
+      "inputId": "universal/guardian_07_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t30",
+      "inputId": "universal/guardian_08_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t30",
+      "inputId": "universal/guardian_09_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_01_t60",
+      "inputId": "universal/guardian_01_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_02_t60",
+      "inputId": "universal/guardian_02_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_03_t60",
+      "inputId": "universal/guardian_03_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_04_t60",
+      "inputId": "universal/guardian_04_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_05_t60",
+      "inputId": "universal/guardian_05_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_06_t60",
+      "inputId": "universal/guardian_06_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_07_t60",
+      "inputId": "universal/guardian_07_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_08_t60",
+      "inputId": "universal/guardian_08_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_guardian_09_t60",
+      "inputId": "universal/guardian_09_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_petal_pouncer_t30",
+      "inputId": "fairy/petal_pouncer_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_moss_nibbler_t30",
+      "inputId": "fairy/moss_nibbler_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_bloom_hopper_t30",
+      "inputId": "fairy/bloom_hopper_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_thicket_spirit_t30",
+      "inputId": "fairy/thicket_spirit_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_bramble_prowler_t30",
+      "inputId": "fairy/bramble_prowler_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_elder_grovebeast_t30",
+      "inputId": "fairy/elder_grovebeast_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_petal_pouncer_t60",
+      "inputId": "fairy/petal_pouncer_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_moss_nibbler_t60",
+      "inputId": "fairy/moss_nibbler_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_bloom_hopper_t60",
+      "inputId": "fairy/bloom_hopper_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_thicket_spirit_t60",
+      "inputId": "fairy/thicket_spirit_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_bramble_prowler_t60",
+      "inputId": "fairy/bramble_prowler_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_elder_grovebeast_t60",
+      "inputId": "fairy/elder_grovebeast_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_spriggle_t30",
+      "inputId": "garden/garden_spriggle_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_sporekin_t30",
+      "inputId": "garden/garden_sporekin_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_frog_t30",
+      "inputId": "garden/garden_frog_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_imp_t30",
+      "inputId": "garden/garden_imp_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_snail_t30",
+      "inputId": "garden/garden_snail_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_reliquary_t30",
+      "inputId": "garden/garden_reliquary_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_hart_t30",
+      "inputId": "garden/garden_hart_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_veilspirit_t30",
+      "inputId": "garden/garden_veilspirit_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_sapling_t30",
+      "inputId": "garden/garden_sapling_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_drake_t30",
+      "inputId": "garden/garden_drake_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_wardling_t30",
+      "inputId": "garden/garden_wardling_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_petalguard_t30",
+      "inputId": "garden/garden_petalguard_t30",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_spriggle_t60",
+      "inputId": "garden/garden_spriggle_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_sporekin_t60",
+      "inputId": "garden/garden_sporekin_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_frog_t60",
+      "inputId": "garden/garden_frog_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_imp_t60",
+      "inputId": "garden/garden_imp_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_snail_t60",
+      "inputId": "garden/garden_snail_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_reliquary_t60",
+      "inputId": "garden/garden_reliquary_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_hart_t60",
+      "inputId": "garden/garden_hart_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_veilspirit_t60",
+      "inputId": "garden/garden_veilspirit_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_sapling_t60",
+      "inputId": "garden/garden_sapling_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_drake_t60",
+      "inputId": "garden/garden_drake_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_wardling_t60",
+      "inputId": "garden/garden_wardling_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_garden_petalguard_t60",
+      "inputId": "garden/garden_petalguard_t60",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_cinderback_crag",
+      "inputId": "wildernessBody/cinderback_crag",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_furnace_grazer",
+      "inputId": "wildernessBody/furnace_grazer",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_basalt_maw",
+      "inputId": "wildernessBody/basalt_maw",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_rift_carapace",
+      "inputId": "wildernessBody/rift_carapace",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_voidstone_colossus",
+      "inputId": "wildernessBody/voidstone_colossus",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_gloam_wraith",
+      "inputId": "wildernessBody/gloam_wraith",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_ashseal_warden",
+      "inputId": "wildernessBody/ashseal_warden",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_furnace_regent",
+      "inputId": "wildernessBody/furnace_regent",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_chainbound_archon",
+      "inputId": "wildernessBody/chainbound_archon",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_nightforge_marshal",
+      "inputId": "wildernessBody/nightforge_marshal",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_hollow_star",
+      "inputId": "wildernessBody/hollow_star",
+      "mode": "authored"
+    },
+    {
+      "id": "loot_species_baby_red_dragon",
+      "inputId": "wildernessDragon/baby_red_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_baby_black_dragon",
+      "inputId": "wildernessDragon/baby_black_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_baby_lava_dragon",
+      "inputId": "wildernessDragon/baby_lava_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_red_wilderness_dragon",
+      "inputId": "wildernessDragon/red_wilderness_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_black_wilderness_dragon",
+      "inputId": "wildernessDragon/black_wilderness_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_purple_wilderness_dragon",
+      "inputId": "wildernessDragon/purple_wilderness_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_species_amethyst_dragon",
+      "inputId": "wildernessDragon/amethyst_dragon",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_tempest_roc_t1",
+      "inputId": "regionalBossBody/boss_tempest_roc",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_galeskin_t1",
+      "inputId": "regionalBossBody/boss_galeskin",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_rootheart_t5",
+      "inputId": "regionalBossBody/boss_rootheart",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_mossbound_t5",
+      "inputId": "regionalBossBody/boss_mossbound",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_tideworn_t10",
+      "inputId": "regionalBossBody/boss_tideworn",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_ordrun_t10",
+      "inputId": "regionalBossBody/boss_ordrun",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_boss_cinderwake_t20",
+      "inputId": "regionalBossBody/boss_cinderwake",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_pearl_knight_t40",
+      "inputId": "fairyCrown/pearl_knight",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_ivory_castellan_t40",
+      "inputId": "fairyCrown/ivory_castellan",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_crown_hart_t40",
+      "inputId": "fairyCrown/crown_hart",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_silverthorn_harrow_t40",
+      "inputId": "fairyCrown/silverthorn_harrow",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_lantern_sprite_t30",
+      "inputId": "fairyCrown/lantern_sprite",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_moonpetal_stalker_t30",
+      "inputId": "fairyCrown/moonpetal_stalker",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_dewglass_weaver_t30",
+      "inputId": "fairyCrown/dewglass_weaver",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_bloomheart_matriarch_t30",
+      "inputId": "fairyCrown/bloomheart_matriarch",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_prismatic_sprite_t60",
+      "inputId": "fairyCrown/prismatic_sprite",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_orchid_reaper_t60",
+      "inputId": "fairyCrown/orchid_reaper",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_starroot_guardian_t60",
+      "inputId": "fairyCrown/starroot_guardian",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_amethyst_sovereign_t60",
+      "inputId": "fairyCrown/amethyst_sovereign",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_crownward_red_hatchling_t40",
+      "inputId": "crownwardDragon/crownward_red_hatchling",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_crownward_black_hatchling_t40",
+      "inputId": "crownwardDragon/crownward_black_hatchling",
+      "mode": "formula"
+    },
+    {
+      "id": "loot_enemy_crownward_red_dragon_t40",
+      "inputId": "crownwardDragon/crownward_red_dragon",
       "mode": "formula"
     }
   ],

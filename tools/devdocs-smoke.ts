@@ -5,6 +5,9 @@ import { tmpdir } from "node:os";
 import { chromium, type Page } from "playwright";
 import { createServer } from "vite";
 import { repoRoot } from "./lib/paths.js";
+import { exerciseBulkEditor } from "./devdocs-bulk-smoke.js";
+import { exerciseActorFormulas } from "./devdocs-actor-smoke.js";
+import { exerciseSetPiecePanel } from "./devdocs-piece-smoke.js";
 import type { ViewerSnapshot } from "../devdocs/src/viewer/types.js";
 
 const evidence = path.join(repoRoot, "test-results/devdocs");
@@ -362,6 +365,12 @@ try {
   });
   assert.equal(sourceRpgRowsBefore.length, 25);
   const sourceRpgIds = new Set(sourceRpgRowsBefore.map(row => String(row.id)));
+  const cascadePreview = await (await page.request.post(`${url}/__devdocs/recompute`, { data: { operation: "preview", kind: "sourceEnemy.v1" } })).json();
+  const expectedSourceDiffs = cascadePreview.diffs as { recordId: string; after: Record<string, unknown> }[];
+  const sourceExpectedCount = expectedSourceDiffs.length;
+  const sourceCascadeIds = new Set(expectedSourceDiffs.map(row => row.recordId));
+  assert([...sourceRpgIds].every(id => sourceCascadeIds.has(id)));
+  assert(expectedSourceDiffs.filter(row => !sourceRpgIds.has(row.recordId)).every(row => row.recordId.startsWith("boss_") || ["lantern_sprite_t30", "prismatic_sprite_t60"].includes(row.recordId)), "RPG source changes propagate through regional boss and fairy descendant dependencies");
   const sourceMetaFile = path.join(contentRoot, "meta/items.meta.json");
   const sourceMetaBefore = await readFile(sourceMetaFile, "utf8");
   await page.goto(`${url}/#/balance/enemies/sourceParameters`);
@@ -370,7 +379,7 @@ try {
   await page.getByRole("button", { name: "Preview changes", exact: true }).click();
   const applySourceChanges = page.getByRole("button", { name: /^Apply changes to \d+ records$/ });
   await applySourceChanges.waitFor();
-  assert.equal(await applySourceChanges.innerText(), "Apply changes to 25 records");
+  assert.equal(await applySourceChanges.innerText(), `Apply changes to ${sourceExpectedCount} records`);
   await page.waitForFunction(() => {
     const button = document.querySelector(".balance-apply-button");
     return button instanceof HTMLButtonElement && !button.disabled;
@@ -382,7 +391,7 @@ try {
     applySourceChanges.click(),
   ]);
   assert.equal(sourceApply.status(), 200);
-  await page.getByText(/Applied changes to 25 records/).waitFor();
+  await page.getByText(`Applied changes to ${sourceExpectedCount} records`, { exact: false }).waitFor();
   const sourceEnemiesAfter = JSON.parse(await readFile(enemyFile, "utf8")) as Record<string, unknown>[];
   assert.equal(sourceEnemiesAfter.length, sourceEnemiesBefore.length);
   const sourceBeforeById = new Map(sourceEnemiesBefore.map(row => [String(row.id), row]));
@@ -392,10 +401,14 @@ try {
   for (const afterRow of sourceEnemiesAfter) {
     const beforeRow = sourceBeforeById.get(String(afterRow.id));
     assert(beforeRow);
-    assert.deepEqual(withoutMaxHealth(afterRow), withoutMaxHealth(beforeRow));
-    if (!Object.is(afterRow.maxHealth, beforeRow.maxHealth)) changedSourceIds.push(String(afterRow.id));
+    if (sourceRpgIds.has(String(afterRow.id))) assert.deepEqual(withoutMaxHealth(afterRow), withoutMaxHealth(beforeRow));
+    else if (sourceCascadeIds.has(String(afterRow.id))) {
+      const expected = expectedSourceDiffs.find(row => row.recordId === String(afterRow.id))!;
+      assert.deepEqual(afterRow, { ...beforeRow, ...expected.after });
+    } else assert.deepEqual(afterRow, beforeRow);
+    if (JSON.stringify(afterRow) !== JSON.stringify(beforeRow)) changedSourceIds.push(String(afterRow.id));
   }
-  assert.deepEqual(new Set(changedSourceIds), sourceRpgIds);
+  assert.deepEqual(new Set(changedSourceIds), sourceCascadeIds);
   for (const id of sourceRpgIds) {
     const beforeRow = sourceBeforeById.get(id);
     const afterRow = sourceAfterById.get(id);
@@ -407,7 +420,7 @@ try {
   assert.equal(sourceBalanceAfter.sourceParameters.rpg.healthBase, sourceHealthBase + 2);
   const remainingSourceDiffs = await (await page.request.post(`${url}/__devdocs/recompute`, { data: { operation: "preview", kind: "sourceEnemy.v1" } })).json();
   assert.deepEqual(remainingSourceDiffs.diffs, []);
-  checks.sourceEnemyPreviewApply = { count: 25, changedField: "maxHealth", healthBase: sourceHealthBase + 2, remaining: 0 };
+  checks.sourceEnemyPreviewApply = { count: sourceExpectedCount, rpgCount: 25, changedField: "maxHealth", healthBase: sourceHealthBase + 2, remaining: 0 };
 
   const lootFile = path.join(contentRoot, "data/lootTables.json");
   const lootBalanceCollection = url + "/__devdocs/collections/balance/loot";
@@ -518,6 +531,17 @@ try {
   }
   assert.deepEqual(await Promise.all(localFormulaFiles.map(file => readFile(path.join(contentRoot, file), "utf8"))), localFormulaBytes);
   checks.sourceFormulaLiveExamples = { kinds: ["sourceEnemy.v1", "fantasyScale.v1", "sourceLoot.v1"], changed: true, invalidRejected: true, reset: true, noWrites: true };
+
+  expectedConflict = true;
+  await exerciseSetPiecePanel(page, url);
+  expectedConflict = false;
+  checks.setPieceReview = true;
+  await exerciseActorFormulas(page, url);
+  checks.actorFormulas = true;
+  expectedConflict = true;
+  await exerciseBulkEditor(page, url);
+  expectedConflict = false;
+  checks.bulkEditor = true;
 
   await page.goto(`${url}/#/review`);
   await page.locator('.review-validation-result.is-ok').waitFor();

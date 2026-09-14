@@ -15,7 +15,7 @@ export function validateEnemyFormulaLinks(tables: ReadonlyMap<string, unknown>):
   const issues: SchemaIssue[] = [];
   const issue = (path: string, message: string) => issues.push({ path, message, severity: 'error' });
   const params = parseValue(EnemyBalanceSchema, tables.get('balance/enemies'), 'balance/enemies');
-  const graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs);
+  const graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs, params);
   const sources = new Map(params.sourceInputs.map(input => [input.id, { input, output: graph.get(input.id)! }]));
   for (const id of params.fantasy.sourceInputIds) if (!sources.has(id)) issue('balance/enemies.fantasy.sourceInputIds', `Missing fantasy source ${id}`);
   const enemies = new Map(rows.map((row: { id: string; catalog: string; stage: string; derivation?: unknown }) => [row.id, row]));
@@ -49,7 +49,7 @@ export function validateEnemyFormulaLinks(tables: ReadonlyMap<string, unknown>):
       const source = sources.get(tag.inputId);
       if (!source || source.output.id !== row.id) issue(`${at}.inputId`, 'Source input is missing or belongs to another enemy');
       if (source) {
-        const catalogs = source.input.kind === 'rpg' ? ['RPG_BESTIARY_BLOCKS', 'RPG_BESTIARY_STAGED_BLOCKS'] : ['CREATURE_SPECIES_BLOCKS'];
+        const catalogs = source.input.kind === 'regionalBossBody' ? ['REGIONAL_BOSS_BLOCKS'] : source.input.kind === 'rpg' ? ['RPG_BESTIARY_BLOCKS', 'RPG_BESTIARY_STAGED_BLOCKS'] : ['CREATURE_SPECIES_BLOCKS'];
         if (!catalogs.includes(row.catalog)) issue(at, 'Source formula catalog disagrees with its original generator');
       }
       continue;

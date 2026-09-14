@@ -3280,7 +3280,11 @@
     "lootTableId": "loot_enemy_pearl_knight_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 108
+    "registrationOrder": 108,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/pearl_knight"
+    }
   },
   {
     "id": "ivory_castellan_t40",
@@ -3308,7 +3312,11 @@
     "lootTableId": "loot_enemy_ivory_castellan_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 109
+    "registrationOrder": 109,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/ivory_castellan"
+    }
   },
   {
     "id": "crown_hart_t40",
@@ -3335,7 +3343,11 @@
     "lootTableId": "loot_enemy_crown_hart_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 110
+    "registrationOrder": 110,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/crown_hart"
+    }
   },
   {
     "id": "silverthorn_harrow_t40",
@@ -3363,7 +3375,11 @@
     "lootTableId": "loot_enemy_silverthorn_harrow_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 111
+    "registrationOrder": 111,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/silverthorn_harrow"
+    }
   },
   {
     "id": "lantern_sprite_t30",
@@ -3391,7 +3407,11 @@
     "lootTableId": "loot_enemy_lantern_sprite_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 112
+    "registrationOrder": 112,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/lantern_sprite"
+    }
   },
   {
     "id": "moonpetal_stalker_t30",
@@ -3419,7 +3439,11 @@
     "lootTableId": "loot_enemy_moonpetal_stalker_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 113
+    "registrationOrder": 113,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/moonpetal_stalker"
+    }
   },
   {
     "id": "dewglass_weaver_t30",
@@ -3447,7 +3471,11 @@
     "lootTableId": "loot_enemy_dewglass_weaver_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 114
+    "registrationOrder": 114,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/dewglass_weaver"
+    }
   },
   {
     "id": "bloomheart_matriarch_t30",
@@ -3475,7 +3503,11 @@
     "lootTableId": "loot_enemy_bloomheart_matriarch_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 115
+    "registrationOrder": 115,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/bloomheart_matriarch"
+    }
   },
   {
     "id": "prismatic_sprite_t60",
@@ -3503,7 +3535,11 @@
     "lootTableId": "loot_enemy_prismatic_sprite_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 116
+    "registrationOrder": 116,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/prismatic_sprite"
+    }
   },
   {
     "id": "orchid_reaper_t60",
@@ -3531,7 +3567,11 @@
     "lootTableId": "loot_enemy_orchid_reaper_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 117
+    "registrationOrder": 117,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/orchid_reaper"
+    }
   },
   {
     "id": "starroot_guardian_t60",
@@ -3559,7 +3599,11 @@
     "lootTableId": "loot_enemy_starroot_guardian_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 118
+    "registrationOrder": 118,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/starroot_guardian"
+    }
   },
   {
     "id": "amethyst_sovereign_t60",
@@ -3587,7 +3631,11 @@
     "lootTableId": "loot_enemy_amethyst_sovereign_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 119
+    "registrationOrder": 119,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairyCrown/amethyst_sovereign"
+    }
   },
   {
     "id": "crownward_red_hatchling_t40",
@@ -3615,7 +3663,11 @@
     "lootTableId": "loot_enemy_crownward_red_hatchling_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 120
+    "registrationOrder": 120,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "crownwardDragon/crownward_red_hatchling"
+    }
   },
   {
     "id": "crownward_black_hatchling_t40",
@@ -3643,7 +3695,11 @@
     "lootTableId": "loot_enemy_crownward_black_hatchling_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 121
+    "registrationOrder": 121,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "crownwardDragon/crownward_black_hatchling"
+    }
   },
   {
     "id": "crownward_red_dragon_t40",
@@ -3671,7 +3727,11 @@
     "lootTableId": "loot_enemy_crownward_red_dragon_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 122
+    "registrationOrder": 122,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "crownwardDragon/crownward_red_dragon"
+    }
   },
   {
     "id": "petal_pouncer_t30",
@@ -3697,7 +3757,11 @@
     "lootTableId": "loot_enemy_petal_pouncer_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 123
+    "registrationOrder": 123,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/petal_pouncer_t30"
+    }
   },
   {
     "id": "moss_nibbler_t30",
@@ -3723,7 +3787,11 @@
     "lootTableId": "loot_enemy_moss_nibbler_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 124
+    "registrationOrder": 124,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/moss_nibbler_t30"
+    }
   },
   {
     "id": "bloom_hopper_t30",
@@ -3749,7 +3817,11 @@
     "lootTableId": "loot_enemy_bloom_hopper_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 125
+    "registrationOrder": 125,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/bloom_hopper_t30"
+    }
   },
   {
     "id": "thicket_spirit_t30",
@@ -3775,7 +3847,11 @@
     "lootTableId": "loot_enemy_thicket_spirit_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 126
+    "registrationOrder": 126,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/thicket_spirit_t30"
+    }
   },
   {
     "id": "bramble_prowler_t30",
@@ -3801,7 +3877,11 @@
     "lootTableId": "loot_enemy_bramble_prowler_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 127
+    "registrationOrder": 127,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/bramble_prowler_t30"
+    }
   },
   {
     "id": "elder_grovebeast_t30",
@@ -3827,7 +3907,11 @@
     "lootTableId": "loot_enemy_elder_grovebeast_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 128
+    "registrationOrder": 128,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/elder_grovebeast_t30"
+    }
   },
   {
     "id": "petal_pouncer_t60",
@@ -3853,7 +3937,11 @@
     "lootTableId": "loot_enemy_petal_pouncer_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 129
+    "registrationOrder": 129,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/petal_pouncer_t60"
+    }
   },
   {
     "id": "moss_nibbler_t60",
@@ -3879,7 +3967,11 @@
     "lootTableId": "loot_enemy_moss_nibbler_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 130
+    "registrationOrder": 130,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/moss_nibbler_t60"
+    }
   },
   {
     "id": "bloom_hopper_t60",
@@ -3905,7 +3997,11 @@
     "lootTableId": "loot_enemy_bloom_hopper_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 131
+    "registrationOrder": 131,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/bloom_hopper_t60"
+    }
   },
   {
     "id": "thicket_spirit_t60",
@@ -3931,7 +4027,11 @@
     "lootTableId": "loot_enemy_thicket_spirit_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 132
+    "registrationOrder": 132,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/thicket_spirit_t60"
+    }
   },
   {
     "id": "bramble_prowler_t60",
@@ -3957,7 +4057,11 @@
     "lootTableId": "loot_enemy_bramble_prowler_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 133
+    "registrationOrder": 133,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/bramble_prowler_t60"
+    }
   },
   {
     "id": "elder_grovebeast_t60",
@@ -3983,7 +4087,11 @@
     "lootTableId": "loot_enemy_elder_grovebeast_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 134
+    "registrationOrder": 134,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "fairy/elder_grovebeast_t60"
+    }
   },
   {
     "id": "garden_spriggle_t30",
@@ -4009,7 +4117,11 @@
     "lootTableId": "loot_enemy_garden_spriggle_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 135
+    "registrationOrder": 135,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_spriggle_t30"
+    }
   },
   {
     "id": "garden_sporekin_t30",
@@ -4035,7 +4147,11 @@
     "lootTableId": "loot_enemy_garden_sporekin_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 136
+    "registrationOrder": 136,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_sporekin_t30"
+    }
   },
   {
     "id": "garden_frog_t30",
@@ -4061,7 +4177,11 @@
     "lootTableId": "loot_enemy_garden_frog_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 137
+    "registrationOrder": 137,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_frog_t30"
+    }
   },
   {
     "id": "garden_imp_t30",
@@ -4087,7 +4207,11 @@
     "lootTableId": "loot_enemy_garden_imp_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 138
+    "registrationOrder": 138,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_imp_t30"
+    }
   },
   {
     "id": "garden_snail_t30",
@@ -4113,7 +4237,11 @@
     "lootTableId": "loot_enemy_garden_snail_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 139
+    "registrationOrder": 139,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_snail_t30"
+    }
   },
   {
     "id": "garden_reliquary_t30",
@@ -4139,7 +4267,11 @@
     "lootTableId": "loot_enemy_garden_reliquary_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 140
+    "registrationOrder": 140,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_reliquary_t30"
+    }
   },
   {
     "id": "garden_hart_t30",
@@ -4165,7 +4297,11 @@
     "lootTableId": "loot_enemy_garden_hart_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 141
+    "registrationOrder": 141,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_hart_t30"
+    }
   },
   {
     "id": "garden_veilspirit_t30",
@@ -4191,7 +4327,11 @@
     "lootTableId": "loot_enemy_garden_veilspirit_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 142
+    "registrationOrder": 142,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_veilspirit_t30"
+    }
   },
   {
     "id": "garden_sapling_t30",
@@ -4217,7 +4357,11 @@
     "lootTableId": "loot_enemy_garden_sapling_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 143
+    "registrationOrder": 143,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_sapling_t30"
+    }
   },
   {
     "id": "garden_drake_t30",
@@ -4243,7 +4387,11 @@
     "lootTableId": "loot_enemy_garden_drake_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 144
+    "registrationOrder": 144,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_drake_t30"
+    }
   },
   {
     "id": "garden_wardling_t30",
@@ -4269,7 +4417,11 @@
     "lootTableId": "loot_enemy_garden_wardling_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 145
+    "registrationOrder": 145,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_wardling_t30"
+    }
   },
   {
     "id": "garden_petalguard_t30",
@@ -4295,7 +4447,11 @@
     "lootTableId": "loot_enemy_garden_petalguard_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 146
+    "registrationOrder": 146,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_petalguard_t30"
+    }
   },
   {
     "id": "garden_spriggle_t60",
@@ -4321,7 +4477,11 @@
     "lootTableId": "loot_enemy_garden_spriggle_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 147
+    "registrationOrder": 147,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_spriggle_t60"
+    }
   },
   {
     "id": "garden_sporekin_t60",
@@ -4347,7 +4507,11 @@
     "lootTableId": "loot_enemy_garden_sporekin_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 148
+    "registrationOrder": 148,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_sporekin_t60"
+    }
   },
   {
     "id": "garden_frog_t60",
@@ -4373,7 +4537,11 @@
     "lootTableId": "loot_enemy_garden_frog_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 149
+    "registrationOrder": 149,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_frog_t60"
+    }
   },
   {
     "id": "garden_imp_t60",
@@ -4399,7 +4567,11 @@
     "lootTableId": "loot_enemy_garden_imp_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 150
+    "registrationOrder": 150,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_imp_t60"
+    }
   },
   {
     "id": "garden_snail_t60",
@@ -4425,7 +4597,11 @@
     "lootTableId": "loot_enemy_garden_snail_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 151
+    "registrationOrder": 151,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_snail_t60"
+    }
   },
   {
     "id": "garden_reliquary_t60",
@@ -4451,7 +4627,11 @@
     "lootTableId": "loot_enemy_garden_reliquary_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 152
+    "registrationOrder": 152,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_reliquary_t60"
+    }
   },
   {
     "id": "garden_hart_t60",
@@ -4477,7 +4657,11 @@
     "lootTableId": "loot_enemy_garden_hart_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 153
+    "registrationOrder": 153,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_hart_t60"
+    }
   },
   {
     "id": "garden_veilspirit_t60",
@@ -4503,7 +4687,11 @@
     "lootTableId": "loot_enemy_garden_veilspirit_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 154
+    "registrationOrder": 154,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_veilspirit_t60"
+    }
   },
   {
     "id": "garden_sapling_t60",
@@ -4529,7 +4717,11 @@
     "lootTableId": "loot_enemy_garden_sapling_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 155
+    "registrationOrder": 155,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_sapling_t60"
+    }
   },
   {
     "id": "garden_drake_t60",
@@ -4555,7 +4747,11 @@
     "lootTableId": "loot_enemy_garden_drake_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 156
+    "registrationOrder": 156,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_drake_t60"
+    }
   },
   {
     "id": "garden_wardling_t60",
@@ -4581,7 +4777,11 @@
     "lootTableId": "loot_enemy_garden_wardling_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 157
+    "registrationOrder": 157,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_wardling_t60"
+    }
   },
   {
     "id": "garden_petalguard_t60",
@@ -4607,7 +4807,11 @@
     "lootTableId": "loot_enemy_garden_petalguard_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 158
+    "registrationOrder": 158,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "garden/garden_petalguard_t60"
+    }
   },
   {
     "id": "guardian_01_t10",
@@ -4636,7 +4840,11 @@
     "lootTableId": "loot_enemy_guardian_01_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 159
+    "registrationOrder": 159,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t10"
+    }
   },
   {
     "id": "guardian_02_t10",
@@ -4665,7 +4873,11 @@
     "lootTableId": "loot_enemy_guardian_02_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 160
+    "registrationOrder": 160,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t10"
+    }
   },
   {
     "id": "guardian_03_t10",
@@ -4694,7 +4906,11 @@
     "lootTableId": "loot_enemy_guardian_03_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 161
+    "registrationOrder": 161,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t10"
+    }
   },
   {
     "id": "guardian_04_t10",
@@ -4723,7 +4939,11 @@
     "lootTableId": "loot_enemy_guardian_04_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 162
+    "registrationOrder": 162,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t10"
+    }
   },
   {
     "id": "guardian_05_t10",
@@ -4752,7 +4972,11 @@
     "lootTableId": "loot_enemy_guardian_05_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 163
+    "registrationOrder": 163,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t10"
+    }
   },
   {
     "id": "guardian_06_t10",
@@ -4781,7 +5005,11 @@
     "lootTableId": "loot_enemy_guardian_06_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 164
+    "registrationOrder": 164,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t10"
+    }
   },
   {
     "id": "guardian_07_t10",
@@ -4810,7 +5038,11 @@
     "lootTableId": "loot_enemy_guardian_07_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 165
+    "registrationOrder": 165,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t10"
+    }
   },
   {
     "id": "guardian_08_t10",
@@ -4839,7 +5071,11 @@
     "lootTableId": "loot_enemy_guardian_08_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 166
+    "registrationOrder": 166,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t10"
+    }
   },
   {
     "id": "guardian_09_t10",
@@ -4868,7 +5104,11 @@
     "lootTableId": "loot_enemy_guardian_09_t10",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 167
+    "registrationOrder": 167,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t10"
+    }
   },
   {
     "id": "guardian_01_t20",
@@ -4897,7 +5137,11 @@
     "lootTableId": "loot_enemy_guardian_01_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 168
+    "registrationOrder": 168,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t20"
+    }
   },
   {
     "id": "guardian_02_t20",
@@ -4926,7 +5170,11 @@
     "lootTableId": "loot_enemy_guardian_02_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 169
+    "registrationOrder": 169,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t20"
+    }
   },
   {
     "id": "guardian_03_t20",
@@ -4955,7 +5203,11 @@
     "lootTableId": "loot_enemy_guardian_03_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 170
+    "registrationOrder": 170,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t20"
+    }
   },
   {
     "id": "guardian_04_t20",
@@ -4984,7 +5236,11 @@
     "lootTableId": "loot_enemy_guardian_04_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 171
+    "registrationOrder": 171,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t20"
+    }
   },
   {
     "id": "guardian_05_t20",
@@ -5013,7 +5269,11 @@
     "lootTableId": "loot_enemy_guardian_05_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 172
+    "registrationOrder": 172,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t20"
+    }
   },
   {
     "id": "guardian_06_t20",
@@ -5042,7 +5302,11 @@
     "lootTableId": "loot_enemy_guardian_06_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 173
+    "registrationOrder": 173,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t20"
+    }
   },
   {
     "id": "guardian_07_t20",
@@ -5071,7 +5335,11 @@
     "lootTableId": "loot_enemy_guardian_07_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 174
+    "registrationOrder": 174,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t20"
+    }
   },
   {
     "id": "guardian_08_t20",
@@ -5100,7 +5368,11 @@
     "lootTableId": "loot_enemy_guardian_08_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 175
+    "registrationOrder": 175,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t20"
+    }
   },
   {
     "id": "guardian_09_t20",
@@ -5129,7 +5401,11 @@
     "lootTableId": "loot_enemy_guardian_09_t20",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 176
+    "registrationOrder": 176,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t20"
+    }
   },
   {
     "id": "guardian_01_t50",
@@ -5158,7 +5434,11 @@
     "lootTableId": "loot_enemy_guardian_01_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 177
+    "registrationOrder": 177,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t50"
+    }
   },
   {
     "id": "guardian_01_t70",
@@ -5187,7 +5467,11 @@
     "lootTableId": "loot_enemy_guardian_01_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 178
+    "registrationOrder": 178,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t70"
+    }
   },
   {
     "id": "guardian_02_t50",
@@ -5216,7 +5500,11 @@
     "lootTableId": "loot_enemy_guardian_02_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 179
+    "registrationOrder": 179,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t50"
+    }
   },
   {
     "id": "guardian_02_t70",
@@ -5245,7 +5533,11 @@
     "lootTableId": "loot_enemy_guardian_02_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 180
+    "registrationOrder": 180,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t70"
+    }
   },
   {
     "id": "guardian_03_t50",
@@ -5274,7 +5566,11 @@
     "lootTableId": "loot_enemy_guardian_03_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 181
+    "registrationOrder": 181,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t50"
+    }
   },
   {
     "id": "guardian_03_t70",
@@ -5303,7 +5599,11 @@
     "lootTableId": "loot_enemy_guardian_03_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 182
+    "registrationOrder": 182,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t70"
+    }
   },
   {
     "id": "guardian_04_t50",
@@ -5332,7 +5632,11 @@
     "lootTableId": "loot_enemy_guardian_04_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 183
+    "registrationOrder": 183,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t50"
+    }
   },
   {
     "id": "guardian_04_t70",
@@ -5361,7 +5665,11 @@
     "lootTableId": "loot_enemy_guardian_04_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 184
+    "registrationOrder": 184,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t70"
+    }
   },
   {
     "id": "guardian_05_t50",
@@ -5390,7 +5698,11 @@
     "lootTableId": "loot_enemy_guardian_05_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 185
+    "registrationOrder": 185,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t50"
+    }
   },
   {
     "id": "guardian_05_t70",
@@ -5419,7 +5731,11 @@
     "lootTableId": "loot_enemy_guardian_05_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 186
+    "registrationOrder": 186,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t70"
+    }
   },
   {
     "id": "guardian_06_t50",
@@ -5448,7 +5764,11 @@
     "lootTableId": "loot_enemy_guardian_06_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 187
+    "registrationOrder": 187,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t50"
+    }
   },
   {
     "id": "guardian_06_t70",
@@ -5477,7 +5797,11 @@
     "lootTableId": "loot_enemy_guardian_06_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 188
+    "registrationOrder": 188,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t70"
+    }
   },
   {
     "id": "guardian_07_t50",
@@ -5506,7 +5830,11 @@
     "lootTableId": "loot_enemy_guardian_07_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 189
+    "registrationOrder": 189,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t50"
+    }
   },
   {
     "id": "guardian_07_t70",
@@ -5535,7 +5863,11 @@
     "lootTableId": "loot_enemy_guardian_07_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 190
+    "registrationOrder": 190,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t70"
+    }
   },
   {
     "id": "guardian_08_t50",
@@ -5564,7 +5896,11 @@
     "lootTableId": "loot_enemy_guardian_08_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 191
+    "registrationOrder": 191,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t50"
+    }
   },
   {
     "id": "guardian_08_t70",
@@ -5593,7 +5929,11 @@
     "lootTableId": "loot_enemy_guardian_08_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 192
+    "registrationOrder": 192,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t70"
+    }
   },
   {
     "id": "guardian_09_t50",
@@ -5622,7 +5962,11 @@
     "lootTableId": "loot_enemy_guardian_09_t50",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 193
+    "registrationOrder": 193,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t50"
+    }
   },
   {
     "id": "guardian_09_t70",
@@ -5651,7 +5995,11 @@
     "lootTableId": "loot_enemy_guardian_09_t70",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 194
+    "registrationOrder": 194,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t70"
+    }
   },
   {
     "id": "guardian_01_t40",
@@ -5680,7 +6028,11 @@
     "lootTableId": "loot_enemy_guardian_01_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 195
+    "registrationOrder": 195,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t40"
+    }
   },
   {
     "id": "guardian_02_t40",
@@ -5709,7 +6061,11 @@
     "lootTableId": "loot_enemy_guardian_02_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 196
+    "registrationOrder": 196,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t40"
+    }
   },
   {
     "id": "guardian_03_t40",
@@ -5738,7 +6094,11 @@
     "lootTableId": "loot_enemy_guardian_03_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 197
+    "registrationOrder": 197,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t40"
+    }
   },
   {
     "id": "guardian_04_t40",
@@ -5767,7 +6127,11 @@
     "lootTableId": "loot_enemy_guardian_04_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 198
+    "registrationOrder": 198,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t40"
+    }
   },
   {
     "id": "guardian_05_t40",
@@ -5796,7 +6160,11 @@
     "lootTableId": "loot_enemy_guardian_05_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 199
+    "registrationOrder": 199,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t40"
+    }
   },
   {
     "id": "guardian_06_t40",
@@ -5825,7 +6193,11 @@
     "lootTableId": "loot_enemy_guardian_06_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 200
+    "registrationOrder": 200,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t40"
+    }
   },
   {
     "id": "guardian_07_t40",
@@ -5854,7 +6226,11 @@
     "lootTableId": "loot_enemy_guardian_07_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 201
+    "registrationOrder": 201,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t40"
+    }
   },
   {
     "id": "guardian_08_t40",
@@ -5883,7 +6259,11 @@
     "lootTableId": "loot_enemy_guardian_08_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 202
+    "registrationOrder": 202,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t40"
+    }
   },
   {
     "id": "guardian_09_t40",
@@ -5912,7 +6292,11 @@
     "lootTableId": "loot_enemy_guardian_09_t40",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 203
+    "registrationOrder": 203,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t40"
+    }
   },
   {
     "id": "guardian_01_t30",
@@ -5941,7 +6325,11 @@
     "lootTableId": "loot_enemy_guardian_01_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 204
+    "registrationOrder": 204,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t30"
+    }
   },
   {
     "id": "guardian_02_t30",
@@ -5970,7 +6358,11 @@
     "lootTableId": "loot_enemy_guardian_02_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 205
+    "registrationOrder": 205,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t30"
+    }
   },
   {
     "id": "guardian_03_t30",
@@ -5999,7 +6391,11 @@
     "lootTableId": "loot_enemy_guardian_03_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 206
+    "registrationOrder": 206,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t30"
+    }
   },
   {
     "id": "guardian_04_t30",
@@ -6028,7 +6424,11 @@
     "lootTableId": "loot_enemy_guardian_04_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 207
+    "registrationOrder": 207,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t30"
+    }
   },
   {
     "id": "guardian_05_t30",
@@ -6057,7 +6457,11 @@
     "lootTableId": "loot_enemy_guardian_05_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 208
+    "registrationOrder": 208,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t30"
+    }
   },
   {
     "id": "guardian_06_t30",
@@ -6086,7 +6490,11 @@
     "lootTableId": "loot_enemy_guardian_06_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 209
+    "registrationOrder": 209,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t30"
+    }
   },
   {
     "id": "guardian_07_t30",
@@ -6115,7 +6523,11 @@
     "lootTableId": "loot_enemy_guardian_07_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 210
+    "registrationOrder": 210,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t30"
+    }
   },
   {
     "id": "guardian_08_t30",
@@ -6144,7 +6556,11 @@
     "lootTableId": "loot_enemy_guardian_08_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 211
+    "registrationOrder": 211,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t30"
+    }
   },
   {
     "id": "guardian_09_t30",
@@ -6173,7 +6589,11 @@
     "lootTableId": "loot_enemy_guardian_09_t30",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 212
+    "registrationOrder": 212,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t30"
+    }
   },
   {
     "id": "guardian_01_t60",
@@ -6202,7 +6622,11 @@
     "lootTableId": "loot_enemy_guardian_01_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 213
+    "registrationOrder": 213,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_01_t60"
+    }
   },
   {
     "id": "guardian_02_t60",
@@ -6231,7 +6655,11 @@
     "lootTableId": "loot_enemy_guardian_02_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 214
+    "registrationOrder": 214,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_02_t60"
+    }
   },
   {
     "id": "guardian_03_t60",
@@ -6260,7 +6688,11 @@
     "lootTableId": "loot_enemy_guardian_03_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 215
+    "registrationOrder": 215,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_03_t60"
+    }
   },
   {
     "id": "guardian_04_t60",
@@ -6289,7 +6721,11 @@
     "lootTableId": "loot_enemy_guardian_04_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 216
+    "registrationOrder": 216,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_04_t60"
+    }
   },
   {
     "id": "guardian_05_t60",
@@ -6318,7 +6754,11 @@
     "lootTableId": "loot_enemy_guardian_05_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 217
+    "registrationOrder": 217,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_05_t60"
+    }
   },
   {
     "id": "guardian_06_t60",
@@ -6347,7 +6787,11 @@
     "lootTableId": "loot_enemy_guardian_06_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 218
+    "registrationOrder": 218,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_06_t60"
+    }
   },
   {
     "id": "guardian_07_t60",
@@ -6376,7 +6820,11 @@
     "lootTableId": "loot_enemy_guardian_07_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 219
+    "registrationOrder": 219,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_07_t60"
+    }
   },
   {
     "id": "guardian_08_t60",
@@ -6405,7 +6853,11 @@
     "lootTableId": "loot_enemy_guardian_08_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 220
+    "registrationOrder": 220,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_08_t60"
+    }
   },
   {
     "id": "guardian_09_t60",
@@ -6434,7 +6886,11 @@
     "lootTableId": "loot_enemy_guardian_09_t60",
     "catalog": "CREATURE_SPECIES_BLOCKS",
     "stage": "registered",
-    "registrationOrder": 221
+    "registrationOrder": 221,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "universal/guardian_09_t60"
+    }
   },
   {
     "id": "webweaver_spider_t5",
@@ -9884,7 +10340,11 @@
     "lootTableId": "loot_enemy_boss_tempest_roc_t1",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 4
+    "labOrder": 4,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_tempest_roc"
+    }
   },
   {
     "id": "boss_galeskin_t1",
@@ -9912,7 +10372,11 @@
     "lootTableId": "loot_enemy_boss_galeskin_t1",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 5
+    "labOrder": 5,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_galeskin"
+    }
   },
   {
     "id": "boss_rootheart_t5",
@@ -9940,7 +10404,11 @@
     "lootTableId": "loot_enemy_boss_rootheart_t5",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 6
+    "labOrder": 6,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_rootheart"
+    }
   },
   {
     "id": "boss_mossbound_t5",
@@ -9968,7 +10436,11 @@
     "lootTableId": "loot_enemy_boss_mossbound_t5",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 7
+    "labOrder": 7,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_mossbound"
+    }
   },
   {
     "id": "boss_tideworn_t10",
@@ -9996,7 +10468,11 @@
     "lootTableId": "loot_enemy_boss_tideworn_t10",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 8
+    "labOrder": 8,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_tideworn"
+    }
   },
   {
     "id": "boss_ordrun_t10",
@@ -10024,7 +10500,11 @@
     "lootTableId": "loot_enemy_boss_ordrun_t10",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 9
+    "labOrder": 9,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_ordrun"
+    }
   },
   {
     "id": "boss_cinderwake_t20",
@@ -10052,6 +10532,10 @@
     "lootTableId": "loot_enemy_boss_cinderwake_t20",
     "catalog": "REGIONAL_BOSS_BLOCKS",
     "stage": "labOnly",
-    "labOrder": 10
+    "labOrder": 10,
+    "derivation": {
+      "kind": "sourceEnemy.v1",
+      "inputId": "regionalBossBody/boss_cinderwake"
+    }
   }
 ]

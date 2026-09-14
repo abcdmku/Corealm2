@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import rawEnemies from '../game/content/data/enemies.json';
 import rawParameters from '../game/content/data/balance/enemies.json';
-import { ENEMY_DATA } from '../game/src/content/enemyData.js';
+import { ENEMY_DATA, LAB_ONLY_ENEMY_DATA } from '../game/src/content/enemyData.js';
 import { derivationDiffs, deriveRecord } from '../game/src/content/balance/derivations.js';
+import { combatLevel } from '../game/src/content/balance/enemies.js';
 import { EnemyBalanceSchema } from '../game/src/content/schema/enemyBalance.js';
 import { EnemyDerivationSchema } from '../game/src/content/schema/enemyDerivation.js';
 import { EnemyRecordSchema } from '../game/src/content/schema/enemies.js';
@@ -48,19 +49,31 @@ describe('legacy enemy derivation previews', () => {
 
   it.each(['seed', 'multiplier', 'both'] as const)('previews a changed %s while keeping stored runtime enemies and proposed records intact', change => {
     const { rows, params, tables } = proposal();
-    const runtimeBefore = structuredClone(ENEMY_DATA), recordsBefore = structuredClone(rows);
+    const runtimeBefore = structuredClone(ENEMY_DATA), labBefore = structuredClone(LAB_ONLY_ENEMY_DATA), recordsBefore = structuredClone(rows);
     if (change !== 'multiplier') params.legacyBossInputs.find(row => row.bossId === 'ordrun')!.seed.maxHit *= 2;
     if (change !== 'seed') params.regionalBossLevels.ordrun.multiplier += 1;
     const paramsBefore = structuredClone(params);
     expect(validateEnemyFormulaLinks(tables)).toEqual([]);
     const diffs = derivationDiffs(tables);
-    expect(diffs).toHaveLength(1);
-    expect(diffs[0]).toMatchObject({ collection: 'enemies', recordId: 'quarrykeeper_t10', kind: 'legacyBossCombat.v1', inputIds: ['legacy/quarrykeeper_t10'] });
-    expect(diffs[0]!.after).not.toEqual(diffs[0]!.before);
-    if (change === 'seed') expect(diffs[0]!.after.maxHit).toBeGreaterThan(diffs[0]!.before.maxHit as number);
+    expect(diffs.map(diff => diff.recordId).sort()).toEqual(change === 'seed' ? ['quarrykeeper_t10'] : ['boss_ordrun_t10', 'quarrykeeper_t10']);
+    const savedBoss = diffs.find(diff => diff.recordId === 'quarrykeeper_t10')!;
+    expect(savedBoss).toMatchObject({ collection: 'enemies', kind: 'legacyBossCombat.v1', inputIds: ['legacy/quarrykeeper_t10'] });
+    expect(savedBoss.after).not.toEqual(savedBoss.before);
+    if (change === 'seed') expect(savedBoss.after.maxHit).toBeGreaterThan(savedBoss.before.maxHit as number);
+    else {
+      const labBoss = diffs.find(diff => diff.recordId === 'boss_ordrun_t10')!;
+      expect(labBoss).toMatchObject({ collection: 'enemies', kind: 'sourceEnemy.v1', inputIds: ['regionalBossBody/boss_ordrun'] });
+      expect(rowFor(rows, labBoss.recordId).stage).toBe('labOnly');
+      expect(labBoss.after).not.toEqual(labBoss.before);
+      for (const diff of [savedBoss, labBoss]) {
+        const preview = parseValue(EnemyRecordSchema, { ...rowFor(rows, diff.recordId), ...diff.after }, `preview.${diff.recordId}`);
+        expect(combatLevel(params.combatLevel, preview)).toBe(params.regionalBossLevels.ordrun.tier * params.regionalBossLevels.ordrun.multiplier);
+      }
+    }
     expect(rows).toEqual(recordsBefore);
     expect(params).toEqual(paramsBefore);
     expect(ENEMY_DATA).toEqual(runtimeBefore);
+    expect(LAB_ONLY_ENEMY_DATA).toEqual(labBefore);
   });
 
   it('previews all 28 marks changes without changing boss rewards or unrelated authored fields', () => {

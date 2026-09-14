@@ -1,0 +1,1387 @@
+{
+  "manifest": {
+    "sources": [
+      {
+        "module": "universalMinibosses",
+        "path": ".baseline/game/src/content/universalMinibosses.ts",
+        "sha256": "4a8326b9600126dddf2344da2cd0d7499613543e895a83f936ce8ef9d61e3b15"
+      },
+      {
+        "module": "fairyCreatures",
+        "path": ".baseline/game/src/content/fairyCreatures.ts",
+        "sha256": "87b190d636798510e27f852d0981132ff120cf5f47882fc7a76edbf15cdd6096"
+      },
+      {
+        "module": "fairyGardenCreatures",
+        "path": ".baseline/game/src/content/fairyGardenCreatures.ts",
+        "sha256": "44821914d9f1547906d447381e89d77e91653f1357103d8f8beb0f05e364f394"
+      },
+      {
+        "module": "encounterBalance",
+        "path": ".baseline/game/src/content/encounterBalance.ts",
+        "sha256": "e96cc1e117c8aee986ea1e4e72148e4f60b978d0c7707a9f526f7efd3cc85940"
+      }
+    ],
+    "rows": [
+      {
+        "inputId": "universal/guardian_01_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_02_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_03_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_04_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_05_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_06_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_07_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_08_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_09_t10",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 10
+      },
+      {
+        "inputId": "universal/guardian_01_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_02_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_03_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_04_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_05_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_06_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_07_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_08_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_09_t20",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 20
+      },
+      {
+        "inputId": "universal/guardian_01_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_01_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_02_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_02_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_03_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_03_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_04_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_04_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_05_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_05_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_06_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_06_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_07_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_07_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_08_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_08_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_09_t50",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 50
+      },
+      {
+        "inputId": "universal/guardian_09_t70",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 70
+      },
+      {
+        "inputId": "universal/guardian_01_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_02_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_03_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_04_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_05_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_06_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_07_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_08_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_09_t40",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 40
+      },
+      {
+        "inputId": "universal/guardian_01_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_02_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_03_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_04_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_05_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_06_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_07_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_08_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_09_t30",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 30
+      },
+      {
+        "inputId": "universal/guardian_01_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 0,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_02_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 1,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_03_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 2,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_04_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 3,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_05_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 4,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_06_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 5,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_07_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 6,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_08_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 7,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "universal/guardian_09_t60",
+        "module": "universalMinibosses",
+        "symbol": "UNIVERSAL_MINIBOSS_ROSTER",
+        "rowIndex": 8,
+        "catalog": "UNIVERSAL_MINIBOSS_ENEMIES",
+        "tier": 60
+      },
+      {
+        "inputId": "fairy/petal_pouncer_t30",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 0,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "fairy/moss_nibbler_t30",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 1,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "fairy/bloom_hopper_t30",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 2,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "fairy/thicket_spirit_t30",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 3,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "fairy/bramble_prowler_t30",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 4,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "fairy/elder_grovebeast_t30",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 5,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "fairy/petal_pouncer_t60",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 0,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "fairy/moss_nibbler_t60",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 1,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "fairy/bloom_hopper_t60",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 2,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "fairy/thicket_spirit_t60",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 3,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "fairy/bramble_prowler_t60",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 4,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "fairy/elder_grovebeast_t60",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_ROSTER",
+        "rowIndex": 5,
+        "catalog": "FAIRY_CREATURE_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_spriggle_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 0,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_sporekin_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 1,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_frog_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 2,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_imp_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 3,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_snail_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 4,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_reliquary_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 5,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_hart_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 6,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_veilspirit_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 7,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_sapling_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 8,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_drake_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 9,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_wardling_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 10,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_petalguard_t30",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 11,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 30
+      },
+      {
+        "inputId": "garden/garden_spriggle_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 0,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_sporekin_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 1,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_frog_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 2,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_imp_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 3,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_snail_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 4,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_reliquary_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 5,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_hart_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 6,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_veilspirit_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 7,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_sapling_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 8,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_drake_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 9,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_wardling_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 10,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      },
+      {
+        "inputId": "garden/garden_petalguard_t60",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_FORMS",
+        "rowIndex": 11,
+        "catalog": "FAIRY_GARDEN_SPECIES",
+        "tier": 60
+      }
+    ],
+    "parameters": [
+      {
+        "parameterPath": "universal",
+        "module": "universalMinibosses",
+        "symbol": "universalMinibossSpecies",
+        "templateSymbol": "template"
+      },
+      {
+        "parameterPath": "regionCombatTiers",
+        "module": "encounterBalance",
+        "symbol": "REGION_COMBAT_TIERS"
+      },
+      {
+        "parameterPath": "fairy",
+        "module": "fairyCreatures",
+        "symbol": "FAIRY_CREATURE_SPECIES",
+        "templateSymbol": "template"
+      },
+      {
+        "parameterPath": "garden",
+        "module": "fairyGardenCreatures",
+        "symbol": "FAIRY_GARDEN_SPECIES",
+        "templateSymbol": "template"
+      }
+    ]
+  },
+  "universalSpeciesMappings": [
+    {
+      "speciesId": "guardian_01_fallowmarch",
+      "sourceInputId": "universal/guardian_01_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_02_fallowmarch",
+      "sourceInputId": "universal/guardian_02_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_03_fallowmarch",
+      "sourceInputId": "universal/guardian_03_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_04_fallowmarch",
+      "sourceInputId": "universal/guardian_04_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_05_fallowmarch",
+      "sourceInputId": "universal/guardian_05_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_06_fallowmarch",
+      "sourceInputId": "universal/guardian_06_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_07_fallowmarch",
+      "sourceInputId": "universal/guardian_07_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_08_fallowmarch",
+      "sourceInputId": "universal/guardian_08_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_09_fallowmarch",
+      "sourceInputId": "universal/guardian_09_t10",
+      "regionId": "fallowmarch",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_01_vellenwood",
+      "sourceInputId": "universal/guardian_01_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_02_vellenwood",
+      "sourceInputId": "universal/guardian_02_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_03_vellenwood",
+      "sourceInputId": "universal/guardian_03_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_04_vellenwood",
+      "sourceInputId": "universal/guardian_04_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_05_vellenwood",
+      "sourceInputId": "universal/guardian_05_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_06_vellenwood",
+      "sourceInputId": "universal/guardian_06_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_07_vellenwood",
+      "sourceInputId": "universal/guardian_07_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_08_vellenwood",
+      "sourceInputId": "universal/guardian_08_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_09_vellenwood",
+      "sourceInputId": "universal/guardian_09_t10",
+      "regionId": "vellenwood",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_01_karrowmoor",
+      "sourceInputId": "universal/guardian_01_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_02_karrowmoor",
+      "sourceInputId": "universal/guardian_02_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_03_karrowmoor",
+      "sourceInputId": "universal/guardian_03_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_04_karrowmoor",
+      "sourceInputId": "universal/guardian_04_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_05_karrowmoor",
+      "sourceInputId": "universal/guardian_05_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_06_karrowmoor",
+      "sourceInputId": "universal/guardian_06_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_07_karrowmoor",
+      "sourceInputId": "universal/guardian_07_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_08_karrowmoor",
+      "sourceInputId": "universal/guardian_08_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_09_karrowmoor",
+      "sourceInputId": "universal/guardian_09_t10",
+      "regionId": "karrowmoor",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_01_gravelmaw",
+      "sourceInputId": "universal/guardian_01_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_02_gravelmaw",
+      "sourceInputId": "universal/guardian_02_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_03_gravelmaw",
+      "sourceInputId": "universal/guardian_03_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_04_gravelmaw",
+      "sourceInputId": "universal/guardian_04_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_05_gravelmaw",
+      "sourceInputId": "universal/guardian_05_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_06_gravelmaw",
+      "sourceInputId": "universal/guardian_06_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_07_gravelmaw",
+      "sourceInputId": "universal/guardian_07_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_08_gravelmaw",
+      "sourceInputId": "universal/guardian_08_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_09_gravelmaw",
+      "sourceInputId": "universal/guardian_09_t10",
+      "regionId": "gravelmaw",
+      "tier": 10
+    },
+    {
+      "speciesId": "guardian_01_kilnhalt",
+      "sourceInputId": "universal/guardian_01_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_02_kilnhalt",
+      "sourceInputId": "universal/guardian_02_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_03_kilnhalt",
+      "sourceInputId": "universal/guardian_03_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_04_kilnhalt",
+      "sourceInputId": "universal/guardian_04_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_05_kilnhalt",
+      "sourceInputId": "universal/guardian_05_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_06_kilnhalt",
+      "sourceInputId": "universal/guardian_06_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_07_kilnhalt",
+      "sourceInputId": "universal/guardian_07_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_08_kilnhalt",
+      "sourceInputId": "universal/guardian_08_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_09_kilnhalt",
+      "sourceInputId": "universal/guardian_09_t20",
+      "regionId": "kilnhalt",
+      "tier": 20
+    },
+    {
+      "speciesId": "guardian_01_wilderness",
+      "sourceInputId": "universal/guardian_01_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_01_wilderness_t70",
+      "sourceInputId": "universal/guardian_01_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_02_wilderness",
+      "sourceInputId": "universal/guardian_02_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_02_wilderness_t70",
+      "sourceInputId": "universal/guardian_02_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_03_wilderness",
+      "sourceInputId": "universal/guardian_03_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_03_wilderness_t70",
+      "sourceInputId": "universal/guardian_03_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_04_wilderness",
+      "sourceInputId": "universal/guardian_04_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_04_wilderness_t70",
+      "sourceInputId": "universal/guardian_04_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_05_wilderness",
+      "sourceInputId": "universal/guardian_05_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_05_wilderness_t70",
+      "sourceInputId": "universal/guardian_05_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_06_wilderness",
+      "sourceInputId": "universal/guardian_06_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_06_wilderness_t70",
+      "sourceInputId": "universal/guardian_06_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_07_wilderness",
+      "sourceInputId": "universal/guardian_07_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_07_wilderness_t70",
+      "sourceInputId": "universal/guardian_07_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_08_wilderness",
+      "sourceInputId": "universal/guardian_08_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_08_wilderness_t70",
+      "sourceInputId": "universal/guardian_08_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_09_wilderness",
+      "sourceInputId": "universal/guardian_09_t50",
+      "regionId": "wilderness",
+      "tier": 50
+    },
+    {
+      "speciesId": "guardian_09_wilderness_t70",
+      "sourceInputId": "universal/guardian_09_t70",
+      "regionId": "wilderness",
+      "tier": 70
+    },
+    {
+      "speciesId": "guardian_01_crownward",
+      "sourceInputId": "universal/guardian_01_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_02_crownward",
+      "sourceInputId": "universal/guardian_02_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_03_crownward",
+      "sourceInputId": "universal/guardian_03_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_04_crownward",
+      "sourceInputId": "universal/guardian_04_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_05_crownward",
+      "sourceInputId": "universal/guardian_05_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_06_crownward",
+      "sourceInputId": "universal/guardian_06_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_07_crownward",
+      "sourceInputId": "universal/guardian_07_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_08_crownward",
+      "sourceInputId": "universal/guardian_08_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_09_crownward",
+      "sourceInputId": "universal/guardian_09_t40",
+      "regionId": "crownward",
+      "tier": 40
+    },
+    {
+      "speciesId": "guardian_01_gloamgarden",
+      "sourceInputId": "universal/guardian_01_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_02_gloamgarden",
+      "sourceInputId": "universal/guardian_02_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_03_gloamgarden",
+      "sourceInputId": "universal/guardian_03_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_04_gloamgarden",
+      "sourceInputId": "universal/guardian_04_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_05_gloamgarden",
+      "sourceInputId": "universal/guardian_05_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_06_gloamgarden",
+      "sourceInputId": "universal/guardian_06_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_07_gloamgarden",
+      "sourceInputId": "universal/guardian_07_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_08_gloamgarden",
+      "sourceInputId": "universal/guardian_08_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_09_gloamgarden",
+      "sourceInputId": "universal/guardian_09_t30",
+      "regionId": "gloamgarden",
+      "tier": 30
+    },
+    {
+      "speciesId": "guardian_01_faeholme",
+      "sourceInputId": "universal/guardian_01_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_02_faeholme",
+      "sourceInputId": "universal/guardian_02_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_03_faeholme",
+      "sourceInputId": "universal/guardian_03_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_04_faeholme",
+      "sourceInputId": "universal/guardian_04_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_05_faeholme",
+      "sourceInputId": "universal/guardian_05_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_06_faeholme",
+      "sourceInputId": "universal/guardian_06_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_07_faeholme",
+      "sourceInputId": "universal/guardian_07_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_08_faeholme",
+      "sourceInputId": "universal/guardian_08_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    },
+    {
+      "speciesId": "guardian_09_faeholme",
+      "sourceInputId": "universal/guardian_09_t60",
+      "regionId": "faeholme",
+      "tier": 60
+    }
+  ]
+}

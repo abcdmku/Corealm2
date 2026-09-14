@@ -2,6 +2,9 @@ import { arr, int, num, obj, refine, str, tuple, type Infer } from './core.js';
 import { LegacyBossInputsSchema, LegacyMarksInputsSchema, OrdrunPhaseParamsSchema } from './enemyDerivation.js';
 import { EnemySourceGraphParamsSchema, EnemySourceGraphInputsSchema } from './enemySourceGraph.js';
 import { FantasyParamsSchema } from './enemySourceVariants.js';
+import { DescendantSourceParamsSchema } from './enemyDescendantSources.js';
+import { WildernessSourceParamsSchema, WildernessKeeperRowsSchema } from './enemyWildernessSources.js';
+import { ActorSourceParamsSchema } from './enemyActorSources.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -31,6 +34,10 @@ export const EnemyBalanceSchema = refine(obj({
   legacyBossInputs: LegacyBossInputsSchema,
   ordrunPhases: OrdrunPhaseParamsSchema,
   sourceParameters: EnemySourceGraphParamsSchema,
+  actorSourceParameters: ActorSourceParamsSchema,
+  wildernessSourceParameters: WildernessSourceParamsSchema,
+  descendantSourceParameters: DescendantSourceParamsSchema,
+  keepers: WildernessKeeperRowsSchema,
   sourceInputs: EnemySourceGraphInputsSchema,
 }), value => Math.abs(value.tuning.healthPerCombatLevel - value.combatLevel.healthPerLevel / value.combatLevel.healthWeight) < 1e-9
   && new Set([...value.legacyMarksInputs, ...value.legacyBossInputs, ...value.sourceInputs].map(row => row.id)).size

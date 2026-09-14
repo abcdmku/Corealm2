@@ -7,6 +7,7 @@ import { iconFor, labelFor } from "../ui/library.js";
 import { EntityModel, ItemConnections, viewerSource } from "./EntityExtras.js";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CreatureDetails } from './CreatureDetails.js';
+const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/SetPiecePanel.js"));
 const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/NotesPanel.js"));
 const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/EntityEditor.js"));
 const BalancePanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/BalancePanel.js"));
@@ -69,7 +70,7 @@ export function EntityDetail(props: EntityDetailProps) {
         {canEdit && <Tabs.Trigger value="notes">Notes</Tabs.Trigger>}
       </Tabs.List>
       <div className="detail-body">
-        <Tabs.Content value="overview"><section className="detail-section"><div className="section-heading"><h2>{collection.startsWith("balance/") ? "Parameters" : "Overview"}</h2><span>{Object.keys(fields).length} fields</span></div><ValueView value={fields} navigate={navigate}/></section>{['creatures', 'enemies', 'enemyAliases'].includes(collection) && (record.blockId || record.lootTableId) ? <CreatureDetails {...props}/> : null}</Tabs.Content>
+        <Tabs.Content value="overview"><section className="detail-section"><div className="section-heading"><h2>{collection.startsWith("balance/") ? "Parameters" : "Overview"}</h2><span>{Object.keys(fields).length} fields</span></div><ValueView value={fields} navigate={navigate}/></section>{canEdit && collection === "equipmentSets" && SetPiecePanel && <Suspense fallback={<p>Loading armor pieces...</p>}><SetPiecePanel collection={collection} recordId={id}/></Suspense>}{['creatures', 'enemies', 'enemyAliases'].includes(collection) && (record.blockId || record.lootTableId) ? <CreatureDetails {...props}/> : null}</Tabs.Content>
         {hasModel && <Tabs.Content value="model"><EntityModel {...props}/></Tabs.Content>}
         {collection === "items" && <Tabs.Content value="connections"><ItemConnections {...props}/></Tabs.Content>}
         <Tabs.Content value="source"><pre className="record-source">{JSON.stringify(record, null, 2)}</pre></Tabs.Content>

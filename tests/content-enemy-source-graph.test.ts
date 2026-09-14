@@ -5,6 +5,8 @@ import rawEnemies from '../game/content/data/enemies.json';
 import rawParameters from '../game/content/data/balance/enemies.json';
 import { deriveEnemySourceGraph } from '../game/src/content/balance/enemySourceGraph.js';
 import { scaleFantasy } from '../game/src/content/balance/enemySourceVariants.js';
+import { combatLevel } from '../game/src/content/balance/enemies.js';
+import type { EnemyDef } from '../game/src/content/index.js';
 import { deriveRecord, derivationDiffs, sameValue } from '../game/src/content/balance/derivations.js';
 import { EnemyBalanceSchema } from '../game/src/content/schema/enemyBalance.js';
 import { EnemySourceGraphInputsSchema } from '../game/src/content/schema/enemySourceGraph.js';
@@ -42,12 +44,13 @@ function runtimeViews() {
 }
 
 describe('enemy source dependency graph', () => {
-  it('resolves all 79 original inputs independently of array order and preserves caller order in the result', () => {
+  it('resolves the 79 core and variant inputs independently of array order and preserves caller order in the result', () => {
     const { rows, params } = proposal();
-    const before = structuredClone(params), graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs);
-    const reversedInputs = [...params.sourceInputs].reverse(), reversed = deriveEnemySourceGraph(params.sourceParameters, reversedInputs);
+    const coreInputs = params.sourceInputs.filter(input => ['expansion', 'starter', 'rpg', 'variant', 'redesign'].includes(input.kind));
+    const before = structuredClone(params), graph = deriveEnemySourceGraph(params.sourceParameters, coreInputs, params);
+    const reversedInputs = [...coreInputs].reverse(), reversed = deriveEnemySourceGraph(params.sourceParameters, reversedInputs, params);
     expect(graph.size).toBe(79);
-    expect([...graph.keys()]).toEqual(params.sourceInputs.map(input => input.id));
+    expect([...graph.keys()]).toEqual(coreInputs.map(input => input.id));
     expect([...reversed.keys()]).toEqual(reversedInputs.map(input => input.id));
     expect(graph.get('variant/moonweave_spider')!.marks).toBe(graph.get('rpg/webweaver_spider')!.marks);
     expect(graph.get('variant/amethyst_spider')!.marks).toBe(graph.get('rpg/webweaver_spider')!.marks);
@@ -70,7 +73,7 @@ describe('enemy source dependency graph', () => {
     expect(() => parseValue(EnemySourceGraphInputsSchema, params.sourceInputs, 'sourceInputs')).toThrow(/unique|dependencies|acyclic/);
     expect(() => parseValue(EnemyBalanceSchema, params, 'balance/enemies')).toThrow(/unique|dependencies|acyclic/);
     expect(() => validateEnemyFormulaLinks(tables)).toThrow(/unique|dependencies|acyclic/);
-    expect(() => deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs)).toThrow(/Circular|Missing original source|Duplicate/);
+    expect(() => deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs, params)).toThrow(/Circular|Missing original source|Duplicate/);
   });
 
   it('propagates a role accuracy edit through regional variants, native redesigns, and scaled fantasy rows', () => {
@@ -79,7 +82,7 @@ describe('enemy source dependency graph', () => {
     const inputs = new Map(params.sourceInputs.map(input => [input.id, input]));
     const affected = (id: string): boolean => {
       const input = inputs.get(id)!;
-      if (input.kind === 'variant' || input.kind === 'redesign') return affected(input.sourceInputId);
+      if ('sourceInputId' in input) return affected(input.sourceInputId);
       return input.kind === 'rpg' && input.role === 'skirmisher';
     };
     const expectedIds = rows.filter(row => {
@@ -89,14 +92,21 @@ describe('enemy source dependency graph', () => {
     }).map(row => String(row.id)).filter(id => id !== 'grave_lantern_t1').sort();
     params.sourceParameters.rpg.roles.skirmisher.accuracy += 8;
     const paramsBefore = structuredClone(params), diffs = derivationDiffs(tables);
+    const descendants = params.sourceInputs.filter(input => input.kind === 'fairyCrown' || input.kind === 'crownwardDragon');
+    const descendantIds = descendants.map(input => `${input.speciesId}_t${input.kind === 'fairyCrown' ? input.tier : params.descendantSourceParameters.crownwardDragon.tier}`);
     expect(validateEnemyFormulaLinks(tables)).toEqual([]);
     expect(diffs.map(diff => diff.recordId).sort()).toEqual(expectedIds);
     // At native tier 20, both 12/20 and 20/20 round to one at tier 1.
     expect(deriveRecord('enemies', rowFor(rows, 'grave_lantern_t1'), tables)!.accuracy).toBe(1);
     for (const diff of diffs) {
-      expect(Object.keys(diff.after).filter(key => !sameValue(diff.after[key], diff.before[key]))).toEqual(['accuracy']);
+      if (!descendantIds.includes(diff.recordId)) {
+        expect(Object.keys(diff.after).filter(key => !sameValue(diff.after[key], diff.before[key]))).toEqual(['accuracy']);
+      } else expect(combatLevel(params.combatLevel, diff.after as unknown as EnemyDef))
+        .toBe(combatLevel(params.combatLevel, diff.before as unknown as EnemyDef));
       expect(diff.after.accuracy).toBeGreaterThan(diff.before.accuracy as number);
     }
+    expect(diffs.filter(diff => descendantIds.includes(diff.recordId)).map(diff => diff.recordId).sort())
+      .toEqual(['dewglass_weaver_t30', 'lantern_sprite_t30', 'moonpetal_stalker_t30', 'prismatic_sprite_t60']);
     for (const [id, accuracy] of [['webweaver_spider_t5', 20], ['moonweave_spider_t5', 20], ['amethyst_spider_t5', 20],
       ['fen_crawler_t10', 20], ['fen_crawler_t1', 2], ['fen_crawler_t5', 10], ['fen_crawler_t20', 40]] as const) {
       expect(diffs.find(diff => diff.recordId === id)?.after.accuracy, id).toBe(accuracy);
@@ -104,23 +114,31 @@ describe('enemy source dependency graph', () => {
     expect(rows).toEqual(recordsBefore); expect(params).toEqual(paramsBefore); expect(runtimeViews()).toEqual(runtimeBefore);
   });
 
-  it('keeps all variant and redesign health overrides when the original RPG health base changes', () => {
+  it('keeps redesign health overrides while retuning regional boss bodies after an RPG health change', () => {
     const { rows, params, tables } = proposal(); const before = structuredClone(runtimeViews());
     const expectedIds = params.sourceInputs.filter(input => input.kind === 'rpg').map(input => `${input.speciesId}_t${input.tier}`).sort();
-    params.sourceParameters.rpg.healthBase += 10;
+    params.sourceParameters.rpg.healthBase += 2;
     const diffs = derivationDiffs(tables);
-    expect(diffs).toHaveLength(25); expect(diffs.map(diff => diff.recordId).sort()).toEqual(expectedIds);
-    for (const diff of diffs) {
+    const coreDiffs = diffs.filter(diff => expectedIds.includes(diff.recordId));
+    expect(coreDiffs).toHaveLength(25); expect(coreDiffs.map(diff => diff.recordId).sort()).toEqual(expectedIds);
+    for (const diff of coreDiffs) {
       expect(Object.keys(diff.after).filter(key => !sameValue(diff.after[key], diff.before[key]))).toEqual(['maxHealth']);
       expect(diff.after.maxHealth).toBeGreaterThan(rowFor(rows, diff.recordId).maxHealth as number);
     }
+    const bodyIds = params.sourceInputs.filter(input => input.kind === 'regionalBossBody')
+      .map(input => `${input.speciesId}_t${params.regionalBossLevels[input.bossId].tier}`);
+    const bodyDiffs = diffs.filter(diff => diff.recordId.startsWith('boss_'));
+    expect(bodyDiffs.map(diff => diff.recordId).sort()).toEqual(['boss_cinderwake_t20', 'boss_galeskin_t1', 'boss_ordrun_t10', 'boss_tideworn_t10']);
+    expect(diffs.filter(diff => !diff.recordId.startsWith('boss_') && !expectedIds.includes(diff.recordId)).map(diff => diff.recordId).sort())
+      .toEqual(['lantern_sprite_t30', 'prismatic_sprite_t60']);
+    for (const diff of bodyDiffs) expect(bodyIds).toContain(diff.recordId);
     expect(runtimeViews()).toEqual(before);
   });
 });
 
 describe('fantasy source ownership and optional values', () => {
   it('keeps all 15 native tiers on their source formula while the other 45 tiers use scaling', () => {
-    const { rows, params } = proposal(), graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs);
+    const { rows, params } = proposal(), graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs, params);
     expect(params.fantasy.sourceInputIds).toHaveLength(15);
     let nativeCount = 0, scaledCount = 0;
     for (const sourceInputId of params.fantasy.sourceInputIds) {
@@ -154,7 +172,7 @@ describe('fantasy source ownership and optional values', () => {
   });
 
   it('preserves native identity and absent optional fields while nonnative scaling writes own undefined marks', () => {
-    const { params } = proposal(); const graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs);
+    const { params } = proposal(); const graph = deriveEnemySourceGraph(params.sourceParameters, params.sourceInputs, params);
     const { marks: _marks, attackStyle: _style, attackRangeM: _range, ...fields } = graph.get('forest/fen_crawler')!;
     const source = { ...fields, drops: [] };
     const before = structuredClone(source);

@@ -120,7 +120,7 @@ export function tuneCombat(p: TuningParams, level: CombatLevelParams,
   return best;
 }
 
-export function deriveLegacyBoss(p: EnemyBalanceStage1, input: Readonly<LegacyBossInput>): CombatResult {
+export function deriveLegacyBoss(p: Pick<EnemyBalanceStage1, 'combatLevel' | 'tuning' | 'regionalBossLevels'>, input: Readonly<LegacyBossInput>): CombatResult {
   const target = p.regionalBossLevels[input.bossId];
   return tuneCombat(p.tuning, p.combatLevel, input.seed, target.tier * target.multiplier, target.tier, input.enemyId);
 }

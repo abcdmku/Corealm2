@@ -1,10 +1,17 @@
 import { tuneCombat, type CombatLevelParams, type TuningParams } from './enemies.js';
 import type { EnemyFieldsWithoutDrops } from './enemySources.js';
 import type { ActorEnemySourceInput, ActorSourceParams } from '../schema/enemyActorSources.js';
+import type { RegionId } from '../../contracts.js';
 export type { ActorEnemySourceInput, ActorSourceParams, UniversalSourceInput, FairySourceInput,
   GardenSourceInput } from '../schema/enemyActorSources.js';
 
 export interface ActorTuningDependencies { combatLevel: CombatLevelParams; tuning: TuningParams }
+
+/** Resolves a new helper call's tier. Saved canonical source inputs retain their authored tiers. */
+export function resolveUniversalActorTier(params: Readonly<Pick<ActorSourceParams['universal'], 'minimumRegionTier'>>,
+  regionCombatTiers: Readonly<Record<RegionId, number>>, regionId: RegionId, tierOverride?: number | null): number {
+  return tierOverride ?? Math.max(params.minimumRegionTier, regionCombatTiers[regionId]);
+}
 
 /** Original actor templates are tuned before the roster's explicit patches. */
 export function deriveActorEnemy(params: ActorSourceParams, input: Readonly<ActorEnemySourceInput>,

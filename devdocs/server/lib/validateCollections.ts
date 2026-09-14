@@ -111,9 +111,10 @@ function livePools(values: ReadonlyMap<string, unknown>, external: ReferencePool
   return pools;
 }
 
-function driftDiagnostics(values: ReadonlyMap<string, unknown>, target: { collection: string; recordId: string }): ApiDiagnostic[] {
+function driftDiagnostics(values: ReadonlyMap<string, unknown>, target: { collection: string; recordId: string | readonly string[] }): ApiDiagnostic[] {
   const diagnostics: ApiDiagnostic[] = [];
-  const severity = (collection: string, recordId: string) => !target.collection.startsWith("balance/") && collection === target.collection && recordId === target.recordId ? "error" as const : "warning" as const;
+  const selected = new Set(typeof target.recordId === 'string' ? [target.recordId] : target.recordId);
+  const severity = (collection: string, recordId: string) => !target.collection.startsWith("balance/") && collection === target.collection && selected.has(recordId) ? "error" as const : "warning" as const;
   const append = (diff: DerivationDiff) => diagnostics.push({ path: `${diff.collection}.${diff.recordId}`, severity: severity(diff.collection, diff.recordId),
     message: `Drifted from ${diff.kind}; recompute locked fields or remove derivation to hand-tune` });
   try { derivationDiffs(values).forEach(append); }
@@ -139,7 +140,7 @@ function driftDiagnostics(values: ReadonlyMap<string, unknown>, target: { collec
 }
 
 /** Schema + references validate the whole proposed world of JSON, not cached runtime modules. */
-export function validateCollectionOverlay(snapshots: CollectionSnapshots, spec: ContentCollection, proposed: unknown, recordId: string, external: ReferencePools = {}): { data: unknown; diagnostics: ApiDiagnostic[] } {
+export function validateCollectionOverlay(snapshots: CollectionSnapshots, spec: ContentCollection, proposed: unknown, recordId: string | readonly string[], external: ReferencePools = {}): { data: unknown; diagnostics: ApiDiagnostic[] } {
   const values = new Map<string, unknown>();
   const diagnostics: ApiDiagnostic[] = [];
   for (const collection of CONTENT_COLLECTIONS) {

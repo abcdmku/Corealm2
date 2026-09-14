@@ -26,17 +26,21 @@ function runtimeViews() {
 }
 
 describe('core enemy source derivation previews', () => {
-  it('recomputes all 79 source tags, 35 legacy tags, and 45 fantasy tags without drift', () => {
+  it('recomputes all 200 source tags, 35 legacy tags, and 45 fantasy tags without drift', () => {
     const { rows, params, tables } = proposal();
     const tags = rows.filter(row => row.derivation).map(row => ({ row,
       tag: parseValue(EnemyDerivationSchema, row.derivation, `enemies.${row.id}.derivation`) }));
     const sourceRows = tags.filter(({ tag }) => tag.kind === 'sourceEnemy.v1');
-    expect(tags).toHaveLength(159); expect(sourceRows).toHaveLength(79);
+    expect(tags).toHaveLength(280); expect(sourceRows).toHaveLength(200);
     expect(tags.filter(({ tag }) => tag.kind === 'fantasyScale.v1')).toHaveLength(45);
     expect(tags.filter(({ tag }) => tag.kind === 'legacyMarks.v1')).toHaveLength(28);
     expect(tags.filter(({ tag }) => tag.kind === 'legacyBossCombat.v1')).toHaveLength(7);
-    expect(sourceRows.filter(({ row }) => row.stage === 'labOnly')).toHaveLength(4);
-    expect(params.sourceInputs).toHaveLength(79);
+    expect(sourceRows.filter(({ row }) => row.stage === 'labOnly')).toHaveLength(11);
+    expect(params.sourceInputs).toHaveLength(218);
+    expect(params.sourceInputs.filter(input => ['expansion', 'starter', 'rpg', 'variant', 'redesign'].includes(input.kind))).toHaveLength(79);
+    expect(params.sourceInputs.filter(input => ['universal', 'fairy', 'garden'].includes(input.kind))).toHaveLength(99);
+    expect(params.sourceInputs.filter(input => ['wildernessBody', 'wildernessDragon', 'regionalBossBody'].includes(input.kind))).toHaveLength(25);
+    expect(params.sourceInputs.filter(input => ['fairyCrown', 'crownwardDragon'].includes(input.kind))).toHaveLength(15);
     expect(validateEnemyFormulaLinks(tables)).toEqual([]);
     expect(derivationDiffs(tables)).toEqual([]);
     for (const { row } of sourceRows) {
@@ -65,7 +69,7 @@ describe('core enemy source derivation previews', () => {
     expect(runtimeViews()).toEqual(runtimeBefore);
   });
 
-  it('changes only brute RPG health across active and lab records', () => {
+  it('changes brute RPG health and retunes the regional boss bodies that inherit those sources', () => {
     const { rows, params, tables } = proposal();
     const runtimeBefore = structuredClone(runtimeViews()), recordsBefore = structuredClone(rows);
     const affected = params.sourceInputs.filter(input => input.kind === 'rpg').filter(input => input.role === 'brute');
@@ -73,14 +77,25 @@ describe('core enemy source derivation previews', () => {
     expect(expectedIds).toContain('troll_mauler_t12'); expect(expectedIds).toContain('zombie_t1');
     params.sourceParameters.rpg.roles.brute.healthMultiplier += .5;
     const paramsBefore = structuredClone(params), diffs = derivationDiffs(tables);
-    expect(diffs.map(diff => diff.recordId).sort()).toEqual(expectedIds);
+    const coreDiffs = diffs.filter(diff => expectedIds.includes(diff.recordId));
+    expect(coreDiffs.map(diff => diff.recordId).sort()).toEqual(expectedIds);
     expect(diffs.some(diff => rowFor(rows, diff.recordId).stage === 'registered')).toBe(true);
     expect(diffs.some(diff => rowFor(rows, diff.recordId).stage === 'labOnly')).toBe(true);
-    for (const diff of diffs) {
+    for (const diff of coreDiffs) {
       expect(diff.kind).toBe('sourceEnemy.v1'); expect(diff.after.maxHealth).toBeGreaterThan(diff.before.maxHealth as number);
       const { maxHealth: _beforeHealth, ...otherBefore } = diff.before;
       const { maxHealth: _afterHealth, ...otherAfter } = diff.after;
       expect(otherAfter).toEqual(otherBefore);
+    }
+    const bodyInputs = params.sourceInputs.filter(input => input.kind === 'regionalBossBody')
+      .filter(input => affected.some(source => source.id === input.sourceInputId));
+    const bodyIds = bodyInputs.map(input => `${input.speciesId}_t${params.regionalBossLevels[input.bossId].tier}`);
+    const bodyDiffs = diffs.filter(diff => diff.recordId.startsWith('boss_'));
+    expect(bodyDiffs.map(diff => diff.recordId).sort()).toEqual(bodyIds.sort());
+    expect(diffs.map(diff => diff.recordId).sort()).toEqual([...expectedIds, ...bodyIds, 'bloomheart_matriarch_t30'].sort());
+    for (const diff of bodyDiffs) {
+      expect(bodyIds).toContain(diff.recordId); expect(rowFor(rows, diff.recordId).stage).toBe('labOnly');
+      expect(diff.kind).toBe('sourceEnemy.v1');
     }
     expect(rows).toEqual(recordsBefore); expect(params).toEqual(paramsBefore);
     expect(runtimeViews()).toEqual(runtimeBefore);

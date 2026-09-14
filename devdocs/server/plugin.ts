@@ -19,6 +19,7 @@ import { readDevdocsReferencePools } from "./lib/referencePools.js";
 import { createRecomputeHandler, isRecomputePath } from "./handlers/recompute.js";
 import { createValidateHandler, isValidatePath } from "./handlers/validate.js";
 import { createGitHandler, isGitPath } from "./handlers/git.js";
+import { createBulkHandler, isBulkPath } from './handlers/bulk.js';
 
 export type DevdocsPluginOptions = CollectionsHandlerOptions & CollectionWriteHandlerOptions;
 
@@ -35,6 +36,7 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
   const handleRecompute = createRecomputeHandler({ referencePools: readDevdocsReferencePools, ...options });
   const handleValidate = createValidateHandler({ referencePools: readDevdocsReferencePools, ...options });
   const handleGit = createGitHandler();
+  const handleBulk = createBulkHandler({ referencePools: readDevdocsReferencePools, ...options });
   const handleRequests = createRequestsHandler(options);
   const handleMeta = createMetaHandler(options);
   server.middlewares.use((request, response, next) => {
@@ -45,7 +47,8 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
     const recompute = isRecomputePath(request.url);
     const validate = isValidatePath(request.url);
     const git = isGitPath(request.url);
-    if (!collections && !requests && !meta && !icon && !recompute && !validate && !git) {
+    const bulk = isBulkPath(request.url);
+    if (!collections && !requests && !meta && !icon && !recompute && !validate && !git && !bulk) {
       next();
       return;
     }
@@ -56,6 +59,7 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
       if (icon) return readIconMaster(requestFromIncoming(request));
       if (git) return handleGit(requestFromIncoming(request));
       if (validate) return handleValidate(requestFromIncoming(request));
+      if (bulk) return handleBulk({ ...requestFromIncoming(request), method: request.method, body: request.method === 'POST' ? await readJsonBody(request) : undefined });
       if (recompute) return handleRecompute({ method: request.method, url: request.url, headers: request.headers, socket: request.socket, body: request.method === "POST" ? await readJsonBody(request) : undefined });
       if (collections && (request.method === "PUT" || request.method === "DELETE")) return handleWrite({ method: request.method, url: request.url, headers: request.headers, socket: request.socket, body: await readJsonBody(request) });
       if (meta) return handleMeta({ ...requestFromIncoming(request), method: request.method, url: request.url, headers: request.headers, socket: request.socket,

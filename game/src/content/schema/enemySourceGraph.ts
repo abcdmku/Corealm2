@@ -1,8 +1,11 @@
 import { arr, refine, union, type Infer } from './core.js';
 import { SourceInputSchema, SourceParamsSchema } from './enemySources.js';
 import { VariantEnemySourceInputSchema, VariantParamsSchema } from './enemySourceVariants.js';
+import { DescendantSourceInputSchema } from './enemyDescendantSources.js';
+import { WildernessBaseSourceInputSchema } from './enemyWildernessSources.js';
+import { ActorEnemySourceInputSchema } from './enemyActorSources.js';
 
-export const EnemySourceGraphInputSchema = union([SourceInputSchema, VariantEnemySourceInputSchema] as const);
+export const EnemySourceGraphInputSchema = union([SourceInputSchema, VariantEnemySourceInputSchema, ActorEnemySourceInputSchema, WildernessBaseSourceInputSchema, DescendantSourceInputSchema] as const);
 export type EnemySourceGraphInput = Infer<typeof EnemySourceGraphInputSchema>;
 export const EnemySourceGraphParamsSchema = SourceParamsSchema.extend(VariantParamsSchema.fields);
 export type EnemySourceGraphParams = Infer<typeof EnemySourceGraphParamsSchema>;

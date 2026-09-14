@@ -251,4 +251,3 @@ export function buildVariantEnemySources(baseline: M4Baseline, sources: VariantE
     { parameterPath: 'sourceInputIds', module: 'enemies', symbol: 'FANTASY_SPECIES' },
   ] } };
 }
-

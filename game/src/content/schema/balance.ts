@@ -5,7 +5,10 @@ import { GearProgressionBalanceSchema } from './gearProgression.js';
 import { ItemFormulaBalanceSchema } from './itemFormula.js';
 import { MaterialFoodBalanceSchema } from './materialFoodDerivation.js';
 import { EnemyBalanceSchema } from './enemyBalance.js';
-import { SourceLootParamsSchema, SourceLootInputsSchema, SourceLootOwnersSchema } from './sourceLoot.js';
+import { SourceLootParamsSchema, SourceLootOwnersSchema } from './sourceLoot.js';
+import { SourceLootGraphInputsSchema } from './sourceLootGraph.js';
+import { DescendantLootParamsSchema } from './descendantLoot.js';
+import { ActorLootParamsSchema, RegionalFabricParamsSchema } from './actorLoot.js';
 
 const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
@@ -63,11 +66,13 @@ export const setsBalanceSchema = obj({
 /** creatureLoot.ts MATERIAL_VALUE and production drop roll inputs. Item selection stays in TS. */
 export const lootBalanceSchema = obj({
   sourceLoot: SourceLootParamsSchema,
-  sourceInputs: SourceLootInputsSchema,
+  sourceInputs: SourceLootGraphInputsSchema,
+  actorLootParameters: ActorLootParamsSchema,
+  descendantLootParameters: DescendantLootParamsSchema,
   sourceOwners: SourceLootOwnersSchema,
   materialValues: arr(obj({ tier: positiveInt(), value: nonnegative() }), { minLength: 1 }),
   bossArmorExpectedPieces: nonnegative(),
-  regionalFabric: obj({ ordinary: roll, boss: roll }),
+  regionalFabric: RegionalFabricParamsSchema,
   wilderness: obj({ deepTier: positiveInt(),
     keeper: obj({ material: roll, component: roll, rune: roll, cosmicRune: roll, ore: roll, gem: roll }),
     ordinary: obj({ material: roll, cosmicRune: roll, ore: roll, gem: roll, structureComponent: roll,

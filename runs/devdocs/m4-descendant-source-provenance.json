@@ -1,0 +1,148 @@
+{
+  "sources": [
+    {
+      "module": "fairyCrownCreatures",
+      "path": ".baseline/game/src/content/fairyCrownCreatures.ts",
+      "sha256": "086ff26036e217f4c8c6695b00a3a369641092b4262bcc0e01d8bc230671dd2e"
+    },
+    {
+      "module": "crownwardDragons",
+      "path": ".baseline/game/src/content/crownwardDragons.ts",
+      "sha256": "60997daa1e538a78e6f3e6396c6f774154f42a4a32343c781e9dbba775b640d3"
+    }
+  ],
+  "rows": [
+    {
+      "inputId": "fairyCrown/pearl_knight",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 0,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "pearl_knight"
+    },
+    {
+      "inputId": "fairyCrown/ivory_castellan",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 1,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "ivory_castellan"
+    },
+    {
+      "inputId": "fairyCrown/crown_hart",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 2,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "crown_hart"
+    },
+    {
+      "inputId": "fairyCrown/silverthorn_harrow",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 3,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "silverthorn_harrow"
+    },
+    {
+      "inputId": "fairyCrown/lantern_sprite",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 4,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "lantern_sprite"
+    },
+    {
+      "inputId": "fairyCrown/moonpetal_stalker",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 5,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "moonpetal_stalker"
+    },
+    {
+      "inputId": "fairyCrown/dewglass_weaver",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 6,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "dewglass_weaver"
+    },
+    {
+      "inputId": "fairyCrown/bloomheart_matriarch",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 7,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "bloomheart_matriarch"
+    },
+    {
+      "inputId": "fairyCrown/prismatic_sprite",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 8,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "prismatic_sprite"
+    },
+    {
+      "inputId": "fairyCrown/orchid_reaper",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 9,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "orchid_reaper"
+    },
+    {
+      "inputId": "fairyCrown/starroot_guardian",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 10,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "starroot_guardian"
+    },
+    {
+      "inputId": "fairyCrown/amethyst_sovereign",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_FORMS",
+      "rowIndex": 11,
+      "catalog": "FAIRY_CROWN_SPECIES",
+      "speciesId": "amethyst_sovereign"
+    },
+    {
+      "inputId": "crownwardDragon/crownward_red_hatchling",
+      "module": "crownwardDragons",
+      "symbol": "CROWNWARD_DRAGON_FORMS",
+      "rowIndex": 0,
+      "catalog": "CROWNWARD_DRAGON_SPECIES",
+      "speciesId": "crownward_red_hatchling"
+    },
+    {
+      "inputId": "crownwardDragon/crownward_black_hatchling",
+      "module": "crownwardDragons",
+      "symbol": "CROWNWARD_DRAGON_FORMS",
+      "rowIndex": 1,
+      "catalog": "CROWNWARD_DRAGON_SPECIES",
+      "speciesId": "crownward_black_hatchling"
+    },
+    {
+      "inputId": "crownwardDragon/crownward_red_dragon",
+      "module": "crownwardDragons",
+      "symbol": "CROWNWARD_DRAGON_FORMS",
+      "rowIndex": 2,
+      "catalog": "CROWNWARD_DRAGON_SPECIES",
+      "speciesId": "crownward_red_dragon"
+    }
+  ],
+  "parameters": [
+    {
+      "parameterPath": "fairyCrown",
+      "module": "fairyCrownCreatures",
+      "symbol": "FAIRY_CROWN_SPECIES"
+    },
+    {
+      "parameterPath": "crownwardDragon",
+      "module": "crownwardDragons",
+      "symbol": "CROWNWARD_DRAGON_SPECIES"
+    }
+  ]
+}
