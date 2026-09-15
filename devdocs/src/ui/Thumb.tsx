@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from "react";
 import { ImageOff, type LucideIcon } from "lucide-react";
 import { itemIconUrl } from "../../../game/src/ui/itemIcons.js";
+import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellIcons.js";
 import { WORLD_MAP_IMAGE_BOUNDS, WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../model/gameUrl.js";
 import type { ThumbSpec } from "../model/summaries.js";
@@ -53,6 +54,7 @@ function ThumbContent({ spec, large, alt }: { spec: ThumbSpec; large: boolean; a
     case "items": return <span className="thumb-composite" data-count={Math.min(4, spec.ids.length)}>{spec.ids.slice(0, 4).map((id, index) => <ItemImage key={`${id}:${index}`} id={id} alt="" large={false} />)}</span>;
     case "map": { const Icon = spec.icon; return <MapCrop x={spec.x} z={spec.z} span={spec.span}>{Icon ? <Icon /> : undefined}</MapCrop>; }
     case "asset": return <AssetThumb assetId={spec.assetId} icon={spec.icon} hue={spec.hue} alt={alt} />;
+    case "spell": return <span className="thumb-spell" title={alt || undefined} dangerouslySetInnerHTML={{ __html: spellIconSvg(spec as unknown as SpellIconSubject) }} />;
     case "glyph": { const Icon = spec.icon; return <span className="thumb-glyph" style={glyphStyle(spec.hue)}>{spec.letter ? <span className="thumb-letter">{spec.letter}</span> : <Icon />}</span>; }
   }
 }

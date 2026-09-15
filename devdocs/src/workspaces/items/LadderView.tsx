@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { Fragment, useCallback, useMemo, useState } from "react";
 import type { EquipmentFamily, ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { AppProps } from "../../model/contracts.js";
 import { equipmentSource, fmt } from "../../model/derive.js";
@@ -10,7 +10,7 @@ import type { ViewProps } from "../types.js";
 import { Drawer } from "./Drawer.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
 import { ItemPage } from "./ItemPage.js";
-import { SET_SLOTS, keyNumber, thresholdText, titleCase, useItemsData, type ItemsData, type SetRecord } from "./data.js";
+import { keyNumber, thresholdText, titleCase, useItemsData, type ItemsData, type SetRecord, type SetSlot } from "./data.js";
 import "./items.css";
 
 /*
@@ -35,6 +35,9 @@ const ROLE_FAMILY: Readonly<Record<string, string>> = {
   staff: "gear_mainHand_magic_staff_3000", wand: "gear_mainHand_magic_wand_2200", hood: "gear_head_magic_0", robe: "gear_body_magic_0", magicLegs: "gear_legs_magic_0", magicBoots: "gear_feet_magic_0", wraps: "gear_hands_magic_0",
   pickaxe: "gear_mining", hatchet: "gear_woodcutting", rod: "gear_fishing",
 };
+/** Armour roles map onto set slots, so a set whose pieces are the row's own items is named beside the row instead of repeated. */
+const SLOT_FOR_ROLE: Readonly<Record<string, SetSlot>> = { helm: "head", hood: "head", body: "body", robe: "body", legs: "legs", magicLegs: "legs", boots: "feet", magicBoots: "feet", gloves: "hands", wraps: "hands" };
+type Mode = "icons" | "numbers";
 /** The item filling a role at a tier: the material slot when named, otherwise the tier member of the role's family. */
 function cellItemId(tier: ProgressionTier, role: string): string | undefined {
   const named = tier.materials[role];
@@ -47,7 +50,7 @@ function cellItemId(tier: ProgressionTier, role: string): string | undefined {
 
 export default function LadderView({ recordId, navigate }: ViewProps) {
   const data = useItemsData();
-  const [mode, setMode] = useState<"names" | "numbers">("names");
+  const [mode, setMode] = useState<Mode>("icons");
   const [groupKey, setGroupKey] = useState(loadGroup);
   const group = GROUPS.find(candidate => candidate.key === groupKey) ?? GROUPS[0]!;
   const chooseGroup = (key: string) => { setGroupKey(key); try { localStorage.setItem(GROUP_KEY, key); } catch { /* optional */ } };
@@ -89,7 +92,7 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
       </div>
       <div className="ws-heading-actions">
         <div className="segmented" role="group" aria-label="Cell content">
-          <button type="button" className={mode === "names" ? "is-active" : ""} aria-pressed={mode === "names"} onClick={() => setMode("names")}>Names</button>
+          <button type="button" className={mode === "icons" ? "is-active" : ""} aria-pressed={mode === "icons"} onClick={() => setMode("icons")}>Icons</button>
           <button type="button" className={mode === "numbers" ? "is-active" : ""} aria-pressed={mode === "numbers"} onClick={() => setMode("numbers")}>Numbers</button>
         </div>
       </div>
@@ -111,18 +114,29 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
         </thead>
         <tbody>
           {data.tiers.map(tier => {
+            const rowItems = new Map(group.roles.map(role => [role, cellItemId(tier, role)] as const));
             const sets = (setsByTier.get(tier.tier) ?? []).filter(set => set.style === group.setStyle);
-            return <tr key={tier.id} className="ladder-tier">
-              <th scope="row"><span className="ladder-tier-head"><strong>{tier.tier}</strong><small>level {tier.reqLevel}</small></span></th>
-              {group.roles.map(role => {
-                const itemId = cellItemId(tier, role);
-                return <td key={role}>{itemId ? <ItemCell id={itemId} data={data} mode={mode} active={itemId === recordId} liveFamily={liveFamily} onOpen={openItem} /> : <span className="cell-empty">—</span>}</td>;
-              })}
-              {group.setStyle && <td className="ladder-set-cell">{sets.length ? sets.map(set => <button type="button" key={set.id} className="cell ladder-set" onClick={() => navigate("equipmentSets", set.id)}>
-                <span className="ladder-set-pieces">{SET_SLOTS.map(slot => set.members?.[slot] ? <Thumb key={slot} spec={{ kind: "item", id: set.members[slot]! }} size="s" alt={slot} /> : <span key={slot} className="thumb ladder-slot-empty" data-size="s" title={`No ${slot}`} />)}</span>
-                <span className="ladder-set-text"><span className="cell-name">{set.name}</span><small className="mono">{thresholdText(set.thresholds) || "no set bonuses"}</small></span>
-              </button>) : <span className="cell-empty">—</span>}</td>}
-            </tr>;
+            // A set built from the row's own pieces is named beside the row; any other set gets a row of its own pieces.
+            const ownSet = (set: SetRecord) => Object.entries(set.members ?? {}).every(([slot, id]) => group.roles.some(role => SLOT_FOR_ROLE[role] === slot && rowItems.get(role) === id));
+            const named = sets.filter(ownSet);
+            const extra = sets.filter(set => !ownSet(set));
+            const setText = (set: SetRecord) => <button type="button" key={set.id} className="cell ladder-set" onClick={() => navigate("equipmentSets", set.id)}>
+              <span className="cell-name">{set.name}</span><small className="mono">{thresholdText(set.thresholds) || "no set bonuses"}</small>
+            </button>;
+            const cell = (role: string, itemId: string | undefined, slotless: boolean) => <td key={role}>{itemId
+              ? <ItemCell id={itemId} data={data} mode={mode} active={itemId === recordId} liveFamily={liveFamily} onOpen={openItem} />
+              : slotless ? null : <span className="cell-empty">—</span>}</td>;
+            return <Fragment key={tier.id}>
+              <tr className={`ladder-tier${extra.length ? " has-alt" : ""}`}>
+                <th scope="row" rowSpan={1 + extra.length}><span className="ladder-tier-head"><strong>{tier.tier}</strong><small>level {tier.reqLevel}</small></span></th>
+                {group.roles.map(role => cell(role, rowItems.get(role), false))}
+                {group.setStyle && <td className="ladder-set-cell">{named.length ? named.map(setText) : <span className="cell-empty">—</span>}</td>}
+              </tr>
+              {extra.map((set, index) => <tr key={set.id} className={`ladder-tier ladder-alt${index < extra.length - 1 ? " has-alt" : ""}`}>
+                {group.roles.map(role => { const slot = SLOT_FOR_ROLE[role]; return cell(role, slot ? set.members?.[slot] : undefined, !slot); })}
+                <td className="ladder-set-cell">{setText(set)}</td>
+              </tr>)}
+            </Fragment>;
           })}
         </tbody>
       </table>
@@ -134,20 +148,19 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
   </div>;
 }
 
-function ItemCell({ id, data, mode, active, liveFamily, onOpen }: { id: string; data: ItemsData; mode: "names" | "numbers"; active: boolean; liveFamily?: EquipmentFamily; onOpen: (id: string) => void }) {
+function ItemCell({ id, data, mode, active, liveFamily, onOpen }: { id: string; data: ItemsData; mode: Mode; active: boolean; liveFamily?: EquipmentFamily; onOpen: (id: string) => void }) {
   const [hover, setHover] = useState<{ x: number; y: number }>();
   const record = data.item(id);
+  const name = record?.name ?? id;
   const summary = useMemo(() => record ? summarize("items", record, noContext) : undefined, [record]);
   const number = mode === "numbers" ? keyNumber(id, data, liveFamily) : undefined;
   const saved = mode === "numbers" && liveFamily ? keyNumber(id, data) : undefined;
   const changed = number && saved && number.value !== saved.value;
   return <>
-    <button type="button" className={`cell${active ? " is-active" : ""}${record ? "" : " is-missing"}`} onClick={() => onOpen(id)}
+    <button type="button" className={`cell${active ? " is-active" : ""}${record ? "" : " is-missing"}`} onClick={() => onOpen(id)} aria-label={name} title={summary ? undefined : name}
       onMouseEnter={event => setHover({ x: event.clientX, y: event.clientY })} onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })} onMouseLeave={() => setHover(undefined)}>
       <Thumb spec={{ kind: "item", id }} size="s" alt="" />
-      {mode === "names"
-        ? <span className="cell-name">{record?.name ?? id}</span>
-        : <span className={`cell-number mono${changed ? " is-changed" : ""}`}>{number ? <><strong>{fmt(number.value)}</strong><small>{number.label}</small></> : "—"}</span>}
+      {mode === "numbers" && <span className={`cell-number mono${changed ? " is-changed" : ""}`}>{number ? <><strong>{fmt(number.value)}</strong><small>{number.label}</small></> : "—"}</span>}
     </button>
     {hover && summary && <HoverCard summary={summary} collection="items" id={id} at={hover} />}
   </>;

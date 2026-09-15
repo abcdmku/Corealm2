@@ -206,12 +206,19 @@ export default function MapView({ recordId, navigate }: ViewProps) {
   }
   const onEscape = useCallback(() => { if (tool) setTool(undefined); else select(undefined); }, [tool, select]);
   const onFit = useCallback((bounds: Bounds) => map.current?.fit(bounds), []);
+  /** Show every place a creature or resource is: fit all of them, with room around a lone one. */
+  const showAll = useCallback((members: readonly Feature[]) => {
+    if (!members.length) return;
+    const xs = members.map(feature => feature.x), zs = members.map(feature => feature.z);
+    const pad = 60;
+    map.current?.fit({ minX: Math.min(...xs) - pad, maxX: Math.max(...xs) + pad, minZ: Math.min(...zs) - pad, maxZ: Math.max(...zs) + pad });
+  }, []);
 
   if (failed) return <ErrorState message={failed.error?.message ?? "The world could not be loaded."} retry={() => void failed.refetch()} />;
   if (loading || !draft || !derived) return <LoadingRows />;
 
   return <div className="world" data-editable={editable ? "true" : undefined}>
-    <Rail features={features} counts={derived.counts} layers={layers} onToggleLayer={toggleLayer} search={search} onSearch={setSearch} viewBounds={viewBounds} selectedKey={selectedFeature?.key} onPick={pick} />
+    <Rail features={features} counts={derived.counts} layers={layers} onToggleLayer={toggleLayer} search={search} onSearch={setSearch} viewBounds={viewBounds} selectedKey={selectedFeature?.key} onPick={pick} onShowAll={showAll} />
     <section className="world-stage">
       <div className="world-toolbar">
         {editable && <span className="segmented" role="group" aria-label="Add">

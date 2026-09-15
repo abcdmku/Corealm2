@@ -227,6 +227,8 @@ h1 { font-size: 16px; font-weight: 600; }
 .thumb[data-size="fill"] { width: 100%; height: 100%; border-radius: 0; border: 0; }
 .thumb-glyph { display: grid; place-items: center; width: 100%; height: 100%; color: var(--glyph-ink, var(--faint)); background: var(--glyph-bg, transparent); }
 .thumb-glyph svg { width: 52%; height: 52%; }
+.thumb-spell { display: block; width: 100%; height: 100%; }
+.thumb-spell svg { display: block; width: 100%; height: 100%; }
 .thumb-letter { font-family: var(--font-mono); font-weight: 600; font-size: 40%; }
 .thumb-composite { display: grid; width: 100%; height: 100%; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px; padding: 2px; }
 .thumb-composite[data-count="1"] { grid-template-columns: 1fr; grid-template-rows: 1fr; }

@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { contentRows } from "../../model/rows.js";
-import { iconForElement, titleCase, hueFor } from "../../model/summaries.js";
+import { iconForElement, spellThumb, titleCase, hueFor } from "../../model/summaries.js";
+import { Thumb } from "../../ui/Thumb.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
 import { Row, Section, Sheet } from "../../ui/Sheet.js";
@@ -19,6 +20,8 @@ interface Spell extends ContentRow {
 
 const ELEMENTS = ["wind", "water", "earth", "fire"] as const;
 const RUNGS = ["lash", "bolt", "burst", "surge"] as const;
+/** Advanced spells are one per element per rank; the rung only sets their flight shape. */
+const RANKS = [1, 2, 3, 4, 5] as const;
 
 export default function SpellsView({ recordId, navigate }: ViewProps) {
   if (recordId === undefined) return <SpellMatrix navigate={navigate} />;
@@ -35,20 +38,23 @@ function SpellMatrix({ navigate }: { navigate: ViewProps["navigate"] }) {
   if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   const cell = (spell: Spell) => <button type="button" className="cell spell-cell" key={spell.id} onClick={() => navigate("spells", spell.id)} title={spell.id}>
-    <span className="spell-cell-name">{spell.name}</span>
-    <span className="spell-cell-meta">level {num(spell.reqLevel) ?? "?"} · max {num(spell.baseMax) ?? "?"}{spell.rank !== undefined && ` · rank ${spell.rank}`}</span>
+    <Thumb spec={spellThumb(spell)} size="m" alt="" />
+    <span className="spell-cell-text">
+      <span className="spell-cell-name">{spell.name}</span>
+      <span className="spell-cell-meta">level {num(spell.reqLevel) ?? "?"} · max {num(spell.baseMax) ?? "?"}</span>
+    </span>
   </button>;
-  const table = (spells: Spell[], caption: string) => <div className="matrix spell-matrix">
+  const table = <K extends string | number>(spells: Spell[], caption: string, columns: readonly K[], head: (column: K) => string, match: (spell: Spell, column: K) => boolean) => <div className="matrix spell-matrix">
     <table>
       <caption className="sr-only">{caption}</caption>
-      <thead><tr><th>Element</th>{RUNGS.map(rung => <th key={rung}>{titleCase(rung)}</th>)}</tr></thead>
+      <thead><tr><th>Element</th>{columns.map(column => <th key={column}>{head(column)}</th>)}</tr></thead>
       <tbody>{ELEMENTS.map(element => {
         const Icon = iconForElement(element);
         return <tr key={element}>
           <td><span className="spell-element" style={{ color: `hsl(${hueFor(element)} 55% 60%)` }}><Icon size={13} />{titleCase(element)}</span></td>
-          {RUNGS.map(rung => {
-            const matches = spells.filter(spell => spell.element === element && spell.rung === rung);
-            return <td key={rung}>{matches.length ? <span className="spell-cell-stack">{matches.map(cell)}</span> : <span className="cell-empty">—</span>}</td>;
+          {columns.map(column => {
+            const matches = spells.filter(spell => spell.element === element && match(spell, column));
+            return <td key={column}>{matches.length ? <span className="spell-cell-stack">{matches.map(cell)}</span> : <span className="cell-empty">—</span>}</td>;
           })}
         </tr>;
       })}</tbody>
@@ -56,9 +62,9 @@ function SpellMatrix({ navigate }: { navigate: ViewProps["navigate"] }) {
   </div>;
   return <div className="ws-page">
     <div className="ws-heading"><h1>Standard</h1><span className="facts"><span>One spell per element and rung</span></span></div>
-    {table(basic, "Standard spells by element and rung")}
-    <div className="ws-heading" style={{ marginTop: 20 }}><h1>Advanced</h1><span className="facts"><span>Ranked invocations, grouped by element</span></span></div>
-    {table(advanced, "Advanced spells by element and rung")}
+    {table(basic, "Standard spells by element and rung", RUNGS, rung => titleCase(rung), (spell, rung) => spell.rung === rung)}
+    <div className="ws-heading" style={{ marginTop: 20 }}><h1>Advanced</h1><span className="facts"><span>One invocation per element and rank</span></span></div>
+    {table(advanced, "Advanced spells by element and rank", RANKS, rank => `Rank ${rank}`, (spell, rank) => spell.rank === rank)}
   </div>;
 }
 
@@ -73,7 +79,7 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
     const runes = list(cost.runes).map(asRecord);
     const element = text(spell.element) ?? "wind";
     return <RecordShell
-      thumb={{ kind: "glyph", icon: iconForElement(element), hue: hueFor(element) }}
+      thumb={spellThumb(spell)}
       title={spell.name} id={id}
       facts={[titleCase(element), spell.rung && titleCase(spell.rung), `level ${num(spell.reqLevel) ?? "?"}`, `tier ${num(spell.tier) ?? "?"}`, spell.catalog === "ADVANCED_SPELLS" && "advanced"]}
       draft={draft}

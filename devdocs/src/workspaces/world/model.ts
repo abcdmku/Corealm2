@@ -191,6 +191,8 @@ export interface Feature {
   to?: Point;
   /** Region rectangle. */
   bounds?: { min: Point; max: Point };
+  /** What this is an instance of (a creature, a resource): the list shows one entry per group with its places under it. */
+  group?: { key: string; name: string };
   movable: boolean;
 }
 
@@ -257,13 +259,14 @@ export function deriveFeatures(draft: Draft, lookups: Lookups): { features: Feat
   }
   for (const placement of draft.placements) {
     const encounter = encounters.get(placement.encounterId);
-    const creatures = encounter ? encounter.members.map(member => lookups.creatureName(member.creatureId)).join(", ") : placement.encounterId;
-    features.push({ key: `placements:${placement.id}`, selection: { kind: "placement", id: placement.id }, layer: "spawns", x: placement.centre[0], z: placement.centre[1], name: encounter?.name ?? titleCase(placement.id), fact: `${creatures} ×${placement.count} · ${regionName(placement.regionId)}`, regionId: placement.regionId, glyph: encounter?.activity ?? "patrol", radius: placement.radius, rank: placement.rank, movable: true });
+    // A creature definition without a name falls back to the encounter's name, which is the only human label it has.
+    const creatures = encounter ? encounter.members.map(member => { const label = lookups.creatureName(member.creatureId); return label === member.creatureId && encounter.name ? encounter.name : label; }).join(", ") : placement.encounterId;
+    features.push({ key: `placements:${placement.id}`, selection: { kind: "placement", id: placement.id }, layer: "spawns", x: placement.centre[0], z: placement.centre[1], name: encounter?.name ?? titleCase(placement.id), fact: `${creatures} ×${placement.count} · ${regionName(placement.regionId)}`, regionId: placement.regionId, glyph: encounter?.activity ?? "patrol", radius: placement.radius, rank: placement.rank, group: { key: encounter ? encounter.members.map(member => member.creatureId).join("+") : placement.encounterId, name: creatures }, movable: true });
   }
   for (const node of draft.resourcePlacements) {
     const resource = lookups.resource(node.resourceId);
     const archetype = typeof resource?.archetype === "string" ? resource.archetype : "ore";
-    features.push({ key: `resourcePlacements:${node.id}`, selection: { kind: "resource", id: node.id }, layer: "resources", x: node.centre[0], z: node.centre[1], name: String(resource?.name ?? titleCase(node.resourceId)), fact: `${titleCase(archetype)} ×${node.count} · ${regionName(node.regionId)}`, regionId: node.regionId, glyph: archetype, radius: node.radius, movable: true });
+    features.push({ key: `resourcePlacements:${node.id}`, selection: { kind: "resource", id: node.id }, layer: "resources", x: node.centre[0], z: node.centre[1], name: String(resource?.name ?? titleCase(node.resourceId)), fact: `${titleCase(archetype)} ×${node.count} · ${regionName(node.regionId)}`, regionId: node.regionId, glyph: archetype, radius: node.radius, group: { key: node.resourceId, name: String(resource?.name ?? titleCase(node.resourceId)) }, movable: true });
   }
   const byKey = new Map(features.map(feature => [feature.key, feature]));
   const counts = Object.fromEntries(LAYERS.map(layer => [layer, 0])) as Record<Layer, number>;

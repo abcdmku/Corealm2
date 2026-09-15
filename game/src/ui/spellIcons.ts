@@ -17,7 +17,7 @@ import type { SpellElement, SpellId, SpellRung } from "../contracts.js";
 import { SPELL_RUNGS } from "../contracts.js";
 import { BASIC_ELEMENTAL_SPELL } from "../content/basicSpellVariants.js";
 import type { ElementalSpellId } from "../content/elementalSpells.js";
-import { ELEMENT_COLOURS } from "../render/spellVfx.js";
+import { ELEMENT_COLOURS } from "../render/elementColours.js";
 
 export interface SpellIconSubject {
   id: SpellId;

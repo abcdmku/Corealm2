@@ -14,12 +14,20 @@ import { rowId, rowName } from "./rows.js";
 
 export type Tone = "accent" | "ok" | "warn" | "danger" | "info" | undefined;
 export interface Badge { text: string; tone?: Tone; mono?: boolean; title?: string }
+/** The game draws one authored icon per spell from its element, rung and rank. */
+export function spellThumb(row: ContentRow): ThumbSpec {
+  const element = text(row.element) ?? "";
+  if (!(element in ELEMENT_ICON)) return { kind: "glyph", icon: Sparkles, hue: ELEMENT_HUE[element] };
+  return { kind: "spell", id: String(row.id), element, rung: text(row.rung) ?? "lash", rank: num(row.rank) ?? 0 };
+}
+
 export type ThumbSpec =
   | { kind: "item"; id: string }
   | { kind: "items"; ids: readonly string[] }
   | { kind: "glyph"; icon: LucideIcon; hue?: number; letter?: string }
   | { kind: "map"; x: number; z: number; span: number; icon?: LucideIcon }
-  | { kind: "asset"; assetId: string; icon: LucideIcon; hue?: number };
+  | { kind: "asset"; assetId: string; icon: LucideIcon; hue?: number }
+  | { kind: "spell"; id: string; element: string; rung: string; rank: number };
 
 export interface Stat { label: string; value: string; title?: string }
 export interface RecordSummary {
@@ -294,7 +302,7 @@ export function summarize(collection: string, row: ContentRow, ctx: SummaryConte
     case "spells": {
       const element = text(row.element) ?? "";
       const cost = asRecord(row.cost);
-      return { title: name, subtitle: `${titleCase(text(row.rung) ?? "")} · max ${num(row.baseMax) ?? 0} · ${num(row.castMs) ?? 0} ms`, badges: [{ text: titleCase(element), tone: "info" }, { text: `Lvl ${num(row.reqLevel) ?? 1}`, mono: true }], thumb: { kind: "glyph", icon: ELEMENT_ICON[element] ?? Sparkles, hue: ELEMENT_HUE[element] }, stats: [{ label: "Charges", value: String(num(cost.charges) ?? 0) }, { label: "XP", value: String(num(row.baseXp) ?? 0) }], tier: num(row.tier) };
+      return { title: name, subtitle: `${titleCase(text(row.rung) ?? "")} · max ${num(row.baseMax) ?? 0} · ${num(row.castMs) ?? 0} ms`, badges: [{ text: titleCase(element), tone: "info" }, { text: `Lvl ${num(row.reqLevel) ?? 1}`, mono: true }], thumb: spellThumb(row), stats: [{ label: "Charges", value: String(num(cost.charges) ?? 0) }, { label: "XP", value: String(num(row.baseXp) ?? 0) }], tier: num(row.tier) };
     }
     case "elementalSpells": {
       const element = text(row.element) ?? "";
