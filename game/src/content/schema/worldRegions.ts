@@ -1,5 +1,11 @@
-/** Finite authored world geometry. Creature and resource placements are separate sources. */
-import { arr, bool, lit, num, obj, opt, str, tuple, union, type Infer } from './core.js';
+/**
+ * Finite authored world geometry. Creature and resource placements are separate sources.
+ *
+ * This file is also the source for three `RefKind`s that have no collection of their own:
+ * `location` (every `locations[]` entry, including a dungeon's), `settlement` (`settlement`), and
+ * `entity` (landmarks, obstacles, gates and dungeon doors). See `REF_KIND_SOURCES` in core.ts.
+ */
+import { arr, bool, lit, num, obj, opt, ref, str, tuple, union, type Infer } from './core.js';
 
 const SpotSchema = tuple([num(), num()] as const);
 
@@ -19,31 +25,32 @@ const LocationKindSchema = union([lit("settlement"), lit("bank"), lit("seam"), l
 
 const LocationDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   position: SpotSchema,
   kind: LocationKindSchema,
   routeNode: bool(),
-  blurb: opt(str()),
+  blurb: opt(str(), { multiline: true }),
 });
 
 const RoadDefSchema = obj({
-  from: str(),
-  to: str(),
-  meters: opt(num()),
+  from: ref('location', { label: 'From', role: 'Road end' }),
+  to: ref('location', { label: 'To', role: 'Road end' }),
+  meters: opt(num(), { unit: 'm' }),
 });
 
 const StationDefSchema = obj({
   id: str(),
-  name: str(),
-  kind: str(),
-  skill: str(),
+  name: str({}, { display: true }),
+  kind: ref('station', { label: 'Station kind', role: 'Station of kind' }),
+  skill: ref('skill', { label: 'Skill', role: 'Uses skill' }),
   position: SpotSchema,
-  rotationY: num(),
-  assetId: str(),
+  rotationY: num({}, { unit: 'rad' }),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
   scale: opt(num()),
-  recipeIds: arr(str()),
-  essenceElement: opt(str()),
-  attachedTo: opt(str()),
+  recipeIds: arr(ref('recipe', { label: 'Recipe', role: 'Made at' }), {}, { label: 'Recipes', role: 'Made at' }),
+  essenceElement: opt(ref('element', { role: 'Uses element' }), { label: 'Essence element', role: 'Uses element' }),
+  // Building ids are local to the settlement that owns them; no collection holds them.
+  attachedTo: opt(str(), { label: 'Attached to' }),
 });
 
 const BuildingDefSchema = obj({
@@ -57,11 +64,11 @@ const BuildingDefSchema = obj({
 
 const BankDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   position: SpotSchema,
-  rotationY: num(),
-  assetId: str(),
-  attachedTo: opt(str()),
+  rotationY: num({}, { unit: 'rad' }),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
+  attachedTo: opt(str(), { label: 'Attached to' }),
 });
 
 const ShopDefSchema = obj({
@@ -69,19 +76,19 @@ const ShopDefSchema = obj({
   name: str(),
   shopKind: union([lit("general"), lit("smith")] as const),
   position: SpotSchema,
-  rotationY: num(),
-  assetId: str(),
-  attachedTo: opt(str()),
+  rotationY: num({}, { unit: 'rad' }),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
+  attachedTo: opt(str(), { label: 'Attached to' }),
 });
 
 const NpcStandDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   position: SpotSchema,
-  facingRad: num(),
-  assetId: str(),
-  dialogueRootId: str(),
-  questIds: arr(str()),
+  facingRad: num({}, { unit: 'rad' }),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
+  dialogueRootId: ref('dialogue', { label: 'Dialogue root', role: 'Speaks' }),
+  questIds: arr(ref('quest', { label: 'Quest', role: 'Offers' }), {}, { label: 'Quests', role: 'Offers', ordered: true }),
 });
 
 const WallOpeningDefSchema = obj({
@@ -115,7 +122,7 @@ const PavingDefSchema = obj({
 
 const PropDefSchema = obj({
   id: str(),
-  assetId: str(),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
   position: SpotSchema,
   rotationY: num(),
   scale: opt(num()),
@@ -131,44 +138,45 @@ const PadShapeDefSchema = obj({
 
 const SettlementDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   kit: str(),
   centre: SpotSchema,
-  respawnPointId: str(),
-  buildings: arr(BuildingDefSchema),
-  stations: arr(StationDefSchema),
-  bank: BankDefSchema,
-  shops: arr(ShopDefSchema),
-  npcs: arr(NpcStandDefSchema),
-  walls: opt(arr(WallRunDefSchema)),
-  paving: opt(arr(PavingDefSchema)),
-  props: opt(arr(PropDefSchema)),
+  respawnPointId: ref('location', { label: 'Respawn point', role: 'Respawn for' }),
+  buildings: arr(BuildingDefSchema, {}, { label: 'Buildings' }),
+  stations: arr(StationDefSchema, {}, { label: 'Stations', role: 'Station in' }),
+  bank: BankDefSchema.describe({ label: 'Bank', role: 'Bank in' }),
+  shops: arr(ShopDefSchema, {}, { label: 'Shops', role: 'Shop in' }),
+  npcs: arr(NpcStandDefSchema, {}, { label: 'NPC stands', role: 'Stands in' }),
+  walls: opt(arr(WallRunDefSchema, {}, { label: 'Walls' })),
+  paving: opt(arr(PavingDefSchema, {}, { label: 'Paving' })),
+  props: opt(arr(PropDefSchema, {}, { label: 'Props', role: 'Prop in' })),
   padShape: opt(PadShapeDefSchema),
 });
 
 const ObstacleDefSchema = obj({
   id: str(),
-  name: str(),
-  reqLevel: num(),
+  name: str({}, { display: true }),
+  reqLevel: num({}, { label: 'Required agility' }),
   position: SpotSchema,
   exitPosition: SpotSchema,
-  durationMs: num(),
-  savesMeters: num(),
-  assetId: str(),
+  durationMs: num({}, { unit: 'ms' }),
+  savesMeters: num({}, { unit: 'm' }),
+  // Traversal prefabs (corealm_traversal_climb) are not manifest assets, so this stays a plain id.
+  assetId: str({}, { label: 'Model' }),
   composition: opt(str()),
   scale: opt(num()),
-  rotationY: opt(num()),
-  fromLocationId: str(),
-  toLocationId: str(),
+  rotationY: opt(num({}, { unit: 'rad' })),
+  fromLocationId: ref('location', { label: 'From', role: 'Obstacle end' }),
+  toLocationId: ref('location', { label: 'To', role: 'Obstacle end' }),
   oneWay: opt(bool()),
   interaction: union([lit("climb"), lit("vault"), lit("enter")] as const),
 });
 
 const LandmarkDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   position: SpotSchema,
-  assetId: str(),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
   scale: opt(num()),
   rotationY: opt(num()),
   clipFraction: opt(num()),
@@ -181,25 +189,25 @@ const LandmarkDefSchema = obj({
 
 const GateDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   position: SpotSchema,
-  assetId: str(),
-  toRegionId: str(),
-  toLocationId: str(),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
+  toRegionId: ref('region', { label: 'To region', role: 'Gate into' }),
+  toLocationId: ref('location', { label: 'To location', role: 'Gate into' }),
   rotationY: opt(num()),
   composition: opt(str()),
 });
 
 const RegionAdjacencyDefSchema = obj({
-  toRegionId: str(),
-  fromLocationId: str(),
-  toLocationId: str(),
-  meters: num(),
+  toRegionId: ref('region', { label: 'To region', role: 'Adjacent to' }),
+  fromLocationId: ref('location', { label: 'From', role: 'Border crossing' }),
+  toLocationId: ref('location', { label: 'To', role: 'Border crossing' }),
+  meters: num({}, { unit: 'm' }),
 });
 
 const DungeonChamberDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   centre: SpotSchema,
   radius: num(),
   floorOffset: num(),
@@ -208,36 +216,36 @@ const DungeonChamberDefSchema = obj({
 
 const DungeonDoorDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   position: SpotSchema,
   floorOffset: num(),
-  assetId: str(),
+  assetId: ref('asset', { label: 'Model', role: 'Model for' }),
   state: str(),
   lockedReason: str(),
 });
 
 const DungeonDefSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   tier: num(),
   entrance: SpotSchema,
-  entranceAssetId: str(),
+  entranceAssetId: ref('asset', { label: 'Entrance model', role: 'Model for' }),
   entranceRotationY: opt(num()),
   entranceScale: opt(num()),
   entranceComposition: opt(str()),
-  palette: arr(str()),
-  chambers: arr(DungeonChamberDefSchema),
-  doors: arr(DungeonDoorDefSchema),
-  obstacles: arr(ObstacleDefSchema),
-  locations: arr(LocationDefSchema),
-  roads: arr(RoadDefSchema),
+  palette: arr(str(), {}, { label: 'Palette' }),
+  chambers: arr(DungeonChamberDefSchema, {}, { label: 'Chambers' }),
+  doors: arr(DungeonDoorDefSchema, {}, { label: 'Doors', role: 'Door in' }),
+  obstacles: arr(ObstacleDefSchema, {}, { label: 'Obstacles', role: 'Obstacle in' }),
+  locations: arr(LocationDefSchema, {}, { label: 'Locations' }),
+  roads: arr(RoadDefSchema, {}, { label: 'Roads', role: 'Road end' }),
 });
 
 export const WorldRegionSchema = obj({
   id: str(),
-  name: str(),
+  name: str({}, { display: true }),
   tier: num(),
-  lore: str(),
+  lore: str({}, { multiline: true }),
   bounds: RegionBoundsSchema,
   terrainSeed: num(),
   terrainAmplitude: num(),
@@ -246,16 +254,16 @@ export const WorldRegionSchema = obj({
   groundPalette: arr(str()),
   fogStart: num(),
   spawnPoint: SpotSchema,
-  spawnFacingRad: num(),
-  respawnPointId: str(),
-  locations: arr(LocationDefSchema),
-  roads: arr(RoadDefSchema),
-  stations: arr(StationDefSchema),
-  settlement: opt(SettlementDefSchema),
-  obstacles: arr(ObstacleDefSchema),
-  landmarks: arr(LandmarkDefSchema),
-  gates: arr(GateDefSchema),
-  adjacency: arr(RegionAdjacencyDefSchema),
-  dungeon: opt(DungeonDefSchema),
+  spawnFacingRad: num({}, { unit: 'rad' }),
+  respawnPointId: ref('location', { label: 'Respawn point', role: 'Respawn for' }),
+  locations: arr(LocationDefSchema, {}, { label: 'Locations' }),
+  roads: arr(RoadDefSchema, {}, { label: 'Roads', role: 'Road end' }),
+  stations: arr(StationDefSchema, {}, { label: 'Stations', role: 'Station in' }),
+  settlement: opt(SettlementDefSchema, { label: 'Settlement' }),
+  obstacles: arr(ObstacleDefSchema, {}, { label: 'Obstacles', role: 'Obstacle in' }),
+  landmarks: arr(LandmarkDefSchema, {}, { label: 'Landmarks', role: 'Landmark in' }),
+  gates: arr(GateDefSchema, {}, { label: 'Gates', role: 'Gate in' }),
+  adjacency: arr(RegionAdjacencyDefSchema, {}, { label: 'Adjacency', role: 'Adjacent to' }),
+  dungeon: opt(DungeonDefSchema, { label: 'Dungeon' }),
 });
 export type WorldRegionGeometry = Infer<typeof WorldRegionSchema>;

@@ -1,16 +1,16 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { collectionQuery } from "../../api/client.js";
 import { BONUS_KEYS, BONUS_LABELS, type BonusKey } from "../../model/derive.js";
 import { useRecordDraft } from "../../model/draft.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Facts, NumberInput, Row, SaveBar, Section, Select, Sheet, Static } from "../../ui/Sheet.js";
+import { Facts, NumberInput, Row, Section, Select, Sheet, Static } from "../../ui/Sheet.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { ItemPick } from "./ItemPick.js";
-import { BONUS_SHORT, SET_SLOTS, SLOT_LABELS, emptyBonuses, targetThresholds, thresholdText, titleCase, useItemsData, useSaveShortcut, type ItemsData, type SetBalance, type SetRecord } from "./data.js";
+import { BONUS_SHORT, SET_SLOTS, SLOT_LABELS, emptyBonuses, targetThresholds, thresholdText, titleCase, useItemsData, type ItemsData, type SetBalance, type SetRecord } from "./data.js";
 import "./items.css";
 
 /* Armour sets: five pieces, the threshold bonuses, and the balance target for the tier beside them. */
@@ -56,8 +56,6 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
   const { index } = useReferenceIndex();
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const set = draft.draft;
-  const save = useCallback(() => { if (draft.dirty) void draft.save(); }, [draft]);
-  useSaveShortcut(!readOnly && draft.dirty, save);
   const targets = useMemo(() => targetThresholds(balance.data?.data as SetBalance | undefined, set?.tier), [balance.data, set?.tier]);
   if (draft.error) return <ErrorState message={draft.error} />;
   if (!set) return draft.loading ? <div className="ws-page"><LoadingRows /></div> : <div className="ws-page"><p className="empty-inline">"{id}" is not an armour set. <button type="button" className="text-button" onClick={() => navigate("equipmentSets")}>All sets</button></p></div>;
@@ -78,7 +76,6 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
         <Thumb spec={{ kind: "items", ids }} size="l" alt="" />
         <div className="record-title"><h1>{set.name}</h1><Facts items={[`Tier ${set.tier ?? 0}`, set.style, set.acquisition, `${ids.length} of 5 pieces`]} /><code>{id}</code></div>
       </header>
-      {!readOnly && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError} conflict={draft.conflict} onSave={save} onReset={draft.reset} />}
       <Sheet>
         <Section title="Pieces">
           <div className="slot-grid">{SET_SLOTS.map(slot => {

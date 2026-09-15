@@ -1,0 +1,51 @@
+/*
+  The peek sheet, the reference field's chip group and the "Referenced by" section. Same scale as
+  field.css. The sheet sits above the page (and the full-bleed map) but below popovers (60) and
+  hover cards (70), and below drawers (45) so a role drawer opened from a peeked page still lands
+  on top of it.
+*/
+
+/* ---- peek sheet ---- */
+.peek { position: fixed; top: 0; right: 0; bottom: 0; z-index: 42; width: clamp(420px, 40vw, 560px); max-width: 92vw; display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--border); box-shadow: -12px 0 40px var(--shadow); outline: none; }
+.peek-head { flex: none; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 10px 6px 12px; border-bottom: 1px solid var(--border-subtle); }
+.peek-title { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.peek-title strong { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.peek-title small { font-size: 11px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.peek-title code { font-family: var(--font-mono); }
+.peek-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.peek-body .ws-page { padding: 10px 12px 32px; max-width: none; }
+/* Record pages lay out as main + rail for a wide viewport; in the sheet they stack, the same as their narrow-screen media queries. */
+.peek-body .record, .peek-body .entity-layout, .peek-body .home-grid, .peek-body .kv-columns { grid-template-columns: minmax(0, 1fr); }
+.peek-body .record { gap: 16px; max-width: none; }
+.peek-body .record-rail { position: static; }
+.peek-body .entity-summary { border-right: 0; border-bottom: 1px solid var(--border-subtle); }
+.peek-body .entity-header { position: static; }
+
+/* ---- reference field control: chip · pencil ---- */
+.ref-control { display: inline-flex; align-items: center; gap: 4px; min-width: 0; max-width: 100%; }
+.ref-control > .ref-chip { min-width: 0; }
+.ref-control .ref-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ref-chip.is-empty { border-style: dashed; color: var(--faint); padding-left: 8px; }
+.ref-chip.is-empty:hover { color: var(--muted); border-color: var(--faint); background: var(--panel-raised); }
+.ref-chip.is-option { color: var(--text); }
+.ref-chip.is-option .thumb-glyph { color: var(--muted); }
+.ref-control .ref-edit { width: 20px; height: 20px; }
+.ref-control .ref-edit:hover { color: var(--accent); background: var(--accent-soft); }
+.field[data-compact] .ref-control { flex: 1 1 auto; }
+.field[data-compact] .ref-control > .ref-chip { flex: 1 1 auto; }
+
+/* ---- picker extras: the None and Create rows ---- */
+.popover-item-glyph { display: inline-grid; place-items: center; color: var(--muted); background: var(--panel-raised); border-radius: 4px; }
+.popover-item-none { color: var(--muted); }
+.popover-item-create { color: var(--link); border-top: 1px solid var(--border-subtle); border-radius: 0; margin-top: 2px; }
+.popover-item-create small kbd, .popover-footer kbd { margin-right: 2px; }
+
+/* ---- referenced by ---- */
+.refby-group { display: flex; flex-direction: column; gap: 2px; padding: 4px 0 6px; }
+.refby-group-title { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); font-weight: 500; }
+.refby-group-title small { color: var(--faint); font-family: var(--font-mono); font-weight: 400; }
+.refby-row { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.refby-row > .ref-row { flex: 1 1 auto; min-width: 0; }
+.refby-row .refby-open { flex: none; opacity: 0; font-size: 11px; }
+.refby-row:hover .refby-open, .refby-row:focus-within .refby-open { opacity: 1; }
+.refby-more { align-self: flex-start; padding: 2px 6px; font-size: 11px; }

@@ -12,32 +12,33 @@ const MarksRangeSchema = refine(
   "marks minimum must not exceed maximum",
 );
 
+/** One `group` per grid the creature sheet draws: identity, then the combat numbers. */
 export const EnemyFields = {
   id: id(),
-  name: nonempty(),
-  family: ref("enemyFamily"),
-  tier: int({ min: 1 }),
-  maxHealth: int({ min: 1 }),
-  attackLevel: int({ min: 1 }),
-  defenceLevel: int({ min: 1 }),
-  accuracy: int({ min: 0 }),
-  armour: int({ min: 0 }),
-  magicArmour: int({ min: 0 }),
-  maxHit: int({ min: 1 }),
-  attackSpeedMs: int({ min: 1 }, { unit: "ms" }),
-  aggroRadius: num({ min: 0 }, { unit: "m" }),
-  behaviour: enumOf(["passive", "aggressive", "territorial"] as const),
-  moveSpeedMps: opt(num({ exclusiveMin: 0 }, { unit: "m/s" })),
-  walkSpeedMps: opt(num({ exclusiveMin: 0 }, { unit: "m/s" })),
-  marks: opt(MarksRangeSchema),
-  attackStyle: opt(enumOf(["melee", "ranged", "magic"] as const)),
-  attackRangeM: opt(num({ exclusiveMin: 0 }, { unit: "m" })),
-  respawnSeconds: opt(num({ min: 0 }, { unit: "s" })),
+  name: nonempty().describe({ label: "Name", display: true }),
+  family: ref("enemyFamily", { label: "Family", role: "Family of" }),
+  tier: int({ min: 1 }, { label: "Tier", step: 1 }),
+  maxHealth: int({ min: 1 }, { label: "Health", step: 1, group: "combat" }),
+  attackLevel: int({ min: 1 }, { label: "Attack level", step: 1, group: "combat" }),
+  defenceLevel: int({ min: 1 }, { label: "Defence level", step: 1, group: "combat" }),
+  accuracy: int({ min: 0 }, { label: "Accuracy", step: 1, group: "combat" }),
+  armour: int({ min: 0 }, { label: "Armour", step: 1, group: "combat" }),
+  magicArmour: int({ min: 0 }, { label: "Magic armour", step: 1, group: "combat" }),
+  maxHit: int({ min: 1 }, { label: "Max hit", step: 1, group: "combat" }),
+  attackSpeedMs: int({ min: 1 }, { unit: "ms", label: "Attack interval", step: 1, group: "combat" }),
+  aggroRadius: num({ min: 0 }, { unit: "m", label: "Aggro radius", group: "combat" }),
+  behaviour: enumOf(["passive", "aggressive", "territorial"] as const, { label: "Behaviour", group: "combat" }),
+  moveSpeedMps: opt(num({ exclusiveMin: 0 }, { unit: "m/s", label: "Chase speed", group: "movement" })),
+  walkSpeedMps: opt(num({ exclusiveMin: 0 }, { unit: "m/s", label: "Walk speed", group: "movement" })),
+  marks: opt(MarksRangeSchema.describe({ label: "Marks dropped", unit: "marks", group: "combat" })),
+  attackStyle: opt(enumOf(["melee", "ranged", "magic"] as const, { label: "Attack style", group: "combat" })),
+  attackRangeM: opt(num({ exclusiveMin: 0 }, { unit: "m", label: "Attack range", group: "combat" })),
+  respawnSeconds: opt(num({ min: 0 }, { unit: "s", label: "Respawn", group: "movement" })),
 };
 
 export const EnemySchema = obj({
   ...EnemyFields,
-  drops: arr(DropSchema),
+  drops: arr(DropSchema, {}, { label: "Drops", role: "Dropped by", probability: "chance" }),
 }) satisfies Schema<EnemyDef>;
 
 // Closed partial EnemyDef excluding id and drops. List the fields explicitly;

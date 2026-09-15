@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import type { ApiDiagnostic, CollectionResponse, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
+import type { ApiDiagnostic, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
 import { collectionQuery } from "../api/client.js";
 import type { ContentRow } from "./contracts.js";
 import { contentRows, rowId } from "./rows.js";
+import { draftKey, draftStore, useDraftEntry } from "./store.js";
 
 /*
-  One draft model for every purpose-built editor. A draft is a local copy of a record; `set` and
-  `setPath` mutate it immutably; `save` writes it with the revision the draft was opened against,
-  so a concurrent edit turns into a conflict instead of a silent overwrite.
+  One draft model for every purpose-built editor. A draft is a local copy of a record held in the
+  shared store (`store.ts`); `set` and `setPath` commit immutable updates there (each one an undo
+  step); `save` writes it with the revision the draft was opened against, so a concurrent edit turns
+  into a conflict instead of a silent overwrite.
 */
 
 export const CONFLICT_MESSAGE = "This file changed after you opened it. Your draft is still here. Reset the draft to load the current file before saving again.";
@@ -64,89 +65,54 @@ export interface RecordDraft<T extends ContentRow = ContentRow> {
   reset: () => void;
 }
 
-/** A draft of one record in an array-shaped collection. */
+/** A draft of one record. The draft lives in the shared store, so it survives navigation and saves with everything else. */
 export function useRecordDraft<T extends ContentRow = ContentRow>(collection: string, recordId: string | undefined): RecordDraft<T> {
   const queryClient = useQueryClient();
   const query = useQuery({ ...collectionQuery(collection), enabled: Boolean(collection && recordId) });
   const idKey = query.data?.collection.idKey ?? "id";
   const objectShaped = query.data?.collection.shape === "object";
-  const record = useMemo(() => {
+  const serverRecord = useMemo(() => {
     if (!query.data || recordId === undefined) return undefined;
     // Object-shaped collections (balance, audio) are one record saved under the id "$collection".
     if (objectShaped) return query.data.data as T;
     return contentRows(query.data).find(row => rowId(row, idKey) === recordId) as T | undefined;
   }, [query.data, recordId, idKey, objectShaped]);
-  const [draft, setDraft] = useState<T | undefined>(undefined);
-  const [baseRevision, setBaseRevision] = useState<string | undefined>(undefined);
-  const [saving, setSaving] = useState(false);
-  const [conflict, setConflict] = useState(false);
-  const [saveError, setSaveError] = useState("");
-  const [diagnostics, setDiagnostics] = useState<ApiDiagnostic[]>([]);
-  const dirtyRef = useRef(false);
-  const dirty = draft !== undefined && record !== undefined && !same(draft, record);
-  dirtyRef.current = dirty;
+  const key = recordId === undefined ? undefined : draftKey(collection, recordId);
 
-  // Adopt fresh server data unless the user has unsaved edits.
+  useEffect(() => { draftStore.configure({ queryClient }); }, [queryClient]);
+  // Adopt fresh server data; the store keeps the draft when it has unsaved edits.
   useEffect(() => {
-    if (!query.data) return;
-    if (dirtyRef.current || conflict) return;
-    setDraft(record ? structuredClone(record) : undefined);
-    setBaseRevision(query.data.revision);
-  }, [query.data, record, conflict]);
+    if (!query.data || recordId === undefined) return;
+    draftStore.adopt({ collection, id: recordId, objectShaped, idKey, record: serverRecord, revision: query.data.revision });
+  }, [query.data, collection, recordId, objectShaped, idKey, serverRecord]);
 
+  const entry = useDraftEntry(key);
   const set = useCallback((update: T | ((draft: T) => T)) => {
-    setDraft(previous => previous === undefined ? previous : typeof update === "function" ? (update as (draft: T) => T)(previous) : update);
-    setSaveError(""); setDiagnostics([]);
-  }, []);
-  const setAt = useCallback((path: Path, value: unknown) => set(previous => setPath(previous, path, value)), [set]);
-
-  const save = useCallback(async (): Promise<boolean> => {
-    if (!draft || !query.data || baseRevision === undefined || conflict) return false;
-    setSaving(true); setSaveError(""); setDiagnostics([]);
-    try {
-      const target = objectShaped ? "$collection" : recordId ?? "";
-      const response = await fetch(`/__devdocs/collections/${encodeURIComponent(collection)}/${encodeURIComponent(target)}`, {
-        method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ revision: baseRevision, record: draft }),
-      });
-      const body = await response.json() as CollectionResponse & { error?: string; diagnostics?: ApiDiagnostic[] };
-      if (!response.ok) {
-        setDiagnostics(body.diagnostics ?? []);
-        setConflict(response.status === 409);
-        setSaveError(response.status === 409 ? CONFLICT_MESSAGE : body.error ?? `Save failed (${response.status}). Your draft is still here.`);
-        return false;
-      }
-      queryClient.setQueryData(collectionQuery(collection).queryKey, body);
-      setBaseRevision(body.revision);
-      setDiagnostics(body.diagnostics ?? []);
-      toast.success("Saved");
-      return true;
-    } catch (error) {
-      setSaveError(error instanceof Error ? error.message : "The save could not be completed. Your draft is still here.");
-      return false;
-    } finally {
-      setSaving(false);
-    }
-  }, [draft, query.data, baseRevision, conflict, collection, recordId, queryClient, objectShaped]);
-
-  const reset = useCallback(() => {
-    setConflict(false); setSaveError(""); setDiagnostics([]);
-    dirtyRef.current = false;
-    void queryClient.invalidateQueries({ queryKey: collectionQuery(collection).queryKey }).then(() => {
-      const fresh = queryClient.getQueryData<CollectionResponse>(collectionQuery(collection).queryKey);
-      if (!fresh) return;
-      const row = (fresh.collection.shape === "object" ? fresh.data : contentRows(fresh).find(entry => rowId(entry, fresh.collection.idKey) === recordId)) as T | undefined;
-      setDraft(row ? structuredClone(row) : undefined);
-      setBaseRevision(fresh.revision);
-    });
-  }, [queryClient, collection, recordId]);
+    if (key === undefined) return;
+    const current = draftStore.entry(key)?.draft as T | undefined;
+    if (current === undefined) return;
+    draftStore.commit(key, typeof update === "function" ? (update as (draft: T) => T)(current) : update);
+  }, [key]);
+  const setAt = useCallback((path: Path, value: unknown) => {
+    if (key === undefined) return;
+    const current = draftStore.entry(key)?.draft as T | undefined;
+    if (current === undefined) return;
+    draftStore.commit(key, setPath(current, path, value), path.join("."));
+  }, [key]);
+  const save = useCallback(() => key === undefined ? Promise.resolve(false) : draftStore.save(key), [key]);
+  const reset = useCallback(() => { if (key !== undefined) draftStore.reset(key); }, [key]);
 
   return {
     loading: query.isPending, error: query.isError ? query.error.message : undefined,
-    record, draft, dirty, saving, conflict, saveError, diagnostics, revision: baseRevision,
+    record: (entry?.base ?? serverRecord) as T | undefined, draft: entry?.draft as T | undefined,
+    dirty: entry?.dirty ?? false, saving: entry?.saving ?? false, conflict: entry?.conflict ?? false,
+    saveError: entry?.saveError ?? "", diagnostics: entry?.diagnostics ?? NO_DIAGNOSTICS, revision: entry?.revision,
     editable: !__DEVDOCS_PLAYER__ && Boolean(query.data?.collection.editable),
     set, setPath: setAt, save, reset,
   };
 }
+
+const NO_DIAGNOSTICS: ApiDiagnostic[] = [];
 
 /** Preview or save a multi-record change through the shared transaction endpoint. */
 export async function runTransaction(operation: ContentTransactionRequest["operation"], revisions: Record<string, string>, changes: ContentOperation[]): Promise<ContentTransactionResponse> {

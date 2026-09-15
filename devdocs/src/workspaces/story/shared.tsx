@@ -5,7 +5,7 @@ import { useRecordDraft, type RecordDraft } from "../../model/draft.js";
 import { refTargetCollection, summaryContext, useReferenceIndex, type ReferenceIndex } from "../../model/refs.js";
 import { contentRows } from "../../model/rows.js";
 import { titleCase, type SummaryContext, type ThumbSpec } from "../../model/summaries.js";
-import { Facts, NumberInput, SaveBar, Select, Static, TextInput, type InputWidth } from "../../ui/Sheet.js";
+import { Facts, NumberInput, Select, Static, TextInput, type InputWidth } from "../../ui/Sheet.js";
 import { RefChip } from "../../ui/RefChip.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
@@ -105,7 +105,6 @@ export function RecordShell({ thumb, title, id, facts, draft, rail, children, cl
           <Facts items={[...facts, <code key="id">{id}</code>]} />
         </div>
       </header>
-      {draft && draft.editable && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError || undefined} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} />}
       {draft && draft.diagnostics.length > 0 && <ul className="story-diagnostics" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}>{diagnostic.path ? <code>{diagnostic.path}</code> : null} {diagnostic.message}</li>)}</ul>}
       {children}
     </div>

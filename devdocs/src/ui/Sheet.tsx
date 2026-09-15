@@ -130,13 +130,3 @@ export function Derived({ derivation, unit, onOverride, onOpenSource, integer = 
 }
 
 /** The dirty/save/reset strip pages put at the top of an editable sheet. */
-export function SaveBar({ dirty, saving, error, conflict, onSave, onReset, label = "Save" }: { dirty: boolean; saving: boolean; error?: string; conflict?: boolean; onSave: () => void; onReset: () => void; label?: string }) {
-  if (!dirty && !error) return null;
-  return <div className="savebar" role={error ? "alert" : undefined}>
-    {error ? <span className="savebar-error">{error}</span> : <span className="savebar-dirty">Unsaved changes</span>}
-    <span className="savebar-actions">
-      <button type="button" className="button button-small" onClick={onReset} disabled={saving} aria-label="Reset draft">Reset</button>
-      {!conflict && <button type="button" className="button button-small button-primary" onClick={onSave} disabled={saving || !dirty} aria-label={`${label} changes`}>{saving ? "Saving…" : label}</button>}
-    </span>
-  </div>;
-}

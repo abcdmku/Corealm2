@@ -12,11 +12,16 @@ const QuantityRangeSchema = refine(
 );
 
 export const DropSchema = obj({
-  itemId: ref("item"),
-  quantity: QuantityRangeSchema,
-  chance: num({ min: 0, max: 1 }),
-  exclusiveGroup: opt(nonempty()),
+  itemId: ref("item", { label: "Item", role: "Dropped by" }),
+  quantity: QuantityRangeSchema.describe({ label: "Quantity" }),
+  // Each drop rolls on its own, so this is a probability, not a share of one roll.
+  chance: num({ min: 0, max: 1 }, { label: "Chance", help: "Probability of this drop per kill, between zero and one." }),
+  exclusiveGroup: opt(nonempty(), { label: "Exclusive group", help: "At most one drop from a group rolls." }),
 });
 
-export const LootTableSchema = obj({ id: id(), name: str({ nonEmpty: true }), drops: arr(DropSchema) });
+export const LootTableSchema = obj({
+  id: id(),
+  name: str({ nonEmpty: true }, { label: "Name", display: true }),
+  drops: arr(DropSchema, {}, { label: "Drops", role: "Dropped by", probability: "chance" }),
+});
 export type LootTableRecord = Infer<typeof LootTableSchema>;

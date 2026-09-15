@@ -15,6 +15,8 @@ export const SOURCE_REGION_IDS = ['fallowmarch', 'vellenwood', 'karrowmoor', 'gr
   'wilderness', 'crownward', 'gloamgarden', 'faeholme'] as const;
 
 // Explicit source fields prevent identity, rewards or arbitrary overrides entering authored stats.
+// `enemyId`, `speciesId` and `family` below name the row this input defines, not a row it points
+// at, so they stay `str()`: making them `ref()` would draw a picker for something being created.
 export const ExpansionAuthoredSchema = obj({
   maxHealth: positiveInt(), attackLevel: positiveInt(), defenceLevel: positiveInt(),
   accuracy: int({ min: 0 }), armour: int({ min: 0 }), magicArmour: int({ min: 0 }),

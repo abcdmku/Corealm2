@@ -11,14 +11,17 @@ function uniqueRows<T>(schema: Schema<T>, key: (row: T) => string, label: string
 }
 const PositiveVec3Schema = tuple<[Schema<number>, Schema<number>, Schema<number>]>([positive(), positive(), positive()]);
 export const DressingSchema = obj({
-  id: id(), assetId: ref('asset'), x: num({}, { unit: 'm' }), z: num({}, { unit: 'm' }),
-  yaw: num({}, { unit: 'rad' }), scale: union([positive(), PositiveVec3Schema] as const), sink: opt(num({}, { unit: 'm' })),
+  id: id(), assetId: ref('asset', { label: 'Asset', role: 'Dressing for' }), x: num({}, { unit: 'm', label: 'X' }), z: num({}, { unit: 'm', label: 'Z' }),
+  yaw: num({}, { unit: 'rad', label: 'Yaw' }), scale: union([positive(), PositiveVec3Schema] as const, { label: 'Scale' }), sink: opt(num({}, { unit: 'm', label: 'Sink' })),
 });
-export const DressingArraySchema = uniqueRows(DressingSchema, (row) => row.id, 'dressing id within habitat');
+export const DressingArraySchema = uniqueRows(DressingSchema, (row) => row.id, 'dressing id within habitat').describe({ label: 'Dressing', role: 'Dressing for' });
 
 export const ClusterFields = {
-  id: id(), resourceId: ref('resource'), count: count(), centre: SpotSchema, radius: radius(),
-  locationId: ref('location'), waterBodyId: opt(nonempty()), ringRadius: opt(radius()),
-  heroAssetId: opt(ref('asset')), heroScale: opt(positive()),
-  essenceElement: opt(enumOf(SPELL_ELEMENTS, { ref: 'element' })),
+  id: id(), resourceId: ref('resource', { label: 'Resource', role: 'Placed as' }), count: count().describe({ label: 'Count' }),
+  centre: SpotSchema.describe({ label: 'Centre', unit: 'm' }), radius: radius().describe({ label: 'Radius' }),
+  locationId: ref('location', { label: 'Location', role: 'Placed at' }),
+  // Water bodies are named per region in the geometry file and have no collection of their own.
+  waterBodyId: opt(nonempty(), { label: 'Water body' }), ringRadius: opt(radius(), { label: 'Ring radius' }),
+  heroAssetId: opt(ref('asset', { role: 'Hero model for' }), { label: 'Hero asset', role: 'Hero model for' }), heroScale: opt(positive(), { label: 'Hero scale' }),
+  essenceElement: opt(enumOf(SPELL_ELEMENTS, { ref: 'element', label: 'Essence element', role: 'Uses element' })),
 };

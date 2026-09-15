@@ -78,6 +78,17 @@ async function screenshot(name: string): Promise<void> {
   await page.screenshot({ path: path.join(evidence, name), fullPage: false });
 }
 
+/** Saves are gated on the formula watcher; a project .ts edit during the run flips it back to "checking". */
+async function waitForValidBuild(): Promise<void> {
+  assert(page, "Browser page is not ready");
+  await page.waitForFunction(async () => {
+    const response = await fetch('/__devdocs/formulas');
+    const result = await response.json();
+    if (result.build?.state === 'invalid') throw new Error(JSON.stringify(result.build.diagnostics));
+    return result.build?.state === 'valid';
+  }, undefined, { timeout: 120_000 });
+}
+
 async function waitForHeading(name: string | RegExp): Promise<void> {
   assert(page, "Browser page is not ready");
   await page.getByRole("heading", { name }).first().waitFor();
@@ -89,8 +100,9 @@ async function saveItemDescription(url: string, description: string): Promise<vo
   await waitForHeading("Worn Shortsword");
   const editor = page.getByRole("textbox", { name: "Description", exact: true });
   await editor.fill(description);
+  await waitForValidBuild();
   const [response] = await Promise.all([
-    page.waitForResponse(candidate => candidate.request().method() === "PUT" && candidate.url().endsWith("/collections/items/worn_sword")),
+    page.waitForResponse(candidate => candidate.request().method() === "POST" && candidate.url().endsWith("/__devdocs/transaction")),
     page.getByRole("button", { name: "Save changes", exact: true }).click(),
   ]);
   assert.equal(response.status(), 200, await response.text());
@@ -117,11 +129,15 @@ async function exerciseUiConflict(url: string): Promise<void> {
   assert.equal(concurrent.status(), 200);
 
   expectedConflict = true;
-  const conflictResponse = page.waitForResponse(response => response.status() === 409 && response.url().includes("/collections/items/worn_sword"));
+  await waitForValidBuild();
+  const conflictResponse = page.waitForResponse(response => response.status() === 409 && response.url().endsWith("/__devdocs/transaction"));
   await page.getByRole("button", { name: "Save changes", exact: true }).click();
   await conflictResponse;
   expectedConflict = false;
-  await page.getByRole("alert").filter({ hasText: "This file changed after you opened it" }).waitFor();
+  // The shell save bar turns into the conflict view: Compare / Overwrite / Reload per record.
+  await page.getByRole("alert").filter({ hasText: "changed on disk after you opened it" }).waitFor();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
+  await page.locator(".shell-savebar-diff [data-kind=\"add\"]").filter({ hasText: draft }).first().waitFor();
   assert.equal(await editor.inputValue(), draft);
   assert.equal(await page.getByRole("button", { name: "Save changes", exact: true }).count(), 0, "Save must be withheld while the draft conflicts");
   await screenshot("edit-conflict.png");
@@ -272,6 +288,7 @@ async function exerciseWorldAuthoring(url: string): Promise<void> {
   const centreX = inspector.getByRole("spinbutton", { name: "Centre x", exact: true });
   await centreX.fill("-97");
   await centreX.blur();
+  await waitForValidBuild();
   const worldPreview = page.waitForResponse(response => response.url().endsWith('/__devdocs/transaction'));
   await page.getByRole("button", { name: "Preview changes", exact: true }).click();
   const worldPreviewResponse = await worldPreview;
@@ -280,7 +297,7 @@ async function exerciseWorldAuthoring(url: string): Promise<void> {
   await page.getByRole("button", { name: "Save changes", exact: true }).click();
   const worldSaveResponse = await worldSave;
   assert.equal(worldSaveResponse.status(), 200, await worldSaveResponse.text());
-  await page.locator("[data-sonner-toast]").filter({ hasText: /Saved \d+ change/ }).first().waitFor();
+  await page.locator("[data-sonner-toast]").filter({ hasText: /Saved \d+ (record|change)/ }).first().waitFor();
   const placements = await readJson<JsonRecord[]>(path.join(contentRoot, "data/placements.json"));
   const encounters = await readJson<JsonRecord[]>(path.join(contentRoot, "data/encounters.json"));
   const encounter = encounters.find(row => ((row.members as JsonRecord[] | undefined) ?? []).some(member => member.creatureId === "smoke_frog_variant"));
@@ -381,6 +398,7 @@ try {
   await exerciseUiConflict(url);
   deadlineGuard(deadline, "UI save and conflict");
 
+  await waitForValidBuild();
   await exerciseInvalidTransaction(url);
   await addAuthoredRecords(url);
   await page.reload();

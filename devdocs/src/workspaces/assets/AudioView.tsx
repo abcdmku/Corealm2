@@ -4,7 +4,7 @@ import type { ContentRow } from "../../model/contracts.js";
 import { useRecordDraft } from "../../model/draft.js";
 import { gameUrl } from "../../model/gameUrl.js";
 import { titleCase } from "../../model/summaries.js";
-import { NumberInput, SaveBar, Select, Static } from "../../ui/Sheet.js";
+import { NumberInput, Select, Static } from "../../ui/Sheet.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, list, num, text } from "../story/shared.js";
@@ -70,7 +70,6 @@ export default function AudioView(_props: ViewProps) {
     return <button type="button" className={`icon-button audio-play${active ? " is-active" : ""}`} aria-label={active ? `Stop ${label}` : `Play ${label}`} aria-pressed={active} title={url} onClick={() => active ? player.stop() : player.play(url, loop)}>{active ? <Square size={12} /> : <Play size={12} />}</button>;
   };
   return <div className="ws-page audio-page">
-    {editable && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError || undefined} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} />}
     {draft.diagnostics.length > 0 && <ul className="story-diagnostics" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}><code>{diagnostic.path}</code> {diagnostic.message}</li>)}</ul>}
 
     <div className="ws-heading"><h1>Cues</h1><span className="facts"><span>One-shot effects; a cue picks one of its variants</span></span></div>

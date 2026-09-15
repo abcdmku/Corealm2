@@ -4,7 +4,7 @@ import { calculateCreatureCombat } from "../../../../game/src/content/formulas/c
 import { COMBAT_LABELS, fmt } from "../../model/derive.js";
 import { useRecordDraft } from "../../model/draft.js";
 import { RefChip } from "../../ui/RefChip.js";
-import { NumberInput, Row, SaveBar, Section, Sheet, Static } from "../../ui/Sheet.js";
+import { NumberInput, Row, Section, Sheet, Static } from "../../ui/Sheet.js";
 import { LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { type CreatureData, type Profile } from "./shared.js";
@@ -66,12 +66,9 @@ export function RoleDrawer({ profileId, data, navigate, onClose, onLive }: { pro
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
-  const errorText = draft.saveError || draft.diagnostics.filter(entry => entry.severity === "error").map(entry => `${entry.path}: ${entry.message}`).join(" · ");
   return <>
     <div className="drawer-scrim" onClick={onClose} />
-    <div className="drawer role-drawer" role="dialog" aria-label={`${working?.name ?? profileId} role`} onKeyDown={event => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") { event.preventDefault(); event.stopPropagation(); if (draft.dirty && editable) void draft.save(); }
-    }}>
+    <div className="drawer role-drawer" role="dialog" aria-label={`${working?.name ?? profileId} role`}>
       <header className="drawer-head">
         <h2>{working?.name ?? profileId} <span className="muted">role</span></h2>
         <button type="button" className="icon-button" aria-label="Close role" onClick={onClose}><X size={14} /></button>
@@ -79,7 +76,6 @@ export function RoleDrawer({ profileId, data, navigate, onClose, onLive }: { pro
       <div className="drawer-body">
         {draft.loading && <LoadingRows />}
         {working && <>
-          {editable && <SaveBar dirty={draft.dirty} saving={draft.saving} error={errorText || undefined} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} label="Save role" />}
           <Sheet compact>
             <Section title="Curve">
               {PARAMS.map(param => <Row key={param.key} label={param.label}>

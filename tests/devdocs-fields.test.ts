@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { arr, discriminated, id, int, lazy, lit, nullable, num, obj, opt, rec, ref, refine, str, tuple, union, type Schema } from "../game/src/content/schema/core.js";
-import { containsIdentity, defaultFieldValue, fieldCore, fieldIssues, serialFieldSpec, unionVariant } from "../devdocs/src/model/fields.js";
+import { containsIdentity, defaultFieldValue, fieldCore, fieldIssues, fieldPath, recordLabelKey, serialFieldSpec, unionVariant } from "../devdocs/src/model/fields.js";
 
 describe("editor field metadata", () => {
   it("preserves wrapped numeric bounds and combines metadata with outer labels taking precedence", () => {
@@ -53,5 +53,60 @@ describe("editor field metadata", () => {
     const value = { name: "Old record", points: [2, 2], pair: ["x", 0], lookup: {}, retained: { arbitrary: true } };
     expect(fieldIssues(schema, value)).toEqual([]);
     expect(value.retained).toEqual({ arbitrary: true });
+  });
+  it("carries list, grouping and relationship metadata through wrappers and keeps it serializable", () => {
+    const members = opt(refine(
+      arr(obj({ creatureId: ref("enemy", { role: "Spawns as" }), weight: num({ exclusiveMin: 0 }) }), {}, { label: "Members", role: "Spawns as", weight: "weight" }),
+      rows => rows.length > 0, "encounter needs a member"), { ordered: true });
+    const spec = serialFieldSpec(members, "members");
+    expect(spec).toMatchObject({ kind: "array", label: "Members", role: "Spawns as", weight: "weight", ordered: true, optional: true, refinements: ["encounter needs a member"] });
+    expect(JSON.parse(JSON.stringify(spec))).toMatchObject({ role: "Spawns as", weight: "weight", ordered: true });
+    expect(serialFieldSpec(arr(obj({ itemId: ref("item"), chance: num({ min: 0, max: 1 }) }), {}, { probability: "chance" }))).toMatchObject({ probability: "chance" });
+  });
+  it("lets an outer layer override group, role and display like every other meta key", () => {
+    const health = int({ min: 1 }, { label: "Health", group: "combat", role: "Inner", display: true });
+    expect(serialFieldSpec(health, "maxHealth")).toMatchObject({ label: "Health", group: "combat", role: "Inner", display: true });
+    expect(serialFieldSpec(opt(health, { group: "adjustments", role: "Outer", display: false }), "maxHealth")).toMatchObject({ label: "Health", group: "adjustments", role: "Outer", display: false });
+  });
+});
+
+describe("addressing a field by path", () => {
+  const shop = obj({
+    id: id(),
+    name: str({ nonEmpty: true }, { label: "Name", display: true }),
+    buyMultiplier: num({ min: 0 }),
+    stock: arr(obj({ itemId: ref("item", { label: "Item", role: "Sold at" }), quantity: int({ min: 0 }) }), {}, { label: "Stock", role: "Sold at" }),
+    hours: tuple([int(), int()] as const, { label: "Hours" }),
+    notes: rec(str()),
+  });
+  it("walks objects, arrays, tuples, records and wrappers", () => {
+    expect(fieldPath(shop, ["stock", 0, "itemId"])).toMatchObject({ label: "Item", ref: "item", role: "Sold at" });
+    expect(fieldPath(shop, ["stock"])).toMatchObject({ kind: "array", label: "Stock" });
+    expect(fieldPath(shop, ["stock", 0])).toMatchObject({ kind: "object", label: "Stock" });
+    expect(fieldPath(shop, ["hours", 1])).toMatchObject({ kind: "number", integer: true, label: "Hours" });
+    expect(fieldPath(shop, ["notes", "opening"])).toMatchObject({ label: "Opening" });
+    expect(fieldPath(shop, [])).toMatchObject({ kind: "object" });
+  });
+  it("picks the union member the value is using", () => {
+    const schema = obj({ loot: opt(discriminated("kind", {
+      table: obj({ kind: lit("table"), tableId: ref("lootTable", { label: "Table" }) }),
+      own: obj({ kind: lit("own"), drops: arr(obj({ itemId: ref("item", { role: "Dropped by" }) })) }),
+    })) });
+    expect(fieldPath(schema, ["loot", "tableId"], { loot: { kind: "table", tableId: "t" } })).toMatchObject({ label: "Table", ref: "lootTable" });
+    expect(fieldPath(schema, ["loot", "drops", 0, "itemId"], { loot: { kind: "own", drops: [{ itemId: "bone" }] } })).toMatchObject({ ref: "item", role: "Dropped by" });
+    // With no value the walk falls back to the first member, so an unreachable key is undefined.
+    expect(fieldPath(schema, ["loot", "drops"])).toBeUndefined();
+  });
+  it("returns undefined for a path the schema does not have", () => {
+    expect(fieldPath(shop, ["stock", 0, "price"])).toBeUndefined();
+    expect(fieldPath(shop, ["buyMultiplier", "min"])).toBeUndefined();
+    expect(fieldPath(shop, ["stock", "0", "itemId"])).toBeUndefined();
+  });
+  it("names the display field, falling back to a literal name key", () => {
+    expect(recordLabelKey(shop)).toBe("name");
+    expect(recordLabelKey(obj({ logItemId: ref("item", { display: true }), name: str() }))).toBe("logItemId");
+    expect(recordLabelKey(obj({ id: id(), tier: int() }))).toBeUndefined();
+    expect(recordLabelKey(discriminated("catalog", { base: shop, fairy: shop }))).toBe("name");
+    expect(recordLabelKey(arr(shop))).toBeUndefined();
   });
 });

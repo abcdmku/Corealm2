@@ -7,7 +7,7 @@ const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
 const positiveInt = () => int({ min: 1 });
 const probability = () => num({ min: 0, max: 1 });
-const tiers = refine(arr(positiveInt(), { minLength: 1 }),
+const tiers = refine(arr(positiveInt(), { minLength: 1 }, { ordered: true }),
   values => values.every((value, index) => index === 0 || value > values[index - 1]!),
   'tiers must be unique and ascending');
 const stat = enumOf(['meleeAccuracy', 'meleePower', 'defence', 'magicAccuracy', 'magicPower', 'health', 'vitality']);
@@ -36,15 +36,23 @@ export const recipesBalanceSchema = obj({
 export const setsBalanceSchema = obj({
   thresholds: obj({ defencePieces: quantityRange, healthPieces: int({ min: 1, max: 5 }),
     bareheadedDefencePieces: quantityRange, bareheadedHealthPieces: int({ min: 1, max: 4 }) }),
-  byTier: arr(obj({ tier: positiveInt(), defence: nonnegative(), health: nonnegative() }), { minLength: 1 }),
+  byTier: arr(obj({ tier: positiveInt(), defence: nonnegative(), health: nonnegative() }), { minLength: 1 }, { label: 'By tier', ordered: true }),
 });
 
 /** Region reward associations; creature definitions own all actual loot rolls. */
 export const lootBalanceSchema = obj({
   wildernessParameters: obj({
-    keeperRewards: refine(arr(obj({ keeperId: ref('enemy'), rune: ref('item'), component: ref('item') })),
+    keeperRewards: refine(arr(obj({
+      keeperId: ref('enemy', { label: 'Keeper', role: 'Keeper reward of' }),
+      rune: ref('item', { label: 'Rune', role: 'Keeper reward of' }),
+      component: ref('item', { label: 'Component', role: 'Keeper reward of' }),
+    }), {}, { label: 'Keeper rewards', role: 'Keeper reward of' }),
       rows => new Set(rows.map(row => row.keeperId)).size === rows.length, 'duplicate keeper reward'),
-    structureComponents: refine(arr(obj({ structureId: str({ nonEmpty: true }), itemId: ref('item') })),
+    // Structure ids come from the deterministic structure library in code, not a content table.
+    structureComponents: refine(arr(obj({
+      structureId: str({ nonEmpty: true }, { label: 'Structure' }),
+      itemId: ref('item', { label: 'Component', role: 'Structure component of' }),
+    }), {}, { label: 'Structure components', role: 'Structure component of' }),
       rows => new Set(rows.map(row => row.structureId)).size === rows.length, 'duplicate structure component'),
   }),
 });

@@ -1,0 +1,138 @@
+/*
+  The one field anatomy (docs/devdocs-inputs.md §3.2). Same scale as workspace.css: type 11/12/13,
+  controls 24px, rows 28px, radius 4. The provenance line is visible, not hover-only; in a compact
+  grid it moves to the focus state and the dot's title.
+*/
+
+/* ---- anatomy: label | control · dot · revert · provenance, hint below ---- */
+.field { position: relative; display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 0 12px; align-items: start; min-height: 28px; padding: 1px 0; min-width: 0; }
+.field[data-dirty] { margin-left: -10px; padding-left: 8px; box-shadow: inset 2px 0 0 var(--accent); }
+.field[data-disabled] .field-label { color: var(--faint); }
+.field-label { display: block; height: 24px; margin-top: 1px; font-size: 12px; line-height: 24px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; user-select: none; }
+.field[data-scrubbing] .field-label, .field[data-scrubbing] { cursor: ew-resize; }
+.field[data-state="invalid"] .field-label { color: var(--danger); }
+.field-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.field-control { display: flex; align-items: center; gap: 6px; min-height: 26px; min-width: 0; font-size: 12px; }
+
+.field-dot { flex: none; box-sizing: border-box; width: 8px; height: 8px; border-radius: 50%; }
+.field-dot[data-state="own"], .field-dot[data-state="default"], .field-dot[data-state="absent"] { background: transparent; }
+.field-dot[data-state="curve"], .field-dot[data-state="balance"] { border: 1.5px solid var(--muted); }
+.field-dot[data-state="inherited"] { background: var(--muted); }
+.field-dot[data-state="overridden"] { background: var(--accent); }
+.field-dot[data-state="mixed"] { height: 2px; border-radius: 1px; background: var(--muted); }
+.field-dot[data-state="invalid"] { border: 1.5px solid var(--danger); }
+.field-dot[data-state="stale"] { border: 1.5px solid var(--warn); }
+
+.field-revert { flex: none; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: -2px; border-radius: 4px; color: var(--muted); }
+.field-revert:hover { color: var(--accent); background: var(--accent-soft); }
+
+.field-origin { flex: 1 1 auto; min-width: 0; font-size: 11px; line-height: 1.3; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.field-origin-ref { color: var(--link); font: inherit; }
+button.field-origin-ref:hover { text-decoration: underline; }
+.field-origin.is-floating { position: absolute; left: 0; top: 100%; z-index: 3; max-width: 280px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); white-space: normal; box-shadow: 0 2px 8px var(--shadow); }
+
+/* Reserved line under the control: the hint is always there, the expression joins it on focus, so focusing never shifts the fields below. */
+.field-below { display: flex; flex-wrap: wrap; gap: 0 8px; min-height: 15px; }
+.field-hint, .field-expression, .field-error { font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; }
+.field-hint, .field-expression { color: var(--faint); }
+.field-error { color: var(--danger); }
+
+/* ---- controls ---- */
+.field-input { display: inline-flex; align-items: center; gap: 4px; box-sizing: border-box; height: 24px; padding: 0 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); font-size: 12px; min-width: 0; }
+.field-input:focus-within { border-color: var(--accent); }
+.field-input[data-invalid] { border-color: var(--danger); }
+.field-input[data-disabled] { opacity: .6; }
+.field-input input, .field-input textarea { flex: 1 1 auto; width: 100%; min-width: 0; height: 100%; padding: 0; border: 0; outline: none; background: transparent; color: var(--text); font-size: 12px; line-height: 1.3; font-family: inherit; }
+.field-input input.mono, .field-input textarea.mono { font-family: var(--font-mono); }
+.field-input[data-kind="number"] input { text-align: right; font-family: var(--font-mono); }
+.field-input[data-zero="true"] input { color: var(--faint); }
+.field-input input::placeholder, .field-input textarea::placeholder { color: var(--faint); font-family: var(--font-sans); text-align: left; }
+.field-input[data-width="num"] { width: 76px; }
+.field-input[data-width="short"], .field-select[data-width="short"] { width: 160px; }
+.field-input[data-width="id"], .field-select[data-width="id"] { width: 220px; }
+.field-input[data-width="text"], .field-select[data-width="text"] { width: 100%; max-width: 360px; }
+.field-input[data-width="full"], .field-select[data-width="full"] { width: 100%; }
+.field-unit { flex: none; font-size: 11px; color: var(--faint); }
+.field-textarea { height: auto; min-height: 48px; padding: 5px 7px; align-items: stretch; }
+.field-textarea textarea { height: auto; resize: vertical; line-height: 1.45; }
+
+.field-select { box-sizing: border-box; height: 24px; padding: 0 22px 0 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--text); font-size: 12px; line-height: 1.3; min-width: 0; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--faint) 50%), linear-gradient(135deg, var(--faint) 50%, transparent 50%); background-position: calc(100% - 11px) 9px, calc(100% - 7px) 9px; background-size: 4px 4px; background-repeat: no-repeat; }
+.field-select:focus { outline: none; border-color: var(--accent); }
+.field-select:disabled { opacity: .6; }
+.field-select[data-invalid] { border-color: var(--danger); color: var(--danger); }
+
+.field-toggle { display: inline-flex; align-items: center; gap: 6px; height: 24px; font-size: 12px; }
+.field-toggle input { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); }
+.field-toggle[data-disabled] { opacity: .6; }
+
+.field-static { display: inline-flex; align-items: center; gap: 4px; height: 24px; font-size: 12px; }
+
+/* ---- compact: inside a Fields grid, label above, dot only ---- */
+.field[data-compact] { grid-template-columns: minmax(0, 1fr); gap: 3px; min-height: 0; padding: 0; }
+.field[data-compact][data-dirty] { margin-left: 0; padding-left: 0; box-shadow: none; }
+.field[data-compact][data-dirty] .field-label { padding-left: 6px; box-shadow: inset 2px 0 0 var(--accent); }
+.field[data-compact] .field-label { height: auto; margin-top: 0; font-size: 11px; line-height: 1.3; }
+.field[data-compact] .field-control { gap: 4px; min-height: 24px; }
+.field[data-compact] .field-input, .field[data-compact] .field-select { flex: 1 1 auto; width: auto; max-width: none; min-width: 0; }
+.field[data-compact] .field-revert { margin-left: -1px; }
+.field[data-span="2"] { grid-column: span 2; }
+.field[data-span="3"] { grid-column: span 3; }
+.field[data-span="4"] { grid-column: span 4; }
+
+/* ---- legend ---- */
+.field-legend { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 11px; color: var(--muted); }
+.field-legend-item { display: inline-flex; align-items: center; gap: 5px; }
+.field-legend-item .field-dot[data-state="own"] { border: 1px dashed var(--border); }
+
+/* ==== lists: ListField, MapField, WeightedList, UnionField (docs/devdocs-inputs.md §3.6) ==== */
+/* A row is  handle | content | aside | remove  at 28px. No border, no card: rows sit on the sheet. */
+.field-list { display: flex; flex-direction: column; gap: 1px; flex: 1 1 auto; width: 100%; min-width: 0; }
+.field-list-row { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; column-gap: 6px; min-height: 28px; padding: 0 2px; border-radius: 4px; outline: none; }
+.field-list[data-ordered] > .field-list-row { grid-template-columns: 14px minmax(0, 1fr) auto auto; }
+.field-list-row:hover { background: var(--hover); }
+.field-list-row:focus-visible { box-shadow: inset 0 0 0 1px var(--accent); }
+.field-list-row[data-dragging] { opacity: .45; }
+.field-list-row[data-drop="before"] { box-shadow: inset 0 2px 0 var(--accent); }
+.field-list-row[data-drop="after"] { box-shadow: inset 0 -2px 0 var(--accent); }
+.field-list-row[data-expanded="true"] { padding-bottom: 4px; }
+.field-list-handle { display: grid; place-items: center; width: 14px; height: 24px; color: var(--faint); cursor: grab; touch-action: none; user-select: none; }
+.field-list-handle:hover { color: var(--muted); }
+.field-list[data-readonly] .field-list-handle { visibility: hidden; }
+.field-list-row[data-dragging] .field-list-handle { cursor: grabbing; }
+.field-list-content { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 6px; min-width: 0; font-size: 12px; }
+.field-list-content > .field-input[data-width="text"] { flex: 1 1 160px; max-width: none; }
+.field-list-aside { display: flex; align-items: center; gap: 6px; }
+.field-list-remove { visibility: hidden; }
+.field-list-row:hover .field-list-remove, .field-list-row:focus-within .field-list-remove { visibility: visible; }
+.field-list-summary { display: inline-flex; align-items: center; gap: 4px; min-height: 24px; padding: 0; font-size: 12px; color: var(--text); text-align: left; }
+.field-list-summary svg { flex: none; color: var(--faint); }
+.field-list-summary:hover { color: var(--accent); }
+.field-list-expanded { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 1px; margin: 2px 0 2px 6px; padding-left: 12px; border-left: 2px solid var(--border); }
+.field-list[data-ordered] > .field-list-row > .field-list-expanded { margin-left: 26px; }
+.field-list-empty { font-size: 12px; line-height: 28px; color: var(--faint); }
+.field-list-add { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 4px 0 2px; margin: 1px 0 0 -2px; border-radius: 4px; font-size: 12px; color: var(--muted); align-self: flex-start; }
+.field-list-add:hover { color: var(--text); background: var(--hover); }
+.field-list-add-choice, .field-list-add-text { align-self: flex-start; margin-top: 2px; color: var(--muted); }
+.field-list-add-choice { width: auto; padding-right: 22px; }
+
+/* MapField rows: key | value */
+.field-map-key { flex: none; display: inline-flex; }
+.field-map-value { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+
+/* WeightedList: weight | share bar | share | lock */
+.field-weight { display: inline-flex; align-items: center; gap: 6px; }
+.field-weight-bar { position: relative; display: inline-block; width: 64px; height: 6px; border-radius: 3px; background: var(--border-subtle); overflow: hidden; }
+.field-weight-fill { display: block; height: 100%; border-radius: 3px; background: var(--accent); transition: width .12s ease-out; }
+.field-weight[data-locked] .field-weight-fill { background: var(--muted); }
+.field-weight[data-probability] .field-weight-fill { background: var(--info); }
+.field-weight-share { width: 34px; font-size: 11px; color: var(--faint); text-align: right; }
+.field-weight-lock { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; color: var(--faint); }
+.field-weight-lock:hover { color: var(--text); background: var(--hover); }
+.field-weight-lock[aria-pressed="true"] { color: var(--accent); }
+
+/* UnionField: kind choice, optional confirm row, the variant's fields */
+.field-union { display: flex; flex-direction: column; gap: 1px; flex: 1 1 auto; min-width: 0; }
+.field-union-confirm { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; min-height: 24px; margin: 1px 0; padding: 2px 8px; border-radius: 4px; background: var(--warn-soft); font-size: 12px; color: var(--text); }
+.field-union-confirm .text-button { font-weight: 500; }
+.field-tuple { display: inline-flex; align-items: center; gap: 6px; }
+.field-has-list > .field-body > .field-control { align-items: flex-start; }

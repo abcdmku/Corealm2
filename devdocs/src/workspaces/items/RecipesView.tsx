@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight, Plus, Search, X } from "lucide-react";
 import type { ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { ContentRow } from "../../model/contracts.js";
@@ -6,13 +6,13 @@ import { deriveProductionEntry, fmt, productionSource } from "../../model/derive
 import { useRecordDraft, type Path } from "../../model/draft.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Derived, Facts, NumberInput, Row, SaveBar, Section, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { Derived, Facts, NumberInput, Row, Section, Sheet, Static, TextInput } from "../../ui/Sheet.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { ItemPick } from "./ItemPick.js";
 import { TemplateDrawer } from "./TemplateDrawer.js";
-import { seconds, stationText, titleCase, useItemsData, useSaveShortcut, type ItemsData, type RecipeRecord } from "./data.js";
+import { seconds, stationText, titleCase, useItemsData, type ItemsData, type RecipeRecord } from "./data.js";
 import "./items.css";
 
 /* Recipes: inputs → output, with the station and the rates the template gives them. */
@@ -81,8 +81,6 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
   const entry = tier?.production[entryIndex];
   const template = entry ? data.templateById(entry.templateId) : undefined;
   const rates = tier && entry && template ? deriveProductionEntry(tier, entry, template) : undefined;
-  const save = useCallback(() => { if (draft.dirty) void draft.save(); }, [draft]);
-  useSaveShortcut(!readOnly && draft.dirty, save);
   const compiled = data.recipes.find(recipe => recipe.id === id);
   const liveRecord = useMemo<ContentRow | undefined>(() => {
     if (!tier || !entry || !template || !rates) return compiled;
@@ -106,7 +104,6 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
         <Thumb spec={{ kind: "item", id: entry.output.itemId }} size="l" alt="" />
         <div className="record-title"><h1>{entry.name}</h1><Facts items={[`Tier ${tier.tier}`, template.kind, template.skill, stationText(template.stations)]} /><code>{id}</code></div>
       </header>
-      {!readOnly && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError} conflict={draft.conflict} onSave={save} onReset={draft.reset} />}
       <Sheet>
         <Section title="Recipe">
           <Row label="Name"><TextInput value={entry.name} disabled={readOnly} ariaLabel="Name" onChange={value => set(["name"], value)} /></Row>

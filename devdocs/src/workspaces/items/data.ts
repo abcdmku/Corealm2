@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { EquipmentFamily, ProgressionTier, RecipeTemplate } from "../../../../game/src/content/schema/progression.js";
 import { collectionQuery } from "../../api/client.js";
@@ -137,16 +137,6 @@ export function targetThresholds(balance: SetBalance | undefined, tier: number |
   const healthPieces = balance.thresholds?.healthPieces ?? 4;
   if (!row) return undefined;
   return [{ pieces: defencePieces[0], bonuses: { defence: row.defence } }, { pieces: healthPieces, bonuses: { health: row.health } }, { pieces: defencePieces[1], bonuses: { defence: row.defence } }];
-}
-
-/** Ctrl/Cmd+S saves the sheet under the cursor. */
-export function useSaveShortcut(enabled: boolean, save: () => void) {
-  useEffect(() => {
-    if (!enabled) return;
-    const handler = (event: KeyboardEvent) => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); save(); } };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [enabled, save]);
 }
 
 export const readOnlyMode = (): boolean => __DEVDOCS_PLAYER__;

@@ -3,10 +3,10 @@ import { ArrowRight } from "lucide-react";
 import type { EquipmentFamily } from "../../../../game/src/content/schema/progression.js";
 import { BONUS_KEYS, BONUS_LABELS, deriveEquipmentMember, fmt, type BonusKey } from "../../model/derive.js";
 import { useRecordDraft } from "../../model/draft.js";
-import { NumberInput, Row, SaveBar, Section, Sheet, Static } from "../../ui/Sheet.js";
+import { NumberInput, Row, Section, Sheet, Static } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { Drawer } from "./Drawer.js";
-import { BONUS_SHORT, familyMembers, useSaveShortcut, type ItemsData } from "./data.js";
+import { BONUS_SHORT, familyMembers, type ItemsData } from "./data.js";
 
 /*
   The curve behind a column of the ladder. Parameters are inputs; the table beneath recomputes every
@@ -29,7 +29,6 @@ export function FamilyDrawer({ familyId, data, onClose, onOpenItem, onLive, stac
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   useEffect(() => { onLive?.(draft.dirty ? family : undefined); }, [family, draft.dirty, onLive]);
   useEffect(() => () => onLive?.(undefined), [onLive]);
-  useSaveShortcut(draft.dirty && !readOnly, () => void draft.save());
 
   const members = useMemo(() => familyMembers(data.tiers, familyId), [data.tiers, familyId]);
   const activeKeys = useMemo(() => {
@@ -46,7 +45,6 @@ export function FamilyDrawer({ familyId, data, onClose, onOpenItem, onLive, stac
     {draft.loading && <p className="empty-inline">Loading…</p>}
     {draft.error && <p className="empty-inline">{draft.error}</p>}
     {family && <>
-      {!readOnly && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} label="Save family" />}
       <Sheet compact>
         <Section title="Curve" aside={<code>{family.id}</code>}>
           <Row label="Slot"><Static>{family.category === "tool" ? `${family.skill} tool` : `${family.slot ?? "mainHand"} · ${family.skill}`}</Static></Row>

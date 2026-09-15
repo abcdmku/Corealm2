@@ -79,6 +79,57 @@ export function serialFieldSpec(schema: Schema, name = ""): SerialFieldSpec {
 
 export function fieldIssues(schema: Schema, value: unknown, path = ""): SchemaIssue[] { const context = { issues: [] as SchemaIssue[] }; schema.parse(value, path, context); return context.issues; }
 
+/** Unwrap one level and, for a union, descend into the member the value actually matches. */
+function branch(schema: Schema, value: unknown): Schema {
+  let node = fieldCore(schema);
+  const seen = new Set<Schema>();
+  while ((node instanceof DiscriminatedSchema || node instanceof UnionSchema) && !seen.has(node)) {
+    seen.add(node);
+    const key = unionVariant(node, value);
+    const member = node instanceof DiscriminatedSchema ? (node.members as Record<string, Schema>)[key] : (node.members as readonly Schema[])[Number(key)];
+    if (!member) return node;
+    node = fieldCore(member);
+  }
+  return node;
+}
+
+/**
+ * The spec for one field inside a record schema, addressed the way a draft addresses its value:
+ * object keys as strings, array and tuple entries as numbers. Optional, nullable, refined and lazy
+ * wrappers are stepped through. Pass `value` when the path crosses a union, so the walk can pick
+ * the member the record is actually using.
+ */
+export function fieldPath(schema: Schema, path: readonly (string | number)[], value?: unknown): SerialFieldSpec | undefined {
+  let node = schema;
+  let current = value;
+  let name = "";
+  for (const key of path) {
+    const core = branch(node, current);
+    const next = typeof key === "number"
+      ? core instanceof ArraySchema ? core.item : core instanceof TupleSchema ? (core.items as readonly Schema[])[key] : undefined
+      : core instanceof ObjectSchema ? (core.fields as Record<string, Schema>)[key] : core instanceof RecordSchema ? core.value : undefined;
+    if (!next) return undefined;
+    current = current !== null && typeof current === "object" ? (current as Record<string | number, unknown>)[key] : undefined;
+    node = next;
+    // An index keeps the array's own name, so ["stock", 0] still reads "Stock".
+    if (typeof key === "string") name = key;
+  }
+  return serialFieldSpec(node, name);
+}
+
+/**
+ * The key holding a record's display name: whichever field the schema marks `display`, else a
+ * field literally called `name`. Undefined when the record has neither and must show its id.
+ */
+export function recordLabelKey(schema: Schema): string | undefined {
+  const node = branch(schema, undefined);
+  if (!(node instanceof ObjectSchema)) return undefined;
+  const entries = Object.entries(node.fields) as [string, Schema][];
+  const marked = entries.find(([, field]) => serialFieldSpec(field).display);
+  if (marked) return marked[0];
+  return entries.some(([key]) => key === "name") ? "name" : undefined;
+}
+
 export function unionVariant(source: Schema, value: unknown): string {
   const schema = fieldCore(source);
   if (schema instanceof DiscriminatedSchema) {

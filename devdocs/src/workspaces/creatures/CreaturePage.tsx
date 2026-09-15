@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, GitBranch, MapPin, Pencil, Plus, X } from "lucide-react";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ import { rowName } from "../../model/rows.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
 import { RefChip, RefRow } from "../../ui/RefChip.js";
-import { Derived, Facts, Field, Fields, NumberInput, Row, SaveBar, Section, Select, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { Derived, Facts, Field, Fields, NumberInput, Row, Section, Select, Sheet, Static, TextInput } from "../../ui/Sheet.js";
 import { PointsMap } from "../../ui/PointsMap.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
@@ -56,14 +56,7 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   const borrowedAsset = variants.find(variant => variant.assetId)?.assetId;
   const thumb = useMemo(() => working ? thumbFor({ ...resolveCreature(working, data.byId, data.profileById), assetId: working.presentation?.assetId ?? base?.presentation?.assetId ?? borrowedAsset }, data.ctx) : undefined, [working, data, base, borrowedAsset]);
   const spawns = data.spawnsFor(id);
-  const errorText = draft.saveError || draft.diagnostics.filter(entry => entry.severity === "error").map(entry => `${entry.path}: ${entry.message}`).join(" · ");
 
-  useEffect(() => {
-    if (!draft.dirty || !editable) return;
-    const onKey = (event: KeyboardEvent) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") { event.preventDefault(); void draft.save(); } };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [draft.dirty, editable, draft.save]);
 
   if (draft.loading || (data.loading && !working)) return <div className="ws-page"><LoadingRows /></div>;
   if (!working || !derived || !thumb) return <div className="ws-page"><EmptyState title="Creature not found">"{id}" is not in the bestiary. <button type="button" className="text-button" onClick={() => navigate("creatures")}>Back to the bestiary</button></EmptyState></div>;
@@ -111,7 +104,6 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   return <div className="ws-page creature-page">
     <div className="record">
       <div className="record-main">
-        {editable && <SaveBar dirty={draft.dirty} saving={draft.saving} error={errorText || undefined} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} />}
         <header className="record-head">
           <Thumb spec={thumb} size="xl" alt="" />
           <div className="record-title">

@@ -12,11 +12,11 @@ const REGION_IDS = [
 ] as const;
 export const SpeciesFields = {
   id: id(),
-  assetId: ref("asset"),
-  scale: positive(),
-  regionId: enumOf(REGION_IDS, { ref: "region" }),
-  activity: enumOf(["graze", "forage", "prowl", "patrol"] as const),
-  description: str({ nonEmpty: true }, { multiline: true }),
+  assetId: ref("asset", { label: "Model", role: "Model for" }),
+  scale: positive().describe({ label: "Scale", group: "presentation" }),
+  regionId: enumOf(REGION_IDS, { ref: "region", label: "Region", role: "Found in" }),
+  activity: enumOf(["graze", "forage", "prowl", "patrol"] as const, { label: "Activity" }),
+  description: str({ nonEmpty: true }, { multiline: true, label: "Description" }),
 };
 export const RpgFields = {
   bodyFamily: enumOf([

@@ -104,10 +104,30 @@
 button.derived-source:hover { text-decoration: underline; text-underline-offset: 2px; }
 
 /* Save strip */
-.savebar { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; padding: 6px 10px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent-soft); font-size: 12px; }
-.savebar-dirty { color: var(--accent); font-weight: 500; }
-.savebar-error { color: var(--danger); flex: 1; }
-.savebar-actions { margin-left: auto; display: flex; gap: 4px; }
+/* The one save bar: a strip at the foot of the workspace column, hidden until something is dirty. */
+.shell-savebar { flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; padding: 5px 12px; border-top: 1px solid var(--accent); background: var(--accent-soft); font-size: 12px; min-width: 0; }
+.shell-savebar[data-tone="danger"] { border-top-color: var(--danger); background: var(--danger-soft); }
+.shell-savebar[data-tone="warn"] { border-top-color: var(--warn); background: var(--warn-soft); }
+.shell-savebar-row { display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 26px; }
+.shell-savebar-count { color: var(--accent); font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+.shell-savebar[data-tone="danger"] .shell-savebar-count { color: var(--danger); }
+.shell-savebar-chips { display: flex; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.shell-savebar-chip { display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); color: var(--text); font-size: 11px; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.shell-savebar-chip:hover { border-color: var(--link); color: var(--link); }
+.shell-savebar-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.shell-savebar-actions .icon-button:disabled { opacity: .4; }
+.shell-savebar-actions kbd { margin-left: 2px; border-color: transparent; background: #0002; color: inherit; height: 14px; font-size: 10px; }
+.shell-savebar-error { display: flex; flex-direction: column; gap: 2px; color: var(--danger); overflow-wrap: anywhere; }
+.shell-savebar-conflict { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; border-top: 1px solid var(--border-subtle); }
+.shell-savebar-conflict-text { color: var(--muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.shell-savebar-diff { margin: 0 0 4px; max-height: 240px; overflow: auto; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); font-family: var(--font-mono); font-size: 11px; line-height: 1.5; display: flex; flex-direction: column; }
+.shell-savebar-diff > span { white-space: pre; }
+.shell-savebar-diff > span[data-kind="add"] { color: var(--ok); background: var(--ok-soft); }
+.shell-savebar-diff > span[data-kind="del"] { color: var(--danger); background: var(--danger-soft); }
+.shell-savebar-diff > span[data-kind="same"] { color: var(--faint); }
+.shell-savebar-diff-head { display: flex; gap: 16px; color: var(--muted); margin-bottom: 4px; }
+.nav-item .nav-dirty { margin-left: auto; flex: none; }
+.nav-item .nav-dot { flex: none; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
 
 /* ---------- Field grid: a group of like values as labelled cells ---------- */
 .kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px 14px; padding: 4px 0 8px; }

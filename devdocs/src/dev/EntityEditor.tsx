@@ -1,8 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useController, useForm } from "react-hook-form";
 import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertCircle, Check, ChevronDown, LockKeyhole, Plus, RotateCcw, Save, Trash2, X } from "lucide-react";
-import { toast } from "sonner";
+import { AlertCircle, Check, ChevronDown, LockKeyhole, Plus, Trash2, X } from "lucide-react";
 import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../tools/content/collections.js";
 import { ArraySchema, DiscriminatedSchema, ObjectSchema, RecordSchema, TupleSchema, UnionSchema, type Schema, type SchemaIssue } from "../../../game/src/content/schema/core.js";
 import { collectionQuery } from "../api/client.js";
@@ -10,6 +9,7 @@ import type { CollectionResponse } from "../../shared/contracts.js";
 import type { AppProps } from "../model/contracts.js";
 import { containsIdentity, defaultFieldValue, fieldCore, fieldIssues, fieldTitle, serialFieldSpec, unionVariant } from "../model/fields.js";
 import { summaryContext, useReferenceIndex } from "../model/refs.js";
+import { draftStore, type Contributor } from "../model/store.js";
 import { EditorContext, RefField, refKindFor, visualEditorFor, VisualEditorFrame } from "./editors.js";
 import "./editor.css";
 
@@ -88,35 +88,44 @@ function DraftEditor({ spec, recordId, initial }: { spec: ContentCollection; rec
     setSaveError(""); setServerIssues([]);
   }, [busy, conflict, dirty, form, initial, recordId, revision, spec]);
   function change(next: unknown) { controller.field.onChange(next); setServerIssues([]); if (!conflict) setSaveError(""); }
-  async function save(draft: Draft) {
-    if (conflict || formula.blocked || transitionRef.current) return;
-    const baseRevision = revision;
-    transitionRef.current = true;
-    setSaveError(""); setServerIssues([]);
-    try {
-      const target = spec.shape === "object" ? "$collection" : recordId;
-      const response = await fetch(`/__devdocs/collections/${encodeURIComponent(spec.name)}/${encodeURIComponent(target)}`, { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ revision, record: draft.record }) });
-      const body = await response.json() as CollectionResponse & { error?: string; diagnostics?: SchemaIssue[] };
-      if (!response.ok) {
-        setServerIssues((body.diagnostics ?? []).map(issue => ({ ...issue, path: diagnosticPath(issue.path, spec.name) })));
-        setConflict(response.status === 409);
-        setSaveError(response.status === 409 ? "This file changed after you opened it. Your draft is still here. Reset the draft to load the current file before saving again." : body.error ?? `Save failed (${response.status}). Your draft is still here.`);
-        return;
-      }
-      if (!body.collection || typeof body.revision !== "string") throw new Error("The server returned an incomplete save response. Your draft has been kept; reload the file before retrying.");
-      const saved = editableRecord(body, spec, recordId);
-      ownMutationRef.current = { base: baseRevision, target: body.revision };
-      queryClient.setQueryData(collectionQuery(spec.name).queryKey, body);
-      setRevision(body.revision);
-      form.reset({ record: structuredClone(saved) });
-      setServerIssues((body.diagnostics ?? []).map(issue => ({ ...issue, path: diagnosticPath(issue.path, spec.name) })));
-      toast.success("Saved");
-    } catch (error) {
-      setSaveError(error instanceof Error ? error.message : "The save could not be completed. Your draft is still here.");
-    } finally {
-      transitionRef.current = false;
-    }
-  }
+  const issuesFrom = (diagnostics: readonly SchemaIssue[] | undefined) => (diagnostics ?? []).map(issue => ({ ...issue, path: diagnosticPath(issue.path, spec.name) }));
+
+  // The form saves and resets through the shell save bar, in one transaction with every other draft.
+  const live = useRef({ revision, conflict, invalid, blocked: formula.blocked, dirty, resetting });
+  live.current = { revision, conflict, invalid, blocked: formula.blocked, dirty, resetting };
+  useEffect(() => {
+    const target = spec.shape === "object" ? "$collection" : recordId;
+    const contributor: Contributor = {
+      key: `editor:${spec.name}/${recordId}`, label: `${spec.name}/${recordId}`, route: [spec.name, recordId],
+      isDirty: () => live.current.dirty || live.current.conflict,
+      operations: () => {
+        if (live.current.conflict) throw new Error(`${spec.name}/${recordId} changed on disk. Reset the draft to load the current file before saving again.`);
+        if (live.current.invalid) throw new Error(`${spec.name}/${recordId}: check the highlighted fields.`);
+        if (live.current.blocked) throw new Error(`${spec.name}/${recordId}: formula parameters are still loading.`);
+        return [{ kind: "put", collection: spec.name, id: target, record: form.getValues().record }];
+      },
+      revisions: () => ({ [spec.name]: live.current.revision }),
+      reset: () => { void resetDraft(); },
+      afterSave: response => {
+        const body = response.collections.find(collection => collection.collection.name === spec.name);
+        if (!body) return;
+        const saved = editableRecord(body, spec, recordId);
+        ownMutationRef.current = { base: live.current.revision, target: body.revision };
+        setRevision(body.revision);
+        form.reset({ record: structuredClone(saved) });
+        setServerIssues(issuesFrom(response.diagnostics as SchemaIssue[] | undefined));
+        setSaveError("");
+      },
+      onError: (message, status, body) => {
+        setServerIssues(issuesFrom(body?.diagnostics as SchemaIssue[] | undefined));
+        setConflict(status === 409);
+        setSaveError(status === 409 ? "This file changed after you opened it. Your draft is still here. Reset the draft to load the current file before saving again." : message);
+      },
+    };
+    return draftStore.registerContributor(contributor);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spec, recordId, form]);
+  useEffect(() => { draftStore.touch(); }, [dirty, conflict]);
   async function resetDraft() {
     if (transitionRef.current) return;
     const baseRevision = revision;
@@ -131,21 +140,10 @@ function DraftEditor({ spec, recordId, initial }: { spec: ContentCollection; rec
     } catch (error) { setSaveError(error instanceof Error ? error.message : "Could not reload the file. The draft has been kept."); }
     finally { transitionRef.current = false; setResetting(false); }
   }
-  useEffect(() => {
-    function keys(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") { event.preventDefault(); void form.handleSubmit(save)(); }
-    }
-    document.addEventListener("keydown", keys);
-    return () => document.removeEventListener("keydown", keys);
-  });
-  return <form className="entity-editor" onSubmit={form.handleSubmit(save)} noValidate>
+  return <form className="entity-editor" onSubmit={form.handleSubmit(() => void draftStore.saveAll())} noValidate>
     <div className="editor-toolbar">
-      <span className="editor-dirty" role="status">{form.formState.isDirty ? <span className="badge" data-tone="warn">Unsaved changes</span> : <><Check size={13} /> Saved</>}</span>
+      <span className="editor-dirty" role="status">{form.formState.isDirty ? <span className="badge" data-tone="warn">Unsaved changes{resetting ? " · reloading…" : ""}</span> : <><Check size={13} /> Saved</>}</span>
       {formulaLinked && <span className="editor-formula-notice" role="status"><LockKeyhole size={13} /><p>{formula.message}</p>{formula.blocked && <button type="button" className="editor-small-button" onClick={() => balances.forEach(query => void query.refetch())}>Retry</button>}</span>}
-      <div className="editor-actions">
-        <button type="button" className="button button-small" aria-label="Reset draft" disabled={busy || (!form.formState.isDirty && !conflict)} onClick={() => void resetDraft()}><RotateCcw size={13} />{resetting ? "Reloading…" : "Reset"}</button>
-        <button type="submit" className="button button-small editor-save" aria-label="Save changes" disabled={busy || !form.formState.isDirty || invalid || conflict || formula.blocked} title="Save changes (Ctrl+S)"><Save size={13} />{form.formState.isSubmitting ? "Saving…" : "Save"}</button>
-      </div>
     </div>
     {saveError && <div className="editor-error-summary" role="alert"><AlertCircle size={15} /><p>{saveError}</p></div>}
     {issues.length > 0 && <div className="editor-diagnostics" aria-label="Validation diagnostics"><h3>{issues.filter(issue => issue.severity === "error").length ? "Fix these fields" : "Notes"}</h3><ul>{issues.map((issue, index) => <li key={`${issue.path}:${index}`}><button type="button" onClick={() => { const target = document.getElementById(elementId(issue.path)); target?.scrollIntoView({ block: "center", behavior: "instant" }); target?.querySelector<HTMLElement>("input,select,textarea,button")?.focus(); }}><span>{issue.path || "Record"}</span> {issue.message}</button></li>)}</ul></div>}

@@ -14,6 +14,8 @@
  * touches the DOM. It has to run identically under Vite (game and app), tsx (tools) and vitest.
  */
 
+import { SKILL_IDS, SPELL_ELEMENTS } from "../../contracts.js";
+
 export type IssueSeverity = "error" | "warning";
 
 export interface SchemaIssue {
@@ -50,7 +52,98 @@ export interface FieldMeta {
   step?: number;
   /** Hide from forms entirely (internal plumbing). */
   hidden?: boolean;
+  /**
+   * Array order carries meaning: quest stages run in order, dialogue options list in order, an NPC
+   * offers its quests in order. The editor shows reorder controls and never sorts such an array.
+   */
+  ordered?: boolean;
+  /**
+   * On an array: the member key holding a relative weight. Members compete for one roll and the
+   * editor can show each as a share of the total (`"weight"` on encounter members).
+   */
+  weight?: string;
+  /**
+   * On an array: the member key holding an independent probability in 0..1. Unlike `weight` these
+   * do not compete and do not sum to one (`"chance"` on loot drops and resource bonus rolls).
+   */
+  probability?: string;
+  /**
+   * Which small-number grid a scalar belongs to, so a page can lay out one `Fields` block per
+   * group instead of naming every key: `"combat"`, `"bonuses"`, `"cost"`, `"presentation"`, ...
+   */
+  group?: string;
+  /**
+   * A short label for the relationship a reference expresses, read from the target's side:
+   * `"Dropped by"` on a loot drop's item, `"Sold at"` on shop stock. "Referenced by" sections
+   * group incoming references by this label instead of guessing one from the field path.
+   */
+  role?: string;
+  /** This field is the record's display name. `recordLabelKey` looks for it before `name`. */
+  display?: boolean;
 }
+
+/**
+ * Where a `RefKind`'s options come from, for the pickers the dev docs app builds.
+ *
+ * Data only: no imports of content, no functions. `collection` names a served table; `enum` is a
+ * closed list that lives in the schema itself; `derive` names a set the app has to compute by
+ * walking another table, because the values are nested inside rows rather than being rows.
+ */
+export type RefKindSource =
+  | { collection: string }
+  | { enum: readonly string[] }
+  | { derive: "stations" | "locations" | "settlements" | "enemyFamilies" | "entities" };
+
+/**
+ * Every `RefKind` resolves here. The seven kinds with no collection of their own (`skill`,
+ * `station`, `element`, `entity`, `location`, `settlement`, `enemyFamily`) name an enum or a
+ * derivation so they stop falling back to a raw text box.
+ */
+export const REF_KIND_SOURCES: Record<RefKind, RefKindSource> = {
+  item: { collection: "items" },
+  recipe: { collection: "recipes" },
+  resource: { collection: "resources" },
+  resourceCluster: { collection: "resourcePlacements" },
+  enemy: { collection: "creatureDefinitions" },
+  species: { collection: "creatureDefinitions" },
+  lootTable: { collection: "lootTables" },
+  npc: { collection: "npcs" },
+  shop: { collection: "shops" },
+  quest: { collection: "quests" },
+  dialogue: { collection: "dialogue" },
+  spell: { collection: "spells" },
+  rune: { collection: "spellRunes" },
+  set: { collection: "equipmentSets" },
+  asset: { collection: "assets" },
+  audio: { collection: "audio" },
+  region: { collection: "worldRegions" },
+  campfireFuel: { collection: "campfireFuels" },
+  material: { collection: "materials" },
+  equipmentFamily: { collection: "equipmentFamilies" },
+  recipeTemplate: { collection: "recipeTemplates" },
+  creatureProfile: { collection: "creatureProfiles" },
+  encounter: { collection: "encounters" },
+  /** The ten player skills. `SKILL_IDS` is the frozen runtime list. */
+  skill: { enum: SKILL_IDS },
+  /** The four attack elements. `SPELL_ELEMENTS` is the frozen runtime list. */
+  element: { enum: SPELL_ELEMENTS },
+  /**
+   * Production station categories. The closed list lives on `RecipeSchema.stations`, and every
+   * recipe template repeats it, so the app reads the distinct values off `recipeTemplates`.
+   */
+  station: { derive: "stations" },
+  /** Route-graph nodes: `worldRegions[].locations` plus each region's `dungeon.locations`. */
+  location: { derive: "locations" },
+  /** `worldRegions[].settlement`, at most one per region. */
+  settlement: { derive: "settlements" },
+  /** The distinct `family` values authored on `creatureDefinitions`. */
+  enemyFamily: { derive: "enemyFamilies" },
+  /**
+   * World entity ids a quest can name: landmarks, obstacles, gates, dungeon doors and altars,
+   * collected from `worldRegions`. Not npcs or creatures, which have their own kinds.
+   */
+  entity: { derive: "entities" },
+};
 
 export type SchemaKind =
   | "string" | "number" | "boolean" | "literal" | "enum" | "array" | "tuple" | "object"

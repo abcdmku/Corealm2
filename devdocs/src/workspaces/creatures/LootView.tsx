@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { arr } from "../../../../game/src/content/schema/core.js";
 import { DropSchema } from "../../../../game/src/content/schema/loot.js";
@@ -6,7 +6,7 @@ import { EditorContext, LootDropsEditor } from "../../dev/editors.js";
 import { useRecordDraft } from "../../model/draft.js";
 import { rowName } from "../../model/rows.js";
 import { RefRow } from "../../ui/RefChip.js";
-import { Facts, Row, SaveBar, Section, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { Facts, Row, Section, Sheet, Static, TextInput } from "../../ui/Sheet.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
@@ -59,13 +59,6 @@ function LootTablePage({ id, navigate }: { id: string; navigate: ViewProps["navi
   const editable = draft.editable;
   const users = data.usersOfTable(id);
   const drops = dropList(working?.drops);
-  const errorText = draft.saveError || draft.diagnostics.filter(entry => entry.severity === "error").map(entry => `${entry.path}: ${entry.message}`).join(" · ");
-  useEffect(() => {
-    if (!draft.dirty || !editable) return;
-    const onKey = (event: KeyboardEvent) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") { event.preventDefault(); void draft.save(); } };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [draft.dirty, editable, draft.save]);
 
   if (draft.loading) return <div className="ws-page"><LoadingRows /></div>;
   if (!working) return <div className="ws-page"><EmptyState title="Loot table not found">"{id}" is not a loot table. <button type="button" className="text-button" onClick={() => navigate("lootTables")}>Back to loot tables</button></EmptyState></div>;
@@ -73,7 +66,6 @@ function LootTablePage({ id, navigate }: { id: string; navigate: ViewProps["navi
   return <div className="ws-page loot-page">
     <div className="record">
       <div className="record-main">
-        {editable && <SaveBar dirty={draft.dirty} saving={draft.saving} error={errorText || undefined} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} />}
         <header className="record-head">
           <Thumb spec={{ kind: "items", ids: drops.map(drop => drop.itemId) }} size="xl" alt="" />
           <div className="record-title">

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight, Plus, X } from "lucide-react";
 import type { EquipmentFamily, ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { AppProps, ContentRow } from "../../model/contracts.js";
@@ -6,11 +6,11 @@ import { BONUS_KEYS, BONUS_LABELS, deriveEquipmentMember, deriveProductionEntry,
 import { getPath, useRecordDraft, type Path } from "../../model/draft.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Derived, Facts, Field, Fields, NumberInput, Row, SaveBar, Section, Select, Sheet, Static, TextInput, Toggle } from "../../ui/Sheet.js";
+import { Derived, Facts, Field, Fields, NumberInput, Row, Section, Select, Sheet, Static, TextInput, Toggle } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
 import { ItemPick } from "./ItemPick.js";
-import { CATEGORY_OPTIONS, ELEMENT_OPTIONS, EQUIP_SLOT_OPTIONS, SKILL_OPTIONS, SLOT_LABELS, emptyBonuses, seconds, stationText, titleCase, useSaveShortcut, type ItemRecord, type ItemsData } from "./data.js";
+import { CATEGORY_OPTIONS, ELEMENT_OPTIONS, EQUIP_SLOT_OPTIONS, SKILL_OPTIONS, SLOT_LABELS, emptyBonuses, seconds, stationText, titleCase, type ItemRecord, type ItemsData } from "./data.js";
 
 /*
   One page for every item. Gear expanded from a tier edits the tier member (name, description,
@@ -63,8 +63,6 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
   }, [member, liveFamily, localFamily, data]);
   const derived = tier && member && family ? deriveEquipmentMember(tier, member, family) : undefined;
   const compiled = data.compiled.get(id);
-  const save = useCallback(() => { if (draft.dirty) void draft.save(); }, [draft]);
-  useSaveShortcut(!readOnly && draft.dirty, save);
 
   const setMember = (path: Path, value: unknown) => draft.set(previous => prune({ ...previous, equipment: previous.equipment.map((row, i) => i === index ? setIn(row, path, value) : row) } as ProgressionTier, index));
   const openFamily = (familyId: string) => onOpenFamily ? onOpenFamily(familyId) : setFamilyDrawer(familyId);
@@ -94,7 +92,6 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
       </div>
       {variant === "drawer" && <span className="record-actions"><button type="button" className="button button-small" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></button></span>}
     </header>
-    {!readOnly && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError} conflict={draft.conflict} onSave={save} onReset={draft.reset} />}
     <Sheet>
       <Section title="Identity">
         <Row label="Name"><TextInput value={member.name} disabled={readOnly} ariaLabel="Name" onChange={value => setMember(["name"], value)} /></Row>
@@ -175,8 +172,6 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
   const draft = useRecordDraft<ItemRecord>("items", id);
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const record = draft.draft;
-  const save = useCallback(() => { if (draft.dirty) void draft.save(); }, [draft]);
-  useSaveShortcut(!readOnly && draft.dirty, save);
   const [addSkill, setAddSkill] = useState("");
   if (!record) return <p className="empty-inline">Loading…</p>;
   const set = draft.setPath;
@@ -198,7 +193,6 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
       </div>
       {variant === "drawer" && <span className="record-actions"><button type="button" className="button button-small" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></button></span>}
     </header>
-    {!readOnly && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError} conflict={draft.conflict} onSave={save} onReset={draft.reset} />}
     <Sheet>
       <Section title="Identity">
         <Row label="Name"><TextInput value={record.name} disabled={readOnly} ariaLabel="Name" onChange={value => set(["name"], value)} /></Row>

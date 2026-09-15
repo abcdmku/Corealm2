@@ -3,10 +3,10 @@ import { ArrowRight } from "lucide-react";
 import type { RecipeTemplate } from "../../../../game/src/content/schema/progression.js";
 import { deriveProductionEntry, fmt } from "../../model/derive.js";
 import { useRecordDraft } from "../../model/draft.js";
-import { NumberInput, Row, SaveBar, Section, Sheet, Static } from "../../ui/Sheet.js";
+import { NumberInput, Row, Section, Sheet, Static } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { Drawer } from "./Drawer.js";
-import { stationText, templateEntries, useSaveShortcut, type ItemsData } from "./data.js";
+import { stationText, templateEntries, type ItemsData } from "./data.js";
 
 /* The production curve behind a recipe: duration and xp parameters, and every entry that uses it, recomputed live. */
 
@@ -20,7 +20,6 @@ export function TemplateDrawer({ templateId, data, onClose, onOpenRecipe, stacke
   const template = draft.draft;
   const saved = draft.record;
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
-  useSaveShortcut(draft.dirty && !readOnly, () => void draft.save());
   const entries = useMemo(() => templateEntries(data.tiers, templateId), [data.tiers, templateId]);
   const param = (key: "durationMs" | "xpBase" | "xpPerLevel", unit?: string) => <NumberInput value={template?.parameters[key]} min={0} disabled={readOnly} unit={unit} ariaLabel={`parameters.${key}`} onChange={next => draft.setPath(["parameters", key], next ?? 0)} />;
 
@@ -28,7 +27,6 @@ export function TemplateDrawer({ templateId, data, onClose, onOpenRecipe, stacke
     {draft.loading && <p className="empty-inline">Loading…</p>}
     {draft.error && <p className="empty-inline">{draft.error}</p>}
     {template && <>
-      {!readOnly && <SaveBar dirty={draft.dirty} saving={draft.saving} error={draft.saveError} conflict={draft.conflict} onSave={() => void draft.save()} onReset={draft.reset} label="Save template" />}
       <Sheet compact>
         <Section title="Curve" aside={<code>{template.id}</code>}>
           <Row label="Kind"><Static>{template.kind} · {template.skill} · {stationText(template.stations)}</Static></Row>

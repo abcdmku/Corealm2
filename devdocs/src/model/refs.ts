@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 import { useQueries, useQuery } from "@tanstack/react-query";
+import { DoorOpen, Flag, Footprints, Landmark, MapPin, type LucideIcon } from "lucide-react";
+import { REF_KIND_SOURCES, type RefKind, type RefKindSource } from "../../../game/src/content/schema/core.js";
 import type { CollectionResponse, CollectionSummary } from "../../shared/contracts.js";
 import { collectionQuery, collectionsQuery } from "../api/client.js";
 import type { ContentRow } from "./contracts.js";
 import { contentRows, rowId, rowName } from "./rows.js";
-import type { SummaryContext } from "./summaries.js";
+import { iconForElement, iconForSkill, titleCase, type SummaryContext, type ThumbSpec } from "./summaries.js";
 
 /**
  * Cross references between collections. Schema `ref` kinds and the field names used by compiled
@@ -84,7 +86,8 @@ export interface IncomingReference extends Reference {
   record: ContentRow;
 }
 
-function roleLabel(path: string): string {
+/** A relationship label guessed from the field path. Prefer the schema `role` meta when the path resolves to one. */
+export function roleLabel(path: string): string {
   const parts = path.replace(/\[\d+\]/g, "").split(".").filter(Boolean);
   const key = parts.at(-1) ?? "";
   const parent = parts.at(-2) ?? "";
@@ -234,3 +237,78 @@ export function useReferenceIndex(enabled = true): { index: ReferenceIndex; load
   const index = useMemo(() => buildReferenceIndex(all.responses), [all.responses]);
   return { index, loading: all.loading };
 }
+
+/* ---------- Option sources for kinds without a collection ---------- */
+
+export interface RefOption { value: string; label: string; thumb?: ThumbSpec }
+
+const rowsOf = (index: Pick<ReferenceIndex, "collections">, name: string): ContentRow[] => { const response = index.collections.get(name); return response ? contentRows(response) : []; };
+const asRows = (value: unknown): ContentRow[] => Array.isArray(value) ? value.filter((entry): entry is ContentRow => entry !== null && typeof entry === "object") : [];
+const nameOf = (row: ContentRow, fallback: string): string => typeof row.name === "string" && row.name ? row.name : fallback;
+const positionThumb = (row: ContentRow, icon: LucideIcon): ThumbSpec | undefined => {
+  const position = row.position;
+  return Array.isArray(position) && typeof position[0] === "number" && typeof position[1] === "number" ? { kind: "map", x: position[0], z: position[1], span: 60, icon } : undefined;
+};
+
+function derivedOptions(derive: Extract<RefKindSource, { derive: string }>["derive"], index: Pick<ReferenceIndex, "collections">): RefOption[] {
+  const regions = rowsOf(index, "worldRegions");
+  const seen = new Set<string>();
+  const out: RefOption[] = [];
+  const push = (option: RefOption) => { if (option.value && !seen.has(option.value)) { seen.add(option.value); out.push(option); } };
+  switch (derive) {
+    case "stations":
+      for (const template of rowsOf(index, "recipeTemplates")) for (const station of Array.isArray(template.stations) ? template.stations : []) if (typeof station === "string") push({ value: station, label: titleCase(station) });
+      return out;
+    case "locations":
+      for (const region of regions) {
+        const regionName = nameOf(region, String(region.id ?? ""));
+        const dungeon = region.dungeon !== null && typeof region.dungeon === "object" ? region.dungeon as ContentRow : undefined;
+        for (const location of [...asRows(region.locations), ...asRows(dungeon?.locations)]) {
+          const id = String(location.id ?? "");
+          push({ value: id, label: `${nameOf(location, id)} · ${regionName}`, thumb: positionThumb(location, MapPin) });
+        }
+      }
+      return out;
+    case "settlements":
+      for (const region of regions) {
+        const settlement = region.settlement !== null && typeof region.settlement === "object" ? region.settlement as ContentRow : undefined;
+        if (!settlement) continue;
+        const id = String(settlement.id ?? "");
+        const centre = settlement.centre;
+        push({ value: id, label: `${nameOf(settlement, id)} · ${nameOf(region, String(region.id ?? ""))}`, thumb: Array.isArray(centre) && typeof centre[0] === "number" && typeof centre[1] === "number" ? { kind: "map", x: centre[0], z: centre[1], span: 120, icon: Landmark } : undefined });
+      }
+      return out;
+    case "enemyFamilies":
+      for (const creature of rowsOf(index, "creatureDefinitions")) if (typeof creature.family === "string") push({ value: creature.family, label: titleCase(creature.family) });
+      return out.sort((a, b) => a.label.localeCompare(b.label));
+    case "entities":
+      for (const region of regions) {
+        const regionName = nameOf(region, String(region.id ?? ""));
+        const dungeon = region.dungeon !== null && typeof region.dungeon === "object" ? region.dungeon as ContentRow : undefined;
+        const groups: [ContentRow[], LucideIcon][] = [
+          [asRows(region.landmarks), Landmark], [asRows(region.obstacles), Footprints], [asRows(region.gates), Flag],
+          [asRows(dungeon?.doors), DoorOpen], [asRows(dungeon?.obstacles), Footprints],
+        ];
+        for (const [rows, icon] of groups) for (const entity of rows) { const id = String(entity.id ?? ""); push({ value: id, label: `${nameOf(entity, id)} · ${regionName}`, thumb: positionThumb(entity, icon) }); }
+      }
+      return out;
+  }
+}
+
+/**
+ * The choices for a ref kind that has no collection of its own (`skill`, `element`, `station`,
+ * `location`, `settlement`, `enemyFamily`, `entity`), driven by `REF_KIND_SOURCES`. Kinds backed
+ * by a collection, and unknown kinds, return `undefined`: the picker searches the collection instead.
+ */
+export function optionsFor(kind: string, index: Pick<ReferenceIndex, "collections">): RefOption[] | undefined {
+  const source = (REF_KIND_SOURCES as Record<string, RefKindSource | undefined>)[kind];
+  if (!source || "collection" in source) return undefined;
+  if ("enum" in source) {
+    const icon = kind === "skill" ? iconForSkill : kind === "element" ? iconForElement : undefined;
+    return source.enum.map(value => ({ value, label: titleCase(value), ...(icon ? { thumb: { kind: "glyph", icon: icon(value) } as ThumbSpec } : {}) }));
+  }
+  return derivedOptions(source.derive, index);
+}
+
+/** Whether a kind picks from a fixed option list rather than a collection. */
+export const isOptionKind = (kind: string): kind is RefKind => { const source = (REF_KIND_SOURCES as Record<string, RefKindSource | undefined>)[kind]; return Boolean(source && !("collection" in source)); };

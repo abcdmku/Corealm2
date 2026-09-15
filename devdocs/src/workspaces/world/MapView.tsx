@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Flag, Footprints, MapPin, Maximize2, Minus, Pickaxe, Plus } from "lucide-react";
 import type { ApiDiagnostic, CollectionResponse, ContentOperation } from "../../../shared/contracts.js";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { recordOperations, runTransaction } from "../../model/draft.js";
+import { draftStore } from "../../model/store.js";
 import { summaryContext } from "../../model/refs.js";
 import { rowName } from "../../model/rows.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
@@ -45,7 +46,6 @@ function loadLayers(): Record<Layer, boolean> {
 }
 
 export default function MapView({ recordId, navigate }: ViewProps) {
-  const queryClient = useQueryClient();
   const editable = !__DEVDOCS_PLAYER__;
   const queries = useQueries({ queries: [...DRAFT_COLLECTIONS, ...LOOKUP_COLLECTIONS].map(name => collectionQuery(name)) });
   const loading = queries.slice(0, DRAFT_COLLECTIONS.length).some(query => query.isPending);
@@ -82,37 +82,45 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     if (!serverDraft || dirtyRef.current) return;
     setBase(serverDraft); setDraft(structuredClone(serverDraft.draft));
   }, [serverDraft]);
-  useEffect(() => {
-    if (!dirty) return;
-    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, [dirty]);
 
   const update = useCallback((change: (draft: Draft) => Draft) => { if (!editable) return; setDraft(current => current ? change(current) : current); setDiagnostics([]); setError(""); }, [editable]);
 
-  async function submit(operation: "preview" | "save") {
+  async function preview() {
     if (!base || !draft || !operations.length || busy) return;
     setBusy(true); setError("");
     try {
-      const response = await runTransaction(operation, base.revisions, operations);
+      const response = await runTransaction("preview", base.revisions, operations);
       setDiagnostics(response.diagnostics ?? []);
-      if (operation === "preview") { toast.message(response.diagnostics?.length ? `${response.diagnostics.length} diagnostics` : "Preview clean"); return; }
-      const next = structuredClone(draft);
-      const revisions = { ...base.revisions };
-      for (const collection of response.collections) {
-        const name = collection.collection.name as keyof Draft;
-        if (DRAFT_COLLECTIONS.includes(name)) { next[name] = collection.data as never; revisions[name] = collection.revision; }
-        queryClient.setQueryData(collectionQuery(collection.collection.name).queryKey, collection);
-      }
-      setBase({ draft: structuredClone(next), revisions }); setDraft(next);
-      toast.success(`Saved ${operations.length} ${operations.length === 1 ? "change" : "changes"}`);
-      void queryClient.invalidateQueries({ queryKey: ["collection"] });
+      toast.message(response.diagnostics?.length ? `${response.diagnostics.length} diagnostics` : "Preview clean");
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : String(reason));
     } finally { setBusy(false); }
   }
-  function discard() { if (!base) return; setDraft(structuredClone(base.draft)); setDiagnostics([]); setError(""); }
+
+  // The map's draft saves and discards through the shell save bar with everything else.
+  const live = useRef({ base, draft, operations });
+  live.current = { base, draft, operations };
+  useEffect(() => draftStore.registerContributor({
+    key: "world/map", label: "World map", workspace: "world", route: ["world/map"],
+    isDirty: () => live.current.operations.length > 0,
+    count: () => live.current.operations.length,
+    operations: () => live.current.operations,
+    revisions: () => live.current.base?.revisions ?? {},
+    reset: () => { const current = live.current.base; if (current) { setDraft(structuredClone(current.draft)); setDiagnostics([]); setError(""); } },
+    afterSave: response => {
+      const current = live.current;
+      if (!current.base || !current.draft) return;
+      const next = structuredClone(current.draft);
+      const revisions = { ...current.base.revisions };
+      for (const collection of response.collections) {
+        const name = collection.collection.name as keyof Draft;
+        if (DRAFT_COLLECTIONS.includes(name)) { next[name] = collection.data as never; revisions[name] = collection.revision; }
+      }
+      setBase({ draft: structuredClone(next), revisions }); setDraft(next); setDiagnostics(response.diagnostics ?? []);
+    },
+    onError: (message, _status, body) => { setError(message); if (body?.diagnostics) setDiagnostics(body.diagnostics); },
+  }), []);
+  useEffect(() => { draftStore.touch(); }, [dirty]);
 
   // ---------------------------------------------------------------- derived geometry
 
@@ -234,9 +242,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
         {tool && <span className="world-hint">Click the map to place · Esc cancels</span>}
         {(dirty || error) && <span className="world-changes" role={error ? "alert" : undefined}>
           {error ? <span className="world-error" title={error}>{error}</span> : <span className="world-dirty">{operations.length} {operations.length === 1 ? "change" : "changes"}</span>}
-          <button type="button" className="button button-small" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void submit("preview")}>Preview</button>
-          <button type="button" className="button button-small button-primary" aria-label="Save changes" disabled={busy || !dirty} onClick={() => void submit("save")}>{busy ? "Working…" : "Save"}</button>
-          <button type="button" className="button button-small" aria-label="Discard changes" disabled={busy} onClick={discard}>Discard</button>
+          <button type="button" className="button button-small" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void preview()}>{busy ? "Working…" : "Preview"}</button>
         </span>}
       </div>
       <MapCanvas ref={map} features={features} roads={derived.roads} layers={layers} selection={selection} anchors={anchors} editable={editable} tool={tool}

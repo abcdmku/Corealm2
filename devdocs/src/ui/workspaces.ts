@@ -75,6 +75,7 @@ export const WORKSPACES: readonly Workspace[] = [
     { key: "set-balance", label: "Set balance", collection: "balance/sets" },
     { key: "campfire-balance", label: "Campfire balance", collection: "balance/campfires" },
     { key: "formation-balance", label: "Formation balance", collection: "balance/formation" },
+    { key: "fields", label: "Fields", hidden: true },
   ] },
 ];
 

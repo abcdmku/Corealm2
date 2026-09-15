@@ -37,7 +37,7 @@ export const audioRegionIds = [
 export const audioUrlSchema = str({
   nonEmpty: true,
   pattern: /^audio\/(?:sfx|music|ambience)\/[a-z0-9][a-z0-9\/_-]*\.(?:ogg|mp3)$/,
-}, { ref: "asset", label: "Audio file" });
+}, { ref: "asset", label: "Audio file", role: "Audio file for" });
 
 const gain = num({ min: 0 }, { label: "Gain" });
 const playbackRate = union([
@@ -59,7 +59,7 @@ export const audioVariantSchema = union([
 ] as const);
 
 export const audioCueSchema = obj({
-  variants: arr(audioVariantSchema, { minLength: 1 }, { label: "Variants" }),
+  variants: arr(audioVariantSchema, { minLength: 1 }, { label: "Variants", role: "Audio file for" }),
   gain: opt(gain),
   maxConcurrent: opt(int({ min: 1 }, { label: "Max concurrent voices" })),
   minIntervalMs: opt(int({ min: 0 }, { unit: "ms", label: "Minimum interval" })),
@@ -77,7 +77,7 @@ export const audioLoopSchema = obj({
 
 export const musicAreaSchema = obj({
   id: id({ label: "Area id" }),
-  music: ref("audio", { label: "Music loop" }),
+  music: ref("audio", { label: "Music loop", role: "Plays in" }),
   centre: tuple([num(), num()] as const, { unit: "m", label: "Centre" }),
   radius: num({ exclusiveMin: 0 }, { unit: "m", label: "Radius" }),
   exitPadding: opt(num({ min: 0 }, { unit: "m", label: "Exit padding" })),
@@ -85,14 +85,14 @@ export const musicAreaSchema = obj({
 
 export const regionAudioSchema = obj({
   music: opt(union([
-    ref("audio", { label: "Music loop" }),
-    arr(ref("audio"), {}, { label: "Music loop pool" }),
-  ] as const)),
+    ref("audio", { label: "Music loop", role: "Plays in" }),
+    arr(ref("audio", { label: "Music loop", role: "Plays in" }), {}, { label: "Music loop pool", role: "Plays in" }),
+  ] as const, { label: "Music", role: "Plays in" })),
   ambient: opt(union([
-    ref("audio", { label: "Ambient loop" }),
-    arr(ref("audio"), {}, { label: "Ambient loop pool" }),
-  ] as const)),
-  musicAreas: opt(arr(musicAreaSchema, {}, { label: "Music areas" })),
+    ref("audio", { label: "Ambient loop", role: "Ambience of" }),
+    arr(ref("audio", { label: "Ambient loop", role: "Ambience of" }), {}, { label: "Ambient loop pool", role: "Ambience of" }),
+  ] as const, { label: "Ambient", role: "Ambience of" })),
+  musicAreas: opt(arr(musicAreaSchema, {}, { label: "Music areas", role: "Plays in" })),
 });
 
 export const audioCatalogSchema = obj({
