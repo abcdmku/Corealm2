@@ -18,13 +18,14 @@ const width = Number(option("width", "1600"));
 const height = Number(option("height", "1000"));
 const wait = Number(option("wait", "1500"));
 const click = option("click", "");
+const light = args.includes("--light");
 const outDir = path.resolve("test-results/devdocs-shots");
 
 async function main() {
   if (!routes.length) { console.error("Give at least one route, e.g. items/ladder"); process.exit(2); }
   await mkdir(outDir, { recursive: true });
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage({ viewport: { width, height } });
+  const page = await browser.newPage({ viewport: { width, height }, colorScheme: light ? "light" : "dark" });
   const errors: string[] = [];
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
   page.on("pageerror", error => errors.push(error.message));
@@ -35,9 +36,26 @@ async function main() {
     await page.waitForTimeout(wait);
     if (click) { await page.locator(click).first().click(); await page.waitForTimeout(600); }
     const slug = hash.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "home";
+    // Report horizontal overflow: the document, and any element wider than its scroll parent that is not itself a scroller.
+    const overflow = await page.evaluate(() => {
+      const out: string[] = [];
+      const doc = document.documentElement;
+      if (doc.scrollWidth > doc.clientWidth + 1) out.push(`document ${doc.scrollWidth}>${doc.clientWidth}`);
+      const main = document.querySelector("main");
+      if (main && main.scrollWidth > main.clientWidth + 1) out.push(`main ${main.scrollWidth}>${main.clientWidth}`);
+      for (const el of Array.from(document.querySelectorAll<HTMLElement>("main *"))) {
+        const style = getComputedStyle(el);
+        if (el.scrollWidth > el.clientWidth + 2 && style.overflowX === "visible" && el.clientWidth > 0) {
+          const name = el.tagName.toLowerCase() + (el.className && typeof el.className === "string" ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".") : "");
+          out.push(`${name} ${el.scrollWidth}>${el.clientWidth}`);
+          if (out.length > 12) break;
+        }
+      }
+      return out;
+    });
     const file = path.join(outDir, `${slug}.png`);
     await page.screenshot({ path: file, fullPage: false });
-    console.log(`${route} -> ${path.relative(process.cwd(), file)}${errors.length ? `\n  console errors:\n  - ${errors.join("\n  - ")}` : ""}`);
+    console.log(`${route} -> ${path.relative(process.cwd(), file)}${overflow.length ? `\n  x-overflow: ${overflow.join(" | ")}` : ""}${errors.length ? `\n  console errors:\n  - ${errors.join("\n  - ")}` : ""}`);
   }
   await browser.close();
 }

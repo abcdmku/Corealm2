@@ -62,7 +62,8 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
   const sizeRef = useRef(size); sizeRef.current = size;
 
   const aspect = size.height / size.width;
-  const marker = view.span / 180;
+  // Marks shrink faster than the view grows so a zoomed-out map reads as terrain with points, not a swarm.
+  const marker = view.span < 400 ? view.span / 180 : 400 / 180 + (view.span - 400) / 520;
   const pixelsPerMetre = size.width / view.span;
   const selectedKey = selection ? keyOf(selection, features) : undefined;
 
@@ -215,7 +216,7 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
     return tile.column >= c0 && tile.column <= c1 && tile.row >= r0 && tile.row <= r1;
   }) : [];
 
-  const showLabels = { far: view.span < 900, mid: view.span < 450, near: view.span < 160 };
+  const showLabels = { far: view.span < 600, mid: view.span < 320, near: view.span < 140 };
   const Icon = hover ? glyphIcon(hover) : undefined;
 
   return <div ref={frame} className="world-frame" tabIndex={0} onKeyDown={keyDown} data-tool={tool ?? undefined} data-dragging={liveMove || liveAnchor ? "true" : undefined}>

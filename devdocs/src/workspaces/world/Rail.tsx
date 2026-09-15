@@ -8,7 +8,9 @@ import { LAYERS, LAYER_LABEL, type Bounds, type Feature, type Layer } from "./mo
   matches the search anywhere), grouped by layer. Capped so the DOM stays light while panning.
 */
 
-const PAGE = 300;
+const PAGE = 60;
+/** Wider than this and the view holds too much to list; the search box is the way in. */
+const LIST_SPAN = 700;
 
 export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer, search, onSearch, viewBounds, selectedKey, onPick }: {
   features: readonly Feature[];
@@ -22,8 +24,12 @@ export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer
   onPick: (feature: Feature) => void;
 }) {
   const [limit, setLimit] = useState(PAGE);
+  const [open, setOpen] = useState<Partial<Record<Layer, boolean>>>({});
+  const selectedLayer = selectedKey ? features.find(feature => feature.key === selectedKey)?.layer : undefined;
   const needle = search.trim().toLowerCase();
+  const zoomedOut = !needle && viewBounds !== undefined && (viewBounds.maxX - viewBounds.minX) > LIST_SPAN;
   const rows = useMemo(() => {
+    if (zoomedOut) return [] as Feature[];
     const matching = features.filter(feature => {
       if (feature.layer === "regions" && !needle) return false;
       if (!layers[feature.layer]) return false;
@@ -33,13 +39,13 @@ export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer
     });
     const order = new Map(LAYERS.map((layer, index) => [layer, index]));
     return matching.sort((a, b) => (order.get(a.layer)! - order.get(b.layer)!) || a.name.localeCompare(b.name));
-  }, [features, layers, needle, viewBounds]);
-  const shown = rows.slice(0, limit);
+  }, [features, layers, needle, viewBounds, zoomedOut]);
   const groups: { layer: Layer; rows: Feature[] }[] = [];
-  for (const row of shown) {
+  for (const row of rows) {
     const last = groups.at(-1);
     if (last && last.layer === row.layer) last.rows.push(row); else groups.push({ layer: row.layer, rows: [row] });
   }
+  const isOpen = (layer: Layer) => open[layer] ?? (Boolean(needle) || layer === selectedLayer || groups.length === 1);
 
   return <aside className="world-rail world-rail-left">
     <div className="world-rail-tools">
@@ -55,12 +61,12 @@ export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer
       </div>
     </div>
     <div className="world-list" role="list">
-      {groups.map(group => <section key={group.layer} className="world-group">
-        <h3>{LAYER_LABEL[group.layer]}</h3>
-        {group.rows.map(feature => <ListRow key={feature.key} feature={feature} selected={feature.key === selectedKey} onPick={onPick} />)}
+      {groups.map(group => <section key={group.layer} className={`world-group${isOpen(group.layer) ? "" : " is-folded"}`}>
+        <h3><button type="button" aria-expanded={isOpen(group.layer)} onClick={() => setOpen(current => ({ ...current, [group.layer]: !isOpen(group.layer) }))}>{LAYER_LABEL[group.layer]}<small>{group.rows.length}</small></button></h3>
+        {isOpen(group.layer) && group.rows.slice(0, limit).map(feature => <ListRow key={feature.key} feature={feature} selected={feature.key === selectedKey} onPick={onPick} />)}
+        {isOpen(group.layer) && group.rows.length > limit && <button type="button" className="button button-small world-more" onClick={() => setLimit(limit + PAGE)}>Show more · {group.rows.length - limit} hidden</button>}
       </section>)}
-      {!rows.length && <p className="world-empty">{needle ? "Nothing matches." : "Nothing in view. Zoom out or turn a layer on."}</p>}
-      {rows.length > shown.length && <button type="button" className="button button-small world-more" onClick={() => setLimit(limit + PAGE)}>Show more · {rows.length - shown.length} hidden</button>}
+      {!rows.length && <p className="world-empty">{needle ? "Nothing matches." : zoomedOut ? "Zoom in, pick a region, or search to list what is here." : "Nothing in view with these layers on."}</p>}
     </div>
   </aside>;
 });

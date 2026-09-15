@@ -82,7 +82,7 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
   if (!tier || !member || !family || !derived) return <p className="empty-inline">Loading…</p>;
   const isTool = family.category === "tool";
   const facts = [`Tier ${tier.tier}`, isTool ? `${titleCase(family.skill)} tool` : SLOT_LABELS[derived.slot] ?? derived.slot, `requires ${family.skill} ${tier.reqLevel}`];
-  const familyLink = <button type="button" className="derived-source" onClick={() => openFamily(family.id)}>{family.name}</button>;
+  const familyLink = <button type="button" className="text-button" onClick={() => openFamily(family.id)}>{family.name}</button>;
 
   const main = <div className="record-main">
     <header className="record-head">

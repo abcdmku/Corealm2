@@ -143,7 +143,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
   return <div className="collection-page">
     <div className="page-heading">
       <h1 className="sr-only">{labelFor(collection)}</h1>
-      <span className="count-badge">{filtered.length === rows.length ? rows.length : `${filtered.length} / ${rows.length}`}</span>
+      <span className="count-badge">{filtered.length === rows.length ? `${rows.length} ${labelFor(collection).toLowerCase()}` : `${filtered.length} of ${rows.length} ${labelFor(collection).toLowerCase()}`}</span>
       <div className="page-heading-actions">
         {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <button className="button button-small" onClick={() => navigate(collection, "$collection")}>Open parameters</button>}
         {editable && RecordActions && <Suspense fallback={null}><RecordActions collection={collection} mode="collection" templateRecord={rawRows[0]} knownIds={rawRows.map(row => rowId(row, idKey))} editable={editable} idKey={idKey} navigate={navigate} compact /></Suspense>}
@@ -162,7 +162,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
       </div>
     </div>
     {facetValues.length > 0 && <div className="facets">{facetValues.map(({ facet, values }) => <div className="facet" key={facet.key}><span>{facet.label}</span>
-      {values.length > 18
+      {values.length > 7
         ? <label className="select"><span className="sr-only">{facet.label}</span><select value={filters[facet.key] ?? ""} aria-label={`Filter by ${facet.label.toLowerCase()}`} onChange={event => setFilters(previous => ({ ...previous, [facet.key]: event.target.value }))}><option value="">Any ({values.length})</option>{values.map(([value, count]) => <option key={value} value={value}>{titleCase(value)} · {count}</option>)}</select></label>
         : values.map(([value, count]) => <button type="button" key={value} className={`filter-chip${filters[facet.key] === value ? " is-active" : ""}`} aria-pressed={filters[facet.key] === value} onClick={() => setFilters(previous => ({ ...previous, [facet.key]: previous[facet.key] === value ? "" : value }))}>{titleCase(value)}<small>{count}</small></button>)}
     </div>)}</div>}

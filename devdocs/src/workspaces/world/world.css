@@ -21,7 +21,12 @@
 .world-layer.is-active { color: var(--text); background: var(--panel-raised); border-color: var(--border-subtle); }
 .world-layer.is-active svg { color: var(--accent); }
 .world-list { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 6px 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.world-group > h3 { position: sticky; top: 0; z-index: 1; margin: 0; padding: 8px 6px 3px; font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .4px; background: var(--panel); }
+.world-group > h3 { position: sticky; top: 0; z-index: 1; margin: 0; padding: 4px 0 2px; background: var(--panel); }
+.world-group > h3 > button { display: flex; align-items: center; gap: 6px; width: 100%; height: 24px; padding: 0 6px; border-radius: 4px; font-size: 12px; font-weight: 600; color: var(--muted); text-align: left; }
+.world-group > h3 > button:hover { background: var(--hover); color: var(--text); }
+.world-group > h3 > button small { margin-left: auto; font-family: var(--font-mono); font-size: 11px; font-weight: 400; color: var(--faint); }
+.world-group.is-folded > h3 > button::before { content: ""; width: 0; height: 0; border-style: solid; border-width: 4px 0 4px 5px; border-color: transparent transparent transparent var(--faint); }
+.world-group:not(.is-folded) > h3 > button::before { content: ""; width: 0; height: 0; border-style: solid; border-width: 5px 4px 0 4px; border-color: var(--faint) transparent transparent transparent; }
 .world-row { display: grid; grid-template-columns: 18px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 8px; align-items: center; width: 100%; padding: 3px 6px; border-radius: 4px; text-align: left; border: 1px solid transparent; }
 .world-row:hover { background: var(--hover); }
 .world-row.is-selected { background: var(--selected); border-color: var(--border); }
@@ -40,7 +45,7 @@
 .world-changes { margin-left: auto; flex-shrink: 0; white-space: nowrap; display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 4px 0 10px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent-soft); font-size: 12px; }
 .world-dirty { color: var(--accent); font-weight: 500; }
 .world-error { color: var(--danger); max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.world-frame { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #10141a; outline: none; }
+.world-frame { position: relative; flex: 1; min-height: 0; overflow: hidden; background: var(--art-background); outline: none; }
 .world-frame:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 .world-frame[data-tool] { cursor: crosshair; }
 .world-frame[data-dragging] { cursor: grabbing; }

@@ -446,7 +446,7 @@ h1 { font-size: 16px; font-weight: 600; }
 .model-stage[data-large="true"] { aspect-ratio: 1 / 1; }
 .model-stage .asset-viewer { margin: 0; padding: 0; border: 0; background: transparent; height: 100%; display: flex; flex-direction: column; }
 .model-stage .viewer-viewport { flex: 1; min-height: 0; height: auto !important; border-radius: 0 !important; background: var(--art-background) !important; }
-.model-stage:not([data-controls="true"]) .viewer-heading, .model-stage:not([data-controls="true"]) .viewer-outfit-controls, .model-stage:not([data-controls="true"]) .viewer-playback, .model-stage:not([data-controls="true"]) .viewer-readout, .model-stage:not([data-controls="true"]) .asset-viewer > details { display: none !important; }
+.model-stage:not([data-controls="true"]) .viewer-heading, .model-stage:not([data-controls="true"]) .viewer-outfit-controls, .model-stage:not([data-controls="true"]) .viewer-playback, .model-stage:not([data-controls="true"]) .viewer-readout, .model-stage:not([data-controls="true"]) .asset-viewer > details, .model-stage:not([data-controls="true"]) .asset-viewer > :not(:has(.viewer-viewport)) { display: none !important; }
 .model-stage[data-controls="true"] { aspect-ratio: auto; }
 .model-stage[data-controls="true"] .viewer-viewport { flex: none; height: 240px !important; }
 .model-stage[data-controls="true"] .viewer-heading, .model-stage[data-controls="true"] .viewer-outfit-controls, .model-stage[data-controls="true"] .viewer-playback, .model-stage[data-controls="true"] .viewer-readout, .model-stage[data-controls="true"] .asset-viewer > details { padding: 4px 8px; margin: 0 !important; }

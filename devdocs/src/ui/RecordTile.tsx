@@ -44,7 +44,6 @@ export function RecordTile({ collection, id, summary, mode, selectable, selected
       onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })}
       onMouseLeave={() => setHover(undefined)}>
       {selectable && mode === "grid" && <span className="tile-corner"><input type="checkbox" className="tile-check" checked={Boolean(selected)} aria-label={`Select ${summary.title}`} onClick={event => event.stopPropagation()} onChange={event => onToggle?.(id, (event.nativeEvent as unknown as { shiftKey?: boolean }).shiftKey ?? false)} /></span>}
-      {mode === "grid" && summary.tier !== undefined && <span className="tile-corner-right"><span className="tier-tag" title="Tier">{summary.tier}</span></span>}
       {selectable && mode === "row" && <input type="checkbox" className="tile-check" checked={Boolean(selected)} aria-label={`Select ${summary.title}`} onClick={event => event.stopPropagation()} onChange={event => onToggle?.(id, (event.nativeEvent as unknown as { shiftKey?: boolean }).shiftKey ?? false)} />}
       <span className="tile-art"><Thumb spec={summary.thumb} size={mode === "grid" ? "xl" : "m"} alt="" /></span>
       <span className="tile-body">
@@ -52,7 +51,6 @@ export function RecordTile({ collection, id, summary, mode, selectable, selected
         {summary.subtitle && <span className="tile-subtitle" title={summary.subtitle}>{summary.subtitle}</span>}
         <Badges badges={summary.badges} limit={mode === "grid" ? 2 : 4} />
       </span>
-      {mode === "row" && summary.tier !== undefined && <span className="tier-tag" title="Tier">{summary.tier}</span>}
       {mode === "row" && <ChevronRight size={14} className="row-chevron" />}
     </div>
     {hover && <HoverCard summary={summary} collection={collection} id={id} at={hover} />}

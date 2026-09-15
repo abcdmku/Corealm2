@@ -18,7 +18,10 @@ import {
   DRAFT_COLLECTIONS, LAYERS, addLandmark, addLocation, addResourceNode, addSpawn, deriveFeatures, moveSelection, parseSelection, patchPlacement, regionBounds, regionById, round, safeAnchors, sameSelection, selectionId, selectionPoint, worldBounds,
   type Bounds, type Draft, type Feature, type Layer, type Point, type Selection,
 } from "./model.js";
+import { WORLD_MAP_IMAGE_BOUNDS } from "../../../../game/src/generated/worldMapFingerprint.js";
 import "./world.css";
+
+const ISLAND_BOUNDS: Bounds = { ...WORLD_MAP_IMAGE_BOUNDS };
 
 /*
   The world workspace: the map is the page, lists are the rails. The four editable collections
@@ -31,8 +34,9 @@ const LOOKUP_COLLECTIONS = ["creatureDefinitions", "resources", "npcs", "shops",
 const TOOL_LABEL: Record<Tool, string> = { spawn: "Add spawn", resource: "Add resource node", location: "Add location", landmark: "Add landmark" };
 const TOOL_SHORT: Record<Tool, string> = { spawn: "Spawn", resource: "Resource node", location: "Location", landmark: "Landmark" };
 
+const DEFAULT_LAYERS: ReadonlySet<Layer> = new Set(["regions", "settlements", "landmarks", "spawns", "resources"]);
 function loadLayers(): Record<Layer, boolean> {
-  const all = Object.fromEntries(LAYERS.map(layer => [layer, true])) as Record<Layer, boolean>;
+  const all = Object.fromEntries(LAYERS.map(layer => [layer, DEFAULT_LAYERS.has(layer)])) as Record<Layer, boolean>;
   try {
     const stored = JSON.parse(localStorage.getItem(LAYER_KEY) ?? "{}") as Partial<Record<Layer, boolean>>;
     for (const layer of LAYERS) if (typeof stored[layer] === "boolean") all[layer] = stored[layer]!;
@@ -149,7 +153,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
   }, [recordId, draft]);
   useEffect(() => {
     // First load without a route: show the whole world.
-    if (draft && !recordId && !centred.current) { centred.current = ""; map.current?.fit(worldBounds(draft)); }
+    if (draft && !recordId && !centred.current) { centred.current = ""; map.current?.fit(ISLAND_BOUNDS, 1.02); }
   }, [draft, recordId]);
 
   const [layers, setLayers] = useState(loadLayers);

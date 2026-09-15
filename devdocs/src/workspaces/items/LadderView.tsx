@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import type { EquipmentFamily, ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { AppProps } from "../../model/contracts.js";
 import { equipmentSource, fmt } from "../../model/derive.js";
@@ -20,15 +19,16 @@ import "./items.css";
   behind the column and watch the column recompute as the curve changes.
 */
 
-const GROUPS: readonly { label: string; roles: readonly string[] }[] = [
-  { label: "Melee", roles: ["dagger", "sword", "shield", "helm", "body", "legs", "boots", "gloves"] },
-  { label: "Magic", roles: ["staff", "wand", "hood", "robe", "magicLegs", "magicBoots", "wraps"] },
-  { label: "Tools", roles: ["pickaxe", "hatchet", "rod"] },
-  { label: "Materials", roles: ["ore", "flux", "gem", "bar", "log", "shaft", "handle", "hide", "thread", "rawFish", "cookedFish", "rawMeat", "cookedMeat"] },
+const GROUPS: readonly { key: string; label: string; roles: readonly string[]; setStyle?: string }[] = [
+  { key: "melee", label: "Melee", roles: ["dagger", "sword", "shield", "helm", "body", "legs", "boots", "gloves"], setStyle: "melee" },
+  { key: "magic", label: "Magic", roles: ["staff", "wand", "hood", "robe", "magicLegs", "magicBoots", "wraps"], setStyle: "magic" },
+  { key: "tools", label: "Tools", roles: ["pickaxe", "hatchet", "rod"] },
+  { key: "materials", label: "Materials", roles: ["ore", "flux", "gem", "bar", "log", "shaft", "handle", "hide", "thread", "rawFish", "cookedFish", "rawMeat", "cookedMeat"] },
 ];
+const GROUP_KEY = "devdocs.ladder.group";
+function loadGroup(): string { try { const stored = localStorage.getItem(GROUP_KEY); if (stored && GROUPS.some(group => group.key === stored)) return stored; } catch { /* fresh default */ } return GROUPS[0]!.key; }
 const ROLE_LABELS: Readonly<Record<string, string>> = { magicLegs: "Legs", magicBoots: "Boots", rawFish: "Raw fish", cookedFish: "Cooked fish", rawMeat: "Raw meat", cookedMeat: "Cooked meat" };
 const roleLabel = (role: string): string => ROLE_LABELS[role] ?? titleCase(role);
-const COLUMN_COUNT = GROUPS.reduce((sum, group) => sum + group.roles.length, 0);
 /** The family each gear role is expanded through. Higher tiers fill roles from `equipment` without a `materials` entry. */
 const ROLE_FAMILY: Readonly<Record<string, string>> = {
   dagger: "gear_mainHand_melee_2400", sword: "gear_mainHand_melee_2400", shield: "gear_offHand_melee_0", helm: "gear_head_melee_0", body: "gear_body_melee_0", legs: "gear_legs_melee_0", boots: "gear_feet_melee_0", gloves: "gear_hands_melee_0",
@@ -48,6 +48,9 @@ function cellItemId(tier: ProgressionTier, role: string): string | undefined {
 export default function LadderView({ recordId, navigate }: ViewProps) {
   const data = useItemsData();
   const [mode, setMode] = useState<"names" | "numbers">("names");
+  const [groupKey, setGroupKey] = useState(loadGroup);
+  const group = GROUPS.find(candidate => candidate.key === groupKey) ?? GROUPS[0]!;
+  const chooseGroup = (key: string) => { setGroupKey(key); try { localStorage.setItem(GROUP_KEY, key); } catch { /* optional */ } };
   const [familyId, setFamilyId] = useState<string>();
   const [liveFamily, setLiveFamily] = useState<EquipmentFamily>();
   const onLive = useCallback((family: EquipmentFamily | undefined) => setLiveFamily(family), []);
@@ -81,7 +84,9 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
   return <div className="ws-page ladder-page">
     <div className="ws-heading">
       <h1>Ladder</h1>
-      <span className="facts"><span>{data.tiers.length} tiers</span><span>{COLUMN_COUNT} roles</span></span>
+      <div className="segmented" role="group" aria-label="Column group">
+        {GROUPS.map(candidate => <button type="button" key={candidate.key} className={candidate.key === group.key ? "is-active" : ""} aria-pressed={candidate.key === group.key} onClick={() => chooseGroup(candidate.key)}>{candidate.label}</button>)}
+      </div>
       <div className="ws-heading-actions">
         <div className="segmented" role="group" aria-label="Cell content">
           <button type="button" className={mode === "names" ? "is-active" : ""} aria-pressed={mode === "names"} onClick={() => setMode("names")}>Names</button>
@@ -92,37 +97,32 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
     <div className="matrix ladder" data-mode={mode}>
       <table>
         <thead>
-          <tr className="ladder-groups"><th rowSpan={2}>Tier</th>{GROUPS.map(group => <th key={group.label} colSpan={group.roles.length} className="ladder-group">{group.label}</th>)}</tr>
-          <tr className="ladder-roles">{GROUPS.flatMap(group => group.roles.map(role => {
-            const family = familyForRole.get(role);
-            const live = liveFamily && family && liveFamily.id === family.id;
-            return <th key={role} className={live ? "is-live" : ""}>{family
-              ? <button type="button" title={`${family.name} · open the curve`} aria-label={`${roleLabel(role)} family`} onClick={() => setFamilyId(family.id)}>{roleLabel(role)}</button>
-              : <span>{roleLabel(role)}</span>}</th>;
-          }))}</tr>
+          <tr className="ladder-roles">
+            <th>Tier</th>
+            {group.roles.map(role => {
+              const family = familyForRole.get(role);
+              const live = liveFamily && family && liveFamily.id === family.id;
+              return <th key={role} className={live ? "is-live" : ""}>{family
+                ? <button type="button" title={`${family.name} · open the curve`} aria-label={`${roleLabel(role)} family`} onClick={() => setFamilyId(family.id)}>{roleLabel(role)}</button>
+                : <span>{roleLabel(role)}</span>}</th>;
+            })}
+            {group.setStyle && <th className="ladder-set-head">Set</th>}
+          </tr>
         </thead>
         <tbody>
           {data.tiers.map(tier => {
-            const sets = setsByTier.get(tier.tier) ?? [];
-            return [
-              <tr key={tier.id} className="ladder-tier">
-                <th scope="row"><span className="ladder-tier-head"><strong>{tier.tier}</strong><span>{tier.name}</span><small>level {tier.reqLevel}</small></span></th>
-                {GROUPS.flatMap(group => group.roles.map(role => {
-                  const itemId = cellItemId(tier, role);
-                  return <td key={role}>{itemId ? <ItemCell id={itemId} data={data} mode={mode} active={itemId === recordId} liveFamily={liveFamily} onOpen={openItem} /> : <span className="cell-empty">—</span>}</td>;
-                }))}
-              </tr>,
-              ...sets.map(set => <tr key={set.id} className="ladder-set">
-                <th scope="row"><button type="button" className="cell ladder-set-name" onClick={() => navigate("equipmentSets", set.id)}><span>{set.name}</span><small>{set.style}</small></button></th>
-                <td colSpan={COLUMN_COUNT}>
-                  <button type="button" className="cell ladder-set-row" onClick={() => navigate("equipmentSets", set.id)}>
-                    <span className="ladder-set-pieces">{SET_SLOTS.map(slot => set.members?.[slot] ? <Thumb key={slot} spec={{ kind: "item", id: set.members[slot]! }} size="s" alt={slot} /> : <span key={slot} className="thumb ladder-slot-empty" data-size="s" title={`No ${slot}`} />)}</span>
-                    <span className="ladder-set-thresholds mono">{thresholdText(set.thresholds) || "no set bonuses"}</span>
-                    <ArrowRight size={11} className="muted" />
-                  </button>
-                </td>
-              </tr>),
-            ];
+            const sets = (setsByTier.get(tier.tier) ?? []).filter(set => set.style === group.setStyle);
+            return <tr key={tier.id} className="ladder-tier">
+              <th scope="row"><span className="ladder-tier-head"><strong>{tier.tier}</strong><small>level {tier.reqLevel}</small></span></th>
+              {group.roles.map(role => {
+                const itemId = cellItemId(tier, role);
+                return <td key={role}>{itemId ? <ItemCell id={itemId} data={data} mode={mode} active={itemId === recordId} liveFamily={liveFamily} onOpen={openItem} /> : <span className="cell-empty">—</span>}</td>;
+              })}
+              {group.setStyle && <td className="ladder-set-cell">{sets.length ? sets.map(set => <button type="button" key={set.id} className="cell ladder-set" onClick={() => navigate("equipmentSets", set.id)}>
+                <span className="ladder-set-pieces">{SET_SLOTS.map(slot => set.members?.[slot] ? <Thumb key={slot} spec={{ kind: "item", id: set.members[slot]! }} size="s" alt={slot} /> : <span key={slot} className="thumb ladder-slot-empty" data-size="s" title={`No ${slot}`} />)}</span>
+                <span className="ladder-set-text"><span className="cell-name">{set.name}</span><small className="mono">{thresholdText(set.thresholds) || "no set bonuses"}</small></span>
+              </button>) : <span className="cell-empty">—</span>}</td>}
+            </tr>;
           })}
         </tbody>
       </table>
