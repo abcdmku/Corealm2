@@ -12,7 +12,8 @@ import { rowName } from "../../model/rows.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
 import { RefChip, RefRow } from "../../ui/RefChip.js";
-import { Derived, Facts, NumberInput, Row, SaveBar, Section, Select, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { Derived, Facts, Field, Fields, NumberInput, Row, SaveBar, Section, Select, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { PointsMap } from "../../ui/PointsMap.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
@@ -146,33 +147,45 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
             </Row>
           </Section>
 
-          <Section title="Combat" aside={profile ? <span>{profile.name} curve at level {derived.level}</span> : <span>No role: numbers are not derived</span>}>
-            {COMBAT_FIELDS.map(key => {
-              const derivation = derived.combat[key]!;
-              const fromBase = base?.adjustments && key in base.adjustments && !(working.adjustments && key in working.adjustments);
-              const mark = fromBase ? <InheritMark from={baseName!} /> : undefined;
-              if (key === "behaviour" || key === "attackStyle") {
-                return <Row key={key} label={COMBAT_LABELS[key]}>
-                  <ChoiceDerived derivation={derivation} options={key === "behaviour" ? BEHAVIOURS : STYLES} editable={editable} onOverride={value => setAdjustment(key, value)} onOpenSource={openRole} />{mark}
-                </Row>;
-              }
-              return <Row key={key} label={COMBAT_LABELS[key]}>
-                <Derived derivation={derivation} unit={UNITS[key]} integer={!FRACTIONAL.has(key)} readOnly={!editable} onOverride={editable && key !== "marks" ? value => setAdjustment(key, value) : undefined} onOpenSource={profile ? openRole : undefined} />{mark}
-              </Row>;
-            })}
-            {MOVEMENT.map(key => {
-              const value = row.adjustments[key] as number | undefined;
-              const own = working.adjustments && key in working.adjustments;
-              return <Row key={key} label={COMBAT_LABELS[key]}>
-                {value === undefined
-                  ? editable ? <button type="button" className="filter-chip" onClick={() => setAdjustment(key, 1)}><Plus size={11} /> Add</button> : <Static muted>—</Static>
-                  : <>
-                    {editable ? <NumberInput value={value} onChange={next => setAdjustment(key, next)} unit="m/s" step={0.01} min={0} ariaLabel={COMBAT_LABELS[key]} /> : <Static mono>{value} m/s</Static>}
-                    {editable && own && <button type="button" className="derived-clear" aria-label={`Remove ${COMBAT_LABELS[key]}`} onClick={() => setAdjustment(key, undefined)}><X size={11} /></button>}
-                    {!own && base && <InheritMark from={baseName!} />}
-                  </>}
-              </Row>;
-            })}
+          <Section title="Combat" aside={profile ? <span>{profile.name} curve at level {derived.level} · edit a cell to override it</span> : <span>No role: numbers are not derived</span>}>
+            <Fields>
+              {COMBAT_FIELDS.map(key => {
+                const derivation = derived.combat[key]!;
+                const fromBase = base?.adjustments && key in base.adjustments && !(working.adjustments && key in working.adjustments);
+                const mark = fromBase ? <InheritMark from={baseName!} /> : undefined;
+                if (key === "behaviour" || key === "attackStyle") {
+                  return <Field key={key} label={COMBAT_LABELS[key]} span={2}>
+                    <ChoiceDerived derivation={derivation} options={key === "behaviour" ? BEHAVIOURS : STYLES} editable={editable} onOverride={value => setAdjustment(key, value)} onOpenSource={openRole} />{mark}
+                  </Field>;
+                }
+                return <Field key={key} label={COMBAT_LABELS[key]}>
+                  <Derived derivation={derivation} unit={UNITS[key]} integer={!FRACTIONAL.has(key)} readOnly={!editable} onOverride={editable && key !== "marks" ? value => setAdjustment(key, value) : undefined} onOpenSource={profile ? openRole : undefined} />{mark}
+                </Field>;
+              })}
+              {MOVEMENT.map(key => {
+                const value = row.adjustments[key] as number | undefined;
+                const own = working.adjustments && key in working.adjustments;
+                return <Field key={key} label={COMBAT_LABELS[key]}>
+                  {value === undefined
+                    ? editable ? <button type="button" className="filter-chip" onClick={() => setAdjustment(key, 1)}><Plus size={11} /> Add</button> : <Static muted>—</Static>
+                    : <>
+                      {editable ? <NumberInput value={value} onChange={next => setAdjustment(key, next)} unit="m/s" step={0.01} min={0} ariaLabel={COMBAT_LABELS[key]} /> : <Static mono>{value} m/s</Static>}
+                      {editable && own && <button type="button" className="derived-clear" aria-label={`Remove ${COMBAT_LABELS[key]}`} onClick={() => setAdjustment(key, undefined)}><X size={11} /></button>}
+                      {!own && base && <InheritMark from={baseName!} />}
+                    </>}
+                </Field>;
+              })}
+            </Fields>
+          </Section>
+
+          <Section title="Spawns" aside={spawns.length ? <span>{spawns.length} {spawns.length === 1 ? "place" : "places"} · click a pin to edit it on the map</span> : undefined}>
+            {spawns.length
+              ? <>
+                <PointsMap points={spawns.filter(spawn => spawn.placement.centre).map(spawn => ({ id: spawn.placement.id, x: spawn.placement.centre![0], z: spawn.placement.centre![1], radius: spawn.placement.radius, label: `${data.regionName(spawn.placement.regionId)} ×${spawn.placement.count ?? 1}` }))}
+                  onOpen={point => navigate("placements", point.id)} onOpenAt={() => navigate("placements", spawns[0]!.placement.id)} />
+                <div className="ref-rows">{spawns.map(spawn => <SpawnRow key={spawn.placement.id} spawn={spawn} data={data} onOpen={() => navigate("placements", spawn.placement.id)} />)}</div>
+              </>
+              : <p className="empty-inline">Not placed in any encounter.</p>}
           </Section>
 
           <LootSection data={data} working={working} base={base} editable={editable} draft={draft} navigate={navigate} selfId={id} />
@@ -184,11 +197,6 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
               : <p className="empty-inline">{working.baseId ? "A variant cannot have variants of its own." : "No variants inherit from this creature."}</p>}
           </Section>
 
-          <Section title="Spawns">
-            {spawns.length
-              ? <div className="ref-rows">{spawns.map(spawn => <SpawnRow key={spawn.placement.id} spawn={spawn} data={data} onOpen={() => navigate("placements", spawn.placement.id)} />)}</div>
-              : <p className="empty-inline">Not placed in any encounter.</p>}
-          </Section>
         </Sheet>
       </div>
       <aside className="record-rail creature-rail">

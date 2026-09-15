@@ -7,7 +7,7 @@ import { iconForElement, spellThumb, titleCase, hueFor } from "../../model/summa
 import { Thumb } from "../../ui/Thumb.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
-import { Row, Section, Sheet } from "../../ui/Sheet.js";
+import { Field, Fields, Row, Section, Sheet } from "../../ui/Sheet.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { AddButton, asRecord, ItemStack, list, num, NumberField, PageState, RecordShell, SelectField, text, TextField, usePage } from "../story/shared.js";
@@ -93,16 +93,20 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
           {(spell.rank !== undefined || editable) && <Row label="Rank"><NumberField editable={editable} value={num(spell.rank)} onChange={value => draft.setPath(["rank"], value)} integer min={0} ariaLabel="Rank" /></Row>}
         </Section>
         <Section title="Numbers">
-          <Row label="Required level"><NumberField editable={editable} value={num(spell.reqLevel)} onChange={value => draft.setPath(["reqLevel"], value)} integer min={1} unit="magic" ariaLabel="Required level" /></Row>
-          <Row label="Tier"><NumberField editable={editable} value={num(spell.tier)} onChange={value => draft.setPath(["tier"], value)} integer min={0} ariaLabel="Tier" /></Row>
-          <Row label="Base max hit"><NumberField editable={editable} value={num(spell.baseMax)} onChange={value => draft.setPath(["baseMax"], value)} integer min={0} unit="damage" ariaLabel="Base max hit" /></Row>
-          <Row label="Divisor" hint="Levels per extra point of max hit"><NumberField editable={editable} value={num(spell.divisor)} onChange={value => draft.setPath(["divisor"], value)} min={0} unit="levels / point" ariaLabel="Divisor" /></Row>
-          <Row label="Base xp"><NumberField editable={editable} value={num(spell.baseXp)} onChange={value => draft.setPath(["baseXp"], value)} min={0} unit="xp" ariaLabel="Base xp" /></Row>
-          <Row label="Cast time"><NumberField editable={editable} value={num(spell.castMs)} onChange={value => draft.setPath(["castMs"], value)} integer min={0} unit="ms" ariaLabel="Cast time" /></Row>
+          <Fields>
+            <Field label="Required level"><NumberField editable={editable} value={num(spell.reqLevel)} onChange={value => draft.setPath(["reqLevel"], value)} integer min={1} ariaLabel="Required level" /></Field>
+            <Field label="Tier"><NumberField editable={editable} value={num(spell.tier)} onChange={value => draft.setPath(["tier"], value)} integer min={0} ariaLabel="Tier" /></Field>
+            <Field label="Base max hit"><NumberField editable={editable} value={num(spell.baseMax)} onChange={value => draft.setPath(["baseMax"], value)} integer min={0} ariaLabel="Base max hit" /></Field>
+            <Field label="Levels per point" hint="Magic levels per extra point of max hit"><NumberField editable={editable} value={num(spell.divisor)} onChange={value => draft.setPath(["divisor"], value)} min={0} ariaLabel="Divisor" /></Field>
+            <Field label="Base xp"><NumberField editable={editable} value={num(spell.baseXp)} onChange={value => draft.setPath(["baseXp"], value)} min={0} ariaLabel="Base xp" /></Field>
+            <Field label="Cast time (ms)"><NumberField editable={editable} value={num(spell.castMs)} onChange={value => draft.setPath(["castMs"], value)} integer min={0} ariaLabel="Cast time" /></Field>
+          </Fields>
         </Section>
         <Section title="Cost">
-          <Row label="Element"><SelectField editable={editable} value={text(cost.element)} onChange={value => draft.setPath(["cost", "element"], value)} options={ELEMENTS.map(value => ({ value, label: titleCase(value) }))} ariaLabel="Cost element" /></Row>
-          <Row label="Charges"><NumberField editable={editable} value={num(cost.charges)} onChange={value => draft.setPath(["cost", "charges"], value)} integer min={0} unit="essence" ariaLabel="Charges" /></Row>
+          <Fields>
+            <Field label="Element"><SelectField editable={editable} value={text(cost.element)} onChange={value => draft.setPath(["cost", "element"], value)} options={ELEMENTS.map(value => ({ value, label: titleCase(value) }))} ariaLabel="Cost element" /></Field>
+            <Field label="Essence charges"><NumberField editable={editable} value={num(cost.charges)} onChange={value => draft.setPath(["cost", "charges"], value)} integer min={0} ariaLabel="Charges" /></Field>
+          </Fields>
           <Row label="Runes" align="start">
             <span className="ref-list">
               {runes.map((rune, at) => <ItemStack key={at} itemId={text(rune.itemId) ?? ""} quantity={num(rune.quantity)} editable={editable} page={page} open={navigate} onQuantity={value => draft.setPath(["cost", "runes", at, "quantity"], value ?? 1)} onRemove={() => { const next = runes.filter((_, index) => index !== at); draft.setPath(["cost", "runes"], next.length ? next : undefined); }} />)}

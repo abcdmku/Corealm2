@@ -27,7 +27,7 @@
 .ws-heading-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 
 /* ---------- Record page: one column with a context rail ---------- */
-.record { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; align-items: start; max-width: 1120px; }
+.record { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 32px; align-items: start; max-width: 1280px; }
 .record-main { min-width: 0; }
 .record-rail { position: sticky; top: 8px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .record-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
@@ -54,14 +54,14 @@
 /* ---------- Key/value sheet ---------- */
 .kv { display: flex; flex-direction: column; min-width: 0; }
 .kv-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
-.kv-section { padding: 8px 0 4px; border-top: 1px solid var(--border-subtle); }
+.kv-section { padding: 14px 0 6px; border-top: 1px solid var(--border-subtle); }
 .kv > .kv-section:first-child { border-top: 0; padding-top: 0; }
-.kv-section-head { display: flex; align-items: center; gap: 8px; min-height: 24px; margin-bottom: 2px; }
-.kv-section-head h3, .kv-section-toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .4px; }
+.kv-section-head { display: flex; align-items: center; gap: 8px; min-height: 24px; margin-bottom: 4px; }
+.kv-section-head h3, .kv-section-toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text); }
 .kv-section-toggle svg { transition: transform .12s; }
 .kv-section.is-closed .kv-section-toggle svg { transform: rotate(-90deg); }
 .kv-section-aside { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
-.kv-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; min-height: 28px; align-items: center; padding: 1px 0; }
+.kv-row { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px; min-height: 28px; align-items: center; padding: 1px 0; }
 .kv-row[data-align="start"] { align-items: start; }
 .kv-row[data-align="start"] .kv-label { padding-top: 5px; }
 .kv-row.is-wide { grid-template-columns: 1fr; gap: 2px; }
@@ -75,6 +75,7 @@
 .kv-input:focus { outline: none; border-color: var(--accent); }
 .kv-input:disabled { opacity: .6; }
 .kv-input::placeholder { color: var(--faint); }
+.kv-input-number[data-zero="true"]:not(:focus) { color: var(--faint); }
 .kv-input[data-width="num"] { width: 76px; font-family: var(--font-mono); text-align: right; }
 .kv-input[data-width="short"] { width: 160px; }
 .kv-input[data-width="id"] { width: 220px; font-family: var(--font-mono); }
@@ -108,6 +109,26 @@ button.derived-source:hover { text-decoration: underline; text-underline-offset:
 .savebar-error { color: var(--danger); flex: 1; }
 .savebar-actions { margin-left: auto; display: flex; gap: 4px; }
 
+/* ---------- Field grid: a group of like values as labelled cells ---------- */
+.kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px 14px; padding: 4px 0 8px; }
+.kv-field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.kv-field[data-span="2"] { grid-column: span 2; }
+.kv-field[data-span="3"] { grid-column: span 3; }
+.kv-field[data-span="4"] { grid-column: span 4; }
+.kv-field-label { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kv-field-value { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 4px; min-height: 24px; min-width: 0; font-size: 12px; }
+.kv-field .kv-input-wrap { flex: 1 1 72px; }
+.kv-field .inherit-mark { flex-basis: 100%; line-height: 1.2; }
+.kv-field.has-error .kv-field-label { color: var(--danger); }
+.kv-field .kv-input-wrap { flex: 1; min-width: 0; }
+.kv-field .kv-input { width: 100%; max-width: none; }
+.kv-field .kv-input[data-width="num"] { width: 100%; }
+.kv-field .derived { flex: 1; flex-wrap: nowrap; gap: 4px; }
+.kv-field .derived-expression, .kv-field .derived-computed, .kv-field .derived-source { display: none; }
+.kv-field .derived-value { font-size: 13px; }
+.kv-field .kv-static { font-size: 13px; }
+.kv-field .kv-toggle { height: 24px; }
+
 /* ---------- Data matrix (ladder, tables of things) ---------- */
 .matrix { border: 1px solid var(--border); border-radius: 6px; overflow: auto; background: var(--panel); scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .matrix table { border-collapse: separate; border-spacing: 0; min-width: 100%; font-size: 12px; }
@@ -124,7 +145,7 @@ button.derived-source:hover { text-decoration: underline; text-underline-offset:
 .matrix .cell-empty { color: var(--faint); }
 .matrix .cell-num { font-family: var(--font-mono); text-align: right; }
 
-@media (max-width: 1100px) { .record { grid-template-columns: 1fr; } .record-rail { position: static; } .kv-columns { grid-template-columns: 1fr; } }
+@media (max-width: 1180px) { .record { grid-template-columns: 1fr; } .record-rail { position: static; } .kv-columns { grid-template-columns: 1fr; } }
 
 /* ---------- Home ---------- */
 .home-workspaces { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 24px; }

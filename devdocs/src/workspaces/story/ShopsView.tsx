@@ -8,6 +8,7 @@ import { EntitySummary } from "../../ui/EntitySummary.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
 import { Facts, Row, Section, Sheet } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
+import { PointsMap } from "../../ui/PointsMap.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { AddButton, asRecord, findStand, list, num, NumberField, PageState, position, RecordShell, RemoveButton, text, TextField, usePage } from "./shared.js";
@@ -87,7 +88,7 @@ function ShopPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"
         <Section title="Where">
           {stand
             ? <div className="story-where">
-              <Thumb spec={point ? { kind: "map", x: point.x, z: point.z, span: 80, icon: MapPin } : { kind: "glyph", icon: MapPin }} size="l" alt="" />
+              {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} onOpenAt={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} />}
               <div className="story-where-text">
                 <span>{stand.regionName} · {String(stand.settlement.name)}{text(stand.stand.shopKind) && <span className="muted"> · {String(stand.stand.shopKind)} stand</span>}{point && <span className="muted mono"> · {point.x}, {point.z}</span>}</span>
                 <span><button type="button" className="text-button" onClick={() => navigate("world/map", `shops:${stand.regionId}/${id}`)}>Show on map</button></span>

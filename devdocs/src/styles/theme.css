@@ -321,6 +321,16 @@ h1 { font-size: 16px; font-weight: 600; }
 .stage-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .stage-list li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 6px; align-items: start; font-size: 12px; }
 .map-large { aspect-ratio: 16 / 10; width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); }
+/* A record's places on the world map (see ui/PointsMap.tsx). */
+.points-map { position: relative; container-type: inline-size; width: 100%; border-radius: 6px; border: 1px solid var(--border); background-color: var(--art-background); background-repeat: no-repeat; overflow: hidden; cursor: crosshair; }
+.points-map-pin { position: absolute; transform: translate(-50%, -50%); display: grid; place-items: center; width: 0; height: 0; overflow: visible; cursor: pointer; }
+.points-map-pin > * { grid-area: 1 / 1; }
+.points-map-radius { aspect-ratio: 1; border-radius: 999px; background: hsl(var(--accent-h, 38) 80% 60% / .18); border: 1px solid hsl(var(--accent-h, 38) 80% 65% / .7); pointer-events: none; }
+.points-map-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 2px #0009, 0 0 0 3px #fff8; }
+.points-map-pin:hover .points-map-dot, .points-map-pin.is-selected .points-map-dot { transform: scale(1.3); }
+.points-map-label { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 600; color: #fff; text-shadow: 0 0 3px #000, 0 0 6px #000; pointer-events: none; }
+.points-map-scale { position: absolute; right: 6px; bottom: 4px; font-family: var(--font-mono); font-size: 10px; color: #fff; text-shadow: 0 0 3px #000; pointer-events: none; }
+.points-map:focus-within { border-color: var(--accent); }
 .map-large .thumb-map { height: 100%; }
 .incoming-group { display: flex; flex-direction: column; gap: 3px; margin-top: 2px; }
 .ref-field { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; min-width: 0; }
@@ -444,8 +454,8 @@ h1 { font-size: 16px; font-weight: 600; }
 .summary-title small { font-family: var(--font-mono); font-weight: 400; }
 .summary-title .text-button { margin-left: auto; font-weight: 500; font-size: 11px; }
 .summary-block > h3 .text-button { margin-left: auto; font-weight: 500; font-size: 11px; }
-.model-stage { position: relative; aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: var(--art-background); }
-.model-stage[data-large="true"] { aspect-ratio: 1 / 1; }
+.model-stage { position: relative; aspect-ratio: 1 / 1; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: var(--art-background); }
+.model-stage[data-large="true"] { aspect-ratio: 3 / 4; }
 .model-stage .asset-viewer { margin: 0; padding: 0; border: 0; background: transparent; height: 100%; display: flex; flex-direction: column; }
 .model-stage .viewer-viewport { flex: 1; min-height: 0; height: auto !important; border-radius: 0 !important; background: var(--art-background) !important; }
 .model-stage:not([data-controls="true"]) .viewer-heading, .model-stage:not([data-controls="true"]) .viewer-outfit-controls, .model-stage:not([data-controls="true"]) .viewer-playback, .model-stage:not([data-controls="true"]) .viewer-readout, .model-stage:not([data-controls="true"]) .asset-viewer > details, .model-stage:not([data-controls="true"]) .asset-viewer > :not(:has(.viewer-viewport)) { display: none !important; }
@@ -539,3 +549,4 @@ h1 { font-size: 16px; font-weight: 600; }
   .nested-fields .field-row { grid-template-columns: 1fr; gap: 2px; }
   .connection-list li { grid-template-columns: 1fr; gap: 3px; }
 }
+.points-map-note { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%); font-size: 12px; color: var(--muted); pointer-events: none; }

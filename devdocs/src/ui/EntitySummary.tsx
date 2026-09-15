@@ -27,7 +27,8 @@ export function EntitySummary({ collection, record, recordId, index, navigate, e
   const base = collection.replace(/^compiled-/, "");
   return <div className="entity-summary">
     {source && <ModelStage source={source} label={summary.title} />}
-    {summary.stats.length > 0 && <div className="summary-block"><h3>{editing ? "Resolved" : "Key numbers"}</h3><dl className="stat-grid">{summary.stats.map(stat => <div className="stat" key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl></div>}
+    {/* Beside an editable sheet the numbers are already on the page, live; repeating them here only adds noise. */}
+    {!editing && summary.stats.length > 0 && <div className="summary-block"><h3>Key numbers</h3><dl className="stat-grid">{summary.stats.map(stat => <div className="stat" key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl></div>}
     {editing ? <ContextBlocks collection={base} record={record} ctx={ctx} index={index} incoming={incoming} open={open} /> : <DomainBlocks collection={base} record={record} recordId={recordId} ctx={ctx} index={index} incoming={incoming} open={open} />}
     {!editing && <OutgoingBlock outgoing={outgoing} ctx={ctx} index={index} open={open} skip={domainHandledPaths(base)} />}
     <IncomingBlock incoming={incoming} ctx={ctx} open={open} skipCollections={domainHandledIncoming(base)} />
@@ -74,21 +75,7 @@ function domainHandledIncoming(base: string): ReadonlySet<string> {
 
 /** Blocks that are not fields on the record: where a creature spawns, where an encounter is placed, what a loot table feeds. */
 function ContextBlocks({ collection, record, ctx, index, incoming, open }: { collection: string; record: ContentRow; ctx: SummaryContext; index: ReferenceIndex; incoming: IncomingReference[]; open: (collection: string, id: string) => void }) {
-  if (collection === "creatureDefinitions") {
-    const loot = asRecord(record.loot);
-    const tableId = text(loot.tableId);
-    const table = tableId ? ctx.lookup("lootTable", tableId) : undefined;
-    const encounters = incoming.filter(reference => reference.collection === "encounters");
-    const placements = encounters.flatMap(encounter => incomingReferences(index, "encounters", encounter.recordId).filter(reference => reference.collection === "placements"));
-    return <>
-      {tableId && <div className="summary-block"><h3>Shared drops<button className="text-button" onClick={() => open("lootTables", tableId)}>{table ? rowName(table) : tableId} <ArrowRight size={11} /></button></h3><div className="drop-grid">{list(table?.drops).map(asRecord).slice(0, 8).map((drop, i) => <button type="button" className="drop-tile" key={i} onClick={() => open("items", text(drop.itemId) ?? "")}><Thumb spec={{ kind: "item", id: text(drop.itemId) ?? "" }} size="m" /><span className="drop-tile-meta">{typeof drop.chance === "number" ? percent(drop.chance) : ""}</span></button>)}</div></div>}
-      <div className="summary-block"><h3>Spawns<small>{placements.length}</small></h3>
-        {placements.length ? <div className="ref-rows">{placements.slice(0, 10).map(placement => <RefRow key={`${placement.recordId}:${placement.path}`} collection="placements" id={placement.recordId} record={placement.record} ctx={ctx} onOpen={open} meta={<span>{titleCase(text(placement.record.regionId) ?? "")}</span>} />)}{placements.length > 10 && <span className="empty-inline">{placements.length - 10} more on the map.</span>}</div>
-          : encounters.length ? <div className="ref-list">{encounters.map(encounter => <RefChip key={encounter.recordId} collection="encounters" id={encounter.recordId} record={encounter.record} ctx={ctx} onOpen={open} />)}</div>
-          : <span className="empty-inline">Not placed in any encounter.</span>}
-      </div>
-    </>;
-  }
+  // The creature sheet carries its own loot and spawn map; the rail keeps the model and references.
   if (collection === "encounters") {
     const placements = incoming.filter(reference => reference.collection === "placements");
     return <div className="summary-block"><h3>Placements<small>{placements.length}</small></h3>{placements.length ? <div className="ref-rows">{placements.map(placement => <RefRow key={placement.recordId} collection="placements" id={placement.recordId} record={placement.record} ctx={ctx} onOpen={open} meta={<span>×{String(placement.record.count ?? 1)}</span>} />)}</div> : <span className="empty-inline">Not placed yet.</span>}</div>;

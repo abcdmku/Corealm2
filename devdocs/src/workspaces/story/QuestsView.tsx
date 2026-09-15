@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, ScrollText } from "lucide-react";
 import { collectionQuery } from "../../api/client.js";
@@ -8,7 +8,7 @@ import { contentRows } from "../../model/rows.js";
 import { titleCase, type SummaryContext } from "../../model/summaries.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
 import { RefChip, RefRow } from "../../ui/RefChip.js";
-import { Row, Section, Sheet, Static } from "../../ui/Sheet.js";
+import { Field, Fields, Row, Section, Sheet, Static } from "../../ui/Sheet.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { AddButton, asRecord, ChipList, ItemStack, list, nameOf, num, NumberField, PageState, ReadableOrJson, RecordShell, regionName, regionOptions, RemoveButton, SelectField, SKILLS, strings, text, TextField, usePage, type Page } from "./shared.js";
@@ -111,7 +111,7 @@ function QuestPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
         </Section>
         {quest.onStart && <Section title="On start"><GrantLines grant={asRecord(quest.onStart)} path={["onStart"]} page={page} editable={editable} navigate={navigate} /></Section>}
         <Section title="Stages" aside={editable && <AddButton label="Add stage" onClick={() => draft.setPath(["stages", stages.length], { index: stages.length, objective: "", refs: [], hint: "", completion: { kind: "flag", flag: "" } })}>Add</AddButton>}>
-          <div className="quest-stages">{stages.map((stage, at) => <StageBlock key={at} stage={stage} at={at} page={page} editable={editable} navigate={navigate} onRemove={() => draft.setPath(["stages"], stages.filter((_, index) => index !== at).map((entry, index) => ({ ...entry, index })))} />)}</div>
+          <StageList stages={stages} page={page} editable={editable} navigate={navigate} onRemove={at => draft.setPath(["stages"], stages.filter((_, index) => index !== at).map((entry, index) => ({ ...entry, index })))} />
           {!stages.length && <span className="story-empty">No stages.</span>}
         </Section>
         <Section title="Rewards">
@@ -131,15 +131,25 @@ function SkillAdder({ skills, onAdd }: { skills: readonly string[]; onAdd: (skil
 
 /* ---------- Stage ---------- */
 
-function StageBlock({ stage, at, page, editable, navigate, onRemove }: { stage: Stage; at: number; page: Page<Quest>; editable: boolean; navigate: ViewProps["navigate"]; onRemove: () => void }) {
+/** Stages read as a numbered list of objectives; one stage is open for editing at a time. */
+function StageList({ stages, page, editable, navigate, onRemove }: { stages: Stage[]; page: Page<Quest>; editable: boolean; navigate: ViewProps["navigate"]; onRemove: (at: number) => void }) {
+  const [open, setOpen] = useState<number | undefined>(stages.length === 1 ? 0 : undefined);
+  return <div className="quest-stages">{stages.map((stage, at) => <StageBlock key={at} stage={stage} at={at} page={page} editable={editable} navigate={navigate} open={open === at} onToggle={() => setOpen(open === at ? undefined : at)} onRemove={() => onRemove(at)} />)}</div>;
+}
+
+function StageBlock({ stage, at, page, editable, navigate, open, onToggle, onRemove }: { stage: Stage; at: number; page: Page<Quest>; editable: boolean; navigate: ViewProps["navigate"]; open: boolean; onToggle: () => void; onRemove: () => void }) {
   const { draft, ctx } = page;
   const base = ["stages", at];
   const refs = list(stage.refs).map(asRecord);
   const grants = asRecord(stage.grants);
-  return <div className="quest-stage">
+  return <div className={`quest-stage${open ? " is-open" : ""}`}>
     <span className="quest-stage-marker" aria-label={`Stage ${stage.index ?? at}`}>{stage.index ?? at}</span>
     <div className="quest-stage-body">
-      <div className="kv">
+      <button type="button" className="quest-stage-head" aria-expanded={open} onClick={onToggle}>
+        <span className="quest-stage-objective">{stage.objective || <span className="story-empty">No objective yet</span>}</span>
+        <span className="quest-stage-summary"><PredicateText predicate={stage.completion} ctx={ctx} /></span>
+      </button>
+      {open && <div className="kv">
         <Row label="Objective" align="start"><TextField editable={editable} value={stage.objective} onChange={value => draft.setPath([...base, "objective"], value)} multiline ariaLabel={`Stage ${at} objective`} /></Row>
         <Row label="Hint" align="start"><TextField editable={editable} value={stage.hint} onChange={value => draft.setPath([...base, "hint"], value)} multiline ariaLabel={`Stage ${at} hint`} /></Row>
         <Row label="Refs" align="start">
@@ -154,8 +164,8 @@ function StageBlock({ stage, at, page, editable, navigate, onRemove }: { stage: 
         </Row>
         {(Object.keys(grants).length > 0 || editable) && <Row label="Grants" align="start"><GrantLines grant={grants} path={[...base, "grants"]} page={page} editable={editable} navigate={navigate} compact /></Row>}
         {stage.onFlag !== undefined && <Row label="On flag" align="start"><ReadableOrJson editable={editable} value={stage.onFlag} onChange={value => draft.setPath([...base, "onFlag"], value)} ariaLabel={`Stage ${at} flag grants`} readable={<span>{list(stage.onFlag).map(asRecord).map(entry => `${text(entry.flag) ?? "?"} → ${grantSummary(asRecord(entry.grant), ctx)}`).join(" · ")}</span>} /></Row>}
-      </div>
-      {editable && <div className="story-line-add"><button type="button" className="text-button" aria-label={`Remove stage ${at}`} onClick={onRemove}>Remove stage</button></div>}
+      </div>}
+      {open && editable && <div className="story-line-add"><button type="button" className="text-button" aria-label={`Remove stage ${at}`} onClick={onRemove}>Remove stage</button></div>}
     </div>
   </div>;
 }
@@ -184,16 +194,17 @@ function GrantLines({ grant, path, page, editable, navigate, compact = false }: 
   const unusedSkills = SKILLS.filter(skill => !(skill in xp));
   const empty = !Object.keys(xp).length && !items.length && !takeItems.length && !unlocks.length && !flags.length && !worldState.length && grant.currency === undefined;
   const lines: ReactNode[] = [];
-  for (const [skill, amount] of Object.entries(xp)) lines.push(<div className="story-line" key={`xp:${skill}`}>
-    <span className="story-line-key">{titleCase(skill)} xp</span>
+  // Xp and marks are one row of small cells: a reward is read as a set, not a column of rows.
+  const numbers: ReactNode[] = [];
+  for (const [skill, amount] of Object.entries(xp)) numbers.push(<Field key={`xp:${skill}`} label={`${titleCase(skill)} xp`}>
     <NumberField editable={editable} value={num(amount)} onChange={value => draft.setPath([...path, "xp", skill], value ?? 0)} min={0} ariaLabel={`${titleCase(skill)} xp`} />
     {editable && <RemoveButton label={`Remove ${titleCase(skill)} xp`} onClick={() => draft.setPath([...path, "xp", skill], undefined)} />}
-  </div>);
-  if (grant.currency !== undefined) lines.push(<div className="story-line" key="currency">
-    <span className="story-line-key">Marks</span>
+  </Field>);
+  if (grant.currency !== undefined) numbers.push(<Field key="currency" label="Marks">
     <NumberField editable={editable} value={num(grant.currency)} onChange={value => draft.setPath([...path, "currency"], value)} integer min={0} ariaLabel="Currency" />
     {editable && <RemoveButton label="Remove currency reward" onClick={() => draft.setPath([...path, "currency"], undefined)} />}
-  </div>);
+  </Field>);
+  if (numbers.length) lines.push(<Fields key="numbers" className="story-grant-numbers">{numbers}</Fields>);
   if (items.length) lines.push(<div className="story-line" key="items" style={{ alignItems: "flex-start" }}>
     <span className="story-line-key" style={{ paddingTop: 4 }}>Items</span>
     <span className="ref-list">

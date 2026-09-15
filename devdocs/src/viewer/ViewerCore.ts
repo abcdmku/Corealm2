@@ -132,7 +132,8 @@ export class ViewerCore {
     this.stage.updateMatrixWorld(true);
     this.box.box.setFromObject(this.stage, true);
     this.fitTarget.set(0, size.y / 2, 0);
-    this.fitRadius = Math.max(size.length() / 2, .05);
+    // The box diagonal overstates a model's silhouette; three quarters of it fills the stage without clipping.
+    this.fitRadius = Math.max(size.length() / 2 * .75, .05);
     this.snapshot.size = { x: size.x, y: size.y, z: size.z };
     const gridSize = Math.max(1, Math.pow(10, Math.floor(Math.log10(this.fitRadius * 2))));
     this.grid.scale.setScalar(gridSize);
@@ -144,7 +145,7 @@ export class ViewerCore {
 
   resetCamera(): void {
     const angle = Math.min(THREE.MathUtils.degToRad(this.camera.fov), 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2)) * this.camera.aspect));
-    const distance = this.fitRadius / Math.sin(angle / 2) * 1.35;
+    const distance = this.fitRadius / Math.sin(angle / 2) * 1.12;
     this.controls.target.copy(this.fitTarget);
     this.controls.minDistance = this.fitRadius * .7;
     this.controls.maxDistance = distance * 3;

@@ -6,7 +6,7 @@ import { BONUS_KEYS, BONUS_LABELS, deriveEquipmentMember, deriveProductionEntry,
 import { getPath, useRecordDraft, type Path } from "../../model/draft.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Derived, Facts, NumberInput, Row, SaveBar, Section, Select, Sheet, Static, TextInput, Toggle } from "../../ui/Sheet.js";
+import { Derived, Facts, Field, Fields, NumberInput, Row, SaveBar, Section, Select, Sheet, Static, TextInput, Toggle } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
 import { ItemPick } from "./ItemPick.js";
@@ -101,15 +101,19 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
         <Row label="Description" align="start"><TextInput value={member.description} multiline disabled={readOnly} ariaLabel="Description" onChange={value => setMember(["description"], value)} /></Row>
         <Row label="Family"><Static>{familyLink}</Static></Row>
       </Section>
-      <Section title="Numbers">
-        <Row label="Value"><Derived derivation={derived.value} readOnly={readOnly} onOverride={value => setMember(["adjustments", "value"], value)} onOpenSource={source => openFamily(source.id)} /></Row>
-        {isTool
-          ? <Row label="Gather bonus"><Derived derivation={derived.gatherBonus} integer={false} readOnly={readOnly} onOverride={value => setMember(["adjustments", "gatherBonus"], value)} onOpenSource={source => openFamily(source.id)} /></Row>
-          : BONUS_KEYS.map(key => <Row key={key} label={BONUS_LABELS[key]}><Derived derivation={derived.bonuses[key]} readOnly={readOnly} onOverride={value => setMember(["adjustments", "bonuses", key], value)} onOpenSource={source => openFamily(source.id)} /></Row>)}
-        {!isTool && <Row label="Slot"><Static>{SLOT_LABELS[derived.slot] ?? derived.slot}</Static></Row>}
-        <Row label="Requires"><Static>{titleCase(family.skill)} {tier.reqLevel}<span className="muted"> · from the tier</span></Static></Row>
-        {family.attackSpeedMs !== undefined && <Row label="Attack speed"><Static mono>{family.attackSpeedMs} ms</Static></Row>}
-        {family.magicWeapon && <Row label="Magic weapon"><Static>{family.magicWeapon.kind} · {family.magicWeapon.hands === 2 ? "two-handed" : "one-handed"}</Static></Row>}
+      <Section title="Numbers" aside={<span>{family.name} curve at tier {tier.tier} · edit a cell to override it</span>}>
+        <Fields>
+          <Field label="Value"><Derived derivation={derived.value} readOnly={readOnly} onOverride={value => setMember(["adjustments", "value"], value)} onOpenSource={source => openFamily(source.id)} /></Field>
+          {isTool
+            ? <Field label="Gather bonus"><Derived derivation={derived.gatherBonus} integer={false} readOnly={readOnly} onOverride={value => setMember(["adjustments", "gatherBonus"], value)} onOpenSource={source => openFamily(source.id)} /></Field>
+            : BONUS_KEYS.map(key => <Field key={key} label={BONUS_LABELS[key]}><Derived derivation={derived.bonuses[key]} readOnly={readOnly} onOverride={value => setMember(["adjustments", "bonuses", key], value)} onOpenSource={source => openFamily(source.id)} /></Field>)}
+        </Fields>
+        <Facts className="kv-facts" items={[
+          !isTool && (SLOT_LABELS[derived.slot] ?? derived.slot),
+          <>Requires {titleCase(family.skill)} {tier.reqLevel}<span className="muted"> from the tier</span></>,
+          family.attackSpeedMs !== undefined && <span className="mono">{family.attackSpeedMs} ms per attack</span>,
+          family.magicWeapon && `${family.magicWeapon.kind} · ${family.magicWeapon.hands === 2 ? "two-handed" : "one-handed"}`,
+        ]} />
       </Section>
       <MadeBy itemId={id} data={data} navigate={navigate} />
     </Sheet>
@@ -206,8 +210,10 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
       </Section>
       {equip && <Section title="Equip" aside={remove("equip")}>
         <Row label="Slot"><Select value={equip.slot} options={EQUIP_SLOT_OPTIONS.map(slot => ({ value: slot, label: SLOT_LABELS[slot] ?? slot }))} disabled={readOnly} ariaLabel="Slot" onChange={value => set(["equip", "slot"], value)} /></Row>
-        {BONUS_KEYS.map(key => <Row key={key} label={BONUS_LABELS[key]}>{num(["equip", "bonuses", key], { label: BONUS_LABELS[key] })}</Row>)}
-        <Row label="Attack speed">{num(["equip", "attackSpeedMs"], { min: 1, unit: "ms", label: "Attack speed" })}</Row>
+        <Fields>
+          {BONUS_KEYS.map(key => <Field key={key} label={BONUS_LABELS[key]}>{num(["equip", "bonuses", key], { label: BONUS_LABELS[key] })}</Field>)}
+          <Field label="Attack speed">{num(["equip", "attackSpeedMs"], { min: 1, unit: "ms", label: "Attack speed" })}</Field>
+        </Fields>
         {Object.keys(requires).map(skill => <Row key={skill} label={`Requires ${skill}`}>
           <NumberInput value={requires[skill]} integer min={1} disabled={readOnly} ariaLabel={`Requires ${skill}`} onChange={value => set(["equip", "requires", skill], value)} />
           {!readOnly && <button type="button" className="icon-button" aria-label={`Remove ${skill} requirement`} onClick={() => set(["equip", "requires", skill], undefined)}><X size={12} /></button>}

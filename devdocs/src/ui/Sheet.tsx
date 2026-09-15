@@ -27,6 +27,23 @@ export function Section({ title, aside, children, open: initialOpen = true, coll
 /** Two sheets beside each other for records with two natural halves (identity + numbers). */
 export function Columns({ children }: { children: ReactNode }) { return <div className="kv-columns">{children}</div>; }
 
+/**
+ * A grid of small labelled fields for a group of like values (a creature's combat numbers, an
+ * item's bonuses). Label above, control below, cells packed left to right: eight numbers take two
+ * lines instead of eight rows, and the eye reads them as one set.
+ */
+export function Fields({ children, columns, className = "" }: { children: ReactNode; columns?: number; className?: string }) {
+  return <div className={`kv-fields ${className}`.trim()} style={columns ? { gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` } : undefined}>{children}</div>;
+}
+
+export function Field({ label, hint, children, span, error, className = "" }: { label: ReactNode; hint?: string; children: ReactNode; span?: 1 | 2 | 3 | 4; error?: string; className?: string }) {
+  return <div className={`kv-field${error ? " has-error" : ""} ${className}`.trim()} data-span={span} title={hint}>
+    <span className="kv-field-label">{label}</span>
+    <div className="kv-field-value">{children}</div>
+    {error && <span className="kv-error">{error}</span>}
+  </div>;
+}
+
 export function Row({ label, hint, children, error, wide = false, align = "center" }: { label: ReactNode; hint?: string; children: ReactNode; error?: string; wide?: boolean; align?: "center" | "start" }) {
   return <div className={`kv-row${wide ? " is-wide" : ""}${error ? " has-error" : ""}`} data-align={align}>
     <span className="kv-label" title={hint}>{label}</span>
@@ -43,13 +60,13 @@ export function Facts({ items, className = "" }: { items: readonly (ReactNode | 
 
 export type InputWidth = "num" | "short" | "id" | "text" | "full";
 
-export function NumberInput({ value, onChange, unit, width = "num", min, max, step, disabled, placeholder, ariaLabel, integer }: {
-  value: number | undefined; onChange: (value: number | undefined) => void; unit?: string; width?: InputWidth; min?: number; max?: number; step?: number; disabled?: boolean; placeholder?: string; ariaLabel?: string; integer?: boolean;
+export function NumberInput({ value, onChange, unit, width = "num", min, max, step, disabled, placeholder, ariaLabel, integer, title }: {
+  value: number | undefined; onChange: (value: number | undefined) => void; unit?: string; width?: InputWidth; min?: number; max?: number; step?: number; disabled?: boolean; placeholder?: string; ariaLabel?: string; integer?: boolean; title?: string;
 }) {
   const [text, setText] = useState(value === undefined ? "" : String(value));
   useEffect(() => { setText(value === undefined ? "" : String(value)); }, [value]);
   return <span className="kv-input-wrap">
-    <input className="kv-input kv-input-number" data-width={width} type="number" inputMode="decimal" value={text} min={min} max={max} step={step ?? (integer ? 1 : "any")} disabled={disabled} placeholder={placeholder} aria-label={ariaLabel}
+    <input className="kv-input kv-input-number" data-width={width} data-zero={value === 0 ? "true" : undefined} type="number" inputMode="decimal" value={text} min={min} max={max} step={step ?? (integer ? 1 : "any")} disabled={disabled} placeholder={placeholder} aria-label={ariaLabel} title={title}
       onChange={event => { setText(event.target.value); const parsed = event.target.value === "" ? undefined : Number(event.target.value); if (parsed === undefined || Number.isFinite(parsed)) onChange(parsed); }} />
     {unit && <span className="kv-unit">{unit}</span>}
   </span>;
@@ -101,7 +118,7 @@ export function Derived({ derivation, unit, onOverride, onOpenSource, integer = 
   const canEdit = Boolean(onOverride) && numeric && !readOnly;
   return <span className={`derived${overridden ? " is-overridden" : ""}`}>
     {canEdit
-      ? <NumberInput value={typeof value === "number" ? value : undefined} integer={integer} onChange={next => onOverride?.(next === computed ? undefined : next)} ariaLabel="Override" />
+      ? <NumberInput value={typeof value === "number" ? value : undefined} integer={integer} onChange={next => onOverride?.(next === computed ? undefined : next)} ariaLabel="Override" title={overridden ? `Computed ${showValue(computed)}${expression ? ` = ${expression}` : ""}` : expression ? `= ${expression}` : undefined} />
       : <strong className="derived-value mono">{showValue(value)}{unit && <small> {unit}</small>}</strong>}
     {overridden && <s className="derived-computed mono" title="Computed value">{showValue(computed)}</s>}
     {overridden && onOverride && !readOnly && <button type="button" className="derived-clear" aria-label="Clear override" title="Use the computed value" onClick={() => onOverride(undefined)}><X size={11} /></button>}
