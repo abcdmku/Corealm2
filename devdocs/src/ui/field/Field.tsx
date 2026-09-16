@@ -110,7 +110,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
       onFocus={onFocus} onBlur={onBlur} onKeyDown={onKeyDown}>
       <span className={cn(
         "field-label truncate select-none",
-        labelHidden || bare ? "sr-only" : compact ? "text-[11px] leading-snug text-muted-foreground" : "block h-7 text-right text-xs leading-7 text-muted-foreground",
+        labelHidden || bare ? "sr-only" : compact ? "text-[11px] leading-snug text-muted-foreground" : "block h-7 text-right text-xs leading-7 text-muted-foreground @max-[26rem]:h-auto @max-[26rem]:text-left @max-[26rem]:leading-normal",
         disabled && "text-faint", state === "invalid" && "text-destructive",
       )} id={labelId} data-scrub={labelHandlers ? "true" : undefined}
         title={[typeof label === "string" ? label : undefined, hint, labelHandlers ? "Alt+drag to scrub" : undefined].filter(Boolean).join(" · ") || undefined} {...labelHandlers}>{label}</span>

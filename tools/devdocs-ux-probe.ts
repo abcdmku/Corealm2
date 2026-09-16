@@ -38,7 +38,7 @@ async function collectionIds(name: string, count = 1): Promise<string[]> {
 const ROUTES: readonly [collection: string, route: string][] = [
   ["items", "items/catalog"], ["equipmentSets", "items/sets"], ["resources", "items/resources"], ["campfireFuels", "items/fuels"],
   ["creatureDefinitions", "creatures/bestiary"], ["lootTables", "creatures/loot"],
-  ["npcs", "story/npcs"], ["quests", "story/quests"], ["dialogue", "story/dialogue"], ["shops", "story/shops"],
+  ["npcs", "npcs/npcs"], ["quests", "quests/quests"], ["dialogue", "npcs/dialogue"], ["shops", "shops/shops"],
   ["spells", "spells/spells"], ["spellRunes", "spells/runes"], ["elementalSpells", "spells/elemental"],
   ["assets", "assets/models"], ["equipmentFamilies", "tuning/families"], ["recipeTemplates", "tuning/templates"],
   ["creatureProfiles", "tuning/roles"], ["progression", "tuning/tiers"], ["materials", "tuning/materials"],

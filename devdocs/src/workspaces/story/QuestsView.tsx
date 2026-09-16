@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ScrollText } from "lucide-react";
+import { ChevronDown, ChevronRight, ScrollText, SquareArrowOutUpRight } from "lucide-react";
 import type { Schema } from "../../../../game/src/content/schema/core.js";
 import { questGrantSchema, questObjectiveRefSchema, questPredicateSchema, questSchema, questStageSchema } from "../../../../game/src/content/schema/story.js";
 import { collectionQuery } from "../../api/client.js";
@@ -18,11 +18,15 @@ import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { cn } from "../../lib/utils.js";
 import {
-  asRecord, itemOf, list, nameOf, num, PageState, RecordShell, RefCell, refRenderer, regionName, RowBlock,
+  asRecord, itemOf, list, ListMap, nameOf, num, PageState, RecordShell, RefCell, refRenderer, regionName, RowBlock,
   regionOptions, skillKeys, StackList, strings, sub, text, usePage, type Page,
 } from "./shared.js";
-import { PAGE } from "../../ui/layout.js";
-import { EmptyCell, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
+import { EMPTY, PAGE, RAIL_BLOCK } from "../../ui/layout.js";
+import { PointsMap, type MapPoint } from "../../ui/PointsMap.js";
+import { Badge, Button, ChoiceChips, EmptyCell, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
+import { DialogueNodeEditor } from "./DialogueView.js";
+import { pins, predicatePlaces, refPlaces, worldPlaces, type Place } from "./places.js";
+import { ROLE_LABEL, stageDialogue } from "./questLinks.js";
 
 interface Stage extends ContentRow { index?: number; objective?: string; hint?: string; refs?: ContentRow[]; completion?: unknown; grants?: ContentRow; onFlag?: unknown }
 interface Quest extends ContentRow {
@@ -47,9 +51,14 @@ function QuestList({ navigate }: { navigate: ViewProps["navigate"] }) {
   const { index } = useReferenceIndex();
   const ctx = useMemo(() => summaryContext(index), [index]);
   const rows = useMemo(() => query.data ? contentRows(query.data) : [], [query.data]);
+  const givers = useMemo(() => {
+    const places = worldPlaces(index);
+    return rows.flatMap(row => { const place = places.npcs.get(text(row.giverNpcId) ?? ""); return place ? [{ id: String(row.id), x: place.x, z: place.z, label: String(row.name), regionId: place.regionId }] : []; });
+  }, [rows, index]);
   if (query.isPending) return <div className={PAGE}><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   return <div className={PAGE}>
+    <ListMap points={givers} onOpen={questId => navigate("quests", questId)} />
     <TableFrame className="max-h-[calc(100vh-6rem)]">
       <Table>
         <TableHeader><TableRow>
@@ -95,7 +104,8 @@ function QuestPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
       thumb={{ kind: "glyph", icon: ScrollText }}
       title={record.name} id={id}
       facts={[regionName(index, record.regionId), record.kind && titleCase(record.kind), `${stages.length} stage${stages.length === 1 ? "" : "s"}`]}
-      draft={draft}>
+      draft={draft}
+      rail={<QuestMap quest={record} stages={stages} page={page} navigate={navigate} />}>
       <Sheet>
         <Section title="Quest">
           <Field label={quest("name").label}><TextField value={record.name ?? ""} readOnly={readOnly} onChange={value => draft.setPath(["name"], value)} /></Field>
@@ -120,11 +130,11 @@ function QuestPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
         </Section>
 
         <Section title={fieldFromSchema(questSchema, "onStart").label} collapsible open={record.onStart !== undefined}>
-          <GrantFields schema={questGrantSchema} grant={asRecord(record.onStart)} path={["onStart"]} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} />
+          <GrantFields schema={questGrantSchema} grant={asRecord(record.onStart)} path={["onStart"]} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} sparse />
         </Section>
 
         <Section title={quest("stages").label}>
-          <StageList stages={stages} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} ctx={ctx} />
+          <StageList questId={id} regionId={text(record.regionId)} stages={stages} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} ctx={ctx} navigate={navigate} />
         </Section>
 
         <Section title="Rewards">
@@ -137,43 +147,121 @@ function QuestPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
   }}</PageState>;
 }
 
+/* ---------- Map ---------- */
+
+/** Where the quest happens: the giver, then each stage's places numbered by stage. Clicking a pin opens it on the world map. */
+function QuestMap({ quest: record, stages, page, navigate }: { quest: Quest; stages: Stage[]; page: Page<Quest>; navigate: ViewProps["navigate"] }) {
+  const { index, ctx } = page;
+  const points = useMemo(() => {
+    const giver = worldPlaces(index).npcs.get(text(record.giverNpcId) ?? "");
+    return [
+      ...(giver ? pins([giver], "Giver") : []),
+      ...stages.flatMap((stage, at) => pins([...predicatePlaces(stage.completion, index, text(record.regionId)), ...refPlaces(stage.refs, index)], String(stage.index ?? at))),
+    ];
+  }, [record.giverNpcId, record.regionId, stages, index]);
+  const open = (point: MapPoint) => { if (point.target) navigate("world/map", point.target); };
+  return <section className={RAIL_BLOCK}>
+    <h3>Where</h3>
+    {points.length ? <PointsMap points={points} onOpen={open} /> : <p className={EMPTY}>No stage names a place on the map.</p>}
+    <ol className="flex flex-col gap-0.5 text-xs">
+      {stages.map((stage, at) => <li key={at} className="grid grid-cols-[1.25rem_minmax(0,1fr)] items-baseline gap-1.5">
+        <span className="font-mono text-[11px] text-faint">{stage.index ?? at}</span>
+        <a href={`#stage-${at}`} className="truncate text-muted-foreground hover:text-foreground" title={stage.objective}>{stage.objective || predicateLine(stage.completion, ctx)}</a>
+      </li>)}
+    </ol>
+  </section>;
+}
+
 /* ---------- Stages ---------- */
 
-interface StageProps { stages: Stage[]; page: Page<Quest>; readOnly: boolean; skills: { value: string; label?: string }[]; renderRef: RenderRef; ctx: SummaryContext }
+interface StageProps { questId: string; regionId: string | undefined; stages: Stage[]; page: Page<Quest>; readOnly: boolean; skills: { value: string; label?: string }[]; renderRef: RenderRef; ctx: SummaryContext; navigate: ViewProps["navigate"] }
 
-/** Stages read as one line each; one is open at a time. The handle and Alt+Up/Down reorder them. */
-function StageList({ stages, page, readOnly, skills, renderRef, ctx }: StageProps) {
-  const [open, setOpen] = useState<number | undefined>(stages.length === 1 ? 0 : undefined);
+/**
+ * Every stage is shown as the step the player takes: what it asks, where on the map, the dialogue
+ * that offers, advances or completes it, and what it grants, all editable in place. A step folds to
+ * its one-line summary; the handle and Alt+Up/Down reorder steps.
+ */
+function StageList({ questId, regionId, stages, page, readOnly, skills, renderRef, ctx, navigate }: StageProps) {
+  const [closed, setClosed] = useState<ReadonlySet<number>>(new Set());
+  const toggle = (at: number) => setClosed(previous => { const next = new Set(previous); if (next.has(at)) next.delete(at); else next.add(at); return next; });
   const commit = (next: Stage[]) => page.draft.setPath(["stages"], next.map((stage, index) => ({ ...stage, index })));
-  return <ListField<Stage> items={stages} ordered min={1} readOnly={readOnly}
-    rowClassName="items-start [&>.field-list-handle]:mt-0.5 [&>button]:mt-0.5"
-    emptyText="No stages." addLabel="Add stage"
-    onAdd={() => ({ index: stages.length, objective: "", hint: "", refs: [], completion: { kind: "flag", flag: "" } })}
-    onChange={next => { if (next.length !== stages.length) setOpen(undefined); commit(next); }}
-    removeLabel={(_, index) => `Remove stage ${index}`}
-    renderItem={(stage, api) => <>
-      <button type="button" className="group/stage grid min-h-7 flex-[1_1_100%] cursor-pointer grid-cols-[1.375rem_minmax(0,1fr)_auto] items-center gap-2 text-left" aria-expanded={open === api.index} onClick={() => setOpen(open === api.index ? undefined : api.index)}>
-        <span className="grid size-5 place-items-center rounded-full border border-border bg-secondary font-mono text-[11px] font-semibold text-muted-foreground group-aria-expanded/stage:border-primary group-aria-expanded/stage:text-primary">{stage.index ?? api.index}</span>
-        <span className={cn("truncate text-[13px] font-medium group-hover/stage:text-primary", !stage.objective && "text-faint")}>{stage.objective || "No objective yet"}</span>
-        <span className="max-w-80 truncate text-[11px] text-muted-foreground" title={predicateLine(stage.completion, ctx)}>{predicateLine(stage.completion, ctx)}</span>
+  return <>
+    <div className="mb-1 flex gap-1">
+      <Button variant="ghost" size="xs" onClick={() => setClosed(new Set())}>Expand all</Button>
+      <Button variant="ghost" size="xs" onClick={() => setClosed(new Set(stages.map((_, at) => at)))}>Collapse all</Button>
+    </div>
+    <ListField<Stage> items={stages} ordered min={1} readOnly={readOnly}
+      rowClassName="grid-cols-[0.875rem_minmax(0,1fr)_auto]! items-start [&>.field-list-handle]:mt-1 [&>button]:mt-1 border-b border-border-subtle pb-2 mb-1"
+      emptyText="No stages." addLabel="Add stage"
+      onAdd={() => ({ index: stages.length, objective: "", hint: "", refs: [], completion: { kind: "flag", flag: "" } })}
+      onChange={next => { if (next.length !== stages.length) setClosed(new Set()); commit(next); }}
+      removeLabel={(_, index) => `Remove stage ${index}`}
+      renderItem={(stage, api) => {
+        const open = !closed.has(api.index);
+        return <>
+          <button type="button" id={`stage-${api.index}`} className="group/stage grid min-h-7 flex-[1_1_100%] cursor-pointer scroll-mt-4 grid-cols-[0.875rem_1.375rem_minmax(0,1fr)_minmax(0,auto)] items-center gap-2 text-left" aria-expanded={open} onClick={() => toggle(api.index)}>
+            {open ? <ChevronDown className="size-3.5 text-faint" /> : <ChevronRight className="size-3.5 text-faint" />}
+            <span className="grid size-5 place-items-center rounded-full border border-border bg-secondary font-mono text-[11px] font-semibold text-muted-foreground">{stage.index ?? api.index}</span>
+            <span className={cn("truncate text-[13px] font-medium group-hover/stage:text-primary", !stage.objective && "text-faint")}>{stage.objective || "No objective yet"}</span>
+            <span className="max-w-80 truncate text-[11px] text-muted-foreground" title={predicateLine(stage.completion, ctx)}>{predicateLine(stage.completion, ctx)}</span>
+          </button>
+          {open && <StageBody stage={stage} at={api.index} update={api.update} questId={questId} regionId={regionId} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} navigate={navigate} />}
+        </>;
+      }} />
+  </>;
+}
+
+function StageBody({ stage, at, update, questId, regionId, page, readOnly, skills, renderRef, navigate }: {
+  stage: Stage; at: number; update: (next: Stage) => void; questId: string; regionId: string | undefined; page: Page<Quest>; readOnly: boolean;
+  skills: { value: string; label?: string }[]; renderRef: RenderRef; navigate: ViewProps["navigate"];
+}) {
+  const { index } = page;
+  const places: Place[] = useMemo(() => [...predicatePlaces(stage.completion, index, regionId), ...refPlaces(stage.refs, index)], [stage.completion, stage.refs, index, regionId]);
+  const dialogue = useMemo(() => stageDialogue(index, questId, stage, stage.index ?? at), [index, questId, stage, at]);
+  return <RowBlock className="mt-1 ml-6">
+    <Field label={stageField("objective").label}><TextField value={stage.objective ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${at} objective`} onChange={value => update({ ...stage, objective: value })} /></Field>
+    <Field label={stageField("hint").label}><TextField value={stage.hint ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${at} hint`} onChange={value => update({ ...stage, hint: value })} /></Field>
+    <UnionField schema={questPredicateSchema} kindLabel="Player does" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
+      onChange={value => update({ ...stage, completion: value })} />
+    {places.length > 0 && <Field label="Where">
+      <PointsMap className="max-w-[26rem]" points={pins(places)} onOpen={point => { if (point.target) navigate("world/map", point.target); }} />
+    </Field>}
+    <Field label="Dialogue">
+      {dialogue.length
+        ? <div className="flex w-full max-w-[52rem] min-w-0 flex-col gap-1">{dialogue.map(entry => <StageLine key={entry.nodeId} entry={entry} page={page} navigate={navigate} />)}</div>
+        : <span className="inline-flex h-7 items-center text-xs text-faint">No dialogue offers, advances or completes this step.</span>}
+    </Field>
+    <ListField<ContentRow> label={stageField("refs").label} items={list(stage.refs).map(asRecord)} readOnly={readOnly}
+      emptyText="None." addLabel="Add ref" onAdd={() => ({ kind: "item", id: "" })}
+      onChange={next => update({ ...stage, refs: next.length ? next : undefined })}
+      renderItem={(entry, row) => <>
+        <ChoiceField display="select" value={text(entry.kind)} options={REF_KINDS} readOnly={readOnly} ariaLabel={`Ref ${row.index + 1} kind`} onChange={value => row.update({ kind: value ?? "item", id: "" })} />
+        <RefCell label={`Ref ${row.index + 1}`} kind={text(entry.kind) ?? "item"} value={text(entry.id)} readOnly={readOnly} onChange={value => row.update({ ...entry, id: value ?? "" })} />
+      </>} />
+    <GrantFields schema={questGrantSchema} grant={asRecord(stage.grants)} path={["stages", at, "grants"]} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} sparse />
+    {stage.onFlag !== undefined && sub(questStageSchema, "onFlag") && <SchemaControl schema={sub(questStageSchema, "onFlag")!} name="onFlag" value={stage.onFlag} renderRef={renderRef} readOnly={readOnly}
+      onChange={value => update({ ...stage, onFlag: value })} />}
+  </RowBlock>;
+}
+
+/** One line of dialogue tied to the step: who says what and why it is here; open it to edit the line and its options in place. */
+function StageLine({ entry, page, navigate }: { entry: ReturnType<typeof stageDialogue>[number]; page: Page<Quest>; navigate: ViewProps["navigate"] }) {
+  const [open, setOpen] = useState(entry.roles.includes("completes"));
+  const node = page.ctx.lookup("dialogue", entry.nodeId);
+  const speaker = text(node?.speaker);
+  const line = text(node?.text);
+  return <div className="@container min-w-0 rounded-md border border-border-subtle bg-card">
+    <div className="flex min-h-8 items-center gap-2 px-2">
+      <button type="button" className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 text-left text-xs" aria-expanded={open} onClick={() => setOpen(!open)}>
+        {open ? <ChevronDown className="size-3.5 shrink-0 text-faint" /> : <ChevronRight className="size-3.5 shrink-0 text-faint" />}
+        <Badge variant={entry.roles.includes("completes") ? "accent" : "default"} className="shrink-0">{ROLE_LABEL[entry.roles[0]!]}</Badge>
+        <span className="min-w-0 flex-1 truncate">{speaker && <strong className="font-medium">{speaker}: </strong>}{line ?? <span className="text-faint">(no text)</span>}</span>
+        <span className="hidden shrink-0 font-mono text-[11px] text-faint @min-[36rem]:inline">{[...entry.detail, entry.nodeId].join(" · ")}</span>
       </button>
-      {open === api.index && <RowBlock className="mt-0.5 mb-1.5 border-l-2 border-border pl-3">
-        <Field label={stageField("objective").label}><TextField value={stage.objective ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${api.index} objective`} onChange={value => api.update({ ...stage, objective: value })} /></Field>
-        <Field label={stageField("hint").label}><TextField value={stage.hint ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${api.index} hint`} onChange={value => api.update({ ...stage, hint: value })} /></Field>
-        <ListField<ContentRow> label={stageField("refs").label} items={list(stage.refs).map(asRecord)} readOnly={readOnly}
-          emptyText="None." addLabel="Add ref" onAdd={() => ({ kind: "item", id: "" })}
-          onChange={next => api.update({ ...stage, refs: next.length ? next : undefined })}
-          renderItem={(entry, row) => <>
-            <ChoiceField display="select" value={text(entry.kind)} options={REF_KINDS} readOnly={readOnly} ariaLabel={`Ref ${row.index + 1} kind`} onChange={value => row.update({ kind: value ?? "item", id: "" })} />
-            <RefCell label={`Ref ${row.index + 1}`} kind={text(entry.kind) ?? "item"} value={text(entry.id)} readOnly={readOnly} onChange={value => row.update({ ...entry, id: value ?? "" })} />
-          </>} />
-        <UnionField schema={questPredicateSchema} kindLabel="Completion" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
-          onChange={value => api.update({ ...stage, completion: value })} />
-        <GrantFields schema={questGrantSchema} grant={asRecord(stage.grants)} path={["stages", api.index, "grants"]} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} />
-        {stage.onFlag !== undefined && sub(questStageSchema, "onFlag") && <SchemaControl schema={sub(questStageSchema, "onFlag")!} name="onFlag" value={stage.onFlag} renderRef={renderRef} readOnly={readOnly}
-          onChange={value => api.update({ ...stage, onFlag: value })} />}
-      </RowBlock>}
-    </>} />;
+      <Button variant="ghost" size="icon-xs" title="Open the dialogue node" aria-label={`Open ${entry.nodeId}`} onClick={() => navigate("dialogue", entry.nodeId)}><SquareArrowOutUpRight /></Button>
+    </div>
+    {open && <div className="border-t border-border-subtle px-2 pt-2 pb-1">{node ? <DialogueNodeEditor id={entry.nodeId} /> : <p className={EMPTY}>Dialogue node {entry.nodeId} does not exist.</p>}</div>}
+  </div>;
 }
 
 /* ---------- Grants (stage grants, on start, rewards) ---------- */
@@ -182,15 +270,21 @@ const GRANT_KEYS = ["xp", "items", "takeItems", "currency", "flags", "unlocks", 
 type GrantKey = typeof GRANT_KEYS[number];
 
 /** One grant block as fields: xp per skill, marks, item stacks, flags, unlocks and world state. */
-function GrantFields({ schema, grant, path, page, readOnly, skills, renderRef, only = GRANT_KEYS }: {
+function GrantFields({ schema, grant, path, page, readOnly, skills, renderRef, only = GRANT_KEYS, sparse = false }: {
   schema: Schema; grant: ContentRow; path: Path; page: Page<Quest>; readOnly: boolean;
   skills: { value: string; label?: string }[]; renderRef: RenderRef; only?: readonly GrantKey[];
+  /** Show only what is granted, with one row to add the rest; a stage grants little, so six empty fields per stage is noise. */
+  sparse?: boolean;
 }) {
   const { draft } = page;
+  const [added, setAdded] = useState<ReadonlySet<GrantKey>>(new Set());
   const spec = (key: GrantKey) => fieldFromSchema(schema, key);
   const write = (key: GrantKey, value: unknown) => draft.setPath([...path, key], value);
   const keep = (key: GrantKey, next: readonly unknown[]) => write(key, next.length || !spec(key).optional ? [...next] : undefined);
-  const shown = (key: GrantKey) => only.includes(key) && sub(schema, key) !== undefined;
+  const has = (key: GrantKey) => { const value = grant[key]; return value !== undefined && value !== null && !(Array.isArray(value) && !value.length) && !(typeof value === "object" && !Array.isArray(value) && !Object.keys(value as object).length); };
+  const available = (key: GrantKey) => only.includes(key) && sub(schema, key) !== undefined;
+  const shown = (key: GrantKey) => available(key) && (!sparse || has(key) || added.has(key));
+  const missing = sparse ? only.filter(key => available(key) && !shown(key)) : [];
   const xp = Object.fromEntries(Object.entries(asRecord(grant.xp)).map(([skill, amount]) => [skill, num(amount) ?? 0]));
   const worldStateItem = itemOf(sub(schema, "worldState"));
 
@@ -213,6 +307,10 @@ function GrantFields({ schema, grant, path, page, readOnly, skills, renderRef, o
       summarize={entry => `${text(entry.entityId) ?? "?"} → ${text(entry.state) ?? "?"}`}
       onChange={next => keep("worldState", next)}
       renderItem={(entry, api) => <SchemaControl schema={worldStateItem} name="worldState" value={entry} renderRef={renderRef} readOnly={readOnly} onChange={value => api.update(asRecord(value))} />} />}
+    {sparse && missing.length > 0 && !readOnly && <Field label={missing.length === only.filter(available).length ? "Grants" : "Add grant"}>
+      <ChoiceChips aria-label="Add a grant" value={[]} items={missing.map(key => ({ value: key, label: spec(key).label }))}
+        onValueChange={next => setAdded(previous => new Set([...previous, ...next as GrantKey[]]))} />
+    </Field>}
   </>;
 }
 

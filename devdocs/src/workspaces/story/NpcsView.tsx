@@ -8,7 +8,11 @@ import { CollectionPage } from "../../pages/CollectionPage.js";
 import { ChoiceField, Field, ListField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, TextField, fieldFromSchema } from "../../ui/field/index.js";
 import { DialogueTree } from "../../ui/DialogueTree.js";
 import type { ViewProps } from "../types.js";
-import { findStand, nameOf, PageState, RecordShell, RefCell, regionName, regionOptions, strings, text, usePage, WhereBlock, type Page } from "./shared.js";
+import { findStand, ListMap, nameOf, PageState, PlaceBlock, RecordShell, RefCell, regionName, regionOptions, strings, text, usePage, WhereBlock, type Page } from "./shared.js";
+import { worldPlaces } from "./places.js";
+import { useReferenceIndex } from "../../model/refs.js";
+import { PAGE_WIDE } from "../../ui/layout.js";
+import { cn } from "../../lib/utils.js";
 
 interface Npc extends ContentRow {
   id: string; name: string; regionId?: string; settlementId?: string; role?: string; voice?: string;
@@ -19,8 +23,15 @@ const npc = (key: string) => fieldFromSchema(npcSchema, key);
 const fairy = (key: string) => fieldFromSchema(fairyNpcSchema, key);
 
 export default function NpcsView({ recordId, navigate }: ViewProps) {
-  if (recordId === undefined) return <CollectionPage collection="npcs" recordId={undefined} navigate={navigate} />;
+  if (recordId === undefined) return <><NpcMap navigate={navigate} /><CollectionPage collection="npcs" recordId={undefined} navigate={navigate} /></>;
   return <NpcPage id={recordId} navigate={navigate} />;
+}
+
+/** Where every NPC stands, above the list. */
+function NpcMap({ navigate }: { navigate: ViewProps["navigate"] }) {
+  const { index } = useReferenceIndex();
+  const points = useMemo(() => [...worldPlaces(index).npcs.values()].map(place => ({ id: place.id, x: place.x, z: place.z, label: place.label, regionId: place.regionId })), [index]);
+  return points.length ? <div className={cn(PAGE_WIDE, "pb-0")}><ListMap points={points} onOpen={id => navigate("npcs", id)} /></div> : null;
 }
 
 function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
@@ -38,7 +49,7 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
       title={record.name} id={id}
       facts={[regionName(index, record.regionId), settlementName, record.catalog && titleCase(record.catalog)]}
       draft={draft}
-      rail={<WhereBlock id={id} stand={stand} mapTarget={`npcs:${id}`} empty="Not standing in any settlement." navigate={navigate} />}>
+      rail={stand ? <WhereBlock id={id} stand={stand} mapTarget={`npcs:${id}`} empty="Not standing in any settlement." navigate={navigate} /> : <PlaceBlock place={worldPlaces(index).npcs.get(id)} empty="No settlement stand and no location." navigate={navigate} />}>
       <Sheet>
         <Section title="Identity">
           <Field label={npc("name").label}><TextField value={record.name ?? ""} readOnly={readOnly} onChange={value => draft.setPath(["name"], value)} /></Field>

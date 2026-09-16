@@ -24,12 +24,13 @@ export interface ChoiceItem<T extends string = string> {
 type Look = "segments" | "chips";
 
 const ROOT: Record<Look, string> = {
-  segments: "inline-flex h-7 max-w-full items-center gap-0.5 rounded-md border border-input bg-background p-0.5 shadow-xs",
+  // A strip that has no room wraps its segments instead of pushing out of its column.
+  segments: "inline-flex min-h-7 max-w-full flex-wrap items-center gap-0.5 rounded-md border border-input bg-background p-0.5 shadow-xs",
   chips: "inline-flex max-w-full flex-wrap items-center gap-1",
 };
 
 const ITEM: Record<Look, string> = {
-  segments: "h-full rounded-sm px-2 text-muted-foreground hover:bg-accent hover:text-foreground data-[state=on]:bg-selected data-[state=on]:font-medium data-[state=on]:text-foreground data-[state=on]:ring-1 data-[state=on]:ring-border",
+  segments: "h-[1.375rem] rounded-sm px-2 text-muted-foreground hover:bg-accent hover:text-foreground data-[state=on]:bg-selected data-[state=on]:font-medium data-[state=on]:text-foreground data-[state=on]:ring-1 data-[state=on]:ring-border",
   chips: "h-7 rounded-full border border-input bg-background px-2.5 text-muted-foreground hover:bg-accent hover:text-foreground data-[state=on]:border-primary data-[state=on]:bg-brass-soft data-[state=on]:text-foreground",
 };
 

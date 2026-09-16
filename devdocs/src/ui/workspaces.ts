@@ -1,4 +1,4 @@
-import { Boxes, Home, Map as MapIcon, PawPrint, ScrollText, SlidersHorizontal, Sparkles, Swords, type LucideIcon } from "lucide-react";
+import { Boxes, Home, Map as MapIcon, PawPrint, ScrollText, SlidersHorizontal, Sparkles, Store, Swords, Users, type LucideIcon } from "lucide-react";
 
 /*
   Navigation is nine workspaces, each with a few views. A view is either a purpose-built page
@@ -49,10 +49,15 @@ export const WORKSPACES: readonly Workspace[] = [
   { key: "world", label: "World", icon: MapIcon, fullBleed: true, views: [
     { key: "map", label: "Map", aliases: ["worldRegions", "placements", "encounters", "resourcePlacements"] },
   ] },
-  { key: "story", label: "Story", icon: ScrollText, views: [
-    { key: "npcs", label: "NPCs", collection: "npcs" },
+  { key: "quests", label: "Quests", icon: ScrollText, views: [
     { key: "quests", label: "Quests", collection: "quests" },
+  ] },
+  // A conversation belongs to the people who speak it, so dialogue nodes browse beside the NPCs.
+  { key: "npcs", label: "NPCs", icon: Users, views: [
+    { key: "npcs", label: "NPCs", collection: "npcs" },
     { key: "dialogue", label: "Dialogue", collection: "dialogue" },
+  ] },
+  { key: "shops", label: "Shops", icon: Store, views: [
     { key: "shops", label: "Shops", collection: "shops" },
   ] },
   { key: "spells", label: "Spells", icon: Sparkles, views: [
@@ -99,6 +104,8 @@ export function parseRoute(segments: readonly string[]): Route {
   const home = byKey.get("home")!;
   const [first, second, third] = segments;
   if (!first) return { workspace: home, view: home.views[0]! };
+  // Quests, NPCs, dialogue and shops were one "Story" workspace; its links land on their own now.
+  if (first === "story") return second ? parseRoute(segments.slice(1)) : parseRoute(["quests"]);
   const workspace = byKey.get(first);
   if (workspace) {
     const view = second ? workspace.views.find(candidate => candidate.key === second) : undefined;

@@ -82,7 +82,7 @@ async function main() {
   }
 
   // ---- Task B
-  await page.goto(`${base}/#/story/npcs/npc_fey_lantern_keeper`);
+  await page.goto(`${base}/#/npcs/npcs/npc_fey_lantern_keeper`);
   await page.waitForSelector(".record-layout-main .field input");
   await page.locator(".record-nav-item[aria-current='true']").focus();
   let tabs = 0;

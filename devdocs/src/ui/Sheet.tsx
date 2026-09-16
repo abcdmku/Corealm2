@@ -19,7 +19,8 @@ export const SheetLevel = createContext(false);
 export const useOnSheet = (): boolean => useContext(SheetLevel);
 
 /** A standalone row's columns, for rows that are not on a sheet's grid. */
-export const ROW_COLUMNS = "grid grid-cols-[fit-content(10.5rem)_minmax(0,1fr)] gap-x-2.5";
+/** Narrower than 26rem (a nested editor in a peek), labels stack over their controls. */
+export const ROW_COLUMNS = "grid grid-cols-[fit-content(10.5rem)_minmax(0,1fr)] gap-x-2.5 @max-[26rem]:grid-cols-1";
 /** A row on a sheet: span both columns and use the sheet's. */
 export const ON_SHEET = "col-span-full grid grid-cols-subgrid";
 
@@ -28,7 +29,7 @@ export function Sheet({ children, className, compact = false }: { children: Reac
   return <SheetLevel.Provider value>
     <div data-slot="sheet" data-compact={compact || undefined} className={cn(
       "kv min-w-0 content-start [&>*]:col-span-full [&>*]:min-w-0",
-      nested ? ON_SHEET : cn("grid gap-x-2.5", compact ? "grid-cols-[fit-content(8.25rem)_minmax(0,1fr)] gap-x-2" : "grid-cols-[fit-content(10.5rem)_minmax(0,1fr)]"),
+      nested ? ON_SHEET : cn("grid gap-x-2.5", compact ? "grid-cols-[fit-content(8.25rem)_minmax(0,1fr)] gap-x-2" : "grid-cols-[fit-content(10.5rem)_minmax(0,1fr)]", "@max-[26rem]:grid-cols-1"),
       className,
     )}>{children}</div>
   </SheetLevel.Provider>;

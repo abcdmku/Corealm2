@@ -10,7 +10,9 @@ import { ErrorState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { TileGrid, tileArtClasses, tileClasses, tileSubtitleClasses, tileTitleClasses } from "../../ui/RecordTile.js";
 import type { ViewProps } from "../types.js";
-import { asRecord, findStand, list, num, PageState, RecordShell, StackList, text, usePage, WhereBlock } from "./shared.js";
+import { asRecord, findStand, list, ListMap, num, PageState, RecordShell, StackList, text, usePage, WhereBlock } from "./shared.js";
+import { worldPlaces } from "./places.js";
+import { useReferenceIndex } from "../../model/refs.js";
 import { PAGE } from "../../ui/layout.js";
 
 interface Shop extends ContentRow { id: string; name: string; buyMultiplier?: number; sellMultiplier?: number; stock?: ContentRow[] }
@@ -27,9 +29,12 @@ export default function ShopsView({ recordId, navigate }: ViewProps) {
 function ShopList({ navigate }: { navigate: ViewProps["navigate"] }) {
   const query = useQuery(collectionQuery("shops"));
   const rows = useMemo(() => query.data ? contentRows(query.data) : [], [query.data]);
+  const { index } = useReferenceIndex();
+  const points = useMemo(() => [...worldPlaces(index).shops.values()].map(place => ({ id: place.id, x: place.x, z: place.z, label: place.label, regionId: place.regionId })), [index]);
   if (query.isPending) return <div className={PAGE}><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   return <div className={PAGE}>
+    <ListMap points={points} onOpen={id => navigate("shops", id)} />
     <TileGrid>{rows.map(row => {
       const id = String(row.id);
       const stock = list(row.stock).map(asRecord);

@@ -144,6 +144,37 @@ export function WhereBlock({ id, stand, detail, mapTarget, empty, navigate }: { 
   </section>;
 }
 
+/** The rail's map for one place that is not a settlement stand (an NPC standing at a location). */
+export function PlaceBlock({ place, empty, navigate }: { place: { id: string; x: number; z: number; label: string; regionId: string; target: string } | undefined; empty: string; navigate: ViewProps["navigate"] }) {
+  const { index } = useReferenceIndex();
+  const open = () => { if (place) navigate("world/map", place.target); };
+  return <section className={RAIL_BLOCK}>
+    <h3>Where</h3>
+    {place
+      ? <div className="flex w-full flex-col gap-2">
+        <PointsMap points={[{ id: place.id, x: place.x, z: place.z, label: place.label }]} onOpen={open} onOpenAt={open} />
+        <div className="flex flex-col items-start gap-0.5 text-xs">
+          <span>{regionName(index, place.regionId)}<span className="font-mono text-[11px] text-faint"> · {place.x}, {place.z}</span></span>
+          <Button variant="link" size="inline" onClick={open}>Show on map</Button>
+        </div>
+      </div>
+      : <span className={EMPTY}>{empty}</span>}
+  </section>;
+}
+
+/** A list page's map: every record that has a place, one pin each, one map per world (overworld, fairy realm); a pin opens its record. */
+export function ListMap({ points, onOpen }: { points: readonly { id: string; x: number; z: number; label: string; regionId: string }[]; onOpen: (id: string) => void }) {
+  if (!points.length) return null;
+  const worlds = new Map<string, typeof points[number][]>();
+  for (const point of points) { const world = worldKey(point.regionId); worlds.set(world, [...(worlds.get(world) ?? []), point]); }
+  return <div className="mb-3 grid max-w-[64rem] grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] gap-2">
+    {[...worlds].map(([world, group]) => <PointsMap key={world} points={group} caption={`${WORLD_LABEL[world] ?? world} · ${group.length}`} onOpen={point => onOpen(point.id)} />)}
+  </div>;
+}
+
+const worldKey = (regionId: string): string => regionId === "gravelmaw" ? "gravelmaw" : regionId === "gloamgarden" || regionId === "faeholme" ? "fairy" : "surface";
+const WORLD_LABEL: Readonly<Record<string, string>> = { surface: "Overworld", fairy: "Fairy realm", gravelmaw: "Gravelmaw" };
+
 /**
  * The body of an expanded list row: its own small sheet the full width of the row, so the fields in
  * it share one label column (a list row does not carry the outer sheet's grid).

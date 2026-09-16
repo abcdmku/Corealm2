@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { MessageCircle } from "lucide-react";
 import { dialogueConditionSchema, dialogueEffectSchema, dialogueNodeSchema, dialogueOptionSchema } from "../../../../game/src/content/schema/story.js";
@@ -84,18 +84,40 @@ export function nextOptionId(nodeId: string, options: readonly Option[]): string
 
 function DialoguePage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const page = usePage<Node>("dialogue", id);
-  const { draft, ctx } = page;
-  const readOnly = !draft.editable;
-  const renderRef = useMemo(() => refRenderer(readOnly), [readOnly]);
+  const { draft } = page;
   return <PageState page={page} collection="dialogue" navigate={navigate}>{record => {
-    const options = list(record.options).map(entry => entry as Option);
-    const variants = list(record.variants).map(asRecord);
+    const options = list(record.options);
     return <RecordShell
       thumb={{ kind: "glyph", icon: MessageCircle }}
       title={text(record.speaker) ?? id} id={id}
       facts={[record.catalog && titleCase(record.catalog), `${options.length} option${options.length === 1 ? "" : "s"}`]}
       draft={draft}>
-      <Sheet>
+      <NodeSheet id={id} page={page} record={record}>
+        <ReferencedBy collection="dialogue" id={id} navigate={navigate} />
+      </NodeSheet>
+    </RecordShell>;
+  }}</PageState>;
+}
+
+/**
+ * One dialogue node, editable where it is used (a quest stage lists the lines that start or advance
+ * it). It edits through its own draft, so the shell's save bar saves it with the quest.
+ */
+export function DialogueNodeEditor({ id }: { id: string }) {
+  const page = usePage<Node>("dialogue", id);
+  const record = page.draft.draft;
+  if (page.draft.loading) return <LoadingRows />;
+  if (!record) return <p className="py-1 text-xs text-destructive">Dialogue node {id} does not exist.</p>;
+  return <NodeSheet id={id} page={page} record={record} />;
+}
+
+function NodeSheet({ id, page, record, children }: { id: string; page: Page<Node>; record: Node; children?: ReactNode }) {
+  const { draft, ctx } = page;
+  const readOnly = !draft.editable;
+  const renderRef = useMemo(() => refRenderer(readOnly), [readOnly]);
+  const options = list(record.options).map(entry => entry as Option);
+  const variants = list(record.variants).map(asRecord);
+  return <Sheet>
         <Section title="Line">
           <Field label={node("speaker").label} hint={node("speaker").hint}>
             <TextField value={record.speaker ?? ""} placeholder="NPC name" readOnly={readOnly} onChange={value => draft.setPath(["speaker"], value || undefined)} />
@@ -122,11 +144,8 @@ function DialoguePage({ id, navigate }: { id: string; navigate: ViewProps["navig
             onChange={next => draft.setPath(["options"], next)}
             renderItem={(entry, api) => <OptionFields option={entry} at={api.index} update={api.update} page={page} readOnly={readOnly} renderRef={renderRef} />} />
         </Section>
-
-        <ReferencedBy collection="dialogue" id={id} navigate={navigate} />
-      </Sheet>
-    </RecordShell>;
-  }}</PageState>;
+        {children}
+      </Sheet>;
 }
 
 function OptionFields({ option: entry, at, update, page, readOnly, renderRef }: { option: Option; at: number; update: (next: Option) => void; page: Page<Node>; readOnly: boolean; renderRef: RenderRef }) {

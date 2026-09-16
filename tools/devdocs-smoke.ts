@@ -359,10 +359,10 @@ try {
   await page.goto(`${url}/#/`);
   const sidebar = page.locator(".sidebar");
   const tabs = page.getByRole("banner");
-  for (const label of ["Home", "Items", "Creatures", "World", "Story", "Tuning"]) {
+  for (const label of ["Home", "Items", "Creatures", "World", "Quests", "NPCs", "Shops", "Tuning"]) {
     await sidebar.getByRole("button", { name: label, exact: true }).waitFor();
   }
-  checks.taskNavigation = ["Home", "Items", "Creatures", "World", "Story", "Tuning"];
+  checks.taskNavigation = ["Home", "Items", "Creatures", "World", "Quests", "NPCs", "Shops", "Tuning"];
   await page.waitForFunction(async () => {
     const response = await fetch('/__devdocs/formulas');
     const result = await response.json();

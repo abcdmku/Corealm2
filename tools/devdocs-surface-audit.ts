@@ -5,7 +5,7 @@ import { WORKSPACES } from "../devdocs/src/ui/workspaces.js";
 
 /*
   Walk every devdocs surface and measure layout faults a screenshot pass misses:
-    npx tsx tools/devdocs-surface-audit.ts --base http://127.0.0.1:4192 [--width 1440] [--samples 2] [--only story] [--shots]
+    npx tsx tools/devdocs-surface-audit.ts --base http://127.0.0.1:4192 [--width 1440] [--samples 2] [--only quests] [--shots]
 
   For each workspace view it opens the list, then sample records (the first one and the richest
   one), expands every collapsed row in the page, and reports:
@@ -62,8 +62,8 @@ async function surfaces(): Promise<Surface[]> {
     { workspace: "items", route: "items/ladder", click: "thead button >> nth=1" },
     { workspace: "items", route: "items/recipes/smith_grithe_helm", click: "text=/ curve$/" },
     { workspace: "items", route: "items/recipes/smith_grithe_helm", click: "peek" },
-    { workspace: "story", route: "story/quests/cold_iron", click: "peek" },
-    { workspace: "story", route: "story/npcs/npc_warden_ilse", click: "peek" },
+    { workspace: "quests", route: "quests/quests/cold_iron", click: "peek" },
+    { workspace: "npcs", route: "npcs/npcs/npc_warden_ilse", click: "peek" },
     { workspace: "world", route: "world/map/placements:redsill_frogs" },
   ];
   for (const surface of extra) if (!only || only === surface.workspace) out.push({ route: surface.route, click: surface.click });
