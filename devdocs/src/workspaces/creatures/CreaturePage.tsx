@@ -328,5 +328,5 @@ function SpawnRow({ spawn, data, onOpen }: { spawn: Spawn; data: CreatureData; o
     art={<Thumb spec={{ kind: "map", x, z, span: 120, icon: MapPin }} size="m" alt="" />}
     title={encounter.name ?? titleCase(placement.id)}
     subtitle={<Facts items={[data.regionName(placement.regionId), `${placement.count ?? 1} × ${encounter.activity ?? "spawn"}`, members > 1 ? `${members} kinds${weight !== undefined ? `, weight ${weight}` : ""}` : undefined]} />}
-    meta={`${x}, ${z}`} />;
+    meta={`${Math.round(x)}, ${Math.round(z)}`} />;
 }

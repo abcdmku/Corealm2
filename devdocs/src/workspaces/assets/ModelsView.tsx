@@ -17,7 +17,7 @@ import { cn } from "../../lib/utils.js";
 import { COUNT, EMPTY, PAGE as PAGE_FRAME, TOOLBAR } from "../../ui/layout.js";
 import { TileGrid, tileArtClasses, tileClasses, tileSubtitleClasses, tileTitleClasses } from "../../ui/RecordTile.js";
 
-const AssetViewer = lazyComponent(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
+const AssetViewer = lazyComponent(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })), null);
 
 interface Asset extends ContentRow { id: string; file?: string; pack?: string; category?: string; is?: string; tags?: string[]; bytes?: number; size?: { x: number; y: number; z: number }; animations?: string[]; materials?: string[]; procedural?: boolean; itemId?: string }
 
@@ -127,7 +127,7 @@ const STAGE_CONTROLS = cn(
   "[&_.viewer-heading]:min-h-9 [&_.viewer-heading]:pr-18! [&_.viewer-heading_h3]:text-[13px] [&_.viewer-heading_h3]:font-semibold",
 );
 const NAMES = "grid list-none grid-cols-[repeat(auto-fill,minmax(12.5rem,1fr))] gap-x-4 gap-y-0.5 font-mono text-xs";
-const NAME = "flex min-h-[22px] items-center text-muted-foreground";
+const NAME = "min-h-[22px] min-w-0 truncate leading-[22px] text-muted-foreground";
 
 /** Assets are read-only here: the page reads the collection, it does not open a draft. */
 function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
@@ -166,8 +166,8 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
         {asset.itemId && <RefField kind="item" label="Item" value={String(asset.itemId)} onChange={() => undefined} readOnly />}
       </Section>
       <Section title="Tags"><Static>{tags.length ? tags.join(", ") : <span className="text-faint">No tags</span>}</Static></Section>
-      <Section title="Animations">{animations.length ? <ul className={NAMES}>{animations.map(name => <li key={name} className={NAME}>{name}</li>)}</ul> : <span className={EMPTY}>No animation clips.</span>}</Section>
-      <Section title="Materials">{materials.length ? <ul className={NAMES}>{materials.map(name => <li key={name} className={NAME}>{name}</li>)}</ul> : <span className={EMPTY}>No named materials.</span>}</Section>
+      <Section title="Animations">{animations.length ? <ul className={NAMES}>{animations.map(name => <li key={name} className={NAME} title={name}>{name}</li>)}</ul> : <span className={EMPTY}>No animation clips.</span>}</Section>
+      <Section title="Materials">{materials.length ? <ul className={NAMES}>{materials.map(name => <li key={name} className={NAME} title={name}>{name}</li>)}</ul> : <span className={EMPTY}>No named materials.</span>}</Section>
       <ReferencedBy collection="assets" id={id} navigate={navigate} title="Used by" />
     </Sheet>
   </RecordShell>;

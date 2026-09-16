@@ -260,7 +260,7 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
     {hover && Icon && <div ref={tip} className="pointer-events-none fixed top-0 left-0 z-30 flex max-w-80 items-center gap-1.5 rounded-sm border border-border bg-popover px-2 py-1 text-xs whitespace-nowrap text-popover-foreground shadow-lg" role="presentation" style={{ transform: "translate(-1000px, -1000px)" }}>
       <Icon size={12} className="shrink-0 text-primary" /><strong className="font-semibold">{hover.name}</strong><span className="truncate text-muted-foreground">{hover.fact}</span>
     </div>}
-    <div className="pointer-events-none absolute right-2 bottom-1.5 rounded-sm bg-[#0a0d12aa] px-1.5 py-0.5 font-mono text-[11px] text-[#c7ccd4]">{Math.round(view.x)}, {Math.round(view.z)} · {view.span >= 100 ? `${Math.round(view.span)} m` : `${round(view.span, 1)} m`} wide · {round(1 / pixelsPerMetre, 2)} m/px</div>
+    <div className="pointer-events-none absolute right-2 bottom-1.5 rounded-sm bg-[#0a0d12aa] px-1.5 py-0.5 font-mono text-[11px] whitespace-nowrap text-[#c7ccd4]">{Math.round(view.x)}, {Math.round(view.z)} · {view.span >= 100 ? `${Math.round(view.span)} m` : `${round(view.span, 1)} m`} wide · {round(1 / pixelsPerMetre, 2)} m/px</div>
   </div>;
 });
 

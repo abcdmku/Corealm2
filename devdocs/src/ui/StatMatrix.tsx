@@ -14,7 +14,8 @@ import { ON_SHEET, ROW_COLUMNS, SheetLevel, useOnSheet } from "./Sheet.js";
 
 export interface StatMatrixRow { key: string; label: ReactNode; cells: readonly ReactNode[]; hint?: string }
 
-const track = "grid grid-cols-[repeat(var(--cols),6.75rem)] items-center gap-x-2";
+// Cells are at least 6.75rem and a column grows to its longest value (195.714285714), so no number is clipped.
+const track = "grid grid-cols-[repeat(var(--cols),minmax(6.75rem,max-content))] items-center gap-x-2";
 
 export function StatMatrix({ columns, rows, width }: { columns?: readonly ReactNode[]; rows: readonly StatMatrixRow[]; width?: number }) {
   const onSheet = useOnSheet();
@@ -29,7 +30,7 @@ export function StatMatrix({ columns, rows, width }: { columns?: readonly ReactN
     {rows.map(row => <div key={row.key} className={cn(line, "min-h-7 py-px")}>
       <span className="kv-label truncate text-right text-xs text-muted-foreground" title={row.hint}>{row.label}</span>
       <SheetLevel.Provider value={false}>
-        <div className={track} style={style}>{row.cells.map((cell, index) => <div key={index} className="min-w-0 [&_[data-slot=input-group]]:w-full">{cell}</div>)}</div>
+        <div className={track} style={style}>{row.cells.map((cell, index) => <div key={index} className="min-w-0 [&_[data-slot=input-group]]:min-w-full">{cell}</div>)}</div>
       </SheetLevel.Provider>
     </div>)}
   </>;

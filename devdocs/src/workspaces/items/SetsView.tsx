@@ -7,7 +7,9 @@ import { useRecordDraft } from "../../model/draft.js";
 import type { Link, RecordRef, Resolved } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { ChoiceField, DerivedNumber, Facts, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
+import { ChoiceField, DerivedNumber, Facts, Field, NumberField, RefField, ReferencedBy, Row, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
+import { StatMatrix } from "../../ui/StatMatrix.js";
+import { Plus, X } from "lucide-react";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
@@ -64,13 +66,9 @@ const PIECES = specAt(EquipmentSetThresholdSchema, ["pieces"]);
 const BONUS = Object.fromEntries(BONUS_KEYS.map(key => [key, specAt(EquipmentSetThresholdSchema, ["bonuses", key])])) as Record<BonusKey, ReturnType<typeof specAt>>;
 const HINT = "text-[11px] leading-snug text-faint [overflow-wrap:anywhere]";
 /*
-  Each threshold row is one grid of compact fields. The rows read as a table, so the column names
-  sit above the first row only: later rows keep their label element (it names each control through
-  aria-labelledby, which resolves through display:none) and stop drawing it.
+  The thresholds as a matrix on the sheet's columns: one row per bonus, its name in the label column,
+  one column per threshold. A threshold's head holds its piece count and its remove button.
 */
-/** Eight values across the sheet's value column: the cells share the width and a long label takes two lines. */
-const THRESHOLD_FIELDS = "w-full grid-cols-[repeat(8,minmax(0,1fr))] gap-x-2 [&_.field-label]:line-clamp-2 [&_.field-label]:h-[30px] [&_.field-label]:leading-[15px] [&_.field-label]:whitespace-normal";
-const THRESHOLD_ROW = "items-start [&>.field-list-remove]:mt-[42px] [&+&_.field-label]:hidden [&+&>.field-list-remove]:mt-2";
 const BALANCE: RecordRef = { collection: "balance/sets", id: "sets", label: "Set balance" };
 
 /** A threshold bonus against its balance target: the target when they agree, own-over-target when they differ, own alone without a target. */
@@ -117,20 +115,25 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
         <Section title={THRESHOLDS.label} aside={targets
           ? (!readOnly && <Button variant="link" size="inline" onClick={() => draft.setPath(["thresholds"], targets.map(target => ({ pieces: target.pieces, bonuses: { ...emptyBonuses(), ...target.bonuses } })))}>Use target</Button>)
           : <span>No balance target for tier {set.tier}</span>}>
-          <ListField<SetThreshold> items={thresholds} rowClassName={THRESHOLD_ROW} readOnly={readOnly} min={1} emptyText="No thresholds" addLabel="Add threshold" removeLabel={(row) => `Remove the ${row.pieces}-piece threshold`}
-            keyOf={(_, i) => i} onChange={next => draft.setPath(["thresholds"], next)}
-            onAdd={() => ({ pieces: Math.min(5, (thresholds.at(-1)?.pieces ?? 1) + 1), bonuses: emptyBonuses() })}
-            renderItem={(row, api) => {
-              const target = targetFor(row.pieces);
-              return <Fields columns={8} className={THRESHOLD_FIELDS}>
-                <Field compact label={PIECES.label}><NumberField value={row.pieces} integer min={2} max={5} readOnly={readOnly} ariaLabel={`Threshold ${api.index + 1} pieces`} onChange={next => api.update({ ...row, pieces: next ?? row.pieces })} /></Field>
-                {BONUS_KEYS.map(key => {
-                  const goal = target ? target.bonuses[key] ?? 0 : undefined;
-                  return <DerivedNumber key={key} compact label={BONUS[key].label} integer={false} readOnly={readOnly} resolved={resolveBonus(api.index, key, row.bonuses[key] ?? 0, goal)} onOpenRef={openRef}
-                    onChange={next => api.update({ ...row, bonuses: { ...row.bonuses, [key]: next ?? goal ?? 0 } })} />;
-                })}
-              </Fields>;
-            }} />
+          {thresholds.length
+            ? <StatMatrix
+              columns={thresholds.map((row, at) => <span key={at} className="inline-flex items-center gap-1">
+                {row.pieces} pieces
+                {!readOnly && thresholds.length > 1 && <Button variant="ghost" size="icon-xs" className="hover:text-destructive" aria-label={`Remove the ${row.pieces}-piece threshold`} title="Remove threshold" onClick={() => draft.setPath(["thresholds"], thresholds.filter((_, other) => other !== at))}><X /></Button>}
+              </span>)}
+              rows={[
+                { key: "pieces", label: PIECES.label, hint: PIECES.hint, cells: thresholds.map((row, at) => <Field key={at} label={`${PIECES.label}, threshold ${at + 1}`} labelHidden>
+                  <NumberField value={row.pieces} integer min={2} max={5} readOnly={readOnly} onChange={next => draft.setPath(["thresholds", at, "pieces"], next ?? row.pieces)} />
+                </Field>) },
+                ...BONUS_KEYS.map(key => ({ key, label: BONUS[key].label, hint: BONUS[key].hint, cells: thresholds.map((row, at) => {
+                  const goal = targetFor(row.pieces)?.bonuses[key];
+                  const target = targets ? goal ?? 0 : undefined;
+                  return <DerivedNumber key={at} labelHidden label={`${BONUS[key].label}, ${row.pieces} pieces`} integer={false} readOnly={readOnly} resolved={resolveBonus(at, key, row.bonuses[key] ?? 0, target)} onOpenRef={openRef}
+                    onChange={next => draft.setPath(["thresholds", at, "bonuses", key], next ?? target ?? 0)} />;
+                }) })),
+              ]} />
+            : <p className={EMPTY}>No thresholds</p>}
+          {!readOnly && thresholds.length < 4 && <Row label=""><Button variant="ghost" size="sm" className="-ml-1.5" onClick={() => draft.setPath(["thresholds"], [...thresholds, { pieces: Math.min(5, (thresholds.at(-1)?.pieces ?? 1) + 1), bonuses: emptyBonuses() }])}><Plus />Add threshold</Button></Row>}
           <p className={cn(HINT, "mt-1.5")}>{THRESHOLDS.hint}</p>
         </Section>
         <ReferencedBy collection="equipmentSets" id={id} navigate={navigate} />

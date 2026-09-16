@@ -37,7 +37,7 @@ const RETIRED = [
   /^tile-(grid|art|body|title|subtitle|badges|corner|check|row)$/, /^bestiary-(toolbar|count|group|list)$/, /^panel(-header|-body|-header-actions)?$/,
   /^page(-heading|-heading-actions)?$/, /^section-heading$/, /^segmented$/, /^button$/, /^badge$/, /^muted$/, /^mono$/, /^count-badge$/,
   /^empty-inline$/, /^stat(-grid)?$/, /^chip-row$/, /^field-(unit|hint|has-list)$/, /^curve-table$/, /^consequences$/, /^unmoved$/,
-  /^home-(workspaces|workspace|columns|block)$/, /^entity-summary$/, /^model-stage$/, /^drop-(grid|tile|tile-name|tile-meta)$/,
+  /^home-(workspaces|workspace|columns|block)$/, /^entity-summary$/, /^model-stage$/, /^drop-(grid|tile|tile-name|tile-meta)$/, /^field-tuple$/, /^entity-editor$/,
 ];
 
 describe("devdocs UI consistency", () => {

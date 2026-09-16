@@ -76,7 +76,7 @@ export default function FieldGallery({ navigate }: ViewProps) {
   ];
 
   // The peek provider belongs in the app shell; until it is mounted there this local one lets the reference fields peek.
-  return <div className={cn(PAGE, "grid max-w-[67.5rem] grid-cols-[minmax(0,1fr)_17.5rem] items-start gap-6 max-lg:grid-cols-1")}>
+  return <div className={cn(PAGE, "grid max-w-[67.5rem] grid-cols-[minmax(0,1fr)_17.5rem] items-start gap-6 @max-[52rem]:grid-cols-1")}>
     <div className="min-w-0">
       <div className={PAGE_HEADING}><h1>Fields</h1><FieldLegend /></div>
       <Sheet>
@@ -148,7 +148,7 @@ export default function FieldGallery({ navigate }: ViewProps) {
       </Sheet>
     </div>
 
-    <aside className="sticky top-3 flex min-w-0 flex-col gap-1 max-lg:static">
+    <aside className="sticky top-3 flex min-w-0 flex-col gap-1 @max-[52rem]:static">
       <div className="flex min-h-6 items-center gap-2 border-b border-border-subtle pb-1">
         <h3 className="text-[13px] font-semibold">Commits</h3>
         <span className="ml-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground"><span data-testid="commit-count" className="font-mono">{log.length}</span>{log.length > 0 && <Button variant="link" size="inline" onClick={() => setLog([])}>Clear</Button>}</span>
@@ -224,9 +224,9 @@ function ListsSection({ record }: { record: (name: string, value: unknown) => vo
       renderItem={(drop, api) => <>
         <ChoiceField value={drop.itemId} options={ITEMS} ariaLabel={`Item ${api.index + 1}`} onChange={next => api.update({ ...drop, itemId: next ?? drop.itemId })} />
         <NumberField value={drop.quantity[0]} integer min={1} ariaLabel={`Minimum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [next ?? 1, Math.max(next ?? 1, drop.quantity[1])] })} />
-        <span className="text-[11px] text-faint">to</span>
+        <span className="shrink-0 text-[11px] text-faint">to</span>
         <NumberField value={drop.quantity[1]} integer min={drop.quantity[0]} ariaLabel={`Maximum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [drop.quantity[0], Math.max(drop.quantity[0], next ?? drop.quantity[0])] })} />
-        <TextField value={drop.exclusiveGroup ?? ""} width="short" placeholder="no group" ariaLabel={`Exclusive group ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next ? { ...bare, exclusiveGroup: next } : bare); }} />
+        <TextField value={drop.exclusiveGroup ?? ""} width="short" className="w-28" placeholder="no group" ariaLabel={`Exclusive group ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next ? { ...bare, exclusiveGroup: next } : bare); }} />
       </>} />
     <UnionList label="Completion" hint="Each row is one predicate, collapsed to its sentence. Enter or click expands it. Switching kind keeps same-named fields and asks before dropping a value."
       schema={questPredicateSchema} items={predicates} summarize={predicateSummary} renderRef={renderRef} addLabel="Add predicate" emptyText="Completes at once."

@@ -22,7 +22,7 @@ export default function OverviewView({ navigate }: ViewProps) {
   const workspaces = WORKSPACES.filter(workspace => workspace.key !== "home" && (!workspace.devOnly || !__DEVDOCS_PLAYER__));
 
   return <div className={cn(PAGE, "max-w-[67.5rem]")}>
-    <div className="mb-6 grid grid-cols-[repeat(auto-fill,minmax(12.5rem,1fr))] gap-2">
+    <div className="mb-6 grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-2">
       {workspaces.map(workspace => {
         const Icon = workspace.icon;
         return <button key={workspace.key} type="button" onClick={() => navigate(workspace.key)}

@@ -25,7 +25,7 @@ import { EMPTY, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../ui/lay
 const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/SetPiecePanel.js"));
 const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/NotesPanel.js"));
 const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/EntityEditor.js"));
-const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"));
+const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"), null);
 const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/AssetCandidates.js"));
 const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration", "__compiled"]);
 

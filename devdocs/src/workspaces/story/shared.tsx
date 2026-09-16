@@ -7,7 +7,7 @@ import { fieldCore } from "../../model/fields.js";
 import { optionsFor, refTargetCollection, summaryContext, useReferenceIndex, type ReferenceIndex } from "../../model/refs.js";
 import { contentRows } from "../../model/rows.js";
 import { titleCase, type SummaryContext, type ThumbSpec } from "../../model/summaries.js";
-import { Facts, ListField, NumberField, RefField, fieldFromSchema, type ChoiceOption, type RenderRef } from "../../ui/field/index.js";
+import { Facts, ListField, RefField, StackField, fieldFromSchema, type ChoiceOption, type RenderRef } from "../../ui/field/index.js";
 import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
 import { Sheet } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
@@ -191,11 +191,10 @@ export function StackList({ label, hint, items, readOnly, onChange, quantityMin 
     onChange={onChange}
     removeLabel={(_, index) => `Remove row ${index + 1}`}
     renderItem={(entry, api) => <>
-      <RefCell className="min-w-49" label={`${label} item ${api.index + 1}`} kind="item" value={text(entry.itemId)} readOnly={readOnly}
+      <StackField className="w-60" label={`${label} item ${api.index + 1}`} value={text(entry.itemId)} readOnly={readOnly}
         exclude={unique ? new Set(ids.filter((_, at) => at !== api.index)) : undefined}
-        onChange={value => api.update({ ...entry, itemId: value ?? "" })} />
-      <NumberField value={num(entry.quantity) ?? quantityMin} integer min={quantityMin} ariaLabel={`${label} quantity ${api.index + 1}`} readOnly={readOnly}
-        onChange={value => api.update({ ...entry, quantity: value ?? quantityMin })} />
+        onChange={value => api.update({ ...entry, itemId: value ?? "" })}
+        quantity={num(entry.quantity) ?? quantityMin} min={quantityMin} onQuantityChange={value => api.update({ ...entry, quantity: value as number })} />
     </>} />;
 }
 

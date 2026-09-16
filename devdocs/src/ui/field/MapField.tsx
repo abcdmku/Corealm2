@@ -59,7 +59,8 @@ export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "ke
       <span className="inline-flex shrink-0">
         {listed
           ? <ChoiceField value={key} options={[...listed.filter(option => option.value === key), ...remaining]} readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => { if (next) rename(api.index, next); }} />
-          : <TextField value={key} width="short" readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => rename(api.index, next)} />}
+          // A key names its row, so it reads as a label, not as a second value; the add box takes new ones.
+          : <span className="w-28 shrink-0 truncate font-mono text-xs text-muted-foreground" title={key} aria-label={`${keyLabel} ${api.index + 1}`}>{key}</span>}
       </span>
       <span className="min-w-0 inline-flex items-center gap-1.5">{renderValue(key, current, next => api.update([key, next]))}</span>
     </>} />;

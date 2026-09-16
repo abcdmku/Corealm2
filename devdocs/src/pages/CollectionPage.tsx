@@ -22,8 +22,8 @@ import { Button, NativeSelect, Segmented, SearchInput } from "../components/ui/i
 import { cn } from "../lib/utils.js";
 import { PAGE_WIDE, PANEL } from "../ui/layout.js";
 
-const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"));
-const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"));
+const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"), null);
+const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"), null);
 const noRows: ContentRow[] = [];
 const PAGE = 240;
 const isGeneratedRow = (row: ContentRow): boolean => row.__compiled === true;

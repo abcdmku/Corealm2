@@ -85,7 +85,7 @@ function ownNumericTier(row: ContentRow): boolean {
 function DiffRecord({ diff }: { diff: BulkResponse["diffs"][number] }) {
   const changes = changedFields(diff.before, diff.after);
   const shown = changes.slice(0, 10);
-  return <article className="grid grid-cols-[minmax(140px,14rem)_minmax(0,1fr)] gap-2.5 border-b border-border-subtle px-3 py-1.5 last:border-b-0 max-md:grid-cols-1 max-md:gap-1">
+  return <article className="grid grid-cols-[minmax(140px,14rem)_minmax(0,1fr)] gap-2.5 border-b border-border-subtle px-3 py-1.5 last:border-b-0 @max-[40rem]:grid-cols-1 max-md:gap-1">
     <div className="flex min-w-0 items-start gap-1.5"><code className="truncate font-mono text-xs leading-5 text-foreground" title={diff.recordId}>{diff.recordId}</code><Badge className="font-mono">{changes.length}</Badge></div>
     <div className="flex min-w-0 flex-col gap-0.5">
       {shown.map(change => <div className="grid min-w-0 grid-cols-[minmax(80px,10rem)_minmax(0,1fr)_12px_minmax(0,1fr)] items-start gap-1.5 font-mono text-[11px] leading-5 text-muted-foreground" key={change.key}>

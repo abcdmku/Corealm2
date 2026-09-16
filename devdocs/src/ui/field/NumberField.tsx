@@ -62,11 +62,15 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
     setText(mixed ? "" : formatNumber(value));
     if (focused) selectNext.current = true;
   }, [value, editing, mixed, focused]);
+  // Focus swaps the rounded resting value for every digit, which drops the selection focus made; select again.
+  const wasFocused = useRef(false);
   useLayoutEffect(() => {
-    if (!selectNext.current) return;
+    const gained = focused && !wasFocused.current;
+    wasFocused.current = focused;
+    if (!selectNext.current && !gained) return;
     selectNext.current = false;
     if (!editing && document.activeElement === inputRef.current) inputRef.current?.select();
-  }, [text, editing]);
+  }, [text, editing, focused]);
 
   const restore = () => { setText(mixed ? "" : formatNumber(value)); setEditing(false); clearError(); };
 
@@ -169,10 +173,12 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
     return () => field.setLabelHandlers(null);
   }, [field]);
 
-  // The box grows for long values (195.714285) instead of clipping them; short ones keep the column width.
-  const chars = (text || placeholder || "").length;
+  // At rest a long fraction shows four decimals (195.7143); focus shows every digit to edit, and the
+  // title always has them. The box grows for what it shows instead of clipping it.
+  const resting = !focused && !editing && !mixed && value !== undefined && Number.isFinite(value) && text === formatNumber(value) ? formatNumber(Math.round(value * 1e4) / 1e4) : text;
+  const chars = (resting || placeholder || "").length;
   return <InputGroup className={cn("field-input font-mono", WIDTH[width], className)} style={{ "--chars": chars } as CSSProperties} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
-    <InputGroupInput ref={inputRef} type="text" inputMode="decimal" className={cn("text-right tabular-nums", unit && "pr-1.5", value === 0 && !focused && !mixed && "text-faint")} value={text} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
+    <InputGroupInput ref={inputRef} type="text" inputMode="decimal" className={cn("text-right tabular-nums", unit && "pr-1.5", value === 0 && !focused && !mixed && "text-faint")} value={resting} title={resting !== text ? text : undefined} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
       aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-invalid={invalid || undefined} autoComplete="off" spellCheck={false}
       onChange={event => { if (inert) return; selectNext.current = false; setText(event.target.value); if (!editing) setEditing(true); if (invalid) clearError(); }}
       onKeyDown={onKeyDown}

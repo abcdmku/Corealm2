@@ -11,9 +11,9 @@ export const PAGE_ACTIONS = "ml-auto flex items-center gap-1";
 
 /** A record page: the sheet and its context rail. */
 /** A rail with nothing in it (a record with no model and no context) gives its column back to the sheet. */
-export const RECORD = "grid max-w-[80rem] grid-cols-[minmax(0,1fr)_21rem] items-start gap-6 max-xl:grid-cols-1 has-[>aside>div:empty:only-child]:grid-cols-1 [&>aside:has(>div:empty:only-child)]:hidden";
+export const RECORD = "grid max-w-[80rem] grid-cols-[minmax(0,1fr)_21rem] items-start gap-6 @max-[58rem]:grid-cols-1 has-[>aside>div:empty:only-child]:grid-cols-1 [&>aside:has(>div:empty:only-child)]:hidden";
 export const RECORD_MAIN = "min-w-0";
-export const RECORD_RAIL = "sticky top-2 flex min-w-0 flex-col gap-3 max-xl:static";
+export const RECORD_RAIL = "sticky top-2 flex min-w-0 flex-col gap-3 @max-[58rem]:static";
 export const RECORD_HEAD = "mb-3 flex items-center gap-3 [&_.thumb]:shrink-0";
 export const RECORD_TITLE = "flex min-w-0 flex-1 flex-col gap-0.5 [&_h1]:truncate [&_h1]:text-lg [&_h1]:leading-tight [&_h1]:font-semibold [&_code]:text-[11px] [&_code]:text-faint [&>.inline-flex]:text-xs";
 export const RECORD_ACTIONS = "flex shrink-0 items-center gap-1";

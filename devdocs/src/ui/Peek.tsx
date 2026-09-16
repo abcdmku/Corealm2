@@ -118,7 +118,7 @@ export function Peek({ target, navigate, onOpen, onClose }: { target: PeekTarget
       <Button variant="ghost" size="icon-sm" aria-label="Close peek" title="Close (Esc)" onClick={onClose}><X size={15} /></Button>
     </header>
     {/* A record page stacks in the sheet: one column, the rail below the sheet and static, no page width cap. */}
-    <div ref={body} className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto [scrollbar-width:thin] [&_.grid:has(>aside)]:max-w-none [&_.grid:has(>aside)]:grid-cols-1 [&_.grid:has(>aside)]:gap-4 [&_.grid>aside]:static">
+    <div ref={body} className="@container min-h-0 flex-1 overflow-x-hidden overflow-y-auto [scrollbar-width:thin] [&_.grid:has(>aside)]:max-w-none">
       <Suspense fallback={<LoadingRows />}>
         {Custom
           ? <Custom key={`${target.collection}:${target.id}`} recordId={route.id} route={route} navigate={innerNavigate} />

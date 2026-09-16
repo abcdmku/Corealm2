@@ -24,10 +24,11 @@ export const ROW_COLUMNS = "grid grid-cols-[fit-content(10.5rem)_minmax(0,1fr)] 
 export const ON_SHEET = "col-span-full grid grid-cols-subgrid";
 
 export function Sheet({ children, className, compact = false }: { children: ReactNode; className?: string; compact?: boolean }) {
+  const nested = useOnSheet();
   return <SheetLevel.Provider value>
     <div data-slot="sheet" data-compact={compact || undefined} className={cn(
-      "kv grid min-w-0 content-start gap-x-2.5 [&>*]:col-span-full [&>*]:min-w-0",
-      compact ? "grid-cols-[fit-content(8.25rem)_minmax(0,1fr)] gap-x-2" : "grid-cols-[fit-content(10.5rem)_minmax(0,1fr)]",
+      "kv min-w-0 content-start [&>*]:col-span-full [&>*]:min-w-0",
+      nested ? ON_SHEET : cn("grid gap-x-2.5", compact ? "grid-cols-[fit-content(8.25rem)_minmax(0,1fr)] gap-x-2" : "grid-cols-[fit-content(10.5rem)_minmax(0,1fr)]"),
       className,
     )}>{children}</div>
   </SheetLevel.Provider>;
@@ -57,7 +58,7 @@ export function Section({ title, aside, children, open: initialOpen = true, coll
 
 /** Two sheets side by side for records with two natural halves. */
 export function Columns({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-1 gap-x-6 xl:grid-cols-2">{children}</div>;
+  return <div className="grid grid-cols-1 gap-x-6 @min-[64rem]:grid-cols-2">{children}</div>;
 }
 
 /**

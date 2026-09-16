@@ -154,7 +154,7 @@ function StageList({ stages, page, readOnly, skills, renderRef, ctx }: StageProp
     renderItem={(stage, api) => <>
       <button type="button" className="group/stage grid min-h-7 flex-[1_1_100%] cursor-pointer grid-cols-[1.375rem_minmax(0,1fr)_auto] items-center gap-2 text-left" aria-expanded={open === api.index} onClick={() => setOpen(open === api.index ? undefined : api.index)}>
         <span className="grid size-5 place-items-center rounded-full border border-border bg-secondary font-mono text-[11px] font-semibold text-muted-foreground group-aria-expanded/stage:border-primary group-aria-expanded/stage:text-primary">{stage.index ?? api.index}</span>
-        <span className={cn("truncate text-[13px] font-medium group-hover/stage:text-primary group-aria-expanded/stage:whitespace-normal", !stage.objective && "text-faint")}>{stage.objective || "No objective yet"}</span>
+        <span className={cn("truncate text-[13px] font-medium group-hover/stage:text-primary", !stage.objective && "text-faint")}>{stage.objective || "No objective yet"}</span>
         <span className="max-w-80 truncate text-[11px] text-muted-foreground" title={predicateLine(stage.completion, ctx)}>{predicateLine(stage.completion, ctx)}</span>
       </button>
       {open === api.index && <RowBlock className="mt-0.5 mb-1.5 border-l-2 border-border pl-3">
@@ -167,7 +167,7 @@ function StageList({ stages, page, readOnly, skills, renderRef, ctx }: StageProp
             <ChoiceField value={text(entry.kind)} options={REF_KINDS} readOnly={readOnly} ariaLabel={`Ref ${row.index + 1} kind`} onChange={value => row.update({ kind: value ?? "item", id: "" })} />
             <RefCell label={`Ref ${row.index + 1}`} kind={text(entry.kind) ?? "item"} value={text(entry.id)} readOnly={readOnly} onChange={value => row.update({ ...entry, id: value ?? "" })} />
           </>} />
-        <UnionField schema={questPredicateSchema} kindLabel="Completion" className="col-span-full grid grid-cols-subgrid gap-x-2.5 [&>*]:col-span-full" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
+        <UnionField schema={questPredicateSchema} kindLabel="Completion" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
           onChange={value => api.update({ ...stage, completion: value })} />
         <GrantFields schema={questGrantSchema} grant={asRecord(stage.grants)} path={["stages", api.index, "grants"]} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} />
         {stage.onFlag !== undefined && sub(questStageSchema, "onFlag") && <SchemaControl schema={sub(questStageSchema, "onFlag")!} name="onFlag" value={stage.onFlag} renderRef={renderRef} readOnly={readOnly}

@@ -14,7 +14,7 @@ import { chipVariants } from "../components/ui/chip.js";
 import { EMPTY } from "./layout.js";
 import { cn } from "../lib/utils.js";
 
-const AssetViewer = lazyComponent(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
+const AssetViewer = lazyComponent(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })), null);
 const asRecord = (value: unknown): ContentRow => value !== null && typeof value === "object" && !Array.isArray(value) ? value as ContentRow : {};
 const list = (value: unknown): unknown[] => Array.isArray(value) ? value : [];
 const text = (value: unknown): string | undefined => typeof value === "string" && value ? value : undefined;

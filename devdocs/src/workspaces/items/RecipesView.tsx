@@ -8,7 +8,7 @@ import { setPath, useRecordDraft } from "../../model/draft.js";
 import type { Path, RecordRef } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { DerivedNumber, Facts, Field, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
+import { DerivedNumber, Facts, Field, ListField, RefField, ReferencedBy, StackField, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
@@ -19,7 +19,6 @@ import { cn } from "../../lib/utils.js";
 import { EMPTY, FACTS, PAGE, PAGE_ACTIONS, PAGE_HEADING, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../../ui/layout.js";
 
 const PART = "inline-flex items-center gap-[5px] text-xs [&_small]:text-[11px] [&_small]:text-faint";
-const UNIT = "shrink-0 text-[11px] text-faint";
 /** A reference beside a quantity: a fixed item cell lines the quantities up. */
 const REF_CELL = "flex-[0_0_12.5rem]";
 
@@ -130,17 +129,15 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
       <Sheet>
         <Section title="Recipe">
           <Field label={entrySpec("name").label}><TextField value={entry.name} readOnly={readOnly} onChange={next => set(["name"], next)} /></Field>
-          <ListField<Ingredient> label={INGREDIENTS.label} items={entry.inputs} readOnly={readOnly} emptyText="No ingredients" addLabel="Add ingredient" contentClassName="flex-nowrap"
+          <ListField<Ingredient> label={INGREDIENTS.label} items={entry.inputs} readOnly={readOnly} emptyText="No ingredients" addLabel="Add ingredient"
             onAdd={() => ({ itemId: "", quantity: 1 })} onChange={next => set(["inputs"], next)} removeLabel={(input, i) => `Remove ingredient ${i + 1}`}
             renderItem={(input, api) => <>
-              <RefField kind="item" collection="compiled-items" label={`Ingredient ${api.index + 1}`} bare className={REF_CELL} value={input.itemId || undefined} readOnly={readOnly} onChange={next => api.update({ ...input, itemId: next ?? "" })} />
-              <span className={UNIT}>×</span>
-              <NumberField value={input.quantity} integer min={QUANTITY.min} readOnly={readOnly} ariaLabel={`Ingredient ${api.index + 1} quantity`} onChange={next => api.update({ ...input, quantity: next ?? 1 })} />
+              <StackField collection="compiled-items" label={`Ingredient ${api.index + 1}`} className={REF_CELL} value={input.itemId || undefined} readOnly={readOnly} onChange={next => api.update({ ...input, itemId: next ?? "" })}
+                quantity={input.quantity} min={QUANTITY.min} onQuantityChange={next => api.update({ ...input, quantity: next as number })} />
             </>} />
           <Field label={OUTPUT.label} className="group/row">
-            <RefField kind="item" collection="compiled-items" label="Output item" bare className={REF_CELL} value={entry.output.itemId || undefined} readOnly={readOnly} onChange={next => set(["output", "itemId"], next ?? "")} />
-            <span className={UNIT}>×</span>
-            <NumberField value={entry.output.quantity} integer min={QUANTITY.min} readOnly={readOnly} ariaLabel="Output quantity" onChange={next => set(["output", "quantity"], next ?? 1)} />
+            <StackField collection="compiled-items" label="Output item" className={REF_CELL} value={entry.output.itemId || undefined} readOnly={readOnly} onChange={next => set(["output", "itemId"], next ?? "")}
+              quantity={entry.output.quantity} min={QUANTITY.min} onQuantityChange={next => set(["output", "quantity"], next)} />
           </Field>
           <RefField kind="item" collection="compiled-items" label={entrySpec("burntItemId").label} hint={specAt(RecipeSchema, ["burntItemId"]).hint} optional value={entry.burntItemId} readOnly={readOnly} onChange={next => set(["burntItemId"], next)} />
         </Section>

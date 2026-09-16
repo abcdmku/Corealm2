@@ -256,7 +256,7 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
         <NumberRow spec={at(WorldPlacementSchema, "formation", "spacing")} value={placement.formation.spacing} disabled={disabled} onChange={spacing => set({ formation: { ...placement.formation, spacing: spacing ?? placement.formation.spacing } })} />
         <NumberRow spec={at(WorldPlacementSchema, "formation", "rotation")} value={placement.formation.rotation} disabled={disabled} onChange={rotation => set({ formation: { ...placement.formation, rotation: rotation ?? 0 } })} />
       </>}
-      <ListField contentClassName="flex-nowrap" compact label="Anchors" items={anchorRows} min={anchorRows.length} readOnly={disabled} emptyText="No anchors." keyOf={row => row.index}
+      <ListField compact label="Anchors" items={anchorRows} min={anchorRows.length} readOnly={disabled} emptyText="No anchors." keyOf={row => row.index}
         onChange={setAnchors}
         addControl={editable ? <Button variant="ghost" size="sm" className="-ml-1.5" onClick={resetAnchors}>Reset to formation</Button> : undefined}
         renderItem={(row, api) => <span className="flex min-w-0 items-center gap-1" data-adjusted={row.adjusted || undefined}>
@@ -269,7 +269,7 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
       <RefField kind="region" label={at(WorldPlacementSchema, "regionId").label} hint={at(WorldPlacementSchema, "regionId").hint} value={placement.regionId} readOnly={disabled} onChange={regionId => regionId && set({ regionId })} />
       <PointFields label={at(WorldPlacementSchema, "centre").label} unit={at(WorldPlacementSchema, "centre").unit} value={placement.centre} disabled={disabled} onChange={centre => set({ centre })} />
       {placement.habitatId && <Row label={at(WorldPlacementSchema, "habitatId").label}><Static mono>{placement.habitatId}</Static></Row>}
-      <Row label={at(WorldPlacementSchema, "dressing").label}>{placement.dressing.length ? <Static mono muted>{placement.dressing.map(row => row.assetId).join(", ")}</Static> : <Static muted>None</Static>}</Row>
+      <Row label={at(WorldPlacementSchema, "dressing").label}>{placement.dressing.length ? <span className="flex flex-wrap gap-1 py-1">{placement.dressing.map((row, at) => <code key={at} className="rounded-sm bg-secondary px-1.5 py-0.5 text-[11px] text-muted-foreground">{row.assetId}</code>)}</span> : <Static muted>None</Static>}</Row>
     </Section>
     {editable && <div className={ACTIONS}>
       <Button variant="destructive" size="sm" aria-label="Remove spawn" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove spawn</Button>

@@ -123,7 +123,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
             {!compact && !bare && origins.length > 0 && <span className="min-w-0 field-origin flex-1 truncate text-[11px] leading-tight text-faint">{origins}</span>}
           </div>
           {(compact || bare) && phase !== "idle" && origins.length > 0 && <span className={FLOAT}>{origins}</span>}
-          {shownError && <span className="field-error text-[11px] leading-snug text-destructive [overflow-wrap:anywhere]" role="alert">{shownError}</span>}
+          {shownError && <span className={cn("field-error text-[11px] leading-snug text-destructive", bare || compact ? "truncate" : "[overflow-wrap:anywhere]")} title={bare || compact ? shownError : undefined} role="alert">{shownError}</span>}
           {/* Help and the curve's terms float under the control while it has focus; hovering the label shows the help too. */}
           {!compact && !bare && phase !== "idle" && (hint || expression) && <span className={cn(FLOAT, "flex flex-wrap gap-x-2")}>
             {expression && <span className="font-mono">= {expression}</span>}

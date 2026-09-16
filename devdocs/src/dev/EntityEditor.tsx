@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { Fragment, useMemo, type ReactNode } from "react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "../components/ui/index.js";
 import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
@@ -7,7 +7,8 @@ import type { ContentRow } from "../model/contracts.js";
 import { useRecordDraft } from "../model/draft.js";
 import type { Resolved } from "../model/origin.js";
 import { containsIdentity, defaultFieldValue, fieldCore, fieldIssues, fieldTitle, recordLabelKey, serialFieldSpec, type SerialFieldSpec } from "../model/fields.js";
-import {ChoiceField, Field, Fields, ListField, MapField, NumberField, RefField, Section, Sheet, TextField, ToggleField, UnionField, WeightedList, type ListItemApi, type RenderRef, Static } from "../ui/field/index.js";
+import { ChoiceField, Field, Fields, ListField, MapField, NumberField, RefField, Section, Sheet, StackField, Static, TextField, ToggleField, UnionField, WeightedList, type ListItemApi, type RenderRef } from "../ui/field/index.js";
+import { StatMatrix } from "../ui/StatMatrix.js";
 
 /*
   The generic record form: a thin walker from a schema node to the field component that edits it
@@ -75,7 +76,7 @@ export default function EntityEditor({ collection, recordId }: { collection: str
 
   // An object-shaped collection is one record; the id in the route names the section to read first.
   const focusSection = objectShaped && recordId !== "$collection" ? recordId : undefined;
-  return <div className="entity-editor min-w-0 max-w-[70rem]">
+  return <div className="min-w-0 max-w-[70rem]">
     {draft.saveError && <div className="my-1.5 flex items-start gap-2 rounded-md border border-destructive bg-destructive-soft px-2.5 py-2 text-xs leading-snug" role="alert"><AlertCircle size={15} className="mt-px shrink-0 text-destructive" /><p>{draft.saveError}</p></div>}
     {issues.length > 0 && <div className="mt-1.5 mb-2.5 rounded-md border border-border bg-card px-2.5 py-2" aria-label="Validation diagnostics">
       <h3 className="text-[13px] font-semibold">{issues.some(issue => issue.severity === "error") ? "Fix these fields" : "Notes"}</h3>
@@ -110,10 +111,12 @@ interface NodeProps {
   root?: boolean;
   focusSection?: string;
   idKey?: string;
+  /** A cell of a matrix: the row and column heads name it, so its label is for assistive tech only. */
+  cellLabel?: string;
 }
 
 /** One schema node as the field that edits it. */
-function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly = false, compact = false, bare = false, root = false, focusSection, idKey }: NodeProps) {
+function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly = false, compact = false, bare = false, root = false, focusSection, idKey, cellLabel }: NodeProps) {
   const spec = serialFieldSpec(schema, name);
   const node = fieldCore(schema);
   if (spec.hidden || ADVANCED_FIELDS.has(name) || spec.kind === "literal") return null;
@@ -126,7 +129,7 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
   const unset = value === undefined && spec.optional;
   const label = spec.label;
   const hint = spec.help;
-  const wrap = (control: ReactNode): ReactNode => bare ? control : <Field label={label} hint={hint} unit={spec.unit} compact={compact} error={error}
+  const wrap = (control: ReactNode): ReactNode => bare ? control : <Field label={cellLabel ?? label} labelHidden={cellLabel !== undefined} hint={hint} unit={spec.unit} compact={compact} error={error}
     dirty={base !== undefined && !same(base, value)} resolved={unset ? absent(path) : undefined} disabled={inert} className={anchor}>{control}</Field>;
 
   if (node instanceof ObjectSchema) {
@@ -140,7 +143,7 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
       onChange(out);
     };
     const body = <ObjectBody node={node} value={current} base={asObject(base)} setKey={setKey} path={path} issues={issues} readOnly={inert}
-      focusSection={root ? focusSection : undefined} idKey={root ? idKey : undefined} />;
+      focusSection={root ? focusSection : undefined} idKey={root ? idKey : undefined} matrices={!bare} titled={root} />;
     if (root || bare) return body;
     return <Section title={label} className={anchor}>{body}</Section>;
   }
@@ -152,12 +155,18 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
     const locked = containsIdentity(item);
     const objectRows = fieldCore(item) instanceof ObjectSchema;
     const listHint = [hint, locked ? "Membership and order are fixed: the rows carry save identity." : undefined].filter(Boolean).join(" · ") || undefined;
-    const rowOf = (entry: unknown, api: ListItemApi<unknown>): ReactNode =>
-      <FieldNode schema={item} name={name} value={entry} onChange={api.update} path={[...path, api.index]} issues={issues} readOnly={inert} bare />;
+    const stack = stackOf(item);
+    const pick = spec.weight || spec.probability ? onlyRef(item, spec.weight ?? spec.probability!) : undefined;
+    const rowOf = (entry: unknown, api: ListItemApi<unknown>): ReactNode => stack
+      ? <StackRow schema={item} stack={stack} label={`${singular(label)} ${api.index + 1}`} value={asObject(entry)} readOnly={inert} onChange={api.update} />
+      : pick
+        ? <RefField kind={pick.ref} label={`${singular(label)} ${api.index + 1}`} bare className="w-60" value={typeof asObject(entry)[pick.key] === "string" ? asObject(entry)[pick.key] as string || undefined : undefined} readOnly={inert}
+          onChange={next => api.update({ ...asObject(entry), [pick.key]: next ?? "" })} />
+      : <FieldNode schema={item} name={name} value={entry} onChange={api.update} path={[...path, api.index]} issues={issues} readOnly={inert} bare />;
     const shared = {
       items, readOnly: inert || locked, ordered: Boolean(spec.ordered), min: spec.minLength ?? 0, max: spec.maxLength,
       addLabel: `Add ${singular(label)}`, onAdd: () => defaultFieldValue(item), emptyText: "None",
-      summarize: objectRows ? (entry: unknown, index: number) => rowSummary(item, entry, index) : undefined,
+      summarize: objectRows && !stack && !pick ? (entry: unknown, index: number) => rowSummary(item, entry, index) : undefined,
       className: anchor, ...(bare ? {} : { label, hint: listHint }),
     };
     if (spec.weight || spec.probability) {
@@ -171,9 +180,11 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
     const parts = node.items as readonly Schema[];
     const values = Array.isArray(value) ? value as unknown[] : [];
     const setAt = (index: number, next: unknown) => onChange(parts.map((part, at) => at === index ? next : values[at] ?? defaultFieldValue(part)));
-    return wrap(<span className="field-tuple">{parts.map((part, index) =>
-      <FieldNode key={index} schema={part} name={`${label} ${index + 1}`} value={values[index]} onChange={next => setAt(index, next)}
-        path={[...path, index]} issues={issues} readOnly={inert} bare />)}</span>);
+    return wrap(<span className="inline-flex items-center gap-1.5">{parts.map((part, index) => <Fragment key={index}>
+      {index > 0 && parts.length === 2 && <span aria-hidden className="text-xs text-faint">–</span>}
+      <FieldNode schema={part} name={`${label} ${index + 1}`} value={values[index]} onChange={next => setAt(index, next)}
+        path={[...path, index]} issues={issues} readOnly={inert} bare />
+    </Fragment>)}</span>);
   }
 
   if (node instanceof RecordSchema) {
@@ -218,22 +229,88 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
   return wrap(<Static mono title="No typed control for this value">{JSON.stringify(value) ?? "—"}</Static>);
 }
 
-type Block = { kind: "field"; entry: [string, Schema] } | { kind: "group"; name: string; entries: [string, Schema][] };
+const COUNT_KEYS = new Set(["quantity", "count", "amount"]);
+interface Stack { item: string; count: string }
+
+/** An object that is an item reference and how many of it, with nothing else to edit. */
+function stackOf(schema: Schema): Stack | undefined {
+  const core = fieldCore(schema);
+  if (!(core instanceof ObjectSchema)) return undefined;
+  const entries = (Object.entries(core.fields) as [string, Schema][]).filter(([key, field]) => { const spec = serialFieldSpec(field, key); return !spec.hidden && spec.kind !== "literal"; });
+  const pair = stackKeys(entries);
+  return pair && entries.length === 2 ? pair : undefined;
+}
+
+/** An object that is one reference plus the list's weight or chance key. */
+function onlyRef(schema: Schema, numberKey: string): { key: string; ref: string } | undefined {
+  const core = fieldCore(schema);
+  if (!(core instanceof ObjectSchema)) return undefined;
+  const entries = (Object.entries(core.fields) as [string, Schema][]).filter(([key, field]) => { const spec = serialFieldSpec(field, key); return key !== numberKey && !spec.hidden && spec.kind !== "literal"; });
+  const spec = entries.length === 1 ? serialFieldSpec(entries[0]![1], entries[0]![0]) : undefined;
+  return spec?.ref ? { key: entries[0]![0], ref: spec.ref } : undefined;
+}
+
+function stackKeys(entries: readonly [string, Schema][]): Stack | undefined {
+  const item = entries.find(([key, field]) => serialFieldSpec(field, key).ref === "item")?.[0];
+  const count = entries.find(([key, field]) => COUNT_KEYS.has(key) && serialFieldSpec(field, key).kind === "number")?.[0];
+  return item && count ? { item, count } : undefined;
+}
+
+function StackRow({ schema, stack, label, value, readOnly, onChange }: { schema: Schema; stack: Stack; label: string; value: Record<string, unknown>; readOnly: boolean; onChange: (next: Record<string, unknown>) => void }) {
+  const fields = (fieldCore(schema) as ObjectSchema<Record<string, Schema>>).fields;
+  const countSpec = serialFieldSpec(fields[stack.count] as Schema, stack.count);
+  const low = countSpec.min ?? (countSpec.exclusiveMin !== undefined ? countSpec.exclusiveMin + 1 : 1);
+  return <StackField kind={serialFieldSpec(fields[stack.item] as Schema, stack.item).ref} label={label} className="w-72" readOnly={readOnly}
+    value={typeof value[stack.item] === "string" && value[stack.item] ? value[stack.item] as string : undefined} onChange={next => onChange({ ...value, [stack.item]: next ?? "" })}
+    quantity={typeof value[stack.count] === "number" ? value[stack.count] as number : low} min={low} onQuantityChange={next => onChange({ ...value, [stack.count]: next })} />;
+}
+
+type Block = { kind: "field"; entry: [string, Schema] } | { kind: "group"; name: string; entries: [string, Schema][] } | { kind: "matrix"; entries: [string, Schema][]; keys: string[] } | { kind: "stack"; entry: [string, Schema] };
+
+/** The number fields of an object schema, when that is all it holds. */
+function numberKeys(schema: Schema): string[] | undefined {
+  const core = fieldCore(schema);
+  if (!(core instanceof ObjectSchema)) return undefined;
+  const entries = (Object.entries(core.fields) as [string, Schema][]).filter(([key, field]) => !serialFieldSpec(field, key).hidden);
+  if (!entries.length || entries.some(([key, field]) => { const spec = serialFieldSpec(field, key); return spec.kind !== "number" || spec.ref; })) return undefined;
+  return entries.map(([key]) => key);
+}
+
+/** "Bonuses base" and "Bonuses per level" share "Bonuses "; the columns read "Base" and "Per level". */
+function commonPrefix(labels: readonly string[]): string {
+  const words = labels.map(label => label.split(" "));
+  let shared = 0;
+  while (words.every(parts => parts.length > shared + 1 && parts[shared] === words[0]![shared])) shared++;
+  return words[0]!.slice(0, shared).join(" ");
+}
 
 /**
  * The fields of one object. Scalars that share a schema `group` are laid out together in one
  * compact grid; everything else is a row of its own, in schema order.
  */
-function ObjectBody({ node, value, base, setKey, path, issues, readOnly, focusSection, idKey }: {
+function ObjectBody({ node, value, base, setKey, path, issues, readOnly, focusSection, idKey, matrices = false, titled = false }: {
   node: ObjectSchema<Record<string, Schema>>; value: Record<string, unknown>; base: Record<string, unknown>;
   setKey: (key: string, next: unknown) => void; path: Path; issues: readonly Issue[]; readOnly: boolean; focusSection?: string; idKey?: string;
+  /** Draw a run of like number groups as one table. */
+  matrices?: boolean;
+  /** At the top of a record a table gets its own section heading; inside a section it sits in the body. */
+  titled?: boolean;
 }) {
   const entries = (Object.entries(node.fields) as [string, Schema][]).filter(([key, field]) => !ADVANCED_FIELDS.has(key) && !serialFieldSpec(field, key).hidden);
   if (focusSection) entries.sort(([a], [b]) => a === focusSection ? -1 : b === focusSection ? 1 : 0);
   const blocks: Block[] = [];
   const groups = new Map<string, Block & { kind: "group" }>();
+  const pair = stackKeys(entries);
   for (const entry of entries) {
     const spec = serialFieldSpec(entry[1], entry[0]);
+    if (pair && entry[0] === pair.count) continue;
+    if (pair && entry[0] === pair.item) { blocks.push({ kind: "stack", entry }); continue; }
+    // Objects of the same number fields, one after another (a balance table's rows, a curve's base and
+    // per-level bonuses), are one matrix rather than a stack of sections.
+    const keys = matrices ? numberKeys(entry[1]) : undefined;
+    const last = blocks.at(-1);
+    if (keys && last?.kind === "matrix" && same(last.keys, keys)) { last.entries.push(entry); continue; }
+    if (keys) { blocks.push({ kind: "matrix", entries: [entry], keys }); continue; }
     if (spec.group && SCALAR_KINDS.has(spec.kind)) {
       let block = groups.get(spec.group);
       if (!block) { block = { kind: "group", name: spec.group, entries: [] }; groups.set(spec.group, block); blocks.push(block); }
@@ -244,9 +321,34 @@ function ObjectBody({ node, value, base, setKey, path, issues, readOnly, focusSe
   const field = ([key, schema]: [string, Schema], compact: boolean) => <FieldNode key={key} schema={schema} name={key} value={value[key]} base={base[key]}
     onChange={next => setKey(key, next)} path={[...path, key]} issues={issues} readOnly={readOnly || key === idKey} compact={compact} />;
 
+  const matrix = (block: Block & { kind: "matrix" }) => {
+    if (block.entries.length === 1) return field(block.entries[0]!, false);
+    const labels = block.entries.map(([key, schema]) => serialFieldSpec(schema, key).label);
+    const prefix = commonPrefix(labels);
+    const inner = (fieldCore(block.entries[0]![1]) as ObjectSchema<Record<string, Schema>>).fields;
+    const cell = ([outer, schema]: [string, Schema], key: string, name: string) => {
+      const current = asObject(value[outer]);
+      return <FieldNode key={`${outer}.${key}`} schema={inner[key] as Schema} name={key} value={current[key]} base={asObject(base[outer])[key]} cellLabel={name}
+        onChange={next => { const start = value[outer] === undefined ? asObject(defaultFieldValue(schema)) : current; const out = { ...start }; if (next === undefined) delete out[key]; else out[key] = next; setKey(outer, out); }}
+        path={[...path, outer, key]} issues={issues} readOnly={readOnly} />;
+    };
+    const short = (label: string) => { const rest = label.slice(prefix.length).trim(); return rest ? rest.charAt(0).toUpperCase() + rest.slice(1) : label; };
+    // The longer dimension runs down the page: many groups of two numbers are rows, two groups of many numbers are columns.
+    const table = block.entries.length >= block.keys.length
+      ? <StatMatrix key={`matrix:${block.entries[0]![0]}`} columns={block.keys.map(key => serialFieldSpec(inner[key] as Schema, key).label)}
+        rows={block.entries.map((entry, at) => ({ key: entry[0], label: short(labels[at]!), cells: block.keys.map(key => cell(entry, key, `${labels[at]} ${serialFieldSpec(inner[key] as Schema, key).label}`)) }))} />
+      : <StatMatrix key={`matrix:${block.entries[0]![0]}`} columns={labels.map(short)}
+        rows={block.keys.map(key => { const name = serialFieldSpec(inner[key] as Schema, key).label; return { key, label: name, cells: block.entries.map((entry, at) => cell(entry, key, `${labels[at]} ${name}`)) }; })} />;
+    return titled ? <Section key={`matrix:${block.entries[0]![0]}`} title={prefix || "Values"}>{table}</Section> : table;
+  };
+
   return <>
     {blocks.map(block => block.kind === "group"
       ? <Fields key={`group:${block.name}`} className="mt-0.5 mb-1">{block.entries.map(entry => field(entry, true))}</Fields>
+      : block.kind === "matrix" ? matrix(block)
+      : block.kind === "stack" && pair ? <Field key={`stack:${block.entry[0]}`} label={serialFieldSpec(block.entry[1], block.entry[0]).label} dirty={!same(base[pair.item], value[pair.item]) || !same(base[pair.count], value[pair.count])} className={anchorClass(pathText([...path, block.entry[0]]))}>
+        <StackRow schema={node} stack={pair} label={serialFieldSpec(block.entry[1], block.entry[0]).label} value={value} readOnly={readOnly} onChange={next => { const key = same(next[pair.item], value[pair.item]) ? pair.count : pair.item; setKey(key, next[key]); }} />
+      </Field>
       : field(block.entry, false))}
     {preserved.map(key => <Field key={key} label={fieldTitle(key)} hint="Unrecognized field, kept as is." disabled>
       <Static mono>{JSON.stringify(value[key])}</Static>
@@ -276,6 +378,8 @@ function rowSummary(schema: Schema, value: unknown, index: number): string {
     const spec = serialFieldSpec(field, key);
     if (spec.multiline || spec.hidden) continue;
     const entry = row[key];
+    // Beside a name, ids and references are noise: "Crownsilver Sword", not "Crownsilver Sword · gear_mainHand_melee_2400".
+    if (parts.length && typeof entry === "string" && (spec.ref || spec.identity || /^[a-z0-9]+(_[a-z0-9]+)+$/i.test(entry))) continue;
     if (typeof entry === "string" && entry) parts.push(entry.length > 48 ? `${entry.slice(0, 48)}…` : entry);
     else if (typeof entry === "number") parts.push(spec.unit ? `${entry} ${spec.unit}` : String(entry));
   }

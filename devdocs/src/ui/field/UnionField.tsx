@@ -11,6 +11,7 @@ import { ON_SHEET, useOnSheet } from "../Sheet.js";
 import { fieldFromSchema, type SchemaFieldSpec } from "./fromSchema.js";
 import { ListField, type ListFieldProps } from "./ListField.js";
 import { MapField } from "./MapField.js";
+import { StackField } from "./StackField.js";
 import { NumberField } from "./NumberField.js";
 import { carryOver, variantSchema, variantTag, type CarryOver } from "./reorder.js";
 import { TextField } from "./TextField.js";
@@ -83,7 +84,7 @@ export function UnionField({ schema, value, onChange, renderRef, kindLabel, read
       <Button variant="link" size="xs" className="font-medium" onClick={confirm}>Switch</Button>
       <Button variant="link" size="xs" className="font-medium" onClick={() => setPending(null)}>Keep</Button>
     </div>}
-    {fields.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => setKey(key, next)} renderRef={renderRef} readOnly={readOnly} compact={compact} />)}
+    <ObjectFields entries={fields} current={current} setKey={setKey} renderRef={renderRef} readOnly={readOnly} compact={compact} />
   </div>;
 }
 
@@ -145,7 +146,8 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
       if (!(node instanceof ObjectSchema)) break;
       const current = value !== null && typeof value === "object" ? value as Record<string, unknown> : {};
       const entries = (Object.entries(node.fields) as [string, Schema][]).filter(([key, field]) => !serialFieldSpec(field, key).hidden);
-      return <div className="min-w-0 flex flex-1 flex-col gap-px">{entries.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); }} renderRef={renderRef} readOnly={inert} compact={compact} />)}</div>;
+      const setKey = (key: string, next: unknown) => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); };
+      return <div className="min-w-0 flex flex-1 flex-col gap-px"><ObjectFields entries={entries} current={current} setKey={setKey} renderRef={renderRef} readOnly={inert} compact={compact} /></div>;
     }
     case "record": {
       if (!(node instanceof RecordSchema)) break;
@@ -186,4 +188,30 @@ export function UnionList({ schema, summarize, renderRef, readOnly, compact, add
   return <ListField<unknown> {...rest} readOnly={readOnly} compact={compact} summarize={summarize} addLabel={addLabel} onAdd={() => defaultFieldValue(schema)}
     className={rest.className}
     renderItem={(item, api) => <UnionField schema={schema} value={item} onChange={api.update} renderRef={renderRef} readOnly={readOnly} compact={compact} />} />;
+}
+
+const COUNT_KEYS = new Set(["quantity", "count", "amount"]);
+
+/** An item reference and its count in the same object ("give 2 × Copper Bar") are one stack. */
+function stackKeys(entries: readonly (readonly [string, Schema])[]): { item: string; count: string } | undefined {
+  const item = entries.find(([key, field]) => serialFieldSpec(field, key).ref === "item")?.[0];
+  const count = entries.find(([key, field]) => COUNT_KEYS.has(key) && serialFieldSpec(field, key).kind === "number")?.[0];
+  return item && count ? { item, count } : undefined;
+}
+
+function ObjectFields({ entries, current, setKey, renderRef, readOnly, compact }: { entries: readonly (readonly [string, Schema])[]; current: Record<string, unknown>; setKey: (key: string, next: unknown) => void; renderRef?: RenderRef; readOnly: boolean; compact?: boolean }) {
+  const stack = stackKeys(entries);
+  return <>{entries.map(([key, field]) => {
+    if (stack && key === stack.count) return null;
+    if (stack && key === stack.item) {
+      const itemSpec = fieldFromSchema(field, key);
+      const countSpec = fieldFromSchema(entries.find(([other]) => other === stack.count)![1], stack.count);
+      const low = countSpec.min ?? 1;
+      return <Field key={key} label={itemSpec.label} hint={itemSpec.hint} compact={compact}>
+        <StackField label={itemSpec.label} value={typeof current[key] === "string" ? current[key] as string : undefined} readOnly={readOnly || itemSpec.readOnly} onChange={next => setKey(key, next)}
+          quantity={typeof current[stack.count] === "number" ? current[stack.count] as number : low} min={low} onQuantityChange={next => setKey(stack.count, next)} />
+      </Field>;
+    }
+    return <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => setKey(key, next)} renderRef={renderRef} readOnly={readOnly} compact={compact} />;
+  })}</>;
 }

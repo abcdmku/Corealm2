@@ -14,7 +14,7 @@ export function Input({ className, type = "text", ...props }: React.ComponentPro
 }
 
 export function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
-  return <textarea data-slot="textarea" className={cn(inputBase, "h-auto min-h-14 py-1.5 leading-relaxed", className)} {...props} />;
+  return <textarea data-slot="textarea" className={cn(inputBase, "h-auto min-h-7 max-h-72 py-1 leading-relaxed field-sizing-content", className)} {...props} />;
 }
 
 export function InputGroup({ className, ...props }: React.ComponentProps<"div">) {

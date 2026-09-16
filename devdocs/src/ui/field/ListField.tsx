@@ -175,22 +175,26 @@ export function ListField<T>({ label, hint, items, onChange, renderItem, renderA
       const dropSide = drag && drag.to === index && drag.to !== drag.from ? (drag.to < drag.from ? "before" : "after") : undefined;
       const summary = summarize?.(item, index);
       return <div key={id} ref={element => { rows.current[index] = element; }} className={cn(
-          "field-list-row group/row relative -mx-0.5 grid min-h-7 items-center gap-x-1.5 rounded-sm px-0.5 outline-none hover:bg-accent focus-visible:ring-1 focus-visible:ring-ring",
+          "field-list-row group/row relative -mx-0.5 grid min-h-7 items-center gap-x-1.5 rounded-sm px-0.5 outline-none hover:bg-accent data-[expanded=true]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring",
           "data-[dragging]:opacity-45 data-[drop=before]:shadow-[inset_0_2px_0_var(--accent)] data-[drop=after]:shadow-[inset_0_-2px_0_var(--accent)] data-[expanded=true]:pb-1",
-          ordered ? "grid-cols-[0.875rem_minmax(0,1fr)_auto_auto]" : "grid-cols-[minmax(0,1fr)_auto_auto]",
+          // The row hugs its content: the aside (a weight, a chance) and the remove button sit beside it and the
+          // spare width is left in a last track. Rows whose content has a fixed width line their asides up.
+          renderAside
+            ? (ordered ? "grid-cols-[0.875rem_minmax(0,max-content)_auto_auto_minmax(0,1fr)]" : "grid-cols-[minmax(0,max-content)_auto_auto_minmax(0,1fr)]")
+            : (ordered ? "grid-cols-[0.875rem_minmax(0,max-content)_auto_minmax(0,1fr)]" : "grid-cols-[minmax(0,max-content)_auto_minmax(0,1fr)]"),
           rowClassName,
         )} role="listitem" tabIndex={0}
         data-dragging={drag?.from === index || undefined} data-drop={dropSide} data-expanded={summarize ? open : undefined}
         aria-label={summary} onKeyDown={rowKeyDown(item, index)}>
         {ordered && <span className={cn("field-list-handle grid h-6 w-3.5 cursor-grab touch-none place-items-center text-faint select-none hover:text-muted-foreground", readOnly && "invisible", drag?.from === index && "cursor-grabbing")} title={readOnly ? undefined : "Drag, or Alt+Up/Down"} aria-hidden onPointerDown={handleDown(index)} onPointerMove={handleMove} onPointerUp={handleUp} onPointerCancel={handleCancel}><GripVertical size={12} /></span>}
-        <SheetLevel.Provider value={false}><div className={cn("field-list-content flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-xs", contentClassName)}>
+        <SheetLevel.Provider value={false}><div className={cn("field-list-content flex min-w-0 flex-nowrap items-center gap-x-1.5 text-xs has-[>[data-slot=sheet]]:flex-wrap [&>*]:min-w-0", contentClassName)}>
           {summarize
             ? <button type="button" className="field-list-summary inline-flex min-h-6 cursor-pointer items-center gap-1 text-left text-xs text-foreground hover:text-primary [&_svg]:text-faint" tabIndex={-1} aria-expanded={open} onClick={() => toggle(item, index)}>{open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}<span>{summary}</span></button>
             : renderItem(item, api)}
         </div></SheetLevel.Provider>
         {renderAside && <div className="field-list-aside flex items-center gap-1.5">{renderAside(item, api)}</div>}
         {canRemove && <Button variant="ghost" size="icon-xs" className="field-list-remove opacity-0 group-focus-within/row:opacity-100 group-hover/row:opacity-100 hover:text-destructive" tabIndex={-1} title={removeLabel?.(item, index) ?? "Remove"} aria-label={removeLabel?.(item, index) ?? `Remove row ${index + 1}`} onClick={() => remove(index)}><X /></Button>}
-        {summarize && open && <SheetLevel.Provider value><div className={cn("field-list-expanded col-span-full my-0.5 content-start gap-y-px border-l-2 border-border pl-3", ROW_COLUMNS, ordered ? "ml-6" : "ml-1.5")}>{renderItem(item, api)}</div></SheetLevel.Provider>}
+        {summarize && open && <SheetLevel.Provider value><div className={cn("field-list-expanded col-span-full my-0.5 content-start gap-y-px border-l-2 border-border pl-3 [&>*]:col-span-full [&>*]:min-w-0", ROW_COLUMNS, ordered ? "ml-6" : "ml-1.5")}>{renderItem(item, api)}</div></SheetLevel.Provider>}
       </div>;
     })}
     {/* Empty, the list is one line: what it holds (nothing) and the way to add the first entry. */}

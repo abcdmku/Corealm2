@@ -1,4 +1,4 @@
-import { useEffect, useReducer, type ComponentType } from "react";
+import { useEffect, useReducer, type ComponentType, type ReactNode } from "react";
 import { LoadingRows } from "../ui/States.js";
 import type { ViewProps } from "./types.js";
 
@@ -16,7 +16,8 @@ type Module<P> = { default: ComponentType<P> };
 export type Preloadable<P> = ComponentType<P> & { preload: () => Promise<Module<P>> };
 export type PreloadableView = Preloadable<ViewProps>;
 
-export function lazyComponent<P extends object>(loader: () => Promise<Module<P>>): Preloadable<P> {
+/** `fallback` is what shows while the module loads: a page skeleton for a page, nothing for a button or a panel part. */
+export function lazyComponent<P extends object>(loader: () => Promise<Module<P>>, fallback: ReactNode = <LoadingRows />): Preloadable<P> {
   let loaded: Module<P> | undefined;
   let pending: Promise<Module<P>> | undefined;
   const load = () => (pending ??= loader().then(module => (loaded = module)));
@@ -24,7 +25,7 @@ export function lazyComponent<P extends object>(loader: () => Promise<Module<P>>
   function Lazy(props: P) {
     const [, rerender] = useReducer((count: number) => count + 1, 0);
     useEffect(() => { if (!loaded) void load().then(() => rerender()); }, []);
-    if (!loaded) return <LoadingRows />;
+    if (!loaded) return <>{fallback}</>;
     const Component = loaded.default;
     return <Component {...props} />;
   }

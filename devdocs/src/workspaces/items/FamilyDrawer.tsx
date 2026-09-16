@@ -27,7 +27,7 @@ const PAIRS = "grid-cols-[repeat(2,minmax(0,14rem))]";
   number and wears the brass override dot (docs/devdocs-inputs.md 3.10).
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"));
+const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"), null);
 
 const family = (...path: Path[number][]) => specAt(EquipmentFamilySchema, ["parameters", ...path]);
 const VALUE = specAt(ProgressionTierSchema, ["equipment", 0, "adjustments", "value"]);

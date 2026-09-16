@@ -22,7 +22,7 @@ const PAIRS = "grid-cols-[repeat(2,minmax(0,14rem))]";
   keeps its number and wears the brass override dot: the curve moves, the recipe does not.
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"));
+const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"), null);
 
 type ParamKey = keyof RecipeTemplate["parameters"];
 const param = (key: ParamKey) => specAt(RecipeTemplateSchema, ["parameters", key]);

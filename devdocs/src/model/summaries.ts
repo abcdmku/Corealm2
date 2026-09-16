@@ -225,7 +225,7 @@ export function summarize(collection: string, row: ContentRow, ctx: SummaryConte
       const badges: Badge[] = [];
       if (text(row.archetype)) badges.push({ text: titleCase(text(row.archetype)!) });
       if (text(row.skill)) badges.push({ text: `${titleCase(text(row.skill)!)} ${num(row.reqLevel) ?? ""}`.trim(), tone: "info" });
-      return { title: name, subtitle: itemId ? `Yields ${rowName(ctx.lookup("item", itemId) ?? { id: itemId })} ×${rangeText(row.yieldRange)}` : undefined, badges, thumb: itemId ? { kind: "item", id: itemId } : { kind: "glyph", icon: Leaf }, stats: [{ label: "Respawn", value: `${num(row.respawnSeconds) ?? 0} s` }], tier: num(row.tier) };
+      return { title: name, subtitle: itemId ? `Yields ${rowName(ctx.lookup("item", itemId) ?? { id: itemId })}${rangeText(row.yieldRange) ? ` ×${rangeText(row.yieldRange)}` : ""}` : undefined, badges, thumb: itemId ? { kind: "item", id: itemId } : { kind: "glyph", icon: Leaf }, stats: [{ label: "Respawn", value: `${num(row.respawnSeconds) ?? 0} s` }], tier: num(row.tier) };
     }
     case "equipmentSets": {
       const members = asRecord(row.members);

@@ -9,7 +9,7 @@ import { iconForElement, spellThumb, titleCase, hueFor } from "../../model/summa
 import { Thumb } from "../../ui/Thumb.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import {
-  ChoiceField, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, ToggleField,
+  ChoiceField, Field, Fields, ListField, NumberField, ReferencedBy, Section, Sheet, StackField, TextField, ToggleField,
 } from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
@@ -161,11 +161,10 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
             keyOf={(rune, at) => text(rune.itemId) ?? at}
             removeLabel={(_, at) => `Remove rune ${at + 1}`}
             renderItem={(rune, api) => <>
-              <RefField bare className="min-w-49" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
+              <StackField className="w-60" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
                 exclude={new Set(runes.map(entry => text(entry.itemId) ?? "").filter((_, at) => at !== api.index))}
-                onChange={next => api.update({ ...rune, itemId: next ?? "" })} />
-              <NumberField className="w-24 data-[unit]:w-24" value={num(rune.quantity) ?? 1} integer min={lower(runeQuantity)} unit={runeQuantity.unit} readOnly={readOnly}
-                ariaLabel={`${runeQuantity.label} ${api.index + 1}`} onChange={next => api.update({ ...rune, quantity: next ?? 1 })} />
+                onChange={next => api.update({ ...rune, itemId: next ?? "" })}
+                quantity={num(rune.quantity) ?? 1} min={lower(runeQuantity)} onQuantityChange={next => api.update({ ...rune, quantity: next as number })} />
             </>} />}
         </Section>
         <ReferencedBy collection="spells" id={id} navigate={navigate} />

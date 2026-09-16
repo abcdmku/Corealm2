@@ -161,12 +161,12 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
           <Button variant="ghost" size="icon-sm" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></Button>
         </div>
       </header>
-      <main className={cn("main-content flex min-h-0 flex-1 flex-col outline-none min-[1100px]:[html[data-peek=open]_&]:pr-[clamp(420px,34vw,520px)]", workspace.fullBleed || navCollection ? "overflow-hidden" : "overflow-y-auto")} id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
+      <main className={cn("main-content @container flex min-h-0 flex-1 flex-col outline-none", !workspace.fullBleed && "min-[1400px]:[html[data-peek=open]_&]:pr-[clamp(420px,34vw,520px)]", workspace.fullBleed || navCollection ? "overflow-hidden" : "overflow-y-auto")} id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
         <RecordSetKey.Provider value={viewRoute}>
           {navCollection && id !== undefined
             ? <div className="grid min-h-0 flex-1 grid-cols-[14.5rem_minmax(0,1fr)] max-lg:grid-cols-[12.25rem_minmax(0,1fr)] max-md:grid-cols-1">
               <RecordNav setKey={viewRoute} collection={navCollection} currentId={id} open={recordId => go(viewRoute, recordId)} />
-              <div className="min-w-0 record-layout-main min-h-0 overflow-y-auto" data-record-id={id}>{content}</div>
+              <div className="record-layout-main @container min-h-0 min-w-0 overflow-y-auto" data-record-id={id}>{content}</div>
             </div>
             : content}
         </RecordSetKey.Provider>

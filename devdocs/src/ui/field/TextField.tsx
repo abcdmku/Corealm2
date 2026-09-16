@@ -25,8 +25,11 @@ export interface TextFieldProps {
   className?: string;
 }
 
-export function TextField({ value, onChange, mono = false, multiline = false, width = "text", placeholder, disabled, readOnly, ariaLabel, autoFocus, className = "" }: TextFieldProps) {
+export function TextField({ value, onChange, mono = false, multiline: asked = false, width = "text", placeholder, disabled, readOnly, ariaLabel, autoFocus, className = "" }: TextFieldProps) {
   const field = useFieldContext();
+  // Prose (a description, an unlock line) edits in a box that shows all of it. Decided once, so a value
+  // growing past the threshold while typing does not swap the control under the caret.
+  const [multiline] = useState(() => asked || (!mono && width !== "id" && width !== "short" && value.length > 64));
   const [text, setText] = useState(value);
   const [editing, setEditingState] = useState(false);
   const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
@@ -59,10 +62,10 @@ export function TextField({ value, onChange, mono = false, multiline = false, wi
   };
 
   if (multiline) {
-    return <Textarea {...shared} className={cn("field-input field-textarea resize-y", WIDTH[width === "text" ? "full" : width], mono && "font-mono", className)} data-kind="text" data-disabled={inert || undefined} data-editing={editing || undefined}
+    return <Textarea {...shared} className={cn("field-input field-textarea resize-y", width === "text" ? "w-[44rem] max-w-full" : WIDTH[width], mono && "font-mono", className)} data-kind="text" data-disabled={inert || undefined} data-editing={editing || undefined}
       rows={Math.min(8, Math.max(2, text.split("\n").length))} />;
   }
   return <Input {...shared} className={cn("field-input", WIDTH[width], (mono || width === "id") && "font-mono", className)} data-kind="text" data-width={width} data-disabled={inert || undefined} data-editing={editing || undefined} autoComplete="off" />;
 }
 
-const WIDTH: Readonly<Record<TextWidth, string>> = { short: "w-40", id: "w-56", text: "w-full max-w-[22.5rem]", full: "w-full" };
+const WIDTH: Readonly<Record<TextWidth, string>> = { short: "w-40", id: "w-auto min-w-56 max-w-full field-sizing-content", text: "w-[22.5rem] max-w-full", full: "w-full" };

@@ -26,11 +26,14 @@ export interface SerialFieldSpec extends FieldMeta {
 const ACRONYMS: Readonly<Record<string, string>> = { xp: "XP", id: "ID", ids: "IDs", hp: "HP", npc: "NPC", npcs: "NPCs", ui: "UI", ai: "AI" };
 /* Key suffixes that name a unit ("attackSpeedMs"). The unit sits beside the control, so the label leaves it out. */
 const UNIT_SUFFIXES = new Set(["ms", "m", "s", "pct", "percent", "px", "deg"]);
+const UNIT_NAMES: Readonly<Record<string, string>> = { ms: "Duration", s: "Duration", m: "Distance", pct: "Percent", deg: "Angle" };
 
 /** A label for a schema key, in sentence case: "attackSpeedMs" reads "Attack speed", "valuePerLevel" "Value per level". */
 export function fieldTitle(name: string): string {
   const words = name.replace(/([a-z\d])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2").split(/[\s_]+/).filter(Boolean).map(word => word.toLowerCase());
   if (words.length > 1 && UNIT_SUFFIXES.has(words[words.length - 1]!)) words.pop();
+  // A key that is only a unit names what it measures.
+  else if (words.length === 1 && UNIT_NAMES[words[0]!]) return UNIT_NAMES[words[0]!]!;
   return words.map((word, index) => ACRONYMS[word] ?? (index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word)).join(" ");
 }
 

@@ -24,5 +24,6 @@ export { WeightedList, type WeightedListProps } from "./WeightedList.js";
 export { UnionField, UnionList, SchemaControl, type UnionFieldProps, type UnionListProps, type SchemaControlProps, type RenderRef } from "./UnionField.js";
 export { move, shares, redistribute, clampProbability, carryOver, variantSchema, variantTag, type CarryOver } from "./reorder.js";
 export { RefField, type RefFieldProps } from "./RefField.js";
+export { StackField, type StackFieldProps } from "./StackField.js";
 export { ReferencedBy, groupReferences, relationshipLabel, parseReferencePath, type ReferencedByProps } from "./ReferencedBy.js";
 export { Peek, PeekProvider, usePeek, type PeekTarget } from "../Peek.js";
