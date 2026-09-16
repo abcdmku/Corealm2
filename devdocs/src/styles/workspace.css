@@ -61,11 +61,13 @@
 .kv-section-toggle svg { transition: transform .12s; }
 .kv-section.is-closed .kv-section-toggle svg { transform: rotate(-90deg); }
 .kv-section-aside { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
-.kv-row { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px; min-height: 28px; align-items: center; padding: 1px 0; }
+.kv { --label-col: 132px; --label-gap: 12px; }
+.kv-row { display: grid; grid-template-columns: var(--label-col) minmax(0, 1fr); gap: var(--label-gap); min-height: 28px; align-items: center; padding: 1px 0; }
 .kv-row[data-align="start"] { align-items: start; }
 .kv-row[data-align="start"] .kv-label { padding-top: 5px; }
 .kv-row.is-wide { grid-template-columns: 1fr; gap: 2px; }
-.kv-compact .kv-row { grid-template-columns: 120px minmax(0, 1fr); min-height: 24px; gap: 8px; }
+.kv-compact { --label-col: 120px; --label-gap: 8px; }
+.kv-compact .kv-row { min-height: 24px; }
 .kv-label { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .kv-value { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; font-size: 12px; }
 .kv-row.has-error .kv-label { color: var(--danger); }
@@ -130,7 +132,12 @@ button.derived-source:hover { text-decoration: underline; text-underline-offset:
 .nav-item .nav-dot { flex: none; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
 
 /* ---------- Field grid: a group of like values as labelled cells ---------- */
-.kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, var(--field-cell, 168px))); gap: 8px 12px; padding: 4px 0 8px; justify-content: start; }
+/* A grid of like values sits in the value column beside the label gutter, so every value in a
+   sheet lines up on one edge instead of the grid starting back at the labels. */
+.kv:not(.kv-compact) .kv-section-body > .kv-fields { margin-left: calc(var(--label-col) + var(--label-gap)); }
+/* The grid hugs its content, so equal columns size to the widest cell instead of stretching to
+   the page edge: the numbers read as one block rather than four scattered controls. */
+.kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 148px)); gap: 8px 14px; padding: 4px 0 8px; width: fit-content; max-width: 100%; }
 .kv-field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .kv-field[data-span="2"] { grid-column: span 2; }
 .kv-field[data-span="3"] { grid-column: span 3; }

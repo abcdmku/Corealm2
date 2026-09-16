@@ -46,7 +46,9 @@ const legendLabel = (state: DotState): string => DOT_LEGEND.find(entry => entry.
   is wrong or stale. A value that is simply authored here, or simply computed by the curve the
   section already names, gets nothing. A mark on every field is a mark on none.
 */
-const DEVIATIONS = new Set<DotState>(["overridden", "inherited", "balance", "mixed", "invalid", "stale"]);
+// "balance" means the value still equals its balance target, which is the norm; drift shows up as
+// "overridden" instead, so only that earns a mark.
+const DEVIATIONS = new Set<DotState>(["overridden", "inherited", "mixed", "invalid", "stale"]);
 const showDot = (state: DotState): boolean => DEVIATIONS.has(state);
 
 export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, expression, error, dirty, mixed, stale, compact = false, span, disabled = false, className = "", children }: FieldProps<T>) {

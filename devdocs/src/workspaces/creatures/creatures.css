@@ -28,7 +28,10 @@
 .loot-page .record-head { margin-bottom: 16px; }
 
 /* Drop rows (creature loot and loot tables): item | min to max | group | chance, one 28px line */
-.drop-rows .field-list-content { flex-wrap: nowrap; }
+/* The item name takes the free width so the quantity, group and chance columns line up down the
+   list, but the row stops at table width rather than stretching a two-word name across the page. */
+.drop-rows { max-width: 880px; }
+.drop-rows .field-list-content { flex-wrap: nowrap; max-width: 620px; }
 .drop-rows .field-list-content > .field-input[data-width="short"] { width: 120px; flex: none; }
 .drop-rows .field-list-content > .field-input[data-width="num"] { width: 56px; flex: none; }
 .drop-rows .field-list-aside .field-input[data-width="num"] { width: 68px; }
