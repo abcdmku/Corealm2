@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { bootTelemetry } from "../game/src/perf/bootTelemetry.js";
 import { expect, it } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
 
@@ -217,5 +218,6 @@ it('rejects a failed release shader before drawing gameplay', async () => {
       getProgramInfoLog: () => 'invalid shader' }),
   } }) as Renderer;
   await expect(renderer.prepareEffects(new THREE.Group())).rejects.toThrow('invalid shader');
+  expect(bootTelemetry.snapshot().spans.filter(span => span.name === 'boot.effects.programs').at(-1)?.outcome).toBe('error');
 });
 

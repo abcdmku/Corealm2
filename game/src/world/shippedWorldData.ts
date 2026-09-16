@@ -1,3 +1,4 @@
+import { bootTelemetry } from "../perf/bootTelemetry.js";
 import { GenerationCache, type GenerationCachePort } from './generationCache.js';
 import { decodeWorldData, worldDataSha256, type WorldDataManifest } from './worldDataFormat.js';
 
@@ -27,7 +28,7 @@ export class ShippedWorldData implements GenerationCachePort {
   }
 
   async get<T>(key: string, valid: (value: unknown) => value is T): Promise<T | null> {
-    const cached = await this.local.get(key, valid);
+    const cached = await bootTelemetry.measureAsync("boot.worldData.cacheRead", () => this.local.get(key, valid), { detail: { key } });
     if (cached) return cached;
     const manifest = await this.index();
     if (!manifest) return null;
@@ -39,10 +40,11 @@ export class ShippedWorldData implements GenerationCachePort {
       const bytes = new Uint8Array(await response.arrayBuffer());
       if (bytes.length !== entry.bytes || await worldDataSha256(bytes) !== entry.sha256) throw new Error(`World file failed integrity check: ${key}`);
       const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-      const data = decodeWorldData(new Uint8Array(await new Response(stream).arrayBuffer()));
+      const unpacked = await bootTelemetry.measureAsync("boot.worldData.decompress", () => new Response(stream).arrayBuffer(), { detail: { key } });
+      const data = bootTelemetry.measureSync("boot.worldData.decode", () => decodeWorldData(new Uint8Array(unpacked)), { detail: { key } });
       if (!valid(data)) throw new Error(`World file has incompatible inputs: ${key}`);
       this.shipped.push(key);
-      await this.local.put(key, data);
+      await bootTelemetry.measureAsync("boot.worldData.cacheWrite", () => this.local.put(key, data), { detail: { key } });
       return data;
     } catch (error) {
       if (this.required) throw error;

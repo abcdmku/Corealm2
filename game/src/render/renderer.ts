@@ -1,3 +1,4 @@
+import { bootTelemetry } from "../perf/bootTelemetry.js";
 import { PlayerSilhouette } from "./playerSilhouette.js";
 import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
 /**
@@ -678,28 +679,37 @@ export class Renderer {
 
   /** Prepare the actual hidden effect pools and HDR compositor before a timed cast can begin. */
   async prepareEffects(root: THREE.Object3D): Promise<void> {
-    this.compileEffects(root);
+    bootTelemetry.measureSync("boot.effects.submit", () => this.compileEffects(root));
+    const programSpan = bootTelemetry.startSpan("boot.effects.programs");
     const gl = this.renderer.getContext();
     const extension = gl.getExtension('KHR_parallel_shader_compile');
-    for (const program of this.renderer.info.programs ?? []) {
-      if (!program.program) continue;
-      while (extension && !gl.getProgramParameter(program.program as WebGLProgram, extension.COMPLETION_STATUS_KHR)) {
-        await new Promise<void>(resolve => setTimeout(resolve, 8));
+    try {
+      for (const program of this.renderer.info.programs ?? []) {
+        if (!program.program) continue;
+        while (extension && !gl.getProgramParameter(program.program as WebGLProgram, extension.COMPLETION_STATUS_KHR)) {
+          await new Promise<void>(resolve => setTimeout(resolve, 8));
+        }
+        if (!gl.getProgramParameter(program.program as WebGLProgram, gl.LINK_STATUS)) {
+          throw new Error(`Unable to prepare game graphics: ${gl.getProgramInfoLog(program.program as WebGLProgram)}`);
+        }
+        // Link status already validates this program. Avoid three synchronous driver-log queries
+        // for every successful shader, while retaining normal diagnostics for later programs.
+        const checkErrors = this.renderer.debug.checkShaderErrors;
+        this.renderer.debug.checkShaderErrors = false;
+        try { program.getUniforms(); program.getAttributes(); }
+        finally { this.renderer.debug.checkShaderErrors = checkErrors; }
       }
-      if (!gl.getProgramParameter(program.program as WebGLProgram, gl.LINK_STATUS)) {
-        throw new Error(`Unable to prepare game graphics: ${gl.getProgramInfoLog(program.program as WebGLProgram)}`);
-      }
-      // Link status already validates this program. Avoid three synchronous driver-log queries
-      // for every successful shader, while retaining normal diagnostics for later programs.
-      const checkErrors = this.renderer.debug.checkShaderErrors;
-      this.renderer.debug.checkShaderErrors = false;
-      try { program.getUniforms(); program.getAttributes(); }
-      finally { this.renderer.debug.checkShaderErrors = checkErrors; }
+      programSpan.end();
+    } catch (error) {
+      programSpan.fail(error);
+      throw error;
     }
-    this.camera.updateMatrixWorld();
-    this.prepareScene?.(this.camera);
-    this.drawWorld();
-    this.magicGlow.prepare(this.renderer, this.scene, this.camera);
+    bootTelemetry.measureSync("boot.effects.sceneDraw", () => {
+      this.camera.updateMatrixWorld();
+      this.prepareScene?.(this.camera);
+      this.drawWorld();
+    });
+    bootTelemetry.measureSync("boot.effects.glow", () => this.magicGlow.prepare(this.renderer, this.scene, this.camera));
   }
 
   render(nowMs: number): void {

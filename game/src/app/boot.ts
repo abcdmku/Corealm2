@@ -452,6 +452,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
 
   if (profile.kind === 'game' || fairyLab) {
+    const fairyTerrainSpan = bootTelemetry.startSpan("boot.terrain.fairy");
     const fairyGrassSurface = await (await import('../render/fairyGroundSurface.js')).loadFairyGroundSurface();
     const fairyRockSurface = await (await import('../render/fairyRockSurface.js')).loadFairyRockSurface();
     fairyRealm = await createRealmTerrain(renderer.scene, fairyLab ? FAIRY_PORTAL_LAB_TERRAIN : buildFairyTerrainSpec(), {
@@ -460,6 +461,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       ...(fairyLab ? {} : { prepareSurface: (other: WorldScene) => { prepareWorldSurface(other, store.get().meta.seed); } }),
     });
     cameraQueries.addHeightfield(fairyRealm.heightfieldSamples(1));
+    fairyTerrainSpan.end();
   }
   const heightAt = (regionId: RegionId, x: number, z: number): number => terrainAt(x, z).heightAt(regionId, x, z);
   const fairyPortalFixture = fairyLab ? assembleFairyPortalFixture(heightAt, id => assets.baseY(id)) : null;
@@ -631,7 +633,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
     }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
     : [];
-  const built = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
+  const built = bootTelemetry.measureSync("boot.world.semantic", () => profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts));
   const mobSpacingLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('spawnSpacing') === '1';
   const mobSpacingFixture: SemanticEntity[] = [];
   if (mobSpacingLab) {
@@ -703,6 +705,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   const fishingEntities = fishingLab?.createFishingLabEntities(scene, assets) ?? [];
   built.entities.push(...fishingEntities);
+  const sitesSpan = bootTelemetry.startSpan("boot.world.sites");
   const sitePlacements: ResolvedWorldSiteDressing[] = [];
   const siteStreaming = new WorldSiteStreaming(scene, assets, site => terrainAt(site.centre[0], site.centre[1]));
   const encounterNavSolids = new Map<string, SolidVolume>();
@@ -762,7 +765,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
 
 
-  const fairyDressing = fairyRealm ? resolveFairyDressing(fairyRealm.scene) : null;
+  sitesSpan.end();
+  const fairyDressing = bootTelemetry.measureSync("boot.world.fairyDressing", () => fairyRealm ? resolveFairyDressing(fairyRealm.scene) : null);
   if (fairyDressing) built.solids.push(...fairyDressing.solids);
 
   // The fitted stone recess gives the existing portal visible depth beyond its masonry arch.
@@ -944,13 +948,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // monument solid. Loading here also warms the same cached GLB EntityViews uses below.
   let structureNavigation = { roots: [] as THREE.Group[], meshes: [] as THREE.Mesh[] };
   try {
-    structureNavigation = await buildStructureNavigationSources(assets, built.entities);
+    structureNavigation = await bootTelemetry.measureAsync("boot.navigation.structures", () => buildStructureNavigationSources(assets, built.entities));
   } catch (cause) {
     errors.push({ atMs: atMs(), source: "structure.navigation", message: describeError(cause) });
   }
 
   // 8b. Buildings become solid before the navmesh is generated, so paths route around them
   //     instead of through a wall. Gatehouses emit two pier boxes with the gate gap left open.
+  const collisionSpan = bootTelemetry.startSpan("boot.navigation.colliders");
   for (const box of built.buildings) {
     cameraQueries.addStaticBox(box.position, box.halfExtents as unknown as Vec3, box.rotationY, box.buildingId);
   }
@@ -979,6 +984,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   for (const mesh of navCarves) navCarveGroup.add(mesh);
   navCarveGroup.updateMatrixWorld(true);
   renderer.scene.add(navCarveGroup);
+  collisionSpan.end();
 
   // 9. Navmesh over the walkable terrain, then the route graph above it.
   setStatus("mapping walkable ground…");
@@ -1103,6 +1109,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     return new Promise<BootResult>(() => {});
   }
 
+  const effectsConstructionSpan = bootTelemetry.startSpan("boot.effects.construct");
   let wildernessEffects: WildernessEffects | null = null;
   const refreshWildernessEffects = (structureEntities: readonly SemanticEntity[] = []): void => {
     if (profile.kind !== 'game' && !wildernessEffectsLab && !wildernessTorchesLab) return;
@@ -1138,6 +1145,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
     castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
   });
+  effectsConstructionSpan.end();
   if (!worldMapCapture) bootTelemetry.measureSync("boot.shaders.effects.submit",
     () => renderer.compileEffects(spellVfx.preparationRoot()));
 
