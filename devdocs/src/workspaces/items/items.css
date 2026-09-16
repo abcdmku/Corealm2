@@ -48,17 +48,6 @@
 .drawer .kv-row { grid-template-columns: 120px minmax(0, 1fr); }
 .drawer .field { grid-template-columns: 120px minmax(0, 1fr); }
 
-/* Curve drawers: the live member table with before → after. */
-.members-table { max-height: 50vh; margin-top: 2px; }
-.members-table td, .members-table th { padding: 2px 8px; height: 26px; }
-.members-table td:first-child, .members-table th:first-child { position: static; font-weight: 500; background: transparent; }
-.members-table th:first-child { background: var(--panel-raised); }
-.members-table .cell { padding: 0; }
-.change { display: inline-flex; align-items: center; gap: 4px; }
-.change s { color: var(--faint); }
-.change strong { color: var(--accent); font-weight: 600; }
-.change svg { color: var(--faint); }
-
 /* ---------- Fields in rows ---------- */
 /* A reference beside another control or inside a list row: the field box collapses to its control. The label stays for assistive tech. */
 .field.field-inline { display: block; min-height: 0; padding: 0; }

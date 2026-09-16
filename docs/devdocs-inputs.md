@@ -455,7 +455,7 @@ Ownership follows the existing split: root owns `ui/field/`, the draft store, `d
 
 ## What was built
 
-September 15, 2026. Steps 1 to 7 are done and every workspace is migrated. Step 8 is not.
+September 15, 2026. All eight steps are done and every workspace is migrated.
 
 - **Chains.** `model/origin.ts` holds the contract (`Resolved`, `Origin`, `originState`,
   `revertTarget`, `describeChain`). `derive.ts` attaches a `resolved` chain to every derivation and
@@ -477,14 +477,23 @@ September 15, 2026. Steps 1 to 7 are done and every workspace is migrated. Step 
   The hand-written label, unit and enum tables in the workspaces are gone.
 - **Grid.** Every collection browser has a Table mode with mixed-value cells, and Ctrl+K sets a
   property on the whole selection.
+- **Curves with consequences.** The role, family and template drawers show what a parameter change
+  does to the records that use it before you save: one row per consumer with its value now and
+  after, a tally of how many move, and an override dot on the ones pinned by their own value.
+  Scrubbing updates it live. A compiled check posts the drawer's draft to the preview endpoint for
+  the recompile the browser cannot do. Tuning keeps a formula registry: build state, diagnostics,
+  source links, and each curve's consumers.
 
 Deleted along the way: `dev/editors.tsx`, `ui/ItemIcon.tsx`, the controls in `ui/Sheet.tsx` (it is
 layout only now), the private reference map in `EntityDetail`, and react-hook-form.
 
-Two notes for whoever picks up step 8. The formula workspace still only previews and never writes,
-which is the work that remains. And `tests/navigation-shipped-artifact.test.ts` and
-`tests/world-release-artifact.test.ts` fail on a stale navigation bake that predates this work; its
-four inputs are untouched here and a GPU `npm run navmesh:build` is what clears it.
+The read-only formula workspace is gone, along with `dev/BalancePanel.tsx`, `useFormulaStatuses.ts`
+and `highlightFormula.ts`.
+
+One known failure is not from this work: `tests/navigation-shipped-artifact.test.ts` and
+`tests/world-release-artifact.test.ts` fail on a stale navigation bake. Its fingerprint covers
+`game/src/app/config.ts`, `systems/navigation.ts`, `systems/navigationArtifact.ts` and
+`package-lock.json`, all untouched here, and a GPU `npm run navmesh:build` is what clears it.
 
 ## Sources
 

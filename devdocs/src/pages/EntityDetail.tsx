@@ -20,7 +20,6 @@ import { labelFor } from "../ui/library.js";
 const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/SetPiecePanel.js"));
 const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/NotesPanel.js"));
 const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/EntityEditor.js"));
-const BalancePanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/BalancePanel.js"));
 const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/RecordActions.js"));
 const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/AssetCandidates.js"));
 const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration", "__compiled"]);
@@ -66,7 +65,6 @@ export function EntityDetail(props: EntityDetailProps) {
   const id = props.recordId ?? String(record.id ?? record.itemId ?? record.logItemId ?? record.tier ?? "");
   const generated = record.__compiled === true || collection.startsWith("compiled-");
   const canEdit = !__DEVDOCS_PLAYER__ && props.editable && !generated;
-  const isBalance = collection.startsWith("balance/");
   const description = typeof record.description === "string" ? record.description : "";
   const assetId = primaryAssetId(collection, record);
   const idKey = collection === "campfireFuels" ? "logItemId" : collection === "spellRunes" ? "itemId" : undefined;
@@ -99,7 +97,6 @@ export function EntityDetail(props: EntityDetailProps) {
       <Tabs.Root className="entity-tabs" value={tab} onValueChange={select}>
         <Tabs.List aria-label="Record detail" className="entity-tab-list">
           <Tabs.Trigger value="edit">{canEdit ? "Record" : "Fields"}</Tabs.Trigger>
-          {canEdit && isBalance && <Tabs.Trigger value="formula">Formula</Tabs.Trigger>}
           {canEdit && collection === "equipmentSets" && <Tabs.Trigger value="pieces">Pieces</Tabs.Trigger>}
           {!__DEVDOCS_PLAYER__ && assetId && <Tabs.Trigger value="model">Model candidates</Tabs.Trigger>}
           {!__DEVDOCS_PLAYER__ && !generated && <Tabs.Trigger value="notes">Notes</Tabs.Trigger>}
@@ -110,7 +107,6 @@ export function EntityDetail(props: EntityDetailProps) {
           {canEdit && EntityEditor ? <Suspense fallback={<p className="empty-inline">Loading editor…</p>}><EntityEditor collection={collection} recordId={id} /></Suspense> : <RecordFields collection={collection} record={record} />}
           <ReferencedBy collection={collection} id={id} navigate={navigate} />
         </Tabs.Content>
-        {canEdit && isBalance && BalancePanel && visited.has("formula") && <Tabs.Content value="formula" forceMount hidden={tab !== "formula"}><Suspense fallback={<p className="empty-inline">Loading formula…</p>}><BalancePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}
         {canEdit && collection === "equipmentSets" && SetPiecePanel && visited.has("pieces") && <Tabs.Content value="pieces" forceMount hidden={tab !== "pieces"}><Suspense fallback={<p className="empty-inline">Loading pieces…</p>}><SetPiecePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}
         {!__DEVDOCS_PLAYER__ && assetId && AssetCandidates && visited.has("model") && <Tabs.Content value="model" forceMount hidden={tab !== "model"}><Suspense fallback={<p className="empty-inline">Loading candidates…</p>}><AssetCandidates collection={collection} entityId={id} currentAssetId={assetId} targetLabel={`Candidates for ${summary.title}`} /></Suspense></Tabs.Content>}
         {!__DEVDOCS_PLAYER__ && !generated && NotesPanel && visited.has("notes") && <Tabs.Content value="notes" forceMount hidden={tab !== "notes"}><Suspense fallback={<p className="empty-inline">Loading notes…</p>}><NotesPanel collection={collection} entityId={props.collectionShape === "object" ? "$collection" : id} /></Suspense></Tabs.Content>}

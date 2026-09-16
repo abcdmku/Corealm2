@@ -1,4 +1,4 @@
-/* Formula workspace: index on the left, inspector on the right, values as stats. */
+/* Formulas in Tuning: the registry index on the left, one formula's card on the right. */
 .formula-workspace { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .formula-build { display: flex; flex-direction: column; gap: 4px; }
 .formula-build-status { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; }
@@ -26,50 +26,49 @@
 .formula-source { color: var(--faint); font-size: 11px; white-space: nowrap; }
 .formula-inspector-body { display: flex; flex-direction: column; gap: 14px; }
 .formula-description { color: var(--muted); font-size: 12px; line-height: 1.5; }
-.formula-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-.formula-controls .select select { min-height: 28px; max-width: 280px; }
-.formula-controls-spacer { flex: 1; }
+.formula-description code { font-size: 11px; }
 .formula-section { display: flex; flex-direction: column; gap: 6px; }
 .formula-section .section-heading { margin-bottom: 0; }
+.formula-curves { max-height: 50vh; }
+.formula-curves td, .formula-curves th { height: 28px; }
+.formula-curves td:first-child, .formula-curves th:first-child { position: static; background: transparent; }
+.formula-curves th:first-child { background: var(--panel-raised); }
+.formula-curves code { color: var(--faint); font-size: 11px; }
 
-.formula-fields { --stat-min: 132px; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
-.formula-field { cursor: text; padding: 6px 8px; }
-.formula-field:focus-within { border-color: var(--accent); }
-.formula-field input { width: 100%; min-width: 0; border: 0; background: none; outline: none; padding: 0; color: var(--text); font-family: var(--font-mono); font-size: 13px; font-weight: 500; }
-.formula-field input::-webkit-outer-spin-button, .formula-field input::-webkit-inner-spin-button { margin: 0; }
+/* ---------- Curve drawers ---------- */
+/* A drawer is 520px wide, so a compact field there stacks its label the way the field model says
+   it should. Without this the drawer's 120px label column wins and a `base + tier x per level`
+   pair has nowhere to go. */
+.drawer .field[data-compact] { grid-template-columns: minmax(0, 1fr); }
+/* You save what the drawer just showed you, so the one save bar has to clear the drawer's scrim. */
+.shell-savebar { position: relative; z-index: 48; }
 
-.formula-stats { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
-.formula-stats .stat[data-accent] strong { color: var(--accent); }
-.formula-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.formula-compare-column { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.formula-compare-label { color: var(--faint); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
-.formula-json { margin: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 6px; background: var(--sidebar); color: var(--muted); font-family: var(--font-mono); font-size: 11px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 260px; overflow: auto; }
+/* ---------- Curve consequences (docs/devdocs-inputs.md §3.10) ---------- */
+/* One compact row per consumer in the role, family and template drawers: before → after. */
+.consequences { max-height: 46vh; margin-top: 2px; }
+.consequences td, .consequences th { padding: 2px 8px; height: 26px; }
+.consequences td:first-child, .consequences th:first-child { position: static; font-weight: 500; background: transparent; }
+.consequences th:first-child { background: var(--panel-raised); }
+.consequences .cell { padding: 0; gap: 6px; }
+.consequences .cell code { color: var(--faint); font-size: 10px; }
+.consequences tr[data-unmoved] td { color: var(--muted); }
+.change { display: inline-flex; align-items: center; gap: 4px; }
+.change s { color: var(--faint); }
+.change strong { color: var(--accent); font-weight: 600; }
+.change svg { color: var(--faint); }
+.unmoved { color: var(--muted); }
+.unmoved .field-dot { display: inline-block; margin-left: 4px; vertical-align: middle; }
 
-.formula-table-scroll { overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: 6px; scrollbar-width: thin; }
-.formula-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.formula-table th, .formula-table td { padding: 5px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-subtle); }
-.formula-table thead th { color: var(--faint); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; background: var(--panel-raised); }
-.formula-table tbody tr:last-child th, .formula-table tbody tr:last-child td { border-bottom: 0; }
-.formula-table tbody th { font-weight: 400; color: var(--muted); white-space: nowrap; }
-.formula-table tbody th code { font-size: 11px; color: var(--text); }
-.formula-table .formula-json { max-height: 160px; }
-.formula-after { color: var(--accent); }
-.formula-inline-stats { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--font-mono); font-size: 12px; }
-.formula-inline-stats small { color: var(--faint); font-size: 11px; margin-right: 4px; }
-
-.formula-consumers { list-style: none; margin: 0; padding: 0; }
-.formula-consumer { flex-wrap: wrap; cursor: default; }
-.formula-consumer .reference-link { font-family: var(--font-mono); font-size: 12px; }
-.formula-consumer-inputs { margin-left: auto; font-size: 11px; color: var(--muted); }
-.formula-consumer-inputs summary { cursor: pointer; list-style: none; }
-.formula-consumer-inputs summary::-webkit-details-marker { display: none; }
-.formula-consumer-inputs summary:hover { color: var(--text); }
-.formula-consumer-inputs[open] { flex-basis: 100%; margin-left: 0; }
-.formula-consumer-inputs .formula-json { margin-top: 6px; }
+.compiled-check { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; margin-top: 6px; }
+.compiled-check-hint { flex: 1; min-width: 140px; color: var(--faint); font-size: 11px; line-height: 1.4; }
+.compiled-check .formula-error, .compiled-check-result { flex-basis: 100%; }
+.compiled-check-result { color: var(--muted); font-size: 12px; }
+.compiled-check-result strong { color: var(--accent); }
+.compiled-check-list { display: flex; flex-wrap: wrap; gap: 2px 10px; list-style: none; margin: 4px 0 0; padding: 0; font-size: 11px; }
+.compiled-check-list code { font-size: 11px; }
 
 @media (max-width: 900px) {
   .formula-layout { grid-template-columns: 1fr; }
   .formula-index { position: static; }
   .formula-nav { max-height: 200px; }
-  .formula-compare { grid-template-columns: 1fr; }
 }
