@@ -1,5 +1,5 @@
 import { useMemo, useState, type KeyboardEvent } from "react";
-import { ArrowRight, Search, X } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ProgressionTierSchema, type ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import { RecipeSchema } from "../../../../game/src/content/schema/recipes.js";
 import type { ContentRow } from "../../model/contracts.js";
@@ -14,15 +14,21 @@ import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { TemplateDrawer } from "./TemplateDrawer.js";
 import { seconds, specAt, stationText, useItemsData, type ItemsData, type RecipeRecord } from "./data.js";
-import "./items.css";
-import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
+import { Button, SearchInput, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableRow } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
+import { EMPTY, FACTS, PAGE, PAGE_ACTIONS, PAGE_HEADING, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../../ui/layout.js";
+
+const PART = "inline-flex items-center gap-[5px] text-xs [&_small]:text-[11px] [&_small]:text-faint";
+const UNIT = "shrink-0 text-[11px] text-faint";
+/** A reference beside a quantity: a fixed item cell lines the quantities up. */
+const REF_CELL = "flex-[0_0_12.5rem]";
 
 /* Recipes: inputs → output, with the station and the rates the template gives them. */
 
 export default function RecipesView({ recordId, navigate }: ViewProps) {
   const data = useItemsData();
   if (data.error) return <ErrorState message={data.error} />;
-  if (data.loading) return <div className="ws-page"><LoadingRows /></div>;
+  if (data.loading) return <div className={PAGE}><LoadingRows /></div>;
   if (recordId) return <RecipePage key={recordId} id={recordId} data={data} navigate={navigate} />;
   return <RecipeList data={data} navigate={navigate} />;
 }
@@ -39,39 +45,41 @@ function RecipeList({ data, navigate }: { data: ItemsData; navigate: ViewProps["
   const shown = groups.reduce((sum, group) => sum + group.recipes.length, 0);
   const open = (id: string) => navigate("compiled-recipes", id);
   const rowKeys = (id: string) => (event: KeyboardEvent<HTMLTableRowElement>) => { if (event.key === "Enter" && event.target === event.currentTarget) open(id); };
-  return <div className="ws-page recipes-page">
-    <div className="ws-heading">
+  /** The focused row outlines each of its cells: a row cannot draw an outline across a sticky table. */
+  const cell = "h-7 group-focus-visible/tr:shadow-[inset_0_0_0_1px_var(--color-ring)]";
+  return <div className={PAGE}>
+    <div className={PAGE_HEADING}>
       <h1>Recipes</h1>
-      <span className="facts"><span>{shown === data.recipes.length ? `${data.recipes.length} recipes` : `${shown} of ${data.recipes.length}`}</span></span>
-      <div className="ws-heading-actions">
-        <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput value={search} placeholder="Search recipes…" aria-label="Search recipes" onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={12} /></Button>}</InputGroup>
+      <span className={FACTS}><span>{shown === data.recipes.length ? `${data.recipes.length} recipes` : `${shown} of ${data.recipes.length}`}</span></span>
+      <div className={PAGE_ACTIONS}>
+        <SearchInput label="Search recipes" placeholder="Search recipes…" value={search} onChange={setSearch} onEnter={() => { const first = groups[0]?.recipes[0]; if (first) open(first.id); }} />
       </div>
     </div>
-    <div className="matrix recipes-table"><table>
-      <thead><tr><th>Recipe</th><th>Inputs</th><th /><th>Output</th><th>Kind</th><th>Skill</th><th>Station</th><th className="cell-num">Level</th><th className="cell-num">Duration</th><th className="cell-num">XP</th></tr></thead>
-      <tbody>{groups.map(group => [
-        <tr key={`tier-${group.tier}`} className="recipes-tier"><th scope="rowgroup" colSpan={10}>Tier {group.tier}<small>{group.recipes.length} recipes</small></th></tr>,
-        ...group.recipes.map(recipe => <tr key={recipe.id} className="recipes-row" tabIndex={0} aria-label={recipe.name} onClick={() => open(recipe.id)} onKeyDown={rowKeys(recipe.id)}>
-          <td>{recipe.name}</td>
-          <td><span className="recipe-line">{(recipe.inputs ?? []).map((input, i) => <span key={i} className="recipe-part" title={data.item(input.itemId)?.name ?? input.itemId}><Thumb spec={{ kind: "item", id: input.itemId }} size="s" alt="" /><small className="mono">×{input.quantity}</small></span>)}</span></td>
-          <td className="recipes-arrow"><ArrowRight size={12} className="muted" /></td>
-          <td><span className="recipe-part">{recipe.output && <><Thumb spec={{ kind: "item", id: recipe.output.itemId }} size="s" alt="" /><span>{data.item(recipe.output.itemId)?.name ?? recipe.output.itemId}</span>{recipe.output.quantity !== 1 && <small className="mono">×{recipe.output.quantity}</small>}</>}</span></td>
-          <td>{recipe.kind}</td>
-          <td>{recipe.skill}</td>
-          <td>{stationText(recipe.stations)}</td>
-          <td className="cell-num">{recipe.reqLevel}</td>
-          <td className="cell-num">{seconds(recipe.durationMs)}</td>
-          <td className="cell-num">{recipe.xp}</td>
-        </tr>),
-      ])}</tbody>
-    </table></div>
-    {!shown && <p className="empty-inline">No recipes match "{search}".</p>}
+    <TableFrame className="max-h-[calc(100dvh-110px)] w-full"><Table>
+      <TableHeader><TableRow><TableHead>Recipe</TableHead><TableHead>Inputs</TableHead><TableHead className="w-5 px-0.5" /><TableHead>Output</TableHead><TableHead>Kind</TableHead><TableHead>Skill</TableHead><TableHead>Station</TableHead><TableHead numeric>Level</TableHead><TableHead numeric>Duration</TableHead><TableHead numeric>XP</TableHead></TableRow></TableHeader>
+      <TableBody>{groups.map(group => [
+        <TableRow key={`tier-${group.tier}`}><TableHead scope="rowgroup" colSpan={10} className="h-6 tracking-[.04em] text-faint uppercase">Tier {group.tier}<small className="ml-2 font-normal tracking-normal normal-case">{group.recipes.length} recipes</small></TableHead></TableRow>,
+        ...group.recipes.map(recipe => <TableRow key={recipe.id} className="cursor-pointer outline-none" tabIndex={0} aria-label={recipe.name} onClick={() => open(recipe.id)} onKeyDown={rowKeys(recipe.id)}>
+          <TableCell className={cn(cell, "font-medium")}>{recipe.name}</TableCell>
+          <TableCell className={cell}><span className="inline-flex items-center gap-x-2">{(recipe.inputs ?? []).map((input, i) => <span key={i} className={PART} title={data.item(input.itemId)?.name ?? input.itemId}><Thumb spec={{ kind: "item", id: input.itemId }} size="s" alt="" /><small className="font-mono">×{input.quantity}</small></span>)}</span></TableCell>
+          <TableCell className={cn(cell, "w-5 px-0.5")}><ArrowRight size={12} className="text-faint" /></TableCell>
+          <TableCell className={cell}><span className={PART}>{recipe.output && <><Thumb spec={{ kind: "item", id: recipe.output.itemId }} size="s" alt="" /><span>{data.item(recipe.output.itemId)?.name ?? recipe.output.itemId}</span>{recipe.output.quantity !== 1 && <small className="font-mono">×{recipe.output.quantity}</small>}</>}</span></TableCell>
+          <TableCell className={cell}>{recipe.kind}</TableCell>
+          <TableCell className={cell}>{recipe.skill}</TableCell>
+          <TableCell className={cell}>{stationText(recipe.stations)}</TableCell>
+          <TableCell numeric className={cell}>{recipe.reqLevel}</TableCell>
+          <TableCell numeric className={cell}>{seconds(recipe.durationMs)}</TableCell>
+          <TableCell numeric className={cell}>{recipe.xp}</TableCell>
+        </TableRow>),
+      ])}</TableBody>
+    </Table></TableFrame>
+    {!shown && <p className={EMPTY}>No recipes match "{search}".</p>}
   </div>;
 }
 
 function RecipePage({ id, data, navigate }: { id: string; data: ItemsData; navigate: ViewProps["navigate"] }) {
   const source = useMemo(() => productionSource(id, data.tiers, data.templates), [id, data.tiers, data.templates]);
-  if (!source) return <div className="ws-page"><p className="empty-inline">"{id}" is not a recipe. <Button variant="link" size="inline" onClick={() => navigate("compiled-recipes")}>All recipes</Button></p></div>;
+  if (!source) return <div className={PAGE}><p className={EMPTY}>"{id}" is not a recipe. <Button variant="link" size="inline" onClick={() => navigate("compiled-recipes")}>All recipes</Button></p></div>;
   return <RecipeEditor id={id} tierId={source.tier.id} data={data} navigate={navigate} />;
 }
 
@@ -105,7 +113,7 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
     if (!tier || !entry || !template || !rates) return compiled;
     return { ...compiled, id, name: entry.name, kind: template.kind, skill: template.skill, stations: template.stations, tier: tier.tier, reqLevel: rates.reqLevel.value, inputs: entry.inputs, output: entry.output, durationMs: rates.durationMs.value, xp: rates.xp.value, ...(entry.burntItemId ? { burntItemId: entry.burntItemId } : {}) };
   }, [tier, entry, template, rates, compiled, id]);
-  if (!tier || !entry || !template || !rates) return <div className="ws-page"><LoadingRows /></div>;
+  if (!tier || !entry || !template || !rates) return <div className={PAGE}><LoadingRows /></div>;
 
   const set = (path: Path, value: unknown) => draft.set(previous => pruneEntry(setPath(previous, ["production", entryIndex, ...path], value), entryIndex));
   const openTemplate = () => setTemplateDrawer(template.id);
@@ -113,25 +121,25 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
   const openRef = (ref: RecordRef) => ref.collection === "recipeTemplates" ? setTemplateDrawer(ref.id) : peek.open(ref);
   const duration = entrySpec("adjustments", "durationMs"), xp = entrySpec("adjustments", "xp"), reqLevel = entrySpec("adjustments", "reqLevel");
 
-  return <div className="ws-page"><div className="record">
-    <div className="record-main">
-      <header className="record-head">
+  return <div className={PAGE}><div className={RECORD}>
+    <div className="min-w-0">
+      <header className={RECORD_HEAD}>
         <Thumb spec={{ kind: "item", id: entry.output.itemId }} size="l" alt="" />
-        <div className="record-title"><h1>{entry.name}</h1><Facts items={[`Tier ${tier.tier}`, template.kind, template.skill, stationText(template.stations)]} /><code>{id}</code></div>
+        <div className={RECORD_TITLE}><h1>{entry.name}</h1><Facts items={[`Tier ${tier.tier}`, template.kind, template.skill, stationText(template.stations)]} /><code>{id}</code></div>
       </header>
       <Sheet>
         <Section title="Recipe">
           <Field label={entrySpec("name").label}><TextField value={entry.name} readOnly={readOnly} onChange={next => set(["name"], next)} /></Field>
-          <ListField<Ingredient> label={INGREDIENTS.label} items={entry.inputs} readOnly={readOnly} emptyText="No ingredients" addLabel="Add ingredient" className="ingredients"
+          <ListField<Ingredient> label={INGREDIENTS.label} items={entry.inputs} readOnly={readOnly} emptyText="No ingredients" addLabel="Add ingredient" contentClassName="flex-nowrap"
             onAdd={() => ({ itemId: "", quantity: 1 })} onChange={next => set(["inputs"], next)} removeLabel={(input, i) => `Remove ingredient ${i + 1}`}
             renderItem={(input, api) => <>
-              <RefField kind="item" collection="compiled-items" label={`Ingredient ${api.index + 1}`} className="field-inline" value={input.itemId || undefined} readOnly={readOnly} onChange={next => api.update({ ...input, itemId: next ?? "" })} />
-              <span className="field-unit">×</span>
+              <RefField kind="item" collection="compiled-items" label={`Ingredient ${api.index + 1}`} bare className={REF_CELL} value={input.itemId || undefined} readOnly={readOnly} onChange={next => api.update({ ...input, itemId: next ?? "" })} />
+              <span className={UNIT}>×</span>
               <NumberField value={input.quantity} integer min={QUANTITY.min} readOnly={readOnly} ariaLabel={`Ingredient ${api.index + 1} quantity`} onChange={next => api.update({ ...input, quantity: next ?? 1 })} />
             </>} />
-          <Field label={OUTPUT.label} className="recipe-output">
-            <RefField kind="item" collection="compiled-items" label="Output item" className="field-inline" value={entry.output.itemId || undefined} readOnly={readOnly} onChange={next => set(["output", "itemId"], next ?? "")} />
-            <span className="field-unit">×</span>
+          <Field label={OUTPUT.label} className="group/row">
+            <RefField kind="item" collection="compiled-items" label="Output item" bare className={REF_CELL} value={entry.output.itemId || undefined} readOnly={readOnly} onChange={next => set(["output", "itemId"], next ?? "")} />
+            <span className={UNIT}>×</span>
             <NumberField value={entry.output.quantity} integer min={QUANTITY.min} readOnly={readOnly} ariaLabel="Output quantity" onChange={next => set(["output", "quantity"], next ?? 1)} />
           </Field>
           <RefField kind="item" collection="compiled-items" label={entrySpec("burntItemId").label} hint={specAt(RecipeSchema, ["burntItemId"]).hint} optional value={entry.burntItemId} readOnly={readOnly} onChange={next => set(["burntItemId"], next)} />
@@ -144,7 +152,7 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
         <ReferencedBy collection="compiled-recipes" id={id} navigate={navigate} />
       </Sheet>
     </div>
-    <aside className="record-rail"><EntitySummary collection="compiled-recipes" record={liveRecord ?? { id }} recordId={id} index={index} navigate={navigate} editing /></aside>
+    <aside className={RECORD_RAIL}><EntitySummary collection="compiled-recipes" record={liveRecord ?? { id }} recordId={id} index={index} navigate={navigate} editing bare /></aside>
     {templateDrawer && <TemplateDrawer templateId={templateDrawer} data={data} onClose={() => setTemplateDrawer(undefined)} onOpenRecipe={recipeId => { setTemplateDrawer(undefined); navigate("compiled-recipes", recipeId); }} />}
   </div></div>;
 }

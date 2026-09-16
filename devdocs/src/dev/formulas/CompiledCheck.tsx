@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Play } from "lucide-react";
 import type { FormulaImpact, FormulaPreviewResponse } from "../../../shared/formulas.js";
 import { routePath } from "../../ui/workspaces.js";
-import "./formulas.css";
 import { Button } from "../../components/ui/index.js";
 
 /*
@@ -15,6 +14,7 @@ import { Button } from "../../components/ui/index.js";
 */
 
 const SHOWN = 8;
+const ERROR = "basis-full rounded-md border border-destructive bg-destructive-soft px-2.5 py-1.5 text-xs whitespace-pre-wrap text-foreground [overflow-wrap:anywhere]";
 
 export default function CompiledCheck({ formulaId, profileId, parameters, tier, disabled }: {
   formulaId: string; profileId: string; parameters: unknown; tier: number; disabled?: boolean;
@@ -38,20 +38,20 @@ export default function CompiledCheck({ formulaId, profileId, parameters, tier, 
     } finally { setBusy(false); }
   }
 
-  return <div className="compiled-check">
+  return <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1.5">
     <Button variant="secondary" size="sm" disabled={busy || disabled} onClick={() => void run()}>
       <Play size={12} />{busy ? "Recompiling…" : "Check the compiled build"}
     </Button>
-    <span className="compiled-check-hint">{disabled ? "Change a parameter first." : "Recompiles the catalog with this draft."}</span>
-    {error && <p role="alert" className="formula-error">{error}</p>}
-    {impacts && <div className="compiled-check-result" role="status">
+    <span className="min-w-35 flex-1 text-[11px] leading-snug text-faint">{disabled ? "Change a parameter first." : "Recompiles the catalog with this draft."}</span>
+    {error && <p role="alert" className={ERROR}>{error}</p>}
+    {impacts && <div className="basis-full text-xs text-muted-foreground [&>strong]:text-primary" role="status">
       <strong>{impacts.length}</strong> compiled {impacts.length === 1 ? "record" : "records"} change
-      {impacts.length > 0 && <ul className="compiled-check-list">
+      {impacts.length > 0 && <ul className="mt-1 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[11px]">
         {impacts.slice(0, SHOWN).map(impact => {
           const [collection, id] = impact.record.split(":");
-          return <li key={impact.record}><a href={`#${routePath(collection ?? "", id)}`}><code>{impact.record}</code></a></li>;
+          return <li key={impact.record}><a className="text-link hover:underline" href={`#${routePath(collection ?? "", id)}`}><code className="font-mono text-[11px]">{impact.record}</code></a></li>;
         })}
-        {impacts.length > SHOWN && <li className="muted">+{impacts.length - SHOWN} more</li>}
+        {impacts.length > SHOWN && <li className="text-faint">+{impacts.length - SHOWN} more</li>}
       </ul>}
     </div>}
   </div>;

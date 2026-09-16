@@ -9,6 +9,7 @@ import { RefRow } from "../RefChip.js";
 import { Section } from "../Sheet.js";
 import { labelFor } from "../library.js";
 import { Button } from "../../components/ui/index.js";
+import { EMPTY } from "../layout.js";
 
 /*
   The standard closing section of every record page (docs/devdocs-inputs.md §3.5): everything that
@@ -68,17 +69,17 @@ export function ReferencedBy({ collection, id, cap = 40, navigate, title = "Refe
   const total = groups.reduce((sum, group) => sum + group.rows.length, 0);
   const open = navigate ?? peek.navigate;
 
-  return <Section title={title} aside={total > 0 ? <span>{total}</span> : undefined} className="refby">
-    {total === 0 && <p className="empty-inline">{loading ? "Loading references…" : "Nothing references this record."}</p>}
+  return <Section title={title} aside={total > 0 ? <span>{total}</span> : undefined}>
+    {total === 0 && <p className={EMPTY}>{loading ? "Loading references…" : "Nothing references this record."}</p>}
     {groups.map(group => {
       const shown = expanded.has(group.label) ? group.rows : group.rows.slice(0, cap);
-      return <div key={group.label} className="refby-group" data-role={group.label}>
-        <span className="refby-group-title">{group.label}<small>{group.rows.length}</small></span>
-        {shown.map(reference => <div key={`${reference.collection}:${reference.recordId}`} className="refby-row">
+      return <div key={group.label} className="flex flex-col gap-0.5 pt-1 pb-1.5" data-role={group.label}>
+        <span className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">{group.label}<small className="font-mono text-[11px] font-normal text-faint">{group.rows.length}</small></span>
+        {shown.map(reference => <div key={`${reference.collection}:${reference.recordId}`} className="group/refby relative flex min-w-0 items-center gap-1">
           <RefRow collection={reference.collection} id={reference.recordId} record={reference.record} ctx={ctx} tag={labelFor(reference.collection)} onOpen={(target, recordId) => peek.open({ collection: target, id: recordId })} />
-          {open && <Button variant="link" size="inline" className="refby-open" title="Open in the workspace" aria-label={`Open ${reference.recordName}`} onClick={() => open(reference.collection, reference.recordId)}><ArrowUpRight size={11} /> Open</Button>}
+          {open && <Button variant="link" size="inline" className="absolute top-1/2 right-1.5 -translate-y-1/2 rounded-sm bg-secondary px-1.5 py-0.5 text-[11px] opacity-0 group-focus-within/refby:opacity-100 group-hover/refby:opacity-100" title="Open in the workspace" aria-label={`Open ${reference.recordName}`} onClick={() => open(reference.collection, reference.recordId)}><ArrowUpRight size={11} /> Open</Button>}
         </div>)}
-        {group.rows.length > cap && !expanded.has(group.label) && <Button variant="link" size="inline" className="refby-more" onClick={() => setExpanded(current => new Set(current).add(group.label))}>Show all {group.rows.length}</Button>}
+        {group.rows.length > cap && !expanded.has(group.label) && <Button variant="link" size="inline" className="self-start px-1.5 py-0.5 text-[11px]" onClick={() => setExpanded(current => new Set(current).add(group.label))}>Show all {group.rows.length}</Button>}
       </div>;
     })}
   </Section>;

@@ -1,4 +1,5 @@
 import { DropSchema } from "../../../../game/src/content/schema/loot.js";
+import { cn } from "../../lib/utils.js";
 import { NumberField, RefField, TextField, WeightedList, fieldFromSchema } from "../../ui/field/index.js";
 
 /*
@@ -28,10 +29,10 @@ export function DropRows({ drops, onChange, readOnly = false, emptyText = "No dr
     removeLabel={drop => `Remove ${drop.itemId}`}
     addControl={readOnly ? undefined : <RefField kind={ITEM.ref} label="Add drop" bare value={undefined} onChange={add} />}
     renderItem={(drop, api) => <>
-      <RefField kind={ITEM.ref} label={`${ITEM.label} ${api.index + 1}`} value={drop.itemId} readOnly={readOnly} onChange={next => { if (next) api.update({ ...drop, itemId: next }); }} bare className="min-w-44 flex-1 [&_.ref-control]:flex-1 [&_.ref-chip]:flex-1" />
+      <RefField kind={ITEM.ref} label={`${ITEM.label} ${api.index + 1}`} value={drop.itemId} readOnly={readOnly} onChange={next => { if (next) api.update({ ...drop, itemId: next }); }} bare className="min-w-32 flex-1 [&_.ref-control]:flex-1 [&_.ref-chip]:flex-1" />
       <NumberField value={drop.quantity[0]} integer min={1} readOnly={readOnly} ariaLabel={`${QUANTITY.label} minimum ${api.index + 1}`} onChange={next => { const low = next ?? 1; api.update({ ...drop, quantity: [low, Math.max(low, drop.quantity[1])] }); }} />
       <span className="text-[11px] text-faint">to</span>
       <NumberField value={drop.quantity[1]} integer min={drop.quantity[0]} readOnly={readOnly} ariaLabel={`${QUANTITY.label} maximum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [drop.quantity[0], Math.max(drop.quantity[0], next ?? drop.quantity[0])] })} />
-      <TextField value={drop.exclusiveGroup ?? ""} width="short" className={drop.exclusiveGroup ? "w-32" : "w-32 opacity-0 group-focus-within/row:opacity-100 group-hover/row:opacity-100"} placeholder={GROUP.label.toLowerCase()} readOnly={readOnly} ariaLabel={`${GROUP.label} ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next.trim() ? { ...bare, exclusiveGroup: next.trim() } : bare); }} />
+      <TextField value={drop.exclusiveGroup ?? ""} width="short" className={cn("w-20", !drop.exclusiveGroup && "border-transparent bg-transparent shadow-none group-hover/row:border-input focus:border-ring placeholder:text-transparent group-hover/row:placeholder:text-faint")} placeholder="group" readOnly={readOnly} ariaLabel={`${GROUP.label} ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next.trim() ? { ...bare, exclusiveGroup: next.trim() } : bare); }} />
     </>} />;
 }

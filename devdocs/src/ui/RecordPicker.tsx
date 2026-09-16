@@ -9,7 +9,8 @@ import { contentRows, rowId, rowName } from "../model/rows.js";
 import { summarize, type SummaryContext, type ThumbSpec, noContext } from "../model/summaries.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
-import { Button } from "../components/ui/index.js";
+import { Button, Kbd, InputGroupInput } from "../components/ui/index.js";
+import { cn } from "../lib/utils.js";
 
 /**
  * Pick a record from a collection by name, id or badge text. Rendered as a popover so it can sit
@@ -47,7 +48,7 @@ export function RecordPicker({ collection, value, onPick, ctx = noContext, trigg
   return <Popover.Root open={open} onOpenChange={setOpen}>
     <Popover.Trigger asChild>{trigger}</Popover.Trigger>
     <Popover.Portal>
-      <Popover.Content className="popover" align="start" sideOffset={6} collisionPadding={12} onOpenAutoFocus={event => event.preventDefault()}>
+      <Popover.Content className="popover z-[60] flex max-h-[min(27.5rem,var(--radix-popover-content-available-height,70dvh))] w-[min(22.5rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-md border border-border bg-popover shadow-xl shadow-shadow" align="start" sideOffset={6} collisionPadding={12} onOpenAutoFocus={event => event.preventDefault()}>
         {open && <PickerBody collection={collection} value={value} ctx={ctx} exclude={exclude} placeholder={placeholder} options={options}
           allowNone={allowNone} createLabel={createLabel}
           onPick={(id, record) => { onPick(id, record); setOpen(false); }}
@@ -63,6 +64,8 @@ interface Entry { id: string; row: ContentRow; title: string; subtitle?: string;
 type Line = { kind: "none" } | { kind: "row"; entry: Entry } | { kind: "create" };
 
 const LIMIT = 80;
+const ITEM = "flex h-[30px] w-full cursor-pointer items-center gap-[7px] rounded-sm px-1.5 text-left text-xs hover:bg-selected [&>span:not(.thumb)]:min-w-0 [&>span:not(.thumb)]:flex-1 [&>span:not(.thumb)]:truncate [&_small]:font-mono [&_small]:text-[11px] [&_small]:text-faint";
+const EMPTY = "p-3.5 text-center text-xs text-faint";
 
 function PickerBody({ collection, value, ctx, exclude, placeholder, options, allowNone, createLabel, onPick, onClear, onCreate, onClose }: {
   collection: string; value?: string; ctx: SummaryContext; exclude?: ReadonlySet<string>; placeholder?: string; options?: readonly RefOption[];
@@ -127,28 +130,28 @@ function PickerBody({ collection, value, ctx, exclude, placeholder, options, all
   const loading = !options && query.isPending;
   const loaded = options !== undefined || query.data !== undefined;
   return <>
-    <div className="popover-search"><Search size={15} /><input ref={input} value={search} onChange={event => setSearch(event.target.value)} onKeyDown={keys} placeholder={placeholder ?? `Search ${labelFor(collection).toLowerCase()}…`} aria-label={`Search ${labelFor(collection)}`} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear" onClick={() => setSearch("")}><X size={14} /></Button>}</div>
-    <div className="popover-list" ref={listRef} role="listbox">
-      {loading && <p className="popover-empty">Loading…</p>}
-      {!options && query.isError && <p className="popover-empty">{query.error.message}</p>}
-      {loaded && !rows.length && <p className="popover-empty">No matches</p>}
+    <div className="flex items-center gap-1.5 border-b border-border-subtle px-2 py-1.5 text-muted-foreground"><Search size={15} /><InputGroupInput className="h-6 px-0" ref={input} value={search} onChange={event => setSearch(event.target.value)} onKeyDown={keys} placeholder={placeholder ?? `Search ${labelFor(collection).toLowerCase()}…`} aria-label={`Search ${labelFor(collection)}`} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear" onClick={() => setSearch("")}><X size={14} /></Button>}</div>
+    <div className="overflow-y-auto p-1" ref={listRef} role="listbox">
+      {loading && <p className={EMPTY}>Loading…</p>}
+      {!options && query.isError && <p className={EMPTY}>{query.error.message}</p>}
+      {loaded && !rows.length && <p className={EMPTY}>No matches</p>}
       {lines.map((line, index) => {
         const isActive = index === active;
-        if (line.kind === "none") return <button type="button" role="option" aria-selected={value === undefined} data-index={index} data-kind="none" key="none" className={`popover-item popover-item-none${isActive ? " is-active" : ""}`} onMouseEnter={() => setActive(index)} onClick={() => choose(line)}>
-          <span className="thumb popover-item-glyph" data-size="s"><Ban size={12} /></span><span>{noneLabel}</span><small>clear</small>
+        if (line.kind === "none") return <button type="button" role="option" aria-selected={value === undefined} data-index={index} data-kind="none" key="none" className={cn(ITEM, isActive && "bg-selected")} onMouseEnter={() => setActive(index)} onClick={() => choose(line)}>
+          <span className="thumb grid size-[22px] shrink-0 place-items-center rounded-sm border border-border-subtle bg-art text-faint"><Ban size={12} /></span><span>{noneLabel}</span><small>clear</small>
         </button>;
-        if (line.kind === "create") return <button type="button" role="option" aria-selected={false} data-index={index} data-kind="create" key="create" className={`popover-item popover-item-create${isActive ? " is-active" : ""}`} onMouseEnter={() => setActive(index)} onClick={() => choose(line)}>
-          <span className="thumb popover-item-glyph" data-size="s"><Plus size={12} /></span><span>{createLabel ?? "Create new…"}</span><small><kbd>Ctrl</kbd><kbd>↵</kbd></small>
+        if (line.kind === "create") return <button type="button" role="option" aria-selected={false} data-index={index} data-kind="create" key="create" className={cn(ITEM, isActive && "bg-selected")} onMouseEnter={() => setActive(index)} onClick={() => choose(line)}>
+          <span className="thumb grid size-[22px] shrink-0 place-items-center rounded-sm border border-border-subtle bg-art text-faint"><Plus size={12} /></span><span>{createLabel ?? "Create new…"}</span><small className="flex gap-0.5"><Kbd>Ctrl</Kbd><Kbd>↵</Kbd></small>
         </button>;
         const { entry } = line;
-        return <button type="button" role="option" aria-selected={entry.id === value} data-index={index} key={entry.id} className={`popover-item${isActive ? " is-active" : ""}`} onMouseEnter={() => setActive(index)} onClick={() => choose(line)}>
+        return <button type="button" role="option" aria-selected={entry.id === value} data-index={index} key={entry.id} className={cn(ITEM, isActive && "bg-selected")} onMouseEnter={() => setActive(index)} onClick={() => choose(line)}>
           <Thumb spec={entry.thumb} size="s" />
-          <span>{entry.title}{entry.tier !== undefined && <span className="muted"> · T{entry.tier}</span>}</span>
+          <span>{entry.title}{entry.tier !== undefined && <span className="text-faint"> · T{entry.tier}</span>}</span>
           <small>{entry.id}</small>
         </button>;
       })}
     </div>
-    <div className="popover-footer"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> pick</span>{onCreate && <span><kbd>Ctrl</kbd><kbd>↵</kbd> new</span>}<span style={{ marginLeft: "auto" }}>{loaded ? `${rows.length}${rows.length === LIMIT ? "+" : ""} of ${total}` : ""}</span></div>
+    <div className="flex items-center gap-2.5 border-t border-border-subtle px-2 py-1 text-[11px] text-faint"><span className="flex items-center gap-0.5"><Kbd>↑</Kbd><Kbd>↓</Kbd> move</span><span className="flex items-center gap-0.5"><Kbd>↵</Kbd> pick</span>{onCreate && <span className="flex items-center gap-0.5"><Kbd>Ctrl</Kbd><Kbd>↵</Kbd> new</span>}<span className="ml-auto">{loaded ? `${rows.length}${rows.length === LIMIT ? "+" : ""} of ${total}` : ""}</span></div>
   </>;
 }
 

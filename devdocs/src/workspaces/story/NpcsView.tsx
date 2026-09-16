@@ -6,11 +6,9 @@ import { contentRows } from "../../model/rows.js";
 import { titleCase } from "../../model/summaries.js";
 import { CollectionPage } from "../../pages/CollectionPage.js";
 import { ChoiceField, Field, ListField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, TextField, fieldFromSchema } from "../../ui/field/index.js";
-import { PointsMap } from "../../ui/PointsMap.js";
 import { DialogueTree } from "../../ui/DialogueTree.js";
 import type { ViewProps } from "../types.js";
-import { findStand, nameOf, PageState, position, RecordShell, RefCell, regionName, regionOptions, strings, text, usePage, type Page } from "./shared.js";
-import { Button } from "../../components/ui/index.js";
+import { findStand, nameOf, PageState, RecordShell, RefCell, regionName, regionOptions, strings, text, usePage, WhereBlock, type Page } from "./shared.js";
 
 interface Npc extends ContentRow {
   id: string; name: string; regionId?: string; settlementId?: string; role?: string; voice?: string;
@@ -33,7 +31,6 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
   const regions = useMemo(() => regionOptions(index), [index]);
   return <PageState page={page} collection="npcs" navigate={navigate}>{record => {
     const questIds = strings(record.questIds);
-    const point = position(stand?.stand.position);
     const settlementName = text(stand?.settlement.name) ?? record.settlementId;
     const root = text(record.dialogueRootId);
     return <RecordShell
@@ -41,17 +38,7 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
       title={record.name} id={id}
       facts={[regionName(index, record.regionId), settlementName, record.catalog && titleCase(record.catalog)]}
       draft={draft}
-      rail={<div className="entity-summary"><div className="summary-block"><h3>Where</h3>
-        {stand
-          ? <div className="story-where">
-            {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={() => navigate("world/map", `npcs:${id}`)} onOpenAt={() => navigate("world/map", `npcs:${id}`)} />}
-            <div className="story-where-text">
-              <span>{stand.regionName} · {String(stand.settlement.name)}{point && <span className="muted mono"> · {point.x}, {point.z}</span>}</span>
-              <span><Button variant="link" size="inline" onClick={() => navigate("world/map", `npcs:${id}`)}>Show on map</Button></span>
-            </div>
-          </div>
-          : <span className="empty-inline">Not standing in any settlement.</span>}
-      </div></div>}>
+      rail={<WhereBlock id={id} stand={stand} mapTarget={`npcs:${id}`} empty="Not standing in any settlement." navigate={navigate} />}>
       <Sheet>
         <Section title="Identity">
           <Field label={npc("name").label}><TextField value={record.name ?? ""} readOnly={readOnly} onChange={value => draft.setPath(["name"], value)} /></Field>

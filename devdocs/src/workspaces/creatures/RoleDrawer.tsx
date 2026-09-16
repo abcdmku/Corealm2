@@ -1,6 +1,5 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { lazyComponent } from "../lazyView.js";
-import { X } from "lucide-react";
 import { calculateCreatureCombat } from "../../../../game/src/content/formulas/creature.js";
 import { CreatureProfileSchema } from "../../../../game/src/content/schema/creatureDefinitions.js";
 import { EnemyOverridesSchema } from "../../../../game/src/content/schema/enemies.js";
@@ -13,7 +12,11 @@ import { DerivedChoice, DerivedNumber, Field, Fields, NumberField, Section, Shee
 import { LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { type CreatureData, type Profile } from "./shared.js";
-import { Button } from "../../components/ui/index.js";
+import { Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
+import { Drawer } from "../../ui/Drawer.js";
+import { Dot } from "../../ui/field/Field.js";
+import { EMPTY } from "../../ui/layout.js";
 
 /*
   The role curve beside the creature, with what it drives (docs/devdocs-inputs.md 3.10). Its
@@ -62,22 +65,26 @@ function safeCombat(level: number, profile: Profile): Record<string, unknown> {
  * the draft moves a number, the cell shows the one it replaces.
  */
 export function CurveTable({ profile, previous, levels, fields, highlight, beaten, ownValues, compact = false }: { profile: Profile; previous?: Profile; levels: readonly number[]; fields: readonly CombatField[]; highlight?: number; beaten?: ReadonlySet<string>; ownValues?: Readonly<Record<string, unknown>>; compact?: boolean }) {
-  return <div className="curve-table" data-compact={compact || undefined}>
-    <table>
-      <thead><tr><th>Level</th>{fields.map(field => <th key={field}>{beaten?.has(field) && <span className="field-dot" data-state="overridden" role="img" aria-label="Overridden on this creature" title="This creature overrides the curve" />}{combatLabel(field)}</th>)}</tr></thead>
-      <tbody>{levels.map(level => {
+  const pad = compact ? "px-1.5 py-0.5" : undefined;
+  return <TableFrame className="w-full">
+    <Table className="text-[11px]">
+      <TableHeader><TableRow><TableHead className={pad}>Level</TableHead>{fields.map(field => <TableHead key={field} numeric className={pad}>
+        <span className="inline-flex items-center gap-1">{beaten?.has(field) && <Dot label="Overridden on this creature" />}{combatLabel(field)}</span>
+      </TableHead>)}</TableRow></TableHeader>
+      <TableBody>{levels.map(level => {
         const combat = safeCombat(level, profile);
         const was = previous ? safeCombat(level, previous) : undefined;
         const current = level === highlight;
-        return <tr key={level} className={current ? "is-current" : undefined}><td>{level}</td>{fields.map(field => {
+        const row = cn(pad, "group-last/tr:border-b-0", current && "font-semibold text-primary");
+        return <TableRow key={level}><TableCell className={cn(row, !current && "text-muted-foreground")}>{level}</TableCell>{fields.map(field => {
           const overridden = current && beaten?.has(field);
-          if (overridden) return <td key={field} data-beaten title={`Curve ${cell(combat[field])} · this creature ${cell(ownValues?.[field])}`}><s>{cell(combat[field])}</s> {cell(ownValues?.[field])}</td>;
-          if (was && !sameValue(was[field], combat[field])) return <td key={field}><ConsequenceCell before={was[field]} after={combat[field]} label={combatLabel(field)} /></td>;
-          return <td key={field}>{cell(combat[field])}</td>;
-        })}</tr>;
-      })}</tbody>
-    </table>
-  </div>;
+          if (overridden) return <TableCell key={field} numeric className={row} title={`Curve ${cell(combat[field])} · this creature ${cell(ownValues?.[field])}`}><s className="font-normal text-faint">{cell(combat[field])}</s> {cell(ownValues?.[field])}</TableCell>;
+          if (was && !sameValue(was[field], combat[field])) return <TableCell key={field} numeric className={row}><ConsequenceCell before={was[field]} after={combat[field]} label={combatLabel(field)} /></TableCell>;
+          return <TableCell key={field} numeric className={row}>{cell(combat[field])}</TableCell>;
+        })}</TableRow>;
+      })}</TableBody>
+    </Table>
+  </TableFrame>;
 }
 
 export function RoleDrawer({ profileId, data, navigate, onClose, onLive }: { profileId: string; data: CreatureData; navigate: ViewProps["navigate"]; onClose: () => void; onLive?: (profile: Profile | undefined) => void }) {
@@ -125,23 +132,11 @@ export function RoleDrawer({ profileId, data, navigate, onClose, onLive }: { pro
   const counts = useMemo(() => tally(rows), [rows]);
 
   useEffect(() => { onLive?.(scrub ?? draft.draft); }, [draft.draft, scrub, onLive]);
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
 
   const openCreature = (id: string) => { onClose(); navigate("creatureDefinitions", id); };
   const dirtyAt = (key: string): boolean => draft.dirty && (committed as Record<string, unknown> | undefined)?.[key] !== (saved as Record<string, unknown> | undefined)?.[key];
 
-  return <>
-    <div className="drawer-scrim" onClick={onClose} />
-    <div className="drawer role-drawer" role="dialog" aria-label={`${working?.name ?? profileId} role`}>
-      <header className="drawer-head">
-        <h2>{working?.name ?? profileId} <span className="muted">role</span></h2>
-        <Button variant="ghost" size="icon-sm" aria-label="Close role" onClick={onClose}><X size={14} /></Button>
-      </header>
-      <div className="drawer-body">
+  return <Drawer label={`${working?.name ?? profileId} role`} title={<>{working?.name ?? profileId} <span className="font-normal text-faint">role</span></>} onClose={onClose}>
         {draft.loading && <LoadingRows />}
         {working && implied && <>
           <Sheet compact>
@@ -173,22 +168,20 @@ export function RoleDrawer({ profileId, data, navigate, onClose, onLive }: { pro
             </Section>
             <Section title="Creatures" aside={<ConsequenceNote tally={counts} noun="creatures" idle={<span>{rows.length} on this role</span>} />}>
               {rows.length
-                ? <div className="matrix consequences">
-                  <table>
-                    <thead><tr><th className="cell-num">Level</th><th>Creature</th>{columns.map(field => <th key={field} className="cell-num">{combatLabel(field)}</th>)}</tr></thead>
-                    <tbody>{rows.map(({ entry, cells, pinned }) => <tr key={entry.id} data-unmoved={pinned || undefined} title={[entry.id, data.regionName(entry.regionId), pinned ? "overrides these stats itself, so this change does not reach it" : ""].filter(Boolean).join(" · ")}>
-                      <td className="cell-num">{entry.level}</td>
-                      <td><button type="button" className="cell" onClick={() => openCreature(entry.id)}><span>{entry.name}</span>{(repeated.get(entry.name) ?? 0) > 1 && <code>{entry.id}</code>}</button></td>
-                      {cells.map(item => <td key={item.field} className="cell-num"><ConsequenceCell before={item.before} after={item.after} own={item.own} label={combatLabel(item.field)} /></td>)}
-                    </tr>)}</tbody>
-                  </table>
-                </div>
-                : <p className="empty-inline">No creature uses this role yet.</p>}
+                ? <TableFrame className="max-h-[46vh] w-full">
+                  <Table>
+                    <TableHeader><TableRow><TableHead numeric>Level</TableHead><TableHead>Creature</TableHead>{columns.map(field => <TableHead key={field} numeric>{combatLabel(field)}</TableHead>)}</TableRow></TableHeader>
+                    <TableBody>{rows.map(({ entry, cells, pinned }) => <TableRow key={entry.id} data-unmoved={pinned || undefined} className="data-unmoved:text-muted-foreground" title={[entry.id, data.regionName(entry.regionId), pinned ? "overrides these stats itself, so this change does not reach it" : ""].filter(Boolean).join(" · ")}>
+                      <TableCell numeric>{entry.level}</TableCell>
+                      <TableCell><TableLink onClick={() => openCreature(entry.id)}><span>{entry.name}</span>{(repeated.get(entry.name) ?? 0) > 1 && <code className="text-[11px] text-faint">{entry.id}</code>}</TableLink></TableCell>
+                      {cells.map(item => <TableCell key={item.field} numeric><ConsequenceCell before={item.before} after={item.after} own={item.own} label={combatLabel(item.field)} /></TableCell>)}
+                    </TableRow>)}</TableBody>
+                  </Table>
+                </TableFrame>
+                : <p className={EMPTY}>No creature uses this role yet.</p>}
               {CompiledCheck && <Suspense fallback={null}><CompiledCheck formulaId="creature.combat" profileId={profileId} parameters={working} tier={consumers[0]?.entry.level ?? 1} disabled={!draft.dirty} /></Suspense>}
             </Section>
           </Sheet>
         </>}
-      </div>
-    </div>
-  </>;
+  </Drawer>;
 }

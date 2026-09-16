@@ -7,6 +7,7 @@ import { ON_SHEET, ROW_COLUMNS, SheetLevel, useOnSheet } from "../Sheet.js";
 import { FieldContext, type FieldContextValue, type LabelHandlers } from "./context.js";
 import { DOT_LEGEND, describeRevert, type DotState, type FieldPhase } from "./model.js";
 
+
 /*
   One field anatomy for every page (docs/devdocs-inputs.md §3.2):
 
@@ -119,7 +120,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
             {children}
             {showDot(state) && <span className={cn("field-dot size-2 shrink-0 rounded-full", DOT[state])} data-state={state} title={dotTitle} aria-label={dotTitle} role="img" />}
             {canRevert && target && <Button variant="ghost" size="icon-xs" className="field-revert" tabIndex={-1} title={describeRevert(target, unit)} aria-label={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}><Undo2 /></Button>}
-            {!compact && !bare && origins.length > 0 && <span className="field-origin min-w-0 flex-1 truncate text-[11px] leading-tight text-faint">{origins}</span>}
+            {!compact && !bare && origins.length > 0 && <span className="min-w-0 field-origin flex-1 truncate text-[11px] leading-tight text-faint">{origins}</span>}
           </div>
           {(compact || bare) && phase !== "idle" && origins.length > 0 && <span className={FLOAT}>{origins}</span>}
           {shownError && <span className="field-error text-[11px] leading-snug text-destructive [overflow-wrap:anywhere]" role="alert">{shownError}</span>}
@@ -143,6 +144,11 @@ const DOT: Readonly<Record<DotState, string>> = {
   mixed: "h-0.5 rounded-[1px] bg-muted-foreground",
   invalid: "border-[1.5px] border-destructive", stale: "border-[1.5px] border-warn",
 };
+
+/** A field dot outside a field: a table header or a consequence cell that says "this record overrides it". */
+export function Dot({ state = "overridden", label, className }: { state?: DotState; label?: string; className?: string }) {
+  return <span className={cn("field-dot inline-block size-2 shrink-0 rounded-full align-middle", DOT[state], className)} data-state={state} role="img" aria-label={label ?? ""} title={label} />;
+}
 
 /** The dot states, inline, for the app shell. */
 export function FieldLegend({ className }: { className?: string }) {

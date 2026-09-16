@@ -9,10 +9,13 @@ import { contentRows } from "../../model/rows.js";
 import { titleCase, type SummaryContext, type ThumbSpec } from "../../model/summaries.js";
 import { Facts, ListField, NumberField, RefField, fieldFromSchema, type ChoiceOption, type RenderRef } from "../../ui/field/index.js";
 import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
+import { Sheet } from "../../ui/Sheet.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import "./story.css";
+import { cn } from "../../lib/utils.js";
 import { Button } from "../../components/ui/index.js";
+import { EMPTY, PAGE, RAIL_BLOCK, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../../ui/layout.js";
+import { PointsMap } from "../../ui/PointsMap.js";
 
 /*
   Helpers shared by the story pages: a record draft joined with the reference index, the record
@@ -99,7 +102,7 @@ export function position(value: unknown): { x: number; z: number } | undefined {
 /** Loading, error and not-found states for a record page; renders children once the draft exists. */
 export function PageState<T extends ContentRow>({ page, collection, navigate, children }: { page: Page<T>; collection: string; navigate: ViewProps["navigate"]; children: (draft: T, record: T) => ReactNode }) {
   const { draft } = page;
-  if (draft.loading) return <div className="ws-page"><LoadingRows /></div>;
+  if (draft.loading) return <div className={PAGE}><LoadingRows /></div>;
   if (draft.error) return <ErrorState message={draft.error} />;
   if (!draft.draft || !draft.record) return <EmptyState title="Record not found">This record is not in {collection}. <Button variant="link" size="inline" onClick={() => navigate(collection)}>Back to the list</Button></EmptyState>;
   return <>{children(draft.draft, draft.record)}</>;
@@ -107,20 +110,46 @@ export function PageState<T extends ContentRow>({ page, collection, navigate, ch
 
 /** The record page frame: header with thumb, title and facts; the sheet; the rail. The save bar is the shell's. */
 export function RecordShell({ thumb, title, id, facts, draft, rail, children, className = "" }: { thumb?: ThumbSpec; title: ReactNode; id: string; facts: readonly (ReactNode | undefined | false | null)[]; draft?: DraftState; rail?: ReactNode; children: ReactNode; className?: string }) {
-  return <article className={`ws-page record story-record${rail ? "" : " story-single"} ${className}`.trim()}>
-    <div className="record-main">
-      <header className="record-head">
+  return <article className={cn(PAGE, rail ? RECORD : "max-w-[60rem]", className)}>
+    <div className="min-w-0">
+      <header className={RECORD_HEAD}>
         {thumb && <Thumb spec={thumb} size="l" alt="" />}
-        <div className="record-title">
+        <div className={RECORD_TITLE}>
           <h1>{title}</h1>
           <Facts items={[...facts, <code key="id">{id}</code>]} />
         </div>
       </header>
-      {draft && draft.diagnostics.length > 0 && <ul className="story-diagnostics" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}>{diagnostic.path ? <code>{diagnostic.path}</code> : null} {diagnostic.message}</li>)}</ul>}
+      {draft && draft.diagnostics.length > 0 && <ul className="mb-3 flex flex-col gap-0.5 rounded-md border border-destructive bg-destructive-soft px-2.5 py-1.5 text-xs [&_code]:font-mono [&_code]:text-destructive" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}>{diagnostic.path ? <code>{diagnostic.path}</code> : null} {diagnostic.message}</li>)}</ul>}
       {children}
     </div>
-    {rail && <aside className="record-rail">{rail}</aside>}
+    {rail && <aside className={RECORD_RAIL}>{rail}</aside>}
   </article>;
+}
+
+/** The rail's "Where" block: the stand on a map crop, its settlement, and a link to the world map. */
+export function WhereBlock({ id, stand, detail, mapTarget, empty, navigate }: { id: string; stand: SettlementHit & { stand: ContentRow } | undefined; detail?: string; mapTarget: string; empty: string; navigate: ViewProps["navigate"] }) {
+  const point = position(stand?.stand.position);
+  const open = () => navigate("world/map", mapTarget);
+  return <section className={RAIL_BLOCK}>
+    <h3>Where</h3>
+    {stand
+      ? <div className="flex w-full flex-col gap-2">
+        {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={open} onOpenAt={open} />}
+        <div className="flex flex-col items-start gap-0.5 text-xs">
+          <span>{stand.regionName} · {String(stand.settlement.name)}{detail && <span className="text-faint"> · {detail}</span>}{point && <span className="font-mono text-[11px] text-faint"> · {point.x}, {point.z}</span>}</span>
+          <Button variant="link" size="inline" onClick={open}>Show on map</Button>
+        </div>
+      </div>
+      : <span className={EMPTY}>{empty}</span>}
+  </section>;
+}
+
+/**
+ * The body of an expanded list row: its own small sheet the full width of the row, so the fields in
+ * it share one label column (a list row does not carry the outer sheet's grid).
+ */
+export function RowBlock({ className, children }: { className?: string; children: ReactNode }) {
+  return <Sheet className={cn("flex-[1_1_100%] gap-y-px", className)}>{children}</Sheet>;
 }
 
 /* ---------- References inside a row ---------- */
@@ -134,6 +163,7 @@ export interface RefCellProps {
   optional?: boolean;
   readOnly?: boolean;
   exclude?: ReadonlySet<string>;
+  className?: string;
 }
 
 /**
@@ -141,8 +171,8 @@ export interface RefCellProps {
  * `RefField` with its label column collapsed, so the row stays one 28px line. The label still names
  * the control through `aria-labelledby`.
  */
-export function RefCell({ label, kind, value, onChange, optional, readOnly, exclude }: RefCellProps) {
-  return <RefField className="story-ref-cell" label={label} kind={kind} value={value} onChange={onChange} optional={optional} readOnly={readOnly} exclude={exclude} />;
+export function RefCell({ label, kind, value, onChange, optional, readOnly, exclude, className }: RefCellProps) {
+  return <RefField bare className={className} label={label} kind={kind} value={value} onChange={onChange} optional={optional} readOnly={readOnly} exclude={exclude} />;
 }
 
 /**
@@ -156,12 +186,12 @@ export function StackList({ label, hint, items, readOnly, onChange, quantityMin 
   bare?: boolean;
 }) {
   const ids = items.map(entry => text(entry.itemId) ?? "");
-  return <ListField<ContentRow> label={bare ? undefined : label} hint={bare ? undefined : hint} items={items} readOnly={readOnly} className="story-stacks"
+  return <ListField<ContentRow> label={bare ? undefined : label} hint={bare ? undefined : hint} items={items} readOnly={readOnly}
     emptyText="None." addLabel={addLabel ?? "Add item"} onAdd={() => ({ itemId: "", quantity: quantityMin })}
     onChange={onChange}
     removeLabel={(_, index) => `Remove row ${index + 1}`}
     renderItem={(entry, api) => <>
-      <RefCell label={`${label} item ${api.index + 1}`} kind="item" value={text(entry.itemId)} readOnly={readOnly}
+      <RefCell className="min-w-49" label={`${label} item ${api.index + 1}`} kind="item" value={text(entry.itemId)} readOnly={readOnly}
         exclude={unique ? new Set(ids.filter((_, at) => at !== api.index)) : undefined}
         onChange={value => api.update({ ...entry, itemId: value ?? "" })} />
       <NumberField value={num(entry.quantity) ?? quantityMin} integer min={quantityMin} ariaLabel={`${label} quantity ${api.index + 1}`} readOnly={readOnly}

@@ -1,16 +1,13 @@
 import { useMemo, type ReactNode } from "react";
 import { AlertCircle } from "lucide-react";
+import { Button } from "../components/ui/index.js";
 import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
 import { ArraySchema, ObjectSchema, RecordSchema, TupleSchema, type Schema } from "../../../game/src/content/schema/core.js";
 import type { ContentRow } from "../model/contracts.js";
 import { useRecordDraft } from "../model/draft.js";
 import type { Resolved } from "../model/origin.js";
 import { containsIdentity, defaultFieldValue, fieldCore, fieldIssues, fieldTitle, recordLabelKey, serialFieldSpec, type SerialFieldSpec } from "../model/fields.js";
-import {
-  ChoiceField, Field, Fields, ListField, MapField, NumberField, RefField, Section, Sheet, TextField,
-  ToggleField, UnionField, WeightedList, type ListItemApi, type RenderRef,
-} from "../ui/field/index.js";
-import "./editor.css";
+import {ChoiceField, Field, Fields, ListField, MapField, NumberField, RefField, Section, Sheet, TextField, ToggleField, UnionField, WeightedList, type ListItemApi, type RenderRef, Static } from "../ui/field/index.js";
 
 /*
   The generic record form: a thin walker from a schema node to the field component that edits it
@@ -57,7 +54,7 @@ function focusField(path: string): void {
 }
 
 /** Every reference, wherever it is nested, is the one `RefField`. */
-const renderRef: RenderRef = (kind, value, onChange, spec) => <RefField kind={kind} value={value} onChange={onChange} label={spec.label} hint={spec.hint} optional={spec.optional} readOnly={spec.readOnly} className="is-bare" />;
+const renderRef: RenderRef = (kind, value, onChange, spec) => <RefField kind={kind} value={value} onChange={onChange} label={spec.label} hint={spec.hint} optional={spec.optional} readOnly={spec.readOnly} bare />;
 
 export default function EntityEditor({ collection, recordId }: { collection: string; recordId: string }) {
   const spec = CONTENT_COLLECTIONS.find(candidate => candidate.name === collection);
@@ -71,19 +68,21 @@ export default function EntityEditor({ collection, recordId }: { collection: str
     return [...client, ...server];
   }, [schema, record, draft.diagnostics, collection]);
 
-  if (!spec || !schema) return <p className="editor-message">This collection has no editable schema.</p>;
-  if (draft.loading) return <p className="editor-message" role="status">Loading fields…</p>;
-  if (draft.error) return <p className="editor-message" role="alert">{draft.error}</p>;
-  if (record === undefined) return <p className="editor-message" role="alert">This record no longer exists. Your other content has not changed.</p>;
+  if (!spec || !schema) return <p className="py-1.5 text-xs text-muted-foreground">This collection has no editable schema.</p>;
+  if (draft.loading) return <p className="py-1.5 text-xs text-muted-foreground" role="status">Loading fields…</p>;
+  if (draft.error) return <p className="py-1.5 text-xs text-muted-foreground" role="alert">{draft.error}</p>;
+  if (record === undefined) return <p className="py-1.5 text-xs text-muted-foreground" role="alert">This record no longer exists. Your other content has not changed.</p>;
 
   // An object-shaped collection is one record; the id in the route names the section to read first.
   const focusSection = objectShaped && recordId !== "$collection" ? recordId : undefined;
-  return <div className="entity-editor">
-    {draft.saveError && <div className="editor-error-summary" role="alert"><AlertCircle size={15} /><p>{draft.saveError}</p></div>}
-    {issues.length > 0 && <div className="editor-diagnostics" aria-label="Validation diagnostics">
-      <h3>{issues.some(issue => issue.severity === "error") ? "Fix these fields" : "Notes"}</h3>
-      <ul>{issues.map((issue, index) => <li key={`${issue.path}:${index}`}>
-        <button type="button" onClick={() => focusField(issue.path)}><span>{issue.path || "Record"}</span> {issue.message}</button>
+  return <div className="entity-editor min-w-0 max-w-[70rem]">
+    {draft.saveError && <div className="my-1.5 flex items-start gap-2 rounded-md border border-destructive bg-destructive-soft px-2.5 py-2 text-xs leading-snug" role="alert"><AlertCircle size={15} className="mt-px shrink-0 text-destructive" /><p>{draft.saveError}</p></div>}
+    {issues.length > 0 && <div className="mt-1.5 mb-2.5 rounded-md border border-border bg-card px-2.5 py-2" aria-label="Validation diagnostics">
+      <h3 className="text-[13px] font-semibold">{issues.some(issue => issue.severity === "error") ? "Fix these fields" : "Notes"}</h3>
+      <ul className="mt-1 flex flex-col">{issues.map((issue, index) => <li key={`${issue.path}:${index}`}>
+        <Button variant="ghost" size="sm" className="h-auto min-h-6 w-full justify-start gap-2 px-1.5 py-0.5 text-left font-normal whitespace-normal" onClick={() => focusField(issue.path)}>
+          <span className="shrink-0 font-mono text-[11px] text-foreground">{issue.path || "Record"}</span><span>{issue.message}</span>
+        </Button>
       </li>)}</ul>
     </div>}
     <Sheet>
@@ -208,7 +207,7 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
       const set = (next: string | undefined) => onChange(spec.optional && !next ? undefined : next ?? "");
       if (spec.ref) {
         return <RefField kind={spec.ref} value={current} onChange={set} label={label} hint={hint} optional={spec.optional} readOnly={inert}
-          error={error} dirty={base !== undefined && !same(base, value)} compact={compact} className={bare ? "is-bare" : anchor} />;
+          error={error} dirty={base !== undefined && !same(base, value)} compact={compact} bare={bare} className={bare ? undefined : anchor} />;
       }
       return wrap(<TextField value={current ?? ""} multiline={spec.multiline} mono={Boolean(spec.identity)} width={spec.multiline ? "full" : spec.identity ? "id" : "text"} readOnly={inert}
         placeholder={spec.optional ? "none" : undefined} ariaLabel={bare ? label : undefined} onChange={set} />);
@@ -216,7 +215,7 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
     case "boolean":
       return wrap(<ToggleField value={value === true} readOnly={inert} ariaLabel={bare ? label : undefined} onChange={onChange} />);
   }
-  return wrap(<span className="field-static mono" title="No typed control for this value">{JSON.stringify(value) ?? "—"}</span>);
+  return wrap(<Static mono title="No typed control for this value">{JSON.stringify(value) ?? "—"}</Static>);
 }
 
 type Block = { kind: "field"; entry: [string, Schema] } | { kind: "group"; name: string; entries: [string, Schema][] };
@@ -247,10 +246,10 @@ function ObjectBody({ node, value, base, setKey, path, issues, readOnly, focusSe
 
   return <>
     {blocks.map(block => block.kind === "group"
-      ? <Fields key={`group:${block.name}`} className="editor-group">{block.entries.map(entry => field(entry, true))}</Fields>
+      ? <Fields key={`group:${block.name}`} className="mt-0.5 mb-1">{block.entries.map(entry => field(entry, true))}</Fields>
       : field(block.entry, false))}
     {preserved.map(key => <Field key={key} label={fieldTitle(key)} hint="Unrecognized field, kept as is." disabled>
-      <span className="field-static mono">{JSON.stringify(value[key])}</span>
+      <Static mono>{JSON.stringify(value[key])}</Static>
     </Field>)}
   </>;
 }

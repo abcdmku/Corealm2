@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { cn } from "../lib/utils.js";
 import { ON_SHEET, ROW_COLUMNS, SheetLevel, useOnSheet } from "./Sheet.js";
 
+
 /*
   Related numbers as a small table that sits on the sheet's own columns: each row's name is in the
   label column (so "Accuracy" lines up with "Buy value" above it), and the values are fixed-width

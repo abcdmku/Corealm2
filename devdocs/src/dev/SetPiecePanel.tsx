@@ -1,6 +1,6 @@
 import { useId, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CircleAlert, ExternalLink, Images, LoaderCircle, RefreshCw, Save } from "lucide-react";
+import { ExternalLink, Images, LoaderCircle, RefreshCw, Save } from "lucide-react";
 import { toast } from "sonner";
 import type { MetaPatch, MetaRecord, MetaResponse } from "../../shared/metaContracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
@@ -9,9 +9,15 @@ import { contentRows, rowName } from "../model/rows.js";
 import { Thumb } from "../ui/Thumb.js";
 import AssetCandidates from "./AssetCandidates.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
-import "./setPiece.css";
-import { Button, Badge, NativeSelect } from "../components/ui/index.js";
+import { Button, Badge, NativeSelect, Textarea } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
+import { cn } from "../lib/utils.js";
+import { EMPTY } from "../ui/layout.js";
+import { LoadError, Notice, PANEL_HEAD, Skeleton, SPIN } from "./panelParts.js";
+
+/** Hooks kept on the panel, rows, links and save buttons: tools/devdocs-piece-smoke.ts selects them. */
+const ROOT = "set-piece-panel flex min-w-0 flex-col gap-2.5 text-foreground";
+const GRID = "grid grid-cols-[repeat(auto-fill,minmax(10.5rem,1fr))] gap-1.5";
 
 export interface SetPiecePanelProps {
   collection: string;
@@ -287,26 +293,16 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
 
   const queryError = setQuery.error ?? itemsQuery.error ?? metaQuery.error;
   if (queryError) {
-    return <section className="set-piece-panel" aria-labelledby={titleId}>
+    return <section className={ROOT} aria-labelledby={titleId}>
       <PanelHeading titleId={titleId} />
-      <div className="set-piece-error" role="alert">
-        <CircleAlert size={16} />
-        <div>
-          <strong>Could not load piece review</strong>
-          <p>{queryError.message}</p>
-          <Button variant="secondary" size="sm" onClick={() => { void setQuery.refetch(); void itemsQuery.refetch(); void metaQuery.refetch(); }}><RefreshCw size={13} />Try again</Button>
-        </div>
-      </div>
+      <LoadError label="Could not load piece review" message={queryError.message} retry={() => { void setQuery.refetch(); void itemsQuery.refetch(); void metaQuery.refetch(); }} />
     </section>;
   }
 
   if (!setRow) {
-    return <section className="set-piece-panel" aria-labelledby={titleId}>
+    return <section className={ROOT} aria-labelledby={titleId}>
       <PanelHeading titleId={titleId} />
-      <div className="set-piece-error" role="alert">
-        <CircleAlert size={16} />
-        <div><strong>Armor set not found</strong><p>The saved set could not be matched to this record.</p></div>
-      </div>
+      <Notice>Armor set not found. The saved set could not be matched to this record.</Notice>
     </section>;
   }
 
@@ -317,14 +313,14 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
   const shownSlot = activeSlot && pieces.some(piece => piece.slot === activeSlot) ? activeSlot : pieces[0]?.slot;
   const shownPiece = pieces.find(piece => piece.slot === shownSlot);
 
-  return <section className="set-piece-panel" aria-labelledby={titleId}>
+  return <section className={ROOT} aria-labelledby={titleId}>
     <PanelHeading titleId={titleId} count={pieces.length} refreshing={metaQuery.isFetching}>
       <Badge variant={toneVariant(statusTone(setStatus))} title="Set status">{displayStatus(setStatus)}</Badge>
     </PanelHeading>
 
-    {feedback && <div className={`set-piece-feedback${conflict ? " set-piece-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <Button variant="secondary" size="sm" onClick={reloadMetadata}><RefreshCw size={12} />Reload</Button>}</div>}
+    {feedback && <Notice conflict={conflict} action={conflict && <Button variant="secondary" size="sm" onClick={reloadMetadata}><RefreshCw size={12} />Reload</Button>}>{feedback}</Notice>}
 
-    {pieces.length ? <ol className="slot-grid set-piece-list" aria-label={`${setName} armor pieces`}>
+    {pieces.length ? <ol className={GRID} aria-label={`${setName} armor pieces`}>
       {pieces.map(({ slot, itemId }) => {
         const item = itemsById.get(itemId);
         const name = itemLabel(item, itemId);
@@ -333,40 +329,41 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
         const statusId = `${titleId}-${slot}-status`;
         const noteId = `${titleId}-${slot}-note`;
         const candidateCount = candidates.filter(candidate => candidate.slot === slot).length;
-        return <li className={`panel set-piece-card${dirty ? " is-dirty" : ""}${shownSlot === slot ? " is-active" : ""}`} key={slot}>
-          <a className="set-piece-item-link" href={itemPath(itemId)} aria-label={`Open ${name} item detail`} title={`${name} · ${itemId}`}>
+        const active = shownSlot === slot;
+        return <li className={cn("set-piece-row flex min-w-0 flex-col gap-2 rounded-md border border-border bg-card p-2", active && "border-primary", dirty && "border-warn")} key={slot} data-active={active || undefined} data-dirty={dirty || undefined}>
+          <a className="set-piece-item-link group/link grid min-w-0 grid-cols-[auto_minmax(0,1fr)_12px] items-center gap-2 rounded-md text-foreground no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring/40" href={itemPath(itemId)} aria-label={`Open ${name} item detail`} title={`${name} · ${itemId}`}>
             <Thumb spec={{ kind: "item", id: itemId }} size="l" />
-            <span className="set-piece-item-copy"><small>{slotLabel(slot)}</small><strong>{name}</strong></span>
-            <ExternalLink size={12} aria-hidden="true" />
+            <span className="flex min-w-0 flex-col gap-0.5"><small className="text-[11px] tracking-[.04em] text-faint uppercase">{slotLabel(slot)}</small><strong className="truncate text-xs font-medium group-hover/link:text-primary">{name}</strong></span>
+            <ExternalLink size={12} aria-hidden="true" className="text-faint" />
           </a>
-          <div className="set-piece-fields">
-            <NativeSelect wrapperClassName="set-piece-status" id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></NativeSelect>
-            <label className="set-piece-note" htmlFor={noteId}><span className="sr-only">Note</span><textarea id={noteId} rows={2} value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Note (optional)" disabled={saveDisabled} /></label>
+          <div className="flex flex-col gap-1.5">
+            <NativeSelect wrapperClassName="w-full" id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></NativeSelect>
+            <label className="block" htmlFor={noteId}><span className="sr-only">Note</span><Textarea id={noteId} rows={2} className="min-h-12 resize-y" value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Note (optional)" disabled={saveDisabled} /></label>
           </div>
-          <div className="set-piece-actions">
-            <Button variant="chip" size="xs" aria-pressed={shownSlot === slot} onClick={() => setActiveSlot(slot)} title="Show asset candidates for this piece"><Images size={11} />{candidateCount}</Button>
+          <div className="mt-auto flex flex-wrap items-center gap-1.5">
+            <Button variant="chip" size="xs" aria-pressed={active} onClick={() => setActiveSlot(slot)} title="Show asset candidates for this piece"><Images size={11} />{candidateCount}</Button>
             <Badge variant={dirty ? "warn" : "default"} aria-live="polite">{dirty ? "Unsaved" : "Saved"}</Badge>
-            <Button variant="default" size="sm" className="set-piece-save" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={12} />{mutation.isPending ? "Saving…" : "Save"}</Button>
+            <Button variant="default" size="sm" className="set-piece-save basis-full" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={12} />{mutation.isPending ? "Saving…" : "Save"}</Button>
           </div>
         </li>;
       })}
-    </ol> : <p className="empty-inline">No armor members are saved on this set.</p>}
+    </ol> : <p className={EMPTY}>No armor members are saved on this set.</p>}
 
-    {shownPiece && <div className="set-piece-assets">
+    {shownPiece && <div className="min-w-0">
       <AssetCandidates key={shownPiece.slot} collection={collection} entityId={recordId} slot={shownPiece.slot} targetLabel={`${setName} / ${slotLabel(shownPiece.slot)} / ${itemLabel(itemsById.get(shownPiece.itemId), shownPiece.itemId)}`} compact />
     </div>}
   </section>;
 }
 
 function PanelHeading({ titleId, count, refreshing = false, loading = false, children }: { titleId: string; count?: number; refreshing?: boolean; loading?: boolean; children?: React.ReactNode }) {
-  return <header className="set-piece-header">
+  return <header className={PANEL_HEAD}>
     <h2 id={titleId}>Pieces</h2>
-    {count !== undefined && <span className="count-badge">{count}</span>}
-    {(refreshing || loading) && <LoaderCircle className="set-piece-spin" size={13} aria-label={loading ? "Loading piece review" : "Refreshing metadata"} />}
-    <div className="set-piece-header-actions">{children}</div>
+    {count !== undefined && <span className="font-mono text-[11px] text-muted-foreground">{count}</span>}
+    {(refreshing || loading) && <LoaderCircle className={cn(SPIN, "text-muted-foreground")} size={13} aria-label={loading ? "Loading piece review" : "Refreshing metadata"} />}
+    <div className="ml-auto flex items-center gap-1.5">{children}</div>
   </header>;
 }
 
 function LoadingPanel({ titleId }: { titleId: string }) {
-  return <section className="set-piece-panel" aria-labelledby={titleId} aria-busy="true"><PanelHeading titleId={titleId} loading /><div className="slot-grid set-piece-loading" role="status" aria-label="Loading armor pieces"><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /><span className="skeleton" /></div></section>;
+  return <section className={ROOT} aria-labelledby={titleId} aria-busy="true"><PanelHeading titleId={titleId} loading /><div className={GRID} role="status" aria-label="Loading armor pieces">{Array.from({ length: 5 }, (_, index) => <Skeleton key={index} className="h-44 rounded-md" />)}</div></section>;
 }

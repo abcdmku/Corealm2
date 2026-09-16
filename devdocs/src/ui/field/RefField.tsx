@@ -16,6 +16,7 @@ import { Button } from "../../components/ui/index.js";
 import { chipVariants } from "../../components/ui/chip.js";
 import { cn } from "../../lib/utils.js";
 
+
 /*
   The one way a reference is edited (docs/devdocs-inputs.md §3.4). Inside the shared `Field`
   anatomy the control is a chip and a pencil:
@@ -76,7 +77,7 @@ export function RefField({ kind, collection, value, onChange, label, hint, resol
   return <Field<string | undefined> label={label} hint={hint} resolved={resolved} onRevert={readOnly || !resolved ? undefined : (onRevert ?? (() => onChange(undefined)))} onOpenRef={openRef}
     error={error ?? (missing ? `${shown} is not in ${options ? `${kindLabel} options` : labelFor(recordCollection).toLowerCase()}` : undefined)} compact={compact} bare={bare} span={span} dirty={dirty} disabled={readOnly} className={className}>
     <RefControl kind={kind} kindLabel={kindLabel} collection={recordCollection} value={shown} record={record} option={option} options={options} missing={missing} ctx={ctx} exclude={exclude} readOnly={readOnly} optional={optional}
-      canRevert={Boolean(resolved && revertTarget(resolved))} onChange={onChange} openRef={openRef} createNew={createNew}
+      canRevert={Boolean(resolved && revertTarget(resolved))} onChange={onChange} openRef={openRef} createNew={createNew} bare={bare}
       title={record ? summarize(recordCollection, record, ctx).title : option?.label ?? shown ?? ""} />
   </Field>;
 }
@@ -85,10 +86,10 @@ interface ControlProps {
   kind?: string; kindLabel: string; collection: string; value: string | undefined; title: string;
   record: ContentRow | undefined; option: RefOption | undefined; options: RefOption[] | undefined;
   missing: boolean; ctx: SummaryContext; exclude?: ReadonlySet<string>; readOnly: boolean; optional: boolean; canRevert: boolean;
-  onChange: (id: string | undefined) => void; openRef: (ref: RecordRef) => void; createNew?: () => Promise<string | undefined>;
+  onChange: (id: string | undefined) => void; openRef: (ref: RecordRef) => void; createNew?: () => Promise<string | undefined>; bare?: boolean;
 }
 
-function RefControl({ kind, kindLabel, collection, value, title, record, option, options, missing, ctx, exclude, readOnly, optional, canRevert, onChange, openRef, createNew }: ControlProps) {
+function RefControl({ kind, kindLabel, collection, value, title, record, option, options, missing, ctx, exclude, readOnly, optional, canRevert, onChange, openRef, createNew, bare = false }: ControlProps) {
   const field = useFieldContext();
   const [pickerOpen, setPickerOpen] = useState(false);
   const chip = useRef<HTMLSpanElement>(null);
@@ -132,7 +133,7 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
   // its events bubble through here too: leave those alone or picking a row with the mouse dies.
   const focusChip = () => chip.current?.querySelector<HTMLElement>(".ref-chip")?.focus({ preventScroll: true });
   const inPicker = (event: { target: unknown }) => event.target instanceof Element && event.target.closest(".popover") !== null;
-  return <span ref={chip} className="ref-control inline-flex min-w-0 max-w-full items-center gap-0.5" data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
+  return <span ref={chip} className={cn("min-w-0 ref-control relative inline-flex max-w-full items-center gap-0.5", bare && !empty && !inert && "group-hover/row:[&_.ref-chip]:pr-8 group-focus-within/row:[&_.ref-chip]:pr-8")} data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
     onMouseDown={event => { if (!inPicker(event)) event.preventDefault(); }} onClickCapture={event => { if (!inPicker(event)) focusChip(); }}>
     {chipNode}
     {!inert && <RecordPicker collection={collection} value={value} ctx={ctx} exclude={exclude} options={options} open={pickerOpen} onOpenChange={setOpen}
@@ -140,6 +141,6 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
       allowNone={optional} onClear={optional ? () => onChange(undefined) : undefined}
       onCreate={createNew ? async () => { const id = await createNew(); if (id) onChange(id); } : undefined} createLabel={`New ${kindLabel}…`}
       onPick={id => onChange(id)}
-      trigger={<Button variant="ghost" size="icon-sm" className="ref-edit" tabIndex={-1} aria-label={`Choose ${kindLabel}`} title="Choose (Enter)"><Pencil size={12} /></Button>} />}
+      trigger={<Button variant="ghost" size="icon-sm" className={cn("ref-edit", empty ? "pointer-events-none absolute right-0 size-0 overflow-hidden p-0 opacity-0" : bare && "absolute top-0.5 right-0.5 size-6 bg-background opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100")} tabIndex={-1} aria-label={`Choose ${kindLabel}`} title="Choose (Enter)"><Pencil size={12} /></Button>} />}
   </span>;
 }

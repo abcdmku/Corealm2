@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useState } from "react";
+import { Fragment, useCallback, useMemo, useState, type ReactNode } from "react";
 import type { EquipmentFamily, ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { AppProps } from "../../model/contracts.js";
 import { equipmentSource, fmt } from "../../model/derive.js";
@@ -7,12 +7,13 @@ import { HoverCard } from "../../ui/RefChip.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { Drawer } from "./Drawer.js";
+import { Drawer } from "../../ui/Drawer.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
 import { ItemPage } from "./ItemPage.js";
 import { keyNumber, thresholdText, titleCase, useItemsData, type ItemsData, type SetRecord, type SetSlot } from "./data.js";
-import "./items.css";
-import { Button } from "../../components/ui/index.js";
+import { Button, EmptyCell, Segmented, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
+import { PAGE, PAGE_ACTIONS, PAGE_HEADING } from "../../ui/layout.js";
 
 /*
   The ladder: tiers down, roles across. A cell is the item that fills that role at that tier.
@@ -81,39 +82,41 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
   }, [data.sets]);
 
   if (data.error) return <ErrorState message={data.error} />;
-  if (data.loading) return <div className="ws-page"><LoadingRows /></div>;
+  if (data.loading) return <div className={PAGE}><LoadingRows /></div>;
   const openItem = (id: string) => navigate("items/ladder", id);
   const closeItem = () => navigate("items/ladder");
 
-  return <div className="ws-page ladder-page">
-    <div className="ws-heading">
+  const icons = mode === "icons";
+  return <div className={cn(PAGE, "max-w-none")}>
+    <div className={PAGE_HEADING}>
       <h1>Ladder</h1>
-      <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Column group">
+      <Segmented aria-label="Column group">
         {GROUPS.map(candidate => <Button variant="segment" size="xs" key={candidate.key} aria-pressed={candidate.key === group.key} onClick={() => chooseGroup(candidate.key)}>{candidate.label}</Button>)}
-      </div>
-      <div className="ws-heading-actions">
-        <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Cell content">
+      </Segmented>
+      <div className={PAGE_ACTIONS}>
+        <Segmented aria-label="Cell content">
           <Button variant="segment" size="xs" aria-pressed={mode === "icons"} onClick={() => setMode("icons")}>Icons</Button>
           <Button variant="segment" size="xs" aria-pressed={mode === "numbers"} onClick={() => setMode("numbers")}>Numbers</Button>
-        </div>
+        </Segmented>
       </div>
     </div>
-    <div className="matrix ladder" data-mode={mode}>
-      <table>
-        <thead>
-          <tr className="ladder-roles">
-            <th>Tier</th>
+    {/* The table hugs its content: icon cells stay icon-sized whatever the window width. */}
+    <TableFrame className="max-h-[calc(100dvh-110px)]" data-mode={mode}>
+      <Table className="w-auto min-w-0">
+        <TableHeader>
+          <TableRow>
+            <TableHead pin className="w-16 min-w-16 px-2.5">Tier</TableHead>
             {group.roles.map(role => {
               const family = familyForRole.get(role);
               const live = liveFamily && family && liveFamily.id === family.id;
-              return <th key={role} className={live ? "is-live" : ""}>{family
+              return <TableHead key={role} className={cn("px-2.5", icons && "text-center", live && "text-primary")}>{family
                 ? <button type="button" title={`${family.name} · open the curve`} aria-label={`${roleLabel(role)} family`} onClick={() => setFamilyId(family.id)}>{roleLabel(role)}</button>
-                : <span>{roleLabel(role)}</span>}</th>;
+                : <span>{roleLabel(role)}</span>}</TableHead>;
             })}
-            {group.setStyle && <th className="ladder-set-head">Set</th>}
-          </tr>
-        </thead>
-        <tbody>
+            {group.setStyle && <TableHead className="border-l border-border-subtle px-2.5">Set</TableHead>}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data.tiers.map(tier => {
             const rowItems = new Map(group.roles.map(role => [role, cellItemId(tier, role)] as const));
             const sets = (setsByTier.get(tier.tier) ?? []).filter(set => set.style === group.setStyle);
@@ -121,27 +124,32 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
             const ownSet = (set: SetRecord) => Object.entries(set.members ?? {}).every(([slot, id]) => group.roles.some(role => SLOT_FOR_ROLE[role] === slot && rowItems.get(role) === id));
             const named = sets.filter(ownSet);
             const extra = sets.filter(set => !ownSet(set));
-            const setText = (set: SetRecord) => <button type="button" key={set.id} className="cell ladder-set" onClick={() => navigate("equipmentSets", set.id)}>
-              <span className="cell-name">{set.name}</span><small className="mono">{thresholdText(set.thresholds) || "no set bonuses"}</small>
-            </button>;
-            const cell = (role: string, itemId: string | undefined, slotless: boolean) => <td key={role}>{itemId
+            const setText = (set: SetRecord) => <TableLink key={set.id} className="flex-col items-start gap-px py-0.5" onClick={() => navigate("equipmentSets", set.id)}>
+              <span className="text-xs">{set.name}</span><small className="font-mono text-[11px] text-muted-foreground">{thresholdText(set.thresholds) || "no set bonuses"}</small>
+            </TableLink>;
+            /** `joined`: the next row continues this tier, so no rule between them. `alt`: a set's own row under the tier's first. */
+            const rowCell = (joined: boolean, alt: boolean) => cn("px-2.5 py-1", joined && "border-b-0", alt && "pt-0");
+            const cell = (role: string, itemId: string | undefined, slotless: boolean, joined: boolean, alt: boolean) => <TableCell key={role} className={cn(rowCell(joined, alt), icons && "text-center")}>{itemId
               ? <ItemCell id={itemId} data={data} mode={mode} active={itemId === recordId} liveFamily={liveFamily} onOpen={openItem} />
-              : slotless ? null : <span className="cell-empty">—</span>}</td>;
+              : slotless ? null : <EmptyCell />}</TableCell>;
+            const setCell = (joined: boolean, alt: boolean, children: ReactNode) => <TableCell className={cn(rowCell(joined, alt), "border-l border-border-subtle")}>{children}</TableCell>;
             return <Fragment key={tier.id}>
-              <tr className={`ladder-tier${extra.length ? " has-alt" : ""}`}>
-                <th scope="row" rowSpan={1 + extra.length}><span className="ladder-tier-head"><strong>{tier.tier}</strong><small>level {tier.reqLevel}</small></span></th>
-                {group.roles.map(role => cell(role, rowItems.get(role), false))}
-                {group.setStyle && <td className="ladder-set-cell">{named.length ? named.map(setText) : <span className="cell-empty">—</span>}</td>}
-              </tr>
-              {extra.map((set, index) => <tr key={set.id} className={`ladder-tier ladder-alt${index < extra.length - 1 ? " has-alt" : ""}`}>
-                {group.roles.map(role => { const slot = SLOT_FOR_ROLE[role]; return cell(role, slot ? set.members?.[slot] : undefined, !slot); })}
-                <td className="ladder-set-cell">{setText(set)}</td>
-              </tr>)}
+              <TableRow>
+                <TableHead scope="row" pin rowSpan={1 + extra.length} className="z-10! px-2.5 group-hover/tr:bg-accent">
+                  <span className="flex flex-col py-0.5 leading-tight"><strong className="text-[15px] text-foreground">{tier.tier}</strong><small className="text-[11px] font-normal text-faint">level {tier.reqLevel}</small></span>
+                </TableHead>
+                {group.roles.map(role => cell(role, rowItems.get(role), false, extra.length > 0, false))}
+                {group.setStyle && setCell(extra.length > 0, false, named.length ? <div className="flex flex-col items-start gap-1">{named.map(setText)}</div> : <EmptyCell />)}
+              </TableRow>
+              {extra.map((set, index) => <TableRow key={set.id}>
+                {group.roles.map(role => { const slot = SLOT_FOR_ROLE[role]; return cell(role, slot ? set.members?.[slot] : undefined, !slot, index < extra.length - 1, true); })}
+                {setCell(index < extra.length - 1, true, setText(set))}
+              </TableRow>)}
             </Fragment>;
           })}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableFrame>
     {recordId && <Drawer title={data.item(recordId)?.name ?? recordId} onClose={closeItem} wide>
       <ItemPage id={recordId} navigate={navigate} data={data} variant="drawer" liveFamily={liveFamily} onOpenFamily={setFamilyId} />
     </Drawer>}
@@ -158,11 +166,11 @@ function ItemCell({ id, data, mode, active, liveFamily, onOpen }: { id: string; 
   const saved = mode === "numbers" && liveFamily ? keyNumber(id, data) : undefined;
   const changed = number && saved && number.value !== saved.value;
   return <>
-    <button type="button" className={`cell${active ? " is-active" : ""}${record ? "" : " is-missing"}`} onClick={() => onOpen(id)} aria-label={name} title={summary ? undefined : name}
+    <TableLink className="gap-2 p-0.5" onClick={() => onOpen(id)} aria-label={name} title={summary ? undefined : name}
       onMouseEnter={event => setHover({ x: event.clientX, y: event.clientY })} onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })} onMouseLeave={() => setHover(undefined)}>
-      <Thumb spec={{ kind: "item", id }} size="s" alt="" />
-      {mode === "numbers" && <span className={`cell-number mono${changed ? " is-changed" : ""}`}>{number ? <><strong>{fmt(number.value)}</strong><small>{number.label}</small></> : "—"}</span>}
-    </button>
+      <Thumb spec={{ kind: "item", id }} size="s" alt="" className={cn("size-8", !record && "outline outline-destructive", active && "outline-2 outline-offset-1 outline-primary")} />
+      {mode === "numbers" && <span className="inline-flex items-baseline gap-1 font-mono text-xs whitespace-nowrap">{number ? <><strong className={cn("font-semibold", changed && "text-primary")}>{fmt(number.value)}</strong><small className="text-[11px] text-faint">{number.label}</small></> : "—"}</span>}
+    </TableLink>
     {hover && summary && <HoverCard summary={summary} collection="items" id={id} at={hover} />}
   </>;
 }

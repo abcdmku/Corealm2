@@ -184,7 +184,7 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
 
 /* `num` grows with the value it holds so 195.7142857 is never clipped; the others are fixed. */
 const WIDTH: Readonly<Record<NumberWidth, string>> = {
-  num: "shrink-0 w-[clamp(4.75rem,calc(var(--chars)*1ch+1.5rem),13rem)] data-[unit]:w-[clamp(6rem,calc(var(--chars)*1ch+4.25rem),15rem)]",
+  num: "shrink-0 w-[clamp(3.25rem,calc(var(--chars)*1ch+1.5rem),13rem)] data-[unit]:w-[clamp(4.75rem,calc(var(--chars)*1ch+3.5rem),15rem)]",
   short: "w-40",
   full: "w-full",
 };

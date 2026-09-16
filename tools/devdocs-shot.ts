@@ -12,7 +12,8 @@ import { chromium } from "playwright";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string): string => { const index = args.indexOf(`--${name}`); return index >= 0 ? args[index + 1] ?? fallback : fallback; };
-const routes = args.filter((arg, index) => !arg.startsWith("--") && !(index > 0 && args[index - 1]!.startsWith("--")));
+const FLAGS = new Set(["--light"]);
+const routes = args.filter((arg, index) => !arg.startsWith("--") && !(index > 0 && args[index - 1]!.startsWith("--") && !FLAGS.has(args[index - 1]!)));
 const base = option("base", "http://127.0.0.1:4190");
 const width = Number(option("width", "1600"));
 const height = Number(option("height", "1000"));

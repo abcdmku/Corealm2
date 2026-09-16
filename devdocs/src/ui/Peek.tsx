@@ -10,8 +10,8 @@ import { LoadingRows } from "./States.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
 import { parseRoute, routePath } from "./workspaces.js";
-import "../styles/peek.css";
 import { Button } from "../components/ui/index.js";
+import { EMPTY } from "./layout.js";
 
 /*
   A peek is the target record's own page in a right-side sheet (docs/devdocs-inputs.md §3.4):
@@ -80,6 +80,7 @@ const CollectionPage = lazyComponent(() => import("../pages/CollectionPage.js").
 /** The sheet itself. `PeekProvider` renders it; pages do not mount this directly. */
 export function Peek({ target, navigate, onOpen, onClose }: { target: PeekTarget; navigate: AppProps["navigate"]; onOpen: (ref: PeekTarget) => void; onClose: () => void }) {
   const sheet = useRef<HTMLElement>(null);
+  const body = useRef<HTMLDivElement>(null);
   const returnTo = useRef<Element | null>(null);
   const { index } = useReferenceIndex();
   const ctx = useMemo(() => summaryContext(index), [index]);
@@ -106,23 +107,24 @@ export function Peek({ target, navigate, onOpen, onClose }: { target: PeekTarget
     document.addEventListener("keydown", keys);
     return () => document.removeEventListener("keydown", keys);
   }, [onClose]);
-  useEffect(() => { sheet.current?.querySelector(".peek-body")?.scrollTo({ top: 0 }); }, [target]);
+  useEffect(() => { body.current?.scrollTo({ top: 0 }); }, [target]);
 
   const title = summary?.title ?? target.id;
-  return <aside ref={sheet} className="peek" role="dialog" aria-modal="false" aria-label={`Peek: ${title}`} tabIndex={-1} data-collection={target.collection} data-id={target.id}>
-    <header className="peek-head">
+  return <aside ref={sheet} className="fixed inset-y-0 right-0 z-42 flex w-[clamp(420px,34vw,520px)] max-w-[92vw] flex-col border-l border-border bg-card shadow-[-12px_0_40px_var(--shadow)] outline-none" role="dialog" aria-modal="false" aria-label={`Peek: ${title}`} tabIndex={-1} data-collection={target.collection} data-id={target.id}>
+    <header className="flex min-h-11 flex-none items-center gap-2 border-b border-border-subtle py-1.5 pr-2.5 pl-3">
       <Thumb spec={summary?.thumb ?? { kind: "glyph", icon: ArrowUpRight, letter: target.id.slice(0, 2).toUpperCase() }} size="m" />
-      <div className="peek-title"><strong>{title}</strong><small>{labelFor(target.collection)} · <code>{target.id}</code></small></div>
+      <div className="flex min-w-0 flex-1 flex-col leading-tight"><strong className="truncate text-[13px] font-semibold">{title}</strong><small className="truncate text-[11px] text-faint">{labelFor(target.collection)} · <code className="font-mono">{target.id}</code></small></div>
       <Button variant="secondary" size="sm" onClick={() => { onClose(); navigate(target.collection, target.id); }} title="Open this record in the workspace"><ArrowUpRight size={12} /> Open</Button>
       <Button variant="ghost" size="icon-sm" aria-label="Close peek" title="Close (Esc)" onClick={onClose}><X size={15} /></Button>
     </header>
-    <div className="peek-body">
+    {/* A record page stacks in the sheet: one column, the rail below the sheet and static, no page width cap. */}
+    <div ref={body} className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto [scrollbar-width:thin] [&_.grid:has(>aside)]:max-w-none [&_.grid:has(>aside)]:grid-cols-1 [&_.grid:has(>aside)]:gap-4 [&_.grid>aside]:static">
       <Suspense fallback={<LoadingRows />}>
         {Custom
           ? <Custom key={`${target.collection}:${target.id}`} recordId={route.id} route={route} navigate={innerNavigate} />
           : route.view.collection
             ? <CollectionPage key={`${target.collection}:${target.id}`} collection={route.view.collection} recordId={route.id} navigate={innerNavigate} />
-            : <p className="empty-inline">No page is registered for {labelFor(target.collection).toLowerCase()}.</p>}
+            : <p className={EMPTY}>No page is registered for {labelFor(target.collection).toLowerCase()}.</p>}
       </Suspense>
     </div>
   </aside>;

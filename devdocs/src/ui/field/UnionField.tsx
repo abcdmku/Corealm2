@@ -7,6 +7,7 @@ import { ChoiceField } from "./ChoiceField.js";
 import { Button } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
 import { Field } from "./Field.js";
+import { ON_SHEET, useOnSheet } from "../Sheet.js";
 import { fieldFromSchema, type SchemaFieldSpec } from "./fromSchema.js";
 import { ListField, type ListFieldProps } from "./ListField.js";
 import { MapField } from "./MapField.js";
@@ -14,6 +15,7 @@ import { NumberField } from "./NumberField.js";
 import { carryOver, variantSchema, variantTag, type CarryOver } from "./reorder.js";
 import { TextField } from "./TextField.js";
 import { ToggleField } from "./ToggleField.js";
+
 
 /*
   A discriminated union (quest predicate, dialogue condition, effect) as a `kind` choice followed
@@ -64,6 +66,7 @@ export function UnionField({ schema, value, onChange, renderRef, kindLabel, read
 
   const core = member ? fieldCore(member) : undefined;
   const fields = core instanceof ObjectSchema ? (Object.entries(core.fields) as [string, Schema][]).filter(([key, field]) => key !== tag && !(fieldCore(field) instanceof LiteralSchema) && !serialFieldSpec(field, key).hidden) : [];
+  const onSheet = useOnSheet();
   const current = value !== null && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
   const setKey = (key: string, next: unknown) => {
     const out = { ...current };
@@ -71,7 +74,7 @@ export function UnionField({ schema, value, onChange, renderRef, kindLabel, read
     onChange(out);
   };
 
-  return <div className={cn("flex min-w-0 flex-1 flex-col gap-px", className)} data-pending={pending ? "true" : undefined}>
+  return <div className={cn(onSheet && !compact ? cn(ON_SHEET, "gap-y-px [&>[role=alert]]:col-start-2") : "flex min-w-0 flex-1 flex-col gap-px", className)} data-pending={pending ? "true" : undefined}>
     <Field label={kindLabel ?? (spec.discriminator ? fieldTitle(spec.discriminator) : "Kind")} compact={compact}>
       <ChoiceField value={pending?.key ?? selected} options={variants.map(variant => ({ value: variant.key, label: variant.label }))} readOnly={readOnly} onChange={requestSwitch} />
     </Field>
@@ -142,7 +145,7 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
       if (!(node instanceof ObjectSchema)) break;
       const current = value !== null && typeof value === "object" ? value as Record<string, unknown> : {};
       const entries = (Object.entries(node.fields) as [string, Schema][]).filter(([key, field]) => !serialFieldSpec(field, key).hidden);
-      return <div className="flex min-w-0 flex-1 flex-col gap-px">{entries.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); }} renderRef={renderRef} readOnly={inert} compact={compact} />)}</div>;
+      return <div className="min-w-0 flex flex-1 flex-col gap-px">{entries.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); }} renderRef={renderRef} readOnly={inert} compact={compact} />)}</div>;
     }
     case "record": {
       if (!(node instanceof RecordSchema)) break;

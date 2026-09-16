@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { MessageCircle, Search, X } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { dialogueConditionSchema, dialogueEffectSchema, dialogueNodeSchema, dialogueOptionSchema } from "../../../../game/src/content/schema/story.js";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
@@ -11,8 +11,9 @@ import {
 } from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
-import { asRecord, clip, list, nameOf, PageState, RecordShell, RefCell, refRenderer, text, usePage, type Page } from "./shared.js";
-import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
+import { asRecord, clip, list, nameOf, PageState, RecordShell, RefCell, refRenderer, RowBlock, text, usePage, type Page } from "./shared.js";
+import { EmptyCell, SearchInput, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
+import { COUNT, PAGE, TOOLBAR } from "../../ui/layout.js";
 
 interface Option extends ContentRow { id?: string; text?: string; next?: string | null; requires?: unknown; showIf?: unknown; effects?: unknown; nextIf?: unknown }
 interface Node extends ContentRow { id: string; speaker?: string; text?: string; variants?: unknown; options?: Option[]; catalog?: string }
@@ -30,32 +31,39 @@ export default function DialogueView({ recordId, navigate }: ViewProps) {
 function DialogueList({ navigate }: { navigate: ViewProps["navigate"] }) {
   const query = useQuery(collectionQuery("dialogue"));
   const [search, setSearch] = useState("");
+  const total = query.data ? contentRows(query.data).length : 0;
   const rows = useMemo(() => {
     const all = query.data ? contentRows(query.data) : [];
     const needle = search.trim().toLowerCase();
     if (!needle) return all;
     return all.filter(row => `${String(row.id)} ${text(row.speaker) ?? ""} ${text(row.text) ?? ""} ${list(row.options).map(entry => text(asRecord(entry).text) ?? "").join(" ")}`.toLowerCase().includes(needle));
   }, [query.data, search]);
-  if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
+  if (query.isPending) return <div className={PAGE}><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
-  return <div className="ws-page">
-    <div className="story-table-tools">
-      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label="Search dialogue" placeholder="Search id, speaker, text…" value={search} onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button>}</InputGroup>
-      <span className="result-count">{rows.length}</span>
+  return <div className={PAGE}>
+    <div className={TOOLBAR}>
+      <SearchInput label="Search dialogue" placeholder="Search id, speaker, text…" value={search} onChange={setSearch} shortcut
+        onEnter={() => { const first = rows[0]; if (first) navigate("dialogue", String(first.id)); }} />
+      <span className={COUNT}>{search.trim() ? `${rows.length} of ${total}` : total}</span>
     </div>
-    <div className="matrix story-table"><table>
-      <thead><tr><th>Node</th><th>Speaker</th><th>Text</th><th>Options</th><th>Catalog</th></tr></thead>
-      <tbody>{rows.map(row => {
-        const id = String(row.id);
-        return <tr key={id}>
-          <td><button type="button" className="cell mono" onClick={() => navigate("dialogue", id)}>{id}</button></td>
-          <td className="is-muted">{text(row.speaker) ?? "—"}</td>
-          <td className="is-text is-muted" title={text(row.text)}>{clip(text(row.text), 110)}</td>
-          <td className="cell-num">{list(row.options).length}</td>
-          <td className="is-muted">{text(row.catalog) ?? "—"}</td>
-        </tr>;
-      })}</tbody>
-    </table></div>
+    <TableFrame className="max-h-[calc(100vh-8.5rem)] w-full">
+      <Table>
+        <TableHeader><TableRow>
+          <TableHead pin>Node</TableHead><TableHead>Speaker</TableHead><TableHead className="w-full">Text</TableHead><TableHead numeric>Options</TableHead><TableHead>Catalog</TableHead>
+        </TableRow></TableHeader>
+        <TableBody>{rows.map(row => {
+          const id = String(row.id);
+          const line = text(row.text);
+          return <TableRow key={id}>
+            <TableCell pin className="font-normal"><TableLink className="font-mono text-[11px]" onClick={() => navigate("dialogue", id)}>{id}</TableLink></TableCell>
+            <TableCell className="text-muted-foreground">{text(row.speaker) ?? <EmptyCell />}</TableCell>
+            <TableCell className="text-muted-foreground" title={line}>{line ? <span className="block max-w-[48rem] min-w-80 truncate">{line}</span> : <EmptyCell />}</TableCell>
+            <TableCell numeric>{list(row.options).length}</TableCell>
+            <TableCell className="text-muted-foreground">{text(row.catalog) ?? <EmptyCell />}</TableCell>
+          </TableRow>;
+        })}</TableBody>
+      </Table>
+    </TableFrame>
   </div>;
 }
 
@@ -97,16 +105,16 @@ function DialoguePage({ id, navigate }: { id: string; navigate: ViewProps["navig
             emptyText="None; the line above always plays." addLabel="Add variant" onAdd={() => ({ when: [], text: "" })}
             summarize={variant => `when ${conditionsText(variant.when, ctx)}: ${clip(text(variant.text), 80) || "…"}`}
             onChange={next => draft.setPath(["variants"], next.length ? next : undefined)}
-            renderItem={(variant, api) => <div className="story-block">
+            renderItem={(variant, api) => <RowBlock>
               <UnionList label="When" schema={dialogueConditionSchema} items={list(variant.when)} readOnly={readOnly} renderRef={renderRef}
                 summarize={condition => conditionText(asRecord(condition), ctx)} addLabel="Add condition" emptyText="Always."
                 onChange={next => api.update({ ...variant, when: next })} />
               <Field label="Text"><TextField value={text(variant.text) ?? ""} multiline readOnly={readOnly} ariaLabel={`Variant ${api.index + 1} text`} onChange={value => api.update({ ...variant, text: value })} /></Field>
-            </div>} />
+            </RowBlock>} />
         </Section>
 
         <Section title={node("options").label}>
-          <ListField<Option> items={options} ordered min={1} readOnly={readOnly} className="dlg-options"
+          <ListField<Option> items={options} ordered min={1} readOnly={readOnly}
             emptyText="No options; the conversation ends here." addLabel="Add option"
             onAdd={() => ({ id: nextOptionId(id, options), text: "", next: null })}
             summarize={entry => clip(text(entry.text), 96) || "(no text yet)"}
@@ -129,7 +137,7 @@ function OptionFields({ option: entry, at, update, page, readOnly, renderRef }: 
     summarize={condition => conditionText(asRecord(condition), ctx)}
     onChange={next => update({ ...entry, [key]: next.length ? next : undefined })} />;
 
-  return <div className="story-block">
+  return <RowBlock>
     <Field label={option("text").label}><TextField value={entry.text ?? ""} multiline readOnly={readOnly} ariaLabel={`Option ${at + 1} text`} onChange={value => update({ ...entry, text: value })} /></Field>
     <RefField kind="dialogue" label={option("next").label} hint={option("next").hint} optional value={text(entry.next)} readOnly={readOnly}
       onChange={value => update({ ...entry, next: value ?? null })} />
@@ -143,16 +151,16 @@ function OptionFields({ option: entry, at, update, page, readOnly, renderRef }: 
       emptyText="None; the next node above always follows." addLabel="Add branch" onAdd={() => ({ when: [], next: null })}
       summarize={branch => `${conditionsText(branch.when, ctx)} → ${text(branch.next) ?? "ends"}`}
       onChange={next => update({ ...entry, nextIf: next.length ? next : undefined })}
-      renderItem={(branch, api) => <div className="story-block">
+      renderItem={(branch, api) => <RowBlock>
         <UnionList label="When" schema={dialogueConditionSchema} items={list(branch.when)} readOnly={readOnly} renderRef={renderRef}
           addLabel="Add condition" emptyText="Always."
           summarize={condition => conditionText(asRecord(condition), ctx)}
           onChange={next => api.update({ ...branch, when: next })} />
         <RefField kind="dialogue" label="Next node" optional value={text(branch.next)} readOnly={readOnly}
           onChange={value => api.update({ ...branch, next: value ?? null })} />
-      </div>} />
+      </RowBlock>} />
     <Field label={option("id").label}><TextField value={entry.id ?? ""} mono width="id" readOnly ariaLabel={`Option ${at + 1} id`} onChange={() => undefined} /></Field>
-  </div>;
+  </RowBlock>;
 }
 
 /* ---------- Readable conditions and effects ---------- */

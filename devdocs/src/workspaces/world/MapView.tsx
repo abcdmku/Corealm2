@@ -21,8 +21,7 @@ import {
   type Bounds, type Draft, type Feature, type Layer, type Point, type Selection,
 } from "./model.js";
 import { WORLD_MAP_IMAGE_BOUNDS } from "../../../../game/src/generated/worldMapFingerprint.js";
-import "./world.css";
-import { Button } from "../../components/ui/index.js";
+import { Button, Segmented } from "../../components/ui/index.js";
 
 const ISLAND_BOUNDS: Bounds = { ...WORLD_MAP_IMAGE_BOUNDS };
 
@@ -227,22 +226,22 @@ export default function MapView({ recordId, navigate }: ViewProps) {
   if (failed) return <ErrorState message={failed.error?.message ?? "The world could not be loaded."} retry={() => void failed.refetch()} />;
   if (loading || !draft || !derived) return <LoadingRows />;
 
-  return <div className="world" data-editable={editable ? "true" : undefined}>
+  return <div className="grid h-full min-h-0 flex-1 grid-cols-[260px_minmax(0,1fr)_320px] bg-background max-[1100px]:grid-cols-[220px_minmax(0,1fr)_280px]">
     <Rail features={features} counts={derived.counts} layers={layers} onToggleLayer={toggleLayer} search={search} onSearch={setSearch} viewBounds={viewBounds} selectedKey={selectedFeature?.key} onPick={pick} onShowAll={showAll} />
-    <section className="world-stage">
-      <div className="world-toolbar">
-        {editable && <span role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Add">
+    <section className="relative flex min-h-0 min-w-0 flex-col">
+      <div className="flex h-9 shrink-0 items-center gap-1.5 overflow-hidden border-b border-border-subtle bg-background px-2.5 whitespace-nowrap">
+        {editable && <Segmented aria-label="Add" className="shrink-0">
           {(["spawn", "resource", "location", "landmark"] as const).map(kind => { const Icon = kind === "spawn" ? Footprints : kind === "resource" ? Pickaxe : kind === "location" ? MapPin : Flag; return <Button variant="segment" size="xs" key={kind} aria-pressed={tool === kind} aria-label={TOOL_LABEL[kind]} title={`${TOOL_LABEL[kind]}: click the map`} onClick={() => setTool(tool === kind ? undefined : kind)}><Icon size={12} />{TOOL_SHORT[kind]}</Button>; })}
-        </span>}
+        </Segmented>}
         <Button variant="secondary" size="sm" onClick={() => map.current?.fit(worldBounds(draft))}><Maximize2 size={12} /> Fit world</Button>
         <ChoiceField value={fitRegion || undefined} width="short" ariaLabel="Fit region" allowEmpty="Fit region…"
           options={draft.worldRegions.map(region => ({ value: region.id, label: region.name }))}
           onChange={value => { setFitRegion(value ?? ""); const region = regionById(draft, value); if (region) map.current?.fit(regionBounds(region)); }} />
         <Button variant="ghost" size="icon-sm" aria-label="Zoom in" onClick={() => map.current?.zoom(1 / 1.5)}><Plus size={14} /></Button>
         <Button variant="ghost" size="icon-sm" aria-label="Zoom out" onClick={() => map.current?.zoom(1.5)}><Minus size={14} /></Button>
-        {tool && <span className="world-hint">Click the map to place · Esc cancels</span>}
-        {(dirty || error) && <span className="world-changes" role={error ? "alert" : undefined}>
-          {error ? <span className="world-error" title={error}>{error}</span> : <span className="world-dirty">{operations.length} {operations.length === 1 ? "change" : "changes"}</span>}
+        {tool && <span className="text-[11px] text-primary">Click the map to place · Esc cancels</span>}
+        {(dirty || error) && <span className="ml-auto flex h-7 shrink-0 items-center gap-1.5 rounded-md border border-primary bg-brass-soft pr-1 pl-2.5 text-xs whitespace-nowrap" role={error ? "alert" : undefined}>
+          {error ? <span className="max-w-[360px] truncate text-destructive" title={error}>{error}</span> : <span className="font-medium text-primary">{operations.length} {operations.length === 1 ? "change" : "changes"}</span>}
           <Button variant="secondary" size="sm" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void preview()}>{busy ? "Working…" : "Preview"}</Button>
         </span>}
       </div>
@@ -250,7 +249,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
         onSelect={select} onMove={onMove} onMoveAnchor={onMoveAnchor} onNudge={onNudge} onPlace={onPlace} onViewChange={onViewChange} onEscape={onEscape} />
       {pending && <RecordPicker collection={pending.tool === "spawn" ? "creatureDefinitions" : pending.tool === "resource" ? "resources" : "assets"} ctx={ctx} open onOpenChange={open => { if (!open) { setPending(undefined); setTool(undefined); } }} onPick={finishAdd}
         placeholder={pending.tool === "spawn" ? "Which creature spawns here?" : pending.tool === "resource" ? "Which resource?" : "Which asset?"}
-        trigger={<span className="world-picker-anchor" style={{ left: pending.client.x, top: pending.client.y }} aria-hidden="true" />} />}
+        trigger={<span className="fixed size-px" style={{ left: pending.client.x, top: pending.client.y }} aria-hidden="true" />} />}
     </section>
     <Inspector draft={draft} selection={selection} feature={selectedFeature} editable={editable} ctx={ctx} encounterUses={derived.encounterUses} diagnostics={diagnostics} update={update} navigate={navigate} onFit={onFit} onSelect={select} />
   </div>;

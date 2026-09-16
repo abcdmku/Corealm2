@@ -5,6 +5,7 @@ import { canonical, draftStore, lineDiff, useDraftState, type RecordEntry } from
 import { viewForCollection } from "./workspaces.js";
 import { Button, Kbd } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
+import { PANEL } from "./layout.js";
 
 /*
   The one save bar. It sits at the bottom of the workspace column, hidden until something is dirty,
@@ -31,11 +32,11 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
   )} data-tone={tone} role={tone ? "alert" : "status"} aria-label="Unsaved changes">
     <div className={ROW}>
       <span className={cn("shell-savebar-count shrink-0 font-medium whitespace-nowrap", tone === "danger" ? "text-destructive" : "text-primary")}>{count} {count === 1 ? "record" : "records"} changed{conflicts.length ? ` · ${conflicts.length} in conflict` : ""}</span>
-      <span className="flex min-w-0 flex-1 gap-1 overflow-x-auto [scrollbar-width:none]">
+      <span className="min-w-0 flex flex-1 gap-1 overflow-x-auto [scrollbar-width:none]">
         {entries.filter(entry => !entry.conflict).map(entry => <button key={entry.key} type="button" className={CHIP} title={`${entry.collection}/${entry.id}`} onClick={() => open(entry)}>{entry.name}</button>)}
         {contributors.map(contributor => <button key={contributor.key} type="button" className={CHIP} onClick={() => contributor.route && navigate(...contributor.route)}>{contributor.label}</button>)}
       </span>
-      <span className="ml-auto flex shrink-0 items-center gap-1">
+      <span className="flex shrink-0 items-center gap-1 ml-auto">
         <Button variant="ghost" size="icon-sm" aria-label="Undo" title={undoLabel ? `Undo ${undoLabel} (Ctrl+Z)` : "Nothing to undo"} disabled={!undoLabel} onClick={() => draftStore.undo()}><Undo2 /></Button>
         <Button variant="ghost" size="icon-sm" aria-label="Redo" title={redoLabel ? `Redo ${redoLabel} (Ctrl+Shift+Z)` : "Nothing to redo"} disabled={!redoLabel} onClick={() => draftStore.redo()}><Redo2 /></Button>
         <Button variant="secondary" size="sm" aria-label="Reset draft" disabled={state.saving} onClick={() => draftStore.resetAll()}>Discard all</Button>
@@ -58,13 +59,13 @@ function Conflict({ entry, onOpen }: { entry: RecordEntry; onOpen: () => void })
     <div className={ROW}>
       <button type="button" className={CHIP} onClick={onOpen}>{entry.name}</button>
       <span className="min-w-0 flex-1 truncate text-muted-foreground">{entry.saveError}</span>
-      <span className="ml-auto flex shrink-0 items-center gap-1">
+      <span className="flex shrink-0 items-center gap-1 ml-auto">
         <Button variant="secondary" size="sm" aria-pressed={compare} onClick={() => setCompare(!compare)} disabled={!entry.server}>{compare ? "Hide" : "Compare"}</Button>
         <Button variant="destructive" size="sm" onClick={() => void draftStore.resolveConflict(entry.key, "overwrite")} disabled={!entry.server}>Overwrite</Button>
         <Button variant="secondary" size="sm" onClick={() => void draftStore.resolveConflict(entry.key, "reload")}>Reload</Button>
       </span>
     </div>
-    {compare && <pre className="shell-savebar-diff m-0 mb-1 flex max-h-60 flex-col overflow-auto rounded-md border border-border bg-card px-2 py-1.5 font-mono text-[11px] leading-normal" aria-label={`${entry.name}: disk versus draft`}>
+    {compare && <pre className={cn(PANEL, "shell-savebar-diff m-0 mb-1 flex max-h-60 flex-col overflow-auto px-2 py-1.5 font-mono text-[11px] leading-normal")} aria-label={`${entry.name}: disk versus draft`}>
       <span className="mb-1 flex gap-4 text-muted-foreground"><span>− on disk</span><span>+ your draft</span></span>
       {diff.map((line, index) => <span key={index} data-kind={line.kind} className={cn("whitespace-pre", line.kind === "add" ? "bg-ok-soft text-ok" : line.kind === "del" ? "bg-destructive-soft text-destructive" : "text-faint")}>{line.kind === "add" ? "+" : line.kind === "del" ? "−" : " "} {line.text}</span>)}
     </pre>}

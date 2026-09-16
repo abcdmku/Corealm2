@@ -6,8 +6,15 @@ import { deriveProductionEntry, type Derivation } from "../../model/derive.js";
 import { setPath, useRecordDraft } from "../../model/draft.js";
 import { Facts, Field, Fields, NumberField, ReferencedBy, Section, Sheet } from "../../ui/field/index.js";
 import { Thumb } from "../../ui/Thumb.js";
-import { Drawer } from "./Drawer.js";
+import { Drawer } from "../../ui/Drawer.js";
+import { Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
 import { specAt, stationText, templateEntries, type ItemsData } from "./data.js";
+import { EMPTY } from "../../ui/layout.js";
+
+const CONSEQUENCE_CELL = "h-[26px] px-2 py-0.5";
+const UNIT = "shrink-0 text-[11px] text-faint";
+/** A curve field holds two numbers (`base + tier x per level`), so its cell is wider than a lone value's. */
+const PAIRS = "grid-cols-[repeat(2,minmax(0,14rem))]";
 
 /*
   The production curve behind a recipe: duration and xp parameters, and every entry that uses it,
@@ -52,33 +59,33 @@ export function TemplateDrawer({ templateId, data, onClose, onOpenRecipe, stacke
   };
 
   return <Drawer title={template ? template.name : "Template"} onClose={onClose} stacked={stacked}>
-    {draft.loading && <p className="empty-inline">Loading…</p>}
-    {draft.error && <p className="empty-inline">{draft.error}</p>}
+    {draft.loading && <p className={EMPTY}>Loading…</p>}
+    {draft.error && <p className={EMPTY}>{draft.error}</p>}
     {template && <>
       <Sheet compact>
         <Section title="Curve" aside={<code>{template.id}</code>}>
-          <Facts className="kv-facts" items={[template.kind, template.skill, stationText(template.stations)]} />
-          <Fields columns={2}>
+          <Facts items={[template.kind, template.skill, stationText(template.stations)]} />
+          <Fields columns={2} className={PAIRS}>
             <Field compact label={DURATION.label} dirty={dirtyAt("durationMs")}>{number("durationMs", DURATION.label, DURATION.unit)}</Field>
             <Field compact label={XP.label} dirty={dirtyAt("xpBase", "xpPerLevel")}>
               {number("xpBase", `${XP.label} base`)}
-              <span className="field-unit">+ tier ×</span>
+              <span className={UNIT}>+ tier ×</span>
               {number("xpPerLevel", `${XP.label} per level`)}
             </Field>
           </Fields>
         </Section>
         <Section title="Recipes" aside={<ConsequenceNote tally={counts} noun="recipes" idle={<span>{entries.length} across {new Set(entries.map(entry => entry.tier.tier)).size} tiers</span>} />}>
-          <div className="matrix consequences">
-            <table>
-              <thead><tr><th>Tier</th><th>Recipe</th><th className="cell-num">{DURATION.label}</th><th className="cell-num">{XP.label}</th></tr></thead>
-              <tbody>{rows.map(({ tier, entry, durationMs, xp, pinned }) => <tr key={entry.id} data-unmoved={pinned || undefined} title={pinned ? `${entry.name} keeps its own adjustment, so this change does not reach it` : undefined}>
-                <td className="cell-num">{tier.tier}</td>
-                <td><button type="button" className="cell" onClick={() => onOpenRecipe?.(entry.id)}><Thumb spec={{ kind: "item", id: entry.output.itemId }} size="s" /><span>{entry.name}</span></button></td>
-                <td className="cell-num"><ConsequenceCell {...durationMs} unit=" ms" label={DURATION.label} /></td>
-                <td className="cell-num"><ConsequenceCell {...xp} label={XP.label} /></td>
-              </tr>)}</tbody>
-            </table>
-          </div>
+          <TableFrame className="mt-0.5 max-h-[46vh] w-full">
+            <Table>
+              <TableHeader><TableRow><TableHead numeric className={CONSEQUENCE_CELL}>Tier</TableHead><TableHead className={CONSEQUENCE_CELL}>Recipe</TableHead><TableHead numeric className={CONSEQUENCE_CELL}>{DURATION.label}</TableHead><TableHead numeric className={CONSEQUENCE_CELL}>{XP.label}</TableHead></TableRow></TableHeader>
+              <TableBody>{rows.map(({ tier, entry, durationMs, xp, pinned }) => <TableRow key={entry.id} data-unmoved={pinned || undefined} className="data-unmoved:text-muted-foreground" title={pinned ? `${entry.name} keeps its own adjustment, so this change does not reach it` : undefined}>
+                <TableCell numeric className={CONSEQUENCE_CELL}>{tier.tier}</TableCell>
+                <TableCell className={CONSEQUENCE_CELL}><TableLink onClick={() => onOpenRecipe?.(entry.id)}><Thumb spec={{ kind: "item", id: entry.output.itemId }} size="s" /><span>{entry.name}</span></TableLink></TableCell>
+                <TableCell numeric className={CONSEQUENCE_CELL}><ConsequenceCell {...durationMs} unit=" ms" label={DURATION.label} /></TableCell>
+                <TableCell numeric className={CONSEQUENCE_CELL}><ConsequenceCell {...xp} label={XP.label} /></TableCell>
+              </TableRow>)}</TableBody>
+            </Table>
+          </TableFrame>
           {CompiledCheck && <Suspense fallback={null}><CompiledCheck formulaId="production.linear" profileId={templateId} parameters={template.parameters} tier={entries[0]?.tier.tier ?? 1} disabled={!draft.dirty} /></Suspense>}
         </Section>
         <ReferencedBy collection="recipeTemplates" id={templateId} />

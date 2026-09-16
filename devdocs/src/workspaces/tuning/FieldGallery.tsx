@@ -7,6 +7,8 @@ import type { ViewProps } from "../types.js";
 import { ListField, MapField, UnionList, WeightedList, type RenderRef } from "../../ui/field/index.js";
 import { questPredicateSchema } from "../../../../game/src/content/schema/story.js";
 import { Button } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
+import { PAGE, PAGE_HEADING } from "../../ui/layout.js";
 
 /*
   Every field component in every state, on fake chains, with a live log of commits. Hidden from
@@ -74,9 +76,9 @@ export default function FieldGallery({ navigate }: ViewProps) {
   ];
 
   // The peek provider belongs in the app shell; until it is mounted there this local one lets the reference fields peek.
-  return <div className="ws-page ws-page-narrow" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 280px", gap: 24, alignItems: "start" }}>
-    <div style={{ minWidth: 0 }}>
-      <div className="ws-heading"><h1>Fields</h1><FieldLegend /></div>
+  return <div className={cn(PAGE, "grid max-w-[67.5rem] grid-cols-[minmax(0,1fr)_17.5rem] items-start gap-6 max-lg:grid-cols-1")}>
+    <div className="min-w-0">
+      <div className={PAGE_HEADING}><h1>Fields</h1><FieldLegend /></div>
       <Sheet>
         <Section title="Provenance states">
           {rowStates.map(state => <DerivedNumber key={state.key} label={state.label} hint={state.hint} unit="ms" resolved={resolve(state.key, owns[state.key], state.beaten)} onChange={setOwn(state.key, state.label)} onOpenRef={openRef} optional={state.key === "absent"} />)}
@@ -100,7 +102,7 @@ export default function FieldGallery({ navigate }: ViewProps) {
         <Section title="Controls">
           <Field label="Optional number" hint="Empty commit clears it. Alt+drag this label to scrub; Shift and Alt change the step.">
             <NumberField value={optional} optional unit="m" step={0.5} min={0} max={100} placeholder="none" onChange={value => { setOptional(value); setPreview(undefined); record("Optional number", value); }} onPreview={setPreview} />
-            {preview !== undefined && <span className="field-hint">scrubbing {preview}</span>}
+            {preview !== undefined && <span className="text-[11px] text-muted-foreground">scrubbing {preview}</span>}
           </Field>
           <Field label="Integer" hint="Integers never step by less than one.">
             <NumberField value={owns.health ?? 0} integer min={1} onChange={setOwn("health", "Integer")} />
@@ -146,11 +148,14 @@ export default function FieldGallery({ navigate }: ViewProps) {
       </Sheet>
     </div>
 
-    <aside style={{ position: "sticky", top: 12 }}>
-      <div className="kv-section-head"><h3>Commits</h3><span className="kv-section-aside"><span data-testid="commit-count">{log.length}</span>{log.length > 0 && <Button variant="link" size="inline" onClick={() => setLog([])}>Clear</Button>}</span></div>
-      <ol data-testid="commit-log" className="mono" style={{ margin: 0, padding: 0, listStyle: "none", fontSize: 11, color: "var(--muted)", display: "flex", flexDirection: "column", gap: 2 }}>
-        {log.length === 0 && <li style={{ color: "var(--faint)" }}>Nothing committed yet. Typing does not commit; Enter, Tab, blur, a step or a scrub release does.</li>}
-        {log.map((entry, index) => <li key={`${index}-${entry}`} style={{ overflowWrap: "anywhere" }}>{entry}</li>)}
+    <aside className="sticky top-3 flex min-w-0 flex-col gap-1 max-lg:static">
+      <div className="flex min-h-6 items-center gap-2 border-b border-border-subtle pb-1">
+        <h3 className="text-[13px] font-semibold">Commits</h3>
+        <span className="ml-auto inline-flex items-center gap-2 text-[11px] text-muted-foreground"><span data-testid="commit-count" className="font-mono">{log.length}</span>{log.length > 0 && <Button variant="link" size="inline" onClick={() => setLog([])}>Clear</Button>}</span>
+      </div>
+      <ol data-testid="commit-log" className="flex list-none flex-col gap-0.5 font-mono text-[11px] text-muted-foreground">
+        {log.length === 0 && <li className="font-sans text-xs text-faint">Nothing committed yet. Typing does not commit; Enter, Tab, blur, a step or a scrub release does.</li>}
+        {log.map((entry, index) => <li key={`${index}-${entry}`} className="wrap-anywhere">{entry}</li>)}
       </ol>
     </aside>
   </div>;
@@ -201,29 +206,29 @@ function ListsSection({ record }: { record: (name: string, value: unknown) => vo
   const renderRef: RenderRef = (kind, value, onChange) => <TextField value={value ?? ""} mono width="id" placeholder={kind} ariaLabel={kind} onChange={next => onChange(next || undefined)} />;
 
   return <Section title="Lists">
-    <ListField<string> label="Stages" hint="Drag the handle or Alt+Up/Down to reorder. Backspace on a focused row removes it. Enter in the last row adds another." className="gallery-ordered"
+    <ListField<string> label="Stages" hint="Drag the handle or Alt+Up/Down to reorder. Backspace on a focused row removes it. Enter in the last row adds another."
       items={steps} ordered addOnEnter addLabel="Add stage" emptyText="No stages." onAdd={() => ""}
       onChange={next => { setSteps(next); record("Stages", next); }}
       renderItem={(step, api) => <TextField value={step} placeholder="Describe the stage" ariaLabel={`Stage ${api.index + 1}`} onChange={api.update} />} />
-    <MapField<number> label="Skill levels" hint="Keys come from the schema enum; the add row offers only the unused ones." className="gallery-map"
+    <MapField<number> label="Skill levels" hint="Keys come from the schema enum; the add row offers only the unused ones."
       value={skills} keys={SKILLS.map(skill => ({ value: skill, label: titleCase(skill) }))} keyLabel="skill" emptyText="No requirements." defaultValue={() => 1}
       onChange={next => { setSkills(next); record("Skill levels", next); }}
       renderValue={(skill, level, update) => <NumberField value={level} integer min={1} max={99} ariaLabel={`${titleCase(skill)} level`} onChange={next => update(next ?? 1)} />} />
-    <WeightedList<Member> label="Members" hint="Weights share one roll: 3/1/1 reads 60/20/20. Editing one unlocked weight moves the other unlocked weights to keep the total. Lock a row to pin it." className="gallery-members"
+    <WeightedList<Member> label="Members" hint="Weights share one roll: 3/1/1 reads 60/20/20. Editing one unlocked weight moves the other unlocked weights to keep the total. Lock a row to pin it."
       items={members} weightKey="weight" keepTotal keyOf={member => member.creatureId} min={1} addLabel="Add creature" onAdd={() => ({ creatureId: CREATURES.find(creature => !members.some(member => member.creatureId === creature.value))?.value ?? "fox", weight: 1 })}
       onChange={next => { setMembers(next); record("Members", next.map(member => `${member.creatureId}:${member.weight}`).join(" ")); }}
       renderItem={(member, api) => <ChoiceField value={member.creatureId} options={CREATURES} ariaLabel={`Creature ${api.index + 1}`} onChange={next => api.update({ ...member, creatureId: next ?? member.creatureId })} />} />
-    <WeightedList<Drop> label="Drops" hint="Each drop rolls on its own, so chances are independent and do not sum to 100." className="gallery-drops"
+    <WeightedList<Drop> label="Drops" hint="Each drop rolls on its own, so chances are independent and do not sum to 100."
       items={drops} probabilityKey="chance" keyOf={drop => drop.itemId} addLabel="Add drop" onAdd={() => ({ itemId: ITEMS.find(item => !drops.some(drop => drop.itemId === item.value))?.value ?? "bone", quantity: [1, 1], chance: 1 })}
       onChange={next => { setDrops(next); record("Drops", next.map(drop => `${drop.itemId} ${drop.quantity.join("–")} ${Math.round(drop.chance * 100)}%${drop.exclusiveGroup ? ` [${drop.exclusiveGroup}]` : ""}`).join(", ")); }}
       renderItem={(drop, api) => <>
         <ChoiceField value={drop.itemId} options={ITEMS} ariaLabel={`Item ${api.index + 1}`} onChange={next => api.update({ ...drop, itemId: next ?? drop.itemId })} />
         <NumberField value={drop.quantity[0]} integer min={1} ariaLabel={`Minimum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [next ?? 1, Math.max(next ?? 1, drop.quantity[1])] })} />
-        <span className="field-unit">to</span>
+        <span className="text-[11px] text-faint">to</span>
         <NumberField value={drop.quantity[1]} integer min={drop.quantity[0]} ariaLabel={`Maximum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [drop.quantity[0], Math.max(drop.quantity[0], next ?? drop.quantity[0])] })} />
         <TextField value={drop.exclusiveGroup ?? ""} width="short" placeholder="no group" ariaLabel={`Exclusive group ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next ? { ...bare, exclusiveGroup: next } : bare); }} />
       </>} />
-    <UnionList label="Completion" hint="Each row is one predicate, collapsed to its sentence. Enter or click expands it. Switching kind keeps same-named fields and asks before dropping a value." className="gallery-predicates"
+    <UnionList label="Completion" hint="Each row is one predicate, collapsed to its sentence. Enter or click expands it. Switching kind keeps same-named fields and asks before dropping a value."
       schema={questPredicateSchema} items={predicates} summarize={predicateSummary} renderRef={renderRef} addLabel="Add predicate" emptyText="Completes at once."
       onChange={next => { setPredicates(next); record("Completion", next.map(predicateSummary).join(" · ")); }} />
   </Section>;

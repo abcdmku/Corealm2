@@ -17,8 +17,13 @@ import { applyEdit, hotkeyFor, hotkeysFor, settableFields, useSelection, type Se
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
 import { WORKSPACES } from "./workspaces.js";
-import { Button } from "../components/ui/index.js";
-import { buttonVariants } from "../components/ui/index.js";
+import { Button, Kbd, buttonVariants } from "../components/ui/index.js";
+
+/** One row of the palette: thumbnail, label, a faint hint, and a trailing icon or hotkey. */
+const ITEM = "flex h-8 cursor-pointer items-center gap-2 rounded-sm px-1.5 text-xs text-foreground data-[selected=true]:bg-selected [&>svg]:text-faint";
+const ITEM_LABEL = "min-w-0 flex-1 truncate";
+const ITEM_HINT = "max-w-[45%] shrink-0 truncate text-[11px] text-faint";
+const NOTE = "px-3 py-[18px] text-center text-xs text-muted-foreground";
 
 /*
   Search, and the one place a selection is acted on. With records selected on the page (see
@@ -170,62 +175,62 @@ export function CommandPalette({ open, onOpenChange, collections, navigate }: { 
 
   return <Dialog.Root open={open} onOpenChange={next => { if (next) onOpenChange(true); else close(); }}>
     <Dialog.Portal>
-      <Dialog.Overlay className="dialog-overlay" />
-      <Dialog.Content className="command-dialog" aria-describedby="command-help" onEscapeKeyDown={event => { if (field) { event.preventDefault(); back(); } }}>
+      <Dialog.Overlay className="fixed inset-0 z-50 bg-[#06080cb3] backdrop-blur-[2px] [@media(prefers-reduced-transparency:reduce)]:bg-[#0a0d12e6] [@media(prefers-reduced-transparency:reduce)]:backdrop-blur-none" />
+      <Dialog.Content className="fixed top-[min(12dvh,100px)] left-1/2 z-[51] w-[min(620px,calc(100vw-32px))] -translate-x-1/2 overflow-hidden rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl shadow-shadow outline-none" aria-describedby="command-help" onEscapeKeyDown={event => { if (field) { event.preventDefault(); back(); } }}>
         <Dialog.Title className="sr-only">{title}</Dialog.Title>
-        <Command shouldFilter={false} label={title} onKeyDown={event => { if (field && event.key === "Backspace" && !search) { event.preventDefault(); back(); } }}>
-          <div className="command-input-wrap">
+        <Command shouldFilter={false} label={title} className="[&_[cmdk-group-heading]]:px-1.5 [&_[cmdk-group-heading]]:pt-1.5 [&_[cmdk-group-heading]]:pb-0.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:text-faint" onKeyDown={event => { if (field && event.key === "Backspace" && !search) { event.preventDefault(); back(); } }}>
+          <div className="flex items-center gap-2 border-b border-border px-3 py-2 text-muted-foreground">
             {field
               ? <Button variant="ghost" size="icon-sm" aria-label="Back to search" onClick={back}><ChevronLeft size={17} /></Button>
               : <Search size={17} />}
-            <Command.Input value={search} onValueChange={setSearch} placeholder={field ? `Search ${leafLabel(field.label).toLowerCase()} values…` : "Search collections, names or IDs…"} autoFocus />
+            <Command.Input value={search} onValueChange={setSearch} placeholder={field ? `Search ${leafLabel(field.label).toLowerCase()} values…` : "Search collections, names or IDs…"} autoFocus className="h-7 w-full min-w-0 flex-1 border-0 bg-transparent text-[13px] text-foreground outline-none placeholder:text-faint" />
             <Dialog.Close className={buttonVariants({ variant: "ghost", size: "icon-sm" })} aria-label="Close search"><X size={16} /></Dialog.Close>
           </div>
-          <Command.List>
-            <Command.Empty>{field ? "No matching value." : "No matches. Try another name or ID."}</Command.Empty>
+          <Command.List className="max-h-[min(440px,60dvh)] overflow-auto p-1 [scrollbar-width:thin]">
+            <Command.Empty className={NOTE}>{field ? "No matching value." : "No matches. Try another name or ID."}</Command.Empty>
             {field && bulk
               ? <Command.Group heading={`Set ${leafLabel(field.label).toLowerCase()} for ${bulk.count} ${bulk.noun}`}>
-                {shownChoices.map(choice => <Command.Item key={choice.key} value={`choice:${choice.key}`} onSelect={() => apply(field, choice.value)}>
-                  {choice.thumb ? <Thumb spec={choice.thumb} size="s" alt="" /> : <span className="thumb" data-size="s"><span className="thumb-glyph"><SlidersHorizontal /></span></span>}
-                  <span>{choice.label}</span>
-                  {choice.key !== choice.label && choice.key !== "$clear" && <small>{choice.key}</small>}
+                {shownChoices.map(choice => <Command.Item key={choice.key} value={`choice:${choice.key}`} onSelect={() => apply(field, choice.value)} className={ITEM}>
+                  <Thumb spec={choice.thumb ?? { kind: "glyph", icon: SlidersHorizontal }} size="s" alt="" />
+                  <span className={ITEM_LABEL}>{choice.label}</span>
+                  {choice.key !== choice.label && choice.key !== "$clear" && <small className={ITEM_HINT}>{choice.key}</small>}
                 </Command.Item>)}
               </Command.Group>
               : <>
                 {bulk && bulk.fields.length > 0 && <Command.Group heading={`${bulk.count} ${bulk.noun} selected`}>
                   {bulk.fields.filter(candidate => !needle || candidate.label.toLowerCase().includes(needle)).map(candidate => {
                     const hotkey = hotkeyFor(bulk.collection, candidate.path);
-                    return <Command.Item key={candidate.key} value={`set:${candidate.key}`} onSelect={() => toStep(candidate)}>
-                      <span className="thumb" data-size="s"><span className="thumb-glyph"><SlidersHorizontal /></span></span>
-                      <span>Set {leafLabel(candidate.label).toLowerCase()}…</span>
-                      <small>{parentLabel(candidate.label) && `${parentLabel(candidate.label)} · `}{bulk.count} {bulk.noun}</small>
-                      {hotkey && <span className="command-hotkey"><kbd>{hotkey.key}</kbd></span>}
+                    return <Command.Item key={candidate.key} value={`set:${candidate.key}`} onSelect={() => toStep(candidate)} className={ITEM}>
+                      <Thumb spec={{ kind: "glyph", icon: SlidersHorizontal }} size="s" alt="" />
+                      <span className={ITEM_LABEL}>Set {leafLabel(candidate.label).toLowerCase()}…</span>
+                      <small className={ITEM_HINT}>{parentLabel(candidate.label) && `${parentLabel(candidate.label)} · `}{bulk.count} {bulk.noun}</small>
+                      {hotkey && <Kbd className="h-[18px] min-w-[18px] text-[11px] uppercase">{hotkey.key}</Kbd>}
                     </Command.Item>;
                   })}
                 </Command.Group>}
                 <Command.Group heading="Go to">
                   {views.filter(({ workspace, view }) => !needle || `${workspace.label} ${view.label}`.toLowerCase().includes(needle)).map(({ workspace, view }) => {
                     const Icon = workspace.icon;
-                    return <Command.Item key={`${workspace.key}/${view.key}`} value={`view:${workspace.key}/${view.key}`} onSelect={() => go(`${workspace.key}/${view.key}`)}>
-                      <span className="thumb" data-size="s"><span className="thumb-glyph"><Icon /></span></span>
-                      <span>{workspace.label} · {view.label}</span>
+                    return <Command.Item key={`${workspace.key}/${view.key}`} value={`view:${workspace.key}/${view.key}`} onSelect={() => go(`${workspace.key}/${view.key}`)} className={ITEM}>
+                      <Thumb spec={{ kind: "glyph", icon: Icon }} size="s" alt="" />
+                      <span className={ITEM_LABEL}>{workspace.label} · {view.label}</span>
                       <ArrowUpRight size={14} />
                     </Command.Item>;
                   })}
                 </Command.Group>
                 {groups.map(group => <Command.Group key={group.collection} heading={groupLabel(group.collection)}>
-                  {group.matches.map(r => <Command.Item key={`${r.collection}:${r.id}`} value={`${r.collection}:${r.id}`} onSelect={() => go(r.collection, r.id)}>
-                    <Thumb spec={r.summary.thumb} size="s" alt="" /><span>{r.summary.title}</span><small>{r.summary.subtitle ?? r.id}</small><ArrowUpRight size={14} />
+                  {group.matches.map(r => <Command.Item key={`${r.collection}:${r.id}`} value={`${r.collection}:${r.id}`} onSelect={() => go(r.collection, r.id)} className={ITEM}>
+                    <Thumb spec={r.summary.thumb} size="s" alt="" /><span className={ITEM_LABEL}>{r.summary.title}</span><small className={ITEM_HINT}>{r.summary.subtitle ?? r.id}</small><ArrowUpRight size={14} />
                   </Command.Item>)}
                 </Command.Group>)}
               </>}
-            {open && queries.some(q => q.isLoading) && <Command.Loading>Loading records…</Command.Loading>}
+            {open && queries.some(q => q.isLoading) && <Command.Loading className={NOTE}>Loading records…</Command.Loading>}
           </Command.List>
         </Command>
-        <p className="command-footer" id="command-help">
-          <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
-          <span><kbd>↵</kbd> to {field ? "apply" : "open"}</span>
-          <span><kbd>esc</kbd> to {field ? "go back" : "close"}</span>
+        <p className="flex items-center gap-3 border-t border-border px-3 py-[5px] text-[11px] text-faint [&>span]:inline-flex [&>span]:items-center [&>span]:gap-0.5" id="command-help">
+          <span><Kbd>↑</Kbd><Kbd>↓</Kbd>&nbsp;to move</span>
+          <span><Kbd>↵</Kbd>&nbsp;to {field ? "apply" : "open"}</span>
+          <span><Kbd>esc</Kbd>&nbsp;to {field ? "go back" : "close"}</span>
         </p>
       </Dialog.Content>
     </Dialog.Portal>

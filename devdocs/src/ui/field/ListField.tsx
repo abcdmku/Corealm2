@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { ChevronDown, ChevronRight, GripVertical, Plus, X } from "lucide-react";
 import { Field } from "./Field.js";
+import { ROW_COLUMNS, SheetLevel } from "../Sheet.js";
 import { Button } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
 import { move } from "./reorder.js";
@@ -182,14 +183,14 @@ export function ListField<T>({ label, hint, items, onChange, renderItem, renderA
         data-dragging={drag?.from === index || undefined} data-drop={dropSide} data-expanded={summarize ? open : undefined}
         aria-label={summary} onKeyDown={rowKeyDown(item, index)}>
         {ordered && <span className={cn("field-list-handle grid h-6 w-3.5 cursor-grab touch-none place-items-center text-faint select-none hover:text-muted-foreground", readOnly && "invisible", drag?.from === index && "cursor-grabbing")} title={readOnly ? undefined : "Drag, or Alt+Up/Down"} aria-hidden onPointerDown={handleDown(index)} onPointerMove={handleMove} onPointerUp={handleUp} onPointerCancel={handleCancel}><GripVertical size={12} /></span>}
-        <div className={cn("field-list-content flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-xs", contentClassName)}>
+        <SheetLevel.Provider value={false}><div className={cn("field-list-content flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-xs", contentClassName)}>
           {summarize
             ? <button type="button" className="field-list-summary inline-flex min-h-6 cursor-pointer items-center gap-1 text-left text-xs text-foreground hover:text-primary [&_svg]:text-faint" tabIndex={-1} aria-expanded={open} onClick={() => toggle(item, index)}>{open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}<span>{summary}</span></button>
             : renderItem(item, api)}
-        </div>
+        </div></SheetLevel.Provider>
         {renderAside && <div className="field-list-aside flex items-center gap-1.5">{renderAside(item, api)}</div>}
         {canRemove && <Button variant="ghost" size="icon-xs" className="field-list-remove opacity-0 group-focus-within/row:opacity-100 group-hover/row:opacity-100 hover:text-destructive" tabIndex={-1} title={removeLabel?.(item, index) ?? "Remove"} aria-label={removeLabel?.(item, index) ?? `Remove row ${index + 1}`} onClick={() => remove(index)}><X /></Button>}
-        {summarize && open && <div className={cn("field-list-expanded col-span-full my-0.5 flex flex-col gap-px border-l-2 border-border pl-3", ordered ? "ml-6" : "ml-1.5")}>{renderItem(item, api)}</div>}
+        {summarize && open && <SheetLevel.Provider value><div className={cn("field-list-expanded col-span-full my-0.5 content-start gap-y-px border-l-2 border-border pl-3", ROW_COLUMNS, ordered ? "ml-6" : "ml-1.5")}>{renderItem(item, api)}</div></SheetLevel.Provider>}
       </div>;
     })}
     {/* Empty, the list is one line: what it holds (nothing) and the way to add the first entry. */}

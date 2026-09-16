@@ -9,9 +9,17 @@ import type { AppProps, ContentRow } from "../model/contracts.js";
 import { collectionQuery, collectionsQuery } from "../api/client.js";
 import { contentRows, rowId, rowName } from "../model/rows.js";
 import type { ApiDiagnostic, CollectionResponse, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
-import { Button } from "../components/ui/index.js";
+import { Button, Input } from "../components/ui/index.js";
 
 type ActionKind = "create" | "duplicate" | "variant" | "rename" | "delete";
+
+/** Prose under a control in the dialog. */
+const HELP = "flex items-center gap-1 text-[11px] leading-snug text-muted-foreground";
+/** A failed request: the message in a red box. */
+const ERROR_BOX = "flex items-start gap-2 rounded-md border border-destructive bg-destructive-soft px-2.5 py-2 text-xs leading-snug [&>svg]:mt-px [&>svg]:shrink-0 [&>svg]:text-destructive";
+/** A titled list of diagnostics, references or warnings. */
+const DIAGNOSTICS = "flex flex-col gap-1 rounded-md border border-border bg-card px-2.5 py-2 [&_h3]:text-[13px] [&_h3]:font-semibold [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-0.5 [&_ul]:pl-3.5 [&_li]:list-disc [&_li]:text-xs [&_li]:leading-normal";
+const LABEL = "grid gap-1 text-[11px] text-muted-foreground";
 
 export interface RecordActionsProps {
   collection: string;
@@ -318,7 +326,7 @@ export default function RecordActions({ collection, record, recordId, mode = "re
 
   if (!canOpen) return null;
   return <>
-    <div className="editor-actions" aria-label={`${displayCollection(collection)} record actions`}>
+    <div className="flex items-center gap-1" aria-label={`${displayCollection(collection)} record actions`}>
       {canCreate && <Button variant={compact ? "default" : "secondary"} size="sm" data-record-action="create" aria-label={`Create ${displayCollection(collection)} record`} onClick={() => openAction("create")}><Plus size={14} />Create</Button>}
       {canRecordAction && compact && <Menu trigger={<Button variant="secondary" size="sm" aria-label="Record actions"><MoreHorizontal size={14} />Actions</Button>} items={[
         { label: "Duplicate", icon: <Copy size={14} />, onSelect: () => openAction("duplicate") },
@@ -374,37 +382,41 @@ function ActionDialog({ action, collection, currentId, draftId, draftName, previ
   const title = actionLabel(action);
   const isDelete = action === "delete";
   const hasErrors = diagnostics.some(diagnostic => diagnostic.severity === "error");
-  return <div className="dialog-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
-    <section className="command-dialog" role="dialog" aria-modal="true" aria-labelledby="record-action-title" style={{ top: "min(12dvh, 110px)", maxHeight: "76dvh", overflow: "auto" }}>
-      <header className="command-input-wrap"><div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}><span style={{ color: "var(--accent)" }}>{actionIcon(action)}</span><h2 id="record-action-title" style={{ fontSize: 14, fontWeight: 550 }}>{title} {currentId && <code style={{ marginLeft: 5, color: "var(--muted)", fontSize: 10 }}>{currentId}</code>}</h2></div><Button variant="ghost" size="icon-sm" aria-label="Close" onClick={onClose}><X size={18} /></Button></header>
-      <div style={{ padding: 18, display: "grid", gap: 15 }}>
-        {!isDelete && !preview && <div style={{ display: "grid", gap: 12 }}>
-          <label style={{ display: "grid", gap: 6, fontSize: 11, color: "var(--muted)" }}>New ID<input autoFocus value={draftId} onChange={event => onDraftId(event.target.value)} aria-label="New ID" placeholder="letters, numbers, hyphens" /></label>
-          <label style={{ display: "grid", gap: 6, fontSize: 11, color: "var(--muted)" }}>Display name<input value={draftName} onChange={event => onDraftName(event.target.value)} aria-label="Display name" placeholder="Optional" /></label>
-          <p className="editor-help">The new record starts from the current definition. Preview validates the complete transaction before anything is written.</p>
+  return <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[2px]" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
+    <section className="fixed top-[min(12dvh,110px)] left-1/2 z-[51] flex max-h-[76dvh] w-[min(620px,calc(100vw-32px))] -translate-x-1/2 flex-col overflow-hidden rounded-lg border border-border bg-popover shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="record-action-title">
+      <header className="flex min-h-10 items-center gap-2 border-b border-border px-3 py-1.5">
+        <span className="text-primary [&_svg]:size-4">{actionIcon(action)}</span>
+        <h2 id="record-action-title" className="flex min-w-0 flex-1 items-baseline gap-1.5 text-[13px] font-semibold">{title} {currentId && <code className="truncate font-mono text-[11px] font-normal text-muted-foreground">{currentId}</code>}</h2>
+        <Button variant="ghost" size="icon-sm" aria-label="Close" onClick={onClose}><X /></Button>
+      </header>
+      <div className="grid min-h-0 gap-3 overflow-auto p-3">
+        {!isDelete && !preview && <div className="grid gap-2.5">
+          <label className={LABEL}>New ID<Input autoFocus className="font-mono" value={draftId} onChange={event => onDraftId(event.target.value)} aria-label="New ID" placeholder="letters, numbers, hyphens" /></label>
+          <label className={LABEL}>Display name<Input value={draftName} onChange={event => onDraftName(event.target.value)} aria-label="Display name" placeholder="Optional" /></label>
+          <p className={HELP}>The new record starts from the current definition. Preview validates the complete transaction before anything is written.</p>
         </div>}
         {isDelete && !preview && <DeleteConsumers collection={collection} consumers={consumers} loading={consumerLoading} error={consumerError} onNavigate={onNavigate} />}
-        {error && <div className="editor-error-summary" role="alert"><AlertCircle size={17} /><p>{error}</p></div>}
-        {diagnostics.length > 0 && <div className="editor-diagnostics" aria-label="Transaction diagnostics"><h3>Review this transaction</h3><ul>{diagnostics.map((diagnostic, index) => <li key={`${diagnostic.path}:${index}`}><span className="mono">{diagnostic.path || "record"}</span> {diagnostic.message}</li>)}</ul></div>}
+        {error && <div className={ERROR_BOX} role="alert"><AlertCircle size={15} /><p>{error}</p></div>}
+        {diagnostics.length > 0 && <div className={DIAGNOSTICS} aria-label="Transaction diagnostics"><h3>Review this transaction</h3><ul>{diagnostics.map((diagnostic, index) => <li key={`${diagnostic.path}:${index}`}><span className="font-mono text-[11px]">{diagnostic.path || "record"}</span> {diagnostic.message}</li>)}</ul></div>}
         {preview && <TransactionPreview preview={preview} />}
       </div>
-      <footer style={{ display: "flex", justifyContent: "flex-end", gap: 9, padding: "12px 18px", borderTop: "1px solid var(--border)" }}>
+      <footer className="flex justify-end gap-2 border-t border-border px-3 py-2">
         <Button variant="secondary" size="sm" onClick={onClose} disabled={Boolean(busy)}>Cancel</Button>
-        {!preview && <Button variant="secondary" size="sm" className="editor-save" onClick={onPreview} disabled={Boolean(busy) || (isDelete && (consumerLoading || Boolean(consumerError) || consumers.length > 0)) || hasErrors}>{busy === "preview" ? <><LoaderCircle size={14} />Previewing…</> : <><Eye size={14} />Preview transaction</>}</Button>}
-        {preview && <Button variant="secondary" size="sm" className="editor-save" onClick={onSave} disabled={Boolean(busy) || hasErrors}>{busy === "save" ? <><LoaderCircle size={14} />Saving…</> : <><Check size={14} />Save transaction</>}</Button>}
+        {!preview && <Button variant="default" size="sm" onClick={onPreview} disabled={Boolean(busy) || (isDelete && (consumerLoading || Boolean(consumerError) || consumers.length > 0)) || hasErrors}>{busy === "preview" ? <><LoaderCircle className="animate-spin motion-reduce:animate-none" />Previewing…</> : <><Eye />Preview transaction</>}</Button>}
+        {preview && <Button variant="default" size="sm" onClick={onSave} disabled={Boolean(busy) || hasErrors}>{busy === "save" ? <><LoaderCircle className="animate-spin motion-reduce:animate-none" />Saving…</> : <><Check />Save transaction</>}</Button>}
       </footer>
     </section>
   </div>;
 }
 
 function DeleteConsumers({ collection, consumers, loading, error, onNavigate }: { collection: string; consumers: readonly ConsumerReference[]; loading: boolean; error: Error | false | null | undefined; onNavigate: AppProps["navigate"] }) {
-  if (loading) return <p className="editor-message" role="status"><LoaderCircle size={14} /> Checking records that use this ID…</p>;
-  if (error) return <div className="editor-error-summary" role="alert"><AlertCircle size={17} /><p>References could not be checked. Reload the list before deleting this record.</p></div>;
-  if (consumers.length > 0) return <div className="editor-diagnostics" role="alert"><h3>Resolve references before deleting</h3><p className="editor-help">{consumers.length} record{consumers.length === 1 ? " uses" : "s use"} this {displayCollection(collection)} ID.</p><ul>{consumers.map((consumer, index) => <li key={`${consumer.collection}:${consumer.recordId}:${consumer.field}:${index}`}><button className="reference-link" type="button" onClick={() => onNavigate(consumer.collection, consumer.recordId)}>{consumer.recordName} <code>{consumer.recordId}</code></button><span className="muted">{displayCollection(consumer.collection)} · {consumer.field}</span></li>)}</ul></div>;
-  return <p className="editor-help" role="status">No loaded content records reference this ID. Preview will run the full cross collection check before saving.</p>;
+  if (loading) return <p className="flex items-center gap-1.5 py-1.5 text-xs text-muted-foreground" role="status"><LoaderCircle size={14} className="animate-spin motion-reduce:animate-none" /> Checking records that use this ID…</p>;
+  if (error) return <div className={ERROR_BOX} role="alert"><AlertCircle size={15} /><p>References could not be checked. Reload the list before deleting this record.</p></div>;
+  if (consumers.length > 0) return <div className={DIAGNOSTICS} role="alert"><h3>Resolve references before deleting</h3><p className={HELP}>{consumers.length} record{consumers.length === 1 ? " uses" : "s use"} this {displayCollection(collection)} ID.</p><ul>{consumers.map((consumer, index) => <li key={`${consumer.collection}:${consumer.recordId}:${consumer.field}:${index}`}><Button variant="link" size="inline" className="gap-1 text-left whitespace-normal [overflow-wrap:anywhere]" onClick={() => onNavigate(consumer.collection, consumer.recordId)}>{consumer.recordName} <code className="font-mono text-[11px] text-faint">{consumer.recordId}</code></Button><span className="ml-1.5 text-[11px] text-faint">{displayCollection(consumer.collection)} · {consumer.field}</span></li>)}</ul></div>;
+  return <p className={HELP} role="status">No loaded content records reference this ID. Preview will run the full cross collection check before saving.</p>;
 }
 
 function TransactionPreview({ preview }: { preview: TransactionPreview }) {
   const warnings = preview.result.diagnostics.filter(diagnostic => diagnostic.severity === "warning");
-  return <section className="editor-diagnostics" aria-label="Transaction preview" style={{ margin: 0 }}><h3>Ready to save</h3><p className="editor-help">{preview.result.affected.length || preview.changes.length} affected record{(preview.result.affected.length || preview.changes.length) === 1 ? "" : "s"}. The server validated this draft without writing it.</p>{warnings.length > 0 && <ul>{warnings.map((warning, index) => <li key={`${warning.path}:${index}`}><span className="mono">{warning.path || "content"}</span> {warning.message}</li>)}</ul>}{preview.result.compiled !== undefined && <p className="editor-help"><RefreshCw size={12} /> Compiled preview available for the affected runtime records.</p>}</section>;
+  return <section className={DIAGNOSTICS} aria-label="Transaction preview"><h3>Ready to save</h3><p className={HELP}>{preview.result.affected.length || preview.changes.length} affected record{(preview.result.affected.length || preview.changes.length) === 1 ? "" : "s"}. The server validated this draft without writing it.</p>{warnings.length > 0 && <ul>{warnings.map((warning, index) => <li key={`${warning.path}:${index}`}><span className="font-mono text-[11px]">{warning.path || "content"}</span> {warning.message}</li>)}</ul>}{preview.result.compiled !== undefined && <p className={HELP}><RefreshCw size={12} /> Compiled preview available for the affected runtime records.</p>}</section>;
 }

@@ -50,3 +50,6 @@ export function glyphColor(feature: Feature, lightness = 58): string {
   const grey = feature.layer === "regions" || (feature.layer === "locations" && feature.glyph === "junction") || feature.layer === "obstacles" || (feature.layer === "settlements" && feature.glyph === "building");
   return `hsl(${glyphHue(feature)} ${grey ? 8 : 55}% ${lightness}%)`;
 }
+
+/** The round glyph beside a name in the list and the inspector; its background is `glyphColor(feature, 40)`. */
+export const GLYPH_DISC = "inline-grid size-[18px] shrink-0 place-items-center rounded-full text-white";

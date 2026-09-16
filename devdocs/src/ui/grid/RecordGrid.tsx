@@ -13,6 +13,7 @@ import { usePeek } from "../Peek.js";
 import { countText, defaultColumns, defaultVisible, isMixed, sortRows, type GridColumn } from "./columns.js";
 import { applyEdit, type CellEdit } from "./edits.js";
 import { Button, Checkbox } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 
 /*
   One collection as an editable table (docs/devdocs-inputs.md §3.7). Rows are records, columns are
@@ -51,6 +52,22 @@ interface Active { row: number; col: number }
 type Sort = { key: string; direction: "asc" | "desc" } | undefined;
 
 const ROW = 28;
+
+const TH = "flex h-7 min-w-0 items-center gap-1 border-r border-border-subtle px-2.5 text-left text-[11px] font-semibold whitespace-nowrap text-muted-foreground select-none [&_small]:font-normal [&_small]:text-faint [&_svg]:flex-none [&_svg]:text-primary [&>span]:min-w-0 [&>span]:truncate";
+/**
+ * A cell holds a field component in a compact skin: the column header is the label, the control
+ * fills the cell and stays borderless until it has focus, and an error floats under the cell
+ * instead of growing the row.
+ */
+const CELL = cn(
+  "relative flex h-7 min-w-0 items-center border-r border-b border-border-subtle px-[3px] text-xs outline-none",
+  "focus:z-1 focus:shadow-[inset_0_0_0_1px_var(--accent)] focus-within:z-1 data-dirty:shadow-[inset_2px_0_0_var(--accent)] data-dirty:focus:shadow-[inset_2px_0_0_var(--accent),inset_0_0_0_1px_var(--accent)] data-mixed:text-muted-foreground",
+  "[&_.field]:w-full [&_.field]:min-w-0 [&_.field-label]:sr-only [&_.field-control]:min-h-6 [&_.field-control]:gap-[3px] [&_.field-dot]:flex-none [&_.field-revert]:flex-none [&_.field-toggle]:pl-1 [&_.field-static]:px-[7px]",
+  "[&_.field-input]:h-6 [&_.field-input]:w-full [&_.field-input]:max-w-none [&_.field-input]:border-transparent [&_.field-input]:bg-transparent [&_.field-input]:px-1.5 [&_.field-input]:shadow-none [&_.field-input_input]:px-0 [&_.field-input:focus-within]:border-ring [&_.field-input:focus-within]:bg-background [&_.field-input[data-invalid]]:border-destructive [&_.field-input_input::placeholder]:[text-align:inherit]",
+  "[&_.field-select]:h-6 [&_.field-select]:border-transparent [&_.field-select]:bg-transparent [&_.field-select]:pr-6 [&_.field-select]:pl-1.5 [&_.field-select]:shadow-none [&_.field-select:focus-visible]:border-ring [&_.field-select:focus-visible]:bg-background [&_.field-select[aria-invalid=true]]:border-destructive [&_[data-slot=native-select]]:w-full",
+  "[&_.ref-control]:w-full [&_.ref-control]:flex-1 [&_.ref-chip]:h-[22px] [&_.ref-chip]:min-w-0 [&_.ref-chip]:flex-1",
+  "[&_.field-error]:absolute [&_.field-error]:top-full [&_.field-error]:left-0 [&_.field-error]:z-3 [&_.field-error]:rounded-sm [&_.field-error]:border [&_.field-error]:border-destructive [&_.field-error]:bg-card [&_.field-error]:px-1.5 [&_.field-error]:py-0.5 [&_.field-error]:whitespace-nowrap",
+);
 const CHECK_COLUMN = 28;
 const same = (a: unknown, b: unknown): boolean => a === b || JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
@@ -242,29 +259,29 @@ export function RecordGrid({ collection, rows, schema, idKey = "id", revision, c
   const allSelected = selectableIds.length > 0 && selectableIds.every(id => selected.has(id));
   const template = `${CHECK_COLUMN}px ${shown.map(column => `${column.width}px`).join(" ")} minmax(0, 1fr)`;
 
-  return <div className="rg-frame" ref={rootRef} onKeyDownCapture={onKeyDownCapture} onKeyDown={onKeyDown} onFocus={onFocus} onMouseDown={onMouseDown}>
-    <div className="rg-toolbar">
-      <span className="rg-summary">{list.length} {list.length === 1 ? "row" : "rows"}{selected.size ? ` · ${selected.size} selected` : ""}{sort ? ` · sorted by ${allColumns.find(column => column.key === sort.key)?.label.toLowerCase() ?? sort.key}` : ""}</span>
+  return <div className="flex max-w-full min-w-0 flex-col overflow-hidden rounded-md border border-border bg-card" ref={rootRef} onKeyDownCapture={onKeyDownCapture} onKeyDown={onKeyDown} onFocus={onFocus} onMouseDown={onMouseDown}>
+    <div className="flex h-[30px] items-center gap-2 border-b border-border-subtle pr-1.5 pl-2.5 text-[11px] text-muted-foreground">
+      <span className="min-w-0 flex-1 truncate font-mono">{list.length} {list.length === 1 ? "row" : "rows"}{selected.size ? ` · ${selected.size} selected` : ""}{sort ? ` · sorted by ${allColumns.find(column => column.key === sort.key)?.label.toLowerCase() ?? sort.key}` : ""}</span>
       <ColumnChooser columns={allColumns} visible={visible} onChange={setVisible} />
     </div>
-    <div className="rg-scroll" ref={scrollRef}>
-      <div className="rg-table" role="grid" aria-rowcount={list.length} aria-colcount={shown.length} aria-multiselectable style={{ "--rg-cols": template } as CSSProperties}>
-        <div className="rg-head" role="row">
-          <span className="rg-th rg-th-check" role="columnheader">
+    <div className="relative max-h-[calc(100dvh-250px)] min-h-40 overflow-auto [scrollbar-width:thin]" ref={scrollRef}>
+      <div className="w-max min-w-full" role="grid" aria-rowcount={list.length} aria-colcount={shown.length} aria-multiselectable style={{ "--rg-cols": template } as CSSProperties}>
+        <div className="sticky top-0 z-2 grid h-7 grid-cols-(--rg-cols) border-b border-border bg-secondary" role="row">
+          <span className={cn(TH, "justify-center px-0")} role="columnheader">
             {!readOnly && selectableIds.length > 0 && <Checkbox aria-label={allSelected ? "Clear selection" : "Select all rows"} checked={allSelected} onCheckedChange={() => select(allSelected ? [] : selectableIds)} />}
           </span>
-          {shown.map(column => <button key={column.key} type="button" role="columnheader" className="rg-th" aria-sort={sort?.key === column.key ? (sort.direction === "asc" ? "ascending" : "descending") : "none"} title={column.spec.help ? `${column.label} · ${column.spec.help}` : column.label} onClick={() => toggleSort(column.key)}>
+          {shown.map(column => <button key={column.key} type="button" role="columnheader" className={cn(TH, column.kind === "number" && "justify-end", "cursor-pointer hover:bg-accent hover:text-foreground aria-[sort=ascending]:text-foreground aria-[sort=descending]:text-foreground")} aria-sort={sort?.key === column.key ? (sort.direction === "asc" ? "ascending" : "descending") : "none"} title={column.spec.help ? `${column.label} · ${column.spec.help}` : column.label} onClick={() => toggleSort(column.key)}>
             <span>{column.label}</span>{column.spec.unit && <small>{column.spec.unit}</small>}
             {sort?.key === column.key && (sort.direction === "asc" ? <ArrowUp size={11} /> : <ArrowDown size={11} />)}
           </button>)}
-          <span className="rg-th rg-th-fill" role="columnheader" aria-hidden />
+          <span className={cn(TH, "border-r-0")} role="columnheader" aria-hidden />
         </div>
-        <div className="rg-body" style={{ height: virtualizer.getTotalSize() }}>
+        <div className="relative" style={{ height: virtualizer.getTotalSize() }}>
           {items.map(item => {
             const record = list[item.index]!;
             const isSelected = selected.has(record.id);
-            return <div key={item.key} role="row" className="rg-row" aria-rowindex={item.index + 1} aria-selected={isSelected || undefined} data-selected={isSelected || undefined} data-locked={record.locked || undefined} style={{ transform: `translateY(${item.start}px)`, height: item.size }}>
-              <span className="rg-cell rg-cell-check" role="gridcell">
+            return <div key={item.key} role="row" className="absolute top-0 left-0 grid w-full grid-cols-(--rg-cols) hover:bg-accent data-locked:text-muted-foreground data-selected:bg-selected" aria-rowindex={item.index + 1} aria-selected={isSelected || undefined} data-selected={isSelected || undefined} data-locked={record.locked || undefined} style={{ transform: `translateY(${item.start}px)`, height: item.size }}>
+              <span className={cn(CELL, "justify-center px-0")} role="gridcell">
                 {!record.locked && <Checkbox aria-label={`Select ${record.id}`} checked={isSelected} tabIndex={-1} onClick={event => { event.preventDefault(); toggleRow(item.index, event.shiftKey); }} />}
               </span>
               {shown.map((column, col) => {
@@ -275,7 +292,7 @@ export function RecordGrid({ collection, rows, schema, idKey = "id", revision, c
                   resolved={resolveCell?.(record.draft, column.path)} onEdit={change => edit(item.index, column, change)} onOpen={() => onOpen(record.id)}
                   onOpenRef={ref => peek.open(ref)} />;
               })}
-              <span className="rg-cell rg-cell-fill" role="gridcell" aria-hidden />
+              <span className={cn(CELL, "border-r-0")} role="gridcell" aria-hidden />
             </div>;
           })}
         </div>
@@ -309,11 +326,11 @@ function Cell({ row, col, column, record, value, active, dirty, mixed, resolved,
   const set = (next: unknown) => onEdit({ kind: "set", value: next });
   const revert = resolved && !locked ? (next: unknown) => set(next) : undefined;
   let body: ReactNode;
-  if (column.kind === "count") body = <button type="button" className="rg-count" tabIndex={-1} onClick={onOpen} title="Open record">{countText(value, column.spec)}</button>;
-  else if (column.kind === "static" || locked) body = <span className={`rg-static${column.spec.readOnly ? " mono" : ""}`} title={typeof value === "string" ? value : undefined}>{staticText(value, column)}</span>;
+  if (column.kind === "count") body = <button type="button" className="h-6 min-w-0 flex-1 cursor-pointer rounded-sm px-[7px] text-left font-mono text-[11px] text-muted-foreground hover:bg-accent hover:text-link" tabIndex={-1} onClick={onOpen} title="Open record">{countText(value, column.spec)}</button>;
+  else if (column.kind === "static" || locked) body = <span className={cn("min-w-0 flex-1 truncate px-[7px]", column.spec.readOnly && "font-mono text-[11px] text-muted-foreground")} title={typeof value === "string" ? value : undefined}>{staticText(value, column)}</span>;
   else if (column.kind === "ref") body = <>
     <RefField kind={column.spec.ref} value={mixed ? undefined : typeof value === "string" ? value : undefined} onChange={id => set(id)} label={column.label} optional={column.spec.optional} compact resolved={resolved as Resolved<string | undefined> | undefined} onRevert={revert ? () => revert(resolved?.chain[1]?.value) : undefined} onOpenRef={onOpenRef} />
-    {mixed && <span className="rg-mixed" title="Selected records disagree">Mixed</span>}
+    {mixed && <span className="ml-0.5 flex-none text-[11px] text-muted-foreground" title="Selected records disagree">Mixed</span>}
   </>;
   else body = <Field label={column.label} compact mixed={mixed} resolved={resolved} onRevert={revert} onOpenRef={onOpenRef} unit={column.spec.unit}>
     {column.kind === "number" && <NumberField value={typeof value === "number" ? value : undefined} mixed={mixed} onChange={next => set(next)} onMixedEdit={(_, op) => onEdit({ kind: "op", op, rules })} integer={column.spec.integer} min={column.spec.min} max={column.spec.max} step={column.spec.step} optional={column.spec.optional} width="full" ariaLabel={column.label} />}
@@ -322,7 +339,7 @@ function Cell({ row, col, column, record, value, active, dirty, mixed, resolved,
       onChange={next => { if (next === undefined && !column.spec.optional) return; set(next === undefined ? undefined : coerceChoice(next, column)); }} />}
     {column.kind === "boolean" && <ToggleField value={Boolean(value)} onChange={next => set(next)} ariaLabel={column.label} />}
   </Field>;
-  return <div role="gridcell" className="rg-cell" tabIndex={active ? 0 : -1} data-row={row} data-col={col} data-kind={column.kind} data-active={active || undefined} data-dirty={dirty || undefined} data-mixed={mixed || undefined} data-locked={locked || undefined}
+  return <div role="gridcell" className={CELL} tabIndex={active ? 0 : -1} data-row={row} data-col={col} data-kind={column.kind} data-active={active || undefined} data-dirty={dirty || undefined} data-mixed={mixed || undefined} data-locked={locked || undefined}
     aria-colindex={col + 1} aria-readonly={locked || column.kind === "static" || column.kind === "count" || undefined}
     onDoubleClick={column.kind === "static" || column.kind === "count" || locked ? onOpen : undefined}>
     {body}
@@ -347,13 +364,13 @@ function ColumnChooser({ columns, visible, onChange }: { columns: readonly GridC
   const [open, setOpen] = useState(false);
   const toggle = (key: string) => onChange(visible.includes(key) ? visible.filter(candidate => candidate !== key) : columns.filter(column => column.key === key || visible.includes(column.key)).map(column => column.key));
   return <Popover.Root open={open} onOpenChange={setOpen}>
-    <Popover.Trigger asChild><Button variant="secondary" size="sm" aria-label="Choose columns"><Columns3 size={13} /> Columns <small>{visible.length}/{columns.length}</small></Button></Popover.Trigger>
+    <Popover.Trigger asChild><Button variant="secondary" size="sm" aria-label="Choose columns"><Columns3 size={13} /> Columns <small className="font-mono text-[11px] text-faint">{visible.length}/{columns.length}</small></Button></Popover.Trigger>
     <Popover.Portal>
-      <Popover.Content className="popover rg-columns" align="end" sideOffset={6} collisionPadding={12}>
-        <div className="rg-columns-list">
-          {columns.map(column => <label key={column.key} className="rg-columns-item"><Checkbox checked={visible.includes(column.key)} disabled={visible.length === 1 && visible.includes(column.key)} onCheckedChange={() => toggle(column.key)} /><span>{column.label}</span><small>{column.kind}</small></label>)}
+      <Popover.Content className="popover z-[60] w-[260px] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-xl shadow-shadow" align="end" sideOffset={6} collisionPadding={12}>
+        <div className="flex max-h-80 flex-col gap-px overflow-y-auto p-1.5 [scrollbar-width:thin]">
+          {columns.map(column => <label key={column.key} className="flex h-[26px] cursor-pointer items-center gap-2 rounded-sm px-1.5 text-xs hover:bg-accent"><Checkbox checked={visible.includes(column.key)} disabled={visible.length === 1 && visible.includes(column.key)} onCheckedChange={() => toggle(column.key)} /><span className="min-w-0 flex-1 truncate">{column.label}</span><small className="font-mono text-[11px] text-faint">{column.kind}</small></label>)}
         </div>
-        <div className="popover-footer"><Button variant="link" size="inline" onClick={() => onChange(defaultVisible(columns))}>Reset to default</Button><span className="spacer" /><Button variant="link" size="inline" onClick={() => onChange(columns.map(column => column.key))}>Show all</Button></div>
+        <div className="flex items-center gap-2.5 border-t border-border-subtle px-2 py-1 text-[11px] text-faint"><Button variant="link" size="inline" onClick={() => onChange(defaultVisible(columns))}>Reset to default</Button><span className="flex-1" /><Button variant="link" size="inline" onClick={() => onChange(columns.map(column => column.key))}>Show all</Button></div>
       </Popover.Content>
     </Popover.Portal>
   </Popover.Root>;

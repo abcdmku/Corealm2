@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { WORLD_MAP_DETAIL_RENDITIONS, WORLD_MAP_IMAGE_BOUNDS } from "../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../model/gameUrl.js";
+import { cn } from "../lib/utils.js";
 
 /*
   A record's places on the world map: a crop of the map fitted around every point, each point a
@@ -18,7 +19,7 @@ const PAD = 0.22;
 /** Half-metre pixels: crops a few hundred metres across still read as ground, not blur. */
 const IMAGE = WORLD_MAP_DETAIL_RENDITIONS.find(rendition => rendition.id === "detail-3300") ?? WORLD_MAP_DETAIL_RENDITIONS.at(-1)!;
 
-export function PointsMap({ points, onOpen, onOpenAt, className = "" }: { points: readonly MapPoint[]; onOpen?: (point: MapPoint) => void; onOpenAt?: (x: number, z: number) => void; className?: string }) {
+export function PointsMap({ points, onOpen, onOpenAt, className }: { points: readonly MapPoint[]; onOpen?: (point: MapPoint) => void; onOpenAt?: (x: number, z: number) => void; className?: string }) {
   const view = useMemo(() => {
     if (!points.length) return undefined;
     const xs = points.map(point => point.x), zs = points.map(point => point.z);
@@ -45,14 +46,14 @@ export function PointsMap({ points, onOpen, onOpenAt, className = "" }: { points
     backgroundPosition: `${((view.x0 - minX) / (imageSpanX - view.spanX)) * 100 || 0}% ${((view.z0 - minZ) / (imageSpanZ - view.spanZ)) * 100 || 0}%`,
   };
   const scale = Math.round(view.spanX);
-  return <div className={`points-map ${className}`.trim()} style={style} role="img" aria-label={`Map of ${points.length} ${points.length === 1 ? "place" : "places"}`}
+  return <div className={cn("points-map relative w-full cursor-crosshair overflow-hidden rounded-md border border-border bg-art bg-no-repeat [container-type:inline-size] focus-within:border-primary", className)} style={style} role="img" aria-label={`Map of ${points.length} ${points.length === 1 ? "place" : "places"}`}
     onClick={event => { if (!onOpenAt || event.target !== event.currentTarget) return; const box = event.currentTarget.getBoundingClientRect(); onOpenAt(view.x0 + ((event.clientX - box.left) / box.width) * view.spanX, view.z0 + ((event.clientY - box.top) / box.height) * view.spanZ); }}>
-    {points.map(point => <button type="button" key={point.id} className={`points-map-pin${point.selected ? " is-selected" : ""}`} style={{ left: `${px(point.x)}%`, top: `${pz(point.z)}%` }} title={point.label} aria-label={point.label} onClick={() => onOpen?.(point)}>
-      {point.radius ? <span className="points-map-radius" style={{ width: `${(point.radius * 2 / view.spanX) * 100}cqw` }} /> : null}
-      <span className="points-map-dot" />
-      <span className="points-map-label">{point.label}</span>
+    {points.map(point => <button type="button" key={point.id} className="group absolute grid size-0 -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center overflow-visible [&>*]:[grid-area:1/1]" style={{ left: `${px(point.x)}%`, top: `${pz(point.z)}%` }} title={point.label} aria-label={point.label} onClick={() => onOpen?.(point)}>
+      {point.radius ? <span className="pointer-events-none aspect-square rounded-full border border-[hsl(38_80%_65%/0.7)] bg-[hsl(38_80%_60%/0.18)]" style={{ width: `${(point.radius * 2 / view.spanX) * 100}cqw` }} /> : null}
+      <span className={cn("size-2.5 rounded-full bg-primary shadow-[0_0_0_2px_#0009,0_0_0_3px_#fff8] transition-transform group-hover:scale-130", point.selected && "scale-130")} />
+      <span className="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 text-[11px] font-semibold whitespace-nowrap text-white [text-shadow:0_0_3px_#000,0_0_6px_#000]">{point.label}</span>
     </button>)}
-    {(view.x0 + view.spanX < minX || view.x0 > maxX || view.z0 + view.spanZ < minZ || view.z0 > maxZ) && <span className="points-map-note">Beyond the drawn map</span>}
-    <span className="points-map-scale">{scale} m across</span>
+    {(view.x0 + view.spanX < minX || view.x0 > maxX || view.z0 + view.spanZ < minZ || view.z0 > maxZ) && <span className="pointer-events-none absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-muted-foreground">Beyond the drawn map</span>}
+    <span className="pointer-events-none absolute right-1.5 bottom-1 font-mono text-[11px] text-white [text-shadow:0_0_3px_#000]">{scale} m across</span>
   </div>;
 }

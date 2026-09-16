@@ -3,6 +3,8 @@ import { ChoiceField, normalizeOptions, type ChoiceOption } from "./ChoiceField.
 import { ListField } from "./ListField.js";
 import { TextField } from "./TextField.js";
 
+import { cn } from "../../lib/utils.js";
+
 /*
   A keyed map (skill → level, slot → item) as rows of `key | value`. With `keys` the key cell is a
   choice of the keys not yet used and the add row is "Add skill…" over the same set; without them
@@ -59,6 +61,6 @@ export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "ke
           ? <ChoiceField value={key} options={[...listed.filter(option => option.value === key), ...remaining]} readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => { if (next) rename(api.index, next); }} />
           : <TextField value={key} width="short" readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => rename(api.index, next)} />}
       </span>
-      <span className="inline-flex min-w-0 items-center gap-1.5">{renderValue(key, current, next => api.update([key, next]))}</span>
+      <span className="min-w-0 inline-flex items-center gap-1.5">{renderValue(key, current, next => api.update([key, next]))}</span>
     </>} />;
 }

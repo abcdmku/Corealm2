@@ -4,10 +4,13 @@ import { ChevronRight } from "lucide-react";
 import type { ContentRow } from "../model/contracts.js";
 import { rowId, rowName } from "../model/rows.js";
 import { summarize, type RecordSummary, type SummaryContext } from "../model/summaries.js";
+import { ListRow } from "./ListRow.js";
 import { Thumb } from "./Thumb.js";
 import { Badge } from "../components/ui/index.js";
 import { chipVariants } from "../components/ui/chip.js";
 import { labelFor } from "./library.js";
+import { cn } from "../lib/utils.js";
+
 
 interface HoverState { x: number; y: number }
 
@@ -46,14 +49,14 @@ export function HoverCard({ summary, collection, id, at }: { summary: RecordSumm
   const width = 260;
   const left = Math.min(at.x + 14, window.innerWidth - width - 8);
   const top = Math.min(at.y + 14, window.innerHeight - 200);
-  return createPortal(<div className="hover-card" style={{ left, top, width }} role="presentation">
-    <div className="hover-card-head">
+  return createPortal(<div className="pointer-events-none fixed z-[70] rounded-md border border-border bg-popover p-2 text-xs shadow-lg shadow-shadow" style={{ left, top, width }} role="presentation">
+    <div className="mb-1.5 flex items-center gap-2">
       <Thumb spec={summary.thumb} size="l" />
-      <div style={{ minWidth: 0 }}><strong>{summary.title}</strong><small>{labelFor(collection)} · {id}</small></div>
+      <div className="min-w-0"><strong className="block truncate text-xs">{summary.title}</strong><small className="font-mono text-[11px] text-faint">{labelFor(collection)} · {id}</small></div>
     </div>
-    {summary.subtitle && <p className="muted" style={{ fontSize: 11.5, marginBottom: summary.stats.length ? 8 : 0 }}>{summary.subtitle}</p>}
-    {summary.stats.length > 0 && <dl>{summary.stats.slice(0, 8).map(stat => <div key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl>}
-    {summary.badges.length > 0 && <div className="chip-row" style={{ marginTop: 8 }}>{summary.badges.map((badge, index) => <Badge key={index} variant={badge.tone === "accent" || badge.tone === "ok" || badge.tone === "warn" || badge.tone === "danger" || badge.tone === "info" ? badge.tone : "default"} className={badge.mono ? "font-mono" : undefined}>{badge.text}</Badge>)}</div>}
+    {summary.subtitle && <p className={cn("text-[11.5px] text-faint", summary.stats.length > 0 && "mb-2")}>{summary.subtitle}</p>}
+    {summary.stats.length > 0 && <dl className="m-0 grid grid-cols-2 gap-x-2 gap-y-[3px]">{summary.stats.slice(0, 8).map(stat => <div key={stat.label}><dt className="text-[11px] text-faint">{stat.label}</dt><dd className="m-0 font-mono text-xs">{stat.value}</dd></div>)}</dl>}
+    {summary.badges.length > 0 && <div className="flex flex-wrap items-center gap-1 mt-2">{summary.badges.map((badge, index) => <Badge key={index} variant={badge.tone === "accent" || badge.tone === "ok" || badge.tone === "warn" || badge.tone === "danger" || badge.tone === "info" ? badge.tone : "default"} className={badge.mono ? "font-mono" : undefined}>{badge.text}</Badge>)}</div>}
   </div>, document.body);
 }
 
@@ -73,18 +76,14 @@ export function RefRow({ collection, record, id, ctx, onOpen, meta, subtitle, ta
   const summary = record ? summarize(collection, record, ctx) : undefined;
   const [hover, setHover] = useState<HoverState>();
   return <>
-    <button type="button" className="ref-row" onClick={() => onOpen?.(collection, id)}
+    <ListRow onClick={() => onOpen?.(collection, id)}
       onMouseEnter={event => summary && setHover({ x: event.clientX, y: event.clientY })}
       onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })}
-      onMouseLeave={() => setHover(undefined)}>
-      <Thumb spec={summary?.thumb ?? { kind: "glyph", icon: ChevronRight, letter: id.slice(0, 2).toUpperCase() }} size="m" />
-      <span className="ref-row-body">
-        <span className="ref-row-title">{summary?.title ?? id}{tag !== undefined && <small className="ref-row-tag">{tag}</small>}</span>
-        <span className="ref-row-sub">{subtitle ?? summary?.subtitle ?? (record ? rowId(record) : `Missing from ${labelFor(collection).toLowerCase()}`)}</span>
-      </span>
-      {meta !== undefined && <span className="ref-row-meta">{meta}</span>}
-      {trailing}
-    </button>
+      onMouseLeave={() => setHover(undefined)}
+      art={<Thumb spec={summary?.thumb ?? { kind: "glyph", icon: ChevronRight, letter: id.slice(0, 2).toUpperCase() }} size="m" />}
+      title={summary?.title ?? id} tag={tag}
+      subtitle={subtitle ?? summary?.subtitle ?? (record ? rowId(record) : `Missing from ${labelFor(collection).toLowerCase()}`)}
+      meta={meta} trailing={trailing} />
     {hover && summary && <HoverCard summary={summary} collection={collection} id={id} at={hover} />}
   </>;
 }

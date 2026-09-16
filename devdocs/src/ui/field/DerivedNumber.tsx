@@ -3,6 +3,7 @@ import { fmtValue, type RecordRef, type Resolved } from "../../model/origin.js";
 import { ChoiceField, type ChoiceOption } from "./ChoiceField.js";
 import { Field } from "./Field.js";
 import { NumberField, type NumberWidth } from "./NumberField.js";
+import { Static } from "../Sheet.js";
 
 /*
   The replacement for `Sheet`'s `Derived`. A number with a chain: the control shows the resolved
@@ -48,7 +49,7 @@ const expressionOf = (resolved: Resolved<unknown>): string | undefined => {
 export function DerivedNumber({ resolved, onChange, onPreview, unit, integer = true, min, max, step, width, optional, label, hint, onOpenRef, readOnly = false, compact, labelHidden, span, dirty, stale, mixed, error, className }: DerivedNumberProps) {
   return <Field label={label} hint={hint} unit={unit} resolved={resolved} onRevert={readOnly ? undefined : () => onChange(undefined)} onOpenRef={onOpenRef} expression={expressionOf(resolved)} compact={compact} labelHidden={labelHidden} span={span} dirty={dirty} stale={stale} mixed={mixed} error={error} className={className}>
     {readOnly
-      ? <span className="field-static inline-flex min-h-7 items-center gap-1 font-mono text-xs">{fmtValue(resolved.value)}{unit && <span className="font-sans text-[11px] text-faint">{unit}</span>}</span>
+      ? <Static mono>{fmtValue(resolved.value)}{unit && <span className="font-sans text-[11px] text-faint">{unit}</span>}</Static>
       : <NumberField value={resolved.value} onChange={onChange} onPreview={onPreview} unit={unit} integer={integer} min={min} max={max} step={step} width={width} optional={optional} mixed={mixed} />}
   </Field>;
 }
@@ -63,7 +64,7 @@ export interface DerivedChoiceProps<T extends string = string> extends DerivedSh
 export function DerivedChoice<T extends string = string>({ resolved, onChange, options, allowEmpty, label, hint, onOpenRef, readOnly = false, compact, labelHidden, span, dirty, stale, mixed, error, className }: DerivedChoiceProps<T>) {
   return <Field label={label} hint={hint} resolved={resolved} onRevert={readOnly ? undefined : () => onChange(undefined)} onOpenRef={onOpenRef} compact={compact} labelHidden={labelHidden} span={span} dirty={dirty} stale={stale} mixed={mixed} error={error} className={className}>
     {readOnly
-      ? <span className="field-static inline-flex min-h-7 items-center text-xs">{resolved.value ?? "—"}</span>
+      ? <Static>{resolved.value ?? "—"}</Static>
       : <ChoiceField value={resolved.value} onChange={onChange} options={options} allowEmpty={allowEmpty} />}
   </Field>;
 }

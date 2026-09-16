@@ -14,11 +14,13 @@ import { summarize, titleCase } from "../model/summaries.js";
 import { primaryAssetId } from "../model/viewerSource.js";
 import type { MetaResponse } from "../../shared/metaContracts.js";
 import { EntitySummary } from "../ui/EntitySummary.js";
-import { Facts, Field, RefField, ReferencedBy, SchemaControl, Sheet, type RenderRef } from "../ui/field/index.js";
+import { Facts, Field, RefField, ReferencedBy, SchemaControl, Sheet, type RenderRef, Static } from "../ui/field/index.js";
 import { Thumb } from "../ui/Thumb.js";
 import { labelFor } from "../ui/library.js";
 import { Badge } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
+import { cn } from "../lib/utils.js";
+import { EMPTY, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../ui/layout.js";
 
 const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/SetPiecePanel.js"));
 const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/NotesPanel.js"));
@@ -27,9 +29,13 @@ const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => impor
 const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/AssetCandidates.js"));
 const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration", "__compiled"]);
 
+/** A record page's tabs: a sticky strip of quiet text tabs, the active one on the selected surface. */
+const TAB = "inline-flex h-6 cursor-pointer items-center gap-[5px] rounded-sm px-2 text-xs font-medium text-muted-foreground hover:text-foreground data-[state=active]:bg-selected data-[state=active]:text-foreground [&_small]:font-mono [&_small]:text-[11px] [&_small]:text-faint";
+const TAB_PANEL = "focus-visible:outline-offset-4";
+
 const schemaByCollection = new Map(CONTENT_COLLECTIONS.map(spec => [spec.name, spec.schema]));
 const noop = () => undefined;
-const readOnlyRef: RenderRef = (kind, value, _onChange, spec) => <RefField kind={kind} value={value} onChange={noop} label={spec.label} hint={spec.hint} readOnly className="is-bare" />;
+const readOnlyRef: RenderRef = (kind, value, _onChange, spec) => <RefField kind={kind} value={value} onChange={noop} label={spec.label} hint={spec.hint} readOnly bare />;
 
 /**
  * A record nobody can edit here — a compiled row, or the player build — read through the same
@@ -39,7 +45,7 @@ const readOnlyRef: RenderRef = (kind, value, _onChange, spec) => <RefField kind=
 export function RecordFields({ collection, record }: { collection: string; record: ContentRow }) {
   const schema = schemaByCollection.get(collection) ?? schemaByCollection.get(collection.replace(/^compiled-/, ""));
   const node = schema ? fieldCore(schema) : undefined;
-  if (!(node instanceof ObjectSchema)) return <pre className="record-source" style={{ padding: 0 }}>{JSON.stringify(record, null, 2)}</pre>;
+  if (!(node instanceof ObjectSchema)) return <pre className="overflow-auto font-mono text-xs leading-relaxed">{JSON.stringify(record, null, 2)}</pre>;
   const entries = (Object.entries(node.fields) as [string, Schema][])
     .map(([key, field]) => [key, field, serialFieldSpec(field, key)] as const)
     .filter(([key, , spec]) => !ADVANCED_FIELDS.has(key) && !spec.hidden && record[key] !== undefined);
@@ -48,7 +54,7 @@ export function RecordFields({ collection, record }: { collection: string; recor
     {entries.map(([key, field, spec]) => spec.ref
       ? <RefField key={key} kind={spec.ref} value={typeof record[key] === "string" ? record[key] : undefined} onChange={noop} label={spec.label} hint={spec.help} readOnly />
       : <SchemaControl key={key} schema={field} name={key} value={record[key]} onChange={noop} renderRef={readOnlyRef} readOnly />)}
-    {!entries.length && <Field label="Record"><span className="field-static muted">This record has no readable fields.</span></Field>}
+    {!entries.length && <Field label="Record"><Static muted>This record has no readable fields.</Static></Field>}
   </Sheet>;
 }
 
@@ -78,46 +84,46 @@ export function EntityDetail(props: EntityDetailProps) {
   async function copyId() { try { await navigator.clipboard.writeText(id); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { setCopied(false); } }
   const select = (value: string) => { setTab(value); setVisited(previous => new Set(previous).add(value)); };
 
-  return <article className="ws-page record">
-    <div className="record-main">
-      <header className="record-head">
+  return <article className={cn(RECORD, "max-w-[87.5rem] px-4 pt-3 pb-10")}>
+    <div className="min-w-0">
+      <header className={RECORD_HEAD}>
         <Thumb spec={summary.thumb} size="l" alt="" />
-        <div className="record-title">
+        <div className={RECORD_TITLE}>
           <h1 title={rowName(record)}>{summary.title}</h1>
           <Facts items={[
             labelFor(collection),
             summary.tier !== undefined && `Tier ${summary.tier}`,
             ...facts,
-            <button key="id" className="id-copy" title="Copy record ID" onClick={() => void copyId()}><code>{id}</code>{copied ? <Check size={12} /> : <Copy size={12} />}</button>,
+            <button key="id" className="inline-flex cursor-pointer items-center gap-1 font-mono text-[11px] text-faint hover:text-primary" title="Copy record ID" onClick={() => void copyId()}><code>{id}</code>{copied ? <Check size={12} /> : <Copy size={12} />}</button>,
             status && status !== "draft" && <Badge variant={toneVariant(status === "live" || status === "approved" ? "ok" : status === "rejected" ? "danger" : "warn")}>{titleCase(status)}</Badge>,
             openRequests > 0 && <Badge variant="warn">{openRequests} open request{openRequests === 1 ? "" : "s"}</Badge>,
           ]} />
         </div>
-        <div className="record-actions">
+        <div className="flex shrink-0 items-center gap-1">
           {canEdit && props.collectionShape === "array" && RecordActions && <Suspense fallback={null}><RecordActions collection={collection} record={record} recordId={id} editable={canEdit} idKey={idKey} navigate={navigate} compact /></Suspense>}
         </div>
       </header>
-      <Tabs.Root className="entity-tabs" value={tab} onValueChange={select}>
-        <Tabs.List aria-label="Record detail" className="entity-tab-list">
-          <Tabs.Trigger value="edit">{canEdit ? "Record" : "Fields"}</Tabs.Trigger>
-          {canEdit && collection === "equipmentSets" && <Tabs.Trigger value="pieces">Pieces</Tabs.Trigger>}
-          {!__DEVDOCS_PLAYER__ && assetId && <Tabs.Trigger value="model">Model candidates</Tabs.Trigger>}
-          {!__DEVDOCS_PLAYER__ && !generated && <Tabs.Trigger value="notes">Notes</Tabs.Trigger>}
-          <Tabs.Trigger value="raw">JSON</Tabs.Trigger>
+      <Tabs.Root value={tab} onValueChange={select}>
+        <Tabs.List aria-label="Record detail" className="sticky top-0 z-3 mb-1 flex gap-0.5 border-b border-border-subtle bg-background py-1.5">
+          <Tabs.Trigger className={TAB} value="edit">{canEdit ? "Record" : "Fields"}</Tabs.Trigger>
+          {canEdit && collection === "equipmentSets" && <Tabs.Trigger className={TAB} value="pieces">Pieces</Tabs.Trigger>}
+          {!__DEVDOCS_PLAYER__ && assetId && <Tabs.Trigger className={TAB} value="model">Model candidates</Tabs.Trigger>}
+          {!__DEVDOCS_PLAYER__ && !generated && <Tabs.Trigger className={TAB} value="notes">Notes</Tabs.Trigger>}
+          <Tabs.Trigger className={TAB} value="raw">JSON</Tabs.Trigger>
         </Tabs.List>
-        <Tabs.Content value="edit" forceMount hidden={tab !== "edit"}>
-          {description && !canEdit && <p className="entity-description" style={{ marginBottom: 12 }}>{description}</p>}
-          {canEdit && EntityEditor ? <Suspense fallback={<p className="empty-inline">Loading editor…</p>}><EntityEditor collection={collection} recordId={id} /></Suspense> : <RecordFields collection={collection} record={record} />}
+        <Tabs.Content className={TAB_PANEL} value="edit" forceMount hidden={tab !== "edit"}>
+          {description && !canEdit && <p className="max-w-[47.5rem] text-xs leading-normal text-muted-foreground mb-3">{description}</p>}
+          {canEdit && EntityEditor ? <Suspense fallback={<p className={EMPTY}>Loading editor…</p>}><EntityEditor collection={collection} recordId={id} /></Suspense> : <RecordFields collection={collection} record={record} />}
           <ReferencedBy collection={collection} id={id} navigate={navigate} />
         </Tabs.Content>
-        {canEdit && collection === "equipmentSets" && SetPiecePanel && visited.has("pieces") && <Tabs.Content value="pieces" forceMount hidden={tab !== "pieces"}><Suspense fallback={<p className="empty-inline">Loading pieces…</p>}><SetPiecePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}
-        {!__DEVDOCS_PLAYER__ && assetId && AssetCandidates && visited.has("model") && <Tabs.Content value="model" forceMount hidden={tab !== "model"}><Suspense fallback={<p className="empty-inline">Loading candidates…</p>}><AssetCandidates collection={collection} entityId={id} currentAssetId={assetId} targetLabel={`Candidates for ${summary.title}`} /></Suspense></Tabs.Content>}
-        {!__DEVDOCS_PLAYER__ && !generated && NotesPanel && visited.has("notes") && <Tabs.Content value="notes" forceMount hidden={tab !== "notes"}><Suspense fallback={<p className="empty-inline">Loading notes…</p>}><NotesPanel collection={collection} entityId={props.collectionShape === "object" ? "$collection" : id} /></Suspense></Tabs.Content>}
-        <Tabs.Content value="raw"><pre className="record-source" style={{ padding: 0 }}>{JSON.stringify(record, null, 2)}</pre></Tabs.Content>
+        {canEdit && collection === "equipmentSets" && SetPiecePanel && visited.has("pieces") && <Tabs.Content className={TAB_PANEL} value="pieces" forceMount hidden={tab !== "pieces"}><Suspense fallback={<p className={EMPTY}>Loading pieces…</p>}><SetPiecePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}
+        {!__DEVDOCS_PLAYER__ && assetId && AssetCandidates && visited.has("model") && <Tabs.Content className={TAB_PANEL} value="model" forceMount hidden={tab !== "model"}><Suspense fallback={<p className={EMPTY}>Loading candidates…</p>}><AssetCandidates collection={collection} entityId={id} currentAssetId={assetId} targetLabel={`Candidates for ${summary.title}`} /></Suspense></Tabs.Content>}
+        {!__DEVDOCS_PLAYER__ && !generated && NotesPanel && visited.has("notes") && <Tabs.Content className={TAB_PANEL} value="notes" forceMount hidden={tab !== "notes"}><Suspense fallback={<p className={EMPTY}>Loading notes…</p>}><NotesPanel collection={collection} entityId={props.collectionShape === "object" ? "$collection" : id} /></Suspense></Tabs.Content>}
+        <Tabs.Content className={TAB_PANEL} value="raw"><pre className="overflow-auto font-mono text-xs leading-relaxed">{JSON.stringify(record, null, 2)}</pre></Tabs.Content>
       </Tabs.Root>
     </div>
-    <aside className="record-rail">
-      <EntitySummary collection={collection} record={record} recordId={id} index={index} navigate={navigate} editing={canEdit} />
+    <aside className={RECORD_RAIL}>
+      <EntitySummary collection={collection} record={record} recordId={id} index={index} navigate={navigate} editing={canEdit} bare />
     </aside>
   </article>;
 }

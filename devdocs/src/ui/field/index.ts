@@ -5,7 +5,7 @@
   one module.
 */
 
-export { Field, FieldLegend, type FieldProps } from "./Field.js";
+export { Dot, Field, FieldLegend, type FieldProps } from "./Field.js";
 export { NumberField, type NumberFieldProps, type NumberWidth } from "./NumberField.js";
 export { TextField, type TextFieldProps, type TextWidth } from "./TextField.js";
 export { ChoiceField, normalizeOptions, type ChoiceFieldProps, type ChoiceOption } from "./ChoiceField.js";

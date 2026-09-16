@@ -5,9 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "../api/client.js";
 import type { ApiDiagnostic } from "../../shared/contracts.js";
 import AssetCandidates from "./AssetCandidates.js";
-import "../styles/review.css";
 import { Button, Badge } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
+import { cn } from "../lib/utils.js";
+import { EMPTY, PANEL, PANEL_HEADER } from "../ui/layout.js";
+import { LoadError, Skeleton, SPIN } from "./panelParts.js";
 
 /** The JSON shape returned by GET /__devdocs/git/status. */
 interface GitStatusResponse {
@@ -204,8 +206,8 @@ export default function ReviewPage({ navigate }: ReviewPageProps) {
   const validationErrors = validationDiagnostics.filter(issue => issue.severity === "error").length;
   const validationWarnings = validationDiagnostics.filter(issue => issue.severity === "warning").length;
 
-  return <section className="review-page" aria-label="Review">
-    <div className="review-layout">
+  return <section className="flex min-w-0 flex-col gap-3" aria-label="Review">
+    <div className="grid grid-cols-[minmax(240px,.36fr)_minmax(0,1fr)] items-start gap-3 max-[980px]:grid-cols-1">
       <FilesPanel
         headingId={filesHeadingId}
         changes={changes}
@@ -255,22 +257,22 @@ function FilesPanel({
   onRetry: () => void;
   onSelect: (path: string) => void;
 }) {
-  return <section className="panel review-files" aria-labelledby={headingId}>
-    <header className="panel-header"><FileCode2 size={14} /><h2 id={headingId}>Changed files</h2><span className="count-badge">{pending ? "…" : changes.length}</span></header>
-    {pending ? <LoadingFiles /> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load file status" /> : changes.length ? <div className="review-file-list" role="listbox" aria-labelledby={headingId} aria-label="Reviewable changed files">
+  return <section className={cn(PANEL, "min-w-0 overflow-hidden")} aria-labelledby={headingId}>
+    <header className={PANEL_HEADER}><FileCode2 size={14} /><h2 id={headingId}>Changed files</h2><span className="font-mono text-[11px] text-muted-foreground">{pending ? "…" : changes.length}</span></header>
+    {pending ? <LoadingFiles /> : error ? <LoadError className="p-3" message={error.message} retry={onRetry} label="Could not load file status" /> : changes.length ? <div className="max-h-[520px] overflow-y-auto p-1 [scrollbar-width:thin] max-[980px]:max-h-65" role="listbox" aria-labelledby={headingId} aria-label="Reviewable changed files">
       {changes.map(change => <button
         type="button"
         role="option"
         aria-selected={change.path === selectedPath}
-        className={`review-file-row${change.path === selectedPath ? " is-selected" : ""}`}
+        className="group/file grid min-h-8 w-full cursor-pointer grid-cols-[auto_minmax(0,1fr)_14px] items-center gap-2 rounded-md px-2 py-1 text-left outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring/40 aria-selected:bg-selected"
         key={`${change.status}:${change.path}`}
         onClick={() => onSelect(change.path)}
       >
-        <Badge variant={toneVariant(statusTone(change.status))} className="font-mono" title={statusLabel(change.status)}>{displayStatus(change.status)}</Badge>
-        <span className="review-file-path"><code>{change.path}</code>{change.originalPath && <small>from {change.originalPath}</small>}</span>
-        <ArrowUpRight className="review-file-arrow" size={13} />
+        <Badge variant={toneVariant(statusTone(change.status))} className="min-w-[30px] justify-center font-mono" title={statusLabel(change.status)}>{displayStatus(change.status)}</Badge>
+        <span className="flex min-w-0 flex-col gap-px"><code className="truncate font-mono text-[11px] leading-snug text-foreground">{change.path}</code>{change.originalPath && <small className="truncate text-[11px] text-faint">from {change.originalPath}</small>}</span>
+        <ArrowUpRight className="text-faint opacity-0 group-hover/file:text-primary group-hover/file:opacity-100 group-aria-selected/file:text-primary group-aria-selected/file:opacity-100" size={13} />
       </button>)}
-    </div> : <p className="empty-inline review-empty">No reviewable content changes.</p>}
+    </div> : <p className={cn(EMPTY, "px-3 py-2.5")}>No reviewable content changes.</p>}
   </section>;
 }
 
@@ -289,19 +291,29 @@ function DiffPanel({
   diff: string | undefined;
   onRetry: () => void;
 }) {
-  return <section className="panel review-diff-panel" aria-labelledby={headingId}>
-    <header className="panel-header review-diff-heading"><h2 id={headingId} className="review-diff-title" title={change?.path}>{change?.path ?? "File diff"}</h2>{change && <div className="panel-header-actions"><Badge variant={toneVariant(statusTone(change.status))}>{statusLabel(change.status)}</Badge></div>}</header>
-    {!change ? <p className="empty-inline review-empty">Select a changed file to see its diff.</p> : pending ? <LoadingDiff /> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load this diff" /> : diff?.trim() ? <DiffText value={diff} /> : <p className="empty-inline review-empty">Git returned no text for this path.</p>}
+  return <section className={cn(PANEL, "min-w-0 overflow-hidden")} aria-labelledby={headingId}>
+    <header className={cn(PANEL_HEADER, "min-w-0")}><h2 id={headingId} className={cn("min-w-0 truncate", change && "font-mono text-xs! font-medium!")} title={change?.path}>{change?.path ?? "File diff"}</h2>{change && <div className="ml-auto flex items-center gap-1"><Badge variant={toneVariant(statusTone(change.status))}>{statusLabel(change.status)}</Badge></div>}</header>
+    {!change ? <p className={cn(EMPTY, "px-3 py-2.5")}>Select a changed file to see its diff.</p> : pending ? <LoadingDiff /> : error ? <LoadError className="p-3" message={error.message} retry={onRetry} label="Could not load this diff" /> : diff?.trim() ? <DiffText value={diff} /> : <p className={cn(EMPTY, "px-3 py-2.5")}>Git returned no text for this path.</p>}
   </section>;
 }
 
+const DIFF_LINE: Record<string, string> = {
+  header: "text-foreground font-medium",
+  hunk: "bg-info-soft text-info",
+  addition: "bg-ok-soft text-foreground [&>span:first-child]:text-ok",
+  deletion: "bg-destructive-soft text-foreground [&>span:first-child]:text-destructive",
+  context: "",
+};
+
 function DiffText({ value }: { value: string }) {
   const lines = value.replace(/\r\n/g, "\n").split("\n");
-  return <pre className="review-diff" aria-label="Read-only selected file diff">{lines.map((line, index) => {
+  return <pre className="m-0 max-h-[640px] min-h-80 overflow-auto bg-background font-mono text-xs leading-[1.6] text-muted-foreground [scrollbar-width:thin] max-[980px]:min-h-60" aria-label="Read-only selected file diff">{lines.map((line, index) => {
     const kind = line.startsWith("+++") || line.startsWith("---") ? "header" : line.startsWith("@@") ? "hunk" : line.startsWith("+") ? "addition" : line.startsWith("-") ? "deletion" : "context";
-    return <span className={`review-diff-line review-diff-${kind}`} key={`${index}:${line}`}><span className="review-line-number" aria-hidden="true">{String(index + 1).padStart(4, " ")}</span><span className="review-line-text">{line || " "}</span></span>;
+    return <span className={cn("flex min-h-[1.6em] min-w-max pr-5", DIFF_LINE[kind])} data-kind={kind} key={`${index}:${line}`}><span className="w-11 shrink-0 pl-2 text-right text-faint opacity-70 select-none" aria-hidden="true">{String(index + 1).padStart(4, " ")}</span><span className="pl-3 whitespace-pre">{line || " "}</span></span>;
   })}</pre>;
 }
+
+const STAT = "flex min-w-0 flex-col gap-px rounded-md bg-secondary px-2 py-[5px] [&_dt]:truncate [&_dt]:text-[11px] [&_dt]:text-faint [&_dd]:m-0 [&_dd]:font-mono [&_dd]:text-xs [&_dd]:font-medium [&_dd]:text-foreground";
 
 function ValidationPanel({
   headingId,
@@ -320,44 +332,42 @@ function ValidationPanel({
 }) {
   const label = validationLabel(query.data, query.isPending, query.isError);
   const tone = validationTone(query.data, query.isPending, query.isError);
-  return <section className="panel review-validation" aria-labelledby={headingId}>
-    <header className="panel-header">
+  return <section className={PANEL} aria-labelledby={headingId}>
+    <header className={PANEL_HEADER}>
       <ShieldCheck size={14} /><h2 id={headingId}>Validation</h2>
       <Badge variant={toneVariant(tone)} role="status" aria-live="polite">{query.data?.ok === true ? <CheckCircle2 size={11} /> : query.data?.ok === false ? <AlertCircle size={11} /> : null}{label}</Badge>
-      <div className="panel-header-actions"><Button variant="secondary" size="sm" disabled={query.isFetching} onClick={() => void query.refetch()}><RefreshCw size={13} className={query.isFetching ? "review-spin" : undefined} />{query.isFetching ? "Validating…" : "Run again"}</Button></div>
+      <div className="ml-auto flex items-center gap-1"><Button variant="secondary" size="sm" disabled={query.isFetching} onClick={() => void query.refetch()}><RefreshCw size={13} className={query.isFetching ? SPIN : undefined} />{query.isFetching ? "Validating…" : "Run again"}</Button></div>
     </header>
-    {query.isPending ? <LoadingValidation /> : query.isError ? <ReviewError message={query.error.message} retry={() => void query.refetch()} label="Could not run validation" /> : query.data ? <div className="panel-body review-validation-body">
-      <dl className="stat-grid review-validation-stats" aria-label="Validation totals">
-        <div className="stat"><dt>Collections</dt><dd>{query.data.collections}</dd></div>
-        <div className="stat"><dt>Errors</dt><dd style={errors ? { color: "var(--danger)" } : undefined}>{errors}</dd></div>
-        <div className="stat"><dt>Warnings</dt><dd style={warnings ? { color: "var(--warn)" } : undefined}>{warnings}</dd></div>
+    {query.isPending ? <LoadingValidation /> : query.isError ? <LoadError className="p-3" message={query.error.message} retry={() => void query.refetch()} label="Could not run validation" /> : query.data ? <div className="flex flex-col gap-3 px-2.5 py-2">
+      <dl className="grid max-w-[420px] grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-1" aria-label="Validation totals">
+        <div className={STAT}><dt>Collections</dt><dd>{query.data.collections}</dd></div>
+        <div className={STAT}><dt>Errors</dt><dd className={cn(errors > 0 && "text-destructive!")}>{errors}</dd></div>
+        <div className={STAT}><dt>Warnings</dt><dd className={cn(warnings > 0 && "text-warn!")}>{warnings}</dd></div>
       </dl>
-      {diagnostics.length ? <div className="review-diagnostics"><div className="section-heading"><h3>Diagnostics</h3><span>{diagnostics.length}</span></div><ol>{diagnostics.map((diagnostic, index) => <DiagnosticRow key={`${diagnostic.path}:${diagnostic.message}:${index}`} diagnostic={diagnostic} navigate={navigate} />)}</ol></div> : <p className="empty-inline review-no-diagnostics"><ShieldCheck size={13} /> No diagnostics.</p>}
+      {diagnostics.length ? <div><div className="mb-1.5 flex items-center justify-between gap-2.5"><h3 className="text-xs font-semibold">Diagnostics</h3><span className="font-mono text-[11px] text-faint">{diagnostics.length}</span></div><ol className="flex flex-col gap-1">{diagnostics.map((diagnostic, index) => <DiagnosticRow key={`${diagnostic.path}:${diagnostic.message}:${index}`} diagnostic={diagnostic} navigate={navigate} />)}</ol></div> : <p className={cn(EMPTY, "inline-flex items-center gap-1.5 p-0 text-ok")}><ShieldCheck size={13} /> No diagnostics.</p>}
     </div> : null}
   </section>;
 }
 
 function DiagnosticRow({ diagnostic, navigate }: { diagnostic: ApiDiagnostic; navigate: ReviewPageProps["navigate"] }) {
   const target = diagnosticTarget(diagnostic.path);
-  return <li className={`review-diagnostic review-diagnostic-${diagnostic.severity}`}>
-    <Badge variant={toneVariant(diagnostic.severity === "error" ? "danger" : "warn")}>{diagnostic.severity}</Badge>
-    <div className="review-diagnostic-body"><code>{diagnostic.path || "content"}</code><p>{diagnostic.message}</p></div>
-    {target && <Button variant="ghost" size="sm" onClick={() => navigate(target.collection, target.recordId)}>{collectionLabel(target.collection)} <code>{target.recordId}</code><ArrowUpRight size={12} /></Button>}
+  return <li className="flex items-start gap-2 rounded-md border border-border-subtle bg-card px-2 py-1.5" data-severity={diagnostic.severity}>
+    <Badge className="mt-px capitalize" variant={toneVariant(diagnostic.severity === "error" ? "danger" : "warn")}>{diagnostic.severity}</Badge>
+    <div className="flex min-w-0 flex-1 flex-col gap-0.5"><code className="truncate font-mono text-[11px] text-faint">{diagnostic.path || "content"}</code><p className="text-xs leading-normal text-foreground [overflow-wrap:anywhere]">{diagnostic.message}</p></div>
+    {target && <Button variant="ghost" size="sm" onClick={() => navigate(target.collection, target.recordId)}>{collectionLabel(target.collection)} <code className="font-mono text-[11px] text-faint">{target.recordId}</code><ArrowUpRight size={12} /></Button>}
   </li>;
 }
 
-function ReviewError({ message, retry, label }: { message: string; retry: () => void; label: string }) {
-  return <div className="review-error" role="alert"><AlertCircle size={16} /><div><strong>{label}</strong><p>{message}</p><Button variant="secondary" size="sm" onClick={retry}><RefreshCw size={13} />Try again</Button></div></div>;
+function LoadingFiles() {
+  return <div className="grid gap-1.5 p-2" role="status" aria-label="Loading changed files">{Array.from({ length: 6 }, (_, index) => <Skeleton key={index} className="h-6" />)}</div>;
 }
 
-function LoadingFiles() {
-  return <div className="review-loading-files" role="status" aria-label="Loading changed files">{Array.from({ length: 6 }, (_, index) => <span className="skeleton" key={index} />)}</div>;
-}
+const DIFF_SKELETON = ["w-[84%]", "w-[84%]", "w-[64%]", "w-[92%]", "w-[84%]", "w-[64%]", "w-[84%]", "w-[92%]", "w-[64%]", "w-[84%]", "w-[84%]", "w-[92%]"];
 
 function LoadingDiff() {
-  return <div className="review-loading-diff" role="status" aria-label="Loading diff">{Array.from({ length: 12 }, (_, index) => <span className="skeleton" key={index} />)}</div>;
+  return <div className="grid min-h-80 content-start gap-2 bg-background p-4" role="status" aria-label="Loading diff">{DIFF_SKELETON.map((width, index) => <Skeleton key={index} className={cn("h-[9px]", width)} />)}</div>;
 }
 
 function LoadingValidation() {
-  return <div className="review-loading-validation" role="status" aria-label="Running validation"><LoaderCircle size={15} className="review-spin" /><span>Checking every content collection…</span></div>;
+  return <div className="flex items-center gap-2 p-3 text-xs text-muted-foreground" role="status" aria-label="Running validation"><LoaderCircle size={15} className={SPIN} /><span>Checking every content collection…</span></div>;
 }

@@ -74,14 +74,17 @@ const isTextControl = (target: EventTarget | null): boolean => target instanceof
 
 export function RecordNav({ setKey, collection, currentId, open }: RecordNavProps) {
   const published = useRecordSet(setKey);
-  const fallbackQuery = useQuery({ ...collectionQuery(collection), enabled: !published });
+  // A record reached from Ctrl+K or a link may sit outside the list the author last filtered. Walking
+  // that list would start nowhere, so the rail shows the whole collection by name until they come back.
+  const covers = Boolean(published?.entries.some(entry => entry.id === currentId));
+  const fallbackQuery = useQuery({ ...collectionQuery(collection), enabled: !covers });
   const set = useMemo<RecordSet | undefined>(() => {
-    if (published) return published;
-    if (!fallbackQuery.data) return undefined;
+    if (published && covers) return published;
+    if (!fallbackQuery.data) return published;
     const idKey = fallbackQuery.data.collection.idKey;
     const entries = contentRows(fallbackQuery.data).map(row => ({ id: rowId(row, idKey), title: rowName(row, idKey) }));
     return { entries: entries.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true })) };
-  }, [published, fallbackQuery.data]);
+  }, [published, covers, fallbackQuery.data]);
 
   // 56 creature names are shared by several definitions; where a title repeats, the id tells them apart.
   const repeated = useMemo(() => {
@@ -156,7 +159,9 @@ export function RecordNav({ setKey, collection, currentId, open }: RecordNavProp
         {filter && <InputGroupAddon><Button variant="ghost" size="icon-xs" aria-label="Clear filter" onClick={() => setFilter("")}><X /></Button></InputGroupAddon>}
       </InputGroup>
       <div className="flex min-h-6 items-center gap-0.5">
-        <span className="flex-1 text-[11px] text-muted-foreground tabular-nums">{position >= 0 ? `${position + 1} of ${shown.length}` : `${shown.length}`}</span>
+        <span className="flex-1 truncate text-[11px] text-muted-foreground tabular-nums" title={published && !covers ? `This record is not in ${published.label ?? "the list you last filtered"}, so the rail lists every record` : undefined}>
+          {position >= 0 ? `${position + 1} of ${shown.length}` : `${shown.length}`}{published && !covers && <span className="text-faint"> · all records</span>}
+        </span>
         <Button variant="ghost" size="icon-sm" aria-label="Previous record (Alt+Up)" title="Previous record · Alt+↑ or K" disabled={position <= 0} onClick={() => step(-1)}><ChevronUp /></Button>
         <Button variant="ghost" size="icon-sm" aria-label="Next record (Alt+Down)" title="Next record · Alt+↓ or J" disabled={position < 0 || position >= shown.length - 1} onClick={() => step(1)}><ChevronDown /></Button>
       </div>

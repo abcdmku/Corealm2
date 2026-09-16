@@ -1,6 +1,7 @@
-import { forwardRef, memo, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { forwardRef, memo, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { WORLD_MAP_DETAIL_RENDITIONS, WORLD_MAP_IMAGE_BOUNDS, WORLD_MAP_MINIMAP_RENDITION, WORLD_MAP_TILED_LEVELS } from "../../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../../model/gameUrl.js";
+import { cn } from "../../lib/utils.js";
 import { glyphColor, glyphIcon } from "./glyphs.js";
 import { LAYERS, round, sameSelection, type Bounds, type Feature, type Layer, type Point, type Road, type Selection } from "./model.js";
 
@@ -23,6 +24,16 @@ const DETAIL = [...WORLD_MAP_DETAIL_RENDITIONS].sort((a, b) => a.width - b.width
 const TILES = WORLD_MAP_TILED_LEVELS[0];
 const clampSpan = (span: number) => Math.max(MIN_SPAN, Math.min(MAX_SPAN, span));
 const deg = (radians: number | undefined) => ((radians ?? 0) * 180) / Math.PI;
+
+/*
+  Map ink is fixed, not themed: the art is the same dark image in both themes, so labels are light
+  text on a dark halo and strokes are white or the brass accent. Strokes keep their pixel width at
+  every zoom (`vector-effect`), labels never take the pointer except a region's name.
+*/
+const THIN = { vectorEffect: "non-scaling-stroke" } as const;
+const LABEL = { fill: "#f2f4f7", stroke: "#0a0d12", strokeWidth: ".28em", strokeLinejoin: "round", paintOrder: "stroke" } as const;
+const LABEL_CLASS = "pointer-events-none font-sans select-none";
+const RANK_STROKE: Record<string, string> = { boss: "#ef5c5c", miniboss: "#f0b429" };
 
 export interface MapCanvasProps {
   features: readonly Feature[];
@@ -219,34 +230,37 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
   const showLabels = { far: view.span < 600, mid: view.span < 320, near: view.span < 140 };
   const Icon = hover ? glyphIcon(hover) : undefined;
 
-  return <div ref={frame} className="world-frame" tabIndex={0} onKeyDown={keyDown} data-tool={tool ?? undefined} data-dragging={liveMove || liveAnchor ? "true" : undefined}>
-    <svg ref={svg} className="world-svg" role="img" aria-label="World map" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid slice"
+  const dragging = Boolean(liveMove || liveAnchor);
+  return <div ref={frame} className="relative min-h-0 flex-1 overflow-hidden bg-art outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--color-primary)]" tabIndex={0} onKeyDown={keyDown} data-tool={tool ?? undefined} data-dragging={dragging || undefined}>
+    <svg ref={svg} className={cn("block size-full touch-none select-none", tool ? "cursor-crosshair" : dragging ? "cursor-grabbing" : "cursor-grab active:cursor-grabbing")} role="img" aria-label="World map" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid slice"
       onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={pointerEnd} onPointerLeave={() => { if (!drag.current) setHover(undefined); }}>
       <image href={gameUrl(useTiles ? DETAIL.at(-1)!.path : rendition.path)} x={IMAGE.x} y={IMAGE.y} width={IMAGE.width} height={IMAGE.height} preserveAspectRatio="none" />
       {tiles.map(tile => <image key={tile.path} href={gameUrl(tile.path)} x={IMAGE.x + tile.column * TILES.tileMetres} y={IMAGE.y + tile.row * TILES.tileMetres} width={TILES.tileMetres} height={TILES.tileMetres} preserveAspectRatio="none" />)}
       {layers.regions && <RegionLayer features={perLayer.regions} marker={marker} selectedKey={selectedKey} />}
       {layers.roads && <RoadLayer roads={roads} />}
-      {layers.spawns && <AreaLayer features={perLayer.spawns} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} override={overrideFor("spawns", liveMove, features)} />}
-      {layers.resources && <AreaLayer features={perLayer.resources} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} override={overrideFor("resources", liveMove, features)} />}
-      {layers.settlements && <PointLayer features={perLayer.settlements} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.near} shapes override={overrideFor("settlements", liveMove, features)} />}
-      {layers.obstacles && <PointLayer features={perLayer.obstacles} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} override={overrideFor("obstacles", liveMove, features)} />}
-      {layers.gates && <PointLayer features={perLayer.gates} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} override={overrideFor("gates", liveMove, features)} />}
-      {layers.landmarks && <PointLayer features={perLayer.landmarks} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} override={overrideFor("landmarks", liveMove, features)} />}
-      {layers.locations && <PointLayer features={perLayer.locations} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} override={overrideFor("locations", liveMove, features)} />}
-      {layers.npcs && <PointLayer features={perLayer.npcs} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.near} override={overrideFor("npcs", liveMove, features)} />}
-      {selectedFeature && selectedFeature.layer === "spawns" && anchors.length > 0 && <g className="world-anchors">
+      {layers.spawns && <AreaLayer features={perLayer.spawns} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} override={overrideFor("spawns", liveMove, features)} />}
+      {layers.resources && <AreaLayer features={perLayer.resources} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} override={overrideFor("resources", liveMove, features)} />}
+      {layers.settlements && <PointLayer features={perLayer.settlements} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.near} shapes dragging={dragging} override={overrideFor("settlements", liveMove, features)} />}
+      {layers.obstacles && <PointLayer features={perLayer.obstacles} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} dragging={dragging} override={overrideFor("obstacles", liveMove, features)} />}
+      {layers.gates && <PointLayer features={perLayer.gates} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} dragging={dragging} override={overrideFor("gates", liveMove, features)} />}
+      {layers.landmarks && <PointLayer features={perLayer.landmarks} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} dragging={dragging} override={overrideFor("landmarks", liveMove, features)} />}
+      {layers.locations && <PointLayer features={perLayer.locations} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} dragging={dragging} override={overrideFor("locations", liveMove, features)} />}
+      {layers.npcs && <PointLayer features={perLayer.npcs} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.near} dragging={dragging} override={overrideFor("npcs", liveMove, features)} />}
+      {selectedFeature && selectedFeature.layer === "spawns" && anchors.length > 0 && <g>
         {anchors.map((anchor, index) => {
           const point: Point = liveAnchor?.index === index ? liveAnchor.point : liveDelta ? [anchor[0] + liveDelta[0], anchor[1] + liveDelta[1]] : anchor;
           const centre: Point = liveDelta ? [selectedFeature.x + liveDelta[0], selectedFeature.z + liveDelta[1]] : [selectedFeature.x, selectedFeature.z];
           return <g key={index}>
-            <line x1={centre[0]} y1={-centre[1]} x2={point[0]} y2={-point[1]} />
-            <circle data-anchor={index} cx={point[0]} cy={-point[1]} r={marker * 0.75} className={editable ? "is-draggable" : undefined}><title>{`Anchor ${index + 1} · ${round(point[0])}, ${round(point[1])}`}</title></circle>
+            <line x1={centre[0]} y1={-centre[1]} x2={point[0]} y2={-point[1]} className="pointer-events-none stroke-primary" strokeOpacity={0.7} strokeWidth={1} {...THIN} />
+            <circle data-anchor={index} cx={point[0]} cy={-point[1]} r={marker * 0.75} className={cn("stroke-primary", editable && "cursor-move")} fill="#fff" strokeWidth={1.5} {...THIN}><title>{`Anchor ${index + 1} · ${round(point[0])}, ${round(point[1])}`}</title></circle>
           </g>;
         })}
       </g>}
     </svg>
-    {hover && Icon && <div ref={tip} className="world-tip" role="presentation" style={{ transform: "translate(-1000px, -1000px)" }}><Icon size={12} /><strong>{hover.name}</strong><span>{hover.fact}</span></div>}
-    <div className="world-readout">{Math.round(view.x)}, {Math.round(view.z)} · {view.span >= 100 ? `${Math.round(view.span)} m` : `${round(view.span, 1)} m`} wide · {round(1 / pixelsPerMetre, 2)} m/px</div>
+    {hover && Icon && <div ref={tip} className="pointer-events-none fixed top-0 left-0 z-30 flex max-w-80 items-center gap-1.5 rounded-sm border border-border bg-popover px-2 py-1 text-xs whitespace-nowrap text-popover-foreground shadow-lg" role="presentation" style={{ transform: "translate(-1000px, -1000px)" }}>
+      <Icon size={12} className="shrink-0 text-primary" /><strong className="font-semibold">{hover.name}</strong><span className="truncate text-muted-foreground">{hover.fact}</span>
+    </div>}
+    <div className="pointer-events-none absolute right-2 bottom-1.5 rounded-sm bg-[#0a0d12aa] px-1.5 py-0.5 font-mono text-[11px] text-[#c7ccd4]">{Math.round(view.x)}, {Math.round(view.z)} · {view.span >= 100 ? `${Math.round(view.span)} m` : `${round(view.span, 1)} m`} wide · {round(1 / pixelsPerMetre, 2)} m/px</div>
   </div>;
 });
 
@@ -270,62 +284,79 @@ function overrideFor(layer: Layer, live: { key: string; x: number; z: number } |
 // ---------------------------------------------------------------- layers
 
 const RegionLayer = memo(function RegionLayer({ features, marker, selectedKey }: { features: readonly Feature[]; marker: number; selectedKey?: string }) {
-  return <g className="world-regions">
-    {features.map(feature => feature.bounds && <g key={feature.key} className={feature.key === selectedKey ? "is-selected" : undefined}>
-      <rect x={feature.bounds.min[0]} y={-feature.bounds.max[1]} width={feature.bounds.max[0] - feature.bounds.min[0]} height={feature.bounds.max[1] - feature.bounds.min[1]} />
-      <text data-key={feature.key} x={feature.bounds.min[0] + marker * 1.2} y={-feature.bounds.max[1] + marker * 3.4} fontSize={marker * 2.8}>{feature.name}</text>
-    </g>)}
+  return <g>
+    {features.map(feature => { const selected = feature.key === selectedKey; return feature.bounds && <g key={feature.key}>
+      <rect x={feature.bounds.min[0]} y={-feature.bounds.max[1]} width={feature.bounds.max[0] - feature.bounds.min[0]} height={feature.bounds.max[1] - feature.bounds.min[1]}
+        className={cn("pointer-events-none", selected ? "stroke-primary" : "stroke-white/40")} fill="none" strokeWidth={selected ? 2 : 1.5} strokeDasharray={selected ? undefined : "6 4"} {...THIN} />
+      <text data-key={feature.key} x={feature.bounds.min[0] + marker * 1.2} y={-feature.bounds.max[1] + marker * 3.4} fontSize={marker * 2.8} {...LABEL}
+        className="cursor-pointer font-sans font-semibold tracking-[.02em] select-none hover:fill-primary">{feature.name}</text>
+    </g>; })}
   </g>;
 });
 
 const RoadLayer = memo(function RoadLayer({ roads }: { roads: readonly Road[] }) {
-  return <g className="world-roads">
-    {roads.map(road => <line key={road.key} x1={road.from[0]} y1={-road.from[1]} x2={road.to[0]} y2={-road.to[1]} />)}
+  return <g className="pointer-events-none">
+    {roads.map(road => <line key={road.key} x1={road.from[0]} y1={-road.from[1]} x2={road.to[0]} y2={-road.to[1]} stroke="#f1d9a3aa" strokeWidth={1.5} {...THIN} />)}
   </g>;
 });
 
-interface LayerProps { features: readonly Feature[]; marker: number; selectedKey?: string; hoverKey?: string; labels: boolean; override?: { key: string; x: number; z: number }; shapes?: boolean }
+interface LayerProps { features: readonly Feature[]; marker: number; selectedKey?: string; hoverKey?: string; labels: boolean; dragging: boolean; override?: { key: string; x: number; z: number }; shapes?: boolean }
+
+/** The marker every feature draws: a disc in its hue, outlined in white while hovered, with its icon on top. */
+function Disc({ feature, x, z, size, colour, hover, icon = true }: { feature: Feature; x: number; z: number; size: number; colour: string; hover: boolean; icon?: boolean }) {
+  const Icon = glyphIcon(feature);
+  return <>
+    <circle cx={x} cy={-z} r={size} fill={colour} stroke={hover ? "#fff" : "#0a0d12"} strokeWidth={hover ? 2 : 1} {...THIN} />
+    {icon && <Icon x={x - size * 0.62} y={-z - size * 0.62} width={size * 1.24} height={size * 1.24} className="pointer-events-none" color="#fff" strokeWidth={2.2} />}
+  </>;
+}
+
+/** The brass ring around the selected marker. */
+const Ring = ({ x, z, r }: { x: number; z: number; r: number }) => <circle cx={x} cy={-z} r={r} fill="none" className="stroke-primary" strokeWidth={2} {...THIN} />;
+
+function Label({ x, y, size, hover, faint = false, children }: { x: number; y: number; size: number; hover: boolean; faint?: boolean; children: string }) {
+  return <text x={x} y={y} fontSize={size} {...LABEL} fill={hover ? "#fff" : faint ? "#c7ccd4" : LABEL.fill} className={LABEL_CLASS}>{children}</text>;
+}
 
 /** Spawns and resource nodes: a translucent radius circle in metres plus a marker-scaled disc. */
-const AreaLayer = memo(function AreaLayer({ features, marker, selectedKey, hoverKey, labels, override }: LayerProps) {
-  return <g className="world-areas">
+const AreaLayer = memo(function AreaLayer({ features, marker, selectedKey, hoverKey, labels, dragging, override }: LayerProps) {
+  return <g>
     {features.map(feature => {
       const x = override?.key === feature.key ? override.x : feature.x, z = override?.key === feature.key ? override.z : feature.z;
       const colour = glyphColor(feature);
-      const Icon = glyphIcon(feature);
       const size = marker * 1.5;
-      return <g key={feature.key} data-key={feature.key} className={`world-feature${feature.key === selectedKey ? " is-selected" : ""}${feature.key === hoverKey ? " is-hover" : ""}`} style={{ "--glyph": colour } as CSSProperties}>
-        {feature.radius !== undefined && <circle className="world-radius" cx={x} cy={-z} r={feature.radius} />}
-        {feature.rank && <circle className="world-rank" data-rank={feature.rank} cx={x} cy={-z} r={size * 1.55} />}
-        {feature.key === selectedKey && <circle className="world-selected" cx={x} cy={-z} r={size * 1.9} />}
-        <circle className="world-disc" cx={x} cy={-z} r={size} />
-        <Icon x={x - size * 0.62} y={-z - size * 0.62} width={size * 1.24} height={size * 1.24} className="world-icon" />
-        {labels && <text x={x + size * 1.4} y={-z + marker * 0.8} fontSize={marker * 2.2}>{feature.name}</text>}
+      const hover = feature.key === hoverKey;
+      return <g key={feature.key} data-key={feature.key} className={dragging ? "cursor-grabbing" : "cursor-pointer"}>
+        {feature.radius !== undefined && <circle cx={x} cy={-z} r={feature.radius} fill={colour} fillOpacity={0.16} stroke={colour} strokeOpacity={0.7} strokeWidth={1} {...THIN} />}
+        {feature.rank && <circle cx={x} cy={-z} r={size * 1.55} fill="none" stroke={RANK_STROKE[feature.rank]} strokeWidth={2} {...THIN} />}
+        {feature.key === selectedKey && <Ring x={x} z={z} r={size * 1.9} />}
+        <Disc feature={feature} x={x} z={z} size={size} colour={colour} hover={hover} />
+        {labels && <Label x={x + size * 1.4} y={-z + marker * 0.8} size={marker * 2.2} hover={hover}>{feature.name}</Label>}
       </g>;
     })}
   </g>;
 });
 
 /** Everything that is a point: locations, settlement pieces, npcs, landmarks, gates, obstacles. */
-const PointLayer = memo(function PointLayer({ features, marker, selectedKey, hoverKey, labels, override, shapes }: LayerProps) {
-  return <g className="world-points">
+const PointLayer = memo(function PointLayer({ features, marker, selectedKey, hoverKey, labels, dragging, override, shapes }: LayerProps) {
+  return <g>
     {features.map(feature => {
       const x = override?.key === feature.key ? override.x : feature.x, z = override?.key === feature.key ? override.z : feature.z;
       const colour = glyphColor(feature);
-      const Icon = glyphIcon(feature);
       const junction = feature.layer === "locations" && feature.glyph === "junction";
       const piece = shapes && feature.glyph === "building";
       const size = junction ? marker * 0.6 : piece ? marker * 0.9 : marker * 1.25;
       const selected = feature.key === selectedKey;
-      return <g key={feature.key} data-key={feature.key} className={`world-feature${selected ? " is-selected" : ""}${feature.key === hoverKey ? " is-hover" : ""}`} style={{ "--glyph": colour } as CSSProperties}>
-        {feature.to && (selected || feature.layer === "obstacles") && <line className="world-link" x1={x} y1={-z} x2={feature.to[0]} y2={-feature.to[1]} strokeDasharray={feature.layer === "gates" ? "4 3" : undefined} />}
-        {feature.to && feature.layer === "obstacles" && <circle className="world-exit" cx={feature.to[0]} cy={-feature.to[1]} r={marker * 0.5} />}
-        {piece && feature.footprint && <rect className="world-footprint" transform={`translate(${x} ${-z}) rotate(${deg(feature.rotation)})`} x={-feature.footprint[0] / 2} y={-feature.footprint[1] / 2} width={feature.footprint[0]} height={feature.footprint[1]} />}
-        {selected && <circle className="world-selected" cx={x} cy={-z} r={size * 1.9} />}
-        <circle className="world-disc" cx={x} cy={-z} r={size} />
-        {!junction && !piece && <Icon x={x - size * 0.62} y={-z - size * 0.62} width={size * 1.24} height={size * 1.24} className="world-icon" />}
-        {labels && !junction && <text x={x + size * 1.4} y={-z + marker * 0.8} fontSize={marker * 2.2}>{feature.name}</text>}
-        {labels && junction && <text x={x + size * 1.6} y={-z + marker * 0.7} fontSize={marker * 1.8} className="is-faint">{feature.name}</text>}
+      const hover = feature.key === hoverKey;
+      return <g key={feature.key} data-key={feature.key} className={dragging ? "cursor-grabbing" : "cursor-pointer"}>
+        {feature.to && (selected || feature.layer === "obstacles") && <line x1={x} y1={-z} x2={feature.to[0]} y2={-feature.to[1]} className="pointer-events-none" stroke="#fff" strokeOpacity={0.7} strokeWidth={1.5} strokeDasharray={feature.layer === "gates" ? "4 3" : undefined} {...THIN} />}
+        {feature.to && feature.layer === "obstacles" && <circle cx={feature.to[0]} cy={-feature.to[1]} r={marker * 0.5} className="pointer-events-none" fill="#fff" fillOpacity={0.8} />}
+        {piece && feature.footprint && <rect transform={`translate(${x} ${-z}) rotate(${deg(feature.rotation)})`} x={-feature.footprint[0] / 2} y={-feature.footprint[1] / 2} width={feature.footprint[0]} height={feature.footprint[1]}
+          fill="#d9c8a0" fillOpacity={selected ? 0.5 : 0.35} stroke={selected ? undefined : "#d9c8a0"} className={selected ? "stroke-primary" : undefined} strokeWidth={1} {...THIN} />}
+        {selected && <Ring x={x} z={z} r={size * 1.9} />}
+        <Disc feature={feature} x={x} z={z} size={size} colour={colour} hover={hover} icon={!junction && !piece} />
+        {labels && !junction && <Label x={x + size * 1.4} y={-z + marker * 0.8} size={marker * 2.2} hover={hover}>{feature.name}</Label>}
+        {labels && junction && <Label x={x + size * 1.6} y={-z + marker * 0.7} size={marker * 1.8} hover={hover} faint>{feature.name}</Label>}
       </g>;
     })}
   </g>;

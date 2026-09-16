@@ -7,7 +7,10 @@ import { collectionQuery } from "../api/client.js";
 import { metaQueryKey } from "./NotesPanel.js";
 import type { ContentRow } from "../model/contracts.js";
 import { rowId } from "../model/rows.js";
-import { Button, Badge, NativeSelect } from "../components/ui/index.js";
+import { Button, Badge, Input, NativeSelect, Textarea } from "../components/ui/index.js";
+import { cn } from "../lib/utils.js";
+import { EMPTY, PANEL, PANEL_HEADER } from "../ui/layout.js";
+import { FormError, SPIN } from "./panelParts.js";
 
 type ActionKind = BulkAction["kind"];
 type AuthoredStatus = Extract<BulkAction, { kind: "status" }>["status"];
@@ -82,12 +85,17 @@ function ownNumericTier(row: ContentRow): boolean {
 function DiffRecord({ diff }: { diff: BulkResponse["diffs"][number] }) {
   const changes = changedFields(diff.before, diff.after);
   const shown = changes.slice(0, 10);
-  return <article className="bulk-diff-row">
-    <div className="bulk-diff-record"><code>{diff.recordId}</code><Badge className="font-mono">{changes.length}</Badge></div>
-    <div className="bulk-diff-values">
-      {shown.map(change => <div className="bulk-diff-change" key={change.key}><code>{change.key}</code><span className="bulk-diff-before">{formatValue(change.before)}</span><ArrowRight size={11} aria-hidden="true" /><span className="bulk-diff-after">{formatValue(change.after)}</span></div>)}
-      {changes.length > shown.length && <small>+{changes.length - shown.length} more</small>}
-      {!changes.length && <span className="bulk-diff-empty">No changed fields.</span>}
+  return <article className="grid grid-cols-[minmax(140px,14rem)_minmax(0,1fr)] gap-2.5 border-b border-border-subtle px-3 py-1.5 last:border-b-0 max-md:grid-cols-1 max-md:gap-1">
+    <div className="flex min-w-0 items-start gap-1.5"><code className="truncate font-mono text-xs leading-5 text-foreground" title={diff.recordId}>{diff.recordId}</code><Badge className="font-mono">{changes.length}</Badge></div>
+    <div className="flex min-w-0 flex-col gap-0.5">
+      {shown.map(change => <div className="grid min-w-0 grid-cols-[minmax(80px,10rem)_minmax(0,1fr)_12px_minmax(0,1fr)] items-start gap-1.5 font-mono text-[11px] leading-5 text-muted-foreground" key={change.key}>
+        <code className="text-faint [overflow-wrap:anywhere]">{change.key}</code>
+        <span className="min-w-0 line-through decoration-faint [overflow-wrap:anywhere]">{formatValue(change.before)}</span>
+        <ArrowRight size={11} aria-hidden="true" className="mt-1 text-faint" />
+        <span className="min-w-0 text-primary [overflow-wrap:anywhere]">{formatValue(change.after)}</span>
+      </div>)}
+      {changes.length > shown.length && <small className="text-[11px] text-faint">+{changes.length - shown.length} more</small>}
+      {!changes.length && <span className="text-[11px] text-faint">No changed fields.</span>}
     </div>
   </article>;
 }
@@ -193,43 +201,48 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
 
   const diffCount = currentPreview?.response.diffs.length ?? 0;
 
-  return <section className="panel bulk-actions" aria-labelledby="bulk-actions-title">
-    <header className="panel-header">
+  return <section className={cn(PANEL, "bulk-actions mb-3 overflow-hidden")} aria-labelledby="bulk-actions-title">
+    <header className={PANEL_HEADER}>
       <h2 id="bulk-actions-title">Bulk actions</h2>
       <Badge variant="accent" aria-label="Selection details">{selectedIds.length} selected</Badge>
       {withoutNumericTierCount > 0 && <Badge variant="warn" title="Retier needs an owned numeric tier">{withoutNumericTierCount} without tier</Badge>}
-      {busy === "preview" && <LoaderCircle className="bulk-spinner" size={13} aria-label="Calculating preview" />}
+      {busy === "preview" && <LoaderCircle className={cn(SPIN, "text-primary")} size={13} aria-label="Calculating preview" />}
     </header>
-    <form className="panel-body bulk-actions-form" onSubmit={event => { event.preventDefault(); void request("preview"); }} noValidate>
-      <div className="bulk-form-row">
+    <form className="flex flex-col gap-2 px-2.5 py-2" onSubmit={event => { event.preventDefault(); void request("preview"); }} noValidate>
+      <div className="flex flex-wrap items-center gap-1.5">
         <NativeSelect aria-label="Bulk action" value={actionKind} onChange={event => setActionKind(event.target.value as ActionKind)} disabled={Boolean(busy)}><option value="status">Set status</option><option value="note">Add note</option><option value="retier" disabled={!canRetier}>Retier records{canRetier ? "" : " (numeric tier required)"}</option></NativeSelect>
         {actionKind === "status" && <NativeSelect aria-label="New status" value={status} onChange={event => setStatus(event.target.value as AuthoredStatus)} disabled={Boolean(busy)}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></NativeSelect>}
         {actionKind === "note" && <>
-          <label className="field-input bulk-note-text"><span className="sr-only">Note text</span><textarea aria-label="Note text" value={noteText} onChange={event => setNoteText(event.target.value)} placeholder="Note added to each selected record" rows={1} disabled={Boolean(busy)} aria-describedby="bulk-note-help" /></label>
-          <label className="field-input bulk-note-label"><span className="sr-only">Note label</span><input aria-label="Note label" value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={Boolean(busy)} /></label>
+          <label className="flex min-w-0 flex-[1_1_260px]"><span className="sr-only">Note text</span><Textarea aria-label="Note text" className="h-7 max-h-30 min-h-7 resize-y py-[5px] leading-snug" value={noteText} onChange={event => setNoteText(event.target.value)} placeholder="Note added to each selected record" rows={1} disabled={Boolean(busy)} aria-describedby="bulk-note-help" /></label>
+          <label className="flex w-44 max-md:w-full"><span className="sr-only">Note label</span><Input aria-label="Note label" value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={Boolean(busy)} /></label>
           <span id="bulk-note-help" className="sr-only">The note is added to each selected record.</span>
         </>}
         {actionKind === "retier" && <>
-          <label className="field-input bulk-tier"><span className="sr-only">New tier</span><input aria-label="New tier" type="number" min={1} step={1} inputMode="numeric" value={retierTierText} onChange={event => setRetierTierText(event.target.value)} placeholder="Tier" disabled={Boolean(busy)} aria-describedby="bulk-retier-help" /></label>
-          <small id="bulk-retier-help" className="bulk-hint">Generated values recalculate at the new tier; explicit adjustments stay.</small>
+          <label className="flex w-22"><span className="sr-only">New tier</span><Input aria-label="New tier" className="font-mono" type="number" min={1} step={1} inputMode="numeric" value={retierTierText} onChange={event => setRetierTierText(event.target.value)} placeholder="Tier" disabled={Boolean(busy)} aria-describedby="bulk-retier-help" /></label>
+          <small id="bulk-retier-help" className="text-[11px] text-faint">Generated values recalculate at the new tier; explicit adjustments stay.</small>
         </>}
-        <span className="bulk-form-spacer" />
-        <Button variant="default" size="sm" type="submit" disabled={!canPreview}><Eye size={13} />{busy === "preview" ? "Previewing…" : currentPreview ? "Refresh preview" : "Preview"}</Button>
+        <Button variant="default" size="sm" type="submit" className="ml-auto" disabled={!canPreview}><Eye size={13} />{busy === "preview" ? "Previewing…" : currentPreview ? "Refresh preview" : "Preview"}</Button>
       </div>
-      {validationMessage && <p className="bulk-validation" role="alert"><CircleAlert size={12} />{validationMessage}</p>}
-      {error && <div className={`bulk-feedback${error.conflict ? " bulk-feedback-conflict" : ""}`} role="alert"><CircleAlert size={13} /><div><strong>{error.message}</strong>{error.diagnostics.length > 0 && <ul>{error.diagnostics.map((diagnostic, index) => <li key={`${diagnostic.path}:${index}`}><code>{diagnostic.path || "content"}</code><span>{diagnostic.message}</span></li>)}</ul>}</div></div>}
+      {validationMessage && <FormError className="text-warn">{validationMessage}</FormError>}
+      {error && <div className={cn("flex items-start gap-2 rounded-md border px-2.5 py-1.5 text-xs [&>svg]:mt-0.5 [&>svg]:shrink-0", error.conflict ? "border-warn bg-warn-soft [&>svg]:text-warn" : "border-destructive bg-destructive-soft [&>svg]:text-destructive")} role="alert">
+        <CircleAlert size={13} />
+        <div className="min-w-0">
+          <strong className="font-medium">{error.message}</strong>
+          {error.diagnostics.length > 0 && <ul className="mt-1.5 grid gap-0.5 text-muted-foreground">{error.diagnostics.map((diagnostic, index) => <li className="grid grid-cols-[minmax(90px,.35fr)_minmax(0,1fr)] gap-2" key={`${diagnostic.path}:${index}`}><code className="font-mono text-[11px] text-faint [overflow-wrap:anywhere]">{diagnostic.path || "content"}</code><span>{diagnostic.message}</span></li>)}</ul>}
+        </div>
+      </div>}
     </form>
-    {(currentPreview || (!error && selectedIds.length > 0)) && <section className="bulk-preview" aria-labelledby="bulk-preview-title">
-      <header className="bulk-preview-header">
+    {(currentPreview || (!error && selectedIds.length > 0)) && <section className="border-t border-border-subtle" aria-labelledby="bulk-preview-title">
+      <header className="flex min-h-8 items-center gap-2 px-3 py-1 [&_h3]:text-xs [&_h3]:font-semibold">
         <h3 id="bulk-preview-title">Preview</h3>
-        {currentPreview ? <span className="count-badge">{diffCount} {diffCount === 1 ? "row" : "rows"} change</span> : <span className="count-badge">none yet</span>}
+        {currentPreview ? <span className="font-mono text-[11px] text-muted-foreground">{diffCount} {diffCount === 1 ? "row" : "rows"} change</span> : <span className="font-mono text-[11px] text-muted-foreground">none yet</span>}
         {currentPreview?.stale && <Badge variant="warn" role="status"><RefreshCw size={11} />Out of date</Badge>}
-        {currentPreview && diffCount > 0 && <div className="panel-header-actions"><Button variant="default" size="sm" disabled={!canApply} onClick={() => void request("apply")}>{busy === "apply" ? "Applying…" : `Apply to ${diffCount}`}</Button></div>}
+        {currentPreview && diffCount > 0 && <div className="ml-auto flex items-center gap-1"><Button variant="default" size="sm" disabled={!canApply} onClick={() => void request("apply")}>{busy === "apply" ? "Applying…" : `Apply to ${diffCount}`}</Button></div>}
       </header>
-      {currentPreview && !diffCount && <p className="empty-inline bulk-preview-clean" role="status"><Check size={13} />No selected rows would change.</p>}
+      {currentPreview && !diffCount && <p className={cn(EMPTY, "inline-flex items-center gap-1.5 px-3 pb-2.5 text-ok")} role="status"><Check size={13} />No selected rows would change.</p>}
       {currentPreview && diffCount > 0 && <>
-        <div className="bulk-diff-list">{currentPreview.response.diffs.slice(0, 40).map(diff => <DiffRecord key={diff.recordId} diff={diff} />)}</div>
-        {diffCount > 40 && <p className="empty-inline bulk-diff-more">Showing 40 of {diffCount}. Apply covers the full preview.</p>}
+        <div className="max-h-80 overflow-auto border-t border-border-subtle [scrollbar-width:thin]">{currentPreview.response.diffs.slice(0, 40).map(diff => <DiffRecord key={diff.recordId} diff={diff} />)}</div>
+        {diffCount > 40 && <p className={cn(EMPTY, "px-3 py-1.5")}>Showing 40 of {diffCount}. Apply covers the full preview.</p>}
       </>}
     </section>}
   </section>;

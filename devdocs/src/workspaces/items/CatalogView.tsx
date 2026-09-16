@@ -3,7 +3,6 @@ import { ErrorState } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { ItemPage } from "./ItemPage.js";
 import { useItemsData } from "./data.js";
-import "./items.css";
 
 /** The catalog: the generic browser for the list, the purpose-built item page for a record. */
 export default function CatalogView({ recordId, navigate }: ViewProps) {

@@ -23,7 +23,16 @@ export interface SerialFieldSpec extends FieldMeta {
   refinements: string[];
 }
 
-export function fieldTitle(name: string): string { return name.replace(/([a-z\d])([A-Z])/g, "$1 $2").replace(/_/g, " ").replace(/^./, c => c.toUpperCase()).replace(/\bXp\b/g, "XP").replace(/\bId\b/g, "ID"); }
+const ACRONYMS: Readonly<Record<string, string>> = { xp: "XP", id: "ID", ids: "IDs", hp: "HP", npc: "NPC", npcs: "NPCs", ui: "UI", ai: "AI" };
+/* Key suffixes that name a unit ("attackSpeedMs"). The unit sits beside the control, so the label leaves it out. */
+const UNIT_SUFFIXES = new Set(["ms", "m", "s", "pct", "percent", "px", "deg"]);
+
+/** A label for a schema key, in sentence case: "attackSpeedMs" reads "Attack speed", "valuePerLevel" "Value per level". */
+export function fieldTitle(name: string): string {
+  const words = name.replace(/([a-z\d])([A-Z])/g, "$1 $2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2").split(/[\s_]+/).filter(Boolean).map(word => word.toLowerCase());
+  if (words.length > 1 && UNIT_SUFFIXES.has(words[words.length - 1]!)) words.pop();
+  return words.map((word, index) => ACRONYMS[word] ?? (index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word)).join(" ");
+}
 
 /** Unwrap only this level. Recursive lazy schemas are expanded by the form as values are visited. */
 export function fieldCore(schema: Schema): Schema {

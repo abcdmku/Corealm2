@@ -1,6 +1,6 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowRight, Check, CircleAlert, FileUp, GitCompareArrows, LoaderCircle, RefreshCw, ShieldCheck, UploadCloud, X } from "lucide-react";
+import { ArrowRight, Check, FileUp, GitCompareArrows, LoaderCircle, RefreshCw, ShieldCheck, UploadCloud, X } from "lucide-react";
 import { toast } from "sonner";
 
 import type { MetaResponse } from "../../shared/metaContracts.js";
@@ -8,11 +8,12 @@ import type { MetaCandidate } from "../../../tools/content/meta.js";
 import { AssetViewer } from "../viewer/AssetViewer.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
 import type { AssetActionResponse, AssetCandidateView, AssetCandidatesResponse } from "../../server/handlers/assets.js";
-import "./assetCandidates.css";
-import { Button, Badge, NativeSelect } from "../components/ui/index.js";
+import { Button, Badge, Input, NativeSelect, Textarea } from "../components/ui/index.js";
 import { buttonVariants } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
 import { toneVariant } from "../components/ui/badge.js";
+import { EMPTY, PANEL, PANEL_BODY, PANEL_HEADER } from "../ui/layout.js";
+import { FormError, LoadError, SPIN } from "./panelParts.js";
 
 const BODY_VALUES = ["male", "female", "creature"] as const;
 type CandidateBody = (typeof BODY_VALUES)[number];
@@ -245,31 +246,31 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
     actionMutation.mutate({ candidateId: candidate.candidateId, revision: candidate.revision, action: "promote" });
   }
 
-  return <section className={`asset-candidates${compact ? " asset-candidates-compact" : " panel"}`} aria-labelledby={titleId}>
-    <header className={compact ? "asset-candidates-header" : "panel-header asset-candidates-header"}>
-      <GitCompareArrows size={14} />
-      <h3 id={titleId} className="asset-candidates-title" title={title}>{title}</h3>
-      <span className="count-badge">{candidatesQuery.isPending ? "…" : candidates.length}</span>
-      <div className="panel-header-actions"><Button variant="ghost" size="icon-sm" aria-label="Refresh asset candidates" onClick={refresh} disabled={candidatesQuery.isFetching}><RefreshCw size={13} className={candidatesQuery.isFetching ? "asset-candidates-spin" : undefined} /></Button></div>
+  return <section className={cn("min-w-0", compact ? "flex flex-col gap-2" : PANEL)} aria-labelledby={titleId}>
+    <header className={compact ? "flex min-h-7 items-center gap-2 [&_h3]:text-xs [&_h3]:font-semibold" : PANEL_HEADER}>
+      <GitCompareArrows size={14} className="shrink-0 text-muted-foreground" />
+      <h3 id={titleId} className="min-w-0 truncate" title={title}>{title}</h3>
+      <span className="font-mono text-[11px] text-muted-foreground">{candidatesQuery.isPending ? "…" : candidates.length}</span>
+      <div className="ml-auto flex items-center gap-1"><Button variant="ghost" size="icon-sm" aria-label="Refresh asset candidates" onClick={refresh} disabled={candidatesQuery.isFetching}><RefreshCw size={13} className={candidatesQuery.isFetching ? SPIN : undefined} /></Button></div>
     </header>
 
-    <div className={compact ? "asset-candidates-body" : "panel-body asset-candidates-body"}>
-      {feedback && <div className="asset-candidates-feedback" role="status"><ShieldCheck size={13} /><span>{feedback}</span><Button variant="ghost" size="icon-sm" aria-label="Dismiss asset feedback" onClick={() => setFeedback(undefined)}><X size={13} /></Button></div>}
+    <div className={cn("flex flex-col gap-2.5", !compact && PANEL_BODY)}>
+      {feedback && <div className="flex items-center gap-2 rounded-md border border-ok bg-ok-soft py-1 pr-1 pl-2.5 text-xs" role="status"><ShieldCheck size={13} className="shrink-0 text-ok" /><span className="flex-1">{feedback}</span><Button variant="ghost" size="icon-sm" aria-label="Dismiss asset feedback" onClick={() => setFeedback(undefined)}><X size={13} /></Button></div>}
 
-      {showUpload && target && <form className="asset-upload-form" onSubmit={submitUpload}>
-        <label className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "asset-upload-file")}><FileUp size={13} /><span>{file?.name ?? "Choose GLB…"}</span><input ref={fileInput} type="file" accept=".glb,model/gltf-binary" onChange={selectFile} aria-label="Candidate GLB file" /></label>
+      {showUpload && target && <form className="flex flex-wrap items-center gap-1.5" onSubmit={submitUpload}>
+        <label className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "relative max-w-60 overflow-hidden max-md:max-w-none max-md:flex-[1_1_100%]")}><FileUp size={13} /><span className="truncate">{file?.name ?? "Choose GLB…"}</span><input ref={fileInput} className="absolute inset-0 size-full cursor-pointer opacity-0" type="file" accept=".glb,model/gltf-binary" onChange={selectFile} aria-label="Candidate GLB file" /></label>
         <NativeSelect aria-label="Body" value={uploadBody} onChange={event => setUploadBody(event.target.value as CandidateBody | "")}><option value="">Any body</option>{BODY_VALUES.map(value => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</NativeSelect>
-        <label className="field-input asset-upload-source"><span className="sr-only">Source</span><input aria-label="Source" value={source} onChange={event => setSource(event.target.value)} placeholder="Source (pack, URL…)" /></label>
+        <label className="flex min-w-0 flex-[1_1_160px] max-md:flex-[1_1_100%]"><span className="sr-only">Source</span><Input aria-label="Source" value={source} onChange={event => setSource(event.target.value)} placeholder="Source (pack, URL…)" /></label>
         <Button variant="default" size="sm" type="submit" disabled={uploadMutation.isPending || !metaQuery.data}><UploadCloud size={13} />{uploadMutation.isPending ? "Inspecting…" : "Upload"}</Button>
-        {formError && <p className="asset-candidates-form-error" role="alert"><CircleAlert size={12} />{formError}</p>}
+        {formError && <FormError>{formError}</FormError>}
       </form>}
 
-      {!target && showUpload && <p className="empty-inline">Open a record to upload a new file.</p>}
+      {!target && showUpload && <p className={EMPTY}>Open a record to upload a new file.</p>}
 
-      {candidatesQuery.isPending ? <div className="asset-candidates-loading" role="status"><LoaderCircle size={14} className="asset-candidates-spin" /><span>Loading candidates…</span></div>
-        : candidatesQuery.isError ? <div className="asset-candidates-error" role="alert"><CircleAlert size={15} /><div><strong>Could not load candidates</strong><p>{candidatesQuery.error.message}</p><Button variant="secondary" size="sm" onClick={refresh}>Try again</Button></div></div>
-        : candidates.length ? <div className="tile-grid asset-candidate-list">{candidates.map(candidate => <CandidateCard key={candidate.candidateId} candidate={candidate} currentAssetId={currentAssetId} approving={actionMutation.isPending && actionMutation.variables?.candidateId === candidate.candidateId} approvalBody={approvalBody[candidate.candidateId]} onApprovalBody={value => setApprovalBody(previous => ({ ...previous, [candidate.candidateId]: value }))} rejecting={rejecting === candidate.candidateId} reason={rejectReason} onReason={setRejectReason} onStartReject={() => { setRejecting(candidate.candidateId); setRejectReason(""); setFeedback(undefined); }} onCancelReject={() => { setRejecting(undefined); setRejectReason(""); }} onApprove={() => approve(candidate)} onReject={() => reject(candidate)} onPromote={() => promote(candidate)} />)}</div>
-        : <p className="empty-inline">{target ? "No candidates for this target." : "No candidates waiting."}</p>}
+      {candidatesQuery.isPending ? <div className="flex items-center gap-2 py-2 text-xs text-muted-foreground" role="status"><LoaderCircle size={14} className={SPIN} /><span>Loading candidates…</span></div>
+        : candidatesQuery.isError ? <LoadError label="Could not load candidates" message={candidatesQuery.error.message} retry={refresh} />
+        : candidates.length ? <div className={cn("grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-1.5", compact ? "[&_.viewer-viewport]:h-50!" : "[&_.viewer-viewport]:h-60!")}>{candidates.map(candidate => <CandidateCard key={candidate.candidateId} candidate={candidate} currentAssetId={currentAssetId} approving={actionMutation.isPending && actionMutation.variables?.candidateId === candidate.candidateId} approvalBody={approvalBody[candidate.candidateId]} onApprovalBody={value => setApprovalBody(previous => ({ ...previous, [candidate.candidateId]: value }))} rejecting={rejecting === candidate.candidateId} reason={rejectReason} onReason={setRejectReason} onStartReject={() => { setRejecting(candidate.candidateId); setRejectReason(""); setFeedback(undefined); }} onCancelReject={() => { setRejecting(undefined); setRejectReason(""); }} onApprove={() => approve(candidate)} onReject={() => reject(candidate)} onPromote={() => promote(candidate)} />)}</div>
+        : <p className={EMPTY}>{target ? "No candidates for this target." : "No candidates waiting."}</p>}
     </div>
   </section>;
 }
@@ -295,28 +296,33 @@ function CandidateCard({ candidate, currentAssetId, approving, approvalBody, onA
   const isActionBusy = approving;
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const approvalChoice = approvalBody ?? (candidate.body === "female" ? "female" : "male");
-  return <article className={`panel asset-candidate-card asset-candidate-status-${candidate.status}`}>
-    <header className="asset-candidate-card-header">
+  return <article className="flex min-w-0 flex-col gap-2 overflow-hidden rounded-md border border-border bg-card p-2.5" data-status={candidate.status}>
+    <header className="flex flex-wrap items-center gap-1">
       <Badge variant={toneVariant(statusTone(candidate.status))}>{candidate.status === "approved" ? <Check size={11} /> : null}{statusLabel(candidate.status)}</Badge>
       <Badge className="font-mono">{candidate.kind}</Badge>
-      <code className="asset-candidate-hash" title={`${candidate.candidateId} · ${candidate.sha256}`}>{candidate.sha256.slice(0, 10)}</code>
+      <code className="ml-auto font-mono text-[11px] text-faint" title={`${candidate.candidateId} · ${candidate.sha256}`}>{candidate.sha256.slice(0, 10)}</code>
     </header>
-    <div className="asset-candidate-copy">
-      <strong title={candidate.candidateId}>{targetLabelFor(candidate)}</strong>
-      <span className="asset-candidate-meta">{bytesLabel(candidate.bytes)} · {timestamp(candidate.uploadedAt)}{candidate.uploadedBy ? ` · ${candidate.uploadedBy}` : ""}</span>
-      <span className="asset-candidate-meta">Slot {candidate.slot ?? "any"} · Body {candidate.body ?? "any"} · {candidate.materials?.length ?? 0} materials · {candidate.animations?.length ?? 0} clips</span>
-      {candidate.reasons?.length ? <span className="asset-candidate-reason" title={candidate.reasons.join(" · ")}>{candidate.reasons.join(" · ")}</span> : null}
+    <div className="flex min-w-0 flex-col gap-0.5">
+      <strong className="truncate text-xs font-medium" title={candidate.candidateId}>{targetLabelFor(candidate)}</strong>
+      <span className={META}>{bytesLabel(candidate.bytes)} · {timestamp(candidate.uploadedAt)}{candidate.uploadedBy ? ` · ${candidate.uploadedBy}` : ""}</span>
+      <span className={META}>Slot {candidate.slot ?? "any"} · Body {candidate.body ?? "any"} · {candidate.materials?.length ?? 0} materials · {candidate.animations?.length ?? 0} clips</span>
+      {candidate.reasons?.length ? <span className="truncate text-[11px] text-warn" title={candidate.reasons.join(" · ")}>{candidate.reasons.join(" · ")}</span> : null}
     </div>
-    {setCandidate && <div className="asset-candidate-approvals" aria-label="Set sign-off"><Badge variant={toneVariant(approvals.male ? "ok" : undefined)}>{approvals.male && <Check size={10} />}Male</Badge><Badge variant={toneVariant(approvals.female ? "ok" : undefined)}>{approvals.female && <Check size={10} />}Female</Badge></div>}
-    <div className="asset-candidate-actions">
-      {canApprove && <>{setCandidate && <NativeSelect aria-label={`Sign off body for ${candidate.candidateId}`} value={approvalChoice} onChange={event => onApprovalBody(event.target.value as CandidateBody)}><option value="male">Male</option><option value="female">Female</option></NativeSelect>}<Button variant="default" size="sm" onClick={onApprove} disabled={isActionBusy}><ShieldCheck size={12} />{isActionBusy ? "Saving…" : setCandidate ? "Sign off" : "Approve"}</Button></>}
+    {setCandidate && <div className="flex gap-1" aria-label="Set sign-off"><Badge variant={toneVariant(approvals.male ? "ok" : undefined)}>{approvals.male && <Check size={10} />}Male</Badge><Badge variant={toneVariant(approvals.female ? "ok" : undefined)}>{approvals.female && <Check size={10} />}Female</Badge></div>}
+    <div className="mt-auto flex flex-wrap items-center gap-1.5">
+      {canApprove && <>{setCandidate && <NativeSelect className="h-6 text-[11px]" aria-label={`Sign off body for ${candidate.candidateId}`} value={approvalChoice} onChange={event => onApprovalBody(event.target.value as CandidateBody)}><option value="male">Male</option><option value="female">Female</option></NativeSelect>}<Button variant="default" size="sm" onClick={onApprove} disabled={isActionBusy}><ShieldCheck size={12} />{isActionBusy ? "Saving…" : setCandidate ? "Sign off" : "Approve"}</Button></>}
       {candidate.status === "approved" && candidate.kind === "glb" && <Button variant="secondary" size="sm" onClick={onPromote} disabled={isActionBusy}><ArrowRight size={12} />{isActionBusy ? "Promoting…" : "Promote to live"}</Button>}
       {candidate.status !== "live" && candidate.status !== "rejected" && !rejecting && <Button variant="destructive" size="sm" onClick={onStartReject} disabled={isActionBusy}>Reject</Button>}
       {candidate.status === "live" && <Badge variant="ok"><Check size={11} /> Live in manifest</Badge>}
     </div>
-    {rejecting && <div className="asset-candidate-reject-form"><label htmlFor={`${candidate.candidateId}-reason`} className="sr-only">Reason</label><textarea id={`${candidate.candidateId}-reason`} rows={2} value={reason} onChange={event => onReason(event.target.value)} placeholder="Reason for rejecting…" /><div><Button variant="destructive" size="sm" onClick={onReject} disabled={isActionBusy}>Save rejection</Button><Button variant="ghost" size="sm" onClick={onCancelReject}>Cancel</Button></div></div>}
+    {rejecting && <div className="flex flex-col gap-1.5"><label htmlFor={`${candidate.candidateId}-reason`} className="sr-only">Reason</label><Textarea id={`${candidate.candidateId}-reason`} className="min-h-12 resize-y" rows={2} value={reason} onChange={event => onReason(event.target.value)} placeholder="Reason for rejecting…" /><div className="flex gap-1.5"><Button variant="destructive" size="sm" onClick={onReject} disabled={isActionBusy}>Save rejection</Button><Button variant="ghost" size="sm" onClick={onCancelReject}>Cancel</Button></div></div>}
     {candidate.kind === "glb"
-      ? <details className="asset-candidate-compare" open={comparisonOpen} onToggle={event => setComparisonOpen(event.currentTarget.open)}><summary><GitCompareArrows size={12} /> Compare{currentAssetId ? " with live asset" : " preview"}</summary>{comparisonOpen && <div className={`asset-candidate-viewers${currentAssetId ? " has-live" : ""}`}>{currentAssetId && <AssetViewer source={{ mode: "asset", assetId: currentAssetId }} label="Live asset" />}<AssetViewer source={{ mode: "glb", url: candidate.fileUrl }} label="Candidate asset" /></div>}</details>
-      : <a className={cn(buttonVariants({ variant: "link", size: "inline" }), "asset-candidate-file-link")} href={candidate.fileUrl} target="_blank" rel="noreferrer">Open icon candidate</a>}
+      ? <details className="-mx-2.5 -mb-2.5 border-t border-border-subtle" open={comparisonOpen} onToggle={event => setComparisonOpen(event.currentTarget.open)}>
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 px-2.5 py-1.5 text-xs text-primary hover:bg-accent [&::-webkit-details-marker]:hidden"><GitCompareArrows size={12} /> Compare{currentAssetId ? " with live asset" : " preview"}</summary>
+        {comparisonOpen && <div className={cn("grid grid-cols-1 gap-2 px-2 pb-2 [&_.asset-viewer]:m-0 [&_.asset-viewer]:min-w-0 [&_.asset-viewer]:p-1.5", currentAssetId && "md:grid-cols-2")}>{currentAssetId && <AssetViewer source={{ mode: "asset", assetId: currentAssetId }} label="Live asset" />}<AssetViewer source={{ mode: "glb", url: candidate.fileUrl }} label="Candidate asset" /></div>}
+      </details>
+      : <a className={cn(buttonVariants({ variant: "link", size: "inline" }), "self-start text-xs")} href={candidate.fileUrl} target="_blank" rel="noreferrer">Open icon candidate</a>}
   </article>;
 }
+
+const META = "text-[11px] leading-snug text-muted-foreground";

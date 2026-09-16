@@ -14,7 +14,9 @@ import {
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, list, num, PageState, RecordShell, text, usePage } from "../story/shared.js";
-import "./spells.css";
+import { EmptyCell, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableRow } from "../../components/ui/index.js";
+import { FACTS, PAGE, PAGE_HEADING } from "../../ui/layout.js";
+import { cn } from "../../lib/utils.js";
 
 interface Spell extends ContentRow {
   id: string; name: string; element?: string; rung?: string; rank?: number; reqLevel?: number; tier?: number; baseMax?: number; divisor?: number; baseXp?: number; castMs?: number;
@@ -38,35 +40,35 @@ function SpellMatrix({ navigate }: { navigate: ViewProps["navigate"] }) {
   const rows = useMemo(() => (query.data ? contentRows(query.data) : []) as Spell[], [query.data]);
   const basic = useMemo(() => rows.filter(row => row.catalog !== "ADVANCED_SPELLS"), [rows]);
   const advanced = useMemo(() => rows.filter(row => row.catalog === "ADVANCED_SPELLS").sort((a, b) => (num(a.reqLevel) ?? 0) - (num(b.reqLevel) ?? 0)), [rows]);
-  if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
+  if (query.isPending) return <div className={PAGE}><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
-  const cell = (spell: Spell) => <button type="button" className="cell spell-cell" key={spell.id} onClick={() => navigate("spells", spell.id)} title={spell.id}>
+  const cell = (spell: Spell) => <button type="button" className="group/spell flex min-w-40 cursor-pointer items-center gap-2 rounded-sm p-0.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/40" key={spell.id} onClick={() => navigate("spells", spell.id)} title={spell.id}>
     <Thumb spec={spellThumb(spell)} size="m" alt="" />
-    <span className="spell-cell-text">
-      <span className="spell-cell-name">{spell.name}</span>
-      <span className="spell-cell-meta">level {num(spell.reqLevel) ?? "?"} · max {num(spell.baseMax) ?? "?"}</span>
+    <span className="flex min-w-0 flex-col leading-tight">
+      <span className="text-xs font-semibold whitespace-nowrap group-hover/spell:text-link">{spell.name}</span>
+      <span className="font-mono text-[11px] whitespace-nowrap text-muted-foreground">level {num(spell.reqLevel) ?? "?"} · max {num(spell.baseMax) ?? "?"}</span>
     </span>
   </button>;
-  const table = <K extends string | number>(spells: Spell[], caption: string, columns: readonly K[], head: (column: K) => string, match: (spell: Spell, column: K) => boolean) => <div className="matrix spell-matrix">
-    <table>
+  const table = <K extends string | number>(spells: Spell[], caption: string, columns: readonly K[], head: (column: K) => string, match: (spell: Spell, column: K) => boolean) => <TableFrame>
+    <Table className="min-w-0">
       <caption className="sr-only">{caption}</caption>
-      <thead><tr><th>Element</th>{columns.map(column => <th key={column}>{head(column)}</th>)}</tr></thead>
-      <tbody>{ELEMENTS.map(element => {
+      <TableHeader><TableRow><TableHead pin className="px-2.5">Element</TableHead>{columns.map(column => <TableHead key={column} className="px-2.5">{head(column)}</TableHead>)}</TableRow></TableHeader>
+      <TableBody>{ELEMENTS.map(element => {
         const Icon = iconForElement(element);
-        return <tr key={element}>
-          <td><span className="spell-element" style={{ color: `hsl(${hueFor(element)} 55% 60%)` }}><Icon size={13} />{titleCase(element)}</span></td>
+        return <TableRow key={element}>
+          <TableCell pin className="pr-4 pl-2.5"><span className="inline-flex items-center gap-1.5" style={{ color: `color-mix(in oklab, hsl(${hueFor(element)} 60% 50%) 70%, var(--color-foreground))` }}><Icon size={13} />{titleCase(element)}</span></TableCell>
           {columns.map(column => {
             const matches = spells.filter(spell => spell.element === element && match(spell, column));
-            return <td key={column}>{matches.length ? <span className="spell-cell-stack">{matches.map(cell)}</span> : <span className="cell-empty">—</span>}</td>;
+            return <TableCell key={column} className="px-2.5">{matches.length ? <span className="flex flex-col gap-0.5">{matches.map(cell)}</span> : <EmptyCell />}</TableCell>;
           })}
-        </tr>;
-      })}</tbody>
-    </table>
-  </div>;
-  return <div className="ws-page">
-    <div className="ws-heading"><h1>Standard</h1><span className="facts"><span>One spell per element and rung</span></span></div>
+        </TableRow>;
+      })}</TableBody>
+    </Table>
+  </TableFrame>;
+  return <div className={PAGE}>
+    <div className={PAGE_HEADING}><h1>Standard</h1><span className={FACTS}><span>One spell per element and rung</span></span></div>
     {table(basic, "Standard spells by element and rung", RUNGS, rung => titleCase(rung), (spell, rung) => spell.rung === rung)}
-    <div className="ws-heading" style={{ marginTop: 20 }}><h1>Advanced</h1><span className="facts"><span>One invocation per element and rank</span></span></div>
+    <div className={cn(PAGE_HEADING, "mt-5")}><h1>Advanced</h1><span className={FACTS}><span>One invocation per element and rank</span></span></div>
     {table(advanced, "Advanced spells by element and rank", RANKS, rank => `Rank ${rank}`, (spell, rank) => spell.rank === rank)}
   </div>;
 }
@@ -133,7 +135,7 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
       title={spell.name} id={id}
       facts={[titleCase(element), spell.rung && titleCase(spell.rung), `level ${num(spell.reqLevel) ?? "?"}`, `tier ${num(spell.tier) ?? "?"}`, spell.catalog === "ADVANCED_SPELLS" && "advanced"]}
       draft={draft}
-      rail={<EntitySummary collection="spells" record={record} recordId={id} index={index} navigate={navigate} editing />}>
+      rail={<EntitySummary collection="spells" record={record} recordId={id} index={index} navigate={navigate} editing bare />}>
       <Sheet>
         <Section title="Identity">
           {line(["name"], spell.name)}
@@ -159,10 +161,10 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
             keyOf={(rune, at) => text(rune.itemId) ?? at}
             removeLabel={(_, at) => `Remove rune ${at + 1}`}
             renderItem={(rune, api) => <>
-              <RefField className="is-bare" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
+              <RefField bare className="min-w-49" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
                 exclude={new Set(runes.map(entry => text(entry.itemId) ?? "").filter((_, at) => at !== api.index))}
                 onChange={next => api.update({ ...rune, itemId: next ?? "" })} />
-              <NumberField className="spell-rune-quantity" value={num(rune.quantity) ?? 1} integer min={lower(runeQuantity)} unit={runeQuantity.unit} readOnly={readOnly}
+              <NumberField className="w-24 data-[unit]:w-24" value={num(rune.quantity) ?? 1} integer min={lower(runeQuantity)} unit={runeQuantity.unit} readOnly={readOnly}
                 ariaLabel={`${runeQuantity.label} ${api.index + 1}`} onChange={next => api.update({ ...rune, quantity: next ?? 1 })} />
             </>} />}
         </Section>

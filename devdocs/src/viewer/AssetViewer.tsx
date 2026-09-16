@@ -3,6 +3,8 @@ import { ViewerCore, emptyViewerSnapshot } from './ViewerCore.js';
 import { POSE_CLIPS, type CharacterPose } from '../../../game/src/render/characterRig.js';
 import { defaultItemPose, poseClip } from './clips.js';
 import type { ViewerSnapshot, ViewerSource } from './types.js';
+import { Button, Checkbox, NativeSelect } from '../components/ui/index.js';
+import { cn } from '../lib/utils.js';
 
 export type { ViewerSource, ViewerSnapshot } from './types.js';
 export interface AssetViewerProps {
@@ -10,6 +12,10 @@ export interface AssetViewerProps {
   label?: string;
   onSnapshot?: (snapshot: ViewerSnapshot) => void;
   labUrl?: string;
+  /** Fill a fixed frame (a record rail's model stage): the viewport takes the frame and the controls hide unless `controls`. */
+  stage?: boolean;
+  /** In a stage, show the animation, pose and material controls under the viewport. */
+  controls?: boolean;
 }
 
 /** The renderer a closed viewer left behind, waiting for the next one to open. */
@@ -19,7 +25,7 @@ export function AssetViewer(props: AssetViewerProps) {
   return <ViewerPanel key={JSON.stringify(props.source)} {...props} />;
 }
 
-function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat' }: AssetViewerProps) {
+function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true }: AssetViewerProps) {
   const viewport = useRef<HTMLDivElement>(null);
   const core = useRef<ViewerCore | null>(null);
   const callback = useRef(onSnapshot);
@@ -80,68 +86,70 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
   };
   const formatSize = (size: NonNullable<ViewerSnapshot['size']>) => `${size.x.toFixed(3)} × ${size.y.toFixed(3)} × ${size.z.toFixed(3)} m`;
 
-  return <section className="asset-viewer" aria-label={label} data-viewer-ready={snapshot.ready && !error}
+  // In a stage the viewport fills the frame and the controls only show when asked for.
+  const chrome = cn(stage && !controls && 'hidden', stage && 'px-2 py-1');
+  return <section className={cn('asset-viewer flex min-w-0 flex-col text-[11px] text-muted-foreground', stage ? 'h-full' : 'gap-2')} aria-label={label} data-viewer-ready={snapshot.ready && !error}
     data-viewer-body={snapshot.body ?? ''} data-viewer-clip={snapshot.clip ?? ''} data-viewer-time={snapshot.time.toFixed(4)}
     data-viewer-parts={snapshot.parts.length} data-viewer-playing={snapshot.playing}>
-    <div className="viewer-heading" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-      <h3>{label}</h3>
-      <a href={labUrl} target="_blank" rel="noreferrer">Open in game lab</a>
+    <div className={cn('viewer-heading flex flex-wrap items-center justify-between gap-3', chrome, stage && 'pr-[4.5rem]')}>
+      <h3 className="text-xs font-semibold text-foreground">{label}</h3>
+      <a className="text-link underline-offset-2 hover:underline" href={labUrl} target="_blank" rel="noreferrer">Open in game lab</a>
     </div>
-    {source.mode === 'outfit' && <div className="viewer-outfit-controls" style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
-      <label>Body <select aria-label="Body" value={body} onChange={event => setBody(event.target.value as 'male' | 'female')}>
+    {source.mode === 'outfit' && <div className={cn('viewer-outfit-controls flex flex-wrap items-center gap-x-4 gap-y-1.5', chrome)}>
+      <label className={LABEL}>Body <NativeSelect className={SELECT} aria-label="Body" value={body} onChange={event => setBody(event.target.value as 'male' | 'female')}>
         <option value="male">Male</option><option value="female">Female</option>
-      </select></label>
-      <label>Pose <select aria-label="Pose" value={pose} disabled={!snapshot.ready} onChange={event => choosePose(event.target.value as CharacterPose)}>
+      </NativeSelect></label>
+      <label className={LABEL}>Pose <NativeSelect className={SELECT} aria-label="Pose" value={pose} disabled={!snapshot.ready} onChange={event => choosePose(event.target.value as CharacterPose)}>
         {(Object.keys(POSE_CLIPS) as CharacterPose[]).map(value => <option key={value} value={value}>{value.replaceAll('_', ' ')}</option>)}
-      </select></label>
-      <details><summary>Equipment ({shownItems.length - hidden.length}/{shownItems.length})</summary>
-        <div style={{ display: 'grid', gap: 8, padding: '12px 0' }}>{shownItems.map(id => <label key={id} style={{ display: 'flex', gap: 8 }}>
-          <input type="checkbox" checked={!hidden.includes(id)} onChange={event => setHidden(previous => event.target.checked ? previous.filter(value => value !== id) : [...previous, id])} />
+      </NativeSelect></label>
+      <details className="basis-full"><summary className="cursor-pointer select-none">Equipment ({shownItems.length - hidden.length}/{shownItems.length})</summary>
+        <div className="grid gap-1.5 py-2">{shownItems.map(id => <label key={id} className={LABEL}>
+          <Checkbox checked={!hidden.includes(id)} onCheckedChange={checked => setHidden(previous => checked === true ? previous.filter(value => value !== id) : [...previous, id])} />
           {id.replaceAll('_', ' ')}
         </label>)}</div>
       </details>
     </div>}
-    <div style={{ position: 'relative', minWidth: 0 }}>
-      <div ref={viewport} className="viewer-viewport" style={{ height: 'clamp(300px, 48vw, 540px)', width: '100%', overflow: 'hidden', borderRadius: 8, background: '#202821' }} />
-      {!snapshot.ready && !error && <div role="status" style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', color: '#e6e7dc', pointerEvents: 'none' }}>Loading production model…</div>}
-      {error && <div role="alert" style={{ position: 'absolute', inset: 0, display: 'grid', placeContent: 'center', padding: 24, gap: 12, background: '#202821', color: '#e6e7dc' }}>
-        <strong>Model unavailable</strong><span>{error}</span><button type="button" onClick={() => setRetry(value => value + 1)}>Retry model</button>
+    <div className={cn('relative min-w-0', stage && !controls && 'min-h-0 flex-1')}>
+      <div ref={viewport} className={cn('viewer-viewport w-full overflow-hidden bg-art', stage ? (controls ? 'h-60' : 'h-full') : 'h-[clamp(300px,48vw,540px)] rounded-lg')} />
+      {!snapshot.ready && !error && <div role="status" className="pointer-events-none absolute inset-0 grid place-items-center text-xs text-muted-foreground">Loading production model…</div>}
+      {error && <div role="alert" className="absolute inset-0 grid place-content-center justify-items-center gap-2 bg-art p-6 text-center text-xs text-foreground">
+        <strong className="font-semibold">Model unavailable</strong><span className="text-muted-foreground [overflow-wrap:anywhere]">{error}</span><Button size="sm" onClick={() => setRetry(value => value + 1)}>Retry model</Button>
       </div>}
     </div>
-    <div className="viewer-playback" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginTop: 12 }}>
-      <button type="button" disabled={!snapshot.clip || Boolean(error)} onClick={() => core.current?.setPlaying(!snapshot.playing)}>{snapshot.playing ? 'Pause' : 'Play'}</button>
-      <label style={{ minWidth: 0, flex: '1 1 200px' }}>Animation <select aria-label="Animation" value={snapshot.clip ?? ''} disabled={!snapshot.clips.length || Boolean(error)}
-        style={{ maxWidth: '100%' }} onChange={event => core.current?.selectClip(event.target.value)}>
+    <div className={cn('viewer-playback flex flex-wrap items-center gap-x-3 gap-y-1.5', chrome)}>
+      <Button size="sm" disabled={!snapshot.clip || Boolean(error)} onClick={() => core.current?.setPlaying(!snapshot.playing)}>{snapshot.playing ? 'Pause' : 'Play'}</Button>
+      <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>Animation <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="Animation" value={snapshot.clip ?? ''} disabled={!snapshot.clips.length || Boolean(error)}
+        onChange={event => core.current?.selectClip(event.target.value)}>
         {!snapshot.clips.length && <option value="">No animation clips</option>}
         {groups.map(group => <optgroup key={group} label={group}>{snapshot.clips.filter(clip => clip.group === group).map(clip =>
           <option key={clip.name} value={clip.name}>{clip.name} · {clip.duration.toFixed(2)}s</option>)}</optgroup>)}
-      </select></label>
-      <label>Speed <select aria-label="Playback speed" value={snapshot.speed} onChange={event => core.current?.setSpeed(Number(event.target.value))}>
+      </NativeSelect></label>
+      <label className={LABEL}>Speed <NativeSelect className={SELECT} aria-label="Playback speed" value={snapshot.speed} onChange={event => core.current?.setSpeed(Number(event.target.value))}>
         {[.25, .5, 1, 1.5, 2].map(speed => <option key={speed} value={speed}>{speed}×</option>)}
-      </select></label>
+      </NativeSelect></label>
     </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '12px 0' }}>
+    <div className={cn('flex items-center gap-3', chrome)}>
       <input aria-label="Animation time" type="range" min={0} max={snapshot.duration || 1} step={.001} value={snapshot.time}
-        disabled={!snapshot.clip || Boolean(error)} style={{ flex: 1, minWidth: 0 }} onChange={event => { core.current?.setPlaying(false); core.current?.scrub(Number(event.target.value)); }} />
-      <output style={{ fontVariantNumeric: 'tabular-nums', fontSize: 12 }}>{snapshot.time.toFixed(2)} / {snapshot.duration.toFixed(2)} s</output>
+        disabled={!snapshot.clip || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:cursor-default disabled:opacity-50" onChange={event => { core.current?.setPlaying(false); core.current?.scrub(Number(event.target.value)); }} />
+      <output className="font-mono text-[11px] text-muted-foreground tabular-nums">{snapshot.time.toFixed(2)} / {snapshot.duration.toFixed(2)} s</output>
     </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-      <label><input type="checkbox" checked={snapshot.wireframe} onChange={event => core.current?.setWireframe(event.target.checked)} /> Wireframe</label>
-      <label><input type="checkbox" checked={snapshot.bounds} onChange={event => core.current?.setBounds(event.target.checked)} /> Bounds</label>
-      <button type="button" disabled={!snapshot.ready} onClick={() => core.current?.resetCamera()}>Reset camera</button>
-      <span style={{ fontSize: 12 }}>Drag to orbit · Scroll to zoom</span>
+    <div className={cn('flex flex-wrap items-center gap-x-4 gap-y-1.5', chrome)}>
+      <label className={LABEL}><Checkbox checked={snapshot.wireframe} onCheckedChange={checked => core.current?.setWireframe(checked === true)} /> Wireframe</label>
+      <label className={LABEL}><Checkbox checked={snapshot.bounds} onCheckedChange={checked => core.current?.setBounds(checked === true)} /> Bounds</label>
+      <Button size="sm" disabled={!snapshot.ready} onClick={() => core.current?.resetCamera()}>Reset camera</Button>
+      <span className="text-faint">Drag to orbit · Scroll to zoom</span>
     </div>
-    {snapshot.ready && <div className="viewer-readout" style={{ marginTop: 16, fontSize: 13 }}>
+    {snapshot.ready && <div className={cn('viewer-readout flex min-w-0 flex-col gap-1 leading-normal', chrome, stage && 'pb-2')}>
       <p>Drawn size at initial pose: {snapshot.size ? formatSize(snapshot.size) : 'measuring'}</p>
       {snapshot.manifestSize && <p>Manifest size: {formatSize(snapshot.manifestSize)}</p>}
       {source.mode === 'outfit' && <p>{snapshot.parts.length} bound parts · {snapshot.attachments.length} held or rigid parts · {snapshot.missingBones.length} missing bones</p>}
-      <details><summary>Materials ({snapshot.materials.length})</summary><div style={{ maxHeight: 240, overflow: 'auto', marginTop: 12 }}>
-        <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}><thead><tr><th>Name</th><th>Type</th><th>Texture maps</th></tr></thead>
-          <tbody>{snapshot.materials.map((material, index) => <tr key={`${material.name}-${index}`}><td style={{ padding: '6px 12px 6px 0', overflowWrap: 'anywhere' }}>{material.name}</td><td>{material.type.replace('Mesh', '').replace('Material', '')}</td><td>{material.textures.join(', ') || 'None'}</td></tr>)}</tbody>
+      <details><summary className="cursor-pointer select-none">Materials ({snapshot.materials.length})</summary><div className="mt-1.5 max-h-60 overflow-auto [scrollbar-width:thin]">
+        <table className="w-full border-collapse text-left [&_td]:py-1 [&_td]:pr-3 [&_td]:align-top [&_th]:py-1 [&_th]:pr-3 [&_th]:font-semibold [&_th]:text-foreground"><thead><tr><th>Name</th><th>Type</th><th>Texture maps</th></tr></thead>
+          <tbody>{snapshot.materials.map((material, index) => <tr key={`${material.name}-${index}`} className="border-t border-border-subtle"><td className="[overflow-wrap:anywhere]">{material.name}</td><td>{material.type.replace('Mesh', '').replace('Material', '')}</td><td>{material.textures.join(', ') || 'None'}</td></tr>)}</tbody>
         </table>
       </div></details>
-      {snapshot.attachments.length > 0 && <details style={{ marginTop: 12 }}><summary>Grip and sockets</summary>
-        {snapshot.attachments.map(attachment => <p key={attachment.slot} style={{ overflowWrap: 'anywhere' }}><strong>{attachment.slot}</strong>: {attachment.asset} on {attachment.bone}<br />
+      {snapshot.attachments.length > 0 && <details><summary className="cursor-pointer select-none">Grip and sockets</summary>
+        {snapshot.attachments.map(attachment => <p key={attachment.slot} className="mt-1 [overflow-wrap:anywhere]"><strong className="text-foreground">{attachment.slot}</strong>: {attachment.asset} on {attachment.bone}<br />
           Position {attachment.position.map(value => value.toFixed(3)).join(', ')} m · Rotation {attachment.rotation.map(value => value.toFixed(3)).join(', ')} rad · Scale {attachment.scale.map(value => value.toFixed(3)).join(', ')}
         </p>)}
       </details>}
@@ -149,3 +157,6 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
     <script type="application/json" data-viewer-state="true">{JSON.stringify(snapshot)}</script>
   </section>;
 }
+
+const LABEL = 'inline-flex items-center gap-1.5';
+const SELECT = 'h-6 text-[11px]';

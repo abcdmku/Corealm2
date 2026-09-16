@@ -1,5 +1,3 @@
-import "../../styles/grid.css";
-
 /*
   The editable table over one collection and the selection it shares with the command palette.
   Import from here, not from the files inside.

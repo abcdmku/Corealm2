@@ -16,8 +16,8 @@ import { ShellSaveBar, useDirtyByWorkspace } from "./ui/ShellSaveBar.js";
 import { ErrorState, LoadingRows } from "./ui/States.js";
 import { WORKSPACES, type Route } from "./ui/workspaces.js";
 import { REGISTRY } from "./workspaces/registry.js";
-import "./styles/workspace.css";
 import { Button, Badge } from "./components/ui/index.js";
+import { PANEL } from "./ui/layout.js";
 
 function initialTheme(): "dark" | "light" {
   try {
@@ -128,7 +128,7 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
         <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground"><BookOpen size={15} /></span>
         <span className="leading-tight"><strong className="block text-[13px] font-semibold">Corealm</strong><small className="mt-px block text-[10px] tracking-[0.12em] text-faint">{__DEVDOCS_PLAYER__ ? "GUIDE" : "CODEX"}</small></span>
       </button>
-      <button className="mx-2 mt-0.5 mb-1.5 flex h-7 cursor-pointer items-center gap-1.5 rounded-md border border-border bg-card px-2 text-left text-xs text-muted-foreground hover:text-foreground" onClick={() => setPalette(true)}>
+      <button className={cn(PANEL, "mx-2 mt-0.5 mb-1.5 flex h-7 cursor-pointer items-center gap-1.5 px-2 text-left text-xs text-muted-foreground hover:text-foreground")} onClick={() => setPalette(true)}>
         <Search size={13} /><span>Search</span><Kbd className="ml-auto">Ctrl K</Kbd>
       </button>
       <nav className="flex min-h-0 flex-col gap-px overflow-y-auto p-1.5">
@@ -151,22 +151,22 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
         <Button variant="ghost" size="icon-sm" className="ml-auto" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}</Button>
       </div>
     </aside>
-    <div className="flex min-w-0 flex-col overflow-hidden max-md:h-dvh">
+    <div className="min-w-0 flex flex-col overflow-hidden max-md:h-dvh">
       <header className="flex h-9 shrink-0 items-center gap-0.5 border-b border-border-subtle bg-background px-3" aria-label={`${workspace.label} views`}>
         <Button variant="ghost" size="icon-sm" className="hidden max-md:inline-flex" aria-label={mobileNav ? "Close navigation" : "Open navigation"} onClick={() => setMobileNav(!mobileNav)}>{mobileNav ? <X size={18} /> : <MenuIcon size={18} />}</Button>
         <span className="mr-2 text-[13px] font-semibold text-foreground">{workspace.label}</span>
         {tabs.length > 1 && tabs.map(candidate => <button key={candidate.key} className="inline-flex h-[26px] cursor-pointer items-center gap-1.5 rounded-md px-2.5 text-xs font-medium whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground aria-[current=page]:bg-selected aria-[current=page]:text-foreground" aria-current={candidate.key === view.key ? "page" : undefined} onClick={() => go(`${workspace.key}/${candidate.key}`)}>{candidate.label}</button>)}
-        {id !== undefined && <span className="ml-1 inline-flex min-w-0 items-center gap-1 overflow-hidden text-xs text-faint"><ChevronRight size={12} /><code className="truncate text-[11px] text-muted-foreground">{id}</code></span>}
+        {id !== undefined && <span className="min-w-0 ml-1 inline-flex items-center gap-1 overflow-hidden text-xs text-faint"><ChevronRight size={12} /><code className="truncate text-[11px] text-muted-foreground">{id}</code></span>}
         <div className="ml-auto flex items-center gap-1">
           <Button variant="ghost" size="icon-sm" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></Button>
         </div>
       </header>
-      <main className={cn("main-content flex min-h-0 flex-1 flex-col outline-none", workspace.fullBleed || navCollection ? "overflow-hidden" : "overflow-y-auto")} id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
+      <main className={cn("main-content flex min-h-0 flex-1 flex-col outline-none min-[1100px]:[html[data-peek=open]_&]:pr-[clamp(420px,34vw,520px)]", workspace.fullBleed || navCollection ? "overflow-hidden" : "overflow-y-auto")} id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
         <RecordSetKey.Provider value={viewRoute}>
           {navCollection && id !== undefined
             ? <div className="grid min-h-0 flex-1 grid-cols-[14.5rem_minmax(0,1fr)] max-lg:grid-cols-[12.25rem_minmax(0,1fr)] max-md:grid-cols-1">
               <RecordNav setKey={viewRoute} collection={navCollection} currentId={id} open={recordId => go(viewRoute, recordId)} />
-              <div className="record-layout-main min-h-0 min-w-0 overflow-y-auto" data-record-id={id}>{content}</div>
+              <div className="min-w-0 record-layout-main min-h-0 overflow-y-auto" data-record-id={id}>{content}</div>
             </div>
             : content}
         </RecordSetKey.Provider>

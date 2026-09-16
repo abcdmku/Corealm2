@@ -1,8 +1,9 @@
 import { memo, useMemo, useState } from "react";
-import { Search, X } from "lucide-react";
-import { LAYER_ICON, glyphColor, glyphIcon } from "./glyphs.js";
+import { ChevronDown } from "lucide-react";
+import { GLYPH_DISC, LAYER_ICON, glyphColor, glyphIcon } from "./glyphs.js";
 import { LAYERS, LAYER_LABEL, type Bounds, type Feature, type Layer } from "./model.js";
-import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
+import { Button, SearchInput } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 
 /*
   The left rail: search, layer toggles with counts, and the list of what is in view (or what
@@ -82,30 +83,41 @@ export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer
     for (const list of byName.values()) if (list.length > 1) for (const entry of list) ambiguous.add(entry.key);
   }
 
-  return <aside className="world-rail world-rail-left">
-    <div className="world-rail-tools">
-      <InputGroup className="w-full"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput value={search} onChange={event => { onSearch(event.target.value); setLimit(PAGE); }} placeholder="Search the world" aria-label="Search the world" />
-        {search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => onSearch("")}><X size={12} /></Button>}
-      </InputGroup>
-      <div className="world-layers" role="group" aria-label="Layers">
-        {LAYERS.map(layer => { const Icon = LAYER_ICON[layer]; return <button type="button" key={layer} className={`world-layer${layers[layer] ? " is-active" : ""}`} aria-pressed={layers[layer]} title={LAYER_LABEL[layer]} onClick={() => onToggleLayer(layer)}>
-          <Icon size={12} /><span>{LAYER_LABEL[layer]}</span><small>{counts[layer]}</small>
+  return <aside className="flex min-h-0 min-w-0 flex-col border-r border-border bg-card text-xs">
+    <div className="flex flex-col gap-2 border-b border-border-subtle px-2.5 pt-2.5 pb-2">
+      <SearchInput className="w-full" label="Search the world" placeholder="Search the world" value={search} onChange={value => { onSearch(value); setLimit(PAGE); }} onEnter={() => { if (rows[0]) onPick(rows[0]); }} />
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-0.5" role="group" aria-label="Layers">
+        {LAYERS.map(layer => { const Icon = LAYER_ICON[layer]; const on = layers[layer]; return <button type="button" key={layer} aria-pressed={on} title={LAYER_LABEL[layer]} onClick={() => onToggleLayer(layer)} className={cn(
+          "flex h-6 cursor-pointer items-center gap-1 rounded-sm border px-1 text-left text-xs outline-none focus-visible:ring-1 focus-visible:ring-ring",
+          on ? "border-border-subtle bg-secondary text-foreground" : "border-transparent text-faint hover:bg-accent hover:text-foreground",
+        )}>
+          <Icon size={12} className={cn("shrink-0", on && "text-primary")} /><span className="min-w-0 flex-1 truncate">{LAYER_LABEL[layer]}</span><small className="font-mono text-[11px] text-faint">{counts[layer]}</small>
         </button>; })}
       </div>
     </div>
-    <div className="world-list" role="list">
-      {groups.map(group => <section key={group.layer} className={`world-group${isOpen(group.layer) ? "" : " is-folded"}`}>
-        <h3><button type="button" aria-expanded={isOpen(group.layer)} onClick={() => setOpen(current => ({ ...current, [group.layer]: !isOpen(group.layer) }))}>{LAYER_LABEL[group.layer]}<small>{group.rows.length}</small></button></h3>
-        {isOpen(group.layer) && group.rows.slice(0, limit).map(entry => entry.members
+    <div className="min-h-0 flex-1 overflow-y-auto px-1.5 pt-1 pb-3 [scrollbar-color:var(--border)_transparent] [scrollbar-width:thin]" role="list">
+      {groups.map(group => { const folded = !isOpen(group.layer); return <section key={group.layer}>
+        <h3 className="sticky top-0 z-[1] bg-card pt-1 pb-0.5">
+          <button type="button" className="flex h-6 w-full cursor-pointer items-center gap-1.5 rounded-sm px-1.5 text-left text-xs font-semibold text-muted-foreground hover:bg-accent hover:text-foreground" aria-expanded={!folded} onClick={() => setOpen(current => ({ ...current, [group.layer]: folded }))}>
+            <ChevronDown className={cn("size-3 shrink-0 text-faint transition-transform", folded && "-rotate-90")} />{LAYER_LABEL[group.layer]}<small className="ml-auto font-mono text-[11px] font-normal text-faint">{group.rows.length}</small>
+          </button>
+        </h3>
+        {!folded && group.rows.slice(0, limit).map(entry => entry.members
           ? <Cluster key={entry.key} name={entry.feature.group!.name} id={ambiguous.has(entry.key) ? entry.feature.group!.key : undefined} members={entry.members} selectedKey={selectedKey} onPick={onPick} onShowAll={onShowAll}
               expanded={expanded[entry.key] ?? entry.members.some(member => member.key === selectedKey)} onToggle={() => setExpanded(current => ({ ...current, [entry.key]: !(current[entry.key] ?? entry.members.some(member => member.key === selectedKey)) }))} />
-          : <ListRow key={entry.key} feature={entry.feature} selected={entry.feature.key === selectedKey} onPick={onPick} />)}
-        {isOpen(group.layer) && group.rows.length > limit && <Button variant="secondary" size="sm" className="world-more" onClick={() => setLimit(limit + PAGE)}>Show more · {group.rows.length - limit} hidden</Button>}
-      </section>)}
-      {!rows.length && <p className="world-empty">{needle ? "Nothing matches." : zoomedOut ? "Zoom in, pick a region, or search to list what is here." : "Nothing in view with these layers on."}</p>}
+          : <FeatureRow key={entry.key} feature={entry.feature} selected={entry.feature.key === selectedKey} onPick={onPick} />)}
+        {!folded && group.rows.length > limit && <Button variant="secondary" size="sm" className="mx-1.5 my-2 w-[calc(100%-0.75rem)]" onClick={() => setLimit(limit + PAGE)}>Show more · {group.rows.length - limit} hidden</Button>}
+      </section>; })}
+      {!rows.length && <p className="px-3 py-6 text-center text-xs text-faint">{needle ? "Nothing matches." : zoomedOut ? "Zoom in, pick a region, or search to list what is here." : "Nothing in view with these layers on."}</p>}
     </div>
   </aside>;
 });
+
+/** A list line: glyph, then the name over one line of facts. The selected line carries the selection fill. */
+const ROW = "flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-sm border px-1.5 py-[3px] text-left outline-none focus-visible:ring-1 focus-visible:ring-ring";
+const rowState = (selected: boolean) => selected ? "border-border bg-selected" : "border-transparent hover:bg-accent";
+const NAME = "truncate text-xs font-medium";
+const FACT = "truncate text-[11px] text-faint";
 
 /** One creature or resource and everywhere it is. A single place opens directly; more fold under the name. */
 const Cluster = memo(function Cluster({ name, id, members, selectedKey, expanded, onToggle, onPick, onShowAll }: { name: string; id?: string; members: Feature[]; selectedKey: string | undefined; expanded: boolean; onToggle: () => void; onPick: (feature: Feature) => void; onShowAll: (members: readonly Feature[]) => void }) {
@@ -116,28 +128,36 @@ const Cluster = memo(function Cluster({ name, id, members, selectedKey, expanded
   const regions = [...new Set(members.map(member => member.fact.split(" · ").at(-1)))];
   const noun = first.layer === "spawns" ? "spawns" : "nodes";
   const fact = single ? placeFact(first) : `${members.length} ${noun} · ${regions.length > 2 ? `${regions.length} regions` : regions.join(", ")}`;
-  return <div className={`world-cluster${expanded && !single ? " is-open" : ""}${inside ? " has-selected" : ""}`}>
-    <div className={`world-row world-cluster-head${single && inside ? " is-selected" : ""}`} role="listitem" data-key={single ? first.key : undefined}>
-      {single ? <span /> : <button type="button" className="world-cluster-toggle" aria-label={`${expanded ? "Fold" : "Unfold"} ${name}`} aria-expanded={expanded} onClick={onToggle} />}
-      <span className="world-row-glyph" style={{ background: glyphColor(first, 40) }}><Icon size={11} /></span>
-      <button type="button" className="world-cluster-name" title={single ? first.key : `Show every ${name} ${first.layer === "spawns" ? "spawn" : "node"}`} onClick={() => { if (single) { onPick(first); return; } onShowAll(members); if (!expanded) onToggle(); }}>
-        <span className="world-row-name">{name}</span>
-        <span className="world-row-fact">{id && <span className="world-row-id">{id} · </span>}{fact}</span>
+  return <div>
+    <div className="flex items-stretch" role="listitem" data-key={single ? first.key : undefined}>
+      {single
+        ? <span className="w-3 shrink-0" />
+        : <button type="button" className="grid w-3 shrink-0 cursor-pointer place-items-center rounded-sm text-faint hover:bg-accent hover:text-foreground" aria-label={`${expanded ? "Fold" : "Unfold"} ${name}`} aria-expanded={expanded} onClick={onToggle}>
+          <ChevronDown className={cn("size-3 transition-transform", !expanded && "-rotate-90")} />
+        </button>}
+      <button type="button" className={cn(ROW, rowState(single && inside))} title={single ? first.key : `Show every ${name} ${first.layer === "spawns" ? "spawn" : "node"}`} onClick={() => { if (single) { onPick(first); return; } onShowAll(members); if (!expanded) onToggle(); }}>
+        <span className={GLYPH_DISC} style={{ background: glyphColor(first, 40) }}><Icon size={11} /></span>
+        <span className="flex min-w-0 flex-1 flex-col">
+          <span className={cn(NAME, inside && "text-primary")}>{name}</span>
+          <span className={FACT}>{id && <span className="font-mono text-[10px]">{id} · </span>}{fact}</span>
+        </span>
       </button>
     </div>
-    {expanded && !single && <div className="world-cluster-members">
-      {members.map(member => <button type="button" role="listitem" key={member.key} className={`world-row world-row-member${member.key === selectedKey ? " is-selected" : ""}`} data-key={member.key} onClick={() => onPick(member)} title={member.key}>
-        <span className="world-row-name">{placeFact(member)}</span>
+    {expanded && !single && <div className="flex flex-col pl-[38px]">
+      {members.map(member => <button type="button" role="listitem" key={member.key} className={cn(ROW, rowState(member.key === selectedKey), "py-0.5")} data-key={member.key} onClick={() => onPick(member)} title={member.key}>
+        <span className="truncate text-xs">{placeFact(member)}</span>
       </button>)}
     </div>}
   </div>;
 });
 
-const ListRow = memo(function ListRow({ feature, selected, onPick }: { feature: Feature; selected: boolean; onPick: (feature: Feature) => void }) {
+const FeatureRow = memo(function FeatureRow({ feature, selected, onPick }: { feature: Feature; selected: boolean; onPick: (feature: Feature) => void }) {
   const Icon = glyphIcon(feature);
-  return <button type="button" role="listitem" className={`world-row${selected ? " is-selected" : ""}`} data-key={feature.key} onClick={() => onPick(feature)} title={feature.key}>
-    <span className="world-row-glyph" style={{ background: glyphColor(feature, 40) }}><Icon size={11} /></span>
-    <span className="world-row-name">{feature.name}</span>
-    <span className="world-row-fact">{feature.fact}</span>
+  return <button type="button" role="listitem" className={cn(ROW, rowState(selected))} data-key={feature.key} onClick={() => onPick(feature)} title={feature.key}>
+    <span className={GLYPH_DISC} style={{ background: glyphColor(feature, 40) }}><Icon size={11} /></span>
+    <span className="flex min-w-0 flex-1 flex-col">
+      <span className={NAME}>{feature.name}</span>
+      <span className={FACT}>{feature.fact}</span>
+    </span>
   </button>;
 });

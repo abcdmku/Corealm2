@@ -8,8 +8,16 @@ import { getPath, setPath, useRecordDraft } from "../../model/draft.js";
 import type { Path } from "../../model/origin.js";
 import { Facts, Field, Fields, NumberField, ReferencedBy, Section, Sheet } from "../../ui/field/index.js";
 import { Thumb } from "../../ui/Thumb.js";
-import { Drawer } from "./Drawer.js";
+import { Drawer } from "../../ui/Drawer.js";
+import { Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
 import { BONUS_SHORT, familyMembers, specAt, titleCase, type ItemsData } from "./data.js";
+import { EMPTY } from "../../ui/layout.js";
+
+/** A consequence table is read against the fields above it, so its rows sit tighter than a page table. */
+const CONSEQUENCE_CELL = "h-[26px] px-2 py-0.5";
+const UNIT = "shrink-0 text-[11px] text-faint";
+/** A curve field holds two numbers (`base + tier x per level`), so its cell is wider than a lone value's. */
+const PAIRS = "grid-cols-[repeat(2,minmax(0,14rem))]";
 
 /*
   The curve behind a column of the ladder, and what moving it does. Each parameter pair reads as
@@ -75,43 +83,43 @@ export function FamilyDrawer({ familyId, data, onClose, onOpenItem, onLive, stac
   /** `base + tier x perLevel` on one line under one label. */
   const pair = (label: string, base: Path, perLevel: Path, step: number) => <Field compact label={label} key={label} dirty={dirtyAt(base, perLevel)}>
     {number(label, base, undefined, "base")}
-    <span className="field-unit">+ tier ×</span>
+    <span className={UNIT}>+ tier ×</span>
     {number(label, perLevel, step, "per level")}
   </Field>;
 
   return <Drawer title={record ? record.name : "Family"} onClose={onClose} stacked={stacked}>
-    {draft.loading && <p className="empty-inline">Loading…</p>}
-    {draft.error && <p className="empty-inline">{draft.error}</p>}
+    {draft.loading && <p className={EMPTY}>Loading…</p>}
+    {draft.error && <p className={EMPTY}>{draft.error}</p>}
     {record && <>
       <Sheet compact>
         <Section title="Curve" aside={<code>{record.id}</code>}>
-          <Facts className="kv-facts" items={[
+          <Facts items={[
             record.category === "tool" ? `${titleCase(record.skill)} tool` : `${titleCase(record.slot ?? "mainHand")} · ${titleCase(record.skill)}`,
-            record.attackSpeedMs !== undefined && <span className="mono">{record.attackSpeedMs} ms per attack</span>,
+            record.attackSpeedMs !== undefined && <span className="font-mono">{record.attackSpeedMs} ms per attack</span>,
           ]} />
-          <Fields columns={2}>
+          <Fields columns={2} className={PAIRS}>
             {pair(VALUE.label, ["parameters", "valueBase"], ["parameters", "valuePerLevel"], 0.5)}
             {record.category === "tool" && <Field compact label={GATHER.label} dirty={dirtyAt(["parameters", "gatherBonusPerLevel"])}>
-              <span className="field-unit">tier ×</span>
+              <span className={UNIT}>tier ×</span>
               {number(GATHER.label, ["parameters", "gatherBonusPerLevel"], 0.1, "per level")}
             </Field>}
             {BONUS_KEYS.map(key => pair(BONUS[key].label, ["parameters", "bonusesBase", key], ["parameters", "bonusesPerLevel", key], 0.05))}
           </Fields>
         </Section>
         <Section title="Members" aside={<ConsequenceNote tally={counts} noun="items" idle={<span>{members.length} across {new Set(members.map(entry => entry.tier.tier)).size} tiers</span>} />}>
-          <div className="matrix consequences">
-            <table>
-              <thead><tr><th>Tier</th><th>Item</th><th className="cell-num">{VALUE.label}</th>{record.category === "tool" ? <th className="cell-num">{GATHER.label}</th> : activeKeys.map(key => <th key={key} className="cell-num" title={BONUS[key].label}>{BONUS_SHORT[key]}</th>)}</tr></thead>
-              <tbody>{rows.map(({ tier, member, value, gather, bonuses, pinned }) => <tr key={member.id} data-unmoved={pinned || undefined} title={pinned ? `${member.name} keeps its own adjustment, so this change does not reach it` : undefined}>
-                <td className="cell-num">{tier.tier}</td>
-                <td><button type="button" className="cell" onClick={() => onOpenItem?.(member.id)}><Thumb spec={{ kind: "item", id: member.id }} size="s" /><span>{member.name}</span></button></td>
-                <td className="cell-num"><ConsequenceCell {...value} label={VALUE.label} /></td>
+          <TableFrame className="mt-0.5 max-h-[46vh] w-full">
+            <Table>
+              <TableHeader><TableRow><TableHead numeric className={CONSEQUENCE_CELL}>Tier</TableHead><TableHead className={CONSEQUENCE_CELL}>Item</TableHead><TableHead numeric className={CONSEQUENCE_CELL}>{VALUE.label}</TableHead>{record.category === "tool" ? <TableHead numeric className={CONSEQUENCE_CELL}>{GATHER.label}</TableHead> : activeKeys.map(key => <TableHead key={key} numeric className={CONSEQUENCE_CELL} title={BONUS[key].label}>{BONUS_SHORT[key]}</TableHead>)}</TableRow></TableHeader>
+              <TableBody>{rows.map(({ tier, member, value, gather, bonuses, pinned }) => <TableRow key={member.id} data-unmoved={pinned || undefined} className="data-unmoved:text-muted-foreground" title={pinned ? `${member.name} keeps its own adjustment, so this change does not reach it` : undefined}>
+                <TableCell numeric className={CONSEQUENCE_CELL}>{tier.tier}</TableCell>
+                <TableCell className={CONSEQUENCE_CELL}><TableLink onClick={() => onOpenItem?.(member.id)}><Thumb spec={{ kind: "item", id: member.id }} size="s" /><span>{member.name}</span></TableLink></TableCell>
+                <TableCell numeric className={CONSEQUENCE_CELL}><ConsequenceCell {...value} label={VALUE.label} /></TableCell>
                 {record.category === "tool"
-                  ? <td className="cell-num"><ConsequenceCell {...gather} digits={2} label={GATHER.label} /></td>
-                  : activeKeys.map(key => <td key={key} className="cell-num"><ConsequenceCell {...bonuses[key]} label={BONUS[key].label} /></td>)}
-              </tr>)}</tbody>
-            </table>
-          </div>
+                  ? <TableCell numeric className={CONSEQUENCE_CELL}><ConsequenceCell {...gather} digits={2} label={GATHER.label} /></TableCell>
+                  : activeKeys.map(key => <TableCell key={key} numeric className={CONSEQUENCE_CELL}><ConsequenceCell {...bonuses[key]} label={BONUS[key].label} /></TableCell>)}
+              </TableRow>)}</TableBody>
+            </Table>
+          </TableFrame>
           {CompiledCheck && <Suspense fallback={null}><CompiledCheck formulaId="equipment.linear" profileId={familyId} parameters={record.parameters} tier={members[0]?.tier.tier ?? 1} disabled={!draft.dirty} /></Suspense>}
         </Section>
         <ReferencedBy collection="equipmentFamilies" id={familyId} />

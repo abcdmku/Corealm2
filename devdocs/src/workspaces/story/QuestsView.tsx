@@ -16,10 +16,13 @@ import {
 } from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
+import { cn } from "../../lib/utils.js";
 import {
-  asRecord, itemOf, list, nameOf, num, PageState, RecordShell, RefCell, refRenderer, regionName,
+  asRecord, itemOf, list, nameOf, num, PageState, RecordShell, RefCell, refRenderer, regionName, RowBlock,
   regionOptions, skillKeys, StackList, strings, sub, text, usePage, type Page,
 } from "./shared.js";
+import { PAGE } from "../../ui/layout.js";
+import { EmptyCell, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
 
 interface Stage extends ContentRow { index?: number; objective?: string; hint?: string; refs?: ContentRow[]; completion?: unknown; grants?: ContentRow; onFlag?: unknown }
 interface Quest extends ContentRow {
@@ -44,27 +47,34 @@ function QuestList({ navigate }: { navigate: ViewProps["navigate"] }) {
   const { index } = useReferenceIndex();
   const ctx = useMemo(() => summaryContext(index), [index]);
   const rows = useMemo(() => query.data ? contentRows(query.data) : [], [query.data]);
-  if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
+  if (query.isPending) return <div className={PAGE}><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
-  return <div className="ws-page">
-    <div className="matrix story-table"><table>
-      <thead><tr><th>Quest</th><th>Region</th><th>Kind</th><th>Giver</th><th>Stages</th><th>Requires</th><th>Rewards</th></tr></thead>
-      <tbody>{rows.map(row => {
-        const id = String(row.id);
-        const requirements = Object.entries(asRecord(row.requirements));
-        const rewards = asRecord(row.rewards);
-        const xp = Object.entries(asRecord(rewards.xp)).map(([skill, amount]) => `${titleCase(skill)} ${String(amount)}`);
-        return <tr key={id}>
-          <td><button type="button" className="cell" onClick={() => navigate("quests", id)}>{String(row.name)}</button></td>
-          <td className="is-muted">{regionName(index, text(row.regionId))}</td>
-          <td className="is-muted">{titleCase(text(row.kind) ?? "")}</td>
-          <td>{text(row.giverNpcId) ? <button type="button" className="cell" onClick={() => navigate("npcs", row.giverNpcId as string)}>{nameOf(ctx, "npc", text(row.giverNpcId))}</button> : "—"}</td>
-          <td className="cell-num">{list(row.stages).length}</td>
-          <td className="is-muted">{requirements.length ? requirements.map(([skill, level]) => `${titleCase(skill)} ${String(level)}`).join(", ") : "—"}</td>
-          <td className="is-muted">{[...xp, typeof rewards.currency === "number" ? `${rewards.currency} marks` : "", list(rewards.items).length ? `${list(rewards.items).length} items` : ""].filter(Boolean).join(" · ") || "—"}</td>
-        </tr>;
-      })}</tbody>
-    </table></div>
+  return <div className={PAGE}>
+    <TableFrame className="max-h-[calc(100vh-6rem)]">
+      <Table>
+        <TableHeader><TableRow>
+          <TableHead pin>Quest</TableHead><TableHead>Region</TableHead><TableHead>Kind</TableHead><TableHead>Giver</TableHead>
+          <TableHead numeric>Stages</TableHead><TableHead>Requires</TableHead><TableHead>Rewards</TableHead>
+        </TableRow></TableHeader>
+        <TableBody>{rows.map(row => {
+          const id = String(row.id);
+          const giver = text(row.giverNpcId);
+          const requirements = Object.entries(asRecord(row.requirements));
+          const rewards = asRecord(row.rewards);
+          const xp = Object.entries(asRecord(rewards.xp)).map(([skill, amount]) => `${titleCase(skill)} ${String(amount)}`);
+          const rewardLine = [...xp, typeof rewards.currency === "number" ? `${rewards.currency} marks` : "", list(rewards.items).length ? `${list(rewards.items).length} items` : ""].filter(Boolean).join(" · ");
+          return <TableRow key={id}>
+            <TableCell pin><TableLink title={id} onClick={() => navigate("quests", id)}>{String(row.name)}</TableLink></TableCell>
+            <TableCell className="text-muted-foreground">{regionName(index, text(row.regionId))}</TableCell>
+            <TableCell className="text-muted-foreground">{titleCase(text(row.kind) ?? "")}</TableCell>
+            <TableCell>{giver ? <TableLink title={giver} onClick={() => navigate("npcs", giver)}>{nameOf(ctx, "npc", giver)}</TableLink> : <EmptyCell />}</TableCell>
+            <TableCell numeric>{list(row.stages).length}</TableCell>
+            <TableCell className="text-muted-foreground">{requirements.length ? requirements.map(([skill, level]) => `${titleCase(skill)} ${String(level)}`).join(", ") : <EmptyCell />}</TableCell>
+            <TableCell className="text-muted-foreground">{rewardLine || <EmptyCell />}</TableCell>
+          </TableRow>;
+        })}</TableBody>
+      </Table>
+    </TableFrame>
   </div>;
 }
 
@@ -135,18 +145,19 @@ interface StageProps { stages: Stage[]; page: Page<Quest>; readOnly: boolean; sk
 function StageList({ stages, page, readOnly, skills, renderRef, ctx }: StageProps) {
   const [open, setOpen] = useState<number | undefined>(stages.length === 1 ? 0 : undefined);
   const commit = (next: Stage[]) => page.draft.setPath(["stages"], next.map((stage, index) => ({ ...stage, index })));
-  return <ListField<Stage> items={stages} ordered min={1} readOnly={readOnly} className="quest-stages"
+  return <ListField<Stage> items={stages} ordered min={1} readOnly={readOnly}
+    rowClassName="items-start [&>.field-list-handle]:mt-0.5 [&>button]:mt-0.5"
     emptyText="No stages." addLabel="Add stage"
     onAdd={() => ({ index: stages.length, objective: "", hint: "", refs: [], completion: { kind: "flag", flag: "" } })}
     onChange={next => { if (next.length !== stages.length) setOpen(undefined); commit(next); }}
     removeLabel={(_, index) => `Remove stage ${index}`}
     renderItem={(stage, api) => <>
-      <button type="button" className="quest-stage-head" aria-expanded={open === api.index} onClick={() => setOpen(open === api.index ? undefined : api.index)}>
-        <span className="quest-stage-marker">{stage.index ?? api.index}</span>
-        <span className="quest-stage-objective">{stage.objective || "No objective yet"}</span>
-        <span className="quest-stage-summary">{predicateLine(stage.completion, ctx)}</span>
+      <button type="button" className="group/stage grid min-h-7 flex-[1_1_100%] cursor-pointer grid-cols-[1.375rem_minmax(0,1fr)_auto] items-center gap-2 text-left" aria-expanded={open === api.index} onClick={() => setOpen(open === api.index ? undefined : api.index)}>
+        <span className="grid size-5 place-items-center rounded-full border border-border bg-secondary font-mono text-[11px] font-semibold text-muted-foreground group-aria-expanded/stage:border-primary group-aria-expanded/stage:text-primary">{stage.index ?? api.index}</span>
+        <span className={cn("truncate text-[13px] font-medium group-hover/stage:text-primary group-aria-expanded/stage:whitespace-normal", !stage.objective && "text-faint")}>{stage.objective || "No objective yet"}</span>
+        <span className="max-w-80 truncate text-[11px] text-muted-foreground" title={predicateLine(stage.completion, ctx)}>{predicateLine(stage.completion, ctx)}</span>
       </button>
-      {open === api.index && <div className="quest-stage-open">
+      {open === api.index && <RowBlock className="mt-0.5 mb-1.5 border-l-2 border-border pl-3">
         <Field label={stageField("objective").label}><TextField value={stage.objective ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${api.index} objective`} onChange={value => api.update({ ...stage, objective: value })} /></Field>
         <Field label={stageField("hint").label}><TextField value={stage.hint ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${api.index} hint`} onChange={value => api.update({ ...stage, hint: value })} /></Field>
         <ListField<ContentRow> label={stageField("refs").label} items={list(stage.refs).map(asRecord)} readOnly={readOnly}
@@ -156,12 +167,12 @@ function StageList({ stages, page, readOnly, skills, renderRef, ctx }: StageProp
             <ChoiceField value={text(entry.kind)} options={REF_KINDS} readOnly={readOnly} ariaLabel={`Ref ${row.index + 1} kind`} onChange={value => row.update({ kind: value ?? "item", id: "" })} />
             <RefCell label={`Ref ${row.index + 1}`} kind={text(entry.kind) ?? "item"} value={text(entry.id)} readOnly={readOnly} onChange={value => row.update({ ...entry, id: value ?? "" })} />
           </>} />
-        <UnionField schema={questPredicateSchema} kindLabel="Completion" className="quest-completion" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
+        <UnionField schema={questPredicateSchema} kindLabel="Completion" className="col-span-full grid grid-cols-subgrid gap-x-2.5 [&>*]:col-span-full" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
           onChange={value => api.update({ ...stage, completion: value })} />
         <GrantFields schema={questGrantSchema} grant={asRecord(stage.grants)} path={["stages", api.index, "grants"]} page={page} readOnly={readOnly} skills={skills} renderRef={renderRef} />
         {stage.onFlag !== undefined && sub(questStageSchema, "onFlag") && <SchemaControl schema={sub(questStageSchema, "onFlag")!} name="onFlag" value={stage.onFlag} renderRef={renderRef} readOnly={readOnly}
           onChange={value => api.update({ ...stage, onFlag: value })} />}
-      </div>}
+      </RowBlock>}
     </>} />;
 }
 

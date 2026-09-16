@@ -4,7 +4,7 @@ import { ListField, type ListFieldProps, type ListItemApi } from "./ListField.js
 import { Button } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
 
-const BAR = "relative inline-block h-1.5 w-16 overflow-hidden rounded-full bg-border-subtle";
+const BAR = "relative inline-block h-1.5 w-12 overflow-hidden rounded-full bg-border-subtle";
 const FILL = "block h-full rounded-full transition-[width] duration-100";
 import { NumberField } from "./NumberField.js";
 import { clampProbability, redistribute, shares } from "./reorder.js";

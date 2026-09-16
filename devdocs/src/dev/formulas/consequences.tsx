@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { fmtValue } from "../../model/origin.js";
 import { sameValue, tally, type Tally } from "./consequence.js";
-import "./formulas.css";
+import { Dot } from "../../ui/field/Field.js";
 
 /*
   What a curve edit does to the records that use it (docs/devdocs-inputs.md 3.10). The role, family
@@ -18,8 +18,8 @@ const show = (value: unknown, digits: number, unit: string): string =>
 
 /** A number that moved: the old value struck, the new one in accent. Unchanged values print plain. */
 export function Change({ before, after, digits = 0, unit = "" }: { before: unknown; after: unknown; digits?: number; unit?: string }) {
-  if (sameValue(before, after)) return <span className="mono">{show(after, digits, unit)}</span>;
-  return <span className="mono change"><s>{show(before, digits, unit)}</s><ArrowRight size={10} /><strong>{show(after, digits, unit)}</strong></span>;
+  if (sameValue(before, after)) return <span className="font-mono">{show(after, digits, unit)}</span>;
+  return <span className="change inline-flex items-center gap-1 font-mono"><s className="text-faint">{show(before, digits, unit)}</s><ArrowRight size={10} className="text-faint" /><strong className="font-semibold text-primary">{show(after, digits, unit)}</strong></span>;
 }
 
 export interface ConsequenceCellProps {
@@ -45,9 +45,9 @@ export function ConsequenceCell({ before, after, own, digits = 0, unit = "", lab
   const title = sameValue(before, after)
     ? `${name}own ${show(own, digits, unit)}, curve ${show(after, digits, unit)}`
     : `${name}own ${show(own, digits, unit)} does not move · curve ${show(before, digits, unit)} → ${show(after, digits, unit)}`;
-  return <span className="mono unmoved" title={title}>
+  return <span className="inline-flex items-center gap-1 font-mono text-muted-foreground" title={title}>
     {show(own, digits, unit)}
-    <span className="field-dot" data-state="overridden" role="img" aria-label="Own override: does not move" />
+    <Dot label="Own override: does not move" />
   </span>;
 }
 
@@ -62,6 +62,6 @@ export function ConsequenceNote({ tally: counts, noun, idle }: { tally: Tally; n
   if (!counts.moved && !counts.pinned) return <>{idle}</>;
   return <span>
     {counts.moved} of {counts.total} {noun} move
-    {counts.pinned > 0 && <> · <span className="unmoved">{counts.pinned} pinned by an own override<span className="field-dot" data-state="overridden" role="img" aria-label="" /></span></>}
+    {counts.pinned > 0 && <> · <span className="inline-flex items-center gap-1 text-muted-foreground">{counts.pinned} pinned by an own override<Dot /></span></>}
   </span>;
 }

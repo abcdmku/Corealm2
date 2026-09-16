@@ -15,6 +15,7 @@ import { StatMatrix } from "../../ui/StatMatrix.js";
 import { Button } from "../../components/ui/index.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
 import { choicesOf, emptyBonuses, seconds, specAt, stationText, titleCase, type ItemRecord, type ItemsData, type PathSpec } from "./data.js";
+import { EMPTY, PAGE, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../../ui/layout.js";
 
 /*
   One page for every item. Gear expanded from a tier edits the tier member (name, description,
@@ -35,10 +36,10 @@ export interface ItemPageProps {
 export function ItemPage(props: ItemPageProps) {
   const { id, data } = props;
   const source = useMemo(() => equipmentSource(id, data.tiers, data.families), [id, data.tiers, data.families]);
-  if (data.loading) return <p className="empty-inline">Loading…</p>;
+  if (data.loading) return <p className={EMPTY}>Loading…</p>;
   if (source) return <ExpandedItem key={id} {...props} tierId={source.tier.id} />;
   if (data.authored.has(id)) return <AuthoredItem key={id} {...props} />;
-  return <div className="ws-page"><p className="empty-inline">"{id}" is not an item.</p></div>;
+  return <div className={PAGE}><p className={EMPTY}>"{id}" is not an item.</p></div>;
 }
 
 const item = (...path: Path[number][]): PathSpec => specAt(ItemSchema, path);
@@ -106,20 +107,20 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
       ...(family.magicWeapon ? { magicWeapon: family.magicWeapon } : {}) };
   }, [derived, row, tier, family, compiled, id]);
 
-  if (!tier || !row || !family || !derived) return <p className="empty-inline">Loading…</p>;
+  if (!tier || !row || !family || !derived) return <p className={EMPTY}>Loading…</p>;
   const isTool = family.category === "tool";
   const value = item("value");
   const facts = [`Tier ${tier.tier}`, isTool ? `${titleCase(family.skill)} tool` : titleCase(derived.slot), `requires ${family.skill} ${tier.reqLevel}`];
 
-  const main = <div className="record-main">
-    <header className="record-head">
+  const main = <div className="min-w-0">
+    <header className={RECORD_HEAD}>
       <Thumb spec={{ kind: "item", id }} size="l" alt="" />
-      <div className="record-title">
+      <div className={RECORD_TITLE}>
         <h1>{row.name}</h1>
         <Facts items={facts} />
         <code>{id}</code>
       </div>
-      {variant === "drawer" && <span className="record-actions"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
+      {variant === "drawer" && <span className="flex shrink-0 items-center gap-1"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
     </header>
     <Sheet>
       <Section title="Identity">
@@ -143,7 +144,7 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
 
   return <>
     {variant === "page"
-      ? <div className="ws-page"><div className="record">{main}<Rail collection="items" record={liveRecord ?? compiled ?? { id }} recordId={id} navigate={navigate} /></div></div>
+      ? <div className={PAGE}><div className={RECORD}>{main}<Rail collection="items" record={liveRecord ?? compiled ?? { id }} recordId={id} navigate={navigate} /></div></div>
       : main}
     {familyDrawer && <FamilyDrawer familyId={familyDrawer} data={data} onClose={() => setFamilyDrawer(undefined)} onLive={setLocalFamily} onOpenItem={itemId => navigate("items/catalog", itemId)} />}
   </>;
@@ -151,7 +152,7 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
 
 function Rail({ collection, record, recordId, navigate }: { collection: string; record: ContentRow; recordId: string; navigate: AppProps["navigate"] }) {
   const { index } = useReferenceIndex();
-  return <aside className="record-rail"><EntitySummary collection={collection} record={record} recordId={recordId} index={index} navigate={navigate} editing /></aside>;
+  return <aside className={RECORD_RAIL}><EntitySummary collection={collection} record={record} recordId={recordId} index={index} navigate={navigate} editing bare /></aside>;
 }
 
 /** The production entry that outputs this item, with its inputs, station and rates. */
@@ -198,8 +199,8 @@ const BLOCK_ORDER: readonly BlockKey[] = ["equip", "tool", "food", "magicWeapon"
  */
 function BlockSection({ spec, readOnly, onRemove, children }: { spec: PathSpec; readOnly: boolean; onRemove: () => void; children: ReactNode }) {
   const aside = readOnly ? undefined : <Button variant="link" size="inline" title={`Remove the ${spec.label.toLowerCase()} from this item`} onClick={onRemove}>Remove</Button>;
-  return <Section title={spec.label} aside={aside} className="block-section">
-    {spec.hint && <p className="field-hint">{spec.hint}</p>}
+  return <Section title={spec.label} aside={aside}>
+    {spec.hint && <p className="mb-1.5 text-[11px] leading-snug text-faint [overflow-wrap:anywhere]">{spec.hint}</p>}
     {children}
   </Section>;
 }
@@ -207,7 +208,7 @@ function BlockSection({ spec, readOnly, onRemove, children }: { spec: PathSpec; 
 function AddBlocks({ absent, readOnly, onAdd }: { absent: readonly BlockKey[]; readOnly: boolean; onAdd: (key: BlockKey) => void }) {
   if (readOnly || !absent.length) return null;
   return <Row label="Add">
-    <span className="block-add">{absent.map(key => <Button variant="secondary" size="sm" key={key} onClick={() => onAdd(key)}><Plus size={12} /> {item(key).label}</Button>)}</span>
+    <span className="flex flex-wrap gap-1">{absent.map(key => <Button variant="secondary" size="sm" key={key} onClick={() => onAdd(key)}><Plus size={12} /> {item(key).label}</Button>)}</span>
   </Row>;
 }
 
@@ -215,7 +216,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
   const draft = useRecordDraft<ItemRecord>("items", id);
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const record = draft.draft;
-  if (!record) return <p className="empty-inline">Loading…</p>;
+  if (!record) return <p className={EMPTY}>Loading…</p>;
   const set = draft.setPath;
   const equip = record.equip;
   const charge = record.magicWeapon?.charge;
@@ -235,15 +236,15 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
   const ref = (path: Path, spec = item(...path)) => <RefField kind="item" collection="compiled-items" label={spec.label} hint={spec.hint} value={(getPath(record, path) as string | undefined) || undefined} readOnly={readOnly} onChange={next => set(path, next ?? "")} />;
     const presence = (key: BlockKey) => (present: boolean) => set([key], present ? BLOCKS.find(candidate => candidate.key === key)!.make() : undefined);
 
-  const main = <div className="record-main">
-    <header className="record-head">
+  const main = <div className="min-w-0">
+    <header className={RECORD_HEAD}>
       <Thumb spec={{ kind: "item", id }} size="l" alt="" />
-      <div className="record-title">
+      <div className={RECORD_TITLE}>
         <h1>{record.name}</h1>
         <Facts items={facts} />
         <code>{id}</code>
       </div>
-      {variant === "drawer" && <span className="record-actions"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
+      {variant === "drawer" && <span className="flex shrink-0 items-center gap-1"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
     </header>
     <Sheet>
       <Section title="Identity">
@@ -293,14 +294,14 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         {choice(["orb", "element"])}
         {toggle(["orb", "released"])}
       </BlockSection>}
-      <Section title="More" className="block-add-section"><AddBlocks absent={BLOCK_ORDER.filter(key => !record[key])} readOnly={readOnly} onAdd={key => presence(key)(true)} /></Section>
+      <Section title="More"><AddBlocks absent={BLOCK_ORDER.filter(key => !record[key])} readOnly={readOnly} onAdd={key => presence(key)(true)} /></Section>
       <MadeBy itemId={id} data={data} navigate={navigate} />
       <ReferencedBy collection="items" id={id} navigate={navigate} />
     </Sheet>
   </div>;
 
   if (variant === "drawer") return main;
-  return <div className="ws-page"><div className="record">{main}<Rail collection="items" record={record} recordId={id} navigate={navigate} /></div></div>;
+  return <div className={PAGE}><div className={RECORD}>{main}<Rail collection="items" record={record} recordId={id} navigate={navigate} /></div></div>;
 }
 
 export type { BonusKey };

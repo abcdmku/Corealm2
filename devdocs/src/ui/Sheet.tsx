@@ -2,6 +2,7 @@ import { createContext, Fragment, useContext, useState, type ReactNode } from "r
 import { ChevronDown } from "lucide-react";
 import { cn } from "../lib/utils.js";
 
+
 /*
   The layout a record sheet is built from, in Tailwind.
 
@@ -68,7 +69,7 @@ export function Fields({ children, columns, className }: { children: ReactNode; 
   const onSheet = useOnSheet();
   return <div data-slot="fields" className={cn(
     "grid w-fit max-w-full gap-x-3 gap-y-2 pt-1 pb-2",
-    columns ? "grid-cols-[repeat(var(--columns),8rem)]" : "grid-cols-[repeat(auto-fill,8rem)]",
+    columns ? "grid-cols-[repeat(var(--columns),minmax(6.5rem,8rem))]" : "grid-cols-[repeat(auto-fill,8rem)]",
     onSheet && "col-start-2! col-end-auto!",
     // Controls fill the cell and give way to the origin dot and revert glyph beside them.
     "[&_[data-slot=input-group]]:w-auto! [&_[data-slot=input-group]]:min-w-0 [&_[data-slot=input-group]]:flex-1 [&_[data-slot=native-select]]:w-auto! [&_[data-slot=native-select]]:min-w-0 [&_[data-slot=native-select]]:flex-1",
@@ -81,12 +82,12 @@ export function Row({ label, hint, children, error, wide = false, align = "cente
   const onSheet = useOnSheet();
   return <div data-slot="row" className={cn(
     "kv-row min-h-7 py-px",
-    wide ? "col-span-full flex flex-col gap-1" : onSheet ? ON_SHEET : ROW_COLUMNS,
-    align === "start" ? "items-start" : "items-center",
+    wide ? "col-span-full flex flex-col items-stretch gap-1" : onSheet ? ON_SHEET : ROW_COLUMNS,
+    !wide && (align === "start" ? "items-start" : "items-center"),
   )}>
     <span className={cn("kv-label truncate text-xs text-muted-foreground", wide ? "text-left" : "text-right", align === "start" && !wide && "pt-1.5", error && "text-destructive")} title={hint}>{label}</span>
     <SheetLevel.Provider value={false}>
-      <div className="flex min-w-0 flex-wrap items-center gap-1.5 text-xs">{children}{error && <span className="basis-full text-[11px] text-destructive">{error}</span>}</div>
+      <div className="min-w-0 flex flex-wrap items-center gap-1.5 text-xs">{children}{error && <span className="basis-full text-[11px] text-destructive">{error}</span>}</div>
     </SheetLevel.Provider>
   </div>;
 }
@@ -101,6 +102,6 @@ export function Facts({ items, className }: { items: readonly (ReactNode | undef
 }
 
 /** A read-only value in the sheet. */
-export function Static({ children, mono = false, muted = false }: { children: ReactNode; mono?: boolean; muted?: boolean }) {
-  return <span className={cn("inline-flex min-h-7 items-center text-xs [overflow-wrap:anywhere]", mono && "font-mono", muted ? "text-faint" : "text-foreground")}>{children}</span>;
+export function Static({ children, mono = false, muted = false, title, className }: { children: ReactNode; mono?: boolean; muted?: boolean; title?: string; className?: string }) {
+  return <span title={title} className={cn("field-static inline-flex min-h-7 items-center gap-1 text-xs [overflow-wrap:anywhere] [&_small]:text-[11px] [&_small]:text-faint", mono && "font-mono", muted ? "text-faint" : "text-foreground", className)}>{children}</span>;
 }

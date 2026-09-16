@@ -10,8 +10,9 @@ import { ChoiceField, ListField, NumberField } from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, list, num, text } from "../story/shared.js";
-import "./assets.css";
-import { Button } from "../../components/ui/index.js";
+import { Button, EmptyCell, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableRow } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
+import { FACTS, PAGE, PAGE_HEADING } from "../../ui/layout.js";
 
 /*
   The audio catalog as three flat tables: cues, loops and regions. Every cell is a field from
@@ -34,7 +35,12 @@ const RATE = fieldPath(audioCueSchema, ["playbackRate", 0], { playbackRate: [1, 
 
 function variantUrl(variant: unknown): string | undefined { return typeof variant === "string" ? variant : text(asRecord(variant).url); }
 const fileName = (url: string | undefined): string => url ? url.split("/").at(-1) ?? url : "—";
-const Empty = () => <span className="cell-empty">—</span>;
+/** Rows hold 28px controls, so cells pad less than the default and the last row drops its rule against the frame. */
+const CELL = "h-8 py-0.5 group-last/tr:border-b-0";
+const PLAY = cn(CELL, "w-8 px-1");
+const FILE = cn(CELL, "font-mono text-muted-foreground");
+/** Cues and loops are long; the frame scrolls under a sticky header instead of the page. */
+const FRAME = "mb-5 max-h-[calc(100dvh-10rem)]";
 
 /** One audio element for the page; `play` swaps the source, `stop` pauses it. */
 function usePlayer() {
@@ -69,7 +75,7 @@ export default function AudioView(_props: ViewProps) {
   const readOnly = !draft.editable;
   const catalog = draft.draft;
   const loopIds = useMemo(() => Object.keys(asRecord(catalog?.loops)), [catalog]);
-  if (draft.loading) return <div className="ws-page"><LoadingRows /></div>;
+  if (draft.loading) return <div className={PAGE}><LoadingRows /></div>;
   if (draft.error) return <ErrorState message={draft.error} />;
   if (!catalog) return <ErrorState message="The audio catalog is empty." />;
   const cues = Object.entries(asRecord(catalog.cues)).map(([id, cue]) => [id, asRecord(cue)] as const);
@@ -77,10 +83,10 @@ export default function AudioView(_props: ViewProps) {
   const regions = asRecord(catalog.regions);
   const set = (path: Path, value: unknown) => draft.setPath(path, value);
 
-  const numberCell = (path: Path, value: unknown, label: string): ReactNode => {
+  const numberCell = (path: Path, value: unknown, label: string, width = "w-[4.75rem]"): ReactNode => {
     const field = spec(path, catalog);
     return <NumberField value={num(value)} optional={field?.optional ?? true} integer={field?.integer} min={lower(field)} max={field?.max} step={field?.step}
-      unit={field?.unit} readOnly={readOnly} ariaLabel={label} onChange={next => set(path, next)} />;
+      unit={field?.unit} readOnly={readOnly} ariaLabel={label} className={width} onChange={next => set(path, next)} />;
   };
   const choiceCell = (path: Path, value: unknown, label: string, options: readonly string[], allowEmpty?: string): ReactNode => {
     const field = spec(path, catalog);
@@ -88,7 +94,7 @@ export default function AudioView(_props: ViewProps) {
       readOnly={readOnly} ariaLabel={label} width="id" onChange={next => set(path, next)} />;
   };
   const playButton = (url: string | undefined, label: string, loop = false) => {
-    if (!url) return <Empty />;
+    if (!url) return <span className="inline-grid size-7 shrink-0 place-items-center"><EmptyCell /></span>;
     const active = player.playing === url;
     return <Button variant="ghost" size="icon-sm" aria-label={active ? `Stop ${label}` : `Play ${label}`} aria-pressed={active} title={url} onClick={() => active ? player.stop() : player.play(url, loop)}>{active ? <Square size={12} /> : <Play size={12} />}</Button>;
   };
@@ -106,14 +112,14 @@ export default function AudioView(_props: ViewProps) {
       if (mode === "range" && !range) { const held = num(rate) ?? 1; set(path, [held, held]); }
       if (mode === "fixed" && range) set(path, num(range[0]) ?? 1);
     };
-    return <span className="audio-rate">
-      <ChoiceField className="audio-rate-mode" value={range ? "range" : "fixed"} options={[{ value: "fixed", label: "Fixed" }, { value: "range", label: "Range" }]}
+    return <span className="inline-flex flex-nowrap items-center gap-1">
+      <ChoiceField className="w-[4.875rem]" value={range ? "range" : "fixed"} options={[{ value: "fixed", label: "Fixed" }, { value: "range", label: "Range" }]}
         readOnly={readOnly} ariaLabel={`${id} playback rate shape`} onChange={switchShape} />
       {range
-        ? <><NumberField value={num(range[0])} min={lower(RATE)} step={RATE?.step} readOnly={readOnly} ariaLabel={`${id} minimum playback rate`} onChange={next => setRange(0, next)} />
-          <span className="muted">–</span>
-          <NumberField value={num(range[1])} min={lower(RATE)} step={RATE?.step} readOnly={readOnly} ariaLabel={`${id} maximum playback rate`} onChange={next => setRange(1, next)} /></>
-        : numberCell(path, rate, `${id} playback rate`)}
+        ? <><NumberField value={num(range[0])} min={lower(RATE)} step={RATE?.step} readOnly={readOnly} className="w-16" ariaLabel={`${id} minimum playback rate`} onChange={next => setRange(0, next)} />
+          <span className="text-faint">–</span>
+          <NumberField value={num(range[1])} min={lower(RATE)} step={RATE?.step} readOnly={readOnly} className="w-16" ariaLabel={`${id} maximum playback rate`} onChange={next => setRange(1, next)} /></>
+        : numberCell(path, rate, `${id} playback rate`, "w-16")}
     </span>;
   };
 
@@ -125,75 +131,81 @@ export default function AudioView(_props: ViewProps) {
     const urlOf = (loop: string | undefined) => loop ? text(asRecord(asRecord(catalog.loops)[loop]).url) : undefined;
     if (Array.isArray(value)) {
       const pool = value.map(entry => typeof entry === "string" ? entry : "");
-      return <ListField<string> items={pool} readOnly={readOnly} emptyText="None" addLabel={`Add ${key} loop`} className="audio-pool"
+      return <ListField<string> items={pool} readOnly={readOnly} emptyText="None" addLabel={`Add ${key} loop`}
         onAdd={() => options.find(option => !pool.includes(option)) ?? options[0] ?? ""}
         onChange={next => set(path, next.length ? next : undefined)}
         renderItem={(loop, api) => <>
           {playButton(urlOf(loop), `${regionId} ${key} ${api.index + 1}`, true)}
-          <ChoiceField value={loop} options={options} readOnly={readOnly} width="id" ariaLabel={`${regionId} ${key} loop ${api.index + 1}`} onChange={next => api.update(next ?? "")} />
+          <ChoiceField value={loop} options={options} readOnly={readOnly} width="id" className="w-50" ariaLabel={`${regionId} ${key} loop ${api.index + 1}`} onChange={next => api.update(next ?? "")} />
         </>} />;
     }
     const current = text(value);
-    return <span className="audio-loop-cell">
+    return <span className="inline-flex items-center gap-1.5">
       {playButton(urlOf(current), `${regionId} ${key}`, true)}
       {choiceCell(path, value, `${regionId} ${key} loop`, options, "none")}
     </span>;
   };
 
-  return <div className="ws-page audio-page">
-    {draft.diagnostics.length > 0 && <ul className="audio-diagnostics" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}><code>{diagnostic.path}</code> {diagnostic.message}</li>)}</ul>}
+  return <div className={PAGE}>
+    {draft.diagnostics.length > 0 && <ul className="mb-3 flex list-none flex-col gap-0.5 rounded-md border border-destructive bg-destructive-soft px-2.5 py-1.5 text-xs [&_code]:text-destructive" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}><code>{diagnostic.path}</code> {diagnostic.message}</li>)}</ul>}
 
-    <div className="ws-heading"><h1>Cues</h1><span className="facts"><span>One-shot effects; a cue picks one of its variants</span></span></div>
-    <div className="matrix audio-table"><table>
-      <thead><tr><th>Cue</th><th></th><th>Variants</th><th>First file</th><th>{spec(["cues", "", "gain"])?.label ?? "Gain"}</th><th>Max voices</th><th>Minimum interval</th><th>Playback rate</th></tr></thead>
-      <tbody>{cues.map(([id, cue]) => {
+    <div className={PAGE_HEADING}><h1>Cues</h1><span className={FACTS}><span>One-shot effects; a cue picks one of its variants</span></span></div>
+    <TableFrame className={FRAME}><Table>
+      <TableHeader><TableRow>
+        <TableHead pin>Cue</TableHead><TableHead className="w-8 px-1"><span className="sr-only">Play</span></TableHead><TableHead numeric>Variants</TableHead><TableHead>First file</TableHead>
+        <TableHead>{spec(["cues", "", "gain"])?.label ?? "Gain"}</TableHead><TableHead>Max voices</TableHead><TableHead>Minimum interval</TableHead><TableHead>Playback rate</TableHead>
+      </TableRow></TableHeader>
+      <TableBody>{cues.map(([id, cue]) => {
         const variants = list(cue.variants);
         const first = variantUrl(variants[0]);
-        return <tr key={id}>
-          <td className="mono">{id}</td>
-          <td className="audio-play-cell">{playButton(first, id)}</td>
-          <td className="cell-num">{variants.length}</td>
-          <td className="is-muted mono" title={first}>{fileName(first)}</td>
-          <td>{numberCell(["cues", id, "gain"], cue.gain, `${id} gain`)}</td>
-          <td>{numberCell(["cues", id, "maxConcurrent"], cue.maxConcurrent, `${id} max concurrent voices`)}</td>
-          <td>{numberCell(["cues", id, "minIntervalMs"], cue.minIntervalMs, `${id} minimum interval`)}</td>
-          <td>{rateCell(id, cue.playbackRate)}</td>
-        </tr>;
-      })}</tbody>
-    </table></div>
+        return <TableRow key={id}>
+          <TableCell pin className={cn(CELL, "font-mono font-medium")}>{id}</TableCell>
+          <TableCell className={PLAY}>{playButton(first, id)}</TableCell>
+          <TableCell numeric className={CELL}>{variants.length}</TableCell>
+          <TableCell className={FILE} title={first}>{fileName(first)}</TableCell>
+          <TableCell className={CELL}>{numberCell(["cues", id, "gain"], cue.gain, `${id} gain`)}</TableCell>
+          <TableCell className={CELL}>{numberCell(["cues", id, "maxConcurrent"], cue.maxConcurrent, `${id} max concurrent voices`)}</TableCell>
+          <TableCell className={CELL}>{numberCell(["cues", id, "minIntervalMs"], cue.minIntervalMs, `${id} minimum interval`)}</TableCell>
+          <TableCell className={CELL}>{rateCell(id, cue.playbackRate)}</TableCell>
+        </TableRow>;
+      })}</TableBody>
+    </Table></TableFrame>
 
-    <div className="ws-heading"><h1>Loops</h1><span className="facts"><span>Music and ambience beds</span></span></div>
-    <div className="matrix audio-table"><table>
-      <thead><tr><th>Loop</th><th></th><th>File</th><th>Bus</th><th>Gain</th><th>Fade</th><th>Loop start</th><th>Loop end</th></tr></thead>
-      <tbody>{loops.map(([id, loop]) => {
+    <div className={PAGE_HEADING}><h1>Loops</h1><span className={FACTS}><span>Music and ambience beds</span></span></div>
+    <TableFrame className={FRAME}><Table>
+      <TableHeader><TableRow>
+        <TableHead pin>Loop</TableHead><TableHead className="w-8 px-1"><span className="sr-only">Play</span></TableHead><TableHead>File</TableHead><TableHead>Bus</TableHead>
+        <TableHead>Gain</TableHead><TableHead>Fade</TableHead><TableHead>Loop start</TableHead><TableHead>Loop end</TableHead>
+      </TableRow></TableHeader>
+      <TableBody>{loops.map(([id, loop]) => {
         const url = text(loop.url);
-        return <tr key={id}>
-          <td className="mono">{id}</td>
-          <td className="audio-play-cell">{playButton(url, id, true)}</td>
-          <td className="is-muted mono" title={url}>{fileName(url)}</td>
-          <td>{choiceCell(["loops", id, "bus"], loop.bus, `${id} bus`, [])}</td>
-          <td>{numberCell(["loops", id, "gain"], loop.gain, `${id} gain`)}</td>
-          <td>{numberCell(["loops", id, "fadeMs"], loop.fadeMs, `${id} fade`)}</td>
-          <td>{numberCell(["loops", id, "loopStart"], loop.loopStart, `${id} loop start`)}</td>
-          <td>{numberCell(["loops", id, "loopEnd"], loop.loopEnd, `${id} loop end`)}</td>
-        </tr>;
-      })}</tbody>
-    </table></div>
+        return <TableRow key={id}>
+          <TableCell pin className={cn(CELL, "font-mono font-medium")}>{id}</TableCell>
+          <TableCell className={PLAY}>{playButton(url, id, true)}</TableCell>
+          <TableCell className={FILE} title={url}>{fileName(url)}</TableCell>
+          <TableCell className={CELL}>{choiceCell(["loops", id, "bus"], loop.bus, `${id} bus`, [])}</TableCell>
+          <TableCell className={CELL}>{numberCell(["loops", id, "gain"], loop.gain, `${id} gain`)}</TableCell>
+          <TableCell className={CELL}>{numberCell(["loops", id, "fadeMs"], loop.fadeMs, `${id} fade`)}</TableCell>
+          <TableCell className={CELL}>{numberCell(["loops", id, "loopStart"], loop.loopStart, `${id} loop start`)}</TableCell>
+          <TableCell className={CELL}>{numberCell(["loops", id, "loopEnd"], loop.loopEnd, `${id} loop end`)}</TableCell>
+        </TableRow>;
+      })}</TableBody>
+    </Table></TableFrame>
 
-    <div className="ws-heading"><h1>Regions</h1><span className="facts"><span>Which loops play where</span></span></div>
-    <div className="matrix audio-table"><table>
-      <thead><tr><th>Region</th><th>Music</th><th>Ambient</th><th>Music areas</th></tr></thead>
-      <tbody>{audioRegionIds.map(regionId => {
+    <div className={PAGE_HEADING}><h1>Regions</h1><span className={FACTS}><span>Which loops play where</span></span></div>
+    <TableFrame><Table>
+      <TableHeader><TableRow><TableHead pin>Region</TableHead><TableHead>Music</TableHead><TableHead>Ambient</TableHead><TableHead>Music areas</TableHead></TableRow></TableHeader>
+      <TableBody>{audioRegionIds.map(regionId => {
         const region = asRecord(regions[regionId]);
         // Areas carry a centre, a radius and their own ids; the map is where they are authored.
         const areas = list(region.musicAreas).map(asRecord);
-        return <tr key={regionId}>
-          <td>{titleCase(regionId)}</td>
-          <td>{loopCell(regionId, "music", region)}</td>
-          <td>{loopCell(regionId, "ambient", region)}</td>
-          <td className="is-muted">{areas.length ? areas.map(area => `${text(area.id) ?? "?"} → ${text(area.music) ?? "?"}`).join(" · ") : "—"}</td>
-        </tr>;
-      })}</tbody>
-    </table></div>
+        return <TableRow key={regionId}>
+          <TableCell pin className={cn(CELL, "font-medium")}>{titleCase(regionId)}</TableCell>
+          <TableCell className={CELL}>{loopCell(regionId, "music", region)}</TableCell>
+          <TableCell className={CELL}>{loopCell(regionId, "ambient", region)}</TableCell>
+          <TableCell className={cn(CELL, "text-muted-foreground")}>{areas.length ? areas.map(area => `${text(area.id) ?? "?"} → ${text(area.music) ?? "?"}`).join(" · ") : <EmptyCell />}</TableCell>
+        </TableRow>;
+      })}</TableBody>
+    </Table></TableFrame>
   </div>;
 }

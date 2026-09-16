@@ -5,6 +5,7 @@ import type { SummaryContext } from "../model/summaries.js";
 import { Badge, Button } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
 
+
 /*
   A conversation as a tree you can read top to bottom.
 
@@ -41,7 +42,7 @@ export function DialogueTree({ rootId, nodes, ctx, open }: DialogueTreeProps) {
   const describeEffect = useMemo(() => effectText(name), [ctx]); // eslint-disable-line react-hooks/exhaustive-deps
   const setAll = (value: boolean) => { setExpandAll(value); setGeneration(count => count + 1); };
 
-  return <div className="flex w-full min-w-0 flex-col gap-1">
+  return <div className="min-w-0 flex w-full flex-col gap-1">
     <div className="flex items-center gap-1">
       <Button variant="ghost" size="xs" onClick={() => setAll(true)}>Expand all</Button>
       <Button variant="ghost" size="xs" onClick={() => setAll(false)}>Collapse all</Button>
@@ -71,15 +72,15 @@ function Line({ id, nodes, depth, ancestors, expandAll, open, describe, describe
   const branch = new Set(ancestors).add(id);
   const text = str(node.text) ?? "";
 
-  return <li role="treeitem" aria-expanded={options.length ? expanded : undefined} className="flex min-w-0 flex-col">
-    <div className="group flex min-h-7 min-w-0 items-start gap-1.5 rounded-md py-1 pr-2 hover:bg-accent">
+  return <li role="treeitem" aria-expanded={options.length ? expanded : undefined} className="min-w-0 flex flex-col">
+    <div className="min-w-0 group flex min-h-7 items-start gap-1.5 rounded-md py-1 pr-2 hover:bg-accent">
       {options.length
         ? <Button variant="ghost" size="icon-xs" className="mt-px" aria-label={expanded ? "Collapse" : "Expand"} onClick={() => setExpanded(!expanded)}><ChevronRight className={cn("transition-transform", expanded && "rotate-90")} /></Button>
         : <span className="size-5 shrink-0" />}
       <MessageSquare className="mt-1 size-3.5 shrink-0 text-faint" aria-hidden />
-      <button type="button" className="flex min-w-0 flex-1 cursor-pointer items-baseline gap-2 text-left" title={`${id}\n\n${text}`} onClick={() => open(id)}>
+      <button type="button" className="min-w-0 flex flex-1 cursor-pointer items-baseline gap-2 text-left" title={`${id}\n\n${text}`} onClick={() => open(id)}>
         {speaker && speaker !== speakerAbove && <span className="shrink-0 font-semibold text-foreground">{speaker}</span>}
-        <span className="line-clamp-2 min-w-0 text-muted-foreground group-hover:text-foreground">{text}</span>
+        <span className="min-w-0 line-clamp-2 text-muted-foreground group-hover:text-foreground">{text}</span>
       </button>
       <span className="flex shrink-0 items-center gap-1 pt-0.5">
         {variants > 0 && <Badge variant="outline" title="Alternative texts shown by quest state">{variants} {variants === 1 ? "variant" : "variants"}</Badge>}
@@ -115,8 +116,8 @@ function Reply({ option, last, parentId, nodes, depth, ancestors, expandAll, ope
     last ? "before:h-3.5" : "before:bottom-0",
     "after:absolute after:top-3.5 after:left-0 after:w-3 after:border-t after:border-border after:content-['']",
   )}>
-    <div className="group flex min-h-7 min-w-0 flex-wrap items-center gap-x-2 gap-y-1 rounded-md py-0.5 pr-2 pl-1 hover:bg-accent">
-      <button type="button" className="flex min-w-0 cursor-pointer items-center gap-1.5 text-left text-link hover:underline" title={str(option.id)} onClick={() => open(next ?? parentId)}>
+    <div className="min-w-0 group flex min-h-7 flex-wrap items-center gap-x-2 gap-y-1 rounded-md py-0.5 pr-2 pl-1 hover:bg-accent">
+      <button type="button" className="min-w-0 flex cursor-pointer items-center gap-1.5 text-left text-link hover:underline" title={str(option.id)} onClick={() => open(next ?? parentId)}>
         <CornerDownRight className="size-3.5 shrink-0 text-faint" aria-hidden />
         <span className="min-w-0">{str(option.text) ?? "(no text)"}</span>
       </button>

@@ -2,7 +2,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { lazyComponent } from "../workspaces/lazyView.js";
 import { useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { LayoutGrid, List, Search, Table2, X } from "lucide-react";
+import { LayoutGrid, List, Table2 } from "lucide-react";
 import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
 import { apiGet, collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
@@ -18,8 +18,9 @@ import { RecordGrid, clearSelection, setSelection } from "../ui/grid/index.js";
 import { EntityDetail } from "./EntityDetail.js";
 import { publishRecordSet, readListState, writeListState } from "../model/recordSet.js";
 import { useRecordSetKey } from "../model/recordSetKey.js";
-import "../dev/bulkActions.css";
-import { Button, NativeSelect, InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/index.js";
+import { Button, NativeSelect, Segmented, SearchInput } from "../components/ui/index.js";
+import { cn } from "../lib/utils.js";
+import { PAGE_WIDE, PANEL } from "../ui/layout.js";
 
 const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"));
 const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"));
@@ -53,7 +54,7 @@ export function CollectionPage({ collection, recordId, navigate }: AppProps & { 
     return [...authoredRows, ...compiled];
   }, [query.data, collection, compiledItemsQuery.data, authoredRows]);
   const idKey = query.data?.collection.idKey ?? "id";
-  if (query.isPending) return <div className="collection-page"><div className="page-heading"><h1>{labelFor(collection)}</h1></div><LoadingRows /></div>;
+  if (query.isPending) return <div className={PAGE_WIDE}><div className="mb-2 flex min-h-6 flex-wrap items-center gap-2.5 [&_h1]:text-base [&_h1]:font-semibold"><h1>{labelFor(collection)}</h1></div><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   if (recordId !== undefined) {
     const record = query.data.collection.shape === "object" && recordId === "$collection"
@@ -164,29 +165,29 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
     .filter((option, index, all) => all.findIndex(other => other.key === option.key) === index);
   const activeFilters = Object.entries(filters).filter(([, value]) => value);
 
-  return <div className="collection-page">
-    <div className="page-heading">
+  return <div className={PAGE_WIDE}>
+    <div className="mb-2 flex min-h-6 flex-wrap items-center gap-2.5 [&_h1]:text-base [&_h1]:font-semibold">
       <h1 className="sr-only">{labelFor(collection)}</h1>
-      <span className="count-badge">{filtered.length === rows.length ? `${rows.length} ${labelFor(collection).toLowerCase()}` : `${filtered.length} of ${rows.length} ${labelFor(collection).toLowerCase()}`}</span>
-      <div className="page-heading-actions">
+      <span className="font-mono text-[11px] text-muted-foreground">{filtered.length === rows.length ? `${rows.length} ${labelFor(collection).toLowerCase()}` : `${filtered.length} of ${rows.length} ${labelFor(collection).toLowerCase()}`}</span>
+      <div className="ml-auto flex items-center gap-1">
         {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <Button variant="secondary" size="sm" onClick={() => navigate(collection, "$collection")}>Open parameters</Button>}
         {editable && RecordActions && <Suspense fallback={null}><RecordActions collection={collection} mode="collection" templateRecord={rawRows[0]} knownIds={rawRows.map(row => rowId(row, idKey))} editable={editable} idKey={idKey} navigate={navigate} compact /></Suspense>}
       </div>
     </div>
-    <div className="browser-toolbar">
-      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label={`Search ${labelFor(collection).toLowerCase()}`} placeholder="Search name, id, type…" value={search} onChange={event => setSearch(event.target.value)} />{search ? <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button> : <kbd>/</kbd>}</InputGroup>
+    <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+      <SearchInput label={`Search ${labelFor(collection).toLowerCase()}`} placeholder="Search name, id, type…" value={search} onChange={setSearch} shortcut onEnter={() => { const first = sorted[0]; if (first) open(first.entry.id); }} />
       {groupOptions.length > 0 && <NativeSelect value={group} aria-label="Group by" onChange={event => setGroup(event.target.value)}><option value="">No grouping</option>{groupOptions.map(option => <option value={option.key} key={option.key}>By {option.label.toLowerCase()}</option>)}</NativeSelect>}
       {activeFilters.length > 0 && <Button variant="link" size="inline" onClick={() => setFilters({})}>Clear filters</Button>}
-      <div className="toolbar-right">
-        {editable && selected.size > 0 && <span className="result-count">{selected.size} selected</span>}
-        <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="View">
+      <div className="ml-auto flex items-center gap-1">
+        {editable && selected.size > 0 && <span className="font-mono text-[11px] whitespace-nowrap text-faint">{selected.size} selected</span>}
+        <Segmented aria-label="View">
           <Button variant="segment" size="xs" aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /> Grid</Button>
           <Button variant="segment" size="xs" aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /> List</Button>
           {schema && <Button variant="segment" size="xs" aria-pressed={view === "table"} onClick={() => setView("table")}><Table2 size={13} /> Table</Button>}
-        </div>
+        </Segmented>
       </div>
     </div>
-    {facetValues.length > 0 && <div className="facets">{facetValues.map(({ facet, values }) => <div className="facet" key={facet.key}><span>{facet.label}</span>
+    {facetValues.length > 0 && <div className="mb-2 flex flex-wrap gap-x-3.5 gap-y-1">{facetValues.map(({ facet, values }) => <div className="flex flex-wrap items-center gap-1 [&>span:first-child]:text-[11px] [&>span:first-child]:text-faint" key={facet.key}><span>{facet.label}</span>
       {values.length > 7
         ? <NativeSelect value={filters[facet.key] ?? ""} aria-label={`Filter by ${facet.label.toLowerCase()}`} onChange={event => setFilters(previous => ({ ...previous, [facet.key]: event.target.value }))}><option value="">Any ({values.length})</option>{values.map(([value, count]) => <option key={value} value={value}>{titleCase(value)} · {count}</option>)}</NativeSelect>
         : values.map(([value, count]) => <Button variant="chip" size="xs" key={value} aria-pressed={filters[facet.key] === value} onClick={() => setFilters(previous => ({ ...previous, [facet.key]: previous[facet.key] === value ? "" : value }))}>{titleCase(value)}<small>{count}</small></Button>)}
@@ -196,7 +197,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
       : view === "table" && schema ? <RecordGrid collection={collection} rows={sorted.map(item => item.entry.row)} schema={schema} idKey={idKey} revision={response.revision} selected={selected} onSelect={setSelected} onOpen={open} readOnly={!editable} isRowReadOnly={isGeneratedRow} />
       : view === "grid" ? <GridView items={sorted} limit={limit} grouped={Boolean(group)} collection={collection} editable={editable} selected={selected} onToggle={toggle} onOpen={open} onMore={() => setLimit(value => value + PAGE)} />
       : <ListView items={sorted} grouped={Boolean(group)} collection={collection} editable={editable} selected={selected} onToggle={toggle} onOpen={open} />}
-    {editable && selected.size > 0 && <div className="selection-bar"><strong>{selected.size}</strong><span>selected · Ctrl-click to add, Shift-click for a range</span><span className="spacer" /><Button variant="secondary" size="sm" onClick={() => setSelected(new Set(visibleIds))}>Select all {visibleIds.length}</Button><Button variant="secondary" size="sm" onClick={() => setSelected(new Set())}>Clear</Button></div>}
+    {editable && selected.size > 0 && <div className="sticky bottom-2 z-5 mt-2 flex items-center gap-2 rounded-md border border-primary bg-card px-2.5 py-[5px] text-xs shadow-lg shadow-shadow [&_strong]:text-primary"><strong>{selected.size}</strong><span>selected · Ctrl-click to add, Shift-click for a range</span><span className="flex-1" /><Button variant="secondary" size="sm" onClick={() => setSelected(new Set(visibleIds))}>Select all {visibleIds.length}</Button><Button variant="secondary" size="sm" onClick={() => setSelected(new Set())}>Clear</Button></div>}
   </div>;
 }
 
@@ -205,11 +206,11 @@ function GridView({ items, limit, grouped, collection, editable, selected, onTog
   const nodes: React.ReactNode[] = [];
   let lastKey: string | undefined;
   for (const { entry, key } of shown) {
-    if (grouped && key !== lastKey) { nodes.push(<div className="group-heading" key={`group:${key}`}>{key}<small>{items.filter(item => item.key === key).length}</small></div>); lastKey = key; }
+    if (grouped && key !== lastKey) { nodes.push(<div className="col-span-full mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-muted-foreground first:mt-0 after:flex-1 after:border-t after:border-border-subtle after:content-[''] [&_small]:font-mono [&_small]:font-normal [&_small]:text-faint" key={`group:${key}`}>{key}<small>{items.filter(item => item.key === key).length}</small></div>); lastKey = key; }
     nodes.push(<RecordTile key={entry.id} collection={collection} id={entry.id} summary={entry.summary} mode="grid" selectable={editable && !entry.generated} selected={selected.has(entry.id)} onToggle={onToggle} onOpen={onOpen} generated={entry.generated} />);
   }
   return <>
-    <div className="tile-grid">{nodes}</div>
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(9.5rem,1fr))] gap-1.5">{nodes}</div>
     {items.length > limit && <div style={{ display: "flex", justifyContent: "center", padding: 16 }}><Button variant="secondary" size="sm" onClick={onMore}>Show {Math.min(PAGE, items.length - limit)} more of {items.length - limit}</Button></div>}
   </>;
 }
@@ -228,11 +229,11 @@ function ListView({ items, grouped, collection, editable, selected, onToggle, on
     return out;
   }, [items, grouped]);
   const virtualizer = useVirtualizer({ count: lines.length, getScrollElement: () => scrollRef.current, estimateSize: index => lines[index]?.kind === "group" ? 30 : 58, overscan: 8, getItemKey: index => { const line = lines[index]; return line?.kind === "record" ? line.entry.id : `group:${line?.label}`; } });
-  return <div className="table-frame"><div className="table-scroll" ref={scrollRef} style={{ padding: 4 }}>
+  return <div className={cn(PANEL, "overflow-hidden")}><div className="relative max-h-[calc(100dvh-170px)] min-h-50 overflow-auto" ref={scrollRef} style={{ padding: 4 }}>
     <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>{virtualizer.getVirtualItems().map(item => {
       const line = lines[item.index]!;
       const style = { position: "absolute" as const, top: 0, left: 0, width: "100%", height: item.size, transform: `translateY(${item.start}px)` };
-      if (line.kind === "group") return <div key={item.key} className="group-heading" style={{ ...style, margin: 0, padding: "6px 8px 0" }}>{line.label}<small>{line.count}</small></div>;
+      if (line.kind === "group") return <div key={item.key} className="col-span-full mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-muted-foreground first:mt-0 after:flex-1 after:border-t after:border-border-subtle after:content-[''] [&_small]:font-mono [&_small]:font-normal [&_small]:text-faint" style={{ ...style, margin: 0, padding: "6px 8px 0" }}>{line.label}<small>{line.count}</small></div>;
       const { entry } = line;
       return <div key={item.key} style={{ ...style, padding: "2px 0" }}><RecordTile collection={collection} id={entry.id} summary={entry.summary} mode="row" selectable={editable && !entry.generated} selected={selected.has(entry.id)} onToggle={onToggle} onOpen={onOpen} generated={entry.generated} hoverCard /></div>;
     })}</div>
