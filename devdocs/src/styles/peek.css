@@ -28,8 +28,12 @@
 .ref-control { display: inline-flex; align-items: center; gap: 4px; min-width: 0; max-width: 100%; }
 .ref-control > .ref-chip { min-width: 0; }
 .ref-control .ref-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.ref-chip.is-empty { border-style: dashed; color: var(--faint); padding-left: 8px; }
-.ref-chip.is-empty:hover { color: var(--muted); border-color: var(--faint); background: var(--panel-raised); }
+/* Empty: shaped like the select beside it (square corners, solid border, a chevron), so it reads as
+   "pick something here" and not as a faded value. */
+.ref-chip.is-empty { gap: 8px; min-width: 150px; justify-content: space-between; padding: 0 7px; border-radius: 4px; border-color: var(--border); background: var(--background); color: var(--muted); }
+.ref-chip.is-empty svg { flex: none; color: var(--faint); }
+.ref-chip.is-empty:hover { color: var(--text); border-color: var(--faint); background: var(--background); }
+.ref-empty-static { display: inline-flex; align-items: center; height: 24px; font-size: 12px; color: var(--faint); }
 .ref-chip.is-option { color: var(--text); }
 .ref-chip.is-option .thumb-glyph { color: var(--muted); }
 .ref-control .ref-edit { width: 20px; height: 20px; }

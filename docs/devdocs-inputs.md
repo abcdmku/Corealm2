@@ -495,6 +495,44 @@ One known failure is not from this work: `tests/navigation-shipped-artifact.test
 `game/src/app/config.ts`, `systems/navigation.ts`, `systems/navigationArtifact.ts` and
 `package-lock.json`, all untouched here, and a GPU `npm run navmesh:build` is what clears it.
 
+## Working at speed
+
+The play-view round (a game card over a sheet) was reverted: it split each record between a card
+and hidden fields. The feedback was to design for an author who works in this tool all day and does
+the same edit across hundreds of records. Two scripts now measure that directly against a running
+editor:
+
+- `tools/devdocs-ux-probe.ts` opens one record of every collection and reports the gap between each
+  label and its control, empty controls with no visible affordance, empty references with no picker,
+  choices with one option, and Tab stops to the first field.
+- `tools/devdocs-task-bench.ts` filters the bestiary, opens the first result and sets Max hit on five
+  records in a row, then checks the values landed, the caret stayed on the field, Tab reaches the
+  record, and the list filter survives a round trip.
+
+What changed, with the numbers before and after:
+
+| | Before | After |
+| --- | --- | --- |
+| Label to control gap (median per page) | 75–124 px | 10–18 px |
+| Set a value on 5 records in a filtered run | back to the list and re-find each one | 19 keys, 3 clicks, 2.2 s |
+| Next record ready | 3.8 s | 120–250 ms |
+| Tab presses from the record list to the first field | 61+ | 1 |
+
+- **One label column per sheet** (`styles/workspace.css`). Sections and rows are subgrids of the
+  sheet; the column is as wide as the longest label, capped at 168 px, labels right-aligned against
+  their values. Help text shows on focus and on label hover instead of under every row.
+- **The record rail** (`ui/RecordNav.tsx`, `model/recordSet.ts`). Record pages keep the list beside
+  them. Lists publish what they show (filter and order), and the rail walks that set: Alt+Up/Down
+  from anywhere, J/K outside text controls, one Tab stop. Moving blurs (commits) the open field and
+  focuses the same field in the next record. List search and filters persist per collection.
+  Number fields step a tenth with Ctrl+Up/Down now, since Alt+Up/Down moves between records.
+- **Record switches are cheap.** The 3D viewer parks its WebGL renderer instead of destroying it
+  (context loss and shader compiles were most of the 3.8 s), and the reference index is built once
+  and shared instead of once per component per mount.
+- **Empty values always have a control.** An empty reference is a select-shaped "Choose location…"
+  button; a read-only empty reference is a dash; a choice with one option is plain text. Item blocks
+  an item does not have are one "Add" row, not four sections reading "None".
+
 ## Sources
 
 Blender library overrides and field colours: docs.blender.org (library_overrides, fields, undo_redo).

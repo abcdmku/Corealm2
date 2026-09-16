@@ -35,7 +35,9 @@ export class ViewerCore {
   private fitRadius = 1;
   private fitTarget = new THREE.Vector3();
 
-  constructor(private readonly container: HTMLElement, private readonly report: (state: ViewerSnapshot) => void) {
+  private parked = false;
+
+  constructor(private container: HTMLElement, private report: (state: ViewerSnapshot) => void) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -186,8 +188,35 @@ export class ViewerCore {
     });
     this.report({ ...this.snapshot, boneSample });
   }
+  /**
+   * Take the viewer off the page without destroying it. Creating a renderer compiles the environment
+   * and every material's shaders, and destroying one forces a WebGL context loss; together that was
+   * two to four seconds of blocked main thread each time an author stepped to the next record.
+   * A parked viewer keeps its context and program cache, drops its model, and stops drawing.
+   */
+  park(): void {
+    this.epoch++;
+    this.parked = true;
+    this.clearModel();
+    this.snapshot = emptyViewerSnapshot();
+    this.resize.disconnect();
+    this.renderer.domElement.remove();
+    this.report = () => {};
+  }
+
+  /** Put a parked viewer into a new container and start drawing again. */
+  attach(container: HTMLElement, report: (state: ViewerSnapshot) => void): void {
+    this.container = container;
+    this.report = report;
+    this.parked = false;
+    container.append(this.renderer.domElement);
+    this.resize.observe(container);
+    this.resizeCanvas();
+  }
+
   private tick = (now: number): void => {
     if (this.disposed) return;
+    if (this.parked) { this.lastFrame = 0; this.frame = requestAnimationFrame(this.tick); return; }
     const delta = this.lastFrame ? Math.min((now - this.lastFrame) / 1000, .1) : 0;
     this.lastFrame = now;
     if (this.snapshot.playing) this.mixer?.update(delta * this.snapshot.speed);

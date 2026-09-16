@@ -91,7 +91,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
   return <FieldContext.Provider value={context}>
     <div className={`field ${className}`.trim()} data-state={state} data-origin={origin} data-phase={phase} data-compact={compact || undefined} data-dirty={dirty || undefined} data-span={span} data-disabled={disabled || undefined} data-scrubbing={scrubbing || undefined}
       onFocus={onFocus} onBlur={onBlur} onKeyDown={onKeyDown}>
-      <span className="field-label" id={labelId} data-scrub={labelHandlers ? "true" : undefined} title={labelHandlers ? "Alt+drag to scrub" : undefined} {...labelHandlers}>{label}</span>
+      <span className="field-label" id={labelId} data-scrub={labelHandlers ? "true" : undefined} title={[typeof label === "string" ? label : undefined, hint, labelHandlers ? "Alt+drag to scrub" : undefined].filter(Boolean).join(" · ") || undefined} {...labelHandlers}>{label}</span>
       <div className="field-body">
         <div className="field-control">
           {children}

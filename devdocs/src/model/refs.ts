@@ -232,9 +232,21 @@ export function useAllCollections(enabled = true): { responses: CollectionRespon
   return { responses: responses.length ? responses : EMPTY, summaries: summaries.data ?? [], loading, errors, refetch: () => { queries.forEach(query => void query.refetch()); } };
 }
 
+/*
+  The index is a walk over every record in every collection (~300 ms). It used to be rebuilt in each
+  component that asked for it, on every mount, so stepping to the next record paid for it again. One
+  shared copy is kept and reused while the responses behind it are the same objects.
+*/
+let shared: { responses: readonly CollectionResponse[]; index: ReferenceIndex } | undefined;
+function sharedIndex(responses: readonly CollectionResponse[]): ReferenceIndex {
+  if (shared && shared.responses.length === responses.length && shared.responses.every((response, at) => response === responses[at])) return shared.index;
+  shared = { responses, index: buildReferenceIndex(responses) };
+  return shared.index;
+}
+
 export function useReferenceIndex(enabled = true): { index: ReferenceIndex; loading: boolean } {
   const all = useAllCollections(enabled);
-  const index = useMemo(() => buildReferenceIndex(all.responses), [all.responses]);
+  const index = useMemo(() => sharedIndex(all.responses), [all.responses]);
   return { index, loading: all.loading };
 }
 

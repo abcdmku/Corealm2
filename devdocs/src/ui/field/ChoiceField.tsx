@@ -32,6 +32,10 @@ export function ChoiceField<T extends string = string>({ value, onChange, option
   const listed = normalizeOptions(options);
   const offList = value !== undefined && value !== "" && !listed.some(option => option.value === value);
   const inert = disabled || readOnly || field.disabled;
+  // A choice of one is not a choice: show the value instead of a dropdown that offers only itself.
+  if (listed.length === 1 && value === listed[0]!.value && allowEmpty === undefined) {
+    return <span className={`field-static ${className}`.trim()} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-label={ariaLabel}>{listed[0]!.label}</span>;
+  }
   return <select className={`field-select ${className}`.trim()} data-width={width} data-invalid={offList || undefined} aria-invalid={offList || undefined} value={value ?? ""} disabled={inert}
     aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId}
     onChange={event => { const next = event.target.value; onChange(next === "" && allowEmpty !== undefined ? undefined : next as T); }}>

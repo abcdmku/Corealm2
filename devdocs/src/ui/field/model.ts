@@ -38,7 +38,7 @@ export function clampNumber(value: number, rules: NumberRules = {}): number {
   return tidy(out);
 }
 
-/** Up/Down move one step, Shift ten, Alt a tenth; integers never step by less than one. */
+/** Up/Down move one step, Shift ten, the fine modifier (Ctrl in the control) a tenth; integers never step by less than one. */
 export function stepValue(value: number, key: string, modifiers: { shift?: boolean; alt?: boolean }, rules: NumberRules = {}): number {
   const direction = key === "ArrowUp" ? 1 : key === "ArrowDown" ? -1 : 0;
   if (!direction) return value;

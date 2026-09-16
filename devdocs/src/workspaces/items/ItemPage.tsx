@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { EquipmentBonusesSchema, ItemSchema, ItemSkillRequirementsSchema } from "../../../../game/src/content/schema/items.js";
 import { ProgressionTierSchema, type EquipmentFamily, type ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { AppProps, ContentRow } from "../../model/contracts.js";
@@ -171,22 +171,26 @@ const BLOCKS: readonly { key: BlockKey; make: () => unknown }[] = [
   { key: "orb", make: () => ({ element: "wind", released: true }) },
 ];
 const HANDS = [{ value: "1", label: "One-handed" }, { value: "2", label: "Two-handed" }];
-const PRESENCE = [{ value: "none", label: "None" }, { value: "present", label: "Present" }];
+const BLOCK_ORDER: readonly BlockKey[] = ["equip", "tool", "food", "magicWeapon", "orb"];
 
 /**
- * An optional block of the item as a section whose presence is a field: the aside reads None or
- * Present, and choosing None removes the block. Absent blocks still show, so every item page has
- * the same sections in the same order and a block is one choice away.
+ * An optional block the item has, as a section with a way to remove it. Blocks the item does not
+ * have are not drawn as empty sections; they are offered together on one "Add" line at the end of
+ * the sheet (`AddBlocks`), so a sword is a sword-length page.
  */
-function BlockSection({ spec, present, readOnly, onPresence, children }: { spec: PathSpec; present: boolean; readOnly: boolean; onPresence: (present: boolean) => void; children: ReactNode }) {
-  const aside = readOnly ? undefined : <ChoiceField value={present ? "present" : "none"} options={PRESENCE} ariaLabel={`${spec.label} block`} className="block-presence" onChange={next => onPresence(next === "present")} />;
-  // An absent block is one muted line: the schema label reads as a noun ("No food effect."), so it
-  // needs no article. The schema's help belongs with the fields it describes, not with their absence.
-  return <Section title={spec.label} aside={aside} className={`block-section${present ? "" : " is-absent"}`}>
-    {present
-      ? <>{spec.hint && <p className="field-hint">{spec.hint}</p>}{children}</>
-      : <p className="empty-inline">No {spec.label.toLowerCase()}.</p>}
+function BlockSection({ spec, readOnly, onRemove, children }: { spec: PathSpec; readOnly: boolean; onRemove: () => void; children: ReactNode }) {
+  const aside = readOnly ? undefined : <button type="button" className="text-button" title={`Remove the ${spec.label.toLowerCase()} from this item`} onClick={onRemove}>Remove</button>;
+  return <Section title={spec.label} aside={aside} className="block-section">
+    {spec.hint && <p className="field-hint">{spec.hint}</p>}
+    {children}
   </Section>;
+}
+
+function AddBlocks({ absent, readOnly, onAdd }: { absent: readonly BlockKey[]; readOnly: boolean; onAdd: (key: BlockKey) => void }) {
+  if (readOnly || !absent.length) return null;
+  return <Row label="Add">
+    <span className="block-add">{absent.map(key => <button key={key} type="button" className="button button-small" onClick={() => onAdd(key)}><Plus size={12} /> {item(key).label}</button>)}</span>
+  </Row>;
 }
 
 function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
@@ -211,8 +215,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
     <ToggleField value={getPath(record, path) === true} readOnly={readOnly} onChange={next => set(path, next)} />
   </Field>;
   const ref = (path: Path, spec = item(...path)) => <RefField kind="item" collection="compiled-items" label={spec.label} hint={spec.hint} value={(getPath(record, path) as string | undefined) || undefined} readOnly={readOnly} onChange={next => set(path, next ?? "")} />;
-  const block = (key: BlockKey) => BLOCKS.find(candidate => candidate.key === key)!;
-  const presence = (key: BlockKey) => (present: boolean) => set([key], present ? block(key).make() : undefined);
+    const presence = (key: BlockKey) => (present: boolean) => set([key], present ? BLOCKS.find(candidate => candidate.key === key)!.make() : undefined);
 
   const main = <div className="record-main">
     <header className="record-head">
@@ -233,7 +236,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         {num(["value"])}
         {toggle(["stackable"])}
       </Section>
-      <BlockSection spec={item("equip")} present={Boolean(equip)} readOnly={readOnly} onPresence={presence("equip")}>
+      {equip && <BlockSection spec={item("equip")} readOnly={readOnly} onRemove={() => presence("equip")(false)}>
         {choice(["equip", "slot"])}
         <Fields columns={4}>
           {BONUS_KEYS.map(key => <Field key={key} compact label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>)}
@@ -242,19 +245,23 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         <MapField<number> label={item("equip", "requires").label} value={requires} keys={SKILL_KEYS} keyLabel="skill" readOnly={readOnly} emptyText="No skill requirement" defaultValue={() => 1}
           onChange={next => set(["equip", "requires"], next)}
           renderValue={(skill, level, update) => <NumberField value={level} integer min={1} ariaLabel={`${titleCase(skill)} level`} readOnly={readOnly} onChange={next => update(next ?? 1)} />} />
-      </BlockSection>
-      <BlockSection spec={item("tool")} present={Boolean(record.tool)} readOnly={readOnly} onPresence={presence("tool")}>
+      </BlockSection>}
+      {record.tool && <BlockSection spec={item("tool")} readOnly={readOnly} onRemove={() => presence("tool")(false)}>
         {choice(["tool", "skill"])}
         {num(["tool", "gatherBonus"])}
-      </BlockSection>
-      <BlockSection spec={item("food")} present={Boolean(record.food)} readOnly={readOnly} onPresence={presence("food")}>
+      </BlockSection>}
+      {record.food && <BlockSection spec={item("food")} readOnly={readOnly} onRemove={() => presence("food")(false)}>
         {num(["food", "healAmount"])}
-      </BlockSection>
-      <BlockSection spec={item("magicWeapon")} present={Boolean(record.magicWeapon)} readOnly={readOnly} onPresence={presence("magicWeapon")}>
+      </BlockSection>}
+      {record.magicWeapon && <BlockSection spec={item("magicWeapon")} readOnly={readOnly} onRemove={() => presence("magicWeapon")(false)}>
         {choice(["magicWeapon", "kind"])}
         <Field label={item("magicWeapon", "hands").label}><ChoiceField value={String(record.magicWeapon?.hands ?? 1)} options={HANDS} readOnly={readOnly} onChange={next => set(["magicWeapon", "hands"], Number(next))} /></Field>
         <Field label={item("magicWeapon", "charge").label}>
-          <ChoiceField value={charge ? "present" : "none"} options={PRESENCE} readOnly={readOnly} onChange={next => set(["magicWeapon", "charge"], next === "present" ? { element: "wind", capacity: 10, initialCharges: 0, rechargeItemId: "", rechargeCost: 1, orbItemId: "", released: false } : undefined)} />
+          {readOnly
+            ? <Static muted>{charge ? "Elemental" : "None"}</Static>
+            : charge
+              ? <button type="button" className="text-button" onClick={() => set(["magicWeapon", "charge"], undefined)}>Remove charge</button>
+              : <button type="button" className="button button-small" onClick={() => set(["magicWeapon", "charge"], { element: "wind", capacity: 10, initialCharges: 0, rechargeItemId: "", rechargeCost: 1, orbItemId: "", released: false })}><Plus size={12} /> Add elemental charge</button>}
         </Field>
         {charge && <>
           {choice(["magicWeapon", "charge", "element"])}
@@ -265,11 +272,12 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
           {ref(["magicWeapon", "charge", "orbItemId"])}
           {toggle(["magicWeapon", "charge", "released"])}
         </>}
-      </BlockSection>
-      <BlockSection spec={item("orb")} present={Boolean(record.orb)} readOnly={readOnly} onPresence={presence("orb")}>
+      </BlockSection>}
+      {record.orb && <BlockSection spec={item("orb")} readOnly={readOnly} onRemove={() => presence("orb")(false)}>
         {choice(["orb", "element"])}
         {toggle(["orb", "released"])}
-      </BlockSection>
+      </BlockSection>}
+      <Section title="More" className="block-add-section"><AddBlocks absent={BLOCK_ORDER.filter(key => !record[key])} readOnly={readOnly} onAdd={key => presence(key)(true)} /></Section>
       <MadeBy itemId={id} data={data} navigate={navigate} />
       <ReferencedBy collection="items" id={id} navigate={navigate} />
     </Sheet>

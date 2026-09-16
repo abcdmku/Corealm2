@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { useFieldContext, type LabelHandlers } from "./context.js";
 import { applyMixedOp, clampNumber, evaluateNumber, formatNumber, parseMixedEdit, scrubDelta, stepValue, type MixedOp, type NumberRules } from "./model.js";
 
@@ -103,11 +103,14 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
     } else if (event.key === "Escape") {
       if (editing) { event.preventDefault(); restore(); requestAnimationFrame(() => inputRef.current?.select()); }
     } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      // Alt+Up/Down belongs to the record rail (next / previous record); leave it to bubble.
+      if (event.altKey) return;
       event.preventDefault();
       if (mixed) return;
       const parsed = editing ? evaluateNumber(text) : undefined;
       const base = parsed?.ok ? parsed.value : value ?? 0;
-      const next = stepValue(base, event.key, { shift: event.shiftKey, alt: event.altKey }, rules);
+      // Ctrl steps a tenth; `alt` is the model's name for the fine step.
+      const next = stepValue(base, event.key, { shift: event.shiftKey, alt: event.ctrlKey || event.metaKey }, rules);
       onChange(next);
       settle(next);
     }
@@ -164,7 +167,9 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
     return () => field.setLabelHandlers(null);
   }, [field]);
 
-  return <span className={`field-input ${className}`.trim()} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
+  // The box grows for long values (195.714285) instead of clipping them; short ones keep the column width.
+  const chars = (text || placeholder || "").length;
+  return <span className={`field-input ${className}`.trim()} style={{ "--chars": chars } as CSSProperties} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
     <input ref={inputRef} type="text" inputMode="decimal" className="mono" value={text} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
       aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-invalid={invalid || undefined} autoComplete="off" spellCheck={false}
       onChange={event => { if (inert) return; selectNext.current = false; setText(event.target.value); if (!editing) setEditing(true); if (invalid) clearError(); }}

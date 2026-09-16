@@ -8,6 +8,8 @@ import { draftStore } from "./model/store.js";
 import { CollectionPage } from "./pages/CollectionPage.js";
 import { CommandPalette } from "./ui/CommandPalette.js";
 import { PeekProvider } from "./ui/Peek.js";
+import { RecordNav } from "./ui/RecordNav.js";
+import { RecordSetKey } from "./model/recordSetKey.js";
 import { ShellSaveBar, useDirtyByWorkspace } from "./ui/ShellSaveBar.js";
 import { ErrorState, LoadingRows } from "./ui/States.js";
 import { WORKSPACES, type Route } from "./ui/workspaces.js";
@@ -40,6 +42,8 @@ function textUndoWins(target: EventTarget | null): boolean {
 function focusSearch(): void {
   document.querySelector<HTMLInputElement>(".search-field input, .kits-search input, .requests-search input, .work-queue-search input, .ws-search input")?.focus();
 }
+
+const NAV_COLLECTION: Readonly<Record<string, string>> = { "items/catalog": "compiled-items" };
 
 export default function App({ route, navigate }: { route: Route; navigate: AppProps["navigate"] }) {
   const query = useQuery(collectionsQuery());
@@ -92,15 +96,24 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
 
   useEffect(() => {
     setMobileNav(false);
-    if (!workspace.fullBleed) document.querySelector(".main-content")?.scrollTo({ top: 0 });
+    if (!workspace.fullBleed) document.querySelector(".record-layout-main, .main-content")?.scrollTo({ top: 0 });
   }, [workspace, view, id]);
 
   const go: AppProps["navigate"] = (name, recordId) => { navigate(name, recordId); setMobileNav(false); };
   const collections = query.data ?? [];
   const Custom = REGISTRY[workspace.key]?.[view.key];
   const tabs = workspace.views.filter(candidate => !candidate.hidden);
+  const viewRoute = `${workspace.key}/${view.key}`;
+  // A record page keeps its list beside it. The catalog's rail walks the compiled items so tier
+  // gear is in the run; every other view walks the collection it browses.
+  const navCollection = id !== undefined && id !== "$collection" && !workspace.fullBleed ? NAV_COLLECTION[viewRoute] ?? view.collection : undefined;
 
-  return <PeekProvider navigate={go}><div className="app-shell">
+  const content = query.isPending ? <LoadingRows /> : query.isError ? <ErrorState message={query.error.message} retry={() => void query.refetch()} />
+    : Custom ? <Suspense fallback={<LoadingRows />}><Custom recordId={id} route={route} navigate={go} /></Suspense>
+    : view.collection ? <CollectionPage key={view.collection} collection={view.collection} recordId={id} navigate={go} />
+    : <ErrorState message={`No view registered for ${workspace.key}/${view.key}.`} />;
+
+  return <PeekProvider navigate={go}><div className="app-shell" data-record={navCollection ? "true" : undefined}>
     <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Skip to content</a>
     {mobileNav && <button className="nav-scrim" aria-label="Close navigation" onClick={() => setMobileNav(false)} />}
     <aside className={`sidebar${mobileNav ? " sidebar-open" : ""}`} aria-label="Corealm authoring navigation">
@@ -136,11 +149,15 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
           <button className="icon-button" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></button>
         </div>
       </header>
-      <main className={`main-content ws-body${workspace.fullBleed ? "" : ""}`} id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined}>
-        {query.isPending ? <LoadingRows /> : query.isError ? <ErrorState message={query.error.message} retry={() => void query.refetch()} />
-          : Custom ? <Suspense fallback={<LoadingRows />}><Custom recordId={id} route={route} navigate={go} /></Suspense>
-          : view.collection ? <CollectionPage key={view.collection} collection={view.collection} recordId={id} navigate={go} />
-          : <ErrorState message={`No view registered for ${workspace.key}/${view.key}.`} />}
+      <main className="main-content ws-body" id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
+        <RecordSetKey.Provider value={viewRoute}>
+          {navCollection && id !== undefined
+            ? <div className="record-layout">
+              <RecordNav setKey={viewRoute} collection={navCollection} currentId={id} open={recordId => go(viewRoute, recordId)} />
+              <div className="record-layout-main" data-record-id={id}>{content}</div>
+            </div>
+            : content}
+        </RecordSetKey.Provider>
       </main>
       {!__DEVDOCS_PLAYER__ && <ShellSaveBar navigate={go} />}
     </div>

@@ -16,6 +16,8 @@ import { EmptyState, ErrorState, LoadingRows } from "../ui/States.js";
 import { RecordTile } from "../ui/RecordTile.js";
 import { RecordGrid, clearSelection, setSelection } from "../ui/grid/index.js";
 import { EntityDetail } from "./EntityDetail.js";
+import { publishRecordSet, readListState, writeListState } from "../model/recordSet.js";
+import { useRecordSetKey } from "../model/recordSetKey.js";
 import "../dev/bulkActions.css";
 
 const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"));
@@ -66,10 +68,12 @@ export function CollectionPage({ collection, recordId, navigate }: AppProps & { 
 function Browser({ collection, response, rows, rawRows, idKey, editable, navigate }: { collection: string; response: CollectionResponse; rows: ContentRow[]; rawRows: ContentRow[]; idKey: string; editable: boolean; navigate: AppProps["navigate"] }) {
   const { index } = useReferenceIndex();
   const ctx = useMemo(() => summaryContext(index), [index]);
-  const [search, setSearch] = useState("");
+  // Search and filters survive opening a record and coming back, per collection.
+  const saved = useMemo(() => readListState(collection, { search: "", filters: {} as Record<string, string>, group: undefined as string | undefined }), [collection]);
+  const [search, setSearch] = useState(saved.search);
   const [view, setView] = useState<View>(() => readView(collection));
   const schema = useMemo(() => CONTENT_COLLECTIONS.find(candidate => candidate.name === collection)?.schema, [collection]);
-  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [filters, setFilters] = useState<Record<string, string>>(saved.filters);
   const [limit, setLimit] = useState(PAGE);
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const lastToggled = useRef<string | undefined>(undefined);
@@ -88,7 +92,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
     return { id, row, summary, generated: isGeneratedRow(row) };
   }), [rows, idKey, collection, ctx, meta.data]);
   const hasTier = useMemo(() => entries.some(entry => entry.summary.tier !== undefined), [entries]);
-  const [group, setGroup] = useState<string>(() => hasTier && rows.length > 40 ? "tier" : "");
+  const [group, setGroup] = useState<string>(() => saved.group ?? (hasTier && rows.length > 40 ? "tier" : ""));
   useEffect(() => { if (!hasTier && group === "tier") setGroup(""); }, [hasTier, group]);
   useEffect(() => { try { localStorage.setItem(`corealm-codex-view:${collection}`, view); } catch { /* optional */ } }, [collection, view]);
 
@@ -123,6 +127,14 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
   }, [filtered, group, facets, ctx]);
 
   useEffect(() => { setLimit(PAGE); }, [search, filters, group, view]);
+  useEffect(() => { writeListState(collection, { search, filters, group }); }, [collection, search, filters, group]);
+  // The record rail walks exactly what this list shows, in this order.
+  const setKey = useRecordSetKey();
+  useEffect(() => {
+    if (!setKey) return;
+    const active = [search.trim() && `"${search.trim()}"`, ...Object.values(filters).filter(Boolean).map(titleCase)].filter(Boolean).join(", ");
+    publishRecordSet(setKey, { label: active || undefined, entries: sorted.map(({ entry }) => ({ id: entry.id, title: entry.summary.title, subtitle: entry.summary.subtitle })) });
+  }, [setKey, sorted, search, filters]);
   useEffect(() => {
     const known = new Set(rawRows.map(row => rowId(row, idKey)));
     setSelected(previous => { const next = new Set([...previous].filter(id => known.has(id))); return next.size === previous.size ? previous : next; });

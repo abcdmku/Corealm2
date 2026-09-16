@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { Pencil } from "lucide-react";
+import { ChevronDown, Pencil } from "lucide-react";
 import type { RefKind } from "../../../../game/src/content/schema/core.js";
 import { revertTarget, type RecordRef, type Resolved } from "../../model/origin.js";
 import type { ContentRow } from "../../model/contracts.js";
@@ -21,8 +21,8 @@ import { Field } from "./Field.js";
 
   The chip is the tab stop. Click or Space peeks the target record; Enter or the pencil opens the
   `RecordPicker`; Backspace unlinks an optional reference (an inherited one reverts through the
-  Field). A missing target draws a dashed red chip and an error line; an empty one reads "None" or
-  "Choose <kind>". Kinds with no collection (skill, station, element, ...) pick from `optionsFor`.
+  Field). A missing target draws a dashed red chip and an error line; an empty one is a select-shaped
+  "Choose <kind>…" button, or a dash when read-only. Kinds with no collection (skill, station, element, ...) pick from `optionsFor`.
 */
 
 export interface RefFieldProps {
@@ -107,10 +107,14 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
     else if ((event.key === "Backspace" || event.key === "Delete") && !inert && optional && !empty && !canRevert) { event.preventDefault(); onChange(undefined); }
   };
 
+  // An empty reference is a control that says what it will pick, never a pale "None" that reads as
+  // a value. A read-only empty reference is just a dash: there is nothing to do with it.
   const chipNode = empty
-    ? <button type="button" className="ref-chip is-empty" aria-labelledby={field.labelId} title={inert ? undefined : "Enter to choose"} onClick={() => setOpen(true)} disabled={inert}>
-      <span>{optional ? "None" : `Choose ${kindLabel}`}</span>
-    </button>
+    ? inert
+      ? <span className="ref-empty-static" aria-labelledby={field.labelId}>—</span>
+      : <button type="button" className="ref-chip is-empty" aria-labelledby={field.labelId} title="Enter or click to choose" onClick={() => setOpen(true)}>
+        <span>Choose {kindLabel}…</span><ChevronDown size={12} aria-hidden />
+      </button>
     : options
       ? <button type="button" className={`ref-chip is-option${missing ? " is-missing" : ""}`} aria-labelledby={field.labelId} title={missing ? `${value} is not an option` : `${kindLabel} · ${value}`} onClick={() => setOpen(true)}>
         <Thumb spec={option?.thumb ?? { kind: "glyph", icon: Pencil, letter: value!.slice(0, 2).toUpperCase() }} size="s" />

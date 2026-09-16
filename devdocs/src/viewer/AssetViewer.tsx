@@ -12,6 +12,9 @@ export interface AssetViewerProps {
   labUrl?: string;
 }
 
+/** The renderer a closed viewer left behind, waiting for the next one to open. */
+const PARKED: ViewerCore[] = [];
+
 export function AssetViewer(props: AssetViewerProps) {
   return <ViewerPanel key={JSON.stringify(props.source)} {...props} />;
 }
@@ -38,9 +41,16 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
   useEffect(() => {
     if (!viewport.current) return;
     try {
-      const viewer = new ViewerCore(viewport.current, state => { latestSnapshot.current = state; setSnapshot(state); callback.current?.(state); });
+      const report = (state: ViewerSnapshot) => { latestSnapshot.current = state; setSnapshot(state); callback.current?.(state); };
+      // One live renderer at a time is reused across pages: see ViewerCore.park.
+      const parked = PARKED.pop();
+      const viewer = parked ?? new ViewerCore(viewport.current, report);
+      if (parked) parked.attach(viewport.current, report);
       core.current = viewer;
-      return () => { core.current = null; viewer.dispose(); };
+      return () => {
+        core.current = null;
+        if (PARKED.length < 1) { viewer.park(); PARKED.push(viewer); } else viewer.dispose();
+      };
     } catch (cause) { setError(cause instanceof Error ? cause.message : String(cause)); }
   }, []);
 

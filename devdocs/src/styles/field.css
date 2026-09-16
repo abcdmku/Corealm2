@@ -5,15 +5,16 @@
 */
 
 /* ---- anatomy: label | control · dot · revert · provenance, hint below ---- */
-.field { position: relative; display: grid; grid-template-columns: var(--label-col, 132px) minmax(0, 1fr); gap: 0 var(--label-gap, 12px); align-items: start; min-height: 28px; padding: 1px 0; min-width: 0; }
-/* The unsaved mark sits in the gutter: the pull-out and the padding cancel, so editing a field
-   never nudges it out of line with the others. */
-.field[data-dirty] { margin-left: -8px; padding-left: 8px; box-shadow: inset 2px 0 0 var(--accent); }
+/* Outside a sheet (a drawer's loose rows) a field falls back to a content-sized label column. In a
+   sheet it is a subgrid of the sheet's one label column (workspace.css). */
+.field { position: relative; display: grid; grid-template-columns: fit-content(var(--label-max, 168px)) minmax(0, 1fr); column-gap: var(--label-gap, 10px); align-items: start; min-height: 28px; padding: 1px 0; min-width: 0; }
+/* The unsaved mark is a bar in the gutter, drawn outside the box so it never shifts the row. */
+.field[data-dirty]::before { content: ""; position: absolute; left: -8px; top: 4px; bottom: 4px; width: 2px; border-radius: 1px; background: var(--accent); }
 .field[data-disabled] .field-label { color: var(--faint); }
-.field-label { display: block; height: 24px; margin-top: 1px; font-size: 12px; line-height: 24px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; user-select: none; }
+.field-label { display: block; height: 24px; margin-top: 1px; font-size: 12px; line-height: 24px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; user-select: none; }
 .field[data-scrubbing] .field-label, .field[data-scrubbing] { cursor: ew-resize; }
 .field[data-state="invalid"] .field-label { color: var(--danger); }
-.field-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.field-body { position: relative; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .field-control { display: flex; align-items: center; gap: 6px; min-height: 26px; min-width: 0; font-size: 12px; }
 
 .field-dot { flex: none; box-sizing: border-box; width: 8px; height: 8px; border-radius: 50%; }
@@ -33,11 +34,11 @@
 button.field-origin-ref:hover { text-decoration: underline; }
 .field-origin.is-floating { position: absolute; left: 0; top: 100%; z-index: 3; max-width: 280px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); white-space: normal; box-shadow: 0 2px 8px var(--shadow); }
 
-/* Reserved line under the control: the hint is always there, the expression joins it on focus, so focusing never shifts the fields below. */
-.field-below { display: flex; flex-wrap: wrap; gap: 0 8px; min-height: 15px; }
-/* In a grid every cell reserves that line, so a cell's height does not depend on whether its value
-   came from a curve (which prints an expression) or was authored (which prints nothing). */
-.field[data-compact] .field-below { display: none; }
+/* Help and the curve's expression appear while the field has focus, floating under the control:
+   printed under every row they doubled the page's height for text an author reads once. Hovering
+   the label shows the help too. */
+.field-below { display: none; }
+.field:not([data-compact])[data-phase="focused"] .field-below, .field:not([data-compact])[data-phase="editing"] .field-below { position: absolute; z-index: 4; top: calc(100% + 1px); left: 0; display: flex; flex-wrap: wrap; gap: 0 8px; max-width: 420px; padding: 3px 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); box-shadow: 0 4px 12px var(--shadow); pointer-events: none; }
 .field-hint, .field-expression, .field-error { font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; }
 .field-hint, .field-expression { color: var(--faint); }
 .field-error { color: var(--danger); }
@@ -52,7 +53,8 @@ button.field-origin-ref:hover { text-decoration: underline; }
 .field-input[data-kind="number"] input { text-align: right; font-family: var(--font-mono); }
 .field-input[data-zero="true"] input { color: var(--faint); }
 .field-input input::placeholder, .field-input textarea::placeholder { color: var(--faint); font-family: var(--font-sans); text-align: left; }
-.field-input[data-width="num"] { width: 76px; }
+.field-input[data-kind="number"] { font-family: var(--font-mono); }
+.field-input[data-width="num"] { width: clamp(76px, calc(var(--chars, 0) * 1ch + 26px), 200px); }
 /* A unit sits inside the box, so the box grows to hold it rather than clipping "marks" or "m/s". */
 .field-input[data-width="num"][data-unit] { width: auto; min-width: 76px; max-width: 132px; }
 .field-input[data-width="short"], .field-select[data-width="short"] { width: 160px; }
@@ -76,16 +78,15 @@ button.field-origin-ref:hover { text-decoration: underline; }
 
 /* ---- compact: inside a Fields grid, label above, dot only ---- */
 .field[data-compact] { grid-template-columns: minmax(0, 1fr); gap: 3px; min-height: 0; padding: 0; }
-.field[data-compact][data-dirty] { margin-left: 0; padding-left: 0; box-shadow: none; }
-.field[data-compact][data-dirty] .field-label { padding-left: 6px; box-shadow: inset 2px 0 0 var(--accent); }
-.field[data-compact] .field-label { height: auto; margin-top: 0; font-size: 11px; line-height: 1.3; }
+.field[data-compact][data-dirty]::before { left: -6px; }
+.field[data-compact] .field-label { height: auto; margin-top: 0; font-size: 11px; line-height: 1.3; text-align: left; }
 .field[data-compact] .field-control { gap: 4px; min-height: 24px; }
 /* In a grid a control keeps the width its content needs, so the value stays beside its own label
    instead of being pushed to the far edge of a stretched box. Prose and ids may still fill. */
 .field[data-compact] .field-input, .field[data-compact] .field-select { flex: 0 1 auto; width: auto; max-width: 100%; min-width: 0; }
 /* Preferred width, but able to give way: a cell with a unit, a dot and a revert glyph in a narrow
    column shrinks the box rather than clipping it. */
-.field[data-compact] .field-input[data-kind="number"] { flex: 0 1 auto; width: 76px; }
+.field[data-compact] .field-input[data-kind="number"] { flex: 0 1 auto; width: clamp(76px, calc(var(--chars, 0) * 1ch + 26px), 200px); }
 .field[data-compact] .field-input[data-kind="number"][data-unit] { width: 112px; min-width: 64px; }
 .field[data-compact] .field-input[data-width="text"], .field[data-compact] .field-input[data-width="full"],
 .field[data-compact] .field-input[data-width="id"], .field[data-compact] .field-select[data-width="full"] { flex: 1 1 auto; width: 100%; }

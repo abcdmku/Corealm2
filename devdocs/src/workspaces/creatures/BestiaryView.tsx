@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LayoutGrid, List, Search, X } from "lucide-react";
 import { Facts } from "../../ui/Sheet.js";
+import { publishRecordSet, readListState, writeListState } from "../../model/recordSet.js";
+import { useRecordSetKey } from "../../model/recordSetKey.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
@@ -55,11 +57,13 @@ function orderRows(rows: ResolvedCreature[], byFamily: boolean): ResolvedCreatur
 
 function BestiaryGrid({ navigate }: { navigate: ViewProps["navigate"] }) {
   const data = useCreatureData();
-  const [search, setSearch] = useState("");
-  const [groupBy, setGroupBy] = useState<GroupBy>("region");
-  const [availability, setAvailability] = useState<"world" | "lab" | undefined>(undefined);
-  const [kind, setKind] = useState<Kind>("all");
-  const [mode, setMode] = useState<"grid" | "list">("grid");
+  const saved = useMemo(() => readListState("creatures/bestiary", { search: "", groupBy: "region" as GroupBy, availability: undefined as "world" | "lab" | undefined, kind: "all" as Kind, mode: "grid" as "grid" | "list" }), []);
+  const [search, setSearch] = useState(saved.search);
+  const [groupBy, setGroupBy] = useState<GroupBy>(saved.groupBy);
+  const [availability, setAvailability] = useState<"world" | "lab" | undefined>(saved.availability);
+  const [kind, setKind] = useState<Kind>(saved.kind);
+  const [mode, setMode] = useState<"grid" | "list">(saved.mode);
+  useEffect(() => { writeListState("creatures/bestiary", { search, groupBy, availability, kind, mode }); }, [search, groupBy, availability, kind, mode]);
 
   const filtered = useMemo(() => {
     const needle = search.trim().toLowerCase();
@@ -72,6 +76,11 @@ function BestiaryGrid({ navigate }: { navigate: ViewProps["navigate"] }) {
     });
   }, [data, search, availability, kind]);
   const groups = useMemo(() => groupCreatures(data, filtered, groupBy), [data, filtered, groupBy]);
+  const setKey = useRecordSetKey();
+  useEffect(() => {
+    if (!setKey || data.loading) return;
+    publishRecordSet(setKey, { label: search.trim() ? `"${search.trim()}"` : undefined, entries: groups.flatMap(group => group.rows.map(row => ({ id: row.id, title: row.name, subtitle: `Level ${row.level} · ${group.label}` }))) });
+  }, [setKey, groups, search, data.loading]);
 
   return <div className="ws-page bestiary">
     <div className="bestiary-toolbar">
