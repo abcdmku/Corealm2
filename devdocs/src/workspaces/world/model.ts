@@ -41,11 +41,6 @@ export const LAYER_LABEL: Record<Layer, string> = { regions: "Regions", roads: "
 export type Kind = "region" | "location" | "landmark" | "gate" | "obstacle" | "npc" | "building" | "station" | "shop" | "bank" | "placement" | "resource";
 export interface Selection { kind: Kind; id: string; regionId?: string }
 
-export const ACTIVITIES = ["graze", "forage", "prowl", "patrol"] as const;
-export const LOCATION_KINDS = ["junction", "gate", "settlement", "bank", "landmark", "seam", "grove", "water", "camp", "dungeon"] as const;
-export const OBSTACLE_INTERACTIONS = ["climb", "vault", "enter"] as const;
-export const RANKS = ["boss", "miniboss"] as const;
-
 export const round = (value: number, places = 2): number => { const f = 10 ** places; return Math.round(value * f) / f; };
 export const titleCase = (value: string): string => value.replace(/[_-]+/g, " ").replace(/^./, c => c.toUpperCase());
 

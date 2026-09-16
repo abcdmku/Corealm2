@@ -11,3 +11,11 @@
 .spell-cell-name { font-weight: 600; font-size: 12px; white-space: nowrap; }
 .spell-cell-meta { font-size: 11px; color: var(--muted); font-family: var(--font-mono); white-space: nowrap; }
 .spell-cell:hover .spell-cell-name { color: var(--link); }
+
+/* A rune row is one 28px line: the reference labels itself through its hidden label, not a column. */
+.field.is-bare { display: inline-flex; align-items: center; min-height: 24px; padding: 0; min-width: 0; }
+.field.is-bare > .field-label { display: none; }
+.field.is-bare > .field-body { flex-direction: row; align-items: center; gap: 6px; min-width: 0; }
+.field.is-bare > .field-body > .field-below { display: none; }
+/* The rune count carries its unit ("3 runes"), so the cell is wider than a bare number. */
+.field-input.spell-rune-quantity { width: 96px; }

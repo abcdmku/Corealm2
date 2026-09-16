@@ -1,49 +1,60 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowRight, GitBranch, MapPin, Pencil, Plus, X } from "lucide-react";
+import { ArrowRight, GitBranch, MapPin } from "lucide-react";
 import { toast } from "sonner";
-import { arr } from "../../../../game/src/content/schema/core.js";
-import { DropSchema } from "../../../../game/src/content/schema/loot.js";
+import { CreatureDefinitionSchema, CreatureLootSchema } from "../../../../game/src/content/schema/creatureDefinitions.js";
+import { SpeciesFields } from "../../../../game/src/content/schema/creatures.js";
+import { EnemyOverridesSchema } from "../../../../game/src/content/schema/enemies.js";
 import { collectionQuery } from "../../api/client.js";
-import { EditorContext, LootDropsEditor } from "../../dev/editors.js";
-import { COMBAT_FIELDS, COMBAT_LABELS, deriveCreature, type Derivation } from "../../model/derive.js";
-import { runTransaction, useRecordDraft, type RecordDraft } from "../../model/draft.js";
+import { COMBAT_FIELDS, UNCOMPUTED_FIELDS, deriveCreature } from "../../model/derive.js";
+import { getPath, runTransaction, useRecordDraft, type Path, type RecordDraft } from "../../model/draft.js";
+import { fieldIssues } from "../../model/fields.js";
+import { fmtValue, type RecordRef, type Resolved } from "../../model/origin.js";
 import { rowName } from "../../model/rows.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { RecordPicker } from "../../ui/RecordPicker.js";
-import { RefChip, RefRow } from "../../ui/RefChip.js";
-import { Derived, Facts, Field, Fields, NumberInput, Row, Section, Select, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { RefRow } from "../../ui/RefChip.js";
+import {
+  ChoiceField, DerivedChoice, DerivedNumber, Facts, Field, Fields, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema, usePeek, variantSchema,
+} from "../../ui/field/index.js";
 import { PointsMap } from "../../ui/PointsMap.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { dropList, DropGrid } from "./DropGrid.js";
+import { DropRows, dropList, type Drop } from "./DropRows.js";
 import { CurveTable, RoleDrawer } from "./RoleDrawer.js";
-import { ACTIVITIES, AVAILABILITIES, CURVE_LEVELS, REGION_IDS, resolveCreature, thumbFor, titleCase, useCreatureData, type Adjustments, type Creature, type CreatureData, type Loot, type Presentation, type Profile, type Spawn } from "./shared.js";
+import { CURVE_LEVELS, identityChain, lootMode, mapResolved, resolveCreature, thumbFor, titleCase, useCreatureData, type Adjustments, type Creature, type CreatureData, type Loot, type LootMode, type Presentation, type Profile, type Spawn } from "./shared.js";
 
 /*
-  One creature: identity, the combat block derived from its role curve at its level with every
-  adjustment shown as an override, loot, presentation, variants and spawns. A variant inherits
-  from its base; inherited fields are marked and can be overridden or handed back.
+  One creature (docs/devdocs-inputs.md §3.12). Every value in Identity and Combat is one field
+  with a dot and a provenance line built from its chain: authored here, taken from the base, or
+  computed by the role curve at this level. Editing an inherited or curve value makes it the
+  creature's own; the field's revert glyph and Backspace hand it back. Labels, units, help and
+  steps come from the schema. Loot is a three-way choice whose value is the loot block's shape.
 */
 
-const DROPS_SCHEMA = arr(DropSchema);
-const BEHAVIOURS = ["passive", "aggressive"] as const;
-const STYLES = ["melee", "magic"] as const;
-const MOVEMENT = ["moveSpeedMps", "walkSpeedMps"] as const;
-const UNITS: Partial<Record<string, string>> = { attackSpeedMs: "ms", aggroRadius: "m", attackRangeM: "m" };
-const FRACTIONAL = new Set(["aggroRadius", "attackRangeM"]);
+const ID_PATTERN = /^[A-Za-z][A-Za-z0-9_-]*$/;
+const RAIL_FIELDS = ["maxHealth", "attackLevel", "defenceLevel", "maxHit"] as const;
+const PRESENTATION_KINDS = ["basic", "rpg"] as const;
+
+const combatSpec = (key: string) => fieldFromSchema(EnemyOverridesSchema, key);
+const identitySpec = (key: string) => fieldFromSchema(CreatureDefinitionSchema, key);
+const speciesSpec = (key: keyof typeof SpeciesFields) => fieldFromSchema(SpeciesFields[key], key);
+const LOOT_TABLE = fieldFromSchema(variantSchema(CreatureLootSchema, "0")!, "tableId");
+const LOOT_DROPS = fieldFromSchema(variantSchema(CreatureLootSchema, "1")!, "drops");
+const LOOT_MODES: readonly { value: LootMode; label: string }[] = [{ value: "none", label: "None" }, { value: "table", label: "Shared table" }, { value: "drops", label: "Own drops" }];
 
 const withoutEmpty = (record: Creature, key: "adjustments" | "loot" | "presentation"): Creature => {
   const value = record[key];
   if (value && typeof value === "object" && Object.keys(value).length === 0) { const next = { ...record }; delete next[key]; return next; }
   return record;
 };
+const same = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
 
 export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const data = useCreatureData();
   const draft = useRecordDraft<Creature>("creatureDefinitions", id);
   const queryClient = useQueryClient();
+  const peek = usePeek();
   const [roleOpen, setRoleOpen] = useState(false);
   const [liveProfile, setLiveProfile] = useState<Profile>();
   const working = draft.draft ?? draft.record;
@@ -56,14 +67,14 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   const borrowedAsset = variants.find(variant => variant.assetId)?.assetId;
   const thumb = useMemo(() => working ? thumbFor({ ...resolveCreature(working, data.byId, data.profileById), assetId: working.presentation?.assetId ?? base?.presentation?.assetId ?? borrowedAsset }, data.ctx) : undefined, [working, data, base, borrowedAsset]);
   const spawns = data.spawnsFor(id);
-
+  const baseExclude = useMemo(() => new Set([id, ...data.resolved.filter(entry => entry.variant).map(entry => entry.id)]), [data, id]);
 
   if (draft.loading || (data.loading && !working)) return <div className="ws-page"><LoadingRows /></div>;
   if (!working || !derived || !thumb) return <div className="ws-page"><EmptyState title="Creature not found">"{id}" is not in the bestiary. <button type="button" className="text-button" onClick={() => navigate("creatures")}>Back to the bestiary</button></EmptyState></div>;
 
   const row = derived.row;
-  const ownName = working.name !== undefined;
   const baseName = base ? rowName(base) : undefined;
+  const dirtyAt = (path: Path): boolean => draft.dirty && !same(getPath(draft.draft, path), getPath(draft.record, path));
   const setAdjustment = (key: string, value: unknown) => draft.set(current => {
     const adjustments = { ...current.adjustments } as Record<string, unknown>;
     if (value === undefined) delete adjustments[key]; else adjustments[key] = value;
@@ -75,16 +86,22 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
     return withoutEmpty(merged, "adjustments");
   });
   const openRole = () => { if (profileId) setRoleOpen(true); };
+  /** A role name in a provenance line opens the curve beside the record; any other record peeks. */
+  const openRef = (ref: RecordRef) => { if (ref.collection === "creatureProfiles" && ref.id === profileId) openRole(); else peek.open(ref); };
+  const identity = <K extends Parameters<typeof identityChain>[2]>(key: K) => identityChain(working, base, key);
 
   async function newVariant() {
     const known = new Set(data.creatures.map(entry => entry.id));
     let count = 1;
     let newId = `${id}_variant_${count}`;
     while (known.has(newId)) newId = `${id}_variant_${++count}`;
+    const record = { id: newId, baseId: id, availability: working!.availability };
+    const issues = fieldIssues(CreatureDefinitionSchema, record).filter(issue => issue.severity === "error");
+    if (!ID_PATTERN.test(newId) || issues.length) { toast.error(issues[0]?.message ?? `"${newId}" is not a valid id.`); return; }
     const revision = draft.revision ?? data.revisionOf("creatureDefinitions");
     if (!revision) return;
     try {
-      await runTransaction("save", { creatureDefinitions: revision }, [{ kind: "put", collection: "creatureDefinitions", id: newId, record: { id: newId, baseId: id, availability: working!.availability }, create: true }]);
+      await runTransaction("save", { creatureDefinitions: revision }, [{ kind: "put", collection: "creatureDefinitions", id: newId, record, create: true }]);
       await queryClient.invalidateQueries({ queryKey: collectionQuery("creatureDefinitions").queryKey });
       toast.success(`Created ${newId}`);
       navigate("creatureDefinitions", newId);
@@ -100,6 +117,12 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
     row.availability,
     base ? <>variant of <button type="button" className="text-button" onClick={() => navigate("creatureDefinitions", base.id)}>{baseName}</button></> : undefined,
   ];
+  const name = identity("name");
+  const family = identity("family");
+  const level = identity("level");
+  const role = identity("profileId");
+  const beaten = new Set(RAIL_FIELDS.filter(key => derived.combat[key]?.resolved.chain[0]?.origin.kind !== "curve"));
+  const ownValues = Object.fromEntries(RAIL_FIELDS.map(key => [key, derived.combat[key]?.value]));
 
   return <div className="ws-page creature-page">
     <div className="record">
@@ -107,64 +130,51 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
         <header className="record-head">
           <Thumb spec={thumb} size="xl" alt="" />
           <div className="record-title">
-            <h1 className={ownName ? undefined : "is-inherited"} title={ownName ? undefined : `Name inherited from ${baseName}`}>{derived.row.name ?? id}</h1>
+            <h1 className={name.chain[0]?.origin.kind === "own" ? undefined : "is-inherited"} title={name.chain[0]?.origin.kind === "own" ? undefined : `Name inherited from ${baseName}`}>{row.name ?? id}</h1>
             <Facts items={facts} />
             <code>{id}</code>
           </div>
         </header>
         <Sheet>
-          <Section title="Identity">
-            <InheritRow label="Name" field="name" working={working} base={base} editable={editable} draft={draft} show={value => String(value)}
-              control={editable ? <TextInput value={working.name ?? ""} onChange={value => draft.setPath(["name"], value || undefined)} ariaLabel="Name" placeholder={baseName} /> : <Static>{working.name ?? "—"}</Static>} />
-            <InheritRow label="Family" field="family" working={working} base={base} editable={editable} draft={draft} show={value => titleCase(String(value))}
-              control={editable ? <TextInput value={working.family ?? ""} onChange={value => draft.setPath(["family"], value || undefined)} width="short" ariaLabel="Family" /> : <Static>{working.family ? titleCase(working.family) : "—"}</Static>} />
-            <InheritRow label="Level" field="level" working={working} base={base} editable={editable} draft={draft} show={value => String(value)}
-              control={editable ? <NumberInput value={working.level} onChange={value => draft.setPath(["level"], value)} min={1} integer ariaLabel="Level" /> : <Static mono>{working.level ?? "—"}</Static>} />
-            <Row label="Availability">
-              {editable ? <Select value={working.availability} onChange={value => draft.setPath(["availability"], value)} options={AVAILABILITIES} ariaLabel="Availability" width="num" /> : <Static>{working.availability}</Static>}
-            </Row>
-            <InheritRow label="Role" field="profileId" working={working} base={base} editable={editable} draft={draft} show={value => data.profileById.get(String(value))?.name ?? String(value)}
-              control={<>
-                {editable ? <Select value={working.profileId} onChange={value => draft.setPath(["profileId"], value)} options={data.profiles.map(entry => ({ value: entry.id, label: entry.name }))} allowEmpty="No role" ariaLabel="Role" /> : <Static>{profile?.name ?? "—"}</Static>}
-                {profileId && <button type="button" className="text-button" onClick={openRole}>Open role <ArrowRight size={11} /></button>}
-              </>} />
-            <Row label="Base creature">
-              {base ? <>
-                <RefChip collection="creatureDefinitions" id={base.id} record={base} ctx={data.ctx} onOpen={(_collection, target) => navigate("creatureDefinitions", target)} />
-                {editable && <BasePicker data={data} selfId={id} value={base.id} onPick={target => draft.setPath(["baseId"], target)} label="Change" />}
-                {editable && <button type="button" className="button button-small" aria-label="Detach from base" title="Copy the inherited fields into this record and clear the base" onClick={detach}>Detach</button>}
-              </> : variants.length
-                ? <Static muted>Base of {variants.length} {variants.length === 1 ? "variant" : "variants"}</Static>
-                : editable ? <BasePicker data={data} selfId={id} onPick={target => draft.setPath(["baseId"], target)} label="Make a variant of…" /> : <Static muted>None</Static>}
-            </Row>
+          <Section title="Identity" aside={editable && base ? <button type="button" className="text-button" title="Copy the inherited fields into this record and clear the base" onClick={detach}>Detach from {baseName}</button> : undefined}>
+            <Field label={identitySpec("name").label} resolved={name} dirty={dirtyAt(["name"])} onRevert={() => draft.setPath(["name"], undefined)} onOpenRef={openRef} disabled={!editable}>
+              <TextField value={name.value ?? ""} placeholder={id} readOnly={!editable} onChange={value => draft.setPath(["name"], value.trim() || undefined)} />
+            </Field>
+            <RefField kind={identitySpec("family").ref} label={identitySpec("family").label} value={family.value} resolved={family} optional dirty={dirtyAt(["family"])} readOnly={!editable} onOpenRef={openRef} onChange={value => draft.setPath(["family"], value)} />
+            <Field label={identitySpec("level").label} hint={identitySpec("level").hint} resolved={level} dirty={dirtyAt(["level"])} onRevert={() => draft.setPath(["level"], undefined)} onOpenRef={openRef} disabled={!editable}>
+              <NumberField value={level.value} integer min={identitySpec("level").min} readOnly={!editable} onChange={value => draft.setPath(["level"], value)} />
+            </Field>
+            <Field label={identitySpec("availability").label} dirty={dirtyAt(["availability"])} disabled={!editable}>
+              <ChoiceField value={working.availability} options={identitySpec("availability").choices ?? []} width="short" readOnly={!editable} onChange={value => draft.setPath(["availability"], value)} />
+            </Field>
+            <RefField kind={identitySpec("profileId").ref} label={identitySpec("profileId").label} value={role.value} resolved={role} optional dirty={dirtyAt(["profileId"])} readOnly={!editable} onOpenRef={openRole} onChange={value => draft.setPath(["profileId"], value)} />
+            <RefField kind={identitySpec("baseId").ref} collection="creatureDefinitions" label={identitySpec("baseId").label} hint={variants.length ? `Base of ${variants.length} ${variants.length === 1 ? "variant" : "variants"}. ${identitySpec("baseId").hint ?? ""}`.trim() : identitySpec("baseId").hint}
+              value={working.baseId} optional exclude={baseExclude} dirty={dirtyAt(["baseId"])} readOnly={!editable || variants.length > 0} onChange={value => draft.setPath(["baseId"], value)} />
           </Section>
 
-          <Section title="Combat" aside={profile ? <span>{profile.name} curve at level {derived.level} · edit a cell to override it</span> : <span>No role: numbers are not derived</span>}>
-            <Fields>
+          <Section title="Combat" aside={profile ? <span>{profile.name} curve at level {derived.level}</span> : <span>No role: numbers are not derived</span>}>
+            <Fields columns={4}>
               {COMBAT_FIELDS.map(key => {
+                const spec = combatSpec(key);
                 const derivation = derived.combat[key]!;
-                const fromBase = base?.adjustments && key in base.adjustments && !(working.adjustments && key in working.adjustments);
-                const mark = fromBase ? <InheritMark from={baseName!} /> : undefined;
-                if (key === "behaviour" || key === "attackStyle") {
-                  return <Field key={key} label={COMBAT_LABELS[key]} span={2}>
-                    <ChoiceDerived derivation={derivation} options={key === "behaviour" ? BEHAVIOURS : STYLES} editable={editable} onOverride={value => setAdjustment(key, value)} onOpenSource={openRole} />{mark}
+                const shared = { compact: true, label: spec.label, hint: spec.hint, onOpenRef: openRef, dirty: dirtyAt(["adjustments", key]), readOnly: !editable } as const;
+                if (spec.kind === "enum") {
+                  return <DerivedChoice key={key} {...shared} resolved={derivation.resolved as Resolved<string | undefined>} options={spec.choices ?? []} onChange={value => setAdjustment(key, value)} />;
+                }
+                if (key === "marks") {
+                  const marks = derivation.resolved as Resolved<[number, number] | undefined>;
+                  return <Field key={key} {...shared} unit={spec.unit} resolved={marks} onRevert={editable && marks.chain[0]?.origin.kind === "own" ? () => setAdjustment(key, undefined) : undefined} disabled={!editable}>
+                    <span className="field-static mono" title="Marks are a range the curve sets">{fmtValue(marks.value)}{spec.unit && <span className="field-unit">{spec.unit}</span>}</span>
                   </Field>;
                 }
-                return <Field key={key} label={COMBAT_LABELS[key]}>
-                  <Derived derivation={derivation} unit={UNITS[key]} integer={!FRACTIONAL.has(key)} readOnly={!editable} onOverride={editable && key !== "marks" ? value => setAdjustment(key, value) : undefined} onOpenSource={profile ? openRole : undefined} />{mark}
-                </Field>;
+                return <DerivedNumber key={key} {...shared} resolved={derivation.resolved as Resolved<number | undefined>} unit={spec.unit} integer={spec.integer ?? false} min={spec.min} step={spec.step} onChange={value => setAdjustment(key, value)} />;
               })}
-              {MOVEMENT.map(key => {
-                const value = row.adjustments[key] as number | undefined;
-                const own = working.adjustments && key in working.adjustments;
-                return <Field key={key} label={COMBAT_LABELS[key]}>
-                  {value === undefined
-                    ? editable ? <button type="button" className="filter-chip" onClick={() => setAdjustment(key, 1)}><Plus size={11} /> Add</button> : <Static muted>—</Static>
-                    : <>
-                      {editable ? <NumberInput value={value} onChange={next => setAdjustment(key, next)} unit="m/s" step={0.01} min={0} ariaLabel={COMBAT_LABELS[key]} /> : <Static mono>{value} m/s</Static>}
-                      {editable && own && <button type="button" className="derived-clear" aria-label={`Remove ${COMBAT_LABELS[key]}`} onClick={() => setAdjustment(key, undefined)}><X size={11} /></button>}
-                      {!own && base && <InheritMark from={baseName!} />}
-                    </>}
+              {UNCOMPUTED_FIELDS.map(key => {
+                const spec = combatSpec(key);
+                const movement = derived.combat[key]!.resolved as Resolved<number | undefined>;
+                return <Field key={key} compact label={spec.label} hint={spec.hint} unit={spec.unit} resolved={movement} dirty={dirtyAt(["adjustments", key])} onOpenRef={openRef} disabled={!editable}
+                  onRevert={editable ? () => setAdjustment(key, undefined) : undefined}>
+                  <NumberField value={movement.value} optional min={spec.min} step={spec.step ?? 0.1} unit={spec.unit} placeholder="none" readOnly={!editable} onChange={value => setAdjustment(key, value)} />
                 </Field>;
               })}
             </Fields>
@@ -180,8 +190,8 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
               : <p className="empty-inline">Not placed in any encounter.</p>}
           </Section>
 
-          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} navigate={navigate} selfId={id} />
-          <PresentationSection data={data} working={working} base={base} editable={editable} draft={draft} navigate={navigate} />
+          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
+          <PresentationSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
 
           <Section title="Variants" aside={editable && !working.baseId ? <button type="button" className="button button-small" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</button> : undefined}>
             {variants.length
@@ -189,13 +199,14 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
               : <p className="empty-inline">{working.baseId ? "A variant cannot have variants of its own." : "No variants inherit from this creature."}</p>}
           </Section>
 
+          <ReferencedBy collection="creatureDefinitions" id={id} navigate={navigate} />
         </Sheet>
       </div>
       <aside className="record-rail creature-rail">
         <EntitySummary collection="creatureDefinitions" record={row.presentation ? row : { ...row, presentation: variants.find(variant => variant.row.presentation)?.row.presentation }} recordId={id} index={data.index} navigate={navigate} editing />
         {profile && <div className="rail-block">
           <h3>Role curve</h3>
-          <CurveTable profile={profile} levels={CURVE_LEVELS} fields={["maxHealth", "attackLevel", "defenceLevel", "maxHit"]} highlight={derived.level} compact />
+          <CurveTable profile={profile} levels={CURVE_LEVELS} fields={RAIL_FIELDS} highlight={derived.level} beaten={beaten} ownValues={ownValues} compact />
           <button type="button" className="text-button" onClick={openRole}>{profile.name} parameters <ArrowRight size={11} /></button>
         </div>}
       </aside>
@@ -204,120 +215,104 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   </div>;
 }
 
-/* ---------- Inheritance helpers ---------- */
-
-function InheritMark({ from }: { from: string }) { return <span className="inherit-mark" title={`Inherited from ${from}`}>inherited</span>; }
-
-function UseBase({ label, onClick }: { label: string; onClick: () => void }) {
-  return <button type="button" className="derived-clear" aria-label={`Use base ${label.toLowerCase()}`} title="Clear the override and use the base value" onClick={onClick}><X size={11} /></button>;
-}
-
-function InheritRow({ label, field, working, base, editable, draft, control, show }: { label: string; field: "name" | "family" | "level" | "profileId"; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; control: ReactNode; show: (value: unknown) => ReactNode }) {
-  const owned = working[field] !== undefined;
-  const inherited = base?.[field];
-  if (!owned && base && inherited !== undefined) {
-    return <Row label={label}>
-      <Static muted>{show(inherited)}</Static>
-      <InheritMark from={rowName(base)} />
-      {editable && <button type="button" className="button button-small" aria-label={`Override ${label.toLowerCase()}`} onClick={() => draft.setPath([field], structuredClone(inherited))}>Override</button>}
-    </Row>;
-  }
-  return <Row label={label}>{control}{owned && editable && base && inherited !== undefined && <UseBase label={label} onClick={() => draft.setPath([field], undefined)} />}</Row>;
-}
-
-function BasePicker({ data, selfId, value, onPick, label }: { data: CreatureData; selfId: string; value?: string; onPick: (id: string) => void; label: string }) {
-  const exclude = useMemo(() => new Set([selfId, ...data.resolved.filter(entry => entry.variant).map(entry => entry.id)]), [data, selfId]);
-  return <RecordPicker collection="creatureDefinitions" value={value} ctx={data.ctx} exclude={exclude} placeholder="Search base creatures…" onPick={onPick}
-    trigger={<button type="button" className="button button-small" aria-label="Choose base creature"><Pencil size={12} /> {label}</button>} />;
-}
-
-/** A derived choice (behaviour, attack style): the same row as `Derived`, with a select instead of a number. */
-function ChoiceDerived<T extends string>({ derivation, options, editable, onOverride, onOpenSource }: { derivation: Derivation<unknown>; options: readonly T[]; editable: boolean; onOverride: (value: T | undefined) => void; onOpenSource: () => void }) {
-  const { value, computed, expression, overridden, source } = derivation;
-  return <span className={`derived derived-choice${overridden ? " is-overridden" : ""}`}>
-    {editable ? <Select value={value as T | undefined} onChange={next => onOverride(next === computed ? undefined : next)} options={options} width="num" ariaLabel="Override" /> : <strong className="derived-value">{String(value ?? "—")}</strong>}
-    {overridden && <s className="derived-computed mono" title="Computed value">{String(computed ?? "—")}</s>}
-    {overridden && editable && <button type="button" className="derived-clear" aria-label="Clear override" title="Use the computed value" onClick={() => onOverride(undefined)}><X size={11} /></button>}
-    {expression && <span className="derived-expression mono">= {expression}</span>}
-    {source.label && <button type="button" className="derived-source" onClick={onOpenSource}>{source.label}</button>}
-  </span>;
-}
-
 /* ---------- Loot ---------- */
 
-function LootSection({ data, working, base, editable, draft, navigate, selfId }: { data: CreatureData; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; navigate: ViewProps["navigate"]; selfId: string }) {
-  const own = working.loot;
-  const loot: Loot | undefined = own ?? base?.loot;
-  const shared = loot !== undefined && "tableId" in loot;
-  const tableId = shared ? loot.tableId : undefined;
+interface BlockProps { data: CreatureData; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; dirtyAt: (path: Path) => boolean; openRef: (ref: RecordRef) => void }
+
+function LootSection({ data, working, base, editable, draft, dirtyAt, openRef }: BlockProps) {
+  const loot = identityChain(working, base, "loot");
+  const mode = mapResolved(loot, lootMode);
+  const current: Loot | undefined = loot.value;
+  const tableId = current && "tableId" in current ? current.tableId : undefined;
   const table = tableId ? data.lootById.get(tableId) : undefined;
-  const drops = shared ? dropList(table?.drops) : dropList(loot?.drops);
-  const others = tableId ? data.usersOfTable(tableId).filter(entry => entry.id !== selfId).length : 0;
-  const editing = editable && own !== undefined;
-  const switchTo = (mode: "shared" | "own") => {
-    if (mode === "shared") draft.setPath(["loot"], { tableId: tableId ?? "" });
-    else draft.setPath(["loot"], { drops: structuredClone(drops) });
+  const drops = current && "drops" in current ? dropList(current.drops) : dropList(table?.drops);
+  const revert = editable ? () => draft.setPath(["loot"], undefined) : undefined;
+  /**
+   * What a switch to "own drops" starts from. The drops on show when there are any, otherwise the
+   * nearest list the chain still remembers, so going table → own drops → table → own drops does not
+   * quietly empty a creature's loot on the way through an empty table.
+   */
+  const seedDrops = (): Drop[] => {
+    if (drops.length) return structuredClone(drops);
+    for (const link of loot.chain) {
+      const value = link.value;
+      if (value && "drops" in value) return structuredClone(dropList(value.drops));
+      if (value && "tableId" in value) {
+        const carried = data.lootById.get(value.tableId);
+        if (carried?.drops?.length) return structuredClone(dropList(carried.drops));
+      }
+    }
+    return [];
   };
-  const aside = <>
-    {editable && own && base?.loot && <UseBase label="loot" onClick={() => draft.setPath(["loot"], undefined)} />}
-    {editable && own && <div className="segmented" role="group" aria-label="Loot source">
-      <button type="button" className={shared ? "is-active" : ""} onClick={() => !shared && switchTo("shared")}>Shared table</button>
-      <button type="button" className={shared ? "" : "is-active"} onClick={() => shared && switchTo("own")}>Own drops</button>
-    </div>}
-  </>;
-  return <Section title="Loot" aside={aside}>
-    {!loot && <Row label="Drops">{editable ? <button type="button" className="filter-chip" onClick={() => switchTo("own")}><Plus size={11} /> Add drops</button> : <Static muted>None</Static>}</Row>}
-    {loot && !own && base && <Row label="Source"><Static muted>{shared ? `Shared table` : "Own drops"}</Static><InheritMark from={rowName(base)} />{editable && <button type="button" className="button button-small" aria-label="Override loot" onClick={() => draft.setPath(["loot"], structuredClone(loot))}>Override</button>}</Row>}
-    {loot && shared && <Row label="Table">
-      {tableId ? <RefChip collection="lootTables" id={tableId} record={table} ctx={data.ctx} onOpen={(_collection, target) => navigate("lootTables", target)} missing={!table} /> : <Static muted>Choose a table</Static>}
-      {editing && <RecordPicker collection="lootTables" value={tableId} ctx={data.ctx} onPick={target => draft.setPath(["loot"], { tableId: target })} trigger={<button type="button" className="button button-small" aria-label="Choose loot table"><Pencil size={12} /> {tableId ? "Change" : "Choose"}</button>} />}
-      {tableId && <Static muted>{others ? `Shared with ${others} other ${others === 1 ? "creature" : "creatures"}` : "Only this creature uses it"}</Static>}
-      {table && <button type="button" className="text-button" onClick={() => navigate("lootTables", table.id)}>Edit table <ArrowRight size={11} /></button>}
-    </Row>}
-    {loot && (shared || !editing) && <Row label="Drops" align="start"><DropGrid drops={drops} ctx={data.ctx} navigate={navigate} /></Row>}
-    {loot && !shared && editing && <Row label="Drops" align="start" wide>
-      <EditorContext.Provider value={{ collection: "creatureDefinitions", ctx: data.ctx, index: data.index, navigate }}>
-        <LootDropsEditor path="loot.drops" value={loot.drops} onChange={value => draft.setPath(["loot", "drops"], value)} issues={[]} schema={DROPS_SCHEMA} />
-      </EditorContext.Provider>
-    </Row>}
+  const switchTo = (next: LootMode | undefined) => {
+    if (next === "table") draft.setPath(["loot"], { tableId: tableId ?? "" });
+    else if (next === "drops") draft.setPath(["loot"], { drops: seedDrops() });
+    else draft.setPath(["loot"], undefined);
+  };
+  const others = tableId ? data.usersOfTable(tableId).filter(entry => entry.id !== working.id).length : 0;
+  // The section already says "Loot"; the field names the shape of the block, which the schema's
+  // union has no label for.
+  return <Section title={identitySpec("loot").label}>
+    <Field label="Source" resolved={mode} dirty={dirtyAt(["loot"])} onRevert={revert} onOpenRef={openRef} disabled={!editable}>
+      <ChoiceField value={mode.value} options={LOOT_MODES} width="short" readOnly={!editable} onChange={switchTo} />
+    </Field>
+    {mode.value === "table" && <RefField kind={LOOT_TABLE.ref} label={LOOT_TABLE.label} value={tableId || undefined} resolved={mapResolved(loot, value => value && "tableId" in value ? value.tableId : undefined)} onRevert={revert}
+      hint={tableId ? (others ? `Shared with ${others} other ${others === 1 ? "creature" : "creatures"}. Click the chip to edit the table here.` : "Only this creature rolls on it. Click the chip to edit the table here.") : undefined}
+      dirty={dirtyAt(["loot"])} readOnly={!editable} onOpenRef={openRef} onChange={value => draft.setPath(["loot"], { tableId: value ?? "" })} />}
+    {(mode.value === "drops" || table) && <Field label={LOOT_DROPS.label} hint={mode.value === "table" ? `What ${table?.name ?? "the table"} drops. Edit them on the table.` : undefined} className="field-has-list" disabled={!editable}>
+      <DropRows drops={drops} readOnly={!editable || mode.value === "table"} onChange={next => draft.setPath(["loot"], { drops: next })} />
+    </Field>}
   </Section>;
 }
 
 /* ---------- Presentation ---------- */
 
-function PresentationSection({ data, working, base, editable, draft, navigate }: { data: CreatureData; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; navigate: ViewProps["navigate"] }) {
-  const own = working.presentation;
-  const presentation: Presentation | undefined = own ?? base?.presentation;
-  const editing = editable && own !== undefined;
+type PresentationKey = keyof Presentation & string;
+
+function PresentationSection({ data, working, base, editable, draft, dirtyAt, openRef }: BlockProps) {
+  const block = identityChain(working, base, "presentation");
+  const presentation = block.value;
+  const regionSpec = speciesSpec("regionId");
   const regionOptions = useMemo(() => {
-    const ids = new Set<string>([...REGION_IDS, ...data.regions.map(region => region.id)]);
+    const ids = new Set<string>([...(regionSpec.choices ?? []), ...data.regions.map(region => region.id)]);
     return [...ids].map(value => ({ value, label: data.regionName(value) }));
-  }, [data]);
-  const set = (key: keyof Presentation, value: unknown) => draft.setPath(["presentation", key], value);
-  const aside = editable && own && base?.presentation ? <UseBase label="presentation" onClick={() => draft.setPath(["presentation"], undefined)} /> : undefined;
-  if (!presentation) {
-    return <Section title="Presentation">
-      <Row label="Model">{editable
-        ? <button type="button" className="filter-chip" onClick={() => draft.setPath(["presentation"], { kind: "basic", id: working.id, assetId: "", scale: 1, regionId: REGION_IDS[0], activity: ACTIVITIES[0], description: working.name ?? base?.name ?? working.id })}><Plus size={11} /> Add presentation</button>
-        : <Static muted>None</Static>}</Row>
-    </Section>;
-  }
-  const asset = presentation.assetId ? data.ctx.lookup("asset", presentation.assetId) : undefined;
-  return <Section title="Presentation" aside={aside}>
-    {!own && base && <Row label="Source"><Static muted>Base presentation</Static><InheritMark from={rowName(base)} />{editable && <button type="button" className="button button-small" aria-label="Override presentation" onClick={() => draft.setPath(["presentation"], structuredClone(presentation))}>Override</button>}</Row>}
-    <Row label="Asset">
-      {presentation.assetId && <Thumb spec={{ kind: "asset", assetId: presentation.assetId, icon: MapPin }} size="l" alt="" />}
-      {presentation.assetId ? <RefChip collection="assets" id={presentation.assetId} record={asset} ctx={data.ctx} onOpen={(_collection, target) => navigate("assets", target)} missing={!asset} /> : <Static muted>No model chosen</Static>}
-      {editing && <RecordPicker collection="assets" value={presentation.assetId} ctx={data.ctx} onPick={target => set("assetId", target)} placeholder="Search models…" trigger={<button type="button" className="button button-small" aria-label="Choose asset"><Pencil size={12} /> {presentation.assetId ? "Change" : "Choose"}</button>} />}
-    </Row>
-    <Row label="Scale">{editing ? <NumberInput value={presentation.scale} onChange={value => set("scale", value)} step={0.05} min={0.01} ariaLabel="Scale" /> : <Static mono>{presentation.scale}</Static>}</Row>
-    <Row label="Region">{editing ? <Select value={presentation.regionId} onChange={value => set("regionId", value)} options={regionOptions} ariaLabel="Region" /> : <Static>{data.regionName(presentation.regionId)}</Static>}</Row>
-    <Row label="Activity">{editing ? <Select value={presentation.activity} onChange={value => set("activity", value)} options={ACTIVITIES} width="num" ariaLabel="Activity" /> : <Static>{presentation.activity}</Static>}</Row>
-    <Row label="Description" align="start">{editing ? <TextInput value={presentation.description ?? ""} onChange={value => set("description", value)} multiline ariaLabel="Description" /> : <Static>{presentation.description || "—"}</Static>}</Row>
-    <Row label="Kind">
-      {editing ? <Select value={presentation.kind} onChange={value => set("kind", value)} options={["basic", "rpg"]} width="num" ariaLabel="Presentation kind" /> : <Static>{presentation.kind}</Static>}
-      {presentation.id !== working.id && <Static muted mono>as {presentation.id}</Static>}
-    </Row>
+  }, [data, regionSpec.choices]);
+  const at = <K extends PresentationKey>(key: K) => mapResolved(block, value => value?.[key as keyof Presentation] as Presentation[K] | undefined);
+  /** Any edit writes the whole block as this creature's own: the base's copy, or fresh defaults, with the one key changed. */
+  const set = (key: PresentationKey, value: unknown) => draft.set(current => {
+    const seed: Presentation = current.presentation ?? base?.presentation ?? { kind: "basic", id: current.id, assetId: "", scale: 1, regionId: regionSpec.choices?.[0] ?? "", activity: speciesSpec("activity").choices?.[0] ?? "", description: current.name ?? base?.name ?? current.id } as Presentation;
+    const next = { ...structuredClone(seed) } as Record<string, unknown>;
+    if (value === undefined) delete next[key]; else next[key] = value;
+    return { ...current, presentation: next as unknown as Presentation };
+  });
+  /** Hand one key back to the base; when nothing else differs from the base the whole block is inherited again. */
+  const revert = (key: PresentationKey) => editable && working.presentation && base?.presentation ? () => {
+    const restored = { ...working.presentation, [key]: (base.presentation as Record<string, unknown>)[key] } as Record<string, unknown>;
+    if ((base.presentation as Record<string, unknown>)[key] === undefined) delete restored[key];
+    draft.setPath(["presentation"], same(restored, base.presentation) ? undefined : restored);
+  } : undefined;
+  const dirty = dirtyAt(["presentation"]);
+  const shared = (key: PresentationKey) => ({ resolved: at(key), dirty, onOpenRef: openRef, onRevert: revert(key), disabled: !editable });
+  const scale = speciesSpec("scale");
+  const activity = speciesSpec("activity");
+  const description = speciesSpec("description");
+  return <Section title={identitySpec("presentation").label} aside={presentation && presentation.id !== working.id ? <span className="mono">as {presentation.id}</span> : undefined}>
+    <RefField kind={speciesSpec("assetId").ref} label={speciesSpec("assetId").label} value={presentation?.assetId || undefined} {...shared("assetId")} resolved={mapResolved(block, value => value?.assetId || undefined)} readOnly={!editable} onChange={value => set("assetId", value ?? "")} />
+    <Field label={scale.label} hint={scale.hint} {...shared("scale")}>
+      <NumberField value={presentation?.scale} min={scale.min} step={0.05} readOnly={!editable} onChange={value => set("scale", value)} />
+    </Field>
+    <Field label={regionSpec.label} hint={regionSpec.hint} {...shared("regionId")}>
+      <ChoiceField value={presentation?.regionId} options={regionOptions} allowEmpty={presentation ? undefined : "Choose region"} readOnly={!editable} onChange={value => set("regionId", value)} />
+    </Field>
+    <Field label={activity.label} hint={activity.hint} {...shared("activity")}>
+      <ChoiceField value={presentation?.activity} options={activity.choices ?? []} allowEmpty={presentation ? undefined : "Choose activity"} readOnly={!editable} onChange={value => set("activity", value)} />
+    </Field>
+    <Field label="Kind" hint="Basic creatures use the species fields only; rpg creatures add body and rig data." {...shared("kind")}>
+      <ChoiceField value={presentation?.kind} options={PRESENTATION_KINDS} allowEmpty={presentation ? undefined : "Choose kind"} readOnly={!editable} onChange={value => set("kind", value)} />
+    </Field>
+    <Field label={description.label} hint={description.hint} {...shared("description")}>
+      <TextField value={presentation?.description ?? ""} multiline readOnly={!editable} onChange={value => set("description", value)} />
+    </Field>
   </Section>;
 }
 

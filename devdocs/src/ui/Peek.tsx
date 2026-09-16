@@ -5,6 +5,7 @@ import type { RecordRef } from "../model/origin.js";
 import { findRecord, summaryContext, useReferenceIndex } from "../model/refs.js";
 import { summarize } from "../model/summaries.js";
 import { REGISTRY } from "../workspaces/registry.js";
+import { preloadView } from "../workspaces/lazyView.js";
 import { LoadingRows } from "./States.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
@@ -45,7 +46,16 @@ export function usePeek(): Pick<PeekContextValue, "open" | "close" | "current" |
 export function PeekProvider({ navigate, children }: { navigate: AppProps["navigate"]; children: ReactNode }) {
   const parent = useContext(PeekContext);
   const [current, setCurrent] = useState<PeekTarget>();
-  const open = useCallback((ref: RecordRef | PeekTarget) => setCurrent({ collection: ref.collection, id: ref.id }), []);
+  // Load the target's page module before the sheet mounts. Suspending inside a record that is
+  // animating its model viewer can restart the render every frame, so the peek would otherwise sit
+  // on its skeleton forever. Showing it anyway on a failed load lets Suspense report the error.
+  const open = useCallback((ref: RecordRef | PeekTarget) => {
+    const target = { collection: ref.collection, id: ref.id };
+    const route = parseRoute(routePath(target.collection, target.id).split("/").filter(Boolean).map(decodeURIComponent));
+    const pending = preloadView(REGISTRY[route.workspace.key]?.[route.view.key]);
+    if (pending) void pending.then(() => setCurrent(target), () => setCurrent(target));
+    else setCurrent(target);
+  }, []);
   const close = useCallback(() => setCurrent(undefined), []);
   const value = useMemo<PeekContextValue>(() => ({ mounted: true, current, open, close, navigate }), [current, open, close, navigate]);
   if (parent.mounted) return <>{children}</>;

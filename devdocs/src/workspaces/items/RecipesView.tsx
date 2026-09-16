@@ -1,18 +1,19 @@
-import { useMemo, useState } from "react";
-import { ArrowRight, Plus, Search, X } from "lucide-react";
-import type { ProgressionTier } from "../../../../game/src/content/schema/progression.js";
+import { useMemo, useState, type KeyboardEvent } from "react";
+import { ArrowRight, Search, X } from "lucide-react";
+import { ProgressionTierSchema, type ProgressionTier } from "../../../../game/src/content/schema/progression.js";
+import { RecipeSchema } from "../../../../game/src/content/schema/recipes.js";
 import type { ContentRow } from "../../model/contracts.js";
-import { deriveProductionEntry, fmt, productionSource } from "../../model/derive.js";
-import { useRecordDraft, type Path } from "../../model/draft.js";
+import { deriveProductionEntry, productionSource, type ProductionEntry } from "../../model/derive.js";
+import { setPath, useRecordDraft } from "../../model/draft.js";
+import type { Path, RecordRef } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Derived, Facts, NumberInput, Row, Section, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { DerivedNumber, Facts, Field, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { ItemPick } from "./ItemPick.js";
 import { TemplateDrawer } from "./TemplateDrawer.js";
-import { seconds, stationText, titleCase, useItemsData, type ItemsData, type RecipeRecord } from "./data.js";
+import { seconds, specAt, stationText, useItemsData, type ItemsData, type RecipeRecord } from "./data.js";
 import "./items.css";
 
 /* Recipes: inputs → output, with the station and the rates the template gives them. */
@@ -35,6 +36,8 @@ function RecipeList({ data, navigate }: { data: ItemsData; navigate: ViewProps["
     return [...byTier.entries()].sort((a, b) => a[0] - b[0]).map(([tier, recipes]) => ({ tier, recipes }));
   }, [data, search]);
   const shown = groups.reduce((sum, group) => sum + group.recipes.length, 0);
+  const open = (id: string) => navigate("compiled-recipes", id);
+  const rowKeys = (id: string) => (event: KeyboardEvent<HTMLTableRowElement>) => { if (event.key === "Enter" && event.target === event.currentTarget) open(id); };
   return <div className="ws-page recipes-page">
     <div className="ws-heading">
       <h1>Recipes</h1>
@@ -47,8 +50,8 @@ function RecipeList({ data, navigate }: { data: ItemsData; navigate: ViewProps["
       <thead><tr><th>Recipe</th><th>Inputs</th><th /><th>Output</th><th>Kind</th><th>Skill</th><th>Station</th><th className="cell-num">Level</th><th className="cell-num">Duration</th><th className="cell-num">XP</th></tr></thead>
       <tbody>{groups.map(group => [
         <tr key={`tier-${group.tier}`} className="recipes-tier"><th scope="rowgroup" colSpan={10}>Tier {group.tier}<small>{group.recipes.length} recipes</small></th></tr>,
-        ...group.recipes.map(recipe => <tr key={recipe.id} className="recipes-row" onClick={() => navigate("compiled-recipes", recipe.id)}>
-          <td><button type="button" className="cell" onClick={event => { event.stopPropagation(); navigate("compiled-recipes", recipe.id); }}><span>{recipe.name}</span></button></td>
+        ...group.recipes.map(recipe => <tr key={recipe.id} className="recipes-row" tabIndex={0} aria-label={recipe.name} onClick={() => open(recipe.id)} onKeyDown={rowKeys(recipe.id)}>
+          <td>{recipe.name}</td>
           <td><span className="recipe-line">{(recipe.inputs ?? []).map((input, i) => <span key={i} className="recipe-part" title={data.item(input.itemId)?.name ?? input.itemId}><Thumb spec={{ kind: "item", id: input.itemId }} size="s" alt="" /><small className="mono">×{input.quantity}</small></span>)}</span></td>
           <td className="recipes-arrow"><ArrowRight size={12} className="muted" /></td>
           <td><span className="recipe-part">{recipe.output && <><Thumb spec={{ kind: "item", id: recipe.output.itemId }} size="s" alt="" /><span>{data.item(recipe.output.itemId)?.name ?? recipe.output.itemId}</span>{recipe.output.quantity !== 1 && <small className="mono">×{recipe.output.quantity}</small>}</>}</span></td>
@@ -71,9 +74,24 @@ function RecipePage({ id, data, navigate }: { id: string; data: ItemsData; navig
   return <RecipeEditor id={id} tierId={source.tier.id} data={data} navigate={navigate} />;
 }
 
+type Ingredient = ProductionEntry["inputs"][number];
+const entrySpec = (...path: Path[number][]) => specAt(ProgressionTierSchema, ["production", 0, ...path]);
+const INGREDIENTS = specAt(RecipeSchema, ["inputs"]);
+const QUANTITY = specAt(RecipeSchema, ["inputs", 0, "quantity"]);
+const OUTPUT = specAt(RecipeSchema, ["output"]);
+
+/** Drop an empty adjustments block so the row saves clean. */
+function pruneEntry(tier: ProgressionTier, index: number): ProgressionTier {
+  const row = tier.production[index];
+  if (!row?.adjustments || Object.keys(row.adjustments).length) return tier;
+  const { adjustments: _drop, ...rest } = row;
+  return { ...tier, production: tier.production.map((candidate, i) => i === index ? rest : candidate) };
+}
+
 function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: string; data: ItemsData; navigate: ViewProps["navigate"] }) {
   const draft = useRecordDraft<ProgressionTier>("progression", tierId);
   const { index } = useReferenceIndex();
+  const peek = usePeek();
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const [templateDrawer, setTemplateDrawer] = useState<string>();
   const tier = draft.draft ?? data.tiers.find(row => row.id === tierId);
@@ -88,15 +106,11 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
   }, [tier, entry, template, rates, compiled, id]);
   if (!tier || !entry || !template || !rates) return <div className="ws-page"><LoadingRows /></div>;
 
-  const base: Path = ["production", entryIndex];
-  const set = (path: Path, value: unknown) => draft.set(previous => {
-    const next = setDeep(previous, [...base, ...path], value) as ProgressionTier;
-    // Drop an empty adjustments block so the row saves clean.
-    const row = next.production[entryIndex]!;
-    if (row.adjustments && Object.keys(row.adjustments).length === 0) { const { adjustments: _drop, ...rest } = row; return { ...next, production: next.production.map((candidate, i) => i === entryIndex ? rest : candidate) } as ProgressionTier; }
-    return next;
-  });
+  const set = (path: Path, value: unknown) => draft.set(previous => pruneEntry(setPath(previous, ["production", entryIndex, ...path], value), entryIndex));
   const openTemplate = () => setTemplateDrawer(template.id);
+  /** The template in a provenance line opens its curve beside the recipe; the tier row peeks. */
+  const openRef = (ref: RecordRef) => ref.collection === "recipeTemplates" ? setTemplateDrawer(ref.id) : peek.open(ref);
+  const duration = entrySpec("adjustments", "durationMs"), xp = entrySpec("adjustments", "xp"), reqLevel = entrySpec("adjustments", "reqLevel");
 
   return <div className="ws-page"><div className="record">
     <div className="record-main">
@@ -106,55 +120,30 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
       </header>
       <Sheet>
         <Section title="Recipe">
-          <Row label="Name"><TextInput value={entry.name} disabled={readOnly} ariaLabel="Name" onChange={value => set(["name"], value)} /></Row>
+          <Field label={entrySpec("name").label}><TextField value={entry.name} readOnly={readOnly} onChange={next => set(["name"], next)} /></Field>
+          <ListField<Ingredient> label={INGREDIENTS.label} items={entry.inputs} readOnly={readOnly} emptyText="No ingredients" addLabel="Add ingredient" className="ingredients"
+            onAdd={() => ({ itemId: "", quantity: 1 })} onChange={next => set(["inputs"], next)} removeLabel={(input, i) => `Remove ingredient ${i + 1}`}
+            renderItem={(input, api) => <>
+              <RefField kind="item" collection="compiled-items" label={`Ingredient ${api.index + 1}`} className="field-inline" value={input.itemId || undefined} readOnly={readOnly} onChange={next => api.update({ ...input, itemId: next ?? "" })} />
+              <span className="field-unit">×</span>
+              <NumberField value={input.quantity} integer min={QUANTITY.min} readOnly={readOnly} ariaLabel={`Ingredient ${api.index + 1} quantity`} onChange={next => api.update({ ...input, quantity: next ?? 1 })} />
+            </>} />
+          <Field label={OUTPUT.label} className="recipe-output">
+            <RefField kind="item" collection="compiled-items" label="Output item" className="field-inline" value={entry.output.itemId || undefined} readOnly={readOnly} onChange={next => set(["output", "itemId"], next ?? "")} />
+            <span className="field-unit">×</span>
+            <NumberField value={entry.output.quantity} integer min={QUANTITY.min} readOnly={readOnly} ariaLabel="Output quantity" onChange={next => set(["output", "quantity"], next ?? 1)} />
+          </Field>
+          <RefField kind="item" collection="compiled-items" label={entrySpec("burntItemId").label} hint={specAt(RecipeSchema, ["burntItemId"]).hint} optional value={entry.burntItemId} readOnly={readOnly} onChange={next => set(["burntItemId"], next)} />
         </Section>
-        <Section title="Inputs">
-          {entry.inputs.map((input, i) => <Row key={i} label={i === 0 ? "Ingredients" : ""}>
-            <ItemPick value={input.itemId} data={data} disabled={readOnly} ariaLabel={`Input ${i + 1} item`} onPick={itemId => set(["inputs", i, "itemId"], itemId)} />
-            <span className="muted">×</span>
-            <NumberInput value={input.quantity} integer min={1} disabled={readOnly} ariaLabel={`Input ${i + 1} quantity`} onChange={value => set(["inputs", i, "quantity"], value ?? 1)} />
-            {!readOnly && <button type="button" className="icon-button" aria-label={`Remove input ${i + 1}`} onClick={() => set(["inputs"], entry.inputs.filter((_, j) => j !== i))}><X size={12} /></button>}
-          </Row>)}
-          {!readOnly && <Row label={entry.inputs.length ? "" : "Ingredients"}><button type="button" className="button button-small" onClick={() => set(["inputs", entry.inputs.length], { itemId: entry.inputs[0]?.itemId ?? entry.output.itemId, quantity: 1 })}><Plus size={12} /> Add ingredient</button></Row>}
+        <Section title="Rates" aside={<button type="button" className="text-button" onClick={openTemplate}>{template.name} curve</button>}>
+          <DerivedNumber label={duration.label} unit={duration.unit} min={duration.min} integer={false} resolved={rates.durationMs.resolved} readOnly={readOnly} optional onChange={next => set(["adjustments", "durationMs"], next)} onOpenRef={openRef} />
+          <DerivedNumber label={xp.label} unit={xp.unit} min={xp.min} resolved={rates.xp.resolved} readOnly={readOnly} optional onChange={next => set(["adjustments", "xp"], next)} onOpenRef={openRef} />
+          <DerivedNumber label={reqLevel.label} min={reqLevel.min} resolved={rates.reqLevel.resolved} readOnly={readOnly} optional onChange={next => set(["adjustments", "reqLevel"], next)} onOpenRef={openRef} />
         </Section>
-        <Section title="Output">
-          <Row label="Makes">
-            <ItemPick value={entry.output.itemId} data={data} disabled={readOnly} ariaLabel="Output item" onPick={itemId => set(["output", "itemId"], itemId)} />
-            <span className="muted">×</span>
-            <NumberInput value={entry.output.quantity} integer min={1} disabled={readOnly} ariaLabel="Output quantity" onChange={value => set(["output", "quantity"], value ?? 1)} />
-            <button type="button" className="text-button" onClick={() => navigate("items/catalog", entry.output.itemId)}>Open item <ArrowRight size={11} /></button>
-          </Row>
-          <Row label="Burnt output" hint="Item produced when cooking fails">
-            {entry.burntItemId || !readOnly
-              ? <ItemPick value={entry.burntItemId} data={data} disabled={readOnly} ariaLabel="Burnt output item" placeholder="None" onPick={itemId => set(["burntItemId"], itemId)} />
-              : <Static muted>None</Static>}
-            {entry.burntItemId && !readOnly && <button type="button" className="icon-button" aria-label="Clear burnt output" onClick={() => set(["burntItemId"], undefined)}><X size={12} /></button>}
-          </Row>
-        </Section>
-        <Section title="Rates">
-          <Row label="Duration"><Derived derivation={rates.durationMs} unit="ms" readOnly={readOnly} onOverride={value => set(["adjustments", "durationMs"], value)} onOpenSource={openTemplate} /></Row>
-          <Row label="XP"><Derived derivation={rates.xp} readOnly={readOnly} onOverride={value => set(["adjustments", "xp"], value)} onOpenSource={openTemplate} /></Row>
-          <Row label="Required level"><Derived derivation={rates.reqLevel} readOnly={readOnly} onOverride={value => set(["adjustments", "reqLevel"], value)} /></Row>
-          <Row label="Template"><Static><button type="button" className="derived-source" onClick={openTemplate}>{template.name}</button><span className="muted"> · {template.parameters.durationMs} ms · {fmt(template.parameters.xpBase)} + tier × {fmt(template.parameters.xpPerLevel)} xp</span></Static></Row>
-          <Row label="Station"><Static>{titleCase(template.skill)} · {stationText(template.stations)}</Static></Row>
-        </Section>
+        <ReferencedBy collection="compiled-recipes" id={id} navigate={navigate} />
       </Sheet>
     </div>
     <aside className="record-rail"><EntitySummary collection="compiled-recipes" record={liveRecord ?? { id }} recordId={id} index={index} navigate={navigate} editing /></aside>
     {templateDrawer && <TemplateDrawer templateId={templateDrawer} data={data} onClose={() => setTemplateDrawer(undefined)} onOpenRecipe={recipeId => { setTemplateDrawer(undefined); navigate("compiled-recipes", recipeId); }} />}
   </div></div>;
-}
-
-function setDeep<T>(value: T, path: Path, next: unknown): T {
-  if (path.length === 0) return next as T;
-  const [head, ...rest] = path;
-  if (Array.isArray(value)) {
-    const copy = [...value];
-    if (rest.length === 0 && next === undefined) copy.splice(head as number, 1); else copy[head as number] = setDeep(copy[head as number], rest, next);
-    return copy as T;
-  }
-  const container = (value !== null && typeof value === "object" ? value : typeof head === "number" ? [] : {}) as Record<string, unknown>;
-  const copy: Record<string, unknown> = { ...container };
-  if (rest.length === 0 && next === undefined) delete copy[String(head)]; else copy[String(head)] = setDeep(copy[String(head)], rest, next);
-  return copy as T;
 }

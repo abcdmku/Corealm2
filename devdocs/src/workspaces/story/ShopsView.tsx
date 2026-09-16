@@ -1,19 +1,20 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { MapPin, Store } from "lucide-react";
+import { Store } from "lucide-react";
+import { shopSchema } from "../../../../game/src/content/schema/people.js";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { contentRows } from "../../model/rows.js";
-import { EntitySummary } from "../../ui/EntitySummary.js";
-import { RecordPicker } from "../../ui/RecordPicker.js";
-import { Facts, Row, Section, Sheet } from "../../ui/Sheet.js";
-import { Thumb } from "../../ui/Thumb.js";
+import { Facts, Field, NumberField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema } from "../../ui/field/index.js";
 import { PointsMap } from "../../ui/PointsMap.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
+import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { AddButton, asRecord, findStand, list, num, NumberField, PageState, position, RecordShell, RemoveButton, text, TextField, usePage } from "./shared.js";
+import { asRecord, findStand, list, num, PageState, position, RecordShell, StackList, text, usePage } from "./shared.js";
 
-interface Shop extends ContentRow { id: string; name: string; buyMultiplier?: number; sellMultiplier?: number; stock?: { itemId: string; quantity: number }[] }
+interface Shop extends ContentRow { id: string; name: string; buyMultiplier?: number; sellMultiplier?: number; stock?: ContentRow[] }
+
+const shop = (key: string) => fieldFromSchema(shopSchema, key);
 
 export default function ShopsView({ recordId, navigate }: ViewProps) {
   if (recordId === undefined) return <ShopList navigate={navigate} />;
@@ -47,55 +48,46 @@ function ShopList({ navigate }: { navigate: ViewProps["navigate"] }) {
 
 function ShopPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const page = usePage<Shop>("shops", id);
-  const { draft, index, ctx } = page;
-  const editable = draft.editable;
+  const { draft, index } = page;
+  const readOnly = !draft.editable;
   const stand = useMemo(() => findStand(index, "shops", id), [index, id]);
-  return <PageState page={page} collection="shops" navigate={navigate}>{(shop, record) => {
-    const stock = list(shop.stock).map(asRecord);
+  return <PageState page={page} collection="shops" navigate={navigate}>{record => {
+    const stock = list(record.stock).map(asRecord);
     const ids = stock.map(entry => text(entry.itemId) ?? "").filter(Boolean);
     const point = position(stand?.stand.position);
     return <RecordShell
       thumb={ids.length ? { kind: "items", ids } : { kind: "glyph", icon: Store }}
-      title={shop.name} id={id}
-      facts={[stand && `${stand.regionName} · ${String(stand.settlement.name)}`, `buy ×${num(shop.buyMultiplier) ?? 1}`, `sell ×${num(shop.sellMultiplier) ?? 1}`]}
+      title={record.name} id={id}
+      facts={[stand && `${stand.regionName} · ${String(stand.settlement.name)}`, `buy ×${num(record.buyMultiplier) ?? 1}`, `sell ×${num(record.sellMultiplier) ?? 1}`]}
       draft={draft}
-      rail={<EntitySummary collection="shops" record={record} recordId={id} index={index} navigate={navigate} editing />}>
+      rail={<div className="entity-summary"><div className="summary-block"><h3>Where</h3>
+        {stand
+          ? <div className="story-where">
+            {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} onOpenAt={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} />}
+            <div className="story-where-text">
+              <span>{stand.regionName} · {String(stand.settlement.name)}{text(stand.stand.shopKind) && <span className="muted"> · {String(stand.stand.shopKind)} stand</span>}{point && <span className="muted mono"> · {point.x}, {point.z}</span>}</span>
+              <span><button type="button" className="text-button" onClick={() => navigate("world/map", `shops:${stand.regionId}/${id}`)}>Show on map</button></span>
+            </div>
+          </div>
+          : <span className="empty-inline">No settlement has a stand for this shop.</span>}
+      </div></div>}>
       <Sheet>
         <Section title="Shop">
-          <Row label="Name"><TextField editable={editable} value={shop.name} onChange={value => draft.setPath(["name"], value)} ariaLabel="Name" /></Row>
-          <Row label="Buy multiplier" hint="Price the shop charges, as a multiple of item value"><NumberField editable={editable} value={num(shop.buyMultiplier)} onChange={value => draft.setPath(["buyMultiplier"], value)} unit="× value" min={0} step={0.05} ariaLabel="Buy multiplier" /></Row>
-          <Row label="Sell multiplier" hint="Price the shop pays, as a multiple of item value"><NumberField editable={editable} value={num(shop.sellMultiplier)} onChange={value => draft.setPath(["sellMultiplier"], value)} unit="× value" min={0} step={0.05} ariaLabel="Sell multiplier" /></Row>
+          <Field label={shop("name").label}><TextField value={record.name ?? ""} readOnly={readOnly} onChange={value => draft.setPath(["name"], value)} /></Field>
+          <Field label={shop("buyMultiplier").label} hint={shop("buyMultiplier").hint}>
+            <NumberField value={num(record.buyMultiplier)} min={shop("buyMultiplier").min ?? 0} step={0.05} unit="× value" width="short" readOnly={readOnly} ariaLabel={shop("buyMultiplier").label} onChange={value => draft.setPath(["buyMultiplier"], value)} />
+          </Field>
+          <Field label={shop("sellMultiplier").label} hint={shop("sellMultiplier").hint}>
+            <NumberField value={num(record.sellMultiplier)} min={shop("sellMultiplier").min ?? 0} step={0.05} unit="× value" width="short" readOnly={readOnly} ariaLabel={shop("sellMultiplier").label} onChange={value => draft.setPath(["sellMultiplier"], value)} />
+          </Field>
         </Section>
-        <Section title="Stock" aside={editable && <RecordPicker collection={page.itemCollection} ctx={ctx} exclude={new Set(ids)} onPick={picked => draft.setPath(["stock", stock.length], { itemId: picked, quantity: 1 })} trigger={<AddButton label="Add item">Add item</AddButton>} />}>
-          {stock.length
-            ? <div className="shop-stock">{stock.map((entry, at) => {
-              const itemId = text(entry.itemId) ?? "";
-              const item = ctx.lookup("item", itemId);
-              const name = item ? String(item.name ?? itemId) : itemId;
-              return <div className="tile" key={`${itemId}:${at}`}>
-                <span className="tile-art"><Thumb spec={{ kind: "item", id: itemId }} size="l" alt="" /></span>
-                <span className="tile-body">
-                  <button type="button" className="tile-title" title={itemId} onClick={() => navigate(page.itemCollection, itemId)}>{name}</button>
-                  <span className="tile-qty">{editable
-                    ? <><input type="number" min={1} step={1} value={num(entry.quantity) ?? ""} aria-label={`${name} quantity`} onChange={event => draft.setPath(["stock", at, "quantity"], event.target.value === "" ? undefined : Number(event.target.value))} /> in stock</>
-                    : <span className="mono">×{num(entry.quantity) ?? 1}</span>}</span>
-                </span>
-                {editable && <RemoveButton label={`Remove ${name}`} onClick={() => draft.setPath(["stock"], stock.filter((_, index) => index !== at))} />}
-              </div>;
-            })}</div>
-            : <span className="story-empty">Nothing in stock.</span>}
+
+        <Section title={shop("stock").label}>
+          <StackList label={shop("stock").label} bare items={stock} readOnly={readOnly} quantityMin={0} unique addLabel="Add stock line"
+            onChange={next => draft.setPath(["stock"], next)} />
         </Section>
-        <Section title="Where">
-          {stand
-            ? <div className="story-where">
-              {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} onOpenAt={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} />}
-              <div className="story-where-text">
-                <span>{stand.regionName} · {String(stand.settlement.name)}{text(stand.stand.shopKind) && <span className="muted"> · {String(stand.stand.shopKind)} stand</span>}{point && <span className="muted mono"> · {point.x}, {point.z}</span>}</span>
-                <span><button type="button" className="text-button" onClick={() => navigate("world/map", `shops:${stand.regionId}/${id}`)}>Show on map</button></span>
-              </div>
-            </div>
-            : <span className="story-empty">No settlement has a stand for this shop.</span>}
-        </Section>
+
+        <ReferencedBy collection="shops" id={id} navigate={navigate} />
       </Sheet>
     </RecordShell>;
   }}</PageState>;

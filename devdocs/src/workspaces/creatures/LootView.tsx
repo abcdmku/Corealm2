@@ -1,20 +1,18 @@
 import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
-import { arr } from "../../../../game/src/content/schema/core.js";
-import { DropSchema } from "../../../../game/src/content/schema/loot.js";
-import { EditorContext, LootDropsEditor } from "../../dev/editors.js";
+import { LootTableSchema } from "../../../../game/src/content/schema/loot.js";
 import { useRecordDraft } from "../../model/draft.js";
 import { rowName } from "../../model/rows.js";
-import { RefRow } from "../../ui/RefChip.js";
-import { Facts, Row, Section, Sheet, Static, TextInput } from "../../ui/Sheet.js";
+import { Facts, Field, ReferencedBy, Section, Sheet, TextField, fieldFromSchema } from "../../ui/field/index.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { DropGrid, dropList } from "./DropGrid.js";
+import { DropRows, dropList } from "./DropRows.js";
 import { useCreatureData, type LootTable } from "./shared.js";
 import "./creatures.css";
 
-const DROPS_SCHEMA = arr(DropSchema);
+const NAME = fieldFromSchema(LootTableSchema, "name");
+const DROPS = fieldFromSchema(LootTableSchema, "drops");
 
 /** Shared loot tables: what drops, and which creatures roll on them. */
 export default function LootView({ recordId, navigate }: ViewProps) {
@@ -63,38 +61,27 @@ function LootTablePage({ id, navigate }: { id: string; navigate: ViewProps["navi
   if (draft.loading) return <div className="ws-page"><LoadingRows /></div>;
   if (!working) return <div className="ws-page"><EmptyState title="Loot table not found">"{id}" is not a loot table. <button type="button" className="text-button" onClick={() => navigate("lootTables")}>Back to loot tables</button></EmptyState></div>;
 
-  return <div className="ws-page loot-page">
-    <div className="record">
-      <div className="record-main">
-        <header className="record-head">
-          <Thumb spec={{ kind: "items", ids: drops.map(drop => drop.itemId) }} size="xl" alt="" />
-          <div className="record-title">
-            <h1>{working.name}</h1>
-            <Facts items={[`${drops.length} ${drops.length === 1 ? "drop" : "drops"}`, `used by ${users.length} ${users.length === 1 ? "creature" : "creatures"}`]} />
-            <code>{id}</code>
-          </div>
-        </header>
-        <Sheet>
-          <Section title="Table">
-            <Row label="Name">{editable ? <TextInput value={working.name ?? ""} onChange={value => draft.setPath(["name"], value)} ariaLabel="Name" /> : <Static>{working.name}</Static>}</Row>
-          </Section>
-          <Section title="Drops">
-            {editable
-              ? <Row label="Drops" align="start" wide><EditorContext.Provider value={{ collection: "lootTables", ctx: data.ctx, index: data.index, navigate }}>
-                <LootDropsEditor path="drops" value={working.drops} onChange={value => draft.setPath(["drops"], value)} issues={[]} schema={DROPS_SCHEMA} />
-              </EditorContext.Provider></Row>
-              : <Row label="Drops" align="start"><DropGrid drops={drops} ctx={data.ctx} navigate={navigate} /></Row>}
-          </Section>
-        </Sheet>
+  return <div className="ws-page ws-page-narrow loot-page">
+    <header className="record-head">
+      <Thumb spec={{ kind: "items", ids: drops.map(drop => drop.itemId) }} size="xl" alt="" />
+      <div className="record-title">
+        <h1>{working.name}</h1>
+        <Facts items={[`${drops.length} ${drops.length === 1 ? "drop" : "drops"}`, `used by ${users.length} ${users.length === 1 ? "creature" : "creatures"}`]} />
+        <code>{id}</code>
       </div>
-      <aside className="record-rail">
-        <div className="rail-block">
-          <h3>Used by</h3>
-          {users.length
-            ? <div className="ref-rows">{users.map(user => <RefRow key={user.id} collection="creatureDefinitions" id={user.id} record={user.row} ctx={data.ctx} onOpen={(_collection, target) => navigate("creatureDefinitions", target)} subtitle={<Facts items={[`Level ${user.level}`, user.regionId ? data.regionName(user.regionId) : undefined, user.definition.loot ? undefined : "inherited"]} />} />)}</div>
-            : <p className="empty-inline">No creature rolls on this table.</p>}
-        </div>
-      </aside>
-    </div>
+    </header>
+    <Sheet>
+      <Section title="Table">
+        <Field label={NAME.label} hint={NAME.hint} dirty={draft.dirty && working.name !== draft.record?.name} disabled={!editable}>
+          <TextField value={working.name ?? ""} readOnly={!editable} onChange={value => draft.setPath(["name"], value)} />
+        </Field>
+      </Section>
+      {/* The section heading is the field's label; a second "Drops" beside the list would say it twice. */}
+      <Section title={DROPS.label} aside={<span>each drop rolls on its own</span>} className="loot-drops">
+        <DropRows drops={drops} readOnly={!editable} onChange={next => draft.setPath(["drops"], next)} />
+        {DROPS.hint && <p className="field-hint">{DROPS.hint}</p>}
+      </Section>
+      <ReferencedBy collection="lootTables" id={id} navigate={navigate} />
+    </Sheet>
   </div>;
 }

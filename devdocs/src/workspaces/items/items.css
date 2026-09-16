@@ -1,6 +1,6 @@
 /*
-  Items workspace. Builds on workspace.css (.matrix, .record, .kv, .drawer) and theme.css primitives.
-  Same scale: type 11/12/13/15/18, controls 24px, rows 28px.
+  Items workspace. Builds on workspace.css (.matrix, .record, .kv, .drawer), field.css (the one
+  field anatomy) and theme.css primitives. Same scale: type 11/12/13/15/18, controls 24px, rows 28px.
 */
 
 /* ---------- Ladder ---------- */
@@ -46,11 +46,9 @@
 .drawer .record-head { margin-bottom: 8px; }
 .drawer .record-title h1 { font-size: 15px; }
 .drawer .kv-row { grid-template-columns: 120px minmax(0, 1fr); }
+.drawer .field { grid-template-columns: 120px minmax(0, 1fr); }
 
-/* Curve drawers: a base + tier × perLevel pair on one row, and the live member table. */
-.param-pair { display: inline-flex; align-items: center; gap: 6px; }
-.param-pair .muted { font-size: 11px; white-space: nowrap; }
-.param-pair .kv-input[data-width="num"] { width: 104px; }
+/* Curve drawers: the live member table with before → after. */
 .members-table { max-height: 50vh; margin-top: 2px; }
 .members-table td, .members-table th { padding: 2px 8px; height: 26px; }
 .members-table td:first-child, .members-table th:first-child { position: static; font-weight: 500; background: transparent; }
@@ -61,15 +59,35 @@
 .change strong { color: var(--accent); font-weight: 600; }
 .change svg { color: var(--faint); }
 
+/* ---------- Fields in rows ---------- */
+/* A reference beside another control or inside a list row: the field box collapses to its control. The label stays for assistive tech. */
+.field.field-inline { display: block; min-height: 0; padding: 0; }
+.field.field-inline > .field-label { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.field.field-inline .field-control { min-height: 24px; }
+/* An optional block's presence, in the section aside: a 24px select as wide as its word. */
+.block-presence.field-select { width: auto; }
+.block-section .empty-inline { margin: 0; line-height: 20px; }
+/* Most items carry none of the five optional blocks, so an absent one is a heading and one line. */
+.block-section.is-absent > .kv-section-body { padding-top: 0; padding-bottom: 0; }
+.block-section > .kv-section-body > .field-hint { display: block; margin: 0 0 6px; }
+/* Set thresholds: each row is one grid of compact fields that fills the list width. */
+.thresholds .field-list-row { align-items: start; }
+.thresholds .field-list-content > .kv-fields { flex: 1 1 100%; padding: 2px 0; gap: 4px 10px; }
+.thresholds .field-list-remove { margin-top: 18px; }
+/*
+  The rows are a table, so the column names belong above the table once. Later rows keep their
+  label element (it is what names each control for assistive technology through aria-labelledby,
+  which resolves through display:none) and only stop drawing it.
+*/
+.thresholds .field-list-row + .field-list-row .field-label { display: none; }
+.thresholds .field-list-row + .field-list-row .field-list-remove { margin-top: 0; }
+.thresholds > .kv-section-body > .field-hint { display: block; margin: 6px 0 0; }
+
 /* ---------- Item page ---------- */
 .recipe-line { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-height: 28px; }
 .recipe-part { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
 .recipe-part small { color: var(--faint); font-size: 11px; }
 .recipe-part .cell { padding: 0; }
-.add-blocks { display: inline-flex; flex-wrap: wrap; gap: 4px; }
-.item-pick { max-width: 260px; }
-.item-pick.is-empty { color: var(--muted); border-style: dashed; padding-left: 8px; }
-.item-pick svg { flex-shrink: 0; }
 .record-rail .entity-summary { padding: 0; border: 0; background: transparent; }
 
 /* ---------- Sets ---------- */
@@ -84,19 +102,11 @@
 .set-tile .tile-title { font-size: 13px; }
 .set-tile .tile-subtitle.facts { display: flex; }
 .set-tile .tile-subtitle.mono { font-size: 11px; white-space: normal; line-height: 1.3; }
-.slot-grid .slot-tile { cursor: pointer; }
-.slot-grid .slot-tile:disabled { cursor: default; }
-.slot-grid .slot-tile .thumb[data-size="l"]:empty { border-style: dashed; background: transparent; }
-.thresholds-table { margin: 2px 0 6px; }
-.thresholds-table th, .thresholds-table td { padding: 3px 6px; }
-.thresholds-table td:first-child, .thresholds-table th:first-child { position: static; background: transparent; font-weight: 500; }
-.thresholds-table th:first-child { background: var(--panel-raised); }
-.thresholds-table .kv-input[data-width="num"] { width: 56px; }
-.thresholds-table td:first-child .kv-input[data-width="num"] { width: 48px; }
-.threshold-state { font-size: 11px; color: var(--faint); }
-.threshold-state[data-state="matches"] { color: var(--ok); }
-.threshold-state[data-state="differs"] { color: var(--warn); }
-.threshold-state .text-button { margin-left: 8px; font-size: 11px; }
+
+/* An ingredient row is a table line: item, ×, quantity. A fixed item cell lines the quantities up. */
+.ingredients .field-list-content { flex-wrap: nowrap; }
+.ingredients .field-list-content > .field-inline, .recipe-output .field-control > .field-inline { flex: 0 0 200px; min-width: 0; }
+.ingredients .ref-chip, .recipe-output .ref-chip { max-width: 100%; }
 
 /* ---------- Recipes ---------- */
 .recipes-page { max-width: 1400px; }
@@ -107,6 +117,8 @@
 .recipes-tier th { position: static; background: var(--panel-raised); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--faint); height: 24px; }
 .recipes-tier th small { margin-left: 8px; font-weight: 400; text-transform: none; letter-spacing: 0; }
 .recipes-row { cursor: pointer; }
-.recipes-row .cell { padding: 0; }
+.recipes-row:hover td { background: var(--hover); }
+.recipes-row:focus-visible { outline: none; }
+.recipes-row:focus-visible td { box-shadow: inset 0 0 0 1px var(--accent); }
 .recipes-arrow { padding: 0 2px; width: 20px; }
 .recipes-table .recipe-line { min-height: 0; gap: 4px 8px; flex-wrap: nowrap; }

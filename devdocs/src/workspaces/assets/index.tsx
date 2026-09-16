@@ -1,8 +1,8 @@
-import { lazy } from "react";
 import type { ViewRegistry } from "../types.js";
+import { lazyView } from "../lazyView.js";
 
 /** Purpose-built views for this workspace. */
 export const views: ViewRegistry = {
-  models: lazy(() => import("./ModelsView.js")),
-  audio: lazy(() => import("./AudioView.js")),
+  models: lazyView(() => import("./ModelsView.js")),
+  audio: lazyView(() => import("./AudioView.js")),
 };

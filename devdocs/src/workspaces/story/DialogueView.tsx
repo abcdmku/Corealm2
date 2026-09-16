@@ -1,20 +1,23 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { MessageCircle, Search, X } from "lucide-react";
+import { dialogueConditionSchema, dialogueEffectSchema, dialogueNodeSchema, dialogueOptionSchema } from "../../../../game/src/content/schema/story.js";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
-import { incomingReferences } from "../../model/refs.js";
 import { contentRows } from "../../model/rows.js";
 import { titleCase, type SummaryContext } from "../../model/summaries.js";
-import { RecordPicker } from "../../ui/RecordPicker.js";
-import { RefChip, RefRow } from "../../ui/RefChip.js";
-import { Row, Section, Sheet, Static } from "../../ui/Sheet.js";
+import {
+  Field, ListField, RefField, ReferencedBy, Section, Sheet, TextField, UnionList, fieldFromSchema, type RenderRef,
+} from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
-import { AddButton, asRecord, clip, list, nameOf, PageState, ReadableOrJson, RecordShell, RemoveButton, text, TextField, usePage } from "./shared.js";
+import { asRecord, clip, list, nameOf, PageState, RecordShell, RefCell, refRenderer, text, usePage, type Page } from "./shared.js";
 
 interface Option extends ContentRow { id?: string; text?: string; next?: string | null; requires?: unknown; showIf?: unknown; effects?: unknown; nextIf?: unknown }
 interface Node extends ContentRow { id: string; speaker?: string; text?: string; variants?: unknown; options?: Option[]; catalog?: string }
+
+const node = (key: string) => fieldFromSchema(dialogueNodeSchema, key);
+const option = (key: string) => fieldFromSchema(dialogueOptionSchema, key);
 
 export default function DialogueView({ recordId, navigate }: ViewProps) {
   if (recordId === undefined) return <DialogueList navigate={navigate} />;
@@ -30,7 +33,7 @@ function DialogueList({ navigate }: { navigate: ViewProps["navigate"] }) {
     const all = query.data ? contentRows(query.data) : [];
     const needle = search.trim().toLowerCase();
     if (!needle) return all;
-    return all.filter(row => `${String(row.id)} ${text(row.speaker) ?? ""} ${text(row.text) ?? ""} ${list(row.options).map(option => text(asRecord(option).text) ?? "").join(" ")}`.toLowerCase().includes(needle));
+    return all.filter(row => `${String(row.id)} ${text(row.speaker) ?? ""} ${text(row.text) ?? ""} ${list(row.options).map(entry => text(asRecord(entry).text) ?? "").join(" ")}`.toLowerCase().includes(needle));
   }, [query.data, search]);
   if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
@@ -57,93 +60,98 @@ function DialogueList({ navigate }: { navigate: ViewProps["navigate"] }) {
 
 /* ---------- Record ---------- */
 
+/** The next option id: one past the highest `#n` already used, so a removal cannot make a collision. */
+export function nextOptionId(nodeId: string, options: readonly Option[]): string {
+  const used = new Set(options.map(entry => text(entry.id) ?? ""));
+  let highest = 0;
+  for (const entry of options) {
+    const match = /#(\d+)$/.exec(text(entry.id) ?? "");
+    if (match) highest = Math.max(highest, Number(match[1]));
+  }
+  let candidate = `${nodeId}#${highest + 1}`;
+  for (let bump = highest + 2; used.has(candidate); bump++) candidate = `${nodeId}#${bump}`;
+  return candidate;
+}
+
 function DialoguePage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const page = usePage<Node>("dialogue", id);
-  const { draft, index, ctx } = page;
-  const editable = draft.editable;
-  const open = (collection: string, target: string) => navigate(collection, target);
-  const referencedBy = useMemo(() => {
-    const response = index.collections.get("dialogue");
-    const nodes = response ? contentRows(response).filter(row => String(row.id) !== id && list(row.options).some(option => asRecord(option).next === id || list(asRecord(option).nextIf).some(branch => asRecord(branch).next === id))) : [];
-    const incoming = incomingReferences(index, "dialogue", id);
-    const npcs = incoming.filter(reference => reference.collection === "npcs");
-    const quests = incoming.filter(reference => reference.collection === "quests");
-    return { nodes, npcs, quests };
-  }, [index, id]);
-  return <PageState page={page} collection="dialogue" navigate={navigate}>{node => {
-    const options = list(node.options).map(option => option as Option);
-    const variants = list(node.variants).map(asRecord);
+  const { draft, ctx } = page;
+  const readOnly = !draft.editable;
+  const renderRef = useMemo(() => refRenderer(readOnly), [readOnly]);
+  return <PageState page={page} collection="dialogue" navigate={navigate}>{record => {
+    const options = list(record.options).map(entry => entry as Option);
+    const variants = list(record.variants).map(asRecord);
     return <RecordShell
       thumb={{ kind: "glyph", icon: MessageCircle }}
-      title={text(node.speaker) ?? id} id={id}
-      facts={[node.catalog && titleCase(node.catalog), `${options.length} option${options.length === 1 ? "" : "s"}`]}
-      draft={draft}
-      rail={<div className="entity-summary">
-        <div className="summary-block"><h3>Spoken by</h3>{referencedBy.npcs.length ? <div className="ref-rows">{referencedBy.npcs.map(reference => <RefRow key={reference.recordId} collection="npcs" id={reference.recordId} record={reference.record} ctx={ctx} onOpen={open} subtitle="dialogue root" />)}</div> : <span className="empty-inline">Not a root node.</span>}</div>
-        <div className="summary-block"><h3>Reached from</h3>{referencedBy.nodes.length ? <div className="ref-rows">{referencedBy.nodes.map(row => <RefRow key={String(row.id)} collection="dialogue" id={String(row.id)} record={row} ctx={ctx} onOpen={open} />)}</div> : <span className="empty-inline">No option leads here.</span>}</div>
-        {referencedBy.quests.length > 0 && <div className="summary-block"><h3>Completes</h3><div className="ref-rows">{referencedBy.quests.map(reference => <RefRow key={`${reference.recordId}:${reference.path}`} collection="quests" id={reference.recordId} record={reference.record} ctx={ctx} onOpen={open} subtitle={reference.path} />)}</div></div>}
-      </div>}>
+      title={text(record.speaker) ?? id} id={id}
+      facts={[record.catalog && titleCase(record.catalog), `${options.length} option${options.length === 1 ? "" : "s"}`]}
+      draft={draft}>
       <Sheet>
         <Section title="Line">
-          <Row label="Speaker"><TextField editable={editable} value={node.speaker} onChange={value => draft.setPath(["speaker"], value || undefined)} ariaLabel="Speaker" placeholder="NPC name by default" /></Row>
-          <Row label="Text" align="start"><TextField editable={editable} value={node.text} onChange={value => draft.setPath(["text"], value)} multiline ariaLabel="Text" /></Row>
-          {(variants.length > 0) && <Row label="Variants" align="start">
-            <ReadableOrJson editable={editable} value={node.variants} onChange={value => draft.setPath(["variants"], value)} ariaLabel="Variants" readable={<span className="dlg-facts">{variants.map((variant, at) => <span key={at}><span className="dlg-fact-key">when {conditionsText(variant.when, ctx)}:</span> {clip(text(variant.text), 140)}</span>)}</span>} />
-          </Row>}
+          <Field label={node("speaker").label} hint={node("speaker").hint}>
+            <TextField value={record.speaker ?? ""} placeholder="NPC name" readOnly={readOnly} onChange={value => draft.setPath(["speaker"], value || undefined)} />
+          </Field>
+          <Field label={node("text").label}><TextField value={record.text ?? ""} multiline readOnly={readOnly} onChange={value => draft.setPath(["text"], value)} /></Field>
+          <ListField<ContentRow> label={node("variants").label} hint={node("variants").hint} items={variants} ordered readOnly={readOnly}
+            emptyText="None; the line above always plays." addLabel="Add variant" onAdd={() => ({ when: [], text: "" })}
+            summarize={variant => `when ${conditionsText(variant.when, ctx)}: ${clip(text(variant.text), 80) || "…"}`}
+            onChange={next => draft.setPath(["variants"], next.length ? next : undefined)}
+            renderItem={(variant, api) => <div className="story-block">
+              <UnionList label="When" schema={dialogueConditionSchema} items={list(variant.when)} readOnly={readOnly} renderRef={renderRef}
+                summarize={condition => conditionText(asRecord(condition), ctx)} addLabel="Add condition" emptyText="Always."
+                onChange={next => api.update({ ...variant, when: next })} />
+              <Field label="Text"><TextField value={text(variant.text) ?? ""} multiline readOnly={readOnly} ariaLabel={`Variant ${api.index + 1} text`} onChange={value => api.update({ ...variant, text: value })} /></Field>
+            </div>} />
         </Section>
-        <Section title="Options" aside={editable && <AddButton label="Add option" onClick={() => draft.setPath(["options", options.length], { id: `${id}#${options.length + 1}`, text: "", next: null })}>Add</AddButton>}>
-          <div className="dlg-options">{options.map((option, at) => <OptionBlock key={at} option={option} at={at} page={page} editable={editable} navigate={navigate} onRemove={() => draft.setPath(["options"], options.filter((_, index) => index !== at))} />)}</div>
-          {!options.length && <span className="story-empty">No options; the conversation ends here.</span>}
+
+        <Section title={node("options").label}>
+          <ListField<Option> items={options} ordered min={1} readOnly={readOnly} className="dlg-options"
+            emptyText="No options; the conversation ends here." addLabel="Add option"
+            onAdd={() => ({ id: nextOptionId(id, options), text: "", next: null })}
+            summarize={entry => clip(text(entry.text), 96) || "(no text yet)"}
+            removeLabel={(entry, index) => `Remove option ${index + 1}${text(entry.text) ? `: ${clip(text(entry.text), 40)}` : ""}`}
+            onChange={next => draft.setPath(["options"], next)}
+            renderItem={(entry, api) => <OptionFields option={entry} at={api.index} update={api.update} page={page} readOnly={readOnly} renderRef={renderRef} />} />
         </Section>
-        <Section title="Referenced by">
-          <Row label="NPC roots" align="start">{referencedBy.npcs.length ? <span className="ref-list">{referencedBy.npcs.map(reference => <RefChip key={reference.recordId} collection="npcs" id={reference.recordId} record={reference.record} ctx={ctx} onOpen={open} />)}</span> : <Static muted>None</Static>}</Row>
-          <Row label="Nodes" align="start">{referencedBy.nodes.length ? <span className="ref-list">{referencedBy.nodes.map(row => <RefChip key={String(row.id)} collection="dialogue" id={String(row.id)} record={row} ctx={ctx} onOpen={open} />)}</span> : <Static muted>None</Static>}</Row>
-        </Section>
+
+        <ReferencedBy collection="dialogue" id={id} navigate={navigate} />
       </Sheet>
     </RecordShell>;
   }}</PageState>;
 }
 
-function OptionBlock({ option, at, page, editable, navigate, onRemove }: { option: Option; at: number; page: ReturnType<typeof usePage<Node>>; editable: boolean; navigate: ViewProps["navigate"]; onRemove: () => void }) {
-  const { draft, ctx } = page;
-  const base = ["options", at];
-  const next = text(option.next);
-  const facts: ReactNode[] = [];
-  if (option.showIf !== undefined) facts.push(<Fact key="showIf" label="Show if" value={option.showIf} editable={editable} onChange={value => draft.setPath([...base, "showIf"], value)} ariaLabel={`Option ${at} show-if conditions`}>{conditionsText(option.showIf, ctx)}</Fact>);
-  if (option.requires !== undefined) facts.push(<Fact key="requires" label="Requires" value={option.requires} editable={editable} onChange={value => draft.setPath([...base, "requires"], value)} ariaLabel={`Option ${at} requirements`}>{conditionsText(option.requires, ctx)}</Fact>);
-  if (option.effects !== undefined) facts.push(<Fact key="effects" label="Effects" value={option.effects} editable={editable} onChange={value => draft.setPath([...base, "effects"], value)} ariaLabel={`Option ${at} effects`}>{effectsText(option.effects, ctx)}</Fact>);
-  if (option.nextIf !== undefined) facts.push(<Fact key="nextIf" label="Next if" value={option.nextIf} editable={editable} onChange={value => draft.setPath([...base, "nextIf"], value)} ariaLabel={`Option ${at} branches`}>{list(option.nextIf).map(asRecord).map((branch, index) => <span key={index}>{conditionsText(branch.when, ctx)} → <button type="button" className="text-button" onClick={() => branch.next && navigate("dialogue", String(branch.next))}>{branch.next === null ? "end" : String(branch.next)}</button></span>)}</Fact>);
-  return <div className="dlg-opt">
-    <span className="quest-stage-marker" aria-label={`Option ${at + 1}`}>{at + 1}</span>
-    <div className="dlg-opt-body">
-      <div className="dlg-opt-head">
-        <TextField editable={editable} value={option.text} onChange={value => draft.setPath([...base, "text"], value)} width="full" ariaLabel={`Option ${at} text`} />
-        {editable && <RemoveButton label={`Remove option ${at + 1}`} onClick={onRemove} />}
-      </div>
-      <div className="kv">
-        <Row label="Next">
-          {next ? <RefChip collection="dialogue" id={next} record={ctx.lookup("dialogue", next)} ctx={ctx} onOpen={(collection, target) => navigate(collection, target)} /> : <Static muted>Ends the conversation</Static>}
-          {editable && <RecordPicker collection="dialogue" value={next} ctx={ctx} onPick={picked => draft.setPath([...base, "next"], picked)} trigger={<button type="button" className="button button-small" aria-label={`Change option ${at + 1} next node`}>{next ? "Change" : "Choose"}</button>} />}
-          {editable && next && <RemoveButton label={`End conversation after option ${at + 1}`} onClick={() => draft.setPath([...base, "next"], null)} />}
-        </Row>
-        {facts}
-        {editable && (option.showIf === undefined || option.requires === undefined || option.effects === undefined || option.nextIf === undefined) && <Row label="Add"><span className="ref-list">
-          {option.showIf === undefined && <button type="button" className="filter-chip" aria-label={`Add show-if conditions to option ${at + 1}`} onClick={() => draft.setPath([...base, "showIf"], [])}>+ show if</button>}
-          {option.requires === undefined && <button type="button" className="filter-chip" aria-label={`Add requirements to option ${at + 1}`} onClick={() => draft.setPath([...base, "requires"], [])}>+ requires</button>}
-          {option.effects === undefined && <button type="button" className="filter-chip" aria-label={`Add effects to option ${at + 1}`} onClick={() => draft.setPath([...base, "effects"], [])}>+ effects</button>}
-          {option.nextIf === undefined && <button type="button" className="filter-chip" aria-label={`Add branches to option ${at + 1}`} onClick={() => draft.setPath([...base, "nextIf"], [])}>+ next if</button>}
-        </span></Row>}
-        <Row label="Id"><Static mono muted>{text(option.id) ?? "—"}</Static></Row>
-      </div>
-    </div>
-  </div>;
-}
+function OptionFields({ option: entry, at, update, page, readOnly, renderRef }: { option: Option; at: number; update: (next: Option) => void; page: Page<Node>; readOnly: boolean; renderRef: RenderRef }) {
+  const { ctx } = page;
+  const branches = list(entry.nextIf).map(asRecord);
+  const conditionList = (key: "showIf" | "requires") => <UnionList key={key} label={option(key).label} hint={option(key).hint} schema={dialogueConditionSchema}
+    items={list(entry[key])} readOnly={readOnly} renderRef={renderRef} addLabel="Add condition" emptyText="Always."
+    summarize={condition => conditionText(asRecord(condition), ctx)}
+    onChange={next => update({ ...entry, [key]: next.length ? next : undefined })} />;
 
-function Fact({ label, value, editable, onChange, ariaLabel, children }: { label: string; value: unknown; editable: boolean; onChange: (value: unknown) => void; ariaLabel: string; children: ReactNode }) {
-  return <Row label={label} align="start">
-    <ReadableOrJson editable={editable} value={value} onChange={onChange} ariaLabel={ariaLabel} readable={<span className="dlg-facts">{children}</span>}
-      aside={<button type="button" className="text-button story-readable-toggle" aria-label={`Remove ${label.toLowerCase()}`} onClick={() => onChange(undefined)}>Remove</button>} />
-  </Row>;
+  return <div className="story-block">
+    <Field label={option("text").label}><TextField value={entry.text ?? ""} multiline readOnly={readOnly} ariaLabel={`Option ${at + 1} text`} onChange={value => update({ ...entry, text: value })} /></Field>
+    <RefField kind="dialogue" label={option("next").label} hint={option("next").hint} optional value={text(entry.next)} readOnly={readOnly}
+      onChange={value => update({ ...entry, next: value ?? null })} />
+    {conditionList("showIf")}
+    {conditionList("requires")}
+    <UnionList label={option("effects").label} schema={dialogueEffectSchema} items={list(entry.effects)} readOnly={readOnly} renderRef={renderRef}
+      addLabel="Add effect" emptyText="None."
+      summarize={effect => effectText(asRecord(effect), ctx)}
+      onChange={next => update({ ...entry, effects: next.length ? next : undefined })} />
+    <ListField<ContentRow> label={option("nextIf").label} hint={option("nextIf").hint} items={branches} ordered readOnly={readOnly}
+      emptyText="None; the next node above always follows." addLabel="Add branch" onAdd={() => ({ when: [], next: null })}
+      summarize={branch => `${conditionsText(branch.when, ctx)} → ${text(branch.next) ?? "ends"}`}
+      onChange={next => update({ ...entry, nextIf: next.length ? next : undefined })}
+      renderItem={(branch, api) => <div className="story-block">
+        <UnionList label="When" schema={dialogueConditionSchema} items={list(branch.when)} readOnly={readOnly} renderRef={renderRef}
+          addLabel="Add condition" emptyText="Always."
+          summarize={condition => conditionText(asRecord(condition), ctx)}
+          onChange={next => api.update({ ...branch, when: next })} />
+        <RefField kind="dialogue" label="Next node" optional value={text(branch.next)} readOnly={readOnly}
+          onChange={value => api.update({ ...branch, next: value ?? null })} />
+      </div>} />
+    <Field label={option("id").label}><TextField value={entry.id ?? ""} mono width="id" readOnly ariaLabel={`Option ${at + 1} id`} onChange={() => undefined} /></Field>
+  </div>;
 }
 
 /* ---------- Readable conditions and effects ---------- */
@@ -161,7 +169,7 @@ function range(min: unknown, max: unknown): string {
   return "any";
 }
 
-function conditionText(condition: ContentRow, ctx: SummaryContext): string {
+export function conditionText(condition: ContentRow, ctx: SummaryContext): string {
   const quest = () => nameOf(ctx, "quest", text(condition.questId));
   switch (text(condition.kind)) {
     case "questStatus": return `${quest()} is ${text(condition.status) ?? "?"}`;
@@ -173,24 +181,26 @@ function conditionText(condition: ContentRow, ctx: SummaryContext): string {
     case "item": return `carrying ${String(condition.quantity ?? 1)} × ${nameOf(ctx, "item", text(condition.itemId))}`;
     case "lacksItem": return `fewer than ${String(condition.quantity ?? 1)} × ${nameOf(ctx, "item", text(condition.itemId))}`;
     case "currency": return `${String(condition.amount ?? 0)} marks`;
-    default: return JSON.stringify(condition);
+    default: return text(condition.kind) ?? "condition";
   }
 }
 
 export function effectsText(value: unknown, ctx: SummaryContext): string {
   const effects = list(value).map(asRecord);
   if (!effects.length) return "none";
-  return effects.map(effect => {
-    const quest = () => nameOf(ctx, "quest", text(effect.questId));
-    switch (text(effect.kind)) {
-      case "startQuest": return `start ${quest()}`;
-      case "setFlag": return `set ${quest()} flag ${text(effect.flag) ?? "?"}${effect.value === false ? " off" : ""}`;
-      case "bumpCounter": return `${quest()} ${text(effect.counter) ?? "?"} +${String(effect.by ?? 1)}`;
-      case "giveItem": return `give ${String(effect.quantity ?? 1)} × ${nameOf(ctx, "item", text(effect.itemId))}`;
-      case "takeItem": return `take ${String(effect.quantity ?? 1)} × ${nameOf(ctx, "item", text(effect.itemId))}`;
-      case "grantXp": return `+${String(effect.amount ?? 0)} ${text(effect.skill) ?? "?"} xp`;
-      case "grantCurrency": return `+${String(effect.amount ?? 0)} marks`;
-      default: return JSON.stringify(effect);
-    }
-  }).join(", ");
+  return effects.map(effect => effectText(effect, ctx)).join(", ");
+}
+
+export function effectText(effect: ContentRow, ctx: SummaryContext): string {
+  const quest = () => nameOf(ctx, "quest", text(effect.questId));
+  switch (text(effect.kind)) {
+    case "startQuest": return `start ${quest()}`;
+    case "setFlag": return `set ${quest()} flag ${text(effect.flag) ?? "?"}${effect.value === false ? " off" : ""}`;
+    case "bumpCounter": return `${quest()} ${text(effect.counter) ?? "?"} +${String(effect.by ?? 1)}`;
+    case "giveItem": return `give ${String(effect.quantity ?? 1)} × ${nameOf(ctx, "item", text(effect.itemId))}`;
+    case "takeItem": return `take ${String(effect.quantity ?? 1)} × ${nameOf(ctx, "item", text(effect.itemId))}`;
+    case "grantXp": return `+${String(effect.amount ?? 0)} ${text(effect.skill) ?? "?"} xp`;
+    case "grantCurrency": return `+${String(effect.amount ?? 0)} marks`;
+    default: return text(effect.kind) ?? "effect";
+  }
 }

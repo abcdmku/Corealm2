@@ -1,22 +1,26 @@
 import { memo, type ReactNode } from "react";
-import { ArrowUpRight, Crosshair, Plus, X } from "lucide-react";
-import type { EncounterDefinition, ResourcePlacement, WorldPlacement } from "../../../../game/src/content/schema/encounters.js";
+import { ArrowUpRight, Crosshair } from "lucide-react";
+import { ArraySchema, ObjectSchema, TupleSchema, type Schema } from "../../../../game/src/content/schema/core.js";
+import { EncounterDefinitionSchema, ResourcePlacementSchema, WorldPlacementSchema, type EncounterDefinition, type ResourcePlacement, type WorldPlacement } from "../../../../game/src/content/schema/encounters.js";
+import { WorldRegionSchema } from "../../../../game/src/content/schema/worldRegions.js";
 import type { ApiDiagnostic } from "../../../shared/contracts.js";
-import type { ContentRow } from "../../model/contracts.js";
 import type { SummaryContext } from "../../model/summaries.js";
+import { fieldCore } from "../../model/fields.js";
 import { rowName } from "../../model/rows.js";
-import { RecordPicker } from "../../ui/RecordPicker.js";
-import { RefChip } from "../../ui/RefChip.js";
-import { Facts, NumberInput, Row, Section, Select, Sheet, Static, TextInput, Toggle } from "../../ui/Sheet.js";
+import {
+  ChoiceField, Facts, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, Static, TextField, ToggleField, WeightedList,
+  fieldFromSchema, type SchemaFieldSpec,
+} from "../../ui/field/index.js";
 import { glyphColor, glyphIcon } from "./glyphs.js";
 import {
-  ACTIVITIES, LOCATION_KINDS, OBSTACLE_INTERACTIONS, RANKS, authoredOffsets, detachEncounter, findOwned, patchEncounter, patchOwned, patchPlacement, patchResource, patchRegion, regionBounds, regionById, removeSelection, round, safeAnchors, titleCase,
+  authoredOffsets, detachEncounter, findOwned, patchEncounter, patchOwned, patchPlacement, patchResource, patchRegion, regionBounds, regionById, removeSelection, round, safeAnchors, titleCase,
   type Bank, type Bounds, type Building, type Draft, type Feature, type Gate, type Landmark, type Location, type NpcStand, type Obstacle, type Point, type Selection, type Shop, type Station,
 } from "./model.js";
 
 /*
-  The right rail: one inspector per kind of thing, built from Sheet rows. Every edit goes through
-  `update(draft => draft)` so the map, the list and the change count follow immediately.
+  The right rail: one inspector per kind of thing, built from the one field model. Every label,
+  unit, help line, step and choice list comes from the schema through `at(...)`; every edit goes
+  through `update(draft => draft)` so the map, the list and the change count follow immediately.
 */
 
 export interface InspectorProps {
@@ -35,7 +39,82 @@ export interface InspectorProps {
 
 const num = (value: unknown): number | undefined => typeof value === "number" && Number.isFinite(value) ? value : undefined;
 const text = (value: unknown): string => typeof value === "string" ? value : "";
+const creatureName = (ctx: SummaryContext, id: string): string => { const row = ctx.lookup("enemy", id); return row ? rowName(row) : id; };
 const strings = (value: unknown): string[] => Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
+
+// ---------------------------------------------------------------- schema specs
+
+/** One step down a schema: an object key, or an array/tuple entry. */
+function child(schema: Schema, key: string | number): Schema {
+  const core = fieldCore(schema);
+  if (typeof key === "number") return core instanceof ArraySchema ? core.item : core instanceof TupleSchema ? (core.items as readonly Schema[])[key] ?? core : core;
+  return core instanceof ObjectSchema ? (core.fields as Record<string, Schema>)[key] ?? core : core;
+}
+
+/**
+ * The described field at a path: `at(WorldPlacementSchema, "formation", "kind")`. `fieldFromSchema`
+ * wants the object that owns the field, so the path walks to the owner and it describes the last step.
+ */
+function at(schema: Schema, ...path: (string | number)[]): SchemaFieldSpec {
+  const last = path[path.length - 1]!;
+  let owner = schema;
+  for (const key of path.slice(0, -1)) owner = child(owner, key);
+  return typeof last === "string" ? fieldFromSchema(owner, last) : fieldFromSchema(child(owner, last), String(last));
+}
+
+// ---------------------------------------------------------------- field shapes
+
+/** A number from the schema: label, help, unit, step, integer and range all come from `spec`. */
+function NumberRow({ spec, value, onChange, disabled, unit, optional, placeholder, min }: {
+  spec: SchemaFieldSpec; value: number | undefined; onChange: (value: number | undefined) => void; disabled: boolean; unit?: string; optional?: boolean; placeholder?: string; min?: number;
+}) {
+  const shown = unit ?? spec.unit;
+  return <Field label={spec.label} hint={spec.hint} unit={shown} disabled={disabled}>
+    <NumberField value={value} unit={shown} integer={spec.integer} min={min ?? spec.min} max={spec.max} step={spec.step} optional={optional ?? spec.optional} placeholder={placeholder} disabled={disabled} onChange={onChange} />
+  </Field>;
+}
+
+function TextRow({ spec, value, onChange, disabled, mono, width }: {
+  spec: SchemaFieldSpec; value: string; onChange: (value: string) => void; disabled: boolean; mono?: boolean; width?: "short" | "id" | "text" | "full";
+}) {
+  return <Field label={spec.label} hint={spec.hint} disabled={disabled}>
+    <TextField value={value} multiline={spec.multiline} mono={mono} width={width ?? (spec.multiline ? "full" : "text")} disabled={disabled} onChange={onChange} />
+  </Field>;
+}
+
+/** An enum, a union of literals, or any closed list the schema carries. */
+function ChoiceRow({ spec, value, onChange, disabled, allowEmpty }: {
+  spec: SchemaFieldSpec; value: string | undefined; onChange: (value: string | undefined) => void; disabled: boolean; allowEmpty?: string;
+}) {
+  return <Field label={spec.label} hint={spec.hint} disabled={disabled}>
+    <ChoiceField value={value} options={spec.choices ?? []} allowEmpty={allowEmpty} width="full" disabled={disabled} onChange={onChange} />
+  </Field>;
+}
+
+function ToggleRow({ spec, value, onChange, disabled }: { spec: SchemaFieldSpec; value: boolean; onChange: (value: boolean) => void; disabled: boolean }) {
+  return <Field label={spec.label} hint={spec.hint} disabled={disabled}>
+    <ToggleField value={value} disabled={disabled} onChange={onChange} />
+  </Field>;
+}
+
+function StaticRow({ label, children }: { label: ReactNode; children: ReactNode }) {
+  return <Field label={label}>{children}</Field>;
+}
+
+/** `[x, z]` metres as a two-cell grid: the pair reads as one place, not as two rows. */
+function PointFields({ label, unit = "m", value, onChange, disabled }: { label: string; unit?: string; value: readonly number[]; onChange: (point: Point) => void; disabled: boolean }) {
+  return <div className="world-point" role="group" aria-label={label}>
+    <span className="world-point-label">{label}</span>
+    <Fields columns={2}>
+      <Field compact label="x" disabled={disabled}>
+        <NumberField value={num(value[0])} unit={unit} disabled={disabled} ariaLabel={`${label} x`} onChange={x => onChange([x ?? 0, value[1] ?? 0])} />
+      </Field>
+      <Field compact label="z" disabled={disabled}>
+        <NumberField value={num(value[1])} unit={unit} disabled={disabled} ariaLabel={`${label} z`} onChange={z => onChange([value[0] ?? 0, z ?? 0])} />
+      </Field>
+    </Fields>
+  </div>;
+}
 
 export const Inspector = memo(function Inspector(props: InspectorProps) {
   const { selection, feature, diagnostics, draft } = props;
@@ -77,21 +156,24 @@ function Head({ feature, title, facts, aside }: { feature: Feature; title: React
   </header>;
 }
 
-function PointRow({ label, value, onChange, disabled }: { label: string; value: readonly number[]; onChange: (point: Point) => void; disabled: boolean }) {
-  return <Row label={label}>
-    <NumberInput value={value[0]} ariaLabel={`${label} x`} disabled={disabled} onChange={x => onChange([x ?? 0, value[1] ?? 0])} />
-    <NumberInput value={value[1]} ariaLabel={`${label} z`} disabled={disabled} onChange={z => onChange([value[0] ?? 0, z ?? 0])} />
-    <span className="kv-unit">m</span>
-  </Row>;
-}
-
 function Link({ onClick, children }: { onClick: () => void; children: ReactNode }) {
   return <button type="button" className="text-button" onClick={onClick}>{children}<ArrowUpRight size={11} /></button>;
 }
 
-function regionOptions(draft: Draft) { return draft.worldRegions.map(region => ({ value: region.id, label: region.name })); }
+/** Location ids outside one region, so a `location` ref picker only offers that region's nodes. */
+function locationsElsewhere(draft: Draft, regionId: string | undefined): Set<string> {
+  const out = new Set<string>();
+  for (const region of draft.worldRegions) {
+    if (region.id === regionId) continue;
+    for (const location of region.locations) out.add(location.id);
+    for (const location of region.dungeon?.locations ?? []) out.add(location.id);
+  }
+  return out;
+}
 
 // ---------------------------------------------------------------- spawn
+
+type Member = EncounterDefinition["members"][number];
 
 function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUses, update, navigate, onSelect }: InspectorProps & { selection: Selection; feature: Feature }) {
   const placement = draft.placements.find(row => row.id === selection.id);
@@ -102,9 +184,15 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
   const disabled = !editable;
   const set = (patch: Partial<WorldPlacement>) => update(current => patchPlacement(current, placement.id, patch));
   const setEncounter = (patch: Partial<EncounterDefinition>) => encounter && update(current => patchEncounter(current, encounter.id, patch));
+  const members = encounter?.members ?? [];
   const anchors = safeAnchors(placement);
   const adjustments = new Map(placement.anchorAdjustments?.map(row => [row.index, row.offset]));
-  const setAnchor = (index: number, offset: Point) => { const entry: { index: number; offset: Point } = { index, offset: [round(offset[0]), round(offset[1])] }; set({ anchorAdjustments: [...(placement.anchorAdjustments ?? []).filter(row => row.index !== index), entry].sort((a, b) => a.index - b.index) }); };
+  const anchorRows = anchors.map((anchor, index) => {
+    const raw = adjustments.get(index);
+    const offset: Point = raw ? [round(raw[0]), round(raw[1])] : [round(anchor[0] - placement.centre[0]), round(anchor[1] - placement.centre[1])];
+    return { index, offset, adjusted: adjustments.has(index) };
+  });
+  const setAnchors = (rows: typeof anchorRows) => set({ anchorAdjustments: rows.filter(row => row.adjusted).map(row => ({ index: row.index, offset: [round(row.offset[0]), round(row.offset[1])] as Point })) });
   const setCount = (next: number | undefined) => {
     const count = Math.max(1, Math.min(64, Math.round(next ?? 1)));
     let anchorAdjustments = (placement.anchorAdjustments ?? []).filter(row => row.index < count);
@@ -114,69 +202,75 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
     }
     set({ count, anchorAdjustments });
   };
-  const setFormation = (kind: WorldPlacement["formation"]["kind"]) => {
-    if (kind === placement.formation.kind) return;
-    set({ formation: { ...placement.formation, kind }, anchorAdjustments: kind === "authored" ? authoredOffsets(placement) : [] });
+  const setFormation = (kind: string | undefined) => {
+    const next = (kind ?? placement.formation.kind) as WorldPlacement["formation"]["kind"];
+    if (next === placement.formation.kind) return;
+    set({ formation: { ...placement.formation, kind: next }, anchorAdjustments: next === "authored" ? authoredOffsets(placement) : [] });
   };
   const resetAnchors = () => set({ anchorAdjustments: placement.formation.kind === "authored" ? authoredOffsets({ ...placement, formation: { ...placement.formation, kind: "grid" } }) : [] });
+  const addMember = (creatureId: string | undefined) => {
+    if (!creatureId || !encounter) return;
+    setEncounter({ members: [...encounter.members, { creatureId, weight: 1 }] });
+  };
 
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={editable ? <input className="world-title-input" value={encounter?.name ?? placement.encounterId} aria-label="Spawn name" onChange={event => setEncounter({ name: event.target.value })} /> : encounter?.name ?? placement.encounterId}
       facts={[region?.name ?? placement.regionId, encounter?.activity, `${placement.count} ${placement.count === 1 ? "actor" : "actors"}`, placement.rank && titleCase(placement.rank)]} />
     <Section title="Creatures">
-      {encounter?.members.map((member, index) => {
-        const record = ctx.lookup("enemy", member.creatureId);
-        return <div className="world-member" key={member.creatureId}>
-          <RefChip collection="creatureDefinitions" record={record} id={member.creatureId} ctx={ctx} onOpen={(_, id) => navigate("creatureDefinitions", id)} />
-          {editable && <RecordPicker collection="creatureDefinitions" value={member.creatureId} ctx={ctx} exclude={new Set(encounter.members.filter(row => row.creatureId !== member.creatureId).map(row => row.creatureId))}
-            onPick={(id, row) => setEncounter({ members: encounter.members.map((entry, i) => i === index ? { ...entry, creatureId: id } : entry), name: encounter.members.length === 1 ? rowName(row) : encounter.name })}
-            trigger={<button type="button" className="button button-small button-ghost" aria-label="Change creature">Change</button>} />}
-          <NumberInput value={member.weight} min={0.01} ariaLabel="Weight" disabled={disabled} onChange={weight => setEncounter({ members: encounter.members.map((entry, i) => i === index ? { ...entry, weight: weight ?? 1 } : entry) })} />
-          {editable && <button type="button" className="icon-button" aria-label="Remove creature" disabled={encounter.members.length <= 1} onClick={() => setEncounter({ members: encounter.members.filter((_, i) => i !== index) })}><X size={12} /></button>}
-        </div>;
-      })}
-      {!encounter && <Static muted>Encounter {placement.encounterId} is missing.</Static>}
-      {editable && encounter && <RecordPicker collection="creatureDefinitions" ctx={ctx} exclude={new Set(encounter.members.map(row => row.creatureId))}
-        onPick={id => setEncounter({ members: [...encounter.members, { creatureId: id, weight: 1 }] })}
-        trigger={<button type="button" className="button button-small" aria-label="Add creature"><Plus size={12} /> Add creature</button>} />}
-      {uses > 1 && <Row label="Shared"><Static>Shared with {uses - 1} other {uses - 1 === 1 ? "spawn" : "spawns"}</Static>{editable && <button type="button" className="button button-small" onClick={() => update(current => detachEncounter(current, placement.id))}>Detach</button>}</Row>}
+      {encounter
+        ? <WeightedList<Member> className="world-members" items={members} weightKey="weight" min={1} readOnly={disabled} emptyText="No creatures."
+          keyOf={(member, index) => member.creatureId || index}
+          onChange={next => setEncounter({ members: next })}
+          removeLabel={member => `Remove ${creatureName(ctx, member.creatureId)}`}
+          renderItem={(member, api) => <RefField kind="enemy" label="" compact value={member.creatureId} readOnly={disabled}
+            exclude={new Set(members.filter((_, index) => index !== api.index).map(row => row.creatureId))}
+            onChange={id => {
+              if (!id) return;
+              const next = members.map((row, index) => index === api.index ? { ...row, creatureId: id } : row);
+              // A one-creature encounter has no name of its own worth keeping: it follows the creature.
+              const record = members.length === 1 ? ctx.lookup("enemy", id) : undefined;
+              setEncounter(record ? { members: next, name: rowName(record) } : { members: next });
+            }} />}
+          addControl={editable ? <RefField kind="enemy" className="world-add-member" compact label="Add creature" value={undefined} exclude={new Set(members.map(row => row.creatureId))} onChange={addMember} /> : undefined} />
+        : <StaticRow label="Encounter"><Static muted>Encounter {placement.encounterId} is missing.</Static></StaticRow>}
+      {uses > 1 && <StaticRow label="Shared">
+        <Static>Shared with {uses - 1} other {uses - 1 === 1 ? "spawn" : "spawns"}</Static>
+        {editable && <button type="button" className="button button-small" onClick={() => update(current => detachEncounter(current, placement.id))}>Detach</button>}
+      </StaticRow>}
     </Section>
     <Section title="Population">
-      <Row label="Activity"><Select value={encounter?.activity} options={ACTIVITIES} disabled={disabled || !encounter} onChange={activity => setEncounter({ activity })} /></Row>
-      <Row label="Count"><NumberInput value={placement.count} min={1} max={64} integer disabled={disabled} onChange={setCount} /></Row>
-      <Row label="Radius"><NumberInput value={placement.radius} min={0.1} unit="m" disabled={disabled} onChange={radius => set({ radius: radius ?? placement.radius })} /></Row>
-      <Row label="Rank"><Select value={placement.rank} options={RANKS} allowEmpty="none" disabled={disabled} onChange={rank => set({ rank: rank ? rank : undefined })} /></Row>
-      <Row label="Level override"><NumberInput value={placement.level} min={1} integer placeholder="auto" disabled={disabled} onChange={level => set({ level })} /></Row>
+      <ChoiceRow spec={at(EncounterDefinitionSchema, "activity")} value={encounter?.activity} disabled={disabled || !encounter} onChange={activity => activity && setEncounter({ activity: activity as EncounterDefinition["activity"] })} />
+      <NumberRow spec={at(WorldPlacementSchema, "count")} value={placement.count} disabled={disabled} onChange={setCount} />
+      <NumberRow spec={at(WorldPlacementSchema, "radius")} value={placement.radius} disabled={disabled} onChange={radius => set({ radius: radius ?? placement.radius })} />
+      <ChoiceRow spec={at(WorldPlacementSchema, "rank")} value={placement.rank} disabled={disabled} allowEmpty="None" onChange={rank => set({ rank: rank as WorldPlacement["rank"] })} />
+      <NumberRow spec={at(WorldPlacementSchema, "level")} value={placement.level} disabled={disabled} placeholder="auto" onChange={level => set({ level })} />
     </Section>
     <Section title="Formation">
-      <Row label="Kind"><span className="segmented">{(["grid", "ring", "authored"] as const).map(kind => <button type="button" key={kind} className={placement.formation.kind === kind ? "is-active" : ""} disabled={disabled} onClick={() => setFormation(kind)}>{titleCase(kind)}</button>)}</span></Row>
+      <ChoiceRow spec={at(WorldPlacementSchema, "formation", "kind")} value={placement.formation.kind} disabled={disabled} onChange={setFormation} />
       {placement.formation.kind !== "authored" && <>
-        <Row label="Spacing"><NumberInput value={placement.formation.spacing} min={0.1} unit="m" disabled={disabled} onChange={spacing => set({ formation: { ...placement.formation, spacing: spacing ?? placement.formation.spacing } })} /></Row>
-        <Row label="Rotation"><NumberInput value={placement.formation.rotation} unit="rad" disabled={disabled} onChange={rotation => set({ formation: { ...placement.formation, rotation: rotation ?? 0 } })} /></Row>
+        <NumberRow spec={at(WorldPlacementSchema, "formation", "spacing")} value={placement.formation.spacing} disabled={disabled} onChange={spacing => set({ formation: { ...placement.formation, spacing: spacing ?? placement.formation.spacing } })} />
+        <NumberRow spec={at(WorldPlacementSchema, "formation", "rotation")} value={placement.formation.rotation} disabled={disabled} onChange={rotation => set({ formation: { ...placement.formation, rotation: rotation ?? 0 } })} />
       </>}
-      <Row label="Anchors" align="start">
-        <div className="world-anchor-list">
-          {anchors.map((anchor, index) => {
-            const raw = adjustments.get(index); const offset: Point = raw ? [round(raw[0]), round(raw[1])] : [round(anchor[0] - placement.centre[0]), round(anchor[1] - placement.centre[1])];
-            return <div className="world-anchor" key={index} data-adjusted={adjustments.has(index) ? "true" : undefined}>
-              <span className="world-anchor-index">{index + 1}</span>
-              <NumberInput value={offset[0]} ariaLabel={`Anchor ${index + 1} x`} disabled={disabled} onChange={x => setAnchor(index, [x ?? 0, offset[1] ?? 0])} />
-              <NumberInput value={offset[1]} ariaLabel={`Anchor ${index + 1} z`} disabled={disabled} onChange={z => setAnchor(index, [offset[0] ?? 0, z ?? 0])} />
-            </div>;
-          })}
-          {editable && <button type="button" className="button button-small button-ghost" onClick={resetAnchors}>Reset to formation</button>}
-        </div>
-      </Row>
+      <ListField className="world-anchors" compact label="Anchors" items={anchorRows} min={anchorRows.length} readOnly={disabled} emptyText="No anchors." keyOf={row => row.index}
+        onChange={setAnchors}
+        addControl={editable ? <button type="button" className="field-list-add" onClick={resetAnchors}>Reset to formation</button> : undefined}
+        renderItem={(row, api) => <span className="world-anchor" data-adjusted={row.adjusted ? "true" : undefined}>
+          <span className="world-anchor-index">{row.index + 1}</span>
+          <NumberField value={row.offset[0]} unit="m" disabled={disabled} ariaLabel={`Anchor ${row.index + 1} x`} onChange={x => api.update({ ...row, offset: [x ?? 0, row.offset[1]], adjusted: true })} />
+          <NumberField value={row.offset[1]} unit="m" disabled={disabled} ariaLabel={`Anchor ${row.index + 1} z`} onChange={z => api.update({ ...row, offset: [row.offset[0], z ?? 0], adjusted: true })} />
+        </span>} />
     </Section>
     <Section title="Placement">
-      <Row label="Region"><Select value={placement.regionId} options={regionOptions(draft)} disabled={disabled} onChange={regionId => set({ regionId })} /></Row>
-      <PointRow label="Centre" value={placement.centre} disabled={disabled} onChange={centre => set({ centre })} />
-      {placement.habitatId && <Row label="Habitat"><Static mono>{placement.habitatId}</Static></Row>}
-      <Row label="Dressing" align="start">{placement.dressing.length ? <Static mono muted>{placement.dressing.map(row => row.assetId).join(", ")}</Static> : <Static muted>None</Static>}</Row>
+      <RefField kind="region" label={at(WorldPlacementSchema, "regionId").label} hint={at(WorldPlacementSchema, "regionId").hint} value={placement.regionId} readOnly={disabled} onChange={regionId => regionId && set({ regionId })} />
+      <PointFields label={at(WorldPlacementSchema, "centre").label} unit={at(WorldPlacementSchema, "centre").unit} value={placement.centre} disabled={disabled} onChange={centre => set({ centre })} />
+      {placement.habitatId && <StaticRow label={at(WorldPlacementSchema, "habitatId").label}><Static mono>{placement.habitatId}</Static></StaticRow>}
+      <StaticRow label={at(WorldPlacementSchema, "dressing").label}>{placement.dressing.length ? <Static mono muted>{placement.dressing.map(row => row.assetId).join(", ")}</Static> : <Static muted>None</Static>}</StaticRow>
     </Section>
     {editable && <div className="world-actions">
       <button type="button" className="button button-small button-danger" aria-label="Remove spawn" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove spawn</button>
     </div>}
+    <ReferencedBy collection="placements" id={placement.id} navigate={navigate} cap={10} />
+    {encounter && <ReferencedBy collection="encounters" id={encounter.id} navigate={navigate} cap={10} title="Referenced by · encounter" />}
   </Sheet>;
 }
 
@@ -189,29 +283,28 @@ function ResourceSheet({ draft, selection, feature, editable, ctx, update, navig
   const resource = ctx.lookup("resource", node.resourceId);
   const disabled = !editable;
   const set = (patch: Partial<ResourcePlacement>) => update(current => patchResource(current, node.id, patch));
+  const elsewhere = locationsElsewhere(draft, node.regionId);
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={resource ? rowName(resource) : node.resourceId} facts={[region?.name ?? node.regionId, text(resource?.archetype) && titleCase(text(resource?.archetype)), `${node.count} nodes`]} />
     <Section title="Resource">
-      <Row label="Resource">
-        <RefChip collection="resources" record={resource} id={node.resourceId} ctx={ctx} onOpen={(_, id) => navigate("resources", id)} />
-        {editable && <RecordPicker collection="resources" value={node.resourceId} ctx={ctx} onPick={id => set({ resourceId: id })} trigger={<button type="button" className="button button-small button-ghost" aria-label="Change resource">Change</button>} />}
-      </Row>
-      <Row label="Count"><NumberInput value={node.count} min={1} integer disabled={disabled} onChange={count => set({ count: Math.max(1, Math.round(count ?? 1)) })} /></Row>
-      <Row label="Radius"><NumberInput value={node.radius} min={0} unit="m" disabled={disabled} onChange={radius => set({ radius: radius ?? node.radius })} /></Row>
-      {node.ringRadius !== undefined && <Row label="Ring radius"><NumberInput value={node.ringRadius} min={0} unit="m" disabled={disabled} onChange={ringRadius => set({ ringRadius })} /></Row>}
+      <RefField kind="resource" label={at(ResourcePlacementSchema, "resourceId").label} hint={at(ResourcePlacementSchema, "resourceId").hint} value={node.resourceId} readOnly={disabled} onChange={resourceId => resourceId && set({ resourceId })} />
+      <NumberRow spec={at(ResourcePlacementSchema, "count")} value={node.count} disabled={disabled} onChange={count => set({ count: Math.max(1, Math.round(count ?? 1)) })} />
+      <NumberRow spec={at(ResourcePlacementSchema, "radius")} value={node.radius} disabled={disabled} unit="m" onChange={radius => set({ radius: radius ?? node.radius })} />
+      {node.ringRadius !== undefined && <NumberRow spec={at(ResourcePlacementSchema, "ringRadius")} value={node.ringRadius} disabled={disabled} unit="m" onChange={ringRadius => set({ ringRadius })} />}
     </Section>
     <Section title="Placement">
-      <Row label="Region"><Select value={node.regionId} options={regionOptions(draft)} disabled={disabled} onChange={regionId => set({ regionId })} /></Row>
-      <Row label="Location"><Select value={node.locationId} options={(region?.locations ?? []).map(row => ({ value: row.id, label: row.name }))} disabled={disabled} onChange={locationId => set({ locationId })} /></Row>
-      <PointRow label="Centre" value={node.centre} disabled={disabled} onChange={centre => set({ centre })} />
+      <RefField kind="region" label={at(ResourcePlacementSchema, "regionId").label} value={node.regionId} readOnly={disabled} onChange={regionId => regionId && set({ regionId })} />
+      <RefField kind="location" label={at(ResourcePlacementSchema, "locationId").label} hint={at(ResourcePlacementSchema, "locationId").hint} value={node.locationId} readOnly={disabled} exclude={elsewhere} onChange={locationId => locationId && set({ locationId })} />
+      <PointFields label={at(ResourcePlacementSchema, "centre").label} unit={at(ResourcePlacementSchema, "centre").unit} value={node.centre} disabled={disabled} onChange={centre => set({ centre })} />
     </Section>
     {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove node</button></div>}
+    <ReferencedBy collection="resourcePlacements" id={node.id} navigate={navigate} cap={10} />
   </Sheet>;
 }
 
 // ---------------------------------------------------------------- region
 
-function RegionSheet({ draft, selection, feature, editable, update, onFit }: InspectorProps & { selection: Selection; feature: Feature }) {
+function RegionSheet({ draft, selection, feature, editable, update, navigate, onFit }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.id);
   if (!region) return null;
   const disabled = !editable;
@@ -223,19 +316,23 @@ function RegionSheet({ draft, selection, feature, editable, update, onFit }: Ins
     <Head feature={feature} title={region.name} facts={[`Tier ${region.tier}`, `${region.locations.length} locations`, `${spawns} spawns`, `${nodes} nodes`, `${npcs} NPCs`]}
       aside={<button type="button" className="button button-small" onClick={() => onFit(regionBounds(region))}><Crosshair size={12} /> Fit</button>} />
     <Section title="Region">
-      <Row label="Name"><TextInput value={region.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      <Row label="Tier"><NumberInput value={region.tier} integer min={1} disabled={disabled} onChange={tier => set(["tier"], tier ?? region.tier)} /></Row>
-      <PointRow label="Bounds min" value={region.bounds.min} disabled={disabled} onChange={point => set(["bounds", "min"], point)} />
-      <PointRow label="Bounds max" value={region.bounds.max} disabled={disabled} onChange={point => set(["bounds", "max"], point)} />
-      <PointRow label="Spawn point" value={region.spawnPoint} disabled={disabled} onChange={point => set(["spawnPoint"], point)} />
-      <Row label="Respawn at"><Static mono>{region.respawnPointId}</Static></Row>
-      {region.settlement && <Row label="Settlement"><Static>{region.settlement.name}</Static></Row>}
+      <TextRow spec={at(WorldRegionSchema, "name")} value={region.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      <NumberRow spec={at(WorldRegionSchema, "tier")} value={region.tier} disabled={disabled} min={1} onChange={tier => set(["tier"], tier ?? region.tier)} />
+      <PointFields label={`${at(WorldRegionSchema, "bounds").label} min`} value={region.bounds.min} disabled={disabled} onChange={point => set(["bounds", "min"], point)} />
+      <PointFields label={`${at(WorldRegionSchema, "bounds").label} max`} value={region.bounds.max} disabled={disabled} onChange={point => set(["bounds", "max"], point)} />
+      <PointFields label={at(WorldRegionSchema, "spawnPoint").label} value={region.spawnPoint} disabled={disabled} onChange={point => set(["spawnPoint"], point)} />
+      {/* `respawnPointId` is declared ref('location') but every region stores a settlement id, so a location picker would flag all eight. Read-only until the schema and the data agree. */}
+      <StaticRow label={at(WorldRegionSchema, "respawnPointId").label}><Static mono>{region.respawnPointId}</Static></StaticRow>
+      {region.settlement && <StaticRow label={at(WorldRegionSchema, "settlement").label}><Static>{region.settlement.name}</Static></StaticRow>}
     </Section>
-    <Section title="Lore"><Row label="Lore" wide><TextInput value={region.lore} multiline disabled={disabled} onChange={lore => set(["lore"], lore)} /></Row></Section>
+    <Section title="Lore"><TextRow spec={at(WorldRegionSchema, "lore")} value={region.lore} disabled={disabled} onChange={lore => set(["lore"], lore)} /></Section>
+    <ReferencedBy collection="worldRegions" id={region.id} navigate={navigate} cap={6} />
   </Sheet>;
 }
 
 // ---------------------------------------------------------------- location
+
+const LOCATION = (key: string) => at(WorldRegionSchema, "locations", 0, key);
 
 function LocationSheet({ draft, selection, feature, editable, update, onSelect }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
@@ -247,14 +344,14 @@ function LocationSheet({ draft, selection, feature, editable, update, onSelect }
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={location.name} facts={[titleCase(location.kind), region.name, location.routeNode && "Route node"]} />
     <Section title="Location">
-      <Row label="Name"><TextInput value={location.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      <Row label="Kind"><Select value={location.kind} options={LOCATION_KINDS} disabled={disabled} onChange={kind => set(["kind"], kind)} /></Row>
-      <PointRow label="Position" value={location.position} disabled={disabled} onChange={point => set(["position"], point)} />
-      <Row label="Route node"><Toggle value={location.routeNode} disabled={disabled} onChange={value => set(["routeNode"], value)} /></Row>
-      <Row label="Blurb" wide><TextInput value={location.blurb ?? ""} multiline disabled={disabled} onChange={blurb => set(["blurb"], blurb || undefined)} /></Row>
+      <TextRow spec={LOCATION("name")} value={location.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      <ChoiceRow spec={LOCATION("kind")} value={location.kind} disabled={disabled} onChange={kind => kind && set(["kind"], kind)} />
+      <PointFields label={LOCATION("position").label} value={location.position} disabled={disabled} onChange={point => set(["position"], point)} />
+      <ToggleRow spec={LOCATION("routeNode")} value={location.routeNode} disabled={disabled} onChange={value => set(["routeNode"], value)} />
+      <TextRow spec={LOCATION("blurb")} value={location.blurb ?? ""} disabled={disabled} onChange={blurb => set(["blurb"], blurb || undefined)} />
     </Section>
     <Section title="Roads">
-      {roads.length ? roads.map(road => <Row key={road.id} label={road.name}><Link onClick={() => onSelect({ kind: "location", id: road.id, regionId: region.id })}>{road.meters ? `${road.meters} m` : "open"}</Link></Row>) : <Static muted>No roads touch this location.</Static>}
+      {roads.length ? roads.map(road => <StaticRow key={road.id} label={road.name}><Link onClick={() => onSelect({ kind: "location", id: road.id, regionId: region.id })}>{road.meters ? `${road.meters} m` : "open"}</Link></StaticRow>) : <Static muted>No roads touch this location.</Static>}
     </Section>
     {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove location</button></div>}
   </Sheet>;
@@ -262,7 +359,9 @@ function LocationSheet({ draft, selection, feature, editable, update, onSelect }
 
 // ---------------------------------------------------------------- landmark
 
-function LandmarkSheet({ draft, selection, feature, editable, ctx, update, navigate, onSelect }: InspectorProps & { selection: Selection; feature: Feature }) {
+const LANDMARK = (key: string) => at(WorldRegionSchema, "landmarks", 0, key);
+
+function LandmarkSheet({ draft, selection, feature, editable, update, onSelect }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
   const landmark = region && findOwned(region, "landmark", selection.id) as Landmark | undefined;
   if (!region || !landmark) return null;
@@ -271,23 +370,22 @@ function LandmarkSheet({ draft, selection, feature, editable, ctx, update, navig
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={landmark.name} facts={[region.name, landmark.assetId, landmark.solid && "Solid"]} />
     <Section title="Landmark">
-      <Row label="Name"><TextInput value={landmark.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      <Row label="Asset">
-        <RefChip collection="assets" record={ctx.lookup("asset", landmark.assetId)} id={landmark.assetId} ctx={ctx} onOpen={(_, id) => navigate("assets", id)} />
-        {editable && <RecordPicker collection="assets" value={landmark.assetId} ctx={ctx} onPick={id => set(["assetId"], id)} trigger={<button type="button" className="button button-small button-ghost" aria-label="Change asset">Change</button>} />}
-      </Row>
-      <Row label="Scale"><NumberInput value={landmark.scale} min={0.01} disabled={disabled} onChange={scale => set(["scale"], scale)} /></Row>
-      <Row label="Rotation"><NumberInput value={landmark.rotationY} unit="rad" disabled={disabled} onChange={rotation => set(["rotationY"], rotation)} /></Row>
-      <Row label="Solid"><Toggle value={landmark.solid ?? false} disabled={disabled} onChange={value => set(["solid"], value || undefined)} /></Row>
-      <PointRow label="Position" value={landmark.position} disabled={disabled} onChange={point => set(["position"], point)} />
-      {landmark.composition && <Row label="Composition"><Static mono>{landmark.composition}</Static></Row>}
-      <Row label="Blurb" wide><TextInput value={landmark.blurb} multiline disabled={disabled} onChange={blurb => set(["blurb"], blurb)} /></Row>
+      <TextRow spec={LANDMARK("name")} value={landmark.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      <RefField kind="asset" label={LANDMARK("assetId").label} hint={LANDMARK("assetId").hint} value={landmark.assetId} readOnly={disabled} onChange={id => id && set(["assetId"], id)} />
+      <NumberRow spec={LANDMARK("scale")} value={landmark.scale} disabled={disabled} onChange={scale => set(["scale"], scale)} />
+      <NumberRow spec={LANDMARK("rotationY")} value={landmark.rotationY} disabled={disabled} unit={LANDMARK("rotationY").unit ?? "rad"} onChange={rotation => set(["rotationY"], rotation)} />
+      <ToggleRow spec={LANDMARK("solid")} value={landmark.solid ?? false} disabled={disabled} onChange={value => set(["solid"], value || undefined)} />
+      <PointFields label={LANDMARK("position").label} value={landmark.position} disabled={disabled} onChange={point => set(["position"], point)} />
+      {landmark.composition && <StaticRow label={LANDMARK("composition").label}><Static mono>{landmark.composition}</Static></StaticRow>}
+      <TextRow spec={LANDMARK("blurb")} value={landmark.blurb} disabled={disabled} onChange={blurb => set(["blurb"], blurb)} />
     </Section>
     {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove landmark</button></div>}
   </Sheet>;
 }
 
 // ---------------------------------------------------------------- gate
+
+const GATE = (key: string) => at(WorldRegionSchema, "gates", 0, key);
 
 function GateSheet({ draft, selection, feature, editable, update, onSelect }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
@@ -299,21 +397,23 @@ function GateSheet({ draft, selection, feature, editable, update, onSelect }: In
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={gate.name} facts={[region.name, `to ${target?.name ?? gate.toRegionId}`]} />
     <Section title="Gate">
-      <Row label="Name"><TextInput value={gate.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      <Row label="To region"><Select value={gate.toRegionId} options={regionOptions(draft)} disabled={disabled} onChange={id => set(["toRegionId"], id)} /></Row>
-      <Row label="To location">
-        <Select value={gate.toLocationId} options={(target?.locations ?? []).map(row => ({ value: row.id, label: row.name }))} disabled={disabled} onChange={id => set(["toLocationId"], id)} />
-        {target && target.locations.some(row => row.id === gate.toLocationId) && <Link onClick={() => onSelect({ kind: "location", id: gate.toLocationId, regionId: target.id })}>Show</Link>}
-      </Row>
-      <PointRow label="Position" value={gate.position} disabled={disabled} onChange={point => set(["position"], point)} />
-      <Row label="Rotation"><NumberInput value={gate.rotationY} unit="rad" disabled={disabled} onChange={rotation => set(["rotationY"], rotation)} /></Row>
-      <Row label="Asset"><Static mono>{gate.assetId}</Static></Row>
+      <TextRow spec={GATE("name")} value={gate.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      <RefField kind="region" label={GATE("toRegionId").label} hint={GATE("toRegionId").hint} value={gate.toRegionId} readOnly={disabled} onChange={id => id && set(["toRegionId"], id)} />
+      <RefField kind="location" label={GATE("toLocationId").label} hint={GATE("toLocationId").hint} value={gate.toLocationId} readOnly={disabled} exclude={locationsElsewhere(draft, gate.toRegionId)} onChange={id => id && set(["toLocationId"], id)} />
+      {target && target.locations.some(row => row.id === gate.toLocationId) && <StaticRow label="">
+        <Link onClick={() => onSelect({ kind: "location", id: gate.toLocationId, regionId: target.id })}>Show on the map</Link>
+      </StaticRow>}
+      <PointFields label={GATE("position").label} value={gate.position} disabled={disabled} onChange={point => set(["position"], point)} />
+      <NumberRow spec={GATE("rotationY")} value={gate.rotationY} disabled={disabled} unit={GATE("rotationY").unit ?? "rad"} onChange={rotation => set(["rotationY"], rotation)} />
+      <RefField kind="asset" label={GATE("assetId").label} hint={GATE("assetId").hint} value={gate.assetId} readOnly={disabled} onChange={id => id && set(["assetId"], id)} />
     </Section>
     {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove gate</button></div>}
   </Sheet>;
 }
 
 // ---------------------------------------------------------------- obstacle
+
+const OBSTACLE = (key: string) => at(WorldRegionSchema, "obstacles", 0, key);
 
 function ObstacleSheet({ draft, selection, feature, editable, update, onSelect }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
@@ -325,23 +425,25 @@ function ObstacleSheet({ draft, selection, feature, editable, update, onSelect }
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={obstacle.name} facts={[titleCase(obstacle.interaction), `level ${obstacle.reqLevel}`, region.name]} />
     <Section title="Obstacle">
-      <Row label="Name"><TextInput value={obstacle.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      <Row label="Interaction"><Select value={obstacle.interaction} options={OBSTACLE_INTERACTIONS} disabled={disabled} onChange={value => set(["interaction"], value)} /></Row>
-      <Row label="Required level"><NumberInput value={obstacle.reqLevel} integer min={1} disabled={disabled} onChange={level => set(["reqLevel"], level ?? 1)} /></Row>
-      <Row label="Duration"><NumberInput value={obstacle.durationMs} integer min={0} unit="ms" disabled={disabled} onChange={value => set(["durationMs"], value ?? 0)} /></Row>
-      <Row label="Saves"><NumberInput value={obstacle.savesMeters} min={0} unit="m" disabled={disabled} onChange={value => set(["savesMeters"], value ?? 0)} /></Row>
-      <Row label="One way"><Toggle value={obstacle.oneWay ?? false} disabled={disabled} onChange={value => set(["oneWay"], value || undefined)} /></Row>
-      <PointRow label="Position" value={obstacle.position} disabled={disabled} onChange={point => set(["position"], point)} />
-      <PointRow label="Exit" value={obstacle.exitPosition} disabled={disabled} onChange={point => set(["exitPosition"], point)} />
-      <Row label="From"><Link onClick={() => onSelect({ kind: "location", id: obstacle.fromLocationId, regionId: region.id })}>{locationName(obstacle.fromLocationId)}</Link></Row>
-      <Row label="To"><Link onClick={() => onSelect({ kind: "location", id: obstacle.toLocationId, regionId: region.id })}>{locationName(obstacle.toLocationId)}</Link></Row>
-      <Row label="Asset"><Static mono>{obstacle.assetId}</Static></Row>
+      <TextRow spec={OBSTACLE("name")} value={obstacle.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      <ChoiceRow spec={OBSTACLE("interaction")} value={obstacle.interaction} disabled={disabled} onChange={value => value && set(["interaction"], value)} />
+      <NumberRow spec={OBSTACLE("reqLevel")} value={obstacle.reqLevel} disabled={disabled} min={1} onChange={level => set(["reqLevel"], level ?? 1)} />
+      <NumberRow spec={OBSTACLE("durationMs")} value={obstacle.durationMs} disabled={disabled} min={0} onChange={value => set(["durationMs"], value ?? 0)} />
+      <NumberRow spec={OBSTACLE("savesMeters")} value={obstacle.savesMeters} disabled={disabled} min={0} onChange={value => set(["savesMeters"], value ?? 0)} />
+      <ToggleRow spec={OBSTACLE("oneWay")} value={obstacle.oneWay ?? false} disabled={disabled} onChange={value => set(["oneWay"], value || undefined)} />
+      <PointFields label={OBSTACLE("position").label} value={obstacle.position} disabled={disabled} onChange={point => set(["position"], point)} />
+      <PointFields label={OBSTACLE("exitPosition").label} value={obstacle.exitPosition} disabled={disabled} onChange={point => set(["exitPosition"], point)} />
+      <StaticRow label={OBSTACLE("fromLocationId").label}><Link onClick={() => onSelect({ kind: "location", id: obstacle.fromLocationId, regionId: region.id })}>{locationName(obstacle.fromLocationId)}</Link></StaticRow>
+      <StaticRow label={OBSTACLE("toLocationId").label}><Link onClick={() => onSelect({ kind: "location", id: obstacle.toLocationId, regionId: region.id })}>{locationName(obstacle.toLocationId)}</Link></StaticRow>
+      <StaticRow label={OBSTACLE("assetId").label}><Static mono>{obstacle.assetId}</Static></StaticRow>
     </Section>
     {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove obstacle</button></div>}
   </Sheet>;
 }
 
 // ---------------------------------------------------------------- npc stand
+
+const STAND = (key: string) => at(WorldRegionSchema, "settlement", "npcs", 0, key);
 
 function NpcSheet({ draft, selection, feature, editable, ctx, update, navigate }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
@@ -355,24 +457,29 @@ function NpcSheet({ draft, selection, feature, editable, ctx, update, navigate }
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={npc ? rowName(npc) : stand.name} facts={[region.settlement?.name, quests.length ? `${quests.length} ${quests.length === 1 ? "quest" : "quests"}` : undefined]} />
     <Section title="NPC">
-      <Row label="Name"><TextInput value={stand.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      {npc && <Row label="Role" align="start"><Static>{text(npc.role)}</Static></Row>}
-      <PointRow label="Position" value={stand.position} disabled={disabled} onChange={point => set(["position"], point)} />
-      <Row label="Facing"><NumberInput value={stand.facingRad} unit="rad" disabled={disabled} onChange={value => set(["facingRad"], value ?? 0)} /></Row>
-      <Row label="Asset">
-        <RefChip collection="assets" record={ctx.lookup("asset", stand.assetId)} id={stand.assetId} ctx={ctx} onOpen={(_, id) => navigate("assets", id)} />
-        {editable && <RecordPicker collection="assets" value={stand.assetId} ctx={ctx} onPick={id => set(["assetId"], id)} trigger={<button type="button" className="button button-small button-ghost" aria-label="Change asset">Change</button>} />}
-      </Row>
+      <TextRow spec={STAND("name")} value={stand.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      {npc && <StaticRow label="Role"><Static>{text(npc.role)}</Static></StaticRow>}
+      <PointFields label={STAND("position").label} value={stand.position} disabled={disabled} onChange={point => set(["position"], point)} />
+      <NumberRow spec={STAND("facingRad")} value={stand.facingRad} disabled={disabled} onChange={value => set(["facingRad"], value ?? 0)} />
+      <RefField kind="asset" label={STAND("assetId").label} hint={STAND("assetId").hint} value={stand.assetId} readOnly={disabled} onChange={id => id && set(["assetId"], id)} />
     </Section>
     <Section title="Story">
-      <Row label="Record">{npc ? <Link onClick={() => navigate("npcs", stand.id)}>Open NPC</Link> : <Static muted>No npcs.json record for {stand.id}</Static>}</Row>
-      <Row label="Dialogue">{dialogueRootId ? <Link onClick={() => navigate("dialogue", dialogueRootId)}>{dialogueRootId}</Link> : <Static muted>None</Static>}</Row>
-      <Row label="Quests" align="start">{quests.length ? <span className="world-links">{quests.map(id => <Link key={id} onClick={() => navigate("quests", id)}>{id}</Link>)}</span> : <Static muted>None</Static>}</Row>
+      <StaticRow label="Record">{npc ? <Link onClick={() => navigate("npcs", stand.id)}>Open NPC</Link> : <Static muted>No npcs.json record for {stand.id}</Static>}</StaticRow>
+      <StaticRow label={STAND("dialogueRootId").label}>{dialogueRootId ? <Link onClick={() => navigate("dialogue", dialogueRootId)}>{dialogueRootId}</Link> : <Static muted>None</Static>}</StaticRow>
+      <StaticRow label={STAND("questIds").label}>{quests.length ? <span className="world-links">{quests.map(id => <Link key={id} onClick={() => navigate("quests", id)}>{id}</Link>)}</span> : <Static muted>None</Static>}</StaticRow>
     </Section>
+    <ReferencedBy collection="npcs" id={stand.id} navigate={navigate} cap={10} />
   </Sheet>;
 }
 
 // ---------------------------------------------------------------- building / station / shop / bank
+
+const PIECE: Record<string, (key: string) => SchemaFieldSpec> = {
+  building: key => at(WorldRegionSchema, "settlement", "buildings", 0, key),
+  station: key => at(WorldRegionSchema, "stations", 0, key),
+  shop: key => at(WorldRegionSchema, "settlement", "shops", 0, key),
+  bank: key => at(WorldRegionSchema, "settlement", "bank", key),
+};
 
 function PieceSheet({ draft, selection, feature, editable, ctx, update, navigate }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
@@ -380,6 +487,7 @@ function PieceSheet({ draft, selection, feature, editable, ctx, update, navigate
   if (!region || !piece) return null;
   const disabled = !editable;
   const set = (path: (string | number)[], value: unknown) => update(current => patchOwned(current, selection, path, value));
+  const spec = PIECE[selection.kind] ?? PIECE.station!;
   const building = selection.kind === "building" ? piece as Building : undefined;
   const station = selection.kind === "station" ? piece as Station : undefined;
   const shop = selection.kind === "shop" ? piece as Shop : undefined;
@@ -388,25 +496,18 @@ function PieceSheet({ draft, selection, feature, editable, ctx, update, navigate
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={piece.name} facts={[kind, region.settlement?.name ?? region.name]} />
     <Section title={titleCase(selection.kind)}>
-      <Row label="Name"><TextInput value={piece.name} disabled={disabled} onChange={name => set(["name"], name)} /></Row>
-      {building && <Row label="Prefab"><TextInput value={building.prefab} width="id" mono disabled={disabled} onChange={value => set(["prefab"], value)} /></Row>}
-      {station && <Row label="Kind"><Static>{titleCase(station.kind)} · {station.skill}</Static></Row>}
-      {station?.essenceElement && <Row label="Element"><Static>{titleCase(station.essenceElement)}</Static></Row>}
-      {shop && <Row label="Shop">{shopRecord ? <Link onClick={() => navigate("shops", shop.id)}>{rowName(shopRecord)}</Link> : <Static muted>No shops.json record for {shop.id}</Static>}</Row>}
-      <PointRow label="Position" value={piece.position} disabled={disabled} onChange={point => set(["position"], point)} />
-      <Row label="Rotation"><NumberInput value={piece.rotationY} unit="rad" disabled={disabled} onChange={value => set(["rotationY"], value ?? 0)} /></Row>
-      {building && <Row label="Footprint">
-        <NumberInput value={building.footprint[0]} min={0.1} ariaLabel="Footprint width" disabled={disabled} onChange={value => set(["footprint"], [value ?? 1, building.footprint[1]])} />
-        <NumberInput value={building.footprint[1]} min={0.1} ariaLabel="Footprint depth" disabled={disabled} onChange={value => set(["footprint"], [building.footprint[0], value ?? 1])} />
-        <span className="kv-unit">m</span>
-      </Row>}
-      {!building && "assetId" in piece && <Row label="Asset">
-        <RefChip collection="assets" record={ctx.lookup("asset", piece.assetId)} id={piece.assetId} ctx={ctx} onOpen={(_, id) => navigate("assets", id)} />
-        {editable && <RecordPicker collection="assets" value={piece.assetId} ctx={ctx} onPick={id => set(["assetId"], id)} trigger={<button type="button" className="button button-small button-ghost" aria-label="Change asset">Change</button>} />}
-      </Row>}
-      {"attachedTo" in piece && piece.attachedTo && <Row label="Attached to"><Link onClick={() => navigate("world/map", `buildings:${region.id}/${piece.attachedTo}`)}>{region.settlement?.buildings.find(row => row.id === piece.attachedTo)?.name ?? piece.attachedTo}</Link></Row>}
-      {station && <Row label="Recipes" align="start">{station.recipeIds.length ? <span className="world-links">{station.recipeIds.map(id => <Link key={id} onClick={() => navigate("recipes", id)}>{id}</Link>)}</span> : <Static muted>None</Static>}</Row>}
-      {station?.scale !== undefined && <Row label="Scale"><NumberInput value={num(station.scale)} min={0.01} disabled={disabled} onChange={value => set(["scale"], value)} /></Row>}
+      <TextRow spec={spec("name")} value={piece.name} disabled={disabled} onChange={name => set(["name"], name)} />
+      {building && <TextRow spec={spec("prefab")} value={building.prefab} disabled={disabled} mono width="id" onChange={value => set(["prefab"], value)} />}
+      {station && <StaticRow label={spec("kind").label}><Static>{titleCase(station.kind)} · {station.skill}</Static></StaticRow>}
+      {station?.essenceElement && <StaticRow label={spec("essenceElement").label}><Static>{titleCase(station.essenceElement)}</Static></StaticRow>}
+      {shop && <StaticRow label="Shop">{shopRecord ? <Link onClick={() => navigate("shops", shop.id)}>{rowName(shopRecord)}</Link> : <Static muted>No shops.json record for {shop.id}</Static>}</StaticRow>}
+      <PointFields label={spec("position").label} value={piece.position} disabled={disabled} onChange={point => set(["position"], point)} />
+      <NumberRow spec={spec("rotationY")} value={piece.rotationY} disabled={disabled} unit={spec("rotationY").unit ?? "rad"} onChange={value => set(["rotationY"], value ?? 0)} />
+      {building && <PointFields label={spec("footprint").label} value={building.footprint} disabled={disabled} onChange={value => set(["footprint"], value)} />}
+      {!building && "assetId" in piece && <RefField kind="asset" label={spec("assetId").label} hint={spec("assetId").hint} value={piece.assetId} readOnly={disabled} onChange={id => id && set(["assetId"], id)} />}
+      {"attachedTo" in piece && piece.attachedTo && <StaticRow label={spec("attachedTo").label}><Link onClick={() => navigate("world/map", `buildings:${region.id}/${piece.attachedTo!}`)}>{region.settlement?.buildings.find(row => row.id === piece.attachedTo)?.name ?? piece.attachedTo}</Link></StaticRow>}
+      {station && <StaticRow label={spec("recipeIds").label}>{station.recipeIds.length ? <span className="world-links">{station.recipeIds.map(id => <Link key={id} onClick={() => navigate("recipes", id)}>{id}</Link>)}</span> : <Static muted>None</Static>}</StaticRow>}
+      {station?.scale !== undefined && <NumberRow spec={spec("scale")} value={num(station.scale)} disabled={disabled} onChange={value => set(["scale"], value)} />}
     </Section>
   </Sheet>;
 }

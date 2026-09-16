@@ -1,16 +1,19 @@
-import { Check, ChevronRight, Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { lazy, Suspense, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import * as Tabs from "@radix-ui/react-tabs";
+import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
+import { ObjectSchema, type Schema } from "../../../game/src/content/schema/core.js";
 import { apiGet } from "../api/client.js";
-import type { AppProps, EntityDetailProps } from "../model/contracts.js";
+import type { ContentRow, EntityDetailProps } from "../model/contracts.js";
+import { fieldCore, serialFieldSpec } from "../model/fields.js";
 import { rowName } from "../model/rows.js";
 import { summaryContext, useReferenceIndex } from "../model/refs.js";
 import { summarize, titleCase } from "../model/summaries.js";
 import { primaryAssetId } from "../model/viewerSource.js";
 import type { MetaResponse } from "../../shared/metaContracts.js";
 import { EntitySummary } from "../ui/EntitySummary.js";
-import { Facts } from "../ui/Sheet.js";
+import { Facts, Field, RefField, ReferencedBy, SchemaControl, Sheet, type RenderRef } from "../ui/field/index.js";
 import { Thumb } from "../ui/Thumb.js";
 import { labelFor } from "../ui/library.js";
 
@@ -22,31 +25,29 @@ const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev
 const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/AssetCandidates.js"));
 const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration", "__compiled"]);
 
-export function fieldLabel(key: string) { return key.replace(/([a-z\d])([A-Z])/g, "$1 $2").replace(/_/g, " ").replace(/^./, c => c.toUpperCase()).replace(/\bXp\b/g, "XP").replace(/\bId\b/g, "ID"); }
-export function compactValue(value: unknown): string {
-  if (value === undefined || value === null) return "Not set";
-  if (typeof value === "boolean") return value ? "Yes" : "No";
-  if (typeof value === "number") return value.toLocaleString(undefined, { maximumFractionDigits: 5 });
-  if (typeof value === "string") return value;
-  if (Array.isArray(value)) return value.length ? value.every(v => typeof v !== "object") ? value.join(", ") : `${value.length} entries` : "None";
-  return `${Object.keys(value as object).length} fields`;
-}
+const schemaByCollection = new Map(CONTENT_COLLECTIONS.map(spec => [spec.name, spec.schema]));
+const noop = () => undefined;
+const readOnlyRef: RenderRef = (kind, value, _onChange, spec) => <RefField kind={kind} value={value} onChange={noop} label={spec.label} hint={spec.hint} readOnly className="is-bare" />;
 
-const references: Record<string, string> = { itemId: "items", outputItemId: "items", yieldItemId: "items", logItemId: "items", burntItemId: "items", baseId: "creatureDefinitions", creatureId: "creatureDefinitions", profileId: "creatureProfiles", lootTableId: "lootTables", tableId: "lootTables", assetId: "assets", resourceId: "resources", npcId: "npcs", giverNpcId: "npcs", questId: "quests", shopId: "shops", encounterId: "encounters", regionId: "worldRegions", templateId: "recipeTemplates", familyId: "equipmentFamilies", dialogueRootId: "dialogue", next: "dialogue" };
-
-/** Read-only rendering of any value. Reference-shaped keys become links. */
-export function ValueView({ value, name = "", navigate, depth = 0 }: { value: unknown; name?: string; navigate?: AppProps["navigate"]; depth?: number }) {
-  if (value === null || value === undefined) return <span className="muted">Not set</span>;
-  if (typeof value !== "object") {
-    if (typeof value === "string" && navigate && references[name]) return <button className="reference-link" onClick={() => navigate(references[name], value)}>{value}<ChevronRight size={12} /></button>;
-    return <span className={typeof value === "number" ? "numeric-value" : undefined}>{compactValue(value)}</span>;
-  }
-  if (Array.isArray(value)) {
-    if (!value.length) return <span className="muted">None</span>;
-    if (value.every(v => typeof v !== "object")) return <div className="value-tags">{value.map((v, i) => <span className="value-tag" key={i}>{compactValue(v)}</span>)}</div>;
-    return <div className="value-list">{value.map((entry, index) => <div className="value-list-entry" key={index}><span className="entry-number">{index + 1}</span><ValueView value={entry} navigate={navigate} depth={depth + 1} /></div>)}</div>;
-  }
-  return <dl className={`field-list${depth ? " nested-fields" : ""}`}>{Object.entries(value).filter(([key]) => !ADVANCED_FIELDS.has(key)).map(([key, entry]) => <div className="field-row" key={key}><dt>{fieldLabel(key)}</dt><dd><ValueView value={entry} name={key} navigate={navigate} depth={depth + 1} /></dd></div>)}</dl>;
+/**
+ * A record nobody can edit here — a compiled row, or the player build — read through the same
+ * fields the editor uses, with every control read-only. References stay references: the chip peeks
+ * at the target instead of printing an id.
+ */
+export function RecordFields({ collection, record }: { collection: string; record: ContentRow }) {
+  const schema = schemaByCollection.get(collection) ?? schemaByCollection.get(collection.replace(/^compiled-/, ""));
+  const node = schema ? fieldCore(schema) : undefined;
+  if (!(node instanceof ObjectSchema)) return <pre className="record-source" style={{ padding: 0 }}>{JSON.stringify(record, null, 2)}</pre>;
+  const entries = (Object.entries(node.fields) as [string, Schema][])
+    .map(([key, field]) => [key, field, serialFieldSpec(field, key)] as const)
+    .filter(([key, , spec]) => !ADVANCED_FIELDS.has(key) && !spec.hidden && record[key] !== undefined);
+  return <Sheet>
+    {/* A reference is the one field that brings its own label, so it is rendered as itself. */}
+    {entries.map(([key, field, spec]) => spec.ref
+      ? <RefField key={key} kind={spec.ref} value={typeof record[key] === "string" ? record[key] : undefined} onChange={noop} label={spec.label} hint={spec.help} readOnly />
+      : <SchemaControl key={key} schema={field} name={key} value={record[key]} onChange={noop} renderRef={readOnlyRef} readOnly />)}
+    {!entries.length && <Field label="Record"><span className="field-static muted">This record has no readable fields.</span></Field>}
+  </Sheet>;
 }
 
 /**
@@ -66,7 +67,6 @@ export function EntityDetail(props: EntityDetailProps) {
   const generated = record.__compiled === true || collection.startsWith("compiled-");
   const canEdit = !__DEVDOCS_PLAYER__ && props.editable && !generated;
   const isBalance = collection.startsWith("balance/");
-  const fields = Object.fromEntries(Object.entries(record).filter(([key]) => !["id", "name", "title"].includes(key) && !ADVANCED_FIELDS.has(key)));
   const description = typeof record.description === "string" ? record.description : "";
   const assetId = primaryAssetId(collection, record);
   const idKey = collection === "campfireFuels" ? "logItemId" : collection === "spellRunes" ? "itemId" : undefined;
@@ -107,7 +107,8 @@ export function EntityDetail(props: EntityDetailProps) {
         </Tabs.List>
         <Tabs.Content value="edit" forceMount hidden={tab !== "edit"}>
           {description && !canEdit && <p className="entity-description" style={{ marginBottom: 12 }}>{description}</p>}
-          {canEdit && EntityEditor ? <Suspense fallback={<p className="empty-inline">Loading editor…</p>}><EntityEditor collection={collection} recordId={id} navigate={navigate} /></Suspense> : <ValueView value={fields} navigate={navigate} />}
+          {canEdit && EntityEditor ? <Suspense fallback={<p className="empty-inline">Loading editor…</p>}><EntityEditor collection={collection} recordId={id} /></Suspense> : <RecordFields collection={collection} record={record} />}
+          <ReferencedBy collection={collection} id={id} navigate={navigate} />
         </Tabs.Content>
         {canEdit && isBalance && BalancePanel && visited.has("formula") && <Tabs.Content value="formula" forceMount hidden={tab !== "formula"}><Suspense fallback={<p className="empty-inline">Loading formula…</p>}><BalancePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}
         {canEdit && collection === "equipmentSets" && SetPiecePanel && visited.has("pieces") && <Tabs.Content value="pieces" forceMount hidden={tab !== "pieces"}><Suspense fallback={<p className="empty-inline">Loading pieces…</p>}><SetPiecePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}

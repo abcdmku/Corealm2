@@ -1,7 +1,9 @@
 /*
   World workspace: left rail 260 · map · right rail 320, filling the content area under the tab
-  strip. Type 11/12/13, controls 24px, rows 24px in the compact sheets. Map overlays use hsl per
-  glyph (see glyphs.ts) so they read on the image in both themes.
+  strip. The inspector is the one field model (ui/field), so this file only narrows the label
+  column and lays out the three rows the rail is too narrow for: points, spawn members, anchors.
+  Type 11/12/13, controls 24px, rows 28px. Map overlays use hsl per glyph (see glyphs.ts) so they
+  read on the image in both themes.
 */
 
 .world { flex: 1; min-height: 0; height: 100%; display: grid; grid-template-columns: 260px minmax(0, 1fr) 320px; background: var(--background); }
@@ -53,7 +55,6 @@
 .world-toolbar { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-bottom: 1px solid var(--border-subtle); background: var(--background); flex-shrink: 0; overflow: hidden; white-space: nowrap; }
 .world-toolbar .segmented { flex-shrink: 0; }
 .world-toolbar .segmented button, .world-toolbar .button { white-space: nowrap; }
-.world-toolbar .kv-select { height: 24px; }
 .world-hint { font-size: 11px; color: var(--accent); }
 .world-changes { margin-left: auto; flex-shrink: 0; white-space: nowrap; display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 4px 0 10px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent-soft); font-size: 12px; }
 .world-dirty { color: var(--accent); font-weight: 500; }
@@ -116,16 +117,31 @@
 .world-title-input { width: 100%; font: inherit; color: inherit; background: transparent; border: 0; border-bottom: 1px solid transparent; padding: 0; }
 .world-title-input:hover { border-bottom-color: var(--border); }
 .world-title-input:focus { outline: none; border-bottom-color: var(--accent); }
-.world-sheet .kv-row { grid-template-columns: 96px minmax(0, 1fr); }
-.world-sheet .kv-input[data-width="num"] { width: 72px; }
-.world-member { display: flex; align-items: center; gap: 4px; min-height: 28px; padding: 1px 0; }
-.world-member .ref-chip { flex: 1; min-width: 0; }
-.world-anchor-list { display: flex; flex-direction: column; gap: 2px; width: 100%; }
-.world-anchor { display: flex; align-items: center; gap: 4px; }
-.world-anchor .kv-input-wrap, .world-anchor .kv-input { flex-shrink: 0; }
+/* Fields in a 320px rail: a shorter label column and number cells that fit two to a line. */
+.world-sheet .field:not([data-compact]) { grid-template-columns: 104px minmax(0, 1fr); }
+.world-sheet .field-input[data-width="num"] { width: 72px; }
+
+/* A point is one thing: its label above a two-cell grid of x and z. */
+.world-point { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 4px; }
+.world-point-label { font-size: 12px; line-height: 16px; color: var(--muted); }
+.world-point .kv-fields { gap: 4px 8px; padding: 0; }
+
+/* Spawn members: the creature on its own line, its share of the group under it. */
+.world-members > .field-list-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding-bottom: 2px; }
+.world-members > .field-list-row > .field-list-aside { grid-column: 1 / -1; grid-row: 2; }
+.world-members > .field-list-row > .field-list-remove { grid-column: 2; grid-row: 1; }
+.world-members .field-label:empty { display: none; }
+.world-members .field-weight { width: 100%; }
+.world-members .field-weight-bar { flex: 1; width: auto; }
+.world-add-member { margin-top: 4px; }
+.world-add-member .field-label { color: var(--muted); }
+
+/* Anchors: index, x, z. Rows cannot be removed, so the list's bottom slot holds the reset. */
+.world-anchors .field-list-content { flex-wrap: nowrap; }
+.world-anchor { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.world-anchor .field-input { flex: none; width: 76px; }
 .world-anchor-index { width: 18px; flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; color: var(--faint); text-align: right; }
 .world-anchor[data-adjusted] .world-anchor-index { color: var(--accent); }
-.world-anchor-list .button { align-self: flex-start; margin-top: 4px; }
 .world-actions { display: flex; gap: 4px; padding-top: 12px; margin-top: 4px; border-top: 1px solid var(--border-subtle); }
 .world-links { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
 .world-diagnostics { margin-bottom: 12px; padding: 8px 10px; border: 1px solid var(--warn); border-radius: 6px; background: var(--warn-soft); font-size: 12px; }

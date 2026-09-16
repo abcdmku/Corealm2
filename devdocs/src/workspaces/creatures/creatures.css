@@ -22,14 +22,25 @@
 /* ---------- Creature page ---------- */
 .creature-page .record-title h1.is-inherited { color: var(--muted); }
 .creature-page .record-title .facts .text-button { font-size: inherit; }
-.derived-choice .kv-select[data-width="num"] { width: 108px; text-align: left; font-family: var(--font-sans); }
-.inherit-mark { font-size: 11px; color: var(--faint); font-style: italic; }
-.creature-page .kv-value .drop-grid { width: 100%; }
 .creature-page .ref-row-meta .facts, .loot-page .ref-row-sub .facts { font-family: var(--font-sans); }
-.creature-page .kv-row.is-wide .drop-editor, .loot-page .kv-row.is-wide .drop-editor { width: 100%; }
-.creature-page .kv-section-aside .segmented { margin-left: 4px; }
 .creature-rail .entity-summary { padding: 0; border: 0; background: transparent; }
 .creature-rail .rail-block .text-button { font-size: 11px; align-self: flex-start; }
+.loot-page .record-head { margin-bottom: 16px; }
+
+/* Drop rows (creature loot and loot tables): item | min to max | group | chance, one 28px line */
+.drop-rows .field-list-content { flex-wrap: nowrap; }
+.drop-rows .field-list-content > .field-input[data-width="short"] { width: 120px; flex: none; }
+.drop-rows .field-list-content > .field-input[data-width="num"] { width: 56px; flex: none; }
+.drop-rows .field-list-aside .field-input[data-width="num"] { width: 68px; }
+.drop-rows .field-list-empty { line-height: 24px; }
+/* The item reference is a bare chip: the Field wrapper keeps its keyboard model, the label stays for assistive tech only. */
+.drop-item.field { grid-template-columns: minmax(0, 1fr); min-height: 0; padding: 0; flex: 1 1 140px; min-width: 0; }
+.drop-item .field-label { display: none; }
+.drop-item .field-control { min-height: 24px; }
+.drop-item .ref-control { flex: 1 1 auto; }
+.drop-item .ref-control > .ref-chip { flex: 1 1 auto; }
+.drop-add.field { margin-top: 1px; }
+.drop-add .field-label { color: var(--faint); }
 
 /* Level × stat table (rail and drawer) */
 .curve-table { border: 1px solid var(--border-subtle); border-radius: 6px; overflow: auto; background: var(--panel); }
@@ -39,14 +50,18 @@
 .curve-table th:first-child, .curve-table td:first-child { text-align: left; color: var(--muted); }
 .curve-table tr:last-child td { border-bottom: 0; }
 .curve-table tr.is-current td { color: var(--accent); font-weight: 600; }
+.curve-table th .field-dot { display: inline-block; margin-right: 4px; vertical-align: middle; }
+.curve-table td[data-beaten] s { color: var(--faint); font-weight: 400; }
 .curve-table[data-compact] th, .curve-table[data-compact] td { padding: 2px 6px; }
 
 /* ---------- Role drawer ---------- */
 .role-drawer .drawer-head h2 .muted { font-weight: 400; margin-left: 4px; }
-.role-drawer .kv-section-head h3 { text-transform: none; letter-spacing: 0; font-size: 11px; }
+.role-drawer .kv-section-head h3 { text-transform: none; letter-spacing: 0; font-size: 13px; }
+.role-drawer .refby .ref-row { min-width: 0; }
 .role-drawer .curve-table { margin: 2px 0 6px; }
 
 /* ---------- Loot tables ---------- */
+.loot-drops > .kv-section-body > .field-hint { display: block; margin: 6px 0 0; }
 .loot-list { display: flex; flex-direction: column; gap: 2px; }
 .loot-row .ref-row-meta { font-family: var(--font-sans); }
 .loot-row .thumb-composite img { width: 100%; height: 100%; }

@@ -281,6 +281,7 @@ h1 { font-size: 16px; font-weight: 600; }
 .ref-row-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .ref-row-title { font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ref-row-sub { font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ref-row-tag { margin-left: 6px; font-size: 11px; font-weight: 400; color: var(--faint); }
 .ref-row-meta { display: flex; gap: 4px; align-items: center; flex-shrink: 0; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 
 /* ---------- Domain widgets ---------- */

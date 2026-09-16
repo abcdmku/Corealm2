@@ -70,13 +70,19 @@ export const fmtValue = (value: unknown, digits = 2): string => {
 
 export interface ChainPhrase { text: string; ref?: RecordRef }
 
+/** Prose, not data: a beaten value is a reminder, so long text is cut rather than wrapped. */
+const LONG_VALUE = 28;
+const shorten = (text: string): string => text.length > LONG_VALUE ? `${text.slice(0, LONG_VALUE - 1).trimEnd()}…` : text;
+
 /**
  * The provenance line as phrases: `[{text:"from "},{text:"Heath Jack",ref},{text:" · was 2400 from "},{text:"Grazer",ref}]`.
  * A caller joins the texts for a tooltip or renders each `ref` as a link.
  */
 export function describeChain(resolved: Resolved<unknown>, unit?: string): ChainPhrase[] {
   const out: ChainPhrase[] = [];
-  const withUnit = (value: unknown) => `${fmtValue(value)}${unit && typeof value === "number" ? ` ${unit}` : ""}`;
+  const withUnit = (value: unknown) => `${shorten(fmtValue(value))}${unit && typeof value === "number" ? ` ${unit}` : ""}`;
+  // A record's own name is its label, so "was Gloam Fox from Gloam Fox" says it twice.
+  const sameAsSource = (value: unknown, label: string) => typeof value === "string" && value === label;
   const [head, ...rest] = resolved.chain;
   if (!head) return out;
   const state = originState(resolved);
@@ -87,7 +93,11 @@ export function describeChain(resolved: Resolved<unknown>, unit?: string): Chain
   for (const link of rest) {
     const origin = link.origin;
     if (origin.kind === "curve") out.push({ text: `${out.length ? " · " : ""}was ${withUnit(link.value)} from ` }, { text: origin.source.label, ref: origin.source });
-    else if (origin.kind === "inherited") out.push({ text: `${out.length ? " · " : ""}was ${withUnit(link.value)} from ` }, { text: origin.from.label, ref: origin.from });
+    else if (origin.kind === "inherited") {
+      const lead = out.length ? " · " : "";
+      if (sameAsSource(link.value, origin.from.label)) out.push({ text: `${lead}was ` }, { text: origin.from.label, ref: origin.from });
+      else out.push({ text: `${lead}was ${withUnit(link.value)} from ` }, { text: origin.from.label, ref: origin.from });
+    }
     else if (origin.kind === "balance") out.push({ text: `${out.length ? " · " : ""}target ${withUnit(link.value)} from ` }, { text: origin.source.label, ref: origin.source });
     else if (origin.kind === "default") out.push({ text: `${out.length ? " · " : ""}default ${withUnit(link.value)}` });
   }

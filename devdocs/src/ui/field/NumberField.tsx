@@ -164,7 +164,7 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
     return () => field.setLabelHandlers(null);
   }, [field]);
 
-  return <span className={`field-input ${className}`.trim()} data-kind="number" data-width={width} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
+  return <span className={`field-input ${className}`.trim()} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
     <input ref={inputRef} type="text" inputMode="decimal" className="mono" value={text} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
       aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-invalid={invalid || undefined} autoComplete="off" spellCheck={false}
       onChange={event => { if (inert) return; selectNext.current = false; setText(event.target.value); if (!editing) setEditing(true); if (invalid) clearError(); }}

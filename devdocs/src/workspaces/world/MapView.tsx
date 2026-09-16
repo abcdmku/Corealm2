@@ -10,6 +10,7 @@ import { draftStore } from "../../model/store.js";
 import { summaryContext } from "../../model/refs.js";
 import { rowName } from "../../model/rows.js";
 import { RecordPicker } from "../../ui/RecordPicker.js";
+import { ChoiceField } from "../../ui/field/index.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { Inspector } from "./Inspector.js";
@@ -233,10 +234,9 @@ export default function MapView({ recordId, navigate }: ViewProps) {
           {(["spawn", "resource", "location", "landmark"] as const).map(kind => { const Icon = kind === "spawn" ? Footprints : kind === "resource" ? Pickaxe : kind === "location" ? MapPin : Flag; return <button type="button" key={kind} className={tool === kind ? "is-active" : ""} aria-pressed={tool === kind} aria-label={TOOL_LABEL[kind]} title={`${TOOL_LABEL[kind]}: click the map`} onClick={() => setTool(tool === kind ? undefined : kind)}><Icon size={12} />{TOOL_SHORT[kind]}</button>; })}
         </span>}
         <button type="button" className="button button-small" onClick={() => map.current?.fit(worldBounds(draft))}><Maximize2 size={12} /> Fit world</button>
-        <select className="kv-input kv-select" data-width="short" value={fitRegion} aria-label="Fit region" onChange={event => { setFitRegion(event.target.value); const region = regionById(draft, event.target.value); if (region) map.current?.fit(regionBounds(region)); }}>
-          <option value="">Fit region…</option>
-          {draft.worldRegions.map(region => <option key={region.id} value={region.id}>{region.name}</option>)}
-        </select>
+        <ChoiceField value={fitRegion || undefined} width="short" ariaLabel="Fit region" allowEmpty="Fit region…"
+          options={draft.worldRegions.map(region => ({ value: region.id, label: region.name }))}
+          onChange={value => { setFitRegion(value ?? ""); const region = regionById(draft, value); if (region) map.current?.fit(regionBounds(region)); }} />
         <button type="button" className="icon-button" aria-label="Zoom in" onClick={() => map.current?.zoom(1 / 1.5)}><Plus size={14} /></button>
         <button type="button" className="icon-button" aria-label="Zoom out" onClick={() => map.current?.zoom(1.5)}><Minus size={14} /></button>
         {tool && <span className="world-hint">Click the map to place · Esc cancels</span>}

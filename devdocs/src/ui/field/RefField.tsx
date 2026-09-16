@@ -118,10 +118,13 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
       </button>
       : <RefChip collection={collection} id={value!} record={record} ctx={ctx} missing={missing} onOpen={() => (missing ? setOpen(true) : openRef({ collection, id: value!, label: title }))} />;
 
-  // Focusing on mousedown would blur the previously focused field, whose hint line collapses and
-  // shifts this chip up before mouseup, so the click never lands. Keep focus put until the click.
+  // Focus lands on the chip only once the click completes, so a blur elsewhere cannot move it
+  // mid-click. The picker's popover is a React child of this span but a DOM child of a portal, so
+  // its events bubble through here too: leave those alone or picking a row with the mouse dies.
   const focusChip = () => chip.current?.querySelector<HTMLElement>(".ref-chip")?.focus({ preventScroll: true });
-  return <span ref={chip} className="ref-control" data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown} onMouseDown={event => event.preventDefault()} onClickCapture={focusChip}>
+  const inPicker = (event: { target: unknown }) => event.target instanceof Element && event.target.closest(".popover") !== null;
+  return <span ref={chip} className="ref-control" data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
+    onMouseDown={event => { if (!inPicker(event)) event.preventDefault(); }} onClickCapture={event => { if (!inPicker(event)) focusChip(); }}>
     {chipNode}
     {!inert && <RecordPicker collection={collection} value={value} ctx={ctx} exclude={exclude} options={options} open={pickerOpen} onOpenChange={setOpen}
       placeholder={`Search ${kindLabel}s…`}

@@ -24,6 +24,19 @@ function initialTheme(): "dark" | "light" {
 
 const isEditing = (target: EventTarget | null): boolean => target instanceof HTMLElement && (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName) || target.isContentEditable);
 
+/**
+ * Whether the browser's own text undo should win over the draft history. A field owns its edit
+ * buffer, so it only matters while that buffer is open: once a value is committed the field keeps
+ * focus, and Ctrl+Z there means "undo the change I just made". Controls outside the field model
+ * (search boxes and the like) keep native undo.
+ */
+function textUndoWins(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const field = target.closest<HTMLElement>(".field[data-phase]");
+  if (field) return field.dataset.phase === "editing";
+  return isEditing(target);
+}
+
 function focusSearch(): void {
   document.querySelector<HTMLInputElement>(".search-field input, .kits-search input, .requests-search input, .work-queue-search input, .ws-search input")?.focus();
 }
@@ -60,8 +73,8 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
       if (modifier && key === "k") { event.preventDefault(); setPalette(value => !value); }
       // Ctrl+S always saves everything; the browser's "save page" dialog is never wanted here.
       if (modifier && key === "s" && !event.shiftKey && !event.altKey) { event.preventDefault(); void draftStore.saveAll(); return; }
-      // Undo and redo are global, except inside a control where the browser's own text undo wins.
-      if (modifier && !event.altKey && !isEditing(event.target)) {
+      // Undo and redo are global, except while a field's edit buffer is open.
+      if (modifier && !event.altKey && !textUndoWins(event.target)) {
         if (key === "z" && !event.shiftKey) { event.preventDefault(); draftStore.undo(); return; }
         if ((key === "z" && event.shiftKey) || key === "y") { event.preventDefault(); draftStore.redo(); return; }
       }

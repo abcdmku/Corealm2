@@ -3,17 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Box, LayoutGrid, List, Maximize2, Minimize2, Search, SlidersHorizontal, X } from "lucide-react";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
-import { incomingReferences } from "../../model/refs.js";
 import { contentRows } from "../../model/rows.js";
 import { summarize, titleCase } from "../../model/summaries.js";
 import { viewerSource } from "../../model/viewerSource.js";
-import { RefRow } from "../../ui/RefChip.js";
-import { Facts, Row, Section, Sheet, Static } from "../../ui/Sheet.js";
-import { ErrorState, LoadingRows } from "../../ui/States.js";
+import { Facts, Field, RefField, ReferencedBy, Section, Sheet } from "../../ui/field/index.js";
+import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
-import { labelFor } from "../../ui/library.js";
 import type { ViewProps } from "../types.js";
-import { asRecord, list, num, PageState, RecordShell, strings, text, usePage } from "../story/shared.js";
+import { asRecord, num, RecordShell, strings, text } from "../story/shared.js";
 import "./assets.css";
 
 const AssetViewer = lazy(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
@@ -102,53 +99,49 @@ function count(values: readonly string[]): [string, number][] {
 
 /* ---------- Record ---------- */
 
+/** Assets are read-only here: the page reads the collection, it does not open a draft. */
 function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
-  const page = usePage<Asset>("assets", id);
-  const { index, ctx } = page;
-  const incoming = useMemo(() => incomingReferences(index, "assets", id), [index, id]);
+  const query = useQuery(collectionQuery("assets"));
+  const asset = useMemo(() => (query.data ? contentRows(query.data) : []).find(row => String(row.id) === id) as Asset | undefined, [query.data, id]);
   const [large, setLarge] = useState(false);
   const [controls, setControls] = useState(false);
-  return <PageState page={page} collection="assets" navigate={navigate}>{asset => {
-    const source = viewerSource("assets", asset);
-    const size = asRecord(asset.size);
-    const animations = strings(asset.animations);
-    const materials = strings(asset.materials);
-    const tags = strings(asset.tags);
-    const grouped = new Map<string, typeof incoming>();
-    for (const reference of incoming) { const bucket = grouped.get(reference.collection) ?? []; bucket.push(reference); grouped.set(reference.collection, bucket); }
-    return <RecordShell
-      thumb={asset.itemId ? { kind: "item", id: asset.itemId } : { kind: "asset", assetId: id, icon: Box }}
-      title={titleCase(id)} id={id}
-      facts={[titleCase(categoryOf(asset)), text(asset.pack), animations.length > 0 && `${animations.length} animation${animations.length === 1 ? "" : "s"}`]}
-      className="model-page">
-      {source && <div className="model-stage model-page-stage" data-large={large} data-controls={controls}>
-        <div className="model-stage-actions">
-          <button className={`icon-button${controls ? " is-active" : ""}`} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></button>
-          <button className="icon-button" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</button>
-        </div>
-        <Suspense fallback={<p className="empty-inline" style={{ padding: 12 }}>Loading model…</p>}><AssetViewer source={source} label={titleCase(id)} /></Suspense>
-      </div>}
-      <Sheet>
-        <Section title="File">
-          <Row label="File"><Static mono>{text(asset.file) ?? "—"}</Static></Row>
-          <Row label="Pack"><Static>{text(asset.pack) ?? "—"}</Static></Row>
-          <Row label="Category"><Static>{titleCase(categoryOf(asset))}{text(asset.is) && text(asset.is) !== asset.category && <span className="muted"> · {String(asset.is)}</span>}</Static></Row>
-          <Row label="Bytes"><Static mono>{num(asset.bytes) !== undefined ? `${Math.round(num(asset.bytes)! / 1024).toLocaleString()} KB` : "—"}</Static></Row>
-          <Row label="Size"><Static mono>{num(size.x) !== undefined ? `${fmtM(size.x)} × ${fmtM(size.y)} × ${fmtM(size.z)} m` : "—"}</Static></Row>
-          <Row label="Animations"><Static mono>{animations.length}</Static></Row>
-          {asset.itemId && <Row label="Item"><Static><button type="button" className="text-button" onClick={() => navigate(page.itemCollection, String(asset.itemId))}>{String(asset.itemId)}</button></Static></Row>}
-        </Section>
-        <Section title="Tags"><Static>{tags.length ? tags.join(", ") : <span className="muted">No tags</span>}</Static></Section>
-        <Section title="Animations">{animations.length ? <ul className="model-names">{animations.map(name => <li key={name}>{name}</li>)}</ul> : <span className="empty-inline">No animation clips.</span>}</Section>
-        <Section title="Materials">{materials.length ? <ul className="model-names">{materials.map(name => <li key={name}>{name}</li>)}</ul> : <span className="empty-inline">No named materials.</span>}</Section>
-        <Section title="Used by">
-          {grouped.size ? [...grouped.entries()].map(([collection, references]) => <Row key={collection} label={labelFor(collection)} align="start">
-            <div className="ref-rows model-used-by">{references.map(reference => <RefRow key={`${reference.recordId}:${reference.path}`} collection={collection} id={reference.recordId} record={reference.record} ctx={ctx} onOpen={(target, targetId) => navigate(target, targetId)} subtitle={reference.role} />)}</div>
-          </Row>) : <span className="empty-inline">Nothing references this model.</span>}
-        </Section>
-      </Sheet>
-    </RecordShell>;
-  }}</PageState>;
+  if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
+  if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
+  if (!asset) return <EmptyState title="Model not found">This id is not in the asset catalog. <button className="text-button" onClick={() => navigate("assets")}>Back to the gallery</button></EmptyState>;
+
+  const source = viewerSource("assets", asset);
+  const size = asRecord(asset.size);
+  const animations = strings(asset.animations);
+  const materials = strings(asset.materials);
+  const tags = strings(asset.tags);
+  return <RecordShell
+    thumb={asset.itemId ? { kind: "item", id: asset.itemId } : { kind: "asset", assetId: id, icon: Box }}
+    title={titleCase(id)} id={id}
+    facts={[titleCase(categoryOf(asset)), text(asset.pack), animations.length > 0 && `${animations.length} animation${animations.length === 1 ? "" : "s"}`]}
+    className="model-page">
+    {source && <div className="model-stage model-page-stage" data-large={large} data-controls={controls}>
+      <div className="model-stage-actions">
+        <button className={`icon-button${controls ? " is-active" : ""}`} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></button>
+        <button className="icon-button" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</button>
+      </div>
+      <Suspense fallback={<p className="empty-inline" style={{ padding: 12 }}>Loading model…</p>}><AssetViewer source={source} label={titleCase(id)} /></Suspense>
+    </div>}
+    <Sheet>
+      <Section title="File">
+        <Field label="File"><span className="field-static mono">{text(asset.file) ?? "—"}</span></Field>
+        <Field label="Pack"><span className="field-static">{text(asset.pack) ?? "—"}</span></Field>
+        <Field label="Category"><span className="field-static">{titleCase(categoryOf(asset))}{text(asset.is) && text(asset.is) !== asset.category && <span className="muted"> · {String(asset.is)}</span>}</span></Field>
+        <Field label="Bytes"><span className="field-static mono">{num(asset.bytes) !== undefined ? `${Math.round(num(asset.bytes)! / 1024).toLocaleString()} KB` : "—"}</span></Field>
+        <Field label="Size" unit="m"><span className="field-static mono">{num(size.x) !== undefined ? `${fmtM(size.x)} × ${fmtM(size.y)} × ${fmtM(size.z)} m` : "—"}</span></Field>
+        <Field label="Animations"><span className="field-static mono">{animations.length}</span></Field>
+        {asset.itemId && <RefField kind="item" label="Item" value={String(asset.itemId)} onChange={() => undefined} readOnly />}
+      </Section>
+      <Section title="Tags"><span className="field-static">{tags.length ? tags.join(", ") : <span className="muted">No tags</span>}</span></Section>
+      <Section title="Animations">{animations.length ? <ul className="model-names">{animations.map(name => <li key={name}>{name}</li>)}</ul> : <span className="empty-inline">No animation clips.</span>}</Section>
+      <Section title="Materials">{materials.length ? <ul className="model-names">{materials.map(name => <li key={name}>{name}</li>)}</ul> : <span className="empty-inline">No named materials.</span>}</Section>
+      <ReferencedBy collection="assets" id={id} navigate={navigate} title="Used by" />
+    </Sheet>
+  </RecordShell>;
 }
 
 const fmtM = (value: unknown): string => num(value) !== undefined ? String(Math.round(num(value)! * 100) / 100) : "?";

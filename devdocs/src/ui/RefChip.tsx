@@ -56,7 +56,7 @@ export function HoverCard({ summary, collection, id, at }: { summary: RecordSumm
 }
 
 /** A stacked row for lists of references: thumb, title, subtitle and a right-hand meta slot. */
-export function RefRow({ collection, record, id, ctx, onOpen, meta, subtitle, trailing }: {
+export function RefRow({ collection, record, id, ctx, onOpen, meta, subtitle, tag, trailing }: {
   collection: string;
   record?: ContentRow;
   id: string;
@@ -64,6 +64,8 @@ export function RefRow({ collection, record, id, ctx, onOpen, meta, subtitle, tr
   onOpen?: (collection: string, id: string) => void;
   meta?: ReactNode;
   subtitle?: ReactNode;
+  /** A short word that qualifies the title and belongs beside it, not at the far end of the row. */
+  tag?: ReactNode;
   trailing?: ReactNode;
 }) {
   const summary = record ? summarize(collection, record, ctx) : undefined;
@@ -75,7 +77,7 @@ export function RefRow({ collection, record, id, ctx, onOpen, meta, subtitle, tr
       onMouseLeave={() => setHover(undefined)}>
       <Thumb spec={summary?.thumb ?? { kind: "glyph", icon: ChevronRight, letter: id.slice(0, 2).toUpperCase() }} size="m" />
       <span className="ref-row-body">
-        <span className="ref-row-title">{summary?.title ?? id}</span>
+        <span className="ref-row-title">{summary?.title ?? id}{tag !== undefined && <small className="ref-row-tag">{tag}</small>}</span>
         <span className="ref-row-sub">{subtitle ?? summary?.subtitle ?? (record ? rowId(record) : `Missing from ${labelFor(collection).toLowerCase()}`)}</span>
       </span>
       {meta !== undefined && <span className="ref-row-meta">{meta}</span>}

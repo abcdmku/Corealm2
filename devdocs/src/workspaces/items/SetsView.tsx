@@ -1,19 +1,24 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { EquipmentSetRecordSchema, EquipmentSetThresholdSchema } from "../../../../game/src/content/schema/equipmentSets.js";
 import { collectionQuery } from "../../api/client.js";
-import { BONUS_KEYS, BONUS_LABELS, type BonusKey } from "../../model/derive.js";
+import { BONUS_KEYS, type BonusKey } from "../../model/derive.js";
 import { useRecordDraft } from "../../model/draft.js";
+import type { Link, RecordRef, Resolved } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Facts, NumberInput, Row, Section, Select, Sheet, Static } from "../../ui/Sheet.js";
+import { ChoiceField, DerivedNumber, Facts, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { ItemPick } from "./ItemPick.js";
-import { BONUS_SHORT, SET_SLOTS, SLOT_LABELS, emptyBonuses, targetThresholds, thresholdText, titleCase, useItemsData, type ItemsData, type SetBalance, type SetRecord } from "./data.js";
+import { SET_SLOTS, choicesOf, emptyBonuses, specAt, targetThresholds, thresholdText, useItemsData, type ItemsData, type SetBalance, type SetRecord, type SetThreshold } from "./data.js";
 import "./items.css";
 
-/* Armour sets: five pieces, the threshold bonuses, and the balance target for the tier beside them. */
+/*
+  Armour sets: five pieces, the threshold bonuses, and the balance target for the tier behind each
+  bonus. A threshold value that equals its target reads as the target (hollow dot); one that differs
+  is an override of it (brass dot, revert hands the target back).
+*/
 
 export default function SetsView({ recordId, navigate }: ViewProps) {
   const data = useItemsData();
@@ -50,10 +55,26 @@ function SetList({ data, navigate }: { data: ItemsData; navigate: ViewProps["nav
   </div>;
 }
 
+const setSpec = (...path: (string | number)[]) => specAt(EquipmentSetRecordSchema, path);
+const THRESHOLDS = setSpec("thresholds");
+const PIECES = specAt(EquipmentSetThresholdSchema, ["pieces"]);
+const BONUS = Object.fromEntries(BONUS_KEYS.map(key => [key, specAt(EquipmentSetThresholdSchema, ["bonuses", key])])) as Record<BonusKey, ReturnType<typeof specAt>>;
+const BALANCE: RecordRef = { collection: "balance/sets", id: "sets", label: "Set balance" };
+
+/** A threshold bonus against its balance target: the target when they agree, own-over-target when they differ, own alone without a target. */
+function resolveBonus(row: number, key: BonusKey, own: number, target: number | undefined): Resolved<number | undefined> {
+  const path = ["thresholds", row, "bonuses", key];
+  const ownLink: Link<number | undefined> = { origin: { kind: "own" }, value: own };
+  if (target === undefined) return { value: own, chain: [ownLink], path };
+  const targetLink: Link<number | undefined> = { origin: { kind: "balance", source: BALANCE }, value: target };
+  return { value: own, chain: own === target ? [targetLink] : [ownLink, targetLink], path };
+}
+
 function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate: ViewProps["navigate"] }) {
   const draft = useRecordDraft<SetRecord>("equipmentSets", id);
   const balance = useQuery(collectionQuery("balance/sets"));
   const { index } = useReferenceIndex();
+  const peek = usePeek();
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const set = draft.draft;
   const targets = useMemo(() => targetThresholds(balance.data?.data as SetBalance | undefined, set?.tier), [balance.data, set?.tier]);
@@ -61,14 +82,9 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
   if (!set) return draft.loading ? <div className="ws-page"><LoadingRows /></div> : <div className="ws-page"><p className="empty-inline">"{id}" is not an armour set. <button type="button" className="text-button" onClick={() => navigate("equipmentSets")}>All sets</button></p></div>;
   const thresholds = set.thresholds ?? [];
   const ids = SET_SLOTS.map(slot => set.members?.[slot]).filter((value): value is string => Boolean(value));
-  const setThreshold = (row: number, key: BonusKey, value: number | undefined) => draft.setPath(["thresholds", row, "bonuses", key], value ?? 0);
-  const targetFor = (row: { pieces: number }) => targets?.find(target => target.pieces === row.pieces);
-  const drift = (row: NonNullable<SetRecord["thresholds"]>[number]) => {
-    const target = targetFor(row);
-    if (!target) return undefined;
-    return BONUS_KEYS.every(key => (row.bonuses[key] ?? 0) === (target.bonuses[key] ?? 0)) ? "matches" : "differs";
-  };
-  const targetText = (row: { pieces: number }) => { const target = targetFor(row); return target ? BONUS_KEYS.filter(key => target.bonuses[key]).map(key => `+${target.bonuses[key]} ${BONUS_SHORT[key]}`).join(", ") : "—"; };
+  const targetFor = (pieces: number) => targets?.find(target => target.pieces === pieces);
+  const openRef = (ref: RecordRef) => ref.collection === BALANCE.collection ? navigate(BALANCE.collection) : peek.open(ref);
+  const style = setSpec("style"), acquisition = setSpec("acquisition"), tier = setSpec("tier");
 
   return <div className="ws-page"><div className="record">
     <div className="record-main">
@@ -77,45 +93,37 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
         <div className="record-title"><h1>{set.name}</h1><Facts items={[`Tier ${set.tier ?? 0}`, set.style, set.acquisition, `${ids.length} of 5 pieces`]} /><code>{id}</code></div>
       </header>
       <Sheet>
-        <Section title="Pieces">
-          <div className="slot-grid">{SET_SLOTS.map(slot => {
-            const itemId = set.members?.[slot];
-            const item = itemId ? data.item(itemId) : undefined;
-            const tile = <button type="button" className={`slot-tile${itemId ? "" : " is-empty"}`} aria-label={`${SLOT_LABELS[slot]} piece`} disabled={readOnly} title={itemId}>
-              {itemId ? <Thumb spec={{ kind: "item", id: itemId }} size="l" alt="" /> : <span className="thumb" data-size="l" />}
-              <small>{SLOT_LABELS[slot]}</small>
-              <strong>{item?.name ?? itemId ?? "Empty"}</strong>
-            </button>;
-            return <ItemPick key={slot} slot={slot} value={itemId} data={data} disabled={readOnly} trigger={tile} ariaLabel={`${SLOT_LABELS[slot]} piece`} onPick={picked => draft.setPath(["members", slot], picked)} />;
-          })}</div>
-        </Section>
-        <Section title="Thresholds" aside={targets ? <span>Target from set balance, tier {set.tier}</span> : <span>No balance target for tier {set.tier}</span>}>
-          <div className="matrix thresholds-table"><table>
-            <thead><tr><th>Pieces</th>{BONUS_KEYS.map(key => <th key={key} className="cell-num" title={BONUS_LABELS[key]}>{BONUS_SHORT[key]}</th>)}<th>Target</th><th /></tr></thead>
-            <tbody>{thresholds.map((row, rowIndex) => {
-              const state = drift(row);
-              return <tr key={rowIndex}>
-                <td><NumberInput value={row.pieces} integer min={1} max={5} disabled={readOnly} ariaLabel={`Threshold ${rowIndex + 1} pieces`} onChange={value => draft.setPath(["thresholds", rowIndex, "pieces"], value ?? 1)} /></td>
-                {BONUS_KEYS.map(key => <td key={key} className="cell-num"><NumberInput value={row.bonuses[key] ?? 0} disabled={readOnly} ariaLabel={`${row.pieces} pieces ${BONUS_LABELS[key]}`} onChange={value => setThreshold(rowIndex, key, value)} /></td>)}
-                <td className="mono muted">{targetText(row)}</td>
-                <td className="threshold-state" data-state={state}>{state ?? ""}{!readOnly && <button type="button" className="text-button" aria-label={`Remove threshold ${rowIndex + 1}`} onClick={() => draft.setPath(["thresholds", rowIndex], undefined)}>Remove</button>}</td>
-              </tr>;
-            })}</tbody>
-          </table></div>
-          {!readOnly && <div className="kv-row"><span className="kv-label" /><div className="kv-value">
-            <button type="button" className="button button-small" onClick={() => draft.setPath(["thresholds", thresholds.length], { pieces: Math.min(5, (thresholds.at(-1)?.pieces ?? 1) + 1), bonuses: emptyBonuses() })}>Add threshold</button>
-            {targets && <button type="button" className="button button-small" onClick={() => draft.setPath(["thresholds"], targets.map(target => ({ pieces: target.pieces, bonuses: { ...emptyBonuses(), ...target.bonuses } })))}>Use target</button>}
-          </div></div>}
-        </Section>
         <Section title="Set">
-          <Row label="Style"><Select value={set.style} options={["melee", "magic"]} disabled={readOnly} ariaLabel="Style" onChange={value => draft.setPath(["style"], value)} /></Row>
-          <Row label="Acquisition"><Select value={set.acquisition} options={["crafting", "boss"]} disabled={readOnly} ariaLabel="Acquisition" onChange={value => draft.setPath(["acquisition"], value)} /></Row>
-          <Row label="Tier"><NumberInput value={set.tier} integer min={0} disabled={readOnly} ariaLabel="Tier" onChange={value => draft.setPath(["tier"], value ?? 0)} /></Row>
-          <Row label="Members"><Static muted>{SET_SLOTS.map(slot => `${titleCase(slot)}: ${set.members?.[slot] ?? "—"}`).join(" · ")}</Static></Row>
+          <Field label={setSpec("name").label}><TextField value={set.name} readOnly={readOnly} onChange={next => draft.setPath(["name"], next)} /></Field>
+          <Field label={style.label}><ChoiceField value={set.style} options={choicesOf(style)} readOnly={readOnly} onChange={next => draft.setPath(["style"], next)} /></Field>
+          <Field label={acquisition.label}><ChoiceField value={set.acquisition} options={choicesOf(acquisition)} readOnly={readOnly} onChange={next => draft.setPath(["acquisition"], next)} /></Field>
+          <Field label={tier.label}><NumberField value={set.tier} integer min={tier.min} step={tier.step} readOnly={readOnly} onChange={next => draft.setPath(["tier"], next ?? 0)} /></Field>
         </Section>
+        <Section title={setSpec("members").label} aside={<span>{setSpec("members").hint}</span>}>
+          {SET_SLOTS.map(slot => <RefField key={slot} kind="item" collection="compiled-items" label={setSpec("members", slot).label} optional value={set.members?.[slot]} exclude={data.notInSlot(slot)} readOnly={readOnly} onChange={next => draft.setPath(["members", slot], next)} />)}
+        </Section>
+        <Section title={THRESHOLDS.label} className="thresholds" aside={targets
+          ? (!readOnly && <button type="button" className="text-button" onClick={() => draft.setPath(["thresholds"], targets.map(target => ({ pieces: target.pieces, bonuses: { ...emptyBonuses(), ...target.bonuses } })))}>Use target</button>)
+          : <span>No balance target for tier {set.tier}</span>}>
+          <ListField<SetThreshold> items={thresholds} readOnly={readOnly} min={1} emptyText="No thresholds" addLabel="Add threshold" removeLabel={(row) => `Remove the ${row.pieces}-piece threshold`}
+            keyOf={(_, i) => i} onChange={next => draft.setPath(["thresholds"], next)}
+            onAdd={() => ({ pieces: Math.min(5, (thresholds.at(-1)?.pieces ?? 1) + 1), bonuses: emptyBonuses() })}
+            renderItem={(row, api) => {
+              const target = targetFor(row.pieces);
+              return <Fields columns={8}>
+                <Field compact label={PIECES.label}><NumberField value={row.pieces} integer min={2} max={5} readOnly={readOnly} ariaLabel={`Threshold ${api.index + 1} pieces`} onChange={next => api.update({ ...row, pieces: next ?? row.pieces })} /></Field>
+                {BONUS_KEYS.map(key => {
+                  const goal = target ? target.bonuses[key] ?? 0 : undefined;
+                  return <DerivedNumber key={key} compact label={BONUS[key].label} integer={false} readOnly={readOnly} resolved={resolveBonus(api.index, key, row.bonuses[key] ?? 0, goal)} onOpenRef={openRef}
+                    onChange={next => api.update({ ...row, bonuses: { ...row.bonuses, [key]: next ?? goal ?? 0 } })} />;
+                })}
+              </Fields>;
+            }} />
+          <p className="field-hint">{THRESHOLDS.hint}</p>
+        </Section>
+        <ReferencedBy collection="equipmentSets" id={id} navigate={navigate} />
       </Sheet>
     </div>
     <aside className="record-rail"><EntitySummary collection="equipmentSets" record={set} recordId={id} index={index} navigate={navigate} editing /></aside>
   </div></div>;
 }
-

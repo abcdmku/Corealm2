@@ -99,7 +99,10 @@ async function saveItemDescription(url: string, description: string): Promise<vo
   await page.goto(`${url}/#/items/worn_sword`);
   await waitForHeading("Worn Shortsword");
   const editor = page.getByRole("textbox", { name: "Description", exact: true });
+  // Fields own their edit buffer and commit on Enter, Tab or blur, so a typed value is not a draft
+  // edit until focus leaves the control.
   await editor.fill(description);
+  await editor.blur();
   await waitForValidBuild();
   const [response] = await Promise.all([
     page.waitForResponse(candidate => candidate.request().method() === "POST" && candidate.url().endsWith("/__devdocs/transaction")),
@@ -118,6 +121,7 @@ async function exerciseUiConflict(url: string): Promise<void> {
   const editor = page.getByRole("textbox", { name: "Description", exact: true });
   const draft = "A browser draft preserved across a source conflict.";
   await editor.fill(draft);
+  await editor.blur();
 
   const current = await collection("items");
   const currentRows = current.data as JsonRecord[];
@@ -143,7 +147,12 @@ async function exerciseUiConflict(url: string): Promise<void> {
   await screenshot("edit-conflict.png");
 
   await page.getByRole("button", { name: "Reset draft", exact: true }).click();
-  await page.waitForFunction(() => (document.querySelector('textarea[aria-label="Description"]') as HTMLTextAreaElement | null)?.value === "Concurrent source text.");
+  // A field's control is named by its label element, not an aria-label, so find it through aria-labelledby.
+  await page.waitForFunction(() => Array.from(document.querySelectorAll("textarea")).some(area => {
+    const labelId = area.getAttribute("aria-labelledby");
+    const label = labelId ? document.getElementById(labelId) : null;
+    return label?.textContent?.trim() === "Description" && area.value === "Concurrent source text.";
+  }));
   checks.uiConflictDraft = true;
 }
 
@@ -285,7 +294,8 @@ async function exerciseWorldAuthoring(url: string): Promise<void> {
   await page.getByRole("option", { name: /smoke_frog_variant|Smoke Frog/ }).first().click();
   const inspector = page.getByRole("complementary", { name: "Inspector", exact: true });
   await inspector.getByRole("button", { name: "Add creature", exact: true }).waitFor();
-  const centreX = inspector.getByRole("spinbutton", { name: "Centre x", exact: true });
+  // The inspector is on the field model: numbers are text inputs with their own edit buffer.
+  const centreX = inspector.getByRole("textbox", { name: "Centre x", exact: true });
   await centreX.fill("-97");
   await centreX.blur();
   await waitForValidBuild();

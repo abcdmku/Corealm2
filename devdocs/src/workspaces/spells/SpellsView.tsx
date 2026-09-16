@@ -1,16 +1,19 @@
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { SpellSchema } from "../../../../game/src/content/schema/spells.js";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
+import { fieldPath } from "../../model/fields.js";
 import { contentRows } from "../../model/rows.js";
 import { iconForElement, spellThumb, titleCase, hueFor } from "../../model/summaries.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { RecordPicker } from "../../ui/RecordPicker.js";
-import { Field, Fields, Row, Section, Sheet } from "../../ui/Sheet.js";
+import {
+  ChoiceField, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, ToggleField,
+} from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
-import { AddButton, asRecord, ItemStack, list, num, NumberField, PageState, RecordShell, SelectField, text, TextField, usePage } from "../story/shared.js";
+import { asRecord, list, num, PageState, RecordShell, text, usePage } from "../story/shared.js";
 import "./spells.css";
 
 interface Spell extends ContentRow {
@@ -70,14 +73,61 @@ function SpellMatrix({ navigate }: { navigate: ViewProps["navigate"] }) {
 
 /* ---------- Record ---------- */
 
+type Path = readonly (string | number)[];
+/** Label, unit, step, bounds and help come from the spell schema; this page declares no metadata. */
+const spellField = (path: Path) => fieldPath(SpellSchema, path);
+/**
+ * The lowest value the control will accept. An exclusive bound on an integer is the next integer;
+ * on a real number there is no next value to clamp to, so validation flags it instead.
+ */
+const lower = (spec: ReturnType<typeof spellField>): number | undefined =>
+  spec?.min ?? (spec?.exclusiveMin !== undefined && spec.integer ? spec.exclusiveMin + 1 : undefined);
+
+/**
+ * Which numbers share the first grid. The schema groups the cast cost (`group: "cost"`) and says
+ * nothing about the rest, so the order is this page's only layout choice: every label, unit, step
+ * and bound still comes from the schema.
+ */
+const NUMBER_KEYS = ["reqLevel", "tier", "baseMax", "divisor", "baseXp", "castMs"] as const;
+
 function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const page = usePage<Spell>("spells", id);
-  const { draft, index, ctx } = page;
-  const editable = draft.editable;
+  const { draft, index } = page;
+  const readOnly = !draft.editable;
+  const set = (path: Path, value: unknown) => draft.setPath(path, value);
+
+  const number = (path: Path, value: number | undefined, compact = false): ReactNode => {
+    const spec = spellField(path);
+    if (!spec) return null;
+    return <Field key={String(path.at(-1))} label={spec.label} hint={spec.help} unit={spec.unit} compact={compact}>
+      <NumberField value={value} optional={spec.optional} integer={spec.integer} min={lower(spec)} max={spec.max} step={spec.step} unit={spec.unit}
+        readOnly={readOnly} placeholder={spec.optional ? "none" : undefined} onChange={next => set(path, next)} />
+    </Field>;
+  };
+  const choice = (path: Path, value: string | undefined, compact = false): ReactNode => {
+    const spec = spellField(path);
+    if (!spec) return null;
+    return <Field key={String(path.at(-1))} label={spec.label} hint={spec.help} compact={compact}>
+      <ChoiceField value={value} options={spec.choices?.map(String) ?? []} allowEmpty={spec.optional ? "none" : undefined} readOnly={readOnly} onChange={next => set(path, next)} />
+    </Field>;
+  };
+  const line = (path: Path, value: string | undefined): ReactNode => {
+    const spec = spellField(path);
+    if (!spec) return null;
+    return <Field label={spec.label} hint={spec.help}>
+      <TextField value={value ?? ""} multiline={spec.multiline} width={spec.multiline ? "full" : "text"} readOnly={readOnly} onChange={next => set(path, next)} />
+    </Field>;
+  };
+
   return <PageState page={page} collection="spells" navigate={navigate}>{(spell, record) => {
     const cost = asRecord(spell.cost);
     const runes = list(cost.runes).map(asRecord);
     const element = text(spell.element) ?? "wind";
+    const runeList = spellField(["cost", "runes"]);
+    const runeItem = spellField(["cost", "runes", 0, "itemId"]);
+    const runeQuantity = spellField(["cost", "runes", 0, "quantity"]);
+    const areaSpell = spellField(["aoe"]);
+    const setRunes = (next: ContentRow[]) => set(["cost", "runes"], next.length ? next : undefined);
     return <RecordShell
       thumb={spellThumb(spell)}
       title={spell.name} id={id}
@@ -86,35 +136,37 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
       rail={<EntitySummary collection="spells" record={record} recordId={id} index={index} navigate={navigate} editing />}>
       <Sheet>
         <Section title="Identity">
-          <Row label="Name"><TextField editable={editable} value={spell.name} onChange={value => draft.setPath(["name"], value)} ariaLabel="Name" /></Row>
-          <Row label="Description" align="start"><TextField editable={editable} value={spell.description} onChange={value => draft.setPath(["description"], value)} multiline ariaLabel="Description" /></Row>
-          <Row label="Element"><SelectField editable={editable} value={spell.element} onChange={value => draft.setPath(["element"], value)} options={ELEMENTS.map(value => ({ value, label: titleCase(value) }))} ariaLabel="Element" /></Row>
-          <Row label="Rung"><SelectField editable={editable} value={spell.rung} onChange={value => draft.setPath(["rung"], value)} options={RUNGS.map(value => ({ value, label: titleCase(value) }))} ariaLabel="Rung" /></Row>
-          {(spell.rank !== undefined || editable) && <Row label="Rank"><NumberField editable={editable} value={num(spell.rank)} onChange={value => draft.setPath(["rank"], value)} integer min={0} ariaLabel="Rank" /></Row>}
+          {line(["name"], spell.name)}
+          {line(["description"], spell.description)}
+          {choice(["element"], text(spell.element))}
+          {choice(["rung"], text(spell.rung))}
+          {number(["rank"], num(spell.rank))}
+          {areaSpell && <Field label={areaSpell.label} hint={areaSpell.help}>
+            <ToggleField value={spell.aoe === true} readOnly={readOnly} onChange={next => set(["aoe"], next)} />
+          </Field>}
         </Section>
         <Section title="Numbers">
-          <Fields>
-            <Field label="Required level"><NumberField editable={editable} value={num(spell.reqLevel)} onChange={value => draft.setPath(["reqLevel"], value)} integer min={1} ariaLabel="Required level" /></Field>
-            <Field label="Tier"><NumberField editable={editable} value={num(spell.tier)} onChange={value => draft.setPath(["tier"], value)} integer min={0} ariaLabel="Tier" /></Field>
-            <Field label="Base max hit"><NumberField editable={editable} value={num(spell.baseMax)} onChange={value => draft.setPath(["baseMax"], value)} integer min={0} ariaLabel="Base max hit" /></Field>
-            <Field label="Levels per point" hint="Magic levels per extra point of max hit"><NumberField editable={editable} value={num(spell.divisor)} onChange={value => draft.setPath(["divisor"], value)} min={0} ariaLabel="Divisor" /></Field>
-            <Field label="Base xp"><NumberField editable={editable} value={num(spell.baseXp)} onChange={value => draft.setPath(["baseXp"], value)} min={0} ariaLabel="Base xp" /></Field>
-            <Field label="Cast time (ms)"><NumberField editable={editable} value={num(spell.castMs)} onChange={value => draft.setPath(["castMs"], value)} integer min={0} ariaLabel="Cast time" /></Field>
-          </Fields>
+          <Fields>{NUMBER_KEYS.map(key => number([key], num(spell[key]), true))}</Fields>
         </Section>
         <Section title="Cost">
           <Fields>
-            <Field label="Element"><SelectField editable={editable} value={text(cost.element)} onChange={value => draft.setPath(["cost", "element"], value)} options={ELEMENTS.map(value => ({ value, label: titleCase(value) }))} ariaLabel="Cost element" /></Field>
-            <Field label="Essence charges"><NumberField editable={editable} value={num(cost.charges)} onChange={value => draft.setPath(["cost", "charges"], value)} integer min={0} ariaLabel="Charges" /></Field>
+            {choice(["cost", "element"], text(cost.element), true)}
+            {number(["cost", "charges"], num(cost.charges), true)}
           </Fields>
-          <Row label="Runes" align="start">
-            <span className="ref-list">
-              {runes.map((rune, at) => <ItemStack key={at} itemId={text(rune.itemId) ?? ""} quantity={num(rune.quantity)} editable={editable} page={page} open={navigate} onQuantity={value => draft.setPath(["cost", "runes", at, "quantity"], value ?? 1)} onRemove={() => { const next = runes.filter((_, index) => index !== at); draft.setPath(["cost", "runes"], next.length ? next : undefined); }} />)}
-              {!runes.length && <span className="story-empty">No runes.</span>}
-              {editable && <RecordPicker collection="spellRunes" ctx={ctx} exclude={new Set(runes.map(rune => text(rune.itemId) ?? ""))} onPick={picked => draft.setPath(["cost", "runes", runes.length], { itemId: picked, quantity: 1 })} trigger={<AddButton label="Add rune">Add rune</AddButton>} />}
-            </span>
-          </Row>
+          {runeList && runeItem && runeQuantity && <ListField<ContentRow>
+            label={runeList.label} hint={runeList.help} items={runes} readOnly={readOnly} emptyText="No runes."
+            addLabel="Add rune" onAdd={() => ({ itemId: "", quantity: 1 })} onChange={setRunes}
+            keyOf={(rune, at) => text(rune.itemId) ?? at}
+            removeLabel={(_, at) => `Remove rune ${at + 1}`}
+            renderItem={(rune, api) => <>
+              <RefField className="is-bare" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
+                exclude={new Set(runes.map(entry => text(entry.itemId) ?? "").filter((_, at) => at !== api.index))}
+                onChange={next => api.update({ ...rune, itemId: next ?? "" })} />
+              <NumberField className="spell-rune-quantity" value={num(rune.quantity) ?? 1} integer min={lower(runeQuantity)} unit={runeQuantity.unit} readOnly={readOnly}
+                ariaLabel={`${runeQuantity.label} ${api.index + 1}`} onChange={next => api.update({ ...rune, quantity: next ?? 1 })} />
+            </>} />}
         </Section>
+        <ReferencedBy collection="spells" id={id} navigate={navigate} />
       </Sheet>
     </RecordShell>;
   }}</PageState>;

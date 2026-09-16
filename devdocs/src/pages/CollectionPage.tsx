@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { LayoutGrid, List, Search, X } from "lucide-react";
+import { LayoutGrid, List, Search, Table2, X } from "lucide-react";
+import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
 import { apiGet, collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
@@ -12,6 +13,7 @@ import { facetsFor, prefersGrid, summarize, titleCase, type RecordSummary } from
 import { isGeneratedCollection, labelFor } from "../ui/library.js";
 import { EmptyState, ErrorState, LoadingRows } from "../ui/States.js";
 import { RecordTile } from "../ui/RecordTile.js";
+import { RecordGrid, clearSelection, setSelection } from "../ui/grid/index.js";
 import { EntityDetail } from "./EntityDetail.js";
 import "../dev/bulkActions.css";
 
@@ -23,8 +25,10 @@ const isGeneratedRow = (row: ContentRow): boolean => row.__compiled === true;
 
 interface Entry { id: string; row: ContentRow; summary: RecordSummary; generated: boolean }
 
-function readView(collection: string): "grid" | "list" {
-  try { const saved = localStorage.getItem(`corealm-codex-view:${collection}`); if (saved === "grid" || saved === "list") return saved; } catch { /* optional */ }
+type View = "grid" | "list" | "table";
+
+function readView(collection: string): View {
+  try { const saved = localStorage.getItem(`corealm-codex-view:${collection}`); if (saved === "grid" || saved === "list" || saved === "table") return saved; } catch { /* optional */ }
   return prefersGrid(collection) ? "grid" : "list";
 }
 
@@ -62,7 +66,8 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
   const { index } = useReferenceIndex();
   const ctx = useMemo(() => summaryContext(index), [index]);
   const [search, setSearch] = useState("");
-  const [view, setView] = useState<"grid" | "list">(() => readView(collection));
+  const [view, setView] = useState<View>(() => readView(collection));
+  const schema = useMemo(() => CONTENT_COLLECTIONS.find(candidate => candidate.name === collection)?.schema, [collection]);
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [limit, setLimit] = useState(PAGE);
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
@@ -121,6 +126,9 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
     const known = new Set(rawRows.map(row => rowId(row, idKey)));
     setSelected(previous => { const next = new Set([...previous].filter(id => known.has(id))); return next.size === previous.size ? previous : next; });
   }, [rawRows, idKey]);
+  // The palette and the single-letter hotkeys act on this page's selection.
+  useEffect(() => { setSelection(collection, selected); }, [collection, selected]);
+  useEffect(() => () => clearSelection(collection), [collection]);
 
   const visibleIds = useMemo(() => sorted.flatMap(item => item.entry.generated ? [] : [item.entry.id]), [sorted]);
   const selectedRows = useMemo(() => rawRows.filter(row => selected.has(rowId(row, idKey))), [rawRows, selected, idKey]);
@@ -137,7 +145,9 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
     });
   }
   const open = (id: string) => navigate(collection, id);
-  const groupOptions = [...(hasTier ? [{ key: "tier", label: "Tier" }] : []), ...facetValues.map(item => ({ key: item.facet.key, label: item.facet.label }))];
+  // Tier is offered from the summaries as well as from the facets; one entry per key.
+  const groupOptions = [...(hasTier ? [{ key: "tier", label: "Tier" }] : []), ...facetValues.map(item => ({ key: item.facet.key, label: item.facet.label }))]
+    .filter((option, index, all) => all.findIndex(other => other.key === option.key) === index);
   const activeFilters = Object.entries(filters).filter(([, value]) => value);
 
   return <div className="collection-page">
@@ -158,6 +168,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
         <div className="segmented" role="group" aria-label="View">
           <button type="button" className={view === "grid" ? "is-active" : ""} aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /> Grid</button>
           <button type="button" className={view === "list" ? "is-active" : ""} aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /> List</button>
+          {schema && <button type="button" className={view === "table" ? "is-active" : ""} aria-pressed={view === "table"} onClick={() => setView("table")}><Table2 size={13} /> Table</button>}
         </div>
       </div>
     </div>
@@ -168,6 +179,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
     </div>)}</div>}
     {editable && selected.size > 0 && BulkActionsPanel && <Suspense fallback={null}><BulkActionsPanel collection={collection} idKey={idKey} revision={response.revision} rows={selectedRows} selectedIds={[...selected]} onClearSelection={() => setSelected(new Set())} /></Suspense>}
     {!filtered.length ? <EmptyState title={rows.length ? undefined : "This collection is empty"} />
+      : view === "table" && schema ? <RecordGrid collection={collection} rows={sorted.map(item => item.entry.row)} schema={schema} idKey={idKey} revision={response.revision} selected={selected} onSelect={setSelected} onOpen={open} readOnly={!editable} isRowReadOnly={isGeneratedRow} />
       : view === "grid" ? <GridView items={sorted} limit={limit} grouped={Boolean(group)} collection={collection} editable={editable} selected={selected} onToggle={toggle} onOpen={open} onMore={() => setLimit(value => value + PAGE)} />
       : <ListView items={sorted} grouped={Boolean(group)} collection={collection} editable={editable} selected={selected} onToggle={toggle} onOpen={open} />}
     {editable && selected.size > 0 && <div className="selection-bar"><strong>{selected.size}</strong><span>selected · Ctrl-click to add, Shift-click for a range</span><span className="spacer" /><button className="button button-small" onClick={() => setSelected(new Set(visibleIds))}>Select all {visibleIds.length}</button><button className="button button-small" onClick={() => setSelected(new Set())}>Clear</button></div>}

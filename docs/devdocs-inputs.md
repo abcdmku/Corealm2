@@ -453,6 +453,39 @@ pass) and is committed on its own.
 Ownership follows the existing split: root owns `ui/field/`, the draft store, `derive.ts`,
 `refs.ts` and CSS; workspace agents migrate their own folders against the new API.
 
+## What was built
+
+September 15, 2026. Steps 1 to 7 are done and every workspace is migrated. Step 8 is not.
+
+- **Chains.** `model/origin.ts` holds the contract (`Resolved`, `Origin`, `originState`,
+  `revertTarget`, `describeChain`). `derive.ts` attaches a `resolved` chain to every derivation and
+  adds `resolveInherited` for a variant's identity fields.
+- **Field core.** `ui/field/` with `Field` (dot, conditional revert, visible provenance line, the
+  idle/focused/editing states and their keys), `NumberField` (steps, Alt-drag scrub, `=` maths,
+  unit from the schema), `TextField`, `ChoiceField`, `ToggleField`, `DerivedNumber`, `DerivedChoice`,
+  `RefField`, `ReferencedBy`, `ListField`, `MapField`, `WeightedList`, `UnionField`, and
+  `fieldFromSchema`. One stylesheet, `styles/field.css`. A gallery of every state lives at
+  `#/tuning/fields`.
+- **Drafts.** `model/store.ts` keeps drafts outside components with undo, redo and one save bar in
+  the shell that writes every dirty record as a single transaction and shows a diff on conflict.
+  `MapView` and the generic editor register as contributors.
+- **References.** One `RefField` everywhere, a peek sheet that edits the target record in place, and
+  a `Referenced by` section on every record page built from the reference index and the schema's
+  `role` metadata.
+- **Schema as source.** `FieldMeta` gained `role`, `ordered`, `weight`, `probability`, `group` and
+  `display`; `REF_KIND_SOURCES` gives the seven reference kinds that had no collection a source.
+  The hand-written label, unit and enum tables in the workspaces are gone.
+- **Grid.** Every collection browser has a Table mode with mixed-value cells, and Ctrl+K sets a
+  property on the whole selection.
+
+Deleted along the way: `dev/editors.tsx`, `ui/ItemIcon.tsx`, the controls in `ui/Sheet.tsx` (it is
+layout only now), the private reference map in `EntityDetail`, and react-hook-form.
+
+Two notes for whoever picks up step 8. The formula workspace still only previews and never writes,
+which is the work that remains. And `tests/navigation-shipped-artifact.test.ts` and
+`tests/world-release-artifact.test.ts` fail on a stale navigation bake that predates this work; its
+four inputs are untouched here and a GPU `npm run navmesh:build` is what clears it.
+
 ## Sources
 
 Blender library overrides and field colours: docs.blender.org (library_overrides, fields, undo_redo).

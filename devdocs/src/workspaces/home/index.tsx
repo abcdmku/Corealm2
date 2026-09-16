@@ -1,8 +1,8 @@
-import { lazy } from "react";
 import type { ViewRegistry } from "../types.js";
+import { lazyView } from "../lazyView.js";
 
 export const views: ViewRegistry = {
-  overview: lazy(() => import("./OverviewView.js")),
-  requests: lazy(() => import("./RequestsView.js")),
-  changes: lazy(() => import("./ChangesView.js")),
+  overview: lazyView(() => import("./OverviewView.js")),
+  requests: lazyView(() => import("./RequestsView.js")),
+  changes: lazyView(() => import("./ChangesView.js")),
 };

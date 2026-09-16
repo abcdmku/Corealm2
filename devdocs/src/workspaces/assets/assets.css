@@ -6,7 +6,6 @@
 .model-page-stage[data-large="true"] { aspect-ratio: 4 / 3; }
 .model-names { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 2px 16px; font-size: 12px; font-family: var(--font-mono); }
 .model-names li { min-height: 22px; display: flex; align-items: center; color: var(--muted); }
-.model-used-by { width: 100%; }
 
 .audio-page .ws-heading { margin-top: 20px; }
 .audio-page .ws-heading:first-of-type { margin-top: 0; }
@@ -14,9 +13,16 @@
 .audio-table td { vertical-align: middle; height: 32px; padding: 2px 8px; }
 .audio-table td.is-muted { color: var(--muted); }
 .audio-table th:first-child, .audio-table td:first-child { font-weight: 500; }
-.audio-table .kv-input[data-width="num"] { width: 68px; }
 .audio-play-cell { width: 32px; padding: 2px 4px !important; }
 .audio-play { width: 22px; height: 22px; color: var(--muted); }
 .audio-play.is-active { color: var(--accent); background: var(--accent-soft); }
-.audio-range { display: inline-flex; align-items: center; gap: 4px; }
 .audio-loop-cell { display: inline-flex; align-items: center; gap: 6px; }
+/* Fixed or a range, both on one line: the shape switch is a short select, the numbers keep the row at 32px. */
+.audio-rate { display: inline-flex; align-items: center; flex-wrap: nowrap; gap: 4px; }
+.audio-rate .field-select { width: 78px; padding-right: 18px; }
+.audio-rate .field-input { width: 64px; }
+.audio-table .field-input[data-width="num"] { width: 76px; }
+.audio-pool .field-select { width: 200px; }
+/* Save diagnostics for the catalog, styled here so the page does not borrow another workspace's css. */
+.audio-diagnostics { margin: 0 0 12px; padding: 6px 10px; border: 1px solid var(--danger); border-radius: 6px; background: var(--danger-soft); font-size: 12px; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.audio-diagnostics code { color: var(--danger); }

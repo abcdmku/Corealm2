@@ -1,21 +1,23 @@
-import { useMemo, useState } from "react";
-import { ArrowRight, Plus, X } from "lucide-react";
-import type { EquipmentFamily, ProgressionTier } from "../../../../game/src/content/schema/progression.js";
+import { useMemo, useState, type ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
+import { EquipmentBonusesSchema, ItemSchema, ItemSkillRequirementsSchema } from "../../../../game/src/content/schema/items.js";
+import { ProgressionTierSchema, type EquipmentFamily, type ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import type { AppProps, ContentRow } from "../../model/contracts.js";
-import { BONUS_KEYS, BONUS_LABELS, deriveEquipmentMember, deriveProductionEntry, equipmentSource, fmt, type BonusKey } from "../../model/derive.js";
-import { getPath, useRecordDraft, type Path } from "../../model/draft.js";
+import { BONUS_KEYS, deriveEquipmentMember, deriveProductionEntry, equipmentSource, fmt, type BonusKey } from "../../model/derive.js";
+import { getPath, setPath, useRecordDraft } from "../../model/draft.js";
+import type { Path, RecordRef } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { Derived, Facts, Field, Fields, NumberInput, Row, Section, Select, Sheet, Static, TextInput, Toggle } from "../../ui/Sheet.js";
+import { ChoiceField, DerivedNumber, Facts, Field, Fields, MapField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, Static, TextField, ToggleField, usePeek } from "../../ui/field/index.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
-import { ItemPick } from "./ItemPick.js";
-import { CATEGORY_OPTIONS, ELEMENT_OPTIONS, EQUIP_SLOT_OPTIONS, SKILL_OPTIONS, SLOT_LABELS, emptyBonuses, seconds, stationText, titleCase, type ItemRecord, type ItemsData } from "./data.js";
+import { choicesOf, emptyBonuses, seconds, specAt, stationText, titleCase, type ItemRecord, type ItemsData, type PathSpec } from "./data.js";
 
 /*
   One page for every item. Gear expanded from a tier edits the tier member (name, description,
   adjustments) and shows each number with the curve that produced it. Authored items edit the item
   row directly. Neither page says where the record came from; the derivation is the explanation.
+  Every label, unit, bound and choice comes from the schemas.
 */
 
 export interface ItemPageProps {
@@ -36,13 +38,18 @@ export function ItemPage(props: ItemPageProps) {
   return <div className="ws-page"><p className="empty-inline">"{id}" is not an item.</p></div>;
 }
 
+const item = (...path: Path[number][]): PathSpec => specAt(ItemSchema, path);
+const member = (...path: Path[number][]): PathSpec => specAt(ProgressionTierSchema, ["equipment", 0, ...path]);
+const BONUS: Readonly<Record<BonusKey, PathSpec>> = Object.fromEntries(BONUS_KEYS.map(key => [key, specAt(EquipmentBonusesSchema, [key])])) as Record<BonusKey, PathSpec>;
+const SKILL_KEYS = Object.keys(ItemSkillRequirementsSchema.fields).map(key => ({ value: key, label: specAt(ItemSkillRequirementsSchema, [key]).label }));
+
 /** Remove empty `adjustments` / `bonuses` objects after clearing an override so the row is saved clean. */
 function prune(tier: ProgressionTier, index: number): ProgressionTier {
-  const member = tier.equipment[index];
-  if (!member?.adjustments) return tier;
-  const adjustments = { ...member.adjustments };
+  const row = tier.equipment[index];
+  if (!row?.adjustments) return tier;
+  const adjustments = { ...row.adjustments };
   if (adjustments.bonuses && Object.keys(adjustments.bonuses).length === 0) delete adjustments.bonuses;
-  const next = Object.keys(adjustments).length ? { ...member, adjustments } : (({ adjustments: _drop, ...rest }) => rest)(member);
+  const next = Object.keys(adjustments).length ? { ...row, adjustments } : (({ adjustments: _drop, ...rest }) => rest)(row);
   const equipment = [...tier.equipment];
   equipment[index] = next;
   return { ...tier, equipment };
@@ -50,43 +57,48 @@ function prune(tier: ProgressionTier, index: number): ProgressionTier {
 
 function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, liveFamily, tierId }: ItemPageProps & { tierId: string }) {
   const draft = useRecordDraft<ProgressionTier>("progression", tierId);
+  const peek = usePeek();
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const [familyDrawer, setFamilyDrawer] = useState<string>();
   const [localFamily, setLocalFamily] = useState<EquipmentFamily>();
   const tier = draft.draft ?? data.tiers.find(row => row.id === tierId);
-  const index = tier ? tier.equipment.findIndex(member => member.id === id) : -1;
-  const member = tier?.equipment[index];
+  const index = tier ? tier.equipment.findIndex(row => row.id === id) : -1;
+  const row = tier?.equipment[index];
   const family = useMemo(() => {
-    if (!member) return undefined;
+    if (!row) return undefined;
     const live = liveFamily ?? localFamily;
-    return live?.id === member.familyId ? live : data.familyById(member.familyId);
-  }, [member, liveFamily, localFamily, data]);
-  const derived = tier && member && family ? deriveEquipmentMember(tier, member, family) : undefined;
+    return live?.id === row.familyId ? live : data.familyById(row.familyId);
+  }, [row, liveFamily, localFamily, data]);
+  const derived = tier && row && family ? deriveEquipmentMember(tier, row, family) : undefined;
   const compiled = data.compiled.get(id);
 
-  const setMember = (path: Path, value: unknown) => draft.set(previous => prune({ ...previous, equipment: previous.equipment.map((row, i) => i === index ? setIn(row, path, value) : row) } as ProgressionTier, index));
+  const setMember = (path: Path, value: unknown) => draft.set(previous => prune(setPath(previous, ["equipment", index, ...path], value), index));
+  /** The tier row holds every expanded item, so a field is dirty only when its own path moved. */
+  const dirtyAt = (path: Path): boolean => draft.dirty && JSON.stringify(getPath(draft.draft, ["equipment", index, ...path])) !== JSON.stringify(getPath(draft.record, ["equipment", index, ...path]));
   const openFamily = (familyId: string) => onOpenFamily ? onOpenFamily(familyId) : setFamilyDrawer(familyId);
+  /** The family in a provenance line opens its curve beside the item; anything else peeks. */
+  const openRef = (ref: RecordRef) => ref.collection === "equipmentFamilies" ? openFamily(ref.id) : peek.open(ref);
 
   /** The item as the game will see it after this draft, for the rail. */
   const liveRecord = useMemo<ContentRow | undefined>(() => {
-    if (!derived || !member || !tier || !family) return compiled;
+    if (!derived || !row || !tier || !family) return compiled;
     const bonuses = Object.fromEntries(BONUS_KEYS.map(key => [key, derived.bonuses[key].value]));
-    return { ...compiled, id, name: member.name, description: member.description, tier: tier.tier, value: derived.value.value, category: family.category, stackable: false,
+    return { ...compiled, id, name: row.name, description: row.description, tier: tier.tier, value: derived.value.value, category: family.category, stackable: false,
       ...(family.category === "tool" ? { tool: { skill: family.skill, gatherBonus: derived.gatherBonus.value } }
         : { equip: { slot: derived.slot, requires: { [family.skill]: tier.reqLevel }, bonuses, ...(family.attackSpeedMs ? { attackSpeedMs: family.attackSpeedMs } : {}) } }),
       ...(family.magicWeapon ? { magicWeapon: family.magicWeapon } : {}) };
-  }, [derived, member, tier, family, compiled, id]);
+  }, [derived, row, tier, family, compiled, id]);
 
-  if (!tier || !member || !family || !derived) return <p className="empty-inline">Loading…</p>;
+  if (!tier || !row || !family || !derived) return <p className="empty-inline">Loading…</p>;
   const isTool = family.category === "tool";
-  const facts = [`Tier ${tier.tier}`, isTool ? `${titleCase(family.skill)} tool` : SLOT_LABELS[derived.slot] ?? derived.slot, `requires ${family.skill} ${tier.reqLevel}`];
-  const familyLink = <button type="button" className="text-button" onClick={() => openFamily(family.id)}>{family.name}</button>;
+  const value = item("value");
+  const facts = [`Tier ${tier.tier}`, isTool ? `${titleCase(family.skill)} tool` : titleCase(derived.slot), `requires ${family.skill} ${tier.reqLevel}`];
 
   const main = <div className="record-main">
     <header className="record-head">
       <Thumb spec={{ kind: "item", id }} size="l" alt="" />
       <div className="record-title">
-        <h1>{member.name}</h1>
+        <h1>{row.name}</h1>
         <Facts items={facts} />
         <code>{id}</code>
       </div>
@@ -94,25 +106,25 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
     </header>
     <Sheet>
       <Section title="Identity">
-        <Row label="Name"><TextInput value={member.name} disabled={readOnly} ariaLabel="Name" onChange={value => setMember(["name"], value)} /></Row>
-        <Row label="Description" align="start"><TextInput value={member.description} multiline disabled={readOnly} ariaLabel="Description" onChange={value => setMember(["description"], value)} /></Row>
-        <Row label="Family"><Static>{familyLink}</Static></Row>
+        <Field label={member("name").label} dirty={dirtyAt(["name"])}><TextField value={row.name} readOnly={readOnly} onChange={next => setMember(["name"], next)} /></Field>
+        <Field label={member("description").label} dirty={dirtyAt(["description"])}><TextField value={row.description} multiline readOnly={readOnly} onChange={next => setMember(["description"], next)} /></Field>
       </Section>
-      <Section title="Numbers" aside={<span>{family.name} curve at tier {tier.tier} · edit a cell to override it</span>}>
-        <Fields>
-          <Field label="Value"><Derived derivation={derived.value} readOnly={readOnly} onOverride={value => setMember(["adjustments", "value"], value)} onOpenSource={source => openFamily(source.id)} /></Field>
-          {isTool
-            ? <Field label="Gather bonus"><Derived derivation={derived.gatherBonus} integer={false} readOnly={readOnly} onOverride={value => setMember(["adjustments", "gatherBonus"], value)} onOpenSource={source => openFamily(source.id)} /></Field>
-            : BONUS_KEYS.map(key => <Field key={key} label={BONUS_LABELS[key]}><Derived derivation={derived.bonuses[key]} readOnly={readOnly} onOverride={value => setMember(["adjustments", "bonuses", key], value)} onOpenSource={source => openFamily(source.id)} /></Field>)}
-        </Fields>
+      <Section title="Numbers" aside={<button type="button" className="text-button" onClick={() => openFamily(family.id)}>{family.name} curve</button>}>
+        <DerivedNumber label={value.label} unit={value.unit} min={0} resolved={derived.value.resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "value"])} onChange={next => setMember(["adjustments", "value"], next)} onOpenRef={openRef} />
+        {isTool
+          ? <DerivedNumber label={item("tool", "gatherBonus").label} integer={false} min={0} resolved={derived.gatherBonus.resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "gatherBonus"])} onChange={next => setMember(["adjustments", "gatherBonus"], next)} onOpenRef={openRef} />
+          : <Fields columns={4}>
+            {BONUS_KEYS.map(key => <DerivedNumber key={key} compact label={BONUS[key].label} resolved={derived.bonuses[key].resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "bonuses", key])} onChange={next => setMember(["adjustments", "bonuses", key], next)} onOpenRef={openRef} />)}
+          </Fields>}
         <Facts className="kv-facts" items={[
-          !isTool && (SLOT_LABELS[derived.slot] ?? derived.slot),
+          !isTool && titleCase(derived.slot),
           <>Requires {titleCase(family.skill)} {tier.reqLevel}<span className="muted"> from the tier</span></>,
           family.attackSpeedMs !== undefined && <span className="mono">{family.attackSpeedMs} ms per attack</span>,
           family.magicWeapon && `${family.magicWeapon.kind} · ${family.magicWeapon.hands === 2 ? "two-handed" : "one-handed"}`,
         ]} />
       </Section>
       <MadeBy itemId={id} data={data} navigate={navigate} />
+      <ReferencedBy collection="items" id={id} navigate={navigate} />
     </Sheet>
   </div>;
 
@@ -127,16 +139,6 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
 function Rail({ collection, record, recordId, navigate }: { collection: string; record: ContentRow; recordId: string; navigate: AppProps["navigate"] }) {
   const { index } = useReferenceIndex();
   return <aside className="record-rail"><EntitySummary collection={collection} record={record} recordId={recordId} index={index} navigate={navigate} editing /></aside>;
-}
-
-function setIn<T>(value: T, path: Path, next: unknown): T {
-  if (path.length === 0) return next as T;
-  const [head, ...rest] = path;
-  const container = (value !== null && typeof value === "object" ? value : {}) as Record<string, unknown>;
-  const copy: Record<string, unknown> = { ...container };
-  if (rest.length === 0 && next === undefined) delete copy[String(head)];
-  else copy[String(head)] = setIn(copy[String(head)], rest, next);
-  return copy as T;
 }
 
 /** The production entry that outputs this item, with its inputs, station and rates. */
@@ -160,28 +162,57 @@ export function MadeBy({ itemId, data, navigate }: { itemId: string; data: Items
 
 /* ---------- Authored items ---------- */
 
-const OPTIONAL_BLOCKS = [
-  { key: "equip", label: "Equip", make: () => ({ slot: "mainHand", bonuses: emptyBonuses(), requires: {} }) },
-  { key: "tool", label: "Tool", make: () => ({ skill: "mining", gatherBonus: 1 }) },
-  { key: "food", label: "Food", make: () => ({ healAmount: 1 }) },
-  { key: "magicWeapon", label: "Magic weapon", make: () => ({ kind: "wand", hands: 1 }) },
-  { key: "orb", label: "Orb", make: () => ({ element: "wind", released: true }) },
-] as const;
+type BlockKey = "equip" | "tool" | "food" | "magicWeapon" | "orb";
+const BLOCKS: readonly { key: BlockKey; make: () => unknown }[] = [
+  { key: "equip", make: () => ({ slot: "mainHand", bonuses: emptyBonuses(), requires: {} }) },
+  { key: "tool", make: () => ({ skill: "mining", gatherBonus: 1 }) },
+  { key: "food", make: () => ({ healAmount: 1 }) },
+  { key: "magicWeapon", make: () => ({ kind: "wand", hands: 1 }) },
+  { key: "orb", make: () => ({ element: "wind", released: true }) },
+];
+const HANDS = [{ value: "1", label: "One-handed" }, { value: "2", label: "Two-handed" }];
+const PRESENCE = [{ value: "none", label: "None" }, { value: "present", label: "Present" }];
+
+/**
+ * An optional block of the item as a section whose presence is a field: the aside reads None or
+ * Present, and choosing None removes the block. Absent blocks still show, so every item page has
+ * the same sections in the same order and a block is one choice away.
+ */
+function BlockSection({ spec, present, readOnly, onPresence, children }: { spec: PathSpec; present: boolean; readOnly: boolean; onPresence: (present: boolean) => void; children: ReactNode }) {
+  const aside = readOnly ? undefined : <ChoiceField value={present ? "present" : "none"} options={PRESENCE} ariaLabel={`${spec.label} block`} className="block-presence" onChange={next => onPresence(next === "present")} />;
+  // An absent block is one muted line: the schema label reads as a noun ("No food effect."), so it
+  // needs no article. The schema's help belongs with the fields it describes, not with their absence.
+  return <Section title={spec.label} aside={aside} className={`block-section${present ? "" : " is-absent"}`}>
+    {present
+      ? <>{spec.hint && <p className="field-hint">{spec.hint}</p>}{children}</>
+      : <p className="empty-inline">No {spec.label.toLowerCase()}.</p>}
+  </Section>;
+}
 
 function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
   const draft = useRecordDraft<ItemRecord>("items", id);
   const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
   const record = draft.draft;
-  const [addSkill, setAddSkill] = useState("");
   if (!record) return <p className="empty-inline">Loading…</p>;
   const set = draft.setPath;
   const equip = record.equip;
-  const requires = equip?.requires ?? {};
-  const requirement = Object.entries(requires).filter(([, level]) => typeof level === "number").map(([skill, level]) => `requires ${skill} ${level}`)[0];
-  const facts = [record.tier !== undefined && `Tier ${record.tier}`, equip?.slot ? SLOT_LABELS[equip.slot] ?? equip.slot : titleCase(record.category ?? ""), requirement];
-  const missing = OPTIONAL_BLOCKS.filter(block => record[block.key] === undefined);
-  const remove = (key: string) => !readOnly && <button type="button" className="text-button" onClick={() => set([key], undefined)}>Remove</button>;
-  const num = (path: Path, options: { integer?: boolean; min?: number; unit?: string; label?: string } = {}) => <NumberInput value={getPath(record, path) as number | undefined} integer={options.integer} min={options.min} unit={options.unit} disabled={readOnly} ariaLabel={options.label ?? path.join(".")} onChange={value => set(path, value)} />;
+  const charge = record.magicWeapon?.charge;
+  const requires = Object.fromEntries(Object.entries(equip?.requires ?? {}).filter((entry): entry is [string, number] => typeof entry[1] === "number"));
+  const requirement = Object.entries(requires).map(([skill, level]) => `requires ${skill} ${level}`)[0];
+  const facts = [record.tier !== undefined && `Tier ${record.tier}`, equip?.slot ? titleCase(equip.slot) : titleCase(record.category ?? ""), requirement];
+
+  const num = (path: Path, spec = item(...path)) => <Field label={spec.label} hint={spec.hint}>
+    <NumberField value={getPath(record, path) as number | undefined} integer={spec.integer} min={spec.min} max={spec.max} step={spec.step} unit={spec.unit} optional={spec.optional} readOnly={readOnly} onChange={next => set(path, next)} />
+  </Field>;
+  const choice = (path: Path, spec = item(...path)) => <Field label={spec.label} hint={spec.hint}>
+    <ChoiceField value={getPath(record, path) as string | undefined} options={choicesOf(spec)} readOnly={readOnly} onChange={next => set(path, next)} />
+  </Field>;
+  const toggle = (path: Path, spec = item(...path)) => <Field label={spec.label} hint={spec.hint}>
+    <ToggleField value={getPath(record, path) === true} readOnly={readOnly} onChange={next => set(path, next)} />
+  </Field>;
+  const ref = (path: Path, spec = item(...path)) => <RefField kind="item" collection="compiled-items" label={spec.label} hint={spec.hint} value={(getPath(record, path) as string | undefined) || undefined} readOnly={readOnly} onChange={next => set(path, next ?? "")} />;
+  const block = (key: BlockKey) => BLOCKS.find(candidate => candidate.key === key)!;
+  const presence = (key: BlockKey) => (present: boolean) => set([key], present ? block(key).make() : undefined);
 
   const main = <div className="record-main">
     <header className="record-head">
@@ -195,51 +226,52 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
     </header>
     <Sheet>
       <Section title="Identity">
-        <Row label="Name"><TextInput value={record.name} disabled={readOnly} ariaLabel="Name" onChange={value => set(["name"], value)} /></Row>
-        <Row label="Description" align="start"><TextInput value={record.description ?? ""} multiline disabled={readOnly} ariaLabel="Description" onChange={value => set(["description"], value)} /></Row>
-        <Row label="Category"><Select value={record.category} options={CATEGORY_OPTIONS} disabled={readOnly} ariaLabel="Category" onChange={value => set(["category"], value)} /></Row>
-        <Row label="Tier">{num(["tier"], { integer: true, min: 0, label: "Tier" })}</Row>
-        <Row label="Value">{num(["value"], { integer: true, min: 0, unit: "marks", label: "Value" })}</Row>
-        <Row label="Stackable"><Toggle value={record.stackable === true} disabled={readOnly} onChange={value => set(["stackable"], value)} /></Row>
+        <Field label={item("name").label}><TextField value={record.name} readOnly={readOnly} onChange={next => set(["name"], next)} /></Field>
+        <Field label={item("description").label}><TextField value={record.description ?? ""} multiline readOnly={readOnly} onChange={next => set(["description"], next)} /></Field>
+        {choice(["category"])}
+        {num(["tier"])}
+        {num(["value"])}
+        {toggle(["stackable"])}
       </Section>
-      {equip && <Section title="Equip" aside={remove("equip")}>
-        <Row label="Slot"><Select value={equip.slot} options={EQUIP_SLOT_OPTIONS.map(slot => ({ value: slot, label: SLOT_LABELS[slot] ?? slot }))} disabled={readOnly} ariaLabel="Slot" onChange={value => set(["equip", "slot"], value)} /></Row>
-        <Fields>
-          {BONUS_KEYS.map(key => <Field key={key} label={BONUS_LABELS[key]}>{num(["equip", "bonuses", key], { label: BONUS_LABELS[key] })}</Field>)}
-          <Field label="Attack speed">{num(["equip", "attackSpeedMs"], { min: 1, unit: "ms", label: "Attack speed" })}</Field>
+      <BlockSection spec={item("equip")} present={Boolean(equip)} readOnly={readOnly} onPresence={presence("equip")}>
+        {choice(["equip", "slot"])}
+        <Fields columns={4}>
+          {BONUS_KEYS.map(key => <Field key={key} compact label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>)}
         </Fields>
-        {Object.keys(requires).map(skill => <Row key={skill} label={`Requires ${skill}`}>
-          <NumberInput value={requires[skill]} integer min={1} disabled={readOnly} ariaLabel={`Requires ${skill}`} onChange={value => set(["equip", "requires", skill], value)} />
-          {!readOnly && <button type="button" className="icon-button" aria-label={`Remove ${skill} requirement`} onClick={() => set(["equip", "requires", skill], undefined)}><X size={12} /></button>}
-        </Row>)}
-        {!readOnly && <Row label={Object.keys(requires).length ? "" : "Requires"}><Select value={addSkill || undefined} options={SKILL_OPTIONS.filter(skill => !(skill in requires))} allowEmpty="Add requirement…" ariaLabel="Add requirement" onChange={skill => { if (skill) { set(["equip", "requires", skill], 1); setAddSkill(""); } }} /></Row>}
-      </Section>}
-      {record.tool && <Section title="Tool" aside={remove("tool")}>
-        <Row label="Skill"><Select value={record.tool.skill} options={["mining", "woodcutting", "fishing"]} disabled={readOnly} ariaLabel="Tool skill" onChange={value => set(["tool", "skill"], value)} /></Row>
-        <Row label="Gather bonus">{num(["tool", "gatherBonus"], { min: 0, label: "Gather bonus" })}</Row>
-      </Section>}
-      {record.food && <Section title="Food" aside={remove("food")}>
-        <Row label="Heals">{num(["food", "healAmount"], { min: 0, unit: "hp", label: "Heal amount" })}</Row>
-      </Section>}
-      {record.magicWeapon && <Section title="Magic weapon" aside={remove("magicWeapon")}>
-        <Row label="Kind"><Select value={record.magicWeapon.kind} options={["wand", "staff"]} disabled={readOnly} ariaLabel="Weapon kind" onChange={value => set(["magicWeapon", "kind"], value)} /></Row>
-        <Row label="Hands"><Select value={String(record.magicWeapon.hands ?? 1)} options={[{ value: "1", label: "One-handed" }, { value: "2", label: "Two-handed" }]} disabled={readOnly} ariaLabel="Hands" onChange={value => set(["magicWeapon", "hands"], Number(value))} /></Row>
-        {record.magicWeapon.charge ? <>
-          <Row label="Element"><Select value={record.magicWeapon.charge.element as string | undefined} options={ELEMENT_OPTIONS} disabled={readOnly} ariaLabel="Charge element" onChange={value => set(["magicWeapon", "charge", "element"], value)} /></Row>
-          <Row label="Capacity">{num(["magicWeapon", "charge", "capacity"], { integer: true, min: 1, label: "Charge capacity" })}<span className="muted">starts with</span>{num(["magicWeapon", "charge", "initialCharges"], { integer: true, min: 0, label: "Initial charges" })}</Row>
-          <Row label="Recharge"><ItemPick value={record.magicWeapon.charge.rechargeItemId as string | undefined} data={data} ariaLabel="Recharge item" disabled={readOnly} onPick={itemId => set(["magicWeapon", "charge", "rechargeItemId"], itemId)} /><span className="muted">×</span>{num(["magicWeapon", "charge", "rechargeCost"], { integer: true, min: 1, label: "Items per recharge" })}</Row>
-          <Row label="Altar orb"><ItemPick value={record.magicWeapon.charge.orbItemId as string | undefined} data={data} ariaLabel="Altar orb" disabled={readOnly} onPick={itemId => set(["magicWeapon", "charge", "orbItemId"], itemId)} /></Row>
-          <Row label="Released"><Toggle value={record.magicWeapon.charge.released === true} disabled={readOnly} onChange={value => set(["magicWeapon", "charge", "released"], value)} />{!readOnly && <button type="button" className="text-button" onClick={() => set(["magicWeapon", "charge"], undefined)}>Remove charge</button>}</Row>
-        </> : !readOnly && <Row label="Charge"><button type="button" className="button button-small" onClick={() => set(["magicWeapon", "charge"], { element: "wind", capacity: 10, initialCharges: 0, rechargeItemId: "", rechargeCost: 1, orbItemId: "", released: false })}><Plus size={12} /> Add elemental charge</button></Row>}
-      </Section>}
-      {record.orb && <Section title="Orb" aside={remove("orb")}>
-        <Row label="Element"><Select value={record.orb.element} options={ELEMENT_OPTIONS} disabled={readOnly} ariaLabel="Orb element" onChange={value => set(["orb", "element"], value)} /></Row>
-        <Row label="Released"><Toggle value={record.orb.released === true} disabled={readOnly} onChange={value => set(["orb", "released"], value)} /></Row>
-      </Section>}
+        {num(["equip", "attackSpeedMs"])}
+        <MapField<number> label={item("equip", "requires").label} value={requires} keys={SKILL_KEYS} keyLabel="skill" readOnly={readOnly} emptyText="No skill requirement" defaultValue={() => 1}
+          onChange={next => set(["equip", "requires"], next)}
+          renderValue={(skill, level, update) => <NumberField value={level} integer min={1} ariaLabel={`${titleCase(skill)} level`} readOnly={readOnly} onChange={next => update(next ?? 1)} />} />
+      </BlockSection>
+      <BlockSection spec={item("tool")} present={Boolean(record.tool)} readOnly={readOnly} onPresence={presence("tool")}>
+        {choice(["tool", "skill"])}
+        {num(["tool", "gatherBonus"])}
+      </BlockSection>
+      <BlockSection spec={item("food")} present={Boolean(record.food)} readOnly={readOnly} onPresence={presence("food")}>
+        {num(["food", "healAmount"])}
+      </BlockSection>
+      <BlockSection spec={item("magicWeapon")} present={Boolean(record.magicWeapon)} readOnly={readOnly} onPresence={presence("magicWeapon")}>
+        {choice(["magicWeapon", "kind"])}
+        <Field label={item("magicWeapon", "hands").label}><ChoiceField value={String(record.magicWeapon?.hands ?? 1)} options={HANDS} readOnly={readOnly} onChange={next => set(["magicWeapon", "hands"], Number(next))} /></Field>
+        <Field label={item("magicWeapon", "charge").label}>
+          <ChoiceField value={charge ? "present" : "none"} options={PRESENCE} readOnly={readOnly} onChange={next => set(["magicWeapon", "charge"], next === "present" ? { element: "wind", capacity: 10, initialCharges: 0, rechargeItemId: "", rechargeCost: 1, orbItemId: "", released: false } : undefined)} />
+        </Field>
+        {charge && <>
+          {choice(["magicWeapon", "charge", "element"])}
+          {num(["magicWeapon", "charge", "capacity"])}
+          {num(["magicWeapon", "charge", "initialCharges"])}
+          {ref(["magicWeapon", "charge", "rechargeItemId"])}
+          {num(["magicWeapon", "charge", "rechargeCost"])}
+          {ref(["magicWeapon", "charge", "orbItemId"])}
+          {toggle(["magicWeapon", "charge", "released"])}
+        </>}
+      </BlockSection>
+      <BlockSection spec={item("orb")} present={Boolean(record.orb)} readOnly={readOnly} onPresence={presence("orb")}>
+        {choice(["orb", "element"])}
+        {toggle(["orb", "released"])}
+      </BlockSection>
       <MadeBy itemId={id} data={data} navigate={navigate} />
-      {!readOnly && missing.length > 0 && <Section title="Add section">
-        <Row label=""><span className="add-blocks">{missing.map(block => <button key={block.key} type="button" className="button button-small" onClick={() => set([block.key], block.make())}><Plus size={12} /> {block.label}</button>)}</span></Row>
-      </Section>}
+      <ReferencedBy collection="items" id={id} navigate={navigate} />
     </Sheet>
   </div>;
 

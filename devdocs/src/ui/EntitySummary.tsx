@@ -31,7 +31,8 @@ export function EntitySummary({ collection, record, recordId, index, navigate, e
     {!editing && summary.stats.length > 0 && <div className="summary-block"><h3>Key numbers</h3><dl className="stat-grid">{summary.stats.map(stat => <div className="stat" key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl></div>}
     {editing ? <ContextBlocks collection={base} record={record} ctx={ctx} index={index} incoming={incoming} open={open} /> : <DomainBlocks collection={base} record={record} recordId={recordId} ctx={ctx} index={index} incoming={incoming} open={open} />}
     {!editing && <OutgoingBlock outgoing={outgoing} ctx={ctx} index={index} open={open} skip={domainHandledPaths(base)} />}
-    <IncomingBlock incoming={incoming} ctx={ctx} open={open} skipCollections={domainHandledIncoming(base)} />
+    {/* An editable sheet ends with its own "Referenced by" section, so the rail does not repeat it. */}
+    {!editing && <IncomingBlock incoming={incoming} ctx={ctx} open={open} skipCollections={domainHandledIncoming(base)} />}
   </div>;
 }
 

@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import type { CreatureDefinition, CreatureProfile } from "../../../../game/src/content/schema/creatureDefinitions.js";
 import type { LootTableRecord } from "../../../../game/src/content/schema/loot.js";
 import type { ContentRow } from "../../model/contracts.js";
+import { resolveInherited, type IdentityField } from "../../model/derive.js";
+import type { Link, Resolved } from "../../model/origin.js";
 import { summaryContext, useReferenceIndex, type ReferenceIndex } from "../../model/refs.js";
 import { contentRows, rowId, rowName } from "../../model/rows.js";
 import { summarize, type SummaryContext, type ThumbSpec } from "../../model/summaries.js";
@@ -42,10 +44,28 @@ export interface ResolvedCreature {
 
 export interface Spawn { placement: Placement; encounter: Encounter; weight?: number }
 
-export const REGION_IDS = ["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt", "wilderness", "gravelmaw", "crownward", "gloamgarden", "faeholme"] as const;
-export const ACTIVITIES = ["graze", "forage", "prowl", "patrol"] as const;
-export const AVAILABILITIES = ["world", "lab"] as const;
 export const CURVE_LEVELS = [1, 10, 30, 50, 70] as const;
+
+/**
+ * An identity field's chain with the link it beat. `resolveInherited` stops at the winning link,
+ * so an own value over a base value would draw as plain "own" with nothing to revert to; adding
+ * the base's link back gives the field its brass dot and its revert (docs/devdocs-inputs.md §3.1).
+ */
+export function identityChain<K extends IdentityField>(definition: Creature, base: Creature | undefined, key: K): Resolved<Creature[K]> {
+  const resolved = resolveInherited(definition, base, key) as Resolved<Creature[K]>;
+  const carried = base?.[key];
+  if (resolved.chain[0]?.origin.kind !== "own" || !base || carried === undefined) return resolved;
+  const beaten: Link<Creature[K]> = { origin: { kind: "inherited", from: { collection: "creatureDefinitions", id: base.id, label: base.name ?? base.id, path: key } }, value: carried };
+  return { ...resolved, chain: [resolved.chain[0], beaten] };
+}
+
+/** The same chain seen through a projection: a loot block as its mode, a presentation as one of its keys. */
+export function mapResolved<T, U>(resolved: Resolved<T>, project: (value: T) => U): Resolved<U> {
+  return { ...resolved, value: project(resolved.value), chain: resolved.chain.map(link => ({ origin: link.origin, value: project(link.value) })) };
+}
+
+export type LootMode = "none" | "table" | "drops";
+export const lootMode = (loot: Loot | undefined): LootMode => loot === undefined ? "none" : "tableId" in loot ? "table" : "drops";
 
 export const titleCase = (value: string): string => value.replace(/[_-]+/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").replace(/^./, c => c.toUpperCase());
 
