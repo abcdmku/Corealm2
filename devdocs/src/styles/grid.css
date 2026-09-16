@@ -46,9 +46,6 @@ button.rg-th[aria-sort="ascending"], button.rg-th[aria-sort="descending"] { colo
 .rg-cell .field-input:focus-within, .rg-cell .field-select:focus { border-color: var(--accent); background: var(--background); }
 .rg-cell .field-input[data-invalid] { border-color: var(--danger); }
 .rg-cell .field-input input::placeholder { text-align: inherit; }
-/* A column of numbers is read down, not across, so in a table they go back to filling their cell
-   and aligning on the right. On a record sheet the same control hugs its digits instead. */
-.rg-cell .field-input[data-kind="number"] input { width: 100%; max-width: none; text-align: right; }
 .rg-cell .field-unit { display: none; }
 .rg-cell .field-error { position: absolute; left: 0; top: 100%; z-index: 3; padding: 2px 6px; border: 1px solid var(--danger); border-radius: 4px; background: var(--panel); }
 .rg-cell .field-origin.is-floating { left: 0; }

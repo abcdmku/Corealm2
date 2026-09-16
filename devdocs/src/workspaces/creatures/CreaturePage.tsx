@@ -6,16 +6,16 @@ import { CreatureDefinitionSchema, CreatureLootSchema } from "../../../../game/s
 import { SpeciesFields } from "../../../../game/src/content/schema/creatures.js";
 import { EnemyOverridesSchema } from "../../../../game/src/content/schema/enemies.js";
 import { collectionQuery } from "../../api/client.js";
-import { deriveCreature } from "../../model/derive.js";
+import { COMBAT_FIELDS, UNCOMPUTED_FIELDS, deriveCreature } from "../../model/derive.js";
 import { getPath, runTransaction, useRecordDraft, type Path, type RecordDraft } from "../../model/draft.js";
 import { fieldIssues } from "../../model/fields.js";
-import type { RecordRef } from "../../model/origin.js";
+import { fmtValue, type RecordRef, type Resolved } from "../../model/origin.js";
 import { rowName } from "../../model/rows.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { RefRow } from "../../ui/RefChip.js";
-import { ChoiceField, Facts, Field, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema, usePeek, variantSchema } from "../../ui/field/index.js";
-import { CardMeta, CardRule } from "../../ui/gamecard/Card.js";
-import { CreaturePlate } from "./CreaturePlate.js";
+import {
+  ChoiceField, DerivedChoice, DerivedNumber, Facts, Field, Fields, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema, usePeek, variantSchema,
+} from "../../ui/field/index.js";
 import { PointsMap } from "../../ui/PointsMap.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
@@ -110,6 +110,13 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
     }
   }
 
+  const facts = [
+    `Level ${derived.level}`,
+    profile ? <button type="button" className="text-button" onClick={openRole}>{profile.name}</button> : undefined,
+    row.family ? titleCase(row.family) : undefined,
+    row.availability,
+    base ? <>variant of <button type="button" className="text-button" onClick={() => navigate("creatureDefinitions", base.id)}>{baseName}</button></> : undefined,
+  ];
   const name = identity("name");
   const family = identity("family");
   const level = identity("level");
@@ -117,56 +124,79 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   const beaten = new Set(RAIL_FIELDS.filter(key => derived.combat[key]?.resolved.chain[0]?.origin.kind !== "curve"));
   const ownValues = Object.fromEntries(RAIL_FIELDS.map(key => [key, derived.combat[key]?.value]));
 
-  /*
-    The line under the name is what the plate says about the creature: how strong it is, what it
-    fights like, what family it belongs to, and whether it exists in the world at all. Each of
-    those is the field that sets it, so the sentence and the form are the same thing.
-  */
-  const sub = <CardMeta parts={[
-    <Field key="level" compact label="Level" resolved={level} dirty={dirtyAt(["level"])} disabled={!editable} onOpenRef={openRef}
-      onRevert={editable ? () => draft.setPath(["level"], undefined) : undefined}>
-      <NumberField value={level.value} integer min={identitySpec("level").min} readOnly={!editable} ariaLabel="Level" onChange={value => draft.setPath(["level"], value)} />
-    </Field>,
-    <RefField key="family" kind={identitySpec("family").ref} label={identitySpec("family").label} value={family.value} resolved={family} optional compact className="gamecard-chip"
-      dirty={dirtyAt(["family"])} readOnly={!editable} onOpenRef={openRef} onChange={value => draft.setPath(["family"], value)} />,
-    <Field key="availability" compact label="" hint={identitySpec("availability").hint} dirty={dirtyAt(["availability"])} disabled={!editable}>
-      <ChoiceField value={working.availability} options={identitySpec("availability").choices ?? []} readOnly={!editable} ariaLabel="Availability" onChange={value => draft.setPath(["availability"], value)} />
-    </Field>,
-    base ? <span key="base" className="gamecard-variant">variant of <button type="button" className="text-button" onClick={() => navigate("creatureDefinitions", base.id)}>{baseName}</button></span> : undefined,
-  ]} />;
-
   return <div className="ws-page creature-page">
     <div className="record">
       <div className="record-main">
-        <CreaturePlate art={<Thumb spec={thumb} size="xl" alt="" />} name={name} placeholder={id} facts={sub} derived={derived} editable={editable}
-          note={profile ? <><button type="button" className="text-button" onClick={openRole}>{profile.name} curve</button> at level {derived.level}</> : <span>No role: these numbers are not derived</span>}
-          dirtyAt={dirtyAt} setName={value => draft.setPath(["name"], value)} setAdjustment={setAdjustment} onOpenRef={openRef}>
-          <CardRule />
-          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
-        </CreaturePlate>
+        <header className="record-head">
+          <Thumb spec={thumb} size="xl" alt="" />
+          <div className="record-title">
+            <h1 className={name.chain[0]?.origin.kind === "own" ? undefined : "is-inherited"} title={name.chain[0]?.origin.kind === "own" ? undefined : `Name inherited from ${baseName}`}>{row.name ?? id}</h1>
+            <Facts items={facts} />
+            <code>{id}</code>
+          </div>
+        </header>
+        <Sheet>
+          <Section title="Identity" aside={editable && base ? <button type="button" className="text-button" title="Copy the inherited fields into this record and clear the base" onClick={detach}>Detach from {baseName}</button> : undefined}>
+            <Field label={identitySpec("name").label} resolved={name} dirty={dirtyAt(["name"])} onRevert={() => draft.setPath(["name"], undefined)} onOpenRef={openRef} disabled={!editable}>
+              <TextField value={name.value ?? ""} placeholder={id} readOnly={!editable} onChange={value => draft.setPath(["name"], value.trim() || undefined)} />
+            </Field>
+            <RefField kind={identitySpec("family").ref} label={identitySpec("family").label} value={family.value} resolved={family} optional dirty={dirtyAt(["family"])} readOnly={!editable} onOpenRef={openRef} onChange={value => draft.setPath(["family"], value)} />
+            <Field label={identitySpec("level").label} hint={identitySpec("level").hint} resolved={level} dirty={dirtyAt(["level"])} onRevert={() => draft.setPath(["level"], undefined)} onOpenRef={openRef} disabled={!editable}>
+              <NumberField value={level.value} integer min={identitySpec("level").min} readOnly={!editable} onChange={value => draft.setPath(["level"], value)} />
+            </Field>
+            <Field label={identitySpec("availability").label} dirty={dirtyAt(["availability"])} disabled={!editable}>
+              <ChoiceField value={working.availability} options={identitySpec("availability").choices ?? []} width="short" readOnly={!editable} onChange={value => draft.setPath(["availability"], value)} />
+            </Field>
+            <RefField kind={identitySpec("profileId").ref} label={identitySpec("profileId").label} value={role.value} resolved={role} optional dirty={dirtyAt(["profileId"])} readOnly={!editable} onOpenRef={openRole} onChange={value => draft.setPath(["profileId"], value)} />
+            <RefField kind={identitySpec("baseId").ref} collection="creatureDefinitions" label={identitySpec("baseId").label} hint={variants.length ? `Base of ${variants.length} ${variants.length === 1 ? "variant" : "variants"}. ${identitySpec("baseId").hint ?? ""}`.trim() : identitySpec("baseId").hint}
+              value={working.baseId} optional exclude={baseExclude} dirty={dirtyAt(["baseId"])} readOnly={!editable || variants.length > 0} onChange={value => draft.setPath(["baseId"], value)} />
+          </Section>
 
-        <Sheet className="record-backstage">
+          <Section title="Combat" aside={profile ? <span>{profile.name} curve at level {derived.level}</span> : <span>No role: numbers are not derived</span>}>
+            <Fields columns={4}>
+              {COMBAT_FIELDS.map(key => {
+                const spec = combatSpec(key);
+                const derivation = derived.combat[key]!;
+                const shared = { compact: true, label: spec.label, hint: spec.hint, onOpenRef: openRef, dirty: dirtyAt(["adjustments", key]), readOnly: !editable } as const;
+                if (spec.kind === "enum") {
+                  return <DerivedChoice key={key} {...shared} resolved={derivation.resolved as Resolved<string | undefined>} options={spec.choices ?? []} onChange={value => setAdjustment(key, value)} />;
+                }
+                if (key === "marks") {
+                  const marks = derivation.resolved as Resolved<[number, number] | undefined>;
+                  return <Field key={key} {...shared} unit={spec.unit} resolved={marks} onRevert={editable && marks.chain[0]?.origin.kind === "own" ? () => setAdjustment(key, undefined) : undefined} disabled={!editable}>
+                    <span className="field-static mono" title="Marks are a range the curve sets">{fmtValue(marks.value)}{spec.unit && <span className="field-unit">{spec.unit}</span>}</span>
+                  </Field>;
+                }
+                return <DerivedNumber key={key} {...shared} resolved={derivation.resolved as Resolved<number | undefined>} unit={spec.unit} integer={spec.integer ?? false} min={spec.min} step={spec.step} onChange={value => setAdjustment(key, value)} />;
+              })}
+              {UNCOMPUTED_FIELDS.map(key => {
+                const spec = combatSpec(key);
+                const movement = derived.combat[key]!.resolved as Resolved<number | undefined>;
+                return <Field key={key} compact label={spec.label} hint={spec.hint} unit={spec.unit} resolved={movement} dirty={dirtyAt(["adjustments", key])} onOpenRef={openRef} disabled={!editable}
+                  onRevert={editable ? () => setAdjustment(key, undefined) : undefined}>
+                  <NumberField value={movement.value} optional min={spec.min} step={spec.step ?? 0.1} unit={spec.unit} placeholder="none" readOnly={!editable} onChange={value => setAdjustment(key, value)} />
+                </Field>;
+              })}
+            </Fields>
+          </Section>
+
           <Section title="Spawns" aside={spawns.length ? <span>{spawns.length} {spawns.length === 1 ? "place" : "places"} · click a pin to edit it on the map</span> : undefined}>
             {spawns.length
               ? <>
-                <PointsMap points={spawns.filter(spawn => spawn.placement.centre).map(spawn => ({ id: spawn.placement.id, x: spawn.placement.centre![0], z: spawn.placement.centre![1], radius: spawn.placement.radius, label: `${data.regionName(spawn.placement.regionId)} x${spawn.placement.count ?? 1}` }))}
+                <PointsMap points={spawns.filter(spawn => spawn.placement.centre).map(spawn => ({ id: spawn.placement.id, x: spawn.placement.centre![0], z: spawn.placement.centre![1], radius: spawn.placement.radius, label: `${data.regionName(spawn.placement.regionId)} ×${spawn.placement.count ?? 1}` }))}
                   onOpen={point => navigate("placements", point.id)} onOpenAt={() => navigate("placements", spawns[0]!.placement.id)} />
                 <div className="ref-rows">{spawns.map(spawn => <SpawnRow key={spawn.placement.id} spawn={spawn} data={data} onOpen={() => navigate("placements", spawn.placement.id)} />)}</div>
               </>
               : <p className="empty-inline">Not placed in any encounter.</p>}
           </Section>
 
+          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
           <PresentationSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
 
-          <Section title="Curve and lineage" aside={editable && base ? <button type="button" className="text-button" title="Copy the inherited fields into this record and clear the base" onClick={detach}>Detach from {baseName}</button> : undefined}>
-            <RefField kind={identitySpec("profileId").ref} label={identitySpec("profileId").label} hint={identitySpec("profileId").hint} value={role.value} resolved={role} optional
-              dirty={dirtyAt(["profileId"])} readOnly={!editable} onOpenRef={openRole} onChange={value => draft.setPath(["profileId"], value)} />
-            <RefField kind={identitySpec("baseId").ref} collection="creatureDefinitions" label={identitySpec("baseId").label} hint={variants.length ? `Base of ${variants.length} ${variants.length === 1 ? "variant" : "variants"}. ${identitySpec("baseId").hint ?? ""}`.trim() : identitySpec("baseId").hint}
-              value={working.baseId} optional exclude={baseExclude} dirty={dirtyAt(["baseId"])} readOnly={!editable || variants.length > 0} onChange={value => draft.setPath(["baseId"], value)} />
+          <Section title="Variants" aside={editable && !working.baseId ? <button type="button" className="button button-small" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</button> : undefined}>
             {variants.length
               ? <div className="ref-rows">{variants.map(variant => <RefRow key={variant.id} collection="creatureDefinitions" id={variant.id} record={variant.row} ctx={data.ctx} onOpen={(_collection, target) => navigate("creatureDefinitions", target)} subtitle={variant.id} meta={<Facts items={[`Level ${variant.level}`, variant.regionId ? data.regionName(variant.regionId) : undefined]} />} />)}</div>
               : <p className="empty-inline">{working.baseId ? "A variant cannot have variants of its own." : "No variants inherit from this creature."}</p>}
-            {editable && !working.baseId && <button type="button" className="button button-small" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</button>}
           </Section>
 
           <ReferencedBy collection="creatureDefinitions" id={id} navigate={navigate} />

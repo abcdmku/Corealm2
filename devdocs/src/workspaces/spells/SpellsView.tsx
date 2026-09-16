@@ -8,8 +8,9 @@ import { contentRows } from "../../model/rows.js";
 import { iconForElement, spellThumb, titleCase, hueFor } from "../../model/summaries.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
-import { ChoiceField, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, ToggleField } from "../../ui/field/index.js";
-import { Card, CardBlock, CardHead, CardLine, CardLines, CardMeta } from "../../ui/gamecard/Card.js";
+import {
+  ChoiceField, Field, Fields, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, ToggleField,
+} from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, list, num, PageState, RecordShell, text, usePage } from "../story/shared.js";
@@ -127,72 +128,43 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
     const runeQuantity = spellField(["cost", "runes", 0, "quantity"]);
     const areaSpell = spellField(["aoe"]);
     const setRunes = (next: ContentRow[]) => set(["cost", "runes"], next.length ? next : undefined);
-    const advanced = spell.catalog === "ADVANCED_SPELLS";
-
-    /*
-      The spellbook entry: the swatch the client paints from the element's own colours, the name,
-      the line the tooltip prints under it, and the two numbers a caster actually reads — the max
-      hit and the xp — followed by what one cast costs. Everything else about a spell (its tier, its
-      damage divisor, the rank that only sets a flight shape) is authoring, and waits below.
-    */
-    const card = <Card caption="As the spellbook shows it"
-      note={<>{titleCase(element)} · {advanced ? `rank ${num(spell.rank) ?? "?"} invocation` : titleCase(text(spell.rung) ?? "")}</>}>
-      <CardHead art={<Thumb spec={spellThumb(spell)} size="xl" alt="" />} title={spell.name}
-        name={<TextField value={spell.name} width="full" ariaLabel="Name" readOnly={readOnly} onChange={next => set(["name"], next)} />}
-        sub={<CardMeta parts={[
-          <Field key="element" compact label=""><ChoiceField value={text(spell.element)} options={[...ELEMENTS]} ariaLabel="Element" readOnly={readOnly} onChange={next => set(["element"], next)} /></Field>,
-          <Field key="rung" compact label=""><ChoiceField value={text(spell.rung)} options={[...RUNGS]} ariaLabel="Rung" readOnly={readOnly} onChange={next => set(["rung"], next)} /></Field>,
-          advanced ? <Field key="rank" compact label="rank"><NumberField value={num(spell.rank)} integer min={1} max={5} optional readOnly={readOnly} ariaLabel="Rank" onChange={next => set(["rank"], next)} /></Field> : undefined,
-          <Field key="req" compact label="Magic"><NumberField value={num(spell.reqLevel)} integer min={1} readOnly={readOnly} ariaLabel="Required Magic level" onChange={next => set(["reqLevel"], next)} /></Field>,
-          areaSpell && spell.aoe === true ? "area" : undefined,
-        ]} />} />
-      <div className="gamecard-body"><TextField value={spell.description ?? ""} multiline placeholder="No description yet." ariaLabel="Description" readOnly={readOnly} onChange={next => set(["description"], next)} /></div>
-      <CardLines>
-        <CardLine>
-          <Field compact label="Max hit"><NumberField value={num(spell.baseMax)} integer min={0} readOnly={readOnly} ariaLabel="Base maximum hit" onChange={next => set(["baseMax"], next)} /></Field>
-          <Field compact label="·"><NumberField value={num(spell.baseXp)} min={0} readOnly={readOnly} ariaLabel="Base experience" onChange={next => set(["baseXp"], next)} /></Field>
-          <span>base xp</span>
-          <Field compact label="· cadence" unit="ms"><NumberField value={num(spell.castMs)} integer min={0} step={100} unit="ms" optional placeholder="weapon" readOnly={readOnly} ariaLabel="Fallback cast time" onChange={next => set(["castMs"], next)} /></Field>
-        </CardLine>
-      </CardLines>
-      <CardBlock title="Cost per cast">
-        <CardLine>
-          <Field compact label=""><ChoiceField value={text(cost.element)} options={[...ELEMENTS]} allowEmpty="no essence" ariaLabel="Cost element" readOnly={readOnly} onChange={next => set(["cost", "element"], next)} /></Field>
-          <span>essence</span>
-          <Field compact label="×"><NumberField value={num(cost.charges)} integer min={0} optional readOnly={readOnly} ariaLabel="Elemental charges" onChange={next => set(["cost", "charges"], next)} /></Field>
-        </CardLine>
-        {runeList && runeItem && runeQuantity && <ListField<ContentRow>
-          label={runeList.label} hint={runeList.help} items={runes} readOnly={readOnly} emptyText="No runes."
-          addLabel="Add rune" onAdd={() => ({ itemId: "", quantity: 1 })} onChange={setRunes}
-          keyOf={(rune, at) => text(rune.itemId) ?? at}
-          removeLabel={(_, at) => `Remove rune ${at + 1}`}
-          renderItem={(rune, api) => <>
-            <RefField className="is-bare" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
-              exclude={new Set(runes.map(entry => text(entry.itemId) ?? "").filter((_, at) => at !== api.index))}
-              onChange={next => api.update({ ...rune, itemId: next ?? "" })} />
-            <NumberField className="spell-rune-quantity" value={num(rune.quantity) ?? 1} integer min={lower(runeQuantity)} unit={runeQuantity.unit} readOnly={readOnly}
-              ariaLabel={`${runeQuantity.label} ${api.index + 1}`} onChange={next => api.update({ ...rune, quantity: next ?? 1 })} />
-          </>} />}
-      </CardBlock>
-    </Card>;
-
     return <RecordShell
       thumb={spellThumb(spell)}
       title={spell.name} id={id}
-      facts={[titleCase(element), spell.rung && titleCase(spell.rung), `level ${num(spell.reqLevel) ?? "?"}`]}
-      card={card}
+      facts={[titleCase(element), spell.rung && titleCase(spell.rung), `level ${num(spell.reqLevel) ?? "?"}`, `tier ${num(spell.tier) ?? "?"}`, spell.catalog === "ADVANCED_SPELLS" && "advanced"]}
       draft={draft}
       rail={<EntitySummary collection="spells" record={record} recordId={id} index={index} navigate={navigate} editing />}>
-      <Sheet className="record-backstage">
-        <Section title="Balance" aside={<span className="mono">{id}</span>}>
-          <Fields>
-            {number(["tier"], num(spell.tier), true)}
-            {number(["divisor"], num(spell.divisor), true)}
-            {number(["rank"], num(spell.rank), true)}
-          </Fields>
+      <Sheet>
+        <Section title="Identity">
+          {line(["name"], spell.name)}
+          {line(["description"], spell.description)}
+          {choice(["element"], text(spell.element))}
+          {choice(["rung"], text(spell.rung))}
+          {number(["rank"], num(spell.rank))}
           {areaSpell && <Field label={areaSpell.label} hint={areaSpell.help}>
             <ToggleField value={spell.aoe === true} readOnly={readOnly} onChange={next => set(["aoe"], next)} />
           </Field>}
+        </Section>
+        <Section title="Numbers">
+          <Fields>{NUMBER_KEYS.map(key => number([key], num(spell[key]), true))}</Fields>
+        </Section>
+        <Section title="Cost">
+          <Fields>
+            {choice(["cost", "element"], text(cost.element), true)}
+            {number(["cost", "charges"], num(cost.charges), true)}
+          </Fields>
+          {runeList && runeItem && runeQuantity && <ListField<ContentRow>
+            label={runeList.label} hint={runeList.help} items={runes} readOnly={readOnly} emptyText="No runes."
+            addLabel="Add rune" onAdd={() => ({ itemId: "", quantity: 1 })} onChange={setRunes}
+            keyOf={(rune, at) => text(rune.itemId) ?? at}
+            removeLabel={(_, at) => `Remove rune ${at + 1}`}
+            renderItem={(rune, api) => <>
+              <RefField className="is-bare" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
+                exclude={new Set(runes.map(entry => text(entry.itemId) ?? "").filter((_, at) => at !== api.index))}
+                onChange={next => api.update({ ...rune, itemId: next ?? "" })} />
+              <NumberField className="spell-rune-quantity" value={num(rune.quantity) ?? 1} integer min={lower(runeQuantity)} unit={runeQuantity.unit} readOnly={readOnly}
+                ariaLabel={`${runeQuantity.label} ${api.index + 1}`} onChange={next => api.update({ ...rune, quantity: next ?? 1 })} />
+            </>} />}
         </Section>
         <ReferencedBy collection="spells" id={id} navigate={navigate} />
       </Sheet>

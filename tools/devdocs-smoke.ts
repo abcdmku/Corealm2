@@ -147,13 +147,11 @@ async function exerciseUiConflict(url: string): Promise<void> {
   await screenshot("edit-conflict.png");
 
   await page.getByRole("button", { name: "Reset draft", exact: true }).click();
-  // A field's control is named by its label element in a sheet and by an aria-label on a play view,
-  // so accept either spelling of the same accessible name.
+  // A field's control is named by its label element, not an aria-label, so find it through aria-labelledby.
   await page.waitForFunction(() => Array.from(document.querySelectorAll("textarea")).some(area => {
     const labelId = area.getAttribute("aria-labelledby");
     const label = labelId ? document.getElementById(labelId) : null;
-    const named = (label?.textContent?.trim() ?? area.getAttribute("aria-label")?.trim()) === "Description";
-    return named && area.value === "Concurrent source text.";
+    return label?.textContent?.trim() === "Description" && area.value === "Concurrent source text.";
   }));
   checks.uiConflictDraft = true;
 }

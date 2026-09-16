@@ -3,7 +3,7 @@
 .bulk-actions-form { display: flex; flex-direction: column; gap: 8px; padding: 8px 12px; }
 .bulk-form-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
 .bulk-form-row .select select { min-height: 28px; }
-.bulk-form-row .text-box { min-height: 28px; }
+.bulk-form-row .field-input { min-height: 28px; }
 .bulk-note-text { flex: 1 1 260px; align-items: stretch; padding: 0; }
 .bulk-note-text textarea { flex: 1; min-height: 28px; max-height: 120px; padding: 5px 9px; border: 0; background: none; outline: none; color: var(--text); font-size: 12px; line-height: 1.4; resize: vertical; }
 .bulk-note-text textarea::placeholder { color: var(--faint); }

@@ -291,7 +291,7 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
         <textarea value={noteText} onChange={event => { setNoteText(event.target.value); setFormError(undefined); }} onKeyDown={event => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder={flagAsRequest ? "Describe the change to make…" : "Add a note for the next reviewer…"} rows={3} required aria-describedby="notes-note-help" disabled={saveDisabled} />
       </label>
       <div className="notes-composer-row">
-        <label className="text-box notes-composer-label"><span className="sr-only">Label</span><input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={saveDisabled} /></label>
+        <label className="field-input notes-composer-label"><span className="sr-only">Label</span><input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={saveDisabled} /></label>
         <label className="notes-request-toggle"><input type="checkbox" checked={flagAsRequest} onChange={event => setFlagAsRequest(event.target.checked)} disabled={saveDisabled} /><span>Flag as request</span></label>
         {flagAsRequest && <label className="select"><span className="sr-only">Request kind</span><select aria-label="Request kind" value={requestKind} onChange={event => setRequestKind(event.target.value as RequestKind)} disabled={saveDisabled}>{REQUEST_KINDS.map(kind => <option key={kind} value={kind}>{displayKind(kind)}</option>)}</select></label>}
         <span className="notes-composer-spacer" />

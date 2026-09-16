@@ -126,13 +126,11 @@ a { color: var(--link); }
 .segmented button:last-child { border-right: 0; }
 .segmented button:hover { background: var(--hover); color: var(--text); }
 .segmented button.is-active { background: var(--selected); color: var(--text); font-weight: 600; }
-/* A plainly boxed input for the dev panels, which are tools rather than record sheets: the record
-   sheet's own control (`.field-input`, styles/field.css) stays quiet until it is touched. */
-.text-box, .search-field { display: flex; align-items: center; gap: 6px; min-height: 24px; padding: 0 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--muted); }
-.search-field { width: 240px; height: 24px; }
-.search-field:focus-within, .text-box:focus-within { border-color: var(--accent); }
-.search-field input, .text-box input, .text-box textarea { flex: 1; min-width: 40px; width: 100%; background: none; border: 0; outline: none; font-size: 12px; color: var(--text); font-family: inherit; }
-.search-field input::placeholder, .text-box input::placeholder, .text-box textarea::placeholder { color: var(--faint); }
+.field-input, .search-field { display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); color: var(--muted); }
+.search-field { width: 240px; }
+.search-field:focus-within, .field-input:focus-within { border-color: var(--accent); }
+.search-field input, .field-input input { flex: 1; min-width: 40px; width: 100%; background: none; border: 0; outline: none; font-size: 12px; color: var(--text); }
+.search-field input::placeholder, .field-input input::placeholder { color: var(--faint); }
 .search-field kbd { margin-left: auto; }
 .search-field .icon-button { width: 18px; height: 18px; }
 select.select, .select select { height: 24px; padding: 0 22px 0 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); font-size: 12px; color: var(--text); appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--faint) 50%), linear-gradient(135deg, var(--faint) 50%, transparent 50%); background-position: calc(100% - 11px) 10px, calc(100% - 7px) 10px; background-size: 4px 4px; background-repeat: no-repeat; }
