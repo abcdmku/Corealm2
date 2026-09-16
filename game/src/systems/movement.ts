@@ -1204,7 +1204,13 @@ export class Movement {
     }
 
     const destination = movement.destination;
-    const arrived = destination !== null && distanceXZ(position, destination) <= ARRIVE_EPSILON;
+    // A ground click inside an actor cannot be reached. Finish at its near edge
+    // instead of repeatedly trying to path into the occupied centre.
+    const occupiedArrival = destination !== null && movement.destinationEntityId === null
+      && this.pathMovers(position, destination, player.id).some((mover) =>
+        distanceXZ(destination, mover.position) < mover.radius
+        && distanceXZ(position, mover.position) <= mover.radius + ARRIVE_EPSILON);
+    const arrived = destination !== null && (distanceXZ(position, destination) <= ARRIVE_EPSILON || occupiedArrival);
 
     if (arrived) {
       this.finishPath(state, atMs);

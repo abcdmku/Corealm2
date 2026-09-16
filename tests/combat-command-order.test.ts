@@ -4,6 +4,8 @@ import { SKILL_IDS, ok } from "../game/src/contracts.js";
 import { SPELLS } from "../game/src/content/spells.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { content, type ContentTables } from "../game/src/content/index.js";
+import { CorealmGameApi } from "../game/src/api/gameApi.js";
+import { SimClock } from "../game/src/core/time.js";
 import { EventBus } from "../game/src/core/events.js";
 import { RngStreams } from "../game/src/core/rng.js";
 import { Store } from "../game/src/state/store.js";
@@ -71,7 +73,7 @@ function setup(meleeTiming?: CombatDeps["meleeTiming"], movement?: CombatDeps["m
     }
     throw new Error(`${attacker} did not begin an attack within 6 seconds`);
   };
-  return { combat, state, targets, advanceTo, start };
+  return { store, combat, state, targets, advanceTo, start };
 }
 
 
@@ -91,6 +93,66 @@ function commanded(kind: "attack" | "cast", near = false) {
 }
 
 describe("explicit combat command ordering", () => {
+  it("API stop cancels the private windup before immediate reacquisition", () => {
+    const sim = commanded("attack", true);
+    const api = new CorealmGameApi(sim.store, new EventBus(), new Navigation(), sim.movement, new SimClock());
+    api.register("combat", sim.combat.hook());
+    sim.command();
+    sim.advanceTo(0);
+    expect(sim.combat.isAttackCommitted(sim.state.player.id)).toBe(true);
+    const stopped = api.stop();
+    expect(stopped.ok && stopped.value.stopped.includes("combat")).toBe(true);
+    sim.command();
+    expect(sim.combat.isAttackCommitted(sim.state.player.id)).toBe(false);
+    sim.advanceTo(600);
+    expect(sim.targets.get("target_a")!.combat!.health).toBe(10_000);
+  });
+
+  it("an attack interaction enters live pursuit before reaching the old destination", () => {
+    const sim = commanded("attack");
+    const api = new CorealmGameApi(sim.store, new EventBus(), new Navigation(), sim.movement, new SimClock());
+    api.register("combat", sim.combat.hook());
+    api.register("entities", { get: id => sim.targets.get(id), all: () => [...sim.targets.values()], observe: () => [] });
+    expect(api.interact("target_a", "attack").ok).toBe(true);
+    expect(sim.state.combat.targetId).toBe("target_a");
+    expect(api.hasPending()).toBe(false);
+    sim.targets.get("target_a")!.position = [0, 0, 1.2];
+    sim.advanceTo(0);
+    expect(sim.state.player.movement.mode).toBe("idle");
+    expect(sim.combat.isAttackCommitted(sim.state.player.id)).toBe(true);
+  });
+
+  it("stops pursuit when the creature approaches into reach", () => {
+    const sim = commanded("attack");
+    sim.command();
+    expect(sim.state.player.movement.mode).toBe("path");
+    sim.targets.get("target_a")!.position = [0, 0, 1.2];
+    sim.advanceTo(0);
+    expect(sim.state.player.movement.mode).toBe("idle");
+    expect(sim.state.combat.targetId).toBe("target_a");
+    expect(sim.combat.isAttackCommitted(sim.state.player.id)).toBe(true);
+  });
+
+  it("starts a ready melee swing on the next sim step between combat beats", () => {
+    const sim = setup();
+    sim.advanceTo(100);
+    expect(sim.combat.attack("target_a").ok).toBe(true);
+    sim.advanceTo(200);
+    expect(sim.combat.consumeAttackStarts().filter(start => start.attacker === "player")).toHaveLength(1);
+  });
+
+  it.each(["path", "direct"] as const)("cancels an in-range windup for manual %s movement", mode => {
+    const sim = commanded("attack", true);
+    expect(sim.command().ok).toBe(true);
+    sim.advanceTo(0);
+    if (mode === "direct") sim.movement.setDirectInput({ forward: 1, strafe: 0, cameraYaw: 0 });
+    else sim.movement.startPath(sim.state, [1, 0, 0], null, 1);
+    sim.advanceTo(100);
+    expect(sim.state.combat.targetId).toBe(null);
+    sim.advanceTo(600);
+    expect(sim.targets.get("target_a")!.combat!.health).toBe(10_000);
+  });
+
   it.each(["attack", "cast"] as const)("%s replaces an earlier manual path and retains pursuit next tick", kind => {
     const sim = commanded(kind);
     expect(sim.command().ok).toBe(true);

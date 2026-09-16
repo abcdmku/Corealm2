@@ -455,6 +455,7 @@ export class GameLoop {
     const realDelta = Math.max(0, Math.min(frameMs, 250));
     this.lastFrameAt = nowMs;
 
+    this.deps.input.update();
     const clock = this.deps.clock;
     const ticks = clock.advance(realDelta);
     for (let i = 0; i < ticks; i += 1) {
@@ -572,7 +573,6 @@ export class GameLoop {
     const position: Vec3 = this.renderPos;
     const facingRad = this.renderFacingRad;
 
-    input.update();
     for (const interior of this.interiors) interior.group.visible = interior.visible();
     // Residency follows the player every frame, including frames without a structural diff.
     // Keep this separate from collecting the complete semantic snapshot.

@@ -37,14 +37,25 @@ function fixture(start: Vec3, npcPosition: Vec3, volumes: SolidVolume[] = [],
   entities.add(npc);
   const solids = new Solids(volumes);
   const forest = new ForestObstacles();
-  const nav = { closestPoint, findPathDetailed: (from: Vec3, to: Vec3) => ({
+  const nav = { closestPoint, etaMs: () => 1000, findPathDetailed: (from: Vec3, to: Vec3) => ({
     path: [from, to], partial: false, arrivalGap: 0,
-  }) } as Navigation;
+  }) } as unknown as Navigation;
   const movement = new Movement(nav, new EventBus(), { solids, entities, dynamicObstacles: forest });
   return { state, movement, solids, forest, npc };
 }
 
 describe("NPC separation preserves world clearance", () => {
+  it("settles a ground destination occupied by a creature at the body edge", () => {
+    const h = fixture([0, 0, -2], [0, 0, 0]);
+    h.movement.startPath(h.state, [0, 0, 0], null, 0);
+    for (let tick = 1; tick <= 20; tick++) h.movement.update(h.state, 100, tick * 100);
+    expect(h.state.player.movement.mode).toBe("idle");
+    expect(distanceXZ(h.state.player.position, h.npc.position)).toBeGreaterThanOrEqual(0.8 - 1e-6);
+    h.movement.setDirectInput({ forward: 1, strafe: 0, cameraYaw: 0 });
+    for (let tick = 21; tick <= 30; tick++) h.movement.update(h.state, 100, tick * 100);
+    expect(h.state.player.position[2]).toBeLessThan(-2);
+  });
+
   it.each(["direct", "path"] as const)("keeps %s movement outside Coldbrace's bank counter after Dorn pushes", (mode) => {
     // Last clear browser position before the bank-to-shop leg penetrated this counter by 0.118 m.
     // The flat floor removes irrelevant terrain height; XZ placement and the counter bounds are authored data.

@@ -79,6 +79,24 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it("keeps a thin selection ring on the interpolated creature every frame", async () => {
+    const entity = actor("highlight-motion");
+    const f = await fixture([entity]);
+    try {
+      f.views.setHighlight(entity.id);
+      const marker = f.scene.overlayGroup.getObjectByName(`highlight-${entity.id}`)!;
+      const ring = marker.getObjectByName("ring") as THREE.Mesh<THREE.RingGeometry>;
+      expect(ring.geometry.parameters.outerRadius - ring.geometry.parameters.innerRadius).toBeCloseTo(0.05);
+      expect(ring.scale.x).toBe(1);
+      entity.position = [2, 0, 0];
+      for (const alpha of [0.1, 0.3, 0.6, 0.9]) {
+        f.views.syncResidentMotion(alpha);
+        f.views.update(0.016);
+        expect(marker.position.x).toBeCloseTo(2 * alpha);
+      }
+    } finally { f.dispose(); }
+  });
+
   it('evaluates a sampled actor once per frame after applying its interpolated movement', async () => {
     const entity = actor('single-palette-write');
     const f = await fixture([entity]);

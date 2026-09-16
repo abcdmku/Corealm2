@@ -75,8 +75,12 @@ describe('Fey native skin at world coordinates', () => {
       const reported = lod.drawnBounds(0, new THREE.Box3())!;
       expect(reported.min.distanceTo(exact.min)).toBeLessThan(0.00001);
       expect(reported.max.distanceTo(exact.max)).toBeLessThan(0.00001);
-      // Culling still covers the complete bone envelope; it must not be called the drawn body.
-      expect(lod.bounds(0, new THREE.Box3())!.getSize(new THREE.Vector3()).y).toBeGreaterThan(1.5);
+      // Only bones with weighted vertices contribute to the envelope. Its size depends
+      // on the asset; the invariant is that no rendered vertex can be culled.
+      const culling = lod.bounds(0, new THREE.Box3())!;
+      const tolerance = culling.clone().expandByScalar(0.00001);
+      expect(tolerance.containsBox(exact)).toBe(true);
+      expect(culling.getSize(new THREE.Vector3()).toArray().every(Number.isFinite)).toBe(true);
     }
     expect(maximumError).toBeLessThan(0.004);
     lod.dispose(); mixer.stopAllAction(); mixer.uncacheRoot(live);

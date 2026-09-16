@@ -107,6 +107,7 @@ export interface SystemHooks {
     build(logItemId: ItemId): Result<{ entityId: EntityId; lifetimeMs: number; position: Vec3 }>;
   };
   combat?: {
+    disengage?(reason: string, atMs: number): boolean;
     attack(entityId: EntityId): Result<{ targetId: EntityId; attackSpeedMs: number }>;
     cast(spellId: SpellId, entityId: EntityId): Result<{ targetId: EntityId; castMs: number }>;
     castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }>;
@@ -306,7 +307,15 @@ export class CorealmGameApi implements GameApiContract {
   // --------------------------------------------------------------- movement
 
   moveTo(target: MoveTarget): Result<{ pathLength: number; etaMs: number }> {
-    return this.walkTo(target, 0);
+    const result = this.walkTo(target, 0);
+    if (result.ok) {
+      const state = this.store.get();
+      this.hooks.combat?.disengage?.("disengaged", this.clock.elapsedMs);
+      if (state.combat.targetId) this.eventBus.emit("combat.ended", { reason: "disengaged" }, state.combat.targetId, this.clock.elapsedMs);
+      state.combat.targetId = null;
+      state.combat.activeSpellId = null;
+    }
+    return result;
   }
 
   /**
@@ -539,6 +548,7 @@ export class CorealmGameApi implements GameApiContract {
     } else if (activityBeforeMovement) {
       stopped.push(activityBeforeMovement.kind);
     }
+    if (this.hooks.combat?.disengage?.("disengaged", this.clock.elapsedMs)) stopped.push("combat");
     if (state.combat.targetId) {
       this.eventBus.emit("combat.ended", { reason: "disengaged" }, state.combat.targetId, this.clock.elapsedMs);
       state.combat.targetId = null;
@@ -563,6 +573,18 @@ export class CorealmGameApi implements GameApiContract {
     if (state.activity?.kind === "traversing" && state.activity.obstacleId === entityId
       && (interaction === "climb" || interaction === "vault" || interaction === "enter")) {
       return ok({ started: `already on ${entity.name}` });
+    }
+
+    // Combat owns pursuit of moving targets. A generic deferred interaction follows
+    // a fixed endpoint and can keep walking into a creature that has already approached.
+    if (interaction === "attack" && this.hooks.combat) {
+      const attacked = this.hooks.combat.attack(entityId);
+      if (attacked.ok) {
+        this.pending = null;
+        return ok({ started: `attacking ${entity.name}` });
+      }
+      // Distant clicks may still walk to the combat system's pursuit radius first.
+      if (attacked.error.code !== "OUT_OF_RANGE") return attacked;
     }
 
     // The VERB's reach, not one constant for all of them. A staff attack is allowed to start from

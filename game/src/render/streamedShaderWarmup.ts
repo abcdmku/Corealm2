@@ -9,6 +9,7 @@ export class StreamedShaderWarmup {
   private readonly hidden: THREE.Mesh[] = [];
   private readonly materials = new Map<THREE.Material, { clone: THREE.Material; version: number; dispose: () => void }>();
   private readonly retired = new Set<THREE.Material>();
+  private readonly textures = new Set<THREE.Texture>();
   private pending = false;
   private batch: THREE.Mesh[] = [];
   private programs: NonNullable<THREE.WebGLRenderer["info"]["programs"]> = [];
@@ -53,7 +54,7 @@ export class StreamedShaderWarmup {
     for (const mesh of this.waiting) {
       // A nearby unique actor replaces its distant instance in the same update. It must remain
       // drawable throughout preparation, or that handoff leaves the creature completely absent.
-      if (mesh.userData.entityId !== undefined) continue;
+      if (mesh.userData.entityId !== undefined || mesh.parent?.userData.keepVisibleDuringWarmup === true) continue;
       if (!mesh.visible) continue;
       mesh.visible = false;
       this.hidden.push(mesh);
@@ -114,12 +115,30 @@ export class StreamedShaderWarmup {
       this.programs.pop();
       if (performance.now() - started >= 3) return;
     }
+    // Linking a shader does not upload its textures. Prepare a bounded number before
+    // revealing the batch, rather than uploading all maps and bone palettes on first draw.
+    let uploaded = 0;
+    for (const texture of this.textures) {
+      this.renderer.initTexture(texture);
+      this.textures.delete(texture);
+      uploaded++;
+      if (uploaded >= 2 || performance.now() - started >= 3) return;
+    }
     this.finish();
+  }
+
+  private collectTextures(value: unknown): void {
+    if (value && typeof value === "object" && (value as THREE.Texture).isTexture) {
+      const texture = value as THREE.Texture;
+      if (!texture.isRenderTargetTexture) this.textures.add(texture);
+    } else if (Array.isArray(value)) {
+      for (const item of value) this.collectTextures(item);
+    }
   }
 
   private finish(): void {
     for (const mesh of this.batch) if (!this.queued.has(mesh)) this.waiting.delete(mesh);
-    this.batch = [];this.programs = [];this.pending = false;
+    this.batch = [];this.programs = [];this.pending = false;this.textures.clear();
     for (const material of this.retired) material.dispose();
     this.retired.clear();
   }
@@ -136,12 +155,21 @@ export class StreamedShaderWarmup {
   }
 
   private compilationMaterial(source: THREE.Material): THREE.Material {
+    for (const value of Object.values(source)) this.collectTextures(value);
+    const uniforms = (source as THREE.ShaderMaterial).uniforms;
+    if (uniforms) for (const uniform of Object.values(uniforms)) this.collectTextures(uniform.value);
     const cached = this.materials.get(source);
     if (cached?.version === source.version) return cached.clone;
     if (cached) { source.removeEventListener("dispose", cached.dispose); this.retire(cached.clone); }
     const clone = source.clone();
+    // ShaderMaterial.clone duplicates texture-valued uniforms. Compilation must share
+    // the source textures; uploading disposable clones would retain extra GPU references.
+    if (uniforms) (clone as THREE.ShaderMaterial).uniforms = uniforms;
     clone.defines = { ...source.defines };
-    clone.onBeforeCompile = source.onBeforeCompile.bind(source);
+    clone.onBeforeCompile = (shader, renderer) => {
+      source.onBeforeCompile(shader, renderer);
+      for (const uniform of Object.values(shader.uniforms)) this.collectTextures(uniform.value);
+    };
     clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
     const dispose = () => { this.retire(clone); this.materials.delete(source); source.removeEventListener("dispose", dispose); };
     source.addEventListener("dispose", dispose);
@@ -155,7 +183,7 @@ export class StreamedShaderWarmup {
     else material.dispose();
   }
 
-  getState() { return { waiting: this.waiting.size, queued: this.queued.size, compiling: this.pending }; }
+  getState() { return { waiting: this.waiting.size, queued: this.queued.size, compiling: this.pending, textures: this.textures.size }; }
 
   hasPending(root: THREE.Object3D): boolean {
     for (const mesh of this.waiting) {

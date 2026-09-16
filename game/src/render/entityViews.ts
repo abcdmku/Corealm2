@@ -2030,6 +2030,10 @@ export class EntityViews {
    * and never decides whether a visible actor's animation clock runs.
    */
   update(deltaSeconds: number, viewer?: THREE.Vector3, nowMs?: number): void {
+    for (const [id, marker] of this.highlights) {
+      const record = this.records.get(id);
+      if (record) this.placeHighlight(marker, record);
+    }
     this.animatedLastFrame = 0;
     if (viewer) {
       this.viewer = (this.viewer ?? new THREE.Vector3()).copy(viewer);
@@ -5350,6 +5354,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     }
     const marker = new THREE.Group();
     marker.name = `highlight-${entityId}`;
+    marker.userData.keepVisibleDuringWarmup = true;
 
     const ring = new THREE.Mesh(resource ? this.resourceRing() : this.ring(), material);
     ring.name = "ring";
@@ -5371,6 +5376,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   clearHighlight(entityId: EntityId): void {
     const existing = this.highlights.get(entityId);
     if (!existing) return;
+    const ring = existing.getObjectByName("ring") as THREE.Mesh | undefined;
+    if (ring?.userData.radius !== undefined) ring.geometry.dispose();
     existing.removeFromParent();
     this.highlights.delete(entityId);
   }
@@ -5401,7 +5408,15 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       if (bounds) height = bounds.max[1] - record.position.y + 0.16;
     }
     marker.scale.setScalar(1);
-    marker.getObjectByName("ring")?.scale.setScalar(radius);
+    const ring = marker.getObjectByName("ring") as THREE.Mesh | undefined;
+    if (ring) {
+      if (resource) ring.scale.setScalar(radius);
+      else if (ring.userData.radius !== radius) {
+        if (ring.userData.radius !== undefined) ring.geometry.dispose();
+        ring.geometry = new THREE.RingGeometry(Math.max(0.01, radius - 0.025), radius + 0.025, 64);
+        ring.userData.radius = radius;
+      }
+    }
     const pip = marker.getObjectByName("pip");
     if (pip) {
       pip.position.y = height;

@@ -275,6 +275,7 @@ export interface CombatInventoryPort {
 
 /** Satisfied exactly by `Movement` in systems/movement.ts. Used only to walk back into range. */
 export interface CombatMovementPort {
+  hasDirectInput?(): boolean;
   startPath(
     state: GameState,
     destination: Vec3,
@@ -464,9 +465,11 @@ export class CombatSystem implements TickSystem {
     castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }>;
     castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }>;
     setPreferredSpell(spellId: SpellId | null): void;
+    disengage(reason: string, atMs: number): boolean;
     castLock(): { spellId: SpellId; startedMs: number; endsMs: number } | null;
   } {
     return {
+      disengage: (reason, atMs) => this.disengagePlayer(reason, atMs),
       attack: (entityId) => this.attack(entityId),
       cast: (spellId, entityId) => this.cast(spellId, entityId),
       castNow: (spellId) => this.castNow(spellId),
@@ -732,13 +735,15 @@ export class CombatSystem implements TickSystem {
     }
     this.landSpellHits(state, atMs);
 
-    // Magic cannot share the 600 ms swing clock: 2200 ms rounds up to 2400 ms there. Both shipped
-    // magic cadences are exact multiples of the fixed 100 ms simulation step, so an active spell
-    // gets one due check per simulation tick. The combat-tick path below skips it to prevent a
-    // double launch on ticks where the two clocks coincide.
-    if (state.player.health > 0 && state.combat.activeSpellId !== null) {
-      this.resolvePlayerSwing(state, atMs, deltaMs);
+    // Player intent and due attacks are checked every simulation step. Weapon cadence
+    // still belongs to nextAttackAtMs, not to the slower enemy combat clock.
+    const movement = state.player.movement;
+    if (state.combat.targetId && (this.deps.movement?.hasDirectInput?.()
+      || (movement.mode !== "idle" && movement.destinationEntityId !== state.combat.targetId))) {
+      this.disengagePlayer("disengaged", atMs);
     }
+    this.advanceMeleeAttacks(state, atMs);
+    if (state.player.health > 0) this.resolvePlayerSwing(state, atMs, deltaMs);
 
     let guard = 0;
     while (atMs >= this.nextCombatTickAtMs && guard < MAX_CATCHUP_TICKS) {
@@ -760,7 +765,6 @@ export class CombatSystem implements TickSystem {
       if (state.combat.targetId) this.disengagePlayer("dead", atMs);
       return;
     }
-    if (state.combat.activeSpellId === null) this.resolvePlayerSwing(state, atMs, COMBAT_TICK_MS);
     this.resolveEnemySwings(state, atMs);
   }
 
@@ -799,6 +803,12 @@ export class CombatSystem implements TickSystem {
     if (gap > range) {
       if (!this.pursue(state, entity, atMs)) this.disengagePlayer("out-of-range", atMs);
       return;
+    }
+
+    // The creature may have approached while we were following its old position.
+    // Stop at contact range rather than continuing that stale path into its body.
+    if (state.player.movement.mode === "path" && state.player.movement.destinationEntityId === entity.id) {
+      this.deps.movement?.stop(state, atMs, "target-in-range");
     }
 
     // FACE THE TARGET, but only while STANDING. A caster stood at range firing sideways, and a

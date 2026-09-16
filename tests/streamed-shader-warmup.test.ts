@@ -8,6 +8,7 @@ function fixture() {
   const calls: { material: THREE.Material; linear: boolean }[] = [];
   const programs = [{ program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }, { program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }];
   const renderer = {
+    initTexture: (_texture: THREE.Texture) => {},
     debug: { checkShaderErrors: true },
     info: { programs },
     getContext: () => ({ getExtension: () => ({ COMPLETION_STATUS_KHR: 1 }), isProgram: () => true,
@@ -106,4 +107,80 @@ it("does not retain stale program handles after renderer caches are replaced", (
   gate.prepare();expect(mesh.visible).toBe(true);
   expect(gate.getState().waiting).toBe(0);
   gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
+});
+
+
+it("uploads maps and custom palette textures in bounded batches before revealing scenery", () => {
+  const { scene, gate, mesh, renderer, programs } = fixture();
+  const textures = Array.from({ length: 5 }, () => new THREE.DataTexture(new Uint8Array(4), 1, 1));
+  const target = new THREE.WebGLRenderTarget(1, 1);
+  mesh.material.map = textures[0]!;
+  mesh.material.normalMap = textures[1]!;
+  mesh.material.onBeforeCompile = shader => {
+    shader.uniforms.palettes = { value: [textures[2], textures[3], textures[4], target.texture] };
+  };
+  const uploaded: THREE.Texture[] = [];
+  renderer.initTexture = texture => { uploaded.push(texture); };
+  renderer.compile = view => {
+    view.traverse(object => {
+      if (object instanceof THREE.Mesh) {
+        (object.material as THREE.Material).onBeforeCompile({ uniforms: {} } as never, renderer);
+      }
+    });
+    return new Set();
+  };
+  scene.add(mesh); gate.prepare(); gate.restore();
+  expect(uploaded).toHaveLength(0);
+  expect(gate.getState().textures).toBe(5);
+  for (const program of programs) program.program.ready = true;
+  for (let frame = 0; frame < 10 && gate.hasPending(scene); frame++) {
+    const before = uploaded.length;
+    gate.prepare();
+    expect(uploaded.length - before).toBeLessThanOrEqual(2);
+    if (uploaded.length < textures.length) expect(mesh.visible).toBe(false);
+    gate.restore();
+  }
+  expect(new Set(uploaded)).toEqual(new Set(textures));
+  expect(gate.hasPending(scene)).toBe(false);
+  expect(mesh.visible).toBe(true);
+  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
+  textures.forEach(texture => texture.dispose()); target.dispose();
+});
+
+
+it("prepares the source ShaderMaterial textures without uploading cloned uniform textures", () => {
+  const { scene, gate, renderer, programs } = fixture();
+  const texture = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+  const material = new THREE.ShaderMaterial({ uniforms: { image: { value: texture } } });
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(), material);
+  const uploaded: THREE.Texture[] = [];
+  renderer.initTexture = value => { uploaded.push(value); };
+  renderer.compile = view => {
+    view.traverse(object => {
+      if (object instanceof THREE.Mesh) {
+        const compiled = object.material as THREE.ShaderMaterial;
+        expect(compiled.uniforms.image!.value).toBe(texture);
+        compiled.onBeforeCompile({ uniforms: compiled.uniforms } as never, renderer);
+      }
+    });
+    return new Set();
+  };
+  scene.add(mesh); gate.prepare(); gate.restore();
+  for (const program of programs) program.program.ready = true;
+  gate.prepare(); gate.restore();
+  expect(uploaded).toEqual([texture]);
+  expect(gate.hasPending(scene)).toBe(false);
+  gate.dispose(); mesh.geometry.dispose(); material.dispose(); texture.dispose();
+});
+
+
+it("keeps selection feedback visible while a streamed batch prepares", () => {
+  const { scene, gate, mesh } = fixture();
+  const marker = new THREE.Group();
+  marker.userData.keepVisibleDuringWarmup = true;
+  marker.add(mesh); scene.add(marker);
+  gate.prepare();
+  expect(gate.hasPending(marker)).toBe(true);
+  expect(mesh.visible).toBe(true);
+  gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
 });
