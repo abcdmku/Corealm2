@@ -7,6 +7,7 @@
  *  - Assets are metres, Y-up. No global scale factor anywhere.
  */
 import * as THREE from "three";
+import { GameplayWork } from "./gameplayWork.js";
 import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
@@ -355,6 +356,20 @@ export class AssetRegistry {
   private primaryRetryCallbacks = new Set<PrimaryAssetRetryCallback>();
   private activeRegionId: string | null = null;
   private activeLoads = 0;
+  private gameplayActive = false;
+  private readonly preparation = new GameplayWork();
+
+  /** Startup keeps wide download concurrency. Play leaves CPU headroom for input and drawing. */
+  setGameplayActive(active: boolean): void {
+    this.gameplayActive = active;
+    this.preparation.setInteractive(active);
+    this.scheduleQueue();
+  }
+
+  /** Geometry assembly shares the same frame pacing as model decoding. */
+  prepareGameplayView(work: () => void): Promise<void> {
+    return this.preparation.run(work, () => ASSET_PRIORITY_RANK['visible-spawn']);
+  }
   private nextSequence = 0;
   private queueScheduled = false;
   /**
@@ -582,7 +597,8 @@ export class AssetRegistry {
   private drainQueue(): void {
     // Release files are much smaller. Keep their next requests in flight while earlier
     // files decode and resolve texture dependencies, instead of leaving the connection idle.
-    const concurrency = this.manifest?.optimizedTextures || usesMobileAssets() ? 16 : MAX_CONCURRENT_ASSET_LOADS;
+    const concurrency = this.gameplayActive ? 4
+      : this.manifest?.optimizedTextures || usesMobileAssets() ? 16 : MAX_CONCURRENT_ASSET_LOADS;
     while (this.activeLoads < concurrency) {
       const request = this.nextQueuedLoad();
       if (!request) return;
@@ -623,7 +639,8 @@ export class AssetRegistry {
     void Promise.resolve()
       .then(async () => {
         if (request.factory) {
-          const group = await request.factory();
+          const group = await this.preparation.run(request.factory,
+            () => ASSET_PRIORITY_RANK[this.effectivePriority(request)]);
           // Consume this reservation synchronously through the same publication guard as eager assets.
           this.built.delete(id);
           try { this.registerBuilt(id, group); } finally { this.built.add(id); }
@@ -636,7 +653,8 @@ export class AssetRegistry {
           const response = await fetch(`${ASSET_BASE_URL}${entry.compactFile}`);
           if (!response.ok || !response.body) throw new Error(`Model download failed: ${entry.id} (${response.status})`);
           const bytes = await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
-          return this.loader.parseAsync(bytes, url.slice(0, url.lastIndexOf('/') + 1));
+          return this.preparation.run(() => this.loader.parseAsync(bytes, url.slice(0, url.lastIndexOf('/') + 1)),
+            () => ASSET_PRIORITY_RANK[this.effectivePriority(request)]);
         })() : await this.loader.loadAsync(url);
         const group = gltf.scene;
         group.name = id;

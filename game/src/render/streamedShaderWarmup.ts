@@ -10,6 +10,7 @@ export class StreamedShaderWarmup {
   private readonly materials = new Map<THREE.Material, { clone: THREE.Material; version: number; dispose: () => void }>();
   private readonly retired = new Set<THREE.Material>();
   private readonly textures = new Set<THREE.Texture>();
+  private readonly preparedTextures = new WeakMap<THREE.Texture, number>();
   private pending = false;
   private batch: THREE.Mesh[] = [];
   private programs: NonNullable<THREE.WebGLRenderer["info"]["programs"]> = [];
@@ -52,9 +53,10 @@ export class StreamedShaderWarmup {
     if (this.pending) this.finishIfReady();
     if (!this.pending && this.queued.size) this.compileNext();
     for (const mesh of this.waiting) {
-      // A nearby unique actor replaces its distant instance in the same update. It must remain
-      // drawable throughout preparation, or that handoff leaves the creature completely absent.
-      if (mesh.userData.entityId !== undefined || mesh.parent?.userData.keepVisibleDuringWarmup === true) continue;
+      // EntityViews retains the sampled actor until its detailed rig is ready. Other gameplay
+      // objects and selection feedback without a replacement still remain drawable.
+      if ((mesh.userData.entityId !== undefined && !mesh.userData.deferFirstDraw)
+        || mesh.parent?.userData.keepVisibleDuringWarmup === true) continue;
       if (!mesh.visible) continue;
       mesh.visible = false;
       this.hidden.push(mesh);
@@ -67,7 +69,7 @@ export class StreamedShaderWarmup {
   }
 
   private compileNext(): void {
-    const meshes = [...this.queued].slice(0, 64);
+    const meshes = [...this.queued].slice(0, 8);
     for (const mesh of meshes) this.queued.delete(mesh);
     // A compile-only view preserves each object's actual parent, geometry, batching and skinning.
     // compile() traverses this view; it never renders or updates its transforms.
@@ -120,6 +122,13 @@ export class StreamedShaderWarmup {
     let uploaded = 0;
     for (const texture of this.textures) {
       this.renderer.initTexture(texture);
+      if (!this.preparedTextures.has(texture)) {
+        // A disposed texture may be reused with the same version and need another upload.
+        const prepared = this.preparedTextures;
+        const invalidate = () => { prepared.delete(texture); texture.removeEventListener('dispose', invalidate); };
+        texture.addEventListener('dispose', invalidate);
+      }
+      this.preparedTextures.set(texture, texture.version);
       this.textures.delete(texture);
       uploaded++;
       if (uploaded >= 2 || performance.now() - started >= 3) return;
@@ -130,7 +139,11 @@ export class StreamedShaderWarmup {
   private collectTextures(value: unknown): void {
     if (value && typeof value === "object" && (value as THREE.Texture).isTexture) {
       const texture = value as THREE.Texture;
-      if (!texture.isRenderTargetTexture) this.textures.add(texture);
+      // Shared maps occur in many small mesh batches. Already prepared versions must not
+      // spend the upload budget again, or distant scenery waits seconds on no-op uploads.
+      if (!texture.isRenderTargetTexture && this.preparedTextures.get(texture) !== texture.version) {
+        this.textures.add(texture);
+      }
     } else if (Array.isArray(value)) {
       for (const item of value) this.collectTextures(item);
     }

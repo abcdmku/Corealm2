@@ -34,6 +34,19 @@ it("keeps a replacement gameplay actor drawable while its shaders prepare", () =
   gate.restore();gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
 });
 
+it('defers the first draw of an actor with a retained sampled replacement', () => {
+  const { scene, gate, mesh, programs } = fixture();
+  mesh.userData.entityId = 'prepared-creature';
+  mesh.userData.deferFirstDraw = true;
+  scene.add(mesh); gate.prepare();
+  expect(mesh.visible).toBe(false); expect(gate.hasPending(mesh)).toBe(true);
+  gate.restore();
+  for (const program of programs) program.program.ready = true;
+  gate.prepare();
+  expect(mesh.visible).toBe(true); expect(gate.hasPending(mesh)).toBe(false);
+  gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
+});
+
 it('avoids successful shader log queries and restores diagnostics after reflection fails', () => {
   const { scene, gate, mesh, renderer, programs } = fixture();
   scene.add(mesh); gate.prepare(); gate.restore();
@@ -147,6 +160,29 @@ it("uploads maps and custom palette textures in bounded batches before revealing
   textures.forEach(texture => texture.dispose()); target.dispose();
 });
 
+
+it('reuses prepared map versions across batches and reuploads changed or disposed maps', () => {
+  const { scene, gate, mesh, renderer, programs } = fixture();
+  const texture = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+  mesh.material.map = texture;
+  const uploaded: THREE.Texture[] = [];
+  renderer.initTexture = value => { uploaded.push(value); };
+  for (const program of programs) program.program.ready = true;
+  const prepare = () => {
+    scene.remove(mesh); scene.add(mesh);
+    for (let frame = 0; frame < 10 && gate.hasPending(scene); frame++) {
+      gate.prepare(); gate.restore();
+    }
+    expect(gate.hasPending(scene)).toBe(false);
+  };
+  prepare(); expect(uploaded).toHaveLength(1);
+  prepare(); expect(uploaded).toHaveLength(1);
+  texture.needsUpdate = true;
+  prepare(); expect(uploaded).toHaveLength(2);
+  texture.dispose();
+  prepare(); expect(uploaded).toHaveLength(3);
+  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose(); texture.dispose();
+});
 
 it("prepares the source ShaderMaterial textures without uploading cloned uniform textures", () => {
   const { scene, gate, renderer, programs } = fixture();

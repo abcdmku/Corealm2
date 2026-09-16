@@ -19,7 +19,10 @@
       <div id="boot-screen" role="status" aria-live="polite">
         <div class="boot-mark">COREALM</div>
         <div class="boot-status">Downloading the game...</div>
-        <progress class="boot-progress" aria-label="Preparing the game" max="6" value="0"></progress>
+        <div class="boot-meter">
+          <progress class="boot-progress" aria-label="Preparing the game" max="6" value="0"></progress>
+          <span class="boot-activity" aria-hidden="true"></span>
+        </div>
         <div class="boot-detail" aria-hidden="true">Preparing your starting area.</div>
       </div>
     </div>
@@ -34,7 +37,8 @@
           const bytes = performance.getEntriesByType('resource').reduce((sum, entry) => sum + entry.encodedBodySize, 0);
           const seconds = Math.floor((performance.now() - started) / 1000);
           const detail = screen.querySelector('.boot-detail');
-          if (detail) detail.textContent = (bytes > 0 ? (bytes / 1000000).toFixed(1) + ' MB received · ' : '') + seconds + 's elapsed';
+          const text = (bytes > 0 ? (bytes / 1000000).toFixed(1) + ' MB received · ' : '') + seconds + 's elapsed';
+          if (detail && detail.textContent !== text) detail.textContent = text;
         }, 250);
       })();
     </script>

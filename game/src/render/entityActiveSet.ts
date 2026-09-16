@@ -46,7 +46,9 @@ export class EntityActiveSet {
   private readonly entities = new Map<EntityId, SemanticEntity>();
   private readonly positions = new Map<EntityId, Vec3>();
   private readonly regions = new Map<EntityId, RegionId>();
-  private readonly cells = new Map<string, EntityId[]>();
+  private readonly cells = new Map<string, Set<EntityId>>();
+  private readonly membership = new Map<EntityId, { key: string | null; seen: number }>();
+  private generation = 0;
   private selectedCache: readonly SemanticEntity[] | null = null;
 
   constructor(options: EntityActiveSetOptions = {}) {
@@ -58,28 +60,47 @@ export class EntityActiveSet {
     );
   }
 
-  /** Replaces the read-only semantic snapshot and rebuilds the spatial lookup. */
+  /** Refreshes the snapshot, moving only changed rows between spatial cells. */
   replace(entities: readonly SemanticEntity[]): void {
-    this.entities.clear();
-    this.positions.clear();
-    this.regions.clear();
-    this.cells.clear();
-
+    const generation = ++this.generation;
     for (const entity of entities) {
       this.entities.set(entity.id, entity);
-      this.positions.set(entity.id, copyPosition(entity.position));
       this.regions.set(entity.id, entity.regionId);
-      if (!entity.view) continue;
-      const key = cellKey(this.positions.get(entity.id)!, this.cellSize);
-      const cell = this.cells.get(key) ?? [];
-      cell.push(entity.id);
-      this.cells.set(key, cell);
+      const previous = this.positions.get(entity.id);
+      const position = entity.position;
+      const moved = !previous || previous[0] !== position[0]
+        || previous[1] !== position[1] || previous[2] !== position[2];
+      if (moved) this.positions.set(entity.id, copyPosition(position));
+      const member = this.membership.get(entity.id);
+      const key = !entity.view ? null : member?.key && !moved
+        ? member.key : cellKey(position, this.cellSize);
+      if (!member || member.key !== key) {
+        if (member?.key) this.removeFromCell(entity.id, member.key);
+        if (key) {
+          let cell = this.cells.get(key);
+          if (!cell) this.cells.set(key, cell = new Set());
+          cell.add(entity.id);
+        }
+      }
+      if (member) { member.key = key; member.seen = generation; }
+      else this.membership.set(entity.id, { key, seen: generation });
     }
-
-    // Entity id is the stable authored key. Sorting both the cell buckets and final result makes
-    // membership and iteration independent of store insertion or travel hydration order.
-    for (const ids of this.cells.values()) ids.sort(compareIds);
+    for (const [id, member] of this.membership) {
+      if (member.seen === generation) continue;
+      if (member.key) this.removeFromCell(id, member.key);
+      this.membership.delete(id);
+      this.entities.delete(id);
+      this.positions.delete(id);
+      this.regions.delete(id);
+    }
+    // The final selection is sorted, so bucket insertion order never affects residency.
     this.selectedCache = null;
+  }
+
+  private removeFromCell(id: EntityId, key: string): void {
+    const cell = this.cells.get(key);
+    cell?.delete(id);
+    if (cell?.size === 0) this.cells.delete(key);
   }
 
   /** Activates radius selection around one world position. */

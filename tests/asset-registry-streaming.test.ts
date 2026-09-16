@@ -109,6 +109,25 @@ afterEach(() => {
 });
 
 describe("AssetRegistry streaming", () => {
+  it('reduces active download concurrency during gameplay and restores startup throughput', async () => {
+    const ids = Array.from({length:20}, (_,i) => `play-${i}`);
+    const pending = new Map<string, Deferred<FakeGltf>>();
+    const registry = await registryWith(ids, async url => {
+      const id = assetIdFromUrl(url), request = deferred<FakeGltf>();
+      pending.set(id, request); return request.promise;
+    }, true);
+    registry.setGameplayActive(true);
+    const requests = ids.map(id => registry.load(id));
+    await flushQueue();
+    expect(registry.getLoadStats()).toMatchObject({inflight:4, queued:16});
+    registry.setGameplayActive(false); await flushQueue();
+    expect(registry.getLoadStats()).toMatchObject({inflight:16, queued:4});
+    for (const [id, request] of pending) request.resolve(gltf(id));
+    await flushQueue();
+    for (const [id, request] of pending) request.resolve(gltf(id));
+    await Promise.all(requests);
+    expect(registry.getLoadStats()).toMatchObject({loaded:20, failed:0});
+  });
   it('loads compressed release models on desktop through the normal geometry and animation path', async () => {
     vi.stubGlobal('matchMedia', () => ({matches:false}));
     const asset = {...entry('hero'), compactFile:'hero.glb.model'};

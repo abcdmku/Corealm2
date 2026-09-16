@@ -233,7 +233,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (!node) return;
     const stats = statusAssets?.getLoadStats();
     const assetProgress = stats ? formatBootAssetProgress(stats, statusAssetTarget) : "";
-    node.textContent = `${statusPhase}${assetProgress}`;
+    const text = `${statusPhase}${assetProgress}`;
+    if (node.textContent !== text) node.textContent = text;
   };
   const setStatus = (message: string, phase: number): void => {
     statusPhase = message;
@@ -1315,6 +1316,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // reserve equal to the whole budget left the enemy ceiling at exactly zero and no enemy in the
   // game had ever animated.
   const entityViews = new EntityViews(scene, assets, scene.materials, {
+    isViewReady: root => renderer.isInteriorReady(root),
+    schedulePreparation: work => debugReady && runtimePerformanceEnabled ? assets.prepareGameplayView(work) : undefined,
     maxUniqueDrawCalls: 96,
     maxUniqueViews: 16,
     // Equal to `maxUniqueViews`, because a mixer budget UNDER the rig ceiling is where the herd
@@ -3852,6 +3855,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // playable mark and the final critical span/resource bookkeeping above.
       bootTelemetry.milestone(BOOT_MILESTONES.FIRST_PLAYABLE);
       debugReady = true;
+      assets.setGameplayActive(runtimePerformanceEnabled);
       if (saves.getRecovery()) ui.openTitle();
       if (featureLab) window.__featureLab = featureLab;
       if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;

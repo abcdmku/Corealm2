@@ -92,6 +92,13 @@ try {
   assert.deepEqual(driver.pageErrors, []);
   report.passed = true;
 } finally {
+  if (!report.passed && driver.page && !driver.page.isClosed()) {
+    report.failure = await driver.page.evaluate(() => {
+      const w = window as any, d = w.__gameDebug;
+      return { player: d?.getPlayer(), assets: w.__corealmPlayerAssets?.snapshot(),
+        views: d?.getEntityViewStats(), shaders: w.__renderDistanceLab?.shaders(), errors: d?.getErrors() };
+    }).catch(error => ({ error: String(error) }));
+  }
   await writeFile(`${out}/report.json`, JSON.stringify(report, null, 2));
   await driver.close(); await server.close(); deadline();
 }

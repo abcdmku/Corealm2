@@ -1571,6 +1571,10 @@ export interface EntityViewScene {
 }
 
 export interface EntityViewOptions {
+  /** Keep the sampled actor visible until its replacement's shaders and textures are ready. */
+  isViewReady?: (root: THREE.Object3D) => boolean;
+  /** Return undefined during startup; otherwise enqueue construction after a gameplay frame. */
+  schedulePreparation?: (work: () => void) => Promise<void> | undefined;
   /**
    * THE cap that matters, expressed in the unit the budget is written in.
    *
@@ -1772,6 +1776,10 @@ export class EntityViews {
   private viewer: THREE.Vector3 | null = null;
   /** Records whose asset is skinned, instanced or not. Kept apart so the rebalance is ~60 rows. */
   private readonly rigCandidates = new Set<ViewRecord>();
+  private readonly preparingUniques = new Set<ViewRecord>();
+  private readonly isViewReady: (root: THREE.Object3D) => boolean;
+  private readonly schedulePreparation: EntityViewOptions['schedulePreparation'];
+  private readonly pendingViews = new Map<EntityId, Promise<void>>();
   private ringGeometry: THREE.BufferGeometry | null = null;
   private resourceRingGeometry: THREE.BufferGeometry | null = null;
   private pipGeometry: THREE.BufferGeometry | null = null;
@@ -1784,6 +1792,8 @@ export class EntityViews {
     private readonly materials: MaterialLibrary,
     options: EntityViewOptions = {},
   ) {
+    this.isViewReady = options.isViewReady ?? (() => true);
+    this.schedulePreparation = options.schedulePreparation;
     this.maxUniqueDrawCalls = options.maxUniqueDrawCalls ?? 96;
     this.maxUniqueViews = options.maxUniqueViews ?? 24;
     this.maxAnimatedViews = options.maxAnimatedViews ?? 10;
@@ -1896,7 +1906,7 @@ export class EntityViews {
         { priority: "background" },
       );
     }
-    this.reconcileActiveSet();
+    this.reconcileActiveSet(enabled);
     return this.residencyStats();
   }
 
@@ -1908,6 +1918,7 @@ export class EntityViews {
       { priority: "visible-spawn", primary: true },
     );
     this.reconcileActiveSet();
+    await Promise.all(this.pendingViews.values());
     return this.residencyStats();
   }
 
@@ -1976,7 +1987,7 @@ export class EntityViews {
     this.reconcileActiveSet();
   }
 
-  private reconcileActiveSet(): void {
+  private reconcileActiveSet(immediate = false): void {
     if (this.sourcesChanged) {
       this.sourcesChanged = false;
       this.dropUnposed();
@@ -1988,6 +1999,25 @@ export class EntityViews {
 
     for (const entity of this.activeSet.selected()) {
       seen.add(entity.id);
+      if (!immediate && !this.records.has(entity.id) && this.schedulePreparation) {
+        if (this.pendingViews.has(entity.id)) continue;
+        const scheduled = this.schedulePreparation(() => {
+          // Residency may have moved on while this job waited. Read the latest snapshot and
+          // discard cancelled work before allocating any geometry or animation palettes.
+          const current = this.activeSet.selected().find(row => row.id === entity.id);
+          if (!current || this.records.has(current.id)) return;
+          this.syncOne(current);
+          if (this.records.has(current.id) && MOVING_ARCHETYPES.has(current.archetype)) {
+            this.residentMovingEntities.push(current);
+          }
+        });
+        if (scheduled) {
+          const pending = scheduled.finally(() => this.pendingViews.delete(entity.id));
+          this.pendingViews.set(entity.id, pending);
+          void pending.catch(error => console.error('Streamed entity preparation failed', error));
+          continue;
+        }
+      }
       this.syncOne(entity);
       const lampRecord = this.records.get(entity.id);
       const lampGroup = lampRecord ? this.groups.get(lampRecord.groupKey) : undefined;
@@ -2077,6 +2107,21 @@ export class EntityViews {
       } else {
         const group = this.groups.get(record.groupKey);
         if (group) this.writeSlot(group, record);
+      }
+    }
+    for (const record of this.preparingUniques) {
+      const group = this.groups.get(record.groupKey);
+      if (!record.unique || !group) { this.preparingUniques.delete(record); continue; }
+      if (this.isViewReady(record.unique)) {
+        this.freeSlot(group, record.entityId, record.slot);
+        record.slot = -1;
+        record.unique.visible = record.fade < 1 && !this.hiddenRoofs.has(record.entityId)
+          && (this.captureSubjectId === null || this.captureSubjectId === record.entityId);
+        this.preparingUniques.delete(record);
+      } else {
+        // Both representations share the same position and playback clock while linking.
+        this.writeSlot(group, record);
+        record.unique.visible = false;
       }
     }
     if (this.animated.size === 0) return;
@@ -2295,8 +2340,8 @@ export class EntityViews {
   private setCaptureRecordVisible(record: ViewRecord, visible: boolean): void {
     visible = visible && !this.hiddenRoofs.has(record.entityId);
     if (record.unique) {
-      record.unique.visible = visible;
-      return;
+      record.unique.visible = visible && !this.preparingUniques.has(record);
+      if (record.slot < 0) return;
     }
     const group = this.groups.get(record.groupKey);
     if (!group || record.slot < 0) return;
@@ -2542,9 +2587,9 @@ export class EntityViews {
       pickable: true,
     };
 
-    if (!ready || !this.buildUnique(record, group)) {
+    if (!ready || !this.buildUnique(record, group) || this.preparingUniques.has(record)) {
       const slot = this.takeSlot(group, entity.id);
-      if (slot < 0) return null;
+      if (slot < 0 && !record.unique) return null;
       record.slot = slot;
     }
 
@@ -2578,6 +2623,7 @@ export class EntityViews {
     unique.userData.entityId = entityId;
     unique.traverse((child) => {
       child.userData.entityId = entityId;
+      child.userData.deferFirstDraw = true;
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
       // The bounded nearby rig pool changes pose every frame. Three's cached skinned sphere
@@ -2598,6 +2644,10 @@ export class EntityViews {
     // for the one frame before `tickCorpseFade` runs again.
     unique.visible = record.fade < 1;
     this.group.add(unique);
+    if (!this.isViewReady(unique)) {
+      this.preparingUniques.add(record);
+      unique.visible = false;
+    }
 
     record.unique = unique;
     record.dressed = dressed;
@@ -2656,8 +2706,10 @@ export class EntityViews {
         }
       }
       promoted += 1;
-      this.freeSlot(group, record.entityId, slot);
-      record.slot = -1;
+      if (!this.preparingUniques.has(record)) {
+        this.freeSlot(group, record.entityId, slot);
+        record.slot = -1;
+      }
       this.placeUnique(record);
       this.applyUniqueState(record, group.tier);
       this.setMotion(record, record.spent ? "death" : record.movingTicks > 0 ? gaitFor(record) : "idle");
@@ -2718,7 +2770,7 @@ export class EntityViews {
     if (!record.unique || record.archetype === "boss") return false;
     const group = this.groups.get(record.groupKey);
     if (!group) return false;
-    const slot = this.takeSlot(group, record.entityId);
+    const slot = record.slot >= 0 ? record.slot : this.takeSlot(group, record.entityId);
     if (slot < 0) return false;
     this.releaseUnique(record);
     record.slot = slot;
@@ -2733,7 +2785,6 @@ export class EntityViews {
     this.clearFade(record);
     if (record.unique) {
       this.releaseUnique(record);
-      return;
     }
     const group = this.groups.get(record.groupKey);
     if (!group || record.slot < 0) return;
@@ -2749,6 +2800,7 @@ export class EntityViews {
    * (it is exactly the record that has to be promoted again when the player walks back).
    */
   private releaseUnique(record: ViewRecord): void {
+    this.preparingUniques.delete(record);
     if (record.rig) {
       record.rig.action.stop();
       record.rig.mixer.stopAllAction();
@@ -4888,7 +4940,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // A dissolved corpse is switched off here rather than only in `tickCorpseFade`, because
     // `syncMotion` calls this for every enemy every frame and would otherwise put it straight back
     // on screen. Enemies are in `MOVING_ARCHETYPES`, and a dead one is still an enemy.
-    if (record.fade >= 1 || this.hiddenRoofs.has(record.entityId)) {
+    if (record.fade >= 1 || this.hiddenRoofs.has(record.entityId)
+      || (this.captureSubjectId !== null && this.captureSubjectId !== record.entityId)) {
       group.animationLod?.hide(slot);
       for (const variant of [group.live, group.spent, group.moving]) {
         for (const draw of variant) hideInstance(draw, slot);
@@ -5641,7 +5694,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const record = this.records.get(entityId);
     if (!record) return null;
 
-    const rig = record.rig;
+    const rig = this.preparingUniques.has(record) ? null : record.rig;
     const group = record.slot >= 0 ? this.groups.get(record.groupKey) : null;
     const moving = record.movingTicks > 0 && !record.spent;
     const spentReady = Boolean(group && record.spent && group.spent.length > 0);
@@ -5651,7 +5704,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       : null;
     const path: EntityMotionPath | null = rig
       ? "live-rig"
-      : record.unique
+      : record.unique && !this.preparingUniques.has(record)
         ? "unique-static"
         : group?.animationLod && record.playback
           ? "sampled-rig"
@@ -5730,7 +5783,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const box = new THREE.Box3();
     let meshes = 0;
 
-    if (record.unique) {
+    if (record.unique && !this.preparingUniques.has(record)) {
       record.unique.updateMatrixWorld(true);
       // SkinnedMesh caches its first bounding box. Precise sampling follows the current bone
       // pose, so a reaching arm or crouched body changes gallery framing and health-bar height.

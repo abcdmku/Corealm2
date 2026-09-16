@@ -13,7 +13,8 @@ function actor(id: string, position: Vec3 = [0, 0, 0], regionId: RegionId = "fal
   };
 }
 
-async function fixture(entities: SemanticEntity[], radius = 12, directionalHits = false, speedMatched = false) {
+async function fixture(entities: SemanticEntity[], radius = 12, directionalHits = false, speedMatched = false,
+  isViewReady?: (root: THREE.Object3D) => boolean) {
   const source = new THREE.Group();
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const vertices = geometry.getAttribute("position").count;
@@ -57,6 +58,7 @@ async function fixture(entities: SemanticEntity[], radius = 12, directionalHits 
   const scene = { entityGroup: new THREE.Group(), overlayGroup: new THREE.Group() };
   const materials = new MaterialLibrary();
   const views = new EntityViews(scene, assets as never, materials, {
+    isViewReady,
     maxUniqueViews: 1, maxUniqueDrawCalls: 8, maxAnimatedViews: 1,
   });
   await views.prepare(entities);
@@ -79,6 +81,44 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it('keeps a moving sampled actor drawn and pickable until its replacement is ready', async () => {
+    let ready = false;
+    const entity = actor('streaming-handoff');
+    const f = await fixture([entity], 12, false, false, () => ready);
+    try {
+      f.views.update(.016, new THREE.Vector3());
+      expect(f.views.motionSnapshot(entity.id)?.path).toBe('sampled-rig');
+      expect(f.views.drawnBounds(entity.id)).not.toBeNull();
+      const record = (f.views as any).records.get(entity.id);
+      expect(record.unique.visible).toBe(false);
+      expect(record.slot).toBeGreaterThanOrEqual(0);
+      entity.position = [2, 0, 0];
+      f.views.syncResidentMotion(.5); f.views.update(.016, new THREE.Vector3());
+      const box = f.views.drawnBounds(entity.id)!;
+      expect((box.min[0] + box.max[0]) / 2).toBeCloseTo(1);
+      expect(f.views.pick(new THREE.Raycaster(new THREE.Vector3(1, .2, 5), new THREE.Vector3(0, 0, -1)))).toBe(entity.id);
+      ready = true; f.views.update(.016, new THREE.Vector3());
+      expect(f.views.motionSnapshot(entity.id)?.path).toBe('live-rig');
+      expect(record.slot).toBe(-1); expect(record.unique.visible).toBe(true);
+      expect(f.views.motionSnapshot(entity.id)!.drawnPosition[0]).toBeCloseTo(1);
+    } finally { f.dispose(); }
+  });
+
+  it.each(['remove', 'demote'] as const)('releases an unfinished replacement on %s without leaking its slot', async action => {
+    const entity = actor('cancel-handoff');
+    const f = await fixture([entity], 12, false, false, () => false);
+    try {
+      f.views.update(.016, new THREE.Vector3());
+      const record = (f.views as any).records.get(entity.id);
+      const slot = record.slot;
+      if (action === 'remove') f.views.sync([]);
+      else f.views.update(.016, new THREE.Vector3(100, 0, 0));
+      expect(record.unique).toBeNull();
+      expect((f.views as any).preparingUniques.size).toBe(0);
+      expect(record.slot).toBe(action === 'remove' ? -1 : slot);
+      if (action === 'demote') expect(f.views.drawnBounds(entity.id)).not.toBeNull();
+    } finally { f.dispose(); }
+  });
   it("keeps a thin selection ring on the interpolated creature every frame", async () => {
     const entity = actor("highlight-motion");
     const f = await fixture([entity]);

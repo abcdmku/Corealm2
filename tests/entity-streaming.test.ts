@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { RegionId, SemanticEntity, Vec3 } from "../game/src/contracts.js";
 import type { AssetEntry } from "../game/src/render/assets.js";
 import { EntityActiveSet } from "../game/src/render/entityActiveSet.js";
-import { EntityViews } from "../game/src/render/entityViews.js";
+import { EntityViews, type EntityViewOptions } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
 
 function entity(
@@ -29,6 +29,25 @@ function entity(
 function ids(entities: readonly SemanticEntity[]): string[] {
   return entities.map((candidate) => candidate.id);
 }
+
+it('refreshes changed cells and same-id references without losing snapshot positions or removed rows', () => {
+  const index = new EntityActiveSet({ cellSize: 8 });
+  const a = entity('a', 'fallowmarch', [1, 0, 0]);
+  const b = entity('b', 'fallowmarch', [20, 0, 0]);
+  index.replace([b, a]); index.setArea([0, 0, 0], 5);
+  expect(ids(index.selected())).toEqual(['a']);
+  (a.position as unknown as number[])[0] = 20; (b.position as unknown as number[])[0] = 2;
+  index.setArea([0, 0, 0], 5);
+  expect(ids(index.selected())).toEqual(['a']);
+  index.replace([a, b]); expect(ids(index.selected())).toEqual(['b']);
+  const replacement = { ...b, name: 'updated', regionId: 'highcairn' as RegionId };
+  index.replace([replacement]); expect(index.selected()[0]).toBe(replacement);
+  expect(index.has('a')).toBe(false); expect(index.forRegion('fallowmarch')).toEqual([]);
+  replacement.view = undefined; index.replace([replacement]); expect(index.selected()).toEqual([]);
+  replacement.view = { assetId: 'new' }; index.replace([replacement]);
+  expect(ids(index.selected())).toEqual(['b']);
+  replacement.position = [NaN, 0, 0]; expect(() => index.replace([replacement])).toThrow('finite');
+});
 
 it("keeps distant creatures visible without widening the resource working set", () => {
   const actors = new EntityActiveSet();
@@ -126,7 +145,7 @@ class FakeEntityAssets {
   }
 }
 
-function entityViews(assets: FakeEntityAssets): {
+function entityViews(assets: FakeEntityAssets, options: EntityViewOptions = {}): {
   views: EntityViews;
   materials: MaterialLibrary;
 } {
@@ -136,7 +155,7 @@ function entityViews(assets: FakeEntityAssets): {
   };
   const materials = new MaterialLibrary();
   return {
-    views: new EntityViews(scene as never, assets as never, materials),
+    views: new EntityViews(scene as never, assets as never, materials, options),
     materials,
   };
 }
@@ -230,6 +249,47 @@ describe("EntityActiveSet", () => {
 });
 
 describe("EntityViews streaming", () => {
+  it('completes explicit full-world capture preparation without waiting on paced gameplay jobs', async () => {
+    const assets = new FakeEntityAssets(['a-asset']);
+    const jobs: (() => void)[] = [];
+    const f = entityViews(assets, {schedulePreparation: work => new Promise<void>(resolve => {
+      jobs.push(() => {work();resolve();});
+    })});
+    try {
+      const a = entity('a', 'fallowmarch', [0,0,0]);
+      await f.views.prepare([a]); f.views.sync([a]);
+      expect(jobs).toHaveLength(1);
+      expect(await f.views.forceFullResidency()).toMatchObject({resident:1,pending:0});
+      jobs.shift()!(); await Promise.resolve();
+      expect(f.views.residencyStats()).toMatchObject({resident:1,pending:0});
+    } finally {f.views.dispose();f.materials.dispose();assets.dispose();}
+  });
+  it('paces new views, uses current rows, cancels stale areas and awaits destination hydration', async () => {
+    const assets = new FakeEntityAssets(['a-asset', 'b-asset']);
+    const jobs: (() => void)[] = [];
+    const f = entityViews(assets, { schedulePreparation: work => new Promise<void>(resolve => {
+      jobs.push(() => { work(); resolve(); });
+    }) });
+    const a = entity('a', 'fallowmarch', [0, 0, 0]), b = entity('b', 'fallowmarch', [2, 0, 0]);
+    try {
+      await f.views.prepare([a,b]); f.views.sync([a,b]);
+      expect(f.views.residencyStats()).toMatchObject({pending:2,resident:0});
+      const current = { ...b, position:[4,0,0] as Vec3 };
+      f.views.sync([current]);
+      expect(jobs).toHaveLength(2);
+      jobs.shift()!(); await Promise.resolve();
+      expect(f.views.hasView('a')).toBe(false);
+      let resolved = false;
+      const hydration = f.views.retryHydration().then(result => {resolved=true;return result;});
+      await Promise.resolve(); expect(resolved).toBe(false);
+      jobs.shift()!();
+      expect((await hydration).pending).toBe(0);
+      expect(f.views.positionOf('b')?.x).toBe(4);
+      f.views.sync([a,current]);
+      f.views.dispose(); jobs.shift()!(); await Promise.resolve();
+      expect(f.views.hasView('a')).toBe(false);
+    } finally { f.views.dispose(); f.materials.dispose(); assets.dispose(); }
+  });
   it("hydrates structures through their draw-distance ring while actors use the smaller radius", async () => {
     const structure = entity("structure", "fallowmarch", [100, 0, 0], "structure-asset");
     const actor = {

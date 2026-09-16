@@ -2,7 +2,7 @@
 
 ## Desktop and mobile delivery
 
-The release packer produces WebP texture maps capped at 1024 pixels for desktop and 512 pixels for coarse-pointer browsers. Both use gzip-wrapped Meshopt GLBs and a bounded queue of 16 overlapping asset loads. Source art stays unchanged. The smaller textures retain authored colour and alpha layers, material channels and UVs. Development manifests without delivery variants continue to use the original files.
+The release packer produces WebP texture maps capped at 1024 pixels for desktop and 512 pixels for coarse-pointer browsers. Both use gzip-wrapped Meshopt GLBs and a bounded queue of 16 overlapping asset loads during startup, reduced to four during gameplay. Source art stays unchanged. The smaller textures retain authored colour and alpha layers, material channels and UVs. Development manifests without delivery variants continue to use the original files.
 
 Models retain their triangles, skeletons, skin weights, clip names and timing. Positions, normals, UVs, colours and animation outputs use bounded float precision before compression. Navigation-sensitive altar, stump and bridge models use exact geometry. Tests compare decoded accessors, triangle indices, rigs, animation timing and image bytes.
 
@@ -42,6 +42,12 @@ Graphics setup also initializes the texture unpack defaults in Three's state cac
 
 Every eight metres of travel starts preparation 48 metres beyond the working set. Visited sources stay reusable. Portal transitions await complete destination preparation and rendering before uncovering the view. Very slow downloads can still overrun the travel margin.
 
+During play, compressed model parsing, generated assets and new entity geometry share a priority queue. After each rendered frame it starts work until two milliseconds have elapsed, with a maximum of eight jobs. A single expensive job can exceed that budget, then yields; cheap placement and cancelled work can finish together. Asynchronous dependencies overlap without locking the queue. A timer also lets requested work finish when animation frames are suspended. Queued entity creation checks the latest selection before allocating anything, and destination hydration waits for queued views. Startup keeps its existing parallel loading path.
+
+Nearby creatures retain their moving sampled representation while the detailed rig's shaders and textures prepare. The handoff preserves position, animation time, selection and corpse fading. Shader submission handles at most eight meshes per batch; texture uploads and program reflection retain their existing frame budgets. Shared texture versions use that upload budget only once, with invalidation when a texture changes or is disposed. The spatial view index updates changed rows instead of rebuilding every cell on each world sync.
+
+The loading meter has a compositor animation between real stage updates. Downloaded bytes and elapsed time remain actual measurements. Reduced-motion preferences disable the animation, and a load failure stops it. Repeated identical status text no longer rewrites the DOM.
+
 ## Acceptance
 
 Build before production checks. Run timing tests alone in a fresh browser profile with disabled HTTP cache. Mobile uses an 844 by 390 touch viewport at DPR 2 and real joystick input. `--desktop` uses 1440 by 900 at DPR 1 and keyboard movement. Both check semantic player movement with default graphics settings. The normal gate fails at 20 seconds and rejects a freeze of 500 ms or more during the first second of revealed gameplay. `--diagnostic` allows a longer investigation capture.
@@ -56,6 +62,9 @@ npx tsx tools/startup-cache-test.ts --production --resume
 npx tsx tools/smart-loading-world-test.ts --mobile
 npx tsx tools/smart-loading-world-test.ts
 npx tsx tools/release-world-failure-test.ts
+npx tsx tools/streaming-loading-lab-test.ts
+npx tsx tools/walking-stream-test.ts --label mobile --mbps 20 --cpu 2 --shaders --budget
+npx tsx tools/walking-stream-test.ts --desktop --label desktop --mbps 50 --cpu 1
 ```
 
 Reports include network and CPU throttling, first-playable time, pre-play bytes, spans, errors and before/after movement. Add `--profile` for a CPU profile or `--shaders` for driver query diagnostics. Screenshots and reports stay ignored under `test-results/`. Desktop mobile emulation does not replace a physical-phone measurement.
@@ -99,3 +108,25 @@ Reusable delivery paths use the production feature lab. `tools/mobile-loading-la
 For shipped terrain, run `npx tsx tools/build-world.ts --lab`, pack `generated/world-lab` with `packTerrainDelivery`, then run `npx tsx tools/mobile-loading-lab-test.ts`. Move the disposable fixture out of public before packaging a release. The accepted September 16 fixture is retained under `.cache/accepted-mobile-world-lab-20260916/`.
 
 The full-world exception applies to island terrain/coast partitioning and global navigation import, because a compact scene cannot prove authored spatial coverage. Unit tests compare exact restored terrain, physics samples and dry-ground ray hits. Geometry, rigs, materials, local effects, controls and loading feedback retain lab proof.
+
+### Loading feedback and walking, September 16, 2026
+
+The follow-up build is `index-HMxveknS.js`, world revision `0adc2eb7e67ecf3c82f4a91f7ba9845a84e60def805cf97fc035df64da787942`. The production lab checks that the activity animation advances while the loading stage stays unchanged, respects reduced motion, and keeps a sampled creature visible until its detailed rig is ready. Unit checks cover movement and picking during that handoff. Real keyboard input and normal-camera screenshots prove the resulting lab scene.
+
+Walking checks use four four-second movement segments after a four-second idle period, with fresh profiles and disabled HTTP cache. They then allow background work to settle, recording the actual wait and requiring asset, view and shader queues to finish. Mobile uses real joystick input at 20 Mbps, 80 ms latency and CPU slowdown 2x. Desktop uses keyboard input at 50 Mbps, 80 ms latency and no CPU slowdown. These are local Chromium measurements, not measurements on a physical 5G phone.
+
+| Profile | First playable | Walking FPS | 95th-percentile frame | Largest frame gap | Frames over 100.5 ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Previous mobile, `ac8a2da` | 16.660 s | 43.9 | 50.0 ms | 366.7 ms | 3 |
+| Final mobile | 17.827 s | 46.4 | 33.4 ms | 166.7 ms | 1 |
+| Final desktop | 18.587 s | 42.1 | 33.4 ms | 183.4 ms | 1 |
+
+Mobile finished 21 new models and desktop finished 12. Both had zero failed models, browser errors, pending views and pending shaders at the final snapshot. Background preparation settled 2.061 seconds after mobile movement stopped and 7.674 seconds after desktop movement stopped. Gameplay continued during that preparation. Neither trace recorded a slow shader-log query. Both first loads stayed below 20 seconds at their tested profiles; neither establishes that time on a physical phone or slower connection.
+
+The optional walking budget requires every measured frame gap to stay below 150 ms. The final mobile run failed that stricter performance assertion at 166.7 ms, despite passing its movement and loading-completion assertions. Desktop also exceeds that target. Earlier builds reached an 83 ms mobile maximum but retained a graphics-preparation backlog, so those numbers are not the final acceptance result.
+
+The original mobile trace spent 316 ms waiting on a newly visible creature's graphics program. Keeping its sampled representation until preparation finishes removes that synchronous handoff. Pacing new view construction also prevents several geometry and animation allocations from landing in the same frame. Startup retains parallel preparation, so these gameplay limits do not extend its loading queue.
+
+Desktop still has an occasional graphics-thread pause. A Chrome trace shows command-buffer flushes taking about 90 ms while the JavaScript thread is idle. Smaller shader batches, fewer texture uploads and extra first-draw preparation did not improve that pause; the unsuccessful extra preparation code was removed. The changes do not establish hitch-free desktop play or a universal 20-second first load.
+
+The release build and TypeScript check passed. The full unit suite passed 2,903 tests with one skipped before the last texture-budget and scheduler adjustments; all 69 final focused checks passed, including release integrity and navigation parity. Mobile and desktop production travel passed ordinary movement, approaching scenery, inventory acquisition without bank preloading, and both cave portals with complete destinations before reveal. Loading, handoff, walking and cave screenshots were inspected using gameplay cameras. The mobile cave's short fog distance matches the preceding release's saved-cave capture.
