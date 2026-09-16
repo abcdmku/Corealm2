@@ -8,6 +8,7 @@ import { usePeek } from "../Peek.js";
 import { RefRow } from "../RefChip.js";
 import { Section } from "../Sheet.js";
 import { labelFor } from "../library.js";
+import { Button } from "../../components/ui/index.js";
 
 /*
   The standard closing section of every record page (docs/devdocs-inputs.md §3.5): everything that
@@ -75,9 +76,9 @@ export function ReferencedBy({ collection, id, cap = 40, navigate, title = "Refe
         <span className="refby-group-title">{group.label}<small>{group.rows.length}</small></span>
         {shown.map(reference => <div key={`${reference.collection}:${reference.recordId}`} className="refby-row">
           <RefRow collection={reference.collection} id={reference.recordId} record={reference.record} ctx={ctx} tag={labelFor(reference.collection)} onOpen={(target, recordId) => peek.open({ collection: target, id: recordId })} />
-          {open && <button type="button" className="text-button refby-open" title="Open in the workspace" aria-label={`Open ${reference.recordName}`} onClick={() => open(reference.collection, reference.recordId)}><ArrowUpRight size={11} /> Open</button>}
+          {open && <Button variant="link" size="inline" className="refby-open" title="Open in the workspace" aria-label={`Open ${reference.recordName}`} onClick={() => open(reference.collection, reference.recordId)}><ArrowUpRight size={11} /> Open</Button>}
         </div>)}
-        {group.rows.length > cap && !expanded.has(group.label) && <button type="button" className="text-button refby-more" onClick={() => setExpanded(current => new Set(current).add(group.label))}>Show all {group.rows.length}</button>}
+        {group.rows.length > cap && !expanded.has(group.label) && <Button variant="link" size="inline" className="refby-more" onClick={() => setExpanded(current => new Set(current).add(group.label))}>Show all {group.rows.length}</Button>}
       </div>;
     })}
   </Section>;

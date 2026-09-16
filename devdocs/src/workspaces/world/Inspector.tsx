@@ -16,6 +16,7 @@ import {
   authoredOffsets, detachEncounter, findOwned, patchEncounter, patchOwned, patchPlacement, patchResource, patchRegion, regionBounds, regionById, removeSelection, round, safeAnchors, titleCase,
   type Bank, type Bounds, type Building, type Draft, type Feature, type Gate, type Landmark, type Location, type NpcStand, type Obstacle, type Point, type Selection, type Shop, type Station,
 } from "./model.js";
+import { Button } from "../../components/ui/index.js";
 
 /*
   The right rail: one inspector per kind of thing, built from the one field model. Every label,
@@ -157,7 +158,7 @@ function Head({ feature, title, facts, aside }: { feature: Feature; title: React
 }
 
 function Link({ onClick, children }: { onClick: () => void; children: ReactNode }) {
-  return <button type="button" className="text-button" onClick={onClick}>{children}<ArrowUpRight size={11} /></button>;
+  return <Button variant="link" size="inline" onClick={onClick}>{children}<ArrowUpRight size={11} /></Button>;
 }
 
 /** Location ids outside one region, so a `location` ref picker only offers that region's nodes. */
@@ -235,7 +236,7 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
         : <StaticRow label="Encounter"><Static muted>Encounter {placement.encounterId} is missing.</Static></StaticRow>}
       {uses > 1 && <StaticRow label="Shared">
         <Static>Shared with {uses - 1} other {uses - 1 === 1 ? "spawn" : "spawns"}</Static>
-        {editable && <button type="button" className="button button-small" onClick={() => update(current => detachEncounter(current, placement.id))}>Detach</button>}
+        {editable && <Button variant="secondary" size="sm" onClick={() => update(current => detachEncounter(current, placement.id))}>Detach</Button>}
       </StaticRow>}
     </Section>
     <Section title="Population">
@@ -267,7 +268,7 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
       <StaticRow label={at(WorldPlacementSchema, "dressing").label}>{placement.dressing.length ? <Static mono muted>{placement.dressing.map(row => row.assetId).join(", ")}</Static> : <Static muted>None</Static>}</StaticRow>
     </Section>
     {editable && <div className="world-actions">
-      <button type="button" className="button button-small button-danger" aria-label="Remove spawn" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove spawn</button>
+      <Button variant="destructive" size="sm" aria-label="Remove spawn" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove spawn</Button>
     </div>}
     <ReferencedBy collection="placements" id={placement.id} navigate={navigate} cap={10} />
     {encounter && <ReferencedBy collection="encounters" id={encounter.id} navigate={navigate} cap={10} title="Referenced by · encounter" />}
@@ -297,7 +298,7 @@ function ResourceSheet({ draft, selection, feature, editable, ctx, update, navig
       <RefField kind="location" label={at(ResourcePlacementSchema, "locationId").label} hint={at(ResourcePlacementSchema, "locationId").hint} value={node.locationId} readOnly={disabled} exclude={elsewhere} onChange={locationId => locationId && set({ locationId })} />
       <PointFields label={at(ResourcePlacementSchema, "centre").label} unit={at(ResourcePlacementSchema, "centre").unit} value={node.centre} disabled={disabled} onChange={centre => set({ centre })} />
     </Section>
-    {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove node</button></div>}
+    {editable && <div className="world-actions"><Button variant="destructive" size="sm" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove node</Button></div>}
     <ReferencedBy collection="resourcePlacements" id={node.id} navigate={navigate} cap={10} />
   </Sheet>;
 }
@@ -314,7 +315,7 @@ function RegionSheet({ draft, selection, feature, editable, update, navigate, on
   const npcs = region.settlement?.npcs.length ?? 0;
   return <Sheet compact className="world-sheet">
     <Head feature={feature} title={region.name} facts={[`Tier ${region.tier}`, `${region.locations.length} locations`, `${spawns} spawns`, `${nodes} nodes`, `${npcs} NPCs`]}
-      aside={<button type="button" className="button button-small" onClick={() => onFit(regionBounds(region))}><Crosshair size={12} /> Fit</button>} />
+      aside={<Button variant="secondary" size="sm" onClick={() => onFit(regionBounds(region))}><Crosshair size={12} /> Fit</Button>} />
     <Section title="Region">
       <TextRow spec={at(WorldRegionSchema, "name")} value={region.name} disabled={disabled} onChange={name => set(["name"], name)} />
       <NumberRow spec={at(WorldRegionSchema, "tier")} value={region.tier} disabled={disabled} min={1} onChange={tier => set(["tier"], tier ?? region.tier)} />
@@ -353,7 +354,7 @@ function LocationSheet({ draft, selection, feature, editable, update, onSelect }
     <Section title="Roads">
       {roads.length ? roads.map(road => <StaticRow key={road.id} label={road.name}><Link onClick={() => onSelect({ kind: "location", id: road.id, regionId: region.id })}>{road.meters ? `${road.meters} m` : "open"}</Link></StaticRow>) : <Static muted>No roads touch this location.</Static>}
     </Section>
-    {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove location</button></div>}
+    {editable && <div className="world-actions"><Button variant="destructive" size="sm" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove location</Button></div>}
   </Sheet>;
 }
 
@@ -379,7 +380,7 @@ function LandmarkSheet({ draft, selection, feature, editable, update, onSelect }
       {landmark.composition && <StaticRow label={LANDMARK("composition").label}><Static mono>{landmark.composition}</Static></StaticRow>}
       <TextRow spec={LANDMARK("blurb")} value={landmark.blurb} disabled={disabled} onChange={blurb => set(["blurb"], blurb)} />
     </Section>
-    {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove landmark</button></div>}
+    {editable && <div className="world-actions"><Button variant="destructive" size="sm" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove landmark</Button></div>}
   </Sheet>;
 }
 
@@ -407,7 +408,7 @@ function GateSheet({ draft, selection, feature, editable, update, onSelect }: In
       <NumberRow spec={GATE("rotationY")} value={gate.rotationY} disabled={disabled} unit={GATE("rotationY").unit ?? "rad"} onChange={rotation => set(["rotationY"], rotation)} />
       <RefField kind="asset" label={GATE("assetId").label} hint={GATE("assetId").hint} value={gate.assetId} readOnly={disabled} onChange={id => id && set(["assetId"], id)} />
     </Section>
-    {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove gate</button></div>}
+    {editable && <div className="world-actions"><Button variant="destructive" size="sm" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove gate</Button></div>}
   </Sheet>;
 }
 
@@ -437,7 +438,7 @@ function ObstacleSheet({ draft, selection, feature, editable, update, onSelect }
       <StaticRow label={OBSTACLE("toLocationId").label}><Link onClick={() => onSelect({ kind: "location", id: obstacle.toLocationId, regionId: region.id })}>{locationName(obstacle.toLocationId)}</Link></StaticRow>
       <StaticRow label={OBSTACLE("assetId").label}><Static mono>{obstacle.assetId}</Static></StaticRow>
     </Section>
-    {editable && <div className="world-actions"><button type="button" className="button button-small button-danger" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove obstacle</button></div>}
+    {editable && <div className="world-actions"><Button variant="destructive" size="sm" onClick={() => { update(current => removeSelection(current, selection)); onSelect(undefined); }}>Remove obstacle</Button></div>}
   </Sheet>;
 }
 

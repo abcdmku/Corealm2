@@ -47,18 +47,18 @@ export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "ke
   };
 
   const addControl = readOnly ? undefined : listed
-    ? (remaining.length > 0 ? <ChoiceField value={undefined} allowEmpty={`Add ${keyLabel}…`} options={remaining} ariaLabel={`Add ${keyLabel}`} onChange={next => { if (next) add(next); }} className="field-list-add-choice" /> : undefined)
-    : <TextField value="" placeholder={`Add ${keyLabel}…`} width="short" ariaLabel={`Add ${keyLabel}`} onChange={add} className="field-list-add-text" />;
+    ? (remaining.length > 0 ? <ChoiceField value={undefined} allowEmpty={`Add ${keyLabel}…`} options={remaining} ariaLabel={`Add ${keyLabel}`} onChange={next => { if (next) add(next); }} /> : undefined)
+    : <TextField value="" placeholder={`Add ${keyLabel}…`} width="short" ariaLabel={`Add ${keyLabel}`} onChange={add} />;
 
-  return <ListField<Entry<V>> label={label} hint={hint} items={entries} onChange={commit} keyOf={entry => entry[0]} readOnly={readOnly} emptyText={emptyText} compact={compact} className={`field-map ${className}`.trim()}
+  return <ListField<Entry<V>> label={label} hint={hint} items={entries} onChange={commit} keyOf={entry => entry[0]} readOnly={readOnly} emptyText={emptyText} compact={compact} className={className}
     addControl={addControl}
     removeLabel={entry => `Remove ${labelOf(entry[0])}`}
     renderItem={([key, current], api) => <>
-      <span className="field-map-key">
+      <span className="inline-flex shrink-0">
         {listed
           ? <ChoiceField value={key} options={[...listed.filter(option => option.value === key), ...remaining]} readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => { if (next) rename(api.index, next); }} />
           : <TextField value={key} width="short" readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => rename(api.index, next)} />}
       </span>
-      <span className="field-map-value">{renderValue(key, current, next => api.update([key, next]))}</span>
+      <span className="inline-flex min-w-0 items-center gap-1.5">{renderValue(key, current, next => api.update([key, next]))}</span>
     </>} />;
 }

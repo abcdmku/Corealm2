@@ -2,6 +2,7 @@ import { memo, useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { LAYER_ICON, glyphColor, glyphIcon } from "./glyphs.js";
 import { LAYERS, LAYER_LABEL, type Bounds, type Feature, type Layer } from "./model.js";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
 
 /*
   The left rail: search, layer toggles with counts, and the list of what is in view (or what
@@ -83,11 +84,9 @@ export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer
 
   return <aside className="world-rail world-rail-left">
     <div className="world-rail-tools">
-      <label className="search-field" style={{ width: "100%" }}>
-        <Search size={13} />
-        <input value={search} onChange={event => { onSearch(event.target.value); setLimit(PAGE); }} placeholder="Search the world" aria-label="Search the world" />
-        {search && <button type="button" className="icon-button" aria-label="Clear search" onClick={() => onSearch("")}><X size={12} /></button>}
-      </label>
+      <InputGroup className="w-full"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput value={search} onChange={event => { onSearch(event.target.value); setLimit(PAGE); }} placeholder="Search the world" aria-label="Search the world" />
+        {search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => onSearch("")}><X size={12} /></Button>}
+      </InputGroup>
       <div className="world-layers" role="group" aria-label="Layers">
         {LAYERS.map(layer => { const Icon = LAYER_ICON[layer]; return <button type="button" key={layer} className={`world-layer${layers[layer] ? " is-active" : ""}`} aria-pressed={layers[layer]} title={LAYER_LABEL[layer]} onClick={() => onToggleLayer(layer)}>
           <Icon size={12} /><span>{LAYER_LABEL[layer]}</span><small>{counts[layer]}</small>
@@ -101,7 +100,7 @@ export const Rail = memo(function Rail({ features, counts, layers, onToggleLayer
           ? <Cluster key={entry.key} name={entry.feature.group!.name} id={ambiguous.has(entry.key) ? entry.feature.group!.key : undefined} members={entry.members} selectedKey={selectedKey} onPick={onPick} onShowAll={onShowAll}
               expanded={expanded[entry.key] ?? entry.members.some(member => member.key === selectedKey)} onToggle={() => setExpanded(current => ({ ...current, [entry.key]: !(current[entry.key] ?? entry.members.some(member => member.key === selectedKey)) }))} />
           : <ListRow key={entry.key} feature={entry.feature} selected={entry.feature.key === selectedKey} onPick={onPick} />)}
-        {isOpen(group.layer) && group.rows.length > limit && <button type="button" className="button button-small world-more" onClick={() => setLimit(limit + PAGE)}>Show more · {group.rows.length - limit} hidden</button>}
+        {isOpen(group.layer) && group.rows.length > limit && <Button variant="secondary" size="sm" className="world-more" onClick={() => setLimit(limit + PAGE)}>Show more · {group.rows.length - limit} hidden</Button>}
       </section>)}
       {!rows.length && <p className="world-empty">{needle ? "Nothing matches." : zoomedOut ? "Zoom in, pick a region, or search to list what is here." : "Nothing in view with these layers on."}</p>}
     </div>

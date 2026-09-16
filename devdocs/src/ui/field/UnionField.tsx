@@ -4,6 +4,8 @@ import {
 } from "../../../../game/src/content/schema/core.js";
 import { defaultFieldValue, fieldCore, fieldTitle, serialFieldSpec, unionVariant } from "../../model/fields.js";
 import { ChoiceField } from "./ChoiceField.js";
+import { Button } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 import { Field } from "./Field.js";
 import { fieldFromSchema, type SchemaFieldSpec } from "./fromSchema.js";
 import { ListField, type ListFieldProps } from "./ListField.js";
@@ -69,14 +71,14 @@ export function UnionField({ schema, value, onChange, renderRef, kindLabel, read
     onChange(out);
   };
 
-  return <div className={`field-union ${className}`.trim()} data-pending={pending ? "true" : undefined}>
+  return <div className={cn("flex min-w-0 flex-1 flex-col gap-px", className)} data-pending={pending ? "true" : undefined}>
     <Field label={kindLabel ?? (spec.discriminator ? fieldTitle(spec.discriminator) : "Kind")} compact={compact}>
       <ChoiceField value={pending?.key ?? selected} options={variants.map(variant => ({ value: variant.key, label: variant.label }))} readOnly={readOnly} onChange={requestSwitch} />
     </Field>
-    {pending && <div className="field-union-confirm" role="alert">
+    {pending && <div className="my-px flex min-h-6 flex-wrap items-center gap-x-2.5 gap-y-1 rounded-sm bg-warn-soft px-2 py-0.5 text-xs text-foreground" role="alert">
       <span>Switching to {pending.label} drops {pending.result.dropped.map(drop => `${drop.label} (${show(drop.value)})`).join(", ")}.</span>
-      <button type="button" className="text-button" onClick={confirm}>Switch</button>
-      <button type="button" className="text-button" onClick={() => setPending(null)}>Keep</button>
+      <Button variant="link" size="xs" className="font-medium" onClick={confirm}>Switch</Button>
+      <Button variant="link" size="xs" className="font-medium" onClick={() => setPending(null)}>Keep</Button>
     </div>}
     {fields.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => setKey(key, next)} renderRef={renderRef} readOnly={readOnly} compact={compact} />)}
   </div>;
@@ -134,13 +136,13 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
       if (!(node instanceof TupleSchema)) break;
       const parts = node.items as readonly Schema[];
       const values = Array.isArray(value) ? value as unknown[] : parts.map(part => defaultFieldValue(part));
-      return wrap(<span className="field-tuple">{parts.map((part, index) => <SchemaControl key={index} schema={part} name={`${spec.label} ${index + 1}`} value={values[index]} onChange={next => onChange(values.map((existing, at) => at === index ? next : existing))} renderRef={renderRef} readOnly={inert} bare />)}</span>);
+      return wrap(<span className="inline-flex items-center gap-1.5">{parts.map((part, index) => <SchemaControl key={index} schema={part} name={`${spec.label} ${index + 1}`} value={values[index]} onChange={next => onChange(values.map((existing, at) => at === index ? next : existing))} renderRef={renderRef} readOnly={inert} bare />)}</span>);
     }
     case "object": {
       if (!(node instanceof ObjectSchema)) break;
       const current = value !== null && typeof value === "object" ? value as Record<string, unknown> : {};
       const entries = (Object.entries(node.fields) as [string, Schema][]).filter(([key, field]) => !serialFieldSpec(field, key).hidden);
-      return <div className="field-union">{entries.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); }} renderRef={renderRef} readOnly={inert} compact={compact} />)}</div>;
+      return <div className="flex min-w-0 flex-1 flex-col gap-px">{entries.map(([key, field]) => <SchemaControl key={key} schema={field} name={key} value={current[key]} onChange={next => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); }} renderRef={renderRef} readOnly={inert} compact={compact} />)}</div>;
     }
     case "record": {
       if (!(node instanceof RecordSchema)) break;
@@ -152,7 +154,7 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
         renderValue={(key, entry, update) => <SchemaControl schema={valueSchema} name={key} value={entry} onChange={update} renderRef={renderRef} readOnly={inert} bare />} />;
     }
   }
-  return wrap(<span className="field-static mono" title="No typed control for this value">{JSON.stringify(value) ?? "—"}</span>);
+  return wrap(<span className="inline-flex min-h-7 items-center font-mono text-xs" title="No typed control for this value">{JSON.stringify(value) ?? "—"}</span>);
 }
 
 export interface UnionListProps {
@@ -179,6 +181,6 @@ export interface UnionListProps {
 /** A `ListField` of `UnionField`s, each row collapsed to its sentence. */
 export function UnionList({ schema, summarize, renderRef, readOnly, compact, addLabel = "Add", ...rest }: UnionListProps) {
   return <ListField<unknown> {...rest} readOnly={readOnly} compact={compact} summarize={summarize} addLabel={addLabel} onAdd={() => defaultFieldValue(schema)}
-    className={`field-union-list ${rest.className ?? ""}`.trim()}
+    className={rest.className}
     renderItem={(item, api) => <UnionField schema={schema} value={item} onChange={api.update} renderRef={renderRef} readOnly={readOnly} compact={compact} />} />;
 }

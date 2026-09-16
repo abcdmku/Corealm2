@@ -13,6 +13,7 @@ import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { SET_SLOTS, choicesOf, emptyBonuses, specAt, targetThresholds, thresholdText, useItemsData, type ItemsData, type SetBalance, type SetRecord, type SetThreshold } from "./data.js";
 import "./items.css";
+import { Button } from "../../components/ui/index.js";
 
 /*
   Armour sets: five pieces, the threshold bonuses, and the balance target for the tier behind each
@@ -79,7 +80,7 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
   const set = draft.draft;
   const targets = useMemo(() => targetThresholds(balance.data?.data as SetBalance | undefined, set?.tier), [balance.data, set?.tier]);
   if (draft.error) return <ErrorState message={draft.error} />;
-  if (!set) return draft.loading ? <div className="ws-page"><LoadingRows /></div> : <div className="ws-page"><p className="empty-inline">"{id}" is not an armour set. <button type="button" className="text-button" onClick={() => navigate("equipmentSets")}>All sets</button></p></div>;
+  if (!set) return draft.loading ? <div className="ws-page"><LoadingRows /></div> : <div className="ws-page"><p className="empty-inline">"{id}" is not an armour set. <Button variant="link" size="inline" onClick={() => navigate("equipmentSets")}>All sets</Button></p></div>;
   const thresholds = set.thresholds ?? [];
   const ids = SET_SLOTS.map(slot => set.members?.[slot]).filter((value): value is string => Boolean(value));
   const targetFor = (pieces: number) => targets?.find(target => target.pieces === pieces);
@@ -103,7 +104,7 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
           {SET_SLOTS.map(slot => <RefField key={slot} kind="item" collection="compiled-items" label={setSpec("members", slot).label} optional value={set.members?.[slot]} exclude={data.notInSlot(slot)} readOnly={readOnly} onChange={next => draft.setPath(["members", slot], next)} />)}
         </Section>
         <Section title={THRESHOLDS.label} className="thresholds" aside={targets
-          ? (!readOnly && <button type="button" className="text-button" onClick={() => draft.setPath(["thresholds"], targets.map(target => ({ pieces: target.pieces, bonuses: { ...emptyBonuses(), ...target.bonuses } })))}>Use target</button>)
+          ? (!readOnly && <Button variant="link" size="inline" onClick={() => draft.setPath(["thresholds"], targets.map(target => ({ pieces: target.pieces, bonuses: { ...emptyBonuses(), ...target.bonuses } })))}>Use target</Button>)
           : <span>No balance target for tier {set.tier}</span>}>
           <ListField<SetThreshold> items={thresholds} readOnly={readOnly} min={1} emptyText="No thresholds" addLabel="Add threshold" removeLabel={(row) => `Remove the ${row.pieces}-piece threshold`}
             keyOf={(_, i) => i} onChange={next => draft.setPath(["thresholds"], next)}

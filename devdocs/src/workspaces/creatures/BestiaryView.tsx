@@ -9,6 +9,7 @@ import type { ViewProps } from "../types.js";
 import { CreaturePage } from "./CreaturePage.js";
 import { thumbFor, titleCase, useCreatureData, type CreatureData, type ResolvedCreature } from "./shared.js";
 import "./creatures.css";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
 
 type GroupBy = "region" | "level" | "family" | "role";
 type Kind = "all" | "bases" | "variants";
@@ -84,18 +85,18 @@ function BestiaryGrid({ navigate }: { navigate: ViewProps["navigate"] }) {
 
   return <div className="ws-page bestiary">
     <div className="bestiary-toolbar">
-      <label className="search-field"><Search size={14} /><input aria-label="Search creatures" placeholder="Search name, family, region…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button>}</label>
-      <div className="segmented" role="group" aria-label="Group by">{GROUPS.map(group => <button type="button" key={group.value} className={groupBy === group.value ? "is-active" : ""} onClick={() => setGroupBy(group.value)}>{group.label}</button>)}</div>
+      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label="Search creatures" placeholder="Search name, family, region…" value={search} onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button>}</InputGroup>
+      <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Group by">{GROUPS.map(group => <Button variant="segment" size="xs" key={group.value} aria-pressed={groupBy === group.value} onClick={() => setGroupBy(group.value)}>{group.label}</Button>)}</div>
       <div className="chip-row">
-        <button type="button" className={`filter-chip${availability === "world" ? " is-active" : ""}`} aria-pressed={availability === "world"} onClick={() => setAvailability(availability === "world" ? undefined : "world")}>World</button>
-        <button type="button" className={`filter-chip${availability === "lab" ? " is-active" : ""}`} aria-pressed={availability === "lab"} onClick={() => setAvailability(availability === "lab" ? undefined : "lab")}>Lab</button>
-        <button type="button" className={`filter-chip${kind === "bases" ? " is-active" : ""}`} aria-pressed={kind === "bases"} onClick={() => setKind(kind === "bases" ? "all" : "bases")}>Bases only</button>
-        <button type="button" className={`filter-chip${kind === "variants" ? " is-active" : ""}`} aria-pressed={kind === "variants"} onClick={() => setKind(kind === "variants" ? "all" : "variants")}>Variants</button>
+        <Button variant="chip" size="xs" aria-pressed={availability === "world"} onClick={() => setAvailability(availability === "world" ? undefined : "world")}>World</Button>
+        <Button variant="chip" size="xs" aria-pressed={availability === "lab"} onClick={() => setAvailability(availability === "lab" ? undefined : "lab")}>Lab</Button>
+        <Button variant="chip" size="xs" aria-pressed={kind === "bases"} onClick={() => setKind(kind === "bases" ? "all" : "bases")}>Bases only</Button>
+        <Button variant="chip" size="xs" aria-pressed={kind === "variants"} onClick={() => setKind(kind === "variants" ? "all" : "variants")}>Variants</Button>
       </div>
       <span className="bestiary-count mono">{data.loading ? "" : `${filtered.length} of ${data.resolved.length}`}</span>
-      <div className="segmented" role="group" aria-label="Layout">
-        <button type="button" className={mode === "grid" ? "is-active" : ""} aria-label="Grid" title="Grid" onClick={() => setMode("grid")}><LayoutGrid size={13} /></button>
-        <button type="button" className={mode === "list" ? "is-active" : ""} aria-label="List" title="List" onClick={() => setMode("list")}><List size={13} /></button>
+      <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Layout">
+        <Button variant="segment" size="xs" aria-label="Grid" title="Grid" aria-pressed={mode === "grid"} onClick={() => setMode("grid")}><LayoutGrid size={13} /></Button>
+        <Button variant="segment" size="xs" aria-label="List" title="List" aria-pressed={mode === "list"} onClick={() => setMode("list")}><List size={13} /></Button>
       </div>
     </div>
     {data.loading && !data.resolved.length && <LoadingRows />}

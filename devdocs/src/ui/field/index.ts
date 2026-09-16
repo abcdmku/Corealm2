@@ -1,4 +1,3 @@
-import "../../styles/field.css";
 
 /*
   The one field model every page migrates to. Import from here, not from the files inside.

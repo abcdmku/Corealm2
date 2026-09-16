@@ -5,6 +5,8 @@ import type { FormulaDescription, FormulasResponse } from "../../../shared/formu
 import { routePath } from "../../ui/workspaces.js";
 import { formulasQuery } from "./query.js";
 import "./formulas.css";
+import { buttonVariants, Badge, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
+import { toneVariant } from "../../components/ui/badge.js";
 
 /*
   The formula registry, not a scratchpad. Every curve is now edited where its consequences are
@@ -30,7 +32,7 @@ export function FormulaIndex() {
   return <section className="formula-workspace">
     <div className="formula-build">
       <p role="status" className="formula-build-status">
-        <span className="badge" data-tone={buildTone(build.state)}>Build: {build.state}</span>
+        <Badge variant={toneVariant(buildTone(build.state))}>Build: {build.state}</Badge>
         {build.revision && <code>{build.revision.slice(0, 12)}</code>}
         {build.state === "invalid" && <span className="formula-build-hint">Last valid catalog stays active until the diagnostics are fixed.</span>}
       </p>
@@ -39,7 +41,7 @@ export function FormulaIndex() {
     <div className="formula-layout">
       <aside className="panel formula-index">
         <div className="panel-header formula-index-header">
-          <label className="search-field formula-search"><Search size={14} /><input aria-label="Find a formula" value={search} onChange={event => setSearch(event.target.value)} placeholder="Find a formula…" /></label>
+          <InputGroup className="w-60 formula-search"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label="Find a formula" value={search} onChange={event => setSearch(event.target.value)} placeholder="Find a formula…" /></InputGroup>
         </div>
         <nav aria-label="Formula index" className="formula-nav">
           {formulas.map(formula => <button type="button" key={formula.id} aria-current={active?.id === formula.id} className={active?.id === formula.id ? "is-active" : ""} onClick={() => setSelected(formula.id)}>
@@ -85,7 +87,7 @@ function FormulaCard({ formula }: { formula: FormulaDescription }) {
     <header className="panel-header formula-inspector-header">
       <h2 className="formula-inspector-title" title={formula.id}>{formula.title}</h2>
       <code className="formula-source" title={`${formula.source.file}:${formula.source.line}`}>{formula.source.file.split("/").at(-1)}:{formula.source.line}</code>
-      <div className="panel-header-actions"><a className="button button-small" href={formula.source.url}><Code2 size={13} />{formula.source.symbol}</a></div>
+      <div className="panel-header-actions"><a className={buttonVariants({ variant: "secondary", size: "sm" })} href={formula.source.url}><Code2 size={13} />{formula.source.symbol}</a></div>
     </header>
     <div className="panel-body formula-inspector-body">
       {formula.description && <p className="formula-description">{formula.description}</p>}

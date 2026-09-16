@@ -7,6 +7,8 @@ import { findRecord, refKindForCollection, summaryContext, useReferenceIndex } f
 import { RefChip } from "../ui/RefChip.js";
 import { labelFor } from "../ui/library.js";
 import "./requests.css";
+import { Button, Badge, NativeSelect, InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/index.js";
+import { toneVariant } from "../components/ui/badge.js";
 
 export interface RequestsPageProps {
   navigate: (collection?: string, recordId?: string) => void;
@@ -101,13 +103,13 @@ export default function RequestsPage({ navigate }: RequestsPageProps) {
   }, [kind, requests, search, state]);
 
   if (query.isPending) return <LoadingRequestsPage />;
-  if (query.isError) return <section className="requests-page" aria-label="Requests"><div className="requests-error" role="alert"><CircleAlert size={16} /><div><strong>Could not load requests</strong><p>{query.error.message}</p><button className="button button-small" type="button" onClick={() => void query.refetch()}><RefreshCw size={13} />Try again</button></div></div></section>;
+  if (query.isError) return <section className="requests-page" aria-label="Requests"><div className="requests-error" role="alert"><CircleAlert size={16} /><div><strong>Could not load requests</strong><p>{query.error.message}</p><Button variant="secondary" size="sm" onClick={() => void query.refetch()}><RefreshCw size={13} />Try again</Button></div></div></section>;
 
   return <section className="requests-page" aria-label="Requests">
     <div className="browser-toolbar" role="group" aria-label="Request filters">
-      <label className="search-field requests-search"><Search size={14} /><span className="sr-only">Search requests</span><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search requests…" aria-label="Search requests" />{search ? <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button> : <kbd>/</kbd>}</label>
-      <label className="select"><span className="sr-only">Kind</span><select value={kind} onChange={event => setKind(event.target.value as RequestKind | "all")} aria-label="Filter by request kind"><option value="all">All kinds</option>{REQUEST_KINDS.map(value => <option key={value} value={value}>{displayKind(value)}</option>)}</select></label>
-      <label className="select"><span className="sr-only">State</span><select value={state} onChange={event => setState(event.target.value as StateFilter)} aria-label="Filter by request state"><option value="all">All states</option><option value="open">Open</option><option value="claimed">Claimed</option><option value="replied">Replied</option></select></label>
+      <InputGroup className="w-60 requests-search"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput value={search} onChange={event => setSearch(event.target.value)} placeholder="Search requests…" aria-label="Search requests" />{search ? <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button> : <kbd>/</kbd>}</InputGroup>
+      <NativeSelect value={kind} onChange={event => setKind(event.target.value as RequestKind | "all")} aria-label="Filter by request kind"><option value="all">All kinds</option>{REQUEST_KINDS.map(value => <option key={value} value={value}>{displayKind(value)}</option>)}</NativeSelect>
+      <NativeSelect value={state} onChange={event => setState(event.target.value as StateFilter)} aria-label="Filter by request state"><option value="all">All states</option><option value="open">Open</option><option value="claimed">Claimed</option><option value="replied">Replied</option></NativeSelect>
       <div className="toolbar-right">
         <span className="result-count" aria-live="polite">{filtered.length === requests.length ? `${requests.length} ${requests.length === 1 ? "request" : "requests"}` : `${filtered.length} of ${requests.length}`}</span>
         {query.isFetching && <LoaderCircle size={13} className="requests-spin" aria-label="Refreshing requests" />}
@@ -137,8 +139,8 @@ function RequestRow({ entry, navigate, ctx, lookup, resolving }: { entry: Reques
       </span>
     </div>
     <div className="ref-row-meta request-row-meta">
-      <span className="badge" data-tone="accent">{displayKind(request.kind)}</span>
-      <span className="badge" data-tone={stateTone(request.state)}>{displayState(request.state)}</span>
+      <Badge variant="accent">{displayKind(request.kind)}</Badge>
+      <Badge variant={toneVariant(stateTone(request.state))}>{displayState(request.state)}</Badge>
       <code className="request-row-id" title={request.id}>{request.id}</code>
     </div>
   </li>;

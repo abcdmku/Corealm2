@@ -6,6 +6,8 @@ import { apiGet } from "../api/client.js";
 import type { ApiDiagnostic } from "../../shared/contracts.js";
 import AssetCandidates from "./AssetCandidates.js";
 import "../styles/review.css";
+import { Button, Badge } from "../components/ui/index.js";
+import { toneVariant } from "../components/ui/badge.js";
 
 /** The JSON shape returned by GET /__devdocs/git/status. */
 interface GitStatusResponse {
@@ -264,7 +266,7 @@ function FilesPanel({
         key={`${change.status}:${change.path}`}
         onClick={() => onSelect(change.path)}
       >
-        <span className="badge badge-mono" data-tone={statusTone(change.status)} title={statusLabel(change.status)}>{displayStatus(change.status)}</span>
+        <Badge variant={toneVariant(statusTone(change.status))} className="font-mono" title={statusLabel(change.status)}>{displayStatus(change.status)}</Badge>
         <span className="review-file-path"><code>{change.path}</code>{change.originalPath && <small>from {change.originalPath}</small>}</span>
         <ArrowUpRight className="review-file-arrow" size={13} />
       </button>)}
@@ -288,7 +290,7 @@ function DiffPanel({
   onRetry: () => void;
 }) {
   return <section className="panel review-diff-panel" aria-labelledby={headingId}>
-    <header className="panel-header review-diff-heading"><h2 id={headingId} className="review-diff-title" title={change?.path}>{change?.path ?? "File diff"}</h2>{change && <div className="panel-header-actions"><span className="badge" data-tone={statusTone(change.status)}>{statusLabel(change.status)}</span></div>}</header>
+    <header className="panel-header review-diff-heading"><h2 id={headingId} className="review-diff-title" title={change?.path}>{change?.path ?? "File diff"}</h2>{change && <div className="panel-header-actions"><Badge variant={toneVariant(statusTone(change.status))}>{statusLabel(change.status)}</Badge></div>}</header>
     {!change ? <p className="empty-inline review-empty">Select a changed file to see its diff.</p> : pending ? <LoadingDiff /> : error ? <ReviewError message={error.message} retry={onRetry} label="Could not load this diff" /> : diff?.trim() ? <DiffText value={diff} /> : <p className="empty-inline review-empty">Git returned no text for this path.</p>}
   </section>;
 }
@@ -321,8 +323,8 @@ function ValidationPanel({
   return <section className="panel review-validation" aria-labelledby={headingId}>
     <header className="panel-header">
       <ShieldCheck size={14} /><h2 id={headingId}>Validation</h2>
-      <span className="badge" data-tone={tone} role="status" aria-live="polite">{query.data?.ok === true ? <CheckCircle2 size={11} /> : query.data?.ok === false ? <AlertCircle size={11} /> : null}{label}</span>
-      <div className="panel-header-actions"><button type="button" className="button button-small" disabled={query.isFetching} onClick={() => void query.refetch()}><RefreshCw size={13} className={query.isFetching ? "review-spin" : undefined} />{query.isFetching ? "Validating…" : "Run again"}</button></div>
+      <Badge variant={toneVariant(tone)} role="status" aria-live="polite">{query.data?.ok === true ? <CheckCircle2 size={11} /> : query.data?.ok === false ? <AlertCircle size={11} /> : null}{label}</Badge>
+      <div className="panel-header-actions"><Button variant="secondary" size="sm" disabled={query.isFetching} onClick={() => void query.refetch()}><RefreshCw size={13} className={query.isFetching ? "review-spin" : undefined} />{query.isFetching ? "Validating…" : "Run again"}</Button></div>
     </header>
     {query.isPending ? <LoadingValidation /> : query.isError ? <ReviewError message={query.error.message} retry={() => void query.refetch()} label="Could not run validation" /> : query.data ? <div className="panel-body review-validation-body">
       <dl className="stat-grid review-validation-stats" aria-label="Validation totals">
@@ -338,14 +340,14 @@ function ValidationPanel({
 function DiagnosticRow({ diagnostic, navigate }: { diagnostic: ApiDiagnostic; navigate: ReviewPageProps["navigate"] }) {
   const target = diagnosticTarget(diagnostic.path);
   return <li className={`review-diagnostic review-diagnostic-${diagnostic.severity}`}>
-    <span className="badge" data-tone={diagnostic.severity === "error" ? "danger" : "warn"}>{diagnostic.severity}</span>
+    <Badge variant={toneVariant(diagnostic.severity === "error" ? "danger" : "warn")}>{diagnostic.severity}</Badge>
     <div className="review-diagnostic-body"><code>{diagnostic.path || "content"}</code><p>{diagnostic.message}</p></div>
-    {target && <button type="button" className="button button-small button-ghost" onClick={() => navigate(target.collection, target.recordId)}>{collectionLabel(target.collection)} <code>{target.recordId}</code><ArrowUpRight size={12} /></button>}
+    {target && <Button variant="ghost" size="sm" onClick={() => navigate(target.collection, target.recordId)}>{collectionLabel(target.collection)} <code>{target.recordId}</code><ArrowUpRight size={12} /></Button>}
   </li>;
 }
 
 function ReviewError({ message, retry, label }: { message: string; retry: () => void; label: string }) {
-  return <div className="review-error" role="alert"><AlertCircle size={16} /><div><strong>{label}</strong><p>{message}</p><button type="button" className="button button-small" onClick={retry}><RefreshCw size={13} />Try again</button></div></div>;
+  return <div className="review-error" role="alert"><AlertCircle size={16} /><div><strong>{label}</strong><p>{message}</p><Button variant="secondary" size="sm" onClick={retry}><RefreshCw size={13} />Try again</Button></div></div>;
 }
 
 function LoadingFiles() {

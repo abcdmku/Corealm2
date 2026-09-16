@@ -15,6 +15,7 @@ import type { ViewProps } from "../types.js";
 import { TemplateDrawer } from "./TemplateDrawer.js";
 import { seconds, specAt, stationText, useItemsData, type ItemsData, type RecipeRecord } from "./data.js";
 import "./items.css";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
 
 /* Recipes: inputs → output, with the station and the rates the template gives them. */
 
@@ -43,7 +44,7 @@ function RecipeList({ data, navigate }: { data: ItemsData; navigate: ViewProps["
       <h1>Recipes</h1>
       <span className="facts"><span>{shown === data.recipes.length ? `${data.recipes.length} recipes` : `${shown} of ${data.recipes.length}`}</span></span>
       <div className="ws-heading-actions">
-        <label className="search-field"><Search size={13} /><input value={search} placeholder="Search recipes…" aria-label="Search recipes" onChange={event => setSearch(event.target.value)} />{search && <button type="button" className="icon-button" aria-label="Clear search" onClick={() => setSearch("")}><X size={12} /></button>}</label>
+        <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput value={search} placeholder="Search recipes…" aria-label="Search recipes" onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={12} /></Button>}</InputGroup>
       </div>
     </div>
     <div className="matrix recipes-table"><table>
@@ -70,7 +71,7 @@ function RecipeList({ data, navigate }: { data: ItemsData; navigate: ViewProps["
 
 function RecipePage({ id, data, navigate }: { id: string; data: ItemsData; navigate: ViewProps["navigate"] }) {
   const source = useMemo(() => productionSource(id, data.tiers, data.templates), [id, data.tiers, data.templates]);
-  if (!source) return <div className="ws-page"><p className="empty-inline">"{id}" is not a recipe. <button type="button" className="text-button" onClick={() => navigate("compiled-recipes")}>All recipes</button></p></div>;
+  if (!source) return <div className="ws-page"><p className="empty-inline">"{id}" is not a recipe. <Button variant="link" size="inline" onClick={() => navigate("compiled-recipes")}>All recipes</Button></p></div>;
   return <RecipeEditor id={id} tierId={source.tier.id} data={data} navigate={navigate} />;
 }
 
@@ -135,7 +136,7 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
           </Field>
           <RefField kind="item" collection="compiled-items" label={entrySpec("burntItemId").label} hint={specAt(RecipeSchema, ["burntItemId"]).hint} optional value={entry.burntItemId} readOnly={readOnly} onChange={next => set(["burntItemId"], next)} />
         </Section>
-        <Section title="Rates" aside={<button type="button" className="text-button" onClick={openTemplate}>{template.name} curve</button>}>
+        <Section title="Rates" aside={<Button variant="link" size="inline" onClick={openTemplate}>{template.name} curve</Button>}>
           <DerivedNumber label={duration.label} unit={duration.unit} min={duration.min} integer={false} resolved={rates.durationMs.resolved} readOnly={readOnly} optional onChange={next => set(["adjustments", "durationMs"], next)} onOpenRef={openRef} />
           <DerivedNumber label={xp.label} unit={xp.unit} min={xp.min} resolved={rates.xp.resolved} readOnly={readOnly} optional onChange={next => set(["adjustments", "xp"], next)} onOpenRef={openRef} />
           <DerivedNumber label={reqLevel.label} min={reqLevel.min} resolved={rates.reqLevel.resolved} readOnly={readOnly} optional onChange={next => set(["adjustments", "reqLevel"], next)} onOpenRef={openRef} />

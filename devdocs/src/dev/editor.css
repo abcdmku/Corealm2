@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   Layout for the generic record form. The controls are the shared field components and
   `styles/field.css` owns every input, select, textarea and checkbox rule; what is left here is
@@ -21,7 +24,6 @@
 .field.is-bare { display: inline-flex; align-items: center; min-height: 24px; padding: 0; min-width: 0; }
 .field.is-bare > .field-label { display: none; }
 .field.is-bare > .field-body { flex-direction: row; align-items: center; gap: 6px; min-width: 0; }
-.field.is-bare > .field-body > .field-below { display: none; }
 
 /* Diagnostics */
 .editor-error-summary { display: flex; align-items: flex-start; gap: 8px; border: 1px solid var(--danger); border-radius: 6px; padding: 8px 10px; margin: 6px 0; background: var(--danger-soft); font-size: 12px; line-height: 1.4; }
@@ -33,3 +35,4 @@
 .editor-diagnostics button { text-align: left; color: var(--muted); }
 .editor-diagnostics button:hover { color: var(--text); text-decoration: underline; }
 .editor-diagnostics button span { font-family: var(--font-mono); color: var(--text); font-size: 11px; }
+}

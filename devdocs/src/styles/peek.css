@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   The peek sheet, the reference field's chip group and the "Referenced by" section. Same scale as
   field.css. The sheet sits above the page (and the full-bleed map) but below popovers (60) and
@@ -8,7 +11,6 @@
 /* ---- peek sheet ---- */
 :root { --peek-width: clamp(420px, 34vw, 520px); }
 /* The sheet reserves its own space instead of covering the record it was opened from. */
-:root[data-peek="open"] .workspace { padding-right: var(--peek-width); }
 .peek { position: fixed; top: 0; right: 0; bottom: 0; z-index: 42; width: var(--peek-width); max-width: 92vw; display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--border); box-shadow: -12px 0 40px var(--shadow); outline: none; }
 .peek-head { flex: none; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 10px 6px 12px; border-bottom: 1px solid var(--border-subtle); }
 .peek-title { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
@@ -18,26 +20,13 @@
 .peek-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .peek-body .ws-page { padding: 10px 12px 32px; max-width: none; }
 /* Record pages lay out as main + rail for a wide viewport; in the sheet they stack, the same as their narrow-screen media queries. */
-.peek-body .record, .peek-body .entity-layout, .peek-body .home-grid, .peek-body .kv-columns { grid-template-columns: minmax(0, 1fr); }
+.peek-body .record { grid-template-columns: minmax(0, 1fr); }
 .peek-body .record { gap: 16px; max-width: none; }
 .peek-body .record-rail { position: static; }
 .peek-body .entity-summary { border-right: 0; border-bottom: 1px solid var(--border-subtle); }
-.peek-body .entity-header { position: static; }
 
 /* ---- reference field control: chip · pencil ---- */
 .ref-control { display: inline-flex; align-items: center; gap: 4px; min-width: 0; max-width: 100%; }
-.ref-control > .ref-chip { min-width: 0; }
-.ref-control .ref-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-/* Empty: shaped like the select beside it (square corners, solid border, a chevron), so it reads as
-   "pick something here" and not as a faded value. */
-.ref-chip.is-empty { gap: 8px; min-width: 150px; justify-content: space-between; padding: 0 7px; border-radius: 4px; border-color: var(--border); background: var(--background); color: var(--muted); }
-.ref-chip.is-empty svg { flex: none; color: var(--faint); }
-.ref-chip.is-empty:hover { color: var(--text); border-color: var(--faint); background: var(--background); }
-.ref-empty-static { display: inline-flex; align-items: center; height: 24px; font-size: 12px; color: var(--faint); }
-.ref-chip.is-option { color: var(--text); }
-.ref-chip.is-option .thumb-glyph { color: var(--muted); }
-.ref-control .ref-edit { width: 20px; height: 20px; }
-.ref-control .ref-edit:hover { color: var(--accent); background: var(--accent-soft); }
 .field[data-compact] .ref-control { flex: 1 1 auto; }
 .field[data-compact] .ref-control > .ref-chip { flex: 1 1 auto; }
 
@@ -56,3 +45,4 @@
 .refby-row .refby-open { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); flex: none; opacity: 0; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: var(--panel); }
 .refby-row:hover .refby-open, .refby-row:focus-within .refby-open { opacity: 1; }
 .refby-more { align-self: flex-start; padding: 2px 6px; font-size: 11px; }
+}

@@ -5,6 +5,8 @@ import type { ContentRow } from "../model/contracts.js";
 import { rowId, rowName } from "../model/rows.js";
 import { summarize, type RecordSummary, type SummaryContext } from "../model/summaries.js";
 import { Thumb } from "./Thumb.js";
+import { Badge } from "../components/ui/index.js";
+import { chipVariants } from "../components/ui/chip.js";
 import { labelFor } from "./library.js";
 
 interface HoverState { x: number; y: number }
@@ -26,7 +28,7 @@ export function RefChip({ collection, record, id, ctx, onOpen, size = "m", detai
   const [hover, setHover] = useState<HoverState>();
   const isMissing = missing ?? !record;
   return <>
-    <button type="button" className={`ref-chip${isMissing ? " is-missing" : ""}`} data-size={size} title={isMissing ? `${id} is not in ${labelFor(collection).toLowerCase()}` : `${labelFor(collection)} · ${id}`}
+    <button type="button" className={chipVariants({ state: isMissing ? "missing" : "link", size: size === "l" ? "lg" : "default" })} data-size={size} title={isMissing ? `${id} is not in ${labelFor(collection).toLowerCase()}` : `${labelFor(collection)} · ${id}`}
       onClick={() => onOpen?.(collection, id)}
       onMouseEnter={event => summary && setHover({ x: event.clientX, y: event.clientY })}
       onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })}
@@ -51,7 +53,7 @@ export function HoverCard({ summary, collection, id, at }: { summary: RecordSumm
     </div>
     {summary.subtitle && <p className="muted" style={{ fontSize: 11.5, marginBottom: summary.stats.length ? 8 : 0 }}>{summary.subtitle}</p>}
     {summary.stats.length > 0 && <dl>{summary.stats.slice(0, 8).map(stat => <div key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl>}
-    {summary.badges.length > 0 && <div className="chip-row" style={{ marginTop: 8 }}>{summary.badges.map((badge, index) => <span className={`badge${badge.mono ? " badge-mono" : ""}`} data-tone={badge.tone} key={index}>{badge.text}</span>)}</div>}
+    {summary.badges.length > 0 && <div className="chip-row" style={{ marginTop: 8 }}>{summary.badges.map((badge, index) => <Badge key={index} variant={badge.tone === "accent" || badge.tone === "ok" || badge.tone === "warn" || badge.tone === "danger" || badge.tone === "info" ? badge.tone : "default"} className={badge.mono ? "font-mono" : undefined}>{badge.text}</Badge>)}</div>}
   </div>, document.body);
 }
 

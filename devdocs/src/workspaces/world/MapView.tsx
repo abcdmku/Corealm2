@@ -22,6 +22,7 @@ import {
 } from "./model.js";
 import { WORLD_MAP_IMAGE_BOUNDS } from "../../../../game/src/generated/worldMapFingerprint.js";
 import "./world.css";
+import { Button } from "../../components/ui/index.js";
 
 const ISLAND_BOUNDS: Bounds = { ...WORLD_MAP_IMAGE_BOUNDS };
 
@@ -230,19 +231,19 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     <Rail features={features} counts={derived.counts} layers={layers} onToggleLayer={toggleLayer} search={search} onSearch={setSearch} viewBounds={viewBounds} selectedKey={selectedFeature?.key} onPick={pick} onShowAll={showAll} />
     <section className="world-stage">
       <div className="world-toolbar">
-        {editable && <span className="segmented" role="group" aria-label="Add">
-          {(["spawn", "resource", "location", "landmark"] as const).map(kind => { const Icon = kind === "spawn" ? Footprints : kind === "resource" ? Pickaxe : kind === "location" ? MapPin : Flag; return <button type="button" key={kind} className={tool === kind ? "is-active" : ""} aria-pressed={tool === kind} aria-label={TOOL_LABEL[kind]} title={`${TOOL_LABEL[kind]}: click the map`} onClick={() => setTool(tool === kind ? undefined : kind)}><Icon size={12} />{TOOL_SHORT[kind]}</button>; })}
+        {editable && <span role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Add">
+          {(["spawn", "resource", "location", "landmark"] as const).map(kind => { const Icon = kind === "spawn" ? Footprints : kind === "resource" ? Pickaxe : kind === "location" ? MapPin : Flag; return <Button variant="segment" size="xs" key={kind} aria-pressed={tool === kind} aria-label={TOOL_LABEL[kind]} title={`${TOOL_LABEL[kind]}: click the map`} onClick={() => setTool(tool === kind ? undefined : kind)}><Icon size={12} />{TOOL_SHORT[kind]}</Button>; })}
         </span>}
-        <button type="button" className="button button-small" onClick={() => map.current?.fit(worldBounds(draft))}><Maximize2 size={12} /> Fit world</button>
+        <Button variant="secondary" size="sm" onClick={() => map.current?.fit(worldBounds(draft))}><Maximize2 size={12} /> Fit world</Button>
         <ChoiceField value={fitRegion || undefined} width="short" ariaLabel="Fit region" allowEmpty="Fit region…"
           options={draft.worldRegions.map(region => ({ value: region.id, label: region.name }))}
           onChange={value => { setFitRegion(value ?? ""); const region = regionById(draft, value); if (region) map.current?.fit(regionBounds(region)); }} />
-        <button type="button" className="icon-button" aria-label="Zoom in" onClick={() => map.current?.zoom(1 / 1.5)}><Plus size={14} /></button>
-        <button type="button" className="icon-button" aria-label="Zoom out" onClick={() => map.current?.zoom(1.5)}><Minus size={14} /></button>
+        <Button variant="ghost" size="icon-sm" aria-label="Zoom in" onClick={() => map.current?.zoom(1 / 1.5)}><Plus size={14} /></Button>
+        <Button variant="ghost" size="icon-sm" aria-label="Zoom out" onClick={() => map.current?.zoom(1.5)}><Minus size={14} /></Button>
         {tool && <span className="world-hint">Click the map to place · Esc cancels</span>}
         {(dirty || error) && <span className="world-changes" role={error ? "alert" : undefined}>
           {error ? <span className="world-error" title={error}>{error}</span> : <span className="world-dirty">{operations.length} {operations.length === 1 ? "change" : "changes"}</span>}
-          <button type="button" className="button button-small" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void preview()}>{busy ? "Working…" : "Preview"}</button>
+          <Button variant="secondary" size="sm" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void preview()}>{busy ? "Working…" : "Preview"}</Button>
         </span>}
       </div>
       <MapCanvas ref={map} features={features} roads={derived.roads} layers={layers} selection={selection} anchors={anchors} editable={editable} tool={tool}

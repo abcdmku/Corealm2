@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Formulas in Tuning: the registry index on the left, one formula's card on the right. */
 .formula-workspace { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .formula-build { display: flex; flex-direction: column; gap: 4px; }
@@ -41,7 +44,6 @@
    pair has nowhere to go. */
 .drawer .field[data-compact] { grid-template-columns: minmax(0, 1fr); }
 /* You save what the drawer just showed you, so the one save bar has to clear the drawer's scrim. */
-.shell-savebar { position: relative; z-index: 48; }
 
 /* ---------- Curve consequences (docs/devdocs-inputs.md §3.10) ---------- */
 /* One compact row per consumer in the role, family and template drawers: before → after. */
@@ -71,4 +73,5 @@
   .formula-layout { grid-template-columns: 1fr; }
   .formula-index { position: static; }
   .formula-nav { max-height: 200px; }
+}
 }

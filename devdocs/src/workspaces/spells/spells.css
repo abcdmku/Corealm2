@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Spells workspace: the element × rung matrix (standard) and element × rank (advanced). Tables hug their content. */
 .spell-matrix { width: fit-content; max-width: 100%; }
 .spell-matrix table { width: auto; min-width: 0; table-layout: auto; }
@@ -16,6 +19,6 @@
 .field.is-bare { display: inline-flex; align-items: center; min-height: 24px; padding: 0; min-width: 0; }
 .field.is-bare > .field-label { display: none; }
 .field.is-bare > .field-body { flex-direction: row; align-items: center; gap: 6px; min-width: 0; }
-.field.is-bare > .field-body > .field-below { display: none; }
 /* The rune count carries its unit ("3 runes"), so the cell is wider than a bare number. */
 .field-input.spell-rune-quantity { width: 96px; }
+}

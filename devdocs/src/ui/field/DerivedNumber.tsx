@@ -17,6 +17,7 @@ interface DerivedShared {
   onOpenRef?: (ref: RecordRef) => void;
   readOnly?: boolean;
   compact?: boolean;
+  labelHidden?: boolean;
   span?: 1 | 2 | 3 | 4;
   dirty?: boolean;
   stale?: boolean;
@@ -44,10 +45,10 @@ const expressionOf = (resolved: Resolved<unknown>): string | undefined => {
   return head?.kind === "curve" ? head.expression : undefined;
 };
 
-export function DerivedNumber({ resolved, onChange, onPreview, unit, integer = true, min, max, step, width, optional, label, hint, onOpenRef, readOnly = false, compact, span, dirty, stale, mixed, error, className }: DerivedNumberProps) {
-  return <Field label={label} hint={hint} unit={unit} resolved={resolved} onRevert={readOnly ? undefined : () => onChange(undefined)} onOpenRef={onOpenRef} expression={expressionOf(resolved)} compact={compact} span={span} dirty={dirty} stale={stale} mixed={mixed} error={error} className={className}>
+export function DerivedNumber({ resolved, onChange, onPreview, unit, integer = true, min, max, step, width, optional, label, hint, onOpenRef, readOnly = false, compact, labelHidden, span, dirty, stale, mixed, error, className }: DerivedNumberProps) {
+  return <Field label={label} hint={hint} unit={unit} resolved={resolved} onRevert={readOnly ? undefined : () => onChange(undefined)} onOpenRef={onOpenRef} expression={expressionOf(resolved)} compact={compact} labelHidden={labelHidden} span={span} dirty={dirty} stale={stale} mixed={mixed} error={error} className={className}>
     {readOnly
-      ? <span className="field-static mono">{fmtValue(resolved.value)}{unit && <span className="field-unit">{unit}</span>}</span>
+      ? <span className="field-static inline-flex min-h-7 items-center gap-1 font-mono text-xs">{fmtValue(resolved.value)}{unit && <span className="font-sans text-[11px] text-faint">{unit}</span>}</span>
       : <NumberField value={resolved.value} onChange={onChange} onPreview={onPreview} unit={unit} integer={integer} min={min} max={max} step={step} width={width} optional={optional} mixed={mixed} />}
   </Field>;
 }
@@ -59,10 +60,10 @@ export interface DerivedChoiceProps<T extends string = string> extends DerivedSh
   allowEmpty?: string;
 }
 
-export function DerivedChoice<T extends string = string>({ resolved, onChange, options, allowEmpty, label, hint, onOpenRef, readOnly = false, compact, span, dirty, stale, mixed, error, className }: DerivedChoiceProps<T>) {
-  return <Field label={label} hint={hint} resolved={resolved} onRevert={readOnly ? undefined : () => onChange(undefined)} onOpenRef={onOpenRef} compact={compact} span={span} dirty={dirty} stale={stale} mixed={mixed} error={error} className={className}>
+export function DerivedChoice<T extends string = string>({ resolved, onChange, options, allowEmpty, label, hint, onOpenRef, readOnly = false, compact, labelHidden, span, dirty, stale, mixed, error, className }: DerivedChoiceProps<T>) {
+  return <Field label={label} hint={hint} resolved={resolved} onRevert={readOnly ? undefined : () => onChange(undefined)} onOpenRef={onOpenRef} compact={compact} labelHidden={labelHidden} span={span} dirty={dirty} stale={stale} mixed={mixed} error={error} className={className}>
     {readOnly
-      ? <span className="field-static">{resolved.value ?? "—"}</span>
+      ? <span className="field-static inline-flex min-h-7 items-center text-xs">{resolved.value ?? "—"}</span>
       : <ChoiceField value={resolved.value} onChange={onChange} options={options} allowEmpty={allowEmpty} />}
   </Field>;
 }

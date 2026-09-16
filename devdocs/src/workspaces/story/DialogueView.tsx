@@ -12,6 +12,7 @@ import {
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, clip, list, nameOf, PageState, RecordShell, RefCell, refRenderer, text, usePage, type Page } from "./shared.js";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
 
 interface Option extends ContentRow { id?: string; text?: string; next?: string | null; requires?: unknown; showIf?: unknown; effects?: unknown; nextIf?: unknown }
 interface Node extends ContentRow { id: string; speaker?: string; text?: string; variants?: unknown; options?: Option[]; catalog?: string }
@@ -39,7 +40,7 @@ function DialogueList({ navigate }: { navigate: ViewProps["navigate"] }) {
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   return <div className="ws-page">
     <div className="story-table-tools">
-      <label className="search-field"><Search size={14} /><input aria-label="Search dialogue" placeholder="Search id, speaker, text…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button>}</label>
+      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label="Search dialogue" placeholder="Search id, speaker, text…" value={search} onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button>}</InputGroup>
       <span className="result-count">{rows.length}</span>
     </div>
     <div className="matrix story-table"><table>

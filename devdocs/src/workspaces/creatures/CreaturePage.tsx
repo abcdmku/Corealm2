@@ -23,6 +23,7 @@ import type { ViewProps } from "../types.js";
 import { DropRows, dropList, type Drop } from "./DropRows.js";
 import { CurveTable, RoleDrawer } from "./RoleDrawer.js";
 import { CURVE_LEVELS, identityChain, lootMode, mapResolved, resolveCreature, thumbFor, titleCase, useCreatureData, type Adjustments, type Creature, type CreatureData, type Loot, type LootMode, type Presentation, type Profile, type Spawn } from "./shared.js";
+import { Button } from "../../components/ui/index.js";
 
 /*
   One creature (docs/devdocs-inputs.md §3.12). Every value in Identity and Combat is one field
@@ -70,7 +71,7 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   const baseExclude = useMemo(() => new Set([id, ...data.resolved.filter(entry => entry.variant).map(entry => entry.id)]), [data, id]);
 
   if (draft.loading || (data.loading && !working)) return <div className="ws-page"><LoadingRows /></div>;
-  if (!working || !derived || !thumb) return <div className="ws-page"><EmptyState title="Creature not found">"{id}" is not in the bestiary. <button type="button" className="text-button" onClick={() => navigate("creatures")}>Back to the bestiary</button></EmptyState></div>;
+  if (!working || !derived || !thumb) return <div className="ws-page"><EmptyState title="Creature not found">"{id}" is not in the bestiary. <Button variant="link" size="inline" onClick={() => navigate("creatures")}>Back to the bestiary</Button></EmptyState></div>;
 
   const row = derived.row;
   const baseName = base ? rowName(base) : undefined;
@@ -112,10 +113,10 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
 
   const facts = [
     `Level ${derived.level}`,
-    profile ? <button type="button" className="text-button" onClick={openRole}>{profile.name}</button> : undefined,
+    profile ? <Button variant="link" size="inline" onClick={openRole}>{profile.name}</Button> : undefined,
     row.family ? titleCase(row.family) : undefined,
     row.availability,
-    base ? <>variant of <button type="button" className="text-button" onClick={() => navigate("creatureDefinitions", base.id)}>{baseName}</button></> : undefined,
+    base ? <>variant of <Button variant="link" size="inline" onClick={() => navigate("creatureDefinitions", base.id)}>{baseName}</Button></> : undefined,
   ];
   const name = identity("name");
   const family = identity("family");
@@ -136,7 +137,7 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
           </div>
         </header>
         <Sheet>
-          <Section title="Identity" aside={editable && base ? <button type="button" className="text-button" title="Copy the inherited fields into this record and clear the base" onClick={detach}>Detach from {baseName}</button> : undefined}>
+          <Section title="Identity" aside={editable && base ? <Button variant="link" size="inline" title="Copy the inherited fields into this record and clear the base" onClick={detach}>Detach from {baseName}</Button> : undefined}>
             <Field label={identitySpec("name").label} resolved={name} dirty={dirtyAt(["name"])} onRevert={() => draft.setPath(["name"], undefined)} onOpenRef={openRef} disabled={!editable}>
               <TextField value={name.value ?? ""} placeholder={id} readOnly={!editable} onChange={value => draft.setPath(["name"], value.trim() || undefined)} />
             </Field>
@@ -193,7 +194,7 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
           <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
           <PresentationSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
 
-          <Section title="Variants" aside={editable && !working.baseId ? <button type="button" className="button button-small" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</button> : undefined}>
+          <Section title="Variants" aside={editable && !working.baseId ? <Button variant="secondary" size="sm" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</Button> : undefined}>
             {variants.length
               ? <div className="ref-rows">{variants.map(variant => <RefRow key={variant.id} collection="creatureDefinitions" id={variant.id} record={variant.row} ctx={data.ctx} onOpen={(_collection, target) => navigate("creatureDefinitions", target)} subtitle={variant.id} meta={<Facts items={[`Level ${variant.level}`, variant.regionId ? data.regionName(variant.regionId) : undefined]} />} />)}</div>
               : <p className="empty-inline">{working.baseId ? "A variant cannot have variants of its own." : "No variants inherit from this creature."}</p>}
@@ -207,7 +208,7 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
         {profile && <div className="rail-block">
           <h3>Role curve</h3>
           <CurveTable profile={profile} levels={CURVE_LEVELS} fields={RAIL_FIELDS} highlight={derived.level} beaten={beaten} ownValues={ownValues} compact />
-          <button type="button" className="text-button" onClick={openRole}>{profile.name} parameters <ArrowRight size={11} /></button>
+          <Button variant="link" size="inline" onClick={openRole}>{profile.name} parameters <ArrowRight size={11} /></Button>
         </div>}
       </aside>
     </div>

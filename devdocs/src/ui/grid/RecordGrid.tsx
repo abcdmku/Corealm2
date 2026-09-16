@@ -12,6 +12,7 @@ import { ChoiceField, Field, NumberField, RefField, TextField, ToggleField, eval
 import { usePeek } from "../Peek.js";
 import { countText, defaultColumns, defaultVisible, isMixed, sortRows, type GridColumn } from "./columns.js";
 import { applyEdit, type CellEdit } from "./edits.js";
+import { Button, Checkbox } from "../../components/ui/index.js";
 
 /*
   One collection as an editable table (docs/devdocs-inputs.md §3.7). Rows are records, columns are
@@ -250,7 +251,7 @@ export function RecordGrid({ collection, rows, schema, idKey = "id", revision, c
       <div className="rg-table" role="grid" aria-rowcount={list.length} aria-colcount={shown.length} aria-multiselectable style={{ "--rg-cols": template } as CSSProperties}>
         <div className="rg-head" role="row">
           <span className="rg-th rg-th-check" role="columnheader">
-            {!readOnly && selectableIds.length > 0 && <input type="checkbox" className="rg-check" aria-label={allSelected ? "Clear selection" : "Select all rows"} checked={allSelected} onChange={() => select(allSelected ? [] : selectableIds)} />}
+            {!readOnly && selectableIds.length > 0 && <Checkbox aria-label={allSelected ? "Clear selection" : "Select all rows"} checked={allSelected} onCheckedChange={() => select(allSelected ? [] : selectableIds)} />}
           </span>
           {shown.map(column => <button key={column.key} type="button" role="columnheader" className="rg-th" aria-sort={sort?.key === column.key ? (sort.direction === "asc" ? "ascending" : "descending") : "none"} title={column.spec.help ? `${column.label} · ${column.spec.help}` : column.label} onClick={() => toggleSort(column.key)}>
             <span>{column.label}</span>{column.spec.unit && <small>{column.spec.unit}</small>}
@@ -264,7 +265,7 @@ export function RecordGrid({ collection, rows, schema, idKey = "id", revision, c
             const isSelected = selected.has(record.id);
             return <div key={item.key} role="row" className="rg-row" aria-rowindex={item.index + 1} aria-selected={isSelected || undefined} data-selected={isSelected || undefined} data-locked={record.locked || undefined} style={{ transform: `translateY(${item.start}px)`, height: item.size }}>
               <span className="rg-cell rg-cell-check" role="gridcell">
-                {!record.locked && <input type="checkbox" className="rg-check" aria-label={`Select ${record.id}`} checked={isSelected} tabIndex={-1} onChange={event => toggleRow(item.index, (event.nativeEvent as unknown as { shiftKey?: boolean }).shiftKey ?? false)} />}
+                {!record.locked && <Checkbox aria-label={`Select ${record.id}`} checked={isSelected} tabIndex={-1} onClick={event => { event.preventDefault(); toggleRow(item.index, event.shiftKey); }} />}
               </span>
               {shown.map((column, col) => {
                 const isActive = active?.row === item.index && active.col === col;
@@ -346,13 +347,13 @@ function ColumnChooser({ columns, visible, onChange }: { columns: readonly GridC
   const [open, setOpen] = useState(false);
   const toggle = (key: string) => onChange(visible.includes(key) ? visible.filter(candidate => candidate !== key) : columns.filter(column => column.key === key || visible.includes(column.key)).map(column => column.key));
   return <Popover.Root open={open} onOpenChange={setOpen}>
-    <Popover.Trigger asChild><button type="button" className="button button-small" aria-label="Choose columns"><Columns3 size={13} /> Columns <small>{visible.length}/{columns.length}</small></button></Popover.Trigger>
+    <Popover.Trigger asChild><Button variant="secondary" size="sm" aria-label="Choose columns"><Columns3 size={13} /> Columns <small>{visible.length}/{columns.length}</small></Button></Popover.Trigger>
     <Popover.Portal>
       <Popover.Content className="popover rg-columns" align="end" sideOffset={6} collisionPadding={12}>
         <div className="rg-columns-list">
-          {columns.map(column => <label key={column.key} className="rg-columns-item"><input type="checkbox" className="rg-check" checked={visible.includes(column.key)} disabled={visible.length === 1 && visible.includes(column.key)} onChange={() => toggle(column.key)} /><span>{column.label}</span><small>{column.kind}</small></label>)}
+          {columns.map(column => <label key={column.key} className="rg-columns-item"><Checkbox checked={visible.includes(column.key)} disabled={visible.length === 1 && visible.includes(column.key)} onCheckedChange={() => toggle(column.key)} /><span>{column.label}</span><small>{column.kind}</small></label>)}
         </div>
-        <div className="popover-footer"><button type="button" className="text-button" onClick={() => onChange(defaultVisible(columns))}>Reset to default</button><span className="spacer" /><button type="button" className="text-button" onClick={() => onChange(columns.map(column => column.key))}>Show all</button></div>
+        <div className="popover-footer"><Button variant="link" size="inline" onClick={() => onChange(defaultVisible(columns))}>Reset to default</Button><span className="spacer" /><Button variant="link" size="inline" onClick={() => onChange(columns.map(column => column.key))}>Show all</Button></div>
       </Popover.Content>
     </Popover.Portal>
   </Popover.Root>;

@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { X } from "lucide-react";
+import { Button } from "../../components/ui/index.js";
 
 /** A right-hand drawer over the current page. `stacked` drawers sit above an open one. */
 export function Drawer({ title, onClose, actions, children, stacked = false, wide = false }: { title: ReactNode; onClose: () => void; actions?: ReactNode; children: ReactNode; stacked?: boolean; wide?: boolean }) {
@@ -14,7 +15,7 @@ export function Drawer({ title, onClose, actions, children, stacked = false, wid
       <header className="drawer-head">
         <h2>{title}</h2>
         {actions}
-        <button type="button" className="icon-button" aria-label="Close drawer" onClick={onClose}><X size={15} /></button>
+        <Button variant="ghost" size="icon-sm" aria-label="Close drawer" onClick={onClose}><X size={15} /></Button>
       </header>
       <div className="drawer-body">{children}</div>
     </aside>

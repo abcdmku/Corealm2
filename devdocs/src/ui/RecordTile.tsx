@@ -3,6 +3,8 @@ import { ChevronRight } from "lucide-react";
 import type { RecordSummary } from "../model/summaries.js";
 import { HoverCard } from "./RefChip.js";
 import { Thumb } from "./Thumb.js";
+import { Badge, Checkbox } from "../components/ui/index.js";
+import { toneVariant } from "../components/ui/badge.js";
 
 const STATE_TONES = new Set(["ok", "warn", "danger"]);
 
@@ -12,7 +14,7 @@ export function Badges({ badges, limit = 3 }: { badges: RecordSummary["badges"];
   const facts = badges.filter(badge => !badge.tone || !STATE_TONES.has(badge.tone)).slice(0, limit);
   if (!state.length && !facts.length) return null;
   return <span className="tile-badges">
-    {state.map((badge, index) => <span key={`s${index}`} className={`badge${badge.mono ? " badge-mono" : ""}`} data-tone={badge.tone} title={badge.title}>{badge.text}</span>)}
+    {state.map((badge, index) => <Badge key={`s${index}`} variant={toneVariant(badge.tone)} className={badge.mono ? "font-mono" : undefined} title={badge.title}>{badge.text}</Badge>)}
     {facts.length > 0 && <span className="facts">{facts.map((badge, index) => <span key={`f${index}`} title={badge.title}>{badge.text}</span>)}</span>}
   </span>;
 }
@@ -43,8 +45,8 @@ export function RecordTile({ collection, id, summary, mode, selectable, selected
       onMouseEnter={event => hoverCard && setHover({ x: event.clientX, y: event.clientY })}
       onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })}
       onMouseLeave={() => setHover(undefined)}>
-      {selectable && mode === "grid" && <span className="tile-corner"><input type="checkbox" className="tile-check" checked={Boolean(selected)} aria-label={`Select ${summary.title}`} onClick={event => event.stopPropagation()} onChange={event => onToggle?.(id, (event.nativeEvent as unknown as { shiftKey?: boolean }).shiftKey ?? false)} /></span>}
-      {selectable && mode === "row" && <input type="checkbox" className="tile-check" checked={Boolean(selected)} aria-label={`Select ${summary.title}`} onClick={event => event.stopPropagation()} onChange={event => onToggle?.(id, (event.nativeEvent as unknown as { shiftKey?: boolean }).shiftKey ?? false)} />}
+      {selectable && mode === "grid" && <span className="tile-corner"><Checkbox className="tile-check" checked={Boolean(selected)} aria-label={`Select ${summary.title}`} onClick={event => { event.stopPropagation(); event.preventDefault(); onToggle?.(id, event.shiftKey); }} /></span>}
+      {selectable && mode === "row" && <Checkbox className="tile-check" checked={Boolean(selected)} aria-label={`Select ${summary.title}`} onClick={event => { event.stopPropagation(); event.preventDefault(); onToggle?.(id, event.shiftKey); }} />}
       <span className="tile-art"><Thumb spec={summary.thumb} size={mode === "grid" ? "xl" : "m"} alt="" /></span>
       <span className="tile-body">
         <span className="tile-title" title={`${summary.title} · ${id}`}>{summary.title}</span>

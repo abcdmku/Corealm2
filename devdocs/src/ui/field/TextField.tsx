@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { Input, Textarea } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 import { useFieldContext } from "./context.js";
 
 /*
@@ -57,11 +59,10 @@ export function TextField({ value, onChange, mono = false, multiline = false, wi
   };
 
   if (multiline) {
-    return <span className={`field-input field-textarea ${className}`.trim()} data-kind="text" data-width={width === "text" ? "full" : width} data-disabled={inert || undefined} data-editing={editing || undefined}>
-      <textarea {...shared} className={mono ? "mono" : undefined} rows={Math.min(8, Math.max(2, text.split("\n").length))} />
-    </span>;
+    return <Textarea {...shared} className={cn("field-input field-textarea resize-y", WIDTH[width === "text" ? "full" : width], mono && "font-mono", className)} data-kind="text" data-disabled={inert || undefined} data-editing={editing || undefined}
+      rows={Math.min(8, Math.max(2, text.split("\n").length))} />;
   }
-  return <span className={`field-input ${className}`.trim()} data-kind="text" data-width={width} data-disabled={inert || undefined} data-editing={editing || undefined}>
-    <input {...shared} type="text" className={mono || width === "id" ? "mono" : undefined} autoComplete="off" />
-  </span>;
+  return <Input {...shared} className={cn("field-input", WIDTH[width], (mono || width === "id") && "font-mono", className)} data-kind="text" data-width={width} data-disabled={inert || undefined} data-editing={editing || undefined} autoComplete="off" />;
 }
+
+const WIDTH: Readonly<Record<TextWidth, string>> = { short: "w-40", id: "w-56", text: "w-full max-w-[22.5rem]", full: "w-full" };

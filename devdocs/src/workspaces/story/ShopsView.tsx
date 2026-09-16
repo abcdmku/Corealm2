@@ -11,6 +11,7 @@ import { ErrorState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, findStand, list, num, PageState, position, RecordShell, StackList, text, usePage } from "./shared.js";
+import { Button } from "../../components/ui/index.js";
 
 interface Shop extends ContentRow { id: string; name: string; buyMultiplier?: number; sellMultiplier?: number; stock?: ContentRow[] }
 
@@ -66,7 +67,7 @@ function ShopPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"
             {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} onOpenAt={() => navigate("world/map", `shops:${stand.regionId}/${id}`)} />}
             <div className="story-where-text">
               <span>{stand.regionName} · {String(stand.settlement.name)}{text(stand.stand.shopKind) && <span className="muted"> · {String(stand.stand.shopKind)} stand</span>}{point && <span className="muted mono"> · {point.x}, {point.z}</span>}</span>
-              <span><button type="button" className="text-button" onClick={() => navigate("world/map", `shops:${stand.regionId}/${id}`)}>Show on map</button></span>
+              <span><Button variant="link" size="inline" onClick={() => navigate("world/map", `shops:${stand.regionId}/${id}`)}>Show on map</Button></span>
             </div>
           </div>
           : <span className="empty-inline">No settlement has a stand for this shop.</span>}

@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { Check, CircleAlert, LoaderCircle, MessageSquare, RefreshCw, Send, X } from "lucide-react";
 import type { MetaNote, MetaPatch, MetaRecord, MetaRequest, MetaResponse } from "../../shared/metaContracts.js";
 import "./notes.css";
+import { Button, Badge, NativeSelect, Checkbox } from "../components/ui/index.js";
+import { toneVariant } from "../components/ui/badge.js";
 
 export interface NotesPanelProps {
   collection: string;
@@ -269,7 +271,7 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
   }
 
   if (query.isError) {
-    return <section className="notes-panel" aria-labelledby="notes-panel-title"><NotesPanelHeading /><div className="notes-error" role="alert"><CircleAlert size={16} /><div><strong>Could not load notes</strong><p>{query.error.message}</p><button className="button button-small" type="button" onClick={() => void query.refetch()}><RefreshCw size={13} />Try again</button></div></div></section>;
+    return <section className="notes-panel" aria-labelledby="notes-panel-title"><NotesPanelHeading /><div className="notes-error" role="alert"><CircleAlert size={16} /><div><strong>Could not load notes</strong><p>{query.error.message}</p><Button variant="secondary" size="sm" onClick={() => void query.refetch()}><RefreshCw size={13} />Try again</Button></div></div></section>;
   }
 
   if (!data) return null;
@@ -279,11 +281,11 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
   return <section className="notes-panel" aria-labelledby="notes-panel-title">
     <NotesPanelHeading count={notes.length} refreshing={query.isFetching}>
       {editableStatus
-        ? <div className="segmented" role="group" aria-label="Authored status">{AUTHORED_STATUSES.map(status => <button key={status} type="button" className={currentStatus === status ? "is-active" : ""} aria-pressed={currentStatus === status} disabled={saveDisabled} onClick={() => updateStatus(status)}>{displayStatus(status)}</button>)}</div>
-        : <span className="badge" data-tone={statusTone(currentStatus)} title="This status is managed by review">{displayStatus(currentStatus)}</span>}
+        ? <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Authored status">{AUTHORED_STATUSES.map(status => <Button variant="segment" size="xs" key={status} aria-pressed={currentStatus === status} disabled={saveDisabled} onClick={() => updateStatus(status)}>{displayStatus(status)}</Button>)}</div>
+        : <Badge variant={toneVariant(statusTone(currentStatus))} title="This status is managed by review">{displayStatus(currentStatus)}</Badge>}
     </NotesPanelHeading>
 
-    {feedback && <div className={`notes-feedback${conflict ? " notes-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <button className="button button-small" type="button" onClick={reloadMetadata}><RefreshCw size={12} />Reload</button>}</div>}
+    {feedback && <div className={`notes-feedback${conflict ? " notes-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <Button variant="secondary" size="sm" onClick={reloadMetadata}><RefreshCw size={12} />Reload</Button>}</div>}
 
     <form className="notes-composer panel" onSubmit={submitNote}>
       <label className="notes-composer-text">
@@ -292,11 +294,11 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
       </label>
       <div className="notes-composer-row">
         <label className="field-input notes-composer-label"><span className="sr-only">Label</span><input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={saveDisabled} /></label>
-        <label className="notes-request-toggle"><input type="checkbox" checked={flagAsRequest} onChange={event => setFlagAsRequest(event.target.checked)} disabled={saveDisabled} /><span>Flag as request</span></label>
-        {flagAsRequest && <label className="select"><span className="sr-only">Request kind</span><select aria-label="Request kind" value={requestKind} onChange={event => setRequestKind(event.target.value as RequestKind)} disabled={saveDisabled}>{REQUEST_KINDS.map(kind => <option key={kind} value={kind}>{displayKind(kind)}</option>)}</select></label>}
+        <label className="inline-flex cursor-pointer items-center gap-2 text-xs"><Checkbox checked={flagAsRequest} onCheckedChange={checked => setFlagAsRequest(checked === true)} disabled={saveDisabled} /><span>Flag as request</span></label>
+        {flagAsRequest && <NativeSelect aria-label="Request kind" value={requestKind} onChange={event => setRequestKind(event.target.value as RequestKind)} disabled={saveDisabled}>{REQUEST_KINDS.map(kind => <option key={kind} value={kind}>{displayKind(kind)}</option>)}</NativeSelect>}
         <span className="notes-composer-spacer" />
         <small id="notes-note-help" className="notes-composer-hint"><kbd>Ctrl</kbd> <kbd>↵</kbd></small>
-        <button className="button button-primary button-small" type="submit" disabled={saveDisabled}><Send size={13} />{mutation.isPending ? "Saving" : flagAsRequest ? "Open request" : "Add note"}</button>
+        <Button variant="default" size="sm" type="submit" disabled={saveDisabled}><Send size={13} />{mutation.isPending ? "Saving" : flagAsRequest ? "Open request" : "Add note"}</Button>
       </div>
       {fieldError("notes-form-error", formError)}
     </form>
@@ -305,8 +307,8 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
       <div className="notes-entry-rail" aria-hidden="true"><span /></div>
       <article className="notes-entry-body">
         <header className="notes-entry-meta">
-          {note.request ? <span className="badge" data-tone="accent">Request · {displayKind(note.request.kind)}</span> : <span className="badge">{note.label || "Note"}</span>}
-          {note.request && note.label && <span className="badge">{note.label}</span>}
+          {note.request ? <Badge variant="accent">Request · {displayKind(note.request.kind)}</Badge> : <Badge>{note.label || "Note"}</Badge>}
+          {note.request && note.label && <Badge>{note.label}</Badge>}
           <time dateTime={note.at} title={note.at}>{timestampLabel(note.at)}</time>
           <span>{note.by}</span>
         </header>
@@ -321,10 +323,10 @@ function RequestDetails({ request, onClose, disabled }: { request: MetaRequest; 
   const canClose = request.state === "open" || request.state === "claimed" || request.state === "replied";
   return <div className="notes-request-details">
     <div className="notes-request-state">
-      <span className="badge" data-tone={stateTone(request.state)}>{displayState(request.state)}</span>
+      <Badge variant={toneVariant(stateTone(request.state))}>{displayState(request.state)}</Badge>
       <code title={request.id}>{request.id}</code>
       {request.state === "closed" && <Check size={13} aria-label="Closed" className="notes-request-closed" />}
-      {canClose && <button className="button button-small button-ghost notes-close-button" type="button" onClick={() => onClose(request.id)} disabled={disabled}><X size={12} />Close request</button>}
+      {canClose && <Button variant="ghost" size="sm" className="notes-close-button" onClick={() => onClose(request.id)} disabled={disabled}><X size={12} />Close request</Button>}
     </div>
     {request.claimedBy && <p><strong>Claimed by</strong> {request.claimedBy}{request.claimedAt && <time dateTime={request.claimedAt}> {timestampLabel(request.claimedAt)}</time>}</p>}
     {request.reply !== undefined && <div className="notes-request-reply"><strong>Reply</strong><p>{request.reply || "No reply text"}</p>{request.repliedAt && <time dateTime={request.repliedAt}>{timestampLabel(request.repliedAt)}</time>}</div>}

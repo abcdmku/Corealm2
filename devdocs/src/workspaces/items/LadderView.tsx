@@ -12,6 +12,7 @@ import { FamilyDrawer } from "./FamilyDrawer.js";
 import { ItemPage } from "./ItemPage.js";
 import { keyNumber, thresholdText, titleCase, useItemsData, type ItemsData, type SetRecord, type SetSlot } from "./data.js";
 import "./items.css";
+import { Button } from "../../components/ui/index.js";
 
 /*
   The ladder: tiers down, roles across. A cell is the item that fills that role at that tier.
@@ -87,13 +88,13 @@ export default function LadderView({ recordId, navigate }: ViewProps) {
   return <div className="ws-page ladder-page">
     <div className="ws-heading">
       <h1>Ladder</h1>
-      <div className="segmented" role="group" aria-label="Column group">
-        {GROUPS.map(candidate => <button type="button" key={candidate.key} className={candidate.key === group.key ? "is-active" : ""} aria-pressed={candidate.key === group.key} onClick={() => chooseGroup(candidate.key)}>{candidate.label}</button>)}
+      <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Column group">
+        {GROUPS.map(candidate => <Button variant="segment" size="xs" key={candidate.key} aria-pressed={candidate.key === group.key} onClick={() => chooseGroup(candidate.key)}>{candidate.label}</Button>)}
       </div>
       <div className="ws-heading-actions">
-        <div className="segmented" role="group" aria-label="Cell content">
-          <button type="button" className={mode === "icons" ? "is-active" : ""} aria-pressed={mode === "icons"} onClick={() => setMode("icons")}>Icons</button>
-          <button type="button" className={mode === "numbers" ? "is-active" : ""} aria-pressed={mode === "numbers"} onClick={() => setMode("numbers")}>Numbers</button>
+        <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="Cell content">
+          <Button variant="segment" size="xs" aria-pressed={mode === "icons"} onClick={() => setMode("icons")}>Icons</Button>
+          <Button variant="segment" size="xs" aria-pressed={mode === "numbers"} onClick={() => setMode("numbers")}>Numbers</Button>
         </div>
       </div>
     </div>

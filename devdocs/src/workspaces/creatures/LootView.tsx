@@ -10,6 +10,7 @@ import type { ViewProps } from "../types.js";
 import { DropRows, dropList } from "./DropRows.js";
 import { useCreatureData, type LootTable } from "./shared.js";
 import "./creatures.css";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
 
 const NAME = fieldFromSchema(LootTableSchema, "name");
 const DROPS = fieldFromSchema(LootTableSchema, "drops");
@@ -32,7 +33,7 @@ function LootList({ navigate }: { navigate: ViewProps["navigate"] }) {
   }, [data, search]);
   return <div className="ws-page ws-page-narrow loot-view">
     <div className="bestiary-toolbar">
-      <label className="search-field"><Search size={14} /><input aria-label="Search loot tables" placeholder="Search tables and items…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button>}</label>
+      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label="Search loot tables" placeholder="Search tables and items…" value={search} onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button>}</InputGroup>
       <span className="bestiary-count mono">{data.loading ? "" : `${rows.length} of ${data.lootTables.length}`}</span>
     </div>
     {data.loading && !data.lootTables.length && <LoadingRows />}
@@ -59,7 +60,7 @@ function LootTablePage({ id, navigate }: { id: string; navigate: ViewProps["navi
   const drops = dropList(working?.drops);
 
   if (draft.loading) return <div className="ws-page"><LoadingRows /></div>;
-  if (!working) return <div className="ws-page"><EmptyState title="Loot table not found">"{id}" is not a loot table. <button type="button" className="text-button" onClick={() => navigate("lootTables")}>Back to loot tables</button></EmptyState></div>;
+  if (!working) return <div className="ws-page"><EmptyState title="Loot table not found">"{id}" is not a loot table. <Button variant="link" size="inline" onClick={() => navigate("lootTables")}>Back to loot tables</Button></EmptyState></div>;
 
   return <div className="ws-page ws-page-narrow loot-page">
     <header className="record-head">

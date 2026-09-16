@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Work queue: requests, changed files, diff and validation in dense panels. */
 .work-queue { min-width: 0; }
 .review-page { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
@@ -25,10 +28,6 @@
 .review-diff-line { display: flex; min-width: max-content; min-height: 1.6em; padding-right: 20px; }
 .review-line-number { width: 44px; flex: 0 0 44px; padding-left: 8px; color: var(--faint); opacity: .7; text-align: right; user-select: none; }
 .review-line-text { padding-left: 12px; white-space: pre; }
-.review-diff-addition { color: var(--text); background: var(--ok-soft); }
-.review-diff-deletion { color: var(--muted); background: var(--danger-soft); }
-.review-diff-hunk { color: var(--info); background: var(--panel); }
-.review-diff-header { color: var(--faint); background: var(--panel); }
 
 .review-validation-body { display: flex; flex-direction: column; gap: 12px; }
 .review-validation-stats { margin: 0; max-width: 420px; }
@@ -60,4 +59,5 @@
   .review-layout { grid-template-columns: 1fr; }
   .review-file-list { max-height: 260px; }
   .review-diff { min-height: 240px; }
+}
 }

@@ -9,6 +9,7 @@ import type { AppProps, ContentRow } from "../model/contracts.js";
 import { collectionQuery, collectionsQuery } from "../api/client.js";
 import { contentRows, rowId, rowName } from "../model/rows.js";
 import type { ApiDiagnostic, CollectionResponse, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
+import { Button } from "../components/ui/index.js";
 
 type ActionKind = "create" | "duplicate" | "variant" | "rename" | "delete";
 
@@ -318,14 +319,14 @@ export default function RecordActions({ collection, record, recordId, mode = "re
   if (!canOpen) return null;
   return <>
     <div className="editor-actions" aria-label={`${displayCollection(collection)} record actions`}>
-      {canCreate && <button className={`button${compact ? " button-small button-primary" : ""}`} type="button" data-record-action="create" aria-label={`Create ${displayCollection(collection)} record`} onClick={() => openAction("create")}><Plus size={14} />Create</button>}
-      {canRecordAction && compact && <Menu trigger={<button className="button button-small" type="button" aria-label="Record actions"><MoreHorizontal size={14} />Actions</button>} items={[
+      {canCreate && <Button variant={compact ? "default" : "secondary"} size="sm" data-record-action="create" aria-label={`Create ${displayCollection(collection)} record`} onClick={() => openAction("create")}><Plus size={14} />Create</Button>}
+      {canRecordAction && compact && <Menu trigger={<Button variant="secondary" size="sm" aria-label="Record actions"><MoreHorizontal size={14} />Actions</Button>} items={[
         { label: "Duplicate", icon: <Copy size={14} />, onSelect: () => openAction("duplicate") },
         { label: "Create variant", icon: <GitBranch size={14} />, onSelect: () => openAction("variant") },
         { label: "Rename", icon: <Pencil size={14} />, onSelect: () => openAction("rename") },
         { label: "Delete", icon: <Trash2 size={14} />, tone: "danger", separator: true, onSelect: () => openAction("delete") },
       ]} />}
-      {canRecordAction && !compact && <><button className="button" type="button" onClick={() => openAction("duplicate")}><Copy size={14} />Duplicate</button><button className="button" type="button" onClick={() => openAction("variant")}><GitBranch size={14} />Create variant</button><button className="button" type="button" onClick={() => openAction("rename")}><Pencil size={14} />Rename</button><button className="button" type="button" onClick={() => openAction("delete")}><Trash2 size={14} />Delete</button></>}
+      {canRecordAction && !compact && <><Button variant="secondary" size="sm" onClick={() => openAction("duplicate")}><Copy size={14} />Duplicate</Button><Button variant="secondary" size="sm" onClick={() => openAction("variant")}><GitBranch size={14} />Create variant</Button><Button variant="secondary" size="sm" onClick={() => openAction("rename")}><Pencil size={14} />Rename</Button><Button variant="secondary" size="sm" onClick={() => openAction("delete")}><Trash2 size={14} />Delete</Button></>}
     </div>
     {action && <ActionDialog
       action={action}
@@ -375,7 +376,7 @@ function ActionDialog({ action, collection, currentId, draftId, draftName, previ
   const hasErrors = diagnostics.some(diagnostic => diagnostic.severity === "error");
   return <div className="dialog-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
     <section className="command-dialog" role="dialog" aria-modal="true" aria-labelledby="record-action-title" style={{ top: "min(12dvh, 110px)", maxHeight: "76dvh", overflow: "auto" }}>
-      <header className="command-input-wrap"><div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}><span style={{ color: "var(--accent)" }}>{actionIcon(action)}</span><h2 id="record-action-title" style={{ fontSize: 14, fontWeight: 550 }}>{title} {currentId && <code style={{ marginLeft: 5, color: "var(--muted)", fontSize: 10 }}>{currentId}</code>}</h2></div><button className="icon-button" type="button" aria-label="Close" onClick={onClose}><X size={18} /></button></header>
+      <header className="command-input-wrap"><div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}><span style={{ color: "var(--accent)" }}>{actionIcon(action)}</span><h2 id="record-action-title" style={{ fontSize: 14, fontWeight: 550 }}>{title} {currentId && <code style={{ marginLeft: 5, color: "var(--muted)", fontSize: 10 }}>{currentId}</code>}</h2></div><Button variant="ghost" size="icon-sm" aria-label="Close" onClick={onClose}><X size={18} /></Button></header>
       <div style={{ padding: 18, display: "grid", gap: 15 }}>
         {!isDelete && !preview && <div style={{ display: "grid", gap: 12 }}>
           <label style={{ display: "grid", gap: 6, fontSize: 11, color: "var(--muted)" }}>New ID<input autoFocus value={draftId} onChange={event => onDraftId(event.target.value)} aria-label="New ID" placeholder="letters, numbers, hyphens" /></label>
@@ -388,9 +389,9 @@ function ActionDialog({ action, collection, currentId, draftId, draftName, previ
         {preview && <TransactionPreview preview={preview} />}
       </div>
       <footer style={{ display: "flex", justifyContent: "flex-end", gap: 9, padding: "12px 18px", borderTop: "1px solid var(--border)" }}>
-        <button className="button" type="button" onClick={onClose} disabled={Boolean(busy)}>Cancel</button>
-        {!preview && <button className="button editor-save" type="button" onClick={onPreview} disabled={Boolean(busy) || (isDelete && (consumerLoading || Boolean(consumerError) || consumers.length > 0)) || hasErrors}>{busy === "preview" ? <><LoaderCircle size={14} />Previewing…</> : <><Eye size={14} />Preview transaction</>}</button>}
-        {preview && <button className="button editor-save" type="button" onClick={onSave} disabled={Boolean(busy) || hasErrors}>{busy === "save" ? <><LoaderCircle size={14} />Saving…</> : <><Check size={14} />Save transaction</>}</button>}
+        <Button variant="secondary" size="sm" onClick={onClose} disabled={Boolean(busy)}>Cancel</Button>
+        {!preview && <Button variant="secondary" size="sm" className="editor-save" onClick={onPreview} disabled={Boolean(busy) || (isDelete && (consumerLoading || Boolean(consumerError) || consumers.length > 0)) || hasErrors}>{busy === "preview" ? <><LoaderCircle size={14} />Previewing…</> : <><Eye size={14} />Preview transaction</>}</Button>}
+        {preview && <Button variant="secondary" size="sm" className="editor-save" onClick={onSave} disabled={Boolean(busy) || hasErrors}>{busy === "save" ? <><LoaderCircle size={14} />Saving…</> : <><Check size={14} />Save transaction</>}</Button>}
       </footer>
     </section>
   </div>;

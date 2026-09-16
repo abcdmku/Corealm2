@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Notes tab: status control, a one-block composer, then the timeline. */
 .notes-panel { display: flex; flex-direction: column; gap: 10px; min-width: 0; max-width: 820px; color: var(--text); }
 .notes-panel-header { display: flex; align-items: center; gap: 8px; min-height: 30px; }
@@ -21,9 +24,6 @@
 .notes-composer-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
 .notes-composer-label { width: 180px; min-height: 28px; }
 .notes-composer-row .select select { min-height: 28px; }
-.notes-request-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 8px; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); font-size: 12px; cursor: pointer; white-space: nowrap; }
-.notes-request-toggle:has(input:checked) { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
-.notes-request-toggle input { width: 13px; height: 13px; margin: 0; accent-color: var(--accent); }
 .notes-composer-spacer { flex: 1; }
 .notes-composer-hint { display: inline-flex; align-items: center; gap: 3px; color: var(--faint); font-size: 11px; }
 .notes-composer-hint kbd { height: 17px; min-width: 17px; font-size: 11px; }
@@ -65,3 +65,4 @@
 
 @media (max-width: 520px) { .notes-composer-label { width: 100%; } .notes-close-button { margin-left: 0; } }
 @media (prefers-reduced-motion: reduce) { .notes-spin { animation: none; } }
+}

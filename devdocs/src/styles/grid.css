@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   RecordGrid: one collection as an editable table. Same scale as field.css (type 11/12/13, rows
   28px). The table hugs its columns and scrolls sideways inside its own scroller; the frame never
@@ -36,7 +39,6 @@ button.rg-th[aria-sort="ascending"], button.rg-th[aria-sort="descending"] { colo
 .rg-cell[data-mixed] { color: var(--muted); }
 .rg-cell-check { justify-content: center; padding: 0; }
 .rg-cell-fill { border-right: 0; }
-.rg-check { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); cursor: pointer; }
 
 /* Field components in the compact skin: the header is the label, the control fills the cell. */
 .rg-cell .field { width: 100%; min-width: 0; }
@@ -48,7 +50,6 @@ button.rg-th[aria-sort="ascending"], button.rg-th[aria-sort="descending"] { colo
 .rg-cell .field-input input::placeholder { text-align: inherit; }
 .rg-cell .field-unit { display: none; }
 .rg-cell .field-error { position: absolute; left: 0; top: 100%; z-index: 3; padding: 2px 6px; border: 1px solid var(--danger); border-radius: 4px; background: var(--panel); }
-.rg-cell .field-origin.is-floating { left: 0; }
 .rg-cell .field-toggle { padding-left: 4px; }
 .rg-cell .ref-control { width: 100%; }
 .rg-cell .ref-control > .ref-chip { flex: 1 1 auto; height: 22px; }
@@ -74,3 +75,4 @@ button.rg-th[aria-sort="ascending"], button.rg-th[aria-sort="descending"] { colo
 [cmdk-item] .command-hotkey kbd { min-width: 18px; text-transform: uppercase; }
 /* theme.css grows every direct span of a palette row, which stretches the leading icon square. */
 [cmdk-item] > .thumb { flex: none; }
+}

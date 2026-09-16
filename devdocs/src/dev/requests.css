@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Requests view inside the work queue: compact reference rows. */
 .requests-page { min-width: 0; }
 .requests-spin { color: var(--muted); animation: requests-spin .9s linear infinite; }
@@ -27,4 +30,5 @@
   .request-row { flex-wrap: wrap; }
   .request-row-target { max-width: 100%; }
   .request-row-meta { justify-content: flex-start; max-width: none; flex-basis: 100%; }
+}
 }

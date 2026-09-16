@@ -1,4 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 import { useFieldContext, type LabelHandlers } from "./context.js";
 import { applyMixedOp, clampNumber, evaluateNumber, formatNumber, parseMixedEdit, scrubDelta, stepValue, type MixedOp, type NumberRules } from "./model.js";
 
@@ -169,13 +171,20 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
 
   // The box grows for long values (195.714285) instead of clipping them; short ones keep the column width.
   const chars = (text || placeholder || "").length;
-  return <span className={`field-input ${className}`.trim()} style={{ "--chars": chars } as CSSProperties} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
-    <input ref={inputRef} type="text" inputMode="decimal" className="mono" value={text} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
+  return <InputGroup className={cn("field-input font-mono", WIDTH[width], className)} style={{ "--chars": chars } as CSSProperties} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
+    <InputGroupInput ref={inputRef} type="text" inputMode="decimal" className={cn("text-right tabular-nums", unit && "pr-1.5", value === 0 && !focused && !mixed && "text-faint")} value={text} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
       aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-invalid={invalid || undefined} autoComplete="off" spellCheck={false}
       onChange={event => { if (inert) return; selectNext.current = false; setText(event.target.value); if (!editing) setEditing(true); if (invalid) clearError(); }}
       onKeyDown={onKeyDown}
       onFocus={event => { setFocused(true); event.target.select(); }}
       onBlur={() => { setFocused(false); if (editing && !commit(text)) restore(); }} />
-    {unit && <span className="field-unit">{unit}</span>}
-  </span>;
+    {unit && <InputGroupAddon className="font-sans">{unit}</InputGroupAddon>}
+  </InputGroup>;
 }
+
+/* `num` grows with the value it holds so 195.7142857 is never clipped; the others are fixed. */
+const WIDTH: Readonly<Record<NumberWidth, string>> = {
+  num: "shrink-0 w-[clamp(4.75rem,calc(var(--chars)*1ch+1.5rem),13rem)] data-[unit]:w-[clamp(6rem,calc(var(--chars)*1ch+4.25rem),15rem)]",
+  short: "w-40",
+  full: "w-full",
+};

@@ -1,6 +1,11 @@
 import { useState, type ReactNode } from "react";
 import { Lock, LockOpen } from "lucide-react";
 import { ListField, type ListFieldProps, type ListItemApi } from "./ListField.js";
+import { Button } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
+
+const BAR = "relative inline-block h-1.5 w-16 overflow-hidden rounded-full bg-border-subtle";
+const FILL = "block h-full rounded-full transition-[width] duration-100";
 import { NumberField } from "./NumberField.js";
 import { clampProbability, redistribute, shares } from "./reorder.js";
 
@@ -59,22 +64,22 @@ export function WeightedList<T extends Record<string, unknown>>({ weightKey, pro
     if (weightKey) {
       const isLocked = lockedFlags[api.index] ?? false;
       const share = shareOf[api.index] ?? 0;
-      return <span className="field-weight" data-locked={isLocked || undefined}>
+      return <span className="inline-flex items-center gap-1.5" data-locked={isLocked || undefined}>
         <NumberField key={rejected} value={numberAt(item, weightKey)} min={0} step={step} readOnly={readOnly || isLocked} ariaLabel={`Weight ${api.index + 1}`} onChange={next => setWeight(api.index, next)} />
-        <span className="field-weight-bar" role="img" aria-label={`${percent(share)} of the group`} title={`${percent(share)} of the group`}><span className="field-weight-fill" style={{ width: `${share * 100}%` }} /></span>
-        <span className="field-weight-share mono">{percent(share)}</span>
-        {!readOnly && <button type="button" className="field-weight-lock" aria-pressed={isLocked} aria-label={`${isLocked ? "Unlock" : "Lock"} weight ${api.index + 1}`} title={isLocked ? "Unlock: let this weight move" : "Lock: keep this weight while others change"} onClick={() => toggleLock(item, api.index)}>{isLocked ? <Lock size={11} /> : <LockOpen size={11} />}</button>}
+        <span className={BAR} role="img" aria-label={`${percent(share)} of the group`} title={`${percent(share)} of the group`}><span className={cn(FILL, isLocked ? "bg-muted-foreground" : "bg-primary")} style={{ width: `${share * 100}%` }} /></span>
+        <span className="w-9 text-right font-mono text-[11px] text-faint">{percent(share)}</span>
+        {!readOnly && <Button variant="ghost" size="icon-xs" aria-pressed={isLocked} aria-label={`${isLocked ? "Unlock" : "Lock"} weight ${api.index + 1}`} title={isLocked ? "Unlock: let this weight move" : "Lock: keep this weight while others change"} onClick={() => toggleLock(item, api.index)}>{isLocked ? <Lock /> : <LockOpen />}</Button>}
       </span>;
     }
     if (probabilityKey) {
       const chance = clampProbability(numberAt(item, probabilityKey));
-      return <span className="field-weight" data-probability>
+      return <span className="inline-flex items-center gap-1.5" data-probability>
         <NumberField value={Math.round(chance * 1000) / 10} min={0} max={100} step={1} unit="%" readOnly={readOnly} ariaLabel={`Chance ${api.index + 1}`} onChange={next => setProbability(api.index, next)} />
-        <span className="field-weight-bar" role="img" aria-label={`${percent(chance)} chance`} title={`${percent(chance)} chance`}><span className="field-weight-fill" style={{ width: `${chance * 100}%` }} /></span>
+        <span className={BAR} role="img" aria-label={`${percent(chance)} chance`} title={`${percent(chance)} chance`}><span className={cn(FILL, "bg-info")} style={{ width: `${chance * 100}%` }} /></span>
       </span>;
     }
     return null;
   };
 
-  return <ListField<T> {...rest} items={items} onChange={onChange} keyOf={keyOf} readOnly={readOnly} renderAside={renderAside} className={`field-weighted ${rest.className ?? ""}`.trim()} />;
+  return <ListField<T> {...rest} items={items} onChange={onChange} keyOf={keyOf} readOnly={readOnly} renderAside={renderAside} className={rest.className} />;
 }

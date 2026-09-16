@@ -12,6 +12,9 @@ import { Thumb } from "../Thumb.js";
 import { labelFor } from "../library.js";
 import { useFieldContext } from "./context.js";
 import { Field } from "./Field.js";
+import { Button } from "../../components/ui/index.js";
+import { chipVariants } from "../../components/ui/chip.js";
+import { cn } from "../../lib/utils.js";
 
 /*
   The one way a reference is edited (docs/devdocs-inputs.md §3.4). Inside the shared `Field`
@@ -43,6 +46,8 @@ export interface RefFieldProps {
   exclude?: ReadonlySet<string>;
   readOnly?: boolean;
   compact?: boolean;
+  /** A chip inside a row or a cell: see `Field`'s `bare`. */
+  bare?: boolean;
   span?: 1 | 2 | 3 | 4;
   dirty?: boolean;
   error?: string;
@@ -53,7 +58,7 @@ export interface RefFieldProps {
   className?: string;
 }
 
-export function RefField({ kind, collection, value, onChange, label, hint, resolved, onRevert, optional = false, exclude, readOnly = false, compact, span, dirty, error, onOpenRef, createNew, className }: RefFieldProps) {
+export function RefField({ kind, collection, value, onChange, label, hint, resolved, onRevert, optional = false, exclude, readOnly = false, compact, bare, span, dirty, error, onOpenRef, createNew, className }: RefFieldProps) {
   const { index } = useReferenceIndex();
   const ctx = useMemo(() => summaryContext(index), [index]);
   const peek = usePeek();
@@ -69,7 +74,7 @@ export function RefField({ kind, collection, value, onChange, label, hint, resol
   const openRef = onOpenRef ?? peek.open;
 
   return <Field<string | undefined> label={label} hint={hint} resolved={resolved} onRevert={readOnly || !resolved ? undefined : (onRevert ?? (() => onChange(undefined)))} onOpenRef={openRef}
-    error={error ?? (missing ? `${shown} is not in ${options ? `${kindLabel} options` : labelFor(recordCollection).toLowerCase()}` : undefined)} compact={compact} span={span} dirty={dirty} disabled={readOnly} className={className}>
+    error={error ?? (missing ? `${shown} is not in ${options ? `${kindLabel} options` : labelFor(recordCollection).toLowerCase()}` : undefined)} compact={compact} bare={bare} span={span} dirty={dirty} disabled={readOnly} className={className}>
     <RefControl kind={kind} kindLabel={kindLabel} collection={recordCollection} value={shown} record={record} option={option} options={options} missing={missing} ctx={ctx} exclude={exclude} readOnly={readOnly} optional={optional}
       canRevert={Boolean(resolved && revertTarget(resolved))} onChange={onChange} openRef={openRef} createNew={createNew}
       title={record ? summarize(recordCollection, record, ctx).title : option?.label ?? shown ?? ""} />
@@ -111,12 +116,12 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
   // a value. A read-only empty reference is just a dash: there is nothing to do with it.
   const chipNode = empty
     ? inert
-      ? <span className="ref-empty-static" aria-labelledby={field.labelId}>—</span>
-      : <button type="button" className="ref-chip is-empty" aria-labelledby={field.labelId} title="Enter or click to choose" onClick={() => setOpen(true)}>
+      ? <span className="ref-empty-static inline-flex h-7 items-center text-xs text-faint" aria-labelledby={field.labelId}>—</span>
+      : <button type="button" className={chipVariants({ state: "empty" })} aria-labelledby={field.labelId} title="Enter or click to choose" onClick={() => setOpen(true)}>
         <span>Choose {kindLabel}…</span><ChevronDown size={12} aria-hidden />
       </button>
     : options
-      ? <button type="button" className={`ref-chip is-option${missing ? " is-missing" : ""}`} aria-labelledby={field.labelId} title={missing ? `${value} is not an option` : `${kindLabel} · ${value}`} onClick={() => setOpen(true)}>
+      ? <button type="button" className={cn(chipVariants({ state: missing ? "missing" : "option" }), "is-option")} aria-labelledby={field.labelId} title={missing ? `${value} is not an option` : `${kindLabel} · ${value}`} onClick={() => setOpen(true)}>
         <Thumb spec={option?.thumb ?? { kind: "glyph", icon: Pencil, letter: value!.slice(0, 2).toUpperCase() }} size="s" />
         <span>{option?.label ?? value}</span>
       </button>
@@ -127,7 +132,7 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
   // its events bubble through here too: leave those alone or picking a row with the mouse dies.
   const focusChip = () => chip.current?.querySelector<HTMLElement>(".ref-chip")?.focus({ preventScroll: true });
   const inPicker = (event: { target: unknown }) => event.target instanceof Element && event.target.closest(".popover") !== null;
-  return <span ref={chip} className="ref-control" data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
+  return <span ref={chip} className="ref-control inline-flex min-w-0 max-w-full items-center gap-0.5" data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
     onMouseDown={event => { if (!inPicker(event)) event.preventDefault(); }} onClickCapture={event => { if (!inPicker(event)) focusChip(); }}>
     {chipNode}
     {!inert && <RecordPicker collection={collection} value={value} ctx={ctx} exclude={exclude} options={options} open={pickerOpen} onOpenChange={setOpen}
@@ -135,6 +140,6 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
       allowNone={optional} onClear={optional ? () => onChange(undefined) : undefined}
       onCreate={createNew ? async () => { const id = await createNew(); if (id) onChange(id); } : undefined} createLabel={`New ${kindLabel}…`}
       onPick={id => onChange(id)}
-      trigger={<button type="button" className="icon-button ref-edit" tabIndex={-1} aria-label={`Choose ${kindLabel}`} title="Choose (Enter)"><Pencil size={12} /></button>} />}
+      trigger={<Button variant="ghost" size="icon-sm" className="ref-edit" tabIndex={-1} aria-label={`Choose ${kindLabel}`} title="Choose (Enter)"><Pencil size={12} /></Button>} />}
   </span>;
 }

@@ -13,6 +13,7 @@ import { DerivedChoice, DerivedNumber, Field, Fields, NumberField, Section, Shee
 import { LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { type CreatureData, type Profile } from "./shared.js";
+import { Button } from "../../components/ui/index.js";
 
 /*
   The role curve beside the creature, with what it drives (docs/devdocs-inputs.md 3.10). Its
@@ -138,7 +139,7 @@ export function RoleDrawer({ profileId, data, navigate, onClose, onLive }: { pro
     <div className="drawer role-drawer" role="dialog" aria-label={`${working?.name ?? profileId} role`}>
       <header className="drawer-head">
         <h2>{working?.name ?? profileId} <span className="muted">role</span></h2>
-        <button type="button" className="icon-button" aria-label="Close role" onClick={onClose}><X size={14} /></button>
+        <Button variant="ghost" size="icon-sm" aria-label="Close role" onClick={onClose}><X size={14} /></Button>
       </header>
       <div className="drawer-body">
         {draft.loading && <LoadingRows />}

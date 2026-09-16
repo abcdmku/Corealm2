@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   Creatures workspace: bestiary grid, creature page, role drawer, loot tables.
   Uses the shared scale from theme.css / workspace.css; only what is specific to these pages lives here.
@@ -21,29 +24,19 @@
 
 /* ---------- Creature page ---------- */
 .creature-page .record-title h1.is-inherited { color: var(--muted); }
-.creature-page .record-title .facts .text-button { font-size: inherit; }
 .creature-page .ref-row-meta .facts, .loot-page .ref-row-sub .facts { font-family: var(--font-sans); }
 .creature-rail .entity-summary { padding: 0; border: 0; background: transparent; }
-.creature-rail .rail-block .text-button { font-size: 11px; align-self: flex-start; }
 .loot-page .record-head { margin-bottom: 16px; }
 
 /* Drop rows (creature loot and loot tables): item | min to max | group | chance, one 28px line */
 /* The item name takes the free width so the quantity, group and chance columns line up down the
    list, but the row stops at table width rather than stretching a two-word name across the page. */
-.drop-rows { max-width: 880px; }
-.drop-rows .field-list-content { flex-wrap: nowrap; max-width: 620px; }
-.drop-rows .field-list-content > .field-input[data-width="short"] { width: 120px; flex: none; }
-.drop-rows .field-list-content > .field-input[data-width="num"] { width: 56px; flex: none; }
-.drop-rows .field-list-aside .field-input[data-width="num"] { width: 68px; }
-.drop-rows .field-list-empty { line-height: 24px; }
 /* The item reference is a bare chip: the Field wrapper keeps its keyboard model, the label stays for assistive tech only. */
 .drop-item.field { grid-template-columns: minmax(0, 1fr); min-height: 0; padding: 0; flex: 1 1 140px; min-width: 0; }
 .drop-item .field-label { display: none; }
 .drop-item .field-control { min-height: 24px; }
 .drop-item .ref-control { flex: 1 1 auto; }
 .drop-item .ref-control > .ref-chip { flex: 1 1 auto; }
-.drop-add.field { margin-top: 1px; }
-.drop-add .field-label { color: var(--faint); }
 
 /* Level × stat table (rail and drawer) */
 .curve-table { border: 1px solid var(--border-subtle); border-radius: 6px; overflow: auto; background: var(--panel); }
@@ -64,7 +57,7 @@
 .role-drawer .curve-table { margin: 2px 0 6px; }
 
 /* ---------- Loot tables ---------- */
-.loot-drops > .kv-section-body > .field-hint { display: block; margin: 6px 0 0; }
 .loot-list { display: flex; flex-direction: column; gap: 2px; }
 .loot-row .ref-row-meta { font-family: var(--font-sans); }
 .loot-row .thumb-composite img { width: 100%; height: 100%; }
+}

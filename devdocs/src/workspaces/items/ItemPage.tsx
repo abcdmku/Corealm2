@@ -10,6 +10,9 @@ import { useReferenceIndex } from "../../model/refs.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { ChoiceField, DerivedNumber, Facts, Field, Fields, MapField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, Static, TextField, ToggleField, usePeek } from "../../ui/field/index.js";
 import { Thumb } from "../../ui/Thumb.js";
+import { InlineStats, ItemStack } from "../../ui/ItemStack.js";
+import { StatMatrix } from "../../ui/StatMatrix.js";
+import { Button } from "../../components/ui/index.js";
 import { FamilyDrawer } from "./FamilyDrawer.js";
 import { choicesOf, emptyBonuses, seconds, specAt, stationText, titleCase, type ItemRecord, type ItemsData, type PathSpec } from "./data.js";
 
@@ -42,6 +45,20 @@ const item = (...path: Path[number][]): PathSpec => specAt(ItemSchema, path);
 const member = (...path: Path[number][]): PathSpec => specAt(ProgressionTierSchema, ["equipment", 0, ...path]);
 const BONUS: Readonly<Record<BonusKey, PathSpec>> = Object.fromEntries(BONUS_KEYS.map(key => [key, specAt(EquipmentBonusesSchema, [key])])) as Record<BonusKey, PathSpec>;
 const SKILL_KEYS = Object.keys(ItemSkillRequirementsSchema.fields).map(key => ({ value: key, label: specAt(ItemSkillRequirementsSchema, [key]).label }));
+
+/**
+ * The seven equipment bonuses as the stat table the game thinks in: accuracy and power by style,
+ * then the three that have no style. Row names sit in the sheet's label column.
+ */
+function BonusMatrix({ cell }: { cell: (key: BonusKey) => ReactNode }) {
+  return <StatMatrix columns={["Melee", "Magic"]} rows={[
+    { key: "accuracy", label: "Accuracy", cells: [cell("meleeAccuracy"), cell("magicAccuracy")] },
+    { key: "power", label: "Power", cells: [cell("meleePower"), cell("magicPower")] },
+    { key: "defence", label: BONUS.defence.label, cells: [cell("defence")] },
+    { key: "health", label: BONUS.health.label, cells: [cell("health")] },
+    { key: "vitality", label: BONUS.vitality.label, hint: BONUS.vitality.hint, cells: [cell("vitality")] },
+  ]} />;
+}
 
 /** Remove empty `adjustments` / `bonuses` objects after clearing an override so the row is saved clean. */
 function prune(tier: ProgressionTier, index: number): ProgressionTier {
@@ -102,26 +119,22 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
         <Facts items={facts} />
         <code>{id}</code>
       </div>
-      {variant === "drawer" && <span className="record-actions"><button type="button" className="button button-small" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></button></span>}
+      {variant === "drawer" && <span className="record-actions"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
     </header>
     <Sheet>
       <Section title="Identity">
         <Field label={member("name").label} dirty={dirtyAt(["name"])}><TextField value={row.name} readOnly={readOnly} onChange={next => setMember(["name"], next)} /></Field>
         <Field label={member("description").label} dirty={dirtyAt(["description"])}><TextField value={row.description} multiline readOnly={readOnly} onChange={next => setMember(["description"], next)} /></Field>
       </Section>
-      <Section title="Numbers" aside={<button type="button" className="text-button" onClick={() => openFamily(family.id)}>{family.name} curve</button>}>
+      <Section title="Numbers" aside={<Button variant="link" size="xs" onClick={() => openFamily(family.id)}>{family.name} curve <ArrowRight /></Button>}>
         <DerivedNumber label={value.label} unit={value.unit} min={0} resolved={derived.value.resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "value"])} onChange={next => setMember(["adjustments", "value"], next)} onOpenRef={openRef} />
         {isTool
           ? <DerivedNumber label={item("tool", "gatherBonus").label} integer={false} min={0} resolved={derived.gatherBonus.resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "gatherBonus"])} onChange={next => setMember(["adjustments", "gatherBonus"], next)} onOpenRef={openRef} />
-          : <Fields columns={4}>
-            {BONUS_KEYS.map(key => <DerivedNumber key={key} compact label={BONUS[key].label} resolved={derived.bonuses[key].resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "bonuses", key])} onChange={next => setMember(["adjustments", "bonuses", key], next)} onOpenRef={openRef} />)}
-          </Fields>}
-        <Facts className="kv-facts" items={[
-          !isTool && titleCase(derived.slot),
-          <>Requires {titleCase(family.skill)} {tier.reqLevel}<span className="muted"> from the tier</span></>,
-          family.attackSpeedMs !== undefined && <span className="mono">{family.attackSpeedMs} ms per attack</span>,
-          family.magicWeapon && `${family.magicWeapon.kind} · ${family.magicWeapon.hands === 2 ? "two-handed" : "one-handed"}`,
-        ]} />
+          : <BonusMatrix cell={key => <DerivedNumber compact labelHidden label={BONUS[key].label} resolved={derived.bonuses[key].resolved} readOnly={readOnly} optional dirty={dirtyAt(["adjustments", "bonuses", key])} onChange={next => setMember(["adjustments", "bonuses", key], next)} onOpenRef={openRef} />} />}
+        {!isTool && <Row label="Slot"><Static>{titleCase(derived.slot)}</Static></Row>}
+        <Row label="Requires"><Static>{titleCase(family.skill)} {tier.reqLevel}<span className="text-faint">&nbsp;· from the tier</span></Static></Row>
+        {family.attackSpeedMs !== undefined && <Row label="Attack speed"><Static>{seconds(family.attackSpeedMs)}<span className="text-faint">&nbsp;· {family.attackSpeedMs} ms, from the family</span></Static></Row>}
+        {family.magicWeapon && <Row label="Weapon"><Static>{titleCase(family.magicWeapon.kind)} · {family.magicWeapon.hands === 2 ? "two-handed" : "one-handed"}</Static></Row>}
       </Section>
       <MadeBy itemId={id} data={data} navigate={navigate} />
       <ReferencedBy collection="items" id={id} navigate={navigate} />
@@ -147,16 +160,21 @@ export function MadeBy({ itemId, data, navigate }: { itemId: string; data: Items
   if (!made) return null;
   const template = data.templateById(made.entry.templateId);
   const rates = template ? deriveProductionEntry(made.tier, made.entry, template) : undefined;
-  return <Section title="Made by" aside={<button type="button" className="text-button" onClick={() => navigate("compiled-recipes", made.entry.id)}>{made.entry.name} <ArrowRight size={11} /></button>}>
-    <Row label="Inputs" align="start">
-      <span className="recipe-line">
-        {made.entry.inputs.map((input, i) => <span key={i} className="recipe-part"><button type="button" className="cell" onClick={() => navigate("items/catalog", input.itemId)}><Thumb spec={{ kind: "item", id: input.itemId }} size="s" /><span>{data.item(input.itemId)?.name ?? input.itemId}</span></button><small className="mono">×{input.quantity}</small></span>)}
-        <ArrowRight size={12} className="muted" />
-        <span className="recipe-part"><Thumb spec={{ kind: "item", id: made.entry.output.itemId }} size="s" /><span>{data.item(made.entry.output.itemId)?.name ?? made.entry.output.itemId}</span><small className="mono">×{made.entry.output.quantity}</small></span>
-      </span>
+  const name = (itemId: string) => data.item(itemId)?.name ?? itemId;
+  return <Section title="Made by" aside={<Button variant="link" size="xs" onClick={() => navigate("compiled-recipes", made.entry.id)}>{made.entry.name} <ArrowRight /></Button>}>
+    <Row label="Recipe">
+      <div className="flex min-h-7 flex-wrap items-center gap-1.5">
+        {made.entry.inputs.map((input, i) => <ItemStack key={i} id={input.itemId} name={name(input.itemId)} quantity={input.quantity} onOpen={() => navigate("items/catalog", input.itemId)} />)}
+        <ArrowRight className="mx-0.5 size-3.5 text-faint" aria-label="makes" />
+        <ItemStack id={made.entry.output.itemId} name={name(made.entry.output.itemId)} quantity={made.entry.output.quantity} />
+      </div>
     </Row>
-    {template && <Row label="Station"><Static>{titleCase(template.skill)} · {stationText(template.stations)}</Static></Row>}
-    {rates && <Row label="Rates"><Static mono>{seconds(rates.durationMs.value)} · {fmt(rates.xp.value)} xp · level {rates.reqLevel.value}</Static></Row>}
+    {template && <Row label="Station"><Static>{titleCase(template.skill)}<span className="text-faint">&nbsp;·&nbsp;</span>{stationText(template.stations)}</Static></Row>}
+    {rates && <Row label="Rates"><InlineStats items={[
+      { label: "Time", value: seconds(rates.durationMs.value) },
+      { label: "XP", value: fmt(rates.xp.value) },
+      { label: "Level", value: rates.reqLevel.value },
+    ]} /></Row>}
   </Section>;
 }
 
@@ -179,7 +197,7 @@ const BLOCK_ORDER: readonly BlockKey[] = ["equip", "tool", "food", "magicWeapon"
  * the sheet (`AddBlocks`), so a sword is a sword-length page.
  */
 function BlockSection({ spec, readOnly, onRemove, children }: { spec: PathSpec; readOnly: boolean; onRemove: () => void; children: ReactNode }) {
-  const aside = readOnly ? undefined : <button type="button" className="text-button" title={`Remove the ${spec.label.toLowerCase()} from this item`} onClick={onRemove}>Remove</button>;
+  const aside = readOnly ? undefined : <Button variant="link" size="inline" title={`Remove the ${spec.label.toLowerCase()} from this item`} onClick={onRemove}>Remove</Button>;
   return <Section title={spec.label} aside={aside} className="block-section">
     {spec.hint && <p className="field-hint">{spec.hint}</p>}
     {children}
@@ -189,7 +207,7 @@ function BlockSection({ spec, readOnly, onRemove, children }: { spec: PathSpec; 
 function AddBlocks({ absent, readOnly, onAdd }: { absent: readonly BlockKey[]; readOnly: boolean; onAdd: (key: BlockKey) => void }) {
   if (readOnly || !absent.length) return null;
   return <Row label="Add">
-    <span className="block-add">{absent.map(key => <button key={key} type="button" className="button button-small" onClick={() => onAdd(key)}><Plus size={12} /> {item(key).label}</button>)}</span>
+    <span className="block-add">{absent.map(key => <Button variant="secondary" size="sm" key={key} onClick={() => onAdd(key)}><Plus size={12} /> {item(key).label}</Button>)}</span>
   </Row>;
 }
 
@@ -225,7 +243,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         <Facts items={facts} />
         <code>{id}</code>
       </div>
-      {variant === "drawer" && <span className="record-actions"><button type="button" className="button button-small" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></button></span>}
+      {variant === "drawer" && <span className="record-actions"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
     </header>
     <Sheet>
       <Section title="Identity">
@@ -238,9 +256,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
       </Section>
       {equip && <BlockSection spec={item("equip")} readOnly={readOnly} onRemove={() => presence("equip")(false)}>
         {choice(["equip", "slot"])}
-        <Fields columns={4}>
-          {BONUS_KEYS.map(key => <Field key={key} compact label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>)}
-        </Fields>
+        <BonusMatrix cell={key => <Field compact labelHidden label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} ariaLabel={BONUS[key].label} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>} />
         {num(["equip", "attackSpeedMs"])}
         <MapField<number> label={item("equip", "requires").label} value={requires} keys={SKILL_KEYS} keyLabel="skill" readOnly={readOnly} emptyText="No skill requirement" defaultValue={() => 1}
           onChange={next => set(["equip", "requires"], next)}
@@ -260,8 +276,8 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
           {readOnly
             ? <Static muted>{charge ? "Elemental" : "None"}</Static>
             : charge
-              ? <button type="button" className="text-button" onClick={() => set(["magicWeapon", "charge"], undefined)}>Remove charge</button>
-              : <button type="button" className="button button-small" onClick={() => set(["magicWeapon", "charge"], { element: "wind", capacity: 10, initialCharges: 0, rechargeItemId: "", rechargeCost: 1, orbItemId: "", released: false })}><Plus size={12} /> Add elemental charge</button>}
+              ? <Button variant="link" size="inline" onClick={() => set(["magicWeapon", "charge"], undefined)}>Remove charge</Button>
+              : <Button variant="secondary" size="sm" onClick={() => set(["magicWeapon", "charge"], { element: "wind", capacity: 10, initialCharges: 0, rechargeItemId: "", rechargeCost: 1, orbItemId: "", released: false })}><Plus size={12} /> Add elemental charge</Button>}
         </Field>
         {charge && <>
           {choice(["magicWeapon", "charge", "element"])}

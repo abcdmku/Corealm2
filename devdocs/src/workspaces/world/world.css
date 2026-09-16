@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   World workspace: left rail 260 · map · right rail 320, filling the content area under the tab
   strip. The inspector is the one field model (ui/field), so this file only narrows the label
@@ -124,15 +127,12 @@
 /* A point is one thing: its label above a two-cell grid of x and z. */
 .world-point { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 4px; }
 .world-point-label { font-size: 12px; line-height: 16px; color: var(--muted); }
-.world-point .kv-fields { gap: 4px 8px; padding: 0; }
 
 /* Spawn members: the creature on its own line, its share of the group under it. */
 .world-members > .field-list-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding-bottom: 2px; }
 .world-members > .field-list-row > .field-list-aside { grid-column: 1 / -1; grid-row: 2; }
 .world-members > .field-list-row > .field-list-remove { grid-column: 2; grid-row: 1; }
 .world-members .field-label:empty { display: none; }
-.world-members .field-weight { width: 100%; }
-.world-members .field-weight-bar { flex: 1; width: auto; }
 .world-add-member { margin-top: 4px; }
 .world-add-member .field-label { color: var(--muted); }
 
@@ -157,3 +157,4 @@
 .world-cluster-head > :nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
 .world-cluster-head > :nth-child(2) { grid-column: 2; grid-row: 1 / span 2; }
 .world-cluster-head > :nth-child(3) { grid-column: 3; grid-row: 1 / span 2; }
+}

@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Assets workspace: model gallery and page, audio tables. */
 .model-list { display: flex; flex-direction: column; gap: 2px; }
 .model-more { display: flex; justify-content: center; padding: 16px; }
@@ -14,8 +17,6 @@
 .audio-table td.is-muted { color: var(--muted); }
 .audio-table th:first-child, .audio-table td:first-child { font-weight: 500; }
 .audio-play-cell { width: 32px; padding: 2px 4px !important; }
-.audio-play { width: 22px; height: 22px; color: var(--muted); }
-.audio-play.is-active { color: var(--accent); background: var(--accent-soft); }
 .audio-loop-cell { display: inline-flex; align-items: center; gap: 6px; }
 /* Fixed or a range, both on one line: the shape switch is a short select, the numbers keep the row at 32px. */
 .audio-rate { display: inline-flex; align-items: center; flex-wrap: nowrap; gap: 4px; }
@@ -26,3 +27,4 @@
 /* Save diagnostics for the catalog, styled here so the page does not borrow another workspace's css. */
 .audio-diagnostics { margin: 0 0 12px; padding: 6px 10px; border: 1px solid var(--danger); border-radius: 6px; background: var(--danger-soft); font-size: 12px; list-style: none; display: flex; flex-direction: column; gap: 2px; }
 .audio-diagnostics code { color: var(--danger); }
+}

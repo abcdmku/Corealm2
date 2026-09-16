@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   Items workspace. Builds on workspace.css (.matrix, .record, .kv, .drawer), field.css (the one
   field anatomy) and theme.css primitives. Same scale: type 11/12/13/15/18, controls 24px, rows 28px.
@@ -53,14 +56,10 @@
 .field.field-inline > .field-label { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .field.field-inline .field-control { min-height: 24px; }
 /* An optional block's presence, in the section aside: a 24px select as wide as its word. */
-.block-presence.field-select { width: auto; }
 .block-section .empty-inline { margin: 0; line-height: 20px; }
 /* Most items carry none of the five optional blocks, so an absent one is a heading and one line. */
-.block-section.is-absent > .kv-section-body { padding-top: 0; padding-bottom: 0; }
-.block-section > .kv-section-body > .field-hint { display: block; margin: 0 0 6px; }
 /* Set thresholds: each row is one grid of compact fields that fills the list width. */
 .thresholds .field-list-row { align-items: start; }
-.thresholds .field-list-content > .kv-fields { flex: 1 1 100%; padding: 2px 0; gap: 4px 10px; }
 .thresholds .field-list-remove { margin-top: 18px; }
 /*
   The rows are a table, so the column names belong above the table once. Later rows keep their
@@ -69,7 +68,6 @@
 */
 .thresholds .field-list-row + .field-list-row .field-label { display: none; }
 .thresholds .field-list-row + .field-list-row .field-list-remove { margin-top: 0; }
-.thresholds > .kv-section-body > .field-hint { display: block; margin: 6px 0 0; }
 
 /* ---------- Item page ---------- */
 .recipe-line { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-height: 28px; }
@@ -111,3 +109,4 @@
 .recipes-arrow { padding: 0 2px; width: 20px; }
 .recipes-table .recipe-line { min-height: 0; gap: 4px 8px; flex-wrap: nowrap; }
 .block-add { display: flex; flex-wrap: wrap; gap: 4px; }
+}

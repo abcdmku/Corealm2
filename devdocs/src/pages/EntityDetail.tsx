@@ -17,6 +17,8 @@ import { EntitySummary } from "../ui/EntitySummary.js";
 import { Facts, Field, RefField, ReferencedBy, SchemaControl, Sheet, type RenderRef } from "../ui/field/index.js";
 import { Thumb } from "../ui/Thumb.js";
 import { labelFor } from "../ui/library.js";
+import { Badge } from "../components/ui/index.js";
+import { toneVariant } from "../components/ui/badge.js";
 
 const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/SetPiecePanel.js"));
 const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/NotesPanel.js"));
@@ -87,8 +89,8 @@ export function EntityDetail(props: EntityDetailProps) {
             summary.tier !== undefined && `Tier ${summary.tier}`,
             ...facts,
             <button key="id" className="id-copy" title="Copy record ID" onClick={() => void copyId()}><code>{id}</code>{copied ? <Check size={12} /> : <Copy size={12} />}</button>,
-            status && status !== "draft" && <span className="badge" data-tone={status === "live" || status === "approved" ? "ok" : status === "rejected" ? "danger" : "warn"}>{titleCase(status)}</span>,
-            openRequests > 0 && <span className="badge" data-tone="warn">{openRequests} open request{openRequests === 1 ? "" : "s"}</span>,
+            status && status !== "draft" && <Badge variant={toneVariant(status === "live" || status === "approved" ? "ok" : status === "rejected" ? "danger" : "warn")}>{titleCase(status)}</Badge>,
+            openRequests > 0 && <Badge variant="warn">{openRequests} open request{openRequests === 1 ? "" : "s"}</Badge>,
           ]} />
         </div>
         <div className="record-actions">

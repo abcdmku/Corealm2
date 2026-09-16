@@ -11,6 +11,7 @@ import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, list, num, text } from "../story/shared.js";
 import "./assets.css";
+import { Button } from "../../components/ui/index.js";
 
 /*
   The audio catalog as three flat tables: cues, loops and regions. Every cell is a field from
@@ -89,7 +90,7 @@ export default function AudioView(_props: ViewProps) {
   const playButton = (url: string | undefined, label: string, loop = false) => {
     if (!url) return <Empty />;
     const active = player.playing === url;
-    return <button type="button" className={`icon-button audio-play${active ? " is-active" : ""}`} aria-label={active ? `Stop ${label}` : `Play ${label}`} aria-pressed={active} title={url} onClick={() => active ? player.stop() : player.play(url, loop)}>{active ? <Square size={12} /> : <Play size={12} />}</button>;
+    return <Button variant="ghost" size="icon-sm" aria-label={active ? `Stop ${label}` : `Play ${label}`} aria-pressed={active} title={url} onClick={() => active ? player.stop() : player.play(url, loop)}>{active ? <Square size={12} /> : <Play size={12} />}</Button>;
   };
 
   /** Fixed or range, switched per row: the number carries over both ways so nothing is retyped. */

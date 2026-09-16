@@ -12,6 +12,7 @@ import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import "./story.css";
+import { Button } from "../../components/ui/index.js";
 
 /*
   Helpers shared by the story pages: a record draft joined with the reference index, the record
@@ -100,7 +101,7 @@ export function PageState<T extends ContentRow>({ page, collection, navigate, ch
   const { draft } = page;
   if (draft.loading) return <div className="ws-page"><LoadingRows /></div>;
   if (draft.error) return <ErrorState message={draft.error} />;
-  if (!draft.draft || !draft.record) return <EmptyState title="Record not found">This record is not in {collection}. <button className="text-button" onClick={() => navigate(collection)}>Back to the list</button></EmptyState>;
+  if (!draft.draft || !draft.record) return <EmptyState title="Record not found">This record is not in {collection}. <Button variant="link" size="inline" onClick={() => navigate(collection)}>Back to the list</Button></EmptyState>;
   return <>{children(draft.draft, draft.record)}</>;
 }
 

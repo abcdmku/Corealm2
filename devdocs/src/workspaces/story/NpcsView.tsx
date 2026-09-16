@@ -5,10 +5,12 @@ import type { ContentRow } from "../../model/contracts.js";
 import { contentRows } from "../../model/rows.js";
 import { titleCase } from "../../model/summaries.js";
 import { CollectionPage } from "../../pages/CollectionPage.js";
-import { ChoiceField, Field, ListField, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema } from "../../ui/field/index.js";
+import { ChoiceField, Field, ListField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, TextField, fieldFromSchema } from "../../ui/field/index.js";
 import { PointsMap } from "../../ui/PointsMap.js";
+import { DialogueTree } from "../../ui/DialogueTree.js";
 import type { ViewProps } from "../types.js";
-import { clip, findStand, list, nameOf, PageState, position, RecordShell, RefCell, regionName, regionOptions, strings, text, usePage, type Page } from "./shared.js";
+import { findStand, nameOf, PageState, position, RecordShell, RefCell, regionName, regionOptions, strings, text, usePage, type Page } from "./shared.js";
+import { Button } from "../../components/ui/index.js";
 
 interface Npc extends ContentRow {
   id: string; name: string; regionId?: string; settlementId?: string; role?: string; voice?: string;
@@ -45,7 +47,7 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
             {point && <PointsMap points={[{ id, x: point.x, z: point.z, label: String(stand.settlement.name) }]} onOpen={() => navigate("world/map", `npcs:${id}`)} onOpenAt={() => navigate("world/map", `npcs:${id}`)} />}
             <div className="story-where-text">
               <span>{stand.regionName} · {String(stand.settlement.name)}{point && <span className="muted mono"> · {point.x}, {point.z}</span>}</span>
-              <span><button type="button" className="text-button" onClick={() => navigate("world/map", `npcs:${id}`)}>Show on map</button></span>
+              <span><Button variant="link" size="inline" onClick={() => navigate("world/map", `npcs:${id}`)}>Show on map</Button></span>
             </div>
           </div>
           : <span className="empty-inline">Not standing in any settlement.</span>}
@@ -68,7 +70,7 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
 
         <Section title="Dialogue">
           <RefField kind="dialogue" label={npc("dialogueRootId").label} optional value={root} readOnly={readOnly} onChange={value => draft.setPath(["dialogueRootId"], value)} />
-          {root && <Field label="Outline"><DialogueOutline rootId={root} page={page} navigate={navigate} /></Field>}
+          {root && <Row label="Conversation" wide><DialogueOutline rootId={root} page={page} navigate={navigate} /></Row>}
         </Section>
 
         <Section title={npc("questIds").label}>
@@ -89,42 +91,11 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
 
 /* ---------- Conversation outline ---------- */
 
-const MAX_DEPTH = 6;
-
-/** Walk dialogue nodes from a root, following `options[].next`, as an indented tree. */
 function DialogueOutline({ rootId, page, navigate }: { rootId: string; page: Page<Npc>; navigate: ViewProps["navigate"] }) {
   const nodes = useMemo(() => {
     const response = page.index.collections.get("dialogue");
     return new Map(response ? contentRows(response).map(row => [String(row.id), row]) : []);
   }, [page.index]);
-  if (!nodes.size) return <span className="story-empty">Loading dialogue…</span>;
-  return <ul className="dlg-outline"><OutlineNode id={rootId} nodes={nodes} depth={0} seen={new Set()} navigate={navigate} /></ul>;
-}
-
-function OutlineNode({ id, nodes, depth, seen, navigate }: { id: string; nodes: Map<string, ContentRow>; depth: number; seen: Set<string>; navigate: ViewProps["navigate"] }) {
-  const node = nodes.get(id);
-  const open = () => navigate("dialogue", id);
-  if (!node) return <li><button type="button" className="dlg-node" onClick={open}><span className="dlg-speaker">?</span><span className="dlg-text">{id} is missing</span></button></li>;
-  const branch = new Set(seen).add(id);
-  const options = list(node.options).map(option => option as ContentRow);
-  return <li>
-    <button type="button" className="dlg-node" onClick={open} title={`${id}\n${String(node.text ?? "")}`}>
-      <span className="dlg-speaker">{text(node.speaker) ?? "—"}</span>
-      <span className="dlg-text">{clip(text(node.text), 120)}</span>
-    </button>
-    {options.length > 0 && <ul>{options.map((option, index) => {
-      const next = text(option.next);
-      const cycle = next !== undefined && branch.has(next);
-      const tooDeep = depth + 1 >= MAX_DEPTH;
-      return <li key={String(option.id ?? index)}>
-        <button type="button" className="dlg-option" onClick={() => navigate("dialogue", next ?? id)} title={String(option.id ?? "")}>
-          <span className="dlg-text">{clip(text(option.text), 100)}</span>
-          {next === undefined && <span className="dlg-end">ends</span>}
-          {cycle && <span className="dlg-loop">↺ {next}</span>}
-          {!cycle && tooDeep && next !== undefined && <span className="dlg-loop">→ {next}</span>}
-        </button>
-        {next !== undefined && !cycle && !tooDeep && <ul><OutlineNode id={next} nodes={nodes} depth={depth + 1} seen={branch} navigate={navigate} /></ul>}
-      </li>;
-    })}</ul>}
-  </li>;
+  if (!nodes.size) return <span className="text-xs text-faint">Loading dialogue…</span>;
+  return <DialogueTree rootId={rootId} nodes={nodes} ctx={page.ctx} open={nodeId => navigate("dialogue", nodeId)} />;
 }

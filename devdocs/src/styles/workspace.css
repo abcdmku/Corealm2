@@ -1,24 +1,12 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /*
   Workspace shell and the key/value sheet. Root-owned with theme.css.
   Scale: type 11/12/13/15/18, controls 24px, rows 28px, space 4/8/12/16/24, radius 4/6.
 */
 
 /* ---------- Shell ---------- */
-.ws-nav { display: flex; flex-direction: column; gap: 1px; padding: 6px; }
-.ws-nav .nav-item { height: 28px; font-size: 13px; gap: 8px; padding: 0 8px; }
-.ws-nav .nav-item svg { width: 15px; height: 15px; }
-.ws-tabs { display: flex; align-items: center; gap: 2px; height: 36px; padding: 0 12px; border-bottom: 1px solid var(--border-subtle); background: var(--background); flex-shrink: 0; }
-.ws-tabs > button { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 4px; color: var(--muted); font-size: 12px; font-weight: 500; white-space: nowrap; }
-.ws-tabs > button:hover { color: var(--text); background: var(--hover); }
-.ws-tabs > button[aria-current="page"] { color: var(--text); background: var(--selected); }
-.ws-tabs .ws-tabs-title { font-size: 13px; font-weight: 600; margin-right: 8px; color: var(--text); }
-.ws-tabs .ws-tabs-crumb { display: inline-flex; align-items: center; gap: 4px; color: var(--faint); font-size: 12px; margin-left: 4px; min-width: 0; overflow: hidden; }
-.ws-tabs .ws-tabs-crumb code { color: var(--muted); font-size: 11px; }
-.ws-tabs .ws-tabs-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
-.ws-tabs > button.mobile-menu { display: none; }
-@media (max-width: 767px) { .ws-tabs > button.mobile-menu { display: inline-flex; } }
-.ws-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.ws-body[data-full-bleed="true"] { overflow: hidden; }
 .ws-page { padding: 12px 16px 40px; max-width: 1400px; }
 .ws-page-narrow { max-width: 1080px; }
 .ws-heading { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; min-height: 24px; }
@@ -42,7 +30,6 @@
 .record-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 .rail-block { display: flex; flex-direction: column; gap: 6px; }
 .rail-block > h3 { font-size: 11px; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .4px; }
-.rail-stage { aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: var(--art-background); position: relative; }
 
 /* ---------- Drawer ---------- */
 .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(520px, 90vw); z-index: 45; display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--border); box-shadow: -12px 0 40px var(--shadow); }
@@ -51,120 +38,8 @@
 .drawer-body { flex: 1; min-height: 0; overflow-y: auto; padding: 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .drawer-scrim { position: fixed; inset: 0; z-index: 44; background: transparent; }
 
-/* ---------- Key/value sheet ---------- */
-/*
-  One label column for the whole sheet, as wide as its longest label (capped) and no wider, with
-  the labels set flush against their values. Sections and rows are subgrids of the sheet, so every
-  value in a record starts at the same x and every label sits 10px from its value whether it reads
-  "Id" or "Skill requirements". Anything in a section that is not a label/value row spans both
-  columns; a grid of compact fields sits in the value column.
-*/
-.kv { --label-max: 168px; --label-gap: 10px; display: grid; grid-template-columns: fit-content(var(--label-max)) minmax(0, 1fr); column-gap: var(--label-gap); align-content: start; min-width: 0; }
-.kv > *, .kv-section > *, .kv-section-body > * { grid-column: 1 / -1; min-width: 0; }
-/* Nested sections (an object inside an object) stay on the sheet's columns too. */
-.kv > .kv-section, .kv-section-body > .kv-section, .kv-section-body, .kv > .field:not([data-compact]), .kv > .kv-row, .kv-section-body > .field:not([data-compact]), .kv-section-body > .kv-row { display: grid; grid-template-columns: subgrid; }
-.kv-section-body > .kv-fields, .kv > .kv-fields { grid-column: 2; }
-.kv-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
-.kv-section { padding: 12px 0 6px; border-top: 1px solid var(--border-subtle); }
-.kv > .kv-section:first-child { border-top: 0; padding-top: 0; }
-.kv-section-head { display: flex; align-items: center; gap: 8px; min-height: 22px; margin-bottom: 4px; }
-.kv-section-head h3, .kv-section-toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text); }
-.kv-section-toggle svg { transition: transform .12s; }
-.kv-section.is-closed .kv-section-toggle svg { transform: rotate(-90deg); }
-.kv-section-aside { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
-.kv-row { display: grid; grid-template-columns: fit-content(var(--label-max, 168px)) minmax(0, 1fr); column-gap: var(--label-gap, 10px); min-height: 28px; align-items: center; padding: 1px 0; }
-.kv-row[data-align="start"] { align-items: start; }
-.kv-row[data-align="start"] .kv-label { padding-top: 5px; }
-.kv-row.is-wide { grid-template-columns: 1fr; gap: 2px; }
-.kv-row.is-wide > * { grid-column: 1 / -1; }
-.kv-compact { --label-max: 132px; --label-gap: 8px; }
-.kv-compact .kv-row { min-height: 24px; }
-.kv-label { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
-.kv-value { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; font-size: 12px; }
-.kv-row.has-error .kv-label { color: var(--danger); }
-.kv-error { flex-basis: 100%; color: var(--danger); font-size: 11px; }
-.kv-static { font-size: 12px; overflow-wrap: anywhere; }
-.kv-input { height: 24px; padding: 0 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--text); font-size: 12px; line-height: 1.3; min-width: 0; }
-.kv-input:focus { outline: none; border-color: var(--accent); }
-.kv-input:disabled { opacity: .6; }
-.kv-input::placeholder { color: var(--faint); }
-.kv-input-number[data-zero="true"]:not(:focus) { color: var(--faint); }
-.kv-input[data-width="num"] { width: 76px; font-family: var(--font-mono); text-align: right; }
-.kv-input[data-width="short"] { width: 160px; }
-.kv-input[data-width="id"] { width: 220px; font-family: var(--font-mono); }
-.kv-input[data-width="text"] { width: 100%; max-width: 360px; }
-.kv-input[data-width="full"] { width: 100%; }
-.kv-input-wrap { display: inline-flex; align-items: center; gap: 4px; }
-.kv-unit { font-size: 11px; color: var(--faint); }
-.kv-textarea { width: 100%; height: auto; min-height: 48px; padding: 5px 7px; resize: vertical; line-height: 1.45; }
-.kv-select { appearance: none; padding-right: 22px; background-image: linear-gradient(45deg, transparent 50%, var(--faint) 50%), linear-gradient(135deg, var(--faint) 50%, transparent 50%); background-position: calc(100% - 11px) 9px, calc(100% - 7px) 9px; background-size: 4px 4px; background-repeat: no-repeat; }
-.kv-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; height: 24px; }
-.kv-toggle input { accent-color: var(--accent); width: 14px; height: 14px; margin: 0; }
-.facts { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 0 4px; color: var(--muted); }
-.facts > span + span::before { content: "·"; margin-right: 4px; color: var(--faint); }
-
-/* Derived value: number, terms, curve, override. */
-.derived { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
-.derived-value { font-size: 12px; font-weight: 600; }
-.derived-value small { font-weight: 400; color: var(--faint); font-size: 11px; }
-.derived-computed { color: var(--faint); font-size: 11px; }
-.derived.is-overridden .kv-input { border-color: var(--accent); color: var(--accent); }
-.derived-clear { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; color: var(--faint); }
-.derived-clear:hover { color: var(--danger); background: var(--danger-soft); }
-.derived-expression { font-size: 11px; color: var(--faint); opacity: 0; transition: opacity .12s; }
-.derived-source { font-size: 11px; color: var(--link); opacity: 0; transition: opacity .12s; }
-.kv-row:hover .derived-expression, .kv-row:hover .derived-source, .derived:focus-within .derived-expression, .derived:focus-within .derived-source, .derived.is-overridden .derived-expression, .derived.is-overridden .derived-source { opacity: 1; }
-button.derived-source:hover { text-decoration: underline; text-underline-offset: 2px; }
-
 /* Save strip */
 /* The one save bar: a strip at the foot of the workspace column, hidden until something is dirty. */
-.shell-savebar { flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; padding: 5px 12px; border-top: 1px solid var(--accent); background: var(--accent-soft); font-size: 12px; min-width: 0; }
-.shell-savebar[data-tone="danger"] { border-top-color: var(--danger); background: var(--danger-soft); }
-.shell-savebar[data-tone="warn"] { border-top-color: var(--warn); background: var(--warn-soft); }
-.shell-savebar-row { display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 26px; }
-.shell-savebar-count { color: var(--accent); font-weight: 500; white-space: nowrap; flex-shrink: 0; }
-.shell-savebar[data-tone="danger"] .shell-savebar-count { color: var(--danger); }
-.shell-savebar-chips { display: flex; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
-.shell-savebar-chip { display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); color: var(--text); font-size: 11px; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
-.shell-savebar-chip:hover { border-color: var(--link); color: var(--link); }
-.shell-savebar-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-.shell-savebar-actions .icon-button:disabled { opacity: .4; }
-.shell-savebar-actions kbd { margin-left: 2px; border-color: transparent; background: #0002; color: inherit; height: 14px; font-size: 10px; }
-.shell-savebar-error { display: flex; flex-direction: column; gap: 2px; color: var(--danger); overflow-wrap: anywhere; }
-.shell-savebar-conflict { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; border-top: 1px solid var(--border-subtle); }
-.shell-savebar-conflict-text { color: var(--muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.shell-savebar-diff { margin: 0 0 4px; max-height: 240px; overflow: auto; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); font-family: var(--font-mono); font-size: 11px; line-height: 1.5; display: flex; flex-direction: column; }
-.shell-savebar-diff > span { white-space: pre; }
-.shell-savebar-diff > span[data-kind="add"] { color: var(--ok); background: var(--ok-soft); }
-.shell-savebar-diff > span[data-kind="del"] { color: var(--danger); background: var(--danger-soft); }
-.shell-savebar-diff > span[data-kind="same"] { color: var(--faint); }
-.shell-savebar-diff-head { display: flex; gap: 16px; color: var(--muted); margin-bottom: 4px; }
-.nav-item .nav-dirty { margin-left: auto; flex: none; }
-.nav-item .nav-dot { flex: none; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
-
-/* ---------- Field grid: a group of like values as labelled cells ---------- */
-/* A grid of like values sits in the value column beside the label gutter, so every value in a
-   sheet lines up on one edge instead of the grid starting back at the labels. */
-/* The grid hugs its content, so equal columns size to the widest cell instead of stretching to
-   the page edge: the numbers read as one block rather than four scattered controls. */
-.kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 148px)); gap: 8px 14px; padding: 4px 0 8px; width: fit-content; max-width: 100%; }
-.kv-field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.kv-field[data-span="2"] { grid-column: span 2; }
-.kv-field[data-span="3"] { grid-column: span 3; }
-.kv-field[data-span="4"] { grid-column: span 4; }
-.kv-field-label { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.kv-field-value { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 4px; min-height: 24px; min-width: 0; font-size: 12px; }
-.kv-field .kv-input-wrap { flex: 1 1 72px; }
-.kv-field .inherit-mark { flex-basis: 100%; line-height: 1.2; }
-.kv-field.has-error .kv-field-label { color: var(--danger); }
-.kv-field .kv-input-wrap { flex: 1; min-width: 0; }
-.kv-field .kv-input { width: 100%; max-width: none; }
-.kv-field .kv-input[data-width="num"] { width: 100%; }
-.kv-field .derived { flex: 1; flex-wrap: nowrap; gap: 4px; }
-.kv-field .derived-expression, .kv-field .derived-computed, .kv-field .derived-source { display: none; }
-.kv-field .derived-value { font-size: 13px; }
-.kv-field .kv-static { font-size: 13px; }
-.kv-field .kv-toggle { height: 24px; }
 
 /* ---------- Data matrix (ladder, tables of things) ---------- */
 .matrix { border: 1px solid var(--border); border-radius: 6px; overflow: auto; background: var(--panel); scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
@@ -182,7 +57,7 @@ button.derived-source:hover { text-decoration: underline; text-underline-offset:
 .matrix .cell-empty { color: var(--faint); }
 .matrix .cell-num { font-family: var(--font-mono); text-align: right; }
 
-@media (max-width: 1180px) { .record { grid-template-columns: 1fr; } .record-rail { position: static; } .kv-columns { grid-template-columns: 1fr; } }
+@media (max-width: 1180px) { .record { grid-template-columns: 1fr; } .record-rail { position: static; } }
 
 /* ---------- Home ---------- */
 .home-workspaces { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 24px; }
@@ -199,27 +74,4 @@ button.derived-source:hover { text-decoration: underline; text-underline-offset:
 @media (max-width: 900px) { .home-columns { grid-template-columns: 1fr; } }
 
 /* ---------- Record layout: the run of records beside the one being edited (ui/RecordNav.tsx) ---------- */
-.main-content[data-record] { overflow: hidden; }
-.record-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: 232px minmax(0, 1fr); }
-.record-layout-main { min-width: 0; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.record-nav { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--border-subtle); background: var(--sidebar); }
-.record-nav-head { display: flex; flex-direction: column; gap: 4px; padding: 8px 8px 6px; border-bottom: 1px solid var(--border-subtle); }
-.record-nav-filter { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--faint); }
-.record-nav-filter:focus-within { border-color: var(--accent); }
-.record-nav-filter input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--text); font-size: 12px; }
-.record-nav-filter input::placeholder { color: var(--faint); }
-.record-nav-filter .icon-button { width: 18px; height: 18px; }
-.record-nav-step { display: flex; align-items: center; gap: 2px; min-height: 22px; }
-.record-nav-count { flex: 1; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.record-nav-step .icon-button { width: 24px; height: 22px; }
-.record-nav-step .icon-button:disabled { opacity: .35; }
-.record-nav-list { flex: 1; min-height: 0; overflow-y: auto; padding: 4px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.record-nav-item { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; padding: 3px 18px 3px 8px; border-radius: 4px; text-align: left; color: var(--muted); }
-.record-nav-item:hover { background: var(--hover); color: var(--text); }
-.record-nav-item[aria-current="true"] { background: var(--selected); color: var(--text); box-shadow: inset 2px 0 0 var(--accent); }
-.record-nav-title { font-size: 12px; line-height: 17px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.record-nav-sub { font-size: 11px; line-height: 14px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.record-nav-dirty { position: absolute; right: 7px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: var(--accent); }
-.record-nav-empty { padding: 8px; font-size: 12px; color: var(--faint); }
-@media (max-width: 1100px) { .record-layout { grid-template-columns: 196px minmax(0, 1fr); } }
-@media (max-width: 760px) { .record-layout { grid-template-columns: minmax(0, 1fr); } .record-nav { display: none; } }
+}

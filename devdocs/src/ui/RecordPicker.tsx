@@ -9,6 +9,7 @@ import { contentRows, rowId, rowName } from "../model/rows.js";
 import { summarize, type SummaryContext, type ThumbSpec, noContext } from "../model/summaries.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
+import { Button } from "../components/ui/index.js";
 
 /**
  * Pick a record from a collection by name, id or badge text. Rendered as a popover so it can sit
@@ -126,7 +127,7 @@ function PickerBody({ collection, value, ctx, exclude, placeholder, options, all
   const loading = !options && query.isPending;
   const loaded = options !== undefined || query.data !== undefined;
   return <>
-    <div className="popover-search"><Search size={15} /><input ref={input} value={search} onChange={event => setSearch(event.target.value)} onKeyDown={keys} placeholder={placeholder ?? `Search ${labelFor(collection).toLowerCase()}…`} aria-label={`Search ${labelFor(collection)}`} />{search && <button type="button" className="icon-button" aria-label="Clear" onClick={() => setSearch("")}><X size={14} /></button>}</div>
+    <div className="popover-search"><Search size={15} /><input ref={input} value={search} onChange={event => setSearch(event.target.value)} onKeyDown={keys} placeholder={placeholder ?? `Search ${labelFor(collection).toLowerCase()}…`} aria-label={`Search ${labelFor(collection)}`} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear" onClick={() => setSearch("")}><X size={14} /></Button>}</div>
     <div className="popover-list" ref={listRef} role="listbox">
       {loading && <p className="popover-empty">Loading…</p>}
       {!options && query.isError && <p className="popover-empty">{query.error.message}</p>}

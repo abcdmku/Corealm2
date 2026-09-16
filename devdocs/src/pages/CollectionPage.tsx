@@ -19,6 +19,7 @@ import { EntityDetail } from "./EntityDetail.js";
 import { publishRecordSet, readListState, writeListState } from "../model/recordSet.js";
 import { useRecordSetKey } from "../model/recordSetKey.js";
 import "../dev/bulkActions.css";
+import { Button, NativeSelect, InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/index.js";
 
 const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"));
 const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"));
@@ -60,7 +61,7 @@ export function CollectionPage({ collection, recordId, navigate }: AppProps & { 
       : rows.find(row => rowId(row, idKey) === recordId);
     return record
       ? <EntityDetail key={`${collection}:${recordId}`} collection={collection} record={record} recordId={recordId} editable={query.data.collection.editable && !isGeneratedRow(record)} collectionShape={query.data.collection.shape} navigate={navigate} />
-      : <EmptyState title="Record not found">"{recordId}" is not in {labelFor(collection).toLowerCase()}. <button className="text-button" onClick={() => navigate(collection)}>Back to {labelFor(collection).toLowerCase()}</button></EmptyState>;
+      : <EmptyState title="Record not found">"{recordId}" is not in {labelFor(collection).toLowerCase()}. <Button variant="link" size="inline" onClick={() => navigate(collection)}>Back to {labelFor(collection).toLowerCase()}</Button></EmptyState>;
   }
   return <Browser key={collection} collection={collection} response={query.data} rows={rows} rawRows={authoredRows} idKey={idKey} editable={query.data.collection.editable && query.data.collection.shape === "array" && !isGeneratedCollection(collection)} navigate={navigate} />;
 }
@@ -168,34 +169,34 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
       <h1 className="sr-only">{labelFor(collection)}</h1>
       <span className="count-badge">{filtered.length === rows.length ? `${rows.length} ${labelFor(collection).toLowerCase()}` : `${filtered.length} of ${rows.length} ${labelFor(collection).toLowerCase()}`}</span>
       <div className="page-heading-actions">
-        {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <button className="button button-small" onClick={() => navigate(collection, "$collection")}>Open parameters</button>}
+        {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <Button variant="secondary" size="sm" onClick={() => navigate(collection, "$collection")}>Open parameters</Button>}
         {editable && RecordActions && <Suspense fallback={null}><RecordActions collection={collection} mode="collection" templateRecord={rawRows[0]} knownIds={rawRows.map(row => rowId(row, idKey))} editable={editable} idKey={idKey} navigate={navigate} compact /></Suspense>}
       </div>
     </div>
     <div className="browser-toolbar">
-      <label className="search-field"><Search size={14} /><input aria-label={`Search ${labelFor(collection).toLowerCase()}`} placeholder="Search name, id, type…" value={search} onChange={event => setSearch(event.target.value)} />{search ? <button aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button> : <kbd>/</kbd>}</label>
-      {groupOptions.length > 0 && <label className="select"><span className="sr-only">Group by</span><select value={group} aria-label="Group by" onChange={event => setGroup(event.target.value)}><option value="">No grouping</option>{groupOptions.map(option => <option value={option.key} key={option.key}>By {option.label.toLowerCase()}</option>)}</select></label>}
-      {activeFilters.length > 0 && <button className="text-button" onClick={() => setFilters({})}>Clear filters</button>}
+      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label={`Search ${labelFor(collection).toLowerCase()}`} placeholder="Search name, id, type…" value={search} onChange={event => setSearch(event.target.value)} />{search ? <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button> : <kbd>/</kbd>}</InputGroup>
+      {groupOptions.length > 0 && <NativeSelect value={group} aria-label="Group by" onChange={event => setGroup(event.target.value)}><option value="">No grouping</option>{groupOptions.map(option => <option value={option.key} key={option.key}>By {option.label.toLowerCase()}</option>)}</NativeSelect>}
+      {activeFilters.length > 0 && <Button variant="link" size="inline" onClick={() => setFilters({})}>Clear filters</Button>}
       <div className="toolbar-right">
         {editable && selected.size > 0 && <span className="result-count">{selected.size} selected</span>}
-        <div className="segmented" role="group" aria-label="View">
-          <button type="button" className={view === "grid" ? "is-active" : ""} aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /> Grid</button>
-          <button type="button" className={view === "list" ? "is-active" : ""} aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /> List</button>
-          {schema && <button type="button" className={view === "table" ? "is-active" : ""} aria-pressed={view === "table"} onClick={() => setView("table")}><Table2 size={13} /> Table</button>}
+        <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="View">
+          <Button variant="segment" size="xs" aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /> Grid</Button>
+          <Button variant="segment" size="xs" aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /> List</Button>
+          {schema && <Button variant="segment" size="xs" aria-pressed={view === "table"} onClick={() => setView("table")}><Table2 size={13} /> Table</Button>}
         </div>
       </div>
     </div>
     {facetValues.length > 0 && <div className="facets">{facetValues.map(({ facet, values }) => <div className="facet" key={facet.key}><span>{facet.label}</span>
       {values.length > 7
-        ? <label className="select"><span className="sr-only">{facet.label}</span><select value={filters[facet.key] ?? ""} aria-label={`Filter by ${facet.label.toLowerCase()}`} onChange={event => setFilters(previous => ({ ...previous, [facet.key]: event.target.value }))}><option value="">Any ({values.length})</option>{values.map(([value, count]) => <option key={value} value={value}>{titleCase(value)} · {count}</option>)}</select></label>
-        : values.map(([value, count]) => <button type="button" key={value} className={`filter-chip${filters[facet.key] === value ? " is-active" : ""}`} aria-pressed={filters[facet.key] === value} onClick={() => setFilters(previous => ({ ...previous, [facet.key]: previous[facet.key] === value ? "" : value }))}>{titleCase(value)}<small>{count}</small></button>)}
+        ? <NativeSelect value={filters[facet.key] ?? ""} aria-label={`Filter by ${facet.label.toLowerCase()}`} onChange={event => setFilters(previous => ({ ...previous, [facet.key]: event.target.value }))}><option value="">Any ({values.length})</option>{values.map(([value, count]) => <option key={value} value={value}>{titleCase(value)} · {count}</option>)}</NativeSelect>
+        : values.map(([value, count]) => <Button variant="chip" size="xs" key={value} aria-pressed={filters[facet.key] === value} onClick={() => setFilters(previous => ({ ...previous, [facet.key]: previous[facet.key] === value ? "" : value }))}>{titleCase(value)}<small>{count}</small></Button>)}
     </div>)}</div>}
     {editable && selected.size > 0 && BulkActionsPanel && <Suspense fallback={null}><BulkActionsPanel collection={collection} idKey={idKey} revision={response.revision} rows={selectedRows} selectedIds={[...selected]} onClearSelection={() => setSelected(new Set())} /></Suspense>}
     {!filtered.length ? <EmptyState title={rows.length ? undefined : "This collection is empty"} />
       : view === "table" && schema ? <RecordGrid collection={collection} rows={sorted.map(item => item.entry.row)} schema={schema} idKey={idKey} revision={response.revision} selected={selected} onSelect={setSelected} onOpen={open} readOnly={!editable} isRowReadOnly={isGeneratedRow} />
       : view === "grid" ? <GridView items={sorted} limit={limit} grouped={Boolean(group)} collection={collection} editable={editable} selected={selected} onToggle={toggle} onOpen={open} onMore={() => setLimit(value => value + PAGE)} />
       : <ListView items={sorted} grouped={Boolean(group)} collection={collection} editable={editable} selected={selected} onToggle={toggle} onOpen={open} />}
-    {editable && selected.size > 0 && <div className="selection-bar"><strong>{selected.size}</strong><span>selected · Ctrl-click to add, Shift-click for a range</span><span className="spacer" /><button className="button button-small" onClick={() => setSelected(new Set(visibleIds))}>Select all {visibleIds.length}</button><button className="button button-small" onClick={() => setSelected(new Set())}>Clear</button></div>}
+    {editable && selected.size > 0 && <div className="selection-bar"><strong>{selected.size}</strong><span>selected · Ctrl-click to add, Shift-click for a range</span><span className="spacer" /><Button variant="secondary" size="sm" onClick={() => setSelected(new Set(visibleIds))}>Select all {visibleIds.length}</Button><Button variant="secondary" size="sm" onClick={() => setSelected(new Set())}>Clear</Button></div>}
   </div>;
 }
 
@@ -209,7 +210,7 @@ function GridView({ items, limit, grouped, collection, editable, selected, onTog
   }
   return <>
     <div className="tile-grid">{nodes}</div>
-    {items.length > limit && <div style={{ display: "flex", justifyContent: "center", padding: 16 }}><button className="button" onClick={onMore}>Show {Math.min(PAGE, items.length - limit)} more of {items.length - limit}</button></div>}
+    {items.length > limit && <div style={{ display: "flex", justifyContent: "center", padding: 16 }}><Button variant="secondary" size="sm" onClick={onMore}>Show {Math.min(PAGE, items.length - limit)} more of {items.length - limit}</Button></div>}
   </>;
 }
 

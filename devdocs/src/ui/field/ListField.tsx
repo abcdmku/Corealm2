@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
-import { ChevronDown, ChevronRight, GripVertical, Plus, Undo2 } from "lucide-react";
+import { ChevronDown, ChevronRight, GripVertical, Plus, X } from "lucide-react";
 import { Field } from "./Field.js";
+import { Button } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 import { move } from "./reorder.js";
 
 /*
@@ -52,6 +54,9 @@ export interface ListFieldProps<T> {
   removeLabel?: (item: T, index: number) => string;
   compact?: boolean;
   className?: string;
+  /** Tailwind classes for each row (e.g. `items-start` for tall rows) and for its content line. */
+  rowClassName?: string;
+  contentClassName?: string;
 }
 
 type Drag = { pointerId: number; from: number; to: number };
@@ -59,7 +64,7 @@ type Pending = { index: number; control: boolean } | null;
 
 const isControl = (target: EventTarget | null): boolean => target instanceof HTMLElement && ["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(target.tagName);
 
-export function ListField<T>({ label, hint, items, onChange, renderItem, renderAside, addLabel = "Add", onAdd, addControl, addOnEnter = false, ordered = false, keyOf, readOnly = false, emptyText = "None", max, min = 0, summarize, removeLabel, compact, className = "" }: ListFieldProps<T>) {
+export function ListField<T>({ label, hint, items, onChange, renderItem, renderAside, addLabel = "Add", onAdd, addControl, addOnEnter = false, ordered = false, keyOf, readOnly = false, emptyText = "None", max, min = 0, summarize, removeLabel, compact, className, rowClassName, contentClassName }: ListFieldProps<T>) {
   const rows = useRef<(HTMLDivElement | null)[]>([]);
   const [drag, setDrag] = useState<Drag | null>(null);
   const [expanded, setExpanded] = useState<Set<string | number>>(() => new Set());
@@ -161,31 +166,39 @@ export function ListField<T>({ label, hint, items, onChange, renderItem, renderA
   };
   const handleCancel = () => setDrag(null);
 
-  const list = <div className={`field-list ${className}`.trim()} role="list" data-ordered={ordered || undefined} data-readonly={readOnly || undefined}>
+  const list = <div className={cn("field-list flex w-full min-w-0 flex-1 flex-col gap-px", className)} role="list" data-ordered={ordered || undefined} data-readonly={readOnly || undefined}>
     {items.map((item, index) => {
       const id = key(item, index);
       const open = summarize ? expanded.has(id) : true;
       const api: ListItemApi<T> = { index, update: next => replace(index, next), remove: () => remove(index), focus: () => rows.current[index]?.focus(), expanded: open };
       const dropSide = drag && drag.to === index && drag.to !== drag.from ? (drag.to < drag.from ? "before" : "after") : undefined;
       const summary = summarize?.(item, index);
-      return <div key={id} ref={element => { rows.current[index] = element; }} className="field-list-row" role="listitem" tabIndex={0}
+      return <div key={id} ref={element => { rows.current[index] = element; }} className={cn(
+          "field-list-row group/row relative -mx-0.5 grid min-h-7 items-center gap-x-1.5 rounded-sm px-0.5 outline-none hover:bg-accent focus-visible:ring-1 focus-visible:ring-ring",
+          "data-[dragging]:opacity-45 data-[drop=before]:shadow-[inset_0_2px_0_var(--accent)] data-[drop=after]:shadow-[inset_0_-2px_0_var(--accent)] data-[expanded=true]:pb-1",
+          ordered ? "grid-cols-[0.875rem_minmax(0,1fr)_auto_auto]" : "grid-cols-[minmax(0,1fr)_auto_auto]",
+          rowClassName,
+        )} role="listitem" tabIndex={0}
         data-dragging={drag?.from === index || undefined} data-drop={dropSide} data-expanded={summarize ? open : undefined}
         aria-label={summary} onKeyDown={rowKeyDown(item, index)}>
-        {ordered && <span className="field-list-handle" title={readOnly ? undefined : "Drag, or Alt+Up/Down"} aria-hidden onPointerDown={handleDown(index)} onPointerMove={handleMove} onPointerUp={handleUp} onPointerCancel={handleCancel}><GripVertical size={12} /></span>}
-        <div className="field-list-content">
+        {ordered && <span className={cn("field-list-handle grid h-6 w-3.5 cursor-grab touch-none place-items-center text-faint select-none hover:text-muted-foreground", readOnly && "invisible", drag?.from === index && "cursor-grabbing")} title={readOnly ? undefined : "Drag, or Alt+Up/Down"} aria-hidden onPointerDown={handleDown(index)} onPointerMove={handleMove} onPointerUp={handleUp} onPointerCancel={handleCancel}><GripVertical size={12} /></span>}
+        <div className={cn("field-list-content flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-xs", contentClassName)}>
           {summarize
-            ? <button type="button" className="field-list-summary" tabIndex={-1} aria-expanded={open} onClick={() => toggle(item, index)}>{open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}<span>{summary}</span></button>
+            ? <button type="button" className="field-list-summary inline-flex min-h-6 cursor-pointer items-center gap-1 text-left text-xs text-foreground hover:text-primary [&_svg]:text-faint" tabIndex={-1} aria-expanded={open} onClick={() => toggle(item, index)}>{open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}<span>{summary}</span></button>
             : renderItem(item, api)}
         </div>
-        {renderAside && <div className="field-list-aside">{renderAside(item, api)}</div>}
-        {canRemove && <button type="button" className="field-revert field-list-remove" tabIndex={-1} title={removeLabel?.(item, index) ?? "Remove"} aria-label={removeLabel?.(item, index) ?? `Remove row ${index + 1}`} onClick={() => remove(index)}><Undo2 size={12} /></button>}
-        {summarize && open && <div className="field-list-expanded">{renderItem(item, api)}</div>}
+        {renderAside && <div className="field-list-aside flex items-center gap-1.5">{renderAside(item, api)}</div>}
+        {canRemove && <Button variant="ghost" size="icon-xs" className="field-list-remove opacity-0 group-focus-within/row:opacity-100 group-hover/row:opacity-100 hover:text-destructive" tabIndex={-1} title={removeLabel?.(item, index) ?? "Remove"} aria-label={removeLabel?.(item, index) ?? `Remove row ${index + 1}`} onClick={() => remove(index)}><X /></Button>}
+        {summarize && open && <div className={cn("field-list-expanded col-span-full my-0.5 flex flex-col gap-px border-l-2 border-border pl-3", ordered ? "ml-6" : "ml-1.5")}>{renderItem(item, api)}</div>}
       </div>;
     })}
-    {!items.length && <span className="field-list-empty">{emptyText}</span>}
-    {canAdd && (addControl ?? (onAdd && <button type="button" className="field-list-add" onClick={() => { void add(); }}><Plus size={12} />{addLabel}</button>))}
+    {/* Empty, the list is one line: what it holds (nothing) and the way to add the first entry. */}
+    {(!items.length || canAdd) && <div className="field-list-foot flex min-h-7 flex-wrap items-center gap-x-3 gap-y-1">
+      {!items.length && <span className="field-list-empty text-xs text-faint">{emptyText}</span>}
+      {canAdd && (addControl ?? (onAdd && <Button variant="ghost" size="sm" className="field-list-add -ml-1.5" onClick={() => { void add(); }}><Plus />{addLabel}</Button>))}
+    </div>}
   </div>;
 
   if (label === undefined) return list;
-  return <Field label={label} hint={hint} compact={compact} className="field-has-list">{list}</Field>;
+  return <Field label={label} hint={hint} compact={compact} className="[&>.field-body>.field-control]:items-start">{list}</Field>;
 }

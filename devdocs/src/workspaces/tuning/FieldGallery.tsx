@@ -6,6 +6,7 @@ import {
 import type { ViewProps } from "../types.js";
 import { ListField, MapField, UnionList, WeightedList, type RenderRef } from "../../ui/field/index.js";
 import { questPredicateSchema } from "../../../../game/src/content/schema/story.js";
+import { Button } from "../../components/ui/index.js";
 
 /*
   Every field component in every state, on fake chains, with a live log of commits. Hidden from
@@ -146,7 +147,7 @@ export default function FieldGallery({ navigate }: ViewProps) {
     </div>
 
     <aside style={{ position: "sticky", top: 12 }}>
-      <div className="kv-section-head"><h3>Commits</h3><span className="kv-section-aside"><span data-testid="commit-count">{log.length}</span>{log.length > 0 && <button type="button" className="text-button" onClick={() => setLog([])}>Clear</button>}</span></div>
+      <div className="kv-section-head"><h3>Commits</h3><span className="kv-section-aside"><span data-testid="commit-count">{log.length}</span>{log.length > 0 && <Button variant="link" size="inline" onClick={() => setLog([])}>Clear</Button>}</span></div>
       <ol data-testid="commit-log" className="mono" style={{ margin: 0, padding: 0, listStyle: "none", fontSize: 11, color: "var(--muted)", display: "flex", flexDirection: "column", gap: 2 }}>
         {log.length === 0 && <li style={{ color: "var(--faint)" }}>Nothing committed yet. Typing does not commit; Enter, Tab, blur, a step or a scrub release does.</li>}
         {log.map((entry, index) => <li key={`${index}-${entry}`} style={{ overflowWrap: "anywhere" }}>{entry}</li>)}

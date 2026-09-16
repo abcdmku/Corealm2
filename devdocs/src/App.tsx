@@ -9,12 +9,15 @@ import { CollectionPage } from "./pages/CollectionPage.js";
 import { CommandPalette } from "./ui/CommandPalette.js";
 import { PeekProvider } from "./ui/Peek.js";
 import { RecordNav } from "./ui/RecordNav.js";
+import { Kbd } from "./components/ui/index.js";
+import { cn } from "./lib/utils.js";
 import { RecordSetKey } from "./model/recordSetKey.js";
 import { ShellSaveBar, useDirtyByWorkspace } from "./ui/ShellSaveBar.js";
 import { ErrorState, LoadingRows } from "./ui/States.js";
 import { WORKSPACES, type Route } from "./ui/workspaces.js";
 import { REGISTRY } from "./workspaces/registry.js";
 import "./styles/workspace.css";
+import { Button, Badge } from "./components/ui/index.js";
 
 function initialTheme(): "dark" | "light" {
   try {
@@ -40,7 +43,7 @@ function textUndoWins(target: EventTarget | null): boolean {
 }
 
 function focusSearch(): void {
-  document.querySelector<HTMLInputElement>(".search-field input, .kits-search input, .requests-search input, .work-queue-search input, .ws-search input")?.focus();
+  document.querySelector<HTMLInputElement>('main input[aria-label^="Search"], main input[aria-label^="Find"]')?.focus();
 }
 
 const NAV_COLLECTION: Readonly<Record<string, string>> = { "items/catalog": "compiled-items" };
@@ -113,48 +116,57 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
     : view.collection ? <CollectionPage key={view.collection} collection={view.collection} recordId={id} navigate={go} />
     : <ErrorState message={`No view registered for ${workspace.key}/${view.key}.`} />;
 
-  return <PeekProvider navigate={go}><div className="app-shell" data-record={navCollection ? "true" : undefined}>
-    <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Skip to content</a>
-    {mobileNav && <button className="nav-scrim" aria-label="Close navigation" onClick={() => setMobileNav(false)} />}
-    <aside className={`sidebar${mobileNav ? " sidebar-open" : ""}`} aria-label="Corealm authoring navigation">
-      <button className="brand" onClick={() => go("home")}>
-        <span className="brand-mark"><BookOpen size={17} /></span>
-        <span><strong>Corealm</strong><small>{__DEVDOCS_PLAYER__ ? "GUIDE" : "CODEX"}</small></span>
+  return <PeekProvider navigate={go}><div className="app-shell grid h-dvh min-h-[420px] grid-cols-[10.75rem_minmax(0,1fr)] max-md:block" data-record={navCollection ? "true" : undefined}>
+    <a className="fixed -top-16 left-5 z-[100] rounded-md bg-primary px-3 py-2 text-primary-foreground focus:top-2" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Skip to content</a>
+    {mobileNav && <button className="fixed inset-0 z-[39] hidden bg-black/65 max-md:block" aria-label="Close navigation" onClick={() => setMobileNav(false)} />}
+    <aside className={cn(
+      "sidebar flex min-h-0 flex-col border-r border-border bg-sidebar",
+      "max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-40 max-md:w-56 max-md:transition-transform",
+      !mobileNav && "max-md:-translate-x-full",
+    )} aria-label="Corealm authoring navigation">
+      <button className="flex w-full cursor-pointer items-center gap-2 px-3 pt-2.5 pb-1.5 text-left" onClick={() => go("home")}>
+        <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground"><BookOpen size={15} /></span>
+        <span className="leading-tight"><strong className="block text-[13px] font-semibold">Corealm</strong><small className="mt-px block text-[10px] tracking-[0.12em] text-faint">{__DEVDOCS_PLAYER__ ? "GUIDE" : "CODEX"}</small></span>
       </button>
-      <button className="sidebar-search" onClick={() => setPalette(true)}><Search size={14} /><span>Search</span><kbd>Ctrl K</kbd></button>
-      <nav className="ws-nav">
+      <button className="mx-2 mt-0.5 mb-1.5 flex h-7 cursor-pointer items-center gap-1.5 rounded-md border border-border bg-card px-2 text-left text-xs text-muted-foreground hover:text-foreground" onClick={() => setPalette(true)}>
+        <Search size={13} /><span>Search</span><Kbd className="ml-auto">Ctrl K</Kbd>
+      </button>
+      <nav className="flex min-h-0 flex-col gap-px overflow-y-auto p-1.5">
         {WORKSPACES.filter(candidate => !candidate.devOnly || !__DEVDOCS_PLAYER__).map(candidate => {
           const Icon = candidate.icon;
           const selected = candidate.key === workspace.key;
           const dirtyCount = dirtyByWorkspace.get(candidate.key) ?? 0;
-          return <button key={candidate.key} className={`nav-item${selected ? " selected" : ""}`} aria-current={selected ? "page" : undefined} onClick={() => go(candidate.key)}>
-            <Icon /><span>{candidate.label}</span>
-            {dirtyCount > 0 && <span className="badge nav-dirty" data-tone="accent" title={`${dirtyCount} unsaved`}>{dirtyCount}</span>}
-            {candidate.key === "home" && anythingDirty && !dirtyCount && <span className="nav-dot" title="Unsaved changes" aria-label="Unsaved changes" />}
+          return <button key={candidate.key} className={cn(
+            "nav-item flex h-7 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-left text-[13px] text-muted-foreground hover:bg-accent hover:text-foreground [&>svg]:size-[15px] [&>svg]:text-faint",
+            selected && "bg-selected text-foreground [&>svg]:text-primary",
+          )} aria-current={selected ? "page" : undefined} onClick={() => go(candidate.key)}>
+            <Icon /><span className="min-w-0 flex-1 truncate">{candidate.label}</span>
+            {dirtyCount > 0 && <Badge variant="accent" className="h-4 px-1" title={`${dirtyCount} unsaved`}>{dirtyCount}</Badge>}
+            {candidate.key === "home" && anythingDirty && !dirtyCount && <span className="size-1.5 shrink-0 rounded-full bg-primary" title="Unsaved changes" aria-label="Unsaved changes" />}
           </button>;
         })}
       </nav>
-      <div className="sidebar-footer">
+      <div className="mt-auto flex items-center gap-2 border-t border-border px-2 py-1.5 text-[11px] text-muted-foreground">
         <span>{__DEVDOCS_PLAYER__ ? "Player guide" : "Local editor"}</span>
-        <button className="icon-button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}</button>
+        <Button variant="ghost" size="icon-sm" className="ml-auto" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}</Button>
       </div>
     </aside>
-    <div className="workspace">
-      <header className="ws-tabs" aria-label={`${workspace.label} views`}>
-        <button className="icon-button mobile-menu" aria-label={mobileNav ? "Close navigation" : "Open navigation"} onClick={() => setMobileNav(!mobileNav)}>{mobileNav ? <X size={18} /> : <MenuIcon size={18} />}</button>
-        <span className="ws-tabs-title">{workspace.label}</span>
-        {tabs.length > 1 && tabs.map(candidate => <button key={candidate.key} aria-current={candidate.key === view.key ? "page" : undefined} onClick={() => go(`${workspace.key}/${candidate.key}`)}>{candidate.label}</button>)}
-        {id !== undefined && <span className="ws-tabs-crumb"><ChevronRight size={12} /><code>{id}</code></span>}
-        <div className="ws-tabs-actions">
-          <button className="icon-button" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></button>
+    <div className="flex min-w-0 flex-col overflow-hidden max-md:h-dvh">
+      <header className="flex h-9 shrink-0 items-center gap-0.5 border-b border-border-subtle bg-background px-3" aria-label={`${workspace.label} views`}>
+        <Button variant="ghost" size="icon-sm" className="hidden max-md:inline-flex" aria-label={mobileNav ? "Close navigation" : "Open navigation"} onClick={() => setMobileNav(!mobileNav)}>{mobileNav ? <X size={18} /> : <MenuIcon size={18} />}</Button>
+        <span className="mr-2 text-[13px] font-semibold text-foreground">{workspace.label}</span>
+        {tabs.length > 1 && tabs.map(candidate => <button key={candidate.key} className="inline-flex h-[26px] cursor-pointer items-center gap-1.5 rounded-md px-2.5 text-xs font-medium whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground aria-[current=page]:bg-selected aria-[current=page]:text-foreground" aria-current={candidate.key === view.key ? "page" : undefined} onClick={() => go(`${workspace.key}/${candidate.key}`)}>{candidate.label}</button>)}
+        {id !== undefined && <span className="ml-1 inline-flex min-w-0 items-center gap-1 overflow-hidden text-xs text-faint"><ChevronRight size={12} /><code className="truncate text-[11px] text-muted-foreground">{id}</code></span>}
+        <div className="ml-auto flex items-center gap-1">
+          <Button variant="ghost" size="icon-sm" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></Button>
         </div>
       </header>
-      <main className="main-content ws-body" id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
+      <main className={cn("main-content flex min-h-0 flex-1 flex-col outline-none", workspace.fullBleed || navCollection ? "overflow-hidden" : "overflow-y-auto")} id="main-content" tabIndex={-1} data-full-bleed={workspace.fullBleed ? "true" : undefined} data-record={navCollection ? "true" : undefined}>
         <RecordSetKey.Provider value={viewRoute}>
           {navCollection && id !== undefined
-            ? <div className="record-layout">
+            ? <div className="grid min-h-0 flex-1 grid-cols-[14.5rem_minmax(0,1fr)] max-lg:grid-cols-[12.25rem_minmax(0,1fr)] max-md:grid-cols-1">
               <RecordNav setKey={viewRoute} collection={navCollection} currentId={id} open={recordId => go(viewRoute, recordId)} />
-              <div className="record-layout-main" data-record-id={id}>{content}</div>
+              <div className="record-layout-main min-h-0 min-w-0 overflow-y-auto" data-record-id={id}>{content}</div>
             </div>
             : content}
         </RecordSetKey.Provider>

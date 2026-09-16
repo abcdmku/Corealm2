@@ -9,6 +9,7 @@ import { viewerSource } from "../model/viewerSource.js";
 import { RefChip, RefRow } from "./RefChip.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
+import { Button, Badge } from "../components/ui/index.js";
 
 const AssetViewer = lazyComponent(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
 const asRecord = (value: unknown): ContentRow => value !== null && typeof value === "object" && !Array.isArray(value) ? value as ContentRow : {};
@@ -42,8 +43,8 @@ function ModelStage({ source, label }: { source: NonNullable<ReturnType<typeof v
   const [controls, setControls] = useState(false);
   return <div className="model-stage" data-large={large} data-controls={controls}>
     <div className="model-stage-actions">
-      <button className={`icon-button${controls ? " is-active" : ""}`} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></button>
-      <button className="icon-button" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</button>
+      <Button variant="ghost" size="icon-sm" aria-pressed={controls} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></Button>
+      <Button variant="ghost" size="icon-sm" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</Button>
     </div>
     <Suspense fallback={<p className="empty-inline" style={{ padding: 12 }}>Loading model…</p>}><AssetViewer source={source} label={label} /></Suspense>
   </div>;
@@ -106,7 +107,7 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
           {text(asRecord(record.presentation).assetId) && <RefChip collection="assets" id={asRecord(record.presentation).assetId as string} record={ctx.lookup("asset", asRecord(record.presentation).assetId as string)} ctx={ctx} onOpen={open} detail="model" />}
           {!text(record.profileId) && !text(record.baseId) && <span className="empty-inline">No profile or base creature.</span>}
         </div></div>
-        <DropsBlock drops={list(loot.drops).length ? list(loot.drops) : list(table?.drops)} ctx={ctx} itemCollection={itemCollection} open={open} title={tableId ? "Drops" : "Inline drops"} action={tableId ? <button className="text-button" onClick={() => open("lootTables", tableId)}>{table ? rowName(table) : tableId} <ArrowRight size={12} /></button> : undefined} />
+        <DropsBlock drops={list(loot.drops).length ? list(loot.drops) : list(table?.drops)} ctx={ctx} itemCollection={itemCollection} open={open} title={tableId ? "Drops" : "Inline drops"} action={tableId ? <Button variant="link" size="inline" onClick={() => open("lootTables", tableId)}>{table ? rowName(table) : tableId} <ArrowRight size={12} /></Button> : undefined} />
         <div className="summary-block"><h3>Spawns<small>{placements.length} placements</small></h3>
           {placements.length ? <div className="ref-rows">{placements.slice(0, 12).map(placement => <RefRow key={`${placement.recordId}:${placement.path}`} collection="placements" id={placement.recordId} record={placement.record} ctx={ctx} onOpen={open} meta={<span>{titleCase(text(placement.record.regionId) ?? "")}</span>} />)}{placements.length > 12 && <span className="empty-inline">{placements.length - 12} more on the map.</span>}</div>
             : encounters.length ? <div className="ref-list">{encounters.map(encounter => <RefChip key={encounter.recordId} collection="encounters" id={encounter.recordId} record={encounter.record} ctx={ctx} onOpen={open} />)}</div>
@@ -147,12 +148,12 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
         <div className="summary-block"><h3>Stages<small>{stages.length}</small></h3><ol className="stage-list">{stages.map((stage, stageIndex) => {
           const refs = list(stage.refs).map(asRecord);
           const completion = asRecord(stage.completion);
-          return <li key={stageIndex}><span className="entry-number">{String(stage.index ?? stageIndex)}</span><div><p>{text(stage.objective) ?? titleCase(text(completion.kind) ?? "stage")}</p>{refs.length > 0 && <div className="ref-list" style={{ marginTop: 4 }}>{refs.map((ref, refIndex) => { const kind = text(ref.kind) ?? ""; const target = kind === "item" ? itemCollection : kind === "recipe" ? (refTargetCollection("recipe", index.available) ?? "recipes") : kind === "spell" ? "spells" : undefined; return target ? <RefChip key={refIndex} collection={target} id={text(ref.id) ?? ""} record={ctx.lookup(kind, text(ref.id) ?? "")} ctx={ctx} onOpen={open} /> : <span key={refIndex} className="badge">{kind}: {text(ref.id)}</span>; })}</div>}</div></li>;
+          return <li key={stageIndex}><span className="entry-number">{String(stage.index ?? stageIndex)}</span><div><p>{text(stage.objective) ?? titleCase(text(completion.kind) ?? "stage")}</p>{refs.length > 0 && <div className="ref-list" style={{ marginTop: 4 }}>{refs.map((ref, refIndex) => { const kind = text(ref.kind) ?? ""; const target = kind === "item" ? itemCollection : kind === "recipe" ? (refTargetCollection("recipe", index.available) ?? "recipes") : kind === "spell" ? "spells" : undefined; return target ? <RefChip key={refIndex} collection={target} id={text(ref.id) ?? ""} record={ctx.lookup(kind, text(ref.id) ?? "")} ctx={ctx} onOpen={open} /> : <Badge key={refIndex}>{kind}: {text(ref.id)}</Badge>; })}</div>}</div></li>;
         })}</ol></div>
         <div className="summary-block"><h3>Rewards</h3><div className="ref-list">
           {list(rewards.items).map(asRecord).map((entry, index) => <RefChip key={index} collection={itemCollection} id={text(entry.itemId) ?? ""} record={ctx.lookup("item", text(entry.itemId) ?? "")} ctx={ctx} onOpen={open} detail={`×${rangeText(entry.quantity) || 1}`} />)}
-          {Object.entries(asRecord(rewards.xp)).map(([skill, xp]) => <span className="badge" data-tone="info" key={skill}>{titleCase(skill)} +{String(xp)} xp</span>)}
-          {typeof rewards.currency === "number" && <span className="badge" data-tone="accent">{rewards.currency} coins</span>}
+          {Object.entries(asRecord(rewards.xp)).map(([skill, xp]) => <Badge variant="info" key={skill}>{titleCase(skill)} +{String(xp)} xp</Badge>)}
+          {typeof rewards.currency === "number" && <Badge variant="accent">{rewards.currency} coins</Badge>}
         </div></div>
       </>;
     }
@@ -177,7 +178,7 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
       const locations = list(record.locations).map(asRecord);
       return <>
         <div className="summary-block"><h3>Map</h3><Thumb spec={summarize("worldRegions", record).thumb} size="fill" className="map-large" /></div>
-        <div className="summary-block"><h3>Locations<small>{locations.length}</small></h3><div className="ref-list">{locations.map((location, index) => <span className="badge" key={index} title={text(location.id)}>{titleCase(text(location.kind) ?? "")}: {text(location.name) ?? text(location.id)}</span>)}</div></div>
+        <div className="summary-block"><h3>Locations<small>{locations.length}</small></h3><div className="ref-list">{locations.map((location, index) => <Badge key={index} title={text(location.id)}>{titleCase(text(location.kind) ?? "")}: {text(location.name) ?? text(location.id)}</Badge>)}</div></div>
       </>;
     }
     case "npcs": return <div className="summary-block"><h3>Story</h3><div className="ref-list">
@@ -189,7 +190,7 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
       const options = list(record.options).map(asRecord);
       return <div className="summary-block"><h3>Options<small>{options.length}</small></h3><div className="ref-rows">{options.map((option, index) => {
         const next = text(option.next);
-        return <div className="ref-row" key={index} style={{ cursor: "default" }}><span className="entry-number">{index + 1}</span><span className="ref-row-body"><span className="ref-row-title">{text(option.text)}</span><span className="ref-row-sub">{next ? `→ ${next}` : "ends conversation"}</span></span>{next && <button className="text-button" onClick={() => open("dialogue", next)}>Open <ArrowRight size={12} /></button>}</div>;
+        return <div className="ref-row" key={index} style={{ cursor: "default" }}><span className="entry-number">{index + 1}</span><span className="ref-row-body"><span className="ref-row-title">{text(option.text)}</span><span className="ref-row-sub">{next ? `→ ${next}` : "ends conversation"}</span></span>{next && <Button variant="link" size="inline" onClick={() => open("dialogue", next)}>Open <ArrowRight size={12} /></Button>}</div>;
       })}</div></div>;
     }
     case "spells": {
@@ -219,7 +220,7 @@ function DropsBlock({ drops, ctx, itemCollection, open, title, action }: { drops
         <Thumb spec={{ kind: "item", id: itemId }} size="l" />
         <span className="drop-tile-name">{rowName(ctx.lookup("item", itemId) ?? { id: itemId })}</span>
         <span className="drop-tile-meta"><span>×{rangeText(drop.quantity) || "1"}</span>{chance !== undefined && <span className="drop-chance" style={{ "--chance": chance } as React.CSSProperties}>{percent(chance)}</span>}</span>
-        {text(drop.exclusiveGroup) && <span className="badge" data-tone="info">{drop.exclusiveGroup as string}</span>}
+        {text(drop.exclusiveGroup) && <Badge variant="info">{drop.exclusiveGroup as string}</Badge>}
       </button>;
     })}</div> : <span className="empty-inline">No drops.</span>}
   </div>;
@@ -234,7 +235,7 @@ function OutgoingBlock({ outgoing, ctx, index, open, skip }: { outgoing: ReturnT
     if (seen.has(key)) return [];
     seen.add(key);
     const target = refTargetCollection(reference.kind, index.available);
-    if (!target) return [<span className="badge" key={key} title={reference.path}>{reference.role}: {reference.targetId}</span>];
+    if (!target) return [<Badge key={key} title={reference.path}>{reference.role}: {reference.targetId}</Badge>];
     return [<RefChip key={key} collection={target} id={reference.targetId} record={ctx.lookup(reference.kind, reference.targetId)} ctx={ctx} onOpen={open} detail={reference.role} />];
   })}</div></div>;
 }

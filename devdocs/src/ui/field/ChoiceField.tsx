@@ -1,3 +1,5 @@
+import { NativeSelect } from "../../components/ui/index.js";
+import { cn } from "../../lib/utils.js";
 import { useFieldContext } from "./context.js";
 import type { TextWidth } from "./TextField.js";
 
@@ -34,13 +36,15 @@ export function ChoiceField<T extends string = string>({ value, onChange, option
   const inert = disabled || readOnly || field.disabled;
   // A choice of one is not a choice: show the value instead of a dropdown that offers only itself.
   if (listed.length === 1 && value === listed[0]!.value && allowEmpty === undefined) {
-    return <span className={`field-static ${className}`.trim()} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-label={ariaLabel}>{listed[0]!.label}</span>;
+    return <span className={cn("field-static inline-flex h-7 items-center text-xs", className)} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-label={ariaLabel}>{listed[0]!.label}</span>;
   }
-  return <select className={`field-select ${className}`.trim()} data-width={width} data-invalid={offList || undefined} aria-invalid={offList || undefined} value={value ?? ""} disabled={inert}
+  return <NativeSelect wrapperClassName={cn(WIDTH[width], className)} className="field-select" data-width={width} data-invalid={offList || undefined} aria-invalid={offList || undefined} value={value ?? ""} disabled={inert}
     aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId}
     onChange={event => { const next = event.target.value; onChange(next === "" && allowEmpty !== undefined ? undefined : next as T); }}>
     {(allowEmpty !== undefined || value === undefined || value === "") && <option value="" disabled={allowEmpty === undefined}>{allowEmpty ?? "—"}</option>}
     {offList && <option value={value}>{`${value} (not an option)`}</option>}
     {listed.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
-  </select>;
+  </NativeSelect>;
 }
+
+const WIDTH: Readonly<Record<TextWidth, string>> = { short: "w-40", id: "w-56", text: "w-full max-w-[22.5rem]", full: "w-full" };

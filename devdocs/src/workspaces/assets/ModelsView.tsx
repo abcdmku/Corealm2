@@ -13,6 +13,7 @@ import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, num, RecordShell, strings, text } from "../story/shared.js";
 import "./assets.css";
+import { Button, NativeSelect, InputGroup, InputGroupAddon, InputGroupInput } from "../../components/ui/index.js";
 
 const AssetViewer = lazyComponent(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
 
@@ -58,20 +59,20 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
   const shown = filtered.slice(0, limit);
   return <div className="ws-page">
     <div className="browser-toolbar">
-      <label className="search-field"><Search size={14} /><input aria-label="Search models" placeholder="Search id, file, tag…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" aria-label="Clear search" className="icon-button" onClick={() => setSearch("")}><X size={13} /></button>}</label>
+      <InputGroup className="w-60"><InputGroupAddon align="start"><Search /></InputGroupAddon><InputGroupInput aria-label="Search models" placeholder="Search id, file, tag…" value={search} onChange={event => setSearch(event.target.value)} />{search && <Button variant="ghost" size="icon-sm" aria-label="Clear search" onClick={() => setSearch("")}><X size={13} /></Button>}</InputGroup>
       <span className="result-count">{filtered.length === rows.length ? rows.length : `${filtered.length} / ${rows.length}`}</span>
       <div className="toolbar-right">
-        <div className="segmented" role="group" aria-label="View">
-          <button type="button" className={view === "grid" ? "is-active" : ""} aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /> Grid</button>
-          <button type="button" className={view === "list" ? "is-active" : ""} aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /> List</button>
+        <div role="group" className="inline-flex h-7 items-center gap-0.5 rounded-md border border-border bg-card p-0.5" aria-label="View">
+          <Button variant="segment" size="xs" aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /> Grid</Button>
+          <Button variant="segment" size="xs" aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /> List</Button>
         </div>
       </div>
     </div>
     <div className="facets">
-      <div className="facet"><span>Category</span>{categories.map(([value, total]) => <button type="button" key={value} className={`filter-chip${category === value ? " is-active" : ""}`} aria-pressed={category === value} onClick={() => setCategory(category === value ? "" : value)}>{titleCase(value)}<small>{total}</small></button>)}</div>
+      <div className="facet"><span>Category</span>{categories.map(([value, total]) => <Button variant="chip" size="xs" key={value} aria-pressed={category === value} onClick={() => setCategory(category === value ? "" : value)}>{titleCase(value)}<small>{total}</small></Button>)}</div>
       <div className="facet"><span>Pack</span>{packs.length > 18
-        ? <label className="select"><span className="sr-only">Pack</span><select value={pack} aria-label="Filter by pack" onChange={event => setPack(event.target.value)}><option value="">Any ({packs.length})</option>{packs.map(([value, total]) => <option key={value} value={value}>{value} · {total}</option>)}</select></label>
-        : packs.map(([value, total]) => <button type="button" key={value} className={`filter-chip${pack === value ? " is-active" : ""}`} aria-pressed={pack === value} onClick={() => setPack(pack === value ? "" : value)}>{value}<small>{total}</small></button>)}</div>
+        ? <NativeSelect value={pack} aria-label="Filter by pack" onChange={event => setPack(event.target.value)}><option value="">Any ({packs.length})</option>{packs.map(([value, total]) => <option key={value} value={value}>{value} · {total}</option>)}</NativeSelect>
+        : packs.map(([value, total]) => <Button variant="chip" size="xs" key={value} aria-pressed={pack === value} onClick={() => setPack(pack === value ? "" : value)}>{value}<small>{total}</small></Button>)}</div>
     </div>
     {!filtered.length && <p className="empty-inline">No models match.</p>}
     <div className={view === "grid" ? "tile-grid" : "model-list"} data-density="compact">{shown.map(row => {
@@ -86,7 +87,7 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
         </span>
       </div>;
     })}</div>
-    {filtered.length > limit && <div className="model-more"><button type="button" className="button" onClick={() => setLimit(value => value + PAGE)}>Show {Math.min(PAGE, filtered.length - limit)} more of {filtered.length - limit}</button></div>}
+    {filtered.length > limit && <div className="model-more"><Button variant="secondary" size="sm" onClick={() => setLimit(value => value + PAGE)}>Show {Math.min(PAGE, filtered.length - limit)} more of {filtered.length - limit}</Button></div>}
   </div>;
 }
 
@@ -108,7 +109,7 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
   const [controls, setControls] = useState(false);
   if (query.isPending) return <div className="ws-page"><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
-  if (!asset) return <EmptyState title="Model not found">This id is not in the asset catalog. <button className="text-button" onClick={() => navigate("assets")}>Back to the gallery</button></EmptyState>;
+  if (!asset) return <EmptyState title="Model not found">This id is not in the asset catalog. <Button variant="link" size="inline" onClick={() => navigate("assets")}>Back to the gallery</Button></EmptyState>;
 
   const source = viewerSource("assets", asset);
   const size = asRecord(asset.size);
@@ -122,8 +123,8 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
     className="model-page">
     {source && <div className="model-stage model-page-stage" data-large={large} data-controls={controls}>
       <div className="model-stage-actions">
-        <button className={`icon-button${controls ? " is-active" : ""}`} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></button>
-        <button className="icon-button" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</button>
+        <Button variant="ghost" size="icon-sm" aria-pressed={controls} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></Button>
+        <Button variant="ghost" size="icon-sm" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</Button>
       </div>
       <Suspense fallback={<p className="empty-inline" style={{ padding: 12 }}>Loading model…</p>}><AssetViewer source={source} label={titleCase(id)} /></Suspense>
     </div>}

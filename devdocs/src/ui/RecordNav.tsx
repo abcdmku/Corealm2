@@ -5,6 +5,8 @@ import { collectionQuery } from "../api/client.js";
 import { neighbour, useRecordSet, type RecordSet } from "../model/recordSet.js";
 import { contentRows, rowId, rowName } from "../model/rows.js";
 import { useDraftState } from "../model/store.js";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "../components/ui/index.js";
+import { cn } from "../lib/utils.js";
 
 /*
   The record rail: the run of records an author is working through, beside the one being edited.
@@ -146,25 +148,29 @@ export function RecordNav({ setKey, collection, currentId, open }: RecordNavProp
     else if (event.key === "Escape" && filter) { event.preventDefault(); setFilter(""); }
   };
 
-  return <nav className="record-nav" aria-label="Records in this list">
-    <div className="record-nav-head">
-      <label className="record-nav-filter"><Search size={13} />
-        <input ref={filterRef} value={filter} placeholder={set?.label ? `Filter ${set.label}` : "Filter records"} aria-label="Filter records" onChange={event => setFilter(event.target.value)} onKeyDown={onListKeys} />
-        {filter && <button type="button" className="icon-button" aria-label="Clear filter" onClick={() => setFilter("")}><X size={12} /></button>}
-      </label>
-      <div className="record-nav-step">
-        <span className="record-nav-count">{position >= 0 ? `${position + 1} of ${shown.length}` : `${shown.length}`}</span>
-        <button type="button" className="icon-button" aria-label="Previous record (Alt+Up)" title="Previous record · Alt+↑ or K" disabled={position <= 0} onClick={() => step(-1)}><ChevronUp size={14} /></button>
-        <button type="button" className="icon-button" aria-label="Next record (Alt+Down)" title="Next record · Alt+↓ or J" disabled={position < 0 || position >= shown.length - 1} onClick={() => step(1)}><ChevronDown size={14} /></button>
+  return <nav className="flex min-h-0 flex-col border-r border-border-subtle bg-sidebar max-md:hidden" aria-label="Records in this list">
+    <div className="flex flex-col gap-1 border-b border-border-subtle p-2 pb-1.5">
+      <InputGroup className="h-7">
+        <InputGroupAddon align="start"><Search /></InputGroupAddon>
+        <InputGroupInput ref={filterRef} value={filter} placeholder={set?.label ? `Filter ${set.label}` : "Filter records"} aria-label="Filter records" onChange={event => setFilter(event.target.value)} onKeyDown={onListKeys} />
+        {filter && <InputGroupAddon><Button variant="ghost" size="icon-xs" aria-label="Clear filter" onClick={() => setFilter("")}><X /></Button></InputGroupAddon>}
+      </InputGroup>
+      <div className="flex min-h-6 items-center gap-0.5">
+        <span className="flex-1 text-[11px] text-muted-foreground tabular-nums">{position >= 0 ? `${position + 1} of ${shown.length}` : `${shown.length}`}</span>
+        <Button variant="ghost" size="icon-sm" aria-label="Previous record (Alt+Up)" title="Previous record · Alt+↑ or K" disabled={position <= 0} onClick={() => step(-1)}><ChevronUp /></Button>
+        <Button variant="ghost" size="icon-sm" aria-label="Next record (Alt+Down)" title="Next record · Alt+↓ or J" disabled={position < 0 || position >= shown.length - 1} onClick={() => step(1)}><ChevronDown /></Button>
       </div>
     </div>
-    <div className="record-nav-list" ref={listRef} role="list" onKeyDown={onListKeys}>
-      {!set && <p className="record-nav-empty">Loading…</p>}
-      {set && !shown.length && <p className="record-nav-empty">No records match.</p>}
-      {shown.map(entry => <button key={entry.id} type="button" role="listitem" className="record-nav-item" tabIndex={entry.id === currentId ? 0 : -1} aria-current={entry.id === currentId ? "true" : undefined} title={entry.id} onClick={() => go(entry.id)}>
-        <span className="record-nav-title">{entry.title}</span>
-        {(entry.subtitle || (repeated.get(entry.title) ?? 0) > 1) && <span className="record-nav-sub">{(repeated.get(entry.title) ?? 0) > 1 ? entry.id : entry.subtitle}</span>}
-        {dirty.has(entry.id) && <span className="record-nav-dirty" aria-label="Unsaved" />}
+    <div className="min-h-0 flex-1 overflow-y-auto p-1" ref={listRef} role="list" onKeyDown={onListKeys}>
+      {!set && <p className="p-2 text-xs text-faint">Loading…</p>}
+      {set && !shown.length && <p className="p-2 text-xs text-faint">No records match.</p>}
+      {shown.map(entry => <button key={entry.id} type="button" role="listitem" className={cn(
+        "record-nav-item relative grid w-full cursor-pointer grid-cols-[minmax(0,1fr)] rounded-md py-[3px] pr-5 pl-2 text-left text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40",
+        "aria-[current=true]:bg-selected aria-[current=true]:text-foreground aria-[current=true]:shadow-[inset_2px_0_0_var(--accent)]",
+      )} tabIndex={entry.id === currentId ? 0 : -1} aria-current={entry.id === currentId ? "true" : undefined} title={entry.id} onClick={() => go(entry.id)}>
+        <span className="truncate text-xs leading-[17px]">{entry.title}</span>
+        {(entry.subtitle || (repeated.get(entry.title) ?? 0) > 1) && <span className="truncate text-[11px] leading-[14px] text-faint">{(repeated.get(entry.title) ?? 0) > 1 ? entry.id : entry.subtitle}</span>}
+        {dirty.has(entry.id) && <span className="absolute top-1/2 right-2 size-1.5 -translate-y-1/2 rounded-full bg-primary" aria-label="Unsaved" />}
       </button>)}
     </div>
   </nav>;

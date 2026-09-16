@@ -11,6 +11,7 @@ import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
 import { parseRoute, routePath } from "./workspaces.js";
 import "../styles/peek.css";
+import { Button } from "../components/ui/index.js";
 
 /*
   A peek is the target record's own page in a right-side sheet (docs/devdocs-inputs.md §3.4):
@@ -112,8 +113,8 @@ export function Peek({ target, navigate, onOpen, onClose }: { target: PeekTarget
     <header className="peek-head">
       <Thumb spec={summary?.thumb ?? { kind: "glyph", icon: ArrowUpRight, letter: target.id.slice(0, 2).toUpperCase() }} size="m" />
       <div className="peek-title"><strong>{title}</strong><small>{labelFor(target.collection)} · <code>{target.id}</code></small></div>
-      <button type="button" className="button button-small" onClick={() => { onClose(); navigate(target.collection, target.id); }} title="Open this record in the workspace"><ArrowUpRight size={12} /> Open</button>
-      <button type="button" className="icon-button" aria-label="Close peek" title="Close (Esc)" onClick={onClose}><X size={15} /></button>
+      <Button variant="secondary" size="sm" onClick={() => { onClose(); navigate(target.collection, target.id); }} title="Open this record in the workspace"><ArrowUpRight size={12} /> Open</Button>
+      <Button variant="ghost" size="icon-sm" aria-label="Close peek" title="Close (Esc)" onClick={onClose}><X size={15} /></Button>
     </header>
     <div className="peek-body">
       <Suspense fallback={<LoadingRows />}>

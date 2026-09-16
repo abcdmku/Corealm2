@@ -10,6 +10,8 @@ import { Thumb } from "../ui/Thumb.js";
 import AssetCandidates from "./AssetCandidates.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
 import "./setPiece.css";
+import { Button, Badge, NativeSelect } from "../components/ui/index.js";
+import { toneVariant } from "../components/ui/badge.js";
 
 export interface SetPiecePanelProps {
   collection: string;
@@ -292,7 +294,7 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
         <div>
           <strong>Could not load piece review</strong>
           <p>{queryError.message}</p>
-          <button className="button button-small" type="button" onClick={() => { void setQuery.refetch(); void itemsQuery.refetch(); void metaQuery.refetch(); }}><RefreshCw size={13} />Try again</button>
+          <Button variant="secondary" size="sm" onClick={() => { void setQuery.refetch(); void itemsQuery.refetch(); void metaQuery.refetch(); }}><RefreshCw size={13} />Try again</Button>
         </div>
       </div>
     </section>;
@@ -317,10 +319,10 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
 
   return <section className="set-piece-panel" aria-labelledby={titleId}>
     <PanelHeading titleId={titleId} count={pieces.length} refreshing={metaQuery.isFetching}>
-      <span className="badge" data-tone={statusTone(setStatus)} title="Set status">{displayStatus(setStatus)}</span>
+      <Badge variant={toneVariant(statusTone(setStatus))} title="Set status">{displayStatus(setStatus)}</Badge>
     </PanelHeading>
 
-    {feedback && <div className={`set-piece-feedback${conflict ? " set-piece-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <button className="button button-small" type="button" onClick={reloadMetadata}><RefreshCw size={12} />Reload</button>}</div>}
+    {feedback && <div className={`set-piece-feedback${conflict ? " set-piece-feedback-conflict" : ""}`} role="alert"><CircleAlert size={14} /><span>{feedback}</span>{conflict && <Button variant="secondary" size="sm" onClick={reloadMetadata}><RefreshCw size={12} />Reload</Button>}</div>}
 
     {pieces.length ? <ol className="slot-grid set-piece-list" aria-label={`${setName} armor pieces`}>
       {pieces.map(({ slot, itemId }) => {
@@ -338,13 +340,13 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
             <ExternalLink size={12} aria-hidden="true" />
           </a>
           <div className="set-piece-fields">
-            <label className="select set-piece-status" htmlFor={statusId}><span className="sr-only">Status</span><select id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></select></label>
+            <NativeSelect wrapperClassName="set-piece-status" id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></NativeSelect>
             <label className="set-piece-note" htmlFor={noteId}><span className="sr-only">Note</span><textarea id={noteId} rows={2} value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Note (optional)" disabled={saveDisabled} /></label>
           </div>
           <div className="set-piece-actions">
-            <button type="button" className={`filter-chip${shownSlot === slot ? " is-active" : ""}`} aria-pressed={shownSlot === slot} onClick={() => setActiveSlot(slot)} title="Show asset candidates for this piece"><Images size={11} />{candidateCount}</button>
-            <span className={`badge set-piece-dirty${dirty ? " is-dirty" : ""}`} data-tone={dirty ? "warn" : undefined} aria-live="polite">{dirty ? "Unsaved" : "Saved"}</span>
-            <button className="button button-small button-primary set-piece-save" type="button" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={12} />{mutation.isPending ? "Saving…" : "Save"}</button>
+            <Button variant="chip" size="xs" aria-pressed={shownSlot === slot} onClick={() => setActiveSlot(slot)} title="Show asset candidates for this piece"><Images size={11} />{candidateCount}</Button>
+            <Badge variant={dirty ? "warn" : "default"} aria-live="polite">{dirty ? "Unsaved" : "Saved"}</Badge>
+            <Button variant="default" size="sm" className="set-piece-save" onClick={() => savePiece(slot)} disabled={saveDisabled || !dirty}><Save size={12} />{mutation.isPending ? "Saving…" : "Save"}</Button>
           </div>
         </li>;
       })}

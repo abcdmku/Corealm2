@@ -17,6 +17,8 @@ import { applyEdit, hotkeyFor, hotkeysFor, settableFields, useSelection, type Se
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
 import { WORKSPACES } from "./workspaces.js";
+import { Button } from "../components/ui/index.js";
+import { buttonVariants } from "../components/ui/index.js";
 
 /*
   Search, and the one place a selection is acted on. With records selected on the page (see
@@ -174,10 +176,10 @@ export function CommandPalette({ open, onOpenChange, collections, navigate }: { 
         <Command shouldFilter={false} label={title} onKeyDown={event => { if (field && event.key === "Backspace" && !search) { event.preventDefault(); back(); } }}>
           <div className="command-input-wrap">
             {field
-              ? <button type="button" className="icon-button" aria-label="Back to search" onClick={back}><ChevronLeft size={17} /></button>
+              ? <Button variant="ghost" size="icon-sm" aria-label="Back to search" onClick={back}><ChevronLeft size={17} /></Button>
               : <Search size={17} />}
             <Command.Input value={search} onValueChange={setSearch} placeholder={field ? `Search ${leafLabel(field.label).toLowerCase()} values…` : "Search collections, names or IDs…"} autoFocus />
-            <Dialog.Close className="icon-button" aria-label="Close search"><X size={16} /></Dialog.Close>
+            <Dialog.Close className={buttonVariants({ variant: "ghost", size: "icon-sm" })} aria-label="Close search"><X size={16} /></Dialog.Close>
           </div>
           <Command.List>
             <Command.Empty>{field ? "No matching value." : "No matches. Try another name or ID."}</Command.Empty>

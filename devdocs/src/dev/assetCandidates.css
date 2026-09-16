@@ -1,3 +1,6 @@
+@layer theme, base, components, utilities;
+/* Hand-written styles live in the components layer so Tailwind utilities (components/ui) always win. */
+@layer components {
 /* Asset candidates: a compact upload row and candidate cards in a tile grid. */
 .asset-candidates { min-width: 0; }
 .asset-candidates-compact { display: flex; flex-direction: column; gap: 8px; }
@@ -61,3 +64,4 @@
   .asset-candidate-viewers.has-live { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .asset-candidates-spin { animation: none; } }
+}

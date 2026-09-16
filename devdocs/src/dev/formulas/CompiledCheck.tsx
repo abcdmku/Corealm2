@@ -3,6 +3,7 @@ import { Play } from "lucide-react";
 import type { FormulaImpact, FormulaPreviewResponse } from "../../../shared/formulas.js";
 import { routePath } from "../../ui/workspaces.js";
 import "./formulas.css";
+import { Button } from "../../components/ui/index.js";
 
 /*
   The drawer derives its consequences in the browser from the same formula functions the compiler
@@ -38,9 +39,9 @@ export default function CompiledCheck({ formulaId, profileId, parameters, tier, 
   }
 
   return <div className="compiled-check">
-    <button type="button" className="button button-small" disabled={busy || disabled} onClick={() => void run()}>
+    <Button variant="secondary" size="sm" disabled={busy || disabled} onClick={() => void run()}>
       <Play size={12} />{busy ? "Recompiling…" : "Check the compiled build"}
-    </button>
+    </Button>
     <span className="compiled-check-hint">{disabled ? "Change a parameter first." : "Recompiles the catalog with this draft."}</span>
     {error && <p role="alert" className="formula-error">{error}</p>}
     {impacts && <div className="compiled-check-result" role="status">
