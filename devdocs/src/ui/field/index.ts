@@ -25,5 +25,7 @@ export { UnionField, UnionList, SchemaControl, type UnionFieldProps, type UnionL
 export { move, shares, redistribute, clampProbability, carryOver, variantSchema, variantTag, type CarryOver } from "./reorder.js";
 export { RefField, type RefFieldProps } from "./RefField.js";
 export { StackField, type StackFieldProps } from "./StackField.js";
+export { MultiChoiceField } from "./MultiChoiceField.js";
 export { ReferencedBy, groupReferences, relationshipLabel, parseReferencePath, type ReferencedByProps } from "./ReferencedBy.js";
 export { Peek, PeekProvider, usePeek, type PeekTarget } from "../Peek.js";
+export { CountGrid, type CountGridProps, type CountOption } from "./CountGrid.js";

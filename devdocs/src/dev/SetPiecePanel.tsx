@@ -9,7 +9,7 @@ import { contentRows, rowName } from "../model/rows.js";
 import { Thumb } from "../ui/Thumb.js";
 import AssetCandidates from "./AssetCandidates.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
-import { Button, Badge, NativeSelect, Textarea } from "../components/ui/index.js";
+import { Button, Badge, Textarea, ChoiceGroup } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
 import { cn } from "../lib/utils.js";
 import { EMPTY } from "../ui/layout.js";
@@ -337,7 +337,8 @@ function SetPiecePanelContent({ collection, recordId }: SetPiecePanelProps) {
             <ExternalLink size={12} aria-hidden="true" className="text-faint" />
           </a>
           <div className="flex flex-col gap-1.5">
-            <NativeSelect wrapperClassName="w-full" id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onChange={event => updateDraft(slot, { status: event.target.value as AuthoredStatus })} disabled={saveDisabled}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></NativeSelect>
+            <ChoiceGroup<AuthoredStatus> id={statusId} aria-label={`${slotLabel(slot)} status`} value={draft.status} onValueChange={next => { if (next) updateDraft(slot, { status: next }); }} disabled={saveDisabled}
+              items={[{ value: "draft", label: "Draft" }, { value: "candidate", label: "Candidate" }, { value: "rejected", label: "Rejected" }]} />
             <label className="block" htmlFor={noteId}><span className="sr-only">Note</span><Textarea id={noteId} rows={2} className="min-h-12 resize-y" value={draft.note} onChange={event => updateDraft(slot, { note: event.target.value })} placeholder="Note (optional)" disabled={saveDisabled} /></label>
           </div>
           <div className="mt-auto flex flex-wrap items-center gap-1.5">

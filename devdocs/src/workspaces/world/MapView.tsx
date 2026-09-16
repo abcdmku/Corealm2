@@ -234,7 +234,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
           {(["spawn", "resource", "location", "landmark"] as const).map(kind => { const Icon = kind === "spawn" ? Footprints : kind === "resource" ? Pickaxe : kind === "location" ? MapPin : Flag; return <Button variant="segment" size="xs" key={kind} aria-pressed={tool === kind} aria-label={TOOL_LABEL[kind]} title={`${TOOL_LABEL[kind]}: click the map`} onClick={() => setTool(tool === kind ? undefined : kind)}><Icon size={12} />{TOOL_SHORT[kind]}</Button>; })}
         </Segmented>}
         <Button variant="secondary" size="icon-sm" className="shrink-0" aria-label="Fit world" title="Fit world" onClick={() => map.current?.fit(worldBounds(draft))}><Maximize2 size={13} /></Button>
-        <ChoiceField value={fitRegion || undefined} width="short" className="w-36 shrink-0" ariaLabel="Fit region" allowEmpty="Fit region…"
+        <ChoiceField display="select" value={fitRegion || undefined} width="short" className="w-36 shrink-0" ariaLabel="Fit region" allowEmpty="Fit region…"
           options={draft.worldRegions.map(region => ({ value: region.id, label: region.name }))}
           onChange={value => { setFitRegion(value ?? ""); const region = regionById(draft, value); if (region) map.current?.fit(regionBounds(region)); }} />
         <Button variant="ghost" size="icon-sm" className="shrink-0" aria-label="Zoom in" onClick={() => map.current?.zoom(1 / 1.5)}><Plus size={14} /></Button>

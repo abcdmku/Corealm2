@@ -1,5 +1,7 @@
 import { type ReactNode } from "react";
 import { ChoiceField, normalizeOptions, type ChoiceOption } from "./ChoiceField.js";
+import { CountGrid } from "./CountGrid.js";
+import { Field } from "./Field.js";
 import { ListField } from "./ListField.js";
 import { TextField } from "./TextField.js";
 
@@ -26,13 +28,20 @@ export interface MapFieldProps<V> {
   emptyText?: string;
   compact?: boolean;
   className?: string;
+  /** Numbers over a small fixed key set (skill levels, XP per skill): every key shown with its box, see `CountGrid`. */
+  counts?: { min?: number; max?: number; integer?: boolean };
 }
 
 type Entry<V> = readonly [key: string, value: V];
 
-export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "key", renderValue, defaultValue, readOnly = false, emptyText = "None", compact, className = "" }: MapFieldProps<V>) {
+export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "key", renderValue, defaultValue, readOnly = false, emptyText = "None", compact, className = "", counts }: MapFieldProps<V>) {
   const entries: Entry<V>[] = Object.entries(value);
   const listed = keys ? normalizeOptions(keys) : undefined;
+  if (listed && counts && listed.length <= 12) {
+    const grid = <CountGrid options={listed} value={value as Readonly<Record<string, number>>} onChange={next => onChange(next as Record<string, V>)} label={typeof label === "string" ? label : keyLabel}
+      min={counts.min} max={counts.max} integer={counts.integer} readOnly={readOnly} className={className} />;
+    return label === undefined ? grid : <Field label={label} hint={hint} compact={compact}>{grid}</Field>;
+  }
   const remaining = listed?.filter(option => !Object.hasOwn(value, option.value)) ?? [];
   const labelOf = (key: string): string => listed?.find(option => option.value === key)?.label ?? key;
 
@@ -49,7 +58,7 @@ export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "ke
   };
 
   const addControl = readOnly ? undefined : listed
-    ? (remaining.length > 0 ? <ChoiceField value={undefined} allowEmpty={`Add ${keyLabel}…`} options={remaining} ariaLabel={`Add ${keyLabel}`} onChange={next => { if (next) add(next); }} /> : undefined)
+    ? (remaining.length > 0 ? <ChoiceField display="select" value={undefined} allowEmpty={`Add ${keyLabel}…`} options={remaining} ariaLabel={`Add ${keyLabel}`} onChange={next => { if (next) add(next); }} /> : undefined)
     : <TextField value="" placeholder={`Add ${keyLabel}…`} width="short" ariaLabel={`Add ${keyLabel}`} onChange={add} />;
 
   return <ListField<Entry<V>> label={label} hint={hint} items={entries} onChange={commit} keyOf={entry => entry[0]} readOnly={readOnly} emptyText={emptyText} compact={compact} className={className}
@@ -58,7 +67,7 @@ export function MapField<V>({ label, hint, value, onChange, keys, keyLabel = "ke
     renderItem={([key, current], api) => <>
       <span className="inline-flex shrink-0">
         {listed
-          ? <ChoiceField value={key} options={[...listed.filter(option => option.value === key), ...remaining]} readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => { if (next) rename(api.index, next); }} />
+          ? <ChoiceField display="select" value={key} options={[...listed.filter(option => option.value === key), ...remaining]} readOnly={readOnly} ariaLabel={`${keyLabel} ${api.index + 1}`} onChange={next => { if (next) rename(api.index, next); }} />
           // A key names its row, so it reads as a label, not as a second value; the add box takes new ones.
           : <span className="w-28 shrink-0 truncate font-mono text-xs text-muted-foreground" title={key} aria-label={`${keyLabel} ${api.index + 1}`}>{key}</span>}
       </span>

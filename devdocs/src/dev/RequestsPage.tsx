@@ -6,7 +6,7 @@ import type { MetaRequest, MetaNote } from "../../shared/metaContracts.js";
 import { findRecord, refKindForCollection, summaryContext, useReferenceIndex } from "../model/refs.js";
 import { RefChip } from "../ui/RefChip.js";
 import { labelFor } from "../ui/library.js";
-import { Badge, NativeSelect, SearchInput } from "../components/ui/index.js";
+import { Badge, SearchInput, ChoiceGroup } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
 import { cn } from "../lib/utils.js";
 import { COUNT, EMPTY, TOOLBAR } from "../ui/layout.js";
@@ -112,8 +112,8 @@ export default function RequestsPage({ navigate }: RequestsPageProps) {
     <div className={cn(TOOLBAR, "mb-1.5 gap-1.5")} role="group" aria-label="Request filters">
       <SearchInput className="requests-search" label="Search requests" placeholder="Search requests…" value={search} onChange={setSearch} shortcut
         onEnter={() => { const first = filtered[0]; if (first) navigate(first.collection, first.entityId); }} />
-      <NativeSelect value={kind} onChange={event => setKind(event.target.value as RequestKind | "all")} aria-label="Filter by request kind"><option value="all">All kinds</option>{REQUEST_KINDS.map(value => <option key={value} value={value}>{displayKind(value)}</option>)}</NativeSelect>
-      <NativeSelect value={state} onChange={event => setState(event.target.value as StateFilter)} aria-label="Filter by request state"><option value="all">All states</option><option value="open">Open</option><option value="claimed">Claimed</option><option value="replied">Replied</option></NativeSelect>
+      <ChoiceGroup<RequestKind | "all"> aria-label="Filter by request kind" value={kind} onValueChange={next => setKind(next ?? "all")} items={[{ value: "all", label: "All kinds" }, ...REQUEST_KINDS.map(value => ({ value, label: displayKind(value) }))]} />
+      <ChoiceGroup<StateFilter> aria-label="Filter by request state" value={state} onValueChange={next => setState(next ?? "all")} items={[{ value: "all", label: "All states" }, { value: "open", label: "Open" }, { value: "claimed", label: "Claimed" }, { value: "replied", label: "Replied" }]} />
       <div className={cn(COUNT, "flex items-center gap-1")}>
         <span aria-live="polite">{filtered.length === requests.length ? `${requests.length} ${requests.length === 1 ? "request" : "requests"}` : `${filtered.length} of ${requests.length}`}</span>
         {query.isFetching && <LoaderCircle size={13} className={cn(SPIN, "text-muted-foreground")} aria-label="Refreshing requests" />}

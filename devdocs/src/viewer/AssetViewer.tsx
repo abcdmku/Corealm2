@@ -3,7 +3,7 @@ import { ViewerCore, emptyViewerSnapshot } from './ViewerCore.js';
 import { POSE_CLIPS, type CharacterPose } from '../../../game/src/render/characterRig.js';
 import { defaultItemPose, poseClip } from './clips.js';
 import type { ViewerSnapshot, ViewerSource } from './types.js';
-import { Button, Checkbox, NativeSelect } from '../components/ui/index.js';
+import { Button, Checkbox, ChoiceGroup, NativeSelect } from '../components/ui/index.js';
 import { cn } from '../lib/utils.js';
 
 export type { ViewerSource, ViewerSnapshot } from './types.js';
@@ -96,9 +96,8 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
       <a className="text-link underline-offset-2 hover:underline" href={labUrl} target="_blank" rel="noreferrer">Open in game lab</a>
     </div>
     {source.mode === 'outfit' && <div className={cn('viewer-outfit-controls flex flex-wrap items-center gap-x-4 gap-y-1.5', chrome)}>
-      <label className={LABEL}>Body <NativeSelect className={SELECT} aria-label="Body" value={body} onChange={event => setBody(event.target.value as 'male' | 'female')}>
-        <option value="male">Male</option><option value="female">Female</option>
-      </NativeSelect></label>
+      <span className={LABEL}>Body <ChoiceGroup<'male' | 'female'> aria-label="Body" value={body} onValueChange={next => { if (next) setBody(next); }}
+        items={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }]} /></span>
       <label className={LABEL}>Pose <NativeSelect className={SELECT} aria-label="Pose" value={pose} disabled={!snapshot.ready} onChange={event => choosePose(event.target.value as CharacterPose)}>
         {(Object.keys(POSE_CLIPS) as CharacterPose[]).map(value => <option key={value} value={value}>{value.replaceAll('_', ' ')}</option>)}
       </NativeSelect></label>
@@ -124,9 +123,8 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
         {groups.map(group => <optgroup key={group} label={group}>{snapshot.clips.filter(clip => clip.group === group).map(clip =>
           <option key={clip.name} value={clip.name}>{clip.name} · {clip.duration.toFixed(2)}s</option>)}</optgroup>)}
       </NativeSelect></label>
-      <label className={LABEL}>Speed <NativeSelect className={SELECT} aria-label="Playback speed" value={snapshot.speed} onChange={event => core.current?.setSpeed(Number(event.target.value))}>
-        {[.25, .5, 1, 1.5, 2].map(speed => <option key={speed} value={speed}>{speed}×</option>)}
-      </NativeSelect></label>
+      <span className={LABEL}>Speed <ChoiceGroup aria-label="Playback speed" value={String(snapshot.speed)} onValueChange={next => { if (next) core.current?.setSpeed(Number(next)); }}
+        items={[.25, .5, 1, 1.5, 2].map(speed => ({ value: String(speed), label: `${speed}×` }))} /></span>
     </div>
     <div className={cn('flex items-center gap-3', chrome)}>
       <input aria-label="Animation time" type="range" min={0} max={snapshot.duration || 1} step={.001} value={snapshot.time}

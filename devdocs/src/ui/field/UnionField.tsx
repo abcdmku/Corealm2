@@ -11,6 +11,7 @@ import { ON_SHEET, useOnSheet } from "../Sheet.js";
 import { fieldFromSchema, type SchemaFieldSpec } from "./fromSchema.js";
 import { ListField, type ListFieldProps } from "./ListField.js";
 import { MapField } from "./MapField.js";
+import { MultiChoiceField } from "./MultiChoiceField.js";
 import { StackField } from "./StackField.js";
 import { NumberField } from "./NumberField.js";
 import { carryOver, variantSchema, variantTag, type CarryOver } from "./reorder.js";
@@ -134,7 +135,13 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
         addLabel: `Add ${spec.label.toLowerCase()}`, onAdd: () => defaultFieldValue(item), compact,
         renderItem: (entry, api) => <SchemaControl schema={item} name="" value={entry} onChange={api.update} renderRef={renderRef} readOnly={inert} compact={compact} bare />,
       };
-      return bare ? <ListField {...props} /> : <ListField {...props} label={spec.label} hint={spec.hint} />;
+      const list = bare ? <ListField {...props} /> : <ListField {...props} label={spec.label} hint={spec.hint} />;
+      const itemSpec = serialFieldSpec(item);
+      if (!props.ordered && (itemSpec.choices || itemSpec.ref) && items.every(entry => typeof entry === "string")) {
+        return <MultiChoiceField label={bare ? undefined : spec.label} hint={bare ? undefined : spec.hint} value={items as string[]} onChange={onChange} readOnly={inert}
+          choices={itemSpec.choices?.map(String)} kind={itemSpec.choices ? undefined : itemSpec.ref} fallback={list} />;
+      }
+      return list;
     }
     case "tuple": {
       if (!(node instanceof TupleSchema)) break;
@@ -156,6 +163,7 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
       const valueSchema = node.value as Schema;
       return <MapField label={bare ? undefined : spec.label} hint={spec.hint} value={current} onChange={onChange} keys={keySpec?.choices?.map(String)} keyLabel={keySpec?.label.toLowerCase() ?? "key"} readOnly={inert} compact={compact}
         defaultValue={() => defaultFieldValue(valueSchema)}
+        counts={serialFieldSpec(valueSchema).kind === "number" ? { min: serialFieldSpec(valueSchema).min, max: serialFieldSpec(valueSchema).max, integer: serialFieldSpec(valueSchema).integer } : undefined}
         renderValue={(key, entry, update) => <SchemaControl schema={valueSchema} name={key} value={entry} onChange={update} renderRef={renderRef} readOnly={inert} bare />} />;
     }
   }

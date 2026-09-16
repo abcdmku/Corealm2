@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
-import type { Page } from "playwright";
+import type { Locator, Page } from "playwright";
 import { repoRoot } from "./lib/paths.js";
 
 type Row = Record<string, unknown>;
@@ -22,6 +22,11 @@ interface BulkResponse {
   action: Row;
   revisions: { content: string; meta?: string };
   diffs: Row[];
+}
+
+/** The bulk panel's choices are segment strips: a group of radios named by the group. */
+async function choose(scope: Locator, group: string, option: string): Promise<void> {
+  await scope.getByRole("group", { name: group, exact: true }).getByRole("radio", { name: option, exact: true }).click();
 }
 
 function object(value: unknown, message: string): Row {
@@ -197,10 +202,8 @@ export async function exerciseBulkEditor(page: Page, baseUrl: string): Promise<v
   await page.getByRole("grid", { name: "Items", exact: true }).waitFor({ state: "visible", timeout: 30_000 });
   await selectRecords(page, ids);
   const statusPanel = await panel(page);
-  const actionSelect = statusPanel.getByRole("combobox", { name: "Bulk action", exact: true });
-  await actionSelect.selectOption("status");
-  const statusSelect = statusPanel.getByRole("combobox", { name: "New status", exact: true });
-  await statusSelect.selectOption("candidate");
+  await choose(statusPanel, "Bulk action", "Set status");
+  await choose(statusPanel, "New status", "Candidate");
   const statusAction = { kind: "status", status: "candidate" };
   const statusPreview = await preview(page, statusPanel, ids, statusAction);
   assert.equal(statusPreview.diffs.length, ids.length, "status preview must show both selected rows");
@@ -214,7 +217,7 @@ export async function exerciseBulkEditor(page: Page, baseUrl: string): Promise<v
 
   await selectRecords(page, ids);
   const notePanel = await panel(page);
-  await notePanel.getByRole("combobox", { name: "Bulk action", exact: true }).selectOption("note");
+  await choose(notePanel, "Bulk action", "Add note");
   const sharedNote = "Bulk smoke shared note";
   const sharedLabel = "bulk smoke";
   await notePanel.locator("textarea").fill(sharedNote);
@@ -232,7 +235,7 @@ export async function exerciseBulkEditor(page: Page, baseUrl: string): Promise<v
 
   await selectRecords(page, ids);
   const retierPanel = await panel(page);
-  await retierPanel.getByRole("combobox", { name: "Bulk action", exact: true }).selectOption("retier");
+  await choose(retierPanel, "Bulk action", "Retier");
   const retierOption = retierPanel.locator('option[value="retier"]');
   assert.equal(await retierOption.isDisabled(), false, "retier must remain enabled for owned numeric tiers");
   await retierPanel.locator('input[type="number"]').fill("2");
@@ -264,7 +267,7 @@ export async function exerciseBulkEditor(page: Page, baseUrl: string): Promise<v
 
   await selectRecords(page, ids);
   const conflictPanel = await panel(page);
-  await conflictPanel.getByRole("combobox", { name: "Bulk action", exact: true }).selectOption("note");
+  await choose(conflictPanel, "Bulk action", "Add note");
   const conflictDraft = "Bulk smoke conflict draft";
   const conflictLabel = "conflict fixture";
   await conflictPanel.locator("textarea").fill(conflictDraft);

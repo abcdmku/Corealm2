@@ -7,7 +7,7 @@ import type { ContentRow } from "../model/contracts.js";
 import { useRecordDraft } from "../model/draft.js";
 import type { Resolved } from "../model/origin.js";
 import { containsIdentity, defaultFieldValue, fieldCore, fieldIssues, fieldTitle, recordLabelKey, serialFieldSpec, type SerialFieldSpec } from "../model/fields.js";
-import { ChoiceField, Field, Fields, ListField, MapField, NumberField, RefField, Section, Sheet, StackField, Static, TextField, ToggleField, UnionField, WeightedList, type ListItemApi, type RenderRef } from "../ui/field/index.js";
+import { ChoiceField, Field, Fields, ListField, MapField, MultiChoiceField, NumberField, RefField, Section, Sheet, StackField, Static, TextField, ToggleField, UnionField, WeightedList, type ListItemApi, type RenderRef } from "../ui/field/index.js";
 import { StatMatrix } from "../ui/StatMatrix.js";
 
 /*
@@ -173,7 +173,14 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
       return <WeightedList<Record<string, unknown>> {...shared} items={items as Record<string, unknown>[]} weightKey={spec.weight} probabilityKey={spec.probability} keepTotal={Boolean(spec.weight)}
         onAdd={() => defaultFieldValue(item) as Record<string, unknown>} onChange={next => onChange(next)} renderItem={(entry, api) => rowOf(entry, api as ListItemApi<unknown>)} />;
     }
-    return <ListField<unknown> {...shared} onChange={next => onChange(next)} renderItem={rowOf} />;
+    const list = <ListField<unknown> {...shared} onChange={next => onChange(next)} renderItem={rowOf} />;
+    // A list of an enum or an option kind is a set of chips, when the set is small and the order carries nothing.
+    const itemSpec = serialFieldSpec(item);
+    if (!spec.ordered && !locked && (itemSpec.choices || itemSpec.ref) && items.every(entry => typeof entry === "string")) {
+      return <MultiChoiceField label={bare ? undefined : label} hint={bare ? undefined : hint} value={items as string[]} onChange={next => onChange(next)} readOnly={inert}
+        choices={itemSpec.choices?.map(String)} kind={itemSpec.choices ? undefined : itemSpec.ref} dirty={base !== undefined && !same(base, value)} fallback={list} />;
+    }
+    return list;
   }
 
   if (node instanceof TupleSchema) {
@@ -194,6 +201,7 @@ function FieldNode({ schema, name, value, base, onChange, path, issues, readOnly
     return <MapField label={bare ? undefined : label} hint={bare ? undefined : hint} value={current} onChange={next => onChange(next)}
       keys={keySpec?.choices?.map(String)} keyLabel={keySpec?.label.toLowerCase() ?? "key"} readOnly={inert || containsIdentity(entrySchema)}
       compact={compact} className={anchor} defaultValue={() => defaultFieldValue(entrySchema)}
+      counts={serialFieldSpec(entrySchema).kind === "number" ? { min: serialFieldSpec(entrySchema).min, max: serialFieldSpec(entrySchema).max, integer: serialFieldSpec(entrySchema).integer } : undefined}
       renderValue={(key, entry, update) => <FieldNode schema={entrySchema} name={key} value={entry} onChange={update} path={[...path, key]} issues={issues} readOnly={inert} bare />} />;
   }
 

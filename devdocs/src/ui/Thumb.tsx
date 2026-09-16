@@ -29,7 +29,8 @@ function ItemImage({ id, alt, large }: { id: string; alt: string; large: boolean
 
 const GLYPH = "thumb-glyph grid size-full place-items-center bg-[color:var(--glyph-bg,transparent)] text-[color:var(--glyph-ink,var(--faint))] [&_svg]:size-[52%]";
 
-function glyphStyle(hue: number | undefined): CSSProperties | undefined {
+function glyphStyle(hue: number | undefined, colour?: string): CSSProperties | undefined {
+  if (colour) return { "--glyph-bg": `color-mix(in oklab, ${colour} 38%, transparent)`, "--glyph-ink": `color-mix(in oklab, ${colour} 55%, white)` } as CSSProperties;
   if (hue === undefined) return undefined;
   return { "--glyph-bg": `hsl(${hue} 34% 28% / .55)`, "--glyph-ink": `hsl(${hue} 55% 78%)` } as CSSProperties;
 }
@@ -65,7 +66,7 @@ function ThumbContent({ spec, large, alt }: { spec: ThumbSpec; large: boolean; a
     case "map": { const Icon = spec.icon; return <MapCrop x={spec.x} z={spec.z} span={spec.span}>{Icon ? <Icon /> : undefined}</MapCrop>; }
     case "asset": return <AssetThumb assetId={spec.assetId} icon={spec.icon} hue={spec.hue} alt={alt} />;
     case "spell": return <span className="block size-full [&_svg]:block [&_svg]:size-full" title={alt || undefined} dangerouslySetInnerHTML={{ __html: spellIconSvg(spec as unknown as SpellIconSubject) }} />;
-    case "glyph": { const Icon = spec.icon; return <span className={GLYPH} style={glyphStyle(spec.hue)}>{spec.letter ? <span className="font-mono text-[max(10.5px,40%)] font-semibold tracking-tight">{spec.letter}</span> : <Icon />}</span>; }
+    case "glyph": { const Icon = spec.icon; return <span className={GLYPH} style={glyphStyle(spec.hue, spec.colour)}>{spec.letter ? <span className="font-mono text-[max(10.5px,40%)] font-semibold tracking-tight">{spec.letter}</span> : <Icon />}</span>; }
   }
 }
 

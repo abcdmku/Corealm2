@@ -18,6 +18,8 @@ import { WORKSPACES } from "../devdocs/src/ui/workspaces.js";
     clipped   a text box hiding part of its text
     precision a number printed with all its float digits
   Writes test-results/devdocs-audit/report.json and a screenshot for every surface with faults.
+  --controls also writes controls.json: every select (its field, options and value) and every
+  reference kind on each surface, for finding choices that should be segments or icon pickers.
 */
 
 const args = process.argv.slice(2);
@@ -83,6 +85,27 @@ async function expandAll(page: Page): Promise<number> {
   return clicked;
 }
 
+interface ControlEntry { route: string; field: string; options: string[]; value: string; kind: string }
+
+function inventory(): Omit<ControlEntry, "route">[] {
+  const root = document.querySelector("#main-content") ?? document.body;
+  const scopes = [root, ...Array.from(document.querySelectorAll("[role=dialog]"))];
+  const fieldOf = (element: Element): string => element.getAttribute("aria-label")
+    ?? element.closest(".field")?.querySelector(".field-label")?.textContent
+    ?? element.closest("[data-slot=row]")?.querySelector(".kv-label")?.textContent ?? "";
+  const out: Omit<ControlEntry, "route">[] = [];
+  for (const scope of scopes) {
+    for (const select of Array.from(scope.querySelectorAll("select"))) {
+      const options = Array.from(select.options).filter(option => option.value !== "").map(option => option.textContent ?? "");
+      out.push({ kind: "select", field: fieldOf(select), options, value: select.value });
+    }
+    for (const control of Array.from(scope.querySelectorAll(".ref-control"))) {
+      out.push({ kind: `ref:${control.getAttribute("data-kind") ?? "?"}`, field: fieldOf(control), options: [], value: control.textContent ?? "" });
+    }
+  }
+  return out;
+}
+
 function measure(): Fault[] {
   const faults: Fault[] = [];
   const describe = (element: Element): string => {
@@ -115,7 +138,7 @@ function measure(): Fault[] {
       faults.push({ kind: "overflow", where: describe(element), detail: `${element.scrollWidth} > ${element.clientWidth}` });
     // squeezed controls
     // A count inside a stack ("× 2") is sized to its digits; anything else under 44px cannot show a value.
-    const floor = element.closest("[data-slot=stack-field]") ? 20 : 44;
+    const floor = element.closest("[data-slot=stack-field], [data-slot=count-grid]") ? 20 : 44;
     if (element.matches("input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]), textarea, select, .ref-chip") && (element.closest("[data-slot=input-group]") ?? element).getBoundingClientRect().width < floor)
       faults.push({ kind: "squeezed", where: describe(element), detail: `${Math.round((element.closest("[data-slot=input-group]") ?? element).getBoundingClientRect().width)}px wide` });
     if (element.matches("input[type=text], input:not([type])") && (element as HTMLInputElement).value && element.scrollWidth > element.clientWidth + 1)
@@ -177,6 +200,7 @@ async function main() {
   await page.addInitScript("globalThis.__name = (t) => t;");
   const report: { route: string; expanded: number; errors: string[]; faults: Fault[] }[] = [];
   let errors: string[] = [];
+  const controls: ControlEntry[] = [];
   page.on("pageerror", error => errors.push(error.message));
   page.on("console", message => { if (message.type() === "error" && !/404|Failed to load resource/.test(message.text())) errors.push(message.text()); });
   for (const surface of list) {
@@ -188,6 +212,7 @@ async function main() {
     } else if (surface.click) { try { await page.locator(surface.click).first().click({ timeout: 3000 }); await page.waitForTimeout(700); } catch { errors.push(`could not click ${surface.click}`); } }
     const expanded = /^[^/]+\/[^/]+\/.+/.test(surface.route) || surface.click ? await expandAll(page) : 0;
     // A dev-server reload mid-measure destroys the context; wait for the page to settle and measure again.
+    if (args.includes("--controls")) controls.push(...(await page.evaluate(inventory).catch(() => [])).map(entry => ({ ...entry, route: surface.route })));
     const faults = await page.evaluate(measure).catch(async () => { await page.waitForTimeout(2500); return page.evaluate(measure); });
     const unique = [...new Map(faults.map(fault => [`${fault.kind}|${fault.where}`, fault])).values()];
     report.push({ route: surface.route + (surface.click ? ` (click ${surface.click})` : ""), expanded, errors, faults: unique });
@@ -199,6 +224,7 @@ async function main() {
     for (const error of errors.slice(0, 3)) console.log(`    error    ${error.slice(0, 160)}`);
   }
   await writeFile(path.join(outDir, "report.json"), JSON.stringify(report, null, 2));
+  if (args.includes("--controls")) await writeFile(path.join(outDir, "controls.json"), JSON.stringify(controls, null, 2));
   const total = report.reduce((sum, entry) => sum + entry.faults.length, 0);
   console.log(`\n${report.length} surfaces, ${total} faults, ${report.filter(entry => entry.faults.length).length} with faults`);
   await browser.close();

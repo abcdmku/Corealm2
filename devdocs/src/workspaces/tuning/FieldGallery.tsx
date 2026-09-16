@@ -222,7 +222,7 @@ function ListsSection({ record }: { record: (name: string, value: unknown) => vo
       items={drops} probabilityKey="chance" keyOf={drop => drop.itemId} addLabel="Add drop" onAdd={() => ({ itemId: ITEMS.find(item => !drops.some(drop => drop.itemId === item.value))?.value ?? "bone", quantity: [1, 1], chance: 1 })}
       onChange={next => { setDrops(next); record("Drops", next.map(drop => `${drop.itemId} ${drop.quantity.join("–")} ${Math.round(drop.chance * 100)}%${drop.exclusiveGroup ? ` [${drop.exclusiveGroup}]` : ""}`).join(", ")); }}
       renderItem={(drop, api) => <>
-        <ChoiceField value={drop.itemId} options={ITEMS} ariaLabel={`Item ${api.index + 1}`} onChange={next => api.update({ ...drop, itemId: next ?? drop.itemId })} />
+        <ChoiceField display="select" value={drop.itemId} options={ITEMS} ariaLabel={`Item ${api.index + 1}`} onChange={next => api.update({ ...drop, itemId: next ?? drop.itemId })} />
         <NumberField value={drop.quantity[0]} integer min={1} ariaLabel={`Minimum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [next ?? 1, Math.max(next ?? 1, drop.quantity[1])] })} />
         <span className="shrink-0 text-[11px] text-faint">to</span>
         <NumberField value={drop.quantity[1]} integer min={drop.quantity[0]} ariaLabel={`Maximum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [drop.quantity[0], Math.max(drop.quantity[0], next ?? drop.quantity[0])] })} />

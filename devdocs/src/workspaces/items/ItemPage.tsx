@@ -259,7 +259,7 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         {choice(["equip", "slot"])}
         <BonusMatrix cell={key => <Field compact labelHidden label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} ariaLabel={BONUS[key].label} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>} />
         {num(["equip", "attackSpeedMs"])}
-        <MapField<number> label={item("equip", "requires").label} value={requires} keys={SKILL_KEYS} keyLabel="skill" readOnly={readOnly} emptyText="No skill requirement" defaultValue={() => 1}
+        <MapField<number> label={item("equip", "requires").label} value={requires} keys={SKILL_KEYS} keyLabel="skill" readOnly={readOnly} emptyText="No skill requirement" defaultValue={() => 1} counts={{ min: 1, max: 99 }}
           onChange={next => set(["equip", "requires"], next)}
           renderValue={(skill, level, update) => <NumberField value={level} integer min={1} ariaLabel={`${titleCase(skill)} level`} readOnly={readOnly} onChange={next => update(next ?? 1)} />} />
       </BlockSection>}

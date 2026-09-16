@@ -11,6 +11,7 @@ import { RefChip } from "../RefChip.js";
 import { Thumb } from "../Thumb.js";
 import { labelFor } from "../library.js";
 import { useFieldContext } from "./context.js";
+import { ChoiceField } from "./ChoiceField.js";
 import { Field } from "./Field.js";
 import { Button } from "../../components/ui/index.js";
 import { chipVariants } from "../../components/ui/chip.js";
@@ -73,6 +74,14 @@ export function RefField({ kind, collection, value, onChange, label, hint, resol
   const missing = shown !== undefined && shown !== "" && (options ? !option : !record);
   const kindLabel = kind ? titleCase(kind).toLowerCase() : labelFor(target).toLowerCase().replace(/s$/, "");
   const openRef = onOpenRef ?? peek.open;
+
+  const few = options && !bare && options.length <= 10 ? options.filter(candidate => !exclude?.has(candidate.value) || candidate.value === shown) : undefined;
+  if (few && few.length > 1) {
+    return <Field<string | undefined> label={label} hint={hint} resolved={resolved} onRevert={readOnly || !resolved ? undefined : (onRevert ?? (() => onChange(undefined)))} onOpenRef={openRef}
+      error={error} compact={compact} span={span} dirty={dirty} disabled={readOnly} className={className}>
+      <ChoiceField value={shown || undefined} options={few.map(candidate => ({ value: candidate.value, label: candidate.label }))} allowEmpty={optional ? "none" : undefined} readOnly={readOnly} onChange={onChange} />
+    </Field>;
+  }
 
   return <Field<string | undefined> label={label} hint={hint} resolved={resolved} onRevert={readOnly || !resolved ? undefined : (onRevert ?? (() => onChange(undefined)))} onOpenRef={openRef}
     error={error ?? (missing ? `${shown} is not in ${options ? `${kindLabel} options` : labelFor(recordCollection).toLowerCase()}` : undefined)} compact={compact} bare={bare} span={span} dirty={dirty} disabled={readOnly} className={className}>

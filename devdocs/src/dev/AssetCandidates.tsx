@@ -8,7 +8,7 @@ import type { MetaCandidate } from "../../../tools/content/meta.js";
 import { AssetViewer } from "../viewer/AssetViewer.js";
 import { metaPath, metaQueryKey } from "./NotesPanel.js";
 import type { AssetActionResponse, AssetCandidateView, AssetCandidatesResponse } from "../../server/handlers/assets.js";
-import { Button, Badge, Input, NativeSelect, Textarea } from "../components/ui/index.js";
+import { Button, Badge, Input, Textarea, ChoiceGroup } from "../components/ui/index.js";
 import { buttonVariants } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
 import { toneVariant } from "../components/ui/badge.js";
@@ -259,7 +259,7 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
 
       {showUpload && target && <form className="flex flex-wrap items-center gap-1.5" onSubmit={submitUpload}>
         <label className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "relative max-w-60 overflow-hidden max-md:max-w-none max-md:flex-[1_1_100%]")}><FileUp size={13} /><span className="truncate">{file?.name ?? "Choose GLB…"}</span><input ref={fileInput} className="absolute inset-0 size-full cursor-pointer opacity-0" type="file" accept=".glb,model/gltf-binary" onChange={selectFile} aria-label="Candidate GLB file" /></label>
-        <NativeSelect aria-label="Body" value={uploadBody} onChange={event => setUploadBody(event.target.value as CandidateBody | "")}><option value="">Any body</option>{BODY_VALUES.map(value => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</NativeSelect>
+        <ChoiceGroup<CandidateBody | "any"> aria-label="Body" value={uploadBody || "any"} onValueChange={next => setUploadBody(!next || next === "any" ? "" : next)} items={[{ value: "any", label: "Any body" }, ...BODY_VALUES.map(value => ({ value, label: value.charAt(0).toUpperCase() + value.slice(1) }))]} />
         <label className="flex min-w-0 flex-[1_1_160px] max-md:flex-[1_1_100%]"><span className="sr-only">Source</span><Input aria-label="Source" value={source} onChange={event => setSource(event.target.value)} placeholder="Source (pack, URL…)" /></label>
         <Button variant="default" size="sm" type="submit" disabled={uploadMutation.isPending || !metaQuery.data}><UploadCloud size={13} />{uploadMutation.isPending ? "Inspecting…" : "Upload"}</Button>
         {formError && <FormError>{formError}</FormError>}
@@ -310,7 +310,7 @@ function CandidateCard({ candidate, currentAssetId, approving, approvalBody, onA
     </div>
     {setCandidate && <div className="flex gap-1" aria-label="Set sign-off"><Badge variant={toneVariant(approvals.male ? "ok" : undefined)}>{approvals.male && <Check size={10} />}Male</Badge><Badge variant={toneVariant(approvals.female ? "ok" : undefined)}>{approvals.female && <Check size={10} />}Female</Badge></div>}
     <div className="mt-auto flex flex-wrap items-center gap-1.5">
-      {canApprove && <>{setCandidate && <NativeSelect className="h-6 text-[11px]" aria-label={`Sign off body for ${candidate.candidateId}`} value={approvalChoice} onChange={event => onApprovalBody(event.target.value as CandidateBody)}><option value="male">Male</option><option value="female">Female</option></NativeSelect>}<Button variant="default" size="sm" onClick={onApprove} disabled={isActionBusy}><ShieldCheck size={12} />{isActionBusy ? "Saving…" : setCandidate ? "Sign off" : "Approve"}</Button></>}
+      {canApprove && <>{setCandidate && <ChoiceGroup<CandidateBody> aria-label={`Sign off body for ${candidate.candidateId}`} value={approvalChoice} onValueChange={next => { if (next) onApprovalBody(next); }} items={[{ value: "male", label: "Male" }, { value: "female", label: "Female" }]} />}<Button variant="default" size="sm" onClick={onApprove} disabled={isActionBusy}><ShieldCheck size={12} />{isActionBusy ? "Saving…" : setCandidate ? "Sign off" : "Approve"}</Button></>}
       {candidate.status === "approved" && candidate.kind === "glb" && <Button variant="secondary" size="sm" onClick={onPromote} disabled={isActionBusy}><ArrowRight size={12} />{isActionBusy ? "Promoting…" : "Promote to live"}</Button>}
       {candidate.status !== "live" && candidate.status !== "rejected" && !rejecting && <Button variant="destructive" size="sm" onClick={onStartReject} disabled={isActionBusy}>Reject</Button>}
       {candidate.status === "live" && <Badge variant="ok"><Check size={11} /> Live in manifest</Badge>}

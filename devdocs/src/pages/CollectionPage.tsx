@@ -18,7 +18,7 @@ import { RecordGrid, clearSelection, setSelection } from "../ui/grid/index.js";
 import { EntityDetail } from "./EntityDetail.js";
 import { publishRecordSet, readListState, writeListState } from "../model/recordSet.js";
 import { useRecordSetKey } from "../model/recordSetKey.js";
-import { Button, NativeSelect, Segmented, SearchInput } from "../components/ui/index.js";
+import { Button, NativeSelect, Segmented, SearchInput, ChoiceGroup } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
 import { PAGE_WIDE, PANEL } from "../ui/layout.js";
 
@@ -176,7 +176,9 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
     </div>
     <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
       <SearchInput label={`Search ${labelFor(collection).toLowerCase()}`} placeholder="Search name, id, type…" value={search} onChange={setSearch} shortcut onEnter={() => { const first = sorted[0]; if (first) open(first.entry.id); }} />
-      {groupOptions.length > 0 && <NativeSelect value={group} aria-label="Group by" onChange={event => setGroup(event.target.value)}><option value="">No grouping</option>{groupOptions.map(option => <option value={option.key} key={option.key}>By {option.label.toLowerCase()}</option>)}</NativeSelect>}
+      {groupOptions.length > 0 && groupOptions.length <= 4 && <ChoiceGroup aria-label="Group by" value={group || "none"} onValueChange={next => setGroup(!next || next === "none" ? "" : next)}
+        items={[{ value: "none", label: "No grouping" }, ...groupOptions.map(option => ({ value: option.key, label: `By ${option.label.toLowerCase()}` }))]} />}
+      {groupOptions.length > 4 && <NativeSelect value={group} aria-label="Group by" onChange={event => setGroup(event.target.value)}><option value="">No grouping</option>{groupOptions.map(option => <option value={option.key} key={option.key}>By {option.label.toLowerCase()}</option>)}</NativeSelect>}
       {activeFilters.length > 0 && <Button variant="link" size="inline" onClick={() => setFilters({})}>Clear filters</Button>}
       <div className="ml-auto flex items-center gap-1">
         {editable && selected.size > 0 && <span className="font-mono text-[11px] whitespace-nowrap text-faint">{selected.size} selected</span>}

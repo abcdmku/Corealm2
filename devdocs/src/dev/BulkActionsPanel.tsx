@@ -7,7 +7,7 @@ import { collectionQuery } from "../api/client.js";
 import { metaQueryKey } from "./NotesPanel.js";
 import type { ContentRow } from "../model/contracts.js";
 import { rowId } from "../model/rows.js";
-import { Button, Badge, Input, NativeSelect, Textarea } from "../components/ui/index.js";
+import { Button, Badge, Input, Textarea, ChoiceGroup } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
 import { EMPTY, PANEL, PANEL_HEADER } from "../ui/layout.js";
 import { FormError, SPIN } from "./panelParts.js";
@@ -210,8 +210,10 @@ export default function BulkActionsPanel({ collection, idKey, revision, rows, se
     </header>
     <form className="flex flex-col gap-2 px-2.5 py-2" onSubmit={event => { event.preventDefault(); void request("preview"); }} noValidate>
       <div className="flex flex-wrap items-center gap-1.5">
-        <NativeSelect aria-label="Bulk action" value={actionKind} onChange={event => setActionKind(event.target.value as ActionKind)} disabled={Boolean(busy)}><option value="status">Set status</option><option value="note">Add note</option><option value="retier" disabled={!canRetier}>Retier records{canRetier ? "" : " (numeric tier required)"}</option></NativeSelect>
-        {actionKind === "status" && <NativeSelect aria-label="New status" value={status} onChange={event => setStatus(event.target.value as AuthoredStatus)} disabled={Boolean(busy)}><option value="draft">Draft</option><option value="candidate">Candidate</option><option value="rejected">Rejected</option></NativeSelect>}
+        <ChoiceGroup<ActionKind> aria-label="Bulk action" value={actionKind} onValueChange={next => { if (next) setActionKind(next); }} disabled={Boolean(busy)}
+          items={[{ value: "status", label: "Set status" }, { value: "note", label: "Add note" }, { value: "retier", label: "Retier", disabled: !canRetier, title: canRetier ? undefined : "Needs a numeric tier" }]} />
+        {actionKind === "status" && <ChoiceGroup<AuthoredStatus> aria-label="New status" value={status} onValueChange={next => { if (next) setStatus(next); }} disabled={Boolean(busy)}
+          items={[{ value: "draft", label: "Draft" }, { value: "candidate", label: "Candidate" }, { value: "rejected", label: "Rejected" }]} />}
         {actionKind === "note" && <>
           <label className="flex min-w-0 flex-[1_1_260px]"><span className="sr-only">Note text</span><Textarea aria-label="Note text" className="h-7 max-h-30 min-h-7 resize-y py-[5px] leading-snug" value={noteText} onChange={event => setNoteText(event.target.value)} placeholder="Note added to each selected record" rows={1} disabled={Boolean(busy)} aria-describedby="bulk-note-help" /></label>
           <label className="flex w-44 max-md:w-full"><span className="sr-only">Note label</span><Input aria-label="Note label" value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={Boolean(busy)} /></label>

@@ -89,7 +89,7 @@ function ChoiceRow({ spec, value, onChange, disabled, allowEmpty }: {
   spec: SchemaFieldSpec; value: string | undefined; onChange: (value: string | undefined) => void; disabled: boolean; allowEmpty?: string;
 }) {
   return <Field label={spec.label} hint={spec.hint} disabled={disabled}>
-    <ChoiceField value={value} options={spec.choices ?? []} allowEmpty={allowEmpty} width="full" disabled={disabled} onChange={onChange} />
+    <ChoiceField value={value} options={spec.choices ?? []} allowEmpty={allowEmpty} width="full" display="icons" disabled={disabled} onChange={onChange} />
   </Field>;
 }
 

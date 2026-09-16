@@ -107,7 +107,7 @@ function QuestPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
 
         <Section title="Progression">
           <MapField<number> label={quest("requirements").label} hint={quest("requirements").hint} value={requirements} keys={skills} keyLabel="skill"
-            emptyText="No skill requirements." readOnly={readOnly} defaultValue={() => 1}
+            emptyText="No skill requirements." readOnly={readOnly} defaultValue={() => 1} counts={{ min: 1, max: 99 }}
             onChange={next => draft.setPath(["requirements"], next)}
             renderValue={(skill, level, update) => <NumberField value={level} integer min={1} max={99} ariaLabel={`${titleCase(skill)} level`} readOnly={readOnly} onChange={value => update(value ?? 1)} />} />
           <ListField<string> label={quest("prerequisiteQuestIds").label} items={prerequisites} readOnly={readOnly}
@@ -164,7 +164,7 @@ function StageList({ stages, page, readOnly, skills, renderRef, ctx }: StageProp
           emptyText="None." addLabel="Add ref" onAdd={() => ({ kind: "item", id: "" })}
           onChange={next => api.update({ ...stage, refs: next.length ? next : undefined })}
           renderItem={(entry, row) => <>
-            <ChoiceField value={text(entry.kind)} options={REF_KINDS} readOnly={readOnly} ariaLabel={`Ref ${row.index + 1} kind`} onChange={value => row.update({ kind: value ?? "item", id: "" })} />
+            <ChoiceField display="select" value={text(entry.kind)} options={REF_KINDS} readOnly={readOnly} ariaLabel={`Ref ${row.index + 1} kind`} onChange={value => row.update({ kind: value ?? "item", id: "" })} />
             <RefCell label={`Ref ${row.index + 1}`} kind={text(entry.kind) ?? "item"} value={text(entry.id)} readOnly={readOnly} onChange={value => row.update({ ...entry, id: value ?? "" })} />
           </>} />
         <UnionField schema={questPredicateSchema} kindLabel="Completion" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
@@ -196,7 +196,7 @@ function GrantFields({ schema, grant, path, page, readOnly, skills, renderRef, o
 
   return <>
     {shown("xp") && <MapField<number> label={spec("xp").label} hint={spec("xp").hint} value={xp} keys={skills} keyLabel="skill"
-      emptyText="No xp." readOnly={readOnly} defaultValue={() => 0}
+      emptyText="No xp." readOnly={readOnly} defaultValue={() => 0} counts={{ min: 0, integer: false }}
       onChange={next => write("xp", Object.keys(next).length || !spec("xp").optional ? next : undefined)}
       renderValue={(skill, amount, update) => <NumberField value={amount} min={0} unit="xp" ariaLabel={`${titleCase(skill)} xp`} readOnly={readOnly} onChange={value => update(value ?? 0)} />} />}
     {shown("currency") && <Field label={spec("currency").label}><NumberField value={num(grant.currency)} integer min={0} optional={spec("currency").optional} placeholder={spec("currency").optional ? "none" : undefined} readOnly={readOnly} ariaLabel={spec("currency").label} onChange={value => write("currency", value)} /></Field>}

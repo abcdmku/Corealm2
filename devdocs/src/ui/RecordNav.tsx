@@ -171,7 +171,7 @@ export function RecordNav({ setKey, collection, currentId, open }: RecordNavProp
       {set && !shown.length && <p className="p-2 text-xs text-faint">No records match.</p>}
       {shown.map(entry => <button key={entry.id} type="button" role="listitem" className={cn(
         "record-nav-item relative grid w-full cursor-pointer grid-cols-[minmax(0,1fr)] rounded-md py-[3px] pr-5 pl-2 text-left text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40",
-        "aria-[current=true]:bg-selected aria-[current=true]:text-foreground aria-[current=true]:shadow-[inset_2px_0_0_var(--accent)]",
+        "aria-[current=true]:bg-selected aria-[current=true]:font-medium aria-[current=true]:text-foreground",
       )} tabIndex={entry.id === currentId ? 0 : -1} aria-current={entry.id === currentId ? "true" : undefined} title={entry.id} onClick={() => go(entry.id)}>
         <span className="truncate text-xs leading-[17px]">{entry.title}</span>
         {(entry.subtitle || (repeated.get(entry.title) ?? 0) > 1) && <span className="truncate text-[11px] leading-[14px] text-faint">{(repeated.get(entry.title) ?? 0) > 1 ? entry.id : entry.subtitle}</span>}

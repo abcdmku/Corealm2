@@ -113,7 +113,7 @@ export default function AudioView(_props: ViewProps) {
       if (mode === "fixed" && range) set(path, num(range[0]) ?? 1);
     };
     return <span className="inline-flex flex-nowrap items-center gap-1">
-      <ChoiceField className="w-[4.875rem]" value={range ? "range" : "fixed"} options={[{ value: "fixed", label: "Fixed" }, { value: "range", label: "Range" }]}
+      <ChoiceField value={range ? "range" : "fixed"} options={[{ value: "fixed", label: "Fixed" }, { value: "range", label: "Range" }]}
         readOnly={readOnly} ariaLabel={`${id} playback rate shape`} onChange={switchShape} />
       {range
         ? <><NumberField value={num(range[0])} min={lower(RATE)} step={RATE?.step} readOnly={readOnly} className="w-16" ariaLabel={`${id} minimum playback rate`} onChange={next => setRange(0, next)} />

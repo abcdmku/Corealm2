@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Check, LoaderCircle, MessageSquare, RefreshCw, Send, X } from "lucide-react";
 import type { MetaNote, MetaPatch, MetaRecord, MetaRequest, MetaResponse } from "../../shared/metaContracts.js";
-import { Button, Badge, NativeSelect, Checkbox, Segmented, Input, Textarea, Kbd } from "../components/ui/index.js";
+import { Button, Badge, Checkbox, Segmented, Input, Textarea, Kbd, ChoiceGroup } from "../components/ui/index.js";
 import { toneVariant } from "../components/ui/badge.js";
 import { cn } from "../lib/utils.js";
 import { EMPTY, PANEL } from "../ui/layout.js";
@@ -293,7 +293,7 @@ export default function NotesPanel({ collection, entityId }: NotesPanelProps) {
       <div className="flex flex-wrap items-center gap-1.5">
         <label className="flex w-44 max-[520px]:w-full"><span className="sr-only">Label</span><Input value={noteLabel} onChange={event => setNoteLabel(event.target.value)} placeholder="Label (optional)" disabled={saveDisabled} /></label>
         <label className="inline-flex cursor-pointer items-center gap-2 text-xs"><Checkbox checked={flagAsRequest} onCheckedChange={checked => setFlagAsRequest(checked === true)} disabled={saveDisabled} /><span>Flag as request</span></label>
-        {flagAsRequest && <NativeSelect aria-label="Request kind" value={requestKind} onChange={event => setRequestKind(event.target.value as RequestKind)} disabled={saveDisabled}>{REQUEST_KINDS.map(kind => <option key={kind} value={kind}>{displayKind(kind)}</option>)}</NativeSelect>}
+        {flagAsRequest && <ChoiceGroup<RequestKind> aria-label="Request kind" value={requestKind} onValueChange={next => { if (next) setRequestKind(next); }} disabled={saveDisabled} items={REQUEST_KINDS.map(kind => ({ value: kind, label: displayKind(kind) }))} />}
         <small id="notes-note-help" className="ml-auto inline-flex items-center gap-0.5 text-[11px] text-faint"><Kbd>Ctrl</Kbd><Kbd>↵</Kbd></small>
         <Button variant="default" size="sm" type="submit" disabled={saveDisabled}><Send size={13} />{mutation.isPending ? "Saving" : flagAsRequest ? "Open request" : "Add note"}</Button>
       </div>
@@ -324,7 +324,7 @@ const TIME = "font-mono text-[11px] text-faint";
 
 function RequestDetails({ request, onClose, disabled }: { request: MetaRequest; onClose: (requestId: string) => void; disabled: boolean }) {
   const canClose = request.state === "open" || request.state === "claimed" || request.state === "replied";
-  return <div className="mt-0.5 flex flex-col gap-1 rounded-r-md border-l-2 border-primary bg-card px-2 py-1.5 text-xs leading-normal text-muted-foreground [&_strong]:font-medium [&_strong]:text-foreground">
+  return <div className="mt-0.5 flex flex-col gap-1 rounded-md border border-border-subtle bg-card px-2 py-1.5 text-xs leading-normal text-muted-foreground [&_strong]:font-medium [&_strong]:text-foreground">
     <div className="flex flex-wrap items-center gap-1.5">
       <Badge variant={toneVariant(stateTone(request.state))}>{displayState(request.state)}</Badge>
       <code className="max-w-56 min-w-0 truncate font-mono text-[11px] text-faint" title={request.id}>{request.id}</code>

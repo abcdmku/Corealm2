@@ -6,7 +6,7 @@ import type { CollectionResponse, CollectionSummary } from "../../shared/contrac
 import { collectionQuery, collectionsQuery } from "../api/client.js";
 import type { ContentRow } from "./contracts.js";
 import { contentRows, rowId, rowName } from "./rows.js";
-import { iconForElement, iconForSkill, titleCase, type SummaryContext, type ThumbSpec } from "./summaries.js";
+import { skillThumb, titleCase, type SummaryContext, type ThumbSpec } from "./summaries.js";
 
 /**
  * Cross references between collections. Schema `ref` kinds and the field names used by compiled
@@ -316,8 +316,8 @@ export function optionsFor(kind: string, index: Pick<ReferenceIndex, "collection
   const source = (REF_KIND_SOURCES as Record<string, RefKindSource | undefined>)[kind];
   if (!source || "collection" in source) return undefined;
   if ("enum" in source) {
-    const icon = kind === "skill" ? iconForSkill : kind === "element" ? iconForElement : undefined;
-    return source.enum.map(value => ({ value, label: titleCase(value), ...(icon ? { thumb: { kind: "glyph", icon: icon(value) } as ThumbSpec } : {}) }));
+    const thumb = (value: string): ThumbSpec | undefined => kind === "skill" ? skillThumb(value) : kind === "element" ? { kind: "spell", id: value, element: value, rung: "lash", rank: 0 } : undefined;
+    return source.enum.map(value => ({ value, label: titleCase(value), ...(thumb(value) ? { thumb: thumb(value) } : {}) }));
   }
   return derivedOptions(source.derive, index);
 }

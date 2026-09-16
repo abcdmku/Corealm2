@@ -1,8 +1,6 @@
-import {
-  Anvil, Axe, Bird, Boxes, Bug, Cat, Crown, Droplets, Fish, Flame, FlaskConical, Ghost, Hammer, Leaf, MapPin, MessageCircle, Mountain,
-  Music2, PawPrint, Pickaxe, Rabbit, Rat, Route, ScrollText, Shield, Shirt, Skull, SlidersHorizontal, Snail, Sparkles, Store, Swords,
-  TreePine, Turtle, User, Users, Wand2, Wind, Workflow, Film, Box, Home, Sword, Waves, type LucideIcon,
-} from "lucide-react";
+import { Anvil, Bird, Boxes, Bug, Cat, Crown, Fish, FlaskConical, Ghost, Hammer, Leaf, MapPin, MessageCircle, Mountain, Music2, PawPrint, Rabbit, Rat, Route, ScrollText, Shield, Shirt, Skull, SlidersHorizontal, Snail, Sparkles, Store, Swords, TreePine, Turtle, User, Users, Wand2, Workflow, Film, Box, Home, Sword, Waves, type LucideIcon } from "lucide-react";
+import { SKILLS } from "../../../game/src/content/skills.js";
+import type { SkillId } from "../../../game/src/contracts.js";
 import type { ContentRow } from "./contracts.js";
 import { rowId, rowName } from "./rows.js";
 
@@ -17,14 +15,14 @@ export interface Badge { text: string; tone?: Tone; mono?: boolean; title?: stri
 /** The game draws one authored icon per spell from its element, rung and rank. */
 export function spellThumb(row: ContentRow): ThumbSpec {
   const element = text(row.element) ?? "";
-  if (!(element in ELEMENT_ICON)) return { kind: "glyph", icon: Sparkles, hue: ELEMENT_HUE[element] };
+  if (!(element in ELEMENT_HUE)) return { kind: "glyph", icon: Sparkles };
   return { kind: "spell", id: String(row.id), element, rung: text(row.rung) ?? "lash", rank: num(row.rank) ?? 0 };
 }
 
 export type ThumbSpec =
   | { kind: "item"; id: string }
   | { kind: "items"; ids: readonly string[] }
-  | { kind: "glyph"; icon: LucideIcon; hue?: number; letter?: string }
+  | { kind: "glyph"; icon: LucideIcon; hue?: number; letter?: string; /** An exact game colour (a skill's), instead of a hue. */ colour?: string }
   | { kind: "map"; x: number; z: number; span: number; icon?: LucideIcon }
   | { kind: "asset"; assetId: string; icon: LucideIcon; hue?: number }
   | { kind: "spell"; id: string; element: string; rung: string; rank: number };
@@ -62,10 +60,8 @@ export function hueFor(value: string): number {
   return hash % 360;
 }
 
-const ELEMENT_HUE: Record<string, number> = { wind: 165, water: 205, earth: 38, fire: 14 };
-const ELEMENT_ICON: Record<string, LucideIcon> = { wind: Wind, water: Droplets, earth: Mountain, fire: Flame };
+export const ELEMENT_HUE: Record<string, number> = { wind: 165, water: 205, earth: 38, fire: 14 };
 const SLOT_ICON: Record<string, LucideIcon> = { head: Shield, body: Shirt, legs: Shirt, feet: Shirt, hands: Shirt, mainHand: Sword, offHand: Shield };
-const SKILL_ICON: Record<string, LucideIcon> = { mining: Pickaxe, woodcutting: Axe, fishing: Fish, smithing: Anvil, crafting: Hammer, cooking: Flame, fletching: Axe, melee: Swords, magic: Wand2, agility: Route };
 const ASSET_ICON: Record<string, LucideIcon> = { character: User, outfit: Shirt, weapon: Sword, nature: TreePine, rock: Mountain, building: Home, prop: Box, farm: Leaf, dungeon: Skull, animation: Film, water: Waves };
 
 export function creatureIcon(row: ContentRow): LucideIcon {
@@ -306,7 +302,7 @@ export function summarize(collection: string, row: ContentRow, ctx: SummaryConte
     }
     case "elementalSpells": {
       const element = text(row.element) ?? "";
-      return { title: name, subtitle: text(row.watch)?.slice(0, 90), badges: [{ text: titleCase(element), tone: "info" }, { text: text(row.scale) ?? "" }], thumb: { kind: "glyph", icon: ELEMENT_ICON[element] ?? FlaskConical, hue: ELEMENT_HUE[element] }, stats: [], tier: num(row.rank) };
+      return { title: name, subtitle: text(row.watch)?.slice(0, 90), badges: [{ text: titleCase(element), tone: "info" }, { text: text(row.scale) ?? "" }], thumb: element in ELEMENT_HUE ? { kind: "spell", id, element, rung: "lash", rank: 0 } : { kind: "glyph", icon: FlaskConical }, stats: [], tier: num(row.rank) };
     }
     case "assets": {
       const category = text(row.category) ?? (row.procedural ? "weapon" : "prop");
@@ -326,7 +322,7 @@ export function summarize(collection: string, row: ContentRow, ctx: SummaryConte
     case "equipmentFamilies":
       return { title: name, subtitle: `${text(row.formula) ?? ""} · ${text(row.skill) ?? ""}`, badges: [{ text: titleCase(text(row.slot) ?? text(row.category) ?? "") }], thumb: { kind: "glyph", icon: SLOT_ICON[text(row.slot) ?? ""] ?? Shield, hue: hueFor(text(row.skill) ?? id) }, stats: [] };
     case "recipeTemplates":
-      return { title: name, subtitle: `${text(row.formula) ?? ""} · ${list(row.stations).map(String).map(titleCase).join(", ")}`, badges: [{ text: titleCase(text(row.kind) ?? "") }, { text: titleCase(text(row.skill) ?? ""), tone: "info" }], thumb: { kind: "glyph", icon: SKILL_ICON[text(row.skill) ?? ""] ?? Hammer, hue: hueFor(text(row.skill) ?? id) }, stats: [] };
+      return { title: name, subtitle: `${text(row.formula) ?? ""} · ${list(row.stations).map(String).map(titleCase).join(", ")}`, badges: [{ text: titleCase(text(row.kind) ?? "") }, { text: titleCase(text(row.skill) ?? ""), tone: "info" }], thumb: skillThumb(text(row.skill) ?? ""), stats: [] };
     default:
       if (collection.startsWith("balance/")) return { title: name, subtitle: typeof row.value === "object" && row.value ? `${Object.keys(row.value as object).length} parameters` : String(row.value ?? ""), badges: [], thumb: { kind: "glyph", icon: SlidersHorizontal }, stats: [] };
       return { title: name, subtitle: id !== name ? id : undefined, badges: [], thumb: { kind: "glyph", icon: Boxes, hue: hueFor(collection) }, stats: [], tier: num(row.tier) };
@@ -383,6 +379,8 @@ export function prefersGrid(collection: string): boolean {
 
 export { titleCase };
 export const facetLabel = titleCase;
-export const iconForSkill = (skill: string): LucideIcon => SKILL_ICON[skill] ?? Hammer;
-export const iconForElement = (element: string): LucideIcon => ELEMENT_ICON[element] ?? Sparkles;
+/** A skill has no drawn mark in the game, only its colour: its initials on that colour. */
+export function skillThumb(skill: string): ThumbSpec {
+  return { kind: "glyph", icon: Hammer, letter: skill.slice(0, 2).toUpperCase(), colour: SKILLS[skill as SkillId]?.colour };
+}
 export const glyphs = { Users, Boxes, Swords, Shield, Store, ScrollText, MessageCircle, MapPin, Music2, Wand2, PawPrint, Bug, Anvil };

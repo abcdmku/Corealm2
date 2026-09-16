@@ -84,7 +84,12 @@ export async function exerciseSetPiecePanel(page: Page, baseUrl: string): Promis
   const rows = panel.locator(".set-piece-row");
   assert.equal(await rows.count(), PIECE_SLOTS.length, "set-piece panel must render one review row per armor slot");
   const headRow = rows.nth(0);
-  const status = headRow.getByRole("combobox", { name: "Status", exact: true });
+  // Status is a segment strip: one radio per status.
+  const statusGroup = headRow.getByRole("group", { name: /status$/i });
+  const status = {
+    selectOption: (value: string) => statusGroup.getByRole("radio", { name: value.charAt(0).toUpperCase() + value.slice(1), exact: true }).click(),
+    inputValue: async () => (await statusGroup.getByRole("radio", { checked: true }).textContent() ?? "").trim().toLowerCase(),
+  };
   const note = headRow.getByRole("textbox");
   const save = headRow.getByRole("button", { name: "Save piece", exact: true });
   const savedNote = `Smoke review for ${set.id} head`;

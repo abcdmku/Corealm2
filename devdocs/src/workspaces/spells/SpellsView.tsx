@@ -5,11 +5,12 @@ import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { fieldPath } from "../../model/fields.js";
 import { contentRows } from "../../model/rows.js";
-import { iconForElement, spellThumb, titleCase, hueFor } from "../../model/summaries.js";
+import { spellThumb, titleCase, hueFor } from "../../model/summaries.js";
+import { ElementMark } from "../../ui/gameArt.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import {
-  ChoiceField, Field, Fields, ListField, NumberField, ReferencedBy, Section, Sheet, StackField, TextField, ToggleField,
+  ChoiceField, CountGrid, Field, Fields, NumberField, ReferencedBy, Section, Sheet, TextField, ToggleField,
 } from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
@@ -54,9 +55,8 @@ function SpellMatrix({ navigate }: { navigate: ViewProps["navigate"] }) {
       <caption className="sr-only">{caption}</caption>
       <TableHeader><TableRow><TableHead pin className="px-2.5">Element</TableHead>{columns.map(column => <TableHead key={column} className="px-2.5">{head(column)}</TableHead>)}</TableRow></TableHeader>
       <TableBody>{ELEMENTS.map(element => {
-        const Icon = iconForElement(element);
         return <TableRow key={element}>
-          <TableCell pin className="pr-4 pl-2.5"><span className="inline-flex items-center gap-1.5" style={{ color: `color-mix(in oklab, hsl(${hueFor(element)} 60% 50%) 70%, var(--color-foreground))` }}><Icon size={13} />{titleCase(element)}</span></TableCell>
+          <TableCell pin className="pr-4 pl-2.5"><span className="inline-flex items-center gap-1.5" style={{ color: `color-mix(in oklab, hsl(${hueFor(element)} 60% 50%) 70%, var(--color-foreground))` }}><ElementMark element={element} />{titleCase(element)}</span></TableCell>
           {columns.map(column => {
             const matches = spells.filter(spell => spell.element === element && match(spell, column));
             return <TableCell key={column} className="px-2.5">{matches.length ? <span className="flex flex-col gap-0.5">{matches.map(cell)}</span> : <EmptyCell />}</TableCell>;
@@ -130,6 +130,10 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
     const runeQuantity = spellField(["cost", "runes", 0, "quantity"]);
     const areaSpell = spellField(["aoe"]);
     const setRunes = (next: ContentRow[]) => set(["cost", "runes"], next.length ? next : undefined);
+    const runeCollection = index.collections.get("spellRunes");
+    const runeOptions = (runeCollection ? contentRows(runeCollection) : [])
+      .map(row => ({ id: text(row.itemId) ?? "", name: (text(row.name) ?? text(row.itemId) ?? "").replace(/ Rune$/, ""), tier: num(row.tier) ?? 0 }))
+      .filter(rune => rune.id).sort((a, b) => a.tier - b.tier);
     return <RecordShell
       thumb={spellThumb(spell)}
       title={spell.name} id={id}
@@ -155,17 +159,13 @@ function SpellPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
             {choice(["cost", "element"], text(cost.element), true)}
             {number(["cost", "charges"], num(cost.charges), true)}
           </Fields>
-          {runeList && runeItem && runeQuantity && <ListField<ContentRow>
-            label={runeList.label} hint={runeList.help} items={runes} readOnly={readOnly} emptyText="No runes."
-            addLabel="Add rune" onAdd={() => ({ itemId: "", quantity: 1 })} onChange={setRunes}
-            keyOf={(rune, at) => text(rune.itemId) ?? at}
-            removeLabel={(_, at) => `Remove rune ${at + 1}`}
-            renderItem={(rune, api) => <>
-              <StackField className="w-60" kind={runeItem.ref} label={`${runeItem.label} ${api.index + 1}`} value={text(rune.itemId)} readOnly={readOnly}
-                exclude={new Set(runes.map(entry => text(entry.itemId) ?? "").filter((_, at) => at !== api.index))}
-                onChange={next => api.update({ ...rune, itemId: next ?? "" })}
-                quantity={num(rune.quantity) ?? 1} min={lower(runeQuantity)} onQuantityChange={next => api.update({ ...rune, quantity: next as number })} />
-            </>} />}
+          {/* Six runes: each is a box with its count, so a cost is typed straight in instead of added row by row. */}
+          {runeList && runeItem && runeQuantity && <Field label={runeList.label} hint={runeList.help}>
+            <CountGrid label={runeList.label} readOnly={readOnly} min={lower(runeQuantity)}
+              options={runeOptions.map(rune => ({ value: rune.id, label: rune.name, art: <Thumb spec={{ kind: "item", id: rune.id }} size="s" alt="" /> }))}
+              value={Object.fromEntries(runes.map(rune => [text(rune.itemId) ?? "", num(rune.quantity)]))}
+              onChange={next => setRunes(Object.entries(next).map(([itemId, quantity]) => ({ itemId, quantity })))} />
+          </Field>}
         </Section>
         <ReferencedBy collection="spells" id={id} navigate={navigate} />
       </Sheet>

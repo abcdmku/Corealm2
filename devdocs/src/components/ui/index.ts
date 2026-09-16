@@ -13,3 +13,4 @@ export { Kbd, Separator } from "./misc.js";
 export { Segmented } from "./segmented.js";
 export { Table, TableFrame, TableHeader, TableBody, TableRow, TableHead, TableCell, TableLink, EmptyCell } from "./table.js";
 export { SearchInput } from "./search-input.js";
+export { ChoiceChips, ChoiceGroup, type ChoiceItem } from "./choice-group.js";
