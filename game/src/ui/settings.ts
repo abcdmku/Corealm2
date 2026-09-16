@@ -51,8 +51,8 @@ export const DEFAULT_SETTINGS: UiSettings = {
   music: 0.6,
   ambient: 0.7,
   sfx: 0.8,
-  renderScale: 1,
-  shadowQuality: "high",
+  renderScale: 0.7,
+  shadowQuality: "off",
   drawDistance: "near",
   autoDrawDistance: true,
   damageNumbers: true,
@@ -143,7 +143,7 @@ function readStored(): Partial<UiSettings> {
   if (source["shadowQuality"] === "off" || source["shadowQuality"] === "low" || source["shadowQuality"] === "high") {
     out.shadowQuality = source["shadowQuality"];
   } else if (source["shadows"] === false) {
-    // Migration from the original on/off setting. An old "on" value keeps the new high default.
+    // Migration from the original on/off setting.
     out.shadowQuality = "off";
   }
   if (source["drawDistance"] === "near" || source["drawDistance"] === "medium" || source["drawDistance"] === "far") {

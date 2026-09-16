@@ -27,22 +27,24 @@ describe("graphics settings", () => {
     vi.unstubAllGlobals();
   });
 
-  it("starts at full resolution with automatic nearby distance and persists live changes", () => {
+  it("starts at minimum graphics with automatic nearby distance and persists live changes", () => {
     const store = new SettingsStore();
     expect(store.get()).toEqual(DEFAULT_SETTINGS);
+    expect(store.get()).toMatchObject({ renderScale: 0.7, shadowQuality: "off", drawDistance: "near" });
     expect(store.get().invertCameraY).toBe(true);
 
     const seen: number[] = [];
     const unsubscribe = store.subscribe((settings) => { seen.push(settings.renderScale); });
-    store.set({ renderScale: 0.7, shadowQuality: "low", drawDistance: "near" });
+    store.set({ renderScale: 1, shadowQuality: "high", drawDistance: "near" });
     unsubscribe();
 
-    expect(seen).toEqual([1, 0.7]);
+    expect(seen).toEqual([0.7, 1]);
     expect(JSON.parse(storage.getItem(STORAGE_KEY) ?? "{}")).toMatchObject({
-      renderScale: 0.7,
-      shadowQuality: "low",
+      renderScale: 1,
+      shadowQuality: "high",
       drawDistance: "near",
     });
+    expect(new SettingsStore().get()).toMatchObject({ renderScale: 1, shadowQuality: "high" });
   });
 
   it("migrates the old shadow toggle and rejects invalid stored values", () => {
