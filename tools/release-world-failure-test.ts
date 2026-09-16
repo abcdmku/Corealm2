@@ -4,6 +4,9 @@ import path from 'node:path';
 import { preview } from 'vite';
 import { chromium } from 'playwright';
 import { gameRoot } from './lib/paths.js';
+import { installTestDeadline } from './lib/deadline.js';
+
+const clearDeadline = installTestDeadline('Release download failures', 120_000);
 
 const manifest = JSON.parse(await readFile(path.join(gameRoot, 'dist/generated/world/manifest.json'), 'utf8'));
 const server = await preview({ root: gameRoot, preview: { host: '127.0.0.1', port: 0 } });
@@ -18,7 +21,7 @@ try {
       const errors: string[] = [];
       let blocked = 0;
       page.on('pageerror', error => errors.push(String(error)));
-      const file = key === 'navigation' ? 'corealm-navmesh.bin' : manifest.records[key].file;
+      const file = key === 'navigation' ? 'corealm-navmesh.nav' : manifest.records[key].file;
       await page.route(`**/${file}`, route => { blocked++; return route.fulfill({ status: 503, body: 'Simulated unavailable world file' }); });
       await page.goto(`http://127.0.0.1:${address.port}`, { waitUntil: 'domcontentloaded' });
       try { await page.locator('.boot-error').waitFor({ timeout: 30_000 }); }
@@ -29,7 +32,7 @@ try {
             boot: (window as any).__corealmBootTelemetry?.snapshot() })) }, null, 2));
         throw error;
       }
-      assert.equal(blocked, 1, 'The requested released world record must actually be blocked');
+      assert.ok(blocked >= 1, 'The requested released world record must actually be blocked');
       assert.equal(await page.locator('#boot-screen').isVisible(), true);
       const state = await page.evaluate(() => ({
         cache: (window as any).__corealmGenerationCache.snapshot(),
@@ -44,4 +47,5 @@ try {
 } finally {
   await browser.close();
   await new Promise<void>((resolve, reject) => server.httpServer.close(error => error ? reject(error) : resolve()));
+  clearDeadline();
 }

@@ -3,6 +3,28 @@ import * as THREE from "three";
 import { CharacterRig } from "../game/src/render/characterRig.js";
 
 describe("character outfit load recovery", () => {
+  it("requests independent outfit parts together and retains the old outfit until every part arrives", async () => {
+    const resolve = new Map<string, (source: THREE.Group) => void>();
+    const tags: Record<string, string[]> = { chest: ["torso"], legs: ["legs"], hair: ["hair"] };
+    const assets = { entry: (id: string) => ({ tags: tags[id] }),
+      load: (id: string) => new Promise<THREE.Group>(done => resolve.set(id, done)) };
+    const rig = new CharacterRig(assets as never) as any;
+    rig.layerTarget = new THREE.Group();
+    rig.baseOutfitIds = ["chest", "legs", "hair"];
+    const current = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial());
+    rig.layerTarget.add(current); rig.layerMeshes = [current];
+    const pending = rig.rebuildLayersNow();
+    expect([...resolve.keys()]).toEqual(["chest", "legs", "hair"]);
+    resolve.get("legs")!(new THREE.Group()); resolve.get("hair")!(new THREE.Group());
+    await Promise.resolve();
+    expect(current.parent).toBe(rig.layerTarget);
+    resolve.get("chest")!(new THREE.Group());
+    await pending;
+    expect(current.parent).toBeNull();
+    expect(rig.layerSignature).toContain("chest");
+    expect(rig.layerLoadPending).toBe(false);
+    current.geometry.dispose(); (current.material as THREE.Material).dispose();
+  });
   it("keeps the casting light on an exported staff's authored socket as its hand animates", async () => {
     // Exported equipment can be a merged mesh without the procedural source's userData.
     const assets = { entry: () => undefined, load: vi.fn(async () => new THREE.Group()) };

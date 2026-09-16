@@ -7,11 +7,14 @@ import { startGameServer } from "./lib/server.js";
 import type {} from "./lib/debug-api.js";
 import { preview } from 'vite';
 import { gameRoot } from './lib/paths.js';
+import { installTestDeadline } from './lib/deadline.js';
 
 const lab = process.argv.includes("--lab");
 const production = process.argv.includes('--production');
+const mobile = process.argv.includes('--mobile');
 const shipped = production || process.argv.includes('--shipped');
-const output = path.resolve("test-results/startup-cache", production ? 'release' : lab ? "lab" : "world");
+const clearDeadline = installTestDeadline('Startup cache', lab ? 60_000 : 120_000);
+const output = path.resolve("test-results/startup-cache", production ? mobile ? 'release-mobile' : 'release' : lab ? "lab" : "world");
 await mkdir(output, { recursive: true });
 const profile = path.join(output, `browser-${Date.now()}`);
 const server = production ? await (async () => {
@@ -29,7 +32,8 @@ const reports: Record<string, any> = {};
 
 async function boot(name: string, storageUnavailable = false) {
   context = await chromium.launchPersistentContext(profile, { headless: true,
-    viewport: { width: 1440, height: 900 }, args: process.platform === "win32"
+    viewport: mobile ? { width: 844, height: 390 } : { width: 1440, height: 900 },
+    isMobile: mobile, hasTouch: mobile, deviceScaleFactor: mobile ? 2 : 1, args: process.platform === "win32"
       ? ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"]
       : ["--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"] });
   const page = context.pages()[0] ?? await context.newPage();
@@ -56,12 +60,12 @@ async function boot(name: string, storageUnavailable = false) {
       terrain: [[0, 0], [-160, -118], [140, -90], [400, 0]].map(([x, z]) => debug.sampleWorld(x, z)),
       cache: globals.__corealmGenerationCache?.snapshot(), boot: globals.__corealmBootTelemetry.snapshot(),
       playerAssets: globals.__corealmPlayerAssets?.snapshot(),
-      modelTextureBytes: performance.getEntriesByType('resource').filter(entry => /\.(glb|png|jpe?g)(?:\?|$)/.test(entry.name))
+      modelTextureBytes: performance.getEntriesByType('resource').filter(entry => /\.(glb(?:\.model)?|png|jpe?g|webp)(?:\?|$)/.test(entry.name))
         .reduce((sum, entry) => sum + (entry as PerformanceResourceTiming).encodedBodySize, 0),
       spawns: debug.getEntities().filter((e: any) => e.archetype === 'enemy' || e.archetype === 'boss')
         .map((e: any) => { const entity = debug.getEntity(e.id); return { id: entity.id,
           x: entity.meta?.spawnX, z: entity.meta?.spawnZ, radius: entity.combat?.bodyRadius ?? .5,
-          boss: entity.archetype === 'boss', cave: entity.regionId === 'gravelmaw' }; }),
+          boss: entity.archetype === 'boss', cave: entity.regionId === 'gravelmaw', groupId: entity.meta?.groupId }; }),
       save: debug.getSaveBlob() };
   });
   assert.equal(state.ready, true);
@@ -75,8 +79,11 @@ async function boot(name: string, storageUnavailable = false) {
   for (let i = 0; i < state.spawns.length; i++) for (const b of state.spawns.slice(i + 1)) {
     const a = state.spawns[i];
     if (a.cave !== b.cave || a.boss && b.boss) continue;
-    assert.ok(Math.hypot(a.x - b.x, a.z - b.z) >= Math.max(a.cave ? 5 : 10,
-      a.radius + b.radius + (a.cave ? 1.5 : 4)) - 1e-5, `spawn clearance: ${a.id}/${b.id}`);
+    // Match the authored spacing policy, including the starter worm patch. The former blanket
+    // 10 m rule predates the current 6 m outdoor minimum and rejected unchanged released frogs.
+    const clustered = a.groupId === 'coldbrace_red_worms' && b.groupId === a.groupId;
+    assert.ok(Math.hypot(a.x - b.x, a.z - b.z) >= Math.max(clustered ? 3 : a.cave ? 5 : 6,
+      a.radius + b.radius + (clustered ? 1 : a.cave ? 3.5 : 5)) - 1e-5, `spawn clearance: ${a.id}/${b.id}`);
   }
   save ??= state.save;
   // Measure the revealed game before screenshot readback can stall the graphics driver.
@@ -94,6 +101,12 @@ async function boot(name: string, storageUnavailable = false) {
     && at <= state.boot.firstPlayableMs + 1000 ? [at - frames[i]!] : []).sort((a, b) => a - b);
   const firstGameplayFrames = { samples: frameGaps.length, maxMs: frameGaps.at(-1) ?? 0,
     p95Ms: frameGaps[Math.floor(frameGaps.length * .95)] ?? 0 };
+  if (!firstGameplayFrames.samples || firstGameplayFrames.maxMs >= 500) {
+    await writeFile(path.join(output,`${name}-frame-failure.json`),JSON.stringify({
+      firstGameplayFrames,playableMs:state.boot.firstPlayableMs,frames:frames.filter(at=>at>state.boot.firstPlayableMs-1000),
+      boot:state.boot,errors,
+    },null,2));
+  }
   assert.ok(firstGameplayFrames.samples > 0);
   assert.ok(firstGameplayFrames.maxMs < 500, 'Startup work must not freeze newly revealed gameplay');
   const { save: _save, ...report } = state;
@@ -181,4 +194,5 @@ try {
 } finally {
   await context?.close();
   await server.close();
+  clearDeadline();
 }

@@ -22,6 +22,7 @@ export class PlayerSilhouette {
   private lastOpacityAt: number | null = null;
   private opacity = 0;
   snapshot(): { active: boolean; opacity: number } { return { active: this.active, opacity: this.fill.opacity }; }
+  compile(renderer: THREE.WebGLRenderer, camera: THREE.Camera): void { this.visibility.compile(renderer, camera); }
 
   /** Ignore isolated limb and edge overlaps without delaying a substantial obstruction. */
   shouldShow(blockedSamples: number): boolean {

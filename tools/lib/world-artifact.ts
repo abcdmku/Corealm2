@@ -7,6 +7,7 @@ import { buildWorldTerrainSpec, buildFairyTerrainSpec } from '../../game/src/app
 import { scatterTilesForBounds } from '../../game/src/world/scatter.js';
 import type { WorldDataManifest } from '../../game/src/world/worldDataFormat.js';
 import { assertNavigationArtifact } from '../build-navmesh.js';
+import { WORLD_SITES } from '../../game/src/content/worldSites.js';
 
 export function expectedWorldTiles(): string[] {
   return [buildWorldTerrainSpec(), buildFairyTerrainSpec()].flatMap(spec => {
@@ -24,7 +25,9 @@ export async function assertWorldData(root: string): Promise<WorldDataManifest> 
     const tiles = expectedWorldTiles();
     if (manifest.format !== 'corealm-world' || manifest.version !== 1 || manifest.scope !== 'game/1337/world'
       || manifest.revision !== generationRevision(root)) throw new Error('Stale world revision');
-    const expected = ['terrain/world', 'terrain/fairy', 'spawns/world', ...tiles.map(tile => `scatter/${tile}`)].sort();
+    const expected = ['terrain/world', 'terrain/fairy', 'spawns/world', 'assembly/semantic', 'assembly/fairyDressing',
+      ...WORLD_SITES.filter(site => site.dressing.length && site.cutFace?.stations.length).map(site => `site-cut/${site.id}`),
+      ...tiles.map(tile => `scatter/${tile}`)].sort();
     if (JSON.stringify(manifest.tiles) !== JSON.stringify(tiles)
       || JSON.stringify(Object.keys(manifest.records).sort()) !== JSON.stringify(expected)) throw new Error('Incomplete island coverage');
     if (Object.values(manifest.records).reduce((sum, record) => sum + record.bytes, 0) > 128 * 1024 * 1024)

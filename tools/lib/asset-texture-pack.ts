@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { Plugin } from 'vite';
+import { packCompactAssets } from './compact-assets.js';
+import { packTerrainDelivery } from './terrain-delivery.js';
 
 export interface PackedImage { file: string; bytes: Buffer; mimeType: string }
 
@@ -101,6 +103,6 @@ export function releaseTexturePackPlugin(): Plugin {
   let output = '';
   return { name: 'corealm-release-texture-pack', apply: 'build',
     configResolved(config) { output = path.resolve(config.root, config.build.outDir); },
-    async writeBundle() { await packReleaseTextures(output); },
+    async writeBundle() { await packReleaseTextures(output); await packCompactAssets(output); await packTerrainDelivery(output); },
   };
 }

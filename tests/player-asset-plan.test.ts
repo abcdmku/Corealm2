@@ -75,6 +75,22 @@ describe('player-specific loading', () => {
     expect(stream.sources.meshes[0]!.userData.structureOwner).toBe('building');
   });
 
+  it('waits for a cut surface before marking its setting ready and retries without duplicate instances',async()=>{
+    const site={id:'cut',regionId:'fallowmarch'} as WorldSite;
+    const scene={scatterInstanced:vi.fn(()=>[])};
+    const stream=new WorldSiteStreaming(scene as never,{} as never);
+    stream.register(site,{assetIds:[],objects:[],placements:[],solids:[]} as never);
+    const prepare=vi.fn().mockRejectedValueOnce(new Error('offline')).mockResolvedValue(undefined);
+    stream.attach('cut',prepare,[150,180,-5,5]);
+    expect(stream.snapshot(area).selected).toEqual(['cut']);
+    await expect(stream.prepare(area,{})).rejects.toThrow('offline');
+    expect(stream.snapshot(area).pending).toEqual(['cut']);
+    await stream.prepare(area,{});
+    await stream.prepare(area,{});
+    expect(prepare).toHaveBeenCalledTimes(2);
+    expect(stream.snapshot(area).resident).toEqual(['cut']);
+  });
+
   it('does not hold a ready destination behind an unrelated slow camera prefetch', async () => {
     const source = new THREE.Group(); source.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()));
     let finish!: () => void;

@@ -31,6 +31,7 @@ export const FAST_TEST_SETTINGS = {
 } as const;
 
 export interface DriverOptions {
+  mobile?: boolean;
   headless?: boolean;
   viewport?: { width: number; height: number };
   /** Optional browser launch flags. Deterministic gameplay checks keep the SwiftShader default. */
@@ -67,7 +68,9 @@ export class GameDriver {
     });
     this.context = await this.browser.newContext({
       viewport: this.options.viewport ?? { width: 1280, height: 720 },
-      deviceScaleFactor: 1,
+      deviceScaleFactor: this.options.mobile ? 2 : 1,
+      isMobile: this.options.mobile ?? false,
+      hasTouch: this.options.mobile ?? false,
     });
     const settings = this.options.settings;
     if (settings) {

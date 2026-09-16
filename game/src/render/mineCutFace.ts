@@ -4,6 +4,18 @@ import { seedFromText } from "../world/organicFields.js";
 import { worldSitePoint, type WorldSite } from "../content/worldSites.js";
 import type { AssetRegistry } from "./assets.js";
 import type { WorldScene } from "./scene.js";
+import type { GenerationCachePort } from '../world/generationCache.js';
+import { captureGeometry, restoreGeometry, validGeometry, type GeometryData } from './terrainCache.js';
+
+export function splitMineCutData(key:string,cut:{geometry:GeometryData;solids:SolidVolume[]}) {
+  const record=key.replace('site-cut/','site-cut-draw/');
+  const positions=cut.geometry.attributes.position!.array;
+  let minX=Infinity,maxX=-Infinity,minZ=Infinity,maxZ=-Infinity;
+  for(let i=0;i<positions.length;i+=3){minX=Math.min(minX,positions[i]!);maxX=Math.max(maxX,positions[i]!);
+    minZ=Math.min(minZ,positions[i+2]!);maxZ=Math.max(maxZ,positions[i+2]!);}
+  return {record,geometry:cut.geometry,metadata:{solids:cut.solids,bounds:[minX,maxX,minZ,maxZ] as const,
+    geometry:{attributes:{},index:null,surfaceRecord:record}}};
+}
 
 interface Section {
   points: THREE.Vector3[];
@@ -32,6 +44,9 @@ export interface MineCutFaceResult {
   /** Caller owns these geometries. Materials and their textures remain owned by AssetRegistry. */
   objects: THREE.Object3D[];
   solids: SolidVolume[];
+  /** Release cut surfaces wait for their setting's preparation circle. Collision is already loaded. */
+  prepare?: () => Promise<THREE.Object3D[]>;
+  bounds?: readonly [number,number,number,number];
 }
 
 /** Read the actual terrain triangle for burial without changing gameplay's height sampler. */
@@ -82,7 +97,37 @@ export async function buildMineCutFace(
   assets: AssetRegistry,
   site: WorldSite,
   actualResourceEntities: readonly SemanticEntity[],
+  cache?: GenerationCachePort | null,
 ): Promise<MineCutFaceResult> {
+  if (!site.cutFace?.stations.length) return {objects:[],solids:[]};
+  type CachedCut = { geometry: GeometryData; solids: SolidVolume[]; bounds?: readonly [number,number,number,number] };
+  const cached = await cache?.get(`site-cut/${site.id}`, (v): v is CachedCut => !!v && typeof v === 'object'
+    && (validGeometry((v as CachedCut).geometry) || !!(v as CachedCut).geometry?.surfaceRecord?.startsWith('site-cut-draw/'))
+    && Array.isArray((v as CachedCut).solids));
+  if (cached) {
+    if (cached.geometry.surfaceRecord) {
+      let pending: Promise<THREE.Object3D[]> | undefined;
+      return {objects:[],solids:cached.solids,bounds:cached.bounds,prepare:() => pending ??= (async () => {
+        const [geometry,stone] = await Promise.all([
+          cache!.get(cached.geometry.surfaceRecord!, (v): v is GeometryData => validGeometry(v as GeometryData)),
+          hostStone(assets,site),
+        ]);
+        if (!geometry) throw new Error(`Mine surface unavailable: ${site.id}`);
+        return [cutMesh(restoreGeometry(geometry),stone.material,site)];
+      })().catch(error => {pending=undefined;throw error;})};
+    }
+    const {material} = await hostStone(assets,site);
+    return {objects:[cutMesh(restoreGeometry(cached.geometry),material,site)],solids:cached.solids};
+  }
+  const result = await generateMineCutFace(scene,assets,site,actualResourceEntities);
+  if (cache && result.objects.length) await cache.put(`site-cut/${site.id}`, {
+    geometry:captureGeometry((result.objects[0] as THREE.Mesh).geometry),solids:result.solids,
+  });
+  return result;
+}
+
+async function generateMineCutFace(scene: WorldScene, assets: AssetRegistry, site: WorldSite,
+  actualResourceEntities: readonly SemanticEntity[]): Promise<MineCutFaceResult> {
   const cut = site.cutFace;
   if (!cut || cut.stations.length === 0) return { objects: [], solids: [] };
   const setback = cut.frontSetback ?? 0.40;
@@ -257,28 +302,7 @@ export async function buildMineCutFace(
     }
   }
 
-  const hostId = site.dressing.find((piece) => /^corealm_(?:rock|cliff)_/.test(piece.assetId))?.assetId;
-  if (!hostId) throw new Error(`Mine cut ${site.id} has no authored host stone.`);
-  const source = await assets.load(hostId, { priority: "visible-spawn", primary: true });
-  let material: THREE.Material | undefined;
-  const colour = new THREE.Color(0, 0, 0);
-  let colourCount = 0;
-  source.traverse((object) => {
-    const mesh = object as THREE.Mesh;
-    if (!mesh.isMesh) return;
-    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-    const stone = materials.find((entry) => entry.name.split("@", 1)[0] === "Corealm weathered strata");
-    if (!stone) return;
-    material ??= stone;
-    const colours = mesh.geometry.getAttribute("color");
-    if (colours) for (let i = 0; i < colours.count; i++) {
-      colour.r += colours.getX(i); colour.g += colours.getY(i); colour.b += colours.getZ(i);
-      colourCount++;
-    }
-  });
-  if (!material) throw new Error(`Mine cut ${site.id} cannot borrow the host's stone material.`);
-  if (colourCount) colour.multiplyScalar(1 / colourCount);
-  else colour.setRGB(1, 1, 1);
+  const {material,colour} = await hostStone(assets,site);
 
   const positions: number[] = [];
   const normals: number[] = [];
@@ -493,12 +517,40 @@ export async function buildMineCutFace(
   geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
   geometry.computeBoundingBox();
   geometry.computeBoundingSphere();
+  return { objects: [cutMesh(geometry,material,site)], solids };
+}
+
+function cutMesh(geometry: THREE.BufferGeometry, material: THREE.Material, site: WorldSite): THREE.Mesh {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = `${site.id}:cut-face`;
   mesh.castShadow = mesh.receiveShadow = true;
   mesh.userData.worldSiteId = site.id;
   mesh.userData.ownedGeometry = true;
-  return { objects: [mesh], solids };
+  return mesh;
+}
+
+async function hostStone(assets: AssetRegistry, site: WorldSite) {
+  const hostId = site.dressing.find(piece => /^corealm_(?:rock|cliff)_/.test(piece.assetId))?.assetId;
+  if (!hostId) throw new Error(`Mine cut ${site.id} has no authored host stone.`);
+  const source = await assets.load(hostId, {priority:'visible-spawn',primary:true});
+  let material: THREE.Material | undefined;
+  const colour = new THREE.Color(0,0,0);
+  let colourCount = 0;
+  source.traverse(object => {
+    const mesh = object as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const stone = (Array.isArray(mesh.material) ? mesh.material : [mesh.material])
+      .find(entry => entry.name.split('@',1)[0] === 'Corealm weathered strata');
+    if (!stone) return;
+    material ??= stone;
+    const colours = mesh.geometry.getAttribute('color');
+    if (colours) for (let i=0;i<colours.count;i++) {
+      colour.r += colours.getX(i); colour.g += colours.getY(i); colour.b += colours.getZ(i); colourCount++;
+    }
+  });
+  if (!material) throw new Error(`Mine cut ${site.id} cannot borrow the host's stone material.`);
+  if (colourCount) colour.multiplyScalar(1/colourCount); else colour.setRGB(1,1,1);
+  return {material,colour};
 }
 
 interface ProfilePoint { across: number; depth: number; y: number }

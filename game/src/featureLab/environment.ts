@@ -9,7 +9,8 @@ import type { AssetRegistry } from "../render/assets.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type { ScatterPlacement, WorldScene } from "../render/scene.js";
 import { buildWorldSiteDressing } from "../render/worldSiteDressing.js";
-import { buildMineCutFace } from "../render/mineCutFace.js";
+import { buildMineCutFace, splitMineCutData } from "../render/mineCutFace.js";
+import type { GenerationCachePort } from '../world/generationCache.js';
 import { buildDungeonMouth } from "../render/dungeonMouth.js";
 import { buildComposition, variantSeed } from "../render/buildings.js";
 import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "../render/corealmSurfaceMaterials.js";
@@ -95,6 +96,16 @@ interface EnvironmentDeps {
 
 /** Original models and authored settings, using the same semantic views and scatter as the game. */
 export async function createEnvironmentWorkbench({ assets, scene, entityStore, entityViews, replaceCollision }: EnvironmentDeps): Promise<EnvironmentWorkbench> {
+  const cuts = new Map<string, unknown>();
+  const cutCache: GenerationCachePort = {
+    async get<T>(key: string, valid: (value: unknown) => value is T) {
+      const value = cuts.get(key); return valid(value) ? structuredClone(value) : null;
+    },
+    async put(key, value) {
+      const split=splitMineCutData(key,value as Parameters<typeof splitMineCutData>[1]);
+      cuts.set(key,structuredClone(split.metadata));cuts.set(split.record,structuredClone(split.geometry));return true;
+    },
+  };
   const manifest = assets.getManifest();
   if (!manifest) throw new Error("Environment workbench requires the production asset manifest");
   const catalog: EnvironmentCatalog = {
@@ -352,8 +363,9 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         const dressing = await buildWorldSiteDressing(scene, assets, site);
         if (disposed) { releaseObjects(dressing.objects); return; }
         let cut: Awaited<ReturnType<typeof buildMineCutFace>>;
-        try { cut = await buildMineCutFace(scene, assets, site, entities); }
+        try { cut = await buildMineCutFace(scene, assets, site, entities, cutCache); }
         catch (error) { releaseObjects(dressing.objects); throw error; }
+        if(cut.prepare)cut.objects.push(...await cut.prepare());
         if (disposed) { releaseObjects([...dressing.objects, ...cut.objects]); return; }
         clear();
         objects = [...dressing.objects, ...cut.objects];
@@ -384,7 +396,8 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         const entities = slots.map((slot) => resource(site, slot));
         applyMiningAccess(site, entities);
         await prepare(entities);
-        const cut = await buildMineCutFace(scene, assets, site, entities);
+        const cut = await buildMineCutFace(scene, assets, site, entities, cutCache);
+        if(cut.prepare)cut.objects.push(...await cut.prepare());
         if (disposed) { releaseObjects(cut.objects); return; }
         clear();
         objects = cut.objects;

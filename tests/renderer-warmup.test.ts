@@ -3,6 +3,24 @@ import { bootTelemetry } from "../game/src/perf/bootTelemetry.js";
 import { expect, it } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
 
+it('waits for GPU completion without a blocking finish and releases failed fences', async () => {
+  for (const failed of [false,true]) {
+    let polls=0,flushed=false,deleted=false;
+    const fence={};
+    const renderer=Object.assign(Object.create(Renderer.prototype),{renderer:{getContext:()=>({
+      SYNC_GPU_COMMANDS_COMPLETE:1,ALREADY_SIGNALED:2,CONDITION_SATISFIED:3,WAIT_FAILED:4,
+      fenceSync:()=>fence,flush:()=>{flushed=true;},isContextLost:()=>false,
+      clientWaitSync:(value:object,flags:number,timeout:number)=>{
+        expect(value).toBe(fence);expect(flushed).toBe(true);expect(flags).toBe(0);expect(timeout).toBe(0);
+        return ++polls===1 ? 0 : failed ? 4 : 3;
+      },deleteSync:(value:object)=>{expect(value).toBe(fence);deleted=true;},
+    })}}) as Renderer;
+    if(failed)await expect(renderer.waitForFrame()).rejects.toThrow('first game frame');
+    else await renderer.waitForFrame();
+    expect(polls).toBe(2);expect(deleted).toBe(true);
+  }
+});
+
 it("prepares visible resident geometry without compiling hidden navigation or closed interiors", () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const visible = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());

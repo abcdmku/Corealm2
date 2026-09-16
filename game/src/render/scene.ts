@@ -2,7 +2,7 @@ import { carveRiverTerrain, riverWaterBodies, sampleRiverChannel, type RiverChan
 import { applyFairyLandforms, type FairyLandformSpec } from '../world/fairyLandforms.js';
 import { createFairyRegionalRelief } from '../world/fairyRegionalRelief.js';
 import type { GenerationCachePort } from "../world/generationCache.js";
-import { captureGeometry, restoreGeometry, validTerrainCache, type TerrainCacheData } from "./terrainCache.js";
+import { captureGeometry, restoreGeometry, validTerrainCache, validGeometry, type TerrainCacheData, type GeometryData } from "./terrainCache.js";
 /**
  * Scene composition: the walkable world surface, roads, water, scatter hosting, and the player view.
  *
@@ -542,6 +542,25 @@ export class WorldScene {
   private chunks: ChunkRecord[] = [];
   private terrainCacheRead: TerrainCacheData | null = null;
   private terrainCacheWrite: TerrainCacheData | null = null;
+  private terrainDelivery: GenerationCachePort | null = null;
+  private terrainDraws: { mesh: THREE.Mesh; key: string; minX: number; maxX: number; minZ: number; maxZ: number;
+    ready: boolean; picking?: boolean; pending?: Promise<void> }[] = [];
+
+  /** Await complete authored draw data in the same preparation circle as nearby actors. */
+  async prepareTerrainArea(x: number, z: number, radius: number): Promise<void> {
+    await Promise.all(this.terrainDraws.filter(tile => Math.hypot(
+      Math.max(tile.minX - x, 0, x - tile.maxX), Math.max(tile.minZ - z, 0, z - tile.maxZ)) <= radius).map(tile => {
+      if (tile.ready) return;
+      return tile.pending ??= (async () => {
+        const data = await this.terrainDelivery!.get(tile.key, (v): v is GeometryData => validGeometry(v as GeometryData)
+          && (tile.picking || !!(v as GeometryData).attributes.normal && !!(v as GeometryData).attributes.color));
+        if (!data) throw new Error(`Terrain draw data unavailable: ${tile.key}`);
+        const geometry = restoreGeometry(data);
+        tile.mesh.geometry.dispose(); tile.mesh.geometry = geometry;
+        tile.ready = true; tile.mesh.visible = !tile.picking;
+      })().finally(() => { delete tile.pending; });
+    }));
+  }
   private roads: RoadSegment[] = [];
   private roadPolylines: Vec3[][] = [];
   private roadGrid = new Map<number, number[]>();
@@ -657,6 +676,7 @@ export class WorldScene {
   ): Promise<THREE.Mesh[]> {
     const input = JSON.stringify({ spec, flats: this.flats, key });
     this.terrainCacheRead = await cache.get(`terrain/${key}`, (value): value is TerrainCacheData => validTerrainCache(value, input));
+    this.terrainDelivery = cache;
     this.terrainCacheWrite = this.terrainCacheRead ? null : { input, ranges: [], lattice: null, chunks: {}, coast: null };
     try {
       const meshes = await this.buildWorldYielding(spec, prepareSurface);
@@ -852,6 +872,11 @@ export class WorldScene {
     // Terrain never casts. It would double every terrain draw call in the shadow pass and the
     // relief is gentle enough that self-shadowing buys nothing.
     mesh.castShadow = false;
+    if (cached?.surfaceRecord) {
+      mesh.visible = false;
+      this.terrainDraws.push({mesh, key:cached.surfaceRecord, ready:false,
+        minX:originX,maxX:originX+sizeX,minZ:originZ,maxZ:originZ+sizeZ});
+    }
     this.chunks.push({ mesh, centreX, centreZ, sizeX, sizeZ });
     return mesh;
   }
@@ -872,6 +897,17 @@ export class WorldScene {
       this.coastGrid = cached.grid as CoastHeightGrid;
       this.materials.setOceanDepthGrid(this.coastGrid, spec.seaLevel);
       this.attachCoast(restoreGeometry(cached.geometry), restoreGeometry(cached.dryGeometry), spec, bounds);
+      if (cached.tiles) {
+        const old = this.scatterGroup.getObjectByName('coastal-skirt') as THREE.Mesh;
+        old.removeFromParent(); old.geometry.dispose();
+        for (const tile of cached.tiles) {
+          const mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.materials.ground());
+          mesh.name = `coastal-skirt-${tile.key}`; mesh.visible = false; mesh.receiveShadow = true;
+          if (tile.picking) { mesh.userData.walkable = true; mesh.userData.navigationOnly = true; this.walkable.push(mesh); }
+          this.scatterGroup.add(mesh);
+          this.terrainDraws.push({...tile,mesh,ready:false});
+        }
+      }
     }];
     if (!bounds || spec.gridStep <= 0 || spec.oceanSize <= 0) return [];
 
@@ -2231,7 +2267,11 @@ export class WorldScene {
     }
     if (this.world?.fairyLandforms === true && this.chunks.length === 0) {
       this.fairyRegionalRelief = createFairyRegionalRelief(this.roadPolylines, this.world.worldSites ?? []);
-      this.buildLattice();
+      if (this.terrainCacheRead?.fairyLattice) this.lattice = this.terrainCacheRead.fairyLattice as HeightLattice;
+      else this.buildLattice();
+      if (this.terrainCacheWrite && this.lattice) this.terrainCacheWrite.fairyLattice = {
+        ...this.lattice, heights:this.lattice.heights.slice(),
+      };
       this.roadPolylines = this.roadPolylines.map(line => line.map(point =>
         [point[0], this.meshHeightAt(point[0], point[2]), point[2]] as Vec3));
     }
@@ -3284,6 +3324,8 @@ export class WorldScene {
   }
 
   clear(): void {
+    this.terrainDraws = [];
+    this.terrainDelivery = null;
     this.scatterVisibility.clear();
     this.terrainGroup.clear();
     this.scatterGroup.traverse((object) => {

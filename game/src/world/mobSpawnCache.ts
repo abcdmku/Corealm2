@@ -45,6 +45,7 @@ export async function spreadMobSpawnsCached(cache: GenerationCachePort, entities
   await cache.put('spawns/world', { signature, habitats: result, placements: ordinary.map(entity => ({
     id: entity.id, position: [...entity.position], groupId: String(entity.meta!.groupId),
     habitatId: String(entity.meta!.habitatId),
-  })) } satisfies CachedSpawns);
+  })), assetObjects: entities.filter(entity=>entity.view).map(entity=>({x:entity.position[0],z:entity.position[2],
+    ids:[entity.view!.assetId,entity.view!.depletedAssetId,...(entity.view!.partAssetIds??[])].filter(Boolean)})) });
   return result;
 }

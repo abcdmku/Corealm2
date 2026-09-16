@@ -1232,18 +1232,16 @@ export class CharacterRig {
     }
 
     // Load first, mutate second: a failed load must not leave the character half dressed.
-    const sources: { assetId: string; source: THREE.Object3D }[] = [];
-    for (const assetId of ids) {
-      try {
-        sources.push({ assetId, source: await this.assets.load(assetId) });
-      } catch {
-        // Keep the complete previous outfit and its matching body cap. Committing a partial
-        // source list could remove the body beneath trousers or sleeves that never loaded.
-        // The requested appearances are already recorded in gearBySlot. A pending flag lets
-        // a repeated applyEquipment call retry even when those appearances are unchanged.
-        this.layerLoadPending = true;
-        return;
-      }
+    let sources: { assetId: string; source: THREE.Object3D }[];
+    try {
+      sources = await Promise.all(ids.map(async assetId => ({ assetId, source: await this.assets.load(assetId) })));
+    } catch {
+      // Keep the complete previous outfit and its matching body cap. Committing a partial
+      // source list could remove the body beneath trousers or sleeves that never loaded.
+      // The requested appearances are already recorded in gearBySlot. A pending flag lets
+      // a repeated applyEquipment call retry even when those appearances are unchanged.
+      this.layerLoadPending = true;
+      return;
     }
 
     this.clearLayers();

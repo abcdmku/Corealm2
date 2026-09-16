@@ -5,6 +5,9 @@ import { createRiverSurface } from '../render/riverSurface.js';
 import { isFairyRegion, worldMapForRegion } from '../contracts.js';
 import { createRealmTerrain, createRealmScatter, type RealmTerrain } from './realmTerrain.js';
 import { resolveFairyDressing } from './fairyDressing.js';
+import { cachedWorldValue } from '../world/cachedWorldValue.js';
+import releaseNavigation from 'virtual:corealm-release-navigation';
+import { loadArtifactBytes } from '../systems/navigation.js';
 import { FAIRY_COMBAT_PLATEAUS, FAIRY_DEEP_PATH_CLEARINGS } from '../world/fairyLandforms.js';
 import { buildFairyTerrainSpec } from './worldSpec.js';
 import { FAIRY_GARDEN_LANDINGS } from '../world/fairyRegionalRelief.js';
@@ -222,7 +225,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   installBootPlaceholder();
   captureErrors(errors, atMs);
 
-  let statusPhase = "waking the frontier…";
+  let statusPhase = "Loading the game…";
   let statusAssets: AssetRegistry | null = null;
   let statusAssetTarget: number | null = null;
   const refreshStatus = (): void => {
@@ -232,8 +235,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const assetProgress = stats ? formatBootAssetProgress(stats, statusAssetTarget) : "";
     node.textContent = `${statusPhase}${assetProgress}`;
   };
-  const setStatus = (message: string): void => {
+  const setStatus = (message: string, phase: number): void => {
     statusPhase = message;
+    const progress = document.querySelector<HTMLProgressElement>('.boot-progress');
+    if (progress) {
+      progress.value = Math.max(progress.value, phase);
+    }
     refreshStatus();
   };
   const refreshStatusFrame = (): void => {
@@ -320,13 +327,38 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // 3 + 4. Start the manifest beside navigation initialization. These requests are independent; making
   // them serial put an entire network round trip on the critical path before any world work began.
   const assets = new AssetRegistry();
+  const playerRig = new CharacterRig(assets);
+  const playerBody = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("body") === "female" ? "female" : "male";
+  const buildPlayerRig = () => bootTelemetry.measureAsync(BOOT_SPANS.PLAYER_CONSTRUCTION,()=>playerRig.build({
+    bodyAssetId:`base_${playerBody}`,
+    outfitAssetIds:[`outfit_${playerBody}_peasant_chest`,`outfit_${playerBody}_peasant_legs`,`outfit_${playerBody}_peasant_boots`],
+    preloadGear:false,playerLocomotion:true,
+  }));
   statusAssets = assets;
   registerProceduralGear(assets);
   // Surface maps do not depend on navigation or the asset manifest.
-  const surfaceBootstrap = import("../render/corealmSurfaceMaterials.js")
+  const manifestBootstrap = bootTelemetry.measureAsync(BOOT_SPANS.MANIFEST_LOAD, () => assets.loadManifest());
+  // Both scatter controllers need this tiny source before they can prepare nearby scenery.
+  // Queue it before the regional model batch so it cannot spend seconds behind that traffic.
+  if (profile.scatter) void manifestBootstrap.then(() => assets.load('corealm_grass_1',
+    { priority: 'visible-spawn', primary: true })).catch(() => {});
+  const navigationDownload = import.meta.env.PROD && profile.kind === 'game'
+    ? loadArtifactBytes(`${import.meta.env.BASE_URL}generated/corealm-navmesh.nav`,
+      {worldSeed:store.get().meta.seed,signal:AbortSignal.timeout(30_000)}) : undefined;
+  void navigationDownload?.catch(()=>{}); // Import validation below owns the failure screen.
+  const surfaceBootstrap = manifestBootstrap.then(() => import("../render/corealmSurfaceMaterials.js"))
     .then(module => module.loadCorealmSurfaceTextures());
+  const fairySurfaceBootstrap = profile.kind === 'game' || new URLSearchParams(location.search).get('fairy') === '1'
+    ? manifestBootstrap.then(() => Promise.all([
+      import('../render/fairyGroundSurface.js').then(module=>module.loadFairyGroundSurface()),
+      import('../render/fairyRockSurface.js').then(module=>module.loadFairyRockSurface()),
+    ])) : undefined;
+  void fairySurfaceBootstrap?.catch(()=>{});
+  const castleSurfaceBootstrap = manifestBootstrap.then(()=>import('../render/castleStoneMaterial.js'))
+    .then(module=>module.preloadCastleStoneTextures());
+  void castleSurfaceBootstrap.catch(()=>{});
   void surfaceBootstrap.catch(() => {}); // The awaited use below reports a boot failure.
-  const assetBootstrap = bootTelemetry.measureAsync(BOOT_SPANS.MANIFEST_LOAD, () => assets.loadManifest())
+  const assetBootstrap = manifestBootstrap
     .then(async () => {
       bootTelemetry.milestone(BOOT_MILESTONES.MANIFEST_READY);
       await bootTelemetry.measureAsync(BOOT_SPANS.ANIMATION_LOAD, () => assets.loadAnimationLibraries());
@@ -335,8 +367,51 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     .catch((cause: unknown) => {
       errors.push({ atMs: atMs(), source: "assets", message: describeError(cause) });
     });
+  const playerBootstrap = worldBake || new URLSearchParams(location.search).get('navmesh-bake') === '1' ? undefined
+    : assetBootstrap.then(async()=>{
+      const ready=await buildPlayerRig();
+      if(ready) await playerRig.prepareItems(immediatePlayerItems(store.get()));
+      return ready;
+    });
+  void playerBootstrap?.catch(()=>{});
+  const guidanceModule=import('./guidance.js');
+  const agentModule=import('../agent/index.js');
+  const debugModule=import('../debug/gameDebug.js');
+  for(const pending of [guidanceModule,agentModule,debugModule]) void pending.catch(()=>{});
+  // Tiny boot modules must not queue behind megabytes of model traffic on a slow connection.
+  // Their normal awaited imports below still report failures and control when code is used.
+  if (profile.kind === 'game') for (const pending of [
+    import('../render/playerLocomotion.js'),
+    import('../world/dungeonDoors.js'), import('../render/dungeonGate.js'),
+    import('../render/traversalContactAssets.js'), import('../world/regionalPackEntities.js'),
+    import('../world/regionalPackDressing.js'), import('../render/mineCutFace.js'),
+    import('../render/dungeonMouth.js'), import('../world/mobSpawnSpacing.js'),
+    import('../world/mobSpawnCache.js'), import('../world/creaturePopulation.js'),
+  ]) void pending.catch(()=>{});
 
-  setStatus("starting the simulation…");
+  // The saved position is already known. Download its world data while WASM, textures and graphics initialize.
+  const cacheQuery = new URLSearchParams(location.search);
+  const cacheScope = generationScope(profile.kind, store.get().meta.seed, location.search);
+  const bakeWriter = worldBake ? new (await import('../world/worldBake.js')).WorldBakeWriter() : null;
+  const localCache = !worldMapCapture && cacheQuery.get("navmesh-bake") !== "1"
+    && (profile.kind === "game" ? cacheQuery.get("startup-cache") !== "0" : cacheQuery.get("startup-cache") === "1")
+    ? new GenerationCache(generationRevision, cacheScope) : null;
+  const fixtureWorldData = import.meta.env.DEV ? cacheQuery.get('world-data') : null;
+  const releaseWorldData = profile.kind === 'game' && (import.meta.env.PROD
+    || !worldMapCapture && cacheQuery.get('navmesh-bake') !== '1' && cacheQuery.get('startup-cache') !== '0');
+  const generationCache = bakeWriter ?? (fixtureWorldData
+    ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope), fixtureWorldData, true)
+    : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope),
+      `${import.meta.env.BASE_URL}generated/world/manifest.json`, import.meta.env.PROD) : localCache);
+  (window as any).__corealmGenerationCache = generationCache;
+  const initialAreaPosition = resumedFromSave ? store.get().player.position : [profile.spawn.x,0,profile.spawn.z];
+  const earlyAssets = generationCache instanceof ShippedWorldData && store.get().player.regionId !== 'gravelmaw'
+    ? generationCache.preloadArea(initialAreaPosition[0]!,initialAreaPosition[2]!,
+      structureResidencyRadius(initialSettings.drawDistance),
+      async id=>{ await manifestBootstrap; if(assets.entry(id)) await assets.load(id,{priority:'visible-spawn',primary:true}); }) : Promise.resolve();
+  void earlyAssets.catch(()=>{}); // Normal residency preparation reports failures and offers retry.
+
+  setStatus("Loading the game…",1);
   await Promise.all([
     bootTelemetry.measureAsync(BOOT_SPANS.NAVIGATION_WASM_INIT, () => Navigation.initLibrary()),
     assetBootstrap,
@@ -346,7 +421,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const nav = new Navigation();
 
   // 5. Renderer.
-  setStatus("lighting the frontier…");
+  setStatus("Starting graphics…",1);
   const renderer = new Renderer(canvas);
   renderer.setRenderScale(initialSettings.renderScale);
   renderer.setShadowQuality(initialSettings.shadowQuality);
@@ -380,7 +455,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
 
   // 6. Assets. Animation libraries load once as a shared clip library; every rig plays from it.
-  setStatus("loading assets…");
+  setStatus("Loading shared textures…",1);
   // The staff meshes, built rather than loaded. There is no staff anywhere in the 213-asset library,
   // so without this line all four staffs resolve to an asset id that `AssetRegistry.load` rejects,
   // `characterRig.attachBoneSlot` swallows the rejection, and a mage holds empty air — which is
@@ -390,7 +465,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // 7. Terrain, derived from canonical region data so there is one source of truth for where the
   //    world is. See app/worldSpec.ts for why this is derived rather than authored twice.
-  setStatus("raising the ground…");
+  setStatus("Loading terrain…",2);
   // Flat pads are registered before the terrain mesh is generated, or the ground under a
   // settlement stays as noisy as the moor around it — Coldbrace square measured a metre of tilt
   // across 33 m before this. worldSpec derives the pads from the authored settlement data.
@@ -404,26 +479,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('fairy-ground') === '1') {
     scene.materials.setFairyGroundSurface(await (await import('../render/fairyGroundSurface.js')).loadFairyGroundSurface());
   }
-  await (await import('../render/castleStoneMaterial.js')).preloadCastleStoneTextures();
+  await castleSurfaceBootstrap;
   scene.materials.setCastleStoneEnabled(true);
   const terrainSpec = profile.terrain();
   const agilityLabModule = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("agility") === "1"
     ? await import("../featureLab/agility.js") : null;
   agilityLabModule?.configureAgilityLabTerrain(terrainSpec);
-  const cacheQuery = new URLSearchParams(location.search);
-  const cacheScope = generationScope(profile.kind, store.get().meta.seed, location.search);
-  const bakeWriter = worldBake ? new (await import('../world/worldBake.js')).WorldBakeWriter() : null;
-  const localCache = !worldMapCapture && cacheQuery.get("navmesh-bake") !== "1"
-    && (profile.kind === "game" ? cacheQuery.get("startup-cache") !== "0" : cacheQuery.get("startup-cache") === "1")
-    ? new GenerationCache(generationRevision, cacheScope) : null;
-  const fixtureWorldData = import.meta.env.DEV ? cacheQuery.get('world-data') : null;
-  const releaseWorldData = profile.kind === 'game' && (import.meta.env.PROD
-    || !worldMapCapture && cacheQuery.get('navmesh-bake') !== '1' && cacheQuery.get('startup-cache') !== '0');
-  const generationCache = bakeWriter ?? (fixtureWorldData
-    ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope), fixtureWorldData, true)
-    : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope),
-      `${import.meta.env.BASE_URL}generated/world/manifest.json`, import.meta.env.PROD) : localCache);
-  (window as any).__corealmGenerationCache = generationCache;
 
   const deepWildernessEffectsLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('wildernessEffects') === 'deep';
   const wildernessEffectsLab = deepWildernessEffectsLab || profile.kind === "feature-lab" && new URLSearchParams(location.search).get("wildernessEffects") === "1";
@@ -453,8 +514,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   if (profile.kind === 'game' || fairyLab) {
     const fairyTerrainSpan = bootTelemetry.startSpan("boot.terrain.fairy");
-    const fairyGrassSurface = await (await import('../render/fairyGroundSurface.js')).loadFairyGroundSurface();
-    const fairyRockSurface = await (await import('../render/fairyRockSurface.js')).loadFairyRockSurface();
+    const [fairyGrassSurface,fairyRockSurface] = await fairySurfaceBootstrap!;
     fairyRealm = await createRealmTerrain(renderer.scene, fairyLab ? FAIRY_PORTAL_LAB_TERRAIN : buildFairyTerrainSpec(), {
       cache: generationCache, cacheKey: 'fairy',
       configure: other => { other.materials.setGroundStoneSurface({ ...surfaceTextures, stone: fairyRockSurface }); other.materials.setFairyGroundSurface(fairyGrassSurface); },
@@ -529,7 +589,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   //     the final surface exactly once; there is no post-build restamp or second height authority.
   bootTelemetry.milestone(BOOT_MILESTONES.TERRAIN_READY);
   const riverSurface = terrainSpec.waterChannels?.length ? createRiverSurface(terrainSpec.waterChannels, scene.materials,
-    (x, z) => scene.meshHeightAt(x, z)) : null;
+    (x, z) => scene.meshHeightAt(x, z), {stream:!worldMapCapture && (profile.kind === 'game' || riverLab)}) : null;
   if (riverSurface) scene.terrainGroup.add(riverSurface.group);
 
   // 7c. Water. Fishing spots were authored as interaction markers with a note that the water itself
@@ -537,7 +597,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   //     grass. Each `kind: "water"` location gets a surface sunk just below the local ground.
 
   // 8. Semantic world. Data in, entities out, deterministic from the seed.
-  setStatus("populating the frontier…");
+  setStatus("Loading the world…",3);
   //
   // The ports are what stop the world being placed by accident. `baseY` is the measured bbox
   // minimum of each GLB, so an entity is placed by its FEET rather than by its origin: without it
@@ -563,26 +623,24 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
   // One pass over the solved water bodies yields both halves of a fishery: the dry stance and the
   // school it faces. They have to come from the same solved contour or they drift apart.
-  const fishingAnchors = profile.kind === "game"
-    ? fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(), (x, z) => terrainAt(x, z).meshHeightAt(x, z))
-    : null;
+  let fishingAnchors: ReturnType<typeof fishingSiteAnchors> | undefined;
+  const getFishingAnchors = () => fishingAnchors ??= fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(),
+    (x, z) => terrainAt(x, z).meshHeightAt(x, z));
   const worldPorts = {
     heightAt,
     dungeonGates: worldDoorThresholds.length > 0,
-    ...(fishingAnchors ? {
-      accessPositions: new Map([
-        ...fishingAnchors.banks,
+      get accessPositions() { return profile.kind === 'game' ? new Map([
+        ...getFishingAnchors().banks,
         ...miningAccessPositions(WORLD_SITES, (x, z) => terrainAt(x, z).meshHeightAt(x, z), {
           assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
         }),
-      ]),
-      fishingSchools: fishingAnchors.schools,
-    } : {}),
+      ]) : undefined; },
+      get fishingSchools() { return profile.kind === 'game' ? getFishingAnchors().schools : undefined; },
     baseY: (assetId: string): number => assets.baseY(assetId),
     assetSize: (assetId: string): { x: number; y: number; z: number } | null => assets.assetSize(assetId),
     assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
     roadDistance,
-    coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
+    get coastalSpawns() { return profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : []; },
     coastalAccepts: (spot: readonly [number, number], radius: number) =>
       coastalBodyOnSafeGround((x, z) => terrainAt(x, z).sampleWorld(x, z), spot, radius),
     minibossCanStand: (regionId: RegionId, x: number, z: number) => {
@@ -633,7 +691,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
     }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
     : [];
-  const built = bootTelemetry.measureSync("boot.world.semantic", () => profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts));
+  type BuiltWorld = ReturnType<typeof profile.buildSemanticWorld>;
+  const built = await bootTelemetry.measureAsync("boot.world.semantic", () => cachedWorldValue(generationCache,
+    'assembly/semantic', () => profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts),
+    (v): v is BuiltWorld => !!v && typeof v === 'object' && ['entities','buildings','solids','routeNodes','routeEdges','knownLocations']
+      .every(key => Array.isArray((v as Record<string, unknown>)[key]))));
   const mobSpacingLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('spawnSpacing') === '1';
   const mobSpacingFixture: SemanticEntity[] = [];
   if (mobSpacingLab) {
@@ -757,8 +819,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       sitePlacements.push(...result.placements);
       built.solids.push(...result.solids);
       if (setting.cutFace) {
-        const cut = await buildMineCutFace(settingScene, assets, setting, built.entities);
-        settingScene.scatterGroup.add(...cut.objects);
+        const cut = await buildMineCutFace(settingScene, assets, setting, built.entities, generationCache);
+        for (const object of cut.objects) settingScene.scatterGroup.add(object);
+        if (cut.prepare) siteStreaming.attach(setting.id, async () => {
+          settingScene.scatterGroup.add(...await cut.prepare!());
+        },cut.bounds);
         built.solids.push(...cut.solids);
       }
     }
@@ -766,7 +831,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
 
   sitesSpan.end();
-  const fairyDressing = bootTelemetry.measureSync("boot.world.fairyDressing", () => fairyRealm ? resolveFairyDressing(fairyRealm.scene) : null);
+  const fairyDressing = fairyRealm ? await bootTelemetry.measureAsync("boot.world.fairyDressing", () => cachedWorldValue(
+    generationCache, 'assembly/fairyDressing', () => resolveFairyDressing(fairyRealm!.scene),
+    (v): v is ReturnType<typeof resolveFairyDressing> => !!v && typeof v === 'object'
+      && Array.isArray((v as any).points) && Array.isArray((v as any).solids) && !!(v as any).specs)) : null;
   if (fairyDressing) built.solids.push(...fairyDressing.solids);
 
   // The fitted stone recess gives the existing portal visible depth beyond its masonry arch.
@@ -948,7 +1016,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // monument solid. Loading here also warms the same cached GLB EntityViews uses below.
   let structureNavigation = { roots: [] as THREE.Group[], meshes: [] as THREE.Mesh[] };
   try {
-    structureNavigation = await bootTelemetry.measureAsync("boot.navigation.structures", () => buildStructureNavigationSources(assets, built.entities));
+    if (!(import.meta.env.PROD && profile.kind === 'game'))
+      structureNavigation = await bootTelemetry.measureAsync("boot.navigation.structures", () => buildStructureNavigationSources(assets, built.entities));
   } catch (cause) {
     errors.push({ atMs: atMs(), source: "structure.navigation", message: describeError(cause) });
   }
@@ -977,7 +1046,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Company Hall ridge and the player could stroll five metres along it, and every teleport in the
   // game — region travel, debug teleport, focusCamera, death respawn — routes through
   // `nav.closestPoint`, so those polygons were reachable. A ring generates no roof polygon at all.
-  let navCarves = solidObstacleMeshes(built.solids.map((solid) => encounterNavSolids.get(solid.id) ?? solid));
+  const releasedNavigation = import.meta.env.PROD && profile.kind === 'game';
+  let navCarves = releasedNavigation ? [] : solidObstacleMeshes(built.solids.map((solid) => encounterNavSolids.get(solid.id) ?? solid));
   const navCarveGroup = new THREE.Group();
   navCarveGroup.name = "nav-obstacles";
   navCarveGroup.visible = false;
@@ -987,11 +1057,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   collisionSpan.end();
 
   // 9. Navmesh over the walkable terrain, then the route graph above it.
-  setStatus("mapping walkable ground…");
-  const navigationTerrain = riverLab || fishingLab || profile.kind === "game"
+  setStatus("Loading paths…",3);
+  const navigationTerrain = releasedNavigation ? [] : riverLab || fishingLab || profile.kind === "game"
     ? dryNavigationMeshes(scene.getWalkableMeshes(), scene.getWaterBodies()).meshes
     : scene.getWalkableMeshes();
-  const navigationInput = [
+  const navigationInput = releasedNavigation ? [] : [
     ...navigationTerrain,
     ...(fairyRealm?.getWalkableMeshes() ?? []),
     ...(dungeon?.walkable ?? []),
@@ -1002,6 +1072,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const navigationBuilt = await bootTelemetry.measureAsync(
     BOOT_SPANS.NAVIGATION_BUILD,
     () => nav.buildOrImport(navigationInput, { worldSeed: store.get().meta.seed,
+      ...(releasedNavigation ? {release:releaseNavigation,loadArtifact:()=>navigationDownload!} : {}),
       allowRuntimeGeneration: !(import.meta.env.PROD && profile.kind === 'game') }),
   );
   if (!navigationBuilt) {
@@ -1132,7 +1203,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     // Permanent banks and molten ground belong to the world and must also appear on its map.
     wildernessEffects = new WildernessEffects(profile.kind === 'game' ? scene.terrainGroup : scene.overlayGroup, { groundHeightAt, torches,
-      channels: terrainSpec.lavaChannels ?? [], maxLights: 6, surfaceTextures });
+      channels: terrainSpec.lavaChannels ?? [], maxLights: 6, surfaceTextures,
+      streamChannels: !worldMapCapture && (profile.kind === 'game' || wildernessEffectsLab) });
     (window as any).__wildernessEffects = wildernessEffects;
   };
   refreshWildernessEffects(profile.kind === 'game' ? built.entities.filter(entity => entity.regionId === 'wilderness') : []);
@@ -1150,11 +1222,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     () => renderer.compileEffects(spellVfx.preparationRoot()));
 
   // 10. Procedural dressing, kept clear of anything authored.
-  setStatus("dressing the world…");
+  setStatus("Loading nearby scenery…",4);
   const fixtureSpawn = groundMotionFixture?.spawn ?? packFixture?.spawn;
   const spawnSpec = fixtureSpawn ? { ...profile.spawn, x: fixtureSpawn[0], z: fixtureSpawn[2], regionId: "fallowmarch" as const } : profile.spawn;
   const loadPosition: Vec3 = resumedFromSave ? [...store.get().player.position] : [spawnSpec.x, 0, spawnSpec.z];
   const loadRegion = resumedFromSave ? store.get().player.regionId : spawnSpec.regionId;
+  const initialTerrainPreparation = terrainAt(loadPosition[0],loadPosition[2])
+    .prepareTerrainArea(loadPosition[0],loadPosition[2],structureResidencyRadius(initialSettings.drawDistance))
+    .then(() => {
+      // Compile the arriving ground and water while nearby model downloads are still in flight.
+      if (!worldMapCapture && (profile.fullWarmup || performanceLab)) renderer.warmup();
+    });
+  void initialTerrainPreparation.catch(()=>{});
   assets.setActiveRegion(loadRegion);
   const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree, cache: generationCache ?? undefined });
   const fairyScatter = fairyRealm ? await createRealmScatter(fairyRealm, assets, store.get().meta.seed, {
@@ -1163,9 +1242,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const scatterForRegion = (regionId: RegionId) => isFairyRegion(regionId) && fairyScatter ? fairyScatter : scatterStreaming;
   let scatterResults: ScatterResult[] = [];
   function registerHabitatTreeClearance(entities: readonly SemanticEntity[]): void {
+    const byGroup = new Map<unknown, SemanticEntity[]>();
+    for (const entity of entities) {
+      const group = entity.meta?.groupId;
+      if (group === undefined) continue;
+      const members = byGroup.get(group) ?? [];
+      members.push(entity);
+      byGroup.set(group, members);
+    }
     for (const habitat of worldHabitats) {
       const inside = (point: Vec3) => habitatContains(habitat, point);
-      for (const entity of entities.filter((entry) => entry.meta?.groupId === habitat.groupId)) {
+      for (const entity of byGroup.get(habitat.groupId) ?? []) {
         const spawn = entity.position;
         const targets = habitatIdleTargets(entity.id, spawn, habitat);
         const valid: Vec3[] = [];
@@ -1261,6 +1348,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const [prepared] = await Promise.all([
       entityViews.prepare(selected, options), siteStreaming.prepare(area, options),
       structureCameraStreaming.prepare(selected, options),
+      terrainAt(area.position[0], area.position[2]).prepareTerrainArea(area.position[0], area.position[2], area.viewRadius),
+      wildernessEffects?.prepareArea(area.position[0], area.position[2], area.viewRadius),
+      riverSurface?.prepareArea(area.position[0], area.position[2], area.viewRadius),
     ]);
     if (prepared.missing.length) throw new Error(`Could not load nearby objects: ${prepared.missing.join(', ')}`);
     if (structureCamera.meshes.length !== cameraCount) roofVisibility.setSources(structureCamera.meshes);
@@ -1272,7 +1362,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     cameraSources: structureCamera.roots.length, assets: assets.getLoadStats(),
     loadedIds: assets.getManifest()!.assets.filter(entry => assets.isLoaded(entry.id)).map(entry => entry.id).sort(),
   }) };
-  setStatus("preloading structures…");
+  setStatus("Loading nearby objects…",4);
   await bootTelemetry.measureAsync(
     BOOT_SPANS.ENTITY_PRELOAD,
     async () => {
@@ -1294,7 +1384,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // side advances while the boot screen is visible.
       statusAssetTarget = assets.getLoadStats().requested;
       refreshStatus();
-      await preparation;
+      await Promise.all([preparation,initialTerrainPreparation]);
     },
   );
   await scatterPreparation;
@@ -1304,7 +1394,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Harvestable trees are registered by scatter. Their sources already loaded with the tiles.
   await entityViews.prepare(surfaceEntities.filter(entity => distanceXZ(entity.position, spawnPosition) <= ENTITY_ACTIVE_RADIUS));
   statusAssetTarget = null;
-  setStatus("preparing the player…");
+  setStatus("Preparing your player…",5);
   try {
     bootTelemetry.measureSync(BOOT_SPANS.FIRST_ENTITY_SYNC, () => entityViews.sync(surfaceEntities));
   } catch (cause) {
@@ -1357,17 +1447,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // A real skinned character rather than the round-0 capsule. If the rig fails to build for any
   // reason the capsule stays as the fallback, because a missing player is unrecoverable and an
   // ugly player is not.
-  const playerRig = new CharacterRig(assets);
-  const playerBody = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("body") === "female" ? "female" : "male";
-  const rigged = await bootTelemetry.measureAsync(
-    BOOT_SPANS.PLAYER_CONSTRUCTION,
-    () => playerRig.build({
-      bodyAssetId: `base_${playerBody}`,
-      outfitAssetIds: [`outfit_${playerBody}_peasant_chest`, `outfit_${playerBody}_peasant_legs`, `outfit_${playerBody}_peasant_boots`],
-      preloadGear: false,
-      playerLocomotion: true,
-    }),
-  );
+  const rigged = await (playerBootstrap ?? buildPlayerRig());
   if (rigged) {
     scene.entityGroup.add(playerRig.root);
     renderer.playerSilhouette.source = playerRig.root;
@@ -1968,7 +2048,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Phone-sized and touch classes on the UI root. The stylesheet reads them for the layout; the
   // input layer is told through the subscription below once it exists.
   const mobileLayout = new MobileLayout(labelRoot);
-  const { createGuidance } = await import("./guidance.js");
+  const { createGuidance } = await guidanceModule;
   const { overlays, guidance } = createGuidance({
     scene,
     camera: renderer.camera,
@@ -2021,6 +2101,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Standing atmosphere, as opposed to the event-driven feedback above. Both are polled from Vfx's
   // own update, so the loop needs no change. One InstancedMesh for the whole world.
   const ambience = new Ambience(scene.overlayGroup, { maxParticles: 640 });
+  if (!worldMapCapture) renderer.compileEffects(ambience.preparationRoot());
   const creatureEffects = profile.kind === 'game' || wildernessCreaturesLab
     ? new WildernessCreatureEffects(scene.overlayGroup) : null;
   const emberCreatureFamilies = new Set(['cinderback_crag', 'furnace_grazer', 'basalt_maw',
@@ -2336,6 +2417,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       }
       activeStructure = next;
       refreshWildernessEffects(next.entities);
+      await wildernessEffects?.prepareArea(store.get().player.position[0], store.get().player.position[2],
+        structureResidencyRadius(clientSettings.get().drawDistance));
       activeStructureNavigation = nextStructureNavigation.meshes;
       activeStructureCamera = nextStructureCamera.meshes;
       roofVisibility.setSources([...structureCamera.meshes, ...activeStructureCamera]);
@@ -2666,7 +2749,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Control handoff locks HUMAN input only. `api.setMovementCommandsEnabled(false)` would also
   // refuse the agent's own `corealm_move_to`, which is the opposite of handing it the keys.
   const version = { build: "phase1-round2", contracts: "5", content: "1" };
-  const { installAgentSurface } = await import("../agent/index.js");
+  const { installAgentSurface } = await agentModule;
   const agent = installAgentSurface(api, {
     version,
     now: () => clock.elapsedMs,
@@ -3307,7 +3390,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // The debug and acceptance surface is required before `ready` flips, but none of it participates
   // in world construction or the first render. Load it after those critical paths have completed.
-  const { installGameDebug } = await import("../debug/gameDebug.js");
+  const { installGameDebug } = await debugModule;
   if (profile.kind !== "feature-lab" && new URLSearchParams(location.search).get("packAudit") === "1") {
     const { createRegionalPackWorldProbe } = await import("../world/regionalPackWorldProbe.js");
     (window as Window & { __packWorldAudit?: unknown }).__packWorldAudit = createRegionalPackWorldProbe({
@@ -3706,23 +3789,25 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // Settings and lab fixtures may have changed the selected views. Finish their assets and
   // camera-ranked rigs before shader preparation, using the same update path as gameplay.
-  setStatus("preparing the visible scene…");
+  setStatus("Preparing your starting area…",5);
   await bootTelemetry.measureAsync("boot.entities.resident", () => entityViews.retryHydration());
   bootTelemetry.measureSync("boot.entities.pose", () => {
     for (let pass = 0; pass < 4; pass++) entityViews.update(0, renderer.camera.position, clock.elapsedMs);
   });
   scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
+  await (wildernessEffects as WildernessEffects | null)?.prepareArea(initialPlayerPosition[0], initialPlayerPosition[2],
+    structureResidencyRadius(clientSettings.get().drawDistance));
   fairyRealm?.setVisible(isFairyRegion(store.get().player.regionId));
   if (store.get().player.regionId === "gravelmaw") await deferredCave?.ensure();
   // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
   // a different cache key, including for Three's internal sky shader on the first water draw.
   if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
   if (profile.fullWarmup || performanceLab) {
-    setStatus("warming the shaders…");
+    setStatus("Finishing graphics…",5);
     bootTelemetry.measureSync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
   }
   if (!worldMapCapture) {
-    setStatus("preparing spell effects…");
+    setStatus("Starting the game…",5);
     await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot()));
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
@@ -3750,11 +3835,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   } else {
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
     loop.start();
-    requestAnimationFrame(() => {
+    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    try { await renderer.waitForFrame(); }
+    catch (error) { loop.stop();firstFrameSpan.fail(error);throw error; }
+    {
       firstFrameSpan.end();
       bootTelemetry.milestone(BOOT_MILESTONES.FIRST_RENDERED_FRAME);
-      // Keep the overlay over the canvas until the frame loop has actually painted once. Removing
-      // it before loop.start() exposed shader compilation and an empty canvas as apparent gameplay.
+      // The GPU has completed the actual gameplay frame, including textures and particles.
       bootTelemetry.measureSync(BOOT_SPANS.BOOT_SCREEN_REMOVAL, () => {
         document.getElementById("boot-screen")?.remove();
       });
@@ -3775,7 +3862,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         // The starting view is complete. Travel prefetch follows movement; equipment and newly
         // created items use their normal on-demand loaders instead of flooding the first frames.
       }, 0);
-    });
+    }
   }
   return { loop, api, ...(featureLab ? { featureLab } : {}) };
 }

@@ -83,6 +83,11 @@ export class BiomeAtmosphere {
   }
 
   setWeights(weights: BiomeWeights): void { this.weights = { ...weights }; }
+  compile(renderer: THREE.WebGLRenderer): void {
+    const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mipmap = renderer.getActiveMipmapLevel();
+    try { renderer.setRenderTarget(null); renderer.compile(this.scene, this.camera); }
+    finally { renderer.setRenderTarget(previous, face, mipmap); }
+  }
   setWildernessMagic(amount: number): void { this.wildernessMagic = Math.max(0, Math.min(1, amount)); }
   setPreview(region: RegionId | "neutral" | null): void { this.override = region; this.sky.enabled = true; }
   private activeWeights(): BiomeWeights { return this.override === "neutral" ? {} : this.override ? { [this.override]: 1 } : this.weights; }

@@ -363,15 +363,24 @@ export class EssenceSystem {
   /** Applies saved altar state to semantic entities after boot, load, or debug reset. */
   hydrateAltars(): void {
     const state = this.deps.store.get();
+    const entities = this.deps.entities.all();
+    const ruins = new Map<unknown, SemanticEntity[]>();
+    for (const entity of entities) {
+      if (entity.meta?.essenceAltarRuins !== true) continue;
+      const id = entity.meta.essenceAltarId;
+      const pieces = ruins.get(id) ?? [];
+      pieces.push(entity);
+      ruins.set(id, pieces);
+    }
     let changed = false;
-    for (const entity of this.deps.entities.all()) {
+    for (const entity of entities) {
       if (!altarElement(entity)) continue;
-      changed = this.applyAltarState(entity, state.magic.awakenedAltars[entity.id] === true) || changed;
+      changed = this.applyAltarState(entity, state.magic.awakenedAltars[entity.id] === true, ruins.get(entity.id) ?? []) || changed;
     }
     if (changed) this.deps.syncViews?.();
   }
 
-  private applyAltarState(altar: SemanticEntity, awakened: boolean): boolean {
+  private applyAltarState(altar: SemanticEntity, awakened: boolean, candidates = this.deps.entities.all()): boolean {
     const state = awakened ? "awakened" : "dormant";
     const interactions = awakened
       ? (["inspect", "produce", "recharge"] as const)
@@ -381,7 +390,7 @@ export class EssenceSystem {
       || altar.interactions.some((interaction, index) => interaction !== interactions[index]);
     altar.state = state;
     altar.interactions = [...interactions];
-    for (const entity of this.deps.entities.all()) {
+    for (const entity of candidates) {
       if (entity.meta?.essenceAltarRuins !== true || entity.meta.essenceAltarId !== altar.id) continue;
       if (entity.state !== state) changed = true;
       entity.state = state;

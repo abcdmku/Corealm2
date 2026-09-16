@@ -11,6 +11,22 @@ const river: RiverChannel = { id: 'test-river', points: [[0, 0], [20, 0], [40, 0
   halfWidth: 5, depth: 2, bankWidth: 8, seed: 47, openEnds: [true, true], naturalBanks: true };
 
 describe('continuous freshwater channels', () => {
+  it('loads approaching channels once and retains the exact full-scene geometry', () => {
+    const source=new THREE.MeshStandardMaterial(), materials={water:()=>source} as unknown as MaterialLibrary;
+    const channels=[river,{...river,id:'far',points:river.points.map(([x,z])=>[x+400,z] as [number,number])}];
+    const full=createRiverSurface(channels,materials);
+    const streamed=createRiverSurface(channels,materials,undefined,{stream:true});
+    expect(streamed.group.children).toHaveLength(0);
+    streamed.prepareArea(20,0,60); streamed.prepareArea(20,0,60);
+    expect(streamed.group.children.map(o=>o.name)).toEqual(['river-water:test-river']);
+    streamed.prepareArea(420,0,60);
+    for(const [i,object] of streamed.group.children.entries()) {
+      const actual=(object as THREE.Mesh).geometry,expected=(full.group.children[i] as THREE.Mesh).geometry;
+      expect(actual.index!.array).toEqual(expected.index!.array);
+      for(const name of Object.keys(expected.attributes)) expect(actual.getAttribute(name).array).toEqual(expected.getAttribute(name).array);
+    }
+    full.dispose();streamed.dispose();source.dispose();
+  });
   it('ends the water at the rendered ground, including shores displaced from the authored contour', () => {
     const pool: RiverChannel = { ...river, id: 'grounded-pool', points: [[0, 0], [20, 0], [40, 0]], bedHeights: [1, 1, 1] };
     // A sloping rendered bank crosses the water inside the authored channel.

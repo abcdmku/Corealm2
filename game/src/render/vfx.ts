@@ -736,6 +736,13 @@ export class Ambience {
     parent.add(this.dustMesh);
   }
 
+  /** Compile the real particle batches even before emitters make them visible. */
+  preparationRoot(): THREE.Object3D {
+    const view = new THREE.Group();
+    view.traverse = callback => { callback(view); callback(this.mesh); callback(this.dustMesh); };
+    return view;
+  }
+
   addEmitter(emitter: AmbienceEmitter): void {
     this.emitters.set(emitter.id, emitter);
   }

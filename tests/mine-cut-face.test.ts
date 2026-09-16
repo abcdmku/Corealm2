@@ -5,10 +5,28 @@ import { WORLD_SITES, worldSitePoint, type WorldSite } from "../game/src/content
 import type { AssetRegistry } from "../game/src/render/assets.js";
 import type { WorldScene } from "../game/src/render/scene.js";
 import { buildMineCutFace, createMineBurialSampler } from "../game/src/render/mineCutFace.js";
+import type { GenerationCachePort } from '../game/src/world/generationCache.js';
+import { captureGeometry } from '../game/src/render/terrainCache.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
 const SETBACK = 2.4;
 const SURFACE_EPSILON = 0.002;
+
+it('restores the exact cut shell and collision without generating terrain or station profiles again', async () => {
+  const f = fixture();
+  let stored: unknown;
+  const cache: GenerationCachePort = {
+    async get<T>(_key:string,valid:(v:unknown)=>v is T) {return valid(stored) ? structuredClone(stored) : null;},
+    async put(_key,value) {stored=structuredClone(value);return true;},
+  };
+  const first = await buildMineCutFace(f.scene as WorldScene,f.assets as unknown as AssetRegistry,f.site,f.entities,cache);
+  const savedGeometry = captureGeometry((first.objects[0] as THREE.Mesh).geometry);
+  const failScene = {meshHeightAt:() => {throw new Error('Cached cut must not regenerate');}};
+  const second = await buildMineCutFace(failScene as unknown as WorldScene,f.assets as unknown as AssetRegistry,f.site,[],cache);
+  expect(captureGeometry((second.objects[0] as THREE.Mesh).geometry)).toEqual(savedGeometry);
+  expect(second.solids).toEqual(first.solids);
+  expect((second.objects[0] as THREE.Mesh).material).toBe(f.material);
+});
 
 function fixture(single = false, steep = false) {
   const material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.94 });

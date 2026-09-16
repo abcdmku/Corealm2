@@ -16,8 +16,28 @@
     <div id="app">
       <canvas id="viewport"></canvas>
       <div id="ui-root"></div>
-      <div id="boot-screen"><div class="boot-mark">COREALM</div><div class="boot-status">waking the frontier…</div></div>
+      <div id="boot-screen" role="status" aria-live="polite">
+        <div class="boot-mark">COREALM</div>
+        <div class="boot-status">Downloading the game...</div>
+        <progress class="boot-progress" aria-label="Preparing the game" max="6" value="0"></progress>
+        <div class="boot-detail" aria-hidden="true">Preparing your starting area.</div>
+      </div>
     </div>
+    <!-- Feedback starts before the engine bundle is downloaded or evaluated. -->
+    <script>
+      (() => {
+        performance.setResourceTimingBufferSize(4000);
+        const started = performance.now();
+        const timer = setInterval(() => {
+          const screen = document.getElementById('boot-screen');
+          if (!screen || screen.querySelector('.boot-error')) { clearInterval(timer); return; }
+          const bytes = performance.getEntriesByType('resource').reduce((sum, entry) => sum + entry.encodedBodySize, 0);
+          const seconds = Math.floor((performance.now() - started) / 1000);
+          const detail = screen.querySelector('.boot-detail');
+          if (detail) detail.textContent = (bytes > 0 ? (bytes / 1000000).toFixed(1) + ' MB received · ' : '') + seconds + 's elapsed';
+        }, 250);
+      })();
+    </script>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

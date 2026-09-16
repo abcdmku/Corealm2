@@ -1,7 +1,7 @@
 {
   "format": "corealm-world",
   "version": 1,
-  "revision": "61f897b6773344f1ecf64567d738349e4eb0de75285688aca55a5e9303992f9a",
+  "revision": "0f51480886de2d5d436d74282c04a063af55e8d710770572aa08fd340a9d89bf",
   "scope": "game/1337/world",
   "tiles": [
     "-6:-5",
@@ -343,19 +343,104 @@
   ],
   "records": {
     "terrain/world": {
-      "file": "5bf95cf245e92436d03b6e8ffbbca8c68e85c5c7fc9bf1fbb0695077c3f35148.world",
-      "sha256": "5bf95cf245e92436d03b6e8ffbbca8c68e85c5c7fc9bf1fbb0695077c3f35148",
-      "bytes": 27475769
+      "file": "6805606d807de8b1f34fd5ffaaf2f5d095b2d673b42c9fa647b06da2112f8358.world",
+      "sha256": "6805606d807de8b1f34fd5ffaaf2f5d095b2d673b42c9fa647b06da2112f8358",
+      "bytes": 15297032
     },
     "terrain/fairy": {
-      "file": "41af84999777ed32bac4e2e4cf86d2a68676671feb68c2d9e4d636ca46bc675e.world",
-      "sha256": "41af84999777ed32bac4e2e4cf86d2a68676671feb68c2d9e4d636ca46bc675e",
-      "bytes": 17157949
+      "file": "6c2d6ff6ed0a1dbf568953b05df2b73b4f4ae589e14d273311a37e17a17b35a3.world",
+      "sha256": "6c2d6ff6ed0a1dbf568953b05df2b73b4f4ae589e14d273311a37e17a17b35a3",
+      "bytes": 9924875
+    },
+    "assembly/semantic": {
+      "file": "cef7260c85f59a0c7af8dfc15749303b6050b0e9b4fc2689474fdf0d94aa479d.world",
+      "sha256": "cef7260c85f59a0c7af8dfc15749303b6050b0e9b4fc2689474fdf0d94aa479d",
+      "bytes": 586864
+    },
+    "site-cut/cindervein_workings": {
+      "file": "9cfdf8dbe973d07015222bd4b8ad2876faa56402591ce6829228afe59097b400.world",
+      "sha256": "9cfdf8dbe973d07015222bd4b8ad2876faa56402591ce6829228afe59097b400",
+      "bytes": 1387929
+    },
+    "site-cut/nightglass_excavation": {
+      "file": "eed608c845ee38e74c36efb1eb62ce7e70e3e2977c3679c1a8929184f17b97da.world",
+      "sha256": "eed608c845ee38e74c36efb1eb62ce7e70e3e2977c3679c1a8929184f17b97da",
+      "bytes": 1411620
+    },
+    "site-cut/east_cinder_cut": {
+      "file": "bc7fb46824397206c454ad0df8ce6b88b0e5512e50447d4a99174a53a8284db8.world",
+      "sha256": "bc7fb46824397206c454ad0df8ce6b88b0e5512e50447d4a99174a53a8284db8",
+      "bytes": 1514699
+    },
+    "site-cut/nightglass_ridge": {
+      "file": "0d589726aa30d89471b599377bfc9eb12b12a3ad5cfb4035834977d9e176af36.world",
+      "sha256": "0d589726aa30d89471b599377bfc9eb12b12a3ad5cfb4035834977d9e176af36",
+      "bytes": 1674531
+    },
+    "site-cut/crown_silver_quarry": {
+      "file": "b357ee6ba9af1a2fa42bad3f3ef5d39d570e917f646698faaa93ec38cc9230db.world",
+      "sha256": "b357ee6ba9af1a2fa42bad3f3ef5d39d570e917f646698faaa93ec38cc9230db",
+      "bytes": 1469926
+    },
+    "site-cut/argent_high_cut": {
+      "file": "2d44f165edc11034bba16d7f6dbf42129fbeafab82b0e136bdc11d68490838f6.world",
+      "sha256": "2d44f165edc11034bba16d7f6dbf42129fbeafab82b0e136bdc11d68490838f6",
+      "bytes": 1437060
+    },
+    "site-cut/dewglass_workings": {
+      "file": "edafebd694bd2164f8382344eef0df322525745748a1650133d4ace1ac236265.world",
+      "sha256": "edafebd694bd2164f8382344eef0df322525745748a1650133d4ace1ac236265",
+      "bytes": 1349965
+    },
+    "site-cut/lantern_seam": {
+      "file": "8d80f07a0efca5ef88eb008eef4303bc93a4daad402fc1e2a5046eadaa835f12.world",
+      "sha256": "8d80f07a0efca5ef88eb008eef4303bc93a4daad402fc1e2a5046eadaa835f12",
+      "bytes": 1372864
+    },
+    "site-cut/star_amethyst_cut": {
+      "file": "c14a72a616ff5112bcdaff6eacf67b88cb4e7a479378cd225206252ea9eb373a.world",
+      "sha256": "c14a72a616ff5112bcdaff6eacf67b88cb4e7a479378cd225206252ea9eb373a",
+      "bytes": 1367462
+    },
+    "site-cut/sovereign_lode": {
+      "file": "167700f62bd0da1acbf0e02c30ef7c9c1ee2e1dfc42457750bf34a166e9c2aad.world",
+      "sha256": "167700f62bd0da1acbf0e02c30ef7c9c1ee2e1dfc42457750bf34a166e9c2aad",
+      "bytes": 1359504
+    },
+    "site-cut/bracken_workings": {
+      "file": "37ce084dbbce8f84b28dcdda6f374eb421430dc22ee98875765175982f63f1c3.world",
+      "sha256": "37ce084dbbce8f84b28dcdda6f374eb421430dc22ee98875765175982f63f1c3",
+      "bytes": 1984305
+    },
+    "site-cut/hollowcut_workings": {
+      "file": "0ba145f58151df5d4fae7b0f4b7a1547a8fbd71beebfddbf746dbab0b288ca6d.world",
+      "sha256": "0ba145f58151df5d4fae7b0f4b7a1547a8fbd71beebfddbf746dbab0b288ca6d",
+      "bytes": 1148945
+    },
+    "site-cut/lower_quarry_bench": {
+      "file": "a3b0b9783ced190b9c8137b567ec34509c8a67bd3c957cec881f33d1d8665a4f.world",
+      "sha256": "a3b0b9783ced190b9c8137b567ec34509c8a67bd3c957cec881f33d1d8665a4f",
+      "bytes": 1286636
+    },
+    "site-cut/upper_seam_shelf": {
+      "file": "2fd807b4b87960cd8505d3e2cab2212c8a896c598217358a574377783784df67.world",
+      "sha256": "2fd807b4b87960cd8505d3e2cab2212c8a896c598217358a574377783784df67",
+      "bytes": 983242
+    },
+    "site-cut/clinker_cut": {
+      "file": "6a16929bced7466374cfe7150d991434e20a5848065af5b40408fd418e212748.world",
+      "sha256": "6a16929bced7466374cfe7150d991434e20a5848065af5b40408fd418e212748",
+      "bytes": 1803918
+    },
+    "assembly/fairyDressing": {
+      "file": "cc2464acaf18dad13e971a001e24ab6994fb41674f4ed00dabe13ec0073b27ff.world",
+      "sha256": "cc2464acaf18dad13e971a001e24ab6994fb41674f4ed00dabe13ec0073b27ff",
+      "bytes": 581349
     },
     "spawns/world": {
-      "file": "4d8583a517dd49a67004ef546ca6d482291520f2b7707e43cc71f6422360837f.world",
-      "sha256": "4d8583a517dd49a67004ef546ca6d482291520f2b7707e43cc71f6422360837f",
-      "bytes": 528274
+      "file": "ebbad094e0c96da13abd5748781203011d814e2d939ca021f301f3a907fee250.world",
+      "sha256": "ebbad094e0c96da13abd5748781203011d814e2d939ca021f301f3a907fee250",
+      "bytes": 702774
     },
     "scatter/-6:-5": {
       "file": "8303126fac91243c8fa8b7f0690b7b5bbae228cdbc06af33f309704b49a394bb.world",

@@ -5,15 +5,16 @@ import { gameRoot } from './lib/paths.js';
 import { GameDriver } from './lib/driver.js';
 import { installTestDeadline } from './lib/deadline.js';
 
-const deadline = installTestDeadline('Player asset world travel', 150_000);
-const out = 'test-results/smart-loading-world';
+const deadline = installTestDeadline('Player asset world travel', 120_000);
+const mobile = process.argv.includes('--mobile');
+const out = mobile ? 'test-results/smart-loading-world-mobile' : 'test-results/smart-loading-world';
 await mkdir(out, { recursive: true });
 const vite = await preview({ root: gameRoot, preview: { host: '127.0.0.1', port: 0 } });
 const address = vite.httpServer.address();
 if (!address || typeof address === 'string') throw new Error('No preview address');
 const server = { url: `http://127.0.0.1:${address.port}`, close: () => new Promise<void>((resolve, reject) =>
   vite.httpServer.close(error => error ? reject(error) : resolve())) };
-const driver = new GameDriver(server, { headless: true, viewport: { width: 1440, height: 900 },
+const driver = new GameDriver(server, { headless: true, mobile, viewport: mobile ? {width:844,height:390} : { width: 1440, height: 900 },
   browserArgs: [...(process.platform === 'win32' ? ['--use-angle=d3d11'] : []), '--enable-gpu', '--ignore-gpu-blocklist', '--mute-audio'] });
 const report: Record<string, any> = {};
 try {
@@ -79,8 +80,9 @@ try {
     assert.ok(next.camera.requestedDistance <= 11);
     if (id === 'gravelmaw_exit_portal') {
       // Walk out and turn using ordinary input; do not lift or detach the inspection camera.
-      await page.mouse.move(720, 450); await page.mouse.down({ button: 'right' });
-      await page.mouse.move(720 - Math.PI / .006, 450, { steps: 12 }); await page.mouse.up({ button: 'right' });
+      const viewport = page.viewportSize()!, x = viewport.width * .7, y = viewport.height * .5;
+      await page.mouse.move(x, y); await page.mouse.down({ button: 'right' });
+      await page.mouse.move(x - Math.PI / .006, y, { steps: 12 }); await page.mouse.up({ button: 'right' });
       await page.keyboard.down('w'); await page.waitForTimeout(1500); await page.keyboard.up('w');
       await settled();
     }

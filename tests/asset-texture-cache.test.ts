@@ -130,14 +130,14 @@ afterEach(() => {
 });
 
 describe("AssetTextureCache image requests", () => {
-  it("uses its own manager and only installs external PNG/JPEG handlers when bitmap decoding exists", () => {
+  it("shares external PNG/JPEG/WebP decoding through its own manager", () => {
     const cache = new AssetTextureCache();
     expect(cache.manager).not.toBe(THREE.DefaultLoadingManager);
     const handler = imageHandler(cache);
-    for (const url of ["image.png", "image.JPG", "image.jpeg?revision=2", "https://assets.example/image.PNG#part"]) {
+    for (const url of ["image.png", "image.JPG", "image.webp", "image.jpeg?revision=2", "https://assets.example/image.PNG#part"]) {
       expect(cache.manager.getHandler(url)).toBe(handler);
     }
-    for (const url of ["asset.glb", "image.webp", "image.ktx2", "data:image/png;base64,AAAA", "blob:https://assets.example/image"]) {
+    for (const url of ["asset.glb", "image.ktx2", "data:image/png;base64,AAAA", "blob:https://assets.example/image"]) {
       expect(cache.manager.getHandler(url)).toBeNull();
     }
     expect(THREE.DefaultLoadingManager.getHandler("../../textures/imported/hash.png")).not.toBe(handler);

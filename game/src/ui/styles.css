@@ -211,7 +211,11 @@ html, body {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
-.boot-status { color: var(--ink-dim); font-size: var(--size-md); letter-spacing: var(--tracking-wide); }
+.boot-status { color: var(--ink-dim); font-size: var(--size-md); letter-spacing: var(--tracking-wide); text-align: center; padding: 0 20px; }
+.boot-detail { color: var(--ink-dim); font-size: 13px; font-variant-numeric: tabular-nums; }
+.boot-progress { width: min(280px, 75vw); height: 6px; border: 0; border-radius: 3px; overflow: hidden; background: #30271d; accent-color: #d0ac67; }
+.boot-progress::-webkit-progress-bar { background: #30271d; }
+.boot-progress::-webkit-progress-value { background: #d0ac67; transition: width .3s; }
 
 .boot-error {
   max-width: 70ch;

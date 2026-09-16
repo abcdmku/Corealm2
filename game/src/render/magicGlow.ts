@@ -64,6 +64,30 @@ export class MagicGlow {
   constructor() {
     this.quad = new FullScreenQuad(this.composite);
   }
+  /** Submit the actual bloom materials while startup downloads are still running. */
+  compile(renderer: THREE.WebGLRenderer): void {
+    this.bloom ??= new UnrealBloomPass(new THREE.Vector2(1, 1), 1.25, 0.65, 0.75);
+    const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(),
+      mipmap = renderer.getActiveMipmapLevel();
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    // FullScreenQuad has position/UV only. A normal attribute selects another shader key,
+    // even though these postprocess shaders never read normals.
+    geometry.deleteAttribute('normal');
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const scene = new THREE.Scene();
+    for (const material of [this.bloom.materialHighPassFilter, ...this.bloom.separableBlurMaterials,
+      this.bloom.compositeMaterial, this.bloom.blendMaterial]) scene.add(new THREE.Mesh(geometry, material));
+    try {
+      renderer.setRenderTarget(this.bloom.renderTargetBright);
+      renderer.compile(scene, camera);
+      scene.clear(); scene.add(new THREE.Mesh(geometry, this.composite));
+      renderer.setRenderTarget(null);
+      renderer.compile(scene, camera);
+    } finally {
+      renderer.setRenderTarget(previous, face, mipmap);
+      geometry.dispose();
+    }
+  }
   /** Pure energy is composed once from HDR; shaded matter remains in the base scene. */
   renderBase(
     renderer: THREE.WebGLRenderer,

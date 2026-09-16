@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   AssetRegistry,
@@ -60,6 +61,7 @@ function entry(id: string): AssetEntry {
 async function registryWith(
   ids: readonly string[],
   loadAsync: (url: string) => Promise<FakeGltf>,
+  release = false,
 ): Promise<AssetRegistry> {
   const manifest: AssetManifest = {
     generatedAt: "2026-08-30T00:00:00.000Z",
@@ -71,6 +73,7 @@ async function registryWith(
       license: "test-only",
     }],
     assets: ids.map(entry),
+    ...(release ? { optimizedTextures: {} } : {}),
   };
   vi.stubGlobal("fetch", vi.fn(async () => ({
     ok: true,
@@ -106,6 +109,47 @@ afterEach(() => {
 });
 
 describe("AssetRegistry streaming", () => {
+  it('loads compressed release models on desktop through the normal geometry and animation path', async () => {
+    vi.stubGlobal('matchMedia', () => ({matches:false}));
+    const asset = {...entry('hero'), compactFile:'hero.glb.model'};
+    const source = new Uint8Array([1,2,3,4]);
+    const fetch = vi.fn(async (url: string) => url.endsWith('.model')
+      ? new Response(Uint8Array.from(gzipSync(source)))
+      : {ok:true,json:async () => ({assets:[asset],packs:[],generatedAt:''})});
+    vi.stubGlobal('fetch', fetch);
+    const registry = new AssetRegistry();
+    const loadAsync = vi.fn();
+    const parseAsync = vi.fn(async (bytes: ArrayBuffer, root: string) => {
+      expect(new Uint8Array(bytes)).toEqual(source);
+      expect(root).toMatch(/assets\/$/);
+      return gltf('hero');
+    });
+    (registry as any).loader = {loadAsync,parseAsync};
+    await registry.loadManifest();
+    expect((await registry.load('hero')).name).toBe('hero');
+    expect(parseAsync).toHaveBeenCalledTimes(1);
+    expect(loadAsync).not.toHaveBeenCalled();
+    expect(registry.getLoadStats()).toMatchObject({loaded:1,failed:0});
+  });
+
+  it.each([false,true])('keeps the optimized queue bounded on desktop %s while overlapping texture waits', async desktop => {
+    const ids=Array.from({length:20},(_,i)=>`part-${i}`);
+    const pending=new Map<string,Deferred<FakeGltf>>();
+    const registry=await registryWith(ids,async url=>{
+      const id=assetIdFromUrl(url),request=deferred<FakeGltf>();pending.set(id,request);return request.promise;
+    },desktop);
+    vi.stubGlobal('matchMedia',()=>({matches:!desktop}));
+    const requests=ids.map(id=>registry.load(id,{priority:'visible-spawn'}));
+    await flushQueue();
+    expect(registry.getLoadStats()).toMatchObject({inflight:16,queued:4});
+    for(const [id,request] of pending)request.resolve(gltf(id));
+    await flushQueue();
+    expect(registry.getLoadStats()).toMatchObject({inflight:4,queued:0,loaded:16});
+    for(const [id,request] of pending)request.resolve(gltf(id));
+    await Promise.all(requests);
+    expect(registry.getLoadStats()).toMatchObject({loaded:20,failed:0});
+  });
+
   it('only promotes pending requests and does not retry a failed download implicitly', async () => {
     const failure = deferred<FakeGltf>();
     const load = vi.fn(() => failure.promise);

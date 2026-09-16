@@ -50,6 +50,26 @@ describe('shared lava footprint', () => {
 describe('production Wilderness effects', () => {
   const ground = (x: number, z: number): number => carveLavaTerrain(0, x, z, WILDERNESS_LAVA_LAB_CHANNELS);
 
+  it('prepares nearby channels once with identical geometry and a stable light count', async () => {
+    const options = {groundHeightAt:ground,torches:[],channels:WILDERNESS_LAVA_LAB_CHANNELS};
+    const full = new WildernessEffects(new THREE.Group(), options);
+    const streamed = new WildernessEffects(new THREE.Group(), {...options,streamChannels:true});
+    await streamed.prepareArea(1e4,1e4,50);
+    expect(streamed.getState().moltenTriangles).toBe(0);
+    const point = WILDERNESS_LAVA_LAB_CHANNELS[0]!.points[0]!;
+    await Promise.all([streamed.prepareArea(point[0],point[1],50),streamed.prepareArea(point[0],point[1],50)]);
+    expect(streamed.getState().moltenTriangles).toBe(full.getState().moltenTriangles);
+    const geometry = (effects: WildernessEffects) => effects.group.children.filter(o => (o as THREE.Mesh).isMesh)
+      .map(o => ({name:o.name,geometry:(o as THREE.Mesh).geometry.toJSON()}));
+    // UUIDs differ for independent allocations; every attribute/index buffer must agree.
+    const stripIds = (rows: ReturnType<typeof geometry>) => rows.map(row => {
+      const {uuid, ...data} = row.geometry; return {name:row.name,geometry:data};
+    });
+    expect(stripIds(geometry(streamed))).toEqual(stripIds(geometry(full)));
+    expect(streamed.getState().lightBudget).toBe(full.getState().lightBudget);
+    streamed.dispose(); full.dispose();
+  });
+
   it('keeps flames in the measured metal bowl when a mounted torch is rotated', () => {
     expect(torchFlameOrigin([10, 5, 20], 2, 0)).toEqual([10, 5.7, 20.554]);
     const rotated = torchFlameOrigin([10, 5, 20], 2, Math.PI / 2);

@@ -25,6 +25,16 @@ export class ScreenAntialiasing {
   });
   private readonly quad = new FullScreenQuad(this.material);
 
+  compile(renderer: THREE.WebGLRenderer): void {
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    geometry.deleteAttribute('normal');
+    const mesh = new THREE.Mesh(geometry, this.material);
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mipmap = renderer.getActiveMipmapLevel();
+    try { renderer.setRenderTarget(null); renderer.compile(mesh, camera); }
+    finally { renderer.setRenderTarget(previous, face, mipmap); geometry.dispose(); }
+  }
+
   render(renderer: THREE.WebGLRenderer): void {
     if (!this.enabled) return;
     renderer.getDrawingBufferSize(this.size);

@@ -195,6 +195,8 @@ export interface NavArtifactDiagnostics {
 }
 
 export interface NavArtifactOptions {
+  /** Build-validated release identity avoids reconstructing all distant triangles on a phone. */
+  release?: { fingerprint:string; worldSeed:string; strategy:'solo'|'tiled'; sourceMeshes:number; sourceTriangles:number };
   /** Releases must import their validated artifact; runtime baking is an authoring tool. */
   allowRuntimeGeneration?: boolean;
   /** Saved-world seed. A binary from another seed must never be accepted. */
@@ -445,22 +447,24 @@ export class Navigation {
     this.overrides = overrides;
     this.measureSource(walkable);
 
-    const chosen = strategy === "auto" ? this.autoStrategy() : strategy;
-    const artifactUrl = options.artifactUrl ?? defaultArtifactUrl();
+    const chosen = options.release?.strategy ?? (strategy === "auto" ? this.autoStrategy() : strategy);
+    const artifactUrl = options.artifactUrl ?? (options.release ? defaultArtifactUrl().replace(/\.bin$/, '.nav') : defaultArtifactUrl());
     let expectedFingerprint: string | null = null;
     let bytes = 0;
     let importMs = 0;
     let failureReason: string | null = null;
 
     try {
-      if (walkable.length === 0) throw new Error("No walkable meshes supplied");
+      if (walkable.length === 0 && !options.release) throw new Error("No walkable meshes supplied");
+      if (options.release && (options.allowRuntimeGeneration !== false || String(options.worldSeed) !== options.release.worldSeed))
+        throw new Error('Released navigation does not match the world seed');
       // Fetch while WebCrypto digests the Recast input. These two operations are independent, and
       // doing them serially makes cache validation itself part of the boot bottleneck.
       const [fingerprintInput, artifactBytes] = await Promise.all([
-        this.artifactFingerprintInput(walkable, options, chosen),
+        options.release ? null : this.artifactFingerprintInput(walkable, options, chosen),
         loadArtifactBytes(artifactUrl, options),
       ]);
-      expectedFingerprint = await fingerprintNavigationInputs(fingerprintInput);
+      expectedFingerprint = options.release?.fingerprint ?? await fingerprintNavigationInputs(fingerprintInput!);
 
       bytes = artifactBytes.byteLength;
       const artifact = await decodeNavigationArtifact(artifactBytes);
@@ -476,6 +480,10 @@ export class Navigation {
       this.navMesh = imported.navMesh;
       this.query = new core.NavMeshQuery(imported.navMesh);
       this.strategy = artifact.metadata.settings.strategy;
+      if (options.release) {
+        this.sourceMeshes = options.release.sourceMeshes;
+        this.sourceTriangles = options.release.sourceTriangles;
+      }
       this.polyCount = this.countPolys();
       if (this.polyCount <= 0) throw new Error("imported navmesh has no polygons");
 
@@ -1184,11 +1192,14 @@ function defaultArtifactUrl(): string {
   return "/generated/corealm-navmesh.bin";
 }
 
-async function loadArtifactBytes(url: string, options: NavArtifactOptions): Promise<Uint8Array> {
+export async function loadArtifactBytes(url: string, options: NavArtifactOptions): Promise<Uint8Array> {
   if (options.artifactBytes) return options.artifactBytes;
   if (options.loadArtifact) return options.loadArtifact();
   const response = await fetch(url, { signal: options.signal });
   if (!response.ok) throw new Error(`artifact request failed with HTTP ${response.status}`);
+  if (new URL(url, typeof location === 'undefined' ? 'http://localhost/' : location.href).pathname.endsWith('.nav')) {
+    return new Uint8Array(await new Response(response.body!.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+  }
   return new Uint8Array(await response.arrayBuffer());
 }
 

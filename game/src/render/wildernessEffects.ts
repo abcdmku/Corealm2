@@ -3,7 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Ambience } from './vfx.js';
 import { buildLavaSurfaceField } from '../world/lavaSurface.js';
 import { buildLavaTextureField } from '../world/lavaTextureFlow.js';
-import { rockMassDistance, type LavaRockMass } from '../world/lavaLandforms.js';
+import { rockMassBounds, rockMassDistance, type LavaRockMass } from '../world/lavaLandforms.js';
 import { LavaBankLighting } from './lavaBankLighting.js';
 import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from './corealmSurfaceMaterials.js';
 import { isMoltenLavaAt, lavaBankWidthAt, lavaClearanceAt, lavaMagicAt, lavaSections, lavaSurfaceClearanceAt,
@@ -50,6 +50,8 @@ export interface WildernessEffectsOptions {
   readonly channels: readonly LavaChannel[];
   readonly maxLights?: number;
   readonly surfaceTextures?: CorealmSurfaceTextures;
+  /** Prepare distant channels through prepareArea before they enter the visible scene. */
+  readonly streamChannels?: boolean;
 }
 
 /** Measured bowl centre of the shipped Torch_Metal GLB, rotated with its assembly part. */
@@ -136,6 +138,7 @@ export class WildernessEffects {
   private bankRocks = 0;
   private readonly paletteRange: [number, number] = [1, 0];
   private bounds: THREE.Box3 | null = null;
+  private readonly channelJobs = new Map<string, Promise<void>>();
 
   constructor(parent: THREE.Object3D, private readonly options: WildernessEffectsOptions) {
     this.group.name = 'wilderness-effects';
@@ -152,10 +155,41 @@ export class WildernessEffects {
     this.textureAt = buildLavaTextureField(options.channels, options.groundHeightAt);
     this.bankLighting = new LavaBankLighting(this.group, options.channels, options.groundHeightAt);
     this.buildTorches();
-    for (const channel of options.channels) this.buildChannel(channel);
-    for (const channel of options.channels) for (const mass of channel.rockMasses ?? []) this.buildRockMass(mass);
-    if (options.surfaceTextures) {
-      applyCorealmSurfaceMaterials(this.group, options.surfaceTextures);
+    if (!options.streamChannels) for (const channel of options.channels) {
+      this.buildChannel(channel);
+      for (const mass of channel.rockMasses ?? []) this.buildRockMass(mass);
+      this.channelJobs.set(channel.id, Promise.resolve());
+    }
+    this.finishGeometry();
+  }
+
+  async prepareArea(x: number, z: number, radius: number): Promise<void> {
+    for (const channel of this.options.channels) {
+      const sections = lavaSections(channel, .55);
+      const nearby = sections.some(section => Math.hypot(section.x - x, section.z - z)
+        <= radius + Math.max(section.leftHalfWidth, section.rightHalfWidth) + channel.bankWidth * 2 + 8)
+        || (channel.rockMasses ?? []).some(mass => {
+          const [minX,maxX,minZ,maxZ] = rockMassBounds(mass) as [number,number,number,number];
+          return Math.hypot(Math.max(minX-x,0,x-maxX),Math.max(minZ-z,0,z-maxZ)) <= radius;
+        });
+      if (!nearby) continue;
+      let job = this.channelJobs.get(channel.id);
+      if (!job) {
+        job = new Promise<void>(resolve => setTimeout(resolve, 0)).then(() => {
+          if (this.disposed) return;
+          this.buildChannel(channel);
+          for (const mass of channel.rockMasses ?? []) this.buildRockMass(mass);
+          this.finishGeometry();
+        });
+        this.channelJobs.set(channel.id, job);
+      }
+      await job;
+    }
+  }
+
+  private finishGeometry(): void {
+    if (this.options.surfaceTextures) {
+      applyCorealmSurfaceMaterials(this.group, this.options.surfaceTextures);
       this.group.traverse(child => {
         const mesh = child as THREE.Mesh;
         if (mesh.isMesh && mesh.name.startsWith('wilderness-')) {

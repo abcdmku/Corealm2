@@ -16,6 +16,10 @@ export class PlayerDepthVisibility {
 
   constructor() { this.scene.add(this.dot); this.dot.frustumCulled = false; }
 
+  compile(renderer: THREE.WebGLRenderer, camera: THREE.Camera): void {
+    renderer.compile(this.scene, camera);
+  }
+
   sample(renderer: THREE.WebGLRenderer, camera: THREE.Camera, source: THREE.Object3D | null): number {
     const gl = renderer.getContext() as WebGL2RenderingContext;
     if (!source?.visible) { this.blocked = 0; return 0; }

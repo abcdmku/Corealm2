@@ -29,6 +29,37 @@ async function fixture() {
 }
 
 describe('shipped world loading', () => {
+  it('starts both terrain grids together and keeps model traffic behind them', async () => {
+    const f=await fixture(), load=vi.fn(async (_id:string)=>{});
+    Object.assign(f.manifest.records,{'terrain/fairy':{...f.manifest.records['terrain/world'],file:`${'f'.repeat(64)}.world`}});
+    Object.assign(f.manifest,{assetObjects:[{x:0,z:0,ids:['nearby']}]});
+    const pending:((response:Response)=>void)[]=[];
+    f.fetch.mockImplementation(async url=>String(url).endsWith('manifest.json') ? Response.json(f.manifest)
+      : new Promise<Response>(resolve=>pending.push(resolve)));
+    const preload=f.source.preloadArea(0,0,20,load);
+    await vi.waitFor(()=>expect(pending).toHaveLength(2));
+    expect(load).not.toHaveBeenCalled();
+    pending[0]!(new Response(Uint8Array.from(f.packed)));
+    for(let i=0;i<20;i++)await Promise.resolve();
+    expect(load).not.toHaveBeenCalled();
+    pending[1]!(new Response(Uint8Array.from(f.packed)));
+    await preload;
+    expect(load.mock.calls.map(call=>call[0])).toEqual(['nearby']);
+  });
+
+  it('prefetches only intersecting foliage and reuses the same verified data download', async () => {
+    const f=await fixture(), load=vi.fn(async (_id:string)=>{});
+    Object.assign(f.manifest,{assetTiles:[
+      {minX:0,maxX:96,minZ:0,maxZ:96,ids:['oak','grass']},
+      {minX:96,maxX:192,minZ:0,maxZ:96,ids:['oak','pine']},
+      {minX:300,maxX:396,minZ:0,maxZ:96,ids:['distant']},
+    ]});
+    await f.source.preloadArea(90,40,20,load);
+    expect(load.mock.calls.map(call=>call[0])).toEqual(['oak','grass','pine']);
+    expect(await f.source.get('terrain/world',valid)).toEqual(f.data);
+    expect(f.fetch).toHaveBeenCalledTimes(2);
+    expect(f.source.snapshot().generated).toEqual([]);
+  });
   it('loads exact bytes from the deployment base and uses local storage on later requests', async () => {
     const f = await fixture();
     expect(await f.source.get('terrain/world', valid)).toEqual(f.data);

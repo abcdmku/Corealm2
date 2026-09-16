@@ -1,4 +1,5 @@
 import { bootTelemetry } from "../perf/bootTelemetry.js";
+import { usesMobileAssets } from './assetDelivery.js';
 import { PlayerSilhouette } from "./playerSilhouette.js";
 import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
 /**
@@ -196,10 +197,12 @@ const DRAW_DISTANCE = {
 } as const;
 
 export type DrawDistancePreset = keyof typeof DRAW_DISTANCE;
+const distancePreset = (distance: DrawDistancePreset) => distance === 'near' && usesMobileAssets()
+  ? { cameraFar: 65, fogNear: 14, fogFar: 40 } : DRAW_DISTANCE[distance];
 
 /** Camera-space metres covered by one draw-distance setting. */
 export function drawDistanceMetres(distance: DrawDistancePreset): number {
-  return DRAW_DISTANCE[distance].cameraFar;
+  return distancePreset(distance).cameraFar;
 }
 
 /**
@@ -211,7 +214,7 @@ export function drawDistanceMetres(distance: DrawDistancePreset): number {
  * fogged Emberfast into the frame for ~90 draws.
  */
 export function fogOpaqueMetres(distance: DrawDistancePreset): number {
-  return DRAW_DISTANCE[distance].fogFar;
+  return distancePreset(distance).fogFar;
 }
 
 /** Rows in the gradient. 256 is smooth enough that no banding survives the 8-bit output. */
@@ -334,6 +337,12 @@ export class Renderer {
       powerPreference: "high-performance",
       alpha: false,
     });
+    // Seed Three's state cache before animation palettes upload partial rows. Otherwise their
+    // first update asks the driver for these defaults and synchronously drains all queued draws.
+    const gl = this.renderer.getContext() as WebGL2RenderingContext;
+    for (const parameter of [gl.UNPACK_ROW_LENGTH, gl.UNPACK_SKIP_PIXELS, gl.UNPACK_SKIP_ROWS]) {
+      this.renderer.state.pixelStorei(parameter, 0);
+    }
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -453,6 +462,10 @@ export class Renderer {
     // same job from every direction at once and is directionally correct.
 
     this.resize();
+    this.magicGlow.compile(this.renderer);
+    this.screenAntialiasing.compile(this.renderer);
+    this.biomeAtmosphere.compile(this.renderer);
+    this.playerSilhouette.compile(this.renderer, this.camera);
     window.addEventListener("resize", () => this.resize());
 
   }
@@ -496,7 +509,7 @@ export class Renderer {
 
   /** Keeps the far clip behind the fog so reduced draw distance never exposes a hard world edge. */
   setDrawDistance(distance: DrawDistancePreset): void {
-    const preset = DRAW_DISTANCE[distance];
+    const preset = distancePreset(distance);
     this.biomeAtmosphere.sky.setFogRange(preset.fogNear, preset.fogFar);
     this.camera.far = preset.cameraFar;
     this.camera.updateProjectionMatrix();
@@ -802,6 +815,24 @@ export class Renderer {
     this.biomeAtmosphere.render(this.renderer, deltaSeconds);
     this.magicGlow.render(this.renderer, this.scene, this.camera);
     this.screenAntialiasing.render(this.renderer);
+  }
+
+  /** A submitted draw is not yet a playable frame. Wait without blocking input or loading feedback. */
+  async waitForFrame(): Promise<void> {
+    const gl = this.renderer.getContext() as WebGL2RenderingContext;
+    const fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+    if (!fence) throw new Error('Unable to finish the first game frame');
+    gl.flush();
+    const deadline = performance.now() + 30_000;
+    try {
+      for (;;) {
+        const status = gl.clientWaitSync(fence, 0, 0);
+        if (status === gl.ALREADY_SIGNALED || status === gl.CONDITION_SATISFIED) return;
+        if (status === gl.WAIT_FAILED || gl.isContextLost() || performance.now() >= deadline)
+          throw new Error('Unable to finish the first game frame');
+        await new Promise<void>(resolve => setTimeout(resolve, 8));
+      }
+    } finally { gl.deleteSync(fence); }
   }
 
   private drawWorld(): void {

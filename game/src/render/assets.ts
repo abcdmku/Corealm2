@@ -9,9 +9,11 @@
 import * as THREE from "three";
 import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { ASSET_BASE_URL, ASSET_MANIFEST_URL } from "../app/config.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { mirrorAnimationClip } from "./skinning.js";
+import { configureAssetDelivery, deliveryUrl, usesMobileAssets } from './assetDelivery.js';
 
 /** Suffix for a generated mirror. Shared with `render/characterRig.ts`, which names the clips. */
 export const MIRROR_SUFFIX = "_Mirror";
@@ -47,6 +49,7 @@ export interface AssetEntry {
   trunkRadius?: number;
   id: string;
   file: string;
+  compactFile?: string;
   pack: string;
   category: AssetCategory;
   /**
@@ -118,6 +121,8 @@ export interface AssetManifest {
   generatedAt: string;
   packs: AssetPack[];
   assets: AssetEntry[];
+  compactTextures?: Record<string, string>;
+  optimizedTextures?: Record<string, string>;
 }
 
 /**
@@ -244,6 +249,7 @@ class CachedAssetImageLoader extends THREE.ImageBitmapLoader {
 }
 
 function canonicalAssetUrl(url: string): string {
+  url = deliveryUrl(url);
   if (/^(?:data|blob):/i.test(url)) return url;
   const base = typeof document !== "undefined" ? document.baseURI
     : typeof location !== "undefined" ? location.href : undefined;
@@ -269,7 +275,7 @@ export class AssetTextureCache {
     this.manager.setURLModifier(canonicalAssetUrl);
     if (typeof createImageBitmap === "function") {
       this.manager.addHandler(
-        /^(?!data:|blob:).*\.(?:png|jpe?g)(?:[?#].*)?$/i,
+        /^(?!data:|blob:).*\.(?:png|jpe?g|webp)(?:[?#].*)?$/i,
         new CachedAssetImageLoader(this.manager),
       );
     }
@@ -330,7 +336,7 @@ export class AssetRegistry {
   private manifest: AssetManifest | null = null;
   private byId = new Map<string, AssetEntry>();
   private readonly textureCache = new AssetTextureCache();
-  private loader = new GLTFLoader(this.textureCache.manager);
+  private loader = new GLTFLoader(this.textureCache.manager).setMeshoptDecoder(MeshoptDecoder);
   private loaded = new Map<string, THREE.Group>();
   /**
    * Generated ids reserved before loading the manifest, including factories not yet requested.
@@ -373,6 +379,7 @@ export class AssetRegistry {
     const response = await fetch(ASSET_MANIFEST_URL);
     if (!response.ok) throw new Error(`Asset manifest failed: ${response.status} ${response.statusText}`);
     const manifest = (await response.json()) as AssetManifest;
+    configureAssetDelivery(ASSET_BASE_URL, manifest.compactTextures, manifest.optimizedTextures);
     this.manifest = manifest;
     this.byId.clear();
     for (const entry of manifest.assets) {
@@ -573,7 +580,10 @@ export class AssetRegistry {
   }
 
   private drainQueue(): void {
-    while (this.activeLoads < MAX_CONCURRENT_ASSET_LOADS) {
+    // Release files are much smaller. Keep their next requests in flight while earlier
+    // files decode and resolve texture dependencies, instead of leaving the connection idle.
+    const concurrency = this.manifest?.optimizedTextures || usesMobileAssets() ? 16 : MAX_CONCURRENT_ASSET_LOADS;
+    while (this.activeLoads < concurrency) {
       const request = this.nextQueuedLoad();
       if (!request) return;
       this.queued.delete(request.id);
@@ -621,7 +631,13 @@ export class AssetRegistry {
           return group;
         }
         const entry = request.entry;
-        const gltf = await this.loader.loadAsync(`${ASSET_BASE_URL}${entry.file.replace(/^\/+/, "")}`);
+        const url = `${ASSET_BASE_URL}${entry.file.replace(/^\/+/, "")}`;
+        const gltf = entry.compactFile ? await (async () => {
+          const response = await fetch(`${ASSET_BASE_URL}${entry.compactFile}`);
+          if (!response.ok || !response.body) throw new Error(`Model download failed: ${entry.id} (${response.status})`);
+          const bytes = await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+          return this.loader.parseAsync(bytes, url.slice(0, url.lastIndexOf('/') + 1));
+        })() : await this.loader.loadAsync(url);
         const group = gltf.scene;
         group.name = id;
         if (entry.pack.startsWith("corealm-original-")) {

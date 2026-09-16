@@ -4,8 +4,8 @@ import type { MaterialLibrary } from './materials.js';
 
 /** Sampled-footprint water meshes. Earlier channels own overlaps at lake outlets. */
 export function createRiverSurface(channels: readonly RiverChannel[], materials: MaterialLibrary,
-  heightAt?: (x: number, z: number) => number): {
-  group: THREE.Group; update(seconds: number): void; dispose(): void;
+  heightAt?: (x: number, z: number) => number, options: {stream?:boolean} = {}): {
+  group: THREE.Group; prepareArea(x:number,z:number,radius:number): void; update(seconds: number): void; dispose(): void;
 } {
   const group = new THREE.Group();
   group.name = 'crownward-river';
@@ -27,7 +27,16 @@ export function createRiverSurface(channels: readonly RiverChannel[], materials:
     shader.uniforms.uEdgeFade = { value: .045 };
   };
   material.customProgramCacheKey = () => source.customProgramCacheKey() + '-river-world-ripples-v2';
-  for (const [channelIndex, channel] of channels.entries()) {
+  const built = new Set<number>();
+  const bounds = channels.map(channel=>{
+    const rows=riverSections(channel,.75);
+    const width=(channel.lake?.radius??Math.max(...rows.flatMap(row=>[row.leftHalfWidth,row.rightHalfWidth])))+3.75;
+    const xs=channel.lake?[channel.lake.centre[0]]:rows.map(row=>row.x), zs=channel.lake?[channel.lake.centre[1]]:rows.map(row=>row.z);
+    return {minX:Math.min(...xs)-width,maxX:Math.max(...xs)+width,minZ:Math.min(...zs)-width,maxZ:Math.max(...zs)+width};
+  });
+  const build = (channelIndex:number) => {
+    if (built.has(channelIndex)) return;
+    const channel=channels[channelIndex]!;
     const rows = riverSections(channel, .75);
     const positions: number[] = [], depth: number[] = [], transport: number[] = [], clipped: number[] = [];
     const earlier = channels.slice(0, channelIndex);
@@ -122,9 +131,15 @@ export function createRiverSurface(channels: readonly RiverChannel[], materials:
     mesh.name = `river-water:${channel.id}`;
     mesh.renderOrder = 2;
     group.add(mesh);
-  }
+    built.add(channelIndex);
+  };
+  if (!options.stream) channels.forEach((_,index)=>build(index));
   // The environment loop supplies absolute seconds, not a frame delta.
-  return { group, update(seconds) { time.value = seconds; }, dispose() {
+  return { group, prepareArea(x,z,radius) {
+    bounds.forEach((rect,index)=>{
+      if(Math.hypot(Math.max(rect.minX-x,0,x-rect.maxX),Math.max(rect.minZ-z,0,z-rect.maxZ))<=radius) build(index);
+    });
+  }, update(seconds) { time.value = seconds; }, dispose() {
     group.traverse(object => { if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).geometry.dispose(); });
     material.dispose(); group.clear();
   } };

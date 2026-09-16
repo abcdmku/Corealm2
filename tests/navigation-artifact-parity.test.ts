@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { Vec3 } from "../game/src/contracts.js";
 import { NAVMESH_AUTHORING_INPUTS } from "../game/src/generated/navmeshFingerprint.js";
 import { Navigation } from "../game/src/systems/navigation.js";
-import { fingerprintNavigationGeometry, navigationMeshPositions } from "../game/src/systems/navigationArtifact.js";
+import { decodeNavigationArtifact, fingerprintNavigationGeometry, navigationMeshPositions } from "../game/src/systems/navigationArtifact.js";
 
 const WORLD_SEED = 1337;
 const START: Vec3 = [-8, 3, -6];
@@ -89,6 +89,22 @@ afterAll(() => {
 });
 
 describe("prebaked navigation artifact", () => {
+  it('imports build-validated navigation with identical routes before drawing geometry loads', async () => {
+    const artifact = await decodeNavigationArtifact(artifactBytes);
+    const navigation = new Navigation();
+    const generation = vi.spyOn(navigation,'build');
+    const release = {fingerprint:artifact.metadata.fingerprint,worldSeed:String(WORLD_SEED),
+      strategy:artifact.metadata.settings.strategy,sourceMeshes:1,sourceTriangles:240};
+    expect(await navigation.buildOrImport([], {worldSeed:WORLD_SEED,release,allowRuntimeGeneration:false,artifactBytes})).toBe(true);
+    expect(navigation.findPath(START,END)).toEqual(source.findPath(START,END));
+    expect(generation).not.toHaveBeenCalled();
+    for (const invalid of [{...release,fingerprint:'wrong'}, {...release,worldSeed:'different'}]) {
+      const rejected = new Navigation();
+      expect(await rejected.buildOrImport([], {worldSeed:WORLD_SEED,release:invalid,allowRuntimeGeneration:false,artifactBytes})).toBe(false);
+    }
+    const damaged = artifactBytes.slice(); damaged[damaged.length-1]! ^= 1;
+    expect(await new Navigation().buildOrImport([], {worldSeed:WORLD_SEED,release,allowRuntimeGeneration:false,artifactBytes:damaged})).toBe(false);
+  });
   it('keeps runtime baking disabled when a release artifact cannot be loaded', async () => {
     const navigation = new Navigation(), build = vi.spyOn(navigation, 'build');
     expect(await navigation.buildOrImport(sourceMeshes, { worldSeed: WORLD_SEED,

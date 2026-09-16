@@ -1,182 +1,101 @@
 # Startup loading
 
+## Desktop and mobile delivery
+
+The release packer produces WebP texture maps capped at 1024 pixels for desktop and 512 pixels for coarse-pointer browsers. Both use gzip-wrapped Meshopt GLBs and a bounded queue of 16 overlapping asset loads. Source art stays unchanged. The smaller textures retain authored colour and alpha layers, material channels and UVs. Development manifests without delivery variants continue to use the original files.
+
+Models retain their triangles, skeletons, skin weights, clip names and timing. Positions, normals, UVs, colours and animation outputs use bounded float precision before compression. Navigation-sensitive altar, stump and bridge models use exact geometry. Tests compare decoded accessors, triangle indices, rigs, animation timing and image bytes.
+
+`tools/lib/compact-assets.ts` builds the variants after embedded texture deduplication. Content-hashed files under `.cache/compact-assets-v1/` shorten repeat builds and are disposable. The dist asset manifest names delivery variants; the public source manifest remains unchanged.
+
+The phone Near setting has a 40-metre opaque fog distance and a 65-metre far clip. Preparation adds the normal camera offset and movement margin. This trades distant visibility for a smaller first download; approaching scenery streams through the normal travel path. Desktop Near and other distance settings keep their existing distances.
+
 ## Released world data
 
-The release includes generated terrain buffers and height samples, authored enemy spawn positions,
-navigation and all 204 vegetation tiles. First-time players download that data. They do not run
-terrain, vegetation placement, enemy spacing or navigation generation.
+`npm run build` validates content, rebuilds stale navigation and world data, checks integrity and island coverage, and creates the production bundle. Direct Vite builds reject missing or stale source records. Released gameplay cannot fall back to world or navigation generation after a failed download.
 
-`npm run build` validates content, rebuilds stale navigation and world artifacts, checks their
-integrity and island coverage, and then creates the production bundle. `npm run world:build` runs
-the artifact step separately. An unchanged build reuses the existing artifacts. Direct Vite builds
-also reject missing, stale or damaged release data. The final bundle explicitly restores
-production mode after Vite's world-authoring server runs. A build guard rejects development-mode
-release bundles, and the failure gate verifies that blocked world files cannot trigger generation. The four additional generator paths in
-`.gitattributes` preserve the LF bytes recorded in the asset provenance manifest on Windows; this
-fixes the previous content-validation failures without changing licenses or recorded hashes.
+The source bake contains 336 scatter tiles, two terrain records, semantic assembly, fairy dressing, spawn placement and 15 mine-cut records. These 356 records occupy about 132.3 MB compressed, below the 128 MiB release limit. They cover the whole world, not the first download.
 
-The files live in `game/public/generated/world/`. There are 206 data records and one manifest,
-occupying about 53 MB compressed, excluding navigation. The starting view downloads about 30.2 MB
-of world data: terrain, spawns and 29 vegetation tiles. Distant vegetation files are available for
-travel without downloading the whole island at boot. The release gate limits total world data to
-128 MiB; the browser check limits the starting view to 40 MiB. These figures exclude models,
-textures, JavaScript and audio.
+The release transform separates terrain and coast draw geometry into spatial records. Global height grids remain available for placement and physics. Near-area preparation loads exact terrain triangles and corresponding dry coastal picking triangles. Mine collision metadata stays global; its detailed rock face loads near the player. This removes distant terrain and roughly 22 MB of mine faces from first load. Before nearby draw records, world terrain falls from 15.3 MB to 1.9 MB and fairy terrain from 9.9 MB to 1.4 MB.
 
-The container preserves typed-array bytes exactly and uses JSON for placement records. Gzip is
-inside an opaque `.world` file so static hosts cannot decode it before the SHA-256 integrity check.
-Vegetation input checks hash shared exclusions instead of duplicating that metadata in every tile.
-Placement seeds, density and geometry remain unchanged.
+The binary container preserves typed-array bytes exactly. Byte-plane deltas improve gzip compression without rounding terrain values. The opaque `.world` suffix prevents static hosts from decoding gzip before SHA-256 verification. Revision, byte length, hash and input checks run before acceptance. A revision covers game sources, asset metadata and the lockfile.
 
-A revision covers game sources, the asset manifest and dependency lockfile. The manifest also
-identifies the world seed. Runtime checks verify terrain specifications, vegetation recipes,
-exclusions and initial spawn inputs. Release failures stay behind the loading screen and do not
-fall back to generating a replacement world on the player's device.
+IndexedDB keeps an optional disposable copy, without player progress or depletion state. Eviction or unavailable storage causes another download. Transactions have a 1.5-second timeout and retain at most 256 records.
 
-IndexedDB retains an optional local copy for later sessions. It contains no player progress,
-health or resource depletion state. Browser eviction, cleared storage or disabled storage cause
-another download of the shipped data. Transactions have a 1.5-second timeout and retain at most
-256 records. GPU resources, materials, tree interaction callbacks and player saves still use the
-normal creation and rehydration paths.
-
-Navigation fingerprints the transformed float32 vertices consumed by Recast. Hashing intermediate
-float64 matrices previously caused unnecessary rebuilds despite identical navigation vertices.
-Actual changes still invalidate the artifact. Released gameplay requires an imported artifact;
-runtime navigation baking remains available to authoring tools and labs.
-
-## Authoring and the lab
-
-Development can generate data when sources change. `?startup-cache=0` bypasses generated data in
-the development game. Release gameplay always uses the shipped data. Labs normally generate their
-fixtures and opt into browser storage with `startup-cache=1`.
-
-Run `npx tsx tools/build-world.ts --lab`, then
-`npx tsx tools/startup-cache-test.ts --lab --shipped`, to exercise the production writer,
-container, download path and storage behavior in the terrain and mob-spacing fixture. Temporary
-lab files are ignored under `game/public/generated/world-lab/`; remove those fixture files before
-packaging a release. The authoring-only `world-bake=1` path stops before gameplay and exports
-placements without allocating vegetation GPU meshes. It uses the normal generation code.
-
-The shipped-data path passed the lab before integration into the full game. The full-world
-exception applies to baking every island tile and checking authored placement and coast, which
-cannot be represented by a compact fixture. Terrain, vegetation, tree-callback and spawn-state
-equivalence also have focused tests.
+The build validates navigation against authored sources and embeds its expected fingerprint. Release startup imports that artifact without reconstructing distant navigation meshes merely to fingerprint them again. Import still checks integrity, seed and fingerprint. A gzip `.nav` wrapper reduces transfer to about 1.4 MB. Authoring and labs retain runtime generation and the original `.bin` artifact.
 
 ## Complete starting view
 
-The loading screen covers a complete starting view. Boot selects the saved player's region and
-position, or the new-game spawn, and prepares the same resource and actor sets used by gameplay.
-Vegetation covers the circular fog distance plus the normal camera offset and the distance the
-player can move before residency updates. An idle first frame does not trigger a vegetation refill.
+The HTML loading screen appears before the engine bundle arrives. It shows the stage, a stage progress bar, elapsed time and completed download bytes. It does not invent a percentage or estimated remaining size.
 
-Surface textures, model requests, vegetation loading and shader preparation overlap. Outdoor
-lights are installed before shader submission. Shader preparation includes resident objects that
-can appear during a normal camera turn and skips hidden navigation meshes and the closed dungeon.
-Repeated geometry and material inputs share compilation work. The final gate finishes hydration,
-actor poses, effect programs and the first production render before exposing gameplay.
+World data starts downloading as soon as the saved starting position is known. Shared surfaces, animation libraries and navigation download alongside it. Requested shared surface maps receive image preload hints with high fetch priority. Desktop traces showed three small fairy-rock maps waiting about 16 seconds behind model requests; these maps block terrain restoration. The hints match Three's anonymous CORS mode and disappear when the request finishes. Boot code modules and the tiny shared grass source are requested before model traffic can queue them behind large files. Player construction and carried-item preparation overlap world restoration. Nearby model and scatter requests use the normal asset queue. Spatial hints come from baked placements; normal residency selection still decides what must be ready.
 
-Boot no longer queues the unequipped gear catalogue or blanket transparent variants after reveal.
-Equipment, travel and dungeon entry retain their preparation paths. Audio starts after reveal.
-Placement queries use built ground instead of recomputing biome diagnostics. Conservative bounds
-reject distant terrain pads and exclusions before expensive calculations.
+Character outfit parts download together, then commit as a complete outfit; a failed part preserves the previous outfit and can be retried. Habitat tree clearance and saved altar restoration group related entities once instead of scanning the entire entity list for each habitat or altar.
 
-## Player-specific assets
+Cached semantic assembly and fairy dressing avoid repeated placement calculations. Fishing and coastal generator inputs resolve only when generation needs them. River surfaces and wilderness effects construct approaching channels through the same geometry and material paths as the full scene. Map capture still builds complete scenes.
 
-The saved position and realm select the initial working set. Surface region borders do not hide
-nearby objects; the underground boundary does. Resource views use their interaction residency
-radius, while structures and actors cover the fog distance, normal camera offset and movement
-margin. Camera collision triangles load with those nearby structural models instead of fetching
-every building source on the island.
+The final loading gate waits for selected actors, structures, vegetation, terrain, equipment, shaders and GPU completion of the first gameplay frame. An asynchronous WebGL fence keeps loading feedback responsive while that frame finishes. Banked items and unused equipment remain deferred. Audio does not hold up reveal.
 
-All site placements and measured collision boxes still resolve globally from manifest metadata.
-Their visible models load only when a setting's full footprint intersects the player's preparation
-circle. A setting waits for every model before creating its instances. Large cliff extents count,
-so an offscreen origin cannot hide an in-view rock face. Navigation and collision inputs retain the
-same dimensions and placements, including encounter body clearances. Exact imported walk surfaces
-and authored cut faces remain global dependencies.
+Glow, antialiasing, colour grading and player visibility submit their actual shader variants during graphics setup. Smoke, spark and dust batches compile while still hidden, before their first emission. Fullscreen preparation uses position/UV geometry without a normal attribute, matching the real fullscreen pass. Otherwise Three.js selects another program and compiles again during the first draw. `tools/magic-glow-compile-test.ts` checks actual WebGL program reuse across the complete postprocessed frame, including first particle emission.
 
-The player rig resolves worn items and backpack contents through the same body, authored-item,
-fishing-rod and gathering-tool mappings used for real equipment. Banked items and the rest of the
-catalogue stay unloaded. Acquiring a different carried item starts a player-priority request;
-changes in stack quantities do not repeat preparation. Failed requests can retry, and upgrading
-a pending travel request never silently starts another attempt after a failure. A ready destination
-can install camera sources without waiting for unrelated background downloads.
+Graphics setup also initializes the texture unpack defaults in Three's state cache. Partial animation-palette uploads otherwise query those values from the driver on the first frame. Profiling showed that synchronous query draining queued graphics work for about one second. The browser regression checks partial uploads use the cached settings and restore the same values.
 
-Each 8 metres of travel triggers a preparation circle extending 48 metres beyond the working set.
-This loads approaching entities, camera sources, site decorations and shipped vegetation tiles.
-Visited sources remain reusable. Standing still does not queue the rest of the island. Portal
-transitions wait for the full destination circle, hydration, effect programs and a real destination
-render before uncovering the view. Slow travel downloads can still outrun the prefetch margin;
-this is not a claim of stall-free movement under arbitrary network conditions.
+Every eight metres of travel starts preparation 48 metres beyond the working set. Visited sources stay reusable. Portal transitions await complete destination preparation and rendering before uncovering the view. Very slow downloads can still overrun the travel margin.
 
-The reusable paths passed `npx tsx tools/smart-loading-lab-test.ts` before final-world integration.
-The compact `?mode=combat&smartLoading=1` fixture exercises near/far/underground selection,
-carried tools, complete setting creation, camera source deduplication and destination prefetch.
-Its isolated overhead meshes are camera-query fixtures, not authored building compositions.
-Captures use the interactive 11-metre zoom limit. The full-world check is
-`npx tsx tools/smart-loading-world-test.ts`; it exercises keyboard travel, acquired versus banked
-items and production portal entry and exit.
+## Acceptance
 
-## Shared textures and shader preparation
+Build before production checks. Run timing tests alone in a fresh browser profile with disabled HTTP cache. Mobile uses an 844 by 390 touch viewport at DPR 2 and real joystick input. `--desktop` uses 1440 by 900 at DPR 1 and keyboard movement. Both check semantic player movement with default graphics settings. The normal gate fails at 20 seconds and rejects a freeze of 500 ms or more during the first second of revealed gameplay. `--diagnostic` allows a longer investigation capture.
 
-The release packer extracts identical embedded PNG/JPEG bytes from copied GLBs into shared,
-content-addressed texture files. It preserves geometry, materials, image pixels, skinning and
-animation buffers. Source assets remain untouched. The existing runtime texture cache can then
-share image decoding and GPU image storage across models while preserving each material's
-sampler and UV settings. Unsupported GLB layouts are left intact.
+```sh
+npx tsx tools/mobile-startup-test.ts --label mobile --mbps 20 --cpu 2
+npx tsx tools/mobile-startup-test.ts --desktop --label desktop --mbps 50 --cpu 1
+npx tsx tools/mobile-startup-test.ts --desktop --label desktop-constrained --mbps 20 --cpu 1 --diagnostic
+npx tsx tools/mobile-startup-test.ts --label constrained --mbps 10 --cpu 4 --diagnostic
+npx tsx tools/startup-cache-test.ts --production --mobile --resume
+npx tsx tools/startup-cache-test.ts --production --resume
+npx tsx tools/smart-loading-world-test.ts --mobile
+npx tsx tools/smart-loading-world-test.ts
+npx tsx tools/release-world-failure-test.ts
+```
 
-Across 690 released models, 1,503 embedded images become 600 unique images, removing 298.3 MB
-from the packaged model/texture payload. `game/dist/assets/texture-pack.json` records the build's
-actual totals. `tools/forest-lab-test.ts --packed-textures` exercises this same release transform
-with production trees, harvesting, depletion, persistence and regrowth.
+Reports include network and CPU throttling, first-playable time, pre-play bytes, spans, errors and before/after movement. Add `--profile` for a CPU profile or `--shaders` for driver query diagnostics. Screenshots and reports stay ignored under `test-results/`. Desktop mobile emulation does not replace a physical-phone measurement.
 
-Effect preparation submits only the objects used by the colour and glow passes. Non-glowing
-transparent surfaces that write no depth or stencil do not enter the glow occlusion pass.
-Successful program links are checked before uniform preparation, avoiding redundant driver-log
-queries. Failed links still block readiness. Lava sampling rejects distant segment groups through
-conservative bounds and preserves the original nearest-channel results exactly.
+### September 16, 2026 measurements
 
-## Acceptance and remaining startup cost
+Fresh-profile production runs on the first mobile build (`index-AwuqRbLy.js`), using mobile Chromium, an 844 × 390 viewport at DPR 2 and 80 ms network latency:
 
-Run `npx tsx tools/startup-cache-test.ts --production --resume` after `npm run build`.
-This serves `game/dist` and starts with an empty Chromium profile, then closes and reopens the
-browser for returning and saved-location checks. It requires zero runtime generation, imported
-navigation, no pending or missing selected assets or site settings, identical terrain and spawn
-data, enemy body clearance, keyboard movement and stable idle residency. It checks another
-surface region and an underground save. Reports and normal-camera screenshots are ignored under
-`test-results/startup-cache/release/`.
+| Profile | First playable | Bytes received before play | Result |
+| --- | ---: | ---: | --- |
+| 20 Mbps, CPU slowdown 2× | 19.478 s | 22.46 MB | Under 20 s; input and first-second responsiveness passed |
+| Same profile, second fresh browser | 18.691 s | 22.46 MB | Under 20 s; input and first-second responsiveness passed |
+| 10 Mbps, CPU slowdown 4× | 31.633 s | 21.93 MB | Diagnostic run; exceeds the 20 s target |
 
-`npx tsx tools/release-world-failure-test.ts` blocks terrain, vegetation and navigation downloads
-in fresh browser contexts. Each failure must remain covered with no playable milestone and no
-runtime generation. Unit checks cover malformed downloads, revisions, deployment base paths,
-unavailable storage, exact typed-array round trips and tree depletion after serialization.
+The clock includes GPU completion, not just JavaScript initialization or removal of the loading screen. The first run recorded visible feedback at 323 ms and 42 updates during startup. Both 20 Mbps runs had a largest first-second frame gap of 50 ms. All selected objects were resident, with no world generation, missing assets or browser/game errors. These are local emulation results, not measurements on the reported Chrome/5G phone; the 20-second budget is conditional on the tested profile. The slower network/CPU combination still exceeds it. Pre-play transfer totals vary slightly because nonblocking audio may finish before or after reveal.
 
-On the local Windows RTX 5080 machine at 1440 by 900, the production bundle measured 17.9 to
-18.9 seconds from an empty browser profile and 8.5 to 8.6 seconds returning. The previous
-pre-generated release measured 20.9 to 21.6 seconds cold and 13.2 seconds returning; the earlier
-development loader took about 32.4 seconds cold. These are local measurements, not cross-device
-or network guarantees. A surface save measured 12.8 seconds and an underground save 11.5 seconds.
+The final production cache check passed cold boot, a new browser process with a populated cache, saved surface position and saved cave position. On the unthrottled local connection they took 10.086, 5.870, 7.130 and 12.247 seconds respectively; restored terrain and spawn placement matched. The mobile travel check passed ordinary movement, approaching-area preparation, inventory acquisition without bank preloading, and both cave portals. Loading, gameplay, resumed locations and travel screenshots were inspected at normal gameplay camera distances.
 
-The starting view requests 173 of 690 manifest assets and 17 of 72 site settings. An underground
-resume requests 32 assets, no surface settings and no vegetation tiles. Cold model/texture traffic
-measured 130.6 MB, compared with 174.2 MB after texture deduplication alone and 226.9 MB before it.
-The initial world-data download remains 30.2 MB. Before merging newer world-authoring changes,
-terrain samples, vegetation counts and spawn coordinates matched the previous generated world exactly.
+The full unit run had 2,886 passes and one skipped test. Its sole failure checked the world revision while the new bake was still running; the completed bake passed the release-artifact and navigation-parity reruns. Focused renderer and asset-selection checks also passed after the final mobile distance change. The release build and TypeScript check passed. Missing terrain, scatter and navigation downloads were checked separately to retain a visible failure screen without runtime generation.
 
-First-launch model construction, GPU uploads and shader compilation still take substantial time.
-The first second after reveal also recorded frame gaps up to 150 ms at the starting settlement
-and 183 ms at the surface save in these local runs.
-The starting assets are complete, but these checks do not establish smooth 60 FPS immediately
-after reveal. The first-second sampling excludes screenshot readback and large state serialization.
+### Desktop extension, September 16, 2026
 
-The production build, type checking and focused release/navigation/cache/renderer/streaming tests
-pass. The broader suite previously identified eight unrelated content assertions across ash
-creatures, audio, the cave fixture, encounter population, regional exclusions and habitats. They
-reproduced with the original production sources and are separate from this loading change.
+The desktop extension uses `index-C0o-AU0e.js`. Desktop tests use fresh Chromium profiles, 1440 × 900 at DPR 1, default graphics settings, 80 ms latency and no CPU slowdown. The original desktop comparison uses `index-AwuqRbLy.js` and already includes the shared world-streaming and loading-feedback changes.
 
-Main integration preserves the newer creature scales and spawn-spacing rules and rebakes the
-shipped records from the combined sources. Its production browser checks passed fresh, returning,
-surface-save and cave-save runs with no runtime generation or pending selected assets. This run
-measured 19.6 seconds cold, 10.4 seconds returning, 13.2 seconds for the surface save and 11.8
-seconds for the cave save, with initial frame gaps up to 200 ms. Build, type checking and world
-artifact integrity passed; the focused content/loading run passed 103 tests and reproduced the
-existing Wilderness lava-clearance failure (3.42 metres against a 3.5-metre assertion).
+| Profile | First playable | Bytes received before play | Result |
+| --- | ---: | ---: | --- |
+| Previous desktop delivery, 20 Mbps | 77.600 s | 172.99 MB | Baseline with original models and images |
+| Optimized desktop, 20 Mbps | 26.640 s | 41.47 MB | 66% faster and 76% fewer bytes; still exceeds 20 s |
+| Optimized desktop, 50 Mbps | 18.299 s | 44.41 MB | Under 20 s; keyboard movement and responsiveness passed |
+| Same 50 Mbps profile, second fresh browser | 18.754 s | 44.41 MB | Under 20 s; keyboard movement and responsiveness passed |
+| Mobile regression, 20 Mbps, CPU slowdown 2× | 17.107 s | 22.52 MB | Under 20 s; joystick movement and responsiveness passed |
+
+Desktop retains its original viewing distances and uses 1024-pixel texture variants. Mobile retains its 512-pixel maps and shorter Near distance. The 50 Mbps runs include a 2.94 MB music file that finishes before reveal; music does not block startup. All selected objects were ready, with no runtime world generation or browser/game errors. The largest first-second frame gaps were 50 ms and 33.4 ms in the two desktop budget runs, and 50 ms in the mobile regression. The final 20 Mbps trace contains no duplicate completed texture downloads. Its fairy-terrain stage fell from 12.824 s before priority hints to 0.185 s, while total load fell from 28.384 s to 26.640 s.
+
+Desktop loading, gameplay and production lab screenshots were reviewed. The lab passed compressed model loading, desktop texture requests, real movement and repeat mine-cut loading. All 68 focused tests passed, covering both texture sizes, alpha retention, stable packing, desktop compressed-model decoding, bounded concurrency, URL selection, request priority, unchanged distance presets, original-file fallback, world integrity and navigation parity. The production build and TypeScript check passed. These local results establish the 20-second target at the tested 50 Mbps desktop profile; they do not establish a universal maximum.
+
+The final desktop cache check passed cold boot (12.057 s), returning browser (7.135 s), saved surface position (7.925 s) and saved cave position (9.721 s), on an unthrottled local connection. Terrain and spawn restoration matched. The desktop travel check passed ordinary keyboard movement, approaching scenery, inventory acquisition without bank preloading, and complete cave portal destinations before reveal. Screenshots of saved locations and travel were reviewed at gameplay camera distances.
+
+Reusable delivery paths use the production feature lab. `tools/mobile-loading-lab-test.ts --environment` exercises compact models/textures, movement and cached mine geometry; add `--desktop` to exercise desktop delivery and controls. `tools/river-water-test.ts` covers streamed freshwater and real input. `tools/wilderness-effects-lab-test.ts` covers deferred lava, dry banks and animated lighting.
+
+For shipped terrain, run `npx tsx tools/build-world.ts --lab`, pack `generated/world-lab` with `packTerrainDelivery`, then run `npx tsx tools/mobile-loading-lab-test.ts`. Move the disposable fixture out of public before packaging a release. The accepted September 16 fixture is retained under `.cache/accepted-mobile-world-lab-20260916/`.
+
+The full-world exception applies to island terrain/coast partitioning and global navigation import, because a compact scene cannot prove authored spatial coverage. Unit tests compare exact restored terrain, physics samples and dry-ground ray hits. Geometry, rigs, materials, local effects, controls and loading feedback retain lab proof.

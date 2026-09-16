@@ -88,6 +88,22 @@ function equip(fixture: ReturnType<typeof runtime>, itemId: ItemId): void {
 }
 
 describe("starter casting", () => {
+  it("restores each altar and its own ruins without changing unrelated scenery", () => {
+    const fixture = runtime();
+    const pieces = fixture.entities.all();
+    pieces.push({ ...pieces[2]!, id: "earth-ruins", meta: {
+      essenceAltarRuins: true, essenceAltarId: "vellenwood_earth_altar",
+    } }, { ...pieces[2]!, id: "unrelated", meta: { essenceAltarId: "vellenwood_earth_altar" } });
+    fixture.store.get().magic.awakenedAltars.vellenwood_earth_altar = true;
+    fixture.essence.hydrateAltars();
+    expect(fixture.entities.get("vellenwood_earth_altar")!.state).toBe("awakened");
+    expect(fixture.entities.get("earth-ruins")!.state).toBe("awakened");
+    expect(fixture.entities.get("fallowmarch_air_altar_ruins")!.state).toBe("dormant");
+    expect(fixture.entities.get("unrelated")!.state).toBe("dormant");
+    delete fixture.store.get().magic.awakenedAltars.vellenwood_earth_altar;
+    fixture.essence.hydrateAltars();
+    expect(fixture.entities.get("earth-ruins")!.state).toBe("dormant");
+  });
   it("starts with a plain wand and 50 Air Essence", () => {
     const state = createInitialState(908, 0);
     expect(state.equipment.mainHand).toEqual({ itemId: "basic_wooden_wand", quantity: 1 });

@@ -19,6 +19,7 @@ runs/local-*/
 runs/*/screenshots/
 
 .asset-cache/
+.cache/
 .stack-probe/
 
 # Throwaway measurement scripts from build rounds.

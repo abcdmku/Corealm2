@@ -14,6 +14,12 @@ describe('release world container', () => {
     expect(() => decodeWorldData(bytes.subarray(0, bytes.length - 1))).toThrow(/Truncated/);
     expect(() => encodeWorldData(new Float64Array([1]))).toThrow(/Unsupported/);
   });
+  it('retains arbitrary float bit patterns through byte-plane encoding', () => {
+    const bits = new Uint32Array([0x80000000,0x7fc00001,0xffffffff,1,0x3f812345,0x7f800000]);
+    const data = { itemSize:3, array:new Float32Array(bits.buffer) };
+    const decoded = decodeWorldData(encodeWorldData(data)) as typeof data;
+    expect(new Uint8Array(decoded.array.buffer)).toEqual(new Uint8Array(bits.buffer));
+  });
   it('uses the same fixture scope for baking, downloaded data and browser storage', () => {
     expect(generationScope('feature-lab', 1337, '?mode=combat&spawnSpacing=1&world-bake=1'))
       .toBe(generationScope('feature-lab', 1337, '?mode=combat&spawnSpacing=1&startup-cache=1&world-data=somewhere'));

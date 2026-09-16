@@ -54,6 +54,30 @@ function harness() {
 }
 
 describe("magic glow preparation", () => {
+  it('compiles the materials reused by the real bloom draw and restores the current target', () => {
+    const h = harness();
+    const compiled = new Set<string>();
+    h.renderer.compile = (scene) => {
+      scene.traverse(object => {
+        if (object instanceof THREE.Mesh) {
+          expect(Object.keys(object.geometry.attributes).sort()).toEqual(['position','uv']);
+          compiled.add((object.material as THREE.Material).uuid);
+        }
+      });
+      return new Set();
+    };
+    try {
+      const before = h.state();
+      h.glow.compile(h.renderer);
+      expect(h.state()).toEqual(before);
+      expect(h.calls).toHaveLength(0);
+      h.glow.prepare(h.renderer, h.scene, h.camera);
+      expect(h.calls.filter(call => call.material !== 'scene').every(call => compiled.has(call.material))).toBe(true);
+      expect(compiled.size).toBe(9);
+      expect(h.state()).toEqual(before);
+    } finally { h.dispose(); }
+  });
+
   it('skips non-occluding effects while preserving their children, shared materials and layers on failure', () => {
     const h = harness(), smoke = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial({ depthWrite: false }));
     smoke.layers.enable(4);
