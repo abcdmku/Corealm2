@@ -124,6 +124,29 @@ describe("corealm_overlay tool contract", () => {
 });
 
 describe("overlay renderer fallback", () => {
+  it('reuses immediate hollow walk feedback and conforms it to the active map instead of the main terrain', () => {
+    const root = new THREE.Group();
+    const ground = (x: number, z: number) => -20 + x * .4 + z * .2;
+    const overlays = new Overlays({scene:{overlayGroup:root,heightAtXZ:()=>500} as never,
+      camera:new THREE.PerspectiveCamera(),entityPosition:()=>null,labelRoot:{} as HTMLElement,
+      groundHeightAt:ground});
+    const marker = overlays.preparationRoot(); const added = vi.fn();
+    marker.parent!.addEventListener('childadded', added);
+    for (const position of [[3,ground(3,4),4],[8,ground(8,-1),-1]] as const) {
+      overlays.setWalkDestination('walk',position,0); overlays.update(0);
+      expect(overlays.preparationRoot()).toBe(marker); expect(marker.visible).toBe(true);
+      const ring = marker.getObjectByName('walk-ring') as THREE.Mesh;
+      const geometry = ring.geometry as THREE.RingGeometry;
+      expect(geometry.parameters.innerRadius).toBeGreaterThan(.5);
+      expect(geometry.getAttribute('color').itemSize).toBe(4);
+      const vertices = geometry.getAttribute('position');
+      for (let i=0;i<vertices.count;i++) expect(position[1]+vertices.getY(i))
+        .toBeCloseTo(ground(position[0]+vertices.getX(i),position[2]+vertices.getZ(i))+.025,5);
+      expect(marker.children.map(child=>child.name)).toEqual(['walk-ring','walk-beam']);
+      overlays.clear('walk'); expect(marker.visible).toBe(false);
+    }
+    expect(added).not.toHaveBeenCalled();
+  });
   it("never creates an unresolved marker at world origin", () => {
     const overlayGroup = new THREE.Group();
     const overlays = new Overlays({
@@ -138,6 +161,6 @@ describe("overlay renderer fallback", () => {
 
     expect(overlays.set({ id: "missing", kind: "marker", entityId: "not_real" }, 0)).toBe(0);
     expect(overlays.list()).toEqual([]);
-    expect(overlayGroup.getObjectByName("overlays")?.children).toHaveLength(0);
+    expect(overlayGroup.getObjectByName("overlays")?.children.filter(child => child.visible)).toHaveLength(0);
   });
 });

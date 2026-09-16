@@ -81,6 +81,7 @@ import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainP
  *    `view.groundNormal` by `view.tiltStrength`, defaulted per archetype by `DEFAULT_TILT`.
  */
 import * as THREE from "three";
+import { groundRingGeometry, seatGroundRing } from './groundRing.js';
 import { FairyArchitecture, FAIRY_LANTERN_GLASS, fairyArchitectureSurface, isFairyArchitectureRegion } from './fairyArchitecture.js';
 import { isNativeTreeAsset } from "../content/treeSpecies.js";
 import { containedWaterMaterialSnapshot } from "./containedTroughWater.js";
@@ -1410,6 +1411,8 @@ interface ViewRecord {
   trunkRadius: number | null;
   /** False for inspect-only entities past `MAX_INSPECT_ONLY_PICK_RADIUS`; `pick` skips them. */
   pickable: boolean;
+  /** Exact static-instance envelope, updated when its drawn matrices change. */
+  pickBounds?: THREE.Box3;
 }
 
 export interface EntityViewStats {
@@ -1571,6 +1574,7 @@ export interface EntityViewScene {
 }
 
 export interface EntityViewOptions {
+  groundHeightAt?: (x: number, z: number, referenceY: number) => number;
   /** Keep the sampled actor visible until its replacement's shaders and textures are ready. */
   isViewReady?: (root: THREE.Object3D) => boolean;
   /** Return undefined during startup; otherwise enqueue construction after a gameplay frame. */
@@ -1778,11 +1782,12 @@ export class EntityViews {
   private readonly rigCandidates = new Set<ViewRecord>();
   private readonly preparingUniques = new Set<ViewRecord>();
   private readonly isViewReady: (root: THREE.Object3D) => boolean;
+  private readonly groundHeightAt: (x: number, z: number, referenceY: number) => number;
   private readonly schedulePreparation: EntityViewOptions['schedulePreparation'];
   private readonly pendingViews = new Map<EntityId, Promise<void>>();
-  private ringGeometry: THREE.BufferGeometry | null = null;
-  private resourceRingGeometry: THREE.BufferGeometry | null = null;
-  private pipGeometry: THREE.BufferGeometry | null = null;
+  private readonly pickProxy = new THREE.Mesh();
+  private readonly pickMatrix = new THREE.Matrix4();
+  private readonly pickPartBounds = new THREE.Box3();
   private readonly resourceHighlightMaterials = new Map<THREE.Material, THREE.MeshBasicMaterial>();
   private readonly treeContactRadii = new WeakMap<readonly SourcePart[], number>();
 
@@ -1793,6 +1798,7 @@ export class EntityViews {
     options: EntityViewOptions = {},
   ) {
     this.isViewReady = options.isViewReady ?? (() => true);
+    this.groundHeightAt = options.groundHeightAt ?? ((_x, _z, y) => y);
     this.schedulePreparation = options.schedulePreparation;
     this.maxUniqueDrawCalls = options.maxUniqueDrawCalls ?? 96;
     this.maxUniqueViews = options.maxUniqueViews ?? 24;
@@ -5001,6 +5007,9 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const movingReady = !record.spent && moving && group.moving.length > 0;
     const active = spentReady ? group.spent : movingReady ? group.moving : group.live;
 
+    const pickBounds = !EXPANDED_PICK_ARCHETYPES.has(record.archetype)
+      ? (record.pickBounds ??= new THREE.Box3()).makeEmpty() : null;
+
     for (const draw of active) {
       const detail = draw.part.resourceDetail;
       if (detail?.kind === "fish" && detail.schoolIndex >= record.schoolCount) {
@@ -5011,6 +5020,10 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       const instance = this.instanceFor(draw, group, slot);
       draw.batch.mesh.setMatrixAt(instance, transform);
       draw.batch.mesh.setVisibleAt(instance, true);
+      if (pickBounds) {
+        if (!draw.part.geometry.boundingBox) draw.part.geometry.computeBoundingBox();
+        if (draw.part.geometry.boundingBox) pickBounds.union(this.pickPartBounds.copy(draw.part.geometry.boundingBox).applyMatrix4(transform));
+      }
       draw.batch.mesh.boundingSphere = null;
       this.paintInstance(draw, slot, instance, record.tints, record.architectureValue);
     }
@@ -5379,13 +5392,13 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   // --------------------------------------------------- hover / selection
 
   /**
-   * Ground contact ring with an optional overhead pip. Picking still uses the complete model;
+   * Ground contact ring. Picking still uses the complete model;
    * a broad canopy must not turn a chop target into a clearing-sized ground marker.
    */
   setHighlight(
     entityId: EntityId,
     colour: string | number = "#ffd98a",
-    showPip = true,
+    _showPip = false,
   ): boolean {
     const record = this.records.get(entityId);
     if (!record) return false;
@@ -5400,7 +5413,6 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         quiet = source.clone();
         quiet.color.lerp(new THREE.Color(0xaaa18b), 0.4);
         quiet.opacity = 0.46;
-        quiet.toneMapped = true;
         this.resourceHighlightMaterials.set(source, quiet);
       }
       material = quiet;
@@ -5408,17 +5420,13 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const marker = new THREE.Group();
     marker.name = `highlight-${entityId}`;
     marker.userData.keepVisibleDuringWarmup = true;
+    marker.userData.prewarmedInputFeedback = true;
 
-    const ring = new THREE.Mesh(resource ? this.resourceRing() : this.ring(), material);
+    const ring = new THREE.Mesh(groundRingGeometry(record.radius), material);
     ring.name = "ring";
-    ring.rotation.x = -Math.PI / 2;
+    ring.renderOrder = 10;
+    ring.userData.radius = record.radius;
     marker.add(ring);
-
-    if (showPip) {
-      const pip = new THREE.Mesh(this.pip(), material);
-      pip.name = "pip";
-      marker.add(pip);
-    }
 
     this.highlightGroup.add(marker);
     this.highlights.set(entityId, marker);
@@ -5441,9 +5449,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
   private placeHighlight(marker: THREE.Object3D, record: ViewRecord): void {
     marker.position.copy(record.position);
-    marker.position.y += 0.04;
     let radius = record.radius;
-    let height = record.labelHeight;
     const resource = record.archetype === "tree" || record.archetype === "ore";
     if (resource) {
       const group = this.groups.get(record.groupKey);
@@ -5458,23 +5464,20 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         const footprint = Math.max(bounds.max[0] - bounds.min[0], bounds.max[2] - bounds.min[2]);
         radius = Math.min(1.2, Math.max(0.35, footprint * 0.5 + 0.1));
       } else radius = 0.45;
-      if (bounds) height = bounds.max[1] - record.position.y + 0.16;
     }
     marker.scale.setScalar(1);
     const ring = marker.getObjectByName("ring") as THREE.Mesh | undefined;
     if (ring) {
-      if (resource) ring.scale.setScalar(radius);
-      else if (ring.userData.radius !== radius) {
+      if (ring.userData.radius !== radius) {
         if (ring.userData.radius !== undefined) ring.geometry.dispose();
-        ring.geometry = new THREE.RingGeometry(Math.max(0.01, radius - 0.025), radius + 0.025, 64);
+        ring.geometry = groundRingGeometry(radius, resource ? 0.055 : 0.075);
         ring.userData.radius = radius;
       }
-    }
-    const pip = marker.getObjectByName("pip");
-    if (pip) {
-      pip.position.y = height;
-      // Pip size is a UI measure, independent of tree height and canopy width.
-      pip.scale.setScalar(resource ? 0.42 : record.radius);
+      const key = `${record.position.x}/${record.position.y}/${record.position.z}/${radius}`;
+      if (ring.userData.groundKey !== key) {
+        seatGroundRing(ring, record.position, this.groundHeightAt);
+        ring.userData.groundKey = key;
+      }
     }
   }
 
@@ -5498,20 +5501,6 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     return radius || 0.3;
   }
 
-  private ring(): THREE.BufferGeometry {
-    if (!this.ringGeometry) this.ringGeometry = new THREE.RingGeometry(0.86, 1.06, 28);
-    return this.ringGeometry;
-  }
-
-  private resourceRing(): THREE.BufferGeometry {
-    this.resourceRingGeometry ??= new THREE.RingGeometry(0.955, 1, 40);
-    return this.resourceRingGeometry;
-  }
-
-  private pip(): THREE.BufferGeometry {
-    if (!this.pipGeometry) this.pipGeometry = new THREE.OctahedronGeometry(0.16, 0);
-    return this.pipGeometry;
-  }
 
   // ------------------------------------------------------------ picking
 
@@ -5535,8 +5524,44 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   private pickCandidates(raycaster: THREE.Raycaster): { entityId: EntityId; distance: number }[] {
-    const nearest = new Map<EntityId, number>();
-    meshHits: for (const hit of raycaster.intersectObject(this.group, true)) {
+    if (!this.group.visible) return [];
+    const nearest = new Map(this.expandedCharacterPicks(raycaster).map(hit => [hit.entityId, hit.distance]));
+    const meshHits: THREE.Intersection[] = [];
+    // Avoid raycasting shared batches: rebuilding their bounds and testing every skinned
+    // instance on each hover made pointer input block the frame. Characters already have
+    // moving pick capsules; static parts can use their actual, cached instance envelopes.
+    for (const record of this.records.values()) {
+      if (!record.pickable || record.fade >= 1 || this.hiddenRoofs.has(record.entityId)
+        || EXPANDED_PICK_ARCHETYPES.has(record.archetype) || record.slot < 0
+        || !record.pickBounds || !raycaster.ray.intersectsBox(record.pickBounds)) continue;
+      const group = this.groups.get(record.groupKey);
+      if (!group) continue;
+      const active = record.spent && group.spent.length ? group.spent
+        : record.movingTicks > 0 && group.moving.length ? group.moving : group.live;
+      for (const draw of active) {
+        const instance = draw.instances[record.slot];
+        if (instance === undefined || instance < 0 || !draw.batch.mesh.getVisibleAt(instance)) continue;
+        draw.batch.mesh.getMatrixAt(instance, this.pickMatrix);
+        this.pickProxy.geometry = draw.part.geometry;
+        this.pickProxy.material = draw.batch.mesh.material;
+        this.pickProxy.matrixWorld.multiplyMatrices(draw.batch.mesh.matrixWorld, this.pickMatrix);
+        const hits: THREE.Intersection[] = [];
+        this.pickProxy.raycast(raycaster, hits);
+        for (const hit of hits) {
+          const previous = nearest.get(record.entityId);
+          if (previous === undefined || hit.distance < previous) nearest.set(record.entityId, hit.distance);
+        }
+      }
+    }
+    const visit = (object: THREE.Object3D): void => {
+      if (!object.visible || (object as THREE.BatchedMesh).isBatchedMesh) return;
+      const id = object.userData.entityId as string | undefined;
+      if (id && EXPANDED_PICK_ARCHETYPES.has(this.records.get(id)?.archetype as Archetype)) return;
+      raycaster.intersectObject(object, false, meshHits);
+      for (const child of object.children) visit(child);
+    };
+    visit(this.group);
+    meshHits: for (const hit of meshHits) {
       const entityId = this.entityOfHit(hit);
       if (!entityId || this.hiddenRoofs.has(entityId)) continue;
       // A hit on a 20 m ruin is a hit on the place, not on a thing. Let it fall through to
@@ -5550,13 +5575,6 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       }
       const previous = nearest.get(entityId);
       if (previous === undefined || hit.distance < previous) nearest.set(entityId, hit.distance);
-    }
-
-    for (const candidate of this.expandedCharacterPicks(raycaster)) {
-      const previous = nearest.get(candidate.entityId);
-      if (previous === undefined || candidate.distance < previous) {
-        nearest.set(candidate.entityId, candidate.distance);
-      }
     }
 
     return [...nearest].map(([entityId, distance]) => ({ entityId, distance }))
@@ -5580,7 +5598,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       //
       // A corpse still fading is deliberately left pickable. It is on screen, and inspecting the
       // thing you just killed is a reasonable click.
-      if (record.fade >= 1) continue;
+      if (record.fade >= 1 || !record.pickable || this.hiddenRoofs.has(record.entityId)
+        || (this.captureSubjectId !== null && this.captureSubjectId !== record.entityId)) continue;
 
       const radius = Math.max(
         MIN_CHARACTER_PICK_RADIUS,
@@ -6005,12 +6024,6 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.riggedAssets.clear();
     this.tierKeyed.clear();
     this.architectureAssets.clear();
-    this.ringGeometry?.dispose();
-    this.resourceRingGeometry?.dispose();
-    this.pipGeometry?.dispose();
-    this.ringGeometry = null;
-    this.resourceRingGeometry = null;
-    this.pipGeometry = null;
     for (const material of this.resourceHighlightMaterials.values()) material.dispose();
     this.resourceHighlightMaterials.clear();
   }

@@ -1316,6 +1316,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // reserve equal to the whole budget left the enemy ceiling at exactly zero and no enemy in the
   // game had ever animated.
   const entityViews = new EntityViews(scene, assets, scene.materials, {
+    groundHeightAt: (x, z, y) => groundIndicatorHeight(x, z, y),
     isViewReady: root => renderer.isInteriorReady(root),
     schedulePreparation: work => debugReady && runtimePerformanceEnabled ? assets.prepareGameplayView(work) : undefined,
     maxUniqueDrawCalls: 96,
@@ -1510,6 +1511,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
   const movementHeightAt = (regionId: RegionId, x: number, z: number): number =>
     dungeonSpec && regionId === dungeonSpec.regionId ? dungeonFloorHeight(dungeonSpec, x, z) : heightAt(regionId, x, z);
+  const groundIndicatorHeight = (x: number, z: number, referenceY: number): number =>
+    preserveNavigationHeight([x, referenceY, z]) ? referenceY
+      : movementHeightAt(store.get().player.regionId, x, z);
   movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, authoritativeGround: true,
     preserveNavigationHeight, entities: entityStore, dynamicObstacles: forestObstacles });
   const api = new CorealmGameApi(store, events, nav, movement, clock);
@@ -2053,6 +2057,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const mobileLayout = new MobileLayout(labelRoot);
   const { createGuidance } = await guidanceModule;
   const { overlays, guidance } = createGuidance({
+    groundHeightAt: groundIndicatorHeight,
     scene,
     camera: renderer.camera,
     entityPosition: (entityId) => entityStore.get(entityId)?.position ?? null,
@@ -2196,7 +2201,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (!entityId) return;
     entityViews.clearHighlight(entityId);
     if (entityId === selectedEntityId) {
-      entityViews.setHighlight(entityId, SELECTION_HIGHLIGHT, true);
+      entityViews.setHighlight(entityId, SELECTION_HIGHLIGHT, false);
     } else if (entityId === hoveredActionId) {
       entityViews.setHighlight(entityId, HOVER_HIGHLIGHT, false);
     }
@@ -2228,6 +2233,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     onWalkDestination: (point) => {
       overlays.setWalkDestination(WALK_DESTINATION_HIGHLIGHT_ID, point, clock.elapsedMs);
     },
+    onDirectMoveStart: () => overlays.clear(WALK_DESTINATION_HIGHLIGHT_ID),
     onProduction: (entityId) => ui.openProduction(entityId),
   });
   input.setEntityPickSource((raycaster) => {
@@ -2255,6 +2261,38 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const hit = raycaster.intersectObjects(surfaces, false)[0];
     return hit ? { entityId: null, point: hit.point.toArray() as Vec3, distance: hit.distance, object: hit.object } : null;
   } });
+
+  (window as Window & { __interactionFeedback?: unknown }).__interactionFeedback = {
+    project: (point: Vec3) => {
+      const p = new THREE.Vector3(...point).project(renderer.camera), rect = canvas.getBoundingClientRect();
+      return [rect.left + (p.x + 1) * rect.width / 2, rect.top + (1 - p.y) * rect.height / 2];
+    },
+    pick: (x: number, y: number) => input.picker.pickAt(x, y),
+    snapshot: () => {
+      const roots: THREE.Object3D[] = [];
+      scene.overlayGroup.traverse(object => {
+        if (object.name === 'walk-destination' || object.name.startsWith('highlight-')) roots.push(object);
+      });
+      return { playerDrawn: playerRig.root.position.toArray(), markers: roots.map(root => {
+        root.updateWorldMatrix(true, true);
+        let groundError = 0, ringVertices = 0;
+        const point = new THREE.Vector3();
+        root.traverse(object => {
+          const mesh = object as THREE.Mesh;
+          if (!mesh.isMesh || (mesh.name !== 'ring' && mesh.name !== 'walk-ring')) return;
+          const positions = mesh.geometry.getAttribute('position');
+          ringVertices += positions.count;
+          for (let i = 0; i < positions.count; i++) {
+            point.fromBufferAttribute(positions, i).applyMatrix4(mesh.matrixWorld);
+            groundError = Math.max(groundError, Math.abs(point.y - groundIndicatorHeight(point.x, point.z, root.position.y) - .025));
+          }
+        });
+        return { name: root.name, visible: root.visible, ready: renderer.isInteriorReady(root),
+          position: root.position.toArray(), groundError, ringVertices,
+          children: root.children.map(child => child.name) };
+      }) };
+    },
+  };
 
   let featureLab: FeatureLabApi | undefined;
   let environmentLab: import("../featureLab/environment.js").EnvironmentWorkbench | undefined;
@@ -2985,7 +3023,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // that caused it: a conversation opened by a mouse click, by the context menu, or by an agent
   // calling `corealm_interact` all raise the same window.
   events.subscribe((event) => {
-    if (event.type === "navigation.completed" || event.type === "navigation.failed") {
+    // An old route's queued completion/cancellation cannot erase newer click or held-move feedback.
+    if ((event.type === "navigation.completed" || event.type === "navigation.failed")
+      && store.get().player.movement.mode === "idle") {
       overlays.clear(WALK_DESTINATION_HIGHLIGHT_ID);
     }
     if (event.type === "dialogue.opened") ui.openDialogue();
@@ -3812,6 +3852,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (!worldMapCapture) {
     setStatus("Starting the game…",5);
     await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot()));
+    await bootTelemetry.measureAsync("boot.shaders.input-feedback", () => renderer.prepareEffects(overlays.preparationRoot()));
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
   if (runtimePerformanceEnabled) renderer.startStreamingWarmup();

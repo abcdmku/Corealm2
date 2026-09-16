@@ -20,6 +20,7 @@
  * here. Keeping that split is what lets this file stay a renderer with no idea where the player is.
  */
 import * as THREE from "three";
+import { groundRingGeometry } from './groundRing.js';
 import type { EntityId, OverlaySpec, Vec3 } from "../contracts.js";
 import {
   RIBBON_HALF_WIDTH, buildRibbonGeometry, createRibbonMaterial, projectAlong, type RibbonUniforms,
@@ -106,6 +107,7 @@ const PIN_BOB_METRES = 0.16;
 const REACHED_TTL_MS = 650;
 
 export interface OverlayDeps {
+  groundHeightAt?: (x: number, z: number, referenceY: number) => number;
   scene: WorldScene;
   camera: THREE.Camera;
   /** Current world position of an entity, so a followed overlay stays attached. */
@@ -119,12 +121,24 @@ export class Overlays {
   private readonly group = new THREE.Group();
   private readonly projected = new THREE.Vector3();
   private readonly terrain: WorldScene & MeshHeightSampler;
+  private readonly walkFeedback: THREE.Object3D;
+  private readonly walkConform: ConformRing[] = [];
 
   constructor(private readonly deps: OverlayDeps) {
     this.group.name = "overlays";
     this.deps.scene.overlayGroup.add(this.group);
     this.terrain = this.deps.scene;
+    // Construct before startup graphics preparation and reuse on every click. Feedback must
+    // never queue behind streamed scenery or compile a new material on the input event.
+    this.walkFeedback = this.makeWalkDestination(new THREE.Color('#d2c07a'), this.walkConform);
+    this.walkFeedback.name = 'walk-destination';
+    this.walkFeedback.userData.keepVisibleDuringWarmup = true;
+    this.walkFeedback.userData.prewarmedInputFeedback = true;
+    this.walkFeedback.visible = false;
+    this.group.add(this.walkFeedback);
   }
+
+  preparationRoot(): THREE.Object3D { return this.walkFeedback; }
 
   /** Creates or replaces an overlay. Returns the number now active. */
   set(spec: OverlaySpec, nowMs: number): number {
@@ -137,6 +151,7 @@ export class Overlays {
     if (existing?.style === "walkDestination" && existing.spec.colour === colour) {
       existing.spec.position = position;
       existing.object.position.set(position[0], position[1], position[2]);
+      this.conformRings(existing, nowMs, true);
       return this.live.size;
     }
     return this.setStyled({ id, kind: "highlight", position, colour }, nowMs, "walkDestination");
@@ -213,10 +228,16 @@ export class Overlays {
     switch (spec.kind) {
       case "highlight":
         object = style === "walkDestination"
-          ? this.makeWalkDestination(colour, conform)
+          ? this.walkFeedback
           : style === "reached"
             ? this.makeReached(colour, conform)
             : this.makeHighlight(colour, conform);
+        if (style === 'walkDestination') {
+          conform.push(...this.walkConform);
+          object.traverse(child => {
+            if (child instanceof THREE.Mesh) (child.material as THREE.MeshBasicMaterial).color.copy(colour);
+          });
+        }
         break;
       case "marker": {
         const marker = this.makeMarker(colour, conform);
@@ -244,7 +265,8 @@ export class Overlays {
     if (!object) return this.live.size;
     // A path is built in world coordinates, so it is the one kind that is never moved to a point.
     if (spec.kind !== "path" && position) object.position.set(position[0], position[1], position[2]);
-    this.group.add(object);
+    object.visible = true;
+    if (object.parent !== this.group) this.group.add(object);
 
     const entry: LiveOverlay = {
       spec,
@@ -353,7 +375,8 @@ export class Overlays {
   }
 
   /** Terrain height, from the mesh-exact sampler when the scene has one. */
-  private groundY(x: number, z: number): number {
+  private groundY(x: number, z: number, referenceY = 0): number {
+    if (this.deps.groundHeightAt) return this.deps.groundHeightAt(x, z, referenceY);
     return this.terrain.meshHeightAt?.(x, z) ?? this.terrain.heightAtXZ(x, z);
   }
 
@@ -364,17 +387,24 @@ export class Overlays {
     return ring.mesh;
   }
 
-  /** A small tinted patch with a fine edge. This marks a clicked tile without becoming scenery. */
+  /** A hollow ground ring and a faint upward fade, without a solid disc or floating symbol. */
   private makeWalkDestination(colour: THREE.Color, conform: ConformRing[]): THREE.Object3D {
     const group = new THREE.Group();
 
-    const fill = this.makeGroundDisc(colour, 0.62, 32, 0.12, 0.055);
-    conform.push(fill.conform);
-    group.add(fill.mesh);
-
-    const edge = this.makeGroundRing(colour, 0.6, 0.69, 32, 0.62, 0.065);
+    const edge = this.makeGroundRing(colour, 0.60, 0.70, 64, 0.68, 0.025, true);
+    edge.mesh.name = 'walk-ring';
     conform.push(edge.conform);
     group.add(edge.mesh);
+
+    const geometry = new THREE.CylinderGeometry(0.035, 0.075, 1.1, 12, 1, true);
+    geometry.translate(0, 0.55, 0);
+    const positions = geometry.getAttribute('position');
+    const rgba = new Float32Array(positions.count * 4);
+    for (let i = 0; i < positions.count; i++) rgba.set([1, 1, 1, (1 - positions.getY(i) / 1.1) * 0.22], i * 4);
+    geometry.setAttribute('color', new THREE.BufferAttribute(rgba, 4));
+    const beam = new THREE.Mesh(geometry, (edge.mesh.material as THREE.MeshBasicMaterial).clone());
+    beam.name = 'walk-beam';
+    group.add(beam);
 
     return group;
   }
@@ -418,9 +448,11 @@ export class Overlays {
     segments: number,
     opacity: number,
     lift: number,
+    feather = false,
   ): { mesh: THREE.Mesh; conform: ConformRing } {
-    const geometry = new THREE.RingGeometry(inner, outer, segments);
-    geometry.rotateX(-Math.PI / 2);
+    const geometry = feather ? groundRingGeometry((inner + outer) / 2, outer - inner)
+      : new THREE.RingGeometry(inner, outer, segments);
+    if (!feather) geometry.rotateX(-Math.PI / 2);
     // Annotation paint on every overlay material: exempt from the scene's tone mapping so the
     // colour an agent asked for is the colour on the ground (see `pathRibbon.ts`).
     const material = new THREE.MeshBasicMaterial({
@@ -430,45 +462,14 @@ export class Overlays {
       side: THREE.DoubleSide,
       depthWrite: false,
       toneMapped: false,
+      vertexColors: feather,
+      polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
     });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.renderOrder = 10;
     // Conformed geometry has real relief, and the bounding sphere is only computed from the flat
     // bind pose, so a frustum test can cull a ring that is still on screen. These are a few dozen
     // triangles; skipping the test is cheaper than keeping the bounds honest every conform.
-    mesh.frustumCulled = false;
-
-    const position = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const localX = new Float32Array(position.count);
-    const localZ = new Float32Array(position.count);
-    for (let index = 0; index < position.count; index += 1) {
-      localX[index] = position.getX(index);
-      localZ[index] = position.getZ(index);
-    }
-    return { mesh, conform: { mesh, localX, localZ, lift } };
-  }
-
-  private makeGroundDisc(
-    colour: THREE.Color,
-    radius: number,
-    segments: number,
-    opacity: number,
-    lift: number,
-  ): { mesh: THREE.Mesh; conform: ConformRing } {
-    const geometry = new THREE.CircleGeometry(radius, segments);
-    geometry.rotateX(-Math.PI / 2);
-    const mesh = new THREE.Mesh(
-      geometry,
-      new THREE.MeshBasicMaterial({
-        color: colour,
-        transparent: true,
-        opacity,
-        side: THREE.DoubleSide,
-        depthWrite: false,
-        toneMapped: false,
-      }),
-    );
-    mesh.renderOrder = 9;
     mesh.frustumCulled = false;
 
     const position = geometry.getAttribute("position") as THREE.BufferAttribute;
@@ -555,12 +556,14 @@ export class Overlays {
     for (const ring of entry.conform) {
       const attribute = ring.mesh.geometry.getAttribute("position") as THREE.BufferAttribute;
       for (let index = 0; index < attribute.count; index += 1) {
-        const worldX = origin.x + ring.localX[index]!;
-        const worldZ = origin.z + ring.localZ[index]!;
-        attribute.setY(index, this.groundY(worldX, worldZ) - origin.y + ring.lift);
+        const worldX = origin.x + ring.localX[index]! * entry.object.scale.x;
+        const worldZ = origin.z + ring.localZ[index]! * entry.object.scale.z;
+        attribute.setY(index, this.groundY(worldX, worldZ, origin.y) - origin.y + ring.lift);
       }
       attribute.needsUpdate = true;
     }
+    const beam = entry.object.getObjectByName('walk-beam');
+    if (beam) beam.position.y = this.groundY(origin.x, origin.z, origin.y) - origin.y;
   }
 
   private makeLabel(text: string, colour: string): HTMLElement {
@@ -590,7 +593,8 @@ export class Overlays {
   }
 
   private dispose(entry: LiveOverlay): void {
-    this.disposeObject(entry.object);
+    if (entry.object === this.walkFeedback) entry.object.visible = false;
+    else this.disposeObject(entry.object);
     // A path's ribbon IS its object, already disposed above; an attached route is a second object.
     if (entry.route && entry.route.mesh !== entry.object) this.disposeObject(entry.route.mesh);
     entry.element?.remove();

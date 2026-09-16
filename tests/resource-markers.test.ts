@@ -59,36 +59,35 @@ describe("resource contact markers", () => {
     const f = await fixture("tree");
     try {
       const ring = f.marker.getObjectByName("ring") as THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
-      const pip = f.marker.getObjectByName("pip")!;
-      expect(ring.scale.x).toBeCloseTo(0.58);
-      expect(ring.geometry.parameters.outerRadius - ring.geometry.parameters.innerRadius).toBeLessThan(0.05);
+      expect(ring.userData.radius).toBeCloseTo(0.58);
+      expect(ring.geometry.parameters.outerRadius - ring.geometry.parameters.innerRadius).toBeLessThan(0.06);
       expect(ring.material.opacity).toBe(0.46);
-      expect(f.materials.highlight("#ffd98a").opacity).toBe(0.85);
-      expect(pip.scale.x * 0.32).toBeCloseTo(0.1344);
+      expect(f.materials.highlight("#ffd98a").opacity).toBe(0.68);
+      expect(f.marker.getObjectByName("pip")).toBeUndefined();
       f.scene.entityGroup.updateMatrixWorld(true);
       const ray = new THREE.Raycaster(new THREE.Vector3(5, 5, 10), new THREE.Vector3(0, 0, -1));
       expect(f.views.pick(ray)).toBe("resource");
     } finally { f.dispose(); }
   });
 
-  it("lowers the selected pip to the stump and resizes its ring on actual depletion", async () => {
+  it("keeps its marker on the ground and resizes the ring on actual depletion", async () => {
     const f = await fixture("tree");
     try {
-      const before = f.marker.getObjectByName("pip")!.position.y;
       f.entity.state = "depleted";
       f.views.sync([f.entity]);
-      expect(f.marker.getObjectByName("ring")!.scale.x).toBeCloseTo(0.5);
-      expect(f.marker.getObjectByName("pip")!.position.y).toBeCloseTo(0.66);
-      expect(f.marker.getObjectByName("pip")!.position.y).toBeLessThan(before - 5);
-      expect(f.marker.getObjectByName("pip")!.scale.x * 0.32).toBeCloseTo(0.1344);
+      const ring=f.marker.getObjectByName("ring") as THREE.Mesh;
+      expect(ring.userData.radius).toBeCloseTo(0.5);
+      const positions=ring.geometry.getAttribute('position');
+      for(let i=0;i<positions.count;i++)expect(positions.getY(i)).toBeCloseTo(.025);
+      expect(f.marker.getObjectByName("pip")).toBeUndefined();
     } finally { f.dispose(); }
   });
 
   it("uses a small ore node's real footprint instead of the character marker minimum", async () => {
     const f = await fixture("ore");
     try {
-      expect(f.marker.getObjectByName("ring")!.scale.x).toBeCloseTo(0.4);
-      expect(f.marker.getObjectByName("pip")!.position.y).toBeCloseTo(0.96);
+      expect(f.marker.getObjectByName("ring")!.userData.radius).toBeCloseTo(0.4);
+      expect(f.marker.getObjectByName("pip")).toBeUndefined();
       expect(f.marker.scale.toArray()).toEqual([1, 1, 1]);
     } finally { f.dispose(); }
   });

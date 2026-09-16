@@ -1882,7 +1882,11 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
       new THREE.MeshBasicMaterial({
         color: value,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.68,
+        vertexColors: true,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1,
         depthWrite: false,
         side: THREE.DoubleSide,
         toneMapped: false,

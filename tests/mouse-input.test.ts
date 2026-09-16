@@ -41,6 +41,47 @@ afterEach(() => {
 });
 
 describe("held left pointer movement", () => {
+  it('retains the creature pressed by touch when it moves before finger release', () => {
+    const windowTarget = new EventTarget(); vi.stubGlobal('window', windowTarget);
+    const canvas = new TestCanvas();
+    const api = { inspect:vi.fn(()=>success({interactions:['attack']})),
+      interact:vi.fn(()=>success({started:'attacking'})), moveTo:vi.fn(), stop:vi.fn() } as unknown as GameApi;
+    const input = new InputController(canvas as unknown as HTMLCanvasElement,
+      {camera:new THREE.PerspectiveCamera(),scene:new THREE.Scene()},
+      {yaw:0,rotate:vi.fn(),zoom:vi.fn(),panPixels:vi.fn()},api,{setDirectInput:vi.fn()});
+    cleanups.push(()=>input.dispose()); input.setTouchControls(true);
+    vi.stubGlobal('document', { getElementById: () => null });
+    let underFinger = true;
+    input.picker.setEntitySource(()=>underFinger?{entityId:'moving-monster',point:[0,0,3],distance:3}:null);
+    input.picker.setGroundSource(()=>({entityId:null,point:[0,0,4],distance:4}));
+    canvas.dispatchEvent(pointerEvent('pointerdown',{pointerType:'touch'}));
+    underFinger=false;
+    windowTarget.dispatchEvent(pointerEvent('pointerup',{pointerType:'touch'}));
+    expect(api.interact).toHaveBeenCalledExactlyOnceWith('moving-monster','attack');
+    expect(api.moveTo).not.toHaveBeenCalled();
+  });
+  it('keeps an attack press selected through pointer jitter without issuing a ground move', () => {
+    const windowTarget = new EventTarget(); vi.stubGlobal('window', windowTarget);
+    const canvas = new TestCanvas();
+    const api = {
+      inspect: vi.fn(() => success({ interactions: ['attack'] })),
+      interact: vi.fn(() => success({ started: 'attacking' })),
+      moveTo: vi.fn(), stop: vi.fn(), getPlayer: () => ({ position: [0,0,0] }),
+    } as unknown as GameApi;
+    const input = new InputController(canvas as unknown as HTMLCanvasElement,
+      { camera: new THREE.PerspectiveCamera(), scene: new THREE.Scene() },
+      { yaw: 0, rotate: vi.fn(), zoom: vi.fn(), panPixels: vi.fn() }, api,
+      { setDirectInput: vi.fn() });
+    cleanups.push(() => input.dispose());
+    input.picker.setEntitySource(() => ({entityId:'monster', point:[0,0,3], distance:3}));
+    input.picker.setGroundSource(() => ({entityId:null, point:[0,0,4], distance:4}));
+    canvas.dispatchEvent(pointerEvent('pointerdown'));
+    windowTarget.dispatchEvent(pointerEvent('pointermove', {clientX:108,clientY:104}));
+    input.update(); windowTarget.dispatchEvent(pointerEvent('pointerup', {clientX:108,clientY:104}));
+    expect(api.interact).toHaveBeenCalledExactlyOnceWith('monster','attack');
+    expect(api.moveTo).not.toHaveBeenCalled(); expect(api.stop).not.toHaveBeenCalled();
+    expect(input.selectedEntityId).toBe('monster');
+  });
   it("retargets ground movement on the render cadence until release", () => {
     const windowTarget = new EventTarget() as EventTarget & { innerWidth: number; innerHeight: number };
     windowTarget.innerWidth = 800;

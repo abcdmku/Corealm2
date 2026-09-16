@@ -41,6 +41,11 @@ export class StreamedShaderWarmup {
       object.addEventListener("childadded", this.added);
       object.addEventListener("childremoved", this.removed);
       if (enqueue && (object as THREE.Mesh).isMesh) {
+        // Input rings share the texture-free RGBA material variant prepared at startup.
+        // Recreating a ring must not queue it behind incoming scenery.
+        for (let ancestor: THREE.Object3D | null = object; ancestor; ancestor = ancestor.parent) {
+          if (ancestor.userData.prewarmedInputFeedback === true) return;
+        }
         this.waiting.add(object as THREE.Mesh);
         this.queued.add(object as THREE.Mesh);
       }

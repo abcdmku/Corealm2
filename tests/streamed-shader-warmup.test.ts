@@ -220,3 +220,18 @@ it("keeps selection feedback visible while a streamed batch prepares", () => {
   expect(mesh.visible).toBe(true);
   gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
 });
+
+it('does not delay prewarmed input feedback behind a pending scenery batch', () => {
+  const { scene, gate, mesh, calls } = fixture();
+  scene.add(mesh); gate.prepare(); gate.restore();
+  const marker = new THREE.Group();
+  marker.userData.prewarmedInputFeedback = true;
+  const ring = new THREE.Mesh(new THREE.RingGeometry(), new THREE.MeshBasicMaterial());
+  marker.add(ring); scene.add(marker); gate.prepare();
+  expect(gate.hasPending(mesh)).toBe(true);
+  expect(gate.hasPending(marker)).toBe(false);
+  expect(ring.visible).toBe(true);
+  expect(calls).toHaveLength(2);
+  gate.restore(); gate.dispose();
+  mesh.geometry.dispose(); mesh.material.dispose(); ring.geometry.dispose(); ring.material.dispose();
+});

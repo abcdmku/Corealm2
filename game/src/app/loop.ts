@@ -1,4 +1,4 @@
-import { interpolatedGroundHeight } from "../render/terrainContact.js";
+import { stepPlayerFrame } from "./playerMovementStep.js";
 import { spellImpactPoint } from "../systems/spellAim.js";
 /**
  * The update loop. Fixed 100 ms sim tick with an accumulator, decoupled from render.
@@ -7,14 +7,8 @@ import { spellImpactPoint } from "../systems/spellAim.js";
  * never be changed: events flush LAST, after quests, so a `level.gained` and the `quest.updated`
  * it triggers land in the same tick and in causal order.
  *
- * The render half of this file interpolates. The sim moves the player 0.4202 m in one instant, ten
- * times a second; the camera, the world and the UI move every frame. Measured at 480 fps across
- * 11,050 frames of continuous movement, only 170 of them (1.54%) contained any player displacement
- * at all, and the camera's follow lag sawtoothed 0.005 m -> 0.692 m every 100 ms against a player
- * that teleported. So `renderFrame` draws the player at a point BETWEEN the last two sim ticks and
- * everything that follows the player — scene, rig, camera, shadow — reads that same interpolated
- * pose. The cost is up to one tick of latency on the drawn character, which is the standard trade
- * and is invisible next to a 42 cm jump.
+ * Local movement updates each frame in collision steps of at most 20 ms. Its authoritative
+ * position is drawn immediately. Other actors still interpolate between world simulation ticks.
  */
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
@@ -110,19 +104,6 @@ interface PlayerMovementView {
 }
 
 /**
- * Above this, the player did not walk — it was teleported, and the render pose snaps.
- *
- * One sim tick of running is 4.2 m/s * 0.1 s = 0.4202 m measured, so 2 m is ~4.8 steps of headroom
- * and still far under the smallest thing anyone calls a teleport (a respawn crosses regions).
- * Without it, `__gameDebug.teleport` and every death respawn would smear the character across the
- * map over 100 ms.
- */
-const TELEPORT_SNAP_METRES = 2;
-const TELEPORT_SNAP_SQUARED = TELEPORT_SNAP_METRES * TELEPORT_SNAP_METRES;
-
-const TWO_PI = Math.PI * 2;
-
-/**
  * Tools are carried, not equipped. Return the strongest matching tool in the pack so the held
  * fishing model shows what the gathering roll actually uses.
  */
@@ -178,7 +159,6 @@ export class GameLoop {
   private refreshEntityResidency: (() => void) | null = null;
   private reconcileEntityPresentation: (() => void) | null = null;
   private traversalPresentation: (() => TraversalSample | null) | null = null;
-  private traversalWasVisible = false;
   private viewSyncAccumulatorMs = 0;
   private overlays: OverlayTicker | null = null;
   private playerRig: CharacterRig | null = null;
@@ -215,17 +195,7 @@ export class GameLoop {
   private interiors: { group: { visible: boolean }; visible: () => boolean }[] = [];
   private frameObserver: ((frameMs: number) => void) | null = null;
 
-  /**
-   * The sim pose before the most recent tick. How far through the next one we are now comes from
-   * `SimClock.alpha()`.
-   *
-   * This used to mirror the clock's own accumulator, because that field was private. Two copies of
-   * one integrator is two things that can drift apart, and the one that drifts is the one nothing
-   * tests, so the clock publishes it now and the mirror is gone.
-   */
-  private prevPlayerPos: [number, number, number] = [0, 0, 0];
-  private prevFacingRad = 0;
-  private havePrevPose = false;
+  /** Render fraction for actors driven by the fixed world tick. */
   private renderAlpha = 1;
   /** Scratch, reused every frame. The render pose is written here rather than allocated. */
   private readonly renderPos: [number, number, number] = [0, 0, 0];
@@ -457,17 +427,10 @@ export class GameLoop {
 
     this.deps.input.update();
     const clock = this.deps.clock;
-    const ticks = clock.advance(realDelta);
-    for (let i = 0; i < ticks; i += 1) {
-      // Captured per tick, not per batch: the render pose interpolates across the LAST tick, so a
-      // catch-up batch of eight still draws the final 100 ms rather than smearing 800 ms of motion.
-      this.capturePrevPose();
-      this.simTick();
-    }
-    // A paused sim runs no ticks, so a blend held at whatever alpha the pause caught would freeze
-    // the character part-way between two tick poses — and `__gameDebug.teleport` while paused would
-    // leave it stranded there. alpha 1 is the true sim pose, which is the only honest thing to draw
-    // when nothing is advancing, and it is what `SimClock.alpha()` deliberately does not return.
+    stepPlayerFrame(clock, realDelta,
+      (delta, atMs) => this.deps.movement.update(this.deps.store.get(), delta, atMs),
+      () => this.simTick());
+    // Remote actors interpolate fixed world ticks; local movement already has this frame's pose.
     this.renderAlpha = clock.paused ? 1 : clock.alpha();
 
     this.renderFrame(nowMs, realDelta);
@@ -477,13 +440,9 @@ export class GameLoop {
 
   /** One 100 ms simulation step. */
   private simTick(): void {
-    const { store, clock, movement, events } = this.deps;
+    const { store, clock, events } = this.deps;
     const state = store.get();
     const atMs = clock.elapsedMs;
-
-    // 1. input has already been folded into the movement controller by the input layer
-    // 2. movement
-    movement.update(state, SIM_TICK_MS, atMs);
 
     // 4..11. registered systems: gathering, production, combat, enemy AI, health, quests
     for (const system of this.systems) system.tick(SIM_TICK_MS, atMs);
@@ -500,58 +459,12 @@ export class GameLoop {
     events.flush();
   }
 
-  private capturePrevPose(): void {
+  private updateRenderPose(): void {
     const player = this.deps.store.get().player;
-    this.prevPlayerPos[0] = player.position[0];
-    this.prevPlayerPos[1] = player.position[1];
-    this.prevPlayerPos[2] = player.position[2];
-    this.prevFacingRad = player.facingRad;
-    this.havePrevPose = true;
-  }
-
-  /**
-   * Writes the drawn player pose into `renderPos` / `renderFacingRad`.
-   *
-   * Facing takes the shortest arc, so a turn across the -pi/pi seam interpolates 20 degrees rather
-   * than 340. It matters: `turnToward` runs once per sim tick with deltaMs 100, so a direct-input
-   * turn steps up to 1.26 rad (72 degrees) at once and the rig read that raw.
-   */
-  private updateRenderPose(alpha: number): void {
-    const player = this.deps.store.get().player;
-    const current = player.position;
-    if (!this.havePrevPose) {
-      this.renderPos[0] = current[0];
-      this.renderPos[1] = current[1];
-      this.renderPos[2] = current[2];
-      this.renderFacingRad = player.facingRad;
-      return;
-    }
-
-    const dx = current[0] - this.prevPlayerPos[0];
-    const dy = current[1] - this.prevPlayerPos[1];
-    const dz = current[2] - this.prevPlayerPos[2];
-    if (dx * dx + dy * dy + dz * dz > TELEPORT_SNAP_SQUARED) {
-      this.prevPlayerPos[0] = current[0];
-      this.prevPlayerPos[1] = current[1];
-      this.prevPlayerPos[2] = current[2];
-      this.prevFacingRad = player.facingRad;
-      this.renderPos[0] = current[0];
-      this.renderPos[1] = current[1];
-      this.renderPos[2] = current[2];
-      this.renderFacingRad = player.facingRad;
-      return;
-    }
-
-    this.renderPos[0] = this.prevPlayerPos[0] + dx * alpha;
-    this.renderPos[1] = this.prevPlayerPos[1] + dy * alpha;
-    this.renderPos[2] = this.prevPlayerPos[2] + dz * alpha;
-    this.renderPos[1] = interpolatedGroundHeight(this.prevPlayerPos, current, this.renderPos,
-      (x, z) => (this.deps.terrainAt?.(x, z) ?? this.deps.scene).meshHeightAt(x, z));
-
-    let turn = (player.facingRad - this.prevFacingRad) % TWO_PI;
-    if (turn > Math.PI) turn -= TWO_PI;
-    else if (turn < -Math.PI) turn += TWO_PI;
-    this.renderFacingRad = this.prevFacingRad + turn * alpha;
+    this.renderPos[0] = player.position[0];
+    this.renderPos[1] = player.position[1];
+    this.renderPos[2] = player.position[2];
+    this.renderFacingRad = player.facingRad;
   }
 
   private renderFrame(nowMs: number, realDeltaMs: number): void {
@@ -559,17 +472,13 @@ export class GameLoop {
     const state = store.get();
 
     const traversal = this.traversalPresentation?.() ?? null;
-    // Completion and recovery already reach their landing. Reusing the preceding simulation
-    // interpolation span here would pull the rendered player back toward the entry for a tick.
-    if (!traversal && this.traversalWasVisible) this.havePrevPose = false;
-    this.updateRenderPose(this.renderAlpha);
+    this.updateRenderPose();
     if (traversal) {
       this.renderPos[0] = traversal.position[0];
       this.renderPos[1] = traversal.position[1];
       this.renderPos[2] = traversal.position[2];
       this.renderFacingRad = traversal.facingRad;
     }
-    this.traversalWasVisible = traversal !== null;
     const position: Vec3 = this.renderPos;
     const facingRad = this.renderFacingRad;
 

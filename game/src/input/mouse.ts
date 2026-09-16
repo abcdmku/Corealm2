@@ -69,6 +69,8 @@ export interface InputOptions {
   onSelectionChange?: (entityId: EntityId | null) => void;
   /** Notified after a walk-only click starts a valid path, so the view can mark its destination. */
   onWalkDestination?: (point: Vec3) => void;
+  /** A new keyboard, joystick or held-pointer movement intent replaces the old destination. */
+  onDirectMoveStart?: () => void;
   /** Opens recipe selection for a production station instead of auto-starting one recipe. */
   onProduction?: (entityId: EntityId) => void;
   /** Defaults to #ui-root. */
@@ -89,6 +91,7 @@ export class InputController {
   private pointerDown = false;
   private heldButtons = 0;
   private leftDragging = false;
+  private leftCanSteer = false;
   private orbitDragging = false;
   private leftDownX = 0;
   private leftDownY = 0;
@@ -115,6 +118,8 @@ export class InputController {
   private readonly options: InputOptions;
   private movementEnabled = true;
   private freeCameraEnabled = false;
+  private directIntentActive = false;
+  private touchPressPick: Pick | null = null;
 
   /**
    * Touch play. Off, a finger is a mouse with one button: the same press-to-act path, which is
@@ -268,7 +273,7 @@ export class InputController {
       this.leftDownX = event.clientX;
       this.leftDownY = event.clientY;
       this.leftDragging = false;
-      this.handleLeftClick(event.clientX, event.clientY);
+      this.leftCanSteer = this.handleLeftClick(event.clientX, event.clientY);
     }
     if (pressed & 6) {
       this.dragButton = next & 2 ? 2 : 1;
@@ -306,6 +311,7 @@ export class InputController {
       // Cancelling here also stops the browser from synthesising the mouse events a tap would
       // otherwise produce, so a tap is handled exactly once.
       event.preventDefault();
+      if (!this.touch!.active()) this.touchPressPick = this.picker.pickAt(event.clientX, event.clientY);
       this.touch!.down(event);
       return;
     }
@@ -329,7 +335,7 @@ export class InputController {
     if (this.heldButtons & 1) {
       this.heldMoveX = event.clientX;
       this.heldMoveY = event.clientY;
-      if (Math.hypot(event.clientX - this.leftDownX, event.clientY - this.leftDownY) > DRAG_THRESHOLD_PX) {
+      if (this.leftCanSteer && Math.hypot(event.clientX - this.leftDownX, event.clientY - this.leftDownY) > DRAG_THRESHOLD_PX) {
         this.leftDragging = true;
       }
     }
@@ -406,8 +412,10 @@ export class InputController {
     this.contextMenu.close();
     this.cursorX = clientX;
     this.cursorY = clientY;
-    this.handleLeftClick(clientX, clientY);
-    const pick = this.picker.pickAt(clientX, clientY);
+    // A creature can move while a finger is down. Keep the pressed target through tap release.
+    const pick = this.touchPressPick ?? this.picker.pickAt(clientX, clientY);
+    this.touchPressPick = null;
+    this.handleLeftClick(clientX, clientY, pick);
     const entityId = pick?.entityId ?? null;
     this.touchLabelUntil = entityId ? performance.now() + TOUCH_LABEL_MS : 0;
     this.setHovered(entityId);
@@ -458,14 +466,14 @@ export class InputController {
    * Left click. Actionable entities run their primary interaction; ground and scenery walk there.
    * `GameApi.interact` already walks into range first, so one click is always one intent.
    */
-  private handleLeftClick(clientX: number, clientY: number): void {
-    const pick = this.picker.pickAt(clientX, clientY);
-    if (!pick) return;
+  private handleLeftClick(clientX: number, clientY: number, pressedPick?: Pick | null): boolean {
+    const pick = pressedPick === undefined ? this.picker.pickAt(clientX, clientY) : pressedPick;
+    if (!pick) return false;
 
     if (!this.movementEnabled) {
       this.setSelected(pick.entityId ?? null);
       if (pick.entityId) this.inspectEntity(pick.entityId);
-      return;
+      return false;
     }
 
     if (pick.entityId) {
@@ -475,15 +483,17 @@ export class InputController {
         const ground = this.picker.pickGroundAt(clientX, clientY);
         this.setSelected(null);
         if (ground) this.moveTo({ position: ground.point }, ground.point);
-        return;
+        return !!ground;
       }
       this.setSelected(pick.entityId);
       this.runInteraction(pick.entityId, interaction);
-      return;
+      // A press on a target owns this gesture. Hand jitter must not cancel its interaction.
+      return false;
     }
 
     this.setSelected(null);
     this.moveTo({ position: pick.point }, pick.point);
+    return true;
   }
 
   private handleRightClick(clientX: number, clientY: number): void {
@@ -572,6 +582,14 @@ export class InputController {
     if (this.movementEnabled && forward === 0 && strafe === 0 && this.joystick?.active()) {
       ({ forward, strafe } = this.joystick.axes());
     }
+    const direct = forward !== 0 || strafe !== 0 || (this.leftDragging && this.movementEnabled);
+    if (direct && !this.directIntentActive) {
+      // Even a tap shorter than one world tick cancels pursuit, before local movement advances.
+      this.api.stop();
+      this.setSelected(null);
+      this.options.onDirectMoveStart?.();
+    }
+    this.directIntentActive = direct;
     this.movement.setDirectInput({ forward, strafe, cameraYaw: this.camera.yaw });
     if (forward === 0 && strafe === 0) this.updateHeldMove();
     this.updateHover();
@@ -731,6 +749,9 @@ export class InputController {
 
   /** Resets transient input state. The debug `reset()` path calls this. */
   clear(): void {
+    this.directIntentActive = false;
+    this.leftCanSteer = false;
+    this.touchPressPick = null;
     this.keyboard.clear();
     this.touch?.reset();
     this.joystick?.clear();

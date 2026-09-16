@@ -81,6 +81,23 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it('picks static instances in front of actors without raycasting shared batches', async () => {
+    const prop: SemanticEntity = { id:'front-rock', name:'Rock', archetype:'ore', tier:1,
+      regionId:'fallowmarch', position:[0,0,3], state:'available', interactions:['inspect','mine'],
+      view:{assetId:'test_prop'} };
+    const f = await fixture([prop, actor('behind')]);
+    try {
+      f.scene.entityGroup.updateMatrixWorld(true);
+      f.scene.entityGroup.traverse(object=>{
+        if((object as THREE.BatchedMesh).isBatchedMesh) object.raycast=()=>{throw Error('Whole-batch raycast');};
+      });
+      const ray=new THREE.Raycaster(new THREE.Vector3(0,.2,8),new THREE.Vector3(0,0,-1));
+      expect(f.views.pickAll(ray)).toEqual(['front-rock','behind']);
+      prop.position=[4,0,3]; f.views.sync([prop,actor('behind')]);
+      f.scene.entityGroup.updateMatrixWorld(true);
+      expect(f.views.pickAll(ray)).toEqual(['behind']);
+    } finally { f.dispose(); }
+  });
   it('keeps a moving sampled actor drawn and pickable until its replacement is ready', async () => {
     let ready = false;
     const entity = actor('streaming-handoff');
@@ -126,7 +143,9 @@ describe("EntityViews resident motion", () => {
       f.views.setHighlight(entity.id);
       const marker = f.scene.overlayGroup.getObjectByName(`highlight-${entity.id}`)!;
       const ring = marker.getObjectByName("ring") as THREE.Mesh<THREE.RingGeometry>;
-      expect(ring.geometry.parameters.outerRadius - ring.geometry.parameters.innerRadius).toBeCloseTo(0.05);
+      expect(ring.geometry.parameters.outerRadius - ring.geometry.parameters.innerRadius).toBeLessThan(0.1);
+      expect(ring.geometry.getAttribute('color').itemSize).toBe(4);
+      expect(marker.getObjectByName('pip')).toBeUndefined();
       expect(ring.scale.x).toBe(1);
       entity.position = [2, 0, 0];
       for (const alpha of [0.1, 0.3, 0.6, 0.9]) {
