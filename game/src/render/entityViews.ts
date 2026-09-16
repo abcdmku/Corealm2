@@ -1,3 +1,4 @@
+import { ASSET_BASE_URL } from "../app/config.js";
 import { interpolatedGroundHeight } from "./terrainContact.js";
 import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
 /**
@@ -193,7 +194,7 @@ const ESSENCE_CACHE_ASSETS: ReadonlySet<string> = new Set([
 const ESSENCE_ALTAR_ASSET = "altar_ruins_altar";
 const ESSENCE_ALTAR_RUINS_ASSET = "altar_ruins_site";
 
-const ESSENCE_VEINS_MASK_URL = "/assets/textures/essence_veins_mask.png";
+const ESSENCE_VEINS_MASK_URL = `${ASSET_BASE_URL}textures/essence_veins_mask.png`;
 
 /** Emissive colour and energy are element identity; the rock's authored albedo stays underneath. */
 const ESSENCE_GLOW: Readonly<Record<EssenceElement, { colour: number; intensity: number }>> = {

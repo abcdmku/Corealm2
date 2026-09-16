@@ -1,3 +1,4 @@
+import { ASSET_BASE_URL } from "../app/config.js";
 import * as THREE from "three";
 
 // Accepted through the production lab; evidence: art/equipment-retexture/ornate-armor/.
@@ -35,8 +36,8 @@ function partTexture(kind: "padding-albedo" | "padding-height" | "metal"): THREE
   const ready = new Promise<void>((yes, no) => { resolve = yes; reject = no; });
   void ready.catch(() => undefined);
   pending.set(key, ready);
-  const url = kind === "metal" ? "/assets/textures/equipment/worked-metal.png"
-    : `/assets/textures/armor/${kind}.png`;
+  const url = kind === "metal" ? `${ASSET_BASE_URL}textures/equipment/worked-metal.png`
+    : `${ASSET_BASE_URL}textures/armor/${kind}.png`;
   const texture = new THREE.TextureLoader().load(url, () => resolve(), undefined, reject);
   texture.name = key;
   texture.colorSpace = kind === "padding-height" ? THREE.NoColorSpace : THREE.SRGBColorSpace;
@@ -61,7 +62,7 @@ function armorTexture(tier: ArmorTier, kind: ArmorMap): THREE.Texture {
   void ready.catch(() => undefined);
   pending.set(key, ready);
   const texture = new THREE.TextureLoader().load(
-    `/assets/textures/armor/${key}.png`, () => resolve(), undefined, reject,
+    `${ASSET_BASE_URL}textures/armor/${key}.png`, () => resolve(), undefined, reject,
   );
   texture.name = `equipment-armor-${key}`;
   texture.colorSpace = kind === "albedo" ? THREE.SRGBColorSpace : THREE.NoColorSpace;

@@ -1,3 +1,4 @@
+import { ASSET_BASE_URL } from "../app/config.js";
 import * as THREE from 'three';
 import type { EquipSlot } from '../contracts.js';
 import type { CharacterBody, GearAppearance } from './equipmentVisuals.js';
@@ -32,7 +33,7 @@ const textureLoads: Promise<Error | undefined>[] = [];
 function loadTexture(name: string, extension = 'png'): THREE.Texture {
   let result!: THREE.Texture;
   textureLoads.push(new Promise(resolve => {
-    result = new THREE.TextureLoader().load(`/assets/textures/fab-armor/${name}.${extension}`,
+    result = new THREE.TextureLoader().load(`${ASSET_BASE_URL}textures/fab-armor/${name}.${extension}`,
       () => resolve(undefined), undefined, () => resolve(new Error(`Cannot load Fab armor texture ${name}`)));
   }));
   return result;

@@ -1,3 +1,4 @@
+import { ASSET_BASE_URL } from "../app/config.js";
 import * as THREE from "three";
 
 // Accepted lab captures and source hashes are recorded in art/equipment-retexture/acceptance.json.
@@ -28,7 +29,7 @@ function surfaceTexture(surface: Surface): THREE.Texture {
   void ready.catch(() => undefined);
   pending.set(surface, ready);
   const texture = new THREE.TextureLoader().load(
-    `/assets/textures/equipment/${textureFiles[surface]}`, () => resolve(), undefined, reject,
+    `${ASSET_BASE_URL}textures/equipment/${textureFiles[surface]}`, () => resolve(), undefined, reject,
   );
   texture.name = `equipment-surface-${surface}`;
   texture.colorSpace = THREE.SRGBColorSpace;

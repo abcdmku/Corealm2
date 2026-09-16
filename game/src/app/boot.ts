@@ -1,3 +1,4 @@
+import { ASSET_BASE_URL } from "./config.js";
 import { CRAFTED_JEWELRY, JEWELRY_RECIPES, isRetiredJewelry } from '../content/jewelry.js';
 import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
 import { createRiverSurface } from '../render/riverSurface.js';
@@ -896,7 +897,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     || (profile.kind === "game" && authoredDungeonSpec !== null);
   const deferCaveRock = wantsCaveRock && runtimePerformanceEnabled;
   const caveRockSource = wantsCaveRock && !deferCaveRock
-    ? await (await import("../render/dungeon.js")).loadCaveRockSource("/assets/models/cave/rock-face-01.glb")
+    ? await (await import("../render/dungeon.js")).loadCaveRockSource(`${ASSET_BASE_URL}models/cave/rock-face-01.glb`)
     : undefined;
   const { caveFixture, dungeonSpec, dungeon } = bootTelemetry.measureSync(BOOT_SPANS.DUNGEON_BUILD, () => {
     const caveFixture = denseCaveLab?.createDenseCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource, rockEnvelope: !!wantsCaveRock })
@@ -909,7 +910,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   const deferredCave = deferCaveRock && dungeon && dungeonSpec
     ? new DeferredDungeonFacing(caveFixture?.built ?? dungeon as BuiltDungeon, dungeonSpec, { surfaceTextures },
-      () => loadCaveRockSource("/assets/models/cave/rock-face-01.glb"), (mesh, source) => {
+      () => loadCaveRockSource(`${ASSET_BASE_URL}models/cave/rock-face-01.glb`), (mesh, source) => {
         mesh.userData["cameraHardBlocker"] = true;
         cameraQueries.addStaticMesh(mesh);
         caveFixture?.facingAttached(source);

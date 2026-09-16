@@ -1,3 +1,4 @@
+import { ASSET_BASE_URL } from "../app/config.js";
 import * as THREE from "three";
 
 let texture:THREE.Texture|undefined;
@@ -6,7 +7,7 @@ export function elementalFlameTexture():THREE.Texture {
   if(!texture){
     texture=typeof document==="undefined"
       ?new THREE.DataTexture(new Uint8Array([128,128,128,255]),1,1)
-      :new THREE.TextureLoader().load('/assets/vfx/elemental-flame-flow-v1.png');
+      :new THREE.TextureLoader().load(`${ASSET_BASE_URL}vfx/elemental-flame-flow-v1.png`);
     texture.name='Authored torn flame membranes';texture.colorSpace=THREE.NoColorSpace;
     texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
     texture.minFilter=THREE.LinearMipmapLinearFilter;texture.magFilter=THREE.LinearFilter;

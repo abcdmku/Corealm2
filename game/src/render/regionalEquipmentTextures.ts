@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ASSET_BASE_URL } from '../app/config.js';
 
 type Tier = 30 | 40 | 60;
 type Surface = 'metal' | 'wood' | 'cloth' | 'leather' | 'lining';
@@ -24,7 +25,7 @@ function texture(tier: Tier, surface: Surface): THREE.Texture {
   let resolve!: () => void, reject!: (error: unknown) => void;
   const ready = new Promise<void>((yes, no) => { resolve = yes; reject = no; });
   void ready.catch(() => undefined); pending.set(key, ready);
-  const map = new THREE.TextureLoader().load(`/assets/textures/regional-equipment/${key}.png`, () => resolve(), undefined, reject);
+  const map = new THREE.TextureLoader().load(`${ASSET_BASE_URL}textures/regional-equipment/${key}.png`, () => resolve(), undefined, reject);
   map.name = `regional-equipment-${key}`; map.colorSpace = THREE.SRGBColorSpace;
   map.flipY = false; map.wrapS = map.wrapT = THREE.MirroredRepeatWrapping; map.anisotropy = 8;
   textures.set(key, map); return map;
