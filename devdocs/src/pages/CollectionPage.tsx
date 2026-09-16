@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { lazyComponent } from "../workspaces/lazyView.js";
 import { useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { LayoutGrid, List, Search, Table2, X } from "lucide-react";
@@ -17,8 +18,8 @@ import { RecordGrid, clearSelection, setSelection } from "../ui/grid/index.js";
 import { EntityDetail } from "./EntityDetail.js";
 import "../dev/bulkActions.css";
 
-const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/BulkActionsPanel.js"));
-const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/RecordActions.js"));
+const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"));
+const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"));
 const noRows: ContentRow[] = [];
 const PAGE = 240;
 const isGeneratedRow = (row: ContentRow): boolean => row.__compiled === true;

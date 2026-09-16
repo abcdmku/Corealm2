@@ -1,4 +1,5 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { lazyComponent } from "../lazyView.js";
 import { EquipmentBonusesSchema } from "../../../../game/src/content/schema/items.js";
 import { EquipmentFamilySchema, ProgressionTierSchema, type EquipmentFamily } from "../../../../game/src/content/schema/progression.js";
 import { ConsequenceCell, ConsequenceNote, movesWith, rowMovement, tally } from "../../dev/formulas/consequences.js";
@@ -18,7 +19,7 @@ import { BONUS_SHORT, familyMembers, specAt, titleCase, type ItemsData } from ".
   number and wears the brass override dot (docs/devdocs-inputs.md 3.10).
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../../dev/formulas/CompiledCheck.js"));
+const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"));
 
 const family = (...path: Path[number][]) => specAt(EquipmentFamilySchema, ["parameters", ...path]);
 const VALUE = specAt(ProgressionTierSchema, ["equipment", 0, "adjustments", "value"]);

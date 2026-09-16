@@ -1,4 +1,5 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { lazyComponent } from "../lazyView.js";
 import { X } from "lucide-react";
 import { calculateCreatureCombat } from "../../../../game/src/content/formulas/creature.js";
 import { CreatureProfileSchema } from "../../../../game/src/content/schema/creatureDefinitions.js";
@@ -23,7 +24,7 @@ import { type CreatureData, type Profile } from "./shared.js";
   updates all of it live, and `onLive` pushes the same draft to the creature behind the drawer.
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../../dev/formulas/CompiledCheck.js"));
+const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"));
 
 /** The schema's `group: "curve"` fields, in schema order. */
 const PARAM_KEYS = (Object.keys(CreatureProfileSchema.fields) as (keyof Profile & string)[]).filter(key => fieldPath(CreatureProfileSchema, [key])?.group === "curve");

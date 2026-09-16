@@ -41,6 +41,14 @@ export interface FieldProps<T = unknown> {
 
 const legendLabel = (state: DotState): string => DOT_LEGEND.find(entry => entry.state === state)?.label ?? (state === "balance" ? "Balance target" : state === "default" ? "Default" : state === "absent" ? "Not set" : state);
 
+/*
+  The dot marks a value that deviates: it came from somewhere else, several records disagree, or it
+  is wrong or stale. A value that is simply authored here, or simply computed by the curve the
+  section already names, gets nothing. A mark on every field is a mark on none.
+*/
+const DEVIATIONS = new Set<DotState>(["overridden", "inherited", "balance", "mixed", "invalid", "stale"]);
+const showDot = (state: DotState): boolean => DEVIATIONS.has(state);
+
 export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, expression, error, dirty, mixed, stale, compact = false, span, disabled = false, className = "", children }: FieldProps<T>) {
   const labelId = useId();
   const [focused, setFocused] = useState(false);
@@ -85,7 +93,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
       <div className="field-body">
         <div className="field-control">
           {children}
-          {(resolved || mixed || stale || shownError) && <span className="field-dot" data-state={state} title={dotTitle} aria-label={dotTitle} role="img" />}
+          {showDot(state) && <span className="field-dot" data-state={state} title={dotTitle} aria-label={dotTitle} role="img" />}
           {canRevert && target && <button type="button" className="field-revert" tabIndex={-1} title={describeRevert(target, unit)} aria-label={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}><Undo2 size={12} /></button>}
           {!compact && origins.length > 0 && <span className="field-origin">{origins}</span>}
         </div>

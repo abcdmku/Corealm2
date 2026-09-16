@@ -33,7 +33,9 @@ export function Columns({ children }: { children: ReactNode }) { return <div cla
  * lines instead of eight rows, and the eye reads them as one set.
  */
 export function Fields({ children, columns, className = "" }: { children: ReactNode; columns?: number; className?: string }) {
-  return <div className={`kv-fields ${className}`.trim()} style={columns ? { gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` } : undefined}>{children}</div>;
+  // `columns` caps how many cells sit on a line; it does not stretch them. A number control keeps
+  // its own width, so the value stays beside its label instead of drifting to a far edge.
+  return <div className={`kv-fields ${className}`.trim()} style={columns ? { gridTemplateColumns: `repeat(${columns}, minmax(88px, max-content))` } : undefined}>{children}</div>;
 }
 
 export function Field({ label, hint, children, span, error, className = "" }: { label: ReactNode; hint?: string; children: ReactNode; span?: 1 | 2 | 3 | 4; error?: string; className?: string }) {

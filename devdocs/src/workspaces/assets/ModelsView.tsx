@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { lazyComponent } from "../lazyView.js";
 import { useQuery } from "@tanstack/react-query";
 import { Box, LayoutGrid, List, Maximize2, Minimize2, Search, SlidersHorizontal, X } from "lucide-react";
 import { collectionQuery } from "../../api/client.js";
@@ -13,7 +14,7 @@ import type { ViewProps } from "../types.js";
 import { asRecord, num, RecordShell, strings, text } from "../story/shared.js";
 import "./assets.css";
 
-const AssetViewer = lazy(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
+const AssetViewer = lazyComponent(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
 
 interface Asset extends ContentRow { id: string; file?: string; pack?: string; category?: string; is?: string; tags?: string[]; bytes?: number; size?: { x: number; y: number; z: number }; animations?: string[]; materials?: string[]; procedural?: boolean; itemId?: string }
 

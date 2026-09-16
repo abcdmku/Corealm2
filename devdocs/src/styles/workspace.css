@@ -130,7 +130,7 @@ button.derived-source:hover { text-decoration: underline; text-underline-offset:
 .nav-item .nav-dot { flex: none; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
 
 /* ---------- Field grid: a group of like values as labelled cells ---------- */
-.kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px 14px; padding: 4px 0 8px; }
+.kv-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, var(--field-cell, 168px))); gap: 8px 12px; padding: 4px 0 8px; justify-content: start; }
 .kv-field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .kv-field[data-span="2"] { grid-column: span 2; }
 .kv-field[data-span="3"] { grid-column: span 3; }

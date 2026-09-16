@@ -6,7 +6,10 @@
 */
 
 /* ---- peek sheet ---- */
-.peek { position: fixed; top: 0; right: 0; bottom: 0; z-index: 42; width: clamp(420px, 40vw, 560px); max-width: 92vw; display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--border); box-shadow: -12px 0 40px var(--shadow); outline: none; }
+:root { --peek-width: clamp(420px, 34vw, 520px); }
+/* The sheet reserves its own space instead of covering the record it was opened from. */
+:root[data-peek="open"] .workspace { padding-right: var(--peek-width); }
+.peek { position: fixed; top: 0; right: 0; bottom: 0; z-index: 42; width: var(--peek-width); max-width: 92vw; display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--border); box-shadow: -12px 0 40px var(--shadow); outline: none; }
 .peek-head { flex: none; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 10px 6px 12px; border-bottom: 1px solid var(--border-subtle); }
 .peek-title { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .peek-title strong { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -43,7 +46,7 @@
 /* ---- referenced by ---- */
 .refby-group { display: flex; flex-direction: column; gap: 2px; padding: 4px 0 6px; }
 .refby-group-title { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); font-weight: 500; }
-.refby-group-title small { color: var(--faint); font-family: var(--font-mono); font-weight: 400; }
+.refby-group-title small { font-size: 11px; color: var(--faint); font-family: var(--font-mono); font-weight: 400; }
 .refby-row { position: relative; display: flex; align-items: center; gap: 4px; min-width: 0; }
 .refby-row > .ref-row { flex: 1 1 auto; min-width: 0; }
 .refby-row .refby-open { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); flex: none; opacity: 0; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: var(--panel); }

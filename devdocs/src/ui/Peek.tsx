@@ -1,11 +1,11 @@
-import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import type { AppProps } from "../model/contracts.js";
 import type { RecordRef } from "../model/origin.js";
 import { findRecord, summaryContext, useReferenceIndex } from "../model/refs.js";
 import { summarize } from "../model/summaries.js";
 import { REGISTRY } from "../workspaces/registry.js";
-import { preloadView } from "../workspaces/lazyView.js";
+import { lazyComponent, preloadView } from "../workspaces/lazyView.js";
 import { LoadingRows } from "./States.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
@@ -52,11 +52,18 @@ export function PeekProvider({ navigate, children }: { navigate: AppProps["navig
   const open = useCallback((ref: RecordRef | PeekTarget) => {
     const target = { collection: ref.collection, id: ref.id };
     const route = parseRoute(routePath(target.collection, target.id).split("/").filter(Boolean).map(decodeURIComponent));
-    const pending = preloadView(REGISTRY[route.workspace.key]?.[route.view.key]);
+    const view = REGISTRY[route.workspace.key]?.[route.view.key];
+    const pending = preloadView(view) ?? (route.view.collection ? CollectionPage.preload() : undefined);
     if (pending) void pending.then(() => setCurrent(target), () => setCurrent(target));
     else setCurrent(target);
   }, []);
   const close = useCallback(() => setCurrent(undefined), []);
+  // The shell reserves room for the sheet so it never sits on top of the record that opened it.
+  useEffect(() => {
+    if (parent.mounted) return;
+    if (current) document.documentElement.dataset.peek = "open"; else delete document.documentElement.dataset.peek;
+    return () => { delete document.documentElement.dataset.peek; };
+  }, [current, parent.mounted]);
   const value = useMemo<PeekContextValue>(() => ({ mounted: true, current, open, close, navigate }), [current, open, close, navigate]);
   if (parent.mounted) return <>{children}</>;
   return <PeekContext.Provider value={value}>
@@ -65,7 +72,9 @@ export function PeekProvider({ navigate, children }: { navigate: AppProps["navig
   </PeekContext.Provider>;
 }
 
-const CollectionPage = lazy(() => import("../pages/CollectionPage.js").then(module => ({ default: module.CollectionPage })));
+// The browser fallback is loaded the same way as a workspace view: a suspending tree beside an
+// animating model viewer can be restarted every frame and never commit.
+const CollectionPage = lazyComponent(() => import("../pages/CollectionPage.js").then(module => ({ default: module.CollectionPage })));
 
 /** The sheet itself. `PeekProvider` renders it; pages do not mount this directly. */
 export function Peek({ target, navigate, onOpen, onClose }: { target: PeekTarget; navigate: AppProps["navigate"]; onOpen: (ref: PeekTarget) => void; onClose: () => void }) {

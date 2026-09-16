@@ -1,4 +1,5 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { lazyComponent } from "../lazyView.js";
 import { ProgressionTierSchema, RecipeTemplateSchema, type RecipeTemplate } from "../../../../game/src/content/schema/progression.js";
 import { ConsequenceCell, ConsequenceNote, movesWith, rowMovement, tally } from "../../dev/formulas/consequences.js";
 import { deriveProductionEntry, type Derivation } from "../../model/derive.js";
@@ -14,7 +15,7 @@ import { specAt, stationText, templateEntries, type ItemsData } from "./data.js"
   keeps its number and wears the brass override dot: the curve moves, the recipe does not.
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../../dev/formulas/CompiledCheck.js"));
+const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"));
 
 type ParamKey = keyof RecipeTemplate["parameters"];
 const param = (key: ParamKey) => specAt(RecipeTemplateSchema, ["parameters", key]);

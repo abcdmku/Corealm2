@@ -229,7 +229,9 @@ h1 { font-size: 16px; font-weight: 600; }
 .thumb-glyph svg { width: 52%; height: 52%; }
 .thumb-spell { display: block; width: 100%; height: 100%; }
 .thumb-spell svg { display: block; width: 100%; height: 100%; }
-.thumb-letter { font-family: var(--font-mono); font-weight: 600; font-size: 40%; }
+.thumb-letter { font-family: var(--font-mono); font-weight: 600; font-size: max(10.5px, 40%); letter-spacing: -.02em; }
+/* Nothing in the app is allowed below 11px: a count or caption must stay readable. */
+small { font-size: max(11px, .85em); }
 .thumb-composite { display: grid; width: 100%; height: 100%; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px; padding: 2px; }
 .thumb-composite[data-count="1"] { grid-template-columns: 1fr; grid-template-rows: 1fr; }
 .thumb-composite[data-count="2"] { grid-template-rows: 1fr; }
@@ -330,7 +332,7 @@ h1 { font-size: 16px; font-weight: 600; }
 .points-map-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 2px #0009, 0 0 0 3px #fff8; }
 .points-map-pin:hover .points-map-dot, .points-map-pin.is-selected .points-map-dot { transform: scale(1.3); }
 .points-map-label { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 600; color: #fff; text-shadow: 0 0 3px #000, 0 0 6px #000; pointer-events: none; }
-.points-map-scale { position: absolute; right: 6px; bottom: 4px; font-family: var(--font-mono); font-size: 10px; color: #fff; text-shadow: 0 0 3px #000; pointer-events: none; }
+.points-map-scale { position: absolute; right: 6px; bottom: 4px; font-family: var(--font-mono); font-size: 11px; color: #fff; text-shadow: 0 0 3px #000; pointer-events: none; }
 .points-map:focus-within { border-color: var(--accent); }
 .map-large .thumb-map { height: 100%; }
 .incoming-group { display: flex; flex-direction: column; gap: 3px; margin-top: 2px; }

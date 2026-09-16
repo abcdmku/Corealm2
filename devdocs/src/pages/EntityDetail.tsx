@@ -1,5 +1,6 @@
 import { Check, Copy } from "lucide-react";
-import { lazy, Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { lazyComponent } from "../workspaces/lazyView.js";
 import { useQuery } from "@tanstack/react-query";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
@@ -17,11 +18,11 @@ import { Facts, Field, RefField, ReferencedBy, SchemaControl, Sheet, type Render
 import { Thumb } from "../ui/Thumb.js";
 import { labelFor } from "../ui/library.js";
 
-const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/SetPiecePanel.js"));
-const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/NotesPanel.js"));
-const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/EntityEditor.js"));
-const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/RecordActions.js"));
-const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazy(() => import("../dev/AssetCandidates.js"));
+const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/SetPiecePanel.js"));
+const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/NotesPanel.js"));
+const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/EntityEditor.js"));
+const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"));
+const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/AssetCandidates.js"));
 const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration", "__compiled"]);
 
 const schemaByCollection = new Map(CONTENT_COLLECTIONS.map(spec => [spec.name, spec.schema]));

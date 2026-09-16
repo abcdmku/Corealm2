@@ -1,4 +1,5 @@
-import { lazy, Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { lazyComponent } from "../workspaces/lazyView.js";
 import { ArrowRight, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import { incomingReferences, outgoingReferences, refTargetCollection, summaryContext, type IncomingReference, type ReferenceIndex } from "../model/refs.js";
@@ -9,7 +10,7 @@ import { RefChip, RefRow } from "./RefChip.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
 
-const AssetViewer = lazy(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
+const AssetViewer = lazyComponent(() => import("../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })));
 const asRecord = (value: unknown): ContentRow => value !== null && typeof value === "object" && !Array.isArray(value) ? value as ContentRow : {};
 const list = (value: unknown): unknown[] => Array.isArray(value) ? value : [];
 const text = (value: unknown): string | undefined => typeof value === "string" && value ? value : undefined;
