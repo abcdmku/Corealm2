@@ -495,6 +495,49 @@ One known failure is not from this work: `tests/navigation-shipped-artifact.test
 `game/src/app/config.ts`, `systems/navigation.ts`, `systems/navigationArtifact.ts` and
 `package-lock.json`, all untouched here, and a GPU `npm run navmesh:build` is what clears it.
 
+## Round 2: the play view
+
+The eight steps above fixed how one input behaves. They did not change what a record page *is*, and
+the page was still a form: a column of labelled boxes, every value shouting at the same volume,
+four headings reading "None" under a sword that showed as a 40-pixel thumbnail. The user's verdict
+was that it was "still just a bunch of poorly handled inputs where it is very hard to digest what is
+important", with the suggestion that the inputs "might work better if they appear like they appear
+in game but as editable fields".
+
+That is the whole design. Two changes:
+
+**Quiet controls** (`styles/field.css`). A control is transparent at rest — no border, no fill — and
+draws its box under the pointer and on focus. A number is as wide as its own digits and sits beside
+its label instead of right-aligned in a 76px well. Prose stops at a 680px measure. Thirty bordered
+boxes give every value the same weight, which is the same as giving none of them any; the chrome is
+now spent where the cursor is. The dev panels keep an ordinary boxed input, renamed `.text-box`,
+because they are tools rather than record sheets.
+
+**The play view** (`ui/gamecard/`, `styles/gamecard.css`). Each record page opens with the surface
+the player meets — the item's tooltip, the creature's plate, the spellbook entry — and every value
+in it is the control that sets it. The card keeps the game's palette in both themes, because it is a
+quotation: smoked near-black, brass hairline, Cinzel for the name. Redefining the editor's colour
+variables inside `.gamecard` carries that through to the field controls without them knowing where
+they are.
+
+Nothing new was built to make those controls editable. A field's label is the words before the
+number, so "Hits up to 3 with melee from 2 m away, every 2400 ms" is one sentence and five fields:
+each keeps its arrow steps, its Alt+drag, its origin dot, Backspace to hand a value back to its
+curve, and the provenance popover on focus. The wording comes from `game/src/ui/itemFacts.ts`, which
+the live client's tooltip builds from too, so the editor cannot drift from the client.
+
+What follows the card is the backstage: the parts of a record the player never sees, and its place
+in the world. A block the record does not have is a chip on the card ("Also: + Food effect"), not a
+section saying "No food effect."; a bonus the client would hide because it is zero is a word in a
+faint row, not an empty box. A plain sword went from about a thousand pixels of form to a card you
+can read at a glance.
+
+Since the visible name is now a textbox rather than a heading, `CardHead` carries a visually hidden
+`<h2>`: the page outline, screen readers and `tools/devdocs-smoke.ts` all land on it.
+
+Not done in this round: quests, NPCs, shops and dialogue still open with a plain header. They have
+the quiet controls; they have no game surface to quote yet.
+
 ## Sources
 
 Blender library overrides and field colours: docs.blender.org (library_overrides, fields, undo_redo).

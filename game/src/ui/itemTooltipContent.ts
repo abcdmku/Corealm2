@@ -1,21 +1,12 @@
 /** Item facts shared by the live tooltip and the generated Codex. */
-import type { EquipmentBonuses, ItemDef, ItemId, SkillId, SpellElement } from "../contracts.js";
+import type { EquipmentBonuses, ItemDef, ItemId, SkillId } from "../contracts.js";
 import { content } from "../content/index.js";
-import { SKILLS } from "../content/skills.js";
+import {
+  BONUS_LABELS, attackSpeedLine, categoryLine, foodLine, formatWeaponChargeLine, itemIsReleased,
+  magicWeaponLine, orbCraftLine, requirementLine, toolLine, valueLine,
+} from "./itemFacts.js";
 
-const BONUS_LABELS: readonly [keyof EquipmentBonuses, string][] = [
-  ["meleeAccuracy", "Melee Accuracy"],
-  ["magicAccuracy", "Magic Accuracy"],
-  ["defence", "Defence"],
-  ["health", "Health"],
-  ["meleePower", "Melee Power"],
-  ["magicPower", "Magic Power"],
-  ["vitality", "Vitality (crit %)"],
-];
-
-const ELEMENT_LABELS: Readonly<Record<SpellElement, string>> = {
-  wind: "Air", water: "Water", earth: "Earth", fire: "Fire",
-};
+export { formatWeaponChargeLine, itemIsReleased };
 
 export interface ItemTooltipStat { label: string; value: number; delta?: number }
 export interface ItemTooltipRequirement {
@@ -45,18 +36,6 @@ export interface ItemTooltipOptions {
   footer?: readonly string[];
 }
 
-export function itemIsReleased(def: ItemDef): boolean {
-  return def.orb?.released ?? def.magicWeapon?.charge?.released ?? true;
-}
-
-export function formatWeaponChargeLine(element: SpellElement, capacity: number, charges: number | null): string {
-  const name = ELEMENT_LABELS[element];
-  const maximum = Math.max(0, Math.floor(capacity)).toLocaleString("en-US");
-  if (charges === null) return `${name} weapon · ${maximum} charge capacity.`;
-  const current = Math.max(0, Math.min(capacity, Math.floor(charges))).toLocaleString("en-US");
-  return `${name} weapon · ${current} / ${maximum} charges remaining.`;
-}
-
 export function itemTooltipContent(itemId: ItemId, options: ItemTooltipOptions = {}): ItemTooltipModel {
   const def = content.item(itemId);
   if (!def) {
@@ -78,15 +57,9 @@ export function itemTooltipContent(itemId: ItemId, options: ItemTooltipOptions =
   }
 
   const details: string[] = [];
-  if (def.equip?.attackSpeedMs !== undefined) {
-    details.push(def.magicWeapon
-      ? `Cast cadence ${(def.equip.attackSpeedMs / 1000).toFixed(1)} s`
-      : `Attack speed ${(def.equip.attackSpeedMs / 1000).toFixed(1)} s`);
-  }
+  if (def.equip?.attackSpeedMs !== undefined) details.push(attackSpeedLine(def.equip.attackSpeedMs, Boolean(def.magicWeapon)));
   if (def.magicWeapon) {
-    details.push(def.magicWeapon.kind === "wand"
-      ? "Wand: one-handed, faster casts, weaker hits."
-      : "Staff: two-handed, slower casts, stronger hits.");
+    details.push(magicWeaponLine(def.magicWeapon.kind));
     const charge = def.magicWeapon.charge;
     if (charge) {
       details.push(formatWeaponChargeLine(charge.element, charge.capacity, options.liveWeaponCharges ?? null));
@@ -97,19 +70,14 @@ export function itemTooltipContent(itemId: ItemId, options: ItemTooltipOptions =
   if (options.comparedSlotLabel) details.push(`Compared with your ${options.comparedSlotLabel}.`);
 
   if (def.orb) {
-    const element = ELEMENT_LABELS[def.orb.element];
-    const article = /^[AEIOU]/.test(element) ? "an" : "a";
     const craftedCharge = content.allItems()
-      .find((candidate) => candidate.magicWeapon?.charge?.orbItemId === def.id)
+      .find((candidate: ItemDef) => candidate.magicWeapon?.charge?.orbItemId === def.id)
       ?.magicWeapon?.charge;
-    details.push(
-      `Craft this into ${article} ${element} wand or staff. The finished weapon starts with `
-      + `${(craftedCharge?.initialCharges ?? 1000).toLocaleString("en-US")} charges.`,
-    );
+    details.push(orbCraftLine(def.orb.element, craftedCharge?.initialCharges ?? 1000));
     if (!def.orb.released) details.push("This orb is not released.");
   }
-  if (def.food) details.push(`Heals ${def.food.healAmount} health.`);
-  if (def.tool) details.push(`${SKILLS[def.tool.skill].name} tool, +${def.tool.gatherBonus} effective levels.`);
+  if (def.food) details.push(foodLine(def.food.healAmount));
+  if (def.tool) details.push(toolLine(def.tool.skill, def.tool.gatherBonus));
 
   const requirements: ItemTooltipRequirement[] = [];
   for (const [skill, level] of Object.entries(def.equip?.requires ?? {})) {
@@ -118,25 +86,20 @@ export function itemTooltipContent(itemId: ItemId, options: ItemTooltipOptions =
     const levelView = options.skillLevels?.[id];
     const have = typeof levelView === "number" ? levelView : levelView?.level;
     requirements.push(have === undefined
-      ? { text: `Requires ${SKILLS[id].name} ${level}` }
-      : {
-        text: have >= level
-          ? `Requires ${SKILLS[id].name} ${level}`
-          : `Requires ${SKILLS[id].name} ${level} — you have ${have}`,
-        met: have >= level,
-      });
+      ? { text: requirementLine(id, level) }
+      : { text: requirementLine(id, level, have), met: have >= level });
   }
 
   return {
     itemId,
     title: def.name,
     quantity: options.quantity,
-    meta: `${def.category}${def.stackable ? " · stacks" : ""}`,
+    meta: categoryLine(def),
     description: def.description || undefined,
     stats,
     details,
     requirements,
-    value: `Value ${def.value.toLocaleString("en-US")} · sells for ${Math.round(def.value * 0.6).toLocaleString("en-US")}`,
+    value: valueLine(def.value),
     footer: [...(options.footer ?? [])],
     released: itemIsReleased(def),
   };

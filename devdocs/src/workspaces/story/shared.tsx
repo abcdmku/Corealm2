@@ -104,17 +104,24 @@ export function PageState<T extends ContentRow>({ page, collection, navigate, ch
   return <>{children(draft.draft, draft.record)}</>;
 }
 
-/** The record page frame: header with thumb, title and facts; the sheet; the rail. The save bar is the shell's. */
-export function RecordShell({ thumb, title, id, facts, draft, rail, children, className = "" }: { thumb?: ThumbSpec; title: ReactNode; id: string; facts: readonly (ReactNode | undefined | false | null)[]; draft?: DraftState; rail?: ReactNode; children: ReactNode; className?: string }) {
+
+/**
+ * A record page: a play view or a plain header, the sheet, and an optional context rail.
+ *
+ * `card` is the record as the player meets it (`ui/gamecard`), and it replaces the header outright
+ * rather than sitting under it — the card already carries the name, the art and the line of facts,
+ * and printing them twice was the old page's first wasted inch.
+ */
+export function RecordShell({ thumb, title, id, facts, card, draft, rail, children, className = "" }: { thumb?: ThumbSpec; title: ReactNode; id: string; facts: readonly (ReactNode | undefined | false | null)[]; card?: ReactNode; draft?: DraftState; rail?: ReactNode; children: ReactNode; className?: string }) {
   return <article className={`ws-page record story-record${rail ? "" : " story-single"} ${className}`.trim()}>
     <div className="record-main">
-      <header className="record-head">
+      {card ?? <header className="record-head">
         {thumb && <Thumb spec={thumb} size="l" alt="" />}
         <div className="record-title">
           <h1>{title}</h1>
           <Facts items={[...facts, <code key="id">{id}</code>]} />
         </div>
-      </header>
+      </header>}
       {draft && draft.diagnostics.length > 0 && <ul className="story-diagnostics" role="alert">{draft.diagnostics.map((diagnostic, index) => <li key={index}>{diagnostic.path ? <code>{diagnostic.path}</code> : null} {diagnostic.message}</li>)}</ul>}
       {children}
     </div>

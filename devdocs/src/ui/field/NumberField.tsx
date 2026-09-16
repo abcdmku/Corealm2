@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { useFieldContext, type LabelHandlers } from "./context.js";
 import { applyMixedOp, clampNumber, evaluateNumber, formatNumber, parseMixedEdit, scrubDelta, stepValue, type MixedOp, type NumberRules } from "./model.js";
 
@@ -164,7 +164,11 @@ export function NumberField({ value, onChange, onPreview, onMixedEdit, unit, int
     return () => field.setLabelHandlers(null);
   }, [field]);
 
-  return <span className={`field-input ${className}`.trim()} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
+  // The box hugs the digits in the buffer, so `12` and `26000` each sit right beside their label
+  // and their unit. Placeholders ("Mixed", "none") count too, or an empty field would collapse.
+  const chars = Math.max(2, (text || placeholder || (mixed ? "Mixed" : "")).length);
+
+  return <span className={`field-input ${className}`.trim()} style={{ "--chars": chars } as CSSProperties} data-kind="number" data-width={width} data-unit={unit || undefined} data-zero={value === 0 && !focused && !mixed ? "true" : undefined} data-invalid={invalid || undefined} data-disabled={inert || undefined} data-editing={editing || undefined}>
     <input ref={inputRef} type="text" inputMode="decimal" className="mono" value={text} placeholder={mixed ? "Mixed" : placeholder} disabled={disabled || field.disabled} readOnly={readOnly} autoFocus={autoFocus}
       aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId} aria-invalid={invalid || undefined} autoComplete="off" spellCheck={false}
       onChange={event => { if (inert) return; selectNext.current = false; setText(event.target.value); if (!editing) setEditing(true); if (invalid) clearError(); }}

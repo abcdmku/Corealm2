@@ -32,6 +32,6 @@ export function DropRows({ drops, onChange, readOnly = false, emptyText = "No dr
       <NumberField value={drop.quantity[0]} integer min={1} readOnly={readOnly} ariaLabel={`${QUANTITY.label} minimum ${api.index + 1}`} onChange={next => { const low = next ?? 1; api.update({ ...drop, quantity: [low, Math.max(low, drop.quantity[1])] }); }} />
       <span className="field-unit">to</span>
       <NumberField value={drop.quantity[1]} integer min={drop.quantity[0]} readOnly={readOnly} ariaLabel={`${QUANTITY.label} maximum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [drop.quantity[0], Math.max(drop.quantity[0], next ?? drop.quantity[0])] })} />
-      <TextField value={drop.exclusiveGroup ?? ""} width="short" placeholder={GROUP.label.toLowerCase()} readOnly={readOnly} ariaLabel={`${GROUP.label} ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next.trim() ? { ...bare, exclusiveGroup: next.trim() } : bare); }} />
+      <TextField value={drop.exclusiveGroup ?? ""} width="short" placeholder={GROUP.label.toLowerCase()} className={drop.exclusiveGroup ? "drop-group" : "drop-group is-empty"} readOnly={readOnly} ariaLabel={`${GROUP.label} ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next.trim() ? { ...bare, exclusiveGroup: next.trim() } : bare); }} />
     </>} />;
 }

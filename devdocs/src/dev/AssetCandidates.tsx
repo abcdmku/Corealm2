@@ -255,7 +255,7 @@ export default function AssetCandidates({ collection, entityId, slot, currentAss
       {showUpload && target && <form className="asset-upload-form" onSubmit={submitUpload}>
         <label className="button button-small asset-upload-file"><FileUp size={13} /><span>{file?.name ?? "Choose GLB…"}</span><input ref={fileInput} type="file" accept=".glb,model/gltf-binary" onChange={selectFile} aria-label="Candidate GLB file" /></label>
         <label className="select"><span className="sr-only">Body</span><select aria-label="Body" value={uploadBody} onChange={event => setUploadBody(event.target.value as CandidateBody | "")}><option value="">Any body</option>{BODY_VALUES.map(value => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</select></label>
-        <label className="field-input asset-upload-source"><span className="sr-only">Source</span><input aria-label="Source" value={source} onChange={event => setSource(event.target.value)} placeholder="Source (pack, URL…)" /></label>
+        <label className="text-box asset-upload-source"><span className="sr-only">Source</span><input aria-label="Source" value={source} onChange={event => setSource(event.target.value)} placeholder="Source (pack, URL…)" /></label>
         <button type="submit" className="button button-small button-primary" disabled={uploadMutation.isPending || !metaQuery.data}><UploadCloud size={13} />{uploadMutation.isPending ? "Inspecting…" : "Upload"}</button>
         {formError && <p className="asset-candidates-form-error" role="alert"><CircleAlert size={12} />{formError}</p>}
       </form>}

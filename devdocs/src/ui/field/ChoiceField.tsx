@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { useFieldContext } from "./context.js";
 import type { TextWidth } from "./TextField.js";
 
@@ -32,7 +33,12 @@ export function ChoiceField<T extends string = string>({ value, onChange, option
   const listed = normalizeOptions(options);
   const offList = value !== undefined && value !== "" && !listed.some(option => option.value === value);
   const inert = disabled || readOnly || field.disabled;
-  return <select className={`field-select ${className}`.trim()} data-width={width} data-invalid={offList || undefined} aria-invalid={offList || undefined} value={value ?? ""} disabled={inert}
+  // A native select is as wide as its longest option. That is right in a column of them and wrong
+  // in a sentence, so the chosen option's length travels to the CSS as `--chars` for the places
+  // that want the control to hug the word it is showing.
+  const chosen = listed.find(option => option.value === value)?.label ?? value ?? allowEmpty ?? "";
+  const chars = Math.max(3, chosen.length);
+  return <select className={`field-select ${className}`.trim()} style={{ "--chars": chars } as CSSProperties} data-width={width} data-invalid={offList || undefined} aria-invalid={offList || undefined} value={value ?? ""} disabled={inert}
     aria-label={ariaLabel} aria-labelledby={ariaLabel ? undefined : field.labelId}
     onChange={event => { const next = event.target.value; onChange(next === "" && allowEmpty !== undefined ? undefined : next as T); }}>
     {(allowEmpty !== undefined || value === undefined || value === "") && <option value="" disabled={allowEmpty === undefined}>{allowEmpty ?? "—"}</option>}
