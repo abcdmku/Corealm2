@@ -2137,7 +2137,7 @@ export class EntityViews {
    * `alpha` is clamped to 0..1. Passing 1 (the default) is "no interpolation, just the current
    * position at full rate", which on its own already removes three quarters of the stepping.
    */
-  syncMotion(entities: readonly SemanticEntity[], alpha = 1): void {
+  syncMotion(entities: readonly SemanticEntity[], alpha = 1, deferPalette = false): void {
     if (this.records.size === 0) return;
     const blend = Math.min(1, Math.max(0, alpha));
 
@@ -2227,6 +2227,9 @@ export class EntityViews {
       }
       const group = this.groups.get(record.groupKey);
       if (!group) continue;
+      // The frame's update() advances this playback clock and writes its final palette below.
+      // Preserve immediate writes for standalone syncMotion callers and non-animated instances.
+      if (deferPalette && record.playback && this.rigCandidates.has(record)) continue;
       this.writeSlot(group, record);
     }
   }
@@ -2237,7 +2240,7 @@ export class EntityViews {
    * position and facing changes remain visible between those syncs. This does not advance clocks.
    */
   syncResidentMotion(alpha = 1): void {
-    this.syncMotion(this.residentMovingEntities, alpha);
+    this.syncMotion(this.residentMovingEntities, alpha, true);
   }
 
   /** Existing resident references for bounded actor effects; callers must not mutate the list. */

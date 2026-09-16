@@ -104,7 +104,12 @@ export class StreamedShaderWarmup {
       if (extension && !gl.getProgramParameter(program.program as WebGLProgram, extension.COMPLETION_STATUS_KHR)) return;
       // Three defers shader diagnostics and uniform/attribute reflection until first use.
       // Spread that driver work across frames instead of paying for every variant in one draw.
-      program.getUniforms();program.getAttributes();
+      const checkErrors = this.renderer.debug.checkShaderErrors;
+      // A successfully linked program needs no synchronous shader-log queries. Keep Three's
+      // diagnostics for failures, and restore its policy for unrelated runtime programs.
+      if (gl.getProgramParameter(program.program as WebGLProgram, gl.LINK_STATUS)) this.renderer.debug.checkShaderErrors = false;
+      try { program.getUniforms(); program.getAttributes(); }
+      finally { this.renderer.debug.checkShaderErrors = checkErrors; }
       this.readyPrograms.add(program);
       this.programs.pop();
       if (performance.now() - started >= 3) return;

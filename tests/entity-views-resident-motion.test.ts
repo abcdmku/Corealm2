@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { RegionId, SemanticEntity, Vec3 } from "../game/src/contracts.js";
 import { EntityViews } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
+import { AnimationLod } from "../game/src/render/animationLod.js";
 
 function actor(id: string, position: Vec3 = [0, 0, 0], regionId: RegionId = "fallowmarch"): SemanticEntity {
   return {
@@ -78,6 +79,21 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it('evaluates a sampled actor once per frame after applying its interpolated movement', async () => {
+    const entity = actor('single-palette-write');
+    const f = await fixture([entity]);
+    const set = vi.spyOn(AnimationLod.prototype, 'set');
+    try {
+      expect(f.views.motionSnapshot(entity.id)!.path).toBe('sampled-rig');
+      entity.position = [2, 0, 0];
+      f.views.syncResidentMotion(.5);
+      expect(set).not.toHaveBeenCalled();
+      f.views.update(.016, new THREE.Vector3(100, 0, 0));
+      expect(set).toHaveBeenCalledTimes(1);
+      const bounds = f.views.drawnBounds(entity.id)!;
+      expect((bounds.min[0] + bounds.max[0]) / 2).toBeCloseTo(1);
+    } finally { set.mockRestore(); f.dispose(); }
+  });
   it("lets the visible loot behind a dissolved unique corpse receive the ray pick", async () => {
     const corpse = actor('fallen-keeper');
     const loot: SemanticEntity = { id: 'keeper-loot', name: 'Keeper loot', archetype: 'loot', tier: 50,

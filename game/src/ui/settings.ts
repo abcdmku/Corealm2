@@ -53,7 +53,7 @@ export const DEFAULT_SETTINGS: UiSettings = {
   sfx: 0.8,
   renderScale: 1,
   shadowQuality: "high",
-  drawDistance: "far",
+  drawDistance: "near",
   autoDrawDistance: true,
   damageNumbers: true,
   invertCameraY: true,
@@ -78,6 +78,9 @@ export class SettingsStore {
 
   constructor() {
     this.settings = { ...DEFAULT_SETTINGS, ...readStored() };
+    // Recalibrate automatic distance from a small initial scene. A saved automatic high
+    // distance must not force a cold load to prepare the largest view before it can adapt.
+    if (this.settings.autoDrawDistance) this.settings.drawDistance = "near";
   }
 
   get(): UiSettings {

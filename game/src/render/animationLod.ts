@@ -22,6 +22,7 @@ interface Palette {
   mirrored: boolean;
   uploaded: boolean;
   dirtyFrames: Set<number>;
+  influences: { bone: number; index: number; bounds: THREE.Box3 }[];
 }
 interface Part {
   source: THREE.Material;
@@ -38,6 +39,24 @@ const SAMPLE_HZ = 20;
 const MAX_SAMPLES = 4096;
 const MAX_TEXTURE_SIZE = 2048;
 const WHITE = new THREE.Color(0xffffff);
+
+/** Exact affine AABB transform, including reflection and shear, without eight corner transforms. */
+export function unionTransformedBounds(target: THREE.Box3, source: THREE.Box3, matrix: THREE.Matrix4): void {
+  if (source.isEmpty()) return;
+  const cx = (source.min.x + source.max.x) * .5, ex = (source.max.x - source.min.x) * .5;
+  const cy = (source.min.y + source.max.y) * .5, ey = (source.max.y - source.min.y) * .5;
+  const cz = (source.min.z + source.max.z) * .5, ez = (source.max.z - source.min.z) * .5;
+  const e = matrix.elements;
+  const x = e[0]! * cx + e[4]! * cy + e[8]! * cz + e[12]!;
+  const y = e[1]! * cx + e[5]! * cy + e[9]! * cz + e[13]!;
+  const z = e[2]! * cx + e[6]! * cy + e[10]! * cz + e[14]!;
+  const dx = Math.abs(e[0]!) * ex + Math.abs(e[4]!) * ey + Math.abs(e[8]!) * ez;
+  const dy = Math.abs(e[1]!) * ex + Math.abs(e[5]!) * ey + Math.abs(e[9]!) * ez;
+  const dz = Math.abs(e[2]!) * ex + Math.abs(e[6]!) * ey + Math.abs(e[10]!) * ez;
+  target.min.x = Math.min(target.min.x, x - dx); target.max.x = Math.max(target.max.x, x + dx);
+  target.min.y = Math.min(target.min.y, y - dy); target.max.y = Math.max(target.max.y, y + dy);
+  target.min.z = Math.min(target.min.z, z - dz); target.max.z = Math.max(target.max.z, z + dz);
+}
 
 // Both ordinary meshes (bone-attached equipment) and skinned meshes use this path.
 // Matrices already contain the source mesh hierarchy and its skin bind transforms.
@@ -62,8 +81,9 @@ mat4 lodBoneAt(float frame, float bone) {
   );
 }
 mat4 lodBetween(vec3 frames, float bone) {
-  return lodBoneAt(frames.x, bone) * (1.0 - frames.z)
-       + lodBoneAt(frames.y, bone) * frames.z;
+  mat4 first = lodBoneAt(frames.x, bone);
+  if (frames.z <= 0.0 || frames.x == frames.y) return first;
+  return first * (1.0 - frames.z) + lodBoneAt(frames.y, bone) * frames.z;
 }
 mat4 lodBone(float bone) {
   mat4 current = lodBetween(lodFrames.xyz, bone);
@@ -125,7 +145,7 @@ function wrapMaterial(material: THREE.Material, palette: Palette): void {
       .replace("#include <common>", `#include <common>\n${OPACITY_SHADER}`)
       .replace("#include <clipping_planes_fragment>", `#include <clipping_planes_fragment>\n${OPACITY_DISCARD}`);
   };
-  material.customProgramCacheKey = () => `${inheritedKey}|sampled-skeleton-v3`;
+  material.customProgramCacheKey = () => `${inheritedKey}|sampled-skeleton-v4`;
 }
 
 function ownedMaterial(source: THREE.Material): THREE.Material {
@@ -177,7 +197,6 @@ export class AnimationLod {
   private samplingAnimationRoot: THREE.Object3D | null = null;
   private samplingMixer: THREE.AnimationMixer | null = null;
   private samplingMeshes: THREE.Mesh[] = [];
-  private samplingBounds: THREE.Box3[] = [];
   private readonly replayClips = new Map<THREE.AnimationClip, THREE.AnimationClip>();
   private readonly overlayFrames = new Map<number, number>();
   private readonly freeOverlayFrames: number[] = [];
@@ -230,9 +249,6 @@ export class AnimationLod {
       for (const mesh of meshes) this.palettes.push(this.allocatePalette(mesh));
       const skin = new THREE.Matrix4();
       const bind = new THREE.Matrix4();
-      const transformedBounds = new THREE.Box3();
-      const sourceBounds = meshes.map((mesh) => new THREE.Box3().setFromBufferAttribute(mesh.geometry.getAttribute("position") as THREE.BufferAttribute));
-      this.samplingBounds = sourceBounds;
       for (const [clip, sample] of this.samples) {
         mixer.stopAllAction();
         const action = mixer.clipAction(clip).reset().setLoop(THREE.LoopOnce, 1);
@@ -246,19 +262,18 @@ export class AnimationLod {
             const palette = this.palettes[part]!;
             const skinned = mesh as THREE.SkinnedMesh;
             const data = palette.texture.image.data as Float32Array;
-            for (let bone = 0; bone < palette.bones; bone++) {
+            if (skinned.isSkinnedMesh) bind.multiplyMatrices(mesh.matrixWorld, skinned.bindMatrixInverse);
+            for (const { bone, index, bounds } of palette.influences) {
               if (skinned.isSkinnedMesh) {
-                bind.multiplyMatrices(mesh.matrixWorld, skinned.bindMatrixInverse);
                 skin.multiplyMatrices(skinned.skeleton.bones[bone]!.matrixWorld, skinned.skeleton.boneInverses[bone]!);
                 skin.premultiply(bind).multiply(skinned.bindMatrix);
               } else {
                 skin.copy(mesh.matrixWorld);
               }
-              skin.toArray(data, ((sample.offset + frame) * palette.bones + bone) * 16);
+              skin.toArray(data, ((sample.offset + frame) * palette.bones + index) * 16);
               // Weighted skinning and interpolation are convex combinations of these transforms.
               // Their union bounds all vertices, including transitions between different clips.
-              transformedBounds.copy(sourceBounds[part]!).applyMatrix4(skin);
-              palette.bounds.union(transformedBounds);
+              unionTransformedBounds(palette.bounds, bounds, skin);
             }
           }
         }
@@ -424,7 +439,6 @@ export class AnimationLod {
     this.samplingAnimationRoot = null;
     this.samplingMixer = null;
     this.samplingMeshes = [];
-    this.samplingBounds = [];
     this.replayClips.clear();
     this.overlayFrames.clear();
     this.terrainPoses.clear();
@@ -515,21 +529,20 @@ export class AnimationLod {
     play(pose.clip, pose.time, blend, THREE.NormalAnimationBlendMode);
     if (overlay) play(overlay.clip, overlay.time, THREE.MathUtils.clamp(overlay.weight, 0, 1), THREE.AdditiveAnimationBlendMode);
     mixer.update(0);
-    root.updateMatrixWorld(true);
     if (pose.terrain) conformTerrainRig(root, pose.terrain);
-    const skin = new THREE.Matrix4(), bind = new THREE.Matrix4(), transformed = new THREE.Box3();
+    else root.updateMatrixWorld(true);
+    const skin = new THREE.Matrix4(), bind = new THREE.Matrix4();
     for (let part = 0; part < this.samplingMeshes.length; part++) {
       const mesh = this.samplingMeshes[part]!, skinned = mesh as THREE.SkinnedMesh, palette = this.palettes[part]!;
       const data = palette.texture.image.data as Float32Array;
-      for (let bone = 0; bone < palette.bones; bone++) {
+      if (skinned.isSkinnedMesh) bind.multiplyMatrices(mesh.matrixWorld, skinned.bindMatrixInverse);
+      for (const { bone, index, bounds } of palette.influences) {
         if (skinned.isSkinnedMesh) {
-          bind.multiplyMatrices(mesh.matrixWorld, skinned.bindMatrixInverse);
           skin.multiplyMatrices(skinned.skeleton.bones[bone]!.matrixWorld, skinned.skeleton.boneInverses[bone]!);
           skin.premultiply(bind).multiply(skinned.bindMatrix);
         } else skin.copy(mesh.matrixWorld);
-        skin.toArray(data, (frame * palette.bones + bone) * 16);
-        transformed.copy(this.samplingBounds[part]!).applyMatrix4(skin);
-        palette.bounds.union(transformed);
+        skin.toArray(data, (frame * palette.bones + index) * 16);
+        unionTransformedBounds(palette.bounds, bounds, skin);
       }
       // Three's partial texture updates must not cross a texel row. Before first upload or
       // after resizing, leave ranges empty so the complete baked library uploads as well.
@@ -566,7 +579,24 @@ export class AnimationLod {
   }
 
   private allocatePalette(mesh: THREE.Mesh): Palette {
-    const bones = (mesh as THREE.SkinnedMesh).isSkinnedMesh ? (mesh as THREE.SkinnedMesh).skeleton.bones.length : 1;
+    // A part may carry the whole imported skeleton while using only a few bones.
+    // A vertex's skin result is a convex combination of its positive-weight influences.
+    const positions = mesh.geometry.getAttribute("position"), point = new THREE.Vector3();
+    const boundsByBone = new Map<number, THREE.Box3>();
+    if ((mesh as THREE.SkinnedMesh).isSkinnedMesh) {
+      const indices = mesh.geometry.getAttribute("skinIndex"), weights = mesh.geometry.getAttribute("skinWeight");
+      for (let vertex = 0; vertex < positions.count; vertex++) {
+        point.fromBufferAttribute(positions, vertex);
+        for (let influence = 0; influence < 4; influence++) {
+          if (weights.getComponent(vertex, influence) <= 0) continue;
+          const bone = indices.getComponent(vertex, influence);
+          const bounds = boundsByBone.get(bone) ?? new THREE.Box3();
+          bounds.expandByPoint(point); boundsByBone.set(bone, bounds);
+        }
+      }
+    } else boundsByBone.set(0, new THREE.Box3().setFromBufferAttribute(positions as THREE.BufferAttribute));
+    const influences = [...boundsByBone].map(([bone, bounds], index) => ({ bone, index, bounds }));
+    const bones = influences.length;
     if (bones === 0) throw new Error(`AnimationLod has an empty skeleton: ${mesh.name}`);
     const texels = this.sampleCount * bones * 4;
     const width = Math.min(MAX_TEXTURE_SIZE, Math.max(4, THREE.MathUtils.ceilPowerOfTwo(Math.sqrt(texels))));
@@ -580,7 +610,8 @@ export class AnimationLod {
     texture.magFilter = THREE.NearestFilter;
     texture.generateMipmaps = false;
     texture.needsUpdate = true;
-    const palette = { texture, bones, bounds: new THREE.Box3(), mirrored: mesh.matrixWorld.determinant() < 0, uploaded: false, dirtyFrames: new Set<number>() };
+
+    const palette = { texture, bones, influences, bounds: new THREE.Box3(), mirrored: mesh.matrixWorld.determinant() < 0, uploaded: false, dirtyFrames: new Set<number>() };
     texture.onUpdate = () => { palette.uploaded = true; palette.dirtyFrames.clear(); };
     return palette;
   }
@@ -593,6 +624,15 @@ export class AnimationLod {
       const source = materials[group.materialIndex ?? 0];
       if (!source || !source.visible) continue;
       const geometry = mesh.geometry.clone();
+      if ((mesh as THREE.SkinnedMesh).isSkinnedMesh) {
+        const remap = new Map(palette.influences.map(({ bone, index }) => [bone, index]));
+        const indices = geometry.getAttribute("skinIndex");
+        for (let vertex = 0; vertex < indices.count; vertex++) {
+          for (let influence = 0; influence < 4; influence++) {
+            indices.setComponent(vertex, influence, remap.get(indices.getComponent(vertex, influence)) ?? 0);
+          }
+        }
+      }
       if (palette.mirrored) {
         // The source renderer flips front faces for a reflected mesh.matrixWorld. That reflection
         // now lives in the palette, so retain its face orientation in the owned index buffer.

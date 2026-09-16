@@ -1,7 +1,49 @@
 import * as THREE from "three";
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { describe, expect, it, vi } from "vitest";
-import { AnimationLod, type LodPose } from "../game/src/render/animationLod.js";
+import { AnimationLod, unionTransformedBounds, type LodPose } from "../game/src/render/animationLod.js";
+
+it('keeps affine animation bounds equivalent to the eight-corner reference', () => {
+  const source = new THREE.Box3(new THREE.Vector3(-3, -2, -7), new THREE.Vector3(1, 4, 2));
+  for (let i = 0; i < 60; i++) {
+    const matrix = new THREE.Matrix4().makeRotationY(i * .17)
+      .multiply(new THREE.Matrix4().makeShear(.2, -.3, .1, .4, -.2, .3))
+      .scale(new THREE.Vector3(i % 2 ? -1.2 : .7, .5, 2)).setPosition(i, -i / 2, 3);
+    const initial = new THREE.Box3(new THREE.Vector3(-1, -1, -1), new THREE.Vector3(1, 1, 1));
+    const expected = initial.clone().union(source.clone().applyMatrix4(matrix));
+    unionTransformedBounds(initial, source, matrix);
+    expect(initial.min.distanceTo(expected.min)).toBeLessThan(1e-12);
+    expect(initial.max.distanceTo(expected.max)).toBeLessThan(1e-12);
+  }
+});
+
+it('ignores unused skeleton bones in sampled and terrain-adjusted bounds', () => {
+  const { root, mesh, walk } = actor();
+  const unused = new THREE.Bone(); unused.name = 'unused'; unused.position.set(5000, 5000, 5000);
+  root.add(unused); root.updateMatrixWorld(true);
+  mesh.skeleton.bones.splice(1, 0, unused); mesh.skeleton.boneInverses.splice(1, 0, new THREE.Matrix4());
+  const sourceIndices = mesh.geometry.getAttribute('skinIndex');
+  for (let vertex = 0; vertex < sourceIndices.count; vertex++) for (let influence = 0; influence < 4; influence++) {
+    if (sourceIndices.getComponent(vertex, influence) === 1) sourceIndices.setComponent(vertex, influence, 2);
+  }
+  const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk], material => material);
+  try {
+    for (const terrain of [undefined, { placement: new THREE.Matrix4(), origin: new THREE.Vector3(), heightAt: (x: number) => .2 * x }]) {
+      lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1, terrain });
+      const bounds = lod.bounds(0, new THREE.Box3())!;
+      const instance = parent.children[0] as THREE.InstancedMesh;
+      expect(compile(instance.material as THREE.Material).uniforms['lodBoneCount']!.value).toBe(2);
+      expect(bounds.getSize(new THREE.Vector3()).length()).toBeLessThan(2);
+      for (let vertex = 0; vertex < 3; vertex++) {
+        const actual = paletteVertex(parent.children[0] as THREE.InstancedMesh, 0, vertex);
+        expect(bounds.clone().expandByScalar(1e-6).containsPoint(actual)).toBe(true);
+        const expected = referenceVertex(root, walk, .4, vertex);
+        if (terrain) expected.y += terrain.heightAt(expected.x);
+        expect(actual.distanceTo(expected)).toBeLessThan(2e-6);
+      }
+    }
+  } finally { lod.dispose(); }
+});
 
 function actor() {
   const root = new THREE.Group();
@@ -308,6 +350,12 @@ describe("sampled skeletal animation LOD", () => {
     const bones = [...mesh.skeleton.bones];
     while (bones.length < 256) { const bone = new THREE.Bone(); bone.name = `support${bones.length}`; hip.add(bone); bones.push(bone); }
     root.updateMatrixWorld(true); mesh.bind(new THREE.Skeleton(bones));
+    // Every bone must influence geometry to exercise the compact palette's allocation ceiling.
+    const positions = new Float32Array(256 * 3), indices = new Uint16Array(256 * 4), weights = new Float32Array(256 * 4);
+    for (let i = 0; i < 256; i++) { positions[i * 3] = i / 256; indices[i * 4] = i; weights[i * 4] = 1; }
+    mesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    mesh.geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(indices, 4));
+    mesh.geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(weights, 4));
     const idle = new THREE.AnimationClip("long-idle", 204.7, []), overlay = overlayClip(), parent = new THREE.Group();
     const lod = new AnimationLod(parent, root, root, [idle], material => material);
     const pose: LodPose = { clip: idle, time: 2, blend: 1, overlay: { clip: overlay, time: .2, weight: 1 } };

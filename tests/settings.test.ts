@@ -27,7 +27,7 @@ describe("graphics settings", () => {
     vi.unstubAllGlobals();
   });
 
-  it("starts at high quality and persists live changes", () => {
+  it("starts at full resolution with automatic nearby distance and persists live changes", () => {
     const store = new SettingsStore();
     expect(store.get()).toEqual(DEFAULT_SETTINGS);
     expect(store.get().invertCameraY).toBe(true);
@@ -67,6 +67,13 @@ describe("graphics settings", () => {
     const store = new SettingsStore();
     expect(store.get().autoDrawDistance).toBe(false);
     store.set({ autoDrawDistance: true });
-    expect(new SettingsStore().get()).toMatchObject({ drawDistance: "medium", autoDrawDistance: true });
+    expect(new SettingsStore().get()).toMatchObject({ drawDistance: "near", autoDrawDistance: true });
+  });
+
+  it('recalibrates automatic distance on load while retaining manual graphics choices', () => {
+    storage.setItem(STORAGE_KEY, JSON.stringify({ drawDistance: 'far', autoDrawDistance: true, renderScale: .85, shadowQuality: 'low' }));
+    expect(new SettingsStore().get()).toMatchObject({ drawDistance: 'near', autoDrawDistance: true, renderScale: .85, shadowQuality: 'low' });
+    storage.setItem(STORAGE_KEY, JSON.stringify({ drawDistance: 'far', autoDrawDistance: false }));
+    expect(new SettingsStore().get()).toMatchObject({ drawDistance: 'far', autoDrawDistance: false });
   });
 });

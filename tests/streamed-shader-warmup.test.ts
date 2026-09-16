@@ -8,6 +8,7 @@ function fixture() {
   const calls: { material: THREE.Material; linear: boolean }[] = [];
   const programs = [{ program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }, { program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }];
   const renderer = {
+    debug: { checkShaderErrors: true },
     info: { programs },
     getContext: () => ({ getExtension: () => ({ COMPLETION_STATUS_KHR: 1 }), isProgram: () => true,
       getProgramParameter: (program: { ready: boolean }) => program.ready }),
@@ -30,6 +31,20 @@ it("keeps a replacement gameplay actor drawable while its shaders prepare", () =
   expect(gate.getState().waiting).toBe(1);
   expect(mesh.visible).toBe(true);
   gate.restore();gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
+});
+
+it('avoids successful shader log queries and restores diagnostics after reflection fails', () => {
+  const { scene, gate, mesh, renderer, programs } = fixture();
+  scene.add(mesh); gate.prepare(); gate.restore();
+  for (const program of programs) program.program.ready = true;
+  programs[1]!.getUniforms = () => {
+    expect(renderer.debug.checkShaderErrors).toBe(false);
+    throw new Error('reflection failed');
+  };
+  try {
+    expect(() => gate.prepare()).toThrow('reflection failed');
+    expect(renderer.debug.checkShaderErrors).toBe(true);
+  } finally { gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose(); }
 });
 
 it("waits for every program, restores materials and visibility between frames", () => {
