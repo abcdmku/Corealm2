@@ -11,10 +11,14 @@ import { DOT_LEGEND, describeRevert, type DotState, type FieldPhase } from "./mo
 /*
   One field anatomy for every page (docs/devdocs-inputs.md §3.2):
 
-    label          [ 1800 ] ms  ●  ⟲   from Heath Jack · was 2400 ms from Grazer
-                   control      dot revert  provenance line
+    label          [ 1800 ] ms   Was 2400 ms from Grazer · Reset
+    label          [ 2400 ] ms   Inherited from Grazer
+                   control       provenance in words, and the way back (under a control too wide for it)
 
-  The wrapper owns the dot, the revert glyph, the provenance line, the hint shown while focused and
+  In a `Fields` grid or a row cell there is no room for words: a dot and a revert glyph stand in,
+  and the sentence moves to the focus state and the dot's title.
+
+  The wrapper owns the provenance, the revert, the hint shown while focused and
   the field-level keys (Backspace/Delete revert while focused but not editing). The control is
   `children`; it reports editing through `FieldContext`.
 */
@@ -58,6 +62,8 @@ const legendLabel = (state: DotState): string => DOT_LEGEND.find(entry => entry.
 // "overridden" instead, so only that earns a mark.
 const DEVIATIONS = new Set<DotState>(["overridden", "inherited", "mixed", "invalid", "stale"]);
 const showDot = (state: DotState): boolean => DEVIATIONS.has(state);
+// States a sentence says in words when there is room for one.
+const PROVENANCE = new Set<DotState>(["overridden", "inherited"]);
 
 export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, expression, error, dirty, mixed, stale, compact = false, labelHidden = false, bare = false, span, disabled = false, className, children }: FieldProps<T>) {
   const onSheet = useOnSheet();
@@ -73,7 +79,18 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
   const shownError = error ?? controlError;
   const state: DotState = shownError ? "invalid" : stale ? "stale" : mixed ? "mixed" : origin ?? "own";
   const phase: FieldPhase = editing ? "editing" : focused ? "focused" : "idle";
-  const phrases = useMemo(() => resolved ? describeChain(resolved, unit) : [], [resolved, unit]);
+  // Words lead with what happened: "Inherited from Cow", "Was 2400 ms from Grazer".
+  const phrases = useMemo(() => {
+    const chain = resolved ? describeChain(resolved, unit) : [];
+    const [head, ...rest] = chain;
+    // An override that repeats the value it overrides says so, rather than "was wilderness" beside Wilderness.
+    const source = chain.find(phrase => phrase.ref);
+    if (origin === "overridden" && resolved && source && target && JSON.stringify(resolved.value) === JSON.stringify(target.value)) return [{ text: "Same as " }, source];
+    if (!head || head.ref) return chain;
+    const text = origin === "inherited" && head.text === "from " ? "Inherited from " : head.text.charAt(0).toUpperCase() + head.text.slice(1);
+    return [{ ...head, text }, ...rest];
+  }, [resolved, unit, origin, target]);
+  const worded = !compact && !bare;
   const sentence = phrases.map(phrase => phrase.text).join("");
   const canRevert = Boolean(onRevert && target && !disabled);
 
@@ -116,11 +133,14 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
         title={[typeof label === "string" ? label : undefined, hint, labelHandlers ? "Alt+drag to scrub" : undefined].filter(Boolean).join(" · ") || undefined} {...labelHandlers}>{label}</span>
       <SheetLevel.Provider value={false}>
         <div className={cn("field-body relative flex min-w-0 flex-col gap-0.5", bare && "flex-1")}>
-          <div className={cn("field-control flex min-h-7 min-w-0 items-center text-xs", compact ? "flex-nowrap gap-1" : "gap-1.5")}>
+          <div className={cn("field-control flex min-h-7 min-w-0 items-center text-xs", compact ? "flex-nowrap gap-1" : "gap-1.5", worded && "flex-wrap gap-y-0.5")}>
             {children}
-            {showDot(state) && <span className={cn("field-dot size-2 shrink-0 rounded-full", DOT[state])} data-state={state} title={dotTitle} aria-label={dotTitle} role="img" />}
-            {canRevert && target && <Button variant="ghost" size="icon-xs" className="field-revert" tabIndex={-1} title={describeRevert(target, unit)} aria-label={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}><Undo2 /></Button>}
-            {!compact && !bare && origins.length > 0 && <span className="min-w-0 field-origin flex-1 truncate text-[11px] leading-tight text-faint">{origins}</span>}
+            {(!worded || !PROVENANCE.has(state) || !origins.length) && showDot(state) && <span className={cn("field-dot size-2 shrink-0 rounded-full", DOT[state])} data-state={state} title={dotTitle} aria-label={dotTitle} role="img" />}
+            {canRevert && target && !worded && <Button variant="ghost" size="icon-xs" className="field-revert" tabIndex={-1} title={describeRevert(target, unit)} aria-label={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}><Undo2 /></Button>}
+            {worded && (origins.length > 0 || canRevert) && <span className="min-w-0 field-origin flex flex-[1_1_auto] items-baseline gap-1.5 text-[11px] leading-tight text-faint">
+              {origins.length > 0 && <span className="min-w-0 truncate">{origins}</span>}
+              {canRevert && target && <Button variant="link" size="inline" className="field-revert shrink-0 text-[11px] text-muted-foreground hover:text-foreground" tabIndex={-1} title={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}>Reset</Button>}
+            </span>}
           </div>
           {(compact || bare) && phase !== "idle" && origins.length > 0 && <span className={FLOAT}>{origins}</span>}
           {shownError && <span className={cn("field-error text-[11px] leading-snug text-destructive", bare || compact ? "truncate" : "[overflow-wrap:anywhere]")} title={bare || compact ? shownError : undefined} role="alert">{shownError}</span>}

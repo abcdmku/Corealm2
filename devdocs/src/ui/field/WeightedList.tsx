@@ -17,8 +17,9 @@ import { clampProbability, redistribute, shares } from "./reorder.js";
   other unlocked weights so the total stays put; locked rows never move. This is the one pattern
   the research found no primary source for, so it is a prototype to test.
 
-  `probabilityKey`: each row rolls on its own, 0..1 shown as a percentage with its own fill. The
-  rows do not sum to anything, so there is no redistribution and no lock.
+  `probabilityKey`: each row rolls on its own, 0..1 shown as a percentage. The rows do not sum to
+  anything, so there is no redistribution, no lock and no bar. Each number says what it is in a
+  word in front of it.
 */
 
 export interface WeightedListProps<T extends Record<string, unknown>> extends Omit<ListFieldProps<T>, "renderAside"> {
@@ -65,6 +66,7 @@ export function WeightedList<T extends Record<string, unknown>>({ weightKey, pro
       const isLocked = lockedFlags[api.index] ?? false;
       const share = shareOf[api.index] ?? 0;
       return <span className="inline-flex items-center gap-1.5" data-locked={isLocked || undefined}>
+        <span className="text-[11px] text-faint">weight</span>
         <NumberField key={rejected} value={numberAt(item, weightKey)} min={0} step={step} readOnly={readOnly || isLocked} ariaLabel={`Weight ${api.index + 1}`} onChange={next => setWeight(api.index, next)} />
         <span className={BAR} role="img" aria-label={`${percent(share)} of the group`} title={`${percent(share)} of the group`}><span className={cn(FILL, isLocked ? "bg-muted-foreground" : "bg-primary")} style={{ width: `${share * 100}%` }} /></span>
         <span className="w-9 text-right font-mono text-[11px] text-faint">{percent(share)}</span>
@@ -74,8 +76,8 @@ export function WeightedList<T extends Record<string, unknown>>({ weightKey, pro
     if (probabilityKey) {
       const chance = clampProbability(numberAt(item, probabilityKey));
       return <span className="inline-flex items-center gap-1.5" data-probability>
+        <span className="text-[11px] text-faint">chance</span>
         <NumberField value={Math.round(chance * 1000) / 10} min={0} max={100} step={1} unit="%" readOnly={readOnly} ariaLabel={`Chance ${api.index + 1}`} onChange={next => setProbability(api.index, next)} />
-        <span className={BAR} role="img" aria-label={`${percent(chance)} chance`} title={`${percent(chance)} chance`}><span className={cn(FILL, "bg-info")} style={{ width: `${chance * 100}%` }} /></span>
       </span>;
     }
     return null;

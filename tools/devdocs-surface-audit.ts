@@ -167,7 +167,8 @@ function measure(): Fault[] {
     if (!visible(row) || getComputedStyle(row).display !== "flex") continue;
     const kids = Array.from(row.children).filter(visible).filter(kid => {
       const style = getComputedStyle(kid);
-      return style.position !== "absolute" && style.flexBasis !== "100%" && !kid.matches("[role=alert], .field-error");
+      // The provenance line may drop under a control too wide to share its line.
+      return style.position !== "absolute" && style.flexBasis !== "100%" && !kid.matches("[role=alert], .field-error, .field-origin");
     });
     // Items sit on one line while each starts above the bottom of the line so far; one that starts below it has wrapped.
     let lines = 0, bottom = -Infinity;

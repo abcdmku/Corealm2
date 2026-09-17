@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { ChevronDown, Pencil } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Pencil, Plus } from "lucide-react";
 import type { RefKind } from "../../../../game/src/content/schema/core.js";
 import { revertTarget, type RecordRef, type Resolved } from "../../model/origin.js";
 import type { ContentRow } from "../../model/contracts.js";
@@ -20,13 +20,13 @@ import { cn } from "../../lib/utils.js";
 
 /*
   The one way a reference is edited (docs/devdocs-inputs.md §3.4). Inside the shared `Field`
-  anatomy the control is a chip and a pencil:
+  anatomy the control is a select-shaped chip and an open button:
 
-    Loot table     [🜲 Marsh gland · raw venison] ✎  ●  ⟲   from Heath Jack
+    Loot table     [🜲 Marsh gland · raw venison ▾] ↗   Inherited from Heath Jack
 
-  The chip is the tab stop. Click or Space peeks the target record; Enter or the pencil opens the
-  `RecordPicker`; Backspace unlinks an optional reference (an inherited one reverts through the
-  Field). A missing target draws a dashed red chip and an error line; an empty one is a select-shaped
+  The chip is the tab stop. Click or Enter opens the `RecordPicker`; Space or ↗ peeks the target
+  record (read-only, the chip itself peeks); Backspace unlinks an optional reference (an inherited
+  one reverts through the Field). A missing target draws a dashed red chip and an error line; an empty one is a select-shaped
   "Choose <kind>…" button, or a dash when read-only. Kinds with no collection (skill, station, element, ...) pick from `optionsFor`.
 */
 
@@ -122,6 +122,7 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
     else if ((event.key === "Backspace" || event.key === "Delete") && !inert && optional && !empty && !canRevert) { event.preventDefault(); onChange(undefined); }
   };
 
+  const peek = () => openRef({ collection, id: value!, label: title });
   // An empty reference is a control that says what it will pick, never a pale "None" that reads as
   // a value. A read-only empty reference is just a dash: there is nothing to do with it.
   const chipNode = empty
@@ -131,25 +132,39 @@ function RefControl({ kind, kindLabel, collection, value, title, record, option,
         <span>Choose {kindLabel}…</span><ChevronDown size={12} aria-hidden />
       </button>
     : options
-      ? <button type="button" className={cn(chipVariants({ state: missing ? "missing" : "option" }), "is-option")} aria-labelledby={field.labelId} title={missing ? `${value} is not an option` : `${kindLabel} · ${value}`} onClick={() => setOpen(true)}>
+      ? <button type="button" className={cn(chipVariants({ state: missing ? "missing" : "option" }), "is-option", !inert && "pr-1.5")} aria-labelledby={field.labelId} title={missing ? `${value} is not an option` : `${kindLabel} · ${value}`} onClick={() => setOpen(true)}>
         <Thumb spec={option?.thumb ?? { kind: "glyph", icon: Pencil, letter: value!.slice(0, 2).toUpperCase() }} size="s" />
         <span>{option?.label ?? value}</span>
+        {!inert && <ChevronDown className="ml-auto size-3.5 shrink-0 text-faint" aria-hidden />}
       </button>
-      : <RefChip collection={collection} id={value!} record={record} ctx={ctx} missing={missing} onOpen={() => (missing ? setOpen(true) : openRef({ collection, id: value!, label: title }))} />;
+      : <RefChip collection={collection} id={value!} record={record} ctx={ctx} missing={missing} select={!inert && !missing} onOpen={() => (missing || !inert ? setOpen(true) : peek())} />;
 
   // Focus lands on the chip only once the click completes, so a blur elsewhere cannot move it
   // mid-click. The picker's popover is a React child of this span but a DOM child of a portal, so
   // its events bubble through here too: leave those alone or picking a row with the mouse dies.
   const focusChip = () => chip.current?.querySelector<HTMLElement>(".ref-chip")?.focus({ preventScroll: true });
   const inPicker = (event: { target: unknown }) => event.target instanceof Element && event.target.closest(".popover") !== null;
-  return <span ref={chip} className={cn("min-w-0 ref-control relative inline-flex max-w-full items-center gap-0.5", bare && !empty && !inert && "group-hover/row:[&_.ref-chip]:pr-8 group-focus-within/row:[&_.ref-chip]:pr-8")} data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
+  return <span ref={chip} className="min-w-0 ref-control relative inline-flex max-w-full items-center gap-0.5" data-kind={kind} data-missing={missing || undefined} onKeyDown={onKeyDown}
     onMouseDown={event => { if (!inPicker(event)) event.preventDefault(); }} onClickCapture={event => { if (!inPicker(event)) focusChip(); }}>
     {chipNode}
+    {!inert && !empty && !missing && record && !options && <Button variant="ghost" size="icon-xs" className="ref-open shrink-0 text-faint" tabIndex={-1} aria-label={`Open ${title}`} title={`Open ${title} (Space)`} onClick={peek}><ArrowUpRight /></Button>}
     {!inert && <RecordPicker collection={collection} value={value} ctx={ctx} exclude={exclude} options={options} open={pickerOpen} onOpenChange={setOpen}
       placeholder={`Search ${kindLabel}s…`}
       allowNone={optional} onClear={optional ? () => onChange(undefined) : undefined}
       onCreate={createNew ? async () => { const id = await createNew(); if (id) onChange(id); } : undefined} createLabel={`New ${kindLabel}…`}
       onPick={id => onChange(id)}
-      trigger={<Button variant="ghost" size="icon-sm" className={cn("ref-edit", empty ? "pointer-events-none absolute right-0 size-0 overflow-hidden p-0 opacity-0" : bare && "absolute top-0.5 right-0.5 size-6 bg-background opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100")} tabIndex={-1} aria-label={`Choose ${kindLabel}`} title="Choose (Enter)"><Pencil size={12} /></Button>} />}
+      // The chip opens the picker; the trigger is only the popover's anchor, under the chip's left edge.
+      trigger={<Button variant="ghost" size="icon-sm" className="ref-edit pointer-events-none absolute bottom-0 left-0 size-0 overflow-hidden p-0 opacity-0" tabIndex={-1} aria-label={`Choose ${kindLabel}`}><Pencil size={12} /></Button>} />}
   </span>;
+}
+
+/** A button that adds a reference: "+ Add drop" opens the picker and hands back the pick. */
+export function RefAddButton({ kind, label, exclude, onPick, className }: { kind: RefKind | string; label: string; exclude?: ReadonlySet<string>; onPick: (id: string) => void; className?: string }) {
+  const { index } = useReferenceIndex();
+  const ctx = useMemo(() => summaryContext(index), [index]);
+  const target = refTargetCollection(kind, index.available) ?? REF_COLLECTIONS[kind]?.[0] ?? kind;
+  const options = useMemo(() => optionsFor(kind, index), [kind, index]);
+  const kindLabel = titleCase(kind).toLowerCase();
+  return <RecordPicker collection={target} value={undefined} ctx={ctx} exclude={exclude} options={options} placeholder={`Search ${kindLabel}s…`} onPick={id => onPick(id)}
+    trigger={<Button variant="ghost" size="sm" className={cn("ref-add -ml-1.5 min-w-0", className)} title={label}><Plus /><span className="truncate">{label}</span></Button>} />;
 }

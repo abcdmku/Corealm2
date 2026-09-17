@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import type { ContentRow } from "../model/contracts.js";
 import { rowId, rowName } from "../model/rows.js";
 import { summarize, type RecordSummary, type SummaryContext } from "../model/summaries.js";
@@ -14,8 +14,8 @@ import { cn } from "../lib/utils.js";
 
 interface HoverState { x: number; y: number }
 
-/** A record's name and thumbnail, with a hover card of its key stats. Clicking opens the record. */
-export function RefChip({ collection, record, id, ctx, onOpen, size = "m", detail, missing, trailing }: {
+/** A record's name and thumbnail, with a hover card of its key stats. Clicking opens the record, or with `select` changes it. */
+export function RefChip({ collection, record, id, ctx, onOpen, size = "m", detail, missing, trailing, select = false }: {
   collection: string;
   record?: ContentRow;
   id: string;
@@ -26,12 +26,14 @@ export function RefChip({ collection, record, id, ctx, onOpen, size = "m", detai
   detail?: ReactNode;
   missing?: boolean;
   trailing?: ReactNode;
+  /** The chip picks the value rather than opening it: plain text and a chevron, like a select. */
+  select?: boolean;
 }) {
   const summary = record ? summarize(collection, record, ctx) : undefined;
   const [hover, setHover] = useState<HoverState>();
   const isMissing = missing ?? !record;
   return <>
-    <button type="button" className={chipVariants({ state: isMissing ? "missing" : "link", size: size === "l" ? "lg" : "default" })} data-size={size} title={isMissing ? `${id} is not in ${labelFor(collection).toLowerCase()}` : `${labelFor(collection)} · ${id}`}
+    <button type="button" className={cn(chipVariants({ state: isMissing ? "missing" : select ? "option" : "link", size: size === "l" ? "lg" : "default" }), select && "pr-1.5")} data-size={size} title={isMissing ? `${id} is not in ${labelFor(collection).toLowerCase()}` : select ? `${labelFor(collection)} · ${id} · click to change` : `${labelFor(collection)} · ${id}`}
       onClick={() => onOpen?.(collection, id)}
       onMouseEnter={event => summary && setHover({ x: event.clientX, y: event.clientY })}
       onMouseMove={event => hover && setHover({ x: event.clientX, y: event.clientY })}
@@ -40,6 +42,7 @@ export function RefChip({ collection, record, id, ctx, onOpen, size = "m", detai
       <span>{summary?.title ?? (record ? rowName(record) : id)}</span>
       {detail !== undefined && <small>{detail}</small>}
       {trailing}
+      {select && <ChevronDown className="ml-auto size-3.5 shrink-0 text-faint" aria-hidden />}
     </button>
     {hover && summary && <HoverCard summary={summary} collection={collection} id={id} at={hover} />}
   </>;

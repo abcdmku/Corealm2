@@ -193,7 +193,7 @@ export function ListField<T>({ label, hint, items, onChange, renderItem, renderA
             : renderItem(item, api)}
         </div></SheetLevel.Provider>
         {renderAside && <div className="field-list-aside flex items-center gap-1.5">{renderAside(item, api)}</div>}
-        {canRemove && <Button variant="ghost" size="icon-xs" className="field-list-remove opacity-0 group-focus-within/row:opacity-100 group-hover/row:opacity-100 hover:text-destructive" tabIndex={-1} title={removeLabel?.(item, index) ?? "Remove"} aria-label={removeLabel?.(item, index) ?? `Remove row ${index + 1}`} onClick={() => remove(index)}><X /></Button>}
+        {canRemove && <Button variant="ghost" size="icon-xs" className="field-list-remove text-faint hover:text-destructive" tabIndex={-1} title={removeLabel?.(item, index) ?? "Remove"} aria-label={removeLabel?.(item, index) ?? `Remove row ${index + 1}`} onClick={() => remove(index)}><X /></Button>}
         {summarize && open && <SheetLevel.Provider value><div className={cn("field-list-expanded @container col-span-full my-0.5 content-start gap-y-px border-l-2 border-border pl-3 [&>*]:col-span-full [&>*]:min-w-0", ROW_COLUMNS, ordered ? "ml-6" : "ml-1.5")}>{renderItem(item, api)}</div></SheetLevel.Provider>}
       </div>;
     })}

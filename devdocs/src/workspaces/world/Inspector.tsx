@@ -8,7 +8,7 @@ import type { SummaryContext } from "../../model/summaries.js";
 import { fieldCore } from "../../model/fields.js";
 import { rowName } from "../../model/rows.js";
 import {
-  ChoiceField, Facts, Field, ListField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, Static, TextField, ToggleField, WeightedList,
+  ChoiceField, Facts, Field, ListField, NumberField, RefAddButton, RefField, ReferencedBy, Row, Section, Sheet, Static, TextField, ToggleField, WeightedList,
   fieldFromSchema, type SchemaFieldSpec,
 } from "../../ui/field/index.js";
 import { GLYPH_DISC, glyphColor, glyphIcon } from "./glyphs.js";
@@ -236,7 +236,7 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
               const record = members.length === 1 ? ctx.lookup("enemy", id) : undefined;
               setEncounter(record ? { members: next, name: rowName(record) } : { members: next });
             }} />}
-          addControl={editable ? <RefField kind="enemy" className="mt-1" compact label="Add creature" value={undefined} exclude={new Set(members.map(row => row.creatureId))} onChange={addMember} /> : undefined} />
+          addControl={editable ? <RefAddButton kind="enemy" label="Add creature" exclude={new Set(members.map(row => row.creatureId))} onPick={addMember} /> : undefined} />
         : <Row label="Encounter"><Static muted>Encounter {placement.encounterId} is missing.</Static></Row>}
       {uses > 1 && <Row label="Shared">
         <Static>Shared with {uses - 1} other {uses - 1 === 1 ? "spawn" : "spawns"}</Static>

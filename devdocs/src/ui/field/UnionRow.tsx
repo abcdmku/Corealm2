@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils.js";
 import { ChoiceField } from "./ChoiceField.js";
 import { fieldFromSchema } from "./fromSchema.js";
 import { NumberField } from "./NumberField.js";
-import { RefField } from "./RefField.js";
+import { RefAddButton, RefField } from "./RefField.js";
 import { carryOver, variantSchema, variantTag, type CarryOver } from "./reorder.js";
 import { StackField } from "./StackField.js";
 import { TextField } from "./TextField.js";
@@ -65,6 +65,10 @@ export function UnionRow({ schema, value, onChange, renderRef, readOnly = false,
   const itemKey = fields.find(([key, field]) => serialFieldSpec(field, key).ref === "item")?.[0];
   const countKey = itemKey ? fields.find(([key, field]) => COUNT_KEYS.has(key) && serialFieldSpec(field, key).kind === "number")?.[0] : undefined;
   const word = (text: string) => <span className="shrink-0 text-[11px] text-faint">{text}</span>;
+  // The first reference is what the line is about; a later one says what it is in a word
+  // ("or awakened altar"), read from its key because its schema label is often generic ("Entity id").
+  const firstRef = fields.find(([key, field]) => serialFieldSpec(field, key).ref !== undefined)?.[0];
+  const keyWords = (key: string) => key.replace(/Id$/, "").replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
 
   const controls: ReactNode[] = fields.map(([key, field]) => {
     const own = serialFieldSpec(field, key);
@@ -74,14 +78,19 @@ export function UnionRow({ schema, value, onChange, renderRef, readOnly = false,
     if (key === itemKey && countKey) {
       const countSpec = serialFieldSpec(fields.find(([other]) => other === countKey)![1], countKey);
       const low = countSpec.min ?? 1;
-      return <StackField key={key} label={name} className="w-60 min-w-0 shrink" value={typeof raw === "string" && raw ? raw : undefined} readOnly={readOnly} onChange={next => setKey(key, next)}
+      return <StackField key={key} label={name} className="w-64 min-w-0 shrink" value={typeof raw === "string" && raw ? raw : undefined} readOnly={readOnly} onChange={next => setKey(key, next)}
         quantity={typeof current[countKey] === "number" ? current[countKey] as number : low} min={low} onQuantityChange={next => setKey(countKey, next)} />;
     }
     if (own.ref) {
       const text = typeof raw === "string" && raw ? raw : undefined;
-      return renderRef
-        ? <span key={key} className="inline-flex w-60 min-w-0 shrink [&_.field]:w-full [&_.field-body]:w-full [&_.ref-control]:w-full [&_.ref-chip]:w-full [&_.ref-chip]:min-w-0">{renderRef(own.ref, text, next => setKey(key, own.optional && !next ? undefined : next ?? ""), { ...fieldFromSchema(field, key), label: name })}</span>
-        : <RefField key={key} bare className="w-60 min-w-0 shrink [&_.ref-control]:w-full [&_.ref-chip]:w-full [&_.ref-chip]:min-w-0" kind={own.ref} label={name} optional={own.optional} value={text} readOnly={readOnly} onChange={next => setKey(key, own.optional && !next ? undefined : next ?? "")} />;
+      const primary = key === firstRef;
+      // An unset optional extra is an offer to add it, not an empty box squeezed onto the line.
+      if (!primary && own.optional && !text) return readOnly ? null : <RefAddButton key={key} kind={own.ref} label={keyWords(key)} className="ml-0 min-w-8 shrink text-muted-foreground" onPick={id => setKey(key, id)} />;
+      const width = primary ? "w-60 min-w-0 shrink" : "w-44 min-w-0 shrink";
+      const control = renderRef
+        ? <span key={key} className={cn("inline-flex [&_.field]:w-full [&_.field-body]:w-full [&_.ref-control]:w-full [&_.ref-chip]:min-w-0 [&_.ref-chip]:flex-1", width)}>{renderRef(own.ref, text, next => setKey(key, own.optional && !next ? undefined : next ?? ""), { ...fieldFromSchema(field, key), label: name })}</span>
+        : <RefField key={key} bare className={cn("[&_.ref-control]:w-full [&_.ref-chip]:min-w-0 [&_.ref-chip]:flex-1", width)} kind={own.ref} label={name} optional={own.optional} value={text} readOnly={readOnly} onChange={next => setKey(key, own.optional && !next ? undefined : next ?? "")} />;
+      return primary ? control : <span key={key} className="inline-flex min-w-0 shrink items-center gap-1"><span className="min-w-0 shrink truncate text-[11px] text-faint" title={keyWords(key)}>{keyWords(key)}</span>{control}</span>;
     }
     switch (own.kind) {
       case "number": return <span key={key} className="inline-flex shrink-0 items-center gap-1">{word(own.label.toLowerCase())}
