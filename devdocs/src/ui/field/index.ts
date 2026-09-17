@@ -29,3 +29,4 @@ export { MultiChoiceField } from "./MultiChoiceField.js";
 export { ReferencedBy, groupReferences, relationshipLabel, parseReferencePath, type ReferencedByProps } from "./ReferencedBy.js";
 export { Peek, PeekProvider, usePeek, type PeekTarget } from "../Peek.js";
 export { CountGrid, type CountGridProps, type CountOption } from "./CountGrid.js";
+export { UnionRow } from "./UnionRow.js";

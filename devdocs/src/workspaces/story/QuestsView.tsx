@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ChevronRight, ScrollText, SquareArrowOutUpRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Plus, ScrollText, SquareArrowOutUpRight } from "lucide-react";
 import type { Schema } from "../../../../game/src/content/schema/core.js";
 import { questGrantSchema, questObjectiveRefSchema, questPredicateSchema, questSchema, questStageSchema } from "../../../../game/src/content/schema/story.js";
 import { collectionQuery } from "../../api/client.js";
@@ -12,7 +12,7 @@ import { contentRows } from "../../model/rows.js";
 import { titleCase, type SummaryContext } from "../../model/summaries.js";
 import {
   ChoiceField, Field, ListField, MapField, NumberField, RefField, ReferencedBy, SchemaControl,
-  Section, Sheet, TextField, UnionField, fieldFromSchema, type RenderRef,
+  Section, Sheet, TextField, UnionRow, fieldFromSchema, type RenderRef,
 } from "../../ui/field/index.js";
 import { ErrorState, LoadingRows } from "../../ui/States.js";
 import type { ViewProps } from "../types.js";
@@ -25,7 +25,7 @@ import { EMPTY, PAGE, RAIL_BLOCK } from "../../ui/layout.js";
 import { PointsMap, type MapPoint } from "../../ui/PointsMap.js";
 import { Badge, Button, ChoiceChips, EmptyCell, Table, TableBody, TableCell, TableFrame, TableHead, TableHeader, TableLink, TableRow } from "../../components/ui/index.js";
 import { DialogueNodeEditor } from "./DialogueView.js";
-import { pins, predicatePlaces, refPlaces, worldPlaces, type Place } from "./places.js";
+import { pins, predicatePlaces, refPlaces, worldPlaces } from "./places.js";
 import { ROLE_LABEL, stageDialogue } from "./questLinks.js";
 
 interface Stage extends ContentRow { index?: number; objective?: string; hint?: string; refs?: ContentRow[]; completion?: unknown; grants?: ContentRow; onFlag?: unknown }
@@ -216,15 +216,14 @@ function StageBody({ stage, at, update, questId, regionId, page, readOnly, skill
   skills: { value: string; label?: string }[]; renderRef: RenderRef; navigate: ViewProps["navigate"];
 }) {
   const { index } = page;
-  const places: Place[] = useMemo(() => [...predicatePlaces(stage.completion, index, regionId), ...refPlaces(stage.refs, index)], [stage.completion, stage.refs, index, regionId]);
+  const points = useMemo(() => stagePoints(stage, index, regionId), [stage, index, regionId]);
   const dialogue = useMemo(() => stageDialogue(index, questId, stage, stage.index ?? at), [index, questId, stage, at]);
   return <RowBlock className="mt-1 ml-6">
     <Field label={stageField("objective").label}><TextField value={stage.objective ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${at} objective`} onChange={value => update({ ...stage, objective: value })} /></Field>
     <Field label={stageField("hint").label}><TextField value={stage.hint ?? ""} multiline readOnly={readOnly} ariaLabel={`Stage ${at} hint`} onChange={value => update({ ...stage, hint: value })} /></Field>
-    <UnionField schema={questPredicateSchema} kindLabel="Player does" value={stage.completion} renderRef={renderRef} readOnly={readOnly}
-      onChange={value => update({ ...stage, completion: value })} />
-    {places.length > 0 && <Field label="Where">
-      <PointsMap className="max-w-[26rem]" points={pins(places)} onOpen={point => { if (point.target) navigate("world/map", point.target); }} />
+    <PlayerDoes value={stage.completion} stage={at} renderRef={renderRef} readOnly={readOnly} onChange={value => update({ ...stage, completion: value })} />
+    {points.length > 0 && <Field label="Where">
+      <PointsMap className="max-w-[26rem]" points={points} onOpen={point => { if (point.target) navigate("world/map", point.target); }} />
     </Field>}
     <Field label="Dialogue">
       {dialogue.length
@@ -242,6 +241,62 @@ function StageBody({ stage, at, update, questId, regionId, page, readOnly, skill
     {stage.onFlag !== undefined && sub(questStageSchema, "onFlag") && <SchemaControl schema={sub(questStageSchema, "onFlag")!} name="onFlag" value={stage.onFlag} renderRef={renderRef} readOnly={readOnly}
       onChange={value => update({ ...stage, onFlag: value })} />}
   </RowBlock>;
+}
+
+const letter = (at: number): string => String.fromCharCode(65 + (at % 26));
+
+/**
+ * The step's places as pins. The parts of an "all of" rule are lettered like their rows (A, B, C);
+ * an objective ref that names a place already pinned is not pinned twice.
+ */
+function stagePoints(stage: Stage, index: Page<Quest>["index"], regionId: string | undefined): MapPoint[] {
+  const rule = asRecord(stage.completion);
+  const parts = text(rule.kind) === "all" ? list(rule.of) : [rule];
+  const ruled = parts.flatMap((part, at) => pins(predicatePlaces(part, index, regionId), parts.length > 1 ? letter(at) : undefined).map(point => ({ ...point, id: `${at}:${point.id}` })));
+  const pinned = new Set(parts.flatMap(part => predicatePlaces(part, index, regionId).map(place => place.id)));
+  return [...ruled, ...pins(refPlaces(stage.refs, index).filter(place => !pinned.has(place.id)))];
+}
+
+const PREDICATE_KINDS = (serialFieldSpec(questPredicateSchema).variants ?? []).map(variant => ({ value: variant.key, label: variant.key === "all" ? "All of these" : variant.label }));
+
+/**
+ * What the player does to finish the step, one condition per line: the kind and its target (an NPC,
+ * a place, an item and a count). An "all of" rule is a lettered list of such lines, the letters
+ * matching the pins on the step's map.
+ */
+function PlayerDoes({ value, stage, renderRef, readOnly, onChange }: { value: unknown; stage: number; renderRef: RenderRef; readOnly: boolean; onChange: (value: unknown) => void }) {
+  const rule = asRecord(value);
+  const parts = list(rule.of);
+  // Choosing "All of these" keeps the current condition as the first part rather than starting empty.
+  const change = (next: unknown) => {
+    const kind = text(asRecord(next).kind);
+    if (kind === "all" && text(rule.kind) !== "all") onChange({ kind: "all", of: [value] });
+    else onChange(next);
+  };
+  if (text(rule.kind) !== "all") {
+    return <Field label="Player does">
+      <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+        <UnionRow schema={questPredicateSchema} value={value} onChange={change} renderRef={renderRef} readOnly={readOnly} label={`Stage ${stage} condition`} />
+        {!readOnly && <Button variant="ghost" size="sm" onClick={() => onChange({ kind: "all", of: [value, { kind: "visit", locationId: "" }] })}><Plus />And</Button>}
+      </div>
+    </Field>;
+  }
+  return <Field label="Player does">
+    <div className="flex w-full min-w-0 flex-col gap-1">
+      <div className="flex items-center gap-2">
+        <ChoiceField display="select" className="w-32" value="all" options={PREDICATE_KINDS} readOnly={readOnly} ariaLabel={`Stage ${stage} rule`}
+          onChange={kind => { if (kind && kind !== "all") onChange(parts.find(part => text(asRecord(part).kind) === kind) ?? parts[0] ?? { kind }); }} />
+        <span className="text-[11px] text-faint">every line below, in any order</span>
+      </div>
+      <ListField<unknown> items={parts} min={1} readOnly={readOnly} addLabel="Add condition" onAdd={() => ({ kind: "visit", locationId: "" })}
+        removeLabel={(_, at) => `Remove condition ${letter(at)}`}
+        onChange={next => onChange(next.length === 1 ? next[0] : { kind: "all", of: next })}
+        renderItem={(part, api) => <>
+          <span className="grid size-5 shrink-0 place-items-center rounded-full bg-primary font-mono text-[10px] font-semibold text-primary-foreground" aria-hidden>{letter(api.index)}</span>
+          <UnionRow schema={questPredicateSchema} value={part} onChange={api.update} renderRef={renderRef} readOnly={readOnly} label={`Condition ${letter(api.index)}`} />
+        </>} />
+    </div>
+  </Field>;
 }
 
 /** One line of dialogue tied to the step: who says what and why it is here; open it to edit the line and its options in place. */

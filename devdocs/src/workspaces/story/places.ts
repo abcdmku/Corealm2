@@ -144,5 +144,5 @@ export function refPlaces(refs: unknown, index: ReferenceIndex): Place[] {
 /** Places as map pins, each once. `prefix` numbers them by stage ("2 · Copper Pit"). */
 export function pins(places: readonly Place[], prefix?: string): MapPoint[] {
   const seen = new Set<string>();
-  return places.filter(place => !seen.has(place.id) && seen.add(place.id)).map(place => ({ id: `${prefix ?? ""}${place.id}`, x: place.x, z: place.z, radius: place.radius, label: prefix ? `${prefix} · ${place.label}` : place.label, target: place.target, mark: prefix && /^\d+$/.test(prefix) ? prefix : undefined }));
+  return places.filter(place => !seen.has(place.id) && seen.add(place.id)).map(place => ({ id: `${prefix ?? ""}${place.id}`, x: place.x, z: place.z, radius: place.radius, label: prefix ? `${prefix} · ${place.label}` : place.label, target: place.target, mark: prefix && /^[0-9A-Z]{1,2}$/.test(prefix) ? prefix : undefined }));
 }
