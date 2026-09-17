@@ -4,6 +4,38 @@ import { describe, expect, it, vi } from "vitest";
 import { AnimationLod, unionTransformedBounds, type LodPose } from "../game/src/render/animationLod.js";
 import { conformTerrainRig } from '../game/src/render/terrainRig.js';
 
+it('prepares in bounded slices with the same sampled vertices as the live skeleton', () => {
+  const { root, walk } = actor(), parent = new THREE.Group();
+  const lod = new AnimationLod(parent, root, root, [walk], m => m, true);
+  const now = vi.spyOn(performance, 'now');
+  let clock = 0;
+  now.mockImplementation(() => clock++);
+  try {
+    expect(lod.ready).toBe(false);
+    expect(lod.prepare(2)).toBe(false);
+    expect(() => lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1 })).toThrow('unfinished');
+    let slices = 1;
+    while (!lod.prepare(2)) { if (++slices > 100) throw Error('Preparation did not finish'); }
+    expect(slices).toBeGreaterThan(5);
+    lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1 });
+    for (let vertex = 0; vertex < 3; vertex++) {
+      expect(paletteVertex(parent.children[0] as THREE.InstancedMesh, 0, vertex)
+        .distanceTo(referenceVertex(root, walk, .4, vertex))).toBeLessThan(2e-6);
+    }
+  } finally { now.mockRestore(); lod.dispose(); }
+});
+
+it('cancels partially prepared palettes without adding later scene parts', () => {
+  const { root, walk } = actor(), parent = new THREE.Group();
+  const lod = new AnimationLod(parent, root, root, [walk], m => m, true);
+  lod.prepare(0);
+  lod.dispose();
+  expect(lod.prepare(Infinity)).toBe(false);
+  expect(lod.preparing).toBe(false);
+  expect(parent.children).toHaveLength(0);
+  expect(lod.textureBytes).toBe(0);
+});
+
 it('keeps affine animation bounds equivalent to the eight-corner reference', () => {
   const source = new THREE.Box3(new THREE.Vector3(-3, -2, -7), new THREE.Vector3(1, 4, 2));
   for (let i = 0; i < 60; i++) {
@@ -420,6 +452,29 @@ describe("sampled skeletal animation LOD", () => {
     expect(compile(mesh.customDepthMaterial!, "depth").uniforms["lodPalette"]!.value).toBe(texture);
     expect(compile(mesh.customDistanceMaterial!, "distance").uniforms["lodPalette"]!.value).toBe(texture);
     expect(() => lod.set(5, new THREE.Matrix4(), { clip: walk, time: 0, blend: 1, overlay: { clip: walk, time: 0, weight: 1 } })).toThrow(/additive/);
+    lod.dispose();
+  });
+
+  it("uploads a complete terrain pose in one range for non-power-of-two skeletons", () => {
+    const { root, mesh, hip, walk } = actor(), bones = [...mesh.skeleton.bones];
+    while (bones.length < 17) { const bone = new THREE.Bone(); bone.name = `support${bones.length}`; hip.add(bone); bones.push(bone); }
+    root.updateMatrixWorld(true); mesh.bind(new THREE.Skeleton(bones));
+    const positions = new Float32Array(17 * 3), indices = new Uint16Array(17 * 4), weights = new Float32Array(17 * 4);
+    for (let i = 0; i < 17; i++) { positions[i * 3] = i / 17; indices[i * 4] = i; weights[i * 4] = 1; }
+    mesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    mesh.geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(indices, 4));
+    mesh.geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(weights, 4));
+    const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk], material => material);
+    const terrain = { placement: new THREE.Matrix4(), origin: new THREE.Vector3(), heightAt: (x: number, z: number) => .1 * x + .05 * z };
+    lod.set(0, new THREE.Matrix4(), { clip: walk, time: .2, blend: 1, terrain });
+    const instance = parent.children[0] as THREE.InstancedMesh;
+    const texture = compile(instance.material as THREE.Material).uniforms.lodPalette!.value as THREE.DataTexture;
+    texture.onUpdate!(texture);
+    lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1, terrain });
+    expect(texture.updateRanges).toHaveLength(1);
+    const range = texture.updateRanges[0]!;
+    expect(range.count).toBe(17 * 16);
+    expect(range.start % (texture.image.width * 4) + range.count).toBeLessThanOrEqual(texture.image.width * 4);
     lod.dispose();
   });
 

@@ -35,6 +35,7 @@ export function isolateMagicEmission(material: THREE.Material): void {
  */
 export class MagicGlow {
   enabled = true;
+  samples = 4;
   private readonly size = new THREE.Vector2();
   private readonly clearColour = new THREE.Color();
   private target: THREE.WebGLRenderTarget | null = null;
@@ -167,7 +168,7 @@ export class MagicGlow {
       this.target = new THREE.WebGLRenderTarget(this.size.x, this.size.y, {
         type: THREE.HalfFloatType,
         depthBuffer: true,
-        samples: 4,
+        samples: this.samples,
       });
       this.target.texture.name = "Magic HDR emission";
       this.frame = new THREE.FramebufferTexture(this.size.x, this.size.y);

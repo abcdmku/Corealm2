@@ -199,7 +199,7 @@ export class SettingsPanel implements ManagedPanel {
     graphics.append(
       this.choiceRow(
         "Resolution",
-        "Fewer pixels help the GPU at the cost of a softer picture.",
+        "Sets the resolution limit. Detail may reduce to keep controls responsive.",
         "Render resolution",
         RENDER_SCALES,
         this.renderScaleButtons,

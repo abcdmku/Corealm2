@@ -45,6 +45,43 @@ function fixture() {
 }
 
 describe("frame loop resident motion", () => {
+  it('yields scene work to a pending browser press and resumes with accumulated time', () => {
+    let pending = true;
+    vi.stubGlobal('navigator', { scheduling: { isInputPending: () => pending } });
+    const f = fixture();
+    try {
+      f.render(16);
+      expect(f.deps.input.update).toHaveBeenCalledTimes(1);
+      expect(f.views.update).not.toHaveBeenCalled();
+      pending = false; f.render(32);
+      expect(f.views.update).toHaveBeenCalledTimes(1);
+      expect(f.views.update.mock.calls[0]![0]).toBeCloseTo(.032, 2);
+    } finally { f.loop.dispose(); }
+  });
+  it('keeps input and menus updating without rebuilding unpresentable animation frames', () => {
+    const f = fixture(), ui = { update: vi.fn() };
+    let ready = false;
+    Object.assign(f.deps.renderer, { canRenderFrame: () => ready });
+    f.loop.setUi(ui as never);
+    try {
+      f.render(16); f.render(32);
+      expect(f.deps.input.update).toHaveBeenCalledTimes(2);
+      expect(ui.update).toHaveBeenCalledTimes(2);
+      expect(f.views.update).not.toHaveBeenCalled();
+      expect(f.deps.renderer.render).not.toHaveBeenCalled();
+      ready = true; f.render(48);
+      expect(f.views.update).toHaveBeenCalledTimes(1);
+      expect(f.views.update.mock.calls[0]![0]).toBeCloseTo(.048, 2);
+      expect(f.deps.renderer.render).toHaveBeenCalledTimes(1);
+    } finally { f.loop.dispose(); }
+  });
+  it('includes GPU completion delay in automatic graphics adaptation', () => {
+    const f = fixture(), observer = vi.fn();
+    Object.assign(f.deps.renderer, { getFramePressureMs: () => 180 });
+    f.loop.setFrameObserver(observer);
+    try { f.render(16); expect(observer).toHaveBeenCalledWith(180); }
+    finally { f.loop.dispose(); }
+  });
   it("does not create a startup time debt when the first RAF predates a long boot task", () => {
     const f = fixture(), clock = new SimClock();
     f.deps.clock.advance = (delta: number) => {

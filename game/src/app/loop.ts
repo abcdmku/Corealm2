@@ -194,6 +194,7 @@ export class GameLoop {
   private ui: Ui | null = null;
   private interiors: { group: { visible: boolean }; visible: () => boolean }[] = [];
   private frameObserver: ((frameMs: number) => void) | null = null;
+  private pendingRenderDeltaMs = 0;
 
   /** Render fraction for actors driven by the fixed world tick. */
   private renderAlpha = 1;
@@ -380,6 +381,7 @@ export class GameLoop {
     if (this.running) return;
     this.running = true;
     this.lastFrameAt = performance.now();
+    this.pendingRenderDeltaMs = 0;
     this.deps.renderer.resetFrameTiming?.();
     this.frameHandle = requestAnimationFrame(this.frame);
   }
@@ -433,9 +435,23 @@ export class GameLoop {
     // Remote actors interpolate fixed world ticks; local movement already has this frame's pose.
     this.renderAlpha = clock.paused ? 1 : clock.alpha();
 
-    this.renderFrame(nowMs, realDelta);
+    this.pendingRenderDeltaMs = Math.min(250, this.pendingRenderDeltaMs + realDelta);
+    // Chromium can have a press waiting behind this RAF callback. Yield before another
+    // expensive scene traversal so that the handler runs before we draw an obsolete input state.
+    const pendingInput = typeof navigator !== 'undefined'
+      && (navigator as Navigator & { scheduling?: { isInputPending(): boolean } }).scheduling?.isInputPending();
+    if ((this.deps.renderer.canRenderFrame?.() ?? true) && !pendingInput) {
+      this.renderFrame(nowMs, this.pendingRenderDeltaMs);
+      this.pendingRenderDeltaMs = 0;
+    } else {
+      // Input and simulation have already advanced. Avoid spending the main thread on
+      // palettes/scene updates that cannot be drawn, while menus still reflect current state.
+      this.ui?.update();
+    }
     this.maybeAutosave(nowMs);
-    this.frameObserver?.(frameMs);
+    // A responsive JS loop does not mean the GPU is keeping up. Distance adaptation must
+    // see unfinished graphics work too, including frames deliberately not submitted.
+    this.frameObserver?.(Math.max(frameMs, this.deps.renderer.getFramePressureMs?.() ?? 0));
   };
 
   /** One 100 ms simulation step. */

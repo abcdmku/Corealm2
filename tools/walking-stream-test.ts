@@ -19,7 +19,7 @@ if (!address || typeof address === 'string') throw Error('No preview address');
 const browser = await chromium.launch({headless:true,args:[...(process.platform==='win32'?['--use-angle=d3d11']:[]),
   '--enable-gpu','--ignore-gpu-blocklist','--mute-audio','--enable-precise-memory-info']});
 try {
-  const context = await browser.newContext({viewport:desktop?{width:1440,height:900}:{width:844,height:390},
+  const context = await browser.newContext({viewport:{width:Number(value('--width',desktop?'1440':'844')),height:Number(value('--height',desktop?'900':'390'))},
     deviceScaleFactor:desktop?1:2,hasTouch:!desktop,isMobile:!desktop,serviceWorkers:'block'});
   const page = await context.newPage(), errors:string[] = [];
   page.on('pageerror',e=>errors.push(String(e)));
@@ -29,15 +29,27 @@ try {
   await cdp.send('Network.enable'); await cdp.send('Network.setCacheDisabled',{cacheDisabled:true});
   await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:80,downloadThroughput:mbps*1e6/8,uploadThroughput:1e6/8});
   await cdp.send('Emulation.setCPUThrottlingRate',{rate:cpu});
+  if(args.includes('--quality-max'))await page.addInitScript(() => {
+    localStorage.setItem('corealm.settings.v1',JSON.stringify({renderScale:1,shadowQuality:'high',drawDistance:'near',autoDrawDistance:true}));
+  });
   await page.addInitScript({content:`(() => {
-    window.__travelFrames=[]; window.__travelTasks=[]; window.__travelPhase='boot';
-    let previous=performance.now(),previousPhase='boot';
-    const step=at=>{const phase=window.__travelPhase;if(phase===previousPhase)window.__travelFrames.push({at,ms:at-previous,phase});previous=at;previousPhase=phase;requestAnimationFrame(step)};
+    window.__travelFrames=[]; window.__travelTasks=[]; window.__travelPhase='boot'; window.__travelPresentation=[];
+    let previous=performance.now(),previousPhase='boot',previousUploads=0;
+    let completed=0,lastCompletedId=0;
+    const step=at=>{const phase=window.__travelPhase,uploads=window.__uploadCount??0;if(phase===previousPhase)window.__travelFrames.push({at,ms:at-previous,phase,uploads:uploads-previousUploads});previousUploads=uploads;
+      const p=window.__gameDebug?.getPresentationState?.();
+      if(p&&p.completed!==completed){for(const frame of p.recent??[])if(frame.id>lastCompletedId){window.__travelPresentation.push({at:frame.at,ms:frame.ms,phase,scale:p.resolutionScale,completed:frame.id,skipped:p.skipped,pending:p.pending});lastCompletedId=frame.id;}completed=p.completed;}
+      previous=at;previousPhase=phase;requestAnimationFrame(step)};
     requestAnimationFrame(step);
     new PerformanceObserver(list=>{for(const e of list.getEntries())window.__travelTasks.push({at:e.startTime,ms:e.duration,phase:window.__travelPhase})}).observe({type:'longtask',buffered:true});
     window.__travelMemory=[];
     setInterval(()=>window.__travelMemory.push({at:performance.now(),phase:window.__travelPhase,heap:performance.memory?.usedJSHeapSize}),1000);
   })();`});
+  if(args.includes('--upload-counts'))await page.addInitScript(() => {
+    const w=window as any,p=WebGL2RenderingContext.prototype,original=p.texSubImage2D;
+    w.__uploadCount=0;
+    p.texSubImage2D=function(...args:any[]){w.__uploadCount++;return (original as any).apply(this,args);};
+  });
   if(args.includes('--shaders'))await page.addInitScript(() => {
     const w=window as any;w.__travelShaders=[];
     const source=new WeakMap<WebGLShader,string>(),p=WebGL2RenderingContext.prototype;
@@ -109,6 +121,7 @@ try {
     const w = window as any, assets = w.__corealmPlayerAssets.snapshot().assets;
     return assets.queued === 0 && assets.inflight === 0
       && w.__gameDebug.getEntityViewStats().residency.pending === 0
+      && w.__gameDebug.getEntityViewStats().pendingAnimations === 0
       && w.__renderDistanceLab.shaders().waiting === 0;
   }, undefined, { timeout: 10_000 }).catch(error => {
     if(error.name !== 'TimeoutError') throw error;
@@ -132,17 +145,24 @@ try {
     await cdp.send('IO.close',{handle:stream});await writeFile(path.join(out,'trace.json'),trace);
   }
   const data=await page.evaluate(()=>({frames:(window as any).__travelFrames,tasks:(window as any).__travelTasks,shaders:(window as any).__travelShaders,uploads:(window as any).__travelUploads,
-    memory:(window as any).__travelMemory,queries:(window as any).__travelQueries,boot:(window as any).__corealmBootTelemetry.snapshot()}));
+    memory:(window as any).__travelMemory,queries:(window as any).__travelQueries,presentation:(window as any).__travelPresentation,boot:(window as any).__corealmBootTelemetry.snapshot()}));
   const phases = ['idle','walking','settle','idle-after'].map(phase=>{
     const frames=data.frames.filter((f:any)=>phase==='walking'?f.phase.startsWith('walk-'):f.phase===phase);
     const values=frames.map((f:any)=>f.ms).sort((a:number,b:number)=>a-b);
     const at=(p:number)=>values[Math.min(values.length-1,Math.floor(values.length*p))]??0;
     return {phase,frames:values.length,p50:at(.5),p95:at(.95),p99:at(.99),max:at(1),
+      ...(args.includes('--upload-counts')?{textureUpdatesPerFrame:frames.reduce((sum:number,f:any)=>sum+f.uploads,0)/frames.length}:{}),
       over50:values.filter((v:number)=>v>50.5).length,over100:values.filter((v:number)=>v>100.5).length,
       fps:1000*values.length/values.reduce((a:number,b:number)=>a+b,0)};
   });
   const end=await snapshot();
-  await writeFile(path.join(out,'report.json'),JSON.stringify({desktop,mbps,cpu,settledMs,settlingTimedOut,profileStartMs,states,end,phases,errors,...data},null,2));
+  const presentationPhases = ['idle','walking','settle','idle-after'].map(phase => {
+    const frames=data.presentation.filter((f:any)=>phase==='walking'?f.phase.startsWith('walk-'):f.phase===phase);
+    const times=frames.map((f:any)=>f.ms).sort((a:number,b:number)=>a-b);
+    return {phase,completed:times.length,p95:times[Math.floor(times.length*.95)]??0,max:times.at(-1)??0,
+      fps:frames.length>1 ? 1000*(frames.length-1)/(frames.at(-1).at-frames[0].at) : 0};
+  });
+  await writeFile(path.join(out,'report.json'),JSON.stringify({desktop,mbps,cpu,settledMs,settlingTimedOut,profileStartMs,states,end,phases,presentationPhases,errors,...data},null,2));
   await page.screenshot({path:path.join(out,'after-walking.png'),timeout:5000});
   const start=(states.start as any).position;
   assert.ok(Math.hypot(end.position.x-start.x,end.position.z-start.z)>8,'Real movement must cross streaming boundaries');
@@ -150,12 +170,17 @@ try {
   assert.equal(end.loading.assets.failed,0);
   assert.equal(end.loading.assets.queued,0);assert.equal(end.loading.assets.inflight,0);
   assert.equal(end.views.residency.pending,0);
+  assert.equal(end.views.pendingAnimations,0);
   assert.equal(end.shaders.waiting,0,'Graphics preparation must finish too');
   assert.ok(end.loading.assets.loaded>(states.start as any).loading.assets.loaded,'Travel must finish new asset work');
   if(args.includes('--budget'))for(const phase of phases) {
     assert.ok(phase.max<150,`${phase.phase} must avoid large streaming freezes`);
   }
-  console.log(JSON.stringify({label,playableMs:data.boot.firstPlayableMs,settledMs,phases,
+  if(args.includes('--presentation-budget'))for(const phase of presentationPhases) {
+    assert.ok(phase.p95<100,`${phase.phase} must complete graphics promptly`);
+    assert.ok(phase.max<250,`${phase.phase} must not accumulate stale graphics`);
+  }
+  console.log(JSON.stringify({label,playableMs:data.boot.firstPlayableMs,settledMs,phases,presentationPhases,
     assetsStart:(states.start as any).loading.assets,assetsEnd:end.loading.assets},null,2));
 } finally {
   await browser.close();await new Promise<void>((resolve,reject)=>server.httpServer.close(e=>e?reject(e):resolve()));clear();

@@ -209,6 +209,8 @@ export class AnimationLod {
   private readonly freeOverlayFrames: number[] = [];
   private overlayCapacity = 0;
   private overlayHighWater = 0;
+  private preparation: Generator<void> | null = null;
+  private prepared = false;
 
   constructor(
     private readonly parent: THREE.Object3D,
@@ -216,6 +218,7 @@ export class AnimationLod {
     animationRoot: THREE.Object3D,
     clips: readonly THREE.AnimationClip[],
     materialFor: (source: THREE.Material) => THREE.Material,
+    deferPreparation = false,
   ) {
     const uniqueClips = [...new Set(clips)];
     if (uniqueClips.length === 0 || uniqueClips.length > MAX_SAMPLES / 2) {
@@ -232,6 +235,36 @@ export class AnimationLod {
       count += frames;
     }
     this.sampleCount = count;
+
+    this.preparation = this.prepareSamples(root, animationRoot, materialFor);
+    if (!deferPreparation) this.prepare(Infinity);
+  }
+
+  get ready(): boolean { return this.prepared && !this.disposed; }
+  get preparing(): boolean { return !this.prepared && !this.disposed; }
+
+  /** Yield between sampled poses, so a new distant actor cannot block a whole input frame. */
+  prepare(budgetMs = 2): boolean {
+    if (this.disposed) return false;
+    const started = performance.now();
+    try {
+      while (this.preparation) {
+        if (this.preparation.next().done) {
+          this.preparation = null;
+          this.prepared = true;
+        }
+        if (performance.now() - started >= budgetMs) break;
+      }
+    } catch (error) {
+      this.preparation = null;
+      this.dispose();
+      throw error;
+    }
+    return this.ready;
+  }
+
+  private *prepareSamples(root: THREE.Object3D, animationRoot: THREE.Object3D,
+    materialFor: (source: THREE.Material) => THREE.Material): Generator<void> {
 
     const sampledRoot = cloneRigged(root);
     const originals: THREE.Object3D[] = [];
@@ -259,7 +292,7 @@ export class AnimationLod {
           throw new Error(`AnimationLod requires skeletal animation; morph targets need a separate renderer: ${mesh.name}`);
         }
       }
-      for (const mesh of meshes) this.palettes.push(this.allocatePalette(mesh));
+      for (const mesh of meshes) { this.palettes.push(this.allocatePalette(mesh)); yield; }
       const skin = new THREE.Matrix4();
       const bind = new THREE.Matrix4();
       for (const [clip, sample] of this.samples) {
@@ -294,16 +327,15 @@ export class AnimationLod {
               unionTransformedBounds(palette.bounds, bounds, skin);
             }
           }
+          yield;
         }
       }
       for (let index = 0; index < meshes.length; index++) {
         const mesh = meshes[index]!;
         const original = originals[clones.indexOf(mesh)] as THREE.Mesh;
         this.createParts(original, this.palettes[index]!, materialFor);
+        yield;
       }
-    } catch (error) {
-      this.dispose();
-      throw error;
     } finally {
       mixer.stopAllAction();
       // Retain this one shared clone for transient exact local-bone overlay composition.
@@ -316,6 +348,7 @@ export class AnimationLod {
 
   set(slot: number, matrix: THREE.Matrix4, pose: LodPose, tintForMaterial?: (source: THREE.Material) => THREE.Color | null): void {
     if (this.disposed) throw new Error("AnimationLod has been disposed.");
+    if (!this.ready) throw new Error("AnimationLod preparation is unfinished.");
     let current = this.frameAt(pose.clip, pose.time);
     const previous = pose.previousClip ? this.frameAt(pose.previousClip, pose.previousTime ?? 0) : current;
     const overlay = pose.overlay;
@@ -461,6 +494,8 @@ export class AnimationLod {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.preparation?.return(undefined);
+    this.preparation = null;
     this.samplingMixer?.stopAllAction();
     if (this.samplingAnimationRoot) this.samplingMixer?.uncacheRoot(this.samplingAnimationRoot);
     for (const skeleton of new Set(this.samplingMeshes.filter((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh).map((mesh) => (mesh as THREE.SkinnedMesh).skeleton))) skeleton.dispose();
@@ -592,23 +627,29 @@ export class AnimationLod {
     const inverse = this.terrainInverse.copy(placement).invert();
     const matrix = this.terrainMatrix, anchor = this.terrainAnchor;
     const blend = pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1;
-    const weights = [(1 - current[2]!) * blend, current[2]! * blend,
-      (1 - previous[2]!) * (1 - blend), previous[2]! * (1 - blend)];
-    const frames = [current[0]!, current[1]!, previous[0]!, previous[1]!];
+    const wa = (1 - current[2]!) * blend, wb = current[2]! * blend;
+    const wc = (1 - previous[2]!) * (1 - blend), wd = previous[2]! * (1 - blend);
+    const p = placement.elements, inv = inverse.elements;
     const base = terrain.heightAt(terrain.origin.x, terrain.origin.z);
     for (const palette of this.palettes) {
       const data = palette.texture.image.data as Float32Array;
+      const a = current[0]! * palette.bones, b = current[1]! * palette.bones;
+      const c = previous[0]! * palette.bones, d = previous[1]! * palette.bones;
       for (const { index, bounds } of palette.influences) {
         const elements = matrix.elements;
-        elements.fill(0); anchor.set(0, 0, 0);
-        for (let sample = 0; sample < 4; sample++) {
-          const weight = weights[sample]!;
-          if (weight === 0) continue;
-          const source = (frames[sample]! * palette.bones + index);
-          for (let element = 0; element < 16; element++) elements[element] = elements[element]! + data[source * 16 + element]! * weight;
-          anchor.x += palette.anchors[source * 3]! * weight;
-          anchor.y += palette.anchors[source * 3 + 1]! * weight;
-          anchor.z += palette.anchors[source * 3 + 2]! * weight;
+        const ia = (a + index) * 16, ib = (b + index) * 16;
+        for (let element = 0; element < 16; element++) {
+          elements[element] = data[ia + element]! * wa + data[ib + element]! * wb;
+        }
+        const anchors = palette.anchors, aa = (a + index) * 3, ab = (b + index) * 3;
+        anchor.set(anchors[aa]! * wa + anchors[ab]! * wb,
+          anchors[aa + 1]! * wa + anchors[ab + 1]! * wb, anchors[aa + 2]! * wa + anchors[ab + 2]! * wb);
+        if (blend < 1) {
+          const ic = (c + index) * 16, id = (d + index) * 16, ac = (c + index) * 3, ad = (d + index) * 3;
+          for (let element = 0; element < 16; element++) elements[element] = elements[element]! + data[ic + element]! * wc + data[id + element]! * wd;
+          anchor.x += anchors[ac]! * wc + anchors[ad]! * wd;
+          anchor.y += anchors[ac + 1]! * wc + anchors[ad + 1]! * wd;
+          anchor.z += anchors[ac + 2]! * wc + anchors[ad + 2]! * wd;
         }
         if (Number.isFinite(base) && Number.isFinite(anchor.x)) {
           anchor.applyMatrix4(placement);
@@ -617,11 +658,16 @@ export class AnimationLod {
           const dx = (terrain.heightAt(x + e, z) - terrain.heightAt(x - e, z)) / (2 * e);
           const dz = (terrain.heightAt(x, z + e) - terrain.heightAt(x, z - e)) / (2 * e);
           if (Number.isFinite(h) && Number.isFinite(dx) && Number.isFinite(dz)) {
-            matrix.premultiply(placement);
-            // Apply the terrain tangent's affine Y row, preserving scale, shear and binding.
-            for (let column = 0; column < 16; column += 4) elements[column + 1] = elements[column + 1]! + dx * elements[column]!
-              + dz * elements[column + 2]! + (h - base - dx * x - dz * z) * elements[column + 3]!;
-            matrix.premultiply(inverse);
+            // P^-1 * (I + worldY * tangent) * P is a rank-one correction.
+            // Apply that correction directly, avoiding two full matrix products per bone.
+            const tx = dx * p[0]! + dz * p[2]!, ty = dx * p[4]! + dz * p[6]!;
+            const tz = dx * p[8]! + dz * p[10]!, tw = dx * p[12]! + dz * p[14]! + h - base - dx * x - dz * z;
+            for (let column = 0; column < 16; column += 4) {
+              const shift = tx * elements[column]! + ty * elements[column + 1]! + tz * elements[column + 2]! + tw * elements[column + 3]!;
+              elements[column] = elements[column]! + inv[4]! * shift;
+              elements[column + 1] = elements[column + 1]! + inv[5]! * shift;
+              elements[column + 2] = elements[column + 2]! + inv[6]! * shift;
+            }
           }
         }
         matrix.toArray(data, (frame * palette.bones + index) * 16);
@@ -693,7 +739,14 @@ export class AnimationLod {
     const bones = influences.length;
     if (bones === 0) throw new Error(`AnimationLod has an empty skeleton: ${mesh.name}`);
     const texels = this.sampleCount * bones * 4;
-    const width = Math.min(MAX_TEXTURE_SIZE, Math.max(4, THREE.MathUtils.ceilPowerOfTwo(Math.sqrt(texels))));
+    // Three uploads partial DataTextures one row per GL command. A square power-of-two
+    // texture split a single actor pose across several rows, even for small palettes.
+    // Align rows to whole poses so ordinary terrain/animation updates need one command.
+    // WebGL2 supports these non-power-of-two dimensions with nearest filtering/no mips.
+    const poseWidth = bones * 4;
+    const width = poseWidth <= MAX_TEXTURE_SIZE
+      ? Math.min(Math.floor(MAX_TEXTURE_SIZE / poseWidth), Math.max(1, Math.ceil(Math.sqrt(texels) / poseWidth))) * poseWidth
+      : MAX_TEXTURE_SIZE;
     const height = Math.ceil(texels / width);
     if (height > MAX_TEXTURE_SIZE) throw new Error(`AnimationLod palette exceeds 64 MiB: ${mesh.name}`);
     const allocatedBytes = this.palettes.reduce((sum, palette) => sum + (palette.texture.image.data as Float32Array).byteLength, 0);

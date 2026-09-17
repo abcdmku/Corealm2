@@ -352,6 +352,7 @@ export function installGameDebug(deps: DebugDeps): void {
     getPerformanceTimings(): Record<string, unknown> {
       return renderer.getPerformanceTimings();
     },
+    getPresentationState() { return renderer.getPresentationState(); },
     getMagicGlowState() {
       return renderer.magicGlow.snapshot();
     },

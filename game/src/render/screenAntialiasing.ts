@@ -8,6 +8,7 @@ export const SCREEN_AA_MATERIAL = "Final frame antialiasing";
 /** Smooth subpixel foliage detail after MSAA has resolved the leaf coverage samples. */
 export class ScreenAntialiasing {
   enabled = true;
+  timingEnabled = false;
   private readonly size = new THREE.Vector2();
   private frame: THREE.FramebufferTexture | null = null;
   private gpuTimer: GpuTimer | null = null;
@@ -55,7 +56,7 @@ export class ScreenAntialiasing {
     // Sample separately from the whole-frame and shadow queries; never block for a result.
     // Coprime with the other timers' 20-frame cadence so diagnostic toggles cannot lock
     // this sampler onto a frame already owned by a whole-frame query.
-    if (!this.gpuTimer) {
+    if (this.timingEnabled && !this.gpuTimer) {
       const context = renderer.getContext();
       if ("createQuery" in context) this.gpuTimer = new GpuTimer(context, 31, 7);
     }

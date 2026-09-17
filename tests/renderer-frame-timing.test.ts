@@ -5,6 +5,7 @@ import { Renderer } from "../game/src/render/renderer.js";
 it("excludes an explicitly stopped interval from resumed frame-rate measurements", () => {
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene: { background: null }, frameTimes: [], lastFrameAt: 0, gpuTimer: null,
+    framePacer: { ready: () => true, resolutionScale: () => 1, submit() {}, resetTiming() {} }, adaptiveRenderScale: 1,
     transmissionOcclusion: { active: false },
     playerSilhouette: { render() {} },
     elementalRefraction: { render() {} },

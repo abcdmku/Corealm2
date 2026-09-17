@@ -11,6 +11,7 @@ import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
 import * as THREE from "three";
 import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
+import { FramePacer, gameplayPixelRatio } from "./framePacer.js";
 import { ScreenAntialiasing } from "./screenAntialiasing.js";
 import { MagicGlow, writesGlowOcclusion } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
@@ -300,6 +301,11 @@ export class Renderer {
   private cpuPrepareMs = 0;
   private cpuSubmitMs = 0;
   private cpuShadowMs = 0;
+  private readonly framePacer: FramePacer;
+  private readonly mobile = usesMobileAssets();
+  private readonly gpuTimingEnabled = new URLSearchParams(location.search).get('gpu-timing') === '1';
+  private adaptiveRenderScale = 1;
+  private readonly restoreFramePacer = () => this.framePacer.contextRestored();
 
   /** The two gradients: the one the sky is drawn from, and the one the world is lit by. */
   private readonly skyGradients: THREE.DataTexture[] = [];
@@ -337,7 +343,9 @@ export class Renderer {
   constructor(canvas: HTMLCanvasElement) {
     this.renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: true,
+      // FXAA already smooths the completed frame. Avoid repeated multisample resolves
+      // around the display-copy passes on tile-based phone GPUs.
+      antialias: !this.mobile,
       stencil: true,
       powerPreference: "high-performance",
       alpha: false,
@@ -345,6 +353,10 @@ export class Renderer {
     // Seed Three's state cache before animation palettes upload partial rows. Otherwise their
     // first update asks the driver for these defaults and synchronously drains all queued draws.
     const gl = this.renderer.getContext() as WebGL2RenderingContext;
+    this.framePacer = new FramePacer(gl);
+    canvas.addEventListener('webglcontextrestored', this.restoreFramePacer);
+    this.magicGlow.samples = this.mobile ? 0 : 4;
+    this.screenAntialiasing.timingEnabled = this.gpuTimingEnabled;
     for (const parameter of [gl.UNPACK_ROW_LENGTH, gl.UNPACK_SKIP_PIXELS, gl.UNPACK_SKIP_ROWS]) {
       this.renderer.state.pixelStorei(parameter, 0);
     }
@@ -478,7 +490,7 @@ export class Renderer {
   resize(): void {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2) * this.renderScale);
+    this.renderer.setPixelRatio(gameplayPixelRatio(window.devicePixelRatio, this.renderScale, this.mobile, this.adaptiveRenderScale));
     this.renderer.setSize(width, height, false);
     this.camera.aspect = width / Math.max(1, height);
     this.camera.updateProjectionMatrix();
@@ -489,6 +501,8 @@ export class Renderer {
     const next = THREE.MathUtils.clamp(scale, 0.5, 1);
     if (next === this.renderScale) return;
     this.renderScale = next;
+    this.framePacer.resetResolution();
+    this.adaptiveRenderScale = 1;
     this.resize();
   }
 
@@ -731,6 +745,9 @@ export class Renderer {
   }
 
   render(nowMs: number): void {
+    if (!this.canRenderFrame()) return;
+    const scale = this.framePacer.resolutionScale();
+    if (scale !== this.adaptiveRenderScale) { this.adaptiveRenderScale = scale; this.resize(); }
     if (this.biomeWeightsSource) this.biomeAtmosphere.setWeights(this.biomeWeightsSource());
     if (this.wildernessMagicSource) this.biomeAtmosphere.setWildernessMagic(this.wildernessMagicSource());
     this.biomeAtmosphere.updateEnvironment(this.scene, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
@@ -752,7 +769,7 @@ export class Renderer {
       this.hemisphere.intensity = THREE.MathUtils.lerp(this.hemisphere.intensity, .65, underground);
     }
     const context = this.renderer.getContext();
-    if ("createQuery" in context && !this.gpuTimer) {
+    if (this.gpuTimingEnabled && "createQuery" in context && !this.gpuTimer) {
       // WebGL elapsed queries cannot overlap. Whole-frame and shadow-only samples alternate.
       this.gpuTimer = new GpuTimer(context, 20, 0);
       this.shadowGpuTimer = new GpuTimer(context, 20, 10);
@@ -789,6 +806,7 @@ export class Renderer {
       this.cpuSubmitMs = performance.now() - submitStart;
       this.gpuTimer?.end();
     }
+    this.framePacer.submit(nowMs);
 
     if (this.lastFrameAt > 0) {
       const frameMs = nowMs - this.lastFrameAt;
@@ -966,8 +984,16 @@ export class Renderer {
     return { ...this.stats };
   }
 
+  getFramePressureMs(): number { return this.framePacer.pressureMs(performance.now()); }
+
+  canRenderFrame(): boolean { return this.framePacer.ready(performance.now()); }
+
+  /** No driver calls: safe to sample alongside input without perturbing GPU timings. */
+  getPresentationState() { return this.framePacer.snapshot(performance.now()); }
+
   /** A stopped render loop is not a slow frame. Start a fresh window when it resumes. */
   resetFrameTiming(): void {
+    this.framePacer.resetTiming();
     this.lastFrameAt = 0;
     this.frameTimes.length = 0;
   }
@@ -977,6 +1003,7 @@ export class Renderer {
     const info = gl.getExtension("WEBGL_debug_renderer_info");
     return {
       cpuPrepareMs: this.cpuPrepareMs, cpuSubmitMs: this.cpuSubmitMs, cpuShadowMs: this.cpuShadowMs,
+      presentation: this.getPresentationState(), gpuTimingEnabled: this.gpuTimingEnabled,
       gpu: this.gpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
       gpuShadow: this.shadowGpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
       gpuAntialiasing: this.screenAntialiasing.getTiming(),
@@ -1006,6 +1033,8 @@ export class Renderer {
   }
 
   dispose(): void {
+    this.renderer.domElement.removeEventListener('webglcontextrestored', this.restoreFramePacer);
+    this.framePacer.dispose();
     this.biomeAtmosphere.dispose();
     this.playerSilhouette.dispose();
     this.screenAntialiasing.dispose();

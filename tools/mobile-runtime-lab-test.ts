@@ -39,7 +39,7 @@ try {
     const d = w.__gameDebug;
     d.teleport([-58,d.groundHeight(-58,26),26]);
     const p = d.getPlayerPosition();
-    d.inspectPose({ x:p.x,y:p.y,z:p.z,yaw:Math.PI,pitch:.45,distance:16 });
+    d.inspectPose({ x:p.x,y:p.y,z:p.z,yaw:Math.PI,pitch:.45,distance:11 });
   });
   await page.getByRole('button',{name:'Close Feature lab',exact:true}).click();
   await page.waitForFunction(()=>(window as any).__renderDistanceLab.shaders().waiting===0,undefined,{timeout:10000});

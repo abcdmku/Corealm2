@@ -23,13 +23,13 @@ export type ShadowQuality = "off" | "low" | "high";
 export type DrawDistance = "near" | "medium" | "far";
 
 export interface UiSettings extends AudioVolumes {
-  /** Fraction of the native drawing-buffer resolution. */
+  /** Upper resolution preference; the renderer can reduce pixel cost under GPU overload. */
   renderScale: RenderScale;
   /** Off, a 1024 px map, or a 2048 px map. */
   shadowQuality: ShadowQuality;
   /** Camera and fog range preset. */
   drawDistance: DrawDistance;
-  /** Adapt view distance to sustained frame performance; other graphics settings stay manual. */
+  /** Adapt view distance to sustained frame performance. */
   autoDrawDistance: boolean;
   /** Floating damage numbers over combat. */
   damageNumbers: boolean;

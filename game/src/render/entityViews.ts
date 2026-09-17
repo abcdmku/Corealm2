@@ -1422,6 +1422,7 @@ export interface EntityViewStats {
   instancedMeshes: number;
   uniqueViews: number;
   rigBuilds: number;
+  pendingAnimations: number;
   rigReleases: number;
   /** Unique views carrying a live `AnimationMixer`. */
   riggedViews: number;
@@ -1789,6 +1790,7 @@ export class EntityViews {
   private readonly groundHeightAt: (x: number, z: number, referenceY: number) => number;
   private readonly schedulePreparation: EntityViewOptions['schedulePreparation'];
   private readonly pendingViews = new Map<EntityId, Promise<void>>();
+  private readonly pendingAnimationPreparations = new Set<Promise<void>>();
   private readonly pickProxy = new THREE.Mesh();
   private readonly pickMatrix = new THREE.Matrix4();
   private readonly pickPartBounds = new THREE.Box3();
@@ -1929,6 +1931,7 @@ export class EntityViews {
     );
     this.reconcileActiveSet();
     await Promise.all(this.pendingViews.values());
+    await Promise.all(this.pendingAnimationPreparations);
     return this.residencyStats();
   }
 
@@ -2799,6 +2802,9 @@ export class EntityViews {
     if (!record.unique || record.archetype === "boss") return false;
     const group = this.groups.get(record.groupKey);
     if (!group) return false;
+    // Keep the live animation until its shared replacement has finished sampling.
+    // Baking all clips here used to block input for ~100 ms on mobile CPU tests.
+    if (record.playback && group.posed && !this.ensureAnimationLod(group, record)) return false;
     const slot = record.slot >= 0 ? record.slot : this.takeSlot(group, record.entityId);
     if (slot < 0) return false;
     this.releaseUnique(record);
@@ -3037,7 +3043,7 @@ export class EntityViews {
   /** Builds one shared palette for a group's animated instances, independent of actor count. */
   private ensureAnimationLod(group: InstanceGroup, record: ViewRecord): AnimationLod | null {
     group.animationLodUsedAt = this.resourceTimeSeconds;
-    if (group.animationLod) return group.animationLod;
+    if (group.animationLod) return group.animationLod.ready ? group.animationLod : null;
     if (!group.posed || group.archetype === "fishing_spot") return null;
     const source = this.sourceOf(group.assetId);
     if (!source) return null;
@@ -3054,21 +3060,46 @@ export class EntityViews {
     const fallbackHit = this.motionClip(record, "hit");
     if (fallbackHit) clips.set(fallbackHit.name, fallbackHit);
     if (record.playback) clips.set(record.playback.clip.name, record.playback.clip);
+    let lod: AnimationLod;
     try {
-      group.animationLod = new AnimationLod(
+      lod = new AnimationLod(
         this.group, root, animationRoot, [...clips.values()],
         (material) => this.variantFor(material, group.assetId, group.archetype, group.tier, group.regionId, false),
+        true,
       );
-    } finally {
+      group.animationLod = lod;
+      const advance = () => { if (group.animationLod === lod) lod.prepare(2); };
+      const first = this.schedulePreparation?.(advance);
+      if (first) {
+        const pending = first.then(async () => {
+          while (group.animationLod === lod && lod.preparing) {
+            const scheduled = this.schedulePreparation?.(advance);
+            if (scheduled) await scheduled;
+            else lod.prepare(Infinity);
+          }
+          this.trimAnimationLods(group);
+        }).finally(() => { dressed?.dispose(); this.pendingAnimationPreparations.delete(pending); });
+        this.pendingAnimationPreparations.add(pending);
+        return null;
+      }
+      lod.prepare(Infinity);
+    } catch (error) {
       dressed?.dispose();
+      throw error;
     }
+    dressed?.dispose();
+    this.trimAnimationLods(group);
+    return lod;
+  }
+
+  private trimAnimationLods(group: InstanceGroup): void {
     // Groups outlive their resident entities. Keep revisiting a town cheap without accumulating
     // every town's animation atlases for the rest of a long play session.
     let cachedBytes = 0;
     for (const candidate of this.groups.values()) cachedBytes += candidate.animationLod?.textureBytes ?? 0;
     if (cachedBytes > 128 * 1024 * 1024) {
       const dormant = [...this.groups.values()]
-        .filter((candidate) => candidate !== group && candidate.animationLod?.drawCalls === 0)
+        .filter((candidate) => candidate !== group && candidate.animationLod?.ready && candidate.animationLod.drawCalls === 0)
         .sort((a, b) => a.animationLodUsedAt - b.animationLodUsedAt);
       for (const candidate of dormant) {
         if (cachedBytes <= 128 * 1024 * 1024) break;
@@ -3077,7 +3108,6 @@ export class EntityViews {
         candidate.animationLod = null;
       }
     }
-    return group.animationLod;
   }
 
   /**
@@ -5754,7 +5784,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       ? "live-rig"
       : record.unique && !this.preparingUniques.has(record)
         ? "unique-static"
-        : group?.animationLod && record.playback
+        : group?.animationLod?.ready && record.playback
           ? "sampled-rig"
         : group?.posed
           ? "baked"
@@ -5951,6 +5981,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       drawnInstancedMeshes,
       uniqueViews: unique,
       rigBuilds: this.rigBuilds,
+      pendingAnimations: this.pendingAnimationPreparations.size,
       rigReleases: this.rigReleases,
       riggedViews: this.animated.size,
       animatedLastFrame: this.animatedLastFrame,

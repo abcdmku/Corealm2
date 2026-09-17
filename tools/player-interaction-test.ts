@@ -5,13 +5,15 @@ import { preview } from 'vite';
 import { startGameServer } from './lib/server.js';
 import { gameRoot } from './lib/paths.js';
 import { installTestDeadline } from './lib/deadline.js';
+import { armInputResponse, collectInputResponse, assertInputResponse } from './lib/input-response.js';
 
 const mobile = process.argv.includes('--mobile'), world = process.argv.includes('--world');
 const cave = process.argv.includes('--cave');
+const latency = process.argv.includes('--latency'), qualityMax = process.argv.includes('--quality-max');
 assert.ok(!cave || world, '--cave requires the release world');
 const deadline = installTestDeadline('Player interaction', world ? 120_000 : 60_000);
 let close: () => Promise<void>, url: string;
-if (world) {
+if (world && !process.argv.includes('--source')) {
   const server = await preview({root:gameRoot,preview:{host:'127.0.0.1',port:0}});
   const address = server.httpServer.address();
   assert.ok(address && typeof address !== 'string'); url = `http://127.0.0.1:${address.port}`;
@@ -23,18 +25,34 @@ const out = `test-results/player-interaction/${cave?'cave':world?'world':'lab'}-
 await mkdir(out,{recursive:true});
 const report: Record<string,any> = {}, errors: string[] = [];
 let activePage: import('playwright').Page | undefined;
+let profiler: import('playwright').CDPSession | undefined;
 try {
-  const context = await browser.newContext({viewport:mobile?{width:844,height:390}:{width:1280,height:800},
+  const context = await browser.newContext({viewport:mobile?{width:844,height:390}:qualityMax?{width:2121,height:974}:{width:1280,height:800},
     hasTouch:mobile,isMobile:mobile,deviceScaleFactor:mobile?2:1});
   const page = await context.newPage();
   activePage = page;
   page.on('pageerror',error=>errors.push(error.message));
   page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
   await page.addInitScript({content:'window.__name = value => value;'});
+  if(qualityMax)await page.addInitScript(()=>localStorage.setItem('corealm.settings.v1',JSON.stringify({renderScale:1,shadowQuality:'high',drawDistance:'near',autoDrawDistance:true})));
   await page.goto(`${url}/${world?'':'?mode=combat&performance=1'}`,{waitUntil:'commit'});
   await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready,undefined,{timeout:50_000});
   const cdp = await context.newCDPSession(page);
   await cdp.send('Emulation.setCPUThrottlingRate',{rate:mobile?2:1});
+  if(process.argv.includes('--profile')) {
+    profiler=cdp;
+    await cdp.send('Performance.enable');
+    const {metrics}=await cdp.send('Performance.getMetrics');
+    report.navigationStartMs=metrics.find(m=>m.name==='NavigationStart')!.value*1000;
+    await cdp.send('Profiler.enable');await cdp.send('Profiler.start');
+    await cdp.send('Tracing.start',{categories:'devtools.timeline,v8,blink,cc,gpu,disabled-by-default-gpu.service',transferMode:'ReturnAsStream'});
+    await page.evaluate(()=>{
+      const w=window as any,original=w.__interactionFeedback.snapshot;
+      w.__probeCost={count:0,total:0,max:0};
+      w.__interactionFeedback.snapshot=()=>{const at=performance.now(),result=original(),ms=performance.now()-at;
+        w.__probeCost.count++;w.__probeCost.total+=ms;w.__probeCost.max=Math.max(w.__probeCost.max,ms);return result;};
+    });
+  }
   if(cave) {
     await page.evaluate(async()=>{
       const d=(window as any).__gameDebug,p=d.getEntity('gravelmaw_mouth_portal');
@@ -96,7 +114,9 @@ try {
   });
   const healthBefore=await page.evaluate(id=>(window as any).__gameDebug.getEntity(id).combat.health,target);
   report.healthBefore=healthBefore;
+  if(latency)await armInputResponse(page,{kind:'attack',target},mobile?'pointerup':'pointerdown');
   await tap(point[0],point[1],true);
+  if(latency)report.attackResponse=await collectInputResponse(page);
   await page.waitForFunction(id=>(window as any).__gameDebug.getState().combatTargetId===id,target,{timeout:1000});
   await page.waitForTimeout(100);
   report.attack=await page.evaluate(()=>({state:(window as any).__gameDebug.getState(),feedback:(window as any).__interactionFeedback.snapshot()}));
@@ -123,21 +143,23 @@ try {
       };requestAnimationFrame(frame);
     },{capture:true,once:true});
   },mobile);
+  if(latency)await armInputResponse(page,{kind:'movement'},mobile?'pointerdown':'keydown');
   if(stick) {
     await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:stick.x+stick.width/2+30,y:stick.y+stick.height/2,id:2}]});
   } else await page.keyboard.down('d');
   await page.waitForTimeout(450);
   if(mobile) await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   else await page.keyboard.up('d');
+  if(latency)report.movementResponse=await collectInputResponse(page);
   await page.waitForTimeout(200);
   report.movement=await page.evaluate(()=>({origin:(window as any).__movementOrigin,samples:(window as any).__movementSamples}));
   const origin=report.movement.origin;
   const first=report.movement.samples.find((s:any)=>s.combat===null&&Math.hypot(s.position.x-origin.x,s.position.z-origin.z)>.002);
-  assert.ok(first&&first.ms<100,`Movement started at ${first?.ms} ms`);
-  assert.ok(Math.hypot(first.drawn[0]-first.position.x,first.drawn[2]-first.position.z)<.003,
-    'The drawn player must use the current movement pose');
+  const firstDrawn=report.movement.samples.find((s:any)=>s.combat===null&&Math.hypot(s.position.x-origin.x,s.position.z-origin.z)>.002
+    &&Math.hypot(s.drawn[0]-s.position.x,s.drawn[2]-s.position.z)<.003);
+  report.firstCurrentDrawnMs=firstDrawn?.ms??null;
   assert.ok(report.movement.samples.some((s:any)=>s.combat===null),'Direct input must cancel combat');
-  report.firstMovementMs=first.ms;
+  report.firstMovementMs=first?.ms??null;
   // Select clear ground through the shared read-only picker, then send actual pointer input there.
   const ground=await page.evaluate(()=>{
     const w=window as any, width=innerWidth,height=innerHeight;
@@ -149,7 +171,9 @@ try {
     }return null;
   }); assert.ok(ground,'No clear ground for movement feedback');
   const beforeWalk=await page.evaluate(()=>(window as any).__gameDebug.getPlayerPosition());
+  if(latency)await armInputResponse(page,{kind:'walk'},mobile?'pointerup':'pointerdown');
   await tap(ground.x,ground.y);
+  if(latency)report.walkResponse=await collectInputResponse(page);
   // Query on the next animation frame, not after waiting for the shader queue to drain.
   report.walk=await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>resolve((window as any).__interactionFeedback.snapshot()))));
   const walk=report.walk.markers.find((m:any)=>m.name==='walk-destination');
@@ -179,14 +203,52 @@ try {
     navigation:(window as any).__gameDebug.getNavigationState()}));
   assert.ok(Math.hypot(report.afterWalk.player.x-beforeWalk.x,report.afterWalk.player.z-beforeWalk.z)>.1,
     'Clicking clear ground must move the player');
+  if(latency) {
+    report.repeatedResponses=[];
+    // Cancel the existing route through real input before timing fresh movement starts.
+    await page.keyboard.down('d');await page.waitForTimeout(60);await page.keyboard.up('d');
+    for(let i=0;i<8;i++) {
+      await page.waitForFunction(() => !(window as any).__gameDebug.getPlayer().moving,undefined,{timeout:2000});
+      await armInputResponse(page,{kind:'movement'},mobile?'pointerdown':'keydown');
+      if(stick)await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:stick.x+stick.width/2+(i%2?-30:30),y:stick.y+stick.height/2,id:2}]});
+      else await page.keyboard.down(i%2?'a':'d');
+      await page.waitForTimeout(300);
+      if(mobile)await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+      else await page.keyboard.up(i%2?'a':'d');
+      report.repeatedResponses.push(await collectInputResponse(page));
+      await page.waitForTimeout(300);
+      if(world) {
+        const menu=await page.getByRole('button',{name:'Open menu',exact:true}).boundingBox();assert.ok(menu);
+        await armInputResponse(page,{kind:'menu'},'pointerup');
+        await tap(menu.x+menu.width/2,menu.y+menu.height/2);
+        report.repeatedResponses.push(await collectInputResponse(page));
+        await page.getByRole('button',{name:'Return to game',exact:true}).click();
+      }
+    }
+  }
   report.picking=await page.evaluate(()=>{
     const w=window as any,times:number[]=[];
     for(let i=0;i<30;i++) {const at=performance.now();w.__interactionFeedback.pick(innerWidth*(.2+(i%6)*.11),innerHeight*(.3+Math.floor(i/6)*.08));times.push(performance.now()-at);}
     return {maxMs:Math.max(...times),meanMs:times.reduce((a,b)=>a+b,0)/times.length};
   });
-  assert.deepEqual(errors,[]); report.passed=true;
-  console.log(JSON.stringify({out,target,firstMovementMs:report.firstMovementMs,damage:report.damage,picking:report.picking,walk},null,2));
+  assert.deepEqual(errors,[]);
+  assert.ok(report.firstMovementMs!==null&&report.firstMovementMs<100,`Movement started at ${report.firstMovementMs} ms`);
+  assert.ok(report.firstCurrentDrawnMs!==null&&report.firstCurrentDrawnMs<250,'The next admitted draw must promptly use the current movement pose');
+  if(latency)for(const response of [report.attackResponse,report.movementResponse,report.walkResponse,...report.repeatedResponses])assertInputResponse(response);
+  report.passed=true;
+  console.log(JSON.stringify({out,target,firstMovementMs:report.firstMovementMs,damage:report.damage,picking:report.picking,walk,
+    responses:latency?[report.attackResponse,report.movementResponse,report.walkResponse,...report.repeatedResponses]:undefined},null,2));
 } finally {
+  if(profiler) {
+    const {profile}=await profiler.send('Profiler.stop');
+    report.profileStartMs=profile.startTime/1000-report.navigationStartMs;
+    await writeFile(`${out}/cpu.json`,JSON.stringify(profile));
+    const completed=new Promise<any>(resolve=>profiler!.once('Tracing.tracingComplete',resolve));
+    await profiler.send('Tracing.end');const {stream}=await completed;
+    let trace='';for(;;){const part=await profiler.send('IO.read',{handle:stream});trace+=part.data;if(part.eof)break;}
+    await profiler.send('IO.close',{handle:stream});await writeFile(`${out}/trace.json`,trace);
+    report.probeCost=await activePage!.evaluate(()=>(window as any).__probeCost);
+  }
   if(activePage && !activePage.isClosed()) {
     report.final = await activePage.evaluate(id=>{
       const w=window as any;return {state:w.__gameDebug?.getState(),entity:w.__gameDebug?.getEntity(id),

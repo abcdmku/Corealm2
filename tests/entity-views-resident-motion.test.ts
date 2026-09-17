@@ -81,6 +81,31 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it('keeps the animated rig until sliced distant preparation completes', async () => {
+    const f = await fixture([actor('handoff')]);
+    try {
+      const views = f.views as any, jobs: (() => void)[] = [];
+      f.views.update(.016, new THREE.Vector3());
+      const record = views.records.get('handoff'), retained = record.unique;
+      const group = views.groups.get(record.groupKey);
+      group.animationLod.dispose(); group.animationLod = null;
+      views.schedulePreparation = (work: () => void) => new Promise<void>(resolve => jobs.push(() => { work(); resolve(); }));
+      f.views.update(.016, new THREE.Vector3(100, 0, 0));
+      expect(record.unique).toBe(retained);
+      expect(jobs.length).toBe(1);
+      const initialTime = f.views.motionSnapshot('handoff')!.time;
+      f.views.update(.016, new THREE.Vector3(100, 0, 0));
+      expect(f.views.motionSnapshot('handoff')!.time).not.toBe(initialTime);
+      for (let i = 0; i < 200 && !group.animationLod.ready; i++) {
+        jobs.shift()?.(); await Promise.resolve();
+      }
+      expect(group.animationLod.ready).toBe(true);
+      f.views.update(.016, new THREE.Vector3(100, 0, 0));
+      expect(record.unique).toBeNull();
+      expect(f.views.motionSnapshot('handoff')!.path).toBe('sampled-rig');
+      expect(f.views.drawnBounds('handoff')).not.toBeNull();
+    } finally { f.dispose(); }
+  });
   it('keeps affordable rigs when a higher-priority actor cannot fit the entire pool', async () => {
     const costly = actor('costly'), cheap = actor('cheap',[3,0,0]);
     costly.view!.assetId='test_creature_costly';
