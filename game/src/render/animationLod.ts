@@ -23,6 +23,8 @@ interface Palette {
   uploaded: boolean;
   dirtyFrames: Set<number>;
   influences: { bone: number; index: number; bounds: THREE.Box3 }[];
+  /** Joint anchors at the same sample times as the skin matrices, in model space. */
+  anchors: Float32Array;
 }
 interface Part {
   source: THREE.Material;
@@ -178,7 +180,7 @@ export class AnimationLod {
   terrainSnapshot(slot: number) {
     const pose = this.terrainPoses.get(slot), frame = this.overlayFrames.get(slot);
     if (!pose || frame === undefined) return null;
-    this.writeOverlay(this.sampleCount + frame, pose);
+    this.writeOverlay(this.sampleCount + frame, pose, false);
     return terrainRigSnapshot(this.samplingRoot!);
   }
   readonly sampleCount: number;
@@ -186,6 +188,7 @@ export class AnimationLod {
   private readonly palettes: Palette[] = [];
   private readonly parts: Part[] = [];
   private readonly slots = new Map<number, number>();
+  private readonly placements = new Map<number, THREE.Matrix4>();
   private readonly rows: number[] = [];
   private capacity = 16;
   private frames = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 4), 4).setUsage(THREE.DynamicDrawUsage);
@@ -193,10 +196,14 @@ export class AnimationLod {
   private disposed = false;
   private readonly scratchMatrix = new THREE.Matrix4();
   private readonly scratchColor = new THREE.Color();
+  private readonly terrainMatrix = new THREE.Matrix4();
+  private readonly terrainInverse = new THREE.Matrix4();
+  private readonly terrainAnchor = new THREE.Vector3();
   private samplingRoot: THREE.Object3D | null = null;
   private samplingAnimationRoot: THREE.Object3D | null = null;
   private samplingMixer: THREE.AnimationMixer | null = null;
   private samplingMeshes: THREE.Mesh[] = [];
+  private sampledTerrainSupported = true;
   private readonly replayClips = new Map<THREE.AnimationClip, THREE.AnimationClip>();
   private readonly overlayFrames = new Map<number, number>();
   private readonly freeOverlayFrames: number[] = [];
@@ -242,6 +249,12 @@ export class AnimationLod {
     try {
       sampledRoot.updateMatrixWorld(true);
       for (const mesh of meshes) {
+        if ((mesh as THREE.SkinnedMesh).isSkinnedMesh) {
+          if ((mesh as THREE.SkinnedMesh).bindMode !== THREE.AttachedBindMode) this.sampledTerrainSupported = false;
+          for (let parent = mesh.parent; parent; parent = parent.parent) {
+            if ((parent as THREE.Bone).isBone) this.sampledTerrainSupported = false;
+          }
+        }
         if (Object.values(mesh.geometry.morphAttributes).some((attributes) => attributes.length > 0)) {
           throw new Error(`AnimationLod requires skeletal animation; morph targets need a separate renderer: ${mesh.name}`);
         }
@@ -271,6 +284,11 @@ export class AnimationLod {
                 skin.copy(mesh.matrixWorld);
               }
               skin.toArray(data, ((sample.offset + frame) * palette.bones + index) * 16);
+              let anchor: THREE.Object3D | null = skinned.isSkinnedMesh ? skinned.skeleton.bones[bone]! : mesh.parent;
+              while (anchor && !(anchor as THREE.Bone).isBone) anchor = anchor.parent;
+              const at = ((sample.offset + frame) * palette.bones + index) * 3;
+              if (anchor) this.terrainAnchor.setFromMatrixPosition(anchor.matrixWorld).toArray(palette.anchors, at);
+              else palette.anchors[at] = NaN;
               // Weighted skinning and interpolation are convex combinations of these transforms.
               // Their union bounds all vertices, including transitions between different clips.
               unionTransformedBounds(palette.bounds, bounds, skin);
@@ -309,7 +327,10 @@ export class AnimationLod {
       if (!Number.isFinite(pose.time) || !Number.isFinite(pose.blend)
         || (pose.previousTime !== undefined && !Number.isFinite(pose.previousTime))) throw new Error("AnimationLod requires finite base clocks.");
       const frame = this.overlayFrame(slot);
-      this.writeOverlay(frame, pose);
+      // Ground following does not need to replay every animation track and skeleton. Warp
+      // the same interpolated palettes used by the GPU; only additive hits need a live mixer.
+      if (pose.terrain && !hasOverlay && this.sampledTerrainSupported) this.writeTerrain(frame, pose, current, previous);
+      else this.writeOverlay(frame, pose);
       if (pose.terrain) {
         const previousTerrain = this.terrainPoses.get(slot)?.terrain;
         const terrain = previousTerrain ?? { ...pose.terrain, placement: new THREE.Matrix4(), origin: new THREE.Vector3() };
@@ -327,23 +348,31 @@ export class AnimationLod {
       this.slots.set(slot, row);
       this.rows.push(slot);
     }
-    this.frames.setXYZW(row, current[0], current[1], current[2], !dynamic && pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1);
-    this.previousFrames.setXYZW(row, previous[0], previous[1], previous[2], THREE.MathUtils.clamp(pose.opacity ?? 1, 0, 1));
-    this.frames.needsUpdate = true;
-    this.previousFrames.needsUpdate = true;
+    this.writeFrames(this.frames, row, current[0], current[1], current[2], !dynamic && pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1);
+    this.writeFrames(this.previousFrames, row, previous[0], previous[1], previous[2], THREE.MathUtils.clamp(pose.opacity ?? 1, 0, 1));
+    const placement = this.placements.get(slot);
+    const moved = !placement || !placement.equals(matrix);
+    if (moved) this.placements.set(slot, (placement ?? new THREE.Matrix4()).copy(matrix));
     for (const part of this.parts) {
-      part.mesh.setMatrixAt(row, matrix);
-      part.mesh.setColorAt(row, tintForMaterial?.(part.source) ?? WHITE);
+      if (moved) {
+        part.mesh.setMatrixAt(row, matrix);
+        part.mesh.instanceMatrix.needsUpdate = true;
+        part.mesh.boundingSphere = null;
+        part.mesh.boundingBox = null;
+      }
+      const tint = tintForMaterial?.(part.source) ?? WHITE;
+      part.mesh.getColorAt(row, this.scratchColor);
+      if (Math.fround(tint.r) !== this.scratchColor.r || Math.fround(tint.g) !== this.scratchColor.g || Math.fround(tint.b) !== this.scratchColor.b) {
+        part.mesh.setColorAt(row, tint);
+        part.mesh.instanceColor!.needsUpdate = true;
+      }
       part.mesh.count = this.rows.length;
       part.mesh.visible = true;
-      part.mesh.instanceMatrix.needsUpdate = true;
-      part.mesh.instanceColor!.needsUpdate = true;
-      part.mesh.boundingSphere = null;
-      part.mesh.boundingBox = null;
     }
   }
 
   hide(slot: number): void {
+    this.placements.delete(slot);
     this.releaseOverlayFrame(slot);
     const row = this.slots.get(slot);
     if (row === undefined) return;
@@ -456,6 +485,7 @@ export class AnimationLod {
     this.palettes.length = 0;
     this.rows.length = 0;
     this.slots.clear();
+    this.placements.clear();
   }
 
   private releaseOverlayFrame(slot: number): void {
@@ -507,7 +537,7 @@ export class AnimationLod {
   }
 
   /** One shared mixer composes local rotations before skinning; matrix-space addition is invalid. */
-  private writeOverlay(frame: number, pose: LodPose): void {
+  private writeOverlay(frame: number, pose: LodPose, upload = true): void {
     const mixer = this.samplingMixer!, root = this.samplingRoot!, overlay = pose.overlay!;
     restoreTerrainRig(root);
     const blend = pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1;
@@ -531,6 +561,7 @@ export class AnimationLod {
     mixer.update(0);
     if (pose.terrain) conformTerrainRig(root, pose.terrain);
     else root.updateMatrixWorld(true);
+    if (!upload) return;
     const skin = new THREE.Matrix4(), bind = new THREE.Matrix4();
     for (let part = 0; part < this.samplingMeshes.length; part++) {
       const mesh = this.samplingMeshes[part]!, skinned = mesh as THREE.SkinnedMesh, palette = this.palettes[part]!;
@@ -544,22 +575,85 @@ export class AnimationLod {
         skin.toArray(data, (frame * palette.bones + index) * 16);
         unionTransformedBounds(palette.bounds, bounds, skin);
       }
-      // Three's partial texture updates must not cross a texel row. Before first upload or
-      // after resizing, leave ranges empty so the complete baked library uploads as well.
-      if (palette.uploaded && !palette.dirtyFrames.has(frame)) {
-        palette.dirtyFrames.add(frame);
-        const rowWidth = palette.texture.image.width * 4;
-        let start = frame * palette.bones * 16, remaining = palette.bones * 16;
-        while (remaining > 0) {
-          const count = Math.min(remaining, rowWidth - start % rowWidth);
-          palette.texture.addUpdateRange(start, count); start += count; remaining -= count;
-        }
-      }
-      palette.texture.needsUpdate = true;
+      this.dirtyPaletteFrame(palette, frame);
     }
+    this.refreshBounds();
+  }
+
+  private writeFrames(attribute: THREE.InstancedBufferAttribute, row: number, x: number, y: number, z: number, w: number): void {
+    if (attribute.getX(row) === x && attribute.getY(row) === y
+      && attribute.getZ(row) === Math.fround(z) && attribute.getW(row) === Math.fround(w)) return;
+    attribute.setXYZW(row, x, y, z, w);
+    attribute.needsUpdate = true;
+  }
+
+  private writeTerrain(frame: number, pose: LodPose, current: readonly number[], previous: readonly number[]): void {
+    const terrain = pose.terrain!, placement = terrain.placement;
+    const inverse = this.terrainInverse.copy(placement).invert();
+    const matrix = this.terrainMatrix, anchor = this.terrainAnchor;
+    const blend = pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1;
+    const weights = [(1 - current[2]!) * blend, current[2]! * blend,
+      (1 - previous[2]!) * (1 - blend), previous[2]! * (1 - blend)];
+    const frames = [current[0]!, current[1]!, previous[0]!, previous[1]!];
+    const base = terrain.heightAt(terrain.origin.x, terrain.origin.z);
+    for (const palette of this.palettes) {
+      const data = palette.texture.image.data as Float32Array;
+      for (const { index, bounds } of palette.influences) {
+        const elements = matrix.elements;
+        elements.fill(0); anchor.set(0, 0, 0);
+        for (let sample = 0; sample < 4; sample++) {
+          const weight = weights[sample]!;
+          if (weight === 0) continue;
+          const source = (frames[sample]! * palette.bones + index);
+          for (let element = 0; element < 16; element++) elements[element] = elements[element]! + data[source * 16 + element]! * weight;
+          anchor.x += palette.anchors[source * 3]! * weight;
+          anchor.y += palette.anchors[source * 3 + 1]! * weight;
+          anchor.z += palette.anchors[source * 3 + 2]! * weight;
+        }
+        if (Number.isFinite(base) && Number.isFinite(anchor.x)) {
+          anchor.applyMatrix4(placement);
+          const { x, z } = anchor, e = .04;
+          const h = terrain.heightAt(x, z);
+          const dx = (terrain.heightAt(x + e, z) - terrain.heightAt(x - e, z)) / (2 * e);
+          const dz = (terrain.heightAt(x, z + e) - terrain.heightAt(x, z - e)) / (2 * e);
+          if (Number.isFinite(h) && Number.isFinite(dx) && Number.isFinite(dz)) {
+            matrix.premultiply(placement);
+            // Apply the terrain tangent's affine Y row, preserving scale, shear and binding.
+            for (let column = 0; column < 16; column += 4) elements[column + 1] = elements[column + 1]! + dx * elements[column]!
+              + dz * elements[column + 2]! + (h - base - dx * x - dz * z) * elements[column + 3]!;
+            matrix.premultiply(inverse);
+          }
+        }
+        matrix.toArray(data, (frame * palette.bones + index) * 16);
+        unionTransformedBounds(palette.bounds, bounds, matrix);
+      }
+      this.dirtyPaletteFrame(palette, frame);
+    }
+    this.refreshBounds();
+  }
+
+  private dirtyPaletteFrame(palette: Palette, frame: number): void {
+    // Three's partial texture updates must not cross a texel row. Before first upload or
+    // after resizing, leave ranges empty so the complete baked library uploads as well.
+    if (palette.uploaded && !palette.dirtyFrames.has(frame)) {
+      palette.dirtyFrames.add(frame);
+      const rowWidth = palette.texture.image.width * 4;
+      let start = frame * palette.bones * 16, remaining = palette.bones * 16;
+      while (remaining > 0) {
+        const count = Math.min(remaining, rowWidth - start % rowWidth);
+        palette.texture.addUpdateRange(start, count); start += count; remaining -= count;
+      }
+    }
+    palette.texture.needsUpdate = true;
+  }
+
+  private refreshBounds(): void {
     for (const part of this.parts) {
+      if (part.geometry.boundingBox!.equals(part.palette.bounds)) continue;
       part.geometry.boundingBox!.copy(part.palette.bounds);
       part.palette.bounds.getBoundingSphere(part.geometry.boundingSphere!);
+      part.mesh.boundingSphere = null;
+      part.mesh.boundingBox = null;
     }
   }
 
@@ -611,7 +705,8 @@ export class AnimationLod {
     texture.generateMipmaps = false;
     texture.needsUpdate = true;
 
-    const palette = { texture, bones, influences, bounds: new THREE.Box3(), mirrored: mesh.matrixWorld.determinant() < 0, uploaded: false, dirtyFrames: new Set<number>() };
+    const palette = { texture, bones, influences, anchors: new Float32Array(this.sampleCount * bones * 3),
+      bounds: new THREE.Box3(), mirrored: mesh.matrixWorld.determinant() < 0, uploaded: false, dirtyFrames: new Set<number>() };
     texture.onUpdate = () => { palette.uploaded = true; palette.dirtyFrames.clear(); };
     return palette;
   }

@@ -1,4 +1,5 @@
 import type { Archetype, EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
+import { isStableRenderSnapshot } from '../world/entities.js';
 
 const DEFAULT_CELL_SIZE = 64;
 const DEFAULT_ACTIVE_RADIUS = 160;
@@ -50,6 +51,8 @@ export class EntityActiveSet {
   private readonly membership = new Map<EntityId, { key: string | null; seen: number }>();
   private generation = 0;
   private selectedCache: readonly SemanticEntity[] | null = null;
+  private stableSnapshot: readonly SemanticEntity[] | null = null;
+  private moving: SemanticEntity[] = [];
 
   constructor(options: EntityActiveSetOptions = {}) {
     this.cellSize = positiveFinite(options.cellSize ?? DEFAULT_CELL_SIZE, "cellSize");
@@ -62,29 +65,15 @@ export class EntityActiveSet {
 
   /** Refreshes the snapshot, moving only changed rows between spatial cells. */
   replace(entities: readonly SemanticEntity[]): void {
-    const generation = ++this.generation;
-    for (const entity of entities) {
-      this.entities.set(entity.id, entity);
-      this.regions.set(entity.id, entity.regionId);
-      const previous = this.positions.get(entity.id);
-      const position = entity.position;
-      const moved = !previous || previous[0] !== position[0]
-        || previous[1] !== position[1] || previous[2] !== position[2];
-      if (moved) this.positions.set(entity.id, copyPosition(position));
-      const member = this.membership.get(entity.id);
-      const key = !entity.view ? null : member?.key && !moved
-        ? member.key : cellKey(position, this.cellSize);
-      if (!member || member.key !== key) {
-        if (member?.key) this.removeFromCell(entity.id, member.key);
-        if (key) {
-          let cell = this.cells.get(key);
-          if (!cell) this.cells.set(key, cell = new Set());
-          cell.add(entity.id);
-        }
-      }
-      if (member) { member.key = key; member.seen = generation; }
-      else this.membership.set(entity.id, { key, seen: generation });
+    if (entities === this.stableSnapshot) {
+      for (const entity of this.moving) this.updateEntry(entity, this.generation);
+      this.selectedCache = null;
+      return;
     }
+    this.stableSnapshot = isStableRenderSnapshot(entities) ? entities : null;
+    this.moving = entities.filter(isActorEntity);
+    const generation = ++this.generation;
+    for (const entity of entities) this.updateEntry(entity, generation);
     for (const [id, member] of this.membership) {
       if (member.seen === generation) continue;
       if (member.key) this.removeFromCell(id, member.key);
@@ -95,6 +84,29 @@ export class EntityActiveSet {
     }
     // The final selection is sorted, so bucket insertion order never affects residency.
     this.selectedCache = null;
+  }
+
+  private updateEntry(entity: SemanticEntity, generation: number): void {
+    this.entities.set(entity.id, entity);
+    this.regions.set(entity.id, entity.regionId);
+    const previous = this.positions.get(entity.id);
+    const position = entity.position;
+    const moved = !previous || previous[0] !== position[0]
+      || previous[1] !== position[1] || previous[2] !== position[2];
+    if (moved) this.positions.set(entity.id, copyPosition(position));
+    const member = this.membership.get(entity.id);
+    const key = !entity.view ? null : member?.key && !moved
+      ? member.key : cellKey(position, this.cellSize);
+    if (!member || member.key !== key) {
+      if (member?.key) this.removeFromCell(entity.id, member.key);
+      if (key) {
+        let cell = this.cells.get(key);
+        if (!cell) this.cells.set(key, cell = new Set());
+        cell.add(entity.id);
+      }
+    }
+    if (member) { member.key = key; member.seen = generation; }
+    else this.membership.set(entity.id, { key, seen: generation });
   }
 
   private removeFromCell(id: EntityId, key: string): void {

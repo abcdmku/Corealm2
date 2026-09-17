@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 import { afterEach, expect, it, vi } from 'vitest';
 import { configureAssetDelivery, deliveryUrl } from '../game/src/render/assetDelivery.js';
-import { drawDistanceMetres } from '../game/src/render/renderer.js';
+import { drawDistanceMetres, fogOpaqueMetres } from '../game/src/render/renderer.js';
 
 afterEach(() => {
   configureAssetDelivery('/assets/');
   vi.unstubAllGlobals();
 });
 
-it.each([false, true])('routes authored textures for coarse pointer %s without changing other URLs or distance presets', coarse => {
+it.each([false, true])('routes authored textures and bounded distance presets for coarse pointer %s', coarse => {
   vi.stubGlobal('document', { baseURI: 'https://game.example/play/' });
   vi.stubGlobal('matchMedia', () => ({ matches: coarse }));
   configureAssetDelivery('/assets/', { 'paint.png': 'compact/paint.webp' }, { 'paint.png': 'optimized/paint.webp' });
@@ -19,7 +19,9 @@ it.each([false, true])('routes authored textures for coarse pointer %s without c
     expect(deliveryUrl(url)).toBe(url);
   }
   expect(drawDistanceMetres('near')).toBe(coarse ? 65 : 130);
-  expect(drawDistanceMetres('medium')).toBe(210);
+  expect(drawDistanceMetres('medium')).toBe(coarse ? 95 : 210);
+  expect(fogOpaqueMetres('medium')).toBe(coarse ? 65 : 165);
+  expect(fogOpaqueMetres('far')).toBe(coarse ? 105 : 210);
   // A dev manifest must clear the release map, including when the input device changes.
   configureAssetDelivery('/assets/');
   expect(deliveryUrl('/assets/paint.png')).toBe('/assets/paint.png');

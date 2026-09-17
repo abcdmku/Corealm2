@@ -11,12 +11,20 @@ export interface PlayerAssetArea {
 
 /** Adjacent regions share visible content only when they belong to the same map. */
 export function selectPlayerEntities(entities: readonly SemanticEntity[], area: PlayerAssetArea): readonly SemanticEntity[] {
-  const index = new EntityActiveSet();
-  const mapId = worldMapForRegion(area.regionId);
-  index.replace(entities.filter(entity => worldMapForRegion(entity.regionId) === mapId));
-  index.setArea(area.position, area.resourceRadius, area.viewRadius);
-  index.setActorRadius(area.viewRadius);
-  return index.selected();
+  return new PlayerEntitySelector().select(entities, area);
+}
+
+/** Travel reuses the spatial index; stable store snapshots refresh only moving actors. */
+export class PlayerEntitySelector {
+  private readonly index = new EntityActiveSet();
+
+  select(entities: readonly SemanticEntity[], area: PlayerAssetArea): readonly SemanticEntity[] {
+    this.index.replace(entities);
+    this.index.setArea(area.position, area.resourceRadius, area.viewRadius);
+    this.index.setActorRadius(area.viewRadius);
+    const mapId = worldMapForRegion(area.regionId);
+    return this.index.selected().filter(entity => worldMapForRegion(entity.regionId) === mapId);
+  }
 }
 
 /** The backpack and worn items can be used immediately. Banked items are fetched on withdrawal. */

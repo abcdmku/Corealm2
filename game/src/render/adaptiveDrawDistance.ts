@@ -10,6 +10,7 @@ export class AdaptiveDrawDistance {
   private fastWindows = 0;
   private slowWindows = 0;
   private upgradeDelay = 0;
+  private activeWindow = true;
 
   constructor(private distance: DrawDistance) {}
 
@@ -18,30 +19,37 @@ export class AdaptiveDrawDistance {
     this.samples = [];
     this.elapsed = this.fastWindows = this.slowWindows = this.upgradeDelay = 0;
     this.cooldown = 6_000;
+    this.activeWindow = true;
   }
 
-  sample(frameMs: number, eligible = true): DrawDistance | null {
+  sample(frameMs: number, eligible = true, moving = true): DrawDistance | null {
     if (!eligible || !Number.isFinite(frameMs) || frameMs <= 0 || frameMs > 1_000) {
       this.samples = [];
       this.elapsed = this.fastWindows = this.slowWindows = 0;
+      this.activeWindow = true;
       return null;
     }
+    // Quiet frames do not measure the cost of walking into new scenery. They can
+    // still reveal overload, but must not earn an automatic residency expansion.
+    if (!moving) this.fastWindows = 0;
     this.upgradeDelay = Math.max(0, this.upgradeDelay - frameMs);
     if (this.cooldown > 0) {
       this.cooldown -= frameMs;
       return null;
     }
     this.samples.push(frameMs);
+    this.activeWindow &&= moving;
     this.elapsed += frameMs;
     if (this.elapsed < 3_000 || this.samples.length < 8) return null;
     this.samples.sort((a, b) => a - b);
     const percentile = (fraction: number) => this.samples[Math.floor((this.samples.length - 1) * fraction)]!;
     const slow = percentile(0.75) > 26;
-    const fast = percentile(0.9) < 18.5;
+    const fast = this.activeWindow && percentile(0.9) < 18.5;
     this.slowWindows = slow ? this.slowWindows + 1 : 0;
     this.fastWindows = fast ? this.fastWindows + 1 : 0;
     this.samples = [];
     this.elapsed = 0;
+    this.activeWindow = true;
     const index = LEVELS.indexOf(this.distance);
     let next = index;
     if (this.slowWindows >= 2 && index > 0) {

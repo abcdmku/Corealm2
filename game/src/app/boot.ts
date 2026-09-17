@@ -12,7 +12,7 @@ import { FAIRY_COMBAT_PLATEAUS, FAIRY_DEEP_PATH_CLEARINGS } from '../world/fairy
 import { buildFairyTerrainSpec } from './worldSpec.js';
 import { FAIRY_GARDEN_LANDINGS } from '../world/fairyRegionalRelief.js';
 import { FAIRY_PORTAL_LAB_TERRAIN, assembleFairyPortalFixture, createFairyPortalWorkbench } from '../featureLab/fairyPortal.js';
-import { immediatePlayerItems, selectPlayerEntities, type PlayerAssetArea } from '../render/playerAssetPlan.js';
+import { immediatePlayerItems, PlayerEntitySelector, type PlayerAssetArea } from '../render/playerAssetPlan.js';
 import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
 import generationRevision from "virtual:corealm-generation-revision";
 import { GenerationCache } from "../world/generationCache.js";
@@ -1319,8 +1319,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     groundHeightAt: (x, z, y) => groundIndicatorHeight(x, z, y),
     isViewReady: root => renderer.isInteriorReady(root),
     schedulePreparation: work => debugReady && runtimePerformanceEnabled ? assets.prepareGameplayView(work) : undefined,
-    maxUniqueDrawCalls: 96,
-    maxUniqueViews: 16,
+    maxUniqueDrawCalls: profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('rigBudget') === 'tiny' ? 8 : 96,
+    maxUniqueViews: profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('sampledActors') === '1' ? 0 : 16,
     // Equal to `maxUniqueViews`, because a mixer budget UNDER the rig ceiling is where the herd
     // jitter lived: at the default 10, a field with all 16 rigs alive handed the far eleven a
     // rotating five slots, so every walking cow in the group advanced its cycle in uneven 33-50 ms
@@ -1344,8 +1344,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     resourceRadius: (profile.kind === 'feature-lab' ? 220 : ENTITY_ACTIVE_RADIUS) + ahead,
     viewRadius: structureResidencyRadius(clientSettings.get().drawDistance) + ahead,
   });
+  const playerEntitySelector = new PlayerEntitySelector();
   const preparePlayerArea = async (area: PlayerAssetArea, prefetch = false): Promise<void> => {
-    const selected = selectPlayerEntities(entityStore.all(), area);
+    const selected = playerEntitySelector.select(entityStore.renderSnapshot(), area);
     const options = { priority: prefetch ? 'travel-prefetch' as const : 'visible-spawn' as const,
       regionId: area.regionId, primary: !prefetch };
     const cameraCount = structureCamera.meshes.length;
@@ -1359,7 +1360,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (prepared.missing.length) throw new Error(`Could not load nearby objects: ${prepared.missing.join(', ')}`);
     if (structureCamera.meshes.length !== cameraCount) roofVisibility.setSources(structureCamera.meshes);
   };
-  (window as any).__corealmPlayerAssets = { snapshot: () => ({
+  (window as any).__corealmPlayerAssets = {
+    selectArea: (area: PlayerAssetArea) => playerEntitySelector.select(entityStore.renderSnapshot(), area).map(entity => entity.id),
+    snapshot: () => ({
     area: playerAssetArea(store.get().player.position, store.get().player.regionId),
     items: immediatePlayerItems(store.get()),
     sites: siteStreaming.snapshot(playerAssetArea(store.get().player.position, store.get().player.regionId)),
@@ -1869,8 +1872,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   let activeVisualCentre: Vec3 = [...initialPlayerPosition];
   let activeVisualRegion = loadRegion;
-  const entitiesForVisualRegion = (regionId: RegionId): SemanticEntity[] => {
-    return entityStore.all().filter((entity) => worldMapForRegion(entity.regionId) === worldMapForRegion(regionId));
+  const visualRegionFilters = new Map<string, (entity: SemanticEntity) => boolean>();
+  const entitiesForVisualRegion = (regionId: RegionId): readonly SemanticEntity[] => {
+    const map = worldMapForRegion(regionId);
+    let filter = visualRegionFilters.get(map);
+    if (!filter) { filter = entity => worldMapForRegion(entity.regionId) === map; visualRegionFilters.set(map, filter); }
+    return entityStore.renderSnapshot(filter);
   };
   const refreshVisualResidency = (position: Vec3, regionId: RegionId, force = false): void => {
     const regionChanged = regionId !== activeVisualRegion;
@@ -3217,7 +3224,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setFrameObserver((frameMs) => {
     const next = adaptiveDistance.sample(frameMs, runtimePerformanceEnabled && debugReady
       && clientSettings.get().autoDrawDistance && !document.hidden && !clock.paused
-      && store.get().player.regionId !== "gravelmaw");
+      && store.get().player.regionId !== "gravelmaw",
+      movement.getSpeedMps() > 0.1);
     if (next) clientSettings.set({ drawDistance: next });
   });
   if (rigged) loop.setPlayerRig(playerRig);
@@ -3235,7 +3243,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     });
   };
   loop.setEntityViews(entityViews, () => {
-    if (profile.kind === "feature-lab") return entityStore.all();
+    if (profile.kind === "feature-lab") return entityStore.renderSnapshot();
     return entitiesForVisualRegion(store.get().player.regionId);
   }, () => {
     refreshCarriedAssets();

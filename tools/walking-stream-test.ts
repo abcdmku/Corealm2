@@ -17,7 +17,7 @@ const server = await preview({root:gameRoot,preview:{host:'127.0.0.1',port:0}});
 const address = server.httpServer.address();
 if (!address || typeof address === 'string') throw Error('No preview address');
 const browser = await chromium.launch({headless:true,args:[...(process.platform==='win32'?['--use-angle=d3d11']:[]),
-  '--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+  '--enable-gpu','--ignore-gpu-blocklist','--mute-audio','--enable-precise-memory-info']});
 try {
   const context = await browser.newContext({viewport:desktop?{width:1440,height:900}:{width:844,height:390},
     deviceScaleFactor:desktop?1:2,hasTouch:!desktop,isMobile:!desktop,serviceWorkers:'block'});
@@ -35,6 +35,8 @@ try {
     const step=at=>{const phase=window.__travelPhase;if(phase===previousPhase)window.__travelFrames.push({at,ms:at-previous,phase});previous=at;previousPhase=phase;requestAnimationFrame(step)};
     requestAnimationFrame(step);
     new PerformanceObserver(list=>{for(const e of list.getEntries())window.__travelTasks.push({at:e.startTime,ms:e.duration,phase:window.__travelPhase})}).observe({type:'longtask',buffered:true});
+    window.__travelMemory=[];
+    setInterval(()=>window.__travelMemory.push({at:performance.now(),phase:window.__travelPhase,heap:performance.memory?.usedJSHeapSize}),1000);
   })();`});
   if(args.includes('--shaders'))await page.addInitScript(() => {
     const w=window as any;w.__travelShaders=[];
@@ -58,19 +60,34 @@ try {
       }return result;
     }}
   })();`});
+  if(args.includes('--queries'))await page.addInitScript({content:`(() => {
+    window.__travelQueries=[];const p=WebGL2RenderingContext.prototype;
+    for(const name of ['getParameter','getQuery','getQueryParameter','getProgramParameter']){const original=p[name];p[name]=function(...args){
+      const at=performance.now(),result=original.apply(this,args),ms=performance.now()-at;
+      if(ms>4&&window.__travelPhase!=='boot')window.__travelQueries.push({at,name,ms,args:args.filter(x=>typeof x==='number')});return result;
+    }}
+  })();`});
   await page.goto(`http://127.0.0.1:${address.port}/`,{waitUntil:'commit'});
   await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready,undefined,{timeout:60_000});
   await page.locator('#boot-screen').waitFor({state:'detached'});
+  console.log('Playable',await page.evaluate(()=>performance.now()));
   const snapshot = () => page.evaluate(() => {
     const w=window as any,d=w.__gameDebug;
     return {position:d.getPlayerPosition(),camera:d.getCamera(),timings:d.getPerformanceTimings(),
-      loading:w.__corealmPlayerAssets.snapshot(),views:d.getEntityViewStats(),shaders:w.__renderDistanceLab.shaders(),errors:d.getErrors()};
+      loading:w.__corealmPlayerAssets.snapshot(),views:d.getEntityViewStats(),settings:w.__renderDistanceLab.getState().settings,
+      shaders:w.__renderDistanceLab.shaders(),errors:d.getErrors()};
   });
   const states:Record<string,unknown>={start:await snapshot()};
   if(args.includes('--trace'))await cdp.send('Tracing.start',{categories:'devtools.timeline,v8,blink,cc,gpu,disabled-by-default-gpu.service',transferMode:'ReturnAsStream'});
-  if(args.includes('--profile')){await cdp.send('Profiler.enable');await cdp.send('Profiler.start');}
+  let profileStartMs: number | undefined, navigationStartMs = 0;
+  if(args.includes('--profile')){
+    await cdp.send('Performance.enable');
+    const { metrics } = await cdp.send('Performance.getMetrics');
+    navigationStartMs = metrics.find(metric=>metric.name==='NavigationStart')!.value * 1000;
+    await cdp.send('Profiler.enable');await cdp.send('Profiler.start');
+  }
   await page.evaluate(()=>{(window as any).__travelPhase='idle';});
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(Number(value('--idle-ms','4000')));
   states.idle=await snapshot();
   const stick = desktop ? null : await page.getByRole('slider',{name:'Move',exact:true}).boundingBox();
   if(!desktop)assert.ok(stick);
@@ -87,14 +104,27 @@ try {
   await page.evaluate(()=>{(window as any).__travelPhase='settle';});
   const settlingAt = Date.now();
   await page.waitForTimeout(2000);
+  let settlingTimedOut = false;
   await page.waitForFunction(() => {
     const w = window as any, assets = w.__corealmPlayerAssets.snapshot().assets;
     return assets.queued === 0 && assets.inflight === 0
       && w.__gameDebug.getEntityViewStats().residency.pending === 0
       && w.__renderDistanceLab.shaders().waiting === 0;
-  }, undefined, { timeout: 10_000 });
+  }, undefined, { timeout: 10_000 }).catch(error => {
+    if(error.name !== 'TimeoutError') throw error;
+    settlingTimedOut = true;
+  });
   const settledMs = Date.now() - settlingAt;
-  if(args.includes('--profile'))await writeFile(path.join(out,'cpu.json'),JSON.stringify((await cdp.send('Profiler.stop')).profile));
+  states.settled = await snapshot();
+  if(args.includes('--idle-after-ms')){
+    await page.evaluate(()=>{(window as any).__travelPhase='idle-after';});
+    await page.waitForTimeout(Number(value('--idle-after-ms','0')));
+  }
+  if(args.includes('--profile')){
+    const {profile} = await cdp.send('Profiler.stop');
+    profileStartMs = profile.startTime / 1000 - navigationStartMs;
+    await writeFile(path.join(out,'cpu.json'),JSON.stringify(profile));
+  }
   if(args.includes('--trace')){
     const completed=new Promise<any>(resolve=>cdp.once('Tracing.tracingComplete',resolve));
     await cdp.send('Tracing.end');const {stream}=await completed;
@@ -102,8 +132,8 @@ try {
     await cdp.send('IO.close',{handle:stream});await writeFile(path.join(out,'trace.json'),trace);
   }
   const data=await page.evaluate(()=>({frames:(window as any).__travelFrames,tasks:(window as any).__travelTasks,shaders:(window as any).__travelShaders,uploads:(window as any).__travelUploads,
-    boot:(window as any).__corealmBootTelemetry.snapshot()}));
-  const phases = ['idle','walking','settle'].map(phase=>{
+    memory:(window as any).__travelMemory,queries:(window as any).__travelQueries,boot:(window as any).__corealmBootTelemetry.snapshot()}));
+  const phases = ['idle','walking','settle','idle-after'].map(phase=>{
     const frames=data.frames.filter((f:any)=>phase==='walking'?f.phase.startsWith('walk-'):f.phase===phase);
     const values=frames.map((f:any)=>f.ms).sort((a:number,b:number)=>a-b);
     const at=(p:number)=>values[Math.min(values.length-1,Math.floor(values.length*p))]??0;
@@ -112,7 +142,7 @@ try {
       fps:1000*values.length/values.reduce((a:number,b:number)=>a+b,0)};
   });
   const end=await snapshot();
-  await writeFile(path.join(out,'report.json'),JSON.stringify({desktop,mbps,cpu,settledMs,states,end,phases,errors,...data},null,2));
+  await writeFile(path.join(out,'report.json'),JSON.stringify({desktop,mbps,cpu,settledMs,settlingTimedOut,profileStartMs,states,end,phases,errors,...data},null,2));
   await page.screenshot({path:path.join(out,'after-walking.png'),timeout:5000});
   const start=(states.start as any).position;
   assert.ok(Math.hypot(end.position.x-start.x,end.position.z-start.z)>8,'Real movement must cross streaming boundaries');
@@ -122,7 +152,9 @@ try {
   assert.equal(end.views.residency.pending,0);
   assert.equal(end.shaders.waiting,0,'Graphics preparation must finish too');
   assert.ok(end.loading.assets.loaded>(states.start as any).loading.assets.loaded,'Travel must finish new asset work');
-  if(args.includes('--budget'))assert.ok(phases.find(p=>p.phase==='walking')!.max<150,'Walking must avoid large streaming freezes');
+  if(args.includes('--budget'))for(const phase of phases) {
+    assert.ok(phase.max<150,`${phase.phase} must avoid large streaming freezes`);
+  }
   console.log(JSON.stringify({label,playableMs:data.boot.firstPlayableMs,settledMs,phases,
     assetsStart:(states.start as any).loading.assets,assetsEnd:end.loading.assets},null,2));
 } finally {

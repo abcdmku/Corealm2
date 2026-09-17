@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { describe, expect, it, vi } from "vitest";
 import { AnimationLod, unionTransformedBounds, type LodPose } from "../game/src/render/animationLod.js";
+import { conformTerrainRig } from '../game/src/render/terrainRig.js';
 
 it('keeps affine animation bounds equivalent to the eight-corner reference', () => {
   const source = new THREE.Box3(new THREE.Vector3(-3, -2, -7), new THREE.Vector3(1, 4, 2));
@@ -158,6 +159,83 @@ it("keeps terrain-adjusted palette vertices on the same surface as live animatio
   expect(lod.terrainSnapshot(0)).toBeNull();
   expect(root.toJSON()).toEqual(before);
   lod.dispose();
+});
+
+it('advances animation without re-uploading stationary placement or color, and invalidates bounds on movement', () => {
+  const { root, walk } = actor(), parent = new THREE.Group();
+  const lod = new AnimationLod(parent, root, root, [walk], material => material);
+  const placement = new THREE.Matrix4().makeRotationY(.7);
+  const terrain = { placement, origin:new THREE.Vector3(), heightAt:()=>0 };
+  try {
+    lod.set(0, placement, {clip:walk,time:0,blend:1,terrain});
+    const mesh = parent.children[0] as THREE.InstancedMesh;
+    mesh.computeBoundingSphere();
+    const sphere = mesh.boundingSphere, matrixVersion = mesh.instanceMatrix.version;
+    const colorVersion = mesh.instanceColor!.version, frames = mesh.geometry.getAttribute('lodFrames') as THREE.InstancedBufferAttribute;
+    const frameVersion = frames.version, before = paletteVertex(mesh,0,2);
+    lod.set(0, placement, {clip:walk,time:.4,blend:1,terrain});
+    expect(paletteVertex(mesh,0,2).distanceTo(before)).toBeGreaterThan(.001);
+    expect(mesh.instanceMatrix.version).toBe(matrixVersion);
+    expect(mesh.instanceColor!.version).toBe(colorVersion);
+    expect(frames.version).toBe(frameVersion);
+    expect(mesh.boundingSphere).toBe(sphere);
+    placement.setPosition(10,0,0);
+    lod.set(0, placement, {clip:walk,time:.4,blend:1,terrain}, ()=>new THREE.Color(.2,.3,.4));
+    expect(mesh.instanceMatrix.version).toBeGreaterThan(matrixVersion);
+    expect(mesh.instanceColor!.version).toBeGreaterThan(colorVersion);
+    expect(mesh.boundingSphere).toBeNull();
+    mesh.computeBoundingSphere();
+    expect(mesh.boundingSphere!.containsPoint(paletteVertex(mesh,0,2))).toBe(true);
+  } finally { lod.dispose(); }
+});
+
+it('grounds interpolated and crossfaded sampled poses without replaying live animation tracks', () => {
+  const { root, walk, hit } = actor();
+  const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk, hit], material => material);
+  const placement = new THREE.Matrix4().makeRotationY(.7).scale(new THREE.Vector3(1.2, .8, 1.5));
+  const heightAt = (x: number, z: number) => .2 * x - .15 * z;
+  const origin = new THREE.Vector3();
+  const update = vi.spyOn(THREE.AnimationMixer.prototype, 'update');
+  try {
+    lod.set(0, placement, { clip: walk, time: .325, previousClip: hit, previousTime: .175, blend: .4,
+      terrain: { placement, origin, heightAt } });
+    expect(update).not.toHaveBeenCalled();
+  } finally { update.mockRestore(); }
+  const mesh = parent.children[0] as THREE.InstancedMesh;
+  for (let vertex = 0; vertex < 3; vertex++) {
+    const current = referenceVertex(root, walk, .3, vertex).lerp(referenceVertex(root, walk, .35, vertex), .5);
+    const previous = referenceVertex(root, hit, .15, vertex).lerp(referenceVertex(root, hit, .2, vertex), .5);
+    const expected = previous.lerp(current, .4).applyMatrix4(placement);
+    expected.y += heightAt(expected.x, expected.z);
+    expect(paletteVertex(mesh, 0, vertex).distanceTo(expected)).toBeLessThan(2e-6);
+  }
+  const before = paletteVertex(mesh, 0, 2);
+  lod.terrainSnapshot(0);
+  expect(paletteVertex(mesh, 0, 2).toArray()).toEqual(before.toArray());
+  lod.dispose();
+});
+
+it('matches live joint terrain tangents on curved ground with scale, rotation and bone attachments', () => {
+  const { root, head, walk } = actor();
+  const attachment = new THREE.Mesh(new THREE.BoxGeometry(.2,.2,.2), new THREE.MeshStandardMaterial());
+  attachment.name='attachment'; head.add(attachment);
+  const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk], material => material);
+  const placement = new THREE.Matrix4().makeRotationY(.7).scale(new THREE.Vector3(1.2,.8,1.5)).setPosition(2,0,3);
+  const terrain = { placement, origin:new THREE.Vector3(2,0,3), heightAt:(x:number,z:number)=>.4*Math.sin(x*.3)+.02*z*z };
+  lod.set(0, placement, { clip:walk,time:.3,blend:1,terrain });
+  const copy = cloneRigged(root), mixer = new THREE.AnimationMixer(copy);
+  mixer.clipAction(walk).play(); mixer.setTime(.3); conformTerrainRig(copy, terrain);
+  for (const part of parent.children as THREE.InstancedMesh[]) {
+    const skinned = part.geometry.getAttribute('position').count === 3;
+    const source = copy.getObjectByName(skinned ? 'body' : 'attachment') as THREE.Mesh;
+    for (let vertex=0;vertex<part.geometry.getAttribute('position').count;vertex++) {
+      const point = skinned ? (source as THREE.SkinnedMesh).getVertexPosition(vertex,new THREE.Vector3())
+        : new THREE.Vector3().fromBufferAttribute(source.geometry.getAttribute('position'),vertex);
+      point.applyMatrix4(source.matrixWorld).applyMatrix4(placement);
+      expect(paletteVertex(part,0,vertex).distanceTo(point)).toBeLessThan(1e-5);
+    }
+  }
+  lod.dispose(); attachment.geometry.dispose(); attachment.material.dispose();
 });
 
 /** Independent ordinary live mixer reference: local normal blend, then additive local recoil. */

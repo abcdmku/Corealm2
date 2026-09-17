@@ -23,6 +23,13 @@ The gate may be skipped only when the behavior being built is the authored full 
 
 ## Development loop
 
+### Mobile runtime
+
+`tools/mobile-runtime-lab-test.ts` checks sampled creature animation and real touch movement.
+Add `--rigs` for constrained rig allocation or `--auto` for idle draw-distance stability.
+The fixtures, production profiling commands and device limits are documented in
+[Mobile runtime stalls](./mobile-runtime.md).
+
 ### Regional equipment and food
 
 `?mode=combat&regionalTier=30` adds five production crafting stations and uses actual

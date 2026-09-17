@@ -45,13 +45,13 @@ async function fixture(entities: SemanticEntity[], radius = 12, directionalHits 
   propSource.add(new THREE.Mesh(propGeometry, material));
   const assets = {
     entry: (id: string) => ({
-      id, animations: id === "test_creature" ? clips.map((clip) => clip.name) : [],
+      id, animations: id.startsWith("test_creature") ? clips.map((clip) => clip.name) : [],
       size: { x: 1, y: 1, z: 1 }, impliedWalkMps: 1, impliedRunMps: speedMatched ? 7 : 2,
       ...(speedMatched ? { locomotionPolicy: "speed-matched" as const } : {}),
     }),
     isLoaded: () => true,
-    load: async (id: string) => id === "test_creature" ? source : propSource,
-    instance: (id: string) => id === "test_creature" ? source : propSource,
+    load: async (id: string) => id.startsWith("test_creature") ? source : propSource,
+    instance: (id: string) => id.startsWith("test_creature") ? source : propSource,
     clipOf: (_asset: string, name: string) => clips.find((clip) => clip.name === name),
     clip: () => undefined,
   };
@@ -81,6 +81,49 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it('keeps affordable rigs when a higher-priority actor cannot fit the entire pool', async () => {
+    const costly = actor('costly'), cheap = actor('cheap',[3,0,0]);
+    costly.view!.assetId='test_creature_costly';
+    const f=await fixture([costly,cheap]);
+    try {
+      const views=f.views as any;
+      vi.spyOn(views,'uniqueCostOf').mockImplementation((assetId:unknown)=>assetId==='test_creature_costly'?20:2);
+      f.views.update(.016,new THREE.Vector3());
+      const retained=views.records.get('cheap').unique;
+      expect(retained).not.toBeNull();
+      for(let frame=0;frame<120;frame++) f.views.update(.016,new THREE.Vector3());
+      expect(views.records.get('cheap').unique).toBe(retained);
+      expect(f.views.motionSnapshot('costly')?.path).toBe('sampled-rig');
+      expect(f.views.motionSnapshot('costly')!.time).toBeGreaterThan(0);
+    } finally {f.dispose();}
+  });
+  it('keeps rig ownership stable across idle wandering but gives combat immediate priority',async()=>{
+    const a=actor('a'),b=actor('b',[3,0,0]),f=await fixture([a,b]);
+    try {
+      const views=f.views as any, viewer=new THREE.Vector3();
+      f.views.update(.016,viewer); const retained=views.records.get('a').unique;
+      expect(retained).not.toBeNull();
+      for(let frame=0;frame<120;frame++){
+        if(frame%10===0)b.position=[3+(frame%20===0?.1:0),0,0];
+        f.views.syncResidentMotion();f.views.update(.016,viewer);
+        expect(views.records.get('a').unique).toBe(retained);
+      }
+      expect(f.views.playAction('b','attack')).toBe(true);
+      expect(f.views.motionSnapshot('b')?.path).toBe('live-rig');
+      expect(f.views.motionSnapshot('a')?.path).toBe('sampled-rig');
+    } finally {f.dispose();}
+  });
+  it('releases the owned GPU bone palette when a live rig is demoted',async()=>{
+    const f=await fixture([actor('a')]);
+    try {
+      f.views.update(.016,new THREE.Vector3());
+      const root=(f.views as any).records.get('a').unique as THREE.Object3D;
+      const skeletons=new Set<THREE.Skeleton>();root.traverse(object=>{if((object as THREE.SkinnedMesh).isSkinnedMesh)skeletons.add((object as THREE.SkinnedMesh).skeleton);});
+      const disposed=vi.fn();for(const skeleton of skeletons){skeleton.computeBoneTexture();skeleton.boneTexture!.addEventListener('dispose',disposed);}
+      f.views.update(.016,new THREE.Vector3(100,0,0));
+      expect(disposed).toHaveBeenCalledTimes(skeletons.size);
+    }finally{f.dispose();}
+  });
   it('picks static instances in front of actors without raycasting shared batches', async () => {
     const prop: SemanticEntity = { id:'front-rock', name:'Rock', archetype:'ore', tier:1,
       regionId:'fallowmarch', position:[0,0,3], state:'available', interactions:['inspect','mine'],

@@ -76,7 +76,13 @@ interface Candidate {
   distance: number;
 }
 
+const stableSnapshots = new WeakSet<readonly SemanticEntity[]>();
+/** Static placement changes invalidate these snapshots; actor positions remain live. */
+export function isStableRenderSnapshot(rows: readonly SemanticEntity[]): boolean { return stableSnapshots.has(rows); }
+const isMoving = (entity: SemanticEntity) => entity.archetype === 'enemy' || entity.archetype === 'boss' || entity.archetype === 'npc';
+
 export class EntityStore {
+  private readonly renderSnapshots = new Map<((entity: SemanticEntity) => boolean) | undefined, readonly SemanticEntity[]>();
   private readonly entities = new Map<EntityId, SemanticEntity>();
   private readonly locations = new Map<string, KnownLocation>();
   private readonly spatial: SpatialIndex;
@@ -99,17 +105,20 @@ export class EntityStore {
 
   /** Replaces the whole set. Called once at boot with `buildWorld(...).entities`. */
   load(entities: readonly SemanticEntity[]): void {
+    this.renderSnapshots.clear();
     this.entities.clear();
     this.spatial.clear();
     for (const entity of entities) this.add(entity);
   }
 
   add(entity: SemanticEntity): void {
+    this.renderSnapshots.clear();
     this.entities.set(entity.id, entity);
     this.spatial.insert(entity.id, entity.interactionPosition ?? entity.position);
   }
 
   remove(id: EntityId): boolean {
+    this.renderSnapshots.clear();
     this.spatial.remove(id);
     return this.entities.delete(id);
   }
@@ -138,6 +147,18 @@ export class EntityStore {
     return [...this.entities.values()];
   }
 
+  /** Stable membership for rendering. Change static placement through setPosition and replace
+   * static view membership through add; ordinary state/material updates remain live references. */
+  renderSnapshot(filter?: (entity: SemanticEntity) => boolean): readonly SemanticEntity[] {
+    let rows = this.renderSnapshots.get(filter);
+    if (!rows) {
+      rows = Object.freeze([...this.entities.values()].filter(entity => !filter || filter(entity)));
+      stableSnapshots.add(rows);
+      this.renderSnapshots.set(filter, rows);
+    }
+    return rows;
+  }
+
   get size(): number {
     return this.entities.size;
   }
@@ -159,6 +180,7 @@ export class EntityStore {
   setPosition(id: EntityId, position: Vec3): boolean {
     const entity = this.entities.get(id);
     if (!entity) return false;
+    if (!isMoving(entity)) this.renderSnapshots.clear();
     entity.position = position;
     this.spatial.move(id, entity.interactionPosition ?? position);
     return true;

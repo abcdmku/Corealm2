@@ -1,10 +1,10 @@
 import { expect, it } from "vitest";
 import { AdaptiveDrawDistance } from "../game/src/render/adaptiveDrawDistance.js";
 
-function run(control: AdaptiveDrawDistance, ms: number, frame: number, eligible = true): string[] {
+function run(control: AdaptiveDrawDistance, ms: number, frame: number, eligible = true, moving = true): string[] {
   const changes: string[] = [];
   for (let time = 0; time < ms; time += frame) {
-    const next = control.sample(frame, eligible);
+    const next = control.sample(frame, eligible, moving);
     if (next) changes.push(next);
   }
   return changes;
@@ -12,6 +12,15 @@ function run(control: AdaptiveDrawDistance, ms: number, frame: number, eligible 
 
 it("reduces distance under sustained load but never below near", () => {
   expect(run(new AdaptiveDrawDistance("far"), 60000, 40)).toEqual(["medium", "near"]);
+});
+it('uses active play to earn upgrades, while idle overload can still reduce distance', () => {
+  const control = new AdaptiveDrawDistance('near');
+  expect(run(control, 60000, 16.7, true, false)).toEqual([]);
+  expect(run(control, 10000, 16.7)).toEqual([]);
+  expect(run(control, 5000, 16.7, true, false)).toEqual([]);
+  expect(run(control, 12000, 16.7)).toEqual([]);
+  expect(run(control, 7000, 16.7)).toEqual(['medium']);
+  expect(run(control, 18000, 40, true, false)).toEqual(['near']);
 });
 it("ignores hidden/paused sessions and isolated loading stalls", () => {
   const control = new AdaptiveDrawDistance("far");

@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import type { SemanticEntity } from '../game/src/contracts.js';
-import { immediatePlayerItems, selectPlayerEntities } from '../game/src/render/playerAssetPlan.js';
+import { immediatePlayerItems, PlayerEntitySelector, selectPlayerEntities } from '../game/src/render/playerAssetPlan.js';
+import { EntityStore } from '../game/src/world/entities.js';
 import { CharacterRig } from '../game/src/render/characterRig.js';
 import { WorldSiteStreaming } from '../game/src/world/worldSiteStreaming.js';
 import { resolveWorldSiteDressing } from '../game/src/render/worldSiteDressing.js';
@@ -14,6 +15,22 @@ const entity = (id: string, x: number, archetype: SemanticEntity['archetype'], r
 });
 
 describe('player-specific loading', () => {
+  it('reuses static travel membership while refreshing actors, removals and map changes', () => {
+    const store = new EntityStore({ skillLevels: () => ({}) as never });
+    const rock = entity('rock', 1000, 'landmark'), walker = entity('walker', 300, 'npc');
+    store.load([rock, walker, entity('cave', 0, 'npc', 'gravelmaw')]);
+    const selector = new PlayerEntitySelector();
+    expect(selector.select(store.renderSnapshot(), area)).toEqual([]);
+    const read = vi.spyOn(rock, 'position', 'get');
+    store.setPosition('walker', [2,0,0]);
+    expect(selector.select(store.renderSnapshot(), area).map(row=>row.id)).toEqual(['walker']);
+    expect(read).not.toHaveBeenCalled(); read.mockRestore();
+    expect(selector.select(store.renderSnapshot(), {...area,regionId:'gravelmaw'}).map(row=>row.id)).toEqual(['cave']);
+    store.remove('walker');
+    expect(selector.select(store.renderSnapshot(), area)).toEqual([]);
+    store.setPosition('rock', [1,0,0]);
+    expect(selector.select(store.renderSnapshot(), area).map(row=>row.id)).toEqual(['rock']);
+  });
   it('covers structures and actors across surface regions but excludes far resources and underground sources', () => {
     const rows = [entity('near', 31, 'tree'), entity('far-resource', 33, 'tree'), entity('wall', 159, 'landmark'),
       entity('border-actor', 159, 'npc', 'karrowmoor'), entity('cave', 0, 'npc', 'gravelmaw'), entity('far-wall', 161, 'landmark')];

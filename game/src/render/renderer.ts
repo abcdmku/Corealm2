@@ -197,8 +197,13 @@ const DRAW_DISTANCE = {
 } as const;
 
 export type DrawDistancePreset = keyof typeof DRAW_DISTANCE;
-const distancePreset = (distance: DrawDistancePreset) => distance === 'near' && usesMobileAssets()
-  ? { cameraFar: 65, fogNear: 14, fogFar: 40 } : DRAW_DISTANCE[distance];
+const MOBILE_DRAW_DISTANCE = {
+  near: { cameraFar: 65, fogNear: 14, fogFar: 40 },
+  medium: { cameraFar: 95, fogNear: 18, fogFar: 65 },
+  far: { cameraFar: 130, fogNear: 22, fogFar: 105 },
+} as const;
+const distancePreset = (distance: DrawDistancePreset) => usesMobileAssets()
+  ? MOBILE_DRAW_DISTANCE[distance] : DRAW_DISTANCE[distance];
 
 /** Camera-space metres covered by one draw-distance setting. */
 export function drawDistanceMetres(distance: DrawDistancePreset): number {

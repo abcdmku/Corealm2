@@ -1421,6 +1421,8 @@ export interface EntityViewStats {
   /** Parts uploaded into a batch, across every group and pose variant. NOT a draw-call count. */
   instancedMeshes: number;
   uniqueViews: number;
+  rigBuilds: number;
+  rigReleases: number;
   /** Unique views carrying a live `AnimationMixer`. */
   riggedViews: number;
   /** Mixers actually ticked on the most recent `update`, after the budget and radius cuts. */
@@ -1763,6 +1765,8 @@ export class EntityViews {
   private otherDrawCalls = 0;
   /** Records currently holding a non-instanced object. See `countUnique`. */
   private uniqueViewCount = 0;
+  private rigBuilds = 0;
+  private rigReleases = 0;
 
   private readonly maxUniqueDrawCalls: number;
   private readonly maxUniqueViews: number;
@@ -2661,6 +2665,7 @@ export class EntityViews {
     record.uniqueCost = uniqueMeshes * 2;
     record.awaitingRig = false;
     this.uniqueViewCount += 1;
+    this.rigBuilds++;
     this.spend(record.named, record.uniqueCost);
 
     record.rig = this.attachRig(record, dressed?.animationRoot ?? unique, assetId);
@@ -2751,6 +2756,9 @@ export class EntityViews {
     const cost = this.uniqueCostOf(group.assetId, source, group.character);
     const namedBudget = Math.round(this.maxUniqueDrawCalls * NAMED_CHARACTER_SHARE);
     const budget = wanted.named ? namedBudget : this.maxUniqueDrawCalls - namedBudget;
+    // An unaffordable candidate must not empty the pool and then fail to take it. That
+    // recreated the affordable neighbours (and their shaders) on subsequent frames.
+    if (cost > budget || this.maxUniqueViews < 1) return false;
     const spend = (): number => wanted.named ? this.namedDrawCalls : this.otherDrawCalls;
     const budgetBlocked = spend() + cost > budget;
 
@@ -2761,14 +2769,29 @@ export class EntityViews {
         // Crossing the named/other split cannot fix a pool shortage. It can fix only the global
         // unique-view ceiling, when the wanted pool already has draw-call room.
         && (candidate.named === wanted.named || !budgetBlocked)
-        && this.compareRigPriority(wanted, candidate, viewer) < 0)
+        && this.shouldReplaceRig(wanted, candidate, viewer))
       .sort((a, b) => this.compareRigPriority(b, a, viewer));
 
-    for (const victim of victims) {
-      if (spend() + cost <= budget && this.countUnique() < this.maxUniqueViews) break;
-      this.demoteUnique(victim);
+    let remainingSpend = spend(), remainingCount = this.countUnique(), evictions = 0;
+    while (evictions < victims.length && (remainingSpend + cost > budget || remainingCount >= this.maxUniqueViews)) {
+      const victim = victims[evictions++]!;
+      if (victim.named === wanted.named) remainingSpend -= victim.uniqueCost;
+      remainingCount--;
     }
+    // A protected holder can leave too little room even after all eligible evictions.
+    // Check the complete exchange before releasing any useful prepared representation.
+    if (remainingSpend + cost > budget || remainingCount >= this.maxUniqueViews) return false;
+    for (let index = 0; index < evictions; index++) this.demoteUnique(victims[index]!);
     return spend() + cost <= budget && this.countUnique() < this.maxUniqueViews;
+  }
+
+  private shouldReplaceRig(wanted: ViewRecord, holder: ViewRecord, viewer: THREE.Vector3): boolean {
+    const wantedAction = wanted.actionPriority || (wanted.playback !== null && ONE_SHOT_MOTIONS.has(wanted.motion));
+    const holderAction = holder.actionPriority || (holder.playback !== null && ONE_SHOT_MOTIONS.has(holder.motion));
+    if (wantedAction !== holderAction) return wantedAction;
+    // Both paths animate. An idle wander starting/stopping or a tiny distance crossover
+    // must not tear down a rig. Combat can preempt immediately; travel needs a clear gain.
+    return wanted.position.distanceTo(viewer) + 8 < holder.position.distanceTo(viewer);
   }
 
   /** Converts a live rig back to the group's baked pose in the same frame. */
@@ -2815,6 +2838,7 @@ export class EntityViews {
       record.rig = null;
     }
     if (!record.unique) return;
+    this.rigReleases++;
     this.uniqueViewCount = Math.max(0, this.uniqueViewCount - 1);
     // The fade clones hang off the meshes inside `record.unique` and nothing else owns them, so
     // they go with it. `record.fade` itself is left alone: the corpse is still dead, and a demote
@@ -2824,6 +2848,11 @@ export class EntityViews {
       record.fadeMaterials = null;
     }
     record.unique.removeFromParent();
+    const skeletons = new Set<THREE.Skeleton>();
+    record.unique.traverse(object => {
+      if ((object as THREE.SkinnedMesh).isSkinnedMesh) skeletons.add((object as THREE.SkinnedMesh).skeleton);
+    });
+    for (const skeleton of skeletons) skeleton.dispose();
     // `DressedCharacter.dispose` frees the head-cap and merged geometries this assembly allocated
     // and nothing else owns. The source geometries and materials are shared with the loaded asset
     // and are deliberately left alone.
@@ -5921,6 +5950,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       instancedMeshes,
       drawnInstancedMeshes,
       uniqueViews: unique,
+      rigBuilds: this.rigBuilds,
+      rigReleases: this.rigReleases,
       riggedViews: this.animated.size,
       animatedLastFrame: this.animatedLastFrame,
       bakedPoses,

@@ -155,7 +155,7 @@ export class GameLoop {
   private lastAutosaveAt = 0;
   private systems: TickSystem[] = [];
   private entityViews: EntityViews | null = null;
-  private entitySource: (() => SemanticEntity[]) | null = null;
+  private entitySource: (() => readonly SemanticEntity[]) | null = null;
   private refreshEntityResidency: (() => void) | null = null;
   private reconcileEntityPresentation: (() => void) | null = null;
   private traversalPresentation: (() => TraversalSample | null) | null = null;
@@ -243,7 +243,7 @@ export class GameLoop {
    * constructible before them. Views resync on a slow cadence rather than every frame: entity state
    * changes at gameplay speed, not at 240 Hz, and a full diff every frame is pure waste.
    */
-  setEntityViews(views: EntityViews, entities: () => SemanticEntity[], refreshResidency?: () => void, reconcilePresentation?: () => void): void {
+  setEntityViews(views: EntityViews, entities: () => readonly SemanticEntity[], refreshResidency?: () => void, reconcilePresentation?: () => void): void {
     this.entityViews = views;
     this.entitySource = entities;
     this.refreshEntityResidency = refreshResidency ?? null;
