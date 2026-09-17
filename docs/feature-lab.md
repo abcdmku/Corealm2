@@ -27,7 +27,8 @@ The gate may be skipped only when the behavior being built is the authored full 
 
 `tools/mobile-runtime-lab-test.ts` checks sampled creature animation and real touch movement.
 Add `--rigs` for constrained rig allocation or `--auto` for idle draw-distance stability.
-`tools/render-latency-test.ts` checks bounded GPU submissions and current-pose recovery with real touch input.
+`tools/render-latency-test.ts` checks bounded GPU submissions, current-pose recovery, and unchanged image
+resolution through overload with real touch input. Add `--desktop` for keyboard input and desktop quality.
 `tools/animation-preparation-test.ts` checks sliced imported animation preparation while touch movement continues.
 `tools/player-interaction-test.ts --latency` separates input delivery, gameplay response and graphics completion.
 The fixtures, production profiling commands and device limits are documented in

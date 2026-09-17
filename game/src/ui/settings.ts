@@ -23,7 +23,7 @@ export type ShadowQuality = "off" | "low" | "high";
 export type DrawDistance = "near" | "medium" | "far";
 
 export interface UiSettings extends AudioVolumes {
-  /** Upper resolution preference; the renderer can reduce pixel cost under GPU overload. */
+  /** Fraction of the native drawing-buffer resolution, with device pixel ratio capped at 2. */
   renderScale: RenderScale;
   /** Off, a 1024 px map, or a 2048 px map. */
   shadowQuality: ShadowQuality;

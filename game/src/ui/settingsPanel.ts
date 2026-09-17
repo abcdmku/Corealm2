@@ -199,7 +199,7 @@ export class SettingsPanel implements ManagedPanel {
     graphics.append(
       this.choiceRow(
         "Resolution",
-        "Sets the resolution limit. Detail may reduce to keep controls responsive.",
+        "Sets rendering resolution. Higher values make the world sharper.",
         "Render resolution",
         RENDER_SCALES,
         this.renderScaleButtons,

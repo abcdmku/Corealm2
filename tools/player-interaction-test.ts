@@ -226,6 +226,12 @@ try {
       }
     }
   }
+  report.rendering=await page.evaluate(()=>(window as any).__gameDebug.getPerformanceTimings());
+  if(qualityMax) {
+    assert.deepEqual(report.rendering.drawingBuffer,mobile?[1688,780]:[2121,974],
+      'Selected 100% resolution must survive combat, movement and menu use');
+    assert.ok(report.rendering.antialiasing.samples>0,'Restored quality retains multisampling');
+  }
   report.picking=await page.evaluate(()=>{
     const w=window as any,times:number[]=[];
     for(let i=0;i<30;i++) {const at=performance.now();w.__interactionFeedback.pick(innerWidth*(.2+(i%6)*.11),innerHeight*(.3+Math.floor(i/6)*.08));times.push(performance.now()-at);}

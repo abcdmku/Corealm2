@@ -127,17 +127,18 @@ The shader still reads the same matrices and sample indices; no animation sample
 Aggregate texture-update counts did not establish a reduction, so row alignment alone is not
 evidence of a measured frame-time improvement.
 
-Missed completion opportunities reduce drawing-buffer resolution. GPU delay also feeds automatic
-draw-distance decisions, so smooth JavaScript callbacks cannot trigger upgrades behind a slow GPU.
-Resolution reductions last for the session or until the resolution preference changes; the saved
-preference remains the upper limit. Mobile caps pixel ratio at 1.25, retains final FXAA, and disables
-multisampling on the main canvas and bloom target. Desktop keeps its normal antialiasing.
+The first release also reduced drawing-buffer resolution after missed completion opportunities,
+kept those reductions for the session, and capped mobile pixel ratio at 1.25. That caused a reported
+quality regression and has been removed. Resolution now follows the selected setting on both phone
+and desktop, using the pre-existing 2x device-pixel-ratio limit. Both retain canvas and bloom
+multisampling plus final FXAA. GPU delay still feeds the existing automatic draw-distance setting,
+so smooth JavaScript callbacks cannot trigger distance upgrades behind a slow GPU.
 Elapsed GPU diagnostic queries now require `?gpu-timing=1`; production no longer polls those driver
 parameters continuously. Completion counters remain available without diagnostic timer queries.
 
 `npx tsx tools/render-latency-test.ts` exercises the production lab with real touch input and a
 deliberately withheld fence result. It checks responsive simulation, at most two pending graphics frames,
-resolution reduction, latest-pose recovery, and a screenshot using the normal follow camera.
+unchanged selected resolution, latest-pose recovery, and a screenshot using the normal follow camera.
 The withheld signal is a deterministic queue test, not an emulation of the S24 Ultra's GPU.
 `tools/walking-stream-test.ts --presentation-budget` additionally records completion latency and
 enforces p95 below 100 ms and a maximum below 250 ms. Completion latency includes the frame's CPU
@@ -217,3 +218,29 @@ Both therefore still failed the unchanged 250 ms maximum travel gate, and that d
 also exceeded the user's 20 s loading target. Post-travel idle recovered to about 59 completed
 frames per second on both; every asset, animation-preparation and shader queue drained with
 no game errors. Reports are disposable under `test-results/walking-stream/input-priority-*`.
+
+### Quality regression correction
+
+The user rejected the image quality of `4fb32c9`. Its automatic resolution multiplier could reach
+0.5 on top of the selected scale, leaving a 70% desktop setting at 35% resolution. The separate
+1.25 mobile pixel-ratio cap could then fall to 0.625. Neither recovered automatically.
+
+The correction removes both overrides and restores mobile multisampling. The selected 70%, 85%
+or 100% resolution remains fixed during GPU backpressure. No saved preferences are rewritten.
+Input priority, bounded graphics submissions, sliced animation preparation and the faster animation
+math remain in place. The mobile and desktop latency lab now requires the 100% drawing buffer to
+remain unchanged after a forced stall, alongside real movement and current-pose recovery.
+The earlier release timing measurements above used reduced resolution and do not establish
+performance at the restored quality.
+
+Validation passed the release build, type checking, and 36 focused tests across seven files.
+Both latency labs retained their full drawing buffers after forced overload, with normal-camera
+screenshots inspected. Release combat, movement and menu actions also retained 100% resolution:
+1688x780 on mobile and 2121x974 on desktop, both with multisampling and FXAA. Their world captures
+were inspected for terrain/building detail and grounded feedback.
+
+Desktop passed all 19 response checks, at most 33.9 ms to register an action and 86.2 ms to complete
+its graphics. Mobile at 2x CPU slowdown registered all 19 actions within 95.4 ms, but one movement
+response completed its graphics at 251.2 ms. That still fails the unchanged 250 ms gate. The quality
+regression is corrected; these tests do not establish that all latency problems are resolved on
+the physical S24 Ultra. Cold-load and sustained-travel budgets were not rerun for this correction.

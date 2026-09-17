@@ -10,9 +10,6 @@ export class FramePacer {
   private lastCompletionMs = 0;
   private maxCompletionMs = 0;
   private completedAt = 0;
-  private slowFrames = 0;
-  private scale = 1;
-  private lastReductionAt = -Infinity;
   private failed = false;
   private activeLimit: number;
   private recoveryFrames = 0;
@@ -37,7 +34,7 @@ export class FramePacer {
       if (this.recent.length > this.limit) this.recent.shift();
       completionMs = Math.max(completionMs, this.lastCompletionMs);
     }
-    if (completionMs > 0) this.adapt(now, completionMs);
+    if (completionMs > 0) this.adapt(completionMs);
     if (this.pending.length >= this.activeLimit) {
       this.skipped++;
       this.skippedThisFrame++;
@@ -46,7 +43,7 @@ export class FramePacer {
     return true;
   }
 
-  private adapt(now: number, completionMs: number): void {
+  private adapt(completionMs: number): void {
     // Two slots preserve 60 Hz on healthy browsers. During overload, an extra unfinished
     // image only adds input latency. Recover the second slot after ten prompt completions.
     if (this.skippedThisFrame > 0 && completionMs > 80) {
@@ -56,17 +53,7 @@ export class FramePacer {
       this.recoveryFrames = completionMs < 50 ? this.recoveryFrames + 1 : 0;
       if (this.recoveryFrames >= 10) this.activeLimit = this.limit;
     }
-    // Polling cadence includes CPU work and vsync. Only repeated missed opportunities or
-    // a severe completion delay reduce resolution; a single 30 FPS callback does not.
-    this.slowFrames = this.skippedThisFrame > 0 && completionMs > 35 ? this.slowFrames + 1 : 0;
-    if (((this.skippedThisFrame > 0 && completionMs > 80) || this.slowFrames >= 3)
-      && now - this.lastReductionAt >= 2_000) {
-      this.scale = Math.max(0.5, this.scale * (completionMs > 80 ? 0.75 : 0.85));
-      // Resizing recreates postprocess targets. Do not mistake that one-off work for
-      // another sustained overload and cascade immediately to the minimum resolution.
-      this.lastReductionAt = now;
-      this.slowFrames = 0;
-    }
+    // Backpressure controls submissions only. Resolution remains the player's setting.
     this.skippedThisFrame = 0;
   }
 
@@ -79,10 +66,8 @@ export class FramePacer {
     // The requestAnimationFrame boundary flushes this fence. Do not finish/wait on the CPU.
   }
 
-  resolutionScale(): number { return this.scale; }
-  resetResolution(): void { this.scale = 1; this.slowFrames = 0; this.lastReductionAt = -Infinity; }
   resetTiming(): void {
-    this.skippedThisFrame = 0; this.slowFrames = 0; this.lastCompletionMs = 0; this.maxCompletionMs = 0;
+    this.skippedThisFrame = 0; this.lastCompletionMs = 0; this.maxCompletionMs = 0;
   }
   contextRestored(): void {
     // Objects from a lost context are already invalid; do not query or delete the old fence.
@@ -95,12 +80,12 @@ export class FramePacer {
     return { submitted: this.submitted, completed: this.completed, skipped: this.skipped,
       pending: this.pending.length, limit: this.activeLimit, pendingMs: this.pendingMs(now), recent: this.recent.map(frame => ({ ...frame })),
       lastCompletionMs: this.lastCompletionMs, maxCompletionMs: this.maxCompletionMs, completedAt: this.completedAt,
-      resolutionScale: this.scale, failed: this.failed };
+      failed: this.failed };
   }
   dispose(): void { for (const frame of this.pending) this.gl.deleteSync(frame.fence); this.pending = []; }
 }
 
-/** High-DPI phones need a bounded drawing buffer even with older saved graphics preferences. */
-export function gameplayPixelRatio(dpr: number, preference: number, mobile: boolean, adaptive = 1): number {
-  return Math.min(Math.min(dpr, 2) * preference, mobile ? 1.25 : 2) * adaptive;
+/** Apply the selected resolution equally on phones and desktop, up to the existing 2x DPR limit. */
+export function gameplayPixelRatio(dpr: number, preference: number): number {
+  return Math.min(dpr, 2) * preference;
 }

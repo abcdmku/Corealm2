@@ -302,9 +302,7 @@ export class Renderer {
   private cpuSubmitMs = 0;
   private cpuShadowMs = 0;
   private readonly framePacer: FramePacer;
-  private readonly mobile = usesMobileAssets();
   private readonly gpuTimingEnabled = new URLSearchParams(location.search).get('gpu-timing') === '1';
-  private adaptiveRenderScale = 1;
   private readonly restoreFramePacer = () => this.framePacer.contextRestored();
 
   /** The two gradients: the one the sky is drawn from, and the one the world is lit by. */
@@ -343,9 +341,7 @@ export class Renderer {
   constructor(canvas: HTMLCanvasElement) {
     this.renderer = new THREE.WebGLRenderer({
       canvas,
-      // FXAA already smooths the completed frame. Avoid repeated multisample resolves
-      // around the display-copy passes on tile-based phone GPUs.
-      antialias: !this.mobile,
+      antialias: true,
       stencil: true,
       powerPreference: "high-performance",
       alpha: false,
@@ -355,7 +351,6 @@ export class Renderer {
     const gl = this.renderer.getContext() as WebGL2RenderingContext;
     this.framePacer = new FramePacer(gl);
     canvas.addEventListener('webglcontextrestored', this.restoreFramePacer);
-    this.magicGlow.samples = this.mobile ? 0 : 4;
     this.screenAntialiasing.timingEnabled = this.gpuTimingEnabled;
     for (const parameter of [gl.UNPACK_ROW_LENGTH, gl.UNPACK_SKIP_PIXELS, gl.UNPACK_SKIP_ROWS]) {
       this.renderer.state.pixelStorei(parameter, 0);
@@ -490,7 +485,7 @@ export class Renderer {
   resize(): void {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    this.renderer.setPixelRatio(gameplayPixelRatio(window.devicePixelRatio, this.renderScale, this.mobile, this.adaptiveRenderScale));
+    this.renderer.setPixelRatio(gameplayPixelRatio(window.devicePixelRatio, this.renderScale));
     this.renderer.setSize(width, height, false);
     this.camera.aspect = width / Math.max(1, height);
     this.camera.updateProjectionMatrix();
@@ -501,8 +496,6 @@ export class Renderer {
     const next = THREE.MathUtils.clamp(scale, 0.5, 1);
     if (next === this.renderScale) return;
     this.renderScale = next;
-    this.framePacer.resetResolution();
-    this.adaptiveRenderScale = 1;
     this.resize();
   }
 
@@ -746,8 +739,6 @@ export class Renderer {
 
   render(nowMs: number): void {
     if (!this.canRenderFrame()) return;
-    const scale = this.framePacer.resolutionScale();
-    if (scale !== this.adaptiveRenderScale) { this.adaptiveRenderScale = scale; this.resize(); }
     if (this.biomeWeightsSource) this.biomeAtmosphere.setWeights(this.biomeWeightsSource());
     if (this.wildernessMagicSource) this.biomeAtmosphere.setWildernessMagic(this.wildernessMagicSource());
     this.biomeAtmosphere.updateEnvironment(this.scene, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);

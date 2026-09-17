@@ -7,14 +7,16 @@ import { chromium } from 'playwright';
 import { startGameServer } from './lib/server.js';
 import { installTestDeadline } from './lib/deadline.js';
 
-const out = 'test-results/render-latency-lab';
+const desktop = process.argv.includes('--desktop');
+const out = `test-results/render-latency-lab/${desktop ? 'desktop' : 'mobile'}`;
 const clear = installTestDeadline('Render latency lab', 60_000);
 await mkdir(out, { recursive: true });
 const server = await startGameServer();
 const browser = await chromium.launch({ headless: true, args: [
   ...(process.platform === 'win32' ? ['--use-angle=d3d11'] : []), '--enable-gpu', '--ignore-gpu-blocklist', '--mute-audio'] });
 try {
-  const context = await browser.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 3, hasTouch: true, isMobile: true });
+  const viewport = desktop ? { width: 2121, height: 974 } : { width: 844, height: 390 };
+  const context = await browser.newContext({ viewport, deviceScaleFactor: desktop ? 1 : 3, hasTouch: !desktop, isMobile: !desktop });
   const page = await context.newPage(), errors: string[] = [];
   page.on('pageerror', e => errors.push(String(e)));
   page.on('console', e => { if (e.type() === 'error') errors.push(e.text()); });
@@ -25,6 +27,7 @@ try {
     catch { await route.continue(); }
   });
   await page.addInitScript({ content: `window.__name=v=>v;` });
+  await page.addInitScript(() => localStorage.setItem('corealm.settings.v1', JSON.stringify({ renderScale: 1 })));
   await page.goto(`${server.url}/?mode=combat&performance=1&motion=legacy&motionActors=animal_cattle,animal_deer,animal_boar&sampledActors=1`, { waitUntil: 'commit' });
   await page.waitForFunction(() => (window as any).__gameDebug?.getState().ready, undefined, { timeout: 35000 });
   await page.locator('#boot-screen').waitFor({ state: 'detached' });
@@ -43,15 +46,18 @@ try {
       timings: d.getPerformanceTimings(), errors: d.getErrors() };
   });
   const before = await snapshot();
-  assert.equal(before.timings.antialiasing.samples, 0, 'Mobile uses one final AA pass');
+  assert.ok(before.timings.antialiasing.samples > 0, 'Multisampling is retained on mobile and desktop');
   assert.equal(before.timings.antialiasing.finalPass, 'FXAA');
-  assert.ok(before.timings.drawingBuffer[0] <= 1055, 'High-DPI drawing buffer is bounded');
+  const expectedBuffer = [viewport.width * (desktop ? 1 : 2), viewport.height * (desktop ? 1 : 2)];
+  assert.deepEqual(before.timings.drawingBuffer, expectedBuffer, '100% quality honors the selected resolution');
+  await page.screenshot({ path: path.join(out, 'before-overload.png'), timeout: 5000 });
   await page.waitForTimeout(2000);
   const natural = await snapshot();
   assert.ok(1000 * (natural.timings.presentation.completed - before.timings.presentation.completed)
     / (natural.at - before.at) > 45, 'Backpressure must not halve smooth lab graphics to 30 FPS');
   const cdp = await context.newCDPSession(page);
-  const stick = await page.getByRole('slider', { name: 'Move', exact: true }).boundingBox(); assert.ok(stick);
+  const stick = desktop ? null : await page.getByRole('slider', { name: 'Move', exact: true }).boundingBox();
+  if (!desktop) assert.ok(stick);
   // Delay notification for the outstanding production GPU frames. Input and CPU simulation
   // remain real and unthrottled; do not fake a good GPU time or mutate player state.
   await page.evaluate(() => {
@@ -64,7 +70,8 @@ try {
     w.__releaseGpu = () => { prototype.clientWaitSync = original; };
   });
   const heldStart = await snapshot();
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: stick.x + stick.width / 2 + 30, y: stick.y + stick.height / 2, id: 1 }] });
+  if (stick) await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: stick.x + stick.width / 2 + 30, y: stick.y + stick.height / 2, id: 1 }] });
+  else await page.keyboard.down('d');
   await page.waitForTimeout(180);
   const held = await snapshot();
   assert.ok(Math.hypot(held.player.x - heldStart.player.x, held.player.z - heldStart.player.z) > .1, 'Input/simulation stay responsive while GPU is busy');
@@ -73,11 +80,12 @@ try {
   assert.ok(held.timings.presentation.skipped > heldStart.timings.presentation.skipped);
   await page.evaluate(() => (window as any).__releaseGpu());
   await page.waitForTimeout(1000);
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  if (stick) await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  else await page.keyboard.up('d');
   await page.waitForTimeout(200);
   const recovered = await snapshot();
   assert.ok(recovered.timings.presentation.completed > held.timings.presentation.completed);
-  assert.ok(recovered.timings.presentation.resolutionScale < natural.timings.presentation.resolutionScale, 'Delayed GPU completion reduces pixel work');
+  assert.deepEqual(recovered.timings.drawingBuffer, expectedBuffer, 'Overload must not silently lower image quality');
   assert.ok(Math.hypot(recovered.player.x - recovered.drawn[0], recovered.player.z - recovered.drawn[2]) < .05, 'Renderer resumes with the latest player pose');
   assert.ok(recovered.timings.presentation.pendingMs < 100, 'No persistent presentation backlog after recovery');
   assert.equal(recovered.timings.presentation.limit, 2, 'Healthy graphics must recover normal pipelining');

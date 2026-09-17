@@ -51,33 +51,14 @@ describe('gameplay GPU queue', () => {
     pacer.dispose(); expect(gl.deleteSync).toHaveBeenCalledTimes(2);
   });
 
-  it('reduces pixel cost after missed frames and bounds the reduction', () => {
-    const { pacer, gl, status } = fixture();
-    for (let i = 0; i < 5; i++) {
-      pacer.submit(i * 2100); status(gl.TIMEOUT_EXPIRED); pacer.ready(i * 2100 + 16);
-      status(gl.ALREADY_SIGNALED); expect(pacer.ready(i * 2100 + 100)).toBe(true);
-    }
-    expect(pacer.resolutionScale()).toBe(0.5);
-    pacer.resetResolution(); expect(pacer.resolutionScale()).toBe(1);
-  });
-
-  it('lets drawing-buffer reallocation settle before another reduction', () => {
-    const {pacer, gl, status} = fixture();
-    for(let at=0;at<1000;at+=200){
-      pacer.submit(at);status(gl.TIMEOUT_EXPIRED);pacer.ready(at+16);
-      status(gl.ALREADY_SIGNALED);pacer.ready(at+100);
-    }
-    expect(pacer.resolutionScale()).toBe(.75);
-  });
-
   it('does not mistake slow JS callbacks or a suspended tab for GPU overload', () => {
-    const { pacer } = fixture();
+    const { pacer } = fixture(2);
     pacer.submit(0); expect(pacer.ready(30_000)).toBe(true);
-    expect(pacer.resolutionScale()).toBe(1);
+    expect(pacer.snapshot(30_000).limit).toBe(2);
     for (let at = 30_000; at < 31_000; at += 50) {
       pacer.submit(at); expect(pacer.ready(at + 49)).toBe(true);
     }
-    expect(pacer.resolutionScale()).toBe(1);
+    expect(pacer.snapshot(31_000).limit).toBe(2);
   });
 
   it('does not submit work to a lost context or after a failed fence', () => {
@@ -90,11 +71,12 @@ describe('gameplay GPU queue', () => {
     other.pacer.submit(22); expect(other.pacer.snapshot(22).pending).toBe(1);
   });
 
-  it('caps high-DPI mobile buffers even with saved maximum quality', () => {
-    expect(gameplayPixelRatio(3, 1, true)).toBe(1.25);
-    expect(gameplayPixelRatio(3, 0.7, true)).toBe(1.25);
-    expect(gameplayPixelRatio(1, 0.7, false)).toBe(0.7);
-    expect(gameplayPixelRatio(3, 1, false)).toBe(2);
-    expect(gameplayPixelRatio(3, 1, true, 0.5)).toBe(0.625);
+  it('honors all resolution choices at both desktop and phone pixel ratios', () => {
+    expect(gameplayPixelRatio(3, 1)).toBe(2);
+    expect(gameplayPixelRatio(3, 0.85)).toBe(1.7);
+    expect(gameplayPixelRatio(3, 0.7)).toBe(1.4);
+    expect(gameplayPixelRatio(1, 1)).toBe(1);
+    expect(gameplayPixelRatio(1, 0.85)).toBe(0.85);
+    expect(gameplayPixelRatio(1, 0.7)).toBe(0.7);
   });
 });

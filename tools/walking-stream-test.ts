@@ -38,7 +38,7 @@ try {
     let completed=0,lastCompletedId=0;
     const step=at=>{const phase=window.__travelPhase,uploads=window.__uploadCount??0;if(phase===previousPhase)window.__travelFrames.push({at,ms:at-previous,phase,uploads:uploads-previousUploads});previousUploads=uploads;
       const p=window.__gameDebug?.getPresentationState?.();
-      if(p&&p.completed!==completed){for(const frame of p.recent??[])if(frame.id>lastCompletedId){window.__travelPresentation.push({at:frame.at,ms:frame.ms,phase,scale:p.resolutionScale,completed:frame.id,skipped:p.skipped,pending:p.pending});lastCompletedId=frame.id;}completed=p.completed;}
+      if(p&&p.completed!==completed){for(const frame of p.recent??[])if(frame.id>lastCompletedId){window.__travelPresentation.push({at:frame.at,ms:frame.ms,phase,completed:frame.id,skipped:p.skipped,pending:p.pending});lastCompletedId=frame.id;}completed=p.completed;}
       previous=at;previousPhase=phase;requestAnimationFrame(step)};
     requestAnimationFrame(step);
     new PerformanceObserver(list=>{for(const e of list.getEntries())window.__travelTasks.push({at:e.startTime,ms:e.duration,phase:window.__travelPhase})}).observe({type:'longtask',buffered:true});
