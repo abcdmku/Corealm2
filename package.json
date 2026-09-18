@@ -80,7 +80,15 @@
     "devdocs:requests": "tsx tools/content/requests.ts",
     "devdocs": "vite --config devdocs/vite.config.ts",
     "devdocs:build": "vite build --config devdocs/vite.config.ts",
-    "devdocs:smoke": "tsx tools/devdocs-smoke.ts"
+    "devdocs:smoke": "tsx tools/devdocs-smoke.ts",
+    "assets:review": "tsx tools/asset-review/server.ts",
+    "multiplayer:server": "tsx tools/multiplayer-server.ts",
+    "multiplayer:dev": "tsx tools/multiplayer-dev.ts",
+    "multiplayer:prod": "tsx tools/multiplayer-prod.ts",
+    "multiplayer:lab": "tsx tools/multiplayer-lab-test.ts",
+    "multiplayer:capacity": "tsx tools/multiplayer-capacity.ts",
+    "multiplayer:authored": "tsx tools/multiplayer-authored-test.ts",
+    "multiplayer:render": "tsx tools/multiplayer-render-test.ts"
   },
   "dependencies": {
     "@fontsource-variable/source-sans-3": "^5.3.0",

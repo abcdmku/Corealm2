@@ -14884,7 +14884,7 @@
     "regionId": "wilderness",
     "centre": [
       163,
-      724
+      740
     ],
     "count": 7,
     "radius": 28,
@@ -15090,8 +15090,8 @@
     "encounterId": "wilderness_northwest_red_dragons_patrol",
     "regionId": "wilderness",
     "centre": [
-      -265,
-      903
+      -271,
+      907
     ],
     "count": 7,
     "radius": 34,
@@ -15159,7 +15159,7 @@
     "encounterId": "wilderness_central_purple_dragons_patrol",
     "regionId": "wilderness",
     "centre": [
-      17,
+      7,
       803
     ],
     "count": 7,
@@ -15298,7 +15298,7 @@
     "regionId": "wilderness",
     "centre": [
       317,
-      802
+      796
     ],
     "count": 7,
     "radius": 28,
@@ -15435,7 +15435,7 @@
     "encounterId": "wilderness_sanctum_west_colossi_patrol",
     "regionId": "wilderness",
     "centre": [
-      -101,
+      -89,
       860
     ],
     "count": 7,

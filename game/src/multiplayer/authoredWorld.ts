@@ -2,9 +2,6 @@ import { buildFairyTerrainSpec } from "../app/worldSpec.js";
 import { resolveFairyDressing } from "../app/fairyDressing.js";
 import { worldExclusions } from "../world/scatter.js";
 import { prepareMobSpawns } from "../app/mobSpawns.js";
-import { activatedRegionalPackIds, REGIONAL_PACK_ACTIVATION } from "../content/regionalPackActivation.js";
-import { createRpgRegionalPackCatalogue } from "../content/rpgRegionalPacks.js";
-import { assembleRegionalPack } from "../world/regionalPackEntities.js";
 import { buildRegionalPackDressing } from "../world/regionalPackDressing.js";
 import { coastalBodyOnSafeGround } from "../content/coastalEncounterFormation.js";
 import { lavaObstacles } from "../world/lavaObstacles.js";
@@ -60,19 +57,14 @@ export async function createAuthoredWorld(seed:number, assetsDirectory="game/pub
   };
   const measurements={baseY:(id:string)=>assets.baseY(id),assetSize:(id:string)=>assets.assetSize(id),assetCenterXZ:(id:string)=>assets.assetCenterXZ(id)};
   const fishing = fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(), (x,z) => terrainAt(x,z).meshHeightAt(x,z));
-  const catalogue = createRpgRegionalPackCatalogue(id => {
-    const entry = assets.entry(id); return entry?.base ? {size:entry.size,base:entry.base} : null;
-  }, activatedRegionalPackIds(), REGIONAL_PACK_ACTIVATION.assignmentOverrides);
   const built=GAME_BOOT_PROFILE.buildSemanticWorld(seed,heightAt,{...measurements,heightAt,roadDistance,dungeonGates:true,
     accessPositions:new Map([...fishing.banks,
       ...miningAccessPositions(WORLD_SITES,(x,z)=>terrainAt(x,z).meshHeightAt(x,z),measurements)]),coastalSpawns:coastalSpawnSites(scene,seed), fishingSchools:fishing.schools,
     minibossCanStand:(region,x,z)=>{const sample=terrainAt(x,z).sampleWorld(x,z);return sample.playable&&sample.semanticRegion===region&&sample.waterBodyId===null&&sample.slope!==null&&sample.slope<=.5;},
     coastalAccepts:(spot,radius)=>coastalBodyOnSafeGround((x,z)=>terrainAt(x,z).sampleWorld(x,z),spot,radius)});
-  built.entities.push(...catalogue.packs.flatMap(pack => assembleRegionalPack(pack.id,
-    {...measurements,heightAt:(x,z)=>terrainAt(x,z).meshHeightAt(x,z)}, {seed}, catalogue).entities));
   if (terrain.lavaChannels?.length) built.solids.push(...lavaObstacles(terrain.lavaChannels,(x,z)=>terrainAt(x,z).meshHeightAt(x,z)));
-  let habitats = [...WORLD_HABITATS, ...catalogue.habitats, ...(built.coastalHabitats ?? [])];
-  const packHabitats = new Map([...catalogue.habitats, ...(built.coastalHabitats ?? [])].map(h => [h.groupId,h]));
+  let habitats = [...WORLD_HABITATS, ...(built.coastalHabitats ?? [])];
+  const packHabitats = new Map([...(built.coastalHabitats ?? [])].map(h => [h.groupId,h]));
   const encounterNavSolids = new Map<string, import("../contracts.js").SolidVolume>();
   const settings:WorldSite[]=[...WORLD_SITES,...habitats.map((habitat):WorldSite=>({id:habitat.id,locationId:habitat.groupId,regionId:habitat.regionId,
     centre:[0,0],rotationY:0,kind:"habitat",workRadius:0,extent:[0,0],terrain:{floorRadius:0,backRise:0,backDistance:0,bermWidth:0,approachAngle:0},resourceSlots:[],dressing:habitat.dressing}))];
@@ -113,7 +105,7 @@ built.solids.push(...dressing.solids);sitePlacements.push(...dressing.placements
   const spawn=GAME_BOOT_PROFILE.spawn;const point:Vec3=[spawn.x,heightAt(spawn.regionId,spawn.x,spawn.z),spawn.z];
   const playable=(region:RegionId,position:Vec3)=>spec&&region===spec.regionId?chamberFloorAt(spec,position)!==null:
     terrainAt(position[0],position[2]).sampleWorld(position[0],position[2]).playable&&terrainAt(position[0],position[2]).regionAt(position[0],position[2])===region;
-  return {nav,enemies:catalogue.variants.map(v=>v.stats),habitats,entities:built.entities,knownLocations:built.knownLocations,doorBarriers,spawn:nav.closestPoint(point)??point,
+  return {nav,habitats,entities:built.entities,knownLocations:built.knownLocations,doorBarriers,spawn:nav.closestPoint(point)??point,
     initialize(world){
       forest=new ForestResources({entities:world.entities,getNodeState:id=>world.shared.nodes[id],onActivate:tree=>{if(world.shared.nodes[tree.id]?.state!=="depleted")forestObstacles.upsert(tree);},onDeactivate:tree=>{forestObstacles.remove(tree.id);}});
       for(const tree of trees){world.entities.remove(tree.id);forest.register(tree);}

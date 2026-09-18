@@ -1,7 +1,8 @@
+import { runtimeTables } from "../game/src/content/runtimeCatalog.js";
 import { ALL_SPELLS } from "../game/src/content/spells.js";
 import { content } from "../game/src/content/index.js";
 import { beforeAll, describe, expect, it } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { playerSessionState } from "../game/src/state/store.js";
@@ -11,6 +12,14 @@ const descriptor: WorldDescriptor = { providerId: "reference", worldId: "yard", 
 let ports: HeadlessWorldPorts;
 beforeAll(async () => { ports = await createMultiplayerLabWorld(); });
 describe("headless production world", () => {
+  it.each([WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION])("uses the browser's resolved content for %s", contentVersion => {
+    new HeadlessWorld({ ...descriptor, contentVersion }, ports);
+    const expected = runtimeTables(contentVersion === WORLD_LAB_CONTENT_VERSION);
+    expect(content.allItems()).toEqual(expected.items);
+    expect(content.allRecipes()).toEqual(expected.recipes);
+    expect(content.allResources()).toEqual(expected.resources);
+    expect(content.allEnemies()).toEqual([...new Map(expected.enemies.map(enemy => [enemy.id, enemy])).values()]);
+  });
   it("registers the complete production spellbook on the authority", () => {
     new HeadlessWorld(descriptor, ports);
     expect(content.allSpells().map(spell => spell.id)).toEqual(ALL_SPELLS.map(spell => spell.id));

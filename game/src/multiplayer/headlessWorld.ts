@@ -1,11 +1,8 @@
 import { SKILL_IDS, type GameCommand, type Result, type SemanticEntity, type SkillId, type Vec3, type WorldDescriptor, type WorldStorageRecord } from "../contracts.js";
+import { runtimeTables } from "../content/runtimeCatalog.js";
+import { WORLD_LAB_CONTENT_VERSION } from "../contracts.js";
 import { content } from "../content/index.js";
-import { ALL_ITEMS } from "../content/items.js";
-import { RESOURCES } from "../content/resources.js";
-import { RECIPES } from "../content/recipes.js";
-import { ALL_SPELLS } from "../content/spells.js";
 import { ENEMIES } from "../content/enemies.js";
-import { SHOPS } from "../content/shops.js";
 import { SimClock } from "../core/time.js";
 import { createInitialState, composeSessionState, playerSessionState, type SharedWorldState } from "../state/store.js";
 import { EnemyAiSystem } from "../systems/enemyAI.js";
@@ -54,7 +51,8 @@ export class HeadlessWorld {
     if (saved && (saved.contentVersion !== descriptor.contentVersion || saved.seed !== descriptor.seed)) {
       throw new SessionFailure("INCOMPATIBLE", "Stored world content or seed does not match configuration");
     }
-    content.register({ items: ALL_ITEMS, resources: RESOURCES, recipes: RECIPES, spells: ALL_SPELLS, enemies: [...ENEMIES, ...(ports.enemies ?? [])], shops: SHOPS });
+    const catalog = runtimeTables(descriptor.contentVersion === WORLD_LAB_CONTENT_VERSION);
+    content.register({ ...catalog, enemies: [...new Map([...catalog.enemies, ...(ports.enemies ?? [])].map(enemy => [enemy.id, enemy])).values()] });
     this.entities = new EntityStore({ skillLevels: () => Object.fromEntries(SKILL_IDS.map((id) => [id, 99])) as Record<SkillId, number> });
     this.entities.load(saved?.entities ?? structuredClone(ports.entities));
     // Seed from the durable baseline before initialization can remove resident entities.

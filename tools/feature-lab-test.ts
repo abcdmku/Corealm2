@@ -502,7 +502,7 @@ function combatChecks(combat: CombatEvidence): Record<string, boolean> {
       && combat.routeFailureNotices.lines.length === 1
       && combat.routeFailureNotices.lines[0]?.text === UNREACHABLE_DESTINATION_MESSAGE
       && combat.routeFailureNotices.lines[0]?.message === UNREACHABLE_DESTINATION_MESSAGE
-      && combat.routeFailureNotices.lines[0]?.count === null,
+      && combat.routeFailureNotices.lines[0]?.count === "1",
     combatTargetPointerSelects: combat.targetPointer.selectedEntityId === combat.targetPointer.entityId,
     combatMeleeDamagesWithLiveMotion: combat.melee.combatStarted[1] > combat.melee.combatStarted[0]
       && numericFell(combat.melee.health)

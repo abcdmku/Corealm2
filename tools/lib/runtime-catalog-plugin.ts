@@ -8,6 +8,11 @@ export function runtimeCatalogPlugin(): Plugin {
       if (!id.replaceAll('\\', '/').endsWith('/content/compiled/catalog.json')) return;
       const catalog = JSON.parse(source);
       for (const key of ['worldRegions', 'encounters', 'placements', 'resourcePlacements']) delete catalog.tables[key];
+      // These source tables are consumed by the editor/compiler, not gameplay. Their resolved
+      // outputs remain in compiledCreatures, species, items, recipes, and resources.
+      for (const key of ['creatureDefinitions', 'creatureProfiles', 'equipmentFamilies', 'recipeTemplates']) {
+        delete catalog.tables[key];
+      }
       delete catalog.sourceMap;
       return { code: JSON.stringify(catalog), map: null };
     },
