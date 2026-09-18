@@ -33,6 +33,18 @@ describe("rejected save protection", () => {
     vi.unstubAllGlobals();
   });
 
+  it("preserves exact offline bytes across every write path while an online session owns state", () => {
+    const raw = saved(); storage.setItem(SAVE_KEY, raw);
+    service.setOnlineSession(true);
+    expect(service.save(createInitialState(99), NOW)).toBe(false);
+    expect(service.recoverSerialized(saved(), NOW).status).toBe("failed");
+    service.clear();
+    expect(storage.getItem(SAVE_KEY)).toBe(raw);
+    service.setOnlineSession(false);
+    expect(service.save(createInitialState(99), NOW)).toBe(true);
+    expect(service.load().state?.meta.seed).toBe(99);
+  });
+
   it.each([
     ["newer version", () => saved((state) => { state.meta.saveVersion = SAVE_VERSION + 1; })],
     ["malformed JSON", () => " {\n  \"meta\": broken save bytes\n"],

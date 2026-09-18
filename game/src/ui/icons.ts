@@ -4,7 +4,7 @@
  * One or two strokes each, nothing inside the silhouette. At the dock's 22px they have to read as
  * a shape, not a drawing: a bag, a rising bar, a tunic, a scroll, a spark, a key row.
  */
-export type UiIconName = "pack" | "skills" | "equipment" | "quests" | "spells" | "keys" | "lab" | "close";
+export type UiIconName = "pack" | "skills" | "equipment" | "quests" | "spells" | "keys" | "lab" | "close" | "gear";
 
 const PATHS: Readonly<Record<UiIconName, readonly string[]>> = {
   // A backpack: domed body, a strap band across it, a front pocket. The earlier satchel with a
@@ -41,6 +41,11 @@ const PATHS: Readonly<Record<UiIconName, readonly string[]>> = {
     "M9 3h6M10 3v6l-5.5 9.5A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2.5L14 9V3",
   ],
   close: ["m6 6 12 12M18 6 6 18"],
+  // A cog: hub ring and eight short teeth.
+  gear: [
+    "M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z",
+    "M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1",
+  ],
 };
 
 /** Decorative: the surrounding button supplies its accessible name and keyboard behavior. */

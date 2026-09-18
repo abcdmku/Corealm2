@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * The circular minimap cluster, top-right: a player-centred cutout of the baked world map with no
  * labels, plus the two controls that live in the square corners the disc leaves open — the X that
@@ -234,7 +235,7 @@ export class Minimap {
 
   // ------------------------------------------------------------------ input
 
-  private walkTo(clientX: number, clientY: number): void {
+  private async walkTo(clientX: number, clientY: number): Promise<void> {
     this.syncMap();
     const rect = this.disc.getBoundingClientRect();
     if (rect.width < 2) return;
@@ -260,7 +261,7 @@ export class Minimap {
     const x = Math.min(Math.max(player[0] - sx * scale, bounds.minX), bounds.maxX);
     const z = Math.min(Math.max(player[2] - sy * scale, bounds.minZ), bounds.maxZ);
     const height = this.terrain.sample(x, z).height;
-    reportResult(this.api.moveTo({ position: [x, height, z] as Vec3 }));
+    reportResult(await sendGameCommand(this.api, "moveTo", { position: [x, height, z] as Vec3 }));
   }
 
   /**

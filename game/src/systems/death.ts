@@ -68,6 +68,12 @@ export interface DeathHealthPort {
 }
 
 export interface DeathDeps {
+  /** Shared pile pickup may deliver to another party member's inventory. */
+  transferLoot?: (stack: import("../contracts.js").LootStack, pile: SemanticEntity) => Result<number>;
+  /** A shared multiplayer world runs loot expiry once, independently of player death ticks. */
+  sharedLootTimers?: boolean;
+  /** Multiplayer namespaces the one-cache-per-player rule within the shared entity registry. */
+  recoveryCacheId?: EntityId;
   store: Store;
   events: EventBus;
   entities: CombatEntityPort;
@@ -110,8 +116,10 @@ export class DeathSystem implements TickSystem {
     if (state.player.health <= 0 && !this.processing) this.die(state, atMs);
 
     this.expireCache(state, atMs);
-    this.expireLootPiles(state, atMs);
+    if(this.deps.sharedLootTimers!==false)this.tickSharedLoot(atMs);
   }
+
+  tickSharedLoot(atMs:number):void { this.expireLootPiles(this.deps.store.get(),atMs); }
 
   // ------------------------------------------------------------------ death
 
@@ -201,7 +209,7 @@ export class DeathSystem implements TickSystem {
     const expiresAtWallMs = Date.now() + RECOVERY_CACHE_TTL_MS;
 
     state.world.recoveryCache = {
-      id: RECOVERY_CACHE_ID,
+      id: this.deps.recoveryCacheId ?? RECOVERY_CACHE_ID,
       position: cloneVec3(snapped),
       regionId,
       items,
@@ -212,7 +220,7 @@ export class DeathSystem implements TickSystem {
 
     const view = this.deps.cacheView;
     this.deps.entities.add?.({
-      id: RECOVERY_CACHE_ID,
+      id: this.deps.recoveryCacheId ?? RECOVERY_CACHE_ID,
       archetype: "recovery_cache",
       name: "Recovery Cache",
       tier: 1,
@@ -229,7 +237,7 @@ export class DeathSystem implements TickSystem {
       },
     });
 
-    return RECOVERY_CACHE_ID;
+    return this.deps.recoveryCacheId ?? RECOVERY_CACHE_ID;
   }
 
   private destroyCache(state: GameState, reason: string, atMs: number): boolean {
@@ -285,6 +293,7 @@ export class DeathSystem implements TickSystem {
     } else {
       const pile = state.world.lootPiles[entity.id];
       if (!pile) return err("NOT_FOUND", "There is nothing there.", entity.id);
+      if (pile.ownerOnly && pile.ownerId && pile.ownerId !== state.player.id) return err("UNAVAILABLE", "This loot belongs to another player.", entity.id);
       items = pile.items;
     }
 
@@ -298,13 +307,15 @@ export class DeathSystem implements TickSystem {
   }
 
   /** Takes one selected stack, or every stack when `stackIndex` is omitted by an agent command. */
-  take(entityId: EntityId, stackIndex?: number): Result<LootTakeResult> {
+  take(entityId: EntityId, stackIndex?: number, stackId?: string): Result<LootTakeResult> {
+    // Optional tuple arguments arrive as null after JSON serialization.
+    stackIndex = stackIndex ?? undefined;
     const state = this.deps.store.get();
     this.expireCache(state, this.lastAtMs);
     const entity = this.deps.entities.get(entityId);
     if (!entity) return err("NOT_FOUND", "That loot container is gone.", entityId);
 
-    let items: ItemStack[];
+    let items: import("../contracts.js").LootStack[];
     const recovery = entity.archetype === "recovery_cache";
     if (recovery) {
       const cache = state.world.recoveryCache;
@@ -313,9 +324,11 @@ export class DeathSystem implements TickSystem {
     } else {
       const pile = state.world.lootPiles[entityId];
       if (!pile) return err("NOT_FOUND", "There is nothing there.", entityId);
+      if (pile.ownerOnly && pile.ownerId && pile.ownerId !== state.player.id) return err("UNAVAILABLE", "This loot belongs to another player.", entityId);
       items = pile.items;
     }
 
+    if (stackId != null) stackIndex = items.findIndex(stack => stack.stackId === stackId);
     if (
       stackIndex !== undefined
       && (!Number.isInteger(stackIndex) || stackIndex < 0 || stackIndex >= items.length)
@@ -323,13 +336,19 @@ export class DeathSystem implements TickSystem {
       return err("NOT_FOUND", "That stack is no longer in the container.", entityId);
     }
 
-    const taken = this.transfer(items, entity.id, entity.name, this.lastAtMs, stackIndex);
+    let failure: Result<number> | undefined;
+    const routed = !recovery && this.deps.transferLoot;
+    const taken = this.transfer(items, entity.id, entity.name, this.lastAtMs, stackIndex, routed ? stack => {
+      const result = routed(stack, entity); if (!result.ok) failure = result; return result;
+    } : undefined);
     if (taken.length === 0) {
+      if (failure && !failure.ok) return failure;
       const message = recovery ? "You have no room for that item." : "Your inventory is full.";
       return err("INVENTORY_FULL", message, entityId);
     }
 
     const containerEmpty = items.length === 0;
+    if (entity.loot) entity.loot = items.map(stack => ({ ...stack }));
     if (containerEmpty) {
       if (recovery) state.world.recoveryCache = null;
       else delete state.world.lootPiles[entityId];
@@ -345,11 +364,12 @@ export class DeathSystem implements TickSystem {
 
   /** Moves matching stacks and returns the exact quantities accepted by the inventory. */
   private transfer(
-    items: ItemStack[],
+    items: import("../contracts.js").LootStack[],
     sourceId: EntityId,
     sourceName: string,
     atMs: number,
     onlyStackIndex?: number,
+    deliver?: (stack: import("../contracts.js").LootStack) => Result<number>,
   ): ItemStack[] {
     const taken: ItemStack[] = [];
     for (let index = items.length - 1; index >= 0; index -= 1) {
@@ -362,7 +382,7 @@ export class DeathSystem implements TickSystem {
 
       const itemId = stack.itemId;
       const requested = stack.quantity;
-      const added = this.deps.inventory.addItem(itemId, requested);
+      const added = deliver ? deliver(stack) : this.deps.inventory.addItem(itemId, requested);
       if (!added.ok || added.value <= 0) continue;
       const quantity = Math.min(requested, added.value);
 
@@ -373,7 +393,7 @@ export class DeathSystem implements TickSystem {
       if (existing) existing.quantity += quantity;
       else taken.push({ itemId, quantity });
 
-      this.deps.events.emit(
+      if (!deliver) this.deps.events.emit(
         "item.received",
         { itemId, quantity, source: "loot", from: sourceId, sourceName },
         sourceId,

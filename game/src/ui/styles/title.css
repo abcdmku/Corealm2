@@ -491,3 +491,81 @@
   .seg__btn { flex: 1 1 0; }
   .volume { width: 100%; grid-template-columns: minmax(0, 1fr) 34px; }
 }
+
+/* Multiplayer discovery is part of the game menu, with a compact lab fallback. */
+.title__card:has(.worlds) { width: min(760px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; }
+.title__card:has(.worlds) .title__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.worlds { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, #63553b); text-align: left; }
+.worlds__header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.worlds__header h2 { margin: 0; font: 600 20px var(--font-display, Georgia, serif); color: var(--ink, #eadfc8); }
+.worlds__intro { font-size: 13px; line-height: 1.5; color: var(--ink-dim, #b1a58d); margin: 10px 0 16px; }
+.worlds__list { display: grid; gap: 8px; max-height: 220px; overflow-y: auto; }
+.worlds__row { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid #514833; background: #191810; border-radius: 4px; cursor: pointer; }
+.worlds__row:has(input:checked) { border-color: #c9a759; background: #302a1b; }
+.worlds__row--local .worlds__detail strong { color: #eadfc8; }
+.worlds__row--local .worlds__badge { color: #b6aa91; }
+.worlds__row:focus-within { outline: 2px solid #e0c277; outline-offset: 2px; }
+.worlds__row input { accent-color: #c9a759; flex: 0 0 auto; }
+.worlds__detail { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.worlds__detail strong { color: #f2e5c7; font-size: 15px; overflow-wrap: anywhere; }
+.worlds__detail small { color: #b6aa91; font-size: 12px; }
+.worlds__badge { color: #a8c99b; font-size: 12px; flex-shrink: 0; }
+.worlds__badge[data-unavailable] { color: #d1ab78; }
+.worlds__status { min-height: 20px; font-size: 13px; line-height: 1.5; color: #d6bf85; margin: 14px 0; }
+.worlds__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.worlds__actions .btn { flex: 1; min-height: 36px; }
+.worlds__empty { padding: 16px; color: #b6aa91; font-size: 13px; }
+.worlds input[aria-label='Development guest name'] { background: #17160f; color: #f2e5c7; border: 1px solid #63553b; border-radius: 3px; padding: 8px; margin-top: 12px; width: 100%; box-sizing: border-box; }
+.worlds--fixture { position: fixed; right: 18px; top: 200px; width: 300px; max-height: calc(100dvh - 300px); overflow: auto; padding: 18px; margin: 0; background: #18201eef; color: #f2e8cf; border: 1px solid #8f815b; z-index: 110; }
+@media(max-width: 520px) { .worlds__row { flex-wrap: wrap; } .worlds__badge { margin-left: 26px; } .worlds__header { align-items: flex-start; } .title__card:has(.worlds) .title__mark { font-size: 36px; } }
+.worlds__identity { display: block; color: #b6aa91; font-size: 12px; margin: 12px 0; }
+
+/* ---- adding a host: an address field, then the hosts the player keeps */
+.worlds__host { display: flex; gap: 8px; margin-top: 12px; }
+.worlds__host-input { flex: 1; min-width: 0; padding: 8px; font: inherit; font-size: 13px; color: #f2e5c7; background: #17160f; border: 1px solid #63553b; border-radius: 3px; }
+.worlds__host-input::placeholder { color: #8a7f68; }
+.worlds__hosts { display: grid; gap: 4px; list-style: none; margin: 8px 0 0; padding: 0; }
+.worlds__hosts[hidden] { display: none; }
+.worlds__host-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b6aa91; }
+.worlds__host-row span { flex: 1; overflow-wrap: anywhere; }
+.worlds__host-remove { padding: 0 4px; font-size: 15px; line-height: 1; color: #b6aa91; background: none; border: none; cursor: pointer; }
+.worlds__host-remove:hover { color: #f2e5c7; }
+
+/* ---- world selection on the loading screen, while the scene is still being built */
+.worlds.worlds--boot {
+  display: flex;
+  flex-direction: column;
+  width: min(460px, calc(100vw - 32px));
+  /* The list scrolls, not the panel: the one action stays on screen however many worlds there are. */
+  max-height: min(70dvh, 560px);
+  overflow: hidden;
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  color: #f2e8cf;
+  background: #14120cf2;
+  border: 1px solid #63553b;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px #0008;
+  text-align: left;
+}
+
+/* Load-bearing: the display rule above beats the user-agent [hidden] rule, so "Play offline" could
+ * not put the panel away without this. Same trap as `.title[hidden]` at the top of this file. */
+.worlds.worlds--boot[hidden] { display: none; }
+
+.worlds--boot .worlds__intro { margin-bottom: 12px; }
+.worlds--boot .worlds__list { flex: 0 1 auto; min-height: 0; max-height: none; overflow-y: auto; }
+.worlds--boot .worlds__status { margin: 12px 0; }
+.worlds__identity input[aria-label] { margin-top: 5px; }
+.title .worlds > button, .title .worlds > label:not(.worlds__identity) { display: none; }
+.worlds { width: 100%; box-sizing: border-box; }
+.worlds__list { scrollbar-width: thin; scrollbar-color: #8f7950 #17160f; }
+.worlds--fixture { width: 300px; }
+/* Keep the root menu small; discovery gets its own compact view. */
+.title__card[data-view='menu'] { width: min(340px, 100%); padding: 24px; gap: 14px; }
+.title__card[data-view='menu']:not(:has(.title__warning)) .title__tagline { display: none; }
+.title__card:has(.worlds) { width: min(520px, 100%); padding: 20px; gap: 12px; }
+.title__card:has(.worlds) .worlds { margin: 0; padding: 0; border: 0; }
+.title__back { align-self: flex-start; }
+.title__card:has(.worlds) .worlds__row { padding: 10px 12px; }
+.title__card:has(.worlds) .worlds__list { max-height: min(300px, 38dvh); }

@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 import { QuantitySelector } from "./quantitySelector.js";
 /**
@@ -127,9 +128,9 @@ export class ShopPanel implements ManagedPanel {
   }
 
   /** Called from the inventory panel's context menu while a shop is open. */
-  sell(itemId: ItemId, quantity: number): void {
+  async sell(itemId: ItemId, quantity: number): Promise<void> {
     const args = this.shopId ? { shopId: this.shopId, itemId, quantity } : { itemId, quantity };
-    const result = this.ctx.api.shop("sell", args);
+    const result = await sendGameCommand(this.ctx.api, "shop", "sell", args);
     if (result.ok) {
       this.view = result.value;
       notify(`Sold ${quantity} × ${itemName(itemId)}.`, "success");
@@ -140,9 +141,9 @@ export class ShopPanel implements ManagedPanel {
     this.ctx.refresh();
   }
 
-  private buy(itemId: ItemId, quantity: number): void {
+  private async buy(itemId: ItemId, quantity: number): Promise<void> {
     const args = this.shopId ? { shopId: this.shopId, itemId, quantity } : { itemId, quantity };
-    const result = this.ctx.api.shop("buy", args);
+    const result = await sendGameCommand(this.ctx.api, "shop", "buy", args);
     if (result.ok) {
       this.view = result.value;
       notify(`Bought ${quantity} × ${itemName(itemId)}.`, "success");

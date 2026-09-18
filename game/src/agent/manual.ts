@@ -22,6 +22,7 @@ export const EVENT_CATALOGUE: Record<GameEventType, { about: string; fields: str
   "resource.depleted": { about: "A node ran out. It respawns after respawnInSeconds.", fields: "entityId?, itemId?, tier?, respawnInSeconds?" },
   "inventory.full": { about: "Something could not be carried.", fields: "itemId?, name?, attempted?, added?, recipeId?" },
   "item.received": { about: "Items or marks entered the pack. source says how: gather, loot, buy, production. A loot pile drop lists items instead.", fields: "itemId?, name?, quantity?, source?, skill?, from?, currency?, pileId?, items?" },
+  "loot.opened": {about:"The owning player opened a loot container. No items transfer until a take command succeeds.",fields:"container"},
   "item.lost": { about: "Items or marks left the pack: consumed, sold, or dropped on death.", fields: "itemId?, name?, quantity?, reason?, cacheId?, items?" },
   "item.equipped": { about: "Gear moved from the pack to a worn slot. Not an item.lost; replaced names what came off.", fields: "itemId, name, slot, replaced" },
   "item.unequipped": { about: "Gear moved from a worn slot to the pack. Not an item.received.", fields: "itemId, name, slot, quantity" },
@@ -49,6 +50,7 @@ export const EVENT_CATALOGUE: Record<GameEventType, { about: string; fields: str
 };
 
 export const ERROR_CATALOGUE: Record<GameErrorCode, string> = {
+  UNKNOWN_OUTCOME: "The world did not acknowledge the command. Reconnect and inspect authoritative state before retrying; the command may already have committed.",
   NOT_FOUND: "No such entity, item, location, recipe, or request. For an entity: the player has never seen it, or the id is wrong.",
   OUT_OF_RANGE: "Too far away for this interaction. Walk closer (corealm_interact does this for you).",
   NOT_REACHABLE: "No route on the navmesh or the route graph reaches that place.",

@@ -42,6 +42,10 @@ export interface SaveRecovery {
 export class SaveService {
   private available: boolean;
   private recovery: SaveRecovery | null = null;
+  private onlineSession = false;
+
+  /** All offline write paths share this guard, including recovery and explicit reset. */
+  setOnlineSession(active: boolean): void { this.onlineSession = active; }
 
   constructor(persistent = true) {
     // Focused real-engine sessions must never load or overwrite the player's normal save. Keeping
@@ -64,6 +68,7 @@ export class SaveService {
   }
 
   private write(state: GameState, nowMs: number): boolean {
+    if (this.onlineSession) return false;
     try {
       const payload = JSON.parse(JSON.stringify(state)) as GameState;
       payload.meta.saveVersion = SAVE_VERSION;
@@ -146,7 +151,7 @@ export class SaveService {
   }
 
   clear(): void {
-    if (!this.available) return;
+    if (!this.available || this.onlineSession) return;
     try {
       localStorage.removeItem(SAVE_KEY);
       this.recovery = null;

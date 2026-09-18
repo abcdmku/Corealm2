@@ -17,7 +17,7 @@ import { MagicGlow, writesGlowOcclusion } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
-import { compileShadowMeshes, shaderGeometryKey } from "./shaderPreparation.js";
+import { compileCorpseFadeVariants, compileShadowMeshes, shaderGeometryKey } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -564,8 +564,8 @@ export class Renderer {
       root.traverse((object) => {
         const mesh = object as THREE.Mesh;
         if (mesh.isMesh !== true) return;
-        // Skinned meshes are skipped: skinning is a program parameter too, and nothing skinned is
-        // ever a fade candidate — the fade exists for roofs and walls.
+        // These proxies cover architecture. Creature fades need the real skinned mesh;
+        // compileColourPasses prepares those separately.
         if ((mesh as THREE.SkinnedMesh).isSkinnedMesh === true) return;
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         for (const material of materials) {
@@ -621,7 +621,7 @@ export class Renderer {
       const drawable = object as THREE.Mesh & THREE.Points & THREE.Line & THREE.Sprite;
       if (drawable.isMesh) {
         const key = `${shaderGeometryKey(drawable)}:${(Array.isArray(drawable.material) ? drawable.material : [drawable.material])
-          .map(material => material.uuid).join(",")}:${drawable.castShadow}:${drawable.customDepthMaterial?.uuid ?? "depth"}`;
+          .map(material => material.uuid).join(",")}:${drawable.castShadow}:${drawable.customDepthMaterial?.uuid ?? "depth"}:${Boolean(drawable.userData.prepareCorpseFade)}`;
         if (seen.has(key)) return;
         seen.add(key);
       }
@@ -629,27 +629,29 @@ export class Renderer {
     });
     const view = new THREE.Group();
     view.traverse = callback => { callback(view); for (const object of objects) callback(object); };
+    const meshes = objects.filter(object => (object as THREE.Mesh).isMesh) as THREE.Mesh[];
+    const materials = new Map<THREE.Material, THREE.Material>();
+    const copy = (source: THREE.Material): THREE.Material => {
+      const cached = materials.get(source);
+      if (cached) return cached;
+      const clone = source.clone();
+      clone.defines = { ...source.defines };
+      clone.onBeforeCompile = source.onBeforeCompile.bind(source);
+      clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
+      materials.set(source, clone);
+      this.warmupMaterials.push(clone);
+      return clone;
+    };
     this.renderer.compile(view, this.camera, this.scene);
+    compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
     const previous = this.renderer.getRenderTarget();
     const target = new THREE.WebGLRenderTarget(1, 1);
     try {
       this.renderer.setRenderTarget(target);
       this.renderer.compile(view, this.camera, this.scene);
+      compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
       if (this.renderer.shadowMap?.enabled) {
-        const meshes = objects.filter(object => (object as THREE.Mesh).isMesh && object.castShadow) as THREE.Mesh[];
         const fallbackDepth = new THREE.MeshDepthMaterial();
-        const materials = new Map<THREE.Material, THREE.Material>();
-        const copy = (source: THREE.Material): THREE.Material => {
-          const cached = materials.get(source);
-          if (cached) return cached;
-          const clone = source.clone();
-          clone.defines = { ...source.defines };
-          clone.onBeforeCompile = source.onBeforeCompile.bind(source);
-          clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
-          materials.set(source, clone);
-          this.warmupMaterials.push(clone);
-          return clone;
-        };
         try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, copy, fallbackDepth); }
         finally { fallbackDepth.dispose(); }
       }
@@ -675,6 +677,7 @@ export class Renderer {
       this.renderer.setRenderTarget(null);
       passMeshes = meshes.filter(mesh => !mesh.userData['magicGlowOnly']);
       this.renderer.compile(view, this.camera, this.scene);
+      this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root);
       this.renderer.setRenderTarget(target);
       passMeshes = meshes.filter(mesh => mesh.layers.test(this.camera.layers)
         && (mesh.userData['magicGlow'] || writesGlowOcclusion(mesh.material)));
@@ -831,13 +834,24 @@ export class Renderer {
     this.screenAntialiasing.render(this.renderer);
   }
 
-  /** A submitted draw is not yet a playable frame. Wait without blocking input or loading feedback. */
-  async waitForFrame(): Promise<void> {
+  /** Wait for GPU completion, optionally requiring a gameplay submission newer than the caller's baseline. */
+  async waitForFrame(afterSubmission?: number): Promise<void> {
     const gl = this.renderer.getContext() as WebGL2RenderingContext;
+    const deadline = performance.now() + 30_000;
+    if (afterSubmission !== undefined) {
+      for (;;) {
+        const now = performance.now(), state = this.framePacer.snapshot(now);
+        if (state.failed || gl.isContextLost() || now >= deadline)
+          throw new Error('Unable to finish the first game frame');
+        if (state.submitted > afterSubmission) break;
+        // The loop may skip a draw to service input or GPU backpressure. A fence on the
+        // earlier warmup commands cannot certify that the gameplay scene has rendered.
+        await new Promise<void>(resolve => setTimeout(resolve, 8));
+      }
+    }
     const fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
     if (!fence) throw new Error('Unable to finish the first game frame');
     gl.flush();
-    const deadline = performance.now() + 30_000;
     try {
       for (;;) {
         const status = gl.clientWaitSync(fence, 0, 0);

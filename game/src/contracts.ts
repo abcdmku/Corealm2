@@ -10,6 +10,189 @@
 
 // ---------------------------------------------------------------- primitives
 
+// Multiplayer protocol v3. Root owns this boundary and all changes to its callers.
+export const WORLD_PROTOCOL_VERSION = 3;
+export const WORLD_CONTENT_VERSION = "corealm-pve-1";
+export const WORLD_LAB_CONTENT_VERSION = "corealm-pve-1:lab";
+export const MAX_WORLD_PLAYERS = 1000;
+
+export interface WorldKey { providerId: string; worldId: string }
+export interface WorldDescriptor extends WorldKey {
+  name: string;
+  endpoint: string;
+  protocolVersion: number;
+  contentVersion: string;
+  seed: number;
+  population: number;
+  capacity: number;
+  availability: "available" | "full" | "unavailable";
+}
+export type WorldConfiguration = WorldDescriptor | readonly WorldDescriptor[] | { directoryUrl: string };
+export type SessionPhase = "offline" | "connecting" | "connected" | "full" | "incompatible"
+  | "unavailable" | "reconnecting" | "leaving";
+export type SessionErrorCode = "INVALID_MESSAGE" | "INCOMPATIBLE" | "UNAVAILABLE" | "FULL"
+  | "UNAUTHORIZED" | "DUPLICATE_LOGIN" | "SESSION_EXPIRED" | "OUT_OF_ORDER"
+  | "RATE_LIMITED" | "BACKLOG" | "UNKNOWN_OUTCOME";
+export interface SessionError { code: SessionErrorCode; message: string }
+
+/** Only listed gameplay commands cross the trust boundary. No arbitrary method invocation. */
+export const GAME_COMMAND_METHODS = [
+  "moveTo", "stop", "interact", "takeLoot", "useItem", "equipItem", "unequipItem",
+  "produce", "produceAt", "buildCampfire", "attack", "cast", "castNow", "castArea", "setPreferredSpell",
+  "dialogue", "bank", "shop", "hunt",
+] as const;
+export type GameCommandMethod = typeof GAME_COMMAND_METHODS[number];
+export type GameCommand = {
+  [K in GameCommandMethod]: { method: K; args: Parameters<GameApi[K]> }
+}[GameCommandMethod] | { method: "steer"; args: [x: number, z: number] }
+  | { method: "chat"; args: [message: string, channel?: ChatChannel, targetId?: string] }
+  | { method: "party"; args: [operation: PartyOperation, targetId?: string] }
+  | { method: "who"; args: [] };
+export type PartyOperation = "create" | "invite" | "accept" | "decline" | "leave" | "kick" | "disband";
+export const MAX_PARTY_PLAYERS = 8;
+export const LOCAL_CHAT_RADIUS = 30;
+export const LOCAL_CHAT_MAX_LENGTH = 280;
+export const PARTY_REWARD_RADIUS = 48;
+export const PARTY_SHARED_XP_RATE = 0.5;
+/** Nearby reaches 30 m, party reaches connected members anywhere, whisper reaches one named player. */
+export const CHAT_CHANNELS = ["nearby", "party", "whisper"] as const;
+export type ChatChannel = typeof CHAT_CHANNELS[number];
+/** A whisper carries its recipient so the sender's copy can read "To Name". */
+export interface ChatMessage { id: number; channel: ChatChannel; playerId: string; name: string; text: string; atMs: number; toId?: string; toName?: string }
+/** One row of the `who` roster: connected players on the world, excluding the caller. */
+export interface OnlinePlayer { id: string; name: string; level: number }
+export const WHO_LIMIT = 100;
+export interface PartyRecord { id: string; leaderId: string; members: { id: string; name: string }[]; nextLootId: string }
+export interface PartyView {
+  id: string; leaderId: string; nextLootId: string;
+  members: { id: string; name: string; level: number; connected: boolean; nearby: boolean; health: number; maxHealth: number }[];
+}
+export interface SocialView {
+  party: PartyView | null;
+  invitations: { partyId: string; leaderName: string; expiresAtMs: number }[];
+  messages: ChatMessage[];
+}
+export interface CommandEnvelope {
+  sessionId: string;
+  sequence: number;
+  /** Monotonic per authenticated player/world, retained across reconnect and restart. */
+  operation: number;
+  command: GameCommand;
+}
+export type CommandOutcome =
+  | { status: "accepted"; sequence: number; tick: number; result: unknown }
+  | { status: "rejected"; sequence: number; tick: number; error: { code: string; message: string } }
+  | { status: "unknown"; sequence: number; error: SessionError };
+
+/** Public actor appearance deliberately excludes inventory, bank, and quests. */
+export interface RemotePlayer {
+  level: number;
+  id: string;
+  name: string;
+  position: Vec3;
+  facingRad: number;
+  regionId: RegionId;
+  health: number;
+  maxHealth: number;
+  equipment: Partial<Record<EquipSlot, ItemId>>;
+  /** Visible intent only. No carried inventory, recipe, quest, or reward state. */
+  presentation?: { pose: RemotePlayerPose; toolItemId?: ItemId;
+    gathering?: { entityId: EntityId; startedAtMs: number; nextRollAtMs: number };
+    traversal?: { entityId: EntityId; entry: Vec3; exit: Vec3; endsAtMs: number } };
+}
+export type RemotePlayerPose = "idle" | "walk" | "run" | "mine" | "chop" | "fish"
+  | "eat" | "produce" | "climb" | "vault" | "balance" | "slide" | "death";
+/** Ephemeral presentation cues, ordered once per world and never used to apply gameplay writes. */
+export type WorldAction = {
+  sequence: number; playerId: string; position: Vec3; regionId: RegionId;
+} & (
+  | { type: "attack"; attack: import("./systems/combat.js").CombatAttackStart }
+  | { type: "attackCancelled"; sourceId: EntityId }
+  | { type: "hit"; hit: import("./systems/combat.js").CombatHit }
+  | { type: "spell"; atMs: number; spellId: SpellId; targetId: EntityId; aim?: Vec3; flightMs: number; hit: boolean }
+  | { type: "gesture"; atMs: number; pose: "bank" }
+  | { type: "death"; atMs: number }
+);
+export interface WorldUpdate {
+  /** Owner-only social state, including only messages delivered at send time. */
+  social?: SocialView;
+  sessionId: string;
+  sequence: number;
+  baseSequence: number | null;
+  tick: number;
+  simMs: number;
+  acknowledgedCommand: number;
+  snapshot: boolean;
+  players: RemotePlayer[];
+  /** Cosmetic transforms, four little-endian float32 values per ID (x, y, z, facing), base64 encoded. */
+  playerMotion?: { ids: string[]; data: string };
+  removedPlayers: string[];
+  entities: SemanticEntity[];
+  removedEntities: EntityId[];
+  events?: GameEvent[];
+  /** Public, interest-filtered cues. Private events remain exclusive to their owner. */
+  actions?: WorldAction[];
+  /** Owning player's state only, filtered before serialization. */
+  privateState?: import("./state/store.js").PlayerSessionState;
+  /** Changed top-level private fields. Applied atomically to a valid snapshot by the provider. */
+  privateDelta?: Partial<import("./state/store.js").PlayerSessionState>;
+}
+export interface WorldSession {
+  readonly id: string;
+  readonly world: WorldKey | null;
+  readonly playerId: string;
+  command(command: GameCommand): Promise<CommandOutcome>;
+  subscribe(listener: (update: WorldUpdate) => void): () => void;
+  subscribeStatus?(listener: (phase: SessionPhase) => void): () => void;
+  close(): Promise<void>;
+}
+export interface SessionCredentials {
+  /** Memory-only credential supplied by an authentication adapter. Never serialize into configuration. */
+  token: string;
+}
+export interface WorldProvider {
+  readonly id: string;
+  discover(signal?: AbortSignal): Promise<WorldDescriptor[]>;
+  authenticate(world: WorldDescriptor, signal?: AbortSignal): Promise<SessionCredentials>;
+  connect(world: WorldDescriptor, credentials: SessionCredentials, signal?: AbortSignal): Promise<WorldSession>;
+}
+export interface WorldStorageRecord {
+  parties?: PartyRecord[];
+  schemaVersion: 1;
+  key: WorldKey;
+  contentVersion: string;
+  seed: number;
+  tick: number;
+  world: import("./state/store.js").SharedWorldState;
+  players: Record<string, import("./state/store.js").PlayerSessionState>;
+  entities: SemanticEntity[];
+  /** Opt-in storage delta: upsert supplied entities and delete only the listed IDs. */
+  entityWrites?: "patch";
+  removedEntityIds?: string[];
+  /** Append-only immutable receipts; hosts may evict the oldest entries as the retry window advances. */
+  receipts: Record<string, Readonly<{ operation: number; command: string; sequence: number; outcome: CommandOutcome }>[]>;
+  /** Server-only random cursors survive restart; never included in replicated player state. */
+  random?: {world:import("./core/rng.js").RngStreamState;players:Record<string,import("./core/rng.js").RngStreamState>};
+  /** Patch mode retains omitted players and their receipts durably; world state remains a full snapshot. */
+  playerWrites?: "patch";
+}
+export interface StoredWorldPlayer {
+  state: import("./state/store.js").PlayerSessionState;
+  receipts: WorldStorageRecord["receipts"][string];
+  random?: import("./core/rng.js").RngStreamState;
+}
+export interface WorldStorage {
+  /** Supports entity patches atomically with all other state. Loads always return complete entities. */
+  readonly entityPatches?: true;
+  load(key: WorldKey): Promise<WorldStorageRecord | null>;
+  /** Optional paired capability: load only players with live owned objects, and fetch others on admission. */
+  loadResident?(key:WorldKey):Promise<WorldStorageRecord|null>;
+  loadPlayer?(key:WorldKey,playerId:string):Promise<StoredWorldPlayer|null>;
+  /** Atomically commits state and command receipts. Resolve only after durable commit. */
+  commit(record: WorldStorageRecord): Promise<void>;
+  close(): Promise<void>;
+}
+
 /** World-space point in metres, Y-up. Tuple form, per the brief's semantic-entity example. */
 export type Vec3 = readonly [number, number, number];
 
@@ -226,6 +409,7 @@ export interface StructureVariantDescriptor<TPrefab extends string = string> {
 // ---------------------------------------------------------- items, equipment
 
 export interface ItemStack { itemId: ItemId; quantity: number }
+export interface LootStack extends ItemStack { partyId?: string; stackId?: string }
 export interface InventorySlot extends ItemStack { slotIndex: number }
 
 /** Read-only contents revealed by opening a world loot container. */
@@ -233,13 +417,13 @@ export interface LootContainerView {
   entityId: EntityId;
   name: string;
   position: Vec3;
-  items: ItemStack[];
+  items: LootStack[];
 }
 
 /** Exact result of explicitly taking one displayed stack from a world loot container. */
 export interface LootTakeResult {
   taken: ItemStack[];
-  remaining: ItemStack[];
+  remaining: LootStack[];
   containerEmpty: boolean;
 }
 
@@ -311,6 +495,8 @@ export interface ItemDef {
 // ------------------------------------------------------- the semantic entity
 
 export interface SemanticEntity {
+  /** Public pile contents; collection still passes through the authority. */
+  loot?: LootStack[];
   id: EntityId;
   archetype: Archetype;
   name: string;
@@ -432,6 +618,12 @@ export interface SemanticEntity {
      * runs/corealm/screenshots/RIG-town-player.png — which reads far worse than a missing sleeve.
      */
     partAssetIds?: readonly string[];
+    /** Client presentation only: sampled crowd animation without individual shadows. */
+    crowd?: boolean;
+    /** Context-only actors ignore hover and left click. False ignores all pointer targeting. */
+    pickable?: boolean | "context";
+    /** Public equipped item IDs. Preserve these appearances at every presentation tier. */
+    equipment?: Partial<Record<EquipSlot,ItemId>>;
     /**
      * Terrain normal under this entity: UNIT LENGTH, WORLD SPACE, Y-up.
      *
@@ -554,7 +746,7 @@ export type GameErrorCode =
   | "NOT_FOUND" | "OUT_OF_RANGE" | "NOT_REACHABLE" | "REQUIREMENTS_NOT_MET"
   | "INVENTORY_FULL" | "BUSY" | "INVALID_ARGUMENT" | "DEAD" | "DEPLETED"
   | "NOT_ENOUGH_CURRENCY" | "NOT_ENOUGH_ITEMS" | "NO_DIALOGUE"
-  | "TIMEOUT" | "UNAVAILABLE"
+  | "TIMEOUT" | "UNAVAILABLE" | "UNKNOWN_OUTCOME"
   /**
    * Agent-session refusals. These never come from the world: they are the collaboration contract
    * saying no before the world is asked. `NOT_PERMITTED` is a tool the current mode or control
@@ -568,7 +760,7 @@ export const GAME_ERROR_CODES: readonly GameErrorCode[] = [
   "NOT_FOUND", "OUT_OF_RANGE", "NOT_REACHABLE", "REQUIREMENTS_NOT_MET",
   "INVENTORY_FULL", "BUSY", "INVALID_ARGUMENT", "DEAD", "DEPLETED",
   "NOT_ENOUGH_CURRENCY", "NOT_ENOUGH_ITEMS", "NO_DIALOGUE",
-  "TIMEOUT", "UNAVAILABLE",
+  "TIMEOUT", "UNAVAILABLE", "UNKNOWN_OUTCOME",
   "NOT_PERMITTED", "PAUSED", "CANCELLED", "APPROVAL_REQUIRED",
 ];
 
@@ -628,6 +820,7 @@ export type GameEventType =
   | "level.gained" | "production.completed"
   | "campfire.built" | "campfire.replaced" | "campfire.expired"
   | "quest.updated" | "dialogue.opened" | "dialogue.closed"
+  | "loot.opened"
   | "entity.discovered"
   /**
    * The collaboration session, published on the same bus as the world so an agent waits on a
@@ -646,6 +839,7 @@ export type GameEventType =
   | "overlay.arrived" | "agent.guide";
 
 export const GAME_EVENT_TYPES: readonly GameEventType[] = [
+  "loot.opened",
   "navigation.started", "navigation.completed", "navigation.failed",
   "activity.started", "activity.stopped",
   "resource.depleted", "inventory.full",
@@ -670,6 +864,7 @@ export const GAME_EVENT_TYPES: readonly GameEventType[] = [
  * documentation cannot drift from the type.
  */
 export interface GameEventPayloads {
+  "loot.opened": { container: LootContainerView };
   "navigation.started": { pathLength?: number; etaMs: number; points?: number; legs?: number; route?: boolean };
   "navigation.completed": { position: Vec3 };
   "navigation.failed": { reason: string; to?: Vec3 };
@@ -1338,6 +1533,9 @@ declare global {
  * Nothing here throws across the boundary. Failures come back as `Result<T>`.
  */
 export interface GameApi {
+  hunt(op: "refresh" | "accept" | "claim" | "abandon", offerId?: string): Result<unknown>;
+  /** External write path. Await the authoritative decision in either local or remote sessions. */
+  submit?(command: GameCommand): Promise<CommandOutcome>;
   // state
   getPlayer(): PlayerView;
   getSkills(): Record<SkillId, SkillView>;
@@ -1369,7 +1567,7 @@ export interface GameApi {
   // interaction
   interact(entityId: EntityId, interaction: InteractionId): Result<{ started: string }>;
   /** Takes one displayed stack from a world loot container. Omit `stackIndex` to take all. */
-  takeLoot(entityId: EntityId, stackIndex?: number): Result<LootTakeResult>;
+  takeLoot(entityId: EntityId, stackIndex?: number, stackId?: string): Result<LootTakeResult>;
   useItem(itemId: ItemId, target?: { itemId: ItemId }): Result<{ effect: string }>;
   equipItem(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }>;
   unequipItem(slot: EquipSlot): Result<{ itemId: ItemId }>;

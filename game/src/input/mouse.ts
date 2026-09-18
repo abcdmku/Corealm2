@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * Human pointer input: hover feedback, click-to-move, click-to-interact, camera orbit and zoom.
  *
@@ -57,6 +58,8 @@ export interface MovementLike {
 }
 
 export interface InputOptions {
+  /** Drawn local origin for cursor steering when movement is predicted. */
+  movementPosition?: () => Vec3;
   /** Root wires this to the render layer's entity pick at integration. */
   entityPickSource?: PickSource | null;
   /** Alternative wiring shape; see `PickerSources`. */
@@ -189,7 +192,7 @@ export class InputController {
    * keyboard on both transitions prevents a movement key pressed in inspection mode from taking
    * effect when walking is enabled again.
    */
-  setMovementEnabled(enabled: boolean): void {
+  async setMovementEnabled(enabled: boolean): Promise<void> {
     if (this.movementEnabled === enabled) return;
     this.movementEnabled = enabled;
     this.contextMenu.close();
@@ -197,7 +200,7 @@ export class InputController {
     this.joystick?.clear();
     this.joystick?.setVisible(enabled && this.touchEnabled);
     this.movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: this.camera.yaw });
-    if (!enabled) this.api.stop();
+    if (!enabled) await sendGameCommand(this.api, "stop");
   }
 
   setFreeCameraEnabled(enabled: boolean): void {
@@ -262,7 +265,7 @@ export class InputController {
   };
 
   // Additional mouse buttons produce pointermove, so track the buttons mask independently.
-  private syncButtons(event: PointerEvent): void {
+  private async syncButtons(event: PointerEvent): Promise<void> {
     const previous = this.heldButtons;
     const next = event.buttons;
     const pressed = next & ~previous;
@@ -287,7 +290,7 @@ export class InputController {
       this.movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: this.camera.yaw });
       if (this.leftDragging && this.movementEnabled && this.picker.containsPoint(event.clientX, event.clientY)) {
         const pick = this.picker.pickGroundAt(event.clientX, event.clientY);
-        if (pick && reportResult(this.api.moveTo({ position: pick.point }))) {
+        if (pick && reportResult(await sendGameCommand(this.api, "moveTo", { position: pick.point }))) {
           this.options.onWalkDestination?.(pick.point);
         }
       }
@@ -497,22 +500,22 @@ export class InputController {
   }
 
   private handleRightClick(clientX: number, clientY: number): void {
-    const pick = this.picker.pickAt(clientX, clientY);
+    const pick = this.picker.pickAt(clientX, clientY, true);
     if (!pick) return;
     const options = { movementEnabled: this.movementEnabled };
     if (pick.entityId) this.contextMenu.openForEntity(pick.entityId, clientX, clientY, options);
     else this.contextMenu.openForGround(pick.point, clientX, clientY, options);
   }
 
-  private moveTo(target: MoveTarget, feedbackPoint: Vec3): void {
+  private async moveTo(target: MoveTarget, feedbackPoint: Vec3): Promise<void> {
     if (!this.movementEnabled) return;
-    const moved = this.api.moveTo(target);
+    const moved = await sendGameCommand(this.api, "moveTo", target);
     if (!reportResult(moved)) return;
     this.options.onWalkDestination?.(feedbackPoint);
   }
 
   /** Resolves Space's hovered or selected target through the same interaction path as a click. */
-  private interactPrimary(entityId: EntityId): void {
+  private async interactPrimary(entityId: EntityId): Promise<void> {
     if (!this.movementEnabled) {
       this.inspectEntity(entityId);
       return;
@@ -521,7 +524,7 @@ export class InputController {
     if (!interaction) {
       // No interactions known yet (the entity hook may not be registered). Walking there is still
       // the honest interpretation of the action.
-      reportResult(this.api.moveTo({ entityId }));
+      reportResult(await sendGameCommand(this.api, "moveTo", { entityId }));
       return;
     }
     // Examine is a read, so it takes the read path — same as the context menu's Examine entry.
@@ -529,7 +532,7 @@ export class InputController {
   }
 
   /** Shared by the left click and by Space, so both routes cannot drift apart. */
-  private runInteraction(entityId: EntityId, interaction: InteractionId): void {
+  private async runInteraction(entityId: EntityId, interaction: InteractionId): Promise<void> {
     if (!this.movementEnabled && interaction !== "inspect") return;
     if (interaction === "inspect") {
       this.inspectEntity(entityId);
@@ -539,7 +542,7 @@ export class InputController {
       this.options.onProduction(entityId);
       return;
     }
-    reportResult(this.api.interact(entityId, interaction));
+    reportResult(await sendGameCommand(this.api, "interact", entityId, interaction));
   }
 
   private inspectEntity(entityId: EntityId): void {
@@ -585,33 +588,35 @@ export class InputController {
     const direct = forward !== 0 || strafe !== 0 || (this.leftDragging && this.movementEnabled);
     if (direct && !this.directIntentActive) {
       // Even a tap shorter than one world tick cancels pursuit, before local movement advances.
-      this.api.stop();
+      void sendGameCommand(this.api, "stop");
       this.setSelected(null);
       this.options.onDirectMoveStart?.();
     }
     this.directIntentActive = direct;
-    this.movement.setDirectInput({ forward, strafe, cameraYaw: this.camera.yaw });
-    if (forward === 0 && strafe === 0) this.updateHeldMove();
+    if (forward !== 0 || strafe !== 0 || !this.updateHeldMove()) {
+      this.movement.setDirectInput({ forward, strafe, cameraYaw: this.camera.yaw });
+    }
     this.updateHover();
   }
 
   /** Steer through the same acceleration and collision handling as keyboard movement. */
-  private updateHeldMove(): void {
-    if (!(this.heldButtons & 1) || !this.leftDragging || !this.movementEnabled) return;
+  private updateHeldMove(): boolean {
+    if (!(this.heldButtons & 1) || !this.leftDragging || !this.movementEnabled) return false;
 
     const x = this.heldMoveX;
     const y = this.heldMoveY;
-    if (!Number.isFinite(x) || !Number.isFinite(y) || !this.picker.containsPoint(x, y)) return;
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !this.picker.containsPoint(x, y)) return false;
 
     const pick = this.picker.pickGroundAt(x, y);
-    if (!pick) return;
-    const player = this.api.getPlayer().position;
+    if (!pick) return false;
+    const player = this.options.movementPosition?.() ?? this.api.getPlayer().position;
     const dx = pick.point[0] - player[0];
     const dz = pick.point[2] - player[2];
     // Ease down within a metre of the cursor. Zero yaw makes these world-space axes.
     const scale = Math.max(1, Math.hypot(dx, dz));
     this.movement.setDirectInput({ forward: -dz / scale, strafe: dx / scale, cameraYaw: 0 });
     this.options.onWalkDestination?.(pick.point);
+    return true;
   }
 
   private updateHover(): void {

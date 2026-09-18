@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * What happened when you died, and where your things are.
  *
@@ -194,12 +195,12 @@ export class DeathScreen {
     };
   }
 
-  private walkBack(): void {
+  private async walkBack(): Promise<void> {
     const detail = this.detail;
     if (!detail?.cacheId) return;
     // A failed Result speaks for itself through the notice channel: NOT_FOUND when the cache has
     // already gone, NOT_REACHABLE when there is no path back to it.
-    if (report(this.ctx.api.moveTo({ entityId: detail.cacheId }))) this.hide();
+    if (report(await sendGameCommand(this.ctx.api, "moveTo", { entityId: detail.cacheId }))) this.hide();
   }
 
   // ----------------------------------------------------------------- building

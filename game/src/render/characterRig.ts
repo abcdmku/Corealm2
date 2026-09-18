@@ -134,7 +134,7 @@ const GATHER_IMPACT_PHASE = 0.22;
  * Every name here resolves against the loaded set — verified against `listClips()`, 85 names, zero
  * misses. Reachability, not resolution, was the old bug: `poseFor` could emit only 9 of these 15.
  */
-const POSE_CLIPS: Record<CharacterPose, readonly string[]> = {
+export const POSE_CLIPS: Record<CharacterPose, readonly string[]> = {
   idle: ["Idle_Loop", "Idle_FoldArms_Loop"],
   walk: ["Walk_Loop"],
   run: ["Jog_Fwd_Loop", "Sprint_Loop"],

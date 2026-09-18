@@ -10,6 +10,13 @@
 }
 
 .loot-reveal[hidden] { display: none; }
+.loot-reveal:has([data-party-loot])::before {
+  content: "Party round robin";
+  display: block;
+  color: #ead6a0;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
 
 .loot-reveal__grid {
   grid-template-columns: repeat(var(--slot-columns), 46px);

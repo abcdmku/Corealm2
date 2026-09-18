@@ -18,6 +18,10 @@ import generationRevision from "virtual:corealm-generation-revision";
 import { GenerationCache } from "../world/generationCache.js";
 import { generationScope } from "../world/worldDataFormat.js";
 import { ShippedWorldData } from "../world/shippedWorldData.js";
+import { mobSpawnPlacementPorts } from "./mobSpawns.js";
+import { registerHabitatClearances } from "./habitatClearances.js";
+import { registerExclusions } from "./worldExclusions.js";
+import { buildDungeonSpec } from "./dungeonSpec.js";
 /**
  * Boot sequence. The order is fixed because two WASM modules and the navmesh have hard ordering
  * (runs/corealm/architecture.md section 3, verified in stack-findings.md section 1).
@@ -117,6 +121,7 @@ import { GatheringSystem } from "../systems/gathering.js";
 import { EssenceSystem } from "../systems/essence.js";
 import { AgilitySystem } from "../systems/agility.js";
 import { TraversalPresentation } from "../render/traversalPresentation.js";
+import { huntContractsView } from "../ui/huntContracts.js";
 import { HuntContractsSystem } from "../systems/huntContracts.js";
 import { deriveHuntTargets } from "../content/huntContracts.js";
 import { CombatSystem } from "../systems/combat.js";
@@ -200,7 +205,8 @@ export interface BootOptions {
 export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {}): Promise<BootResult> {
   const profile = options.profile ?? GAME_BOOT_PROFILE;
   const performanceLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("performance") === "1";
-  const runtimePerformanceEnabled = profile.kind === "game" || performanceLab;
+  const multiplayerFixture = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("multiplayer") === "1";
+  const runtimePerformanceEnabled = profile.kind === "game" || performanceLab || multiplayerFixture;
   // The lab workbench is the primary interface for this profile, so fetch its deferred chunk while
   // terrain, assets, and WASM initialize. Normal game boot never requests it.
   if (profile.kind === "feature-lab") preloadFeatureLabPanel();
@@ -250,6 +256,25 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     requestAnimationFrame(refreshStatusFrame);
   };
   requestAnimationFrame(refreshStatusFrame);
+
+  // World selection runs beside loading rather than after it. Discovery is network work that needs
+  // nothing from the engine, so the panel goes on the loading screen and the player picks a world,
+  // adds a host or types a character name while the scene is still being built. Joining stays shut
+  // until the first frame is drawn; a choice made before then is honoured the moment it opens.
+  const worldSelection = profile.kind === "game"
+    ? import("../multiplayer/browserSession.js").then(({ startWorldSelection }) => startWorldSelection()).catch(() => null)
+    : Promise.resolve(null);
+  // Set when the player answers "local play only" on the loading screen: the menu must not then
+  // open over the game they just asked to start.
+  let choseLocalPlay = false;
+  void worldSelection.then((selection) => {
+    const screen = document.getElementById("boot-screen");
+    if (!selection) return;
+    selection.panel.addEventListener("worldsdismiss", () => { choseLocalPlay = true; });
+    if (!screen) return;
+    selection.panel.classList.add("worlds--boot");
+    screen.append(selection.panel);
+  });
 
   // 2. Core services and save. The save must win before any seeded world work starts. Loading it
   // after buildWorld meant a custom-seed save resumed inside a world built from seed 1337.
@@ -541,12 +566,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     dungeonRegion.dungeon, heightAt(dungeonRegion.id, ...dungeonRegion.dungeon.entrance),
   ) : [];
   const doorThresholds = doorFixture?.thresholds ?? worldDoorThresholds;
-  const gates = doorThresholds.length || agilityFixture || profile.kind === 'game' ? await import("../render/dungeonGate.js") : null;
+  const gates = doorThresholds.length || agilityFixture || multiplayerFixture || profile.kind === 'game' ? await import("../render/dungeonGate.js") : null;
   let gateMaterials: import("../render/dungeonGate.js").DungeonGateMaterials | null = null;
   if (gates) {
     gateMaterials = gates.createDungeonGateMaterials(surfaceTextures, scene.materials.metal(1));
     await gates.registerDungeonGateAssets(assets, gateMaterials);
-    if (profile.kind === 'game' || agilityFixture) {
+    if (profile.kind === 'game' || agilityFixture || multiplayerFixture) {
       const { registerTraversalContactAssets } = await import('../render/traversalContactAssets.js');
       registerTraversalContactAssets(assets, gateMaterials);
     }
@@ -884,6 +909,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const forestObstacles = new ForestObstacles();
   const forestInstances = new Map<string, { descriptor: ForestTreeDescriptor; setVisible: (visible: boolean) => void }>();
   const forestPresentation = new ForestPresentation();
+  let multiplayerWorld=false;
   const forest = new ForestResources({
     entities: entityStore,
     getNodeState: (id) => store.get().world.nodes[id],
@@ -902,8 +928,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     forestPresentation.register(descriptor.id, visible => setVisible(visible && !excluded()));
     if (excluded()) setVisible(false);
     else forest.register(descriptor);
+    if(multiplayerWorld){const entity=entityStore.get(descriptor.id);if(entity)forestPresentation.activate(descriptor.id,entity.state==="depleted");else forestPresentation.deactivate(descriptor.id);}
   };
   const updateForest = (): void => {
+    if(multiplayerWorld)return;
     const state = store.get();
     const pins = new Set<string>();
     if (state.player.movement.destinationEntityId) pins.add(state.player.movement.destinationEntityId);
@@ -1094,52 +1122,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const residents = refineCreaturePopulation(actors, undefined, worldPorts.assetSize);
       actors.splice(0, actors.length, ...residents);
     }
-    const placementSolids = new Solids(built.solids);
-    const habitatSources = new Map(worldHabitats.map(habitat => [habitat.groupId, habitat]));
-    const ports: import('../world/mobSpawnSpacing.js').MobSpawnSpacingPorts = {
-      underground: regionId => regionId === dungeonSpec?.regionId,
-      place: (entity, x, z, radius) => {
-        const underground = entity.regionId === dungeonSpec?.regionId;
-        if (underground) {
-          for (const threshold of doorThresholds) {
-            const side = (px: number, pz: number) => (px - threshold.origin[0]) * Math.sin(threshold.rotationY)
-              + (pz - threshold.origin[2]) * Math.cos(threshold.rotationY);
-            const originalSide = side(entity.position[0], entity.position[2]);
-            if (side(x, z) * Math.sign(originalSide) < radius + .4) return null;
-          }
-        } else if (profile.kind === 'game' && Math.hypot(x - profile.spawn.x, z - profile.spawn.z) < radius + 25) {
-          // The owner placed these passive worms on the south-wall verge inside
-          // the starter buffer. Keep the exception within that authored patch;
-          // normal body clearance, dry ground and navigation checks still apply.
-          const southWallWorm = entity.meta?.groupId === 'coldbrace_red_worms'
-            && entity.meta?.behaviour === 'passive' && x > -154 && x < -132 && z > -129 && z < -112;
-          if (!southWallWorm) return null;
-        }
-        const floor = (px: number, pz: number): number | null => {
-          if (underground) return chamberFloorAt(dungeonSpec!, [px, entity.position[1], pz]);
-          if (profile.kind === 'feature-lab') return Math.abs(px) < 120 && Math.abs(pz) < 120 ? scene.meshHeightAt(px, pz) : null;
-          const sample = terrainAt(px, pz).placementSurfaceAt(px, pz);
-          const coast = habitatSources.get(String(entity.meta?.groupId))?.boundary === 'playable-coast';
-          return sample && (coast || sample.semanticRegion === entity.regionId) && !sample.waterBodyId
-            && sample.slope < .65 ? sample.height : null;
-        };
-        const y = floor(x, z);
-        if (y === null) return null;
-        const point: Vec3 = [x, y, z];
-        const resolved = placementSolids.resolve(point, point, radius + .4);
-        if (Math.hypot(resolved[0] - x, resolved[2] - z) > .001) return null;
-        for (let index = 0; index < 16; index++) {
-          const angle = index * Math.PI / 8;
-          const edge = floor(x + Math.cos(angle) * (radius + .4), z + Math.sin(angle) * (radius + .4));
-          if (edge === null || Math.abs(edge - y) > Math.max(1, radius * .65)) return null;
-        }
-        const snapped = nav.nearestWalkable(point, .3);
-        if (!snapped || Math.hypot(snapped[0] - x, snapped[2] - z) > .3 || Math.abs(snapped[1] - y) > .6) return null;
-        const originalFloor = underground ? dungeonFloorHeight(dungeonSpec!, entity.position[0], entity.position[2])
-          : terrainAt(entity.position[0], entity.position[2]).meshHeightAt(entity.position[0], entity.position[2]);
-        return [x, y + entity.position[1] - originalFloor, z];
-      },
-    };
+    const ports = mobSpawnPlacementPorts(worldHabitats, { solids: built.solids, scene, nav, dungeonSpec, doorThresholds, profile, terrainAt });
     const apply = (habitats: HabitatDef[]): void => {
       worldHabitats.splice(0, worldHabitats.length, ...habitats.filter(habitat => habitat.regionId !== dungeonSpec?.regionId));
       for (const habitat of habitats) worldPackHabitats.set(habitat.groupId, habitat);
@@ -1213,6 +1196,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Pools and their lights are stable throughout play. Compile their programs while the CPU
   // generates vegetation and loads models, then wait for completion at the final reveal gate.
   const spellVfx = new SpellVfx({
+    multiplayer: multiplayerFixture || Boolean(window.__COREALM_MULTIPLAYER__),
     parent: scene.overlayGroup,
     camera: renderer.camera,
     groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
@@ -1476,7 +1460,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       },
     );
   }
-  if (profile.fullWarmup || performanceLab) {
+  if (profile.fullWarmup || performanceLab || multiplayerFixture) {
     if (dungeon && !caveFixture) dungeon.group.visible = loadRegion === "gravelmaw";
     scene.setStreamingRadius(fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance);
     fairyRealm?.scene.setStreamingRadius(fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance);
@@ -1942,7 +1926,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     entity: (id) => entityStore.get(id),
     awardXp: questXpPort.award,
   });
-  if (store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
+  api.register("hunts", hunts);
+  if (!api.isOnlineSession() && store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
   if (huntFixture) (window as Window & { __huntLab?: unknown }).__huntLab = {
     snapshot: () => hunts.snapshot(), refreshOffers: () => hunts.refreshOffers(),
     accept: (id: string) => hunts.accept(id), claim: () => hunts.claim(), abandon: () => hunts.abandon(),
@@ -2034,7 +2019,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   api.register("activity", activitySystem.hook());
   api.register("loot", {
-    take: (entityId, stackIndex) => deathSystem.take(entityId, stackIndex),
+    take: (entityId, stackIndex, stackId) => deathSystem.take(entityId, stackIndex, stackId),
   });
 
   api.register("entities", {
@@ -2168,7 +2153,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // "Click a distant ore" must walk there AND THEN mine it. The API remembers the intent; this is
   // what fires it on arrival. Both a human click and an agent tool call route through here.
-  events.subscribe((event) => {
+  events.subscribeSimulation((event) => {
     // Events are flushed after input. A finished or cancelled old route must not consume the
     // interaction queued by a replacement route that is already moving.
     if (store.get().player.movement.mode !== "idle") return;
@@ -2215,6 +2200,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
 
   const input = new InputController(canvas, renderer, camera, api, movement, {
+    movementPosition: () => api.isOnlineSession() ? playerRig.root.position.toArray() as Vec3 : api.getPlayer().position,
     onHoverChange: (entityId) => {
       const inspected = entityId ? api.inspect(entityId) : null;
       const next = inspected?.ok && inspected.value.interactions.length > 0 ? entityId : null;
@@ -2243,8 +2229,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     onDirectMoveStart: () => overlays.clear(WALK_DESTINATION_HIGHLIGHT_ID),
     onProduction: (entityId) => ui.openProduction(entityId),
   });
-  input.setEntityPickSource((raycaster) => {
-    let hit = entityViews.pickHit(raycaster);
+  input.setEntityPickSource((raycaster, context) => {
+    let hit = entityViews.pickHit(raycaster, context);
     const mouthHit = raycaster.intersectObjects(portalPickMeshes.filter(object =>
       entityStore.get(object.userData["portalEntityId"])?.regionId === store.get().player.regionId), true)[0];
     if (mouthHit && (!hit || mouthHit.distance < hit.distance)) {
@@ -2751,6 +2737,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       engineErrors: () => errors.map((entry) => `${entry.source}: ${entry.message}`),
       groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
     });
+    featureLab = new Proxy(featureLab, { get(target, key, receiver) {
+      const value=Reflect.get(target,key,receiver);
+      if (typeof value!=="function" || key==="getState" || key==="getCatalog") return value;
+      return (...args:unknown[])=>{
+        if(api.isOnlineSession())throw new Error("Leave the multiplayer world before changing local lab fixtures");
+        return value.apply(target,args);
+      };
+    } });
     const structurePatch: Partial<FeatureLabStructureSelection> = {};
     const sourceKind = params.get("kind");
     if (sourceKind === "prefab" || sourceKind === "composition" || sourceKind === "wall-run") {
@@ -2895,6 +2889,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     agentSession: agent.session,
   });
   openLootContainer = (container) => ui.openLoot(container);
+  events.subscribe(event=>{if(event.type==="loot.opened")openLootContainer?.(event.data.container as unknown as LootContainerView);});
   ui.mount(labelRoot);
   // The pinned quest's current objective is a marker in the world; it follows the quest's stages.
   guidance.attachQuests({ pinnedQuestId: () => ui.pinnedQuestId(), quests: () => api.getQuests() });
@@ -3251,7 +3246,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const player = store.get().player;
     refreshVisualResidency(player.position, player.regionId);
   }, () => forestPresentation.reconcile((id) => entityViews.hasView(id)));
-  ui.setHuntContracts(hunts);
+  ui.setHuntContracts(huntContractsView(hunts, api));
   loop.setTraversalPresentation(() => traversalPresentation.current());
 
   const rebuildSemanticWorld = (): void => {
@@ -3853,7 +3848,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
   // a different cache key, including for Three's internal sky shader on the first water draw.
   if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
-  if (profile.fullWarmup || performanceLab) {
+  if (profile.fullWarmup || performanceLab || multiplayerFixture) {
     setStatus("Finishing graphics…",5);
     bootTelemetry.measureSync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
   }
@@ -3885,10 +3880,32 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
     if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
   } else {
+    // The configured multiplayer entry point presents world selection as loading finishes.
+    // Keep the boot cover until discovery and the selector are mounted, so there is no extra
+    // offline "enter game" step before the player can choose their actual world.
+    const selection = await worldSelection;
+    if(profile.kind==="game"&&selection){
+      const {installBrowserSession}=await import("../multiplayer/browserSession.js");
+      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,saves,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
+        mountWorlds:panel=>{panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);},
+        phase(phase){
+          multiplayerWorld=phase!=="offline";
+          if(["reconnecting","unavailable","incompatible","full"].includes(phase))ui.openTitle("worlds");
+        },
+        applied(update){
+          if(update.snapshot)for(const id of forestInstances.keys())forestPresentation.deactivate(id);
+          for(const entity of update.entities)if(forestInstances.has(entity.id))forestPresentation.activate(entity.id,entity.state==="depleted");
+          for(const id of update.removedEntities)if(forestInstances.has(id))forestPresentation.deactivate(id);
+          const player=store.get().player;refreshVisualResidency(player.position,player.regionId,update.snapshot);audioDirector.setRegion(player.regionId);
+        },
+        restored(){multiplayerWorld=false;forest.reset();for(const {descriptor}of forestInstances.values())if(!worldExclusions.blocksTreeClearance(descriptor.position[0],descriptor.position[2],descriptor.trunkRadius))forest.register(descriptor);updateForest();refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
+      }, {crowds:true,equipment:true}, selection);
+      if(!choseLocalPlay)ui.openTitle("worlds");
+    }
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
+    const beforeGameplay = renderer.getPresentationState().submitted;
     loop.start();
-    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
-    try { await renderer.waitForFrame(); }
+    try { await renderer.waitForFrame(beforeGameplay); }
     catch (error) { loop.stop();firstFrameSpan.fail(error);throw error; }
     {
       firstFrameSpan.end();
@@ -3898,6 +3915,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         document.getElementById("boot-screen")?.remove();
       });
       bootTelemetry.milestone(BOOT_MILESTONES.BOOT_SCREEN_REMOVED);
+      // The scene is on screen, so a world chosen during loading can be joined now.
+      selection?.setReady();
       bootTotalSpan.end();
       bootTelemetry.recordPerformanceResources();
       // Publish readiness last so an attached runner cannot capture the timeline between the
@@ -3917,187 +3936,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       }, 0);
     }
   }
+  if (profile.kind === "feature-lab" && new URLSearchParams(location.search).get("multiplayer") === "1") {
+    const { installMultiplayerLab } = await import("../featureLab/multiplayer.js");
+    await installMultiplayerLab({ store, loop, clock, entities: entityStore, views: entityViews, assets, api, events, saves, movement, traversal:traversalPresentation,
+      ...(new URLSearchParams(location.search).has("worldMenu")?{mountWorlds:(panel:HTMLElement)=>{ui.setWorlds(panel);ui.openTitle("worlds");}}:{}) });
+  }
   return { loop, api, ...(featureLab ? { featureLab } : {}) };
 }
-
-/**
- * Turns the authored dungeon data into a geometry spec.
- *
- * Chamber floors are absolute heights here: the content stores an offset from the terrain at the
- * mouth, which is the one point the surface and the interior agree on. Corridors are derived from
- * the chamber order rather than authored, because the chambers descend in a line and an authored
- * corridor list would be a second thing to keep in step.
- */
-function buildDungeonSpec(scene: WorldScene): DungeonSpec | null {
-  for (const region of REGIONS) {
-    const dungeon = region.dungeon;
-    if (!dungeon) continue;
-
-    const base = scene.heightAt(region.id, dungeon.entrance[0], dungeon.entrance[1]);
-    const chambers = dungeon.chambers.map((chamber) => ({
-      id: chamber.id,
-      name: chamber.name,
-      centre: [chamber.centre[0], chamber.centre[1]] as [number, number],
-      radius: chamber.radius,
-      floorY: base + chamber.floorOffset,
-      lit: chamber.lit,
-    }));
-
-    const corridors = chambers.slice(0, -1).map((chamber, index) => {
-      const next = chambers[index + 1]!;
-      return {
-        from: chamber.centre,
-        to: next.centre,
-        fromY: chamber.floorY,
-        toY: next.floorY,
-        width: 6,
-      };
-    });
-
-        // Tall enough to reach the terrain above. At 7 m the chamber wall stopped 5 m short of
-    // Karrowmoor's surface and the elevated camera looked straight over it into daylight.
-    return { regionId: dungeon.id, chambers, corridors, wallHeight: 13 };
-  }
-  return null;
-}
-
 
 /**
  * Keeps procedural dressing off anything authored. Trees growing through the bank door is the
  * single most obvious way a procedural world reads as unmade.
  */
-function registerExclusions(
-  scene: WorldScene,
-  solids: readonly SolidVolume[],
-  dressing: readonly ResolvedWorldSiteDressing[],
-  fairyScene?: WorldScene,
-): void {
-  worldExclusions.clear();
-  // Keep the entire encounter floor usable while trees frame its outer rim.
-  // Tree-only clearance leaves the fine ground cover and flowers in these glades.
-  for (const landing of FAIRY_GARDEN_LANDINGS) {
-    worldExclusions.addCorridor([[landing.from[0], 0, landing.from[1]],
-      [landing.to[0], 0, landing.to[1]]], landing.halfWidth * 2, 'road', `${landing.id}:landing`);
-    worldExclusions.addTreeClearance([[landing.from[0], 0, landing.from[1]],
-      [landing.to[0], 0, landing.to[1]]], landing.halfWidth + 1, `${landing.id}:landing`);
-  }
-  for (const plateau of FAIRY_COMBAT_PLATEAUS) {
-    worldExclusions.addTreeClearance([[plateau.centre[0], 0, plateau.centre[1]]],
-      plateau.clearingRadius + 5, `${plateau.id}:crown-clearance`);
-  }
-  for (const clearing of FAIRY_DEEP_PATH_CLEARINGS) {
-    worldExclusions.addTreeClearance([[clearing.position[0], 0, clearing.position[1]]],
-      clearing.radius + 2, `${clearing.id}:valley-clearance`);
-  }
-  for (const body of scene.getWaterBodies()) if (body.id.startsWith("river:")) {
-    worldExclusions.addCircle(body.centre[0], body.centre[1], body.radii.outer + 2, "custom", body.id);
-  }
-  // Reserve the entire carved bank, including the footprint of large dressing rocks.
-  // Production bank detail owns this strip; general biome scatter starts beyond it.
-  for (const channel of WILDERNESS_LAVA_CHANNELS) {
-    for (const section of lavaSections(channel, 2)) {
-      worldExclusions.addCircle(section.x, section.z,
-        section.halfWidth + channel.bankWidth + 1.5, 'custom', `lava-bank:${channel.id}`);
-    }
-    for (const mass of channel.rockMasses ?? []) {
-      if (mass.weathered) continue; // Ordinary scatter follows the shared sloping ground outside the reserved channel.
-      const x = mass.polygon.reduce((sum, p) => sum + p[0], 0) / mass.polygon.length;
-      const z = mass.polygon.reduce((sum, p) => sum + p[1], 0) / mass.polygon.length;
-      const radius = Math.max(...mass.polygon.map(p => Math.hypot(p[0] - x, p[1] - z))) + 3;
-      worldExclusions.addCircle(x, z, radius, 'custom', `lava-landform:${mass.id}`);
-    }
-  }
-  for (const [index,[x,z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
-    worldExclusions.addCircle(x,z,2,'building',`wilderness-road-brazier-${index}`);
-  }
-  const authoredLocations = new Set(WORLD_SITES.map((site) => site.locationId));
-  const authoredClusters = new Set(WORLD_SITES.flatMap((site) => site.resourceSlots.map((slot) => slot.clusterId)));
-  for (const region of REGIONS) {
-    for (const castle of region.landmarks) {
-      const layout = castleGroundLayout(castle.composition);
-      if (!layout) continue;
-      worldExclusions.addOrientedRect(castle.position[0],castle.position[1],layout.exclusion[0],layout.exclusion[1],castle.rotationY ?? 0,2,'building',castle.id);
-    }
-    for (const landmark of region.landmarks) {
-      const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
-        ?? DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
-      if (ruin) worldExclusions.addOrientedRect(landmark.position[0],landmark.position[1],
-        ruin.footprint[0]+4,ruin.footprint[1]+4,landmark.rotationY??0,2,'building',landmark.id);
-    }
-    for (const location of region.locations) {
-      // These are route/door anchors, not clearings. Their roads and physical footprints
-      // reserve walking space; overlapping five-metre discs erase the planted village banks.
-      if (isFairyRegion(region.id) && (location.id.startsWith('lantern_rest_')
-        || location.id.startsWith('prism_hollow_'))) continue;
-      if (!authoredLocations.has(location.id)) {
-        worldExclusions.addCircle(location.position[0], location.position[1], 5, "cluster", location.id);
-      }
-    }
-    for (const cluster of region.clusters) {
-      if (!authoredClusters.has(cluster.id)) {
-        worldExclusions.addCircle(cluster.centre[0], cluster.centre[1], cluster.radius + 2, "cluster", cluster.id);
-      }
-    }
-  }
-  for (const solid of solids) {
-    // Underground walls must not clear visible vegetation on the terrain above them.
-    const top = solid.position[1] + (solid.kind === "box" ? solid.size[1] : solid.height);
-    const probes: [number, number][] = [[solid.position[0], solid.position[2]]];
-    if (solid.kind === "box") {
-      const cos = Math.cos(solid.rotationY), sin = Math.sin(solid.rotationY);
-      for (const x of [-solid.size[0] / 2, 0, solid.size[0] / 2]) {
-        for (const z of [-solid.size[2] / 2, 0, solid.size[2] / 2]) {
-          probes.push([solid.position[0] + x * cos + z * sin, solid.position[2] - x * sin + z * cos]);
-        }
-      }
-    } else {
-      for (let i = 0; i < 8; i++) probes.push([
-        solid.position[0] + Math.cos(i * Math.PI / 4) * solid.radius,
-        solid.position[2] + Math.sin(i * Math.PI / 4) * solid.radius,
-      ]);
-    }
-    if (probes.every(([x, z]) => (fairyScene && x >= fairyScene.getWorldBounds().minX
-      ? fairyScene : scene).meshHeightAt(x, z) > top + 0.5)) continue;
-    if (solid.kind === "box") {
-      worldExclusions.addOrientedRect(solid.position[0], solid.position[2], solid.size[0], solid.size[2], solid.rotationY, 0.4, "building", solid.id);
-    } else {
-      worldExclusions.addCircle(solid.position[0], solid.position[2], solid.radius + 0.5, "custom", solid.id);
-    }
-  }
-  for (const piece of dressing) {
-    if (piece.size[1] < 0.35 || /^corealm_(fern|shrub|flower)_/.test(piece.assetId)) continue;
-    worldExclusions.addOrientedRect(
-      piece.position[0] + piece.centreOffset[0], piece.position[2] + piece.centreOffset[1],
-      piece.size[0], piece.size[2], piece.rotationY, 0.15, "custom", piece.id,
-    );
-  }
-  for (const site of WORLD_SITES) {
-    if (site.kind === "mine") {
-      const ramp = worldSiteHaulRamp(site);
-      const approach = ramp.worldEnd;
-      worldExclusions.addCircle(site.centre[0], site.centre[1], site.workRadius, "worksite", site.id);
-      worldExclusions.addCorridor([[site.centre[0], 0, site.centre[1]], [approach[0], 0, approach[1]]], 4.5, "worksite", site.id);
-      const aisle: Vec3[] = site.resourceSlots.map((slot) => {
-        const point = worldSitePoint(site, slot.x + Math.sin(slot.yaw) * 2.1, slot.z + Math.cos(slot.yaw) * 2.1);
-        return [point[0], 0, point[1]];
-      });
-      worldExclusions.addCorridor(aisle, 2.4, "worksite", `${site.id}:working-aisle`);
-    }
-    for (const slot of site.resourceSlots) {
-      const point = worldSitePoint(site, slot.x, slot.z);
-      worldExclusions.addCircle(point[0], point[1], site.kind === "grove" ? 1.8 : 1.6, "cluster", `${slot.clusterId}_${slot.index}`);
-    }
-  }
-  for (const altar of Object.values(REGIONAL_ESSENCE_ALTARS)) {
-    worldExclusions.addCircle(altar.position[0], altar.position[1], ESSENCE_ALTAR_CLEAR_RADIUS, "ritual", altar.id);
-  }
-  for (const [index, points] of [...scene.getRoadPolylines(), ...(fairyScene?.getRoadPolylines() ?? [])].entries()) {
-    const fairyBounds = fairyScene?.getWorldBounds();
-    const fairyRoad = fairyBounds && points.every(point => point[0] >= fairyBounds.minX && point[0] <= fairyBounds.maxX
-      && point[2] >= fairyBounds.minZ && point[2] <= fairyBounds.maxZ);
-    worldExclusions.addCorridor(points, fairyRoad ? 1.3 : 5, "road", `resolved-road-${index}`);
-  }
-}
 
 function describeError(cause: unknown): string {
   return cause instanceof Error ? cause.message : String(cause);

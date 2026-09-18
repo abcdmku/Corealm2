@@ -78,7 +78,8 @@
 }
 
 /* With a stick in the corner the log steps up out from under it, whatever the screen size. */
-#ui-root.is-touch .msglog { bottom: calc(100px + var(--safe-bottom)); }
+#ui-root.is-touch .msglog { bottom: calc(100px + var(--safe-bottom) + var(--chatbar-h, 0px)); }
+#ui-root.is-touch .chatbar { bottom: calc(100px + var(--safe-bottom)); }
 
 /* ------------------------------------------------------------ touch chrome */
 
@@ -170,7 +171,7 @@
   #ui-root.is-compact .msglog {
     left: calc(8px + var(--safe-left));
     right: calc(8px + var(--safe-right));
-    bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 6px);
+    bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 6px + var(--chatbar-h, 0px));
     width: auto;
     max-height: 42px;
     overflow: hidden;
@@ -182,6 +183,20 @@
 
   #ui-root.is-touch .msglog { left: calc(96px + var(--safe-left)); }
   .msglog__line { padding: 0 4px; font-size: var(--size-xs); line-height: 1.3; }
+
+  /* The spell bar sits on the dock, so the chat bar and the log above it stand on top of that. */
+  #ui-root.has-chatbar { --chatbar-h: 84px; }
+
+  .chatbar,
+  #ui-root.is-touch .chatbar,
+  #ui-root.is-compact .chatbar {
+    left: calc(8px + var(--safe-left));
+    right: calc(8px + var(--safe-right));
+    bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 60px);
+    width: auto;
+  }
+
+  #ui-root.is-touch .chatbar { left: calc(96px + var(--safe-left)); }
 
   /* ---- the dock: a low strip along the bottom edge, icon and a tiny word each. */
   .dock {
@@ -329,11 +344,23 @@
   #ui-root.is-compact .msglog {
     left: calc(8px + var(--safe-left));
     right: calc(var(--mobile-dock-w) + 10px + var(--safe-right));
-    bottom: calc(6px + var(--safe-bottom));
+    bottom: calc(6px + var(--safe-bottom) + var(--chatbar-h, 0px));
     max-height: 30px;
   }
 
   #ui-root.is-touch .msglog { left: calc(96px + var(--safe-left)); }
+
+  /* The spell bar owns the bottom edge here, so the chat bar and the log above it stand on top of it. */
+  #ui-root.has-chatbar { --chatbar-h: 84px; }
+
+  .chatbar,
+  #ui-root.is-touch .chatbar,
+  #ui-root.is-compact .chatbar {
+    right: calc(var(--mobile-dock-w) + 10px + var(--safe-right));
+    bottom: calc(60px + var(--safe-bottom));
+  }
+
+  #ui-root.is-touch .chatbar { left: calc(96px + var(--safe-left)); }
 
   .dock {
     top: var(--safe-top);

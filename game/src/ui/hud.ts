@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * The always-on HUD: vitals, the current activity, the XP feed, toasts, and marks.
  *
@@ -21,22 +22,10 @@ import { SKILLS } from "../content/skills.js";
 import { RECOVERY_CACHE_ID } from "../systems/death.js";
 import { reportResult } from "./contextMenu.js";
 import type { NoticeTone } from "./contextMenu.js";
+import { MessageLog } from "./messageLog.js";
 import type { UiContext, UiOptions } from "./panels.js";
 import { formatQuantity } from "./panels.js";
 
-/**
- * Lines kept in the message log.
- *
- * Eight, not the four this was as a toast strip. The log is read AFTER the fact — the point of
- * making it a log rather than a set of expiring toasts is that a message which arrived while the
- * player was looking at a fight is still there when they look down. Four lines is one busy exchange.
- */
-const MESSAGE_LIMIT = 8;
-/**
- * Quiet time before the panel dims. It does NOT delete anything — the lines stay until pushed out
- * by newer ones, which is the whole difference between this and the toast strip it replaced.
- */
-const MESSAGE_IDLE_MS = 14_000;
 const XP_DROP_LIMIT = 6;
 const XP_DROP_MS = 2_200;
 const EVENT_INTERVAL_MS = 250;
@@ -83,9 +72,7 @@ export function ignoresRepeatedNotice(message: string): boolean {
 
 export class Hud {
   readonly element: HTMLElement;
-  private readonly toastStrip: HTMLElement;
-  /** Live quiet-timer for the message log, so it can be replaced rather than stacked. */
-  private messageIdleTimer: number | null = null;
+  private readonly messages = new MessageLog();
 
   private readonly healthBar: HTMLElement;
   private readonly healthFill: HTMLElement;
@@ -167,9 +154,9 @@ export class Hud {
     cacheDetail.className = "hud__cache-detail u-numeric";
     cache.append(cacheLabel, cacheDetail);
     cache.addEventListener("pointerdown", (event) => event.stopPropagation());
-    cache.addEventListener("click", () => {
+    cache.addEventListener("click", async () => {
       // `interact` walks into range and opens the cache on arrival. Contents move only by choice.
-      reportResult(this.ctx.api.interact(RECOVERY_CACHE_ID, "loot"));
+      reportResult(await sendGameCommand(this.ctx.api, "interact", RECOVERY_CACHE_ID, "loot"));
     });
     this.ctx.tooltip.attach(cache, () => ({
       kind: "text",
@@ -208,15 +195,7 @@ export class Hud {
 
     root.append(vitals, right);
 
-    // The message log is a sibling, not a child: #ui-root already styles and positions `.msglog`,
-    // and the context menu's pre-HUD fallback looks for exactly that selector.
-    const toastStrip = document.createElement("div");
-    toastStrip.className = "msglog";
-    toastStrip.setAttribute("role", "log");
-    toastStrip.setAttribute("aria-live", "polite");
-
     this.element = root;
-    this.toastStrip = toastStrip;
     this.healthBar = health;
     this.healthFill = healthFill;
     this.healthText = healthText;
@@ -229,7 +208,10 @@ export class Hud {
   }
 
   mount(parent: HTMLElement): void {
-    parent.append(this.element, this.toastStrip);
+    // The message log is a sibling, not a child: #ui-root already styles and positions `.msglog`.
+    // The context menu's pre-HUD fallback may have written one already; its lines give way to ours.
+    parent.querySelector(".msglog")?.remove();
+    parent.append(this.element, this.messages.element);
   }
 
   /**
@@ -239,43 +221,12 @@ export class Hud {
    * rejected `Result`, a described event — so anything that wants to talk to the player says it
    * once, in one place, and lands in this log. Nothing else should grow its own message strip.
    *
-   * Repeats are COLLAPSED rather than stacked. An out-of-fuel warning can fire on every combat
-   * tick that tries to cast, and eight identical lines would push out the context that explains
-   * them; a counter says the same thing and keeps the history.
+   * Repeats collapse into a counter inside the log. Errors land in the Warnings channel and
+   * everything else in Game messages, so the chat gear can hide either.
    */
   pushNotice(message: string, tone: NoticeTone = "info"): void {
-    const last = this.toastStrip.lastElementChild as HTMLElement | null;
-    if (last && last.dataset["message"] === message) {
-      if (ignoresRepeatedNotice(message)) return;
-      const seen = Number(last.dataset["count"] ?? "1") + 1;
-      last.dataset["count"] = String(seen);
-      last.textContent = `${message} (x${seen})`;
-      this.markMessageActivity();
-      return;
-    }
-
-    const line = document.createElement("div");
-    line.className = `msglog__line msglog__line--${tone}`;
-    line.dataset["message"] = message;
-    line.textContent = message;
-    this.toastStrip.appendChild(line);
-    while (this.toastStrip.childElementCount > MESSAGE_LIMIT) this.toastStrip.firstElementChild?.remove();
-    this.markMessageActivity();
-  }
-
-  /**
-   * Wakes the log and restarts the quiet timer.
-   *
-   * The timer is replaced rather than stacked, so a burst of messages dims once, `MESSAGE_IDLE_MS`
-   * after the LAST of them, instead of the panel flickering back and forth as older timers fire.
-   */
-  private markMessageActivity(): void {
-    this.toastStrip.classList.remove("is-idle");
-    if (this.messageIdleTimer !== null) window.clearTimeout(this.messageIdleTimer);
-    this.messageIdleTimer = window.setTimeout(() => {
-      this.toastStrip.classList.add("is-idle");
-      this.messageIdleTimer = null;
-    }, MESSAGE_IDLE_MS);
+    if (ignoresRepeatedNotice(message) && this.messages.lastText() === message) return;
+    this.messages.push({ channel: tone === "error" ? "warning" : "game", tone, text: message });
   }
 
   update(nowMs: number): void {
@@ -340,12 +291,8 @@ export class Hud {
   dispose(): void {
     for (const timer of this.timers) window.clearTimeout(timer);
     this.timers.clear();
-    // Not in `this.timers`: the quiet timer is replaced on every message rather than accumulated,
-    // so it is held as a single handle and has to be cleared on its own.
-    if (this.messageIdleTimer !== null) window.clearTimeout(this.messageIdleTimer);
-    this.messageIdleTimer = null;
     this.element.remove();
-    this.toastStrip.remove();
+    this.messages.dispose();
   }
 
   // ---------------------------------------------------------------- vitals

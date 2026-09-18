@@ -692,7 +692,7 @@ async function testCombat(
     if (!debug?.callTool) throw new Error("Production window.__gameDebug.callTool is unavailable");
     const results: Array<{ error?: string; message?: string }> = [];
     for (let attempt = 0; attempt < 3; attempt += 1) {
-      const result = await debug.callTool("corealm_move_to", { position: [1_000_000, 0, 1_000_000] });
+      const result = await debug.callTool("corealm_move_to", { position: [10_000, 0, 10_000] });
       if (typeof result !== "object" || result === null) throw new Error("Move failure was not structured");
       const row = result as Record<string, unknown>;
       results.push({

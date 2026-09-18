@@ -39,6 +39,13 @@ function harness(store = new Store(104, 0)) {
 }
 
 describe("harvestable forest residency", () => {
+  it("maintains one resident forest around independent players and releases a departing player's trees", () => {
+    const h = harness(); h.forest.register(tree("west", [0,0,0])); h.forest.register(tree("east", [100,0,0]));
+    h.forest.updatePlayers([[0,0,0],[100,0,0]], noPins);
+    expect(h.entities.get("west")).toBeDefined(); expect(h.entities.get("east")).toBeDefined();
+    h.forest.updatePlayers([[100,0,0]], noPins);
+    expect(h.entities.get("west")).toBeUndefined(); expect(h.entities.get("east")).toBeDefined();
+  });
   it("promotes nearby trees, preserves them across the boundary, and pins remote navigation targets", () => {
     const h = harness();
     const near = tree("forest_near", [35, 0, 0]);

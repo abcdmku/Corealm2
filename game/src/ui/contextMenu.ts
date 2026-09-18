@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * The right-click menu, plus the shared "say why that failed" channel every input path needs.
  *
@@ -175,6 +176,7 @@ export function describeAvailability(
   skillLabel: (skill: SkillId) => string = defaultSkillLabel,
 ): Availability {
   if (interaction === "inspect") return { enabled: true };
+  if (entity.meta?.remotePlayer === true && interaction === "trade") return { enabled: false, reason: "Player trading is not available yet" };
 
   if (entity.state === "depleted" && HARVEST_VERBS.includes(interaction)) {
     return { enabled: false, reason: "Depleted — it will respawn" };
@@ -245,6 +247,15 @@ export interface OpenOptions {
 /** Keeps the menu clear of the window edge. */
 const EDGE_MARGIN_PX = 8;
 
+/** Extra entity entries from a system outside the API's interaction list, such as party invites. */
+export type EntityMenuEntries = (entity: SemanticEntity) => ContextMenuItem[];
+let entityMenuEntries: EntityMenuEntries | null = null;
+
+/** Only one provider at a time; pass null to remove it. */
+export function setEntityMenuEntries(provider: EntityMenuEntries | null): void {
+  entityMenuEntries = provider;
+}
+
 export class ContextMenu {
   private element: HTMLElement | null = null;
   private items: ContextMenuItem[] = [];
@@ -293,11 +304,12 @@ export class ContextMenu {
       return item;
     });
 
+    items.push(...(entityMenuEntries?.(entity) ?? []));
     items.push({
       id: "walk-here",
       label: "Walk here",
       enabled: options.movementEnabled !== false,
-      onSelect: () => { reportResult(this.deps.api.moveTo({ entityId: entity.id })); },
+      onSelect: async () => { reportResult(await sendGameCommand(this.deps.api, "moveTo", entity.meta?.remotePlayer === true ? { position: entity.position } : { entityId: entity.id })); },
       ...(options.movementEnabled === false ? { reason: "Enable walking to move" } : {}),
     });
 
@@ -315,14 +327,14 @@ export class ContextMenu {
         id: "walk-here",
         label: "Walk here",
         enabled: options.movementEnabled !== false,
-        onSelect: () => { reportResult(this.deps.api.moveTo({ position: point })); },
+        onSelect: async () => { reportResult(await sendGameCommand(this.deps.api, "moveTo", { position: point })); },
         ...(options.movementEnabled === false ? { reason: "Enable walking to move" } : {}),
       },
       {
         id: "stop",
         label: "Stop",
         enabled: true,
-        onSelect: () => { reportResult(this.deps.api.stop()); },
+        onSelect: async () => { reportResult(await sendGameCommand(this.deps.api, "stop")); },
       },
     ], { title: "Ground", ...options });
   }
@@ -450,7 +462,7 @@ export class ContextMenu {
     item.onSelect?.();
   }
 
-  private runInteraction(entity: SemanticEntity, interaction: InteractionId): void {
+  private async runInteraction(entity: SemanticEntity, interaction: InteractionId): Promise<void> {
     if (interaction === "inspect") {
       const result = this.deps.api.inspect(entity.id);
       if (!reportResult(result)) return;
@@ -462,7 +474,7 @@ export class ContextMenu {
       this.deps.onProduction(entity.id);
       return;
     }
-    reportResult(this.deps.api.interact(entity.id, interaction));
+    reportResult(await sendGameCommand(this.deps.api, "interact", entity.id, interaction));
   }
 
   /** Flips around the cursor rather than clamping, so the pointer never covers the first entry. */

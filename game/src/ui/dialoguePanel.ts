@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 /**
  * The conversation window.
@@ -262,12 +263,12 @@ export class DialoguePanel implements ManagedPanel {
 
   // ----------------------------------------------------------------- acting
 
-  private choose(optionId: string): void {
+  private async choose(optionId: string): Promise<void> {
     const previous = this.rendered;
     const reply = previous?.options.find((option) => option.id === optionId);
     if (reply && !reply.enabled) return;
 
-    const result = this.ctx.api.dialogue("choose", optionId);
+    const result = await sendGameCommand(this.ctx.api, "dialogue", "choose", optionId);
     // A refused choice is reported with the system's own sentence rather than swallowed.
     if (!report(result)) return;
 
@@ -300,8 +301,8 @@ export class DialoguePanel implements ManagedPanel {
   }
 
   /** Ends the conversation in the game when the window is dismissed, so state cannot drift. */
-  private endConversation(): void {
-    if (this.view()) this.ctx.api.dialogue("end");
+  private async endConversation(): Promise<void> {
+    if (this.view()) await sendGameCommand(this.ctx.api, "dialogue", "end");
   }
 
   // ------------------------------------------------------------------- keys

@@ -1,4 +1,5 @@
 import { ASSET_BASE_URL } from "../app/config.js";
+import { RemoteActivityPose, type RemoteActivitySample } from "./remoteActivityPose.js";
 import { interpolatedGroundHeight } from "./terrainContact.js";
 import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
 /**
@@ -106,6 +107,12 @@ import {
 } from "./materials.js";
 import { runPresentationScale } from "./characterRig.js";
 import { AnimationLod } from "./animationLod.js";
+import {canSimplifyCrowd} from "./crowdGeometry.js";
+import {isProceduralGearAsset} from "./proceduralGear.js";
+import {remoteEquipmentParts,RemoteEquipmentSources,type PublicEquipment} from "./remoteEquipment.js";
+import { POSE_CLIPS } from "./characterRig.js";
+import type { RemotePlayerPose } from "../contracts.js";
+import {weaponAttachment,type GearAppearance} from "./equipmentVisuals.js";
 import {
   advanceCreaturePlayback, createCreaturePlayback, creatureBlend, missingCreatureHit,
   transitionCreaturePlayback, type CreaturePlayback,
@@ -408,7 +415,7 @@ const HUMANOID_IDLES: readonly string[] = [
  * between syncs, and those two cover idle / walk / death. `attack` and `hit` are one-shots the
  * owner of the combat stream pushes in through `playAction`.
  */
-export type CharacterMotion = "idle" | "walk" | "run" | "attack" | "hit" | "death";
+export type CharacterMotion = RemotePlayerPose | "attack" | "hit" | "cast" | "bank" | "player_attack";
 
 /**
  * Clip names to try per motion for an asset that ships its OWN clips, best first.
@@ -420,6 +427,7 @@ export type CharacterMotion = "idle" | "walk" | "run" | "attack" | "hit" | "deat
  * stops moving reads as dead.
  */
 const OWN_CLIP_PATTERNS: Record<CharacterMotion, readonly RegExp[]> = {
+  mine: [], chop: [], fish: [], eat: [], produce: [], climb: [], vault: [], balance: [], slide: [], cast: [], bank: [], player_attack: [/attack/i],
   // A container's "Closed" clip is a held pose, while "Close" is the transition into it. Without
   // this preference the chest manifest order picks Chest_Close and loops the transition forever.
   idle: [/^idle/i, /^flying/i, /(?:^|_)closed$/i],
@@ -453,6 +461,10 @@ export function ownClipCandidates(
  * `Death01` is spelt without an underscore in the library; that is the file's spelling, not a typo.
  */
 const HUMANOID_CLIPS: Record<CharacterMotion, readonly string[]> = {
+  mine: POSE_CLIPS.mine, chop: POSE_CLIPS.chop, fish: POSE_CLIPS.fish,
+  eat: POSE_CLIPS.eat, produce: POSE_CLIPS.produce, climb: POSE_CLIPS.climb,
+  vault: POSE_CLIPS.vault, balance: POSE_CLIPS.balance, slide: POSE_CLIPS.slide,
+  cast: POSE_CLIPS.cast, bank: POSE_CLIPS.bank, player_attack: POSE_CLIPS.attack_melee,
   idle: HUMANOID_IDLES,
   // A humanoid now gets both gaits, chosen by whether it is pursuing. Jog was the only option here
   // while pursuit was the only time anything moved; a reaver pottering around its camp on a jog
@@ -537,7 +549,7 @@ const HUMANOID_WALK_IMPLIED_MPS = 1.15;
 const HUMANOID_JOG_MIN_RATE = 0.55;
 
 /** Motions that play once and hand back to the entity's resting motion. */
-const ONE_SHOT_MOTIONS: ReadonlySet<CharacterMotion> = new Set<CharacterMotion>(["attack", "hit"]);
+const ONE_SHOT_MOTIONS: ReadonlySet<CharacterMotion> = new Set<CharacterMotion>(["attack", "hit", "cast", "bank", "player_attack"]);
 
 /**
  * Which base body a clothes-only outfit GLB needs under it, and what its own part id is.
@@ -1015,6 +1027,7 @@ const TREE_STUMP_FRACTION = 0.22;
  * live one-shot clamps to, so an instanced corpse and an animated corpse match.
  */
 const BAKE_PHASES: Record<CharacterMotion, number> = {
+  mine: .35, chop: .35, fish: .35, eat: .35, produce: .35, climb: .35, vault: .35, balance: .35, slide: .35, cast: .5, bank: .5, player_attack: .5,
   idle: 0.35,
   walk: 0.28,
   run: 0.28,
@@ -1118,6 +1131,8 @@ interface SourcePart {
  * when it still hands over a clothes-only outfit as the whole body.
  */
 interface CharacterSpec {
+  crowd?: boolean;
+  gear?: readonly GearAppearance[];
   bodyAssetId: string;
   /** Layered onto the body's bones, in draw order. Includes the hair pick. */
   partAssetIds: string[];
@@ -1175,6 +1190,7 @@ interface Batch {
   usedIndices: number;
   /** Geometry -> batch geometry id, so a geometry two parts share is uploaded once. */
   geometryIds: Map<THREE.BufferGeometry, number>;
+  colorsPrepared: boolean;
   /** instanceId -> the group slot it draws, so a raycast hit can name an entity. */
   owners: ({ group: InstanceGroup; slot: number } | null)[];
 }
@@ -1410,12 +1426,14 @@ interface ViewRecord {
   /** Authored forest contact radius in world metres; independent of the canopy's pick bounds. */
   trunkRadius: number | null;
   /** False for inspect-only entities past `MAX_INSPECT_ONLY_PICK_RADIUS`; `pick` skips them. */
-  pickable: boolean;
+  pickable: boolean | "context";
   /** Exact static-instance envelope, updated when its drawn matrices change. */
   pickBounds?: THREE.Box3;
 }
 
 export interface EntityViewStats {
+  /** Crowd geometry per colour pass before view culling; excludes shadows and detailed actors. */
+  crowdGeometry: { sourceTriangles: number; triangles: number; drawCalls: number; shadowDrawCalls: number };
   entities: number;
   groups: number;
   /** Parts uploaded into a batch, across every group and pose variant. NOT a draw-call count. */
@@ -1667,7 +1685,17 @@ export class EntityViews {
   private readonly records = new Map<EntityId, ViewRecord>();
   /** Live semantic references for resident movers, refreshed with structural residency. */
   private readonly residentMovingEntities: SemanticEntity[] = [];
-  private readonly locomotionIntents = new Map<EntityId, "idle" | "walk" | "run">();
+  private readonly locomotionIntents = new Map<EntityId, RemotePlayerPose>();
+  private readonly remoteActivities = new Map<EntityId, RemoteActivitySample>();
+  private readonly remoteActivityRigs = new WeakMap<DressedCharacter, RemoteActivityPose>();
+  remoteActivitySnapshot(id: EntityId): {fishingLineVisible:boolean} | null {
+    const dressed=this.records.get(id)?.dressed;
+    return dressed?this.remoteActivityRigs.get(dressed)?.snapshot()??null:null;
+  }
+  setRemoteActivity(id: EntityId, traversal: RemoteActivitySample["traversal"], fishing: RemoteActivitySample["fishing"], spot: Vec3 | null): void {
+    if (traversal || fishing) this.remoteActivities.set(id,{traversal,fishing,spot});
+    else this.remoteActivities.delete(id);
+  }
   /** Non-null only while the documentation pipeline renders one semantic entity in isolation. */
   private captureSubjectId: EntityId | null = null;
   private hiddenRoofs = new Set<EntityId>();
@@ -1759,6 +1787,7 @@ export class EntityViews {
   private readonly characterCosts = new Map<string, number>();
   /** Resolved character specs, keyed by (entity, assetId, authored parts). See `characterFor`. */
   private readonly characterSpecs = new Map<string, CharacterSpec | null>();
+  private readonly equipmentSources = new RemoteEquipmentSources();
   private readonly missingHitClips = new Map<string, THREE.AnimationClip | null>();
   private readonly hitOverlayClips = new Map<string, ReturnType<typeof createMaskedHitOverlay>>();
   private uniqueDrawCalls = 0;
@@ -1790,6 +1819,8 @@ export class EntityViews {
   private readonly groundHeightAt: (x: number, z: number, referenceY: number) => number;
   private readonly schedulePreparation: EntityViewOptions['schedulePreparation'];
   private readonly pendingViews = new Map<EntityId, Promise<void>>();
+  private readonly pendingReplacementGroups = new Map<string, Promise<void>>();
+  private readonly replacementGroupKeys = new Map<EntityId, string>();
   private readonly pendingAnimationPreparations = new Set<Promise<void>>();
   private readonly pickProxy = new THREE.Mesh();
   private readonly pickMatrix = new THREE.Matrix4();
@@ -1997,6 +2028,8 @@ export class EntityViews {
     for (const entityId of this.locomotionIntents.keys()) {
       if (!this.activeSet.has(entityId)) this.locomotionIntents.delete(entityId);
     }
+    for (const id of this.remoteActivities.keys()) if (!this.activeSet.has(id)) this.remoteActivities.delete(id);
+    for (const id of this.replacementGroupKeys.keys()) if (!this.activeSet.has(id)) this.replacementGroupKeys.delete(id);
     this.reconcileActiveSet();
   }
 
@@ -2381,6 +2414,12 @@ export class EntityViews {
       });
     }
     if (this.missing.has(view.assetId) || !assetsReady) {
+      // A remote player keeps moving in their complete previous outfit while the next one loads.
+      // Releasing here made equipment and crowd-detail changes erase the player between arrivals.
+      if (entity.id.startsWith("remote:") && !this.missing.has(view.assetId)) {
+        if (this.records.has(entity.id)) this.replacementGroupKeys.set(entity.id, "");
+        return;
+      }
       // A semantic view may change asset while its replacement is in flight. Keeping the old record
       // would turn a transient fallback into a stale mesh that can survive until the next state edit.
       const stale = this.records.get(entity.id);
@@ -2394,7 +2433,13 @@ export class EntityViews {
 
     const tier = view.materialTier ?? entity.tier;
     const clip = view.clipFraction ?? 0;
-    const character = this.characterFor(entity.id, entity.archetype, view.assetId, view.partAssetIds);
+    const character = this.characterFor(entity.id, entity.archetype, view.assetId, view.partAssetIds, view.crowd, view.equipment);
+    // Registry completion and this view's source-cache completion are separate microtasks. Never
+    // build a partly dressed remote actor in that gap, then rebuild it for every arriving source.
+    if (entity.id.startsWith("remote:") && !this.characterReady(view.assetId, character)) {
+      if (this.records.has(entity.id)) this.replacementGroupKeys.set(entity.id, "");
+      return;
+    }
     const regionId = this.architectureRegion(entity.archetype, entity.regionId, view.assetId);
     const campfire = entity.station?.kind === "campfire";
     const authoredWaterOffset = entity.meta?.waterOffset;
@@ -2425,6 +2470,7 @@ export class EntityViews {
     const signature = `${groupKey}|${spent ? 1 : 0}|${moving ? 1 : 0}|${round(entity.position[0])},${round(entity.position[1])},${round(entity.position[2])}|${round(rotationY)}|${round(scale)}|${scaleAxes.map(round).join(",")}|${round(waterOffset)}|${tiltKey(normal, tilt)}`;
 
     let existing = this.records.get(entity.id);
+    let previousAppearance: ViewRecord | null = null;
 
     // A rigged entity built before its skeleton arrived is holding a baked idle frame. Upgrade it
     // the moment the source is available, per entity, rather than waiting for the global
@@ -2438,9 +2484,17 @@ export class EntityViews {
       existing = undefined;
     }
 
+    if (existing?.groupKey === groupKey) this.replacementGroupKeys.delete(entity.id);
+    if (existing) existing.pickable = isInspectOnly(entity) && existing.radius > MAX_INSPECT_ONLY_PICK_RADIUS ? false : view.pickable ?? true;
     if (existing && existing.signature === signature) return;
 
     if (existing && existing.groupKey !== groupKey) {
+      if (entity.id.startsWith("remote:")) {
+        this.replacementGroupKeys.set(entity.id, groupKey);
+        const replacement = this.prepareReplacementGroup(entity, groupKey, tier, clip, character, regionId, essenceElement);
+        if (!replacement || !replacement.live.every(draw => this.isViewReady(draw.batch.mesh))) return;
+        previousAppearance = existing;
+      }
       this.release(existing);
       this.records.delete(entity.id);
     }
@@ -2448,6 +2502,7 @@ export class EntityViews {
     const record = this.records.get(entity.id)
       ?? this.acquire(entity, groupKey, tier, clip, character, regionId, essenceElement);
     if (!record) return;
+    this.replacementGroupKeys.delete(entity.id);
 
     record.signature = signature;
     record.target.set(entity.position[0], entity.position[1], entity.position[2]);
@@ -2473,16 +2528,18 @@ export class EntityViews {
       this.minHighlightRadius,
       this.assetRadius(view.assetId) * scale * record.build[0] * Math.max(...scaleAxes),
     );
-    record.pickable = !(isInspectOnly(entity) && record.radius > MAX_INSPECT_ONLY_PICK_RADIUS);
+    record.pickable = isInspectOnly(entity) && record.radius > MAX_INSPECT_ONLY_PICK_RADIUS ? false : view.pickable ?? true;
 
     const group = this.groups.get(groupKey);
     if (!group) return;
 
     this.setMotion(record, spent ? "death" : moving ? gaitFor(record) : "idle");
+    if (previousAppearance && !spent) this.restoreRemoteAction(record, previousAppearance);
 
     if (record.unique) {
       this.placeUnique(record);
       this.applyUniqueState(record, tier);
+      if (this.preparingUniques.has(record)) this.writeSlot(group, record);
     } else {
       this.writeSlot(group, record);
     }
@@ -2511,6 +2568,37 @@ export class EntityViews {
       record.movingTicks -= 1;
     }
     return record.movingTicks > 0;
+  }
+
+  /** Prepare an appearance while the current player record continues drawing and animating. */
+  private prepareReplacementGroup(
+    entity: SemanticEntity,
+    groupKey: string,
+    tier: number,
+    clip: number,
+    character: CharacterSpec | null,
+    regionId: RegionId | null,
+    essenceElement: EssenceElement | null,
+  ): InstanceGroup | null {
+    const existing = this.groups.get(groupKey);
+    if (existing) return existing;
+    if (this.pendingReplacementGroups.has(groupKey)) return null;
+    const prepare = () => {
+      if (!this.activeSet.has(entity.id) || this.replacementGroupKeys.get(entity.id) !== groupKey) return;
+      const view = entity.view!;
+      this.ensureGroup(groupKey, view.assetId, view.depletedAssetId ?? null, entity.archetype, tier,
+        batchCell(entity.archetype, entity.position), clip, character, regionId,
+        entity.station?.kind === "campfire", essenceElement);
+    };
+    const scheduled = this.schedulePreparation?.(prepare);
+    if (scheduled) {
+      const pending = scheduled.finally(() => this.pendingReplacementGroups.delete(groupKey));
+      this.pendingReplacementGroups.set(groupKey, pending);
+      void pending.catch(error => console.error("Remote appearance preparation failed", error));
+      return null;
+    }
+    prepare();
+    return this.groups.get(groupKey) ?? null;
   }
 
   private acquire(
@@ -2639,6 +2727,9 @@ export class EntityViews {
       child.userData.deferFirstDraw = true;
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
+      // Fading changes the shader's opaque/transparent variant. Prepare it with the live
+      // creature so the first corpse never compiles a program in a gameplay frame.
+      mesh.userData.prepareCorpseFade = record.archetype === "enemy" || record.archetype === "boss";
       // The bounded nearby rig pool changes pose every frame. Three's cached skinned sphere
       // can describe an old pose and reject a creature that is still in view.
       // Distance residency and the conservative sampled-animation bounds handle distant actors.
@@ -2709,7 +2800,7 @@ export class EntityViews {
       if (record.unique || record.slot < 0) continue;
       if (record.position.distanceToSquared(viewer) > this.animationRadiusSq) continue;
       const group = this.groups.get(record.groupKey);
-      if (!group || !this.characterReady(group.assetId, group.character)) continue;
+      if (!group || group.character?.crowd || !this.characterReady(group.assetId, group.character)) continue;
       const slot = record.slot;
       if (!this.buildUnique(record, group)) {
         // The 40 m acquisition radius and 70 m release radius stop boundary thrash, but they used
@@ -2862,6 +2953,7 @@ export class EntityViews {
     // `DressedCharacter.dispose` frees the head-cap and merged geometries this assembly allocated
     // and nothing else owns. The source geometries and materials are shared with the loaded asset
     // and are deliberately left alone.
+    if(record.dressed){this.remoteActivityRigs.get(record.dressed)?.dispose();this.remoteActivityRigs.delete(record.dressed);}
     record.dressed?.dispose();
     record.dressed = null;
     record.unique = null;
@@ -2905,12 +2997,12 @@ export class EntityViews {
   private dropUnposed(): void {
     const stale = new Set<string>();
     for (const [key, group] of this.groups) {
-      if (group.needsPose && this.sources.has(group.assetId)) stale.add(key);
+      if (group.needsPose && this.characterReady(group.assetId, group.character)) stale.add(key);
     }
 
     for (const [entityId, record] of [...this.records]) {
       const group = this.groups.get(record.groupKey);
-      const sourceReady = group ? this.sources.has(group.assetId) : false;
+      const sourceReady = group ? this.characterReady(group.assetId, group.character) : false;
       if (!stale.has(record.groupKey) && !(record.awaitingRig && sourceReady)) continue;
       this.release(record);
       this.records.delete(entityId);
@@ -3042,8 +3134,9 @@ export class EntityViews {
 
   /** Builds one shared palette for a group's animated instances, independent of actor count. */
   private ensureAnimationLod(group: InstanceGroup, record: ViewRecord): AnimationLod | null {
+    if (group.character?.crowd && !canSimplifyCrowd()) return null;
     group.animationLodUsedAt = this.resourceTimeSeconds;
-    if (group.animationLod) return group.animationLod.ready ? group.animationLod : null;
+    if (group.animationLod) return group.animationLod.isViewReady(this.isViewReady) ? group.animationLod : null;
     if (!group.posed || group.archetype === "fishing_spot") return null;
     const source = this.sourceOf(group.assetId);
     if (!source) return null;
@@ -3051,7 +3144,9 @@ export class EntityViews {
     const root = dressed?.group ?? source;
     const animationRoot = dressed?.animationRoot ?? root;
     const clips = new Map<string, THREE.AnimationClip>();
-    for (const motion of ["idle", "walk", "run", "attack", "hit", "death"] as const) {
+    const motions: CharacterMotion[] = ["idle", "walk", "run", "attack", "hit", "death"];
+    if (record.entityId.startsWith("remote:")) motions.push("player_attack", "cast", "bank", "mine", "chop", "fish", "eat", "produce", "climb", "vault", "balance", "slide");
+    for (const motion of motions) {
       for (const name of this.clipCandidates(group.assetId, record.entityId, motion)) {
         const clip = this.firstFittingClip(group.assetId, [name], animationRoot);
         if (clip) clips.set(clip.name, clip);
@@ -3066,6 +3161,9 @@ export class EntityViews {
         this.group, root, animationRoot, [...clips.values()],
         (material) => this.variantFor(material, group.assetId, group.archetype, group.tier, group.regionId, false),
         true,
+        // Detail changes reduce geometry, but must not remove the actor's shadow.
+        true,
+        group.character?.crowd === true,
       );
       group.animationLod = lod;
       const advance = () => { if (group.animationLod === lod) lod.prepare(2); };
@@ -3089,7 +3187,7 @@ export class EntityViews {
     }
     dressed?.dispose();
     this.trimAnimationLods(group);
-    return lod;
+    return lod.isViewReady(this.isViewReady) ? lod : null;
   }
 
   private trimAnimationLods(group: InstanceGroup): void {
@@ -3412,11 +3510,13 @@ export class EntityViews {
     archetype: Archetype,
     assetId: string,
     partAssetIds: readonly string[] | undefined,
+    crowd = false,
+    equipment?: PublicEquipment,
   ): CharacterSpec | null {
-    const cacheKey = `${entityId}|${archetype}|${assetId}|${partAssetIds?.join("+") ?? ""}`;
+    const cacheKey = `${entityId}|${crowd}|${archetype}|${assetId}|${partAssetIds?.join("+") ?? ""}|${JSON.stringify(equipment??null)}`;
     const cached = this.characterSpecs.get(cacheKey);
     if (cached !== undefined) return cached;
-    const spec = characterSpecFor(entityId, archetype, assetId, partAssetIds);
+    const spec = characterSpecFor(entityId, archetype, assetId, partAssetIds, crowd, equipment);
     this.characterSpecs.set(cacheKey, spec);
     // Start the clothes loading the FIRST time this entity is seen, not when its instance group is
     // built. `boot.preloadEntityAssets` does not know about `view.partAssetIds`, so if the request
@@ -3449,7 +3549,7 @@ export class EntityViews {
     if (cached) return cached;
     if (this.missing.has(id)) return null;
     // Procedurally built assets live in the registry cache without a manifest row.
-    if (!this.assets.entry(id) && !this.assets.isLoaded(id)) {
+    if (!this.assets.entry(id) && !this.assets.isLoaded(id) && !isProceduralGearAsset(id)) {
       this.missing.add(id);
       this.failedSources.delete(id);
       return null;
@@ -3513,7 +3613,7 @@ export class EntityViews {
     const ids = new Set<string>([view.assetId]);
     if (view.depletedAssetId) ids.add(view.depletedAssetId);
     const character = characterSpecFor(
-      entity.id, entity.archetype, view.assetId, view.partAssetIds,
+      entity.id, entity.archetype, view.assetId, view.partAssetIds, view.crowd, view.equipment,
     );
     if (character) {
       ids.add(character.bodyAssetId);
@@ -3560,7 +3660,8 @@ export class EntityViews {
     const parts: CharacterPartSource[] = [];
     for (const assetId of character.partAssetIds) {
       const source = this.requestSource(assetId);
-      if (source) parts.push({ assetId, source });
+      const gear=character.gear?.find(part=>part.assetId===assetId);
+      if (source && gear?.attach!=="bone") parts.push({ assetId, source:gear?this.equipmentSources.get(source,gear):source });
     }
     try {
       const dressed = assembleDressedCharacter({
@@ -3575,6 +3676,16 @@ export class EntityViews {
         mergeOptions: { materialKey: characterMaterialKey },
         name: `character-${character.key}`,
       });
+      for(const appearance of character.gear??[]){
+        if(appearance.attach!=="bone")continue;
+        const source=this.requestSource(appearance.assetId),socket=weaponAttachment(appearance);
+        const bone=socket&&dressed.bones.get(socket.bone);
+        if(!source||!socket||!bone)continue;
+        const object=this.equipmentSources.get(source,appearance).clone(true);
+        object.position.set(...socket.position);object.rotation.set(...socket.rotation);object.scale.setScalar(socket.scale);
+        object.name=`equip-${appearance.slot}-${appearance.assetId}`;bone.add(object);
+        object.traverse(node=>{const mesh=node as THREE.Mesh;if(mesh.isMesh)dressed.drawCalls+=Array.isArray(mesh.material)?Math.max(1,mesh.geometry.groups.length):1;});
+      }
       this.characterCosts.set(character.key, dressed.drawCalls);
       return dressed;
     } catch {
@@ -4405,6 +4516,31 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     return this.missingHitClips.get(group.assetId) ?? null;
   }
 
+  /** An outfit or crowd-detail handoff changes geometry, not an already committed action. */
+  private restoreRemoteAction(record: ViewRecord, previous: ViewRecord): void {
+    const state = previous.playback;
+    if (!state || (!ONE_SHOT_MOTIONS.has(previous.motion) && !state.hitOverlay)) return;
+    const group = this.groups.get(record.groupKey);
+    const root = record.rig?.root ?? (group ? this.sourceOf(group.assetId) : null);
+    if (!group || !root) return;
+    const clip = this.firstFittingClip(group.assetId, [state.clip.name], root) ?? this.motionClip(record, previous.motion);
+    if (!clip) return;
+    const previousClip = state.previousClip
+      ? this.firstFittingClip(group.assetId, [state.previousClip.name], root) : null;
+    const scale = clip.duration / Math.max(state.clip.duration, 1e-6);
+    const previousScale = previousClip && state.previousClip
+      ? previousClip.duration / Math.max(state.previousClip.duration, 1e-6) : 1;
+    record.motion = previous.motion;
+    record.resting = previous.resting;
+    record.playback = {
+      ...state, clip, time: state.time * scale, timeScale: state.timeScale * scale,
+      previousClip, previousTime: state.previousTime * previousScale,
+      previousTimeScale: state.previousTimeScale * previousScale,
+      hitOverlay: state.hitOverlay && clipFits(root, state.hitOverlay.clip) ? { ...state.hitOverlay } : null,
+    };
+    if (record.rig) { this.sampleRig(record); this.animated.add(record); }
+  }
+
   /** Motion intent updates the shared clock; both skeletal representations sample that clock. */
   private setMotion(record: ViewRecord, motion: CharacterMotion, interruptOneShot = false, restart = false,
     impactSide?: "left" | "right" | "front"): void {
@@ -4511,8 +4647,16 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     rig.clipName = state.clip.name;
     rig.motion = record.motion;
     rig.resting = record.resting;
+    const activity=this.remoteActivities.get(record.entityId);
+    let activityRig=record.dressed?this.remoteActivityRigs.get(record.dressed):undefined;
+    if(activity&&record.dressed&&!activityRig){
+      activityRig=new RemoteActivityPose(record.dressed.group,record.dressed.bones);
+      this.remoteActivityRigs.set(record.dressed,activityRig);
+    }
+    activityRig?.restore();
     rig.mixer.update(0);
     this.placeUnique(record);
+    activityRig?.apply(activity);
   }
 
   /** Idle may vary per person. A gait or one-shot must match what the entity is doing. */
@@ -4597,7 +4741,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     return clip && Number.isFinite(clip.duration) && clip.duration > 0 ? clip.duration : null;
   }
 
-  playAction(entityId: EntityId, motion: "attack" | "hit",
+  playAction(entityId: EntityId, motion: "attack" | "hit" | "cast" | "bank" | "player_attack",
     options?: { durationSeconds?: number; impactSide?: "left" | "right" | "front" }): boolean {
     const record = this.records.get(entityId);
     if (!record) return false;
@@ -4643,16 +4787,23 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   /** Explicit motion intent for stationary production-rig authoring and motion inspection. */
-  setLocomotion(entityId: EntityId, motion: "idle" | "walk" | "run"): boolean {
+  setLocomotion(entityId: EntityId, motion: RemotePlayerPose): boolean {
+    const previous = this.locomotionIntents.get(entityId);
+    this.locomotionIntents.set(entityId, motion);
     const record = this.records.get(entityId);
     if (!record?.rigCandidate || record.spent) return false;
-    this.locomotionIntents.set(entityId, motion);
-    this.setMotion(record, motion, true);
+    if (previous !== motion) this.setMotion(record, motion, true);
     return record.motion === motion;
   }
 
   clearLocomotion(entityId: EntityId): void {
     this.locomotionIntents.delete(entityId);
+  }
+
+  cancelAttack(entityId: EntityId): void {
+    const record=this.records.get(entityId);
+    if(record&&(record.motion==="attack"||record.motion==="player_attack"))
+      this.setMotion(record,this.locomotionIntents.get(entityId)??"idle",true);
   }
 
   /**
@@ -4735,6 +4886,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     character: CharacterSpec | null,
     position: THREE.Vector3,
   ): boolean {
+    if (character?.crowd) return false;
     const cost = this.uniqueCostOf(assetId, source, character);
     if (cost === 0) return false;
 
@@ -4890,6 +5042,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       usedVertices: 0,
       usedIndices: 0,
       geometryIds: new Map(),
+      colorsPrepared: false,
       owners: [],
     };
     this.batches.set(key, batch);
@@ -4931,6 +5084,15 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     batch.usedVertices += vertices;
     batch.usedIndices += indices;
     batch.geometryIds.set(geometry, id);
+    if (!batch.colorsPrepared && (tintRoleFor(batch.mesh.material.name) !== "none"
+      || architectureMaterialRole(batch.mesh.material.name))) {
+      // setColorAt changes Three's shader layout on its first use. Establish the tint-capable
+      // layout while preparing geometry, before any first-draw warmup or real player instance.
+      const temporary = batch.mesh.addInstance(id);
+      batch.mesh.setColorAt(temporary, SCRATCH_COLOUR.setRGB(1, 1, 1));
+      batch.mesh.deleteInstance(temporary);
+      batch.colorsPrepared = true;
+    }
     return id;
   }
 
@@ -5062,9 +5224,20 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // A spent group with no geometry of its own keeps drawing its LIVE parts rather than nothing.
     // Hiding the live instance without drawing a replacement is how a worked-out node used to
     // disappear from the world entirely. The walk variant works the same way.
-    const spentReady = record.spent && group.spent.length > 0;
-    const movingReady = !record.spent && moving && group.moving.length > 0;
+    const spentReady = record.spent && group.spent.length > 0
+      && group.spent.every(draw => this.isViewReady(draw.batch.mesh));
+    const movingReady = !record.spent && moving && group.moving.length > 0
+      && group.moving.every(draw => this.isViewReady(draw.batch.mesh));
     const active = spentReady ? group.spent : movingReady ? group.moving : group.live;
+    // Streamed warmup finishes one batch at a time. A newly joined player must appear as a
+    // complete outfit, never as a ready weapon or head with the remaining body still hidden.
+    if (record.entityId.startsWith("remote:") && !active.every(draw => this.isViewReady(draw.batch.mesh))) {
+      group.animationLod?.hide(slot);
+      for (const variant of [group.live, group.spent, group.moving]) {
+        for (const draw of variant) hideInstance(draw, slot);
+      }
+      return;
+    }
 
     const pickBounds = !EXPANDED_PICK_ARCHETYPES.has(record.archetype)
       ? (record.pickBounds ??= new THREE.Box3()).makeEmpty() : null;
@@ -5573,8 +5746,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   /** Distance is the actual mesh or character pick-shape intersection, never the entity base. */
-  pickHit(raycaster: THREE.Raycaster): { entityId: EntityId; distance: number } | null {
-    return this.pickCandidates(raycaster)[0] ?? null;
+  pickHit(raycaster: THREE.Raycaster, context = false): { entityId: EntityId; distance: number } | null {
+    return this.pickCandidates(raycaster, context)[0] ?? null;
   }
 
   /** Distance-sorted pick, returning every entity under the ray. Right-click menus want this. */
@@ -5582,15 +5755,15 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     return this.pickCandidates(raycaster).map((candidate) => candidate.entityId);
   }
 
-  private pickCandidates(raycaster: THREE.Raycaster): { entityId: EntityId; distance: number }[] {
+  private pickCandidates(raycaster: THREE.Raycaster, context = false): { entityId: EntityId; distance: number }[] {
     if (!this.group.visible) return [];
-    const nearest = new Map(this.expandedCharacterPicks(raycaster).map(hit => [hit.entityId, hit.distance]));
+    const nearest = new Map(this.expandedCharacterPicks(raycaster, context).map(hit => [hit.entityId, hit.distance]));
     const meshHits: THREE.Intersection[] = [];
     // Avoid raycasting shared batches: rebuilding their bounds and testing every skinned
     // instance on each hover made pointer input block the frame. Characters already have
     // moving pick capsules; static parts can use their actual, cached instance envelopes.
     for (const record of this.records.values()) {
-      if (!record.pickable || record.fade >= 1 || this.hiddenRoofs.has(record.entityId)
+      if ((!record.pickable || (record.pickable === "context" && !context)) || record.fade >= 1 || this.hiddenRoofs.has(record.entityId)
         || EXPANDED_PICK_ARCHETYPES.has(record.archetype) || record.slot < 0
         || !record.pickBounds || !raycaster.ray.intersectsBox(record.pickBounds)) continue;
       const group = this.groups.get(record.groupKey);
@@ -5626,7 +5799,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       // A hit on a 20 m ruin is a hit on the place, not on a thing. Let it fall through to
       // whatever is behind it — usually the ground, so the click walks there.
       const record = this.records.get(entityId);
-      if (record?.pickable === false || record && record.fade >= 1) continue;
+      if (record?.pickable === false || (record?.pickable === "context" && !context) || record && record.fade >= 1) continue;
       // Three's raycaster still intersects invisible objects. A dissolved unique rig
       // must not cover its loot chest, and a hidden interior must not cover the surface.
       for (let object: THREE.Object3D | null = hit.object; object; object = object.parent) {
@@ -5642,10 +5815,12 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
   private expandedCharacterPicks(
     raycaster: THREE.Raycaster,
+    context = false,
   ): { entityId: EntityId; distance: number }[] {
     const found: { entityId: EntityId; distance: number }[] = [];
     for (const record of this.records.values()) {
       if (!EXPANDED_PICK_ARCHETYPES.has(record.archetype)) continue;
+      if (record.pickable === false || (record.pickable === "context" && !context)) continue;
       // A dissolved corpse is NOT a click target.
       //
       // The capsule below is invisible by design — it exists so a coney is as easy to click as a
@@ -5768,6 +5943,72 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   /** Live mixer state, or the pose the instanced fallback actually draws. */
+  materialNames(entityId:EntityId):string[] {
+    const record=this.records.get(entityId);if(!record)return [];
+    if(record.unique){
+      const names=new Set<string>();
+      record.unique.traverse(node=>{const mesh=node as THREE.Mesh;if(mesh.isMesh)
+        for(const material of Array.isArray(mesh.material)?mesh.material:[mesh.material])names.add(material.name);});
+      return [...names];
+    }
+    return this.groups.get(record.groupKey)?.animationLod?.materialNames(record.slot)??[];
+  }
+
+  /** Actual visible, shader-ready mesh instances, rather than semantic or allocated actor counts. */
+  presentationSnapshot(entityId: EntityId): {
+    renderedMeshes: number; expectedMeshes: number; complete: boolean;
+    equipment: Record<string, string>;
+    mode: EntityMotionPath | null; sourceReady: boolean;
+    preparing: boolean; pendingReplacement: boolean;
+  } | null {
+    const record = this.records.get(entityId);
+    if (!record) return null;
+    const group = this.groups.get(record.groupKey);
+    const visible = (root: THREE.Object3D): boolean => {
+      for (let node: THREE.Object3D | null = root; node; node = node.parent) if (!node.visible) return false;
+      return this.isViewReady(root);
+    };
+    let renderedMeshes = 0, sampledMeshes = 0, uniqueMeshes = 0;
+    if (record.unique) record.unique.traverse(node => {
+      if (!(node as THREE.Mesh).isMesh) return;
+      uniqueMeshes++;
+      if (visible(node)) renderedMeshes++;
+    });
+    if (group && record.slot >= 0) {
+      sampledMeshes = group.animationLod?.renderedMeshCount(record.slot, visible) ?? 0;
+      renderedMeshes += sampledMeshes;
+      for (const draws of [group.live, group.spent, group.moving]) for (const draw of draws) {
+        const instance = draw.instances[record.slot];
+        if (instance !== undefined && instance >= 0 && draw.batch.mesh.getVisibleAt(instance) && visible(draw.batch.mesh)) renderedMeshes++;
+      }
+    }
+    const sourceIds = group?.character
+      ? [group.character.bodyAssetId, ...group.character.partAssetIds]
+      : group ? [group.assetId] : [];
+    const liveUnique = record.unique && !this.preparingUniques.has(record);
+    const moving = record.movingTicks > 0 && !record.spent;
+    const baked = group && (record.spent && group.spent.length > 0
+      && group.spent.every(draw => this.isViewReady(draw.batch.mesh)) ? group.spent
+      : moving && group.moving.length > 0 && group.moving.every(draw => this.isViewReady(draw.batch.mesh))
+        ? group.moving : group.live);
+    const expectedMeshes = liveUnique ? uniqueMeshes
+      : sampledMeshes > 0 ? group?.animationLod?.meshCount ?? 0 : baked?.length ?? 0;
+    return {
+      renderedMeshes,
+      expectedMeshes,
+      complete: expectedMeshes > 0 && renderedMeshes === expectedMeshes,
+      equipment: Object.fromEntries((group?.character?.gear ?? [])
+        .filter(gear => gear.itemId).map(gear => [gear.slot, gear.itemId!])),
+      mode: liveUnique
+        ? record.rig ? "live-rig" : "unique-static"
+        : sampledMeshes > 0 ? "sampled-rig" : group?.posed ? "baked" : group ? "instanced-static" : null,
+      sourceReady: sourceIds.every(id => this.sources.has(id) || this.missing.has(id)),
+      preparing: this.preparingUniques.has(record) || Boolean(group?.animationLod?.preparing),
+      pendingReplacement: this.replacementGroupKeys.has(entityId),
+    };
+  }
+
+  /** Live mixer state, or the pose the instanced fallback actually draws. */
   motionSnapshot(entityId: EntityId): EntityMotionSnapshot | null {
     const record = this.records.get(entityId);
     if (!record) return null;
@@ -5775,8 +6016,10 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const rig = this.preparingUniques.has(record) ? null : record.rig;
     const group = record.slot >= 0 ? this.groups.get(record.groupKey) : null;
     const moving = record.movingTicks > 0 && !record.spent;
-    const spentReady = Boolean(group && record.spent && group.spent.length > 0);
-    const movingReady = Boolean(group && moving && group.moving.length > 0);
+    const spentReady = Boolean(group && record.spent && group.spent.length > 0
+      && group.spent.every(draw => this.isViewReady(draw.batch.mesh)));
+    const movingReady = Boolean(group && moving && group.moving.length > 0
+      && group.moving.every(draw => this.isViewReady(draw.batch.mesh)));
     const bakedMotion: CharacterMotion | null = group?.posed
       ? spentReady ? "death" : movingReady ? "walk" : "idle"
       : null;
@@ -5784,7 +6027,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       ? "live-rig"
       : record.unique && !this.preparingUniques.has(record)
         ? "unique-static"
-        : group?.animationLod?.ready && record.playback
+        : group?.animationLod?.isViewReady(this.isViewReady) && record.playback
           ? "sampled-rig"
         : group?.posed
           ? "baked"
@@ -5879,7 +6122,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
     const group = this.groups.get(record.groupKey);
     if (!group || record.slot < 0) return null;
-    if (group.animationLod && record.playback) {
+    if (group.animationLod?.isViewReady(this.isViewReady) && record.playback) {
       // Explicit inspections match the current shader pose; ordinary consumers retain the
       // conservative culling envelope without a per-vertex CPU walk.
       const bounds = preciseSampled
@@ -5889,12 +6132,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         ? boxToBounds(bounds, group.animationLod.drawCalls, `sampled:${record.playback.clip.name}`, record.fade)
         : null;
     }
-    const moving = record.movingTicks > 0 && !record.spent;
-    const active = record.spent && group.spent.length > 0
-      ? group.spent
-      : moving && group.moving.length > 0 ? group.moving : group.live;
     const matrix = new THREE.Matrix4();
-    for (const draw of active) {
+    for (const draw of [...group.live, ...group.spent, ...group.moving]) {
       const instance = draw.instances[record.slot];
       // Absent and switched-off are both "this pose does not draw here", and both must not widen
       // the box. This is what makes a depleted node's bounds the STUMP rather than the tree.
@@ -5935,6 +6174,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     let bakedPoses = 0;
     let dressedGroups = 0;
     let sampledDrawCalls = 0;
+    const crowdGeometry = {sourceTriangles: 0, triangles: 0, drawCalls: 0, shadowDrawCalls: 0};
     const drawnBatches = new Set<Batch>();
     const charge = (draws: readonly PartDraw[]): void => {
       drawnInstancedMeshes += draws.length;
@@ -5942,6 +6182,12 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     };
     for (const group of this.groups.values()) {
       sampledDrawCalls += group.animationLod?.drawCalls ?? 0;
+      if (group.character?.crowd && group.animationLod) {
+        crowdGeometry.sourceTriangles += group.animationLod.sourceTriangles;
+        crowdGeometry.triangles += group.animationLod.triangles;
+        crowdGeometry.drawCalls += group.animationLod.drawCalls;
+        crowdGeometry.shadowDrawCalls += group.animationLod.shadowDrawCalls;
+      }
       instancedMeshes += group.live.length + group.spent.length + group.moving.length;
       const flags = occupied.get(group.key);
       if (flags) {
@@ -5976,6 +6222,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
     return {
       entities: this.records.size,
+      crowdGeometry,
       groups: this.groups.size,
       instancedMeshes,
       drawnInstancedMeshes,
@@ -6008,6 +6255,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   dispose(): void {
+    this.remoteActivities.clear();
+    this.replacementGroupKeys.clear();
     for (const [mesh, original] of this.containedWaterOriginals) mesh.material = original;
     this.containedWaterOriginals.clear();
     this.activeSet.replace([]);
@@ -6033,6 +6282,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.meshCounts.clear();
     this.characterCosts.clear();
     this.characterSpecs.clear();
+    this.equipmentSources.dispose();
     this.missingHitClips.clear();
     this.hitOverlayClips.clear();
     this.uniqueDrawCalls = 0;
@@ -6231,6 +6481,8 @@ function characterSpecFor(
   archetype: Archetype,
   assetId: string,
   partAssetIds: readonly string[] | undefined,
+  crowd = false,
+  equipment?: PublicEquipment,
 ): CharacterSpec | null {
   let bodyAssetId = assetId;
   let parts: string[] = partAssetIds ? [...partAssetIds] : [];
@@ -6247,9 +6499,13 @@ function characterSpecFor(
   }
 
   const humanoid = headCapHeightFor(bodyAssetId) !== null;
-  if (humanoid) parts = remixOutfit(entityId, parts, archetype === "npc");
+  let gear:readonly GearAppearance[]|undefined;
+  if(equipment && humanoid){
+    const resolved=remoteEquipmentParts(equipment,bodyAssetId);gear=resolved.gear;
+    parts=[...resolved.defaults,...gear.map(part=>part.assetId)];
+  } else if (humanoid) parts = remixOutfit(entityId, parts, archetype === "npc");
 
-  const hooded = parts.some((id) => HOODED_PARTS.has(id));
+  const hooded = parts.some((id) => HOODED_PARTS.has(id)||id.endsWith("_helmet"));
   const haired = parts.some((id) => HAIR_PART.test(id));
   if (humanoid && !hooded && !haired) {
     const female = bodyAssetId === "base_female";
@@ -6257,7 +6513,7 @@ function characterSpecFor(
     if (!female && chance(`beard:${entityId}`, BEARD_CHANCE)) parts.push(BEARD_ASSET);
   }
 
-  return { bodyAssetId, partAssetIds: parts, key: `${bodyAssetId}>${parts.join("+")}` };
+  return { bodyAssetId, partAssetIds: parts, crowd, gear, key: `${bodyAssetId}>${parts.join("+")}|${JSON.stringify(gear??null)}${crowd ? "|crowd" : ""}` };
 }
 
 /**
@@ -6323,6 +6579,7 @@ function chance(seed: string, p: number): boolean {
  * called `Main` still cannot be recoloured by this.
  */
 function tintRoleFor(name: string): TintRole {
+  if(name.startsWith("equipped:"))return "none";
   if (CLOTH_MATERIAL.test(name)) return "cloth";
   if (CLOTH_ALT_MATERIAL.test(name)) return "clothAlt";
   if (HAIR_MATERIAL.test(name)) return "hair";

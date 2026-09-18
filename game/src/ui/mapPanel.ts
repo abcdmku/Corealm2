@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 /**
  * Terrain-backed world map.
@@ -877,10 +878,10 @@ export class MapPanel implements ManagedPanel {
     this.paintReadout();
   }
 
-  private walkTo(place: PlaceView): void {
+  private async walkTo(place: PlaceView): Promise<void> {
     const result = place.locationId
-      ? this.ctx.api.moveTo({ locationId: place.locationId })
-      : this.ctx.api.moveTo({ entityId: place.entityId });
+      ? await sendGameCommand(this.ctx.api, "moveTo", { locationId: place.locationId })
+      : await sendGameCommand(this.ctx.api, "moveTo", { entityId: place.entityId });
     if (!result.ok) {
       report(result);
       this.destKey = null;

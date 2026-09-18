@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * Bounded, interruptible operations.
  *
@@ -106,7 +107,7 @@ async function navigate(
   const startedAt = performance.now();
   while (true) {
     if (!(await watch.holdWhilePaused())) return cancelled("Navigation");
-    const started = api.moveTo(target);
+    const started = await sendGameCommand(api, "moveTo", target);
     if (!started.ok) return unwrap(started) as SessionError;
     // Already standing there: the walk is trivially over and no event will say so.
     if (!api.getPlayer().moving && started.value.pathLength < 0.5) {
@@ -115,11 +116,11 @@ async function navigate(
     const outcome = await watch.next(["navigation.completed", "navigation.failed", "player.died"], deadline);
     if (outcome.ended === "cancelled") return cancelled("Navigation");
     if (outcome.ended === "paused") {
-      api.stop();
+      await sendGameCommand(api, "stop");
       continue;
     }
     if (outcome.ended === "timeout") {
-      api.stop();
+      await sendGameCommand(api, "stop");
       return failure("TIMEOUT", `Did not reach ${describeTarget(target)} in time`, { position: api.getPlayer().position });
     }
     const died = outcome.events.find((event) => event.type === "player.died");
@@ -199,7 +200,7 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
 
         while (received < wanted) {
           if (!(await watch.holdWhilePaused())) return cancelled("Gathering");
-          if (performance.now() > deadline) { api.stop(); return finish("timeout"); }
+          if (performance.now() > deadline) { await sendGameCommand(api, "stop"); return finish("timeout"); }
 
           let nodeId = pinned;
           if (!nodeId) {
@@ -218,7 +219,7 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
           }
 
           session.setActivity(`${interaction} at ${nodeId}: ${received}/${wanted}`);
-          const started = api.interact(nodeId, interaction as InteractionId);
+          const started = await sendGameCommand(api, "interact", nodeId, interaction as InteractionId);
           if (!started.ok) {
             if (started.error.code === "INVENTORY_FULL") return finish("inventory-full", { message: started.error.message });
             if (started.error.code === "DEAD") return finish("dead", { message: started.error.message });
@@ -229,8 +230,8 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
           if (started.value.started.startsWith("walking")) {
             const arrived = await watch.next(["navigation.completed", "navigation.failed", "player.died"], deadline);
             if (arrived.ended === "cancelled") return cancelled("Gathering");
-            if (arrived.ended === "paused") { api.stop(); continue; }
-            if (arrived.ended === "timeout") { api.stop(); return finish("timeout"); }
+            if (arrived.ended === "paused") { await sendGameCommand(api, "stop"); continue; }
+            if (arrived.ended === "timeout") { await sendGameCommand(api, "stop"); return finish("timeout"); }
             if (arrived.events.some((event) => event.type === "player.died")) return finish("dead");
             if (arrived.events.some((event) => event.type === "navigation.failed")) {
               if (pinned) return finish("unreachable");
@@ -247,15 +248,15 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
               deadline,
             );
             if (outcome.ended === "cancelled") return cancelled("Gathering");
-            if (outcome.ended === "paused") { api.stop(); atNode = false; break; }
-            if (outcome.ended === "timeout") { api.stop(); return finish("timeout"); }
+            if (outcome.ended === "paused") { await sendGameCommand(api, "stop"); atNode = false; break; }
+            if (outcome.ended === "timeout") { await sendGameCommand(api, "stop"); return finish("timeout"); }
             for (const event of outcome.events) {
               if (event.type === "item.received" && typeof event.data.itemId === "string" && event.data.source === "gather") {
                 const quantity = asNumber(event.data.quantity, 1);
                 received += quantity;
                 items[event.data.itemId] = (items[event.data.itemId] ?? 0) + quantity;
               } else if (event.type === "inventory.full") {
-                api.stop();
+                await sendGameCommand(api, "stop");
                 return finish("inventory-full");
               } else if (event.type === "player.died") {
                 return finish("dead");
@@ -270,7 +271,7 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
             }
           }
         }
-        api.stop();
+        await sendGameCommand(api, "stop");
         return finish("complete");
       });
     }),
@@ -286,13 +287,13 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
         let hits = 0;
         while (true) {
           if (!(await watch.holdWhilePaused())) return cancelled("The fight");
-          const started = spellId ? api.cast(spellId, targetId) : api.attack(targetId);
+          const started = spellId ? await sendGameCommand(api, "cast", spellId, targetId) : await sendGameCommand(api, "attack", targetId);
           if (!started.ok) return unwrap(started);
           const fight = await waitForCombatEnd(api, watch, targetId, deadline, retreatBelow);
           if (isError(fight)) return { ...fight, hits: hits + asNumber(fight.hits, 0) };
           hits += fight.hits;
           // Paused mid-fight: the character was halted; re-issue the attack once resumed.
-          if (fight.paused) { api.stop(); continue; }
+          if (fight.paused) { await sendGameCommand(api, "stop"); continue; }
           const reason = String(fight.event.data.reason ?? "unknown");
           const player = api.getPlayer();
           const result: Record<string, unknown> = {
@@ -322,8 +323,8 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
         while (made < quantity) {
           if (!(await watch.holdWhilePaused())) return cancelled("Production");
           const started = typeof args.stationId === "string"
-            ? api.produceAt(args.stationId, recipeId, quantity - made)
-            : api.produce(recipeId, quantity - made);
+            ? await sendGameCommand(api, "produceAt", args.stationId, recipeId, quantity - made)
+            : await sendGameCommand(api, "produce", recipeId, quantity - made);
           if (!started.ok) {
             if (made > 0) return { made, wanted: quantity, complete: false, reason: started.error.code, message: started.error.message };
             return unwrap(started);
@@ -332,8 +333,8 @@ export function createOperationTools({ api, session }: ToolDeps): ToolDef[] {
           while (running) {
             const outcome = await watch.next(["production.completed", "activity.stopped", "inventory.full", "player.died"], deadline);
             if (outcome.ended === "cancelled") return cancelled("Production");
-            if (outcome.ended === "paused") { api.stop(); running = false; break; }
-            if (outcome.ended === "timeout") { api.stop(); return { made, wanted: quantity, complete: false, reason: "timeout" }; }
+            if (outcome.ended === "paused") { await sendGameCommand(api, "stop"); running = false; break; }
+            if (outcome.ended === "timeout") { await sendGameCommand(api, "stop"); return { made, wanted: quantity, complete: false, reason: "timeout" }; }
             for (const event of outcome.events) {
               if (event.type === "production.completed" && event.data.recipeId === recipeId) {
                 made += 1;
@@ -406,14 +407,14 @@ async function lootNearby(api: GameApi, watch: Watch, radius: number, deadline: 
     if (!pile) break;
     visited.add(pile.id);
     if (pile.interactions.includes("loot")) {
-      const opened = api.interact(pile.id, "loot");
+      const opened = await sendGameCommand(api, "interact", pile.id, "loot");
       if (!opened.ok) continue;
       if (opened.value.started.startsWith("walking")) {
         const arrived = await watch.next(["navigation.completed", "navigation.failed"], deadline);
         if (arrived.ended !== "event" || arrived.events.some((event) => event.type === "navigation.failed")) continue;
       }
     }
-    const result = api.takeLoot(pile.id);
+    const result = await sendGameCommand(api, "takeLoot", pile.id);
     if (result.ok) {
       taken.push(...result.value.taken);
       if (!result.value.containerEmpty) left.push({ entityId: pile.id, remaining: result.value.remaining });
@@ -459,7 +460,7 @@ async function waitForCombatEnd(
       }
     }
     if (belowRetreat()) {
-      api.stop();
+      await sendGameCommand(api, "stop");
       return synthetic("retreated");
     }
     // Two quiet slices in a row with no target, no engagement and no walk means the fight is
@@ -469,7 +470,7 @@ async function waitForCombatEnd(
     idleSlices = !player.inCombat && player.targetId === null && !player.moving ? idleSlices + 1 : 0;
     if (idleSlices >= 2) return synthetic("disengaged");
     if (performance.now() >= deadline) {
-      api.stop();
+      await sendGameCommand(api, "stop");
       return failure("TIMEOUT", `The fight with ${targetId} did not end in time`, { hits });
     }
   }

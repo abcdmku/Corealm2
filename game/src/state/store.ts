@@ -86,6 +86,8 @@ export interface GameState {
   currency: number;
   activity: ActivityState | null;
   combat: {
+    /** Replicated invocation timing for the owner's action bar. */
+    castLock?: import("../contracts.js").SpellCastLock | null;
     targetId: EntityId | null;
     inCombatUntilMs: number;
     nextAttackAtMs: number;
@@ -140,7 +142,7 @@ export interface GameState {
       diedAtMs?: number;
     }>;
     obstaclesUsed: Record<EntityId, number>;
-    lootPiles: Record<EntityId, { position: Vec3; items: ItemStack[]; expiresAtMs: number; ownerOnly: boolean }>;
+    lootPiles: Record<EntityId, { position: Vec3; items: import("../contracts.js").LootStack[]; expiresAtMs: number; ownerOnly: boolean; ownerId?: string }>;
     recoveryCache: {
       id: EntityId; position: Vec3; regionId: RegionId; items: ItemStack[]; expiresAtMs: number;
       /** Epoch deadline for new/migrated caches. expiresAtMs remains the legacy simulation deadline. */
@@ -165,6 +167,27 @@ export interface GameState {
 }
 
 export const DEFAULT_SPAWN: Vec3 = [0, 0, 0];
+
+/** Private state belonging to one player in one session. Browser settings stay local. */
+export type PlayerSessionState = Omit<GameState, "world" | "settings"> & {
+  ownedWorld: Pick<GameState["world"], "recoveryCache" | "campfire" | "obstaclesUsed">;
+};
+export type SharedWorldState = Pick<GameState["world"], "nodes" | "enemies" | "lootPiles">;
+
+export function playerSessionState(state: GameState): PlayerSessionState {
+  const { world: _world, settings: _settings, ...player } = state;
+  return structuredClone({ ...player, ownedWorld: {
+    recoveryCache: _world.recoveryCache, campfire: _world.campfire, obstaclesUsed: _world.obstaclesUsed,
+  } });
+}
+
+/** Existing gameplay systems receive a view over one private player and the shared world. */
+export function composeSessionState(
+  player: PlayerSessionState, world: SharedWorldState, settings: GameState["settings"],
+): GameState {
+  const { ownedWorld, ...state } = player;
+  return { ...state, world: { ...world, ...ownedWorld }, settings };
+}
 export const DEFAULT_REGION: RegionId = "fallowmarch";
 
 export function createInitialState(seed = 1337, nowMs = 0): GameState {

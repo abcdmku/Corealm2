@@ -21,16 +21,15 @@ function harness(constructionMs: number) {
   let constructions = 0;
   vi.spyOn(performance, "now").mockImplementation(() => wallMs);
   const parent = new THREE.Group();
-  parent.addEventListener("childadded", ({ child }) => {
-    if (child.name !== "advanced-spell-cast") return;
-    child.addEventListener("childadded", ({ child: effects }) => {
-      if (effects.name !== "elemental-spell-effects") return;
+  const watch = (object: THREE.Object3D): void => object.addEventListener("childadded", ({ child }) => {
+      watch(child);
+      if (child.name !== "elemental-spell-effects") return;
       // This callback runs inside the real ElementalSpellVfx constructor. Advance
       // the clock without sleeping or replacing the production renderer.
       constructions += 1;
       wallMs += constructionMs;
-    });
   });
+  watch(parent);
   const vfx = new SpellVfx({ parent, camera: new THREE.PerspectiveCamera(), groundHeightAt: () => 0 });
   return {
     vfx, parent,
@@ -95,7 +94,8 @@ describe("first advanced invocation", () => {
     const h = harness(constructionMs), launched = 1000;
     try {
       expect(h.constructions()).toBe(1);
-      expect(h.vfx.preparationRoot()).toBe(h.parent.getObjectByName("advanced-spell-cast"));
+      expect(h.vfx.preparationRoot().getObjectByName("advanced-spell-cast")).toBe(h.parent.getObjectByName("advanced-spell-cast"));
+      expect(h.vfx.preparationRoot().getObjectByName("basic-spell-cast")).toBeDefined();
       const lights = h.lights();
       expect(lights).toHaveLength(4);
       expect(lights.every((light) => light.intensity === 0)).toBe(true);

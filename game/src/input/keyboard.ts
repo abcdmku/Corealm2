@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * Keyboard input: direct movement, cancel, and the keybinding registry every later panel hangs off.
  *
@@ -264,11 +265,7 @@ export class KeyboardController {
       priority: 900,
       onDown: () => {
         if (this.registry.runEscapeStack()) return true;
-        const result = this.options.api.stop();
-        if (!result.ok) {
-          reportResult(result);
-          return true;
-        }
+        void sendGameCommand(this.options.api, "stop").then((result) => { if (!result.ok) reportResult(result); });
         // Cancelling an action and opening the pause menu are one Escape press. Falling through
         // lets `ui.menu` run after the stop, while an open panel still consumes the key above.
         return false;

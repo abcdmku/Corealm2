@@ -43,10 +43,11 @@ import { areaFootprintRadius } from "../systems/elementalAttacks.js";
 import type { ElementalSpellId } from "../content/elementalSpells.js";
 import { SPELL_RANGE } from "../app/config.js";
 import { panelInteraction } from "./panelInteraction.js";
+import { sendGameCommand } from "../api/commands.js";
 import { QuestTracker } from "./questTracker.js";
 import { AgentPanel } from "./agentPanel.js";
 import type { AgentSession } from "../agent/session.js";
-import type { HuntContractsSystem } from "../systems/huntContracts.js";
+import type { HuntContractsView } from "./huntContracts.js";
 import { Minimap } from "./minimap.js";
 import {
   LazyPanel,
@@ -256,7 +257,7 @@ export interface MapTerrainSource {
 
 /** What each panel is handed. Everything shared, nothing global. */
 export interface UiContext {
-  huntContracts?(): HuntContractsSystem | null;
+  huntContracts?(): HuntContractsView | null;
   readonly api: GameApi;
   readonly tooltip: Pick<Tooltip, "attach" | "refresh">;
   readonly menu: ContextMenu;
@@ -351,7 +352,8 @@ export interface UiOptions {
 }
 
 export interface Ui {
-  setHuntContracts(hunts: HuntContractsSystem | null): void;
+  setWorlds(panel: HTMLElement): void;
+  setHuntContracts(hunts: HuntContractsView | null): void;
   mount(root: HTMLElement): void;
   /** Call once a frame. Internally throttled; it does not repaint per frame. */
   update(): void;
@@ -371,7 +373,7 @@ export interface Ui {
   /** Opens the read-only contents grid beside a world loot container. */
   openLoot(container: LootContainerView): void;
   /** Raises the title and pause screen. */
-  openTitle(): void;
+  openTitle(view?: "worlds"): void;
   /** The quest the tracker is pinned to. The guidance layer marks its objective in the world. */
   pinnedQuestId(): QuestId | null;
   /** Live client preferences. The root subscribes to apply them. */
@@ -387,7 +389,7 @@ const PANEL_INTERVAL_MS = 220;
  * The single entry point. One call at boot, one `update()` a frame, one `dispose()` on teardown.
  */
 export function createUi(api: GameApi, options: UiOptions = {}): Ui {
-  let hunts: HuntContractsSystem | null = null;
+  let hunts: HuntContractsView | null = null;
   let lastUiRegion: RegionId | null = null;
   const registry = options.registry ?? keybindings;
   const settings = options.settings ?? new SettingsStore();
@@ -440,8 +442,8 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   const areaAim: AreaAimSession | null = options.areaAim ? createAreaAimSession({
     host: options.areaAim,
     casterPosition: () => api.getPlayer().position,
-    cast: (spellId, point) => {
-      const result = api.castArea(spellId, point);
+    cast: async (spellId, point) => {
+      const result = await sendGameCommand(api, "castArea", spellId, point);
       if (!result.ok) {
         notify(result.error.message, "error");
         // Out of range keeps the reticle up so the player can pick a nearer spot; anything else ends it.
@@ -464,13 +466,14 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     tooltip,
   });
 
-  function activateSpell(spellId: SpellId): void {
+  function activateSpell(spellId: SpellId): void { void activateSpellCommand(spellId); }
+  async function activateSpellCommand(spellId: SpellId): Promise<void> {
     const book = api.getSpellbook();
     const row = book.spells.find((entry) => entry.id === spellId);
     if (!row) return;
     if (row.rank === 0) {
       areaAim?.cancel();
-      if (report(api.setPreferredSpell(book.preferredSpellId === spellId ? null : spellId))) refreshAll(true);
+      if (report(await sendGameCommand(api, "setPreferredSpell", book.preferredSpellId === spellId ? null : spellId))) refreshAll(true);
       return;
     }
     if (!row.castable) {
@@ -489,7 +492,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       return;
     }
     areaAim?.cancel();
-    if (report(api.castNow(spellId))) refreshAll(true);
+    if (report(await sendGameCommand(api, "castNow", spellId))) refreshAll(true);
   }
 
   const loadError = (title: string) => (error: unknown): void => {
@@ -708,7 +711,8 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   }
 
   return {
-    setHuntContracts(next: HuntContractsSystem | null): void {
+    setWorlds(panel: HTMLElement): void {title.setWorlds(panel);},
+    setHuntContracts(next: HuntContractsView | null): void {
       hunts = next;
       refreshAll(true);
     },
@@ -815,12 +819,12 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       loot.show(container, () => !title.isOpen() && generation === panelInteraction.generation);
     },
 
-    openTitle(): void {
+    openTitle(view?: "worlds"): void {
       cancelPendingPanelOpens(registry);
       cancelProductionOpen?.();
       death.cancelPending();
       loot.cancelPending();
-      title.open();
+      if(view==="worlds")title.showWorlds();else title.open();
     },
 
     pinnedQuestId(): QuestId | null {

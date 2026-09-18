@@ -22,7 +22,7 @@ function enemy(id: string, regionId: RegionId, position: Vec3, passive = false):
   };
 }
 
-function fixture(entities: SemanticEntity[], playerRegion: RegionId = "fallowmarch") {
+function fixture(entities: SemanticEntity[], playerRegion: RegionId = "fallowmarch", selectPlayerForEnemy?: (entity: SemanticEntity) => boolean) {
   const store = new Store(7, 0);
   const state = store.get();
   state.player.position = [0, playerRegion === "gravelmaw" ? -25 : 0, 0];
@@ -44,13 +44,36 @@ function fixture(entities: SemanticEntity[], playerRegion: RegionId = "fallowmar
     }),
   });
   const nav = { nearestWalkable: vi.fn((wanted: Vec3): Vec3 => [...wanted]) };
-  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav });
+  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav, selectPlayerForEnemy });
   return { state, events, combat, ai, nav };
 }
 
 beforeEach(() => content.register({ enemies: ENEMIES }));
 
 describe("enemy dungeon and surface isolation", () => {
+  it("does not separate sleeping multiplayer encounters elsewhere in the world", () => {
+    const near = enemy("near", "fallowmarch", [5, 0, 0], true);
+    const far = Array.from({ length: 1000 }, (_, i) => enemy(`far-${i}`, "fallowmarch", [500, 0, 500], true));
+    const sim = fixture([near, ...far], "fallowmarch", entity => entity.id === "near");
+    const committed = vi.spyOn(sim.combat, "isAttackCommitted");
+    sim.ai.tick(100, 0);
+    expect(far.every(entity => entity.position[0] === 500 && entity.position[2] === 500)).toBe(true);
+    expect(committed).toHaveBeenCalledTimes(1);
+    expect(sim.state.world.enemies[far[0]!.id]).toBeUndefined();
+  });
+
+  it("separates a pair across a spatial bucket boundary without quadratic combat lookups", () => {
+    const a = enemy("near-a", "fallowmarch", [-.05, 0, 5], true);
+    const b = enemy("near-b", "fallowmarch", [.05, 0, 5], true);
+    const spread = Array.from({ length: 1000 }, (_, i) => enemy(`spread-${i}`, "fallowmarch", [100 + i * 5, 0, 100], true));
+    const sim = fixture([a, b, ...spread], "fallowmarch", () => true);
+    const committed = vi.spyOn(sim.combat, "isAttackCommitted");
+    sim.ai.tick(100, 0);
+    expect(a.position[0]).toBeLessThan(-.05);
+    expect(b.position[0]).toBeGreaterThan(.05);
+    expect(committed.mock.calls.length).toBeLessThanOrEqual(spread.length + 2);
+  });
+
   it.each([
     ["fallowmarch", "gravelmaw", -25],
     ["gravelmaw", "karrowmoor", 0],

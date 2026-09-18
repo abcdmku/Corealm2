@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * The public agent entry point: `window.corealm`.
  *
@@ -55,7 +56,7 @@ export function installAgentSurface(api: GameApi, options: AgentSurfaceOptions):
   const session = new AgentSession({
     now: options.now,
     emit: options.emit,
-    stopWorld: () => { api.stop(); },
+    stopWorld: () => sendGameCommand(api, "stop"),
     ...(options.onControlOwnerChanged ? { onControlOwnerChanged: options.onControlOwnerChanged } : {}),
   });
 

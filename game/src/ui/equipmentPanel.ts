@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 /**
  * The nine equipment slots, laid out around a silhouette, with the summed bonuses underneath.
@@ -195,9 +196,9 @@ export class EquipmentPanel implements ManagedPanel {
     this.frame.dispose();
   }
 
-  private unequip(slot: EquipSlot): void {
+  private async unequip(slot: EquipSlot): Promise<void> {
     if (!this.worn?.[slot]) return;
-    const result = this.ctx.api.unequipItem(slot);
+    const result = await sendGameCommand(this.ctx.api, "unequipItem", slot);
     if (result.ok) notify(`Removed ${itemName(result.value.itemId)}.`, "info");
     else report(result);
     this.ctx.refresh();

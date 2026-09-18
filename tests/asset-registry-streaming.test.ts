@@ -83,7 +83,31 @@ async function registryWith(
   })));
 
   const registry = new AssetRegistry();
-  (registry as unknown as { loader: { loadAsync: typeof loadAsync } }).loader = { loadAsync };
+  const parsed = new Map<ArrayBuffer, FakeGltf>();
+  const fileLoader = {
+    setPath(_path: string) { return this; },
+    setWithCredentials(_value: boolean) { return this; },
+    setRequestHeader(_headers: Record<string, unknown>) { return this; },
+    loadAsync: async (url: string): Promise<ArrayBuffer> => {
+      const result = await loadAsync(url);
+      const bytes = new ArrayBuffer(1);
+      parsed.set(bytes, result);
+      return bytes;
+    },
+  };
+  (registry as unknown as {
+    fileLoader: typeof fileLoader;
+    loader: { parseAsync(bytes: ArrayBuffer, root: string): Promise<FakeGltf> };
+  }).fileLoader = fileLoader;
+  (registry as unknown as {
+    loader: { parseAsync(bytes: ArrayBuffer, root: string): Promise<FakeGltf> };
+  }).loader = {
+    parseAsync: async (bytes) => {
+      const result = parsed.get(bytes);
+      if (!result) throw new Error("Test parser received unknown bytes");
+      return result;
+    },
+  };
   await registry.loadManifest();
   return registry;
 }
@@ -101,7 +125,11 @@ function assetIdFromUrl(url: string): string {
 }
 
 async function flushQueue(): Promise<void> {
-  for (let turn = 0; turn < 10; turn += 1) await Promise.resolve();
+  for (let turn = 0; turn < 40; turn += 1) await Promise.resolve();
+}
+
+async function nextTask(): Promise<void> {
+  await new Promise<void>((resolve) => setTimeout(resolve, 0));
 }
 
 afterEach(() => {
@@ -122,12 +150,62 @@ describe("AssetRegistry streaming", () => {
     expect(registry.getLoadStats()).toMatchObject({inflight:4, queued:16});
     registry.setGameplayActive(false); await flushQueue();
     expect(registry.getLoadStats()).toMatchObject({inflight:16, queued:4});
-    for (const [id, request] of pending) request.resolve(gltf(id));
-    await flushQueue();
-    for (const [id, request] of pending) request.resolve(gltf(id));
+    for (let turn = 0; turn < 12 && registry.getLoadStats().loaded < ids.length; turn += 1) {
+      for (const [id, request] of pending) request.resolve(gltf(id));
+      await flushQueue();
+    }
     await Promise.all(requests);
     expect(registry.getLoadStats()).toMatchObject({loaded:20, failed:0});
   });
+
+  it("does not begin raw GLB parsing inline when gameplay is active", async () => {
+    const frames: FrameRequestCallback[] = [];
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
+      frames.push(callback);
+      return frames.length;
+    });
+    vi.stubGlobal("cancelAnimationFrame", () => {});
+
+    const registry = await registryWith(["hero"], async () => gltf("hero"));
+    const bytes = new ArrayBuffer(4);
+    const managerEvents: string[] = [];
+    const manager = (registry as any).textureCache.manager as THREE.LoadingManager;
+    manager.onLoad = () => managerEvents.push("manager-load");
+    const parseAsync = vi.fn(async (_bytes: ArrayBuffer, root: string) => {
+      managerEvents.push("parse");
+      expect(_bytes).toBe(bytes);
+      expect(root).toBe("assets/");
+      return gltf("hero");
+    });
+    (registry as any).fileLoader = {
+      setPath() { return this; },
+      setWithCredentials() { return this; },
+      setRequestHeader() { return this; },
+      loadAsync: vi.fn(async (url: string) => {
+        manager.itemStart(url);
+        try { return bytes; } finally { manager.itemEnd(url); }
+      }),
+    };
+    (registry as any).loader = { parseAsync };
+    registry.setGameplayActive(true);
+
+    const loaded = registry.load("hero");
+    await flushQueue();
+    expect(parseAsync).not.toHaveBeenCalled();
+    expect(managerEvents).toEqual([]);
+    expect(frames).toHaveLength(1);
+
+    frames.shift()!(performance.now());
+    await nextTask();
+    expect(parseAsync).toHaveBeenCalledTimes(1);
+    expect(managerEvents).toEqual(["parse", "manager-load"]);
+
+    // Let the publication jobs run immediately so the test does not leave a scheduled frame
+    // behind. The parse itself was already proven to wait for the captured frame above.
+    registry.setGameplayActive(false);
+    await expect(loaded).resolves.toBeInstanceOf(THREE.Group);
+  });
+
   it('loads compressed release models on desktop through the normal geometry and animation path', async () => {
     vi.stubGlobal('matchMedia', () => ({matches:false}));
     const asset = {...entry('hero'), compactFile:'hero.glb.model'};

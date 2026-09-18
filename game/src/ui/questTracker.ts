@@ -11,6 +11,9 @@
  * the region, kills so far. It needs no pin, because there is only ever one, and the card shows
  * for a hunt alone when no quest is pinned. Accepting, claiming and abandoning stay in the journal.
  *
+ * Other systems add sections under the hunt with `addTrackerSection`, the multiplayer party being
+ * the first. A section shows whenever its element is not hidden, and keeps the card up on its own.
+ *
  * Repaints follow the panels' signature rule: `update()` runs at the panel cadence and touches
  * the DOM only when the quest's stage, objective or status actually changed.
  */
@@ -20,6 +23,22 @@ import { isSmallScreen } from "./mobileLayout.js";
 import type { Tooltip } from "./tooltips.js";
 
 const STORE_KEY = "corealm.questTracker.v1";
+
+const sections = new Set<HTMLElement>();
+let mounted: QuestTracker | null = null;
+
+/**
+ * Adds a section to the bottom of the tracker card, before or after the tracker mounts. Call the
+ * returned function after hiding or showing the section so the card follows; call `remove` to drop it.
+ */
+export function addTrackerSection(section: HTMLElement): { refresh(): void; remove(): void } {
+  sections.add(section);
+  mounted?.adopt(section);
+  return {
+    refresh: () => mounted?.update(true),
+    remove: () => { sections.delete(section); section.remove(); mounted?.update(true); },
+  };
+}
 
 interface TrackerState {
   questId: QuestId | null;
@@ -66,7 +85,7 @@ export class QuestTracker {
 
   constructor(
     private readonly api: GameApi,
-    private readonly hunts: () => HuntContractsSystem | null = () => null,
+    private readonly hunts: () => Pick<HuntContractsSystem, "snapshot"> | null = () => null,
     private readonly tooltip?: Pick<Tooltip, "attach">,
   ) {
     const root = document.createElement("section");
@@ -212,6 +231,15 @@ export class QuestTracker {
 
   mount(parent: HTMLElement): void {
     parent.appendChild(this.root);
+    mounted = this;
+    for (const section of sections) this.adopt(section);
+    this.update(true);
+  }
+
+  /** Internal to `addTrackerSection`. */
+  adopt(section: HTMLElement): void {
+    section.classList.add("quest-tracker__section");
+    this.root.appendChild(section);
     this.update(true);
   }
 
@@ -241,7 +269,8 @@ export class QuestTracker {
     if (!force && signature === this.signature) return;
     this.signature = signature;
 
-    if (!quest && !hunt) {
+    const extra = [...sections].some((section) => !section.hidden);
+    if (!quest && !hunt && !extra) {
       if (!this.root.hidden) this.root.hidden = true;
       return;
     }
@@ -278,6 +307,7 @@ export class QuestTracker {
   }
 
   dispose(): void {
+    if (mounted === this) mounted = null;
     this.root.remove();
   }
 

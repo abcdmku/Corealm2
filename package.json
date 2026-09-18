@@ -37,6 +37,11 @@
     "lab:spells:world-bar": "tsx tools/spell-world-bar-test.ts",
     "lab:building:preview": "vite game --host 127.0.0.1 --port 4174 --strictPort --open /index.html?mode=building",
     "lab:test": "tsx tools/feature-lab-test.ts",
+    "multiplayer:server": "tsx tools/multiplayer-server.ts",
+    "multiplayer:dev": "tsx tools/multiplayer-dev.ts",
+    "multiplayer:prod": "tsx tools/multiplayer-prod.ts",
+    "multiplayer:lab": "tsx tools/multiplayer-lab-test.ts",
+    "multiplayer:capacity": "tsx tools/multiplayer-capacity.ts",
     "lab:creatures": "tsx tools/creature-lab-test.ts",
     "lab:forest": "tsx tools/forest-lab-test.ts",
     "lab:fishing": "tsx tools/fishing-lab-test.ts",
@@ -79,14 +84,18 @@
     "icons:verify": "tsx tools/verify-item-icons.ts",
     "gate-check": "tsx tools/gate-check.ts",
     "contact-sheets:gathering-production": "tsx tools/build-gathering-contact-sheets.ts --run runs/corealm",
-    "verify:gathering-production": "tsx tools/verify-gathering-production.ts --run runs/corealm"
+    "verify:gathering-production": "tsx tools/verify-gathering-production.ts --run runs/corealm",
+    "multiplayer:authored": "tsx tools/multiplayer-authored-test.ts",
+    "multiplayer:render": "tsx tools/multiplayer-render-test.ts"
   },
   "dependencies": {
     "@recast-navigation/core": "0.43.1",
     "@recast-navigation/generators": "^0.43.1",
     "@recast-navigation/wasm": "0.43.1",
+    "meshoptimizer": "1.1.1",
     "recast-navigation": "0.43.1",
-    "three": "0.185.1"
+    "three": "0.185.1",
+    "ws": "^8.21.3"
   },
   "devDependencies": {
     "@astrojs/starlight": "^0.41.10",
@@ -95,6 +104,7 @@
     "@gltf-transform/functions": "^4.4.2",
     "@types/node": "24.3.0",
     "@types/three": "0.185.0",
+    "@types/ws": "^8.18.1",
     "astro": "^7.2.9",
     "meshoptimizer": "^1.1.1",
     "playwright": "1.62.1",

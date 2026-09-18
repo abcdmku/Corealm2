@@ -362,6 +362,8 @@ interface PendingSpellHit {
 const AREA_CANDIDATE_METRES = 16;
 
 export interface CombatDeps {
+  shareKill?: (enemy: SemanticEntity, skill: SkillId, xp: number, atMs: number) => void;
+  assignLoot?: (enemy: SemanticEntity, items: ItemStack[]) => import("../contracts.js").LootStack[];
   store: Store;
   events: EventBus;
   rng: RngStreams;
@@ -369,6 +371,8 @@ export interface CombatDeps {
   equipment: CombatEquipmentPort;
   inventory: CombatInventoryPort;
   dispatcher: InteractionDispatcher;
+  /** Multiplayer world owns the target of each enemy; offline keeps the existing local behavior. */
+  ownsEnemy?: (enemyId: EntityId) => boolean;
   movement?: CombatMovementPort;
   activity?: CombatActivityPort;
   /** View block stamped onto spawned loot piles. Omitted means the pile is state-only. */
@@ -1112,6 +1116,7 @@ export class CombatSystem implements TickSystem {
     if (state.combat.engagedBy.length === 0) return;
 
     for (const enemyId of [...state.combat.engagedBy]) {
+      if (this.deps.ownsEnemy && !this.deps.ownsEnemy(enemyId)) continue;
       const entity = this.deps.entities.get(enemyId);
       if (!entity || !sameCombatRealm(state.player.regionId, entity.regionId)) {
         this.disengageEnemy(state, enemyId, atMs);
@@ -1196,7 +1201,7 @@ export class CombatSystem implements TickSystem {
     if (combatRealmOf(state.player.regionId) !== attack.realm || combatRealmOf(entity.regionId) !== attack.realm) return false;
     const runtime = state.world.enemies[enemyId];
     if (!runtime || runtime.state === "dead" || runtime.health <= 0) return false;
-    if (start.attacker === "enemy") return state.combat.engagedBy.includes(enemyId);
+    if (start.attacker === "enemy") return (!this.deps.ownsEnemy || this.deps.ownsEnemy(enemyId)) && state.combat.engagedBy.includes(enemyId);
     if (state.player.id !== start.sourceId || state.combat.targetId !== enemyId
       || state.combat.activeSpellId !== null || state.activity?.kind === "eating") return false;
     const movement = state.player.movement;
@@ -1359,6 +1364,7 @@ export class CombatSystem implements TickSystem {
     this.deps.entities.setState?.(entity.id, "dead");
 
     if (skill) this.awardXp(state, skill, Math.round(maxHealth * KILL_XP_MULTIPLIER), atMs);
+    if (skill) this.deps.shareKill?.(entity, skill, Math.round(maxHealth * KILL_XP_MULTIPLIER), atMs);
 
     this.enemyNextAttackAtMs.delete(entity.id);
     this.enemyOverrides.delete(entity.id);
@@ -1384,10 +1390,11 @@ export class CombatSystem implements TickSystem {
 
   /** Drop rolls run on the seeded `loot` stream so a kill never shifts the next hit roll. */
   private rollDrops(state: GameState, entity: SemanticEntity, def: EnemyDef, atMs: number): void {
-    const items: ItemStack[] = [];
-    items.push(...rollItemDrops(def.drops, this.lootRng, itemId => !(
+    let items: import("../contracts.js").LootStack[] = [];
+    items.push(...rollItemDrops(def.drops, this.lootRng, itemId => !!this.deps.assignLoot || !(
       content.item(itemId)?.orb && (state.magic.consumedOrbs[itemId] || ownsPhysicalItem(state, itemId, items))
     )));
+    if (this.deps.assignLoot) items = this.deps.assignLoot(entity, items);
 
     if (def.marks) {
       const marks = this.lootRng.int(def.marks[0], def.marks[1]);
@@ -1406,13 +1413,17 @@ export class CombatSystem implements TickSystem {
     let pileId: EntityId;
     do {
       this.pileSequence += 1;
-      pileId = `loot_${entity.id}_${this.pileSequence}`;
+      pileId = this.deps.ownsEnemy
+        ? `loot_${entity.id}_${state.player.id}_${this.pileSequence}`
+        : `loot_${entity.id}_${this.pileSequence}`;
     } while (state.world.lootPiles[pileId] || this.deps.entities.get(pileId));
+    if (this.deps.assignLoot) items.forEach((item, index) => { item.stackId = `${pileId}:${index}`; });
     state.world.lootPiles[pileId] = {
       position: cloneVec3(entity.position),
       items,
       expiresAtMs: atMs + LOOT_DESPAWN_MS,
-      ownerOnly: true,
+      ownerOnly: !this.deps.assignLoot,
+      ...(this.deps.ownsEnemy ? { ownerId: state.player.id } : {}),
     };
 
     const view = this.deps.lootView;
@@ -1426,6 +1437,7 @@ export class CombatSystem implements TickSystem {
       state: "available",
       interactions: ["inspect", "loot"],
       ...(view ? { view } : {}),
+      ...(this.deps.assignLoot ? { loot: items } : {}),
       meta: { droppedBy: entity.id, expiresAtMs: state.world.lootPiles[pileId]?.expiresAtMs ?? 0 },
     });
 

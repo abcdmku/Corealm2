@@ -5,6 +5,7 @@ import { StreamedShaderWarmup } from "../game/src/render/streamedShaderWarmup.js
 function fixture() {
   const scene = new THREE.Scene();
   let target: THREE.WebGLRenderTarget | null = null;
+  let cubeFace = 0, mipLevel = 0;
   const calls: { material: THREE.Material; linear: boolean }[] = [];
   const programs = [{ program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }, { program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }];
   const renderer = {
@@ -14,7 +15,9 @@ function fixture() {
     getContext: () => ({ getExtension: () => ({ COMPLETION_STATUS_KHR: 1 }), isProgram: () => true,
       getProgramParameter: (program: { ready: boolean }) => program.ready }),
     getRenderTarget: () => target,
-    setRenderTarget: (value: THREE.WebGLRenderTarget | null) => { target = value; },
+    getActiveCubeFace: () => cubeFace,
+    getActiveMipmapLevel: () => mipLevel,
+    setRenderTarget: (value: THREE.WebGLRenderTarget | null, face = 0, level = 0) => { target = value; cubeFace = face; mipLevel = level; },
     compile: (view: THREE.Object3D) => {
       view.traverse(object => { if (object instanceof THREE.Mesh) calls.push({ material: object.material as THREE.Material,
         linear: target !== null }); });
@@ -32,6 +35,50 @@ it("keeps a replacement gameplay actor drawable while its shaders prepare", () =
   expect(gate.getState().waiting).toBe(1);
   expect(mesh.visible).toBe(true);
   gate.restore();gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
+});
+
+it("prepares corpse transparency in both colour passes before releasing a streamed creature", () => {
+  const { scene, gate, mesh, renderer, programs } = fixture();
+  const original = mesh.material;
+  mesh.userData.prepareCorpseFade = true;
+  mesh.userData.deferFirstDraw = true;
+  const variants: { transparent: boolean; linear: boolean; mesh: THREE.Mesh }[] = [];
+  renderer.compile = ((view: THREE.Object3D) => {
+    view.traverse(object => { if (object instanceof THREE.Mesh) variants.push({ mesh: object,
+      transparent: (object.material as THREE.Material).transparent, linear: renderer.getRenderTarget() !== null }); });
+    return new Set<THREE.Material>();
+  }) as THREE.WebGLRenderer["compile"];
+  scene.add(mesh); gate.prepare();
+  expect(variants.map(row => [row.transparent, row.linear])).toEqual([[false, false], [true, false], [false, true], [true, true]]);
+  expect(variants.every(row => row.mesh === mesh)).toBe(true);
+  expect(mesh.material).toBe(original); expect(original.transparent).toBe(false);
+  expect(mesh.visible).toBe(false); gate.restore();
+  for (const program of programs) program.program.ready = true;
+  gate.prepare(); expect(mesh.visible).toBe(true); expect(gate.hasPending(mesh)).toBe(false);
+  gate.restore(); gate.dispose(); mesh.geometry.dispose(); original.dispose();
+});
+
+it("tracks pending subtrees through reparenting and independent batch completion", () => {
+  const { scene, gate, mesh, programs } = fixture();
+  const oldRoot = new THREE.Group(), newRoot = new THREE.Group();
+  scene.add(oldRoot, newRoot);
+  oldRoot.add(mesh);
+  expect(gate.hasPending(oldRoot)).toBe(true);
+  expect(gate.hasPending(scene)).toBe(true);
+  newRoot.add(mesh);
+  expect(gate.hasPending(oldRoot)).toBe(false);
+  expect(gate.hasPending(newRoot)).toBe(true);
+  expect(gate.hasPending(mesh)).toBe(true);
+  scene.remove(newRoot);
+  expect(gate.hasPending(scene)).toBe(false);
+  expect(gate.hasPending(newRoot)).toBe(false);
+  scene.add(newRoot);
+  gate.prepare(); gate.restore();
+  for (const program of programs) program.program.ready = true;
+  gate.prepare(); gate.restore();
+  expect(gate.hasPending(scene)).toBe(false);
+  expect(gate.hasPending(mesh)).toBe(false);
+  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
 });
 
 it('defers the first draw of an actor with a retained sampled replacement', () => {

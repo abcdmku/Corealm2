@@ -36,7 +36,7 @@ import type { Vfx } from "../render/vfx.js";
 import type { SpellVfx } from "../render/spellVfx.js";
 import type { HealthBars } from "../render/healthBars.js";
 import { content } from "../content/index.js";
-import type { GameEvent, ItemId, SkillId, SpellElement, SpellId, SpellRung } from "../contracts.js";
+import type { GameEvent, ItemId, SkillId, SpellElement, SpellId, SpellRung, WorldAction } from "../contracts.js";
 import type { Ui } from "../ui/panels.js";
 import type { EntityId, SemanticEntity, Vec3 } from "../contracts.js";
 import { GATHER_TICK_MS, SIM_TICK_MS } from "../core/time.js";
@@ -159,6 +159,8 @@ export class GameLoop {
   private refreshEntityResidency: (() => void) | null = null;
   private reconcileEntityPresentation: (() => void) | null = null;
   private traversalPresentation: (() => TraversalSample | null) | null = null;
+  private remoteTraversal: TraversalSample | null = null;
+  setRemoteTraversal(sample: TraversalSample | null): void { this.remoteTraversal = sample; }
   private viewSyncAccumulatorMs = 0;
   private overlays: OverlayTicker | null = null;
   private playerRig: CharacterRig | null = null;
@@ -429,11 +431,11 @@ export class GameLoop {
 
     this.deps.input.update();
     const clock = this.deps.clock;
-    stepPlayerFrame(clock, realDelta,
+    if (!this.remoteSimulation) stepPlayerFrame(clock, realDelta,
       (delta, atMs) => this.deps.movement.update(this.deps.store.get(), delta, atMs),
       () => this.simTick());
     // Remote actors interpolate fixed world ticks; local movement already has this frame's pose.
-    this.renderAlpha = clock.paused ? 1 : clock.alpha();
+    this.renderAlpha = this.remoteSimulation || clock.paused ? 1 : clock.alpha();
 
     this.pendingRenderDeltaMs = Math.min(250, this.pendingRenderDeltaMs + realDelta);
     // Chromium can have a press waiting behind this RAF callback. Yield before another
@@ -448,11 +450,31 @@ export class GameLoop {
       // palettes/scene updates that cannot be drawn, while menus still reflect current state.
       this.ui?.update();
     }
-    this.maybeAutosave(nowMs);
+    if (!this.remoteSimulation) this.maybeAutosave(nowMs);
     // A responsive JS loop does not mean the GPU is keeping up. Distance adaptation must
     // see unfinished graphics work too, including frames deliberately not submitted.
     this.frameObserver?.(Math.max(frameMs, this.deps.renderer.getFramePressureMs?.() ?? 0));
   };
+
+  private remoteSimulation = false;
+  private remotePresentationTime: number | null = null;
+  setRemotePresentationTime(now: number): void { this.remotePresentationTime = now; }
+  private networkStarts: CombatAttackStart[] = [];
+  private networkHits: CombatHit[] = [];
+  private readonly networkCommitted = new Map<string,{until:number;owner:string;attackId:number}>();
+  private remotePose:{position:Vec3;facingRad:number}|null=null;
+  remoteProjectileState(): {visible:number;targets:string[]} { return this.enemyProjectiles?.snapshot()??{visible:0,targets:[]}; }
+  setRemotePose(pose:{position:Vec3;facingRad:number}|null):void{this.remotePose=pose;}
+  /** Online presentation never advances local gameplay or writes an offline save. */
+  setRemoteSimulation(enabled: boolean): void {
+    this.remoteSimulation = enabled;
+    this.remotePresentationTime = null;
+    this.networkStarts.length = 0; this.networkHits.length = 0;
+    this.networkCommitted.clear(); this.enemyProjectiles?.clear(); this.remoteTraversal = null;
+    this.spellVfx?.clear();
+    this.remotePose=null;
+    this.resetPresentation();
+  }
 
   /** One 100 ms simulation step. */
   private simTick(): void {
@@ -487,7 +509,7 @@ export class GameLoop {
     const { store, scene, camera, renderer, input } = this.deps;
     const state = store.get();
 
-    const traversal = this.traversalPresentation?.() ?? null;
+    const traversal = this.remoteSimulation ? this.remoteTraversal : this.traversalPresentation?.() ?? null;
     this.updateRenderPose();
     if (traversal) {
       this.renderPos[0] = traversal.position[0];
@@ -495,8 +517,8 @@ export class GameLoop {
       this.renderPos[2] = traversal.position[2];
       this.renderFacingRad = traversal.facingRad;
     }
-    const position: Vec3 = this.renderPos;
-    const facingRad = this.renderFacingRad;
+    const position: Vec3 = this.remoteSimulation&&this.remotePose?this.remotePose.position:this.renderPos;
+    const facingRad = this.remoteSimulation&&this.remotePose?this.remotePose.facingRad:this.renderFacingRad;
 
     for (const interior of this.interiors) interior.group.visible = interior.visible();
     // Residency follows the player every frame, including frames without a structural diff.
@@ -521,10 +543,12 @@ export class GameLoop {
     if (this.projectileRegion !== state.player.regionId) this.enemyProjectiles?.clear();
     this.projectileRegion = state.player.regionId;
     this.presentAttackStarts();
+    for (const [id, attack] of this.networkCommitted) if (attack.until <= this.deps.clock.elapsedMs) this.networkCommitted.delete(id);
     if (this.enemyProjectiles) {
-      this.enemyProjectiles.update(this.deps.clock.elapsedMs,
-        (id) => this.attackStillCommitted?.(id) ?? false,
-        (id) => id === state.player.id ? position : this.entityViews?.motionSnapshot(id)?.drawnPosition);
+      this.enemyProjectiles.update(this.remoteSimulation ? this.remotePresentationTime ?? this.deps.clock.elapsedMs : this.deps.clock.elapsedMs,
+        (id, attack) => this.remoteSimulation ? this.networkCommitted.get(id)?.owner === attack.targetId
+          && this.networkCommitted.get(id)?.attackId === attack.id && this.entityPositionFor(id) !== null : this.attackStillCommitted?.(id) ?? false,
+        (id) => id === state.player.id ? position : this.entityViews?.motionSnapshot(`remote:${id}`)?.drawnPosition ?? this.entityViews?.motionSnapshot(id)?.drawnPosition);
     }
     this.paintCombatHits(nowMs);
     this.vfx?.update(nowMs);
@@ -605,7 +629,7 @@ export class GameLoop {
       // represents, so the contact pose does not lead its semantic roll by a whole fixed step.
       const presentationAtMs = Math.max(
         0,
-        this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS,
+        this.remoteSimulation ? this.remotePresentationTime ?? this.deps.clock.elapsedMs : this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS,
       );
       rig.syncGatheringCycle(
         activity.nextRollAtMs - presentationAtMs,
@@ -618,7 +642,7 @@ export class GameLoop {
     }
 
     if (activity?.kind === "gathering" && activity.skill === "fishing" && state.player.health > 0) {
-      const presentationAtMs = Math.max(0, this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS);
+      const presentationAtMs = Math.max(0, this.remoteSimulation ? this.remotePresentationTime ?? this.deps.clock.elapsedMs : this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS);
       const key = `${activity.entityId}:${activity.startedAtMs}:fishing`;
       rig.syncFishingCycle(this.entityPositionFor(activity.entityId), presentationAtMs - activity.startedAtMs,
         activity.nextRollAtMs - presentationAtMs, GATHER_TICK_MS, key !== this.fishingRigKey);
@@ -702,7 +726,7 @@ export class GameLoop {
    * interruption and recovers before the next 600 ms combat tick.
    */
   private presentAttackStarts(): void {
-    for (const start of this.drainAttackStarts?.() ?? []) {
+    for (const start of [...this.networkStarts.splice(0), ...this.drainAttackStarts?.() ?? []]) {
       const durationSeconds = Math.max(0.05, (start.recoverAtMs - start.atMs) / 1000 / (this.deps.clock.timeScale || 1));
       if (start.attacker === "player") {
         this.pendingRigPose = "attack_melee";
@@ -726,7 +750,7 @@ export class GameLoop {
 
   private paintCombatHits(nowMs: number): void {
     const playerId = this.deps.store.get().player.id;
-    for (const hit of this.drainHits?.() ?? []) {
+    for (const hit of [...this.networkHits.splice(0), ...this.drainHits?.() ?? []]) {
       // Simulation has reached the contact frame. Health, recoil, sound and numbers agree here.
       // A melee blow whose swing already sounded on the rig marker presents as the impact alone.
       const swung = hit.attacker === "player" && hit.kind === "melee" && this.playerSwingSounded;
@@ -773,7 +797,57 @@ export class GameLoop {
    * it, and `render/spellVfx.ts` draws against the same shared `spellFlightMs`; this only has to
    * point the effect at the right places.
    */
-  handleSpellLaunch(event: GameEvent, nowMs: number): void {
+  handleWorldAction(action: WorldAction, nowMs: number): void {
+    const owner = this.deps.store.get().player.id;
+    const viewId = (id: string): string => id === owner ? id
+      : this.entityPositionFor(`remote:${id}`) ? `remote:${id}` : id;
+    if (action.type === "attack") {
+      const start = action.attack;
+      this.networkCommitted.set(start.sourceId,{until:start.recoverAtMs,owner:action.playerId,attackId:start.id});
+      if (start.sourceId === owner) this.networkStarts.push(start);
+      else {
+        this.entityViews?.playAction(viewId(start.sourceId), start.attacker === "player" ? "player_attack" : "attack",
+          { durationSeconds: Math.max(0.05, (start.recoverAtMs - start.atMs) / 1000) });
+        const source = this.entityPositionFor(viewId(start.sourceId));
+        const target = start.targetId === owner ? this.remotePose?.position ?? this.deps.store.get().player.position
+          : this.entityPositionFor(viewId(start.targetId));
+        if (start.attacker === "enemy" && start.kind !== "melee" && source && target) {
+          this.enemyProjectiles ??= new EnemyProjectiles(this.deps.scene.overlayGroup);
+          this.projectileRegion = this.deps.store.get().player.regionId;
+          this.enemyProjectiles.start(start, source, target);
+        }
+      }
+    } else if (action.type === "attackCancelled") {
+      const current = this.networkCommitted.get(action.sourceId);
+      if (current && current.owner !== action.playerId) return;
+      this.networkCommitted.delete(action.sourceId);
+      this.networkStarts = this.networkStarts.filter(start => start.sourceId !== action.sourceId);
+      this.entityViews?.cancelAttack(viewId(action.sourceId));
+      if(action.sourceId===owner&&this.pendingPlayerSwing){
+        this.pendingPlayerSwing=null;this.playerSwingSounded=false;this.pendingRigPose=null;
+        this.playerRig?.play("idle",true);
+      }
+    } else if (action.type === "hit") {
+      const hit = action.hit;
+      if (hit.sourceId === owner || hit.targetId === owner) this.networkHits.push(hit);
+      else {
+        const target = viewId(hit.targetId);
+        this.vfx?.damage(target, hit.damage, hit.kind === "magic" ? "magic" : "melee", nowMs,
+          hit.targetId === action.playerId ? action.position : undefined);
+        if (hit.hit) this.entityViews?.playAction(target, "hit");
+      }
+    } else if (action.type === "spell" && action.playerId !== owner && this.entityPositionFor(`remote:${action.playerId}`)) {
+      const spell = content.spell(action.spellId);
+      if (spell) this.handleSpellLaunch({ seq: action.sequence, type: "spell.launched", atMs: action.atMs,
+        data: { ...action, element: spell.element, rung: spell.rung, rank: spell.rank ?? 0 } }, nowMs, `remote:${action.playerId}`);
+    } else if (action.type === "gesture" && action.playerId !== owner) {
+      this.entityViews?.playAction(`remote:${action.playerId}`, action.pose);
+    } else if (action.type === "death" && action.playerId !== owner) {
+      this.vfx?.remoteDeath(action.position, nowMs);
+    }
+  }
+
+  handleSpellLaunch(event: GameEvent, nowMs: number, casterId?: string): void {
     if (event.type !== "spell.launched" || !this.spellVfx) return;
     const data = event.data;
     const targetId = typeof data["targetId"] === "string" ? data["targetId"] : null;
@@ -791,11 +865,12 @@ export class GameLoop {
     this.spellVfx.cast({
       // Seeded off the sim stamp and the target, so two casts thrown in one frame at two enemies
       // scatter differently, and the same cast replayed from a seed scatters identically.
-      id: `${event.atMs}:${targetId}`,
+      id: `${casterId ?? this.deps.store.get().player.id}:${event.seq}:${event.atMs}:${targetId}`,
       spellId,
+      remote: casterId !== undefined,
       element,
       rung,
-      from: this.castOrigin(),
+      from: casterId ? this.remoteCastOrigin(casterId) : this.castOrigin(),
       to,
       // An area invocation was placed on the ground; a bolt still aims up the target's body.
       impactPoint: aim ? aim : spellImpactPoint(to,this.entityViews?.drawnBounds(targetId)),
@@ -813,6 +888,11 @@ export class GameLoop {
     // The cast animation belongs here too, for the same reason the bolt does: this is the moment
     // the spell leaves. Driving it off the hit log would play the throw at the instant the spell
     // arrived, a whole flight late.
+    if (casterId) {
+      this.entityViews?.playAction(casterId, "cast", { durationSeconds: 1 / (rank > 0
+        ? (rank < 2 ? 1.15 : rank < 4 ? 0.85 : 0.65) : (castTimeScale(rung) ?? 1)) });
+      return;
+    }
     this.pendingRigPose = "cast";
     // Invocations use the lab's tempo ladder: quick for a dart, slow and heavy for a finale.
     this.pendingRigPoseTimeScale = rank > 0 ? (rank < 2 ? 1.15 : rank < 4 ? 0.85 : 0.65) : castTimeScale(rung);
@@ -836,6 +916,11 @@ export class GameLoop {
     this.spellOriginTuple[1] = at[1] + CAST_ORIGIN_HEIGHT;
     this.spellOriginTuple[2] = at[2];
     return this.spellOriginTuple;
+  }
+
+  private remoteCastOrigin(id: string): Vec3 {
+    const at = this.entityViews?.motionSnapshot(id)?.drawnPosition ?? this.entityPositionFor(id) ?? [0, 0, 0];
+    return [at[0], at[1] + CAST_ORIGIN_HEIGHT, at[2]];
   }
 
   /** Where a target stands right now. Null rather than the origin when it has gone. */

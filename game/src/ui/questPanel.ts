@@ -15,7 +15,7 @@ import { content } from "../content/index.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
 import { prettifyId, skillName } from "./panels.js";
 import { mountHuntContractsPanel } from "./huntContracts.js";
-import type { HuntContractsSystem } from "../systems/huntContracts.js";
+import type { HuntContractsView } from "./huntContracts.js";
 
 const REGION_NAMES: Record<string, string> = {
   fallowmarch: "Farmland",
@@ -63,7 +63,7 @@ export class QuestPanel implements ManagedPanel {
   private readonly list: HTMLElement;
   private readonly summaryLine: HTMLElement;
   private signature = "";
-  private hunts: HuntContractsSystem | null = null;
+  private hunts: HuntContractsView | null = null;
   private huntBoard: ReturnType<typeof mountHuntContractsPanel> | null = null;
   private huntSignature = "";
   private readonly huntHost = document.createElement("div");

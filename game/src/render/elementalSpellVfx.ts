@@ -70,6 +70,7 @@ export class ElementalSpellVfx {
     parent: THREE.Object3D,
     private readonly ground: (x: number, z: number) => number,
     _camera: THREE.Camera = new THREE.PerspectiveCamera(),
+    pointLightCount = 4,
   ) {
     this.group.name = "elemental-spell-effects";
     parent.add(this.group);
@@ -90,7 +91,7 @@ export class ElementalSpellVfx {
     this.earth = new EarthSpellVfx(this.group,ground,this.fragments,this.smoke,this.light,this.filaments);
     this.fire = new FireSpellVfx(this.group,ground,this.light,this.smoke,this.filaments,this.volumes,
       (x,y,z,color,intensity,distance)=>this.illuminate(x,y,z,color,intensity,distance));
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < pointLightCount; i++) {
       const light = new THREE.PointLight(0xffffff, 0, 14, 2);
       light.name = "elemental-spell-light";
       this.group.add(light);
@@ -1217,7 +1218,8 @@ export class ElementalSpellVfx {
     distance: number,
   ): void {
     intensity *= this.element === "earth" ? .12 : this.element === "fire" ? .7 : .3;
-    let light = this.pointLights[0]!;
+    let light = this.pointLights[0];
+    if (!light) return;
     for (const candidate of this.pointLights)
       if (candidate.intensity < light.intensity) light = candidate;
     if (intensity <= light.intensity) return;

@@ -1,9 +1,9 @@
-# Multiplayer and worlds
+# Multiplayer and independent worlds
 
-Requested September 6, 2026.
+Source: owner's multiplayer specification supplied on September 6, 2026.
 
-Add provider-independent multiplayer to Corealm. Keep single-player as the default. Allow a deployment to register one world or a directory of worlds easily. Support up to 1,000 concurrent players per world.
+Keep Corealm playable offline without configuration or an account. Let deployments register one multiplayer world or a directory of independent worlds through provider adapters. Players explicitly join a world and play together against server-owned gameplay state, with progression isolated by provider, world, and authenticated player.
 
-Interpret "point to a work" in the request as "point to a world". A world is an independently persisted game instance, initially using the existing authored map. Different maps can be identified by content version without requiring a map editor in this work.
+Deliver a runnable self-hosted reference server, durable persistence, production feature-lab proof, and a repeatable capacity suite for up to 1,000 active players per world. Preserve existing PvE rules, offline saves, production content, model detail, and performance work. No cloud account or production deployment is required.
 
-Preserve existing uncommitted work. Follow AGENTS.md and the production feature-lab acceptance workflow.
+The owner approved [PRD.md](./PRD.md) and authorized implementation on September 6, 2026 with "do it". Follow its delivery and acceptance order.

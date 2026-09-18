@@ -35,6 +35,7 @@ function fixture() {
     syncResidentMotion: vi.fn(() => { order.push("motion"); }),
     update: vi.fn((_delta: number) => { order.push("animation"); }),
     playAction: vi.fn(),
+    cancelAttack: vi.fn(),
     actionDurationSeconds: vi.fn<(...args: unknown[]) => number | null>(() => null),
     motionSnapshot: vi.fn(() => ({ drawnPosition: [4, 0, 0], semanticPosition: [4, 0, 0], semanticRotationY: 0 })),
   };
@@ -45,6 +46,48 @@ function fixture() {
 }
 
 describe("frame loop resident motion", () => {
+  it("does not resurrect a network swing cancelled before the next render", () => {
+    const f=fixture(),rig={root:{visible:true},setPosition:vi.fn(),play:vi.fn(),poseFor:()=>"idle",
+      setLocomotionSpeed:vi.fn(),update:vi.fn(),drainMotionEvents:()=>[],syncTraversalPose:vi.fn(),
+      visibleSlots:()=>[],applyEquipment:vi.fn(),meleeTiming:()=>({clipSeconds:1.5})};
+    f.loop.setPlayerRig(rig as unknown as CharacterRig);
+    const base={playerId:"player",position:[0,0,0] as const,regionId:"fallowmarch" as const};
+    try {
+      f.loop.handleWorldAction({...base,sequence:1,type:"attack",attack:{id:1,sourceId:"player",targetId:"archer",attacker:"player",kind:"melee",atMs:0,contactAtMs:500,recoverAtMs:800}},0);
+      f.loop.handleWorldAction({...base,sequence:2,type:"attackCancelled",sourceId:"player"},1);
+      f.render(16);
+      expect(rig.play).toHaveBeenCalledWith("idle");
+      expect(rig.play.mock.calls.some(call=>call[0]==="attack_melee")).toBe(false);
+    } finally {f.loop.dispose();}
+  });
+  it("moves online enemy shots between authoritative updates", () => {
+    const f=fixture(),base={playerId:"player",position:[0,0,0] as const,regionId:"fallowmarch" as const};
+    f.source.mockReturnValue([{id:"archer",position:[4,0,0]}] as never);
+    f.loop.setRemoteSimulation(true);f.deps.clock.elapsedMs=500;
+    try {
+      f.loop.handleWorldAction({...base,sequence:1,type:"attack",attack:{id:1,sourceId:"archer",targetId:"player",attacker:"enemy",kind:"ranged",atMs:0,contactAtMs:1000,recoverAtMs:1200}},0);
+      const mesh=f.deps.scene.overlayGroup.getObjectByName("enemy-projectiles") as THREE.InstancedMesh;
+      const matrix=new THREE.Matrix4();
+      f.loop.setRemotePresentationTime(500);f.render(16);mesh.getMatrixAt(0,matrix);const first=matrix.elements[12]!;
+      f.loop.setRemotePresentationTime(550);f.render(66);mesh.getMatrixAt(0,matrix);
+      expect(mesh.count).toBe(1);expect(matrix.elements[12]).toBeLessThan(first);
+      expect(f.deps.clock.elapsedMs).toBe(500);
+    } finally {f.loop.dispose();}
+  });
+  it("keeps an enemy's new target flight when the previous target cancels later in the batch", () => {
+    const f=fixture(),base={position:[0,0,0] as const,regionId:"fallowmarch" as const};
+    f.source.mockReturnValue([{id:"archer",position:[4,0,0]},{id:"remote:previous",position:[2,0,0]}] as never);
+    f.loop.setRemoteSimulation(true);f.deps.clock.elapsedMs=500;
+    const attack={id:1,sourceId:"archer",attacker:"enemy" as const,kind:"ranged" as const,atMs:0,contactAtMs:1000,recoverAtMs:1200};
+    try {
+      f.loop.handleWorldAction({...base,sequence:1,playerId:"previous",type:"attack",attack:{...attack,targetId:"previous"}},0);
+      f.loop.handleWorldAction({...base,sequence:2,playerId:"player",type:"attack",attack:{...attack,targetId:"player"}},1);
+      f.loop.handleWorldAction({...base,sequence:3,playerId:"previous",type:"attackCancelled",sourceId:"archer"},2);
+      f.loop.setRemotePresentationTime(500);f.render(16);
+      expect(f.views.cancelAttack).not.toHaveBeenCalled();
+      expect(f.loop.remoteProjectileState()).toEqual({visible:1,targets:["player"]});
+    }finally{f.loop.dispose();}
+  });
   it('yields scene work to a pending browser press and resumes with accumulated time', () => {
     let pending = true;
     vi.stubGlobal('navigator', { scheduling: { isInputPending: () => pending } });

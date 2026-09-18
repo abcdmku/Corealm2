@@ -9,7 +9,7 @@
 import * as THREE from "three";
 import { GameplayWork } from "./gameplayWork.js";
 import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { ASSET_BASE_URL, ASSET_MANIFEST_URL } from "../app/config.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
@@ -338,6 +338,8 @@ export class AssetRegistry {
   private byId = new Map<string, AssetEntry>();
   private readonly textureCache = new AssetTextureCache();
   private loader = new GLTFLoader(this.textureCache.manager).setMeshoptDecoder(MeshoptDecoder);
+  /** Fetches model bytes through the same manager before gameplay pacing starts parsing them. */
+  private fileLoader = new THREE.FileLoader(this.textureCache.manager).setResponseType("arraybuffer");
   private loaded = new Map<string, THREE.Group>();
   /**
    * Generated ids reserved before loading the manifest, including factories not yet requested.
@@ -628,6 +630,77 @@ export class AssetRegistry {
     return request.regions.has(this.activeRegionId) ? request.priority : "background";
   }
 
+  private priorityFor(request: QueuedAssetLoad): () => number {
+    return () => ASSET_PRIORITY_RANK[this.effectivePriority(request)];
+  }
+
+  /**
+   * Fetch a raw GLB with the same LoadingManager, URL modifier and loader request settings that
+   * GLTFLoader.loadAsync would use. Parsing is deliberately a separate GameplayWork job: a fetch
+   * completion must never enter GLTFLoader.parse synchronously on an interactive frame.
+   */
+  private async loadRawGltf(url: string, request: QueuedAssetLoad): Promise<GLTF> {
+    const path = this.loader.path ?? "";
+    const resourcePathSetting = this.loader.resourcePath ?? "";
+    this.fileLoader
+      .setPath(path)
+      .setWithCredentials(this.loader.withCredentials ?? false)
+      .setRequestHeader(this.loader.requestHeader ?? {});
+    // GLTFLoader keeps one extra manager item open around parse(), because FileLoader's itemEnd
+    // only covers the download. Preserve that contract so manager.onLoad cannot fire before the
+    // queued parse and its texture dependencies finish.
+    const manager = this.textureCache.manager;
+    manager.itemStart(url);
+    try {
+      const bytes = await this.fileLoader.loadAsync(url) as ArrayBuffer;
+      const resourcePath = resourcePathSetting
+        ? resourcePathSetting
+        : path
+          ? THREE.LoaderUtils.resolveURL(THREE.LoaderUtils.extractUrlBase(url), path)
+          : THREE.LoaderUtils.extractUrlBase(url);
+      const gltf = await this.preparation.run(
+        () => this.loader.parseAsync(bytes, resourcePath),
+        this.priorityFor(request),
+      );
+      manager.itemEnd(url);
+      return gltf;
+    } catch (error) {
+      manager.itemError(url);
+      manager.itemEnd(url);
+      throw error;
+    }
+  }
+
+  /** Schedule material, texture and publication stages separately from download completion. */
+  private async publishParsedGltf(id: string, entry: AssetEntry, gltf: GLTF,
+    request: QueuedAssetLoad): Promise<THREE.Group> {
+    const group = gltf.scene;
+    const surfaceTextures = entry.pack.startsWith("corealm-original-")
+      ? await loadCorealmSurfaceTextures()
+      : null;
+
+    await this.preparation.run(() => {
+      group.name = id;
+      if (surfaceTextures) applyCorealmSurfaceMaterials(group, surfaceTextures);
+    }, this.priorityFor(request));
+    await this.preparation.run(() => {
+      this.textureCache.shareSources(gltf.scenes ?? [group]);
+    }, this.priorityFor(request));
+    await this.preparation.run(() => {
+      for (const clip of gltf.animations) {
+        this.assetClips.set(`${id}:${clip.name}`, clip);
+        // The shared library is for the humanoid rig only. Letting a crab's "Idle" claim the
+        // global name would hand it to every base character that asks for one.
+        if (entry.category === "animation" && !this.clips.has(clip.name)) {
+          this.clips.set(clip.name, clip);
+        }
+      }
+      this.loaded.set(id, group);
+      this.loadedFiles.add(id);
+    }, this.priorityFor(request));
+    return group;
+  }
+
   private startQueuedLoad(request: QueuedAssetLoad): void {
     const { id, entry } = request;
     const attempt = (this.attempts.get(id) ?? 0) + 1;
@@ -654,24 +727,9 @@ export class AssetRegistry {
           if (!response.ok || !response.body) throw new Error(`Model download failed: ${entry.id} (${response.status})`);
           const bytes = await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
           return this.preparation.run(() => this.loader.parseAsync(bytes, url.slice(0, url.lastIndexOf('/') + 1)),
-            () => ASSET_PRIORITY_RANK[this.effectivePriority(request)]);
-        })() : await this.loader.loadAsync(url);
-        const group = gltf.scene;
-        group.name = id;
-        if (entry.pack.startsWith("corealm-original-")) {
-          applyCorealmSurfaceMaterials(group, await loadCorealmSurfaceTextures());
-        }
-        this.textureCache.shareSources(gltf.scenes ?? [group]);
-        for (const clip of gltf.animations) {
-          this.assetClips.set(`${id}:${clip.name}`, clip);
-          // The shared library is for the humanoid rig only. Letting a crab's "Idle" claim the
-          // global name would hand it to every base character that asks for one.
-          if (entry.category === "animation" && !this.clips.has(clip.name)) {
-            this.clips.set(clip.name, clip);
-          }
-        }
-        this.loaded.set(id, group);
-        this.loadedFiles.add(id);
+            this.priorityFor(request));
+        })() : await this.loadRawGltf(url, request);
+        const group = await this.publishParsedGltf(id, entry, gltf, request);
         parseSpan?.end({ assetId: id, file: entry.file, clips: gltf.animations.length });
         return group;
       })

@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 /**
  * Four elements crossed with the spell ladder: four basic rungs, then five ranks of invocation.
@@ -329,8 +330,8 @@ export class SpellbookPanel implements ManagedPanel {
     );
   }
 
-  private choose(spellId: SpellId | null): void {
-    if (!report(this.ctx.api.setPreferredSpell(spellId))) return;
+  private async choose(spellId: SpellId | null): Promise<void> {
+    if (!report(await sendGameCommand(this.ctx.api, "setPreferredSpell", spellId))) return;
     this.ctx.refresh();
   }
 

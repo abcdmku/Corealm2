@@ -27,25 +27,50 @@ export interface HuntOffer {
 
 export interface HuntEligibility { regions: readonly RegionId[]; combatLevel: number }
 
+export interface HuntTargetDerivationOptions {
+  /**
+   * Stop checking a target's residents after the first reachable one. This is safe for callers
+   * that only need target existence (`eligibleHuntTargets` only checks `residents >= 1`) and keeps
+   * the expensive route query proportional to target groups rather than resident count. The
+   * default remains the exact resident count for callers that inspect `residents`.
+   */
+  stopAfterReachable?: boolean;
+}
+
 /** Only actual registered enemies enter the board. The caller supplies route/unlock eligibility. */
 export function deriveHuntTargets(
   entities: Iterable<SemanticEntity>,
   enemy: (id: string) => EnemyDef | undefined,
   regionName: (id: RegionId) => string,
   reachable: (entity: SemanticEntity) => boolean,
+  options: HuntTargetDerivationOptions = {},
 ): HuntTarget[] {
-  const targets = new Map<string, HuntTarget>();
+  type CandidateGroup = { id: string; regionId: RegionId; def: EnemyDef; entities: SemanticEntity[] };
+  const candidates = new Map<string, CandidateGroup>();
   for (const entity of entities) {
-    if (entity.archetype !== "enemy" || !reachable(entity)) continue;
+    if (entity.archetype !== "enemy") continue;
     const defId = typeof entity.meta?.enemyDefId === "string" ? entity.meta.enemyDefId : "";
     const def = enemy(defId);
     if (!def) continue;
     const id = `${entity.regionId}:${def.id}`;
-    const existing = targets.get(id);
-    if (existing) { existing.residents += 1; continue; }
-    targets.set(id, { id, name: def.name, regionId: entity.regionId,
-      regionName: regionName(entity.regionId), enemyDefIds: [def.id], level: enemyCombatLevel(def),
-      residents: 1, reachable: true });
+    const existing = candidates.get(id);
+    if (existing) { existing.entities.push(entity); continue; }
+    candidates.set(id, { id, regionId: entity.regionId, def, entities: [entity] });
+  }
+  const targets = new Map<string, HuntTarget>();
+  for (const candidate of candidates.values()) {
+    let residents = 0;
+    for (const entity of candidate.entities) {
+      if (!reachable(entity)) continue;
+      residents += 1;
+      if (options.stopAfterReachable) break;
+    }
+    if (residents === 0) continue;
+    targets.set(candidate.id, { id: candidate.id, name: candidate.def.name, regionId: candidate.regionId,
+      regionName: regionName(candidate.regionId), enemyDefIds: [candidate.def.id], level: enemyCombatLevel(candidate.def),
+      // In short-circuit mode this field is only an existence witness. It is not part of saved
+      // offers, and eligibleHuntTargets only requires it to be positive.
+      residents: options.stopAfterReachable ? candidate.entities.length : residents, reachable: true });
   }
   return [...targets.values()].sort((a, b) => a.id.localeCompare(b.id));
 }

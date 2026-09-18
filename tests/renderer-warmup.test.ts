@@ -1,7 +1,64 @@
 import * as THREE from "three";
 import { bootTelemetry } from "../game/src/perf/bootTelemetry.js";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
+import { FramePacer } from "../game/src/render/framePacer.js";
+
+it('keeps startup covered through skipped draws and until the new gameplay submission completes', async () => {
+  vi.useFakeTimers();
+  try {
+    let status = 2, resolved = false;
+    const gl = {
+      SYNC_GPU_COMMANDS_COMPLETE: 1, ALREADY_SIGNALED: 2, CONDITION_SATISFIED: 3,
+      WAIT_FAILED: 4, TIMEOUT_EXPIRED: 5,
+      fenceSync: vi.fn(() => ({})), flush: vi.fn(), deleteSync: vi.fn(), isContextLost: () => false,
+      clientWaitSync: vi.fn((_fence: object, _flags: number, _timeout: number) => status),
+    };
+    const framePacer = new FramePacer(gl as unknown as WebGL2RenderingContext);
+    const renderer = Object.assign(Object.create(Renderer.prototype), {
+      framePacer, renderer: { getContext: () => gl },
+    }) as Renderer;
+    framePacer.submit(0);
+    const ready = renderer.waitForFrame(framePacer.snapshot(0).submitted).then(() => { resolved = true; });
+    // Warmup/old frames can finish while input prevents the first gameplay draw.
+    framePacer.ready(8);
+    await vi.advanceTimersByTimeAsync(24);
+    expect(resolved).toBe(false);
+    expect(gl.fenceSync).toHaveBeenCalledTimes(1);
+    framePacer.submit(24);
+    status = gl.TIMEOUT_EXPIRED;
+    await vi.advanceTimersByTimeAsync(8);
+    expect(gl.fenceSync).toHaveBeenCalledTimes(3);
+    expect(gl.flush).toHaveBeenCalledTimes(1);
+    expect(resolved).toBe(false);
+    status = gl.CONDITION_SATISFIED;
+    await vi.advanceTimersByTimeAsync(8);
+    await ready;
+    expect(resolved).toBe(true);
+    for (const call of gl.clientWaitSync.mock.calls) expect(call.slice(1)).toEqual([0, 0]);
+    framePacer.dispose();
+    expect(gl.deleteSync).toHaveBeenCalledTimes(3);
+  } finally { vi.useRealTimers(); }
+});
+
+it('fails startup when gameplay never submits, the context is lost, or submission fails', async () => {
+  vi.useFakeTimers();
+  try {
+    for (const problem of ['deadline', 'context', 'submission']) {
+      const framePacer = {
+        snapshot: () => ({ submitted: 0, failed: problem === 'submission' }),
+      };
+      const fenceSync = vi.fn();
+      const renderer = Object.assign(Object.create(Renderer.prototype), {
+        framePacer, renderer: { getContext: () => ({ isContextLost: () => problem === 'context', fenceSync }) },
+      }) as Renderer;
+      const failed = expect(renderer.waitForFrame(0)).rejects.toThrow('first game frame');
+      if (problem === 'deadline') await vi.advanceTimersByTimeAsync(30_000);
+      await failed;
+      expect(fenceSync).not.toHaveBeenCalled();
+    }
+  } finally { vi.useRealTimers(); }
+});
 
 it('waits for GPU completion without a blocking finish and releases failed fences', async () => {
   for (const failed of [false,true]) {
@@ -148,6 +205,7 @@ it("prepares hidden real effect meshes before drawing the base and glow passes",
   const calls: { object: THREE.Mesh; scene: THREE.Scene; output: number | null; material: THREE.Material | THREE.Material[] }[] = [];
   const order: string[] = [], queries = new Map<object, number>();
   const programs: { program: object; getUniforms(): void; getAttributes(): void }[] = [];
+  const refractionCalls: { renderer: unknown; scene: THREE.Scene; camera: THREE.Camera; root: THREE.Object3D; target: THREE.WebGLRenderTarget | null; hasWorldLight: boolean }[] = [];
   let disposed = false;
   const fake = {
     debug: { checkShaderErrors: true },
@@ -184,6 +242,13 @@ it("prepares hidden real effect meshes before drawing the base and glow passes",
   };
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene, camera, renderer: fake,
+    elementalRefraction: {
+      compile: (actualRenderer: unknown, actualScene: THREE.Scene, actualCamera: THREE.Camera, actualRoot: THREE.Object3D) => {
+        refractionCalls.push({ renderer: actualRenderer, scene: actualScene, camera: actualCamera, root: actualRoot,
+          target, hasWorldLight: actualScene.children.includes(light) });
+        order.push("refraction");
+      },
+    },
     biomeAtmosphere: { sky: { enabled: false } },
     magicGlow: {
       renderBase: () => fake.render(),
@@ -199,7 +264,8 @@ it("prepares hidden real effect meshes before drawing the base and glow passes",
       { object: mesh, scene, output: null, material },
       { object: mesh, scene, output: THREE.HalfFloatType, material },
     ]);
-    expect(order).toEqual(["uniforms-0", "attributes-0", "uniforms-1", "attributes-1", "base", "glow"]);
+    expect(refractionCalls).toEqual([{ renderer: fake, scene, camera, root, target: null, hasWorldLight: true }]);
+    expect(order).toEqual(["refraction", "uniforms-0", "attributes-0", "uniforms-1", "attributes-1", "base", "glow"]);
     expect(target).toBe(initialTarget); expect(disposed).toBe(true);
     expect(cubeFace).toBe(2); expect(mipLevel).toBe(1);
     expect(mesh.parent).toBe(parent); expect(mesh.geometry).toBe(geometry); expect(mesh.material).toBe(material);
@@ -220,13 +286,49 @@ it('prepares only the passes an effect can draw into', () => {
   const refraction = smoke.clone(); refraction.layers.set(29);
   root.add(glow, smoke, rock, refraction); scene.add(root);
   const calls: THREE.Object3D[][] = [];
-  const renderer = Object.assign(Object.create(Renderer.prototype), { camera, scene, renderer: {
+  const fakeRenderer = {
     getRenderTarget: () => null, getActiveCubeFace: () => 0, getActiveMipmapLevel: () => 0, setRenderTarget() {},
     compile(view: THREE.Object3D) { const meshes: THREE.Object3D[] = [];
       view.traverse(object => { if (object instanceof THREE.Mesh) meshes.push(object); }); calls.push(meshes); },
-  } }) as Renderer;
+  };
+  const refractionCalls: { renderer: unknown; scene: THREE.Scene; camera: THREE.Camera; root: THREE.Object3D }[] = [];
+  const renderer = Object.assign(Object.create(Renderer.prototype), { camera, scene, renderer: fakeRenderer,
+    elementalRefraction: {
+      compile: (actualRenderer: unknown, actualScene: THREE.Scene, actualCamera: THREE.Camera, actualRoot: THREE.Object3D) => {
+        refractionCalls.push({ renderer: actualRenderer, scene: actualScene, camera: actualCamera, root: actualRoot });
+      },
+    },
+  }) as Renderer;
   renderer.compileEffects(root);
+  expect(refractionCalls).toEqual([{ renderer: fakeRenderer, scene, camera, root }]);
   expect(calls).toEqual([[smoke, rock, refraction], [glow, rock]]);
+});
+
+it("prepares a startup creature's fade with its real skinning and retains the programs", () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  const material = new THREE.MeshStandardMaterial();
+  const mesh = new THREE.SkinnedMesh(new THREE.BoxGeometry(), material);
+  mesh.userData.prepareCorpseFade = true;
+  scene.add(mesh);
+  const warmupMaterials: THREE.Material[] = [], calls: boolean[][] = [];
+  let target: THREE.WebGLRenderTarget | null = null;
+  const renderer = Object.assign(Object.create(Renderer.prototype), {
+    scene, camera, warmupMaterials,
+    renderer: {
+      getRenderTarget: () => target, setRenderTarget: (value: THREE.WebGLRenderTarget | null) => { target = value; },
+      compile(view: THREE.Object3D) {
+        view.traverse(object => { if (object instanceof THREE.Mesh) {
+          expect(object).toBe(mesh);
+          calls.push([(object.material as THREE.Material).transparent, target !== null]);
+        } });
+      },
+    },
+  }) as Renderer;
+  renderer.warmup();
+  expect(calls).toEqual([[false, false], [true, false], [false, true], [true, true]]);
+  expect(warmupMaterials).toHaveLength(1);
+  expect(mesh.material).toBe(material); expect(material.transparent).toBe(false); expect(mesh.parent).toBe(scene);
+  warmupMaterials.forEach(copy => copy.dispose()); material.dispose(); mesh.geometry.dispose();
 });
 
 it('rejects a failed release shader before drawing gameplay', async () => {

@@ -51,7 +51,12 @@ export class ForestResources {
   }
 
   update(player: Vec3, pinnedIds: ReadonlySet<string>): boolean {
-    this.spatial.forEachInRadius(player, 35, (id) => {
+    return this.updatePlayers([player],pinnedIds);
+  }
+
+  /** One shared resident set for the union of all active players' interaction areas. */
+  updatePlayers(players: readonly Vec3[], pinnedIds: ReadonlySet<string>): boolean {
+    for(const player of players)this.spatial.forEachInRadius(player, 35, (id) => {
       if (!this.resident.has(id)) this.activate(this.trees.get(id)!);
     });
     // A navigation target can sit outside the activation radius.
@@ -68,10 +73,10 @@ export class ForestResources {
         entity.resource.maxYields = saved.maxYields;
       }
       if (entity.state === "depleted" || pinnedIds.has(id)) continue;
-      const dx = entity.position[0] - player[0];
-      const dy = entity.position[1] - player[1];
-      const dz = entity.position[2] - player[2];
-      if (dx * dx + dy * dy + dz * dz <= 50 * 50) continue;
+      if(players.some(player=>{
+        const dx=entity.position[0]-player[0],dy=entity.position[1]-player[1],dz=entity.position[2]-player[2];
+        return dx*dx+dy*dy+dz*dz<=50*50;
+      }))continue;
       this.options.entities.remove(id);
       this.resident.delete(id);
       this.options.onDeactivate?.(this.trees.get(id)!);

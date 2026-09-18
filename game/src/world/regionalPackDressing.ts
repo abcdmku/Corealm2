@@ -17,7 +17,7 @@ export function regionalPackDressingSite(habitat: HabitatDef): WorldSite {
  * the remaining wall, altar, fence and whetstone pieces so an encounter never walks through
  * its own setting. Both callers install these solids before generating their navmesh. */
 export async function buildRegionalPackDressing(
-  scene: WorldScene, assets: AssetRegistry, habitat: HabitatDef,
+  scene: WorldScene, assets: Pick<AssetRegistry, "load" | "assetSize" | "assetCenterXZ" | "baseY">, habitat: HabitatDef,
   largestResidentBodyRadius = 0, render = true,
 ): Promise<WorldSiteDressingResult & { navigationSolids: SolidVolume[] }> {
   if (!Number.isFinite(largestResidentBodyRadius) || largestResidentBodyRadius < 0)

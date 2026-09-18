@@ -208,9 +208,11 @@ export class Vfx {
   }
 
   /** A damage number over whoever took the hit. Fed by `app/loop.ts` from `combat.consumeHits()`. */
-  damage(entityId: string | null, amount: number, kind: "melee" | "magic" | "incoming", nowMs: number): void {
+  remoteDeath(at: Vec3, nowMs: number): void { this.floatAt(at, "Player died", "vfx-warning", nowMs, 2600, 2.0); }
+
+  damage(entityId: string | null, amount: number, kind: "melee" | "magic" | "incoming", nowMs: number, position?: Vec3): void {
     if (!this.damageNumbers) return;
-    const at = entityId ? this.deps.entityPosition(entityId) : this.deps.playerPosition();
+    const at = position ?? (entityId ? this.deps.entityPosition(entityId) : this.deps.playerPosition());
     if (!at) return;
     const label = amount <= 0 ? "miss" : String(amount);
     const className = amount <= 0

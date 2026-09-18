@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /** Compact, world-anchored contents for loot piles and Recovery Caches. */
 import type { LootContainerView, Vec3 } from "../contracts.js";
 import type { UiContext } from "./panels.js";
@@ -58,9 +59,15 @@ export class LootReveal {
   update(): void {
     const container = this.container;
     if (this.root.hidden || !container) return;
-    if (!this.ctx.api.inspect(container.entityId).ok) {
+    const inspected = this.ctx.api.inspect(container.entityId);
+    if (!inspected.ok) {
       this.hide();
       return;
+    }
+    if (inspected.value.loot && JSON.stringify(inspected.value.loot) !== JSON.stringify(container.items)) {
+      container.items = inspected.value.loot.map(stack => ({ ...stack }));
+      if (!container.items.length) { this.hide(); return; }
+      this.paint();
     }
 
     const point = this.ctx.projectWorldToScreen?.([
@@ -135,19 +142,21 @@ export class LootReveal {
         itemId: stack.itemId,
         quantity: stack.quantity,
       }));
-      const label = `Take ${itemName(stack.itemId)} x ${stack.quantity.toLocaleString("en-US")}`;
+      const label = `Take ${itemName(stack.itemId)} x ${stack.quantity.toLocaleString("en-US")}${stack.partyId ? " - party round robin" : ""}`;
       cell.setAttribute("aria-label", label);
-      cell.addEventListener("click", () => this.take(stackIndex));
+      if (stack.partyId) { cell.dataset.partyLoot = "true"; cell.title = "Anyone can collect. Sent to the next eligible party member."; }
+      cell.addEventListener("click", () => this.take(stackIndex, stack.stackId));
       return cell;
     });
     this.grid.replaceChildren(...cells);
   }
 
-  private take(stackIndex: number): void {
+  private async take(stackIndex: number, stackId?: string): Promise<void> {
     const container = this.container;
     if (!container) return;
-    const result = this.ctx.api.takeLoot(container.entityId, stackIndex);
+    const result = await sendGameCommand(this.ctx.api, "takeLoot", container.entityId, stackIndex, stackId);
     if (!reportResult(result)) return;
+    if (this.container !== container) { this.ctx.refresh(); return; }
 
     if (result.value.containerEmpty) {
       this.hide();

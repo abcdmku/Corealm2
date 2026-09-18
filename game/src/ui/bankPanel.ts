@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 import { QuantitySelector } from "./quantitySelector.js";
 /**
@@ -324,22 +325,22 @@ export class BankPanel implements ManagedPanel {
 
   // ------------------------------------------------------------ operations
 
-  deposit(itemId: ItemId, quantity: number): void {
-    const result = this.ctx.api.bank("deposit", { itemId, quantity });
+  async deposit(itemId: ItemId, quantity: number): Promise<void> {
+    const result = await sendGameCommand(this.ctx.api, "bank", "deposit", { itemId, quantity });
     if (result.ok) this.paintBank(result.value, true);
     else report(result);
     this.refreshInventory(true);
   }
 
-  withdraw(itemId: ItemId, quantity: number): void {
-    const result = this.ctx.api.bank("withdraw", { itemId, quantity });
+  async withdraw(itemId: ItemId, quantity: number): Promise<void> {
+    const result = await sendGameCommand(this.ctx.api, "bank", "withdraw", { itemId, quantity });
     if (result.ok) this.paintBank(result.value, true);
     else report(result);
     this.refreshInventory(true);
   }
 
-  private depositAll(): void {
-    const result = this.ctx.api.bank("depositAll");
+  private async depositAll(): Promise<void> {
+    const result = await sendGameCommand(this.ctx.api, "bank", "depositAll");
     if (result.ok) {
       this.paintBank(result.value, true);
       notify("Deposited all carried items that fit.", "success");

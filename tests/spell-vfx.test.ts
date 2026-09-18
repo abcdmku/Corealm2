@@ -9,6 +9,23 @@ import { basicSpellPath } from "../game/src/render/basicSpellPath.js";
 
 const harness=()=>new SpellVfx({parent:new THREE.Group(),camera:new THREE.PerspectiveCamera(),groundHeightAt:()=>2});
 describe("basic spell replacement",()=>{
+  it("prepares bounded remote pools and retains independent local and remote invocations",()=>{
+    const parent=new THREE.Group(),vfx=new SpellVfx({parent,camera:new THREE.PerspectiveCamera(),groundHeightAt:()=>0,multiplayer:true});
+    const base={element:"fire" as const,rung:"burst" as const,spellId:"furnace-whip" as const,from:[0,1.2,0] as const,to:[0,0,8] as const,hit:true};
+    const prepared:THREE.Object3D[]=[];parent.traverse(o=>prepared.push(o));
+    try {
+      vfx.cast({...base,id:"local"},1000);
+      vfx.cast({...base,id:"remote-a",remote:true,from:[3,1.2,0]},1000);
+      vfx.cast({...base,id:"remote-b",remote:true,from:[6,1.2,0]},1000);
+      vfx.update(1600);
+      expect(vfx.getState().map(s=>s.id)).toEqual(["local","remote-a","remote-b"]);
+      expect(vfx.getState().map(s=>s.origin[0])).toEqual([0,3,6]);
+      const after:THREE.Object3D[]=[];parent.traverse(o=>after.push(o));expect(after).toEqual(prepared);
+      expect(after.filter(o=>(o as THREE.PointLight).isPointLight)).toHaveLength(4);
+      vfx.clear();expect(vfx.getState()).toEqual([]);expect(vfx.liveParticles()).toBe(0);
+    } finally {vfx.dispose();}
+    expect(parent.children).toHaveLength(0);
+  });
   it("arcs every basic body and magical wake together while retaining the release and hit points",()=>{
     const parent=new THREE.Group(),vfx=new SpellVfx({parent,camera:new THREE.PerspectiveCamera(),groundHeightAt:()=>2});
     const matrix=new THREE.Matrix4(),position=new THREE.Vector3();

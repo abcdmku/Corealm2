@@ -3,6 +3,189 @@ import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js"
 import { describe, expect, it, vi } from "vitest";
 import { AnimationLod, unionTransformedBounds, type LodPose } from "../game/src/render/animationLod.js";
 import { conformTerrainRig } from '../game/src/render/terrainRig.js';
+import { crowdGeometryReady, simplifyCrowdGeometry } from '../game/src/render/crowdGeometry.js';
+
+it.each([false, true])('uses one decoded Float32 layout for full-detail and simplification fallback parts (crowd=%s)', simplify => {
+  const { root, mesh, head, walk, geometry } = actor();
+  const positions = new THREE.InterleavedBuffer(new Float32Array([
+    99, 0, 0, 0, 11, 99, 2, 5, 0, 11, 99, 0, 8, 1, 11,
+  ]), 5);
+  geometry.setAttribute('position', new THREE.InterleavedBufferAttribute(positions, 3, 1));
+  geometry.setAttribute('skinIndex', new THREE.Uint8BufferAttribute([1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0], 4));
+  geometry.setAttribute('normal', new THREE.Int16BufferAttribute([0, 0, 32767, 0, 0, 32767, 0, 0, 32767], 3, true));
+  geometry.setAttribute('uv', new THREE.Uint16BufferAttribute([0, 65535, 32768, 16384, 65535, 0], 2, true));
+  const colors = new THREE.InterleavedBuffer(new Uint8Array([
+    77, 0, 128, 255, 64, 99, 77, 255, 127, 0, 255, 99, 77, 64, 32, 16, 128, 99,
+  ]), 6);
+  geometry.setAttribute('color', new THREE.InterleavedBufferAttribute(colors, 4, 1, true));
+  geometry.setAttribute('tangent', new THREE.Int16BufferAttribute([32767, 0, 0, -32767, 32767, 0, 0, 32767, 32767, 0, 0, -32767], 4, true));
+  geometry.setIndex([0, 1, 2]);
+  mesh.material.name = 'canonical-body';
+  const rigidGeometry = new THREE.BufferGeometry();
+  rigidGeometry.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0, 1, 0, 0, 0, 2, 0], 3));
+  const rigid = new THREE.Mesh(rigidGeometry, new THREE.MeshStandardMaterial({ name: 'canonical-rigid' }));
+  head.add(rigid);
+  const sources = Object.fromEntries(Object.entries(geometry.attributes).map(([name, attribute]) => [name, {
+    attribute, values: Array.from(attribute.array), constructor: attribute.array.constructor,
+  }]));
+  const sourceIndex = geometry.index!, sourceIndexArray = sourceIndex.array, sourceIndexValues = Array.from(sourceIndexArray);
+  const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk], material => material, false, true, simplify);
+  try {
+    const sampled = parent.children.find(part => part.name === 'animation-lod:canonical-body') as THREE.InstancedMesh;
+    const attachment = parent.children.find(part => part.name === 'animation-lod:canonical-rigid') as THREE.InstancedMesh;
+    expect(Array.from(sampled.geometry.index!.array)).toEqual([0, 1, 2]);
+    expect(sampled.geometry.drawRange).toEqual({ start: 0, count: 3 });
+    for (const [name, source] of Object.entries(geometry.attributes)) {
+      const attribute = sampled.geometry.getAttribute(name) as THREE.BufferAttribute;
+      expect(attribute.isBufferAttribute).toBe(true);
+      expect(attribute.array).toBeInstanceOf(Float32Array);
+      expect(attribute.normalized).toBe(false);
+      expect(attribute.itemSize).toBe(source.itemSize);
+      expect(attribute.count).toBe(source.count);
+      const original = sources[name]!;
+      expect(original.attribute.array).toBe(source.array);
+      expect(original.attribute.array.constructor).toBe(original.constructor);
+      expect(Array.from(source.array)).toEqual(original.values);
+      for (let vertex = 0; vertex < source.count; vertex++) for (let component = 0; component < source.itemSize; component++) {
+        expect(attribute.getComponent(vertex, component)).toBe(Math.fround(
+          name === 'skinIndex' ? (source.getComponent(vertex, component) === 1 ? 0 : 1) : source.getComponent(vertex, component)));
+      }
+    }
+    expect(geometry.index).toBe(sourceIndex);
+    expect(geometry.index!.array).toBe(sourceIndexArray);
+    expect(Array.from(geometry.index!.array)).toEqual(sourceIndexValues);
+    expect(attachment.geometry.getAttribute('skinIndex').array).toBeInstanceOf(Float32Array);
+    expect(attachment.geometry.getAttribute('skinIndex').normalized).toBe(false);
+    expect(Array.from(attachment.geometry.getAttribute('skinIndex').array)).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    expect(attachment.geometry.getAttribute('skinWeight').array).toBeInstanceOf(Float32Array);
+    expect(Array.from(attachment.geometry.getAttribute('skinWeight').array)).toEqual([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]);
+    expect(attachment.geometry.index).toBeNull();
+    expect(attachment.geometry.drawRange.count).toBe(3);
+    expect(rigidGeometry.hasAttribute('skinIndex')).toBe(false);
+    lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1 });
+    expect(lod.triangles).toBe(2);
+    for (let vertex = 0; vertex < 3; vertex++) {
+      expect(paletteVertex(sampled, 0, vertex).distanceTo(referenceVertex(root, walk, .4, vertex))).toBeLessThan(2e-6);
+    }
+  } finally { lod.dispose(); rigidGeometry.dispose(); rigid.material.dispose(); }
+});
+
+it('preserves the simplifier topology and surviving attribute values in the canonical sampled layout', async () => {
+  await crowdGeometryReady;
+  const { root, mesh, walk } = actor(), geometry = new THREE.PlaneGeometry(1, 1, 12, 12);
+  const vertices = geometry.getAttribute('position').count;
+  const weights = new Uint8Array(vertices * 4), colors = new Uint8Array(vertices * 4);
+  for (let vertex = 0; vertex < vertices; vertex++) {
+    weights[vertex * 4] = 255;
+    colors.set([vertex % 256, 128, 255, 64], vertex * 4);
+  }
+  geometry.setAttribute('skinIndex', new THREE.Uint8BufferAttribute(new Uint8Array(vertices * 4), 4));
+  geometry.setAttribute('skinWeight', new THREE.Uint8BufferAttribute(weights, 4, true));
+  geometry.setAttribute('color', new THREE.Uint8BufferAttribute(colors, 4, true));
+  const skinIndices = geometry.getAttribute('skinIndex');
+  for (let vertex = 0; vertex < vertices; vertex++) skinIndices.setX(vertex, vertex % 2 === 0 ? 1 : 0);
+  mesh.geometry = geometry;
+  const sourceAttributes = Object.fromEntries(Object.entries(geometry.attributes).map(([name, attribute]) => [name, {
+    attribute, values: Array.from(attribute.array), constructor: attribute.array.constructor,
+  }]));
+  const sourceIndex = geometry.index!, sourceIndexArray = sourceIndex.array, sourceIndices = Array.from(sourceIndexArray);
+  const expected = simplifyCrowdGeometry(geometry, 0, geometry.index!.count);
+  const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk], material => material, false, true, true);
+  try {
+    const sampled = (parent.children[0] as THREE.InstancedMesh).geometry;
+    expect(sampled.index!.count).toBeLessThan(geometry.index!.count);
+    expect(Array.from(sampled.index!.array)).toEqual(Array.from(expected.index!.array));
+    expect(sampled.drawRange).toEqual(expected.drawRange);
+    for (const [name, attribute] of Object.entries(expected.attributes)) {
+      const actual = sampled.getAttribute(name), original = sourceAttributes[name];
+      expect(actual.array).toBeInstanceOf(Float32Array);
+      expect(actual.normalized).toBe(false);
+      expect(actual.itemSize).toBe(attribute.itemSize);
+      expect(actual.count).toBe(attribute.count);
+      for (let vertex = 0; vertex < attribute.count; vertex++) for (let component = 0; component < attribute.itemSize; component++) {
+        const value = attribute.getComponent(vertex, component);
+        expect(actual.getComponent(vertex, component)).toBe(Math.fround(
+          name === 'skinIndex' ? (value === 1 ? 0 : 1) : value));
+      }
+      expect(original).toBeDefined();
+    }
+    for (const [name, snapshot] of Object.entries(sourceAttributes)) {
+      const current = geometry.getAttribute(name);
+      expect(current.array).toBe(snapshot.attribute.array);
+      expect(current.array.constructor).toBe(snapshot.constructor);
+      expect(Array.from(current.array)).toEqual(snapshot.values);
+    }
+    expect(geometry.index).toBe(sourceIndex);
+    expect(geometry.index!.array).toBe(sourceIndexArray);
+    expect(Array.from(geometry.index!.array)).toEqual(sourceIndices);
+  } finally { lod.dispose(); expected.dispose(); geometry.dispose(); }
+});
+
+it.each([false, true])('decodes protected half-float/integer streams and keeps full topology (simplify=%s)', simplify => {
+  const { root, mesh, walk } = actor();
+  const geometry = new THREE.PlaneGeometry(1, 1, 12, 12);
+  const vertices = geometry.getAttribute('position').count;
+  const skinIndices = new Uint8Array(vertices * 4), skinWeights = new Uint8Array(vertices * 4);
+  for (let vertex = 0; vertex < vertices; vertex++) skinWeights[vertex * 4] = 255;
+  geometry.setAttribute('skinIndex', new THREE.Uint8BufferAttribute(skinIndices, 4));
+  geometry.setAttribute('skinWeight', new THREE.Uint8BufferAttribute(skinWeights, 4, true));
+  const halfValues = [1, .5, -2, .25];
+  const halfBits = new Uint16Array(vertices * 2);
+  for (let vertex = 0; vertex < vertices; vertex++) {
+    halfBits[vertex * 2] = THREE.DataUtils.toHalfFloat(halfValues[vertex % halfValues.length]!);
+    halfBits[vertex * 2 + 1] = THREE.DataUtils.toHalfFloat(halfValues[(vertex + 1) % halfValues.length]!);
+  }
+  const half = new THREE.Float16BufferAttribute(halfBits, 2);
+  const integerValues = new Int16Array(vertices * 2);
+  for (let vertex = 0; vertex < vertices; vertex++) {
+    integerValues[vertex * 2] = vertex - 100;
+    integerValues[vertex * 2 + 1] = 100 - vertex;
+  }
+  const integer = new THREE.Int16BufferAttribute(integerValues, 2);
+  integer.gpuType = THREE.IntType;
+  geometry.setAttribute('halfValue', half);
+  geometry.setAttribute('customInteger', integer);
+  mesh.geometry = geometry;
+  const sourceHalfArray = half.array, sourceIntegerArray = integer.array;
+  const sourceAttributes = Object.fromEntries(Object.entries(geometry.attributes).map(([name, attribute]) => [name, {
+    attribute, values: Array.from(attribute.array), constructor: attribute.array.constructor,
+  }]));
+  const sourceIndex = geometry.index!, sourceIndexArray = sourceIndex.array, sourceIndexValues = Array.from(sourceIndexArray);
+  expect(sourceIndex.count).toBeGreaterThan(192);
+  const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk], material => material, false, true, simplify);
+  try {
+    const sampled = (parent.children[0] as THREE.InstancedMesh).geometry;
+    const sampledHalf = sampled.getAttribute('halfValue');
+    const sampledInteger = sampled.getAttribute('customInteger');
+    const decodedHalf = Array.from({ length: half.count }, (_, vertex) =>
+      [half.getX(vertex), half.getY(vertex)].map(value => Math.fround(value))).flat();
+    expect(sampled.index!.count).toBe(sourceIndex.count);
+    expect(Array.from(sampled.index!.array)).toEqual(sourceIndexValues);
+    expect(sampled.drawRange).toEqual({ start: 0, count: sourceIndex.count });
+    expect(sampled.drawRange.count / 3).toBe(sourceIndex.count / 3);
+    expect(sampledHalf.array).toBeInstanceOf(Float32Array);
+    expect(sampledHalf.array).not.toBe(sourceHalfArray);
+    expect(sampledHalf.normalized).toBe(false);
+    expect(Array.from(sampledHalf.array)).toEqual(decodedHalf);
+    expect(sampledHalf.getX(0)).toBe(1);
+    expect(sampledInteger.array).toBeInstanceOf(Int16Array);
+    expect(sampledInteger.array).not.toBe(sourceIntegerArray);
+    expect((sampledInteger as THREE.BufferAttribute).gpuType).toBe(THREE.IntType);
+    expect(sampledInteger.normalized).toBe(false);
+    expect(Array.from(sampledInteger.array)).toEqual(Array.from(integer.array));
+    for (const [name, snapshot] of Object.entries(sourceAttributes)) {
+      const current = geometry.getAttribute(name);
+      expect(current.array).toBe(snapshot.attribute.array);
+      expect(current.array.constructor).toBe(snapshot.constructor);
+      expect(Array.from(current.array)).toEqual(snapshot.values);
+    }
+    expect(geometry.index).toBe(sourceIndex);
+    expect(geometry.index!.array).toBe(sourceIndexArray);
+    expect(Array.from(geometry.index!.array)).toEqual(sourceIndexValues);
+    lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1 });
+    expect(lod.triangles).toBe(sourceIndex.count / 3);
+  } finally { lod.dispose(); geometry.dispose(); }
+});
 
 it('prepares in bounded slices with the same sampled vertices as the live skeleton', () => {
   const { root, walk } = actor(), parent = new THREE.Group();
@@ -367,6 +550,16 @@ describe("sampled skeletal animation LOD", () => {
     source.dispose();
   });
 
+  it.each([false,true])("preserves shadow casting %s after crowd buffer growth", (castShadow) => {
+    const {root,walk}=actor(), parent=new THREE.Group();
+    const lod=new AnimationLod(parent,root,root,[walk],material=>material,false,castShadow,true);
+    for(let slot=0;slot<40;slot++)lod.set(slot,new THREE.Matrix4(),{clip:walk,time:0.25,blend:1});
+    expect(parent.children.length).toBeGreaterThan(0);
+    expect(parent.children.every(mesh=>mesh.castShadow===castShadow && mesh.receiveShadow)).toBe(true);
+    expect(lod.bounds(39,new THREE.Box3())?.isEmpty()).toBe(false);
+    lod.dispose();
+    expect(parent.children).toHaveLength(0);
+  });
   it("composes additive masked bones at exact live clocks without replacing moving support bones", () => {
     const { root, walk, hit } = actor(), overlay = overlayClip(), before = root.toJSON();
     const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk, hit], material => material);

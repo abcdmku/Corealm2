@@ -47,6 +47,7 @@ export class Rng {
 }
 
 export type RngStreamId = "gather" | "combat" | "loot" | "scatter" | "world" | "misc";
+export type RngStreamState = Record<RngStreamId,number>;
 
 const STREAM_OFFSETS: Record<RngStreamId, number> = {
   gather: 0x1111,
@@ -83,5 +84,14 @@ export class RngStreams {
 
   getSeed(): number {
     return this.seed;
+  }
+  snapshot():RngStreamState {
+    return Object.fromEntries([...this.streams].map(([id,stream])=>[id,stream.getState()])) as RngStreamState;
+  }
+  restore(state:RngStreamState):void {
+    for(const id of Object.keys(STREAM_OFFSETS) as RngStreamId[]) {
+      if(!Number.isSafeInteger(state[id])||state[id]<0||state[id]>0xffffffff)throw new Error("Invalid saved random stream");
+    }
+    for(const id of Object.keys(STREAM_OFFSETS) as RngStreamId[])this.get(id).setState(state[id]);
   }
 }

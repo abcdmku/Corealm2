@@ -10,6 +10,7 @@ export function skillRequirementsLabel(requirements?: Partial<Record<SkillId, nu
 }
 
 export function entityLevelLabel(entity: SemanticEntity): string {
+  if (entity.meta?.remotePlayer === true && typeof entity.meta.playerLevel === "number") return `Level ${entity.meta.playerLevel}`;
   if (entity.combat) return `Level ${entity.combat.level}`;
   const requirements = entity.obstacle
     ? { ...entity.requirements, agility: entity.obstacle.reqLevel }

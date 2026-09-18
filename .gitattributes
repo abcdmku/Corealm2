@@ -19,3 +19,6 @@ art/starhide/** -text whitespace=cr-at-eol
 runs/aurora/** -text whitespace=cr-at-eol
 runs/tier50-70/** -text whitespace=cr-at-eol
 art/item-models/source-snapshots/*.ts text eol=lf
+tools/build-bedded-shortcuts.ts text eol=lf
+tools/build-boulder04-shortcuts.ts text eol=lf
+tools/build-rock09-shortcuts.ts text eol=lf

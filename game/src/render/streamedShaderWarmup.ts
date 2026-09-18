@@ -1,9 +1,11 @@
 import * as THREE from "three";
-import { compileShadowMeshes } from "./shaderPreparation.js";
+import { compileCorpseFadeVariants, compileShadowMeshes } from "./shaderPreparation.js";
 
 /** Prepare newly resident meshes before their first draw can synchronously wait on the driver. */
 export class StreamedShaderWarmup {
   private readonly waiting = new Set<THREE.Mesh>();
+  private readonly pendingRoots = new Map<THREE.Object3D, number>();
+  private readonly pendingAncestors = new Map<THREE.Mesh, THREE.Object3D[]>();
   private readonly queued = new Set<THREE.Mesh>();
   private readonly watched = new Set<THREE.Object3D>();
   private readonly hidden: THREE.Mesh[] = [];
@@ -25,7 +27,7 @@ export class StreamedShaderWarmup {
       object.removeEventListener("childadded", this.added);
       object.removeEventListener("childremoved", this.removed);
       this.queued.delete(object as THREE.Mesh);
-      this.waiting.delete(object as THREE.Mesh);
+      this.releaseWaiting(object as THREE.Mesh);
     });
   };
 
@@ -46,10 +48,33 @@ export class StreamedShaderWarmup {
         for (let ancestor: THREE.Object3D | null = object; ancestor; ancestor = ancestor.parent) {
           if (ancestor.userData.prewarmedInputFeedback === true) return;
         }
-        this.waiting.add(object as THREE.Mesh);
+        this.addWaiting(object as THREE.Mesh);
         this.queued.add(object as THREE.Mesh);
       }
     });
+  }
+
+  private addWaiting(mesh: THREE.Mesh): void {
+    if (this.waiting.has(mesh)) return;
+    this.waiting.add(mesh);
+    const ancestors: THREE.Object3D[] = [];
+    for (let root: THREE.Object3D | null = mesh; root; root = root.parent) {
+      ancestors.push(root);
+      this.pendingRoots.set(root, (this.pendingRoots.get(root) ?? 0) + 1);
+    }
+    this.pendingAncestors.set(mesh, ancestors);
+  }
+
+  private releaseWaiting(mesh: THREE.Mesh): void {
+    if (!this.waiting.delete(mesh)) return;
+    // childremoved arrives after detachment. Retain the original ancestry so a moved
+    // subtree cannot leave its old parent permanently waiting for graphics preparation.
+    for (const root of this.pendingAncestors.get(mesh) ?? []) {
+      const count = (this.pendingRoots.get(root) ?? 1) - 1;
+      if (count) this.pendingRoots.set(root, count);
+      else this.pendingRoots.delete(root);
+    }
+    this.pendingAncestors.delete(mesh);
   }
 
   /** Called after scene updates and before rendering. Restore visibility after every frame. */
@@ -84,13 +109,16 @@ export class StreamedShaderWarmup {
     this.batch = meshes;
     try {
       this.compile(view, meshes);
+      compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, source => this.compilationMaterial(source));
       const previous = this.renderer.getRenderTarget();
+      const cubeFace = this.renderer.getActiveCubeFace(), mipLevel = this.renderer.getActiveMipmapLevel();
       try {
         this.renderer.setRenderTarget(this.linearTarget);
         this.compile(view, meshes);
+        compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, source => this.compilationMaterial(source));
         compileShadowMeshes(this.renderer, this.scene, this.camera, meshes,
           source => this.compilationMaterial(source), this.defaultDepth);
-      } finally { this.renderer.setRenderTarget(previous); }
+      } finally { this.renderer.setRenderTarget(previous, cubeFace, mipLevel); }
       // compileAsync checks only each material's last program. Shared materials can produce
       // several mesh/side variants; wait for all submitted programs without blocking the driver.
       this.programs = (this.renderer.info.programs ?? []).filter(program => !this.readyPrograms.has(program));
@@ -155,7 +183,7 @@ export class StreamedShaderWarmup {
   }
 
   private finish(): void {
-    for (const mesh of this.batch) if (!this.queued.has(mesh)) this.waiting.delete(mesh);
+    for (const mesh of this.batch) if (!this.queued.has(mesh)) this.releaseWaiting(mesh);
     this.batch = [];this.programs = [];this.pending = false;this.textures.clear();
     for (const material of this.retired) material.dispose();
     this.retired.clear();
@@ -204,12 +232,7 @@ export class StreamedShaderWarmup {
   getState() { return { waiting: this.waiting.size, queued: this.queued.size, compiling: this.pending, textures: this.textures.size }; }
 
   hasPending(root: THREE.Object3D): boolean {
-    for (const mesh of this.waiting) {
-      for (let object: THREE.Object3D | null = mesh; object; object = object.parent) {
-        if (object === root) return true;
-      }
-    }
-    return false;
+    return this.pendingRoots.has(root);
   }
 
   dispose(): void {
@@ -220,6 +243,7 @@ export class StreamedShaderWarmup {
       object.removeEventListener("childremoved", this.removed);
     }
     this.watched.clear();this.queued.clear();this.waiting.clear();
+    this.pendingRoots.clear();this.pendingAncestors.clear();
     this.finish();
     this.releaseMaterials();
   }

@@ -1,0 +1,12 @@
+# Multiplayer chat and parties
+
+Scope authorized by the user's implementation request. Defaults below are implementation choices.
+
+- Server-routed local chat reaches connected players within 30 m in the same combat realm at send time. Messages are plain text, at most 280 characters, with a one-second send cooldown and bounded history. No global broadcast or later history leakage to arrivals.
+- Parties contain one to eight players. Players create parties, invite nearby players, accept or decline, and leave. Leaders can remove members or disband. Leadership passes to the next member on departure. Invitations expire after 60 simulation seconds. Disconnected members retain their seat for 30 simulation seconds to allow reconnection.
+- The killer keeps normal damage and kill XP. Other connected, living party members within 48 m of the monster in the same realm receive 50% of the kill bonus, rounded down, in the skill used for the kill. No shared spell-cast or damage XP and no remote/dead member rewards.
+- All new multiplayer loot piles and their contents are visible to everyone in range. Anyone can collect. Each collected item stack goes directly to the next connected, living member of the party that earned the pile within 48 m, in join order. Skip full inventories and already-owned unique orbs. If nobody can receive it, leave the stack and cursor unchanged. Partial transfers leave the rest in the pile. Currency remains the existing direct kill reward.
+- Persist the earning party ID on each stack. If that party has dissolved, use the collector's current party, or the collector when solo. Solo monster piles are public and use the same collector-party rule. Stable stack IDs prevent stale open windows from taking a different item after another pickup.
+- Persist party membership and loot order with authoritative world state. Chat and invitations are session-only. Reuse existing durable command receipts. Recovery caches retain their existing private ownership.
+- Show a compact local chat and party panel in multiplayer. Provide visible invite acceptance, nearby player selection, roster, connection/range status, leader controls, and reward rules. Text entry must not move the character.
+- Accept in the production multiplayer lab using independent Chromium contexts, actual UI actions, semantic assertions, and normal-camera screenshots before enabling authored-world UI. Then run a small authored-world wiring check. No lab exception.

@@ -49,7 +49,7 @@ export interface TitleScreenOptions {
   saveRecovery?: SaveRecoveryControls;
 }
 
-type View = "menu" | "confirm";
+type View = "menu" | "confirm" | "worlds";
 
 export class TitleScreen {
   private readonly root: HTMLElement;
@@ -59,6 +59,20 @@ export class TitleScreen {
   private restoreFocus: HTMLElement | null = null;
   private covered = false;
   private disposed = false;
+  private worlds: HTMLElement | null = null;
+  private readonly worldStorage=document.createElement("div");
+  setWorlds(panel: HTMLElement): void {
+    this.worlds=panel;
+    panel.addEventListener("worldsessionchange",()=>{
+      const fresh=this.card.querySelector<HTMLButtonElement>("[data-new-game]");
+      if(fresh)fresh.disabled=panel.dataset.phase!=="offline";
+      if(panel.dataset.phase==="connected"&&this.isOpen()&&this.view==="worlds")this.options.onClose();
+    });
+    // "Play offline" is an answer to the same question as joining a world, so it closes the menu too.
+    panel.addEventListener("worldsdismiss",()=>{if(this.isOpen()&&this.view==="worlds")this.options.onClose();});
+    this.render();
+    if(this.isOpen())this.focusFirst();
+  }
 
   constructor(private readonly options: TitleScreenOptions) {
     const root = document.createElement("section");
@@ -72,6 +86,8 @@ export class TitleScreen {
     const card = document.createElement("div");
     card.className = "title__card";
     root.appendChild(card);
+    this.worldStorage.hidden=true;
+    root.appendChild(this.worldStorage);
 
     this.root = root;
     this.card = card;
@@ -182,7 +198,7 @@ export class TitleScreen {
     this.popEscape?.();
     this.popEscape = keybindings.pushEscapeHandler(() => {
       if (!this.isOpen() || this.covered) return false;
-      if (this.view === "confirm") {
+      if (this.view !== "menu") {
         this.setView("menu");
         return true;
       }
@@ -196,7 +212,7 @@ export class TitleScreen {
     event.stopPropagation();
     const stops = [...this.card.querySelectorAll<HTMLElement>(
       "button:not([disabled]), input:not([disabled]), a[href], [tabindex='0']",
-    )];
+    )].filter(element=>element.getClientRects().length>0);
     if (stops.length === 0) return;
     const first = stops[0];
     const last = stops[stops.length - 1];
@@ -227,9 +243,11 @@ export class TitleScreen {
   }
 
   private render(): void {
+    if(this.worlds)this.worldStorage.append(this.worlds);
     this.card.replaceChildren();
     this.card.dataset["view"] = this.view;
-    if (this.view === "confirm") this.renderConfirm();
+    if (this.view === "worlds") this.renderWorlds();
+    else if (this.view === "confirm") this.renderConfirm();
     else this.renderMenu();
   }
 
@@ -263,6 +281,9 @@ export class TitleScreen {
     if (!recovery) resume.dataset["autofocus"] = "true";
 
     const fresh = this.button("New game", "btn title__action", () => this.setView("confirm"));
+    fresh.dataset.newGame="true";
+    fresh.disabled=!!this.worlds&&this.worlds.dataset.phase!=="offline";
+    fresh.title="Leave the multiplayer world before starting a new offline game";
     const settings = this.button("Settings", "btn title__action", () => this.options.onSettings());
     const guide = document.createElement("a");
     guide.className = "btn title__action";
@@ -277,7 +298,9 @@ export class TitleScreen {
       recover.dataset["autofocus"] = "true";
       actions.appendChild(recover);
     }
-    actions.append(resume, fresh, settings, guide);
+    actions.append(resume);
+    if(this.worlds)actions.append(this.button("Worlds", "btn title__action",()=>this.setView("worlds")));
+    actions.append(settings,guide,fresh);
 
     const hint = document.createElement("p");
     hint.className = "title__hint";
@@ -297,7 +320,17 @@ export class TitleScreen {
       warning.textContent = "Save needs recovery";
       this.card.appendChild(warning);
     }
-    this.card.append(tagline, actions, hint);
+    this.card.append(tagline, actions);
+    this.card.append(hint);
+  }
+  showWorlds():void {this.open();if(this.worlds)this.setView("worlds");}
+
+  private renderWorlds():void {
+    const back=this.button("Back to menu","btn title__back",()=>this.setView("menu"));
+    back.dataset.autofocus="true";
+    this.card.append(back);
+    if(this.worlds)this.card.append(this.worlds);
+    this.card.append(this.button("Return to game","btn title__action",()=>this.options.onClose()));
   }
 
   /**

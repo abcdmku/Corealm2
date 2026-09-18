@@ -21,6 +21,18 @@ export class ElementalRefraction {
     return { enabled: this.enabled, rendered: this.rendered, activeMeshes: this.activeMeshes,
       copies: this.rendered ? 1 : 0, width: this.frame?.image.width ?? 0, height: this.frame?.image.height ?? 0 };
   }
+  /** Match the refraction camera layer: ordinary world lights are absent from this pass. */
+  compile(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D): void {
+    const meshes: THREE.Mesh[] = [];
+    root.traverse(object => { if ((object as THREE.Mesh).isMesh && object.layers.isEnabled(REFRACTION_LAYER)) meshes.push(object as THREE.Mesh); });
+    if (!meshes.length) return;
+    const view = new THREE.Group(), mask = camera.layers.mask, background = scene.background;
+    view.traverse = callback => { callback(view); for (const mesh of meshes) callback(mesh); };
+    try {
+      camera.layers.set(REFRACTION_LAYER); scene.background = null;
+      renderer.compile(view, camera, scene);
+    } finally { camera.layers.mask = mask; scene.background = background; }
+  }
   render(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera): void {
     this.rendered = false;
     this.activeMeshes = 0;

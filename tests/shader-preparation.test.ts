@@ -1,7 +1,23 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { compileShadowMeshes } from "../game/src/render/shaderPreparation.js";
+import { compileCorpseFadeVariants, compileShadowMeshes } from "../game/src/render/shaderPreparation.js";
 import { SpellVfx } from "../game/src/render/spellVfx.js";
+import { ElementalRefraction, registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
+
+it("prepares refraction with its actual light layer and restores camera and scene on failure",()=>{
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(),mesh=new THREE.Mesh();
+  const light=new THREE.PointLight();scene.add(light,mesh);scene.background=new THREE.Color(0xabcdef);
+  const background=scene.background,mask=camera.layers.mask,unregister=registerElementalRefraction(mesh);
+  const pass=new ElementalRefraction();
+  try {
+    expect(()=>pass.compile({compile:(view:THREE.Object3D)=>{
+      expect(mesh.layers.test(camera.layers)).toBe(true);expect(light.layers.test(camera.layers)).toBe(false);
+      const objects:THREE.Object3D[]=[];view.traverse(object=>objects.push(object));expect(objects).toContain(mesh);
+      expect(scene.background).toBeNull();throw new Error("compile failed");
+    }} as unknown as THREE.WebGLRenderer,scene,camera,scene)).toThrow("compile failed");
+    expect(camera.layers.mask).toBe(mask);expect(scene.background).toBe(background);
+  }finally{unregister();mesh.geometry.dispose();(mesh.material as THREE.Material).dispose();pass.dispose();}
+});
 
 function retainedMaterials() {
   const clones = new Map<THREE.Material, THREE.Material>();
@@ -22,6 +38,43 @@ function retainedMaterials() {
   };
 }
 
+it.each([false, true])("prepares corpse fade on actual skinned meshes and restores live state, failure=%s", fails => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  const material = new THREE.MeshStandardMaterial(), second = material.clone();
+  material.onBeforeCompile = shader => { shader.fragmentShader += "// creature surface"; };
+  material.customProgramCacheKey = () => "creature-surface";
+  const mesh = new THREE.SkinnedMesh(new THREE.BoxGeometry(), [material, second]);
+  mesh.userData.prepareCorpseFade = true;
+  mesh.bind(new THREE.Skeleton([new THREE.Bone()]));
+  const ordinary = new THREE.Mesh(mesh.geometry, material);
+  scene.add(mesh, ordinary);
+  const original = mesh.material, skeleton = mesh.skeleton;
+  const materials = retainedMaterials();
+  const renderer = { compile(view: THREE.Object3D) {
+    const compiled: THREE.Object3D[] = [];
+    view.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); });
+    expect(compiled).toEqual([mesh]);
+    expect(mesh.parent).toBe(scene); expect(mesh.skeleton).toBe(skeleton);
+    expect(ordinary.material).toBe(material);
+    expect(mesh.material).not.toBe(original);
+    for (const surface of mesh.material) {
+      expect(surface.transparent).toBe(true); expect(surface.depthWrite).toBe(false);
+    }
+    expect(mesh.material[0]!.customProgramCacheKey()).toBe("creature-surface");
+    const shader = { fragmentShader: "" } as THREE.WebGLProgramParametersWithUniforms;
+    mesh.material[0]!.onBeforeCompile(shader, renderer as unknown as THREE.WebGLRenderer);
+    expect(shader.fragmentShader).toContain("// creature surface");
+    if (fails) throw new Error("compile failed");
+    return new Set<THREE.Material>();
+  } };
+  const prepare = () => compileCorpseFadeVariants(renderer as unknown as THREE.WebGLRenderer, scene, camera, [ordinary, mesh], materials.compile);
+  if (fails) expect(prepare).toThrow("compile failed"); else prepare();
+  expect(mesh.material).toBe(original);
+  expect(material.transparent).toBe(false); expect(material.depthWrite).toBe(true);
+  for (const clone of materials.clones.values()) { expect(clone.transparent).toBe(false); expect(clone.depthWrite).toBe(true); }
+  materials.dispose(); mesh.geometry.dispose(); mesh.skeleton.dispose(); material.dispose(); second.dispose();
+});
+
 describe("shared shadow shader preparation", () => {
   it("executes every hidden Earth depth hook using real meshes and restores their surface materials", () => {
     const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
@@ -37,6 +90,7 @@ describe("shared shadow shader preparation", () => {
     });
     const originals = new Map(meshes.map(mesh => [mesh, { material: mesh.material, depth: mesh.customDepthMaterial, parent: mesh.parent }]));
     const compiled = new Map<string, { vertex: string; uniforms: Record<string, unknown> }>();
+    const compiledMeshes = new Set<THREE.Object3D>();
     const materials = retainedMaterials(), fallback = new THREE.MeshDepthMaterial();
     const allVisibleLights: THREE.Object3D[] = [];
     scene.traverseVisible(object => { if ((object as THREE.Light).isLight) allVisibleLights.push(object); });
@@ -59,13 +113,14 @@ describe("shared shadow shader preparation", () => {
             fragmentShader: THREE.ShaderLib.depth.fragmentShader, uniforms: {} as Record<string, THREE.IUniform> };
           depth.onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, renderer);
           compiled.set(object.name, { vertex: shader.vertexShader, uniforms: shader.uniforms });
+          compiledMeshes.add(object);
         });
       },
     } as unknown as THREE.WebGLRenderer;
     try {
-      expect(meshes).toHaveLength(9);
+      expect(meshes).toHaveLength(13);
       compileShadowMeshes(renderer, scene, camera, meshes, materials.compile, fallback);
-      expect(compiled.size).toBe(meshes.length);
+      expect(compiledMeshes.size).toBe(meshes.length);
       for (const name of ["elemental-basic-pebble", "elemental-flint-connected-fracture", "elemental-siege-connected-fracture"]) {
         expect(compiled.get(name)!.vertex).toContain("fractureTurn");
         expect(compiled.get(name)!.uniforms).toHaveProperty("shatterTime");

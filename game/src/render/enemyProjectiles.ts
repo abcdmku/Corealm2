@@ -32,7 +32,7 @@ export class EnemyProjectiles {
 
   start(attack: CombatAttackStart, source: Vec3, target: Vec3): void {
     if (attack.attacker !== "enemy" || attack.kind === "melee") return;
-    if (this.flights.some(flight => flight.attack.id === attack.id)) return;
+    if (this.flights.some(flight => flight.attack.id === attack.id && flight.attack.sourceId === attack.sourceId && flight.attack.targetId === attack.targetId)) return;
     if (this.flights.length >= 128) this.flights.shift();
     this.flights.push({
       attack,
@@ -42,12 +42,12 @@ export class EnemyProjectiles {
   }
 
   /** `valid` cancels interrupted windups, dead actors, and attacks on another realm. */
-  update(simNowMs: number, valid: (sourceId: string) => boolean, targetPosition?: (targetId: string) => Vec3 | undefined): void {
+  update(simNowMs: number, valid: (sourceId: string, attack: CombatAttackStart) => boolean, targetPosition?: (targetId: string) => Vec3 | undefined): void {
     let count = 0;
     for (let i = this.flights.length - 1; i >= 0; i--) {
       const flight = this.flights[i]!;
       const attack = flight.attack;
-      if (simNowMs >= attack.contactAtMs || !valid(attack.sourceId)) {
+      if (simNowMs >= attack.contactAtMs || !valid(attack.sourceId, attack)) {
         this.flights.splice(i, 1);
         continue;
       }
@@ -79,6 +79,7 @@ export class EnemyProjectiles {
     this.mesh.count = 0;
     this.mesh.visible = false;
   }
+  snapshot(): { visible: number; targets: string[] } { return {visible:this.mesh.count,targets:this.flights.map(f=>f.attack.targetId)}; }
 
   dispose(): void {
     this.clear();

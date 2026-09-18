@@ -28,6 +28,8 @@ import { levelProgress, xpToNextLevel } from "../content/xp.js";
 import { distanceXZ } from "../core/math.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { content } from "../content/index.js";
+import type { CommandOutcome, GameCommand, WorldSession } from "../contracts.js";
+import { LocalSession } from "../multiplayer/localSession.js";
 import { magicMaxHit } from "../systems/combat.js";
 import { SPELL_RUNES } from "../content/spells.js";
 import {
@@ -78,6 +80,7 @@ function countIn(slots: readonly (InventorySlot | null)[], itemId: ItemId): numb
  * registered returns UNAVAILABLE rather than throwing, so the contract holds from round 0.
  */
 export interface SystemHooks {
+  hunts?: Pick<import("../systems/huntContracts.js").HuntContractsSystem, "refreshOffers" | "accept" | "claim" | "abandon">;
   entities?: {
     get(id: EntityId): SemanticEntity | undefined;
     all(): SemanticEntity[];
@@ -140,13 +143,52 @@ export interface SystemHooks {
     rangeFor?(interaction: InteractionId, entityId?: EntityId): number;
   };
   loot?: {
-    take(entityId: EntityId, stackIndex?: number): Result<LootTakeResult>;
+    take(entityId: EntityId, stackIndex?: number, stackId?: string): Result<LootTakeResult>;
   };
 }
 
 type ShopViewLike = import("../contracts.js").ShopView;
 
 export class CorealmGameApi implements GameApiContract {
+  private commandSession: WorldSession | null = null;
+  private commandsBlocked = false;
+  private localSession: LocalSession | null = null;
+  setCommandSession(session: WorldSession | null, pending = false): void {
+    this.commandSession = session; this.commandsBlocked = pending || session !== null;
+  }
+
+  isOnlineSession(): boolean { return this.commandsBlocked; }
+  hunt(op: "refresh" | "accept" | "claim" | "abandon", offerId?: string): Result<unknown> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Use asynchronous command submission in multiplayer");
+    const hunts = this.hooks.hunts;
+    if (!hunts) return err("UNAVAILABLE", "Hunts are unavailable");
+    switch (op) {
+      case "refresh": return hunts.refreshOffers();
+      case "accept": return hunts.accept(offerId ?? "");
+      case "claim": return hunts.claim();
+      case "abandon": return hunts.abandon();
+      default: return err("INVALID_ARGUMENT", "Unknown hunt action");
+    }
+  }
+  async submit(input: GameCommand): Promise<CommandOutcome> {
+    if (this.commandSession) return this.commandSession.command(input);
+    if (this.commandsBlocked) return { status: "rejected", sequence: 0, tick: this.clock.tick,
+      error: { code: "UNAVAILABLE", message: "Waiting for an authoritative world snapshot" } };
+    const api = this;
+    this.localSession ??= new LocalSession("offline", this.store.get().player.id, {
+      get tick() { return api.clock.tick; },
+      execute(command) {
+        if (command.method === "chat" || command.method === "party" || command.method === "who") return err("UNAVAILABLE", "Join a multiplayer world first.");
+        if (command.method === "steer") {
+          api.movement.setDirectInput({ strafe: command.args[0], forward: -command.args[1], cameraYaw: 0 });
+          return ok({ steering: true });
+        }
+        const method = api[command.method] as (...args: unknown[]) => Result<unknown>;
+        return method.apply(api, command.args);
+      },
+    });
+    return this.localSession.command(input);
+  }
   readonly hooks: SystemHooks = {};
   private movementCommandsEnabled = true;
 
@@ -307,6 +349,7 @@ export class CorealmGameApi implements GameApiContract {
   // --------------------------------------------------------------- movement
 
   moveTo(target: MoveTarget): Result<{ pathLength: number; etaMs: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const result = this.walkTo(target, 0);
     if (result.ok) {
       const state = this.store.get();
@@ -536,6 +579,7 @@ export class CorealmGameApi implements GameApiContract {
   }
 
   stop(): Result<{ stopped: string[] }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const state = this.store.get();
     const stopped: string[] = [];
     this.pending = null;
@@ -562,6 +606,7 @@ export class CorealmGameApi implements GameApiContract {
   // ------------------------------------------------------------ interaction
 
   interact(entityId: EntityId, interaction: InteractionId): Result<{ started: string }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const state = this.store.get();
     if (state.player.health <= 0) return err("DEAD", "The player is dead");
 
@@ -619,7 +664,8 @@ export class CorealmGameApi implements GameApiContract {
     return runner.run(entityId, interaction);
   }
 
-  takeLoot(entityId: EntityId, stackIndex?: number): Result<LootTakeResult> {
+  takeLoot(entityId: EntityId, stackIndex?: number, stackId?: string): Result<LootTakeResult> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const state = this.store.get();
     if (state.player.health <= 0) return err("DEAD", "The player is dead");
 
@@ -634,10 +680,11 @@ export class CorealmGameApi implements GameApiContract {
 
     const hook = this.hooks.loot;
     if (!hook) return err("UNAVAILABLE", "Loot system is not available yet", entityId);
-    return hook.take(entityId, stackIndex);
+    return hook.take(entityId, stackIndex, stackId);
   }
 
   useItem(itemId: ItemId, target?: { itemId: ItemId }): Result<{ effect: string }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.inventory;
     if (!hook) return err("UNAVAILABLE", "Inventory system is not available yet");
 
@@ -645,18 +692,21 @@ export class CorealmGameApi implements GameApiContract {
   }
 
   equipItem(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.equipment;
     if (!hook) return err("UNAVAILABLE", "Equipment system is not available yet");
     return hook.equip(itemId, targetSlot);
   }
 
   unequipItem(slot: EquipSlot): Result<{ itemId: ItemId }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.equipment;
     if (!hook) return err("UNAVAILABLE", "Equipment system is not available yet");
     return hook.unequip(slot);
   }
 
   produce(recipeId: RecipeId, quantity: number): Result<{ queued: number; durationMs: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.production;
     if (!hook) return err("UNAVAILABLE", "Production system is not available yet");
     if (!Number.isFinite(quantity) || quantity < 1 || quantity > 28) {
@@ -670,6 +720,7 @@ export class CorealmGameApi implements GameApiContract {
     recipeId: RecipeId,
     quantity: number,
   ): Result<{ queued: number; durationMs: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.production;
     if (!hook) return err("UNAVAILABLE", "Production system is not available yet");
     if (!Number.isFinite(quantity) || quantity < 1 || quantity > 28) {
@@ -679,6 +730,7 @@ export class CorealmGameApi implements GameApiContract {
   }
 
   buildCampfire(logItemId: ItemId): Result<{ entityId: EntityId; lifetimeMs: number; position: Vec3 }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.campfire;
     if (!hook) return err("UNAVAILABLE", "Campfire building is not available yet");
     return hook.build(logItemId);
@@ -687,18 +739,21 @@ export class CorealmGameApi implements GameApiContract {
   // ----------------------------------------------------------------- combat
 
   attack(entityId: EntityId): Result<{ targetId: EntityId; attackSpeedMs: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.combat;
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     return hook.attack(entityId);
   }
 
   cast(spellId: SpellId, entityId: EntityId): Result<{ targetId: EntityId; castMs: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.combat;
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     return hook.cast(spellId, entityId);
   }
 
   castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.combat;
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     if (!content.spell(spellId)) return err("NOT_FOUND", `No spell with id ${spellId}`);
@@ -706,6 +761,7 @@ export class CorealmGameApi implements GameApiContract {
   }
 
   castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.combat;
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     if (!content.spell(spellId)) return err("NOT_FOUND", `No spell with id ${spellId}`);
@@ -793,11 +849,12 @@ export class CorealmGameApi implements GameApiContract {
         carried: countIn(slots, rune.itemId),
         description: rune.description,
       })),
-      castLock: this.hooks.combat?.castLock() ?? null,
+      castLock: this.commandsBlocked ? state.combat.castLock ?? null : this.hooks.combat?.castLock() ?? null,
     };
   }
 
   setPreferredSpell(spellId: SpellId | null): Result<{ preferredSpellId: SpellId | null }> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.combat;
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     if (spellId !== null && !content.spell(spellId)) {
@@ -814,6 +871,11 @@ export class CorealmGameApi implements GameApiContract {
   // ------------------------------------------------------- npc, bank, shop
 
   dialogue(op: "state" | "choose" | "end", optionId?: string): Result<DialogueView | null> {
+    if (this.commandsBlocked && op !== "state") return err("UNAVAILABLE", "Await the session command API for online actions");
+    if (this.commandsBlocked) {
+      const state=this.store.get().dialogue;
+      return ok(state ? {npcId:state.npcId,speaker:state.speaker,text:state.text,options:structuredClone(state.options)} : null);
+    }
     const hook = this.hooks.dialogue;
     if (!hook) return err("UNAVAILABLE", "Dialogue system is not available yet");
     return hook.op(op, optionId);
@@ -823,6 +885,7 @@ export class CorealmGameApi implements GameApiContract {
     op: "list" | "deposit" | "withdraw" | "depositAll",
     args?: { itemId?: ItemId; quantity?: number; filter?: string },
   ): Result<BankView> {
+    if (this.commandsBlocked && op !== "list") return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.bank;
     if (!hook) return err("UNAVAILABLE", "Banking system is not available yet");
     return hook.op(op, args);
@@ -832,6 +895,7 @@ export class CorealmGameApi implements GameApiContract {
     op: "list" | "buy" | "sell",
     args?: { shopId?: EntityId; itemId?: ItemId; quantity?: number },
   ): Result<ShopViewLike> {
+    if (this.commandsBlocked && op !== "list") return err("UNAVAILABLE", "Await the session command API for online actions");
     const hook = this.hooks.shop;
     if (!hook) return err("UNAVAILABLE", "Shop system is not available yet");
     return hook.op(op, args);

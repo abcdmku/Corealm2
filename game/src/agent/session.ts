@@ -95,7 +95,7 @@ export interface AgentSessionDeps {
   /** Publishes onto the game's event bus. */
   emit<T extends GameEventType>(type: T, data: GameEventPayloads[T]): void;
   /** `GameApi.stop()` — halts the character. Called on Stop and on Pause. */
-  stopWorld(): void;
+  stopWorld(): void | Promise<import("../contracts.js").Result<unknown>>;
   /** Tells the input layer who owns movement. Invoked on every ownership change. */
   onControlOwnerChanged?(owner: AgentControlOwner): void;
 }
@@ -344,9 +344,9 @@ export class AgentSession {
    * Stop: cancel the operation, halt the character, hand control back. The objective is kept so
    * the panel still says what the agent was trying to do; the agent decides whether to resume.
    */
-  stop(by: SessionActor = "player"): AgentSessionView {
+  async stop(by: SessionActor = "player"): Promise<AgentSessionView | SessionError> {
     this.cancelTask("stopped", by);
-    this.deps.stopWorld();
+    const outcome = this.deps.stopWorld();
     if (this.controlOwner === "agent") this.setControlOwner("player", by);
     if (this.mode === "play") {
       this.mode = "assist";
@@ -355,16 +355,21 @@ export class AgentSession {
     this.paused = false;
     this.activity = null;
     this.notify();
+    const result = await outcome;
+    if (result && !result.ok) return { error: result.error.code, message: result.error.message, session: this.read() };
     return this.read();
   }
 
-  pause(by: SessionActor = "player"): AgentSessionView {
+  async pause(by: SessionActor = "player"): Promise<AgentSessionView | SessionError> {
+    let outcome: ReturnType<AgentSessionDeps["stopWorld"]> = undefined;
     if (!this.paused) {
       this.paused = true;
       // The character halts too: a paused agent whose gather keeps running is not paused.
-      if (this.controlOwner === "agent") this.deps.stopWorld();
+      if (this.controlOwner === "agent") outcome = this.deps.stopWorld();
       this.emitSession("paused", by);
     }
+    const result = await outcome;
+    if (result && !result.ok) return { error: result.error.code, message: result.error.message, session: this.read() };
     return this.read();
   }
 

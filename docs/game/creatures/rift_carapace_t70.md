@@ -6,7 +6,7 @@ description: "Rift Carapace spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="21.697,18.182,80.903,28.848"
+ data-map-focus="21.697,18.182,80.903,28.364"
  style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Rift Carapace">
 <div class="corealm-map-stage" data-map-stage>
@@ -16,7 +16,7 @@ description: "Rift Carapace spawn locations, combat stats, and drops."
 <a class="corealm-map-marker" href="../../regions/#starless-abbey-approach" style="--map-x:80.9034%;--map-y:18.8600%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Rift Carapace, Starless Abbey Approach, Wilderness" title="Rift Carapace, Starless Abbey Approach, Wilderness"><span>Rift Carapace<small>Starless Abbey Approach, Wilderness</small></span></a>
 <a class="corealm-map-marker" href="../../regions/#cindervein-workings" style="--map-x:21.6970%;--map-y:28.3636%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Rift Carapace, Cindervein Workings, Wilderness" title="Rift Carapace, Cindervein Workings, Wilderness"><span>Rift Carapace<small>Cindervein Workings, Wilderness</small></span></a>
 <a class="corealm-map-marker" href="../../regions/#cinder-chain-foundry" style="--map-x:27.2727%;--map-y:24.7879%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Rift Carapace, Cinder Chain Foundry, Wilderness" title="Rift Carapace, Cinder Chain Foundry, Wilderness"><span>Rift Carapace<small>Cinder Chain Foundry, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#furnace-throne" style="--map-x:49.2727%;--map-y:28.8485%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Rift Carapace, Furnace Throne, Wilderness" title="Rift Carapace, Furnace Throne, Wilderness"><span>Rift Carapace<small>Furnace Throne, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#veilburn-east-bank" style="--map-x:49.2727%;--map-y:27.8788%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Rift Carapace, Veilburn East Bank, Wilderness" title="Rift Carapace, Veilburn East Bank, Wilderness"><span>Rift Carapace<small>Veilburn East Bank, Wilderness</small></span></a>
 <a class="corealm-map-marker" href="../../regions/#nightforge-outer-road" style="--map-x:48.2424%;--map-y:19.0909%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Rift Carapace, Nightforge Outer Road, Wilderness" title="Rift Carapace, Nightforge Outer Road, Wilderness"><span>Rift Carapace<small>Nightforge Outer Road, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
@@ -40,7 +40,7 @@ description: "Rift Carapace spawn locations, combat stats, and drops."
 | [Wilderness](../../regions/#starless-abbey-approach) | [Starless Abbey Approach](../../regions/#starless-abbey-approach) | Rift Carapace | 13 |
 | [Wilderness](../../regions/#cindervein-workings) | [Cindervein Workings](../../regions/#cindervein-workings) | Rift Carapace | 7 |
 | [Wilderness](../../regions/#cinder-chain-foundry) | [Cinder Chain Foundry](../../regions/#cinder-chain-foundry) | Rift Carapace | 7 |
-| [Wilderness](../../regions/#furnace-throne) | [Furnace Throne](../../regions/#furnace-throne) | Rift Carapace | 7 |
+| [Wilderness](../../regions/#veilburn-east-bank) | [Veilburn East Bank](../../regions/#veilburn-east-bank) | Rift Carapace | 7 |
 | [Wilderness](../../regions/#nightforge-outer-road) | [Nightforge Outer Road](../../regions/#nightforge-outer-road) | Rift Carapace | 7 |
 
 ## Stats

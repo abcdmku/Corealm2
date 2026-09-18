@@ -6,8 +6,25 @@
  * the board is that hunt and its two actions, otherwise it is the current offers.
  */
 import type { HuntContractsSystem } from "../systems/huntContracts.js";
+import type { GameApi, Result } from "../contracts.js";
+import { sendGameCommand } from "../api/commands.js";
 
-export function mountHuntContractsPanel(parent: HTMLElement, hunts: HuntContractsSystem): { refresh(): void; dispose(): void } {
+export interface HuntContractsView {
+  snapshot(): ReturnType<HuntContractsSystem["snapshot"]>;
+  refreshOffers(): Result<unknown> | Promise<Result<unknown>>;
+  accept(id: string): Result<unknown> | Promise<Result<unknown>>;
+  claim(): Result<unknown> | Promise<Result<unknown>>;
+  abandon(): Result<unknown> | Promise<Result<unknown>>;
+}
+export function huntContractsView(hunts: HuntContractsSystem, api: GameApi): HuntContractsView {
+  return { snapshot: () => hunts.snapshot(),
+    refreshOffers: () => sendGameCommand(api, "hunt", "refresh"),
+    accept: (id) => sendGameCommand(api, "hunt", "accept", id),
+    claim: () => sendGameCommand(api, "hunt", "claim"),
+    abandon: () => sendGameCommand(api, "hunt", "abandon") };
+}
+
+export function mountHuntContractsPanel(parent: HTMLElement, hunts: HuntContractsView): { refresh(): void; dispose(): void } {
   const panel = document.createElement("section");
   panel.className = "hunts";
   panel.setAttribute("aria-label", "Hunt contracts");
@@ -22,18 +39,15 @@ export function mountHuntContractsPanel(parent: HTMLElement, hunts: HuntContract
 
   panel.append(body, feedback);
   parent.append(panel);
-
-  function button(label: string, className: string, action: () => { ok: boolean; error?: { message: string } }): HTMLButtonElement {
+  function button(label: string, className: string, action: () => Result<unknown> | Promise<Result<unknown>>): HTMLButtonElement {
     const element = document.createElement("button");
     element.type = "button";
     element.className = className;
     element.textContent = label;
-    element.addEventListener("click", () => {
-      const result = action();
-      feedback.textContent = result.ok ? "" : result.error?.message ?? "That action is unavailable.";
-      feedback.hidden = result.ok;
-      refresh();
-    });
+    element.onclick = async () => { element.disabled = true; feedback.hidden = false; feedback.textContent = "Waiting for result…";
+      try { const result = await action(); feedback.textContent = result.ok ? "" : result.error.message; feedback.hidden = result.ok; }
+      catch { feedback.textContent = "The action result could not be confirmed."; }
+      finally { refresh(); } };
     return element;
   }
 

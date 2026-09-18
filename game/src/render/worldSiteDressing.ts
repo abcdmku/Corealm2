@@ -29,7 +29,7 @@ export interface WorldSiteDressingResult {
  */
 export function resolveWorldSiteDressing(
   scene: WorldScene,
-  assets: AssetRegistry,
+  assets: Pick<AssetRegistry, "load" | "assetSize" | "assetCenterXZ" | "baseY">,
   site: WorldSite,
 ): WorldSiteDressingResult {
   const assetIds = [...new Set(site.dressing.map((piece) => piece.assetId))];
@@ -102,7 +102,7 @@ export function resolveWorldSiteDressing(
 
 /** Await every dependency before drawing a complete setting through production instancing. */
 export async function drawWorldSiteDressing(
-  scene: WorldScene, assets: AssetRegistry, site: WorldSite, resolved: WorldSiteDressingResult,
+  scene: WorldScene, assets: Pick<AssetRegistry, "load" | "assetSize" | "assetCenterXZ" | "baseY">, site: WorldSite, resolved: WorldSiteDressingResult,
   options: AssetLoadOptions = { priority: "visible-spawn", primary: true },
 ): Promise<WorldSiteDressingResult> {
   const { placements, assetIds } = resolved;
@@ -126,7 +126,7 @@ export async function drawWorldSiteDressing(
 }
 
 export async function buildWorldSiteDressing(
-  scene: WorldScene, assets: AssetRegistry, site: WorldSite,
+  scene: WorldScene, assets: Pick<AssetRegistry, "load" | "assetSize" | "assetCenterXZ" | "baseY">, site: WorldSite,
 ): Promise<WorldSiteDressingResult> {
   return drawWorldSiteDressing(scene, assets, site, resolveWorldSiteDressing(scene, assets, site));
 }

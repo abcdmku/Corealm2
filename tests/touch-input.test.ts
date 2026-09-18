@@ -176,7 +176,7 @@ describe("touch play on the input controller", () => {
     expect(api.moveTo).toHaveBeenCalledTimes(1);
   });
 
-  it("walks on the lift of a tap, not on the press", () => {
+  it("walks on the lift of a tap, not on the press", async () => {
     vi.useFakeTimers();
     const { canvas, windowTarget, input, api, destinations } = controllerHarness();
     input.setTouchControls(true);
@@ -185,6 +185,7 @@ describe("touch play on the input controller", () => {
     expect(api.moveTo).not.toHaveBeenCalled();
     windowTarget.dispatchEvent(pointerEvent("pointerup", { clientX: 120, clientY: 140 }));
     expect(api.moveTo).toHaveBeenCalledTimes(1);
+    await Promise.resolve();
     expect(destinations).toEqual([[5, 0, 5]]);
   });
 

@@ -632,7 +632,8 @@ html, body {
 .msglog {
   position: fixed;
   left: var(--space-3);
-  bottom: var(--space-3);
+  /* A multiplayer chat bar sets --chatbar-h and sits in the gap this leaves. */
+  bottom: calc(var(--space-3) + var(--chatbar-h, 0px));
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -685,6 +686,18 @@ html, body {
 }
 
 #ui-root.is-compact .msglog { width: min(36ch, 30vw); }
+
+/* The multiplayer chat bar sits in the gap under the log. Its look is in styles/social.css. */
+#ui-root.has-chatbar { --chatbar-h: 30px; }
+
+.chatbar {
+  position: fixed;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  width: min(42ch, 34vw);
+}
+
+#ui-root.is-compact .chatbar { width: min(36ch, 30vw); }
 
 /* ------------------------------------------------------------ preferences */
 

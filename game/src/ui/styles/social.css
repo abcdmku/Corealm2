@@ -1,0 +1,186 @@
+/*
+ * Multiplayer chat and party. Chat lines live in the HUD message log (`.msglog`, styles.css); this
+ * file adds the chat bar under it, channel colours, the open-log state, and the party section of
+ * the quest tracker card.
+ */
+
+:root {
+  --party-colour: #8fc0e8;
+  --whisper-colour: #d6a4e6;
+}
+
+/* ---- the chat bar: the message log's glass, one line tall, directly under the log */
+
+/* Placement lives beside `.msglog` in styles.css and mobile.css, so the phone overrides win. */
+.chatbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 26px;
+  padding: 0 2px 0 var(--space-1);
+  border: 1px solid rgba(212, 175, 88, 0.14);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(14, 12, 9, 0.30), rgba(14, 12, 9, 0.52));
+  backdrop-filter: blur(3px);
+  z-index: var(--z-tooltip);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.chatbar[hidden] { display: none; }
+.chatbar:focus-within { border-color: rgba(212, 175, 88, 0.42); background: rgba(14, 12, 9, 0.74); }
+
+.chatbar__channel,
+.chatbar__gear {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.chatbar__channel {
+  max-width: 14ch;
+  padding: 0 5px;
+  overflow: hidden;
+  font-family: var(--font);
+  font-size: var(--size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--accent);
+  text-shadow: var(--shadow-text);
+}
+
+.chatbar__channel[data-channel="party"] { color: var(--party-colour); }
+.chatbar__channel[data-channel="whisper"] { color: var(--whisper-colour); }
+
+.chatbar__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0 4px;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: var(--size-sm);
+  color: var(--ink);
+  text-shadow: var(--shadow-text);
+}
+
+.chatbar__input::placeholder { color: var(--ink-faint); }
+
+.chatbar__gear {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: var(--ink-faint);
+}
+
+.chatbar__gear .ui-icon { width: 15px; height: 15px; }
+.chatbar__channel:hover,
+.chatbar__gear:hover { color: var(--highlight); }
+.chatbar__channel:focus-visible,
+.chatbar__gear:focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; }
+
+/* ---- chat lines in the message log */
+
+.msglog__speaker { font-weight: 700; color: var(--accent); }
+.msglog__line--nearby { border-left-color: var(--accent); }
+.msglog__line--party { border-left-color: var(--party-colour); }
+.msglog__line--party .msglog__speaker { color: var(--party-colour); }
+.msglog__line--whisper { border-left-color: var(--whisper-colour); color: #f1dff6; }
+.msglog__line--whisper .msglog__speaker { color: var(--whisper-colour); }
+
+/* Open while typing: every kept line, scrollable, full strength. */
+#ui-root.has-chatbar .msglog.is-expanded {
+  justify-content: flex-start;
+  max-height: min(46vh, 420px);
+  overflow-y: auto;
+  opacity: 1;
+  pointer-events: auto;
+  background: rgba(14, 12, 9, 0.74);
+  border-color: rgba(212, 175, 88, 0.24);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 88, 0.35) transparent;
+}
+
+#ui-root.has-chatbar .msglog.is-expanded > .msglog__line { flex: 0 0 auto; opacity: 1; animation: none; }
+
+/* ---- the party section of the tracker card */
+
+.quest-tracker__section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-1) var(--space-2) var(--space-2);
+  border-top: 1px solid rgba(212, 175, 88, 0.2);
+  cursor: grab;
+}
+
+.quest-tracker__section[hidden] { display: none; }
+.quest-tracker__quest[hidden] + .quest-tracker__hunt[hidden] + .quest-tracker__section { border-top: none; }
+
+.party__head { display: flex; align-items: center; gap: var(--space-1); min-height: 18px; }
+
+.party__caption {
+  flex: 1 1 auto;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--party-colour);
+}
+
+.party__add { font-size: 15px; font-weight: 700; color: var(--party-colour); }
+
+.party-member { display: flex; flex-direction: column; gap: 2px; cursor: context-menu; }
+.party-member.is-away { opacity: 0.55; }
+
+.party-member__head { display: flex; align-items: baseline; gap: var(--space-1); }
+
+.party-member__name {
+  flex: 1 1 auto;
+  font-size: var(--size-sm);
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: var(--shadow-text);
+}
+
+.party-member.is-self .party-member__name { color: var(--highlight); }
+.party-member__leader { margin-right: 3px; font-weight: 400; color: var(--accent); }
+.party-member__status { font-size: var(--size-xs); color: var(--danger); text-shadow: var(--shadow-text); }
+.party-member__status:empty { display: none; }
+.bar.party-member__health { height: 5px; }
+
+.party__invite { display: flex; align-items: center; gap: var(--space-1); }
+.party__invite + .party__invite,
+.party-member + .party__invite { margin-top: 2px; }
+
+.party__invite-label {
+  flex: 1 1 auto;
+  font-size: var(--size-sm);
+  color: var(--party-colour);
+  text-shadow: var(--shadow-text);
+}
+
+.party__invite-join {
+  flex: 0 0 auto;
+  padding: 1px 8px;
+  background: rgba(143, 192, 232, 0.14);
+  border: 1px solid rgba(143, 192, 232, 0.45);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: var(--size-xs);
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.party__invite-join:hover { background: rgba(143, 192, 232, 0.28); color: var(--highlight); }
+
+/* The invite roster can be long on a busy world. */
+.ctx-menu { max-height: calc(100vh - 16px); overflow-y: auto; }

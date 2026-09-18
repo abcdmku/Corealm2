@@ -26,7 +26,7 @@ export interface Pick {
  * A pick source turns a configured ray into a hit, or null. The root wires the entity source to
  * A2's entity views; the ground source defaults to raycasting the terrain meshes.
  */
-export type PickSource = (raycaster: THREE.Raycaster) => Pick | null;
+export type PickSource = (raycaster: THREE.Raycaster, context?: boolean) => Pick | null;
 
 export interface PickerDeps {
   camera: THREE.Camera;
@@ -114,9 +114,9 @@ export class Picker {
    * Nearest of the entity hit and the ground hit. Entities win ties, because a trunk drawn in
    * front of a hillside should stay clickable right up to its silhouette edge.
    */
-  pickAt(clientX: number, clientY: number): Pick | null {
+  pickAt(clientX: number, clientY: number, context = false): Pick | null {
     this.aim(clientX, clientY);
-    const entity = this.rayEntity();
+    const entity = this.rayEntity(context);
     const ground = this.rayGround();
     if (entity && ground) return entity.distance <= ground.distance + ENTITY_DEPTH_BIAS ? entity : ground;
     return entity ?? ground;
@@ -182,8 +182,8 @@ export class Picker {
     this.raycaster.setFromCamera(this.ndc, this.deps.camera);
   }
 
-  private rayEntity(): Pick | null {
-    if (this.pickEntitySource) return this.pickEntitySource(this.raycaster);
+  private rayEntity(context = false): Pick | null {
+    if (this.pickEntitySource) return this.pickEntitySource(this.raycaster, context);
     if (!this.entityObjects || !this.entityIdOf) return null;
 
     const objects = this.entityObjects();

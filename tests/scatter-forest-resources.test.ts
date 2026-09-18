@@ -150,6 +150,18 @@ describe("scatter forest resource bridge", () => {
     } finally { dry.dispose(); lake.dispose(); }
   });
 
+
+  it("generates identical harvestable trees headlessly without loading presentation assets", async () => {
+    const rendered = harness(); const headless = harness(); const trees: ForestTreeDescriptor[] = [];
+    try {
+      await populate(rendered);
+      for (const tile of scatterTilesForBounds(bounds)) await scatterWorldTile(headless.scene as never, headless.assets as never,
+        801, tile, { fallowmarch: headless.spec }, { semanticTreesOnly: true, onTree: tree => { trees.push(tree); } });
+      const byId = (a: ForestTreeDescriptor, b: ForestTreeDescriptor) => a.id.localeCompare(b.id);
+      expect(trees.sort(byId)).toEqual(rendered.registered.map(entry => entry.descriptor).sort(byId));
+      expect(headless.loaded.size).toBe(0); expect(headless.batches).toEqual([]);
+    } finally { rendered.dispose(); headless.dispose(); }
+  });
   it("keeps tree identities stable across tile order and replacement models", async () => {
     const forward = harness();
     const reverse = harness("tree_common_3");

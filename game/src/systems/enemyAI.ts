@@ -304,6 +304,8 @@ export interface EnemyAiDeps {
   events: EventBus;
   entities: CombatEntityPort;
   combat: CombatSystem;
+  /** Server selects one player's context per enemy. Each enemy still advances once per world tick. */
+  selectPlayerForEnemy?: (entity: SemanticEntity) => boolean | void;
   nav?: EnemyNavPort;
   /**
    * Height of the DRAWN ground at a point, for planting feet on it. The navmesh keeps XZ
@@ -345,6 +347,7 @@ export class EnemyAiSystem implements TickSystem {
   private readonly telegraphListeners: ((telegraph: BossTelegraph) => void)[] = [];
 
   private enemies: SemanticEntity[] = [];
+  private readonly simulated: SemanticEntity[] = [];
   private nextScanAtMs = -1;
   private scannedRealm: RegionId | null | undefined;
 
@@ -381,16 +384,21 @@ export class EnemyAiSystem implements TickSystem {
 
   tick(deltaMs: number, atMs: number): void {
     const state = this.deps.store.get();
+    this.simulated.length = 0;
 
     this.rescanIfDue(atMs);
     this.respawnDead(state, atMs);
 
-    const playerAlive = state.player.health > 0;
-    const playerPos = state.player.position;
-
     for (const entity of this.enemies) {
+      const nearbyPlayer = this.deps.selectPlayerForEnemy?.(entity);
+      const state = this.deps.store.get();
+      const playerAlive = state.player.health > 0;
+      const playerPos = state.player.position;
       const inPlayerRealm = sameRealm(state.player.regionId, entity.regionId);
       const previous = this.records.get(entity.id);
+      // A headless world need not wander unobserved idle actors. Respawn timers above and
+      // engaged/returning actors still advance, independently of client draw limits.
+      if (nearbyPlayer === false && (!previous || previous.mode === "idle")) continue;
       // A cached idle actor must stop immediately when the player changes floors. Existing
       // pursuers remain simulated only long enough to disengage and finish walking home.
       if (!inPlayerRealm && previous?.mode !== "aggro" && previous?.mode !== "returning") continue;
@@ -398,6 +406,7 @@ export class EnemyAiSystem implements TickSystem {
       if (runtime.state === "dead") {
         continue;
       }
+      this.simulated.push(entity);
 
       const record = this.recordFor(entity.id);
       const def = this.deps.combat.defFor(entity);
@@ -486,8 +495,9 @@ export class EnemyAiSystem implements TickSystem {
    * wrong - at rest not one pair in the world overlaps - so the fix belongs here, on the movement,
    * not on the placement.
    *
-   * Pairwise over the ACTIVE list, which `refreshActive` has already cut to what is near the
-   * player, so this is a few hundred distance checks a tick rather than a sweep of the world.
+   * Only actors actually simulated this tick participate. A multiplayer rescan includes all
+   * realms, so its cached enemy list must never become the separation list. Spatial buckets
+   * also keep independent encounters from testing every other encounter's bodies.
    *
    * The push is along the line between the two, which on a standoff ring is close to tangential -
    * so it spreads them around the player rather than fighting the pursuit that is pulling them in.
@@ -495,23 +505,43 @@ export class EnemyAiSystem implements TickSystem {
    * shoved through a wall to make room is worse than one standing too close.
    */
   private separate(deltaMs: number): void {
-    const active = this.enemies;
+    const active = this.simulated;
     const limit = (SEPARATION_SPEED_MPS * deltaMs) / 1000;
-    const state = this.deps.store.get();
+    const maxRadius = active.reduce((radius, entity) => Math.max(radius, entity.combat?.bodyRadius ?? DEFAULT_BODY_RADIUS), DEFAULT_BODY_RADIUS);
+    const cellSize = maxRadius * 2 + limit * 2;
+    const buckets = new Map<string, Set<number>>();
+    const cellOf = new Map<number, string>();
+    const index = (i: number) => {
+      const point = active[i]!.position;
+      const key = `${Math.floor(point[0] / cellSize)},${Math.floor(point[2] / cellSize)}`;
+      const old = cellOf.get(i);
+      if (old === key) return;
+      if (old !== undefined) buckets.get(old)!.delete(i);
+      let bucket = buckets.get(key);
+      if (!bucket) { bucket = new Set(); buckets.set(key, bucket); }
+      bucket.add(i); cellOf.set(i, key);
+    };
+    active.forEach((_, i) => index(i));
+    const committed = active.map(entity => {
+      this.deps.selectPlayerForEnemy?.(entity);
+      return this.deps.combat.isAttackCommitted(entity.id);
+    });
 
     for (let i = 0; i < active.length; i += 1) {
       const a = active[i]!;
-      if (state.world.enemies[a.id]?.state === "dead") continue;
-      if (!sameRealm(state.player.regionId, a.regionId) && this.records.get(a.id)?.mode !== "returning") continue;
       const ra = a.combat?.bodyRadius ?? DEFAULT_BODY_RADIUS;
-      const aCommitted = this.deps.combat.isAttackCommitted(a.id);
+      const aCommitted = committed[i]!;
+      const cx = Math.floor(a.position[0] / cellSize), cz = Math.floor(a.position[2] / cellSize);
+      const candidates: number[] = [];
+      for (let x = cx - 1; x <= cx + 1; x++) for (let z = cz - 1; z <= cz + 1; z++) {
+        for (const j of buckets.get(`${x},${z}`) ?? []) if (j > i) candidates.push(j);
+      }
+      candidates.sort((a, b) => a - b);
 
-      for (let j = i + 1; j < active.length; j += 1) {
+      for (const j of candidates) {
         const b = active[j]!;
-        if (state.world.enemies[b.id]?.state === "dead") continue;
         if (!sameRealm(a.regionId, b.regionId)) continue;
-        if (!sameRealm(state.player.regionId, b.regionId) && this.records.get(b.id)?.mode !== "returning") continue;
-        const bCommitted = this.deps.combat.isAttackCommitted(b.id);
+        const bCommitted = committed[j]!;
         if (aCommitted && bCommitted) continue;
         const want = ra + (b.combat?.bodyRadius ?? DEFAULT_BODY_RADIUS);
         // One movable neighbor takes the full overlap, with the same speed cap as before.
@@ -522,8 +552,8 @@ export class EnemyAiSystem implements TickSystem {
           want, limit / yieldFactor, i * 31 + j * 17,
         );
         if (!push) continue;
-        if (!aCommitted) this.nudge(a, -push.x * yieldFactor, -push.z * yieldFactor);
-        if (!bCommitted) this.nudge(b, push.x * yieldFactor, push.z * yieldFactor);
+        if (!aCommitted) { this.deps.selectPlayerForEnemy?.(a); this.nudge(a, -push.x * yieldFactor, -push.z * yieldFactor); index(i); }
+        if (!bCommitted) { this.deps.selectPlayerForEnemy?.(b); this.nudge(b, push.x * yieldFactor, push.z * yieldFactor); index(j); }
       }
     }
   }
@@ -902,10 +932,10 @@ export class EnemyAiSystem implements TickSystem {
       if (entity.meta?.galleryMotion === true) continue;
       const record = this.records.get(entity.id);
       const busy = record !== undefined && record.mode !== "idle";
-      if (!busy && !sameRealm(state.player.regionId, entity.regionId)) continue;
+      if (!this.deps.selectPlayerForEnemy && !busy && !sameRealm(state.player.regionId, entity.regionId)) continue;
       const runtime = state.world.enemies[entity.id];
       const dead = runtime?.state === "dead";
-      if (!busy && !dead && distanceXZ(from, entity.position) > AI_ACTIVE_RADIUS) continue;
+      if (!this.deps.selectPlayerForEnemy && !busy && !dead && distanceXZ(from, entity.position) > AI_ACTIVE_RADIUS) continue;
       next.push(entity);
     }
     this.enemies = next;

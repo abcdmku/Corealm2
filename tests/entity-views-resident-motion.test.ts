@@ -81,6 +81,20 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it("keeps an action playing across unchanged replicated locomotion heartbeats", async () => {
+    const f = await fixture([actor("remote")]);
+    try {
+      f.views.setLocomotion("remote", "idle");
+      expect(f.views.playAction("remote", "attack", {durationSeconds:1})).toBe(true);
+      for(let i=0;i<4;i++) {
+        f.views.update(.1,new THREE.Vector3());
+        f.views.setLocomotion("remote","idle");
+        expect(f.views.motionSnapshot("remote")?.motion).toBe("attack");
+      }
+      f.views.setLocomotion("remote","run");
+      expect(f.views.motionSnapshot("remote")?.motion).toBe("run");
+    } finally { f.dispose(); }
+  });
   it('keeps the animated rig until sliced distant preparation completes', async () => {
     const f = await fixture([actor('handoff')]);
     try {
@@ -169,7 +183,8 @@ describe("EntityViews resident motion", () => {
   it('keeps a moving sampled actor drawn and pickable until its replacement is ready', async () => {
     let ready = false;
     const entity = actor('streaming-handoff');
-    const f = await fixture([entity], 12, false, false, () => ready);
+    // The existing sampled representation is prepared; only its detailed replacement waits.
+    const f = await fixture([entity], 12, false, false, root => (root as THREE.Mesh).isMesh || ready);
     try {
       f.views.update(.016, new THREE.Vector3());
       expect(f.views.motionSnapshot(entity.id)?.path).toBe('sampled-rig');
@@ -191,7 +206,8 @@ describe("EntityViews resident motion", () => {
 
   it.each(['remove', 'demote'] as const)('releases an unfinished replacement on %s without leaking its slot', async action => {
     const entity = actor('cancel-handoff');
-    const f = await fixture([entity], 12, false, false, () => false);
+    // Allow the prepared sampled meshes while keeping the detailed replacement unfinished.
+    const f = await fixture([entity], 12, false, false, root => Boolean((root as THREE.Mesh).isMesh));
     try {
       f.views.update(.016, new THREE.Vector3());
       const record = (f.views as any).records.get(entity.id);
@@ -249,6 +265,12 @@ describe("EntityViews resident motion", () => {
       const ray = new THREE.Raycaster(new THREE.Vector3(0, .2, 5), new THREE.Vector3(0, 0, -1));
       f.views.update(0, new THREE.Vector3(), 0);
       f.scene.entityGroup.updateMatrixWorld(true);
+      const corpseMeshes: THREE.Mesh[] = [];
+      f.scene.entityGroup.traverse(object => {
+        if (object instanceof THREE.Mesh && object.userData.entityId === corpse.id) corpseMeshes.push(object);
+      });
+      expect(corpseMeshes.length).toBeGreaterThan(0);
+      expect(corpseMeshes.every(mesh => mesh.userData.prepareCorpseFade === true)).toBe(true);
       expect(f.views.pick(ray)).toBe(corpse.id);
       corpse.state = 'dead'; corpse.view!.diedAtMs = 0;
       f.views.sync([corpse, loot]);
@@ -274,6 +296,23 @@ describe("EntityViews resident motion", () => {
       f.views.update(0, new THREE.Vector3(100, 0, 0));
       expect(f.views.motionSnapshot(entity.id)?.path).toBe("sampled-rig");
     } finally { f.dispose(); }
+  });
+  it("lets pointer rays pass through non-pickable actors, including expanded capsules", async () => {
+    const front=actor("remote:player",[0,0,3]),rear=actor("enemy",[0,0,0]);
+    const f=await fixture([front,rear]);
+    try {
+      f.scene.entityGroup.updateMatrixWorld(true);
+      const ray=new THREE.Raycaster(new THREE.Vector3(0,.4,10),new THREE.Vector3(0,0,-1));
+      expect(f.views.pick(ray)).toBe(front.id);
+      front.view!.pickable=false;f.views.sync([front,rear]);
+      expect(f.views.pick(ray)).toBe(rear.id);
+      expect(f.views.pickAll(ray)).not.toContain(front.id);
+      front.view!.pickable="context";f.views.sync([front,rear]);
+      expect(f.views.pick(ray)).toBe(rear.id);
+      expect(f.views.pickHit(ray,true)?.entityId).toBe(front.id);
+      front.view!.pickable=true;f.views.sync([front,rear]);
+      expect(f.views.pick(ray)).toBe(front.id);
+    } finally {f.dispose();}
   });
   it('keeps running phase and translation while overlaying Hit, without touching support bones', async () => {
     for (const viewer of [new THREE.Vector3(), new THREE.Vector3(100, 0, 0)]) {

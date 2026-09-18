@@ -93,6 +93,7 @@ export interface CampfirePlacementProbes {
 }
 
 export interface CampfireDeps {
+  entityId?: EntityId;
   store: Store;
   events: EventBus;
   activity: CampfireActivityPort;
@@ -150,6 +151,7 @@ export function campfirePlacementCandidates(
 }
 
 export class CampfireSystem implements TickSystem {
+  private get entityId(): EntityId { return this.deps.entityId ?? CAMPFIRE_ENTITY_ID; }
   readonly name = "campfire";
 
   /** Expiry must be visible before ActivitySystem (order 60) advances a Cooking batch. */
@@ -222,7 +224,7 @@ export class CampfireSystem implements TickSystem {
       position,
     });
 
-    return ok({ entityId: CAMPFIRE_ENTITY_ID, lifetimeMs: fuel.lifetimeMs, position });
+    return ok({ entityId: this.entityId, lifetimeMs: fuel.lifetimeMs, position });
   }
 
   /**
@@ -234,8 +236,8 @@ export class CampfireSystem implements TickSystem {
     const persisted = state.world.campfire;
 
     if (!persisted) {
-      const stale = this.deps.entities.get(CAMPFIRE_ENTITY_ID);
-      if (stale?.meta?.campfire === true) this.deps.entities.remove(CAMPFIRE_ENTITY_ID);
+      const stale = this.deps.entities.get(this.entityId);
+      if (stale?.meta?.campfire === true) this.deps.entities.remove(this.entityId);
       return false;
     }
 
@@ -255,8 +257,8 @@ export class CampfireSystem implements TickSystem {
     const state = this.deps.store.get();
     const persisted = state.world.campfire;
     if (!persisted) {
-      const stale = this.deps.entities.get(CAMPFIRE_ENTITY_ID);
-      if (stale?.meta?.campfire === true) this.deps.entities.remove(CAMPFIRE_ENTITY_ID);
+      const stale = this.deps.entities.get(this.entityId);
+      if (stale?.meta?.campfire === true) this.deps.entities.remove(this.entityId);
       return;
     }
 
@@ -329,7 +331,7 @@ export class CampfireSystem implements TickSystem {
 
     // The id is stable, but remove first so EntityStore's spatial index cannot retain the old
     // position after a replacement.
-    this.deps.entities.remove(CAMPFIRE_ENTITY_ID);
+    this.deps.entities.remove(this.entityId);
     this.deps.entities.add(this.semanticEntity(state.world.campfire, fuel, state));
     this.deps.store.markDirty();
 
@@ -343,7 +345,7 @@ export class CampfireSystem implements TickSystem {
           tier: activity.tier,
           position,
         },
-        CAMPFIRE_ENTITY_ID,
+        this.entityId,
         atMs,
       );
     }
@@ -356,7 +358,7 @@ export class CampfireSystem implements TickSystem {
         expiresAtPlaySeconds,
         position,
       },
-      CAMPFIRE_ENTITY_ID,
+      this.entityId,
       atMs,
     );
 
@@ -375,7 +377,7 @@ export class CampfireSystem implements TickSystem {
     }
     return {
       kind: activity.kind,
-      entityId: CAMPFIRE_ENTITY_ID,
+      entityId: this.entityId,
       progress: progressToward(atMs, activity.endsAtMs, activity.buildTimeMs),
       completed: 0,
       remaining: 1,
@@ -418,7 +420,7 @@ export class CampfireSystem implements TickSystem {
     const persisted = state.world.campfire;
     if (!persisted) throw new Error("Cannot materialise a campfire without persisted state");
 
-    const existing = this.deps.entities.get(CAMPFIRE_ENTITY_ID);
+    const existing = this.deps.entities.get(this.entityId);
     const sameFire = existing?.meta?.campfire === true
       && existing.regionId === persisted.regionId
       && existing.tier === persisted.tier
@@ -427,7 +429,7 @@ export class CampfireSystem implements TickSystem {
       && samePosition(existing.position, persisted.position);
     if (existing && sameFire) return existing;
 
-    if (existing) this.deps.entities.remove(CAMPFIRE_ENTITY_ID);
+    if (existing) this.deps.entities.remove(this.entityId);
     const entity = this.semanticEntity(persisted, fuel, state);
     this.deps.entities.add(entity);
     return entity;
@@ -439,7 +441,7 @@ export class CampfireSystem implements TickSystem {
     state: GameState,
   ): SemanticEntity {
     return {
-      id: CAMPFIRE_ENTITY_ID,
+      id: this.entityId,
       archetype: "station",
       name: "Player Campfire",
       tier: persisted.tier,
@@ -472,7 +474,7 @@ export class CampfireSystem implements TickSystem {
   private expire(state: GameState, atMs: number): void {
     const expired = state.world.campfire;
     if (!expired) return;
-    this.deps.entities.remove(CAMPFIRE_ENTITY_ID);
+    this.deps.entities.remove(this.entityId);
     state.world.campfire = null;
     this.deps.store.markDirty();
     this.deps.events.emit(
@@ -482,7 +484,7 @@ export class CampfireSystem implements TickSystem {
         tier: expired.tier,
         position: expired.position,
       },
-      CAMPFIRE_ENTITY_ID,
+      this.entityId,
       atMs,
     );
   }

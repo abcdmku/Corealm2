@@ -357,7 +357,28 @@ export class Movement {
     this.ports = { ...this.ports, ...ports };
   }
 
+  private directInputSink: ((input: DirectInput) => void) | null = null;
+
+  /** The production input controller keeps camera-relative controls across session types. */
+  setDirectInputSink(sink: ((input: DirectInput) => void) | null): void {
+    this.directInputSink = sink;
+    this.direct = { forward: 0, strafe: 0, cameraYaw: 0 };
+  }
+  /** Presentation prediction shares collision rules, with an isolated event bus and no travel callbacks. */
+  createPrediction(events:EventBus):Movement {
+    const entities=this.ports.entities;
+    return new Movement(this.nav,events,{...this.ports,shortcuts:undefined,
+      // Remote player models are presentation NPCs. The server's PvE collision
+      // world contains NPCs/enemies, but does not make other players solid.
+      entities:entities ? {index:()=>entities.index(),get:id=>{
+        const entity=entities.get(id);
+        return entity?.meta?.remotePlayer === true ? undefined : entity;
+      }} : undefined,
+    });
+  }
+
   setDirectInput(input: DirectInput): void {
+    if (this.directInputSink) { this.directInputSink(input); return; }
     this.direct = input;
   }
 

@@ -6,6 +6,36 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
   return `${mesh.type}:${mesh.geometry.uuid}:${mesh.receiveShadow}:${Boolean(instanced.instanceColor)}:${Boolean(instanced.morphTexture)}`;
 }
 
+/** Compile corpse transparency using the real skinning/geometry and retained material copies. */
+export function compileCorpseFadeVariants(
+  renderer: THREE.WebGLRenderer,
+  scene: THREE.Scene,
+  camera: THREE.Camera,
+  meshes: readonly THREE.Mesh[],
+  compilationMaterial: (source: THREE.Material) => THREE.Material,
+): void {
+  const fading = meshes.filter(mesh => mesh.userData.prepareCorpseFade === true);
+  if (!fading.length) return;
+  const originals = fading.map(mesh => mesh.material);
+  const flags = new Map<THREE.Material, { transparent: boolean; depthWrite: boolean }>();
+  try {
+    const variant = (source: THREE.Material): THREE.Material => {
+      const clone = compilationMaterial(source);
+      if (!flags.has(clone)) flags.set(clone, { transparent: clone.transparent, depthWrite: clone.depthWrite });
+      clone.transparent = true;
+      clone.depthWrite = false;
+      return clone;
+    };
+    for (const mesh of fading) mesh.material = Array.isArray(mesh.material) ? mesh.material.map(variant) : variant(mesh.material);
+    const view = new THREE.Group();
+    view.traverse = callback => { callback(view); for (const mesh of fading) callback(mesh); };
+    renderer.compile(view, camera, scene);
+  } finally {
+    fading.forEach((mesh, index) => { mesh.material = originals[index]!; });
+    for (const [material, original] of flags) Object.assign(material, original);
+  }
+}
+
 /** Compile real caster meshes with their depth hooks and the scene's shadow-light counts. */
 export function compileShadowMeshes(
   renderer: THREE.WebGLRenderer,

@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 /**
  * The canonical agent tool surface.
  *
@@ -69,83 +70,80 @@ function createWorldTools({ api, session }: ToolDeps): ToolDef[] {
     defineTool(TOOL_SPECS.corealm_search_docs, async (args) => api.searchDocs(asString(args.query), asNumber(args.limit, 5))),
 
     // ---------------------------------------------------------- movement
-    defineTool(TOOL_SPECS.corealm_move_to, (args) => {
-      if (typeof args.entityId === "string") return unwrap(api.moveTo({ entityId: args.entityId }));
-      if (typeof args.locationId === "string") return unwrap(api.moveTo({ locationId: args.locationId }));
-      if (Array.isArray(args.position)) return unwrap(api.moveTo({ position: args.position as unknown as Vec3 }));
+    defineTool(TOOL_SPECS.corealm_move_to, async (args) => {
+      if (typeof args.entityId === "string") return unwrap(await sendGameCommand(api, "moveTo", { entityId: args.entityId }));
+      if (typeof args.locationId === "string") return unwrap(await sendGameCommand(api, "moveTo", { locationId: args.locationId }));
+      if (Array.isArray(args.position)) return unwrap(await sendGameCommand(api, "moveTo", { position: args.position as unknown as Vec3 }));
       return failure("INVALID_ARGUMENT", "Give one of entityId, locationId, or position");
     }),
 
-    defineTool(TOOL_SPECS.corealm_stop, () => unwrap(api.stop())),
+    defineTool(TOOL_SPECS.corealm_stop, async () => unwrap(await sendGameCommand(api, "stop"))),
 
     // ------------------------------------------------------- interaction
-    defineTool(TOOL_SPECS.corealm_interact, (args) => unwrap(api.interact(asString(args.entityId), asString(args.interaction) as InteractionId))),
+    defineTool(TOOL_SPECS.corealm_interact, async (args) => unwrap(await sendGameCommand(api, "interact", asString(args.entityId), asString(args.interaction) as InteractionId))),
 
-    defineTool(TOOL_SPECS.corealm_take_loot, (args) => unwrap(api.takeLoot(
-      asString(args.entityId),
-      typeof args.stackIndex === "number" ? Math.floor(args.stackIndex) : undefined,
-    ))),
+    defineTool(TOOL_SPECS.corealm_take_loot, async (args) => unwrap(await sendGameCommand(api, "takeLoot", asString(args.entityId), typeof args.stackIndex === "number" ? Math.floor(args.stackIndex) : undefined))),
 
-    defineTool(TOOL_SPECS.corealm_use_item, (args) => {
+    defineTool(TOOL_SPECS.corealm_use_item, async (args) => {
       const itemId = asString(args.itemId);
-      return unwrap(api.useItem(itemId));
+      return unwrap(await sendGameCommand(api, "useItem", itemId));
     }),
 
-    defineTool(TOOL_SPECS.corealm_equip, (args) => {
-      if (typeof args.unequipSlot === "string") return unwrap(api.unequipItem(args.unequipSlot as EquipSlot));
-      if (typeof args.itemId === "string") return unwrap(api.equipItem(args.itemId, typeof args.targetSlot === "string" ? args.targetSlot as EquipSlot : undefined));
+    defineTool(TOOL_SPECS.corealm_equip, async (args) => {
+      if (typeof args.unequipSlot === "string") return unwrap(await sendGameCommand(api, "unequipItem", args.unequipSlot as EquipSlot));
+      if (typeof args.itemId === "string") return unwrap(await sendGameCommand(api, "equipItem", args.itemId, typeof args.targetSlot === "string" ? args.targetSlot as EquipSlot : undefined));
       return failure("INVALID_ARGUMENT", "Give either itemId or unequipSlot");
     }),
 
-    defineTool(TOOL_SPECS.corealm_produce, (args) => {
+    defineTool(TOOL_SPECS.corealm_produce, async (args) => {
       const recipeId = asString(args.recipeId) as RecipeId;
       const quantity = asNumber(args.quantity, 1);
       return unwrap(typeof args.stationId === "string"
-        ? api.produceAt(args.stationId, recipeId, quantity)
-        : api.produce(recipeId, quantity));
+        ? await sendGameCommand(api, "produceAt", args.stationId, recipeId, quantity)
+        : await sendGameCommand(api, "produce", recipeId, quantity));
     }),
 
-    defineTool(TOOL_SPECS.corealm_build_campfire, (args) => unwrap(api.buildCampfire(asString(args.logItemId)))),
+    defineTool(TOOL_SPECS.corealm_build_campfire, async (args) => unwrap(await sendGameCommand(api, "buildCampfire", asString(args.logItemId)))),
 
     // ------------------------------------------------------------ combat
-    defineTool(TOOL_SPECS.corealm_attack, (args) => {
+    defineTool(TOOL_SPECS.corealm_attack, async (args) => {
       const entityId = asString(args.entityId);
-      if (typeof args.spellId !== "string") return unwrap(api.attack(entityId));
+      if (typeof args.spellId !== "string") return unwrap(await sendGameCommand(api, "attack", entityId));
       // ONE result shape for one tool. `GameApi.cast` reports its cadence as `castMs` and
       // `GameApi.attack` as `attackSpeedMs`; both names are emitted so an agent pacing itself off
       // either one keeps working whichever branch ran.
-      const cast = api.cast(args.spellId as SpellId, entityId);
+      const cast = await sendGameCommand(api, "cast", args.spellId as SpellId, entityId);
       if (!cast.ok) return unwrap(cast);
       return { targetId: cast.value.targetId, castMs: cast.value.castMs, attackSpeedMs: cast.value.castMs };
     }),
 
-    defineTool(TOOL_SPECS.corealm_spellbook, (args) => {
+    defineTool(TOOL_SPECS.corealm_spellbook, async (args) => {
       if (args.op === "select") {
         if (!("spellId" in args)) return failure("INVALID_ARGUMENT", "spellId is required when op is select");
         const raw = args.spellId;
-        return unwrap(api.setPreferredSpell(typeof raw === "string" ? (raw as SpellId) : null));
+        return unwrap(await sendGameCommand(api, "setPreferredSpell", typeof raw === "string" ? (raw as SpellId) : null));
       }
       return api.getSpellbook();
     }),
 
     // -------------------------------------------------------- npc, trade
-    defineTool(TOOL_SPECS.corealm_dialogue, (args, context) => {
+    defineTool(TOOL_SPECS.corealm_dialogue, async (args, context) => {
       const op = args.op === "choose" ? "choose" : args.op === "end" ? "end" : "state";
       if (op !== "state" && !context.bypassSession) {
         const refused = session.guard("corealm_dialogue", "act");
         if (refused) return refused;
       }
       if (op === "choose" && typeof args.optionId !== "string") return failure("INVALID_ARGUMENT", "optionId is required when op is choose");
-      return unwrap(api.dialogue(op, typeof args.optionId === "string" ? args.optionId : undefined));
+      return unwrap(await sendGameCommand(api, "dialogue", op, typeof args.optionId === "string" ? args.optionId : undefined));
     }),
 
-    defineTool(TOOL_SPECS.corealm_bank, (args, context) => {
+    defineTool(TOOL_SPECS.corealm_bank, async (args, context) => {
       const op = args.op as "list" | "deposit" | "withdraw" | "depositAll";
       if (op !== "list" && !context.bypassSession) {
         const refused = session.guard("corealm_bank", "act");
         if (refused) return refused;
       }
-      return unwrap(api.bank(op, {
+      return unwrap(await sendGameCommand(api, "bank", op, {
         ...(typeof args.itemId === "string" ? { itemId: args.itemId as ItemId } : {}),
         ...(typeof args.quantity === "number" ? { quantity: args.quantity } : {}),
         ...(typeof args.filter === "string" ? { filter: args.filter } : {}),
@@ -165,7 +163,7 @@ function createWorldTools({ api, session }: ToolDeps): ToolDef[] {
         );
         if (approval) return approval;
       }
-      return unwrap(api.shop(op, {
+      return unwrap(await sendGameCommand(api, "shop", op, {
         ...(typeof args.shopId === "string" ? { shopId: args.shopId } : {}),
         ...(typeof args.itemId === "string" ? { itemId: args.itemId as ItemId } : {}),
         ...(typeof args.quantity === "number" ? { quantity: args.quantity } : {}),

@@ -1077,5 +1077,17 @@ export function installGameDebug(deps: DebugDeps): void {
     },
   };
 
-  (window as unknown as { __gameDebug?: unknown }).__gameDebug = debugApi;
+  const offlineWrites = new Set(["reset", "setPaused", "setTimeScale", "advanceGameTime", "teleport", "grantXp", "setSkillLevel",
+    "setCurrency", "setHealth", "loadSaveBlob", "depleteNode", "forceRespawn", "setQuestStage", "giveItem", "seedMagic",
+    "focusCamera", "focusEntity", "focusLocation", "setCameraPreset", "inspectPose"]);
+  (window as unknown as { __gameDebug?: unknown }).__gameDebug = new Proxy(debugApi, {
+    get(target, property, receiver) {
+      const value: unknown = Reflect.get(target, property, receiver);
+      if (typeof property !== "string" || !offlineWrites.has(property) || typeof value !== "function") return value;
+      return (...args: unknown[]) => {
+        if (api.isOnlineSession()) throw new Error("UNAVAILABLE: offline debug writes are disabled during a multiplayer session");
+        return Reflect.apply(value, target, args);
+      };
+    },
+  });
 }

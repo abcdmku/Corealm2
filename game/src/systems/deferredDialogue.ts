@@ -37,7 +37,7 @@ export class DeferredDialogueSystem {
   ) {
     deps.dispatcher.registerHandler("talk", (context) => this.handleTalk(context));
     this.unsubscribeStore = deps.store.subscribe(() => this.checkPending());
-    this.unsubscribeEvents = deps.events.subscribe((event) => {
+    this.unsubscribeEvents = deps.events.subscribeSimulation((event) => {
       if (event.type === "player.died") this.cancelPending(true);
       else this.checkPending();
     });
@@ -153,6 +153,7 @@ export class DeferredDialogueSystem {
   }
 
   private resume(request: PendingConversation): void {
+    if (!this.deps.events.isSimulationEnabled()) { this.pending=null; this.stopWatcher(); return; }
     if (!this.isCurrent(request)) {
       if (this.pending === request) this.cancelPending(true);
       return;
@@ -201,6 +202,7 @@ export class DeferredDialogueSystem {
   }
 
   private checkPending(): void {
+    if (!this.deps.events.isSimulationEnabled()) { this.pending=null; this.stopWatcher(); return; }
     if (this.pending && !this.isCurrent(this.pending)) this.cancelPending(true);
   }
 

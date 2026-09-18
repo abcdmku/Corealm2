@@ -68,7 +68,7 @@ export interface HuntContractsDeps {
 export class HuntContractsSystem {
   private readonly unsubscribe: () => void;
   constructor(private readonly deps: HuntContractsDeps) {
-    this.unsubscribe = deps.events.subscribe((event) => this.onEvent(event));
+    this.unsubscribe = deps.events.subscribeSimulation((event) => this.onEvent(event));
   }
   dispose(): void { this.unsubscribe(); }
   snapshot(): HuntContractsState { return structuredClone(this.deps.state()); }

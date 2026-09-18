@@ -18,6 +18,7 @@ import { REGIONS } from "../content/regions.js";
 import { Rng } from "../core/rng.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import type { AssetPriority, AssetRegistry } from "../render/assets.js";
+type ScatterAssets = Pick<AssetRegistry, "entry" | "byTags" | "getManifest" | "loadMany" | "instance" | "assetSize">;
 import {
   createValueNoise,
   type GrassSpritePlacement,
@@ -527,6 +528,8 @@ export interface ScatterTileLoadOptions {
   /** Offline release baking records the same placements without allocating their GPU meshes. */
   render?: boolean;
   cache?: GenerationCachePort;
+  /** Headless hosts consume identical tree placements without allocating presentation meshes. */
+  semanticTreesOnly?: boolean;
   priority?: AssetPriority;
   /** Spawn-visible assets use the registry's primary retry callbacks. */
   primary?: boolean;
@@ -1221,7 +1224,7 @@ const TREE_TRUNK_RADII: Readonly<Record<string, number>> = Object.fromEntries(
  * layer to two variants is exactly the failure that is hardest to see in a screenshot.
  */
 function resolveSpecies(
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   layer: ScatterLayerSpec,
 ): { species: ResolvedSpecies[]; unknown: string[] } {
   const declared: ScatterSpeciesSpec[] = layer.species
@@ -1565,7 +1568,7 @@ function layerContext(
 
 /** Plan the unchanged source stream without loading GLBs or publishing any scene objects. */
 async function planScatterLayer(
-  ctx: LayerContext, assets: AssetRegistry, layer: ScatterLayerSpec, yieldToMain?: () => Promise<void>,
+  ctx: LayerContext, assets: ScatterAssets, layer: ScatterLayerSpec, yieldToMain?: () => Promise<void>,
 ): Promise<ScatterLayerPlan> {
   const { species, unknown } = resolveSpecies(assets, layer);
   const result = createScatterResult(ctx.regionId);
@@ -1603,7 +1606,7 @@ async function planScatterLayer(
 }
 
 /** Actual static crown envelope about the placement origin; shader wind is not growth space. */
-function understoryRadius(assets: AssetRegistry, assetId: string, placement: ScatterPlacement): number {
+function understoryRadius(assets: ScatterAssets, assetId: string, placement: ScatterPlacement): number {
   const asset = assets.entry(assetId)!;
   const size = asset.size;
   const base = asset.base ?? { x: -size.x / 2, y: 0, z: -size.z / 2 };
@@ -1636,7 +1639,7 @@ function understoryPriority(identity: string, seed: number): number {
 }
 
 function understoryInputs(
-  scene: WorldScene, assets: AssetRegistry, seed: number, specs: Partial<Record<RegionId, RegionScatterSpec>>,
+  scene: WorldScene, assets: ScatterAssets, seed: number, specs: Partial<Record<RegionId, RegionScatterSpec>>,
 ): Pick<UnderstoryPlanCache, "inputs" | "signature"> {
   const walkable = scene.getWalkableMeshes?.();
   const inputs = [
@@ -1661,7 +1664,7 @@ function sameUnderstoryInputs(
 }
 
 function understoryCache(
-  scene: WorldScene, assets: AssetRegistry, seed: number, specs: Partial<Record<RegionId, RegionScatterSpec>>,
+  scene: WorldScene, assets: ScatterAssets, seed: number, specs: Partial<Record<RegionId, RegionScatterSpec>>,
 ): UnderstoryPlanCache {
   const { inputs, signature } = understoryInputs(scene, assets, seed, specs);
   const previous = understoryPlanCaches.get(scene);
@@ -1702,7 +1705,7 @@ function understoryCache(
 }
 
 async function planUnderstoryTile(
-  cache: UnderstoryPlanCache, scene: WorldScene, assets: AssetRegistry, seed: number, tile: ScatterTile,
+  cache: UnderstoryPlanCache, scene: WorldScene, assets: ScatterAssets, seed: number, tile: ScatterTile,
   specs: Partial<Record<RegionId, RegionScatterSpec>>, yieldToMain?: () => Promise<void>,
 ): Promise<UnderstoryTilePlan> {
   const cached = cache.completed.get(tile.id);
@@ -1759,7 +1762,7 @@ async function planUnderstoryTile(
 }
 
 async function understoryCompetition(
-  scene: WorldScene, assets: AssetRegistry, seed: number, tile: ScatterTile,
+  scene: WorldScene, assets: ScatterAssets, seed: number, tile: ScatterTile,
   specs: Partial<Record<RegionId, RegionScatterSpec>>, yieldToMain?: () => Promise<void>,
 ): Promise<{ own: UnderstoryTilePlan; rejected: Set<Candidate>; assertCurrent: () => void }> {
   const cache = understoryCache(scene, assets, seed, specs);
@@ -1822,7 +1825,7 @@ async function understoryCompetition(
 /** Places one generation tile of one visual-biome recipe. */
 async function scatterRegionTile(
   scene: WorldScene,
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   regionId: RegionId,
   spec: RegionScatterSpec,
   seed: number,
@@ -1857,6 +1860,7 @@ async function scatterRegionTile(
   const buckets = new Map<string, InstanceBucket>();
 
   for (const layer of spec.layers) {
+    if (loadOptions.semanticTreesOnly && !resolveSpecies(assets,layer).species.some(species=>species.treeSpecies)) continue;
     const plan = competition?.own.layers.get(regionId)?.get(layer)
       ?? await planScatterLayer(ctx, assets, layer, loadOptions.yieldToMain);
     result.rejected += plan.rejected;
@@ -1873,7 +1877,7 @@ async function scatterRegionTile(
         .filter((candidate) => candidate.authored || !competition?.rejected.has(candidate))
         .map((candidate) => candidate.species.assetId)
         .filter((assetId) => !isGrassSprite(assetId)))];
-      if (requested.length > 0 && loadOptions.render !== false) {
+      if (requested.length > 0 && loadOptions.render !== false && !loadOptions.semanticTreesOnly) {
         await assets.loadMany(requested, {
           priority: loadOptions.priority ?? "background",
           regionId: loadOptions.regionId,
@@ -1935,6 +1939,10 @@ async function scatterRegionTile(
         result.rejected += 1;
         continue;
       }
+      if(loadOptions.semanticTreesOnly){
+        if(placement.forestTree)loadOptions.onTree?.(placement.forestTree,()=>{});
+        continue;
+      }
       const key = `${assetId}|${castShadow ? "s" : "-"}`;
       const found = buckets.get(key);
       const bucket: MeshInstanceBucket = found?.kind === "mesh"
@@ -1955,7 +1963,7 @@ async function scatterRegionTile(
 
   competition?.assertCurrent();
   capture?.push({ regionId, result: structuredClone(result), buckets: [...buckets.values()] });
-  if (loadOptions.render === false) return result;
+  if (loadOptions.render === false || loadOptions.semanticTreesOnly) return result;
   return renderScatterBuckets(scene, assets, regionId, tile, loadOptions, result, buckets.values());
 }
 
@@ -1992,7 +2000,7 @@ function validScatterTile(value: unknown, signature: string): value is CachedSca
 }
 
 async function renderScatterBuckets(
-  scene: WorldScene, assets: AssetRegistry, regionId: RegionId, tile: ScatterTile,
+  scene: WorldScene, assets: ScatterAssets, regionId: RegionId, tile: ScatterTile,
   loadOptions: ScatterTileLoadOptions, result: ScatterResult, buckets: Iterable<InstanceBucket>,
 ): Promise<ScatterResult> {
   const meshSpan = bootTelemetry.startSpan(BOOT_SPANS.SCATTER_MESHES, {
@@ -2078,13 +2086,13 @@ async function renderScatterBuckets(
 /** Generates one spatial tile across every authored visual-biome recipe. */
 export async function scatterWorldTile(
   scene: WorldScene,
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   seed: number,
   tile: ScatterTile,
   specs: Partial<Record<RegionId, RegionScatterSpec>> = DEFAULT_SCATTER,
   loadOptions: ScatterTileLoadOptions = {},
 ): Promise<ScatterResult[]> {
-  const cache = loadOptions.cache;
+  const cache = loadOptions.semanticTreesOnly ? undefined : loadOptions.cache;
   const signature = cache ? await worldDataSha256(new TextEncoder().encode(JSON.stringify({ seed, tile, nativeGrass: scene.hasNativeGrass?.(),
     bounds: scene.getWorldBounds(), restamps: scene.getTerrainBuildStats().restampPassCount,
     specs: await Promise.all(Object.entries(specs).map(async ([id, spec]) => [id, { ...spec,
@@ -2103,7 +2111,7 @@ export async function scatterWorldTile(
     return results;
   }
   const results: ScatterResult[] = [], regions: CachedScatterRegion[] = [];
-  const competition = await understoryCompetition(scene, assets, seed, tile, specs, loadOptions.yieldToMain);
+  const competition = loadOptions.semanticTreesOnly ? undefined : await understoryCompetition(scene, assets, seed, tile, specs, loadOptions.yieldToMain);
   for (const layout of scene.describeRegions()) {
     const spec = specs[layout.regionId];
     if (!spec) continue;
@@ -2119,7 +2127,7 @@ export async function scatterWorldTile(
  */
 export async function scatterRegion(
   scene: WorldScene,
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   regionId: RegionId,
   spec: RegionScatterSpec,
   seed: number,
@@ -2324,7 +2332,7 @@ function composePlacement(
   ctx: LayerContext,
   entry: ResolvedSpecies,
   candidate: Candidate,
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   rng: Rng,
 ): ForestScatterPlacement {
   const surface = ctx.scene.scatterSurfaceAt(candidate.x, candidate.z);
@@ -2413,7 +2421,7 @@ function composeGrassPlacement(
   ctx: LayerContext,
   entry: ResolvedSpecies,
   candidate: Candidate,
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   rng: Rng,
 ): GrassSpritePlacement {
   const placement = composePlacement(layer, ctx, entry, candidate, assets, rng);
@@ -2472,7 +2480,7 @@ function clampRange(value: number, low: number, high: number): number {
 /** Dresses every region the scene knows about. */
 export async function scatterWorld(
   scene: WorldScene,
-  assets: AssetRegistry,
+  assets: ScatterAssets,
   seed: number,
   specs: Partial<Record<RegionId, RegionScatterSpec>> = DEFAULT_SCATTER,
 ): Promise<ScatterResult[]> {

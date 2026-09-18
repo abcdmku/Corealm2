@@ -19,6 +19,7 @@ export const ELEMENT_COLOURS:Readonly<Record<SpellElement,{core:number;edge:numb
 };
 export interface SpellVfxDeps {
   parent:THREE.Object3D;camera:THREE.Camera;groundHeightAt?(x:number,z:number):number;
+  multiplayer?:boolean;
   /** The staff socket the invocation's gathering light binds to, when a rig is drawn. */
   castingFocus?():Vec3|undefined;
 }
@@ -30,6 +31,8 @@ export interface SpellCastRequest {
   from:Vec3;to:Vec3;impactPoint?:Vec3;hit:boolean;flightMsOverride?:number;
   /** Sim milliseconds per render millisecond, so a scaled harness keeps pulses on their damage. */
   timeScale?:number;
+  /** Remote casters use their own origin instead of the local player's staff socket. */
+  remote?:boolean;
 }
 
 /** The elemental id behind a world spell id, when it is one of the twenty advanced invocations. */
@@ -48,6 +51,7 @@ class BasicSlot {
   readonly unregister:()=>void;
   cast:ElementalCast|null=null;
   id="";element:SpellElement="wind";end=0;
+  remote=false;
   constructor(parent:THREE.Object3D,ground:(x:number,z:number)=>number){
     this.group.name="basic-spell-cast";parent.add(this.group);
     this.basic=new BasicElementalVfx(this.group,ground,this.light,this.fragments,this.fluids);
@@ -65,7 +69,7 @@ class BasicSlot {
 }
 
 /**
- * The world's invocation layer: one lab renderer, one cast at a time.
+ * One caster's invocation layer, using the lab's production renderer.
  *
  * Build the production pools and their four point lights before boot shader warmup. Adding those
  * lights on the first cast changes every lit material's shader variant during the invocation.
@@ -76,9 +80,10 @@ class AdvancedSlot {
   readonly vfx:ElementalSpellVfx;
   cast:ElementalCast|null=null;
   id="";end=0;
-  constructor(parent:THREE.Object3D,ground:(x:number,z:number)=>number,camera:THREE.Camera){
+  focus:Vec3|undefined;
+  constructor(parent:THREE.Object3D,ground:(x:number,z:number)=>number,camera:THREE.Camera,pointLights=4){
     this.group.name="advanced-spell-cast";parent.add(this.group);
-    this.vfx=new ElementalSpellVfx(this.group,ground,camera);
+    this.vfx=new ElementalSpellVfx(this.group,ground,camera,pointLights);
     this.vfx.update(null,0);
   }
   update(now:number,focus?:Vec3):void {
@@ -90,23 +95,38 @@ class AdvancedSlot {
 
 /** Sixteen auto-cast spells use four sizes of the same four basic production recipes. */
 export class SpellVfx {
+  private readonly root = new THREE.Group();
   private readonly slots:BasicSlot[]=[];
   private advanced:AdvancedSlot|null=null;
+  private readonly remoteAdvanced:AdvancedSlot[]=[];
   private advancedGround:number|null=null;
   private lastNow=0;
   constructor(private readonly deps:SpellVfxDeps){
-    this.advanced=new AdvancedSlot(deps.parent,deps.groundHeightAt??(()=>this.advancedGround??0),deps.camera);
+    deps.parent.add(this.root);
+    this.advanced=new AdvancedSlot(this.root,deps.groundHeightAt??(()=>this.advancedGround??0),deps.camera);
+    for(let i=0;i<4;i++){
+      const slot=new BasicSlot(this.root,deps.groundHeightAt??(()=>0));slot.update(0);this.slots.push(slot);
+    }
+    if(deps.multiplayer){
+      // Prepare bounded remote pools before gameplay. Constructing an invocation in a socket
+      // callback otherwise blocks delivery and input while its geometry is allocated.
+      for(let i=0;i<4;i++)this.remoteAdvanced.push(new AdvancedSlot(this.root,deps.groundHeightAt??(()=>0),deps.camera,0));
+      for(let i=0;i<32;i++){
+        const slot=new BasicSlot(this.root,deps.groundHeightAt??(()=>0));slot.remote=true;slot.update(0);this.slots.push(slot);
+      }
+    }
   }
   /** Actual production meshes and lights, available before the first invocation. */
-  preparationRoot():THREE.Object3D{return this.advanced!.group;}
+  preparationRoot():THREE.Object3D{return this.root;}
   flightMs(rung:SpellRung,distanceM=0):number{return spellFlightMs(rung,distanceM);}
   cast(request:SpellCastRequest,nowMs:number):void {
     if(this.slots.some(s=>s.cast&&s.id===request.id))return;
     const advancedId=advancedElementalId(request.spellId);
     if(advancedId){this.castAdvanced(advancedId,request,nowMs);return;}
-    let slot=this.slots.find(s=>!s.cast||nowMs>=s.end);
-    if(!slot&&this.slots.length<4){slot=new BasicSlot(this.deps.parent,this.deps.groundHeightAt??(()=>0));this.slots.push(slot);}
-    slot??=this.slots.reduce((a,b)=>a.end<b.end?a:b);
+    const remote=request.remote===true, pool=this.slots.filter(s=>s.remote===remote);
+    let slot=pool.find(s=>!s.cast||nowMs>=s.end);
+    if(!slot&&pool.length<(remote?32:4)){slot=new BasicSlot(this.root,this.deps.groundHeightAt??(()=>0));slot.remote=remote;this.slots.push(slot);}
+    slot??=pool.reduce((a,b)=>a.end<b.end?a:b);
     const ground=this.deps.groundHeightAt??(()=>request.to[1]),variant=BASIC_SPELL_VARIANTS[request.rung];
     const impact=request.impactPoint??spellImpactPoint(request.to);
     const span=Math.hypot(request.to[0]-request.from[0],request.to[2]-request.from[2])||1;
@@ -131,27 +151,39 @@ export class SpellVfx {
    * onto the render clock the way `flightMsOverride` does for a bolt.
    */
   private castAdvanced(spellId:ElementalSpellId,request:SpellCastRequest,nowMs:number):void {
-    if(this.advanced?.cast&&this.advanced.id===request.id)return;
+    if([this.advanced,...this.remoteAdvanced].some(s=>s?.cast&&s.id===request.id))return;
     const ground=this.deps.groundHeightAt??(()=>request.to[1]);
     this.advancedGround??=request.to[1];
-    this.advanced??=new AdvancedSlot(this.deps.parent,ground,this.deps.camera);
+    this.advanced??=new AdvancedSlot(this.root,ground,this.deps.camera);
     const scale=1/(request.timeScale||1);
     const origin:Vec3=[request.from[0],ground(request.from[0],request.from[2]),request.from[2]];
     const aim:Vec3=[request.to[0],ground(request.to[0],request.to[2]),request.to[2]];
     const pulses=planElementalAttack(spellId,origin,aim);
     const impact=request.impactPoint??spellImpactPoint(request.to);
-    const slot=this.advanced;
+    let slot=this.advanced;
+    if (request.remote) {
+      let available=this.remoteAdvanced.find(s=>!s.cast||nowMs>=s.end);
+      if(!available&&this.remoteAdvanced.length<4){
+        // Remote effects share the warmed shader variants. Additional point lights would
+        // recompile every lit world material in the middle of a cast.
+        available=new AdvancedSlot(this.root,ground,this.deps.camera,0);this.remoteAdvanced.push(available);
+      }
+      slot=available??this.remoteAdvanced.reduce((a,b)=>a.end<b.end?a:b);
+    }
+    slot.focus=request.remote?request.from:undefined;
     slot.cast={id:nowMs,spellId,origin,aim,started:nowMs,pulses,resolved:0,damage:0,hits:0,
       impactHeight:impact[1]-aim[1],missed:!request.hit,presentationScale:scale};
     slot.id=request.id;slot.end=nowMs+elementalDuration(spellId,pulses.at(-1)!.at)*scale;
   }
   update(nowMs:number):void {
     this.lastNow=nowMs;
-    for(const slot of this.slots)slot.update(nowMs);
+    for(const slot of this.slots)if(slot.cast)slot.update(nowMs);
     this.advanced?.update(nowMs,this.deps.castingFocus?.());
+    for(const slot of this.remoteAdvanced)if(slot.cast)slot.update(nowMs,slot.focus);
   }
   liveParticles():number{
-    return this.slots.reduce((n,s)=>n+s.light.instances+s.fragments.instances,0)+(this.advanced?.cast?this.advanced.vfx.particleCount:0);
+    return this.slots.reduce((n,s)=>n+s.light.instances+s.fragments.instances,0)+(this.advanced?.cast?this.advanced.vfx.particleCount:0)
+      +this.remoteAdvanced.reduce((n,s)=>n+(s.cast?s.vfx.particleCount:0),0);
   }
   drawCalls():number {
     let draws=0;for(const slot of this.slots)slot.group.traverse(o=>{
@@ -160,14 +192,15 @@ export class SpellVfx {
     });return draws;
   }
   getState(){
-    const basics=this.slots.filter(s=>s.cast).map(s=>({id:s.id,element:s.element,spellId:s.cast!.spellId as string,impactHeight:s.cast!.impactHeight,
+    const basics=this.slots.filter(s=>s.cast).map(s=>({id:s.id,element:s.element,spellId:s.cast!.spellId as string,impactHeight:s.cast!.impactHeight,origin:s.cast!.origin,
       size:s.cast!.visualScale,particles:s.light.instances+s.fragments.instances,dropped:s.light.dropped+s.fragments.dropped+s.fluids.dropped+s.basic.dropped+s.arcane.dropped}));
-    const a=this.advanced;
-    if(a?.cast)basics.push({id:a.id,element:ELEMENTAL_SPELLS.find(s=>s.id===a.cast!.spellId)!.element,spellId:a.cast.spellId,impactHeight:a.cast.impactHeight,
+    for(const a of [this.advanced,...this.remoteAdvanced])
+    if(a?.cast)basics.push({id:a.id,element:ELEMENTAL_SPELLS.find(s=>s.id===a.cast!.spellId)!.element,spellId:a.cast.spellId,impactHeight:a.cast.impactHeight,origin:a.cast.origin,
       size:undefined,particles:a.vfx.particleCount,dropped:a.vfx.droppedParticles+a.vfx.droppedFilaments+a.vfx.droppedBodies});
     return basics;
   }
   /** The invocation being drawn right now, for the debug surface and the browser gates. */
   advancedState(){const a=this.advanced;return a?.cast?{spellId:a.cast.spellId,elapsed:this.lastNow-a.cast.started,particles:a.vfx.particleCount,instances:a.vfx.instances}:null;}
-  dispose():void {for(const slot of this.slots)slot.dispose();this.slots.length=0;this.advanced?.dispose();this.advanced=null;this.advancedGround=null;}
+  clear():void { for(const slot of [...this.slots,...this.remoteAdvanced,...(this.advanced?[this.advanced]:[])]){slot.cast=null;slot.update(this.lastNow);} }
+  dispose():void {for(const slot of [...this.slots,...this.remoteAdvanced])slot.dispose();this.slots.length=0;this.remoteAdvanced.length=0;this.advanced?.dispose();this.advanced=null;this.advancedGround=null;this.root.removeFromParent();}
 }

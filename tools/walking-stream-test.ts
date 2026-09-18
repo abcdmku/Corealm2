@@ -1,6 +1,6 @@
 /** Cold production travel with real input, frame gaps and optional CPU evidence. */
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, open, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { preview } from 'vite';
@@ -17,6 +17,7 @@ const server = await preview({root:gameRoot,preview:{host:'127.0.0.1',port:0}});
 const address = server.httpServer.address();
 if (!address || typeof address === 'string') throw Error('No preview address');
 const browser = await chromium.launch({headless:true,args:[...(process.platform==='win32'?['--use-angle=d3d11']:[]),
+  ...(args.includes('--gpu-commands') ? ['--enable-gpu-service-tracing'] : []),
   '--enable-gpu','--ignore-gpu-blocklist','--mute-audio','--enable-precise-memory-info']});
 try {
   const context = await browser.newContext({viewport:{width:Number(value('--width',desktop?'1440':'844')),height:Number(value('--height',desktop?'900':'390'))},
@@ -90,7 +91,9 @@ try {
       shaders:w.__renderDistanceLab.shaders(),errors:d.getErrors()};
   });
   const states:Record<string,unknown>={start:await snapshot()};
-  if(args.includes('--trace'))await cdp.send('Tracing.start',{categories:'devtools.timeline,v8,blink,cc,gpu,disabled-by-default-gpu.service',transferMode:'ReturnAsStream'});
+  if(args.includes('--trace'))await cdp.send('Tracing.start',{categories:args.includes('--gpu-commands')
+    ? 'gpu,disabled-by-default-gpu.service,devtools.timeline'
+    : 'devtools.timeline,v8,blink,cc,gpu,disabled-by-default-gpu.service',transferMode:'ReturnAsStream'});
   let profileStartMs: number | undefined, navigationStartMs = 0;
   if(args.includes('--profile')){
     await cdp.send('Performance.enable');
@@ -133,6 +136,8 @@ try {
     await page.evaluate(()=>{(window as any).__travelPhase='idle-after';});
     await page.waitForTimeout(Number(value('--idle-after-ms','0')));
   }
+  // Trace extraction can take seconds. It is reporting work, outside the gameplay windows.
+  await page.evaluate(()=>{(window as any).__travelPhase='reporting';});
   if(args.includes('--profile')){
     const {profile} = await cdp.send('Profiler.stop');
     profileStartMs = profile.startTime / 1000 - navigationStartMs;
@@ -141,8 +146,17 @@ try {
   if(args.includes('--trace')){
     const completed=new Promise<any>(resolve=>cdp.once('Tracing.tracingComplete',resolve));
     await cdp.send('Tracing.end');const {stream}=await completed;
-    let trace='';for(;;){const part=await cdp.send('IO.read',{handle:stream});trace+=part.data;if(part.eof)break;}
-    await cdp.send('IO.close',{handle:stream});await writeFile(path.join(out,'trace.json'),trace);
+    const traceFile = await open(path.join(out, 'trace.json'), 'w');
+    try {
+      for (;;) {
+        const part = await cdp.send('IO.read', { handle: stream, size: 1_048_576 });
+        await traceFile.writeFile(part.base64Encoded ? Buffer.from(part.data, 'base64') : part.data);
+        if (part.eof) break;
+      }
+    } finally {
+      await traceFile.close();
+      await cdp.send('IO.close', { handle: stream });
+    }
   }
   const data=await page.evaluate(()=>({frames:(window as any).__travelFrames,tasks:(window as any).__travelTasks,shaders:(window as any).__travelShaders,uploads:(window as any).__travelUploads,
     memory:(window as any).__travelMemory,queries:(window as any).__travelQueries,presentation:(window as any).__travelPresentation,boot:(window as any).__corealmBootTelemetry.snapshot()}));

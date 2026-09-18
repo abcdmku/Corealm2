@@ -6,14 +6,14 @@ description: "Voidstone Colossus spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map
- data-map-focus="33.273,20.606,76.364,26.364"
+ data-map-focus="34.000,20.606,76.364,26.364"
  style="--map-image-ratio:1.00000">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Voidstone Colossus">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
 <a class="corealm-map-marker" href="../../regions/#upper-nightglass-bend" style="--map-x:76.3636%;--map-y:26.3636%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Voidstone Colossus, Upper Nightglass Bend, Wilderness" title="Voidstone Colossus, Upper Nightglass Bend, Wilderness"><span>Voidstone Colossus<small>Upper Nightglass Bend, Wilderness</small></span></a>
 <a class="corealm-map-marker" href="../../regions/#moonvein-copse" style="--map-x:54.7879%;--map-y:23.5152%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Voidstone Colossus, Moonvein Copse, Wilderness" title="Voidstone Colossus, Moonvein Copse, Wilderness"><span>Voidstone Colossus<small>Moonvein Copse, Wilderness</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:33.2727%;--map-y:20.6061%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Voidstone Colossus, Hollow Star Sanctum, Wilderness" title="Voidstone Colossus, Hollow Star Sanctum, Wilderness"><span>Voidstone Colossus<small>Hollow Star Sanctum, Wilderness</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#hollow-star-sanctum" style="--map-x:34.0000%;--map-y:20.6061%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Voidstone Colossus, Hollow Star Sanctum, Wilderness" title="Voidstone Colossus, Hollow Star Sanctum, Wilderness"><span>Voidstone Colossus<small>Hollow Star Sanctum, Wilderness</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

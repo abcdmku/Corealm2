@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
+
+import {simplifyCrowdGeometry} from "./crowdGeometry.js";
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 
 export interface LodPose {
@@ -174,6 +176,32 @@ function shadowMaterial(source: THREE.Material, distance: boolean): THREE.Materi
   return result;
 }
 
+/** Share floating shader-input layouts across imported, simplified and rigid sampled parts. */
+function canonicalSampledAttribute(attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): THREE.BufferAttribute | THREE.InterleavedBufferAttribute {
+  const interleaved = (attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute;
+  // Explicit ivec/uvec inputs must retain integer delivery and full integer precision.
+  if ((attribute as THREE.BufferAttribute).gpuType === THREE.IntType) return attribute;
+  if (!interleaved && attribute.array instanceof Float32Array && !attribute.normalized) return attribute;
+  const halfFloat = (attribute as THREE.BufferAttribute & { isFloat16BufferAttribute?: boolean }).isFloat16BufferAttribute;
+  const values = new Float32Array(attribute.count * attribute.itemSize);
+  for (let vertex = 0; vertex < attribute.count; vertex++) {
+    for (let component = 0; component < attribute.itemSize; component++) {
+      // Decode normalized integer colors/UVs before changing their GPU input format.
+      values[vertex * attribute.itemSize + component] = halfFloat
+        ? THREE.DataUtils.fromHalfFloat(attribute.array[vertex * attribute.itemSize + component]!)
+        : attribute.getComponent(vertex, component);
+    }
+  }
+  const data = interleaved ? (attribute as THREE.InterleavedBufferAttribute).data : attribute as THREE.BufferAttribute;
+  const instanced = (data as THREE.InstancedInterleavedBuffer & { isInstancedInterleavedBuffer?: boolean }).isInstancedInterleavedBuffer
+    || (attribute as THREE.InstancedBufferAttribute).isInstancedBufferAttribute;
+  const result = instanced ? new THREE.InstancedBufferAttribute(values, attribute.itemSize, false,
+    (data as THREE.InstancedInterleavedBuffer).meshPerAttribute) : new THREE.BufferAttribute(values, attribute.itemSize);
+  result.name = attribute.name;
+  result.setUsage(data.usage);
+  return result;
+}
+
 /** Shared sampled skeletal poses with small per-instance clip/phase attributes. */
 export class AnimationLod {
   private readonly terrainPoses = new Map<number, LodPose>();
@@ -187,6 +215,7 @@ export class AnimationLod {
   private readonly samples = new Map<THREE.AnimationClip, ClipSamples>();
   private readonly palettes: Palette[] = [];
   private readonly parts: Part[] = [];
+  private sourceTriangleCount = 0;
   private readonly slots = new Map<number, number>();
   private readonly placements = new Map<number, THREE.Matrix4>();
   private readonly rows: number[] = [];
@@ -219,6 +248,8 @@ export class AnimationLod {
     clips: readonly THREE.AnimationClip[],
     materialFor: (source: THREE.Material) => THREE.Material,
     deferPreparation = false,
+    private readonly castShadow = true,
+    private readonly simplifyGeometry = false,
   ) {
     const uniqueClips = [...new Set(clips)];
     if (uniqueClips.length === 0 || uniqueClips.length > MAX_SAMPLES / 2) {
@@ -242,6 +273,23 @@ export class AnimationLod {
 
   get ready(): boolean { return this.prepared && !this.disposed; }
   get preparing(): boolean { return !this.prepared && !this.disposed; }
+  get meshCount(): number { return this.parts.length; }
+
+  /** CPU sampling can finish before the streamed shaders and textures are drawable. */
+  isViewReady(ready: (root: THREE.Object3D) => boolean): boolean {
+    return this.ready && this.parts.every(part => ready(part.mesh));
+  }
+
+  /** Count the actual drawable meshes for this slot, including the streamed preparation gate. */
+  renderedMeshCount(slot: number, ready: (root: THREE.Object3D) => boolean): number {
+    if (!this.slots.has(slot)) return 0;
+    return this.parts.filter(part => {
+      for (let node: THREE.Object3D | null = part.mesh; node; node = node.parent) {
+        if (!node.visible) return false;
+      }
+      return ready(part.mesh) && part.mesh.count > 0;
+    }).length;
+  }
 
   /** Yield between sampled poses, so a new distant actor cannot block a whole input frame. */
   prepare(budgetMs = 2): boolean {
@@ -343,7 +391,12 @@ export class AnimationLod {
   }
 
   get drawCalls(): number { return this.rows.length ? this.parts.length : 0; }
+  materialNames(slot:number):string[] {
+    return this.slots.has(slot)?this.parts.map(part=>part.material.name):[];
+  }
   get triangles(): number { return this.rows.length * this.parts.reduce((sum, part) => sum + part.triangles, 0); }
+  get sourceTriangles(): number { return this.rows.length * this.sourceTriangleCount; }
+  get shadowDrawCalls(): number { return this.rows.length ? this.parts.filter(part => part.mesh.castShadow).length : 0; }
   get textureBytes(): number { return this.palettes.reduce((sum, palette) => sum + (palette.texture.image.data as Float32Array).byteLength, 0); }
 
   set(slot: number, matrix: THREE.Matrix4, pose: LodPose, tintForMaterial?: (source: THREE.Material) => THREE.Color | null): void {
@@ -768,10 +821,24 @@ export class AnimationLod {
     const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
     const total = mesh.geometry.index?.count ?? mesh.geometry.getAttribute("position").count;
     const groups = Array.isArray(mesh.material) && mesh.geometry.groups.length ? mesh.geometry.groups : [{ start: 0, count: total, materialIndex: 0 }];
+    // The simplifier reads numeric components into floats. Preserve topology for
+    // formats whose half-float encoding or integer shader inputs need special handling.
+    const simplify = this.simplifyGeometry && !Object.values(mesh.geometry.attributes).some((attribute) =>
+      (attribute as THREE.BufferAttribute).gpuType === THREE.IntType
+      || (attribute as THREE.BufferAttribute & { isFloat16BufferAttribute?: boolean }).isFloat16BufferAttribute);
     for (const group of groups) {
       const source = materials[group.materialIndex ?? 0];
       if (!source || !source.visible) continue;
-      const geometry = mesh.geometry.clone();
+      const start = Math.max(group.start, mesh.geometry.drawRange.start);
+      const end = Math.min(group.start + group.count, mesh.geometry.drawRange.start + mesh.geometry.drawRange.count, total);
+      this.sourceTriangleCount += Math.floor(Math.max(0, end - start) / 3);
+      const geometry = simplify
+        ? simplifyCrowdGeometry(mesh.geometry, start, Math.max(0, end - start)) : mesh.geometry.clone();
+      // Source buffers remain immutable. Canonicalize even when simplification keeps the
+      // original topology, so full-detail players do not introduce cold input layouts.
+      for (const [name, attribute] of Object.entries(geometry.attributes)) {
+        geometry.setAttribute(name, canonicalSampledAttribute(attribute));
+      }
       if ((mesh as THREE.SkinnedMesh).isSkinnedMesh) {
         const remap = new Map(palette.influences.map(({ bone, index }) => [bone, index]));
         const indices = geometry.getAttribute("skinIndex");
@@ -793,14 +860,12 @@ export class AnimationLod {
         geometry.setIndex(indices);
       }
       geometry.clearGroups();
-      const start = Math.max(group.start, mesh.geometry.drawRange.start);
-      const end = Math.min(group.start + group.count, mesh.geometry.drawRange.start + mesh.geometry.drawRange.count, total);
-      geometry.setDrawRange(start, Math.max(0, end - start));
+      if (!simplify) geometry.setDrawRange(start, Math.max(0, end - start));
       if (!(mesh as THREE.SkinnedMesh).isSkinnedMesh) {
         const vertexCount = geometry.getAttribute("position").count;
         const weights = new Float32Array(vertexCount * 4);
         for (let index = 0; index < vertexCount; index++) weights[index * 4] = 1;
-        geometry.setAttribute("skinIndex", new THREE.Uint16BufferAttribute(new Uint16Array(vertexCount * 4), 4));
+        geometry.setAttribute("skinIndex", new THREE.Float32BufferAttribute(new Float32Array(vertexCount * 4), 4));
         geometry.setAttribute("skinWeight", new THREE.Float32BufferAttribute(weights, 4));
       }
       geometry.setAttribute("lodFrames", this.frames);
@@ -811,7 +876,7 @@ export class AnimationLod {
       const depth = mesh.customDepthMaterial ? ownedMaterial(mesh.customDepthMaterial) : shadowMaterial(material, false);
       const distance = mesh.customDistanceMaterial ? ownedMaterial(mesh.customDistanceMaterial) : shadowMaterial(material, true);
       for (const pass of [material, depth, distance]) wrapMaterial(pass, palette);
-      const part: Part = { source, geometry, material, depth, distance, mesh: null!, triangles: Math.floor(Math.max(0, end - start) / 3), palette };
+      const part: Part = { source, geometry, material, depth, distance, mesh: null!, triangles: Math.floor(geometry.drawRange.count / 3), palette };
       part.mesh = this.makeMesh(part);
       this.parts.push(part);
       this.parent.add(part.mesh);
@@ -823,7 +888,7 @@ export class AnimationLod {
     mesh.name = `animation-lod:${part.source.name}`;
     mesh.count = this.rows.length;
     mesh.visible = mesh.count > 0;
-    mesh.castShadow = true;
+    mesh.castShadow = this.castShadow;
     mesh.receiveShadow = true;
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 3).fill(1), 3).setUsage(THREE.DynamicDrawUsage);
@@ -846,13 +911,19 @@ export class AnimationLod {
       part.geometry.dispose();
       part.geometry.setAttribute("lodFrames", frames);
       part.geometry.setAttribute("lodPreviousFrames", previous);
-      const next = this.makeMesh(part);
-      next.instanceMatrix.array.set(part.mesh.instanceMatrix.array);
-      next.instanceColor!.array.set(part.mesh.instanceColor!.array);
-      part.mesh.removeFromParent();
+      const matrices = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 16), 16)
+        .setUsage(THREE.DynamicDrawUsage);
+      const colors = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 3).fill(1), 3)
+        .setUsage(THREE.DynamicDrawUsage);
+      matrices.array.set(part.mesh.instanceMatrix.array);
+      colors.array.set(part.mesh.instanceColor!.array);
+      // Capacity is buffer storage, not a shader variant. Keep the prepared mesh resident so a
+      // seventeenth actor cannot requeue shaders and hide the sixteen actors already drawing.
+      // Three's dispose listener frees these old instance buffers and VAOs before replacement;
+      // its next object update installs the listener again and uploads the new attributes.
       part.mesh.dispose();
-      part.mesh = next;
-      this.parent.add(next);
+      part.mesh.instanceMatrix = matrices;
+      part.mesh.instanceColor = colors;
     }
   }
 }

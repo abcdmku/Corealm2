@@ -94,7 +94,7 @@ export function createMineBurialSampler(scene: WorldScene): (x: number, z: numbe
  */
 export async function buildMineCutFace(
   scene: WorldScene,
-  assets: AssetRegistry,
+  assets: Pick<AssetRegistry, "load">,
   site: WorldSite,
   actualResourceEntities: readonly SemanticEntity[],
   cache?: GenerationCachePort | null,
@@ -126,7 +126,7 @@ export async function buildMineCutFace(
   return result;
 }
 
-async function generateMineCutFace(scene: WorldScene, assets: AssetRegistry, site: WorldSite,
+async function generateMineCutFace(scene: WorldScene, assets: Pick<AssetRegistry, "load">, site: WorldSite,
   actualResourceEntities: readonly SemanticEntity[]): Promise<MineCutFaceResult> {
   const cut = site.cutFace;
   if (!cut || cut.stations.length === 0) return { objects: [], solids: [] };
@@ -529,7 +529,7 @@ function cutMesh(geometry: THREE.BufferGeometry, material: THREE.Material, site:
   return mesh;
 }
 
-async function hostStone(assets: AssetRegistry, site: WorldSite) {
+async function hostStone(assets: Pick<AssetRegistry, "load">, site: WorldSite) {
   const hostId = site.dressing.find(piece => /^corealm_(?:rock|cliff)_/.test(piece.assetId))?.assetId;
   if (!hostId) throw new Error(`Mine cut ${site.id} has no authored host stone.`);
   const source = await assets.load(hostId, {priority:'visible-spawn',primary:true});

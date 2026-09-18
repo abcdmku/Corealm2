@@ -142,7 +142,7 @@ export class QuestSystem implements TickSystem {
   private readonly unsubscribe: () => void;
 
   constructor(private readonly deps: QuestDeps) {
-    this.unsubscribe = deps.events.subscribe((event) => this.onEvent(event.type, event.entityId, event.data));
+    this.unsubscribe = deps.events.subscribeSimulation((event) => this.onEvent(event.type, event.entityId, event.data));
 
     // Doors are the only world objects a quest owns outright, so the `open` verb is registered
     // here rather than in a system that has no idea why a door is shut.

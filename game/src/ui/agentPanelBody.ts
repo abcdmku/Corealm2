@@ -1,6 +1,7 @@
 /** The companion's controls and detailed session view, loaded when expanded. */
 import type { AgentSessionView } from "../agent/session.js";
 import type { AgentPanelDeps } from "./agentPanel.js";
+import { notify } from "./contextMenu.js";
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, className: string, text?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -94,7 +95,7 @@ export class AgentPanelBody {
 
     const actions = el("div", "agent-panel__actions");
     const pause = button("Pause", "btn", () => this.togglePause());
-    const stop = button("Stop", "btn btn--danger", () => this.deps.session.stop("player"));
+    const stop = button("Stop", "btn btn--danger", () => { void this.deps.session.stop("player").then((result) => { if ("error" in result) notify(result.message,"error"); }); });
     const take = button("Take control", "btn", () => this.deps.session.takeControl("player"));
     const grant = button("Let agent play", "btn btn--primary", () => this.deps.session.grantControl("player"));
     actions.append(pause, stop, take, grant);
@@ -217,7 +218,7 @@ export class AgentPanelBody {
   private togglePause(): void {
     const session = this.deps.session;
     if (session.read().paused) session.resume("player");
-    else session.pause("player");
+    else void session.pause("player").then((result) => { if ("error" in result) notify(result.message,"error"); });
   }
 
 }

@@ -1,6 +1,7 @@
 import { jewelrySlots } from '../content/jewelry.js';
 import { EQUIPMENT_SLOT_LABELS } from './equipmentSlotGrid.js';
 import type { EquipSlot } from '../contracts.js';
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 /**
  * The 28-slot inventory, 4 across and 7 down, exactly as the PRD lays it out.
@@ -120,22 +121,22 @@ export class InventoryPanel implements ManagedPanel {
     else this.use(stack.itemId);
   }
 
-  private use(itemId: ItemId): void {
-    const result = this.ctx.api.useItem(itemId);
+  private async use(itemId: ItemId): Promise<void> {
+    const result = await sendGameCommand(this.ctx.api, "useItem", itemId);
     if (result.ok) notify(result.value.effect, "info");
     else report(result);
     this.ctx.refresh();
   }
 
-  private equip(itemId: ItemId, targetSlot?: EquipSlot): void {
-    const result = this.ctx.api.equipItem(itemId, targetSlot);
+  private async equip(itemId: ItemId, targetSlot?: EquipSlot): Promise<void> {
+    const result = await sendGameCommand(this.ctx.api, "equipItem", itemId, targetSlot);
     if (result.ok) notify(`Equipped ${itemName(itemId)}.`, "success");
     else report(result);
     this.ctx.refresh();
   }
 
-  private buildFire(itemId: ItemId): void {
-    const result = this.ctx.api.buildCampfire(itemId);
+  private async buildFire(itemId: ItemId): Promise<void> {
+    const result = await sendGameCommand(this.ctx.api, "buildCampfire", itemId);
     if (result.ok) {
       notify(
         `Started building a ${itemName(itemId)} fire · ${Math.round(result.value.lifetimeMs / 1_000)}s lifetime.`,

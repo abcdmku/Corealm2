@@ -35,7 +35,7 @@ export interface AreaAimDeps {
   host: AreaAimHost;
   casterPosition(): Vec3;
   /** Asked once per accepted click. Returns false to keep aiming (the cast was refused). */
-  cast(spellId: SpellId, point: Vec3): boolean;
+  cast(spellId: SpellId, point: Vec3): boolean | Promise<boolean>;
   notify?(message: string): void;
 }
 
@@ -57,6 +57,7 @@ export function createAreaAimSession(deps: AreaAimDeps): AreaAimSession {
   let current: AreaAimRequest | null = null;
   let lastPointer: { x: number; y: number } | null = null;
   let lastPoint: Vec3 | null = null;
+  let pending: AreaAimRequest | null = null;
 
   const inRange = (point: Vec3): boolean => !!current && distanceXZ(deps.casterPosition(), point) <= current.range;
 
@@ -81,6 +82,7 @@ export function createAreaAimSession(deps: AreaAimDeps): AreaAimSession {
     event.preventDefault();
     if (event.button === 2) { cancel(); return; }
     if (event.button !== 0) return;
+    if (pending === current) return;
     track(event.clientX, event.clientY);
     const point = lastPoint;
     if (!point) return;
@@ -89,7 +91,14 @@ export function createAreaAimSession(deps: AreaAimDeps): AreaAimSession {
       return;
     }
     const request = current;
-    if (deps.cast(request.spellId, point)) cancel();
+    const result = deps.cast(request.spellId, point);
+    if (typeof result === "boolean") { if (result) cancel(); }
+    else {
+      pending = request;
+      void result.then(done => { if (current === request && done) cancel(); }, () => {
+        if (current === request) deps.notify?.("The cast could not be confirmed.");
+      }).finally(() => { if (pending === request) pending = null; });
+    }
   };
 
   const swallow = (event: Event): void => {

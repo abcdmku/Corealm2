@@ -82,7 +82,7 @@ describe("held left pointer movement", () => {
     expect(api.moveTo).not.toHaveBeenCalled(); expect(api.stop).not.toHaveBeenCalled();
     expect(input.selectedEntityId).toBe('monster');
   });
-  it("retargets ground movement on the render cadence until release", () => {
+  it("retargets ground movement on the render cadence until release", async () => {
     const windowTarget = new EventTarget() as EventTarget & { innerWidth: number; innerHeight: number };
     windowTarget.innerWidth = 800;
     windowTarget.innerHeight = 600;
@@ -118,6 +118,7 @@ describe("held left pointer movement", () => {
 
     canvas.dispatchEvent(pointerEvent("pointerdown", { clientX: 100, clientY: 100 }));
     expect(api.moveTo).toHaveBeenCalledTimes(1);
+    await Promise.resolve();
 
     windowTarget.dispatchEvent(pointerEvent("pointermove", { clientX: 140, clientY: 120 }));
     input.update();

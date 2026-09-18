@@ -31,6 +31,17 @@ export class EventBus {
   /** Lifetime count of published events trimmed off the front of the ring. */
   private trimmed = 0;
   private listeners = new Set<(event: GameEvent) => void>();
+  private simulationListeners = new Set<(event: GameEvent) => void>();
+  private simulationEnabled = true;
+
+  setSimulationEnabled(enabled: boolean): void { this.simulationEnabled = enabled; }
+  isSimulationEnabled(): boolean { return this.simulationEnabled; }
+
+  /** Replicated outcomes may drive presentation, but cannot run local reward rules again. */
+  subscribeSimulation(listener: (event: GameEvent) => void): () => void {
+    this.simulationListeners.add(listener);
+    return () => { this.simulationListeners.delete(listener); };
+  }
 
   /** Queues an event. It becomes visible to readers at the next flush. */
   emit(type: GameEventType, data: Record<string, unknown> = {}, entityId?: EntityId, atMs = 0): void {
@@ -46,6 +57,7 @@ export class EventBus {
     for (const event of this.pending) {
       this.buffer.push(event);
       this.publishedSeq = event.seq;
+      if (this.simulationEnabled) for (const listener of this.simulationListeners) listener(event);
       for (const listener of this.listeners) listener(event);
     }
     this.pending.length = 0;

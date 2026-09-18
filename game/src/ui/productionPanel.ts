@@ -1,3 +1,4 @@
+import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 import { QuantitySelector } from "./quantitySelector.js";
 import type {
@@ -220,15 +221,11 @@ export class ProductionPanel implements ManagedPanel {
       title: "Unavailable",
       lines: [blockedReason],
     }) : null);
-    make.addEventListener("click", () => {
+    make.addEventListener("click", async () => {
       if (!this.stationId) return;
-      const result = this.ctx.api.produceAt(
-        this.stationId,
-        recipe.id,
-        this.quantity.resolve(Math.min(
+      const result = await sendGameCommand(this.ctx.api, "produceAt", this.stationId, recipe.id, this.quantity.resolve(Math.min(
           maxRecipeBatches(recipe, this.ctx.api.getInventory().slots), MAX_PRODUCTION_BATCH,
-        )),
-      );
+        )));
       if (result.ok) {
         notify(`Started ${recipe.name} · batch ${result.value.queued}.`, "success");
         this.refresh(true);

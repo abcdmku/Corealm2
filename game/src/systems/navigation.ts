@@ -343,6 +343,12 @@ export class Navigation {
     this.pathConstraint = constraint;
   }
 
+  /** Synchronous player queries share the baked navmesh while using private quest barriers. */
+  withPathConstraint<T>(constraint: ((path: readonly Vec3[]) => { path: Vec3[]; blocked: boolean }) | null, query: () => T): T {
+    const previous=this.pathConstraint; this.pathConstraint=constraint;
+    try { return query(); } finally { this.pathConstraint=previous; }
+  }
+
   static async initLibrary(): Promise<void> {
     if (recastRuntime) return;
     recastInitialization ??= Promise.all([
