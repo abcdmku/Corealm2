@@ -2,6 +2,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    // Only maintained tests enter the suite. Disposable probes and archived
+    // source copies must not grow the default discovery workload.
+    include: ["tests/**/*.test.ts", "tools/creature-motion/**/*.test.ts"],
     // Asset and terrain tests allocate full meshes. Bound concurrency so their
     // local deadlines remain meaningful on machines with many logical cores.
     maxWorkers: 4,

@@ -8,9 +8,7 @@
  * What the draft (webmachinelearning.github.io/webmcp, August 2026) says, and what this does:
  *
  *  - The container is `document.modelContext`, secure-context only (`localhost` counts).
- *    `registerTool(tool, { signal })` registers; aborting the signal unregisters. Earlier Chromium
- *    builds spelt it `navigator.modelContext` with a batch `provideContext({ tools })`; both are
- *    still tried, in that order, so a judge on either build gets the tools.
+ *    `registerTool(tool, { signal })` registers; aborting the signal unregisters.
  *  - A tool is `{ name, title, description, inputSchema, annotations: { readOnlyHint }, execute }`,
  *    and `execute(input, { signal })` receives the caller's cancellation. The signal is forwarded
  *    to the tool so a bounded operation stops when the agent gives up on it.
@@ -41,13 +39,12 @@ export interface McpToolDescriptor {
 
 interface ModelContextLike {
   registerTool?: (tool: McpToolDescriptor, options?: { signal?: AbortSignal }) => Promise<void> | void;
-  provideContext?: (context: { tools: McpToolDescriptor[] }) => Promise<void> | void;
   unregisterTool?: (name: string) => Promise<void> | void;
   /** Set by the test harness's stand-in so it is never mistaken for a browser implementation. */
   __corealmPolyfill?: boolean;
 }
 
-export type WebMcpBinding = "document.modelContext" | "navigator.modelContext" | "polyfill" | "none";
+export type WebMcpBinding = "document.modelContext" | "polyfill" | "none";
 
 export interface WebMcpRegistration {
   binding: WebMcpBinding;
@@ -55,7 +52,7 @@ export interface WebMcpRegistration {
   /** True when a real browser implementation accepted the registration. */
   native: boolean;
   /** How the tools were handed over, for the panel and the audit. */
-  method: "registerTool" | "provideContext" | "none";
+  method: "registerTool" | "none";
   dispose(): void;
 }
 
@@ -87,12 +84,8 @@ export function toDescriptor(tool: ToolDef, invoke: ToolInvoker): McpToolDescrip
 
 function findContainer(): { container: ModelContextLike; binding: WebMcpBinding } | null {
   const fromDocument = (document as unknown as { modelContext?: ModelContextLike }).modelContext;
-  if (fromDocument && typeof fromDocument === "object") {
+  if (fromDocument && typeof fromDocument.registerTool === "function") {
     return { container: fromDocument, binding: fromDocument.__corealmPolyfill ? "polyfill" : "document.modelContext" };
-  }
-  const fromNavigator = (navigator as unknown as { modelContext?: ModelContextLike }).modelContext;
-  if (fromNavigator && typeof fromNavigator === "object") {
-    return { container: fromNavigator, binding: fromNavigator.__corealmPolyfill ? "polyfill" : "navigator.modelContext" };
   }
   return null;
 }
@@ -124,14 +117,6 @@ export function registerWebMcp(tools: ToolDef[], invoke: ToolInvoker): WebMcpReg
       } catch (cause) {
         console.error(`[webmcp] registerTool(${descriptor.name}) failed`, cause);
       }
-    }
-  } else if (typeof container.provideContext === "function") {
-    method = "provideContext";
-    try {
-      void container.provideContext({ tools: descriptors });
-      registered = descriptors.length;
-    } catch (cause) {
-      console.error("[webmcp] provideContext failed", cause);
     }
   }
 

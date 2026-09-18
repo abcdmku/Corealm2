@@ -4,6 +4,8 @@ Creature reskins must use intricate image-generated texture maps with layered co
 
 The root agent owns architecture, shared contracts, integration, and acceptance.
 
+Start with [docs/feature-lab.md](./docs/feature-lab.md). Reuse one development server, one browser session, and the smallest existing regression check. Do not create a fixture, script, npm alias, or report document for every task. Read fixture reference sections only as needed. This game is pre-v1: remove retired paths and their callers instead of adding compatibility aliases or shims. Breaking changes are allowed; keep tests for current behavior, not obsolete interfaces.
+
 1. If `game/index.html` is absent, the repo is uninitiated. Do not invent a game without a current run's `brief.md`.
 2. Turn that brief into an approved `PRD.md` before major game work.
 3. Make the game and production-backed feature lab boot in Chromium before parallel feature work. Freeze shared interfaces in `game/src/contracts.ts` first.
@@ -13,8 +15,8 @@ The root agent owns architecture, shared contracts, integration, and acceptance.
 7. Source review is not gameplay proof. Test the real Vite game with Playwright and compare semantic state before and after actions.
 8. Inspect screenshots for visual work. A passing build does not prove that the view is readable.
    Use only camera angles achievable through normal gameplay controls. Never detach the camera focus, raise its target, or exceed interactive zoom limits to improve an acceptance view.
-9. Critics are fresh-context, read-only reviewers. The root accepts changes only after build, browser play, state checks, and relevant screenshots pass.
-10. Build every feature in the persistent realtime feature lab first whenever it can be exercised in a compact deterministic scene. If the lab lacks a fixture or control, extend the lab as part of the feature. Use production code paths, accept the feature from lab browser state and screenshots, and only then wire it into the final world in a later integration step.
+9. Critics are fresh-context, read-only reviewers. The root accepts changes after the checks relevant to the changed behavior pass. Gameplay requires browser state proof, visual changes require screenshot review, and production changes require a build. Tooling and documentation edits do not need a new game fixture.
+10. Build every feature in the persistent realtime feature lab first whenever it can be exercised in a compact deterministic scene. Reuse existing fixtures and catalog selectors first. Extend an existing fixture only when its current controls cannot exercise the behavior; do not add a separate workbench or script by default. Use production code paths, accept the feature from lab browser state and screenshots, and only then wire it into the final world in a later integration step.
 11. Skip the lab-first gate only when the behavior under test is the authored full world itself, such as terrain, biome, coast, water, world-scale scatter, world layout, or long-distance navigation. Reusable structures, actors, foliage, effects, controls, UI, and local interactions used by that work still need lab proof when they can be isolated. Record the reason for every exception.
 12. Follow [docs/item-icons.md](./docs/item-icons.md) for item art. Start new or replacement item icons with prompted image generation. Never create basic procedural items or screenshot fake 3D renders for inventory icons. Review the icon first; derive a 3D asset from it only when gameplay requires one. Minor jewelry, including rings and earrings, needs no dedicated 3D asset. Consolidate duplicate items before generating replacements.
 

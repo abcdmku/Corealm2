@@ -222,7 +222,7 @@ export function bootProfileFor(
       } : {}),
     };
   }
-  if (mode === "combat" || mode === "actors") return FEATURE_LAB_PROFILES.combat;
-  if (mode === "building" || mode === "structures") return FEATURE_LAB_PROFILES.building;
+  if (mode === "combat") return FEATURE_LAB_PROFILES.combat;
+  if (mode === "building") return FEATURE_LAB_PROFILES.building;
   return GAME_BOOT_PROFILE;
 }

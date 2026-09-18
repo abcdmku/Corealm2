@@ -54,7 +54,7 @@ const LAB_TEST_SETTINGS = {
   ambient: 0,
   sfx: 0,
 } as const;
-type FeatureLabShard = "all" | "building" | "navigation" | "combat";
+type FeatureLabShard = "all" | "building" | "combat";
 const args = process.argv.slice(2);
 const TEST_SHARD = readTestShard(args);
 
@@ -226,17 +226,6 @@ interface BuildingEvidence {
   };
 }
 
-interface LegacyRedirectEvidence {
-  state: FeatureLabState;
-  probe: RuntimeProbe;
-  finalUrl: string;
-  redirected: boolean;
-  queryPreserved: boolean;
-  hashPreserved: boolean;
-  bodyProfile: string | null;
-  legacyApiPresent: boolean;
-}
-
 const started = performance.now();
 const clearDeadline = installTestDeadline(`${TEST_SHARD} feature lab browser gate`, TOTAL_BUDGET_MS);
 const screenshotDir = path.join(repoRoot, "test-results", "feature-labs");
@@ -280,16 +269,16 @@ try {
     stageMs[name] = Math.round(performance.now() - stageStarted);
     stageStarted = performance.now();
   };
-  let legacy: LegacyRedirectEvidence | null = null;
+  let buildingStart: FeatureLabState | null = null;
   if (TEST_SHARD !== "combat") {
-    activeMode = "legacy-redirect/building";
-    legacy = await testLegacyRedirect(page, server.url, (state) => {
-      lastState = state;
-    });
-    logProgress("legacy redirect ready");
-    lastState = legacy.state;
+    activeMode = "building";
+    await openLab(page, server.url, "building");
+    buildingStart = await waitForState(page, "building readiness", (state) => (
+      state.ready && state.structure.ready && state.mode === "building"
+    ), READY_BUDGET_MS);
+    lastState = buildingStart;
   }
-  stage("legacyRedirect");
+  stage("buildingBoot");
   const building = TEST_SHARD === "all" || TEST_SHARD === "building"
     ? await testBuilding(page, server.url, screenshotDir, screenshots, (state) => {
         lastState = state;
@@ -303,9 +292,9 @@ try {
 
   let combat: CombatEvidence | null = null;
   let modeNavigation: ModeNavigationEvidence | null = null;
-  if (TEST_SHARD === "all" || TEST_SHARD === "navigation") {
+  if (TEST_SHARD === "all" || TEST_SHARD === "building") {
     activeMode = "building-to-combat-navigation";
-    const navigationSource = building?.final ?? legacy?.state;
+    const navigationSource = building?.final ?? buildingStart;
     if (!navigationSource) throw new Error("Mode navigation has no building source state");
     modeNavigation = await selectModeWithReload(page, "combat", navigationSource, (state) => {
       lastState = state;
@@ -332,7 +321,6 @@ try {
       : TEST_SHARD === "combat" ? 3
         : 0;
   const checks: Record<string, boolean> = {
-    ...(legacy ? legacyChecks(legacy, comparisonProbe) : {}),
     ...(building ? buildingChecks(building) : {}),
     ...(combat ? combatChecks(combat) : {}),
     ...(modeNavigation ? navigationChecks(modeNavigation, building?.final.structure.revision) : {}),
@@ -348,7 +336,8 @@ try {
     screenshotsCaptured: screenshots.length >= expectedScreenshots,
     noRuntimeErrors: (building?.final.errors.length ?? 0) === 0
       && (combat?.final.errors.length ?? 0) === 0
-      && (legacy?.state.errors.length ?? 0) === 0
+      && (buildingStart?.errors.length ?? 0) === 0
+      && (modeNavigation?.fresh.errors.length ?? 0) === 0
       && diagnostics.console.length === 0
       && diagnostics.page.length === 0,
     under60Seconds: performance.now() - started < TOTAL_BUDGET_MS,
@@ -380,12 +369,11 @@ try {
       freeCamera: building.freeCamera,
     } } : {}),
     ...(modeNavigation ? { modeNavigation } : {}),
-    ...(legacy ? { legacy } : {}),
     screenshots,
     errors: {
       combat: combat?.final.errors ?? [],
       building: building?.final.errors ?? [],
-      legacy: legacy?.state.errors ?? [],
+      navigation: modeNavigation?.fresh.errors ?? [],
       console: diagnostics.console,
       page: diagnostics.page,
     },
@@ -413,27 +401,10 @@ function readTestShard(args: string[]): FeatureLabShard {
   const inline = args.find((arg) => arg.startsWith("--shard="))?.slice("--shard=".length);
   const flagIndex = args.indexOf("--shard");
   const value = inline ?? (flagIndex >= 0 ? args[flagIndex + 1] : undefined) ?? "all";
-  if (value === "all" || value === "building" || value === "navigation" || value === "combat") return value;
+  if (value === "all" || value === "building" || value === "combat") return value;
   throw new Error(
-    `Unknown feature-lab shard ${JSON.stringify(value)}; expected all, building, navigation, or combat`,
+    `Unknown feature-lab shard ${JSON.stringify(value)}; expected all, building, or combat`,
   );
-}
-
-function legacyChecks(legacy: LegacyRedirectEvidence, comparisonProbe: RuntimeProbe): Record<string, boolean> {
-  return {
-    legacyRoutePreservesQueryAndHash: legacy.redirected && legacy.queryPreserved && legacy.hashPreserved,
-    legacyRouteBootsProductionBuildingLab: legacy.state.ready
-      && legacy.state.engine === "corealm-production"
-      && legacy.state.world === "fallowmarch-yard"
-      && legacy.state.mode === "building"
-      && !legacy.state.walkingEnabled
-      && selectionMatches(legacy.state.structure.selection, PREFAB_SELECTION)
-      && legacy.state.structure.collisionCount > 0
-      && structureIsValid(legacy.state.structure)
-      && legacy.bodyProfile === "feature-lab"
-      && !legacy.legacyApiPresent
-      && probesShareWorld(comparisonProbe, legacy.probe),
-  };
 }
 
 function buildingChecks(building: BuildingEvidence): Record<string, boolean> {
@@ -1074,70 +1045,12 @@ async function selectModeWithReload(
   };
 }
 
-async function testLegacyRedirect(
-  targetPage: Page,
-  baseUrl: string,
-  remember: (state: FeatureLabState) => void,
-): Promise<LegacyRedirectEvidence> {
-  const legacyUrl = new URL("/structure-preview.html", ensureUrl(baseUrl));
-  legacyUrl.search = new URLSearchParams({
-    mode: "structures",
-    kind: PREFAB_SELECTION.kind,
-    id: PREFAB_SELECTION.id,
-    kit: PREFAB_SELECTION.kit,
-    width: String(PREFAB_SELECTION.width),
-    depth: String(PREFAB_SELECTION.depth),
-    seed: String(PREFAB_SELECTION.seed),
-    legacyProbe: "preserved",
-  }).toString();
-  legacyUrl.hash = "legacy-yard";
-
-  await targetPage.goto(legacyUrl.href, {
-    waitUntil: "domcontentloaded",
-    timeout: READY_BUDGET_MS,
-  });
-  await targetPage.waitForURL((url) => (
-    url.pathname.endsWith("/index.html")
-    && url.searchParams.get("mode") === "building"
-    && url.hash === "#legacy-yard"
-  ), { timeout: READY_BUDGET_MS });
-  const state = await waitForState(targetPage, "legacy building redirect readiness", (candidate) => (
-    candidate.ready
-    && candidate.engine === "corealm-production"
-    && candidate.world === "fallowmarch-yard"
-    && candidate.mode === "building"
-    && !candidate.walkingEnabled
-    && candidate.playerVisible
-    && !candidate.freeCameraEnabled
-    && structureIsValid(candidate.structure)
-    && candidate.structure.collisionCount > 0
-    && selectionMatches(candidate.structure.selection, PREFAB_SELECTION)
-  ), READY_BUDGET_MS);
-  remember(state);
-
-  const finalUrl = new URL(targetPage.url());
-  const queryPreserved = Object.entries(PREFAB_SELECTION).every(([key, value]) => (
-    finalUrl.searchParams.get(key) === String(value)
-  )) && finalUrl.searchParams.get("legacyProbe") === "preserved";
-  const pageEvidence = await targetPage.evaluate(() => ({
-    bodyProfile: document.body.dataset["bootProfile"] ?? null,
-    legacyApiPresent: Reflect.has(window, "__structurePreview"),
-  }));
-  return {
-    state,
-    probe: await readRuntimeProbe(targetPage),
-    finalUrl: finalUrl.href,
-    redirected: finalUrl.pathname.endsWith("/index.html")
-      && finalUrl.searchParams.get("mode") === "building",
-    queryPreserved,
-    hashPreserved: finalUrl.hash === "#legacy-yard",
-    bodyProfile: pageEvidence.bodyProfile,
-    legacyApiPresent: pageEvidence.legacyApiPresent,
-  };
-}
-
 async function openLab(targetPage: Page, baseUrl: string, mode: "combat" | "building"): Promise<void> {
   const url = new URL(`/index.html?mode=${mode}`, ensureUrl(baseUrl));
+  if (mode === "building") {
+    for (const [key, value] of Object.entries(PREFAB_SELECTION)) url.searchParams.set(key, String(value));
+    url.hash = "building-yard";
+  }
   const response = await targetPage.goto(url.href, {
     waitUntil: "domcontentloaded",
     timeout: READY_BUDGET_MS,

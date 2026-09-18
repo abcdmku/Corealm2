@@ -21,7 +21,7 @@ export async function assertGameInitialized(): Promise<void> {
     await access(path.join(gameRoot, "index.html"));
   } catch {
     throw new Error(
-      "No game is initialized. Create a brief, run `npm run game-agent -- build <brief> --id <run-id>`, then follow AGENTS.md to produce the PRD and game foundation.",
+      "No game is initialized. Follow AGENTS.md to create a brief, approve the PRD, and initialize game/index.html.",
     );
   }
 }

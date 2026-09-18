@@ -7,16 +7,16 @@
       "expect": [{ "path": "result.status", "equals": "ready" }]
     },
     {
+      "drag": [700, 400, 940, 430],
+      "button": "right",
+      "label": "Focus the canvas and orbit through the production camera controls",
+      "expect": [{ "path": "after.camera.yaw", "changedFrom": "before.camera.yaw" }]
+    },
+    {
       "key": "w",
       "holdMs": 500,
       "label": "Move through the production keyboard controller",
       "expect": [{ "path": "after.playerPosition", "changedFrom": "before.playerPosition" }]
-    },
-    {
-      "drag": [700, 400, 940, 430],
-      "button": "right",
-      "label": "Orbit through the production camera controls",
-      "expect": [{ "path": "after.camera.yaw", "changedFrom": "before.camera.yaw" }]
     }
   ]
 }

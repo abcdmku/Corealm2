@@ -1,5 +1,7 @@
 # Game workspace
 
-No game is initialized.
+The production Vite app boots through `index.html`. Run `npm run dev` from the repository
+root. Combat and building labs use the same app with `?mode=combat` or `?mode=building`.
 
-After a short brief becomes an approved PRD, the root agent creates the Vite/Three.js foundation here. `game/index.html` is the initialization marker used by the harness.
+Follow [the development loop](../docs/feature-lab.md). Fixture controls and specialized
+checks are in [the lab reference](../docs/lab-reference.md).

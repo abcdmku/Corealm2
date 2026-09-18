@@ -20,8 +20,7 @@ const tools = await document.modelContext.getTools();
 const agent = window.corealm.agent;
 ```
 
-Tools are registered with `document.modelContext.registerTool` (falling back to the older
-`navigator.modelContext` spelling) with a `title`, a `description`, a strict `inputSchema`, and
+Tools are registered with `document.modelContext.registerTool` with a `title`, a `description`, a strict `inputSchema`, and
 `annotations.readOnlyHint`. Each `execute(input, { signal })` returns
 `{ content: [{ type: "text", text: <JSON> }], isError? }`; the JSON is the tool's result. A browser
 without WebMCP gets no stand-in: `window.corealm.agent.webmcp()` reports `binding: "none"` and the

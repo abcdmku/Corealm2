@@ -1,5 +1,4 @@
 import { NodeIO } from '@gltf-transform/core';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { expect, it } from 'vitest';
 import { createCaveLabFixture } from '../game/src/featureLab/cave.js';
@@ -7,18 +6,9 @@ import { MaterialLibrary } from '../game/src/render/materials.js';
 import { buildDungeon } from '../game/src/render/dungeon.js';
 import { caveEnvelopeSampler, caveSourceCoordinates } from '../game/src/render/caveSourceDomain.js';
 
-// V6 was rejected for repeated relief and its candidate directory was deleted on acceptance; V7 keeps
-// its identical envelope geometry and carries the measured V6 derivation metrics in `derivedFrom`.
-it.each([7])('retains scan relief in a welded continuous envelope v%s with bounded transition curvature', async (version) => {
-  const root = 'art/rebuild/candidates/finish-cave-source/v' + version;
-  const provenance = JSON.parse(await readFile(`${root}/provenance.json`, 'utf8')).derivedFrom;
-  expect(provenance.metrics.interiorMaximumError).toBeLessThan(1e-6);
-  expect(provenance.metrics.blendedBandErrorMetres.p95).toBeLessThan(0.1);
-  expect(provenance.metrics.blendedBandErrorMetres.maximum).toBeLessThan(0.21);
-  expect(provenance.metrics.blendedBandCurvature.p95).toBeLessThan(provenance.metrics.rawBandCurvature.p95);
-  expect(provenance.metrics.blendedBandCurvature.maximum).toBeLessThan(provenance.metrics.rawBandCurvature.maximum * 1.05);
-  expect(provenance.metrics.interpolatedInteriorErrorMetres.p95).toBeLessThan(0.02);
-  expect(provenance.metrics.interpolatedInteriorErrorMetres.maximum).toBeLessThan(0.15);
+// Check the accepted envelope geometry and production cave assembly, not saved derivation reports.
+it('keeps the accepted cave envelope welded, traversable and closed around its chambers', async () => {
+  const root = 'art/rebuild/candidates/finish-cave-source/v7';
   const document = await new NodeIO().read(`${root}/models/cave/rock-face-01.glb`);
   expect(document.getRoot().listScenes()[0]!.getExtras().caveContinuousEnvelope).toBe(true);
   const primitive = document.getRoot().listMeshes()[0]!.listPrimitives()[0]!, geometry = new THREE.BufferGeometry();
@@ -47,10 +37,10 @@ it.each([7])('retains scan relief in a welded continuous envelope v%s with bound
   const map = new THREE.Texture(), material = new THREE.MeshStandardMaterial({ map, normalMap: map, roughnessMap: map });
   const maps = { albedo: map, normal: map, roughness: map, meanLinearRgb: [0.2, 0.2, 0.2] as [number, number, number], tileMetres: 2.4 };
   const fixture = createCaveLabFixture({ scene: { root: new THREE.Group(), materials: new MaterialLibrary() },
-    surfaceTextures: { bark: maps, leaf: maps, stone: maps }, rockSource: { geometry, material, continuousEnvelope: true, domainWarp: version === 7 ? { columns: 64, rows: 56 } : undefined, provenance: 'CC0 Rock Face01 front-envelope' } });
+    surfaceTextures: { bark: maps, leaf: maps, stone: maps }, rockSource: { geometry, material, continuousEnvelope: true, domainWarp: { columns: 64, rows: 56 }, provenance: 'CC0 Rock Face01 front-envelope' } });
   const facing = fixture.group.getObjectByName('dungeon-rock-facing') as THREE.Mesh, stats = facing.geometry.userData;
   expect(stats.continuousEnvelope).toBe(true);
-  expect(stats.domainWarp).toBe(version === 7);
+  expect(stats.domainWarp).toBe(true);
   expect(stats.inputVertices - stats.weldedVertices).toBeGreaterThan(1000);
   expect(stats.renderedTriangles).toBeLessThan(650000);
   const normals = facing.geometry.getAttribute('normal');
@@ -71,8 +61,6 @@ it.each([7])('retains scan relief in a welded continuous envelope v%s with bound
   }
   const fallback = buildDungeon(fixture.spec, new MaterialLibrary());
   expect(Array.from(fixture.walkable[0]!.geometry.getAttribute('position').array)).toEqual(Array.from(fallback.walkable[0]!.geometry.getAttribute('position').array));
-  await mkdir('test-results/finish-cave-source-v' + version, { recursive: true });
-  await writeFile('test-results/finish-cave-source-v' + version + '/cpu.json', JSON.stringify({ stats, probes: state.probes, sourceMetrics: provenance.metrics }, null, 2));
   fixture.dispose(); geometry.dispose(); material.dispose(); map.dispose();
 }, 20000);
 

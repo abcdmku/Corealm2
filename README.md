@@ -23,7 +23,7 @@ Everything in the world is a semantic entity (id, archetype, tier, region, state
 
 ## Playing it with an agent over WebMCP
 
-WebMCP is a W3C-track browser API that lets a page publish structured tools to an AI agent instead of having the agent scrape the DOM. Corealm registers 34 tools with `document.modelContext` (falling back to the older `navigator.modelContext` spelling) at boot. Each tool has a title, a description, a strict JSON Schema, and a `readOnlyHint`, and returns MCP content blocks whose text is the tool's JSON result.
+WebMCP is a W3C-track browser API that lets a page publish structured tools to an AI agent instead of having the agent scrape the DOM. Corealm registers 34 tools with `document.modelContext` at boot. Each tool has a title, a description, a strict JSON Schema, and a `readOnlyHint`, and returns MCP content blocks whose text is the tool's JSON result.
 
 ### What you need
 
@@ -108,20 +108,19 @@ npx playwright install chromium   # only for the browser checks below
 npm run dev
 ```
 
-Useful commands:
+Use [the development loop](./docs/feature-lab.md) for daily work. Keep one server and
+browser session alive, then run only the checks relevant to the change.
 
 ```bash
-npm run check                # typecheck, unit tests, game and guide production builds
-npm run test:watch
-npm run lab:preview          # the feature lab, a compact deterministic scene
-npm run lab:test
-npm run smoke -- --run runs/corealm
-npm run agent-proof -- --run runs/corealm    # the Mining 1→10 and quest proofs through the agent surface
-npm run webmcp:audit -- --run runs/corealm --scale 100
-npm run play -- --run runs/corealm --scenario tools/scenarios/<name>.json
-npm run screenshot -- --run runs/corealm --name checkpoint
-npm run docs:dev             # the player guide, regenerated from canonical content
+npm run lab:session -- --url http://127.0.0.1:4173 --compact
+npm test -- tests/<name>.test.ts
+npm run check:fast           # typecheck, content validation, changed-dependency tests
+npm run check                # full unit suite and game/guide builds for integration
 ```
+
+The [lab reference](./docs/lab-reference.md) documents existing fixtures and specialized
+browser gates. Use `npm run devdocs` for the content editor and `npm run guide:build`
+for the player guide.
 
 ## Authoring content
 
@@ -155,9 +154,11 @@ runs/corealm/    brief, PRD, architecture, reports, critique, and test evidence
 skills/          builder and critic role instructions for the agent-driven workflow
 ```
 
-The game never imports the build harness at runtime. Generated icons, world maps, and guide captures are committed; refresh text with `npm run docs:refresh` and visuals with `npm run docs:refresh:visuals` only when they should change. Pushes to `main` build the game and guide and publish them to GitHub Pages.
-
-Normal guide builds use committed media. `npm run gen-docs` refreshes text only. Run `npm run docs:refresh:media` explicitly to regenerate WebP item icons, capture thumbnails, cropped armour views, and the world map from their source images. `npm run docs:refresh:visuals` also refreshes the source world map and gameplay captures. Pages reference media through URL-relative `<img>` paths, and `tools/prepare-docs-site.ts` stages it into `docs-site/public`. If you add an oversized source by hand, `npm run docs:optimize-media` re-encodes it in place.
+The game never imports the build harness at runtime. Generated icons, world maps, and
+guide captures are committed. Refresh them explicitly with `npm run icons`,
+`npm run world-map`, or `npm run guide:capture` when their inputs change.
+`npm run guide:build` uses committed media. Pushes to `main` build the game and guide
+and publish them to GitHub Pages.
 
 ## How it was built
 

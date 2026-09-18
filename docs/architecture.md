@@ -21,4 +21,4 @@ The feature lab uses those production paths in a compact deterministic scene. An
 
 Shared contracts normally live in `game/src/contracts.ts`, but their contents come from the approved PRD. The template does not predeclare final-game schemas. When a contract is wrong, specialists stop; the root updates the contract and affected callers together.
 
-The command-line layer stays thin. `game-agent build` creates a run folder, browser commands collect evidence, and `critic-pack` assembles paths for an independent review. Agent spawning remains the responsibility of the coding environment.
+Use the commands in [the development loop](./feature-lab.md). Browser checks and the persistent session call production paths directly; there is no separate agent command dispatcher.
