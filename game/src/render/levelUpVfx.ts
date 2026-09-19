@@ -84,9 +84,8 @@ export class LevelUpVfx {
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
       depthWrite: false,
-      // Feedback must stay readable when the player levels inside ferns, shallow water or a crowd.
-      // It lasts briefly and never communicates collision, so scenery occlusion adds no value.
-      depthTest: false,
+      // The player and scenery occlude the far side of the orbit so it wraps around the body.
+      depthTest: true,
       fog: false,
       toneMapped: true,
     });
@@ -119,7 +118,7 @@ export class LevelUpVfx {
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      depthTest: false,
+      depthTest: true,
       fog: false,
       toneMapped: true,
     });
@@ -145,7 +144,7 @@ export class LevelUpVfx {
         opacity: 0,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
-        depthTest: false,
+        depthTest: true,
         side: THREE.DoubleSide,
         fog: false,
         toneMapped: true,

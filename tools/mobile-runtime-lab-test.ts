@@ -10,7 +10,8 @@ const rigs = process.argv.includes('--rigs');
 const auto = process.argv.includes('--auto');
 const clear = installTestDeadline('Mobile runtime lab', 60_000), out = `test-results/mobile-runtime-lab${rigs?'-rigs':auto?'-auto':''}`;
 await mkdir(out, { recursive: true });
-const server = await startGameServer();
+const existingUrl = process.argv.find(value => value.startsWith('--url='))?.slice('--url='.length);
+const server = existingUrl ? { url: existingUrl, close: async () => {} } : await startGameServer();
 const browser = await chromium.launch({ headless: true, args: ['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio'] });
 try {
   const context = await browser.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 3, hasTouch: true, isMobile: true });
@@ -48,7 +49,8 @@ try {
     const w = window as any, d = w.__gameDebug;
     const player = d.getPlayerPosition();
     const selected = w.__corealmPlayerAssets.selectArea({position:[player.x,player.y,player.z],regionId:'fallowmarch',resourceRadius:6,viewRadius:6});
-    return { player, selected, actors: w.__groundMotionLab.actors.map((a:any)=>({
+    const canvas = document.querySelector('canvas')!;
+    return { player, selected, buffer: { width: canvas.width, height: canvas.height }, actors: w.__groundMotionLab.actors.map((a:any)=>({
       id:a.entityId, entity:d.getEntity(a.entityId), motion:d.getEntityMotion(a.entityId), bounds:d.getDrawnBounds(a.entityId),
     })), errors:d.getErrors(), views:d.getEntityViewStats(), distance:w.__renderDistanceLab.getState() };
   });
@@ -67,6 +69,8 @@ try {
   await page.waitForTimeout(2000);
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   const after = await capture();
+  assert.deepEqual(after.buffer, before.buffer, 'Mobile distance tuning must preserve drawing-buffer resolution');
+  assert.equal(after.distance.settings.renderScale, before.distance.settings.renderScale);
   assert.ok(before.selected.includes('ground-motion:animal_cattle'),'Nearby actor enters the travel working set');
   assert.ok(!after.selected.includes('ground-motion:animal_cattle'),'Real movement refreshes the cached travel working set');
   await page.screenshot({ path: path.join(out,'moving.png'), timeout:5000 });

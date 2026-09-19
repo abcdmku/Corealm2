@@ -42,3 +42,16 @@ it("starts a fresh calibration after a manual graphics change", () => {
   control.reset("near");
   expect(run(control, 5000, 16.7)).toEqual([]);
 });
+
+it("reduces mobile distance at sustained 50 FPS instead of accepting it", () => {
+  expect(run(new AdaptiveDrawDistance("far", true), 60000, 20)).toEqual(["medium", "near"]);
+  expect(run(new AdaptiveDrawDistance("far", false), 60000, 20)).toEqual([]);
+});
+
+it("keeps mobile at near at 60 FPS and requires headroom before expanding", () => {
+  const control = new AdaptiveDrawDistance("near", true);
+  expect(run(control, 60000, 1000 / 60)).toEqual([]);
+  expect(run(control, 16000, 12)).toEqual(["medium"]);
+  expect(run(control, 18000, 20)).toEqual(["near"]);
+  expect(run(control, 90000, 12)).toEqual([]);
+});

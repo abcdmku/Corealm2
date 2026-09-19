@@ -1,4 +1,5 @@
 import type { DrawDistance } from "../ui/settings.js";
+import { usesMobileAssets } from "./assetDelivery.js";
 
 const LEVELS: readonly DrawDistance[] = ["near", "medium", "far"];
 
@@ -12,7 +13,7 @@ export class AdaptiveDrawDistance {
   private upgradeDelay = 0;
   private activeWindow = true;
 
-  constructor(private distance: DrawDistance) {}
+  constructor(private distance: DrawDistance, private readonly mobile = usesMobileAssets()) {}
 
   reset(distance: DrawDistance): void {
     this.distance = distance;
@@ -43,8 +44,11 @@ export class AdaptiveDrawDistance {
     if (this.elapsed < 3_000 || this.samples.length < 8) return null;
     this.samples.sort((a, b) => a - b);
     const percentile = (fraction: number) => this.samples[Math.floor((this.samples.length - 1) * fraction)]!;
-    const slow = percentile(0.75) > 26;
-    const fast = this.activeWindow && percentile(0.9) < 18.5;
+    // Mobile targets 60 FPS. Steady 40–50 FPS must reduce distance, and merely
+    // matching 60 Hz does not prove there is headroom for more scenery. Keep
+    // resolution fixed and require spare frame time before increasing distance.
+    const slow = percentile(0.75) > (this.mobile ? 18.5 : 26);
+    const fast = this.activeWindow && percentile(0.9) < (this.mobile ? 14 : 18.5);
     this.slowWindows = slow ? this.slowWindows + 1 : 0;
     this.fastWindows = fast ? this.fastWindows + 1 : 0;
     this.samples = [];
