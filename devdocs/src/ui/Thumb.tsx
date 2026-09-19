@@ -2,8 +2,9 @@ import { useState, type CSSProperties } from "react";
 import { ImageOff, MapPinOff, type LucideIcon } from "lucide-react";
 import { itemIconUrl } from "../../../game/src/ui/itemIcons.js";
 import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellIcons.js";
-import { WORLD_MAP_IMAGE_BOUNDS, WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
+import { WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../model/gameUrl.js";
+import { IMAGE_BOX, boxFraction, onDrawnMap } from "../model/worldMap.js";
 import type { ThumbSpec } from "../model/summaries.js";
 import { useAssetThumbnail } from "./assetThumbnails.js";
 import { cn } from "../lib/utils.js";
@@ -36,14 +37,11 @@ function glyphStyle(hue: number | undefined, colour?: string): CSSProperties | u
 }
 
 function MapCrop({ x, z, span, children }: { x: number; z: number; span: number; children?: React.ReactNode }) {
-  const { minX, maxX, minZ, maxZ } = WORLD_MAP_IMAGE_BOUNDS;
-  const inside = x >= minX && x <= maxX && z >= minZ && z <= maxZ;
-  if (!inside) return <span className={GLYPH} title="Beyond the drawn map">{children ?? <MapPinOff />}</span>;
+  if (!onDrawnMap(x, z)) return <span className={GLYPH} title="Beyond the drawn map">{children ?? <MapPinOff />}</span>;
   // Scale the minimap so `span` metres fill the thumb, then offset so (x, z) sits at the centre.
-  const scale = (maxX - minX) / span;
-  const px = ((x - minX) / (maxX - minX)) * 100;
-  const pz = ((z - minZ) / (maxZ - minZ)) * 100;
-  return <span className="grid size-full place-items-center bg-art bg-no-repeat" style={{ backgroundImage: `url(${gameUrl(WORLD_MAP_MINIMAP_RENDITION.path)})`, backgroundSize: `${scale * 100}%`, backgroundPosition: `${px}% ${pz}%` }}>
+  const scale = IMAGE_BOX.spanX / span;
+  const { u, v } = boxFraction(IMAGE_BOX, x, z);
+  return <span className="grid size-full place-items-center bg-art bg-no-repeat" style={{ backgroundImage: `url(${gameUrl(WORLD_MAP_MINIMAP_RENDITION.path)})`, backgroundSize: `${scale * 100}%`, backgroundPosition: `${u * 100}% ${v * 100}%` }}>
     {children && <span className="grid size-[45%] place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_0_2px_#0006] [&_svg]:size-[65%]">{children}</span>}
   </span>;
 }

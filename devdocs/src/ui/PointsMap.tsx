@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { WORLD_MAP_DETAIL_RENDITIONS, WORLD_MAP_IMAGE_BOUNDS } from "../../../game/src/generated/worldMapFingerprint.js";
+import { WORLD_MAP_DETAIL_RENDITIONS } from "../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../model/gameUrl.js";
+import { IMAGE_BOX, boxFraction, cropPosition, zAtFraction } from "../model/worldMap.js";
 import { useReferenceIndex } from "../model/refs.js";
 import { contentRows } from "../model/rows.js";
 import { cn } from "../lib/utils.js";
@@ -53,19 +54,18 @@ export function PointsMap({ points, onOpen, onOpenAt, className, labels, caption
   // Names are drawn only when they cannot land on each other: three pins at most, well apart.
   const apart = points.every((a, i) => points.every((b, j) => j <= i || Math.hypot((a.x - b.x) / view.spanX, (a.z - b.z) / view.spanZ) > 0.18));
   const hoverLabels = (labels ?? (points.length <= 3 && apart ? "always" : "hover")) === "hover";
-  const { minX, maxX, minZ, maxZ } = WORLD_MAP_IMAGE_BOUNDS;
   // Only the overworld has a drawn map; a place elsewhere (the fairy realm) is pinned on a plain grid.
-  const drawn = !(view.x0 + view.spanX < minX || view.x0 > maxX || view.z0 + view.spanZ < minZ || view.z0 > maxZ);
-  const imageSpanX = maxX - minX, imageSpanZ = maxZ - minZ;
-  const px = (x: number) => ((x - view.x0) / view.spanX) * 100;
-  const pz = (z: number) => ((z - view.z0) / view.spanZ) * 100;
+  const x1 = view.x0 + view.spanX, z1 = view.z0 + view.spanZ;
+  const drawn = !(x1 < IMAGE_BOX.x0 || view.x0 > IMAGE_BOX.x0 + IMAGE_BOX.spanX || z1 < IMAGE_BOX.z0 || view.z0 > IMAGE_BOX.z0 + IMAGE_BOX.spanZ);
+  const px = (x: number) => boxFraction(view, x, 0).u * 100;
+  const pz = (z: number) => boxFraction(view, 0, z).v * 100;
+  const offset = cropPosition(view);
   const grid = `${(40 / view.spanX) * 100}%`;
   const style = drawn ? {
     aspectRatio: String(ASPECT),
     backgroundImage: `url(${gameUrl(IMAGE.path)})`,
-    backgroundSize: `${(imageSpanX / view.spanX) * 100}% ${(imageSpanZ / view.spanZ) * 100}%`,
-    // Percent positions align the same fraction of image and box, so the crop's offset is its share of the leftover image.
-    backgroundPosition: `${((view.x0 - minX) / (imageSpanX - view.spanX)) * 100 || 0}% ${((view.z0 - minZ) / (imageSpanZ - view.spanZ)) * 100 || 0}%`,
+    backgroundSize: `${(IMAGE_BOX.spanX / view.spanX) * 100}% ${(IMAGE_BOX.spanZ / view.spanZ) * 100}%`,
+    backgroundPosition: `${offset.u * 100}% ${offset.v * 100}%`,
   } : {
     aspectRatio: String(ASPECT),
     backgroundImage: "linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)",
@@ -73,12 +73,12 @@ export function PointsMap({ points, onOpen, onOpenAt, className, labels, caption
   };
   const scale = Math.round(view.spanX);
   return <div className={cn("points-map relative w-full cursor-crosshair overflow-hidden rounded-md border border-border bg-art bg-no-repeat [container-type:inline-size] focus-within:border-primary", className)} style={style} role="img" aria-label={`Map of ${points.length} ${points.length === 1 ? "place" : "places"}`}
-    onClick={event => { if (!onOpenAt || event.target !== event.currentTarget) return; const box = event.currentTarget.getBoundingClientRect(); onOpenAt(view.x0 + ((event.clientX - box.left) / box.width) * view.spanX, view.z0 + ((event.clientY - box.top) / box.height) * view.spanZ); }}>
-    {!drawn && regions.filter(region => region.x1 > view.x0 && region.x0 < view.x0 + view.spanX && region.z1 > view.z0 && region.z0 < view.z0 + view.spanZ).map(region => {
-      // Clipped to the crop, so the name sits in the visible part of the region.
-      const x0 = Math.max(region.x0, view.x0), x1 = Math.min(region.x1, view.x0 + view.spanX), z0 = Math.max(region.z0, view.z0), z1 = Math.min(region.z1, view.z0 + view.spanZ);
+    onClick={event => { if (!onOpenAt || event.target !== event.currentTarget) return; const box = event.currentTarget.getBoundingClientRect(); onOpenAt(view.x0 + ((event.clientX - box.left) / box.width) * view.spanX, zAtFraction(view, (event.clientY - box.top) / box.height)); }}>
+    {!drawn && regions.filter(region => region.x1 > view.x0 && region.x0 < x1 && region.z1 > view.z0 && region.z0 < z1).map(region => {
+      // Clipped to the crop, so the name sits in the visible part of the region. `top` is the region's north edge.
+      const west = Math.max(region.x0, view.x0), east = Math.min(region.x1, x1), south = Math.max(region.z0, view.z0), north = Math.min(region.z1, z1);
       return <span key={region.id} className="pointer-events-none absolute border border-dashed border-muted-foreground/40 bg-secondary/50"
-        style={{ left: `${px(x0)}%`, top: `${pz(z0)}%`, width: `${((x1 - x0) / view.spanX) * 100}%`, height: `${((z1 - z0) / view.spanZ) * 100}%` }}>
+        style={{ left: `${px(west)}%`, top: `${pz(north)}%`, width: `${((east - west) / view.spanX) * 100}%`, height: `${((north - south) / view.spanZ) * 100}%` }}>
         <span className="absolute bottom-1 left-1.5 text-[11px] font-medium text-muted-foreground">{region.name}</span>
       </span>;
     })}
