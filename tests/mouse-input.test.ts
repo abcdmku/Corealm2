@@ -123,6 +123,7 @@ describe("held left pointer movement", () => {
     windowTarget.dispatchEvent(pointerEvent("pointermove", { clientX: 140, clientY: 120 }));
     input.update();
     expect(api.moveTo).toHaveBeenCalledTimes(1);
+    expect(api.stop).not.toHaveBeenCalled();
 
     windowTarget.dispatchEvent(pointerEvent("pointermove", { clientX: 220, clientY: 180 }));
     input.update();

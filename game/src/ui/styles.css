@@ -459,7 +459,9 @@ html, body {
   box-shadow: var(--inset-well);
 }
 
+/* display:block so a <span> fill still has a height — rows inside a <button> cannot use divs. */
 .bar__fill {
+  display: block;
   height: 100%;
   width: 0;
   background: linear-gradient(180deg, var(--bar-colour, var(--accent)), color-mix(in srgb, var(--bar-colour, var(--accent)) 65%, #000));

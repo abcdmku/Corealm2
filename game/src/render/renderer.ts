@@ -452,10 +452,11 @@ export class Renderer {
     this.sun.shadow.camera.right = 48;
     this.sun.shadow.camera.top = 48;
     this.sun.shadow.camera.bottom = -48;
-    // Tighter texels need less bias. -0.0008 at 6.8 cm/texel was peeling contact shadows away from
-    // the objects casting them, which is half of why every prop read as floating.
-    this.sun.shadow.bias = -0.0004;
-    this.sun.shadow.normalBias = 0.02;
+    // Depth bias spans the 219 m light frustum: -0.0004 removed 8.8 cm of contact,
+    // visibly detaching low creatures from their shadows under the shallow sun.
+    // Keep that offset below a centimetre; normal bias handles surface acne.
+    this.sun.shadow.bias = -0.00003;
+    this.sun.shadow.normalBias = 0.01;
     this.scene.add(this.sun);
     this.scene.add(this.sun.target);
 

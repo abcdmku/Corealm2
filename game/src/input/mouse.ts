@@ -587,8 +587,10 @@ export class InputController {
     }
     const direct = forward !== 0 || strafe !== 0 || (this.leftDragging && this.movementEnabled);
     if (direct && !this.directIntentActive) {
-      // Even a tap shorter than one world tick cancels pursuit, before local movement advances.
-      void sendGameCommand(this.api, "stop");
+      // A ground press already replaced the intent. Stopping again when that press becomes a
+      // drag resets velocity and makes repeated clicks with hand motion restart the stride.
+      // Keyboard/stick input still cancels pursuit before local movement advances.
+      if (!this.leftDragging) void sendGameCommand(this.api, "stop");
       this.setSelected(null);
       this.options.onDirectMoveStart?.();
     }

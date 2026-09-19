@@ -5899,7 +5899,20 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       }
 
       const centreDistance = raycaster.ray.origin.distanceTo(this.pickRayPoint);
-      const entryDistance = Math.max(0, centreDistance - Math.sqrt(hitRadius * hitRadius - gapSq));
+      let entryDistance = Math.max(0, centreDistance - Math.sqrt(hitRadius * hitRadius - gapSq));
+      if (record.archetype === "enemy" || record.archetype === "boss") {
+        // The capsule is a cheap broad phase. Labels and minimum click radii must not
+        // make empty space above a small creature clickable. Sample only candidates
+        // that passed it, including the current pose of distant animated instances.
+        const bounds = this.drawnBounds(record.entityId, true);
+        if (!bounds) continue;
+        const padding = Math.min(0.15, Math.max(0.04, (bounds.max[1] - bounds.min[1]) * 0.05));
+        this.pickPartBounds.min.fromArray(bounds.min);
+        this.pickPartBounds.max.fromArray(bounds.max);
+        this.pickPartBounds.expandByScalar(padding);
+        if (!raycaster.ray.intersectBox(this.pickPartBounds, this.pickRayPoint)) continue;
+        entryDistance = raycaster.ray.origin.distanceTo(this.pickRayPoint);
+      }
       if (entryDistance < raycaster.near || entryDistance > raycaster.far) continue;
       found.push({ entityId: record.entityId, distance: entryDistance });
     }

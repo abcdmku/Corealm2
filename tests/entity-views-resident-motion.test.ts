@@ -81,6 +81,24 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it("fits creature picking to the drawn body with a small margin at both animation distances", async () => {
+    const entity = actor("small-creature");
+    entity.view = { ...entity.view!, scale: 0.3, labelHeight: 2 };
+    const f = await fixture([entity]);
+    try {
+      for (const viewer of [new THREE.Vector3(), new THREE.Vector3(100, 0, 0)]) {
+        f.views.update(0, viewer);
+        const bounds = f.views.drawnBounds(entity.id, true)!;
+        expect(bounds).not.toBeNull();
+        const x = (bounds.min[0] + bounds.max[0]) / 2;
+        const rayAt = (y: number) => new THREE.Raycaster(new THREE.Vector3(x, y, 10), new THREE.Vector3(0, 0, -1));
+        expect(f.views.pick(rayAt((bounds.min[1] + bounds.max[1]) / 2))).toBe(entity.id);
+        expect(f.views.pick(rayAt(bounds.max[1] + 0.02))).toBe(entity.id);
+        expect(f.views.pick(rayAt(bounds.max[1] + 0.2))).toBeNull();
+        expect(f.views.pick(rayAt(1.2))).toBeNull();
+      }
+    } finally { f.dispose(); }
+  });
   it("keeps an action playing across unchanged replicated locomotion heartbeats", async () => {
     const f = await fixture([actor("remote")]);
     try {
