@@ -17,6 +17,10 @@ const kinds:Record<string,string>={items:'item',recipes:'recipe',resources:'reso
 export async function transact(body:ContentTransactionRequest,options:TransactionOptions={}):Promise<DevdocsJsonResponse>{
   if(!body||!['preview','save'].includes(body.operation)||!Array.isArray(body.changes)||!body.changes.length||body.changes.length>1000||!body.revisions||typeof body.revisions!=='object')return json(422,{error:'Invalid content transaction'});
   const root=path.resolve(options.contentRoot??path.join(repoRoot,'game/content'));
+  // Formula checks publish under the same lock. Finish them before locking this transaction.
+  let checked: {compiler:typeof compileContent;sourceRevision:string}|{error:unknown};
+  try{const compiler=await options.compiler?.()??compileContent;checked={compiler,sourceRevision:formulaSourceRevision()};}
+  catch(error){checked={error};}
   return withFileLock(path.join(root,'.collection-write'),async()=>{
     const journal=path.join(root,'.content-transaction.json');
     try{const interrupted=JSON.parse(await readFile(journal,'utf8')) as {files:{file:string;text:string|null}[]};for(const entry of interrupted.files){const resolved=path.resolve(root,entry.file);if(path.relative(root,resolved).startsWith('..'))throw new Error('Invalid transaction recovery path');if(entry.text===null)await unlink(resolved).catch(()=>{});else await atomicReplaceFile(resolved,entry.text);}await unlink(journal);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
@@ -47,9 +51,9 @@ export async function transact(body:ContentTransactionRequest,options:Transactio
     }}catch(error){return json(422,{error:String(error)});}
     const changed=CONTENT_COLLECTIONS.filter(spec=>JSON.stringify(values.get(spec.name))!==JSON.stringify(snapshots.get(spec.name)!.data));
     if(body.operation==='save'&&changed.some(spec=>body.revisions[spec.name]!==revisions[spec.name]))return json(409,{error:'Review current revisions for every affected collection. Your draft has been preserved.',revisions});
-    let compiler:typeof compileContent;
-    try{compiler=await options.compiler?.()??compileContent;}catch(error){return json(422,{error:error instanceof Error?error.message:String(error),diagnostics:[{path:'formulas',message:'Save is paused until formula source passes project checking',severity:'error'}],revisions});}
-    const sourceRevision=formulaSourceRevision();
+    if('error' in checked){const error=checked.error;return json(422,{error:error instanceof Error?error.message:String(error),diagnostics:[{path:'formulas',message:'Save is paused until formula source passes project checking',severity:'error'}],revisions});}
+    const {compiler,sourceRevision}=checked;
+    if(formulaSourceRevision()!==sourceRevision)return json(409,{error:'Formula source changed before compilation. Your draft has been preserved.',revisions});
     const compiled=compiler(values,await options.referencePools?.()??{});
     if(!compiled.ok)return json(422,{error:'Content failed validation. Sources and last valid build are unchanged.',diagnostics:compiled.diagnostics,revisions});
     const affected=changed.flatMap(spec=>{const before=snapshots.get(spec.name)!.data;const rows=values.get(spec.name);if(!Array.isArray(rows)||!Array.isArray(before))return [{collection:spec.name,id:'$collection'}];const ids=new Set([...before,...rows].map(row=>String(row[spec.idKey])));return [...ids].filter(id=>JSON.stringify(before.find(row=>String(row[spec.idKey])===id))!==JSON.stringify(rows.find(row=>String(row[spec.idKey])===id))).map(id=>({collection:spec.name,id}));});
