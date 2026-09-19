@@ -3821,6 +3821,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
   if (runtimePerformanceEnabled) renderer.startStreamingWarmup();
+  // Startup was prepared above. Subsequent equipment changes retain their previous appearance
+  // until the streaming renderer has prepared the replacement's shaders and textures.
+  if (!worldMapCapture) playerRig.setAppearancePreparation(root => renderer.prepareInterior(root));
 
   if (worldMapCapture) {
     // Build-time capture is deterministic: no animation/motion frame may land between two tiles.

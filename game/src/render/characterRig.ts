@@ -491,7 +491,11 @@ export class CharacterRig {
   private committedLayerAssets: string[] = [];
   private layerMissingBones: string[] = [];
   private layerLoadPending = false;
-  private layerWork: Promise<void> = Promise.resolve();
+  private layerRoot: THREE.Group | null = null;
+  private layerEpoch = 0;
+  private cancelLayerPreparation: (() => void) | null = null;
+  private prepareAppearance: ((root: THREE.Object3D) => Promise<void>) | null = null;
+  private disposed = false;
 
   // Head cap.
   private bodyMeshes: THREE.SkinnedMesh[] = [];
@@ -506,6 +510,7 @@ export class CharacterRig {
   private slotEpoch = new Map<EquipSlot, number>();
   private slotLoading = new Map<EquipSlot, string>();
   private slotLoadErrors = new Map<EquipSlot, string>();
+  private cancelSlotPreparation = new Map<EquipSlot, () => void>();
   /** Temporary gathering tool shown during its activity. Worn gear remains in `gearBySlot`. */
   private activityMainHandKey: string | null = null;
   /**
@@ -516,6 +521,11 @@ export class CharacterRig {
 
   constructor(private readonly assets: AssetRegistry) {
     this.root.name = "character-rig";
+  }
+
+  /** Install after startup warmup, when frames can prepare hidden replacement meshes. */
+  setAppearancePreparation(prepare: (root: THREE.Object3D) => Promise<void>): void {
+    this.prepareAppearance = prepare;
   }
 
   /**
@@ -963,7 +973,7 @@ export class CharacterRig {
       const stack = slots[slot] ?? null;
       const parts = stack ? this.appearanceParts(stack.itemId, charge) : [];
       const previous = this.gearBySlot.get(slot) ?? [];
-      if (sameAppearances(previous, parts)) continue;
+      if (sameAppearances(previous, parts) && !this.slotLoadErrors.has(slot)) continue;
 
       if (parts.length > 0) this.gearBySlot.set(slot, parts);
       else this.gearBySlot.delete(slot);
@@ -1075,7 +1085,8 @@ export class CharacterRig {
       for (const material of ownedMaterials) material.dispose();
       return;
     }
-    bone.add(object);
+    // A prepared attachment already lives on this bone. Reparenting would enqueue it again.
+    if (object.parent !== bone) bone.add(object);
     this.boneAttachments.set(slot, object);
     if (this.traversalSample && (slot === "mainHand" || slot === "offHand")) {
       this.traversalHiddenGear.set(object, object.visible);
@@ -1085,8 +1096,11 @@ export class CharacterRig {
   }
 
   private async attachBoneSlot(slot: EquipSlot, appearance: GearAppearanceLike | null): Promise<void> {
+    if (this.disposed) return;
     const epoch = (this.slotEpoch.get(slot) ?? 0) + 1;
     this.slotEpoch.set(slot, epoch);
+    this.cancelSlotPreparation.get(slot)?.();
+    this.cancelSlotPreparation.delete(slot);
     this.slotLoadErrors.delete(slot);
     if (!appearance) {
       this.slotLoading.delete(slot);
@@ -1094,12 +1108,20 @@ export class CharacterRig {
       return;
     }
     this.slotLoading.set(slot, appearance.assetId);
+    let candidate: THREE.Object3D | null = null;
+    let cloned: THREE.Material[] = [];
+    const discard = () => {
+      candidate?.removeFromParent();
+      candidate = null;
+      for (const material of cloned) material.dispose();
+      cloned = [];
+    };
     try {
       const source = await this.assets.load(appearance.assetId);
       // A load that finished after a newer change to the same slot must not win the race.
-      if (this.slotEpoch.get(slot) !== epoch) return;
-      this.slotLoading.delete(slot);
+      if (this.disposed || this.slotEpoch.get(slot) !== epoch) return;
       const object = source.clone(true);
+      candidate = object;
       const elementalFocus = this.assets.entry(appearance.assetId)?.itemModel?.focus ?? equipmentVisuals.elementalWeaponFocus(appearance.assetId);
       if (elementalFocus) object.userData["elementalSocket"] = [...elementalFocus];
       const fishing = this.assets.entry(appearance.assetId)?.itemModel?.fishing;
@@ -1117,22 +1139,31 @@ export class CharacterRig {
         mesh.receiveShadow = this.castShadow;
       }
       this.gear?.applyGearAppearance?.(object, appearance);
-      const cloned = clonedMaterialsOf(object, source);
-      this.setSlot(slot, object, socket.bone);
-      // `setSlot` disposes the previous attachment's material clones. Record this attachment only
-      // after that cleanup, or it would dispose its own fresh tint and forget the old one.
-      if (this.boneAttachments.get(slot) === object && cloned.length > 0) {
-        this.boneAttachmentMaterials.set(slot, cloned);
-      } else {
-        for (const material of cloned) material.dispose();
+      cloned = clonedMaterialsOf(object, source);
+      if (this.prepareAppearance) {
+        const bone = this.hostBones.get(socket.bone);
+        if (!bone) throw new Error(`Missing equipment bone: ${socket.bone}`);
+        const visible = object.visible;
+        object.visible = false;
+        bone.add(object);
+        this.cancelSlotPreparation.set(slot, discard);
+        await this.prepareAppearance(object);
+        if (this.disposed || this.slotEpoch.get(slot) !== epoch) return;
+        object.visible = visible;
       }
+      this.setSlot(slot, object, socket.bone, cloned);
+      candidate = null;
+      cloned = [];
+      this.slotLoading.delete(slot);
     } catch (error) {
-      // A stale failed load must not clear a newer attachment that already won this slot.
-      if (this.slotEpoch.get(slot) === epoch) {
+      // Keep the previous weapon on failure, just as we retain the previous outfit.
+      if (!this.disposed && this.slotEpoch.get(slot) === epoch) {
         this.slotLoading.delete(slot);
         this.slotLoadErrors.set(slot, error instanceof Error ? error.message : String(error));
-        this.setSlot(slot, null);
       }
+    } finally {
+      discard();
+      if (this.slotEpoch.get(slot) === epoch) this.cancelSlotPreparation.delete(slot);
     }
   }
 
@@ -1172,18 +1203,19 @@ export class CharacterRig {
   /**
    * Rebuilds the layered skinned parts: base outfit, overridden per region by worn gear.
    *
-   * Serialised through `layerWork` because every call awaits asset loads, and two overlapping
-   * rebuilds would race over the same graph. Returns early when the resolved part list is unchanged,
-   * which is the common case — the loop calls into this path only when the worn signature moves.
+   * Assemble offscreen on the live skeleton, then commit only the latest complete appearance.
+   * The old outfit stays animated through asset loading and renderer preparation.
    */
   private rebuildLayers(): Promise<void> {
-    this.layerWork = this.layerWork.then(() => this.rebuildLayersNow()).catch(() => undefined);
-    return this.layerWork;
+    return this.rebuildLayersNow();
   }
 
   private async rebuildLayersNow(): Promise<void> {
     const target = this.layerTarget;
-    if (!target) return;
+    if (!target || this.disposed) return;
+    const epoch = ++this.layerEpoch;
+    this.cancelLayerPreparation?.();
+    this.cancelLayerPreparation = null;
 
     const byRegion = new Map<string, string>();
     const extras: string[] = [];
@@ -1231,57 +1263,78 @@ export class CharacterRig {
       return;
     }
 
-    // Load first, mutate second: a failed load must not leave the character half dressed.
-    let sources: { assetId: string; source: THREE.Object3D }[];
+    const candidate = new THREE.Group();
+    candidate.name = "outfit";
+    candidate.visible = false;
+    const geometries = new Set<THREE.BufferGeometry>();
+    const materials = new Set<THREE.Material>();
+    const missingBones: string[] = [];
+    const discard = () => {
+      candidate.removeFromParent();
+      for (const geometry of geometries) geometry.dispose();
+      for (const material of materials) material.dispose();
+      geometries.clear();
+      materials.clear();
+    };
     try {
-      sources = await Promise.all(ids.map(async assetId => ({ assetId, source: await this.assets.load(assetId) })));
-    } catch {
-      // Keep the complete previous outfit and its matching body cap. Committing a partial
-      // source list could remove the body beneath trousers or sleeves that never loaded.
-      // The requested appearances are already recorded in gearBySlot. A pending flag lets
-      // a repeated applyEquipment call retry even when those appearances are unchanged.
-      this.layerLoadPending = true;
-      return;
-    }
+      const sources = await Promise.all(ids.map(async assetId => ({ assetId, source: await this.assets.load(assetId) })));
+      if (this.disposed || this.layerEpoch !== epoch) return;
 
-    this.clearLayers();
-    this.restoreCap();
-    if (wantCap) this.applyCap();
-    if (tailoredArmor) this.applyTailoredCoverage(byRegion);
-
-    const rebound: THREE.SkinnedMesh[] = [];
-    for (const { assetId, source } of sources) {
-      const clone = cloneSkinned(source);
-      const result = rebindSkinnedPart(clone, this.hostBones, target, {
-        castShadow: this.castShadow,
-        receiveShadow: this.castShadow,
-        skeletonCache: this.skeletonCache,
-      });
-      const appearance = worn.get(assetId);
-      this.layerMissingBones.push(...result.missing.map(name => `${assetId}:${name}`));
-      for (const mesh of result.meshes) {
-        mesh.name = `part-${assetId}-${mesh.name}`;
-        mesh.geometry = dequantizeGeometry(mesh.geometry);
-        if (!appearance) continue;
-        this.gear?.applyGearAppearance?.(mesh, appearance);
-        // Whatever the tint swapped in is a clone this rig owns; recorded so `clearLayers` frees
-        // it. An untinted part keeps the loaded asset's own material and must never be disposed.
-        for (const material of clonedMaterialsOf(mesh, source)) this.layerMaterials.push(material);
+      const rebound: THREE.SkinnedMesh[] = [];
+      for (const { assetId, source } of sources) {
+        const clone = cloneSkinned(source);
+        const result = rebindSkinnedPart(clone, this.hostBones, candidate, {
+          castShadow: this.castShadow,
+          receiveShadow: this.castShadow,
+          skeletonCache: this.skeletonCache,
+        });
+        const appearance = worn.get(assetId);
+        missingBones.push(...result.missing.map(name => `${assetId}:${name}`));
+        for (const mesh of result.meshes) {
+          mesh.name = `part-${assetId}-${mesh.name}`;
+          const geometry = dequantizeGeometry(mesh.geometry);
+          if (geometry !== mesh.geometry) geometries.add(geometry);
+          mesh.geometry = geometry;
+          if (!appearance) continue;
+          this.gear?.applyGearAppearance?.(mesh, appearance);
+          for (const material of clonedMaterialsOf(mesh, source)) materials.add(material);
+        }
+        rebound.push(...result.meshes);
       }
-      rebound.push(...result.meshes);
-    }
 
-    if (this.mergeParts && rebound.length > 1) {
-      const merged = mergeSkinnedMeshes(rebound, { materialKey: materialMergeKey });
-      this.layerMeshes = merged.meshes;
-      this.layerGeometries = merged.geometries;
-    } else {
-      this.layerMeshes = rebound;
-      this.layerGeometries = [];
+      let meshes = rebound;
+      if (this.mergeParts && rebound.length > 1) {
+        const merged = mergeSkinnedMeshes(rebound, { materialKey: materialMergeKey });
+        meshes = merged.meshes;
+        for (const geometry of merged.geometries) geometries.add(geometry);
+      }
+      // Keep the hidden group in its final parent so the renderer prepares the actual meshes.
+      // Moving them again at commit would put them back in the streaming warmup queue.
+      target.add(candidate);
+      this.cancelLayerPreparation = discard;
+      if (this.prepareAppearance) await this.prepareAppearance(candidate);
+      if (this.disposed || this.layerEpoch !== epoch) return;
+
+      this.clearLayers();
+      this.restoreCap();
+      if (wantCap) this.applyCap();
+      if (tailoredArmor) this.applyTailoredCoverage(byRegion);
+      this.layerRoot = candidate;
+      this.layerMeshes = meshes;
+      this.layerGeometries = [...geometries];
+      this.layerMaterials = [...materials];
+      this.layerMissingBones = missingBones;
+      this.layerSignature = signature;
+      this.committedLayerAssets = [...ids];
+      this.layerLoadPending = false;
+      candidate.visible = true;
+    } catch {
+      // A repeated applyEquipment can retry without changing the requested equipment.
+      if (!this.disposed && this.layerEpoch === epoch) this.layerLoadPending = true;
+    } finally {
+      if (this.layerRoot !== candidate) discard();
+      if (this.layerEpoch === epoch) this.cancelLayerPreparation = null;
     }
-    this.layerSignature = signature;
-    this.committedLayerAssets = [...ids];
-    this.layerLoadPending = false;
   }
 
   /** The manifest tag that says which body region a layered asset covers, or null. */
@@ -1293,6 +1346,8 @@ export class CharacterRig {
   }
 
   private clearLayers(): void {
+    this.layerRoot?.removeFromParent();
+    this.layerRoot = null;
     for (const mesh of this.layerMeshes) mesh.removeFromParent();
     this.layerMeshes = [];
     this.committedLayerAssets = [];
@@ -1321,8 +1376,9 @@ export class CharacterRig {
     if (this.capped || !this.body) return;
     const cut = headCapHeightFor(this.bodyAssetId);
     if (cut === null) return;
-    const result = applyHeadCap(this.body, cut);
-    this.capGeometries = result.geometries;
+    // A staged outfit is already under the body for shader preparation. Clip only the native
+    // body meshes, never the prepared clothing or attachments sharing that hierarchy.
+    this.capGeometries = this.bodyMeshes.flatMap(mesh => applyHeadCap(mesh, cut).geometries);
     // `applyHeadCap` detaches any mesh with nothing above the cut. Remember which, so the cut is
     // reversible when the player takes the trousers off again. Measured on base_male and
     // base_female, nothing is removed outright — Eyes and Eyebrows sit entirely above the plane —
@@ -1579,6 +1635,12 @@ export class CharacterRig {
   }
 
   dispose(): void {
+    this.disposed = true;
+    this.cancelLayerPreparation?.();
+    this.cancelLayerPreparation = null;
+    for (const cancel of this.cancelSlotPreparation.values()) cancel();
+    this.cancelSlotPreparation.clear();
+    this.slotLoading.clear();
     this.fishingPose.restore();
     this.fishingFlex.dispose();
     this.fishingLine.dispose();
