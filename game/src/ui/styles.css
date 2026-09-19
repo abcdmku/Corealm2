@@ -1490,20 +1490,22 @@ html, body {
 /* ------------------------------------------------------------- the dock */
 
 /*
- * One strip of dark glass, no inner boxes. Each button is an icon over one small word; the open
- * panel's button turns brass and carries a short underline. The side slot opens above it.
+ * Match the spell bar's frame and square slots. Simple generated symbols identify panels;
+ * the open panel carries the same brass selection ring as the standing spell.
  */
+:root { --hud-slot: 34px; }
+
 .dock {
   position: absolute;
   right: 12px;
   bottom: 12px;
   display: flex;
-  gap: 2px;
-  padding: 4px 6px;
-  background: rgba(12, 10, 8, 0.78);
-  border: 1px solid rgba(235, 220, 188, 0.1);
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  gap: 3px;
+  padding: 2px;
+  background: rgba(12, 10, 8, 0.82);
+  border: 1px solid rgba(235, 220, 188, 0.12);
+  border-radius: 5px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(6px);
   z-index: var(--z-hud);
 }
@@ -1514,64 +1516,65 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  width: 54px;
-  height: 50px;
+  gap: 0;
+  width: var(--hud-slot);
+  height: var(--hud-slot);
   padding: 0;
-  background: none;
-  border: none;
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
   color: var(--ink-dim);
   font-family: var(--font);
   cursor: pointer;
   transition: color var(--transition), background var(--transition);
 }
 
-.dock__btn:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
+.dock__btn:hover { color: var(--ink); border-color: var(--panel-edge-bright); }
 .dock__btn:hover .dock__label { color: var(--ink); }
 .dock__btn:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
 
-.dock__btn.is-active { color: var(--accent); }
+.dock__btn.is-active { color: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .dock__btn.is-active .dock__label { color: var(--accent); }
 
-.dock__btn.is-active::after {
-  content: "";
-  position: absolute;
-  left: 17px;
-  right: 17px;
-  bottom: 2px;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 1px;
-}
-
-.dock__glyph { display: block; transition: color var(--transition); }
+.dock__glyph { position: absolute; inset: 3px; display: grid; place-items: center; pointer-events: none; }
+.dock__glyph img { width: 100%; height: 100%; object-fit: contain; }
+.dock__btn[data-panel="inventory"] .dock__glyph img { transform: scale(1.08); }
+.dock__btn[data-panel="skills"] .dock__glyph img { width: 90%; height: 90%; }
 .dock__glyph .ui-icon { width: 22px; height: 22px; }
 
 .dock__label {
+  display: none;
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  padding: 3px 0 1px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.88));
+  text-shadow: 0 1px 2px #000;
   font-size: 10px;
   line-height: 1;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--ink);
   transition: color var(--transition);
 }
 
 /* Small and round, tucked against the icon's corner. Brass so it reads at a glance. */
 .dock__badge {
   position: absolute;
-  top: 3px;
-  right: 8px;
-  min-width: 14px;
-  height: 14px;
-  padding: 0 4px;
+  top: 1px;
+  right: 1px;
+  min-width: 10px;
+  height: 10px;
+  padding: 0 2px;
   background: var(--accent);
   color: var(--accent-ink);
   border-radius: 7px;
-  font-size: 9px;
+  font-size: 7px;
   font-weight: 700;
-  line-height: 14px;
+  line-height: 10px;
   letter-spacing: 0.02em;
 }
 

@@ -659,15 +659,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     // dock entry for it was the least useful button on the bar; the spellbook, with sixteen spells
     // behind it, is the most. The map panel itself is unchanged and still registered below.
     { id: "spellbook", label: "Spells", key: "b", icon: "spells",
-      toggle: () => spellbook.frame.toggle(), isOpen: () => spellbook.frame.isOpen(),
-      // The badge is the element the player has chosen, or nothing while the game is choosing for
-      // them. A caster who set fire and then out-levelled it needs to see that from the dock,
-      // without opening the book to find out why their damage stopped climbing.
-      badge: () => {
-        const book = api.getSpellbook();
-        if (!book.preferredSpellId) return "";
-        return book.spells.find((row) => row.id === book.preferredSpellId)?.element.slice(0, 1).toUpperCase() ?? "";
-      } },
+      toggle: () => spellbook.frame.toggle(), isOpen: () => spellbook.frame.isOpen() },
     { id: "controls", label: "Keys", key: "h", icon: "keys",
       toggle: () => controls.frame.toggle(), isOpen: () => controls.frame.isOpen() },
   ], tooltip);

@@ -1,7 +1,7 @@
 /* spell action bars — owned with spellActionBar.ts. Nothing else writes to this file. */
 
 /*
- * A strip of square slots and nothing else. Sized from the Knight Online bar: 34 px slots, a 1 px
+ * A strip of square slots sized with the panel dock's shared HUD token, a 1 px
  * seam between them, a 12 px grip on the leading edge, a 14 px options tab on the trailing edge.
  * Every colour is a token from styles.css so the bar sits with the dock and the panels; the only
  * saturated colour on it is inside the icons, which carry their element's own render palette.
@@ -19,7 +19,7 @@
    * would silence the dock, the panels and the world. */
   pointer-events: none;
   z-index: calc(var(--z-hud, 10) + 2);
-  --abar-slot: 34px;
+  --abar-slot: var(--hud-slot, 34px);
 }
 
 .abar {
@@ -249,8 +249,3 @@
 /* While an area invocation is being placed the whole view is a target. */
 body.is-aiming,
 body.is-aiming #viewport { cursor: crosshair; }
-
-/* ------------------------------------------------------------ small screens */
-
-#ui-root.is-touch .abars { --abar-slot: 40px; }
-@media (max-width: 760px) { .abars { --abar-slot: 32px; } }

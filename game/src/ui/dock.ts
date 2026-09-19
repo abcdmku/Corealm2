@@ -17,12 +17,17 @@
 import { createUiIcon, type UiIconName } from "./icons.js";
 import type { Tooltip } from "./tooltips.js";
 
+const PANEL_ART: Partial<Record<UiIconName, string>> = {
+  pack: "inventory", skills: "skills", equipment: "worn",
+  quests: "quests", spells: "spells", keys: "keys",
+};
+
 export interface DockEntry {
   id: string;
   label: string;
   /** The key that toggles it, as the player should read it. Shown on hover, not on the face. */
   key: string;
-  /** An authored line icon; the one-word label under it carries the panel's name. */
+  /** Menu artwork, with a line icon for development-only entries. */
   icon: UiIconName;
   toggle(): void;
   isOpen(): boolean;
@@ -65,7 +70,16 @@ export class PanelDock {
       const glyph = document.createElement("span");
       glyph.className = "dock__glyph";
       glyph.setAttribute("aria-hidden", "true");
-      glyph.appendChild(createUiIcon(entry.icon));
+      const artwork = PANEL_ART[entry.icon];
+      if (artwork) {
+        const image = document.createElement("img");
+        image.src = `assets/icons/panels/${artwork}.png`;
+        image.alt = "";
+        image.draggable = false;
+        glyph.appendChild(image);
+      } else {
+        glyph.appendChild(createUiIcon(entry.icon));
+      }
 
       const label = document.createElement("span");
       label.className = "dock__label";
