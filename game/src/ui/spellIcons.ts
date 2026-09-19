@@ -10,8 +10,8 @@
  * (one for Lash, four for Surge) with a slightly larger glyph each step: the sixteen auto-cast rows
  * are four sizes of the same four recipes in the renderer too (`content/basicSpellVariants.ts`).
  *
- * Returned as markup rather than elements for the same reason `itemIconSvg` is: slots are rebuilt
- * wholesale on refresh and one `innerHTML` write per slot is measurably cheaper.
+ * The build rasterizes these authored motifs into one atlas. Gameplay uses the atlas markup;
+ * the SVG recipes below remain the artwork source and run only during generation and tests.
  */
 import type { SpellElement, SpellId, SpellRung } from "../contracts.js";
 import { SPELL_RUNGS } from "../contracts.js";
@@ -25,6 +25,24 @@ export interface SpellIconSubject {
   rung: SpellRung;
   /** 0 for a basic, 1 to 5 for an invocation. */
   rank: number;
+}
+
+const atlasUrl = new URL("../generated/spell-icons.png", import.meta.url).href;
+export const SPELL_ICON_ATLAS_COLUMNS = 4;
+export const SPELL_ICON_ATLAS_ROWS = 9;
+
+export function spellIconAtlasCell(subject: SpellIconSubject): { column: number; row: number } {
+  const column = { wind: 0, water: 1, earth: 2, fire: 3 }[subject.element];
+  return { column, row: subject.rank > 0 ? 3 + subject.rank : RUNG_INDEX[subject.rung] };
+}
+
+/** Reuse the build-time raster of the authored SVG. Drawing 36 SVGs and their filters on first
+ * open can stall the browser's shared GPU raster queue, even with no JavaScript long task. */
+export function spellIconMarkup(subject: SpellIconSubject, size = 32): string {
+  const { column, row } = spellIconAtlasCell(subject);
+  return `<span class="spell-icon" aria-hidden="true" style="display:inline-block;width:${size}px;height:${size}px;`
+    + `background-image:url('${atlasUrl}');background-size:${SPELL_ICON_ATLAS_COLUMNS * 100}% ${SPELL_ICON_ATLAS_ROWS * 100}%;`
+    + `background-position:${column * 100 / (SPELL_ICON_ATLAS_COLUMNS - 1)}% ${row * 100 / (SPELL_ICON_ATLAS_ROWS - 1)}%"></span>`;
 }
 
 interface Palette { core: string; edge: string; deep: string }

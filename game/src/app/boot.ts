@@ -1137,6 +1137,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     // Permanent banks and molten ground belong to the world and must also appear on its map.
     wildernessEffects = new WildernessEffects(profile.kind === 'game' ? scene.terrainGroup : scene.overlayGroup, { groundHeightAt, torches,
+      lightParent: renderer.scene,
       channels: terrainSpec.lavaChannels ?? [], maxLights: 6, surfaceTextures,
       streamChannels: !worldMapCapture && (profile.kind === 'game' || wildernessEffectsLab) });
     (window as any).__wildernessEffects = wildernessEffects;
@@ -1886,6 +1887,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
   let pausedBeforePortal = false;
   const portalTransition = new PortalTransition((locked) => {
+    renderer.setDestinationLoading(locked);
     if (locked) pausedBeforePortal = clock.paused;
     clock.paused = locked || pausedBeforePortal;
     input.clear();
@@ -1901,6 +1903,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         scatterResults = await scatterForRegion(destination.regionId).loadView(destination.position[0], destination.position[2],
           fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE);
       }
+      report(2, "Preparing destination graphics…");
+      if (isFairyRegion(destination.regionId) && fairyRealm) await renderer.prepareInterior(fairyRealm.scene.root);
+      if (destination.regionId === dungeonSpec?.regionId && dungeon) await renderer.prepareInterior(dungeon.group);
     },
     commit: () => {
       camera.setFreeTarget(null);
@@ -1918,6 +1923,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const ready = await entityViews.retryHydration();
       if (ready.pending || ready.failed || ready.missing) throw new Error('Destination assets are not ready');
       entityViews.update(0, renderer.camera.position, clock.elapsedMs);
+      // Hydration creates new creature meshes after the region switches. Keep the curtain up
+      // while those programs and textures prepare, instead of forcing their first draw here.
+      await renderer.waitForInterior(renderer.scene);
       await renderer.prepareEffects(spellVfx.preparationRoot());
       renderer.render(performance.now());
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
@@ -3060,7 +3068,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setVfx(vfx);
   if (profile.kind === 'game' || riverLab || wildernessEffectsLab || wildernessTorchesLab || wildernessCreaturesLab) loop.setEnvironmentEffects({
     update: (seconds, viewCamera) => {
-      wildernessEffects?.setEnabled(store.get().player.regionId !== 'gravelmaw');
+      wildernessEffects?.setEnabled(worldMapForRegion(store.get().player.regionId) === 'surface');
       wildernessEffects?.update(seconds, viewCamera);
       riverSurface?.update(seconds);
       if (creatureEffects) {

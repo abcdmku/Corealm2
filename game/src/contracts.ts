@@ -710,7 +710,7 @@ export interface ObservedEntity {
   position: Vec3;
   /** Working position, when different from the visible model. */
   interactionPosition?: Vec3;
-  /** Path distance to the working position in metres. */
+  /** Distance to the working position in metres, using the query's metric. Defaults to path distance. */
   distance: number;
   /**
    * The route-graph place this row stands at, when it is one.
@@ -730,6 +730,8 @@ export interface ObservedEntity {
 
 export interface ObserveFilter {
   scope?: ObservationScope;
+  /** Path distance by default. Map/HUD markers use straight-line distance without a navmesh query. */
+  distanceMetric?: "path" | "straight-line";
   /** Default 40, max 140. */
   radius?: number;
   archetypes?: Archetype[];

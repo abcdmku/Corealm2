@@ -10,7 +10,7 @@ import { PanelFrame } from "./panelFrame.js";
 import type { ObservedEntity, RegionId, Vec3 } from "../contracts.js";
 import { worldMapForRegion } from "../contracts.js";
 import type { LocationDef, LocationKind } from "../content/regions.js";
-import { REGIONS, WALK_SPEED_MPS, WORLD_BOUNDS as CONTENT_WORLD_BOUNDS, allLocations } from "../content/regions.js";
+import { REGIONS, WORLD_BOUNDS as CONTENT_WORLD_BOUNDS, allLocations } from "../content/regions.js";
 import { REGION_PALETTES } from "../render/materials.js";
 import { notify } from "./contextMenu.js";
 import type { ManagedPanel, MapTerrainSource, UiContext } from "./panels.js";
@@ -365,7 +365,7 @@ export class MapPanel implements ManagedPanel {
   }
 
   known(): ObservedEntity[] {
-    return this.ctx.api.observe({ scope: "known", limit: 100 });
+    return this.ctx.api.observe({ scope: "known", distanceMetric: "straight-line", limit: 100 });
   }
 
   refresh(force = false): void {
@@ -386,13 +386,8 @@ export class MapPanel implements ManagedPanel {
     }
     this.figure.dataset["mapId"] = this.activeMap;
 
-    /*
-     * The observe() half is the expensive half: `scope: "known"` prices every known place by PATH
-     * distance, which is a navmesh query per row. At the shared 220 ms panel cadence that made the
-     * whole game hitch while the window was open — so the data half runs on its own ~1 s clock,
-     * and never during a drag, while the cheap parts (player mark, readout, repaint) keep the
-     * panel feeling live every tick.
-     */
+    // Discovery and marker layout refresh once a second, outside drags. Marker queries must
+    // never calculate routes for every place; selecting a destination owns pathfinding.
     const now = typeof performance !== "undefined" ? performance.now() : Date.now();
     if ((force || now - this.lastDataMs >= DATA_INTERVAL_MS) && this.dragPointer === null) {
       this.lastDataMs = now;
@@ -408,7 +403,7 @@ export class MapPanel implements ManagedPanel {
           place.distance = row.distance;
           place.group.setAttribute(
             "aria-label",
-            `${place.name}, ${KIND_LABEL[place.kind]}, ${Math.round(place.distance)} metres. Walk there.`,
+            `${place.name}, ${KIND_LABEL[place.kind]}, ${Math.round(place.distance)} metres in a straight line. Walk there.`,
           );
         }
       }
@@ -567,7 +562,7 @@ export class MapPanel implements ManagedPanel {
       node.setAttribute("tabindex", "-1");
       node.setAttribute(
         "aria-label",
-        `${place.name}, ${KIND_LABEL[place.kind]}, ${Math.round(place.distance)} metres. Walk there.`,
+        `${place.name}, ${KIND_LABEL[place.kind]}, ${Math.round(place.distance)} metres in a straight line. Walk there.`,
       );
       node.dataset["place"] = place.key;
      node.replaceChildren(this.pip(place.kind), el("circle", { class: "map__hit", r: HIT_RADIUS }));
@@ -840,11 +835,10 @@ export class MapPanel implements ManagedPanel {
     }
 
     const metres = Math.round(place.distance);
-    const seconds = Math.round(place.distance / WALK_SPEED_MPS);
     const region = REGIONS.find((entry) => entry.id === place.regionId);
     this.readoutName.textContent = place.name;
     this.readoutMeta.textContent = `${KIND_LABEL[place.kind]} · ${region?.name ?? place.regionId}`;
-    this.readoutRange.textContent = metres < 4 ? "you are here" : `${metres} m · ${seconds}s walk`;
+    this.readoutRange.textContent = metres < 4 ? "you are here" : `${metres} m in a straight line`;
 
     if (!leader || !this.lastPos || !place.screen.visible) {
       leader?.setAttribute("visibility", "hidden");

@@ -316,6 +316,7 @@ export class Renderer {
    */
   private readonly warmupMaterials: THREE.Material[] = [];
   private streamedShaders: StreamedShaderWarmup | null = null;
+  private readonly preparedInteriors = new WeakSet<THREE.Object3D>();
 
   startStreamingWarmup(): void {
     this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera);
@@ -323,7 +324,23 @@ export class Renderer {
 
   streamingShaderState() { return this.streamedShaders?.getState() ?? null; }
 
+  setDestinationLoading(active: boolean): void {
+    this.startStreamingWarmup();
+    this.streamedShaders!.deferGameplayDraws = active;
+  }
+
   isInteriorReady(root: THREE.Object3D): boolean { return !this.streamedShaders?.hasPending(root); }
+
+  /** Hidden terrain and architecture predate the streaming watcher. Prepare them once before
+   * the first portal reveal; subsequent additions are already tracked by childadded. */
+  async prepareInterior(root: THREE.Object3D): Promise<void> {
+    this.startStreamingWarmup();
+    if (!this.preparedInteriors.has(root)) {
+      this.streamedShaders!.enqueue(root);
+      this.preparedInteriors.add(root);
+    }
+    await this.waitForInterior(root);
+  }
 
   /** Keep portal loading covered while the streaming compiler still suppresses its meshes. */
   async waitForInterior(root: THREE.Object3D): Promise<void> {

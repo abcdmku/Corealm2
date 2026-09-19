@@ -12,10 +12,10 @@ import { PanelFrame } from "./panelFrame.js";
  */
 import type { SpellElement, SpellId, SpellRow, SpellRung, SpellbookView } from "../contracts.js";
 import { SPELL_ELEMENTS, SPELL_RUNGS } from "../contracts.js";
-import { ELEMENT_COLOURS } from "../render/spellVfx.js";
+import { ELEMENT_COLOURS } from "../render/elementColours.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
 import { formatQuantity, installRovingGrid, report } from "./panels.js";
-import { spellIconSvg } from "./spellIcons.js";
+import { spellIconMarkup } from "./spellIcons.js";
 import { SPELL_DRAG_MIME } from "./spellActionBar.js";
 import { spellElementRequirementLabel } from "./displayLabels.js";
 
@@ -241,7 +241,7 @@ export class SpellbookPanel implements ManagedPanel {
 
     const id = row.id;
     cell.dataset["spell"] = id;
-    glyph.innerHTML = spellIconSvg(row, 30);
+    glyph.innerHTML = spellIconMarkup(row, 30);
 
     cell.addEventListener("click", (event) => {
       if (event.shiftKey && this.ctx.assignToActionBar) {

@@ -2,6 +2,80 @@
 
 This pass follows the startup work in [startup-performance.md](startup-performance.md).
 
+## Menu responsiveness
+
+Menu handlers, simulation and Three.js frame submission currently share the browser's main
+thread. Dynamic imports and promises defer work but do not make their continuations run on
+another thread. `GameplayWork.run()` budgets job starts; it cannot interrupt a large job.
+`GameplayWork.runSliced()` now accepts an iterator, checks a 2 ms budget between steps, and
+continues after a painted frame. Each step still has to be small. This is a scheduling target,
+not a hard upper bound on frame time or GPU work.
+
+The full map and minimap now request straight-line observations, avoiding a navmesh query per
+marker. Default observations retain path-distance semantics for agents and navigation. Map
+readouts label straight-line distance explicitly; choosing a marker still uses the production
+navigation command and reports its actual route. Live terrain maps share one cached preparation
+job and yield every 64 samples. The map shows a loading state until the raster finishes. The
+terrain sampling, colour calculation, resolution and road drawing are unchanged.
+
+Cold-process Chromium tracing found a separate spellbook GPU raster stall: SVG glyph drawing and
+per-tile filters stalled GPU completion without a JavaScript long task. The 36 authored spell
+motifs now use a generated PNG atlas, shared by the book and action bar. The build rasterizes the
+existing artwork at three times its logical size. Tile backgrounds retain the glow; lock symbols,
+requirements and opacity retain the unavailable states without separate GPU filters.
+
+First fairy travel exposed another cause. Four fairy lamps were allocated on arrival, and six
+surface point lights plus four lava area lights disappeared when terrain became hidden. Changing
+light counts changes Three's shader programs across lit materials. These pools now exist before
+startup preparation and stay attached outside hidden terrain, with zero intensity when unused.
+The destination also queues its original hidden meshes for shader and texture preparation before
+reveal. Newly hydrated actors can wait behind the loading curtain; ordinary gameplay retains its
+existing visible-actor policy. Scenery already prepared during streaming is not queued twice.
+Grass texture generation also reuses row calculations, with a regression proving identical pixels.
+
+Chromium/D3D11 at 1440 x 900 exercised the existing presentation and fairy labs, all seven dock/map
+panels, cold network requests, an explored save and the authored Crownward-to-Gloamgarden portal.
+World checks used default preferences: 70% rendering resolution, shadows off, automatic distance
+at Near. These local samples are not a cross-device benchmark or a guarantee for other settings.
+Measurements used base `a4aef81`, before rebasing onto the starter-gear changes in `62abcb5`.
+
+| Sample | Worst RAF interval | Longest GPU completion gap |
+| --- | ---: | ---: |
+| Cold-process spellbook with raster atlas, presentation lab | 33.2 ms | 66.5 ms |
+| Final seven-menu sequence in Gloamgarden | 116.7 ms | 127.1 ms |
+| Final complete fairy/wilderness lab transition | 116.6 ms | 128.8 ms |
+| Final complete authored-world fairy transition, including reveal | 283.3 ms | 300.0 ms |
+
+The final menu sequence had no reported JavaScript long tasks, displayed all 36 glyphs and advanced
+the simulation by 60 ticks. The world transition completed with the curtain removed, simulation
+resumed, no pending shaders and no page errors. Earlier transition profiles contained 5.5-second
+main-thread shader stalls. The revised map also passed lab state and screenshot checks. Clicking
+Millfield Bank in the world changed navigation from no path to an 11-point path and moved the
+player about 8 m. Spellbook selection and action-bar assignment were exercised through real input;
+spellbook and destination screenshots were inspected.
+
+First-use hitches remain. The combined lab's initial GPU completion timestamp was already 1.07
+seconds old when measurement began. Its first completion therefore appeared to create a 1.10-second
+gap, mostly before the action. The table includes only completion gaps beginning inside each timed
+window; setup delays are not attributed to the portal click. RAF timing alone is insufficient
+evidence of smooth presentation. Shader compilation and texture upload still share the GPU with drawing.
+CPU-profiler startup and screenshots stay outside measured windows because they introduce their
+own gaps. World-scale travel uses the authored-world exception because its residency and lighting
+changes depend on the real region layout; reusable UI, light pools and hidden mesh preparation
+also have lab and focused unit coverage.
+
+Focused scheduler, observation, map, icon, grass, lighting, shader and travel regressions passed,
+along with typechecking and the production build. Generated navigation payload and world tile
+hashes remain unchanged; their source revision metadata was refreshed. Disposable traces, shader sources, frame samples and screenshots remain
+under `test-results/menu-performance/`; temporary browser instrumentation is absent from production.
+
+For further isolation, move expensive serializable computations such as generation into workers,
+and keep DOM construction in bounded main-thread batches. Making game rendering independent of
+DOM stalls requires a larger renderer/simulation split using a worker and `OffscreenCanvas`.
+Workers cannot directly manipulate the DOM, and moving work to them does not remove GPU upload
+or shader stalls. See [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
+and [OffscreenCanvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas).
+
 ## Behavior
 
 - Surface scenery is generated in the existing deterministic 96 m tiles, within the current fog range plus camera and 48 m travel margins. Moving requests nearby tiles; changing distance immediately changes the request radius. Entering the cave stops new surface work after the current tile finishes.

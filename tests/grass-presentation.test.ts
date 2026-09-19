@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createHash } from "node:crypto";
 import { afterEach, describe, expect, it } from "vitest";
 import { createGrassSpriteTexture, disposeGeneratedTextures } from "../game/src/render/proceduralTextures.js";
 
@@ -8,6 +9,9 @@ describe("procedural grass presentation", () => {
   it("caches the cutout and recreates identical texels after disposal", () => {
     const first = createGrassSpriteTexture();
     const bytes = new Uint8Array(first.image.data as Uint8Array);
+    // Accepted texture before moving the invariant blade calculations out of the pixel loop.
+    expect(createHash("sha256").update(bytes).digest("hex"))
+      .toBe("6d170fd49d8334f5b4609f78b17311ed49d6f4a0d619e9d780630f22bf095e3b");
     let disposed = false;
     first.addEventListener("dispose", () => { disposed = true; });
     expect(createGrassSpriteTexture()).toBe(first);

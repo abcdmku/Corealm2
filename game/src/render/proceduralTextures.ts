@@ -813,6 +813,22 @@ export function createGrassSpriteTexture(): THREE.DataTexture {
 
   for (let row = 0; row < size; row += 1) {
     const y = (row + 0.5) / size;
+    // Curve, width and root/tip shading depend only on the row. Computing them for every
+    // column repeated the same powers and exponentials almost a million times on first use.
+    const sections = blades.map(blade => {
+      const t = clamp(y / blade.height, 0, 1);
+      const root = 1 - Math.exp(-t * 6);
+      const tip = Math.pow(t, 3) * blade.dry;
+      return {
+        centre: blade.base + blade.lean * t + blade.curve * t * t,
+        halfWidth: blade.width * Math.pow(1 - t, 0.82) * (0.74 + 0.38 * Math.sin(t * Math.PI)),
+        heightCoverage: clamp(0.5 + (blade.height - y) * size, 0, 1),
+        beyondTip: Math.max(0, y - blade.height), shade: blade.shade,
+        red: 137 + root * 86 + tip * 16,
+        green: 148 + root * 78 - tip * 4,
+        blue: 116 + root * 80 - tip * 35,
+      };
+    });
     for (let column = 0; column < size; column += 1) {
       const x = ((column + 0.5) / size) * 1.1 - 0.55;
       let coverage = 0;
@@ -823,24 +839,19 @@ export function createGrassSpriteTexture(): THREE.DataTexture {
       let nearestRed = 0;
       let nearestGreen = 0;
       let nearestBlue = 0;
-      for (const blade of blades) {
-        const t = clamp(y / blade.height, 0, 1);
-        const centre = blade.base + blade.lean * t + blade.curve * t * t;
-        const halfWidth = blade.width * Math.pow(1 - t, 0.82) * (0.74 + 0.38 * Math.sin(t * Math.PI));
+      for (const blade of sections) {
+        const { centre, halfWidth } = blade;
         const edge = halfWidth - Math.abs(x - centre);
         const bladeCoverage = clamp(0.5 + edge * size / 1.1, 0, 1)
-          * clamp(0.5 + (blade.height - y) * size, 0, 1);
-
-        const root = 1 - Math.exp(-t * 6);
-        const tip = Math.pow(t, 3) * blade.dry;
+          * blade.heightCoverage;
         const across = clamp((x - centre) / Math.max(halfWidth, 0.001), -1, 1);
         // A broad fold gives each leaf two quiet planes, visible without painted edge outlines.
         const fold = 0.95 + across * 0.035 + (1 - Math.abs(across)) * 0.025;
         const gain = blade.shade * fold;
-        const bladeRed = (137 + root * 86 + tip * 16) * gain;
-        const bladeGreen = (148 + root * 78 - tip * 4) * gain;
-        const bladeBlue = (116 + root * 80 - tip * 35) * gain;
-        const distance = Math.max(0, -edge) + Math.max(0, y - blade.height);
+        const bladeRed = blade.red * gain;
+        const bladeGreen = blade.green * gain;
+        const bladeBlue = blade.blue * gain;
+        const distance = Math.max(0, -edge) + blade.beyondTip;
         if (distance < nearestDistance) {
           nearestDistance = distance;
           nearestRed = bladeRed;

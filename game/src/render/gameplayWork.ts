@@ -23,6 +23,22 @@ export class GameplayWork {
     });
   }
 
+  /** Each iterator step must be small. Unlike run(), this splits a long computation across
+   * painted frames. Promises alone do not yield to rendering, and cannot interrupt one step. */
+  runSliced<T>(steps: Iterator<unknown, T>, priority: () => number = () => 0): Promise<T> {
+    const advance = (): T | Promise<T> => {
+      const started = this.now();
+      let count = 0;
+      do {
+        const step = steps.next();
+        if (step.done) return step.value;
+        count++;
+      } while (count < 128 && this.now() - started < 2);
+      return this.run(advance, priority);
+    };
+    return this.run(advance, priority);
+  }
+
   private takeNext() {
     let best = 0;
     for (let i = 1; i < this.jobs.length; i++) {

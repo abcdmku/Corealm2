@@ -87,8 +87,14 @@ describe('fairy structure presentation', () => {
 
   it('uses at most four nearby unshadowed lights and removes them on disposal', () => {
     const style = new FairyArchitecture(), parent = new THREE.Group();
+    style.updateLights(parent, [], new THREE.Vector3());
+    const reserved = [...parent.children];
+    expect(reserved).toHaveLength(FAIRY_LAMP_LIGHT_BUDGET);
+    expect(reserved.every(light => light.visible && (light as THREE.PointLight).intensity === 0)).toBe(true);
     const positions = Array.from({ length: 20 }, (_, index) => new THREE.Vector3(index * 3, 2, 0));
     style.updateLights(parent, positions, new THREE.Vector3());
+    expect(parent.children).toEqual(reserved);
+    expect(parent.children.every(light => (light as THREE.PointLight).intensity > 0)).toBe(true);
     expect(parent.children).toHaveLength(FAIRY_LAMP_LIGHT_BUDGET);
     expect(parent.children.every(light => !(light as THREE.PointLight).castShadow)).toBe(true);
     style.updateLights(parent, [], new THREE.Vector3());

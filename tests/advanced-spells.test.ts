@@ -1,4 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import sharp from "sharp";
 import type { SpellId } from "../game/src/contracts.js";
 import { SPELL_ELEMENTS } from "../game/src/contracts.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
@@ -14,7 +17,7 @@ import { EventBus } from "../game/src/core/events.js";
 import { Store, setSkillLevel } from "../game/src/state/store.js";
 import { InventorySystem } from "../game/src/systems/inventory.js";
 import { EquipmentSystem } from "../game/src/systems/equipment.js";
-import { SPELL_MOTIF_IDS, spellIconSvg, spellMotifId } from "../game/src/ui/spellIcons.js";
+import { SPELL_MOTIF_IDS, spellIconSvg, spellMotifId, spellIconMarkup, spellIconAtlasCell } from "../game/src/ui/spellIcons.js";
 import { SPELL_RANGE } from "../game/src/app/config.js";
 
 /**
@@ -171,6 +174,26 @@ describe("paying for an invocation", () => {
 });
 
 describe("spell icons", () => {
+  it("serves a distinct nonempty raster cell for every playable spell without runtime SVG drawing", async () => {
+    const atlas = await readFile(new URL("../game/src/generated/spell-icons.png", import.meta.url));
+    const metadata = await sharp(atlas).metadata();
+    expect([metadata.width, metadata.height, metadata.hasAlpha]).toEqual([384, 864, true]);
+    const cells = new Set<string>(), images = new Set<string>();
+    for (const spell of ALL_SPELLS) {
+      const subject = { ...spell, rank: spell.rank ?? 0 };
+      const { column, row } = spellIconAtlasCell(subject);
+      cells.add(`${column}:${row}`);
+      const pixels = await sharp(atlas).extract({ left: column * 96, top: row * 96, width: 96, height: 96 }).raw().toBuffer();
+      expect(pixels.some((value, i) => i % 4 === 3 && value > 0)).toBe(true);
+      images.add(createHash("sha256").update(pixels).digest("hex"));
+      const markup = spellIconMarkup(subject, 30);
+      expect(markup).toContain("spell-icons.png");
+      expect(markup).not.toContain("<svg");
+      expect(markup).not.toContain("filter:");
+    }
+    expect(cells.size).toBe(ALL_SPELLS.length);
+    expect(images.size).toBe(ALL_SPELLS.length);
+  });
   it("draw a distinct motif for every invocation and every element's basic, inside the spell range", () => {
     expect(new Set(SPELL_MOTIF_IDS).size).toBe(24);
     const seen = new Map<string, SpellId>();

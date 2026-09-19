@@ -12,7 +12,7 @@ import { sendGameCommand } from "../api/commands.js";
  *
  * Rendering is one image blit plus a handful of dots at the HUD cadence (10 Hz), against the small
  * baked minimap rendition. The detailed map stays unloaded until its panel opens. Entity positions
- * come from `observe()` at a slower cadence, because path-distance observation is the expensive half.
+ * come from a cheap straight-line observation at a slower cadence than drawing.
  *
  * The cluster root is `.is-passive` (the square's open corners must not eat world clicks); the
  * disc and the corner buttons opt back in individually.
@@ -279,6 +279,7 @@ export class Minimap {
 
   private pollEntities(): void {
     const observed = this.api.observe({
+      distanceMetric: "straight-line",
       radius: Math.min(140, VIEW_RADIUS_M + 5),
       archetypes: ["enemy", "boss", "npc", "loot"],
       limit: 40,
@@ -336,14 +337,14 @@ export class Minimap {
   }
 
   private drawImageState(context: CanvasRenderingContext2D, half: number): void {
-    if (this.terrain.renderMode === "live") return;
-    if (this.imageState === "ready") return;
+    const state = this.terrain.renderMode === "live" ? liveTerrainMap(this.terrain).status : this.imageState;
+    if (state === "ready") return;
     context.save();
     context.font = "10px system-ui, sans-serif";
     context.textAlign = "center";
     context.textBaseline = "middle";
     context.fillStyle = "rgba(255, 248, 232, 0.72)";
-    context.fillText(this.imageState === "retrying" ? "Map retrying" : "Loading map", half, SIZE - 17);
+    context.fillText(state === "failed" ? "Map unavailable" : state === "retrying" ? "Map retrying" : "Loading map", half, SIZE - 17);
     context.restore();
   }
 
@@ -362,7 +363,8 @@ export class Minimap {
    */
   private blitTerrain(context: CanvasRenderingContext2D, px: number, pz: number, scale: number): void {
     const live = this.terrain.renderMode === "live";
-    const image = live ? liveTerrainMap(this.terrain) : this.image;
+    const terrain = live ? liveTerrainMap(this.terrain) : null;
+    const image = terrain ? terrain.canvas : this.image;
     if (!image) return;
     // The rendition covers the padded IMAGE bounds from the generator, not the playable terrain
     // bounds — mapping it to the wrong rect is a constant offset and scale error everywhere.

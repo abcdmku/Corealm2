@@ -17,8 +17,11 @@ import {
   MAP_HOME_ZOOM,
   MAP_TILE_CACHE_LIMIT,
   WorldMapCanvas,
+  liveTerrainMap,
   viewportTileRange,
 } from "../game/src/ui/worldMapCanvas.js";
+import { uiWork } from "../game/src/ui/uiWork.js";
+import type { MapTerrainSource } from "../game/src/ui/panels.js";
 
 const MINIMAP_BOOT_BUDGET_BYTES = 150_000;
 // Mirrors the reviewed tripwire in tools/generate-world-map.ts. Crownward and its image-only
@@ -255,7 +258,53 @@ function settle(view: Harness): void {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.restoreAllMocks();
   vi.unstubAllGlobals();
+});
+
+describe("live map preparation", () => {
+  it("returns before sampling, shares in-flight work, and paints the full raster and roads across slices", async () => {
+    const jobs: Array<() => void> = [];
+    vi.spyOn(uiWork, "run").mockImplementation(<T>(work: () => T | PromiseLike<T>) =>
+      new Promise<T>((resolve, reject) => jobs.push(() => {
+        try { resolve(work()); } catch (error) { reject(error); }
+      })));
+    let time = 0;
+    vi.spyOn(performance, "now").mockImplementation(() => time);
+    const samples: number[][] = [];
+    const pixels = { data: new Uint8ClampedArray(768 * 4) };
+    const context = { fillStyle: "", fillRect: vi.fn(), createImageData: vi.fn(() => pixels),
+      putImageData: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), stroke: vi.fn() };
+    const canvas = { width: 0, height: 0, getContext: () => context };
+    vi.stubGlobal("document", { createElement: vi.fn(() => canvas) });
+    const source: MapTerrainSource = {
+      bounds: { minX: 0, maxX: 768, minZ: 0, maxZ: 1 }, renderMode: "live",
+      sample: (x, z) => { time += 0.1; samples.push([x, z]); return { height: 0, normal: [0, 1, 0], regionId: "fallowmarch" }; },
+      roadPolylines: () => [[[0, 0, 0], [768, 0, 1]]],
+    };
+    const map = liveTerrainMap(source);
+    expect(liveTerrainMap(source)).toBe(map);
+    expect(samples).toHaveLength(0);
+    expect(map.status).toBe("loading");
+    jobs.shift()!();
+    expect(samples).toHaveLength(64);
+    expect(context.putImageData).not.toHaveBeenCalled();
+    let frames = 1;
+    while (jobs.length) { jobs.shift()!(); frames++; }
+    await map.ready;
+    expect(frames).toBeGreaterThan(10);
+    expect(map.status).toBe("ready");
+    expect(samples).toHaveLength(768);
+    expect(samples[0]).toEqual([0.5, 0.5]);
+    expect(samples.at(-1)).toEqual([767.5, 0.5]);
+    expect(context.putImageData).toHaveBeenCalledExactlyOnceWith(pixels, 0, 0);
+    expect(pixels.data.filter((_, index) => index % 4 === 3).every(value => value === 255)).toBe(true);
+    expect(context.moveTo).toHaveBeenCalledWith(0, 1);
+    expect(context.lineTo).toHaveBeenCalledWith(768, 0);
+    expect(context.stroke).toHaveBeenCalledTimes(2);
+    expect(liveTerrainMap(source)).toBe(map);
+    expect(jobs).toHaveLength(0);
+  });
 });
 
 describe("generated world-map payloads", () => {

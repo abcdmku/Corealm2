@@ -206,6 +206,7 @@ export class EntityStore {
 
     const radius = clampNumber(filter.radius ?? DEFAULT_RADIUS, 0, MAX_RADIUS);
     const limit = Math.floor(clampNumber(filter.limit ?? DEFAULT_LIMIT, 1, MAX_LIMIT));
+    const distanceFn = filter.distanceMetric === "straight-line" ? straightLineDistance : this.distanceFn;
 
     const candidates = this.candidates;
     candidates.length = 0;
@@ -216,7 +217,7 @@ export class EntityStore {
       const entity = this.entities.get(id);
       if (!entity) return;
       if (!this.matches(entity, filter)) return;
-      const distance = this.distanceFn(from, entity.interactionPosition ?? entity.position);
+      const distance = distanceFn(from, entity.interactionPosition ?? entity.position);
       if (distance > radius) return;
       candidates.push({ entity, distance });
     });
@@ -241,6 +242,7 @@ export class EntityStore {
    */
   private observeKnown(filter: ObserveFilter, from: Vec3): ObservedEntity[] {
     const limit = Math.floor(clampNumber(filter.limit ?? DEFAULT_LIMIT, 1, MAX_LIMIT));
+    const distanceFn = filter.distanceMetric === "straight-line" ? straightLineDistance : this.distanceFn;
     const discovered = this.discoveredLocationIds();
 
     const rows: { observed: ObservedEntity; distance: number }[] = [];
@@ -250,7 +252,7 @@ export class EntityStore {
 
       const entity = location.entityId ? this.entities.get(location.entityId) : undefined;
       const position = entity?.interactionPosition ?? entity?.position ?? location.position;
-      const distance = this.distanceFn(from, position);
+      const distance = distanceFn(from, position);
 
       if (entity) {
         if (!this.matchesArchetypeAndInteraction(entity, filter)) continue;

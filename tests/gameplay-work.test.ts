@@ -50,3 +50,38 @@ it('groups cheap placement work but yields after the time budget or a costly job
   frames.shift()!(); await Promise.all(jobs);
   expect(finished).toHaveLength(13); expect(frames).toHaveLength(0);
 });
+
+it('splits a computation across painted frames while higher priority work can run between slices', async () => {
+  const frames: (() => void)[] = [], events: string[] = [];
+  let time = 0;
+  const work = new GameplayWork(run => frames.push(run), () => time);
+  work.setInteractive(true);
+  function* compute() {
+    for (let i = 0; i < 6; i++) { time++; events.push(`pixel-${i}`); yield; }
+    return 42;
+  }
+  const result = work.runSliced(compute());
+  expect(events).toEqual([]);
+  frames.shift()!();
+  expect(events).toEqual(['pixel-0', 'pixel-1']);
+  const input = work.run(() => { events.push('input'); time += 2; }, () => 10);
+  frames.shift()!(); await input;
+  expect(events.at(-1)).toBe('input');
+  frames.shift()!(); expect(events.at(-1)).toBe('pixel-3');
+  frames.shift()!(); expect(events.at(-1)).toBe('pixel-5');
+  frames.shift()!(); expect(await result).toBe(42);
+  expect(frames).toHaveLength(0);
+});
+
+it('rejects an iterator failure and keeps unrelated preparation usable', async () => {
+  const frames: (() => void)[] = [];
+  let time = 0;
+  const work = new GameplayWork(run => frames.push(run), () => time);
+  work.setInteractive(true);
+  function* compute() { time += 2; yield; throw Error('bad sample'); }
+  const result = work.runSliced(compute());
+  const rejected = expect(result).rejects.toThrow('bad sample');
+  frames.shift()!(); frames.shift()!(); await rejected;
+  const next = work.run(() => 7);
+  frames.shift()!(); expect(await next).toBe(7);
+});

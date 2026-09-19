@@ -6,7 +6,7 @@
  * Two colour channels, kept strictly apart so they never fight:
  *
  *   ELEMENT is the left rail and the swatch, and it comes from `--spell-core` / `--spell-edge`,
- *   which `spellbookPanel.ts` writes inline from `ELEMENT_COLOURS` in render/spellVfx.ts. So the
+ *   which `spellbookPanel.ts` writes inline from `ELEMENT_COLOURS` in render/elementColours.ts. So the
  *   dot beside "Fire" is literally the orange the impact draws. Nothing in here hard-codes an
  *   element colour; a swatch with no custom property falls back to plain ink rather than lying.
  *
@@ -135,7 +135,6 @@
 }
 
 .spellbook__head.is-unreleased .spellbook__swatch {
-  filter: saturate(0.28);
   opacity: 0.72;
 }
 
@@ -193,9 +192,7 @@
 .spellbook__cell-glyph {
   display: block;
   line-height: 0;
-  /* The glyph is the only lit thing in the tile, so it carries the element's own glow rather than
-   * a generic one. Kept subtle: sixteen tiles all blooming at once would read as noise. */
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--spell-core) 55%, transparent));
+  /* The tile's radial background supplies the glow without a separate GPU filter per glyph. */
 }
 
 /* Bottom-right, over the tile rather than beside it: the number is a qualifier on the icon, and
@@ -262,22 +259,19 @@
  * Locked is DIMMED, not hidden. The first pass took opacity to 0.62 and saturation to 0.5 on top of
  * a tile that is already dark glass, and the surge row — all four of them locked until Magic 62 —
  * came out as four empty squares: the player could not see that the top of the ladder exists, which
- * is most of what a spellbook is for. The glyph now keeps its shape and loses its glow, which is the
+ * is most of what a spellbook is for. The glyph keeps its shape and loses the tile glow, which is the
  * honest reading: it is a real spell, you cannot cast it yet. */
 .spellbook__cell.is-locked {
   background: rgba(0, 0, 0, 0.22);
   border-color: rgba(255, 255, 255, 0.07);
   opacity: 0.82;
-  filter: saturate(0.35);
 }
 
-.spellbook__cell.is-locked .spellbook__cell-glyph { filter: none; }
-
 .spellbook__cell.is-locked .spellbook__cell-req { color: #d9a294; }
-.spellbook__cell.is-locked:hover { opacity: 1; filter: none; }
+.spellbook__cell.is-locked:hover { opacity: 1; }
 
 .spellbook__cell.is-blocked:not(.is-locked, .is-preferred) {
-  filter: saturate(0.62);
+  opacity: 0.82;
 }
 
 /* Only reachable if content ever stops being a full 4x4; see buildCell's note. */

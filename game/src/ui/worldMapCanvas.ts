@@ -21,6 +21,7 @@ import {
   WORLD_MAP_TILED_LEVELS,
 } from "../generated/worldMapFingerprint.js";
 import type { MapTerrainSource } from "./panels.js";
+import { uiWork } from "./uiWork.js";
 
 export interface MapScreenPoint {
   x: number;
@@ -173,10 +174,16 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-const liveTerrainMaps = new WeakMap<MapTerrainSource, HTMLCanvasElement>();
+interface LiveTerrainMap {
+  canvas: HTMLCanvasElement;
+  ready: Promise<void>;
+  status: "loading" | "ready" | "failed";
+}
+
+const liveTerrainMaps = new WeakMap<MapTerrainSource, LiveTerrainMap>();
 
 /** One cached north-up raster shared by the full map and minimap, sampled from playable terrain. */
-export function liveTerrainMap(source: MapTerrainSource): HTMLCanvasElement {
+export function liveTerrainMap(source: MapTerrainSource): LiveTerrainMap {
   const cached = liveTerrainMaps.get(source);
   if (cached) return cached;
   const bounds = source.bounds;
@@ -188,6 +195,20 @@ export function liveTerrainMap(source: MapTerrainSource): HTMLCanvasElement {
   canvas.height = Math.max(1, Math.round(spanZ * pixelsPerMetre));
   const context = canvas.getContext("2d", { alpha: false });
   if (context) {
+    context.fillStyle = "#121310";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  // Publish the cache entry before scheduling work: minimap and full map share one raster job.
+  const state: LiveTerrainMap = { canvas, ready: Promise.resolve(), status: "loading" };
+  liveTerrainMaps.set(source, state);
+  state.ready = uiWork.runSliced(paint()).then(() => { state.status = "ready"; }, (error: unknown) => {
+    state.status = "failed";
+    console.error("[ui] Could not prepare map terrain", error);
+  });
+  return state;
+
+  function* paint(): Generator<void> {
+    if (!context) return;
     const pixels = context.createImageData(canvas.width, canvas.height);
     const baseHeights = new Map(REGIONS.map(region => [region.id, region.baseHeight]));
     for (let row = 0; row < canvas.height; row += 1) {
@@ -209,6 +230,9 @@ export function liveTerrainMap(source: MapTerrainSource): HTMLCanvasElement {
           pixels.data[offset + channel] = Math.round(clamp((ground + (rock - ground) * slope) * light, 0, 255));
         }
         pixels.data[offset + 3] = 255;
+        // Terrain sampling can include mesh queries. Even one full row is too much to assume
+        // cheap on every device; the scheduler checks its budget every 64 pixels.
+        if (((row * canvas.width + column + 1) & 63) === 0) yield;
       }
     }
     context.putImageData(pixels, 0, 0);
@@ -220,18 +244,19 @@ export function liveTerrainMap(source: MapTerrainSource): HTMLCanvasElement {
       context.lineWidth = Math.max(1, width * pixelsPerMetre);
       for (const road of roads) {
         context.beginPath();
-        road.forEach((point, index) => {
+        for (let index = 0; index < road.length; index++) {
+          const point = road[index]!;
           const x = ((point[0] - bounds.minX) / spanX) * canvas.width;
           const y = ((bounds.maxZ - point[2]) / spanZ) * canvas.height;
           if (index === 0) context.moveTo(x, y);
           else context.lineTo(x, y);
-        });
+          if ((index & 63) === 63) yield;
+        }
         context.stroke();
+        yield;
       }
     }
   }
-  liveTerrainMaps.set(source, canvas);
-  return canvas;
 }
 
 /**
@@ -254,6 +279,7 @@ export class WorldMapCanvas {
   private zoom = MIN_ZOOM;
   private viewReady = false;
   private projectedBounds: ProjectedBounds;
+  private liveTerrain: LiveTerrainMap | null = null;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -266,6 +292,7 @@ export class WorldMapCanvas {
   setSource(source: MapTerrainSource): void {
     if (source === this.source) return;
     this.source = source;
+    this.liveTerrain = null;
     this.projectedBounds = this.projectBounds(source.renderMode === "live" ? source.bounds : WORLD_MAP_IMAGE_BOUNDS);
     this.resetView();
   }
@@ -300,12 +327,26 @@ export class WorldMapCanvas {
     context.fillRect(0, 0, this.width, this.height);
 
     if (this.source.renderMode === "live") {
+      if (!this.liveTerrain) {
+        const source = this.source;
+        this.liveTerrain = liveTerrainMap(source);
+        void this.liveTerrain.ready.then(() => {
+          if (!this.disposed && this.source === source) this.scheduleRender();
+        });
+      }
+      this.canvas.dataset.mapTerrainState = this.liveTerrain.status;
       const placement = this.placement(this.screenScale());
       context.save();
       context.scale(-1, 1);
       context.imageSmoothingEnabled = true;
-      context.drawImage(liveTerrainMap(this.source), -(placement.originX + placement.spanW), placement.originY, placement.spanW, placement.spanH);
+      context.drawImage(this.liveTerrain.canvas, -(placement.originX + placement.spanW), placement.originY, placement.spanW, placement.spanH);
       context.restore();
+      if (this.liveTerrain.status !== "ready") {
+        context.fillStyle = "#d2c9ae";
+        context.font = "13px sans-serif";
+        context.textAlign = "center";
+        context.fillText(this.liveTerrain.status === "failed" ? "Map unavailable" : "Drawing terrain…", this.width / 2, this.height / 2);
+      }
       return;
     }
 

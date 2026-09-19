@@ -219,7 +219,9 @@ totalEmissiveRadiance *= 1.0 - .32 * smoothstep(.05, 1.0, abs(vFairyLampHeight))
 
   /** Four unshadowed lamps share a fixed light budget, including when a whole town is resident. */
   updateLights(parent: THREE.Object3D, positions: readonly THREE.Vector3[], viewer: THREE.Vector3): void {
-    if (positions.length === 0 && this.lights.length === 0) return;
+    // Reserve the pool on the first update, before startup shader preparation. Adding lights
+    // on first arrival changes NUM_POINT_LIGHTS and recompiles every lit material mid-frame.
+    // Zero intensity keeps unused lamps dark without changing the compiled light count.
     while (this.lights.length < FAIRY_LAMP_LIGHT_BUDGET) {
       const light = new THREE.PointLight(0xffc274, 0, 5.5, 2);
       light.name = `fairy-lantern-light-${this.lights.length}`;

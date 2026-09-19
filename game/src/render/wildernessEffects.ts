@@ -49,6 +49,8 @@ export interface WildernessEffectsOptions {
   readonly torches: readonly WildernessTorch[];
   readonly channels: readonly LavaChannel[];
   readonly maxLights?: number;
+  /** Keep the fixed light pool outside hidden terrain roots so realm changes keep shader keys. */
+  readonly lightParent?: THREE.Object3D;
   readonly surfaceTextures?: CorealmSurfaceTextures;
   /** Prepare distant channels through prepareArea before they enter the visible scene. */
   readonly streamChannels?: boolean;
@@ -148,12 +150,12 @@ export class WildernessEffects {
       const light = new THREE.PointLight(0xff9a4a, 0, 16, 2);
       light.name = `wilderness-light-${i}`;
       light.castShadow = false;
-      this.group.add(light);
+      (options.lightParent ?? parent).add(light);
       this.lights.push(light);
     }
     this.surfaceAt = buildLavaSurfaceField(options.channels, options.groundHeightAt);
     this.textureAt = buildLavaTextureField(options.channels, options.groundHeightAt);
-    this.bankLighting = new LavaBankLighting(this.group, options.channels, options.groundHeightAt);
+    this.bankLighting = new LavaBankLighting(options.lightParent ?? parent, options.channels, options.groundHeightAt);
     this.buildTorches();
     if (!options.streamChannels) for (const channel of options.channels) {
       this.buildChannel(channel);
@@ -285,7 +287,7 @@ export class WildernessEffects {
     this.group.removeFromParent();
     for (const geometry of this.ownedGeometry) geometry.dispose();
     for (const material of this.ownedMaterial) material.dispose();
-    for (const light of this.lights) light.dispose();
+    for (const light of this.lights) { light.removeFromParent(); light.dispose(); }
     this.group.clear();
   }
 

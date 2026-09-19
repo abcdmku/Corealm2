@@ -28,6 +28,37 @@ function fixture() {
   return { scene, calls, gate, mesh, renderer, programs };
 }
 
+it("prepares an existing hidden interior before reveal, including its texture uploads", () => {
+  const scene = new THREE.Scene(), root = new THREE.Group();
+  const map = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ map }));
+  root.add(mesh); root.visible = false; scene.add(root);
+  const { renderer, programs, calls } = fixture();
+  const uploads: THREE.Texture[] = [];
+  renderer.initTexture = texture => { uploads.push(texture); };
+  const gate = new StreamedShaderWarmup(renderer, scene, new THREE.PerspectiveCamera());
+  expect(gate.hasPending(root)).toBe(false);
+  gate.enqueue(root); gate.enqueue(root);
+  expect(gate.getState().waiting).toBe(1);
+  gate.prepare(); gate.restore();
+  expect(calls).toHaveLength(2);
+  expect(root.visible).toBe(false);
+  expect(mesh.parent).toBe(root);
+  expect(gate.hasPending(root)).toBe(true);
+  for (const program of programs) program.program.ready = true;
+  gate.prepare(); gate.restore();
+  expect(uploads).toEqual([map]);
+  expect(gate.hasPending(root)).toBe(false);
+  expect(root.visible).toBe(false);
+  gate.enqueue(root);
+  expect(gate.hasPending(root)).toBe(false);
+  expect(calls).toHaveLength(2);
+  root.visible = true;
+  gate.prepare();
+  expect(mesh.visible).toBe(true);
+  gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose(); map.dispose();
+});
+
 it("keeps a replacement gameplay actor drawable while its shaders prepare", () => {
   const { scene, gate, mesh } = fixture();
   mesh.userData.entityId = "nearby-creature";
@@ -35,6 +66,17 @@ it("keeps a replacement gameplay actor drawable while its shaders prepare", () =
   expect(gate.getState().waiting).toBe(1);
   expect(mesh.visible).toBe(true);
   gate.restore();gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
+});
+
+it("defers new actors during a covered destination load and restores the gameplay visibility policy", () => {
+  const { scene, gate, mesh } = fixture();
+  mesh.userData.entityId = "destination-creature";
+  scene.add(mesh);
+  gate.deferGameplayDraws = true;
+  gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
+  gate.deferGameplayDraws = false;
+  gate.prepare(); expect(mesh.visible).toBe(true); gate.restore();
+  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
 });
 
 it("prepares corpse transparency in both colour passes before releasing a streamed creature", () => {

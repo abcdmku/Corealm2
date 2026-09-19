@@ -20,7 +20,7 @@
  */
 import type { SpellElement, SpellId, SpellRung } from "../contracts.js";
 import type { KeyBindingRegistry, Unregister } from "../input/keyboard.js";
-import { spellIconSvg } from "./spellIcons.js";
+import { spellIconMarkup } from "./spellIcons.js";
 import type { Tooltip } from "./tooltips.js";
 import "./styles/spellActionBar.css";
 
@@ -437,7 +437,7 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
           : `empty|${key}|${layout.locked}`;
         if (view.icons[slot] !== (spell?.id ?? null)) {
           view.icons[slot] = spell?.id ?? null;
-          button.querySelector<HTMLElement>(".abar__icon")!.innerHTML = spell ? spellIconSvg(spell, 30) : "";
+          button.querySelector<HTMLElement>(".abar__icon")!.innerHTML = spell ? spellIconMarkup(spell, 30) : "";
         }
         if (view.paint[slot] === signature) return;
         view.paint[slot] = signature;

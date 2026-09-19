@@ -3,7 +3,10 @@ import { compileCorpseFadeVariants, compileShadowMeshes } from "./shaderPreparat
 
 /** Prepare newly resident meshes before their first draw can synchronously wait on the driver. */
 export class StreamedShaderWarmup {
+  /** A covered destination may defer new actors; ordinary play must keep actors visible. */
+  deferGameplayDraws = false;
   private readonly waiting = new Set<THREE.Mesh>();
+  private readonly enrolled = new WeakSet<THREE.Mesh>();
   private readonly pendingRoots = new Map<THREE.Object3D, number>();
   private readonly pendingAncestors = new Map<THREE.Mesh, THREE.Object3D[]>();
   private readonly queued = new Set<THREE.Mesh>();
@@ -36,6 +39,18 @@ export class StreamedShaderWarmup {
     this.watch(scene, false);
   }
 
+  /** Interiors already attached at boot were hidden during startup compilation. Queue their
+   * existing meshes before revealing them, as well as the meshes arriving through childadded. */
+  enqueue(root: THREE.Object3D): void {
+    root.traverse(object => {
+      // Streaming may have finished some descendants while the destination loaded. Only
+      // enroll the original hidden meshes; do not make already prepared scenery wait twice.
+      if (!(object as THREE.Mesh).isMesh || this.enrolled.has(object as THREE.Mesh)) return;
+      this.addWaiting(object as THREE.Mesh);
+      this.queued.add(object as THREE.Mesh);
+    });
+  }
+
   private watch(root: THREE.Object3D, enqueue: boolean): void {
     root.traverse(object => {
       if (this.watched.has(object)) return;
@@ -56,6 +71,7 @@ export class StreamedShaderWarmup {
 
   private addWaiting(mesh: THREE.Mesh): void {
     if (this.waiting.has(mesh)) return;
+    this.enrolled.add(mesh);
     this.waiting.add(mesh);
     const ancestors: THREE.Object3D[] = [];
     for (let root: THREE.Object3D | null = mesh; root; root = root.parent) {
@@ -85,8 +101,8 @@ export class StreamedShaderWarmup {
     for (const mesh of this.waiting) {
       // EntityViews retains the sampled actor until its detailed rig is ready. Other gameplay
       // objects and selection feedback without a replacement still remain drawable.
-      if ((mesh.userData.entityId !== undefined && !mesh.userData.deferFirstDraw)
-        || mesh.parent?.userData.keepVisibleDuringWarmup === true) continue;
+      if (!this.deferGameplayDraws && ((mesh.userData.entityId !== undefined && !mesh.userData.deferFirstDraw)
+        || mesh.parent?.userData.keepVisibleDuringWarmup === true)) continue;
       if (!mesh.visible) continue;
       mesh.visible = false;
       this.hidden.push(mesh);

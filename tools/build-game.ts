@@ -2,10 +2,12 @@ import { build } from "vite";
 import { gameRoot } from "./lib/paths.js";
 import { assertGameInitialized } from "./lib/server.js";
 import { compileAndPublish } from './content/compile.js';
+import { generateSpellIconAtlas } from './lib/spell-icon-atlas.js';
 
 await assertGameInitialized();
 const catalog = await compileAndPublish();
 if (!catalog.ok) throw new Error(catalog.diagnostics.map(row => `${row.path}: ${row.message}`).join('\n'));
+await generateSpellIconAtlas();
 const { validateGameContent } = await import('./validate-game-content.js');
 const { ensureReleaseWorld } = await import('./build-release-world.js');
 await validateGameContent();

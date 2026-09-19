@@ -107,6 +107,34 @@ describe('production Wilderness effects', () => {
     expect(effects.getState().ready).toBe(false);
   });
 
+  it('keeps shader light counts stable when surface terrain is hidden during realm travel', () => {
+    const scene = new THREE.Scene(), terrain = new THREE.Group();
+    scene.add(terrain);
+    const effects = new WildernessEffects(terrain, {
+      groundHeightAt: ground, torches: [], channels: WILDERNESS_LAVA_LAB_CHANNELS,
+      lightParent: scene, streamChannels: true,
+    });
+    const countLights = () => {
+      const counts = { point: 0, area: 0 };
+      scene.traverseVisible(object => {
+        if ((object as THREE.PointLight).isPointLight) counts.point++;
+        if ((object as THREE.RectAreaLight).isRectAreaLight) counts.area++;
+      });
+      return counts;
+    };
+    expect(countLights()).toEqual({ point: 6, area: 4 });
+    terrain.visible = false; effects.setEnabled(false);
+    expect(countLights()).toEqual({ point: 6, area: 4 });
+    expect(effects.getState().lights.every(light => light.intensity === 0)).toBe(true);
+    scene.traverseVisible(object => {
+      if ((object as THREE.Light).isLight) expect((object as THREE.Light).intensity).toBe(0);
+    });
+    terrain.visible = true; effects.setEnabled(true);
+    expect(countLights()).toEqual({ point: 6, area: 4 });
+    effects.dispose();
+    expect(countLights()).toEqual({ point: 0, area: 0 });
+  });
+
   it('draws bank relief and unobstructed molten flow over the carved terrain with upward bank normals', () => {
     const parent = new THREE.Scene();
     const effects = new WildernessEffects(parent, {
