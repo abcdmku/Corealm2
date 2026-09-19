@@ -10,6 +10,8 @@
 .agent-panel {
   position: absolute;
   left: 10px;
+  /* Under the vitals, where a connection is easy to notice. Nothing shares the corner: the card is
+   * only on screen while an agent is connected, and the chat sits below it. */
   top: 40px;
   width: 268px;
   background: linear-gradient(180deg, rgba(31, 27, 21, 0.97), rgba(16, 14, 11, 0.96));

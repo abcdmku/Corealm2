@@ -717,7 +717,9 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
         minimap.mount(root);
         root.querySelector(".hud")?.classList.add("has-minimap");
       }
-      tracker.mount(root);
+      // In the HUD's left column, under the health bar and the chat: a phone stacks it there in
+      // flow, and on a desktop the card is `position: fixed` and drags anywhere it likes.
+      tracker.mount(hud.rail);
       agentPanel?.mount(root);
       dock.mount(root);
       actionBar?.mount(root);

@@ -143,7 +143,7 @@ export class AgentPanel {
     this.applyPosition();
     this.applyCollapsed();
     const unsubscribeSession = deps.session.subscribe(() => this.update(true));
-    const unsubscribeSettings = deps.settings.subscribe((current) => { root.hidden = !current.agentCompanion; });
+    const unsubscribeSettings = deps.settings.subscribe(() => this.applyVisible());
     this.unsubscribe = () => { unsubscribeSession(); unsubscribeSettings(); };
   }
 
@@ -182,7 +182,17 @@ export class AgentPanel {
     // "Companion" rather than "Agent companion": with the hide button the longer name truncates.
     this.nameEl.textContent = view.connected ? view.agentName ?? "Agent" : "Companion";
     this.modeEl.textContent = !view.connected ? "Offline" : view.paused ? "paused" : view.mode;
+    this.applyVisible();
+  }
 
+  /**
+   * Solo play shows no card at all. An "OFFLINE" header standing in the corner of every session
+   * is a permanent reminder of a feature nobody is using; the card appears when an agent connects
+   * or when one is waiting on an answer, and leaves again when it disconnects.
+   */
+  private applyVisible(): void {
+    this.root.hidden = !this.deps.settings.get().agentCompanion
+      || (!this.connected && this.approvalId === null);
   }
 
   dispose(): void {

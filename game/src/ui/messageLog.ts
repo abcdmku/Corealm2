@@ -1,5 +1,5 @@
 /**
- * The bottom-left message log: game notices and multiplayer chat share one list.
+ * The top-left chat block: game notices and multiplayer chat share one list.
  *
  * `ui/hud.ts` owns the instance and feeds it notices; `ui/multiplayerSocial.ts` feeds it chat
  * through `activeMessageLog()`. Every line carries a channel, and the player hides channels from
@@ -8,6 +8,12 @@
  *
  * Lines are kept in memory, not only in the DOM, so a filter change or opening the chat can
  * repaint older history instead of losing whatever had scrolled out.
+ *
+ * The log owns the block, not just the list: `root` is the `.chat` column that sits under the
+ * health bar, with the chat input at the top of it and the lines running down from there. The bar
+ * is built by `ui/multiplayerSocial.ts`, which hands it over through `adoptChatBar`. It used to
+ * live in the bottom-left corner, where it shared its pixels with the stick, the spell bar and the
+ * dock, and on a phone those four drew straight through each other.
  */
 import type { ChatChannel } from "../contracts.js";
 import type { NoticeTone } from "./contextMenu.js";
@@ -58,7 +64,10 @@ function loadHidden(): Set<MessageChannel> {
 }
 
 export class MessageLog {
+  /** The list of lines. */
   readonly element: HTMLElement;
+  /** The whole chat block: the input, then the lines. Mounted under the vitals by `ui/hud.ts`. */
+  readonly root: HTMLElement;
   private readonly entries: Entry[] = [];
   private readonly hidden = loadHidden();
   private expanded = false;
@@ -72,13 +81,26 @@ export class MessageLog {
     // Reading or scrolling the open log must not take focus from the chat input.
     element.addEventListener("mousedown", event => event.preventDefault());
     this.element = element;
+
+    const root = document.createElement("div");
+    root.className = "chat";
+    root.appendChild(element);
+    this.root = root;
+    // A chat bar that connected before the HUD existed is adopted rather than left where it fell.
+    const stray = document.querySelector<HTMLElement>(".chatbar");
+    if (stray) this.adoptChatBar(stray);
     active = this;
+  }
+
+  /** Puts the chat input at the top of the block, above every line. */
+  adoptChatBar(bar: HTMLElement): void {
+    this.root.insertBefore(bar, this.element);
   }
 
   dispose(): void {
     if (this.idleTimer !== null) window.clearTimeout(this.idleTimer);
     this.idleTimer = null;
-    this.element.remove();
+    this.root.remove();
     if (active === this) active = null;
   }
 

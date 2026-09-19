@@ -10,6 +10,7 @@ import type {
   EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, GameApi, ItemId, SkillId, SpellRow,
 } from "../contracts.js";
 import { content } from "../content/index.js";
+import { attachHoverTriggers, onPressElsewhere } from "./hoverIntent.js";
 import { createItemIcon } from "./itemIcons.js";
 import { itemTooltipContent } from "./itemTooltipContent.js";
 
@@ -55,6 +56,10 @@ export class Tooltip {
     element.setAttribute("role", "tooltip");
     element.hidden = true;
     this.element = element;
+    this.detachers.push(onPressElsewhere((target) => {
+      if (!this.anchor || (target && this.anchor.contains(target))) return;
+      this.hide();
+    }));
   }
 
   mount(parent: HTMLElement): void {
@@ -63,28 +68,20 @@ export class Tooltip {
 
   attach(target: Element, provider: () => TooltipContent | null): () => void {
     let attached = true;
-    const show = (): void => {
-      this.activeProvider = provider;
-      const contentSpec = provider();
-      if (contentSpec) this.show(contentSpec, target);
-      else this.hide();
-    };
-    const hide = (): void => {
-      if (this.anchor === target) this.hide();
-    };
-
-    target.addEventListener("pointerenter", show);
-    target.addEventListener("pointerleave", hide);
-    target.addEventListener("focus", show);
-    target.addEventListener("blur", hide);
+    const detachTriggers = attachHoverTriggers(target, {
+      show: () => {
+        this.activeProvider = provider;
+        const contentSpec = provider();
+        if (contentSpec) this.show(contentSpec, target);
+        else this.hide();
+      },
+      hide: () => { if (this.anchor === target) this.hide(); },
+    });
 
     const detach = (): void => {
       if (!attached) return;
       attached = false;
-      target.removeEventListener("pointerenter", show);
-      target.removeEventListener("pointerleave", hide);
-      target.removeEventListener("focus", show);
-      target.removeEventListener("blur", hide);
+      detachTriggers();
       if (this.anchor === target) this.hide();
     };
     this.detachers.push(detach);

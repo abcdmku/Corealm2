@@ -12,13 +12,16 @@
  * The root subscribes once and wires each value. Render scale changes the WebGL drawing buffer,
  * shadow quality changes both the shadow-map size and whether the sun casts one, inversion lands
  * on the camera, damage numbers are never created rather than created-and-hidden, and compact
- * density puts `.is-compact` on `#ui-root`. The same update carries the three audio bus gains.
+ * density puts `.is-compact` on `#ui-root`, as the stick's off-hand side puts `.stick-left` there.
+ * The same update carries the three audio bus gains.
  */
 
 import type { AudioVolumes } from "../contracts.js";
 import type { TouchPreference } from "./mobileLayout.js";
 
 export type RenderScale = 0.7 | 0.85 | 1;
+/** Which thumb the on-screen movement stick sits under. */
+export type JoystickSide = "left" | "right";
 export type ShadowQuality = "off" | "low" | "high";
 export type DrawDistance = "near" | "medium" | "far";
 
@@ -45,6 +48,8 @@ export interface UiSettings extends AudioVolumes {
    * desktop mode, where the browser's answer is not the player's.
    */
   touchControls: TouchPreference;
+  /** The corner the movement stick stands in. Right-handed by default. */
+  joystickSide: JoystickSide;
 }
 
 export const DEFAULT_SETTINGS: UiSettings = {
@@ -60,6 +65,7 @@ export const DEFAULT_SETTINGS: UiSettings = {
   uiScale: "normal",
   agentCompanion: true,
   touchControls: "auto",
+  joystickSide: "right",
 };
 
 const STORAGE_KEY = "corealm.settings.v1";

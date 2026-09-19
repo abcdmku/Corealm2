@@ -501,6 +501,10 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
         el.style.top = `${bar.y}px`;
       }
     });
+    // How much room the bottom bars take above the dock. Everything else that stands on the dock
+    // reads it as part of its clearance — panels, and the movement stick, which sits above the bar
+    // rather than beside it (`styles/mobile.css`).
+    root.parentElement?.style.setProperty("--action-bar-h", `${Math.round(stacks.bottom)}px`);
   }
 
   function save(): void {

@@ -1,6 +1,7 @@
 import { sendGameCommand } from "../api/commands.js";
 /** Compact, world-anchored contents for loot piles and Recovery Caches. */
 import type { LootContainerView, Vec3 } from "../contracts.js";
+import { onTapElsewhere } from "./hoverIntent.js";
 import type { UiContext } from "./panels.js";
 import { itemName, paintSlot } from "./panels.js";
 import { reportResult } from "./contextMenu.js";
@@ -20,6 +21,7 @@ export class LootReveal {
   private readonly grid = document.createElement("div");
   private container: LootContainerView | null = null;
   private popEscape: (() => void) | null = null;
+  private stopPressDismissal: (() => void) | null = null;
 
   constructor(private readonly ctx: UiContext) {
     this.root.className = "loot-reveal";
@@ -52,6 +54,7 @@ export class LootReveal {
     this.paint();
     this.root.hidden = false;
     this.installEscapeHandler();
+    this.installPressDismissal();
     this.update();
   }
 
@@ -113,11 +116,26 @@ export class LootReveal {
     delete this.root.dataset["sourceId"];
     this.popEscape?.();
     this.popEscape = null;
+    this.stopPressDismissal?.();
+    this.stopPressDismissal = null;
   }
 
   dispose(): void {
     this.hide();
     this.root.remove();
+  }
+
+  /**
+   * A tap anywhere else closes the grid. Walking away, opening a panel, or a click on the ground
+   * are all "I am done with this pile", and on a phone Escape is not a key anyone has. A drag is
+   * left alone: turning the camera to see the pile must not throw its contents away.
+   */
+  private installPressDismissal(): void {
+    if (this.stopPressDismissal) return;
+    this.stopPressDismissal = onTapElsewhere((target) => {
+      if (target && this.root.contains(target)) return;
+      this.hide();
+    });
   }
 
   private installEscapeHandler(): void {

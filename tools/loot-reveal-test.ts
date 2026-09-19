@@ -168,6 +168,30 @@ try {
   await page.waitForTimeout(100);
   await page.screenshot({ path: screenshotPath, animations: "allow" });
 
+  // Turning the camera is not walking away: a drag leaves the grid up.
+  await page.mouse.move(320, 240);
+  await page.mouse.down({ button: "right" });
+  await page.mouse.move(400, 260, { steps: 8 });
+  await page.mouse.up({ button: "right" });
+  await page.waitForTimeout(250);
+  if (await reveal.count() !== 1) throw new Error("Orbiting the camera closed the loot grid");
+  console.log("[loot-reveal] a camera drag left the grid open");
+
+  // A press anywhere else closes the grid, and reopening the same pile brings it back. Escape is
+  // not a key a phone has, so this is the dismissal a thumb actually uses.
+  const dockInventory = page.locator(".dock__btn[data-panel='inventory']");
+  await dockInventory.click();
+  await reveal.waitFor({ state: "hidden", timeout: 3_000 });
+  await dockInventory.click();
+  await page.waitForTimeout(200);
+  console.log("[loot-reveal] a press elsewhere closed the grid");
+  const reopen = await findLootBox(page);
+  await page.mouse.click(reopen.x, reopen.y);
+  await reveal.waitFor({ state: "visible", timeout: 8_000 });
+  if (await page.locator(".loot-reveal:not([hidden]) .loot-reveal__slot").count() !== dropped.expected.length) {
+    throw new Error("Reopening the pile did not restore every stack");
+  }
+
   await page.locator(".loot-reveal__slot").first().click();
   await page.waitForFunction((count) => (
     document.querySelectorAll(".loot-reveal:not([hidden]) .loot-reveal__slot").length === count - 1

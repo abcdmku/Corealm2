@@ -9,7 +9,7 @@
   --whisper-colour: #d6a4e6;
 }
 
-/* ---- the chat bar: the message log's glass, one line tall, directly under the log */
+/* ---- the chat bar: the message log's glass, one line tall, the top line of the chat block */
 
 /* Placement lives beside `.msglog` in styles.css and mobile.css, so the phone overrides win. */
 .chatbar {
@@ -98,6 +98,7 @@
 /* Open while typing: every kept line, scrollable, full strength. */
 #ui-root.has-chatbar .msglog.is-expanded {
   justify-content: flex-start;
+  height: auto;
   max-height: min(46vh, 420px);
   overflow-y: auto;
   opacity: 1;

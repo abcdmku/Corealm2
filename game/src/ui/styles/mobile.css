@@ -43,9 +43,14 @@
 
 /* ------------------------------------------------------------- the joystick */
 
+/*
+ * Right-handed by default: most players hold the phone in the left hand and drive with the right
+ * thumb, and the world gestures (drag to look, tap to walk) work anywhere on the glass either way.
+ * "Stick side" in Settings puts `.stick-left` on `#ui-root` for the other hand.
+ */
 .joystick {
   position: absolute;
-  left: calc(10px + var(--safe-left));
+  right: calc(10px + var(--safe-right));
   bottom: calc(10px + var(--safe-bottom));
   width: 80px;
   height: 80px;
@@ -58,6 +63,11 @@
   pointer-events: auto;
   z-index: var(--z-hud);
   transition: opacity 120ms ease-out;
+}
+
+#ui-root.stick-left .joystick {
+  right: auto;
+  left: calc(10px + var(--safe-left));
 }
 
 .joystick[hidden] { display: none; }
@@ -77,9 +87,14 @@
   pointer-events: none;
 }
 
-/* With a stick in the corner the log steps up out from under it, whatever the screen size. */
-#ui-root.is-touch .msglog { bottom: calc(100px + var(--safe-bottom) + var(--chatbar-h, 0px)); }
-#ui-root.is-touch .chatbar { bottom: calc(100px + var(--safe-bottom)); }
+/* A thumb owns the bottom-left corner, so the chat block moves into the HUD's left column: in
+ * flow under the health bar, input on top, lines running down from it. */
+#ui-root.is-touch .chat {
+  position: static;
+  flex-direction: column;
+  width: min(60vw, 32ch);
+  z-index: auto;
+}
 
 /* ------------------------------------------------------------ touch chrome */
 
@@ -154,11 +169,11 @@
   .hud__currency > .u-caps { display: none; }
   .xp-drop { padding: 0 2px; font-size: var(--size-xs); }
 
-  /* ---- the tracked quest: a narrow card under the vitals, never dragged. */
+  /* ---- the tracked quest: in the left column under the chat, never dragged. */
   .quest-tracker,
   .quest-tracker.is-moved {
-    left: calc(6px + var(--safe-left)) !important;
-    top: calc(46px + var(--safe-top)) !important;
+    position: static !important;
+    /* Wider than the health bar above it: an objective line has to be readable. */
     width: 168px;
     transform: none !important;
   }
@@ -166,38 +181,30 @@
   .quest-tracker__header { min-height: 20px; }
   .quest-tracker__objective { font-size: var(--size-xs); }
 
-  /* ---- the message log: two or three short lines, clear of the stick and the dock. */
+  /* ---- the message log: three short lines under the chat input, over the world, no glass.
+   * A fixed height, not a cap: the quest card stands below it, and a card that hopped every time
+   * a message arrived would be worse than the space this holds open. */
+  .chat,
+  #ui-root.is-touch .chat,
+  #ui-root.is-compact .chat {
+    position: static;
+    flex-direction: column;
+    width: min(60vw, 32ch);
+    z-index: auto;
+  }
+
   .msglog,
   #ui-root.is-touch .msglog,
   #ui-root.is-compact .msglog {
-    left: calc(8px + var(--safe-left));
-    right: calc(8px + var(--safe-right));
-    bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 6px + var(--chatbar-h, 0px));
-    width: auto;
-    max-height: 42px;
-    overflow: hidden;
+    height: 44px;
     padding: 1px 5px;
     border-color: transparent;
     background: none;
     backdrop-filter: none;
   }
 
-  #ui-root.is-touch .msglog { left: calc(96px + var(--safe-left)); }
   .msglog__line { padding: 0 4px; font-size: var(--size-xs); line-height: 1.3; }
-
-  /* The spell bar sits on the dock, so the chat bar and the log above it stand on top of that. */
-  #ui-root.has-chatbar { --chatbar-h: 84px; }
-
-  .chatbar,
-  #ui-root.is-touch .chatbar,
-  #ui-root.is-compact .chatbar {
-    left: calc(8px + var(--safe-left));
-    right: calc(8px + var(--safe-right));
-    bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 60px);
-    width: auto;
-  }
-
-  #ui-root.is-touch .chatbar { left: calc(96px + var(--safe-left)); }
+  .chatbar, #ui-root.is-touch .chatbar { height: 24px; }
 
   /* ---- the dock: a low strip along the bottom edge, icon and a tiny word each. */
   .dock {
@@ -218,7 +225,11 @@
   .dock__btn.is-active::after { left: 30%; right: 30%; bottom: 1px; }
   .dock__badge { top: 1px; right: 6px; }
 
-  .joystick { bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 8px); }
+  /* The spell bar keeps the bottom edge above the dock; the stick stands on top of it. */
+  .joystick { bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 8px + var(--action-bar-h, 0px)); }
+
+  /* The pack is the panel a thumb reaches for most, so it takes the end of the dock nearest it. */
+  #ui-root.is-touch .dock__btn[data-panel="inventory"] { order: 1; }
 
   /* ---- panels stay cards. Tighter chrome, the same shapes. */
   .panel { min-width: 0; }
@@ -233,7 +244,7 @@
     top: auto !important;
     left: auto !important;
     right: calc(6px + var(--safe-right)) !important;
-    bottom: var(--dock-clearance) !important;
+    bottom: calc(var(--dock-clearance) + var(--action-bar-h, 0px)) !important;
     width: var(--mobile-card-w) !important;
     max-height: min(52vh, 380px) !important;
     transform: none !important;
@@ -257,7 +268,7 @@
     bottom: auto !important;
     width: auto !important;
     max-width: 380px !important;
-    max-height: calc(100vh - var(--dock-clearance) - 14px - var(--safe-top)) !important;
+    max-height: calc(100vh - var(--dock-clearance) - var(--action-bar-h, 0px) - 14px - var(--safe-top)) !important;
     min-height: 0 !important;
     margin: 0 auto !important;
     transform: none !important;
@@ -270,7 +281,7 @@
     top: auto !important;
     left: calc(6px + var(--safe-left)) !important;
     right: calc(6px + var(--safe-right)) !important;
-    bottom: var(--dock-clearance) !important;
+    bottom: calc(var(--dock-clearance) + var(--action-bar-h, 0px)) !important;
     width: auto !important;
     max-width: 400px !important;
     max-height: min(42vh, 300px) !important;
@@ -335,34 +346,10 @@
   .hud__right { right: calc(var(--mobile-dock-w) + 10px + var(--safe-right)); }
   .hud.has-minimap .hud__right { top: calc(76px + var(--safe-top)); }
 
-  .quest-tracker,
-  .quest-tracker.is-moved {
-    top: calc(40px + var(--safe-top)) !important;
-    width: 160px;
-  }
-
+  /* Short screen: two lines of log, and the quest card still under it in the same column. */
   .msglog,
   #ui-root.is-touch .msglog,
-  #ui-root.is-compact .msglog {
-    left: calc(8px + var(--safe-left));
-    right: calc(var(--mobile-dock-w) + 10px + var(--safe-right));
-    bottom: calc(6px + var(--safe-bottom) + var(--chatbar-h, 0px));
-    max-height: 30px;
-  }
-
-  #ui-root.is-touch .msglog { left: calc(96px + var(--safe-left)); }
-
-  /* The spell bar owns the bottom edge here, so the chat bar and the log above it stand on top of it. */
-  #ui-root.has-chatbar { --chatbar-h: 84px; }
-
-  .chatbar,
-  #ui-root.is-touch .chatbar,
-  #ui-root.is-compact .chatbar {
-    right: calc(var(--mobile-dock-w) + 10px + var(--safe-right));
-    bottom: calc(60px + var(--safe-bottom));
-  }
-
-  #ui-root.is-touch .chatbar { left: calc(96px + var(--safe-left)); }
+  #ui-root.is-compact .msglog { height: 30px; }
 
   .dock {
     top: var(--safe-top);
@@ -381,9 +368,15 @@
   .dock__btn.is-active::after { left: 9px; right: 9px; bottom: 2px; }
   .dock__badge { top: 1px; right: 1px; }
 
+  /* The dock is a column down the right edge here, so the stick stands beside it, not under it. */
   .joystick {
-    left: calc(8px + var(--safe-left));
+    right: calc(var(--mobile-dock-w) + 10px + var(--safe-right));
     bottom: calc(8px + var(--safe-bottom));
+  }
+
+  #ui-root.stick-left .joystick {
+    right: auto;
+    left: calc(8px + var(--safe-left));
   }
 
   .panel--side,

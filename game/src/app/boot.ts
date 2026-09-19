@@ -2915,6 +2915,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (!previous || previous.touchControls !== preferences.touchControls) {
       mobileLayout.setTouchPreference(preferences.touchControls);
     }
+    if (!previous || previous.joystickSide !== preferences.joystickSide) {
+      // Right-handed by default; the stylesheet reads the class, as it does for compact density.
+      labelRoot.classList.toggle("stick-left", preferences.joystickSide === "left");
+    }
     appliedPreferences = preferences;
   });
   // Touch play follows the resolved layout, not the raw preference: "auto" can change under a

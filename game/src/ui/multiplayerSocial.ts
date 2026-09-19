@@ -96,12 +96,20 @@ export class MultiplayerSocial {
 
     this.bar.append(this.channelButton, this.input, this.gear);
     this.bar.addEventListener("submit", event => { event.preventDefault(); void this.send(); });
-    (document.getElementById("ui-root") ?? document.body).append(this.bar);
+    this.dock();
 
     this.paintTarget();
   }
 
+  /** The bar belongs at the top of the chat block. Before the HUD exists, it waits in the root. */
+  private dock(): void {
+    const log = activeMessageLog();
+    if (log) log.adoptChatBar(this.bar);
+    else (document.getElementById("ui-root") ?? document.body).append(this.bar);
+  }
+
   connected(connected: boolean): void {
+    this.dock();
     this.online = connected;
     this.bar.hidden = !connected;
     document.getElementById("ui-root")?.classList.toggle("has-chatbar", connected);

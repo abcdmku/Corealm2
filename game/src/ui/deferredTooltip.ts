@@ -1,4 +1,5 @@
 import type { GameApi } from "../contracts.js";
+import { attachHoverTriggers, onPressElsewhere } from "./hoverIntent.js";
 import type { Tooltip, TooltipContent } from "./tooltips.js";
 
 /** Loads item-card rendering on the first hover or keyboard focus. */
@@ -10,7 +11,16 @@ export class DeferredTooltip {
   private readonly detachers: (() => void)[] = [];
   private disposed = false;
 
-  constructor(private readonly api: GameApi, private readonly onError: (error: unknown) => void) {}
+  constructor(private readonly api: GameApi, private readonly onError: (error: unknown) => void) {
+    // The loaded card hides itself on a press elsewhere; this clears the anchor behind it, or the
+    // next `refresh()` on the UI tick would put the card straight back up.
+    this.detachers.push(onPressElsewhere((target) => {
+      const active = this.active;
+      if (!active || (target && active.target.contains(target))) return;
+      this.active = null;
+      this.tooltip?.hide();
+    }));
+  }
 
   mount(parent: HTMLElement): void {
     if (this.disposed) return;
@@ -21,27 +31,22 @@ export class DeferredTooltip {
   attach(target: Element, provider: () => TooltipContent | null): () => void {
     if (this.disposed) return () => undefined;
     let attached = true;
-    const show = (): void => {
-      this.active = { target, provider };
-      if (this.tooltip) this.refresh();
-      else this.load();
-    };
-    const hide = (): void => {
-      if (this.active?.target !== target) return;
-      this.active = null;
-      this.tooltip?.hide();
-    };
-    target.addEventListener("pointerenter", show);
-    target.addEventListener("pointerleave", hide);
-    target.addEventListener("focus", show);
-    target.addEventListener("blur", hide);
+    const detachTriggers = attachHoverTriggers(target, {
+      show: () => {
+        this.active = { target, provider };
+        if (this.tooltip) this.refresh();
+        else this.load();
+      },
+      hide: () => {
+        if (this.active?.target !== target) return;
+        this.active = null;
+        this.tooltip?.hide();
+      },
+    });
     const detach = (): void => {
       if (!attached) return;
       attached = false;
-      target.removeEventListener("pointerenter", show);
-      target.removeEventListener("pointerleave", hide);
-      target.removeEventListener("focus", show);
-      target.removeEventListener("blur", hide);
+      detachTriggers();
       if (this.active?.target === target) {
         this.active = null;
         this.tooltip?.hide();

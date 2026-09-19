@@ -181,7 +181,7 @@ html, body {
 
 /* ...and passive overlays opt back out, or they eat world clicks under the cursor. */
 #ui-root > .hover-label,
-#ui-root > .msglog,
+.msglog,
 #ui-root > .is-passive { pointer-events: none; }
 
 /* ------------------------------------------------------------------ boot */
@@ -619,7 +619,7 @@ html, body {
 /* ------------------------------------------------------------ message log */
 
 /*
- * The bottom-left message log: everything the game says to the player in words.
+ * The top-left chat block: everything the game says to the player in words.
  *
  * This was a toast strip — four lines, each deleted six seconds after it arrived. That is the right
  * shape for "your click failed" and the wrong shape for a game log: a message that arrives while
@@ -628,19 +628,38 @@ html, body {
  * there to read, and the panel itself dims when it has been quiet rather than deleting its
  * contents.
  *
+ * The input and the lines are one block, and the block reads away from whichever edge it is
+ * anchored to. On a desktop it stands in the bottom-left corner as it always has: log above, input
+ * on the bottom line. A phone has no room there — the stick, the spell bar and the dock all want
+ * that corner, and all four drew over each other — so touch and small screens move the block into
+ * the vitals column under the health bar and flip it: input first, lines running down from it.
+ * `ui/hud.ts` keeps it in that column, so an activity bar or a cache banner pushes it down instead
+ * of landing on top of it.
+ *
  * Passive, like the minimap cluster: this sits over the world in a corner the player also clicks
  * through, and a message must never eat an order meant for the ground beneath it.
  */
-.msglog {
+.chat {
   position: fixed;
   left: var(--space-3);
-  /* A multiplayer chat bar sets --chatbar-h and sits in the gap this leaves. */
-  bottom: calc(var(--space-3) + var(--chatbar-h, 0px));
+  bottom: var(--space-3);
+  display: flex;
+  /* Reversed: the DOM is input then log, and the bottom-anchored block wants the input last. */
+  flex-direction: column-reverse;
+  align-self: flex-start;
+  gap: 2px;
+  width: min(42ch, 34vw);
+  z-index: var(--z-tooltip);
+}
+
+.msglog {
   display: flex;
   flex-direction: column;
+  /* Lines run down from the input, newest last. Past the cap the oldest leave off the top. */
   justify-content: flex-end;
   gap: 1px;
-  width: min(42ch, 34vw);
+  max-height: min(34vh, 280px);
+  overflow: hidden;
   padding: var(--space-1) var(--space-2);
   border: 1px solid rgba(212, 175, 88, 0.14);
   border-radius: var(--radius);
@@ -648,7 +667,6 @@ html, body {
    * over ground the player walks on. */
   background: linear-gradient(180deg, rgba(14, 12, 9, 0.30), rgba(14, 12, 9, 0.52));
   backdrop-filter: blur(3px);
-  z-index: var(--z-tooltip);
   pointer-events: none;
   transition: opacity 600ms ease;
 }
@@ -687,19 +705,15 @@ html, body {
   to { opacity: 1; transform: none; }
 }
 
-#ui-root.is-compact .msglog { width: min(36ch, 30vw); }
+#ui-root.is-compact .chat { width: min(36ch, 30vw); }
 
-/* The multiplayer chat bar sits in the gap under the log. Its look is in styles/social.css. */
-#ui-root.has-chatbar { --chatbar-h: 30px; }
-
+/* The multiplayer chat bar is the top line of the block. Its look is in styles/social.css. */
 .chatbar {
-  position: fixed;
-  left: var(--space-3);
-  bottom: var(--space-3);
-  width: min(42ch, 34vw);
+  width: 100%;
+  /* The one thing in the HUD column a player types into. */
+  pointer-events: auto;
 }
 
-#ui-root.is-compact .chatbar { width: min(36ch, 30vw); }
 
 /* ------------------------------------------------------------ preferences */
 
@@ -1862,7 +1876,10 @@ html, body {
  * mix). Collapsed, it is just the header line.
  */
 .quest-tracker {
-  position: absolute;
+  /* Fixed, not absolute: it is a child of the HUD's left column now, and a dragged card reports
+   * viewport pixels. A phone drops it back into that column's flow (styles/mobile.css). */
+  position: fixed;
+  pointer-events: auto;
   left: 10px;
   top: 50%;
   transform: translateY(-50%);

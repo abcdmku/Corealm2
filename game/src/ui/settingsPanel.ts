@@ -76,6 +76,11 @@ const TOUCH_CONTROLS: readonly { value: UiSettings["touchControls"]; label: stri
   { value: "off", label: "Off" },
 ];
 
+const JOYSTICK_SIDES: readonly { value: UiSettings["joystickSide"]; label: string }[] = [
+  { value: "left", label: "Left" },
+  { value: "right", label: "Right" },
+];
+
 const AUDIO_CONTROLS: readonly {
   key: AudioBus;
   label: string;
@@ -107,6 +112,7 @@ export class SettingsPanel implements ManagedPanel {
   private readonly drawDistanceButtons = new Map<DrawDistance | "auto", HTMLButtonElement>();
   private readonly densityButtons = new Map<UiSettings["uiScale"], HTMLButtonElement>();
   private readonly touchButtons = new Map<UiSettings["touchControls"], HTMLButtonElement>();
+  private readonly joystickButtons = new Map<UiSettings["joystickSide"], HTMLButtonElement>();
   private readonly audioInputs = new Map<AudioBus, HTMLInputElement>();
   private readonly audioOutputs = new Map<AudioBus, HTMLOutputElement>();
   private readonly unsubscribe: () => void;
@@ -234,6 +240,14 @@ export class SettingsPanel implements ManagedPanel {
       TOUCH_CONTROLS,
       this.touchButtons,
       (value) => { this.settings.set({ touchControls: value }); },
+    ));
+    game.appendChild(this.choiceRow(
+      "Stick side",
+      "Which thumb the movement stick sits under.",
+      "Stick side",
+      JOYSTICK_SIDES,
+      this.joystickButtons,
+      (value) => { this.settings.set({ joystickSide: value }); },
     ));
 
     const footer = document.createElement("div");
@@ -617,6 +631,13 @@ export class SettingsPanel implements ManagedPanel {
 
     for (const [value, button] of this.touchButtons) {
       const on = current.touchControls === value;
+      button.classList.toggle("is-active", on);
+      button.setAttribute("aria-checked", on ? "true" : "false");
+      button.tabIndex = on ? 0 : -1;
+    }
+
+    for (const [value, button] of this.joystickButtons) {
+      const on = current.joystickSide === value;
       button.classList.toggle("is-active", on);
       button.setAttribute("aria-checked", on ? "true" : "false");
       button.tabIndex = on ? 0 : -1;

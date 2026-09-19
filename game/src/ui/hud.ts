@@ -72,6 +72,11 @@ export function ignoresRepeatedNotice(message: string): boolean {
 
 export class Hud {
   readonly element: HTMLElement;
+  /**
+   * The top-left column: health, activity, cache, chat. Anything else that belongs under the
+   * health bar joins it here rather than guessing an offset — on a phone the quest tracker does.
+   */
+  readonly rail: HTMLElement;
   private readonly messages = new MessageLog();
 
   private readonly healthBar: HTMLElement;
@@ -164,7 +169,10 @@ export class Hud {
       lines: ["Walk back to reclaim the items inside."],
     }));
 
-    vitals.append(health, activity, cache);
+    // The chat block rides in the vitals column, directly under the health bar: the input on top,
+    // lines running down from it. In flow, so an activity bar or a cache banner pushes it down
+    // instead of drawing over it.
+    vitals.append(health, activity, cache, this.messages.root);
     this.cacheBanner = cache;
     this.cacheDetail = cacheDetail;
 
@@ -196,6 +204,7 @@ export class Hud {
     root.append(vitals, right);
 
     this.element = root;
+    this.rail = vitals;
     this.healthBar = health;
     this.healthFill = healthFill;
     this.healthText = healthText;
@@ -208,10 +217,10 @@ export class Hud {
   }
 
   mount(parent: HTMLElement): void {
-    // The message log is a sibling, not a child: #ui-root already styles and positions `.msglog`.
-    // The context menu's pre-HUD fallback may have written one already; its lines give way to ours.
-    parent.querySelector(".msglog")?.remove();
-    parent.append(this.element, this.messages.element);
+    // The context menu's pre-HUD fallback may have written a bare `.msglog` already; its lines
+    // give way to the real log, which travels inside the HUD's own vitals column.
+    parent.querySelector(":scope > .msglog")?.remove();
+    parent.append(this.element);
   }
 
   /**
