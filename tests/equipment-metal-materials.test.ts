@@ -20,6 +20,7 @@ const TIERS = ["worn", "grithe", "corven", "kaldite", "emberite", "cindersteel",
 const BODIES: readonly CharacterBody[] = ["male", "female"];
 const KNIGHT_PARTS = ["helmet", "chest", "pauldron", "legs", "boots", "gloves"] as const;
 const KNIGHT_VARIANTS = [
+  { item: "worn_helm", parts: KNIGHT_PARTS },
   { item: "grithe_helm", parts: KNIGHT_PARTS },
   { item: "corven_helm", parts: KNIGHT_PARTS },
   { item: "kaldite_helm", parts: KNIGHT_PARTS },
@@ -124,10 +125,10 @@ const TOOL_APPEARANCES = TIERS.flatMap(tier => ["pickaxe", "hatchet"].map(kind =
 const SWORD_APPEARANCES = [...TIERS.map(tier => gearAppearance(`${tier}_sword`)!), gearAppearance("chainbound_sword")!];
 
 describe("restored equipment metal materials", () => {
-  it("covers six complete Knight tiers and the two Nightmarshal chest parts on both bodies", () => {
-    expect(KNIGHT_APPEARANCES).toHaveLength(2 * (6 * KNIGHT_PARTS.length + 2));
+  it("covers seven complete Knight tiers and the two Nightmarshal chest parts on both bodies", () => {
+    expect(KNIGHT_APPEARANCES).toHaveLength(2 * (7 * KNIGHT_PARTS.length + 2));
     const variants = KNIGHT_VARIANTS.map(row => ({ ...row, tint: gearAppearance(row.item)!.tint }));
-    expect(new Set(variants.map(row => row.tint)).size).toBe(7);
+    expect(new Set(variants.map(row => row.tint)).size).toBe(8);
     for (const body of BODIES) {
       const expected = variants.flatMap(row => row.parts.map(part => `outfit_${body}_knight_${part}:${row.tint}`));
       const actual = KNIGHT_APPEARANCES.filter(part => part.assetId.startsWith(`outfit_${body}_knight_`))

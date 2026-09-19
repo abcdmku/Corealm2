@@ -1602,6 +1602,226 @@
     }
   },
   {
+    "id": "worn_helm",
+    "name": "Worn Helm",
+    "tier": 0,
+    "description": "A dented cap off somebody's scrap pile. It rattles, and it is better than bare.",
+    "stackable": false,
+    "value": 12,
+    "category": "equipment",
+    "equip": {
+      "slot": "head",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_cuirass",
+    "name": "Worn Cuirass",
+    "tier": 0,
+    "description": "Two salvaged plates laced over old leather. The only piece of this kit that stops anything.",
+    "stackable": false,
+    "value": 20,
+    "category": "equipment",
+    "equip": {
+      "slot": "body",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 1,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_greaves",
+    "name": "Worn Greaves",
+    "tier": 0,
+    "description": "Mismatched shin plates tied on with cord.",
+    "stackable": false,
+    "value": 16,
+    "category": "equipment",
+    "equip": {
+      "slot": "legs",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_gloves",
+    "name": "Worn Gloves",
+    "tier": 0,
+    "description": "Cracked leather gloves with the stitching gone at one thumb.",
+    "stackable": false,
+    "value": 8,
+    "category": "equipment",
+    "equip": {
+      "slot": "hands",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_boots",
+    "name": "Worn Boots",
+    "tier": 0,
+    "description": "Split-soled boots. They keep the stones out, mostly.",
+    "stackable": false,
+    "value": 8,
+    "category": "equipment",
+    "equip": {
+      "slot": "feet",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_hide_hood",
+    "name": "Worn Hide Hood",
+    "tier": 0,
+    "description": "A hood cut from a hide nobody wanted. It still smells of the shed.",
+    "stackable": false,
+    "value": 10,
+    "category": "equipment",
+    "equip": {
+      "slot": "head",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_hide_robe",
+    "name": "Worn Hide Robe",
+    "tier": 0,
+    "description": "Offcuts stitched into a robe. The only piece here with enough hide to turn a claw.",
+    "stackable": false,
+    "value": 18,
+    "category": "equipment",
+    "equip": {
+      "slot": "body",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 1,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_hide_leggings",
+    "name": "Worn Hide Leggings",
+    "tier": 0,
+    "description": "Hide leggings, patched at both knees.",
+    "stackable": false,
+    "value": 14,
+    "category": "equipment",
+    "equip": {
+      "slot": "legs",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_hide_wraps",
+    "name": "Worn Hide Wraps",
+    "tier": 0,
+    "description": "Hide strips wound over the knuckles. They keep the grip dry.",
+    "stackable": false,
+    "value": 8,
+    "category": "equipment",
+    "equip": {
+      "slot": "hands",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
+    "id": "worn_hide_boots",
+    "name": "Worn Hide Boots",
+    "tier": 0,
+    "description": "Soft hide boots gone thin at the heel.",
+    "stackable": false,
+    "value": 8,
+    "category": "equipment",
+    "equip": {
+      "slot": "feet",
+      "bonuses": {
+        "meleeAccuracy": 0,
+        "magicAccuracy": 0,
+        "defence": 0,
+        "health": 0,
+        "meleePower": 0,
+        "magicPower": 0,
+        "vitality": 0
+      },
+      "requires": {}
+    }
+  },
+  {
     "id": "air_wand",
     "name": "Air Wand",
     "tier": 1,

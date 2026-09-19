@@ -7,6 +7,8 @@ import { applyRareMageMaterial } from './fabMageArmor.js';
 import { applyMysticClothMaterial, type MysticClothPanel } from './fabMysticCloth.js';
 
 const crafted = ['marchhide', 'bramblehide', 'cairnpelt', 'charhide', 'dragonhide', 'starhide'] as const;
+/** Tier 0 salvage: the tier-1 mage kit's own textures in undyed linen, hide and horn. */
+const SALVAGE = { set: 'worn', cloth: 0xd9a46a, leather: 0xbdb3a6, trim: 0xa8906a } as const;
 const rare = ['duskguard', 'oathguard', 'frostguard', 'tideweave', 'nightweave', 'frostweave'] as const;
 const slots: Record<string, EquipSlot> = {
   hood: 'head', helm: 'head', robe: 'body', plate: 'body', leggings: 'legs', greaves: 'legs',
@@ -14,9 +16,15 @@ const slots: Record<string, EquipSlot> = {
 };
 
 export function fabArmorAppearance(itemId: string, body: CharacterBody): GearAppearance | null {
-  const [set, suffix] = itemId.split('_');
-  const slot = slots[suffix ?? ''];
+  const segments = itemId.split('_');
+  const set = segments[0];
+  const slot = slots[segments[segments.length - 1] ?? ''];
   if (!slot) return null;
+  // The tier 0 hide set is salvaged from the tier-1 kit and wears the same imported mage parts.
+  // Resolving it against the retired ranger outfit instead would dress it in bare hands.
+  if (set === SALVAGE.set && segments[1] === 'hide') {
+    return { itemId, assetId: `fab_${body}_mage_${slot}`, slot, attach: 'skin' };
+  }
   if (crafted.includes(set as typeof crafted[number])) {
     return { itemId, assetId: `fab_${body}_mage_${slot}`, slot, attach: 'skin' };
   }
@@ -77,7 +85,10 @@ function scales(channel: number, linear: boolean): THREE.Texture {
 export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearAppearance): boolean {
   if (!appearance.assetId.startsWith('fab_')) return false;
   const set = appearance.itemId?.split('_')[0] ?? '';
-  const tier = crafted.indexOf(set as typeof crafted[number]);
+  // Tier 0 salvage wears the tier-1 mage kit with its own textures and no dye. Without this it
+  // falls through undyed, which leaves the glove's hand region reading as bare skin.
+  const salvage = set === SALVAGE.set;
+  const tier = salvage ? 0 : crafted.indexOf(set as typeof crafted[number]);
   object.traverse(child => {
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
@@ -100,17 +111,19 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
       }
       if (tier >= 0 && role === 'fab_cloth') {
         material.map = texture(`fabric-${[1, 5, 10, 20, 50, 70][tier]}`);
-        material.color.setHex(0xffffff);
+        material.color.setHex(salvage ? SALVAGE.cloth : 0xffffff);
         material.metalness = 0;
         material.roughness = tier < 4 ? 0.9 : 0.72;
       } else if (tier >= 0 && role === 'fab_leather') {
-        material.map = scales(0, false);
-        material.color.setHex([0xa8b4c8, 0x8fbd9c, 0xa8a3c9, 0xbba89c, 0xb9a2c7, 0xc3d5ef][tier]!);
-        material.color.multiplyScalar(1.5);
+        // Salvage wears plain brown leather. The dyed scale sheet is a crafted-tier treatment, and
+        // its teal albedo cannot be tinted back to undyed hide.
+        material.map = salvage ? texture('leather') : scales(0, false);
+        material.color.setHex(salvage ? SALVAGE.leather : [0xa8b4c8, 0x8fbd9c, 0xa8a3c9, 0xbba89c, 0xb9a2c7, 0xc3d5ef][tier]!);
+        material.color.multiplyScalar(salvage ? 1 : 1.5);
         material.metalness = 0;
         material.roughness = 0.8;
       } else if (tier >= 0 && role === 'fab_trim') {
-        material.color.setHex([0x9a8771, 0xaaa393, 0xaeb8c6, 0xc18b59, 0xc3a471, 0xc4d2e7][tier]!);
+        material.color.setHex(salvage ? SALVAGE.trim : [0x9a8771, 0xaaa393, 0xaeb8c6, 0xc18b59, 0xc3a471, 0xc4d2e7][tier]!);
         material.metalness = 0.35;
         material.roughness = 0.52;
       }
@@ -145,7 +158,9 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
       }
       material.name = `${source.name}|fab:${set}`;
       material.needsUpdate = true;
-      if (tier >= 0 && ['cloth', 'leather', 'trim'].includes(magicRole)) {
+      // Salvage keeps the plain standard material. The magic surface's shimmer and iridescence are
+      // what make a crafted mage set read as enchanted, which tier 0 gear has no business doing.
+      if (tier >= 0 && !salvage && ['cloth', 'leather', 'trim'].includes(magicRole)) {
         const detail = scales(0, true);
         if (magicRole === 'leather' && !material.normalMap) {
           material.bumpMap = detail;

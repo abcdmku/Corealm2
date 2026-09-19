@@ -82,6 +82,7 @@ describe("inventory and held equipment parity", () => {
       'tideweave_wraps', 'nightweave_wraps', 'frostweave_wraps',
       'crownhide_wraps', 'crownsilver_gauntlets', 'dewglass_gauntlets',
       'faesilk_wraps', 'mistweave_wraps', 'staramethyst_gauntlets',
+      'worn_gloves', 'worn_hide_wraps',
     ].sort());
     for (const item of ALL_ITEMS.filter(item => item.equip && !/^(crafted_|guardian_)/.test(item.id))) {
       expect(itemIconAppearance(item.id).presentation, item.id)

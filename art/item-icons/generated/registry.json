@@ -3613,6 +3613,96 @@
       "generator": "built-in image_gen",
       "sourceLookup": "User-authorized T60 regional equipment art; runs/tier30-40-60/PRD.md and game/src/content/regionalTierEquipment.ts. Separate prompted image, original: C:\\Users\\Borg\\.codex\\generated_images\\01a09af6-c553-7b53-be34-0b7efc63f40d\\exec-5ffd984b-8b5c-48e9-9ebf-ea670a52722b.png",
       "review": "Root and fresh Luna reviewed 256px masters and 48px inventory derivatives. All75 regional icons passed production inventory/hover-card Chromium lab; evidence test-results/regional-icon-lab-final."
+    },
+    "worn_helm": {
+      "status": "accepted",
+      "source": "worn_helm.png",
+      "sha256": "e0b38cdcf48cf1cc215fd2729bace4da0d80a2371e86e84077e860653c33a91d",
+      "prompt": "Not prompted artwork. Worn Helm is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_cuirass": {
+      "status": "accepted",
+      "source": "worn_cuirass.png",
+      "sha256": "f233e101bab8ca05dad51fb2082ddbf58b47557b2a5ee3fdcb5ac51c9902dd91",
+      "prompt": "Not prompted artwork. Worn Cuirass is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_greaves": {
+      "status": "accepted",
+      "source": "worn_greaves.png",
+      "sha256": "4d49406f8406b91e2b5b37563ee05e5c33ad3f059dfa39f5cedaa5a1803614f6",
+      "prompt": "Not prompted artwork. Worn Greaves is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_gloves": {
+      "status": "accepted",
+      "source": "worn_gloves.png",
+      "sha256": "da2eceb5079a19c20f222f89898a8dfddb66225b084f0e94a83f2e8e5245d741",
+      "prompt": "Not prompted artwork. Worn Gloves is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_boots": {
+      "status": "accepted",
+      "source": "worn_boots.png",
+      "sha256": "7527147982f6f47f6e93def15f8c90b8a4afee10cab4bcaa390984b9630326b2",
+      "prompt": "Not prompted artwork. Worn Boots is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_hide_hood": {
+      "status": "accepted",
+      "source": "worn_hide_hood.png",
+      "sha256": "34665d177cd4cb91a9724c5481483960374e0d0fd65e4423721436fc2104b273",
+      "prompt": "Not prompted artwork. Worn Hide Hood is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_hide_robe": {
+      "status": "accepted",
+      "source": "worn_hide_robe.png",
+      "sha256": "f4d6b3454c778f302c886b995b37eba32e358aabff217f917db2eafff8751b1e",
+      "prompt": "Not prompted artwork. Worn Hide Robe is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_hide_leggings": {
+      "status": "accepted",
+      "source": "worn_hide_leggings.png",
+      "sha256": "0e5288716c10ac1c6fc712f71eed728894fa69602f7e8628eb1638ec82819bcd",
+      "prompt": "Not prompted artwork. Worn Hide Leggings is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_hide_wraps": {
+      "status": "accepted",
+      "source": "worn_hide_wraps.png",
+      "sha256": "60463ff5fdebd0560fe616a6f4cd9b56e7bed1f1e308b4115e044552069ce4f7",
+      "prompt": "Not prompted artwork. Worn Hide Wraps is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+    },
+    "worn_hide_boots": {
+      "status": "accepted",
+      "source": "worn_hide_boots.png",
+      "sha256": "dfdb5ba4c87c4648f65540efbc34a9b90c5c82fce1127eb6ed21ff972b6af962",
+      "prompt": "Not prompted artwork. Worn Hide Boots is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
+      "generator": "production item icon renderer",
+      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
+      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
     }
   }
 }

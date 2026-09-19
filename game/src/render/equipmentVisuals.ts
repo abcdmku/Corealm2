@@ -370,6 +370,20 @@ const LADDER: readonly LadderTier[] = [
   },
 ];
 
+/**
+ * Tier 0 salvage armour. The melee kit reuses the fitted Knight parts behind Copper; `fabArmor`
+ * resolves the hide kit against the same imported mage parts as Hide. Neither needs a new mesh.
+ */
+// Lighter than the WORN weapons and tools: untextured plate goes muddy at 48 pixels below this.
+const SALVAGE_PLATE = 0x8a7f70;
+const STARTER_ARMOUR_ALIASES: readonly (readonly [ItemId, ItemId])[] = [
+  ["worn_helm", "grithe_helm"], ["worn_cuirass", "grithe_cuirass"], ["worn_greaves", "grithe_greaves"],
+  ["worn_gloves", "grithe_gloves"], ["worn_boots", "grithe_boots"],
+  ["worn_hide_hood", "marchhide_hood"], ["worn_hide_robe", "marchhide_robe"],
+  ["worn_hide_leggings", "marchhide_leggings"], ["worn_hide_wraps", "marchhide_wraps"],
+  ["worn_hide_boots", "marchhide_boots"],
+];
+
 /** Keeper rewards inherit the crafted item's fitted parts and keep the same attachment scale. */
 const WILDERNESS_REWARD_VISUALS: readonly {
   id: ItemId; base: ItemId; tint: number; accent?: number;
@@ -482,6 +496,16 @@ function buildTable(): Map<ItemId, GearVisual> {
     for (const [index, id] of row.accessories.entries()) {
       table.set(id, { slot: index === 0 ? "accessory1" : "accessory2", parts: [] });
     }
+  }
+
+  // Tier 0 field salvage dropped by the creatures around Coldbrace. It wears the crafted tier-1
+  // parts it is scavenged from and takes the same dull WORN finish as the starter weapons and
+  // tools, so a first set reads as salvage next to a Copper or Hide upgrade rather than as art of
+  // its own.
+  for (const [id, baseId] of STARTER_ARMOUR_ALIASES) {
+    const base = table.get(baseId);
+    if (!base) throw new Error(`Starter armour has no fitted base: ${baseId}`);
+    table.set(id, { slot: base.slot, parts: base.parts.map(part => ({ ...part, tint: SALVAGE_PLATE })) });
   }
 
   for (const family of REGIONAL_VISUAL_FAMILIES) {

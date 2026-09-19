@@ -1524,32 +1524,7 @@
       "walkSpeedMps": 0.5
     },
     "loot": {
-      "drops": [
-        {
-          "itemId": "fox_guardhair",
-          "quantity": [
-            1,
-            2
-          ],
-          "chance": 0.65
-        },
-        {
-          "itemId": "coarse_hide",
-          "quantity": [
-            1,
-            1
-          ],
-          "chance": 0.35
-        },
-        {
-          "itemId": "raw_game_meat",
-          "quantity": [
-            1,
-            1
-          ],
-          "chance": 0.3
-        }
-      ]
+      "tableId": "shared_t0_fox"
     },
     "presentation": {
       "id": "redbrush_fox",
@@ -2124,24 +2099,7 @@
       "walkSpeedMps": 0.36
     },
     "loot": {
-      "drops": [
-        {
-          "itemId": "goose_down",
-          "quantity": [
-            1,
-            3
-          ],
-          "chance": 0.75
-        },
-        {
-          "itemId": "raw_game_meat",
-          "quantity": [
-            1,
-            1
-          ],
-          "chance": 0.45
-        }
-      ]
+      "tableId": "shared_t0_goose"
     },
     "presentation": {
       "id": "reedbank_goose",
@@ -2256,24 +2214,7 @@
       "walkSpeedMps": 0.3
     },
     "loot": {
-      "drops": [
-        {
-          "itemId": "turkey_tailfeather",
-          "quantity": [
-            1,
-            3
-          ],
-          "chance": 0.75
-        },
-        {
-          "itemId": "raw_game_meat",
-          "quantity": [
-            1,
-            1
-          ],
-          "chance": 0.45
-        }
-      ]
+      "tableId": "shared_t0_turkey"
     },
     "presentation": {
       "id": "marchfield_turkey",
@@ -2792,16 +2733,7 @@
       "walkSpeedMps": 0.19999999999999998
     },
     "loot": {
-      "drops": [
-        {
-          "itemId": "crab_claw",
-          "quantity": [
-            1,
-            2
-          ],
-          "chance": 0.65
-        }
-      ]
+      "tableId": "shared_t0_creek_crab"
     },
     "presentation": {
       "id": "creek_crab",
@@ -2864,16 +2796,7 @@
       "walkSpeedMps": 0.4
     },
     "loot": {
-      "drops": [
-        {
-          "itemId": "rat_tail",
-          "quantity": [
-            1,
-            2
-          ],
-          "chance": 0.65
-        }
-      ]
+      "tableId": "shared_t0_granary_rat"
     },
     "presentation": {
       "id": "granary_rat",
@@ -2900,7 +2823,7 @@
       "walkSpeedMps": 0.15
     },
     "loot": {
-      "tableId": "shared_empty"
+      "tableId": "shared_t0_red_worm"
     },
     "presentation": {
       "id": "red_worm",
@@ -10145,6 +10068,9 @@
       "activity": "forage",
       "description": "Frog",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_frog"
     }
   },
   {
@@ -10159,6 +10085,9 @@
       "activity": "forage",
       "description": "Hen",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_hen"
     }
   },
   {
@@ -10173,6 +10102,9 @@
       "activity": "forage",
       "description": "Speckled Hen",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_hen"
     }
   },
   {
@@ -10187,6 +10119,9 @@
       "activity": "graze",
       "description": "Goat",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_goat"
     }
   },
   {
@@ -10201,6 +10136,9 @@
       "activity": "graze",
       "description": "Cow",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_cattle"
     }
   },
   {
@@ -10215,6 +10153,9 @@
       "activity": "forage",
       "description": "Rabbit",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_coney"
     }
   },
   {
@@ -10229,6 +10170,9 @@
       "activity": "patrol",
       "description": "Road Bandit",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_reaver"
     }
   },
   {
@@ -10484,6 +10428,9 @@
       "activity": "patrol",
       "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_gloam_fox"
     }
   },
   {
@@ -10507,6 +10454,9 @@
       "activity": "patrol",
       "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
       "kind": "basic"
+    },
+    "loot": {
+      "tableId": "shared_t0_fox"
     }
   },
   {
