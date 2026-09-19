@@ -64,10 +64,11 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --prefer-offline
-      - name: Typecheck, test, and build
-        run: npm run check
+      # Release world baking requires Chromium during the build itself.
       - name: Install Chromium
         run: npx --no-install playwright install --with-deps chromium
+      - name: Typecheck, test, and build
+        run: npm run check
       - name: Accept building features before final-world smoke
         run: npm run lab:test -- --shard building
       - name: Accept combat features before final-world smoke
@@ -109,6 +110,9 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --prefer-offline
+      # Required for release world baking even when acceptance gates are disabled.
+      - name: Install Chromium
+        run: npx --no-install playwright install --with-deps chromium
       # Publish is currently build-only so a red lab shard cannot block a deploy. Flip
       # PUBLISH_GATES to "true" to restore the typecheck/test/lab/smoke gates below.
       - name: Build game and guide
@@ -117,9 +121,6 @@ jobs:
       - name: Typecheck, test, and build
         if: env.PUBLISH_GATES == 'true'
         run: npm run check
-      - name: Install Chromium
-        if: env.PUBLISH_GATES == 'true'
-        run: npx --no-install playwright install --with-deps chromium
       - name: Accept building features before final-world smoke
         if: env.PUBLISH_GATES == 'true'
         run: npm run lab:test -- --shard building
