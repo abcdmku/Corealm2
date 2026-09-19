@@ -5,7 +5,11 @@ import {
   cuesForCombatHit, defineAudioCatalog, loopsForRegion,
 } from "../game/src/audio/index.js";
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
+});
 
 class FakeParam {
   value = 1;
@@ -67,6 +71,18 @@ class FakeContext {
   resumeCalls = 0;
   decodeCalls = 0;
   allowResume = true;
+  /** Chrome on Android answers a gesture-less resume with a promise it never settles. */
+  hangResumeUntilCall = 0;
+  private readonly stateListeners: (() => void)[] = [];
+
+  addEventListener(type: string, listener: () => void): void {
+    if (type === "statechange") this.stateListeners.push(listener);
+  }
+  /** The browser suspending the context on its own, as a phone does when the player leaves. */
+  interrupt(): void {
+    this.state = "suspended";
+    for (const listener of [...this.stateListeners]) listener();
+  }
 
   createGain(): GainNode {
     const gain = new FakeGain();
@@ -83,9 +99,11 @@ class FakeContext {
     return { duration: this.decodedDuration } as AudioBuffer;
   }
   decodedDuration = 1;
-  async resume(): Promise<void> {
+  resume(): Promise<void> {
     this.resumeCalls += 1;
+    if (this.resumeCalls <= this.hangResumeUntilCall) return new Promise<void>(() => {});
     if (this.allowResume) this.state = "running";
+    return Promise.resolve();
   }
   async close(): Promise<void> { this.state = "closed"; }
 }
@@ -198,6 +216,73 @@ describe("AudioEngine buses and unlock", () => {
     target.dispatchEvent(new Event("touchstart"));
     await Promise.resolve();
     expect(context.resumeCalls).toBe(2);
+  });
+
+  it("gives a gesture its own resume when a gesture-less attempt is still hanging", async () => {
+    // What "no audio on mobile" was: boot asked for the region loops, Chrome on Android answered
+    // that gesture-less resume with a promise it never settles, and every later tap was handed the
+    // same dead promise instead of resuming while the tap was live.
+    const context = new FakeContext();
+    context.hangResumeUntilCall = 1;
+    const { engine } = createEngine(context);
+    const target = new EventTarget();
+    engine.installGestureUnlock(target);
+
+    void engine.startLoop("plain");
+    await vi.waitFor(() => expect(context.resumeCalls).toBe(1));
+    expect(engine.isUnlocked()).toBe(false);
+
+    target.dispatchEvent(new Event("touchstart"));
+
+    await vi.waitFor(() => expect(engine.snapshot().activeLoops).toEqual(["plain"]));
+    expect(context.resumeCalls).toBe(2);
+  });
+
+  it("treats a caller inside a live user gesture as one, without being told", async () => {
+    const context = new FakeContext();
+    context.hangResumeUntilCall = 1;
+    const { engine } = createEngine(context);
+
+    void engine.unlock();
+    await vi.waitFor(() => expect(context.resumeCalls).toBe(1));
+
+    // What `playCue` looks like from a button's own click handler: no gesture flag, real activation.
+    vi.stubGlobal("navigator", { userActivation: { isActive: true } });
+    await expect(engine.playCue("ui.confirm")).resolves.toBe(true);
+    expect(context.resumeCalls).toBe(2);
+  });
+
+  it("stops waiting on a blocked resume so the attempt after it is not queued behind one", async () => {
+    vi.useFakeTimers();
+    const context = new FakeContext();
+    context.hangResumeUntilCall = 1;
+    const { engine } = createEngine(context);
+
+    const blocked = engine.unlock();
+    await vi.advanceTimersByTimeAsync(2000);
+    await expect(blocked).resolves.toBe(false);
+
+    await expect(engine.unlock()).resolves.toBe(true);
+    expect(context.resumeCalls).toBe(2);
+  });
+
+  it("re-arms gesture unlock when the browser suspends a context that was running", async () => {
+    // A phone suspends the context whenever the player leaves the page, and coming back does not
+    // always resume it. The engine has to stop believing it is unlocked and wait for a new tap.
+    const { engine, context } = createEngine();
+    const target = new EventTarget();
+    engine.installGestureUnlock(target);
+    target.dispatchEvent(new Event("pointerdown"));
+    await vi.waitFor(() => expect(engine.isUnlocked()).toBe(true));
+
+    context.allowResume = false;
+    context.interrupt();
+    expect(engine.isUnlocked()).toBe(false);
+    await vi.waitFor(() => expect(context.resumeCalls).toBe(2));
+
+    context.allowResume = true;
+    target.dispatchEvent(new Event("pointerdown"));
+    await vi.waitFor(() => expect(engine.isUnlocked()).toBe(true));
   });
 
   it("decodes selected one-shots on the gesture that unlocks audio", async () => {

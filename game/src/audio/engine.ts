@@ -121,6 +121,9 @@ export class AudioEngine {
 
   private context: AudioContext | null = null;
   private unlockPromise: Promise<boolean> | null = null;
+  /** Whether the in-flight attempt was made during a gesture. See `unlock`. */
+  private unlockAttemptHadActivation = false;
+  private gestureUnlockTarget: EventTarget | null = null;
   private readonly unlockPreloadUrls = new Set<string>();
   private pendingOneShots = 0;
   private oneShotGeneration = 0;
@@ -201,8 +204,9 @@ export class AudioEngine {
       return () => undefined;
     }
     if (!target) return () => undefined;
+    this.gestureUnlockTarget = target;
 
-    const handler = (): void => { void this.unlock(); };
+    const handler = (): void => { void this.unlock(true); };
     const eventNames = ["pointerdown", "keydown", "touchstart"] as const;
     const listenerOptions: AddEventListenerOptions = { capture: true, passive: true };
     for (const eventName of eventNames) {
@@ -220,17 +224,31 @@ export class AudioEngine {
     return cleanup;
   }
 
-  /** Returns false instead of rejecting when Web Audio is absent or the browser still blocks it. */
-  async unlock(): Promise<boolean> {
+  /**
+   * Returns false instead of rejecting when Web Audio is absent or the browser still blocks it.
+   *
+   * A gesture always gets its own `resume()` call. Chrome on Android answers a gesture-less
+   * `resume()` with a promise it never settles, so sharing an in-flight attempt with the gesture
+   * that could actually have satisfied the autoplay policy is what "no audio on mobile" was: boot
+   * asked for the region loops, that attempt hung, and every later tap was handed the same dead
+   * promise instead of calling `resume()` while the tap was still live.
+   *
+   * `fromGesture` is the gesture listeners saying so directly. `navigator.userActivation` is only
+   * a fallback for callers that are inside a handler they do not own, and it does not exist at all
+   * in older Safari.
+   */
+  async unlock(fromGesture = false): Promise<boolean> {
     if (this.disposed) return false;
     if (this.unlocked && this.context?.state === "running") {
       this.warmUnlockPreloads();
       return true;
     }
-    if (this.unlockPromise) return this.unlockPromise;
+    const activation = fromGesture || hasUserActivation();
+    if (this.unlockPromise && (!activation || this.unlockAttemptHadActivation)) return this.unlockPromise;
 
     const attempt = this.performUnlock();
     this.unlockPromise = attempt;
+    this.unlockAttemptHadActivation = activation;
     try {
       const unlocked = await attempt;
       if (unlocked) this.warmUnlockPreloads();
@@ -501,7 +519,10 @@ export class AudioEngine {
     }
 
     try {
-      if (context.state !== "running") await context.resume();
+      // A blocked `resume()` may never settle, and an attempt that never settles would keep every
+      // later gesture waiting on it. Give up on the wait, not on the audio: the listeners are still
+      // installed, so the next gesture starts a fresh attempt.
+      if (context.state !== "running") await withTimeout(context.resume(), UNLOCK_TIMEOUT_MS);
     } catch (cause) {
       this.report({ kind: "unlock-failed", message: "The browser did not unlock audio.", cause });
       return false;
@@ -518,10 +539,29 @@ export class AudioEngine {
     return true;
   }
 
+  /**
+   * Re-arms the gesture listeners after the browser suspends a context that was already running.
+   *
+   * A phone suspends the context whenever the player leaves the page — a call, a notification, the
+   * lock button — and coming back does not always resume it. Without this the engine still believes
+   * it is unlocked, so nothing asks for a resume and the session stays silent to the end.
+   */
+  private watchContextState(context: AudioContext): void {
+    if (typeof context.addEventListener !== "function") return;
+    context.addEventListener("statechange", () => {
+      if (this.disposed || this.context !== context) return;
+      if (context.state === "running" || context.state === "closed") return;
+      this.unlocked = false;
+      this.installGestureUnlock(this.gestureUnlockTarget);
+      void this.unlock();
+    });
+  }
+
   private ensureContext(): AudioContext {
     if (this.context) return this.context;
     const context = this.contextFactory();
     this.context = context;
+    this.watchContextState(context);
     try {
       for (const bus of BUS_IDS) {
         const node = context.createGain();
@@ -706,6 +746,27 @@ export class AudioEngine {
     const overflow = this.playbackHistory.length - this.historyLimit;
     if (overflow > 0) this.playbackHistory.splice(0, overflow);
   }
+}
+
+/** Long enough for a real resume on a slow phone, short enough that a blocked one is not a wedge. */
+const UNLOCK_TIMEOUT_MS = 2000;
+
+/** False when the browser cannot say, which keeps a cached attempt in place until it times out. */
+function hasUserActivation(): boolean {
+  const activation = (globalThis as {
+    navigator?: { userActivation?: { isActive?: boolean } };
+  }).navigator?.userActivation;
+  return activation?.isActive === true;
+}
+
+function withTimeout(promise: Promise<void>, ms: number): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const timer = setTimeout(resolve, ms);
+    promise.then(
+      () => { clearTimeout(timer); resolve(); },
+      (cause: unknown) => { clearTimeout(timer); reject(cause instanceof Error ? cause : new Error(String(cause))); },
+    );
+  });
 }
 
 function createBrowserAudioContext(): AudioContext {
