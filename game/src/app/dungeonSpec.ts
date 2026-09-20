@@ -1,6 +1,6 @@
 import type { RegionId } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
-import type { DungeonSpec } from "../render/dungeon.js";
+import type { DungeonSpec } from "../world/dungeonLayout.js";
 
 /** Canonical dungeon coordinates shared by browser preparation and reference hosting. */
 export function buildDungeonSpec(scene: { heightAt(region: RegionId, x: number, z: number): number }): DungeonSpec | null {

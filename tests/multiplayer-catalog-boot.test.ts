@@ -53,8 +53,10 @@ it("boots on the database's catalog, not the one the build ships, and tells clie
 
   const server = startServer(directory), ready = await server.ready, revision = published.catalog.revision;
   expect(ready.catalogRevision).toBe(revision);
-  expect(server.lines.filter(line => typeof line.event === "string" && line.event.startsWith("catalog-"))).toEqual([{ event: "catalog-base-ignored",
-    activeRevision: revision, bundledRevision: shipped.revision, message: "This database already has a catalog, so the catalog shipped with this server was not applied." }]);
+  // Every line the host writes is `{t, level, event, …}`. `t` is a clock, so the rest is what is asserted.
+  expect(server.lines.filter(line => typeof line.event === "string" && line.event.startsWith("catalog-")).map(({ t, ...rest }) => rest))
+    .toEqual([{ level: "warn", event: "catalog-base-ignored",
+      activeRevision: revision, bundledRevision: shipped.revision, message: "This database already has a catalog, so the catalog shipped with this server was not applied." }]);
 
   const port = Number(ready.port);
   const listed = await (await fetch(`http://127.0.0.1:${port}/worlds`)).json() as WorldDescriptor[];

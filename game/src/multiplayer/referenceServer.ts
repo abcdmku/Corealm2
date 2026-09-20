@@ -151,7 +151,11 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   }
   applySettings();
   const events: ServerEvent[] = [];
-  const recordEvent = (event: Omit<ServerEvent, "at">): void => { events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift(); };
+  const recordEvent = (event: Omit<ServerEvent, "at">): void => {
+    events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift();
+    // Who came, who left and who was turned away is the operator's log. The admin API logs its own writes.
+    if (event.kind === "join" || event.kind === "leave" || event.kind === "rejected") log({ event: `session.${event.kind}`, accountId: event.accountId, detail: event.detail });
+  };
   if (accounts && options.ownerAccount !== undefined) {
     if (!ACCOUNT_ID.test(options.ownerAccount)) throw new Error("ownerAccount must be an identity account id");
     await accounts.setSetupCodeHash(null);

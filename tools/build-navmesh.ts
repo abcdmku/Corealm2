@@ -111,6 +111,7 @@ const SOURCE_GROUPS = {
   navigationSettings: [
     "game/src/app/config.ts",
     "game/src/systems/navigation.ts",
+    "game/src/systems/navigationObstacles.ts",
     "game/src/systems/navigationArtifact.ts",
     "package-lock.json",
   ],

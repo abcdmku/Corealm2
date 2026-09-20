@@ -2,13 +2,13 @@ import {createServer} from "vite";
 import {WebSocket} from "ws";
 import {mkdir,writeFile} from "node:fs/promises";
 import {WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
-import {createAuthoredWorld} from "../game/src/multiplayer/authoredWorld.js";
+import { createRepoPackedWorld } from "./lib/packed-world.js";
 import {startReferenceServer} from "../game/src/multiplayer/referenceServer.js";
 import {SqliteWorldStorage} from "../game/src/multiplayer/sqliteStorage.js";
 import {CROWD_EQUIPMENT} from "./lib/crowdEquipment.js";
 
 // Disposable local play session. Bots use real connections; fixture gear/placement is server setup.
-const ports=await createAuthoredWorld(1337);
+const ports=await createRepoPackedWorld(1337);
 const world:WorldDescriptor={providerId:"reference",worldId:"preview-64",name:"Corealm with 64 bots",endpoint:"ws://127.0.0.1:0/",
   protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"authored",seed:1337,capacity:1000,population:0,availability:"available"};
 const server=await startReferenceServer({worlds:[world],storage:new SqliteWorldStorage(":memory:"),build:async()=>ports,

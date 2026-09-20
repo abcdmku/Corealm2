@@ -10,7 +10,7 @@ import { ENEMIES } from "../game/src/content/enemies.js";
 import { startGameServer } from "./lib/server.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { createFeatureLabEntity, FEATURE_LAB_CATALOG } from "../game/src/featureLab/catalog.js";
-import { createAuthoredWorld } from "../game/src/multiplayer/authoredWorld.js";
+import { createRepoPackedWorld } from "./lib/packed-world.js";
 import { createInitialState } from "../game/src/state/store.js";
 import { PerspectiveCamera, Vector3 } from "three";
 import { CAMERA } from "../game/src/app/config.js";
@@ -30,7 +30,7 @@ const descriptor: WorldDescriptor = {
 const host = await startReferenceServer({ worlds: [descriptor], storage: new SqliteWorldStorage(":memory:"),
   authentication: { authenticate: async token => ({ playerId: token.replace("guest:", ""), name: token.replace("guest:", "") }) },
   build: async () => {
-    if (authored) return createAuthoredWorld(1337);
+    if (authored) return createRepoPackedWorld(1337);
     const ports = await createMultiplayerLabWorld();
     content.register({ enemies: ENEMIES });
     const index = ports.entities.findIndex(entity => entity.id === "multiplayer:frog");

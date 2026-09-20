@@ -4,6 +4,7 @@ import { gameRoot } from './lib/paths.js';
 import { assertWorldData } from './lib/world-artifact.js';
 import { assertNavigationArtifact, buildNavmeshArtifact } from './build-navmesh.js';
 import { bakeWorldData } from './build-world.js';
+import { ensureServerWorldPack } from './build-server-world-pack.js';
 
 export async function ensureReleaseWorld(): Promise<void> {
   let navigationCurrent = false;
@@ -12,6 +13,8 @@ export async function ensureReleaseWorld(): Promise<void> {
   if (!navigationCurrent) { console.log('Building release navigation'); await buildNavmeshArtifact(); }
   try { await assertWorldData(gameRoot); console.log('Release world data is current'); }
   catch { await bakeWorldData(); await assertWorldData(gameRoot); }
+  // Last, and in Node alone: the server's pack is pinned to the same generation revision as the client's world data.
+  await ensureServerWorldPack();
 }
 
 if (import.meta.url === pathToFileURL(path.resolve(process.argv[1] ?? '')).href) await ensureReleaseWorld();

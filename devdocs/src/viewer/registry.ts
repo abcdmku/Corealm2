@@ -1,5 +1,5 @@
 import { AssetRegistry } from '../../../game/src/render/assets.js';
-import { registerProceduralGear } from '../../../game/src/render/proceduralGear.js';
+import { registerProceduralGear } from '../../../game/src/render/proceduralGearFactories.js';
 import { gameUrl } from '../model/gameUrl.js';
 
 let registry: Promise<AssetRegistry> | undefined;

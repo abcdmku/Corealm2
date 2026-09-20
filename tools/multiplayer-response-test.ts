@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { cpus, totalmem } from "node:os";
 import { mkdir, writeFile } from "node:fs/promises";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
-import { createAuthoredWorld } from "../game/src/multiplayer/authoredWorld.js";
+import { createRepoPackedWorld } from "./lib/packed-world.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
@@ -49,7 +49,7 @@ if (probe >= 0) {
     protocolVersion: WORLD_PROTOCOL_VERSION, fixture: authored ? "authored" : "lab",
     seed: 1337, capacity: 200, population: 0, availability: "available" };
   const server = await startReferenceServer({ worlds: [world], storage: new SqliteWorldStorage(`${out}/${Date.now()}.sqlite`),
-    build: () => authored ? createAuthoredWorld(1337) : createMultiplayerLabWorld(),
+    build: () => authored ? createRepoPackedWorld(1337) : createMultiplayerLabWorld(),
     authentication: { authenticate: async () => ({ playerId: "probe", name: "Probe" }) } });
   const child = spawn(process.execPath, ["--import", "tsx", "tools/multiplayer-response-test.ts", "--probe", `http://127.0.0.1:${server.port}/worlds`],
     { stdio: ["ignore", "pipe", "inherit"], windowsHide: true });

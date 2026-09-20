@@ -1,5 +1,4 @@
 /** Generated held gear missing from the asset library. Each model is rooted at its grip. */
-import type * as THREE from "three";
 
 /** A held fishing tool with shaft and fittings, plus colours for its dynamic line and float. */
 export interface FishingRodLook {
@@ -152,34 +151,4 @@ export function fishingRodItemForTier(tier: number | null | undefined): string {
   if (tier !== null && tier !== undefined && tier >= 5) return "duskoak_rod";
   if (tier !== null && tier !== undefined && tier >= 1) return "palewood_rod";
   return "worn_rod";
-}
-
-/** Reserves generated ids without importing or constructing models until load requests them. */
-export function registerProceduralGear(sink: {
-  registerFactory(id: string, factory: () => Promise<THREE.Group>): void;
-}): readonly string[] {
-  const registered: string[] = [];
-  for (const [itemId, look] of Object.entries(FISHING_ROD_LOOKS)) {
-    const assetId = fishingRodAssetId(itemId);
-    sink.registerFactory(assetId, async () => {
-      const { buildFishingRod } = await import("./proceduralGearModels.js");
-      return buildFishingRod(look);
-    });
-    registered.push(assetId);
-  }
-  for (const { assetId, grade } of EQUIPMENT_DAGGER_ASSETS) {
-    sink.registerFactory(assetId, async () => {
-      const { buildEquipmentDagger } = await import("./proceduralGearModels.js");
-      return buildEquipmentDagger(grade);
-    });
-    registered.push(assetId);
-  }
-  for (const { assetId } of ARMOUR_TIER_PART_ASSETS) {
-    sink.registerFactory(assetId, async () => {
-      const { buildArmourTierPart } = await import("./armourTierParts.js");
-      return buildArmourTierPart(assetId);
-    });
-    registered.push(assetId);
-  }
-  return registered;
 }

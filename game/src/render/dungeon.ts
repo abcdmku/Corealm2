@@ -37,34 +37,11 @@ import type { RegionId, SolidVolume, Vec3 } from "../contracts.js";
 import type { MaterialLibrary } from "./materials.js";
 import { REGION_PALETTES } from "./materials.js";
 import { Rng } from "../core/rng.js";
+import { dungeonFloorHeight, type ChamberSpec, type DungeonSpec } from "../world/dungeonLayout.js";
 import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 
-export interface ChamberSpec {
-  id: string;
-  name: string;
-  /** World-space centre. */
-  centre: [number, number];
-  radius: number;
-  /** Absolute floor height. */
-  floorY: number;
-  lit: boolean;
-}
-
-export interface CorridorSpec {
-  from: [number, number];
-  to: [number, number];
-  fromY: number;
-  toY: number;
-  width: number;
-}
-
-export interface DungeonSpec {
-  regionId: RegionId;
-  chambers: ChamberSpec[];
-  corridors: CorridorSpec[];
-  /** Interior height, floor to ceiling. */
-  wallHeight: number;
-}
+export type { ChamberSpec, CorridorSpec, DungeonSpec } from "../world/dungeonLayout.js";
+export { chamberFloorAt, dungeonFloorHeight } from "../world/dungeonLayout.js";
 
 export interface BuiltDungeon {
   group: THREE.Group;
@@ -563,28 +540,6 @@ function applyCaveRockProjection(material: THREE.MeshStandardMaterial, tileMetre
   material.customProgramCacheKey = () => `${inheritedKey()}|cave-world-stone-v1:${tileMetres}`;
 }
 
-/**
- * The height of the cavern floor at a world XZ.
- *
- * Inverse-distance weighting over the authored chamber floors, cubed. The exponent is the whole
- * design: at p = 3 the surface is within 0.21 m of the authored floor height across a chamber's own
- * disc, and the steepest gradient between two chambers is `drop * p / separation` = 4 * 3 / 20.6 =
- * 30 degrees, which clears the player's 64-degree uphill limit with margin. p = 2 would flatten the
- * ramp to 21 degrees but bow each chamber floor 0.88 m below its authored height at the rim; p = 4
- * holds the floors flat but ramps at 38 degrees.
- */
-export function dungeonFloorHeight(spec: DungeonSpec, x: number, z: number): number {
-  let weighted = 0;
-  let total = 0;
-  for (const chamber of spec.chambers) {
-    const distance = Math.hypot(x - chamber.centre[0], z - chamber.centre[1]);
-    const weight = 1 / (distance * distance * distance + 0.05);
-    weighted += chamber.floorY * weight;
-    total += weight;
-  }
-  return total > 0 ? weighted / total : 0;
-}
-
 /** The roof height at a world XZ, clamped under the rock when a `ceilingAt` sampler is supplied. */
 function ceilingHeightAt(spec: DungeonSpec, x: number, z: number, options?: DungeonOptions): number {
   const floor = dungeonFloorHeight(spec, x, z);
@@ -592,18 +547,6 @@ function ceilingHeightAt(spec: DungeonSpec, x: number, z: number, options?: Dung
   const limit = options?.ceilingAt?.(x, z);
   if (limit === undefined || !Number.isFinite(limit)) return wanted;
   return Math.max(floor + MIN_HEADROOM, Math.min(wanted, limit));
-}
-
-/** Where a chamber's floor actually is, for placing entities on it. */
-export function chamberFloorAt(spec: DungeonSpec, point: Vec3): number | null {
-  for (const chamber of spec.chambers) {
-    const distance = Math.hypot(point[0] - chamber.centre[0], point[2] - chamber.centre[1]);
-    // The blended surface, not `chamber.floorY`. The two differ by up to 2.4 m near the mouth of a
-    // chamber that overlaps a deeper one, and returning the authored constant is what left dungeon
-    // entities standing in the air over the ramp down to the next room.
-    if (distance <= chamber.radius) return dungeonFloorHeight(spec, point[0], point[2]);
-  }
-  return null;
 }
 
 /**

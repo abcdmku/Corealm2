@@ -15,7 +15,8 @@ import {
 import { applyGearAppearance } from "./equipmentVisuals.js";
 import { awaitFabArmorTextures } from './fabArmor.js';
 import { setFabMagicSampleTime } from './fabMagicSurface.js';
-import { isProceduralGearAsset, registerProceduralGear } from "./proceduralGear.js";
+import { isProceduralGearAsset } from "./proceduralGear.js";
+import { registerProceduralGear } from "./proceduralGearFactories.js";
 
 interface ItemIconRendererApi {
   ready: boolean;

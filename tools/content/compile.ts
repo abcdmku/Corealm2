@@ -36,6 +36,8 @@ export async function compileAndPublish(root = contentRoot, checkedSourceRevisio
   return build;
   });
 }
-if (import.meta.url === pathToFileURL(path.resolve(process.argv[1] ?? '')).href) {
+// Run as a command, not imported. The work is inside a function because a top-level await here would
+// stop this module being bundled into the server executable, which reaches it through `repoBaseCatalog`.
+if (import.meta.url === pathToFileURL(path.resolve(process.argv[1] ?? '')).href) void (async () => {
   const build = await compileAndPublish(process.argv[2],process.argv[3]); console.log(JSON.stringify({ok:build.ok,revision:build.revision,diagnostics:build.diagnostics})); process.exitCode = build.ok ? 0 : 1;
-}
+})();

@@ -233,6 +233,88 @@ layout.
 - Renaming an authored ID intentionally changes its generated result. Treat IDs as saved authoring
   inputs, not display copy.
 
+## Server world pack
+
+The game server does not build terrain or read GLB files. It boots the authored world from one baked
+file, `game/public/generated/server-world.pack`, and the packaged server embeds the same file. Boot
+from the pack takes about 4 s. Building the same world from source took about 39 s.
+
+### What the pack holds
+
+One binary file: a 48-byte prefix (magic `CRLMWPCK`, format version, header length, SHA-256 of the
+rest), a JSON header (generation revision, seeds, and the name, type, offset and size of every
+section), then the sections. Number sections are read in place as typed arrays.
+
+| Section | Type | Contents |
+| --- | --- | --- |
+| `world` | JSON | Size, base and ground offset of every asset in `assets/manifest.json` |
+| `seed/<n>/terrain/<map>/lattice` | f32 | The 2 m height lattice of the main and fairy maps |
+| `seed/<n>/terrain/main/coast` | f32 | The coastal height grid outside the playable core |
+| `seed/<n>/world` | JSON | Terrain bounds, region rects, water bodies, road lines, coastal spawn sites, dressing and cut-face solids, structure boxes, tree names, navmesh facts |
+| `seed/<n>/trees` | f64 | Position, scale, rotation and trunk radius of every scattered tree |
+| `seed/<n>/navmesh` | u8 | The exported Detour navmesh |
+
+`TerrainSampler` in `game/src/world/terrainSampler.ts` answers height, slope, region, water and
+playable queries from the lattice. It calls the same grid read as `WorldScene`, so server movement
+and client prediction walk one surface. `tests/world-pack-parity.test.ts` compares 24,000 points for
+exact equality, and compares entities, habitats, door barriers, paths, solids and a moved spawn group
+between a world built from source and a world booted from the pack.
+
+### What stays live
+
+The pack holds geometry only. At every boot, `game/src/multiplayer/worldAssembly.ts` builds the
+entities, their solids, the route graph, the habitats and the creature placement from the catalog in
+the server's database and the world's seed, against the pack's terrain, solids and navmesh. It also
+clears trees out of each creature's spawn and idle routes at boot, so tree clearances follow the
+live catalog. A spawn publish runs the same planner over the same pack data.
+
+### What follows the bake
+
+These parts are frozen until the pack is baked again:
+
+- The navmesh. It is carved around the solid things of the catalog at bake time. If a published
+  catalog moves a building, an ore node or another solid thing, the entity and its collision move at
+  the next restart, but the hole in the navmesh stays where it was.
+- Site dressing, mine cut-face and fairy dressing solids, and the boxes around walkable structures.
+- The tree scatter. Boot only removes trees from it.
+- Asset measurements. An asset added to the asset host after the bake has no size on the server.
+
+These parts stay as they were until the server restarts: trees cleared for a spawn group that a
+publish moved or added. A publish never places a creature inside a trunk, but it does not remove
+trees either.
+
+### Seeds
+
+The seed changes geometry. It bends every road, and roads are graded into the height lattice, so the
+ground differs between seeds. It also moves ore nodes, creatures and coastal sites, and the solids,
+navmesh and trees follow them. Between seeds 1337 and 42 the height lattices differ, 20 ore nodes
+move, and the navmesh has 14,661 and 14,775 polygons. A pack is therefore valid only for the seeds
+it was baked for. The shipped pack holds seed 1337, which is also the only seed the client's world
+data is baked for. A server configured with another seed refuses to start that world and names the
+seeds the pack holds. To add one, bake with `--seeds`. Each seed adds about 10 MB.
+
+### Rebuild and staleness
+
+`npm run world:build` bakes the pack last, after the navmesh and the world records. The pack bake
+runs in Node alone and takes about 40 s. To bake only the pack:
+
+```bash
+npx tsx tools/build-server-world-pack.ts                  # seed 1337
+npx tsx tools/build-server-world-pack.ts --seeds 1337,42  # more seeds
+npx tsx tools/build-server-world-pack.ts --check          # is the pack current?
+```
+
+The pack is tracked in git, like the navmesh and the world records. Its header carries the same
+generation revision as `generated/world/manifest.json`, so any edit under `game/src`,
+`game/content/data`, the asset manifest or the lockfile makes it stale.
+`tests/world-release-artifact.test.ts` fails on a stale, damaged or missing pack. The bake is
+deterministic: the same sources give the same bytes.
+
+The code that builds the world from source lives in `game/src/multiplayer/bake/` and loads three
+and gltf-transform. `tests/server-import-graph.test.ts` resolves the server's module graph with
+esbuild and fails if it reaches that folder, three, gltf-transform, the scene, the scatter or the
+asset loader.
+
 ## Preview and browser probes
 
 Run the cheap SVG preview while tuning fields:

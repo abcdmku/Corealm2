@@ -1,8 +1,8 @@
 import type { SemanticEntity, SolidVolume } from "../contracts.js";
 import type { Vec3 } from "../contracts.js";
 import type { HabitatDef } from "../content/worldHabitats.js";
-import type { WorldScene } from "../render/scene.js";
-import { chamberFloorAt, dungeonFloorHeight, type DungeonSpec } from "../render/dungeon.js";
+import type { PlacementTerrain } from "../world/terrainSampler.js";
+import { chamberFloorAt, dungeonFloorHeight, type DungeonSpec } from "../world/dungeonLayout.js";
 import type { Navigation } from "../systems/navigation.js";
 import { Solids } from "../systems/solids.js";
 import { spreadMobSpawns } from "../world/mobSpawnSpacing.js";
@@ -13,9 +13,10 @@ import { refineCreaturePopulation } from "../world/creaturePopulation.js";
 import type { MobSpawnSpacingPorts } from "../world/mobSpawnSpacing.js";
 
 interface SpawnPlacementOptions {
-  solids: readonly SolidVolume[]; scene: WorldScene; nav: Navigation;
-  dungeonSpec: DungeonSpec | null; doorThresholds: ReturnType<typeof authoredThresholds>; profile: BootProfile;
-  terrainAt?: (x: number, z: number) => WorldScene;
+  /** `scene` is the drawn terrain on the client and a baked terrain sampler on the server. */
+  solids: readonly SolidVolume[]; scene: PlacementTerrain; nav: Pick<Navigation, "nearestWalkable">;
+  dungeonSpec: DungeonSpec | null; doorThresholds: ReturnType<typeof authoredThresholds>; profile: Pick<BootProfile, "kind" | "spawn">;
+  terrainAt?: (x: number, z: number) => PlacementTerrain;
   assetSize?: (assetId: string) => { y: number } | null;
 }
 

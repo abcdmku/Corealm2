@@ -1,7 +1,7 @@
 import type { EntityId, RegionId, SemanticEntity, SolidVolume, Vec3 } from "../contracts.js";
 import { PLAYER_HEIGHT, PLAYER_RADIUS } from "../app/config.js";
 import type { DungeonDef } from "../content/regions.js";
-import { dungeonFloorHeight, type DungeonSpec } from "../render/dungeon.js";
+import { dungeonFloorHeight, type DungeonSpec } from "./dungeonLayout.js";
 
 type DoorBox = Extract<SolidVolume, { kind: "box" }>;
 

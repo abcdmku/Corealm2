@@ -26,8 +26,9 @@ export interface SpawnPlan {
 
 /**
  * What placing a creature needs from the world a server built, kept for the life of that world.
- * `floorAt`, `baseY` and `assetSize` are lookups a baked world pack can answer from plain data.
- * `spacing` closes over the navmesh, the solids and the terrain sampler, which the pack must also carry.
+ * The authored world answers all of it from the server world pack: `floorAt` from the baked terrain
+ * sampler, `baseY` and `assetSize` from the baked asset measurements, and `spacing` over the pack's
+ * navmesh and solids. See `worldAssembly.ts`.
  */
 export interface SpawnContext {
   seed: number;

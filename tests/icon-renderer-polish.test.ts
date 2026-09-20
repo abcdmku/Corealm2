@@ -14,7 +14,7 @@ import {
   prepareItemIconAsset,
 } from "../game/src/render/itemIconRenderer.js";
 import { itemIconAppearance, type ItemIconPrimitive } from "../game/src/render/itemIconAppearances.js";
-import { registerProceduralGear } from "../game/src/render/proceduralGear.js";
+import { registerProceduralGear } from "../game/src/render/proceduralGearFactories.js";
 import { AssetRegistry } from "../game/src/render/assets.js";
 
 const MAP_FIELDS = [

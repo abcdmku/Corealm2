@@ -7,8 +7,8 @@ import {
   fishingRodItemForTier,
   isProceduralGearAsset,
   PROCEDURAL_FISHING_ROD_ASSETS,
-  registerProceduralGear,
 } from "../game/src/render/proceduralGear.js";
+import { registerProceduralGear } from "../game/src/render/proceduralGearFactories.js";
 import { buildFishingRod } from "../game/src/render/proceduralGearModels.js";
 import { AssetRegistry } from "../game/src/render/assets.js";
 

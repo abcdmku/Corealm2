@@ -39,7 +39,7 @@ The standalone authored host exposes `corealm` by default. Use `--worlds corealm
 
 ### Configuration file
 
-The host reads `corealm-server.json` from its working directory. `--config <path>` or `COREALM_CONFIG` names a different file; a file named that way must exist, while a missing default file is fine. Settings resolve **flag, then environment variable, then file, then built-in default**. `--authored`, `--guests` and `--development-guests` are switches: the flag turns them on and the file's `authored` / `guests` / `developmentGuests` do the same, so neither can turn the other off.
+The host reads `corealm-server.json` from its working directory. The [single executable](#the-server-executable) reads it from its own directory instead, so an operator can drop the binary and its file into a folder and start it from anywhere; a relative `data` resolves against the same place. `--config <path>` or `COREALM_CONFIG` names a different file; a file named that way must exist, while a missing default file is fine. The executable is the exception: with no configuration at all it prints a minimal sample and exits 78, because a packaged server has nothing else to go on. Settings resolve **flag, then environment variable, then file, then built-in default**. `--authored`, `--guests` and `--development-guests` are switches: the flag turns them on and the file's `authored` / `guests` / `developmentGuests` do the same, so neither can turn the other off.
 
 ```json
 {
@@ -90,7 +90,7 @@ The server keeps its content in its database and simulates from there. Three tab
 A server's content is its own copy of the source collections. An empty database is seeded from the catalog the server ships with and prints `{"event":"catalog-seeded","revision":"..."}`. From then on the database wins. A newer server release with a different shipped catalog changes nothing in a database that already has one, and prints one line so the owner knows:
 
 ```json
-{"event":"catalog-base-ignored","activeRevision":"dee09b...","bundledRevision":"41c7aa...","message":"This database already has a catalog, so the catalog shipped with this server was not applied."}
+{"t":"2026-09-20T22:58:21.445Z","level":"warn","event":"catalog-base-ignored","activeRevision":"dee09b...","bundledRevision":"41c7aa...","message":"This database already has a catalog, so the catalog shipped with this server was not applied."}
 ```
 
 Run from source, the shipped catalog is compiled at start from `game/content/data/` and the checkout's formulas. `--follow-repo-catalog` is for a developer's own database: at start it publishes that catalog over the active one when they differ, records the move in `catalog_history` under `follow`, and prints `catalog-followed`. `npm run multiplayer:dev` and `npm run multiplayer:prod` pass it, so content edited in the repo shows up in the local world. A live server never sets it, and no configuration file key exists for it.
@@ -196,6 +196,155 @@ The browser currently requires a world's seed to match the loaded authored scene
 
 Fixed authored scenery stays loaded from that matching map when buildings lie beyond the server's gameplay interest radius. Actors, resources and interactables still come from authoritative snapshots and deltas. This keeps distant structures visible without sending a larger world snapshot to every player.
 
+## The server executable
+
+A release is two files: `corealm-server-win-x64.exe` and `corealm-server-linux-x64`. Each is a Node 24 single executable — the official Node binary with the whole server bundled into it — so a host needs nothing installed, not Node, not a package manager, not a compiler. Everything the server needs at runtime is inside it: the simulation, the content compiler, the baked server world pack, the catalog it seeds an empty database with, `game/public/assets/manifest.json`, and the devdocs server-mode build it serves at `/admin/`. It writes one file, `worlds.sqlite`, plus `server.log` when the console is up.
+
+The authored world always comes from the pack. The server reads no GLB and loads no renderer, and the build refuses a bundle that contains `three`, `@gltf-transform/*` or anything else on its forbidden list. A pack that is missing, of another format, or baked from different sources stops the server at start and names `npm run world:build`. A world configured with a seed the pack was not baked for is refused too, and the message lists the seeds it holds; bake more with `npx tsx tools/build-server-world-pack.ts --seeds 1337,4242`, and check a committed pack with `npx tsx tools/build-server-world-pack.ts --check`.
+
+The executables are unsigned. Windows SmartScreen will warn the first time one runs; choose **More info**, then **Run anyway**, or sign it yourself. Check what you downloaded against the release's `SHA256SUMS`.
+
+### First run
+
+Put the executable in a folder on its own and start it:
+
+```sh
+./corealm-server --write-sample-config
+./corealm-server
+```
+
+`--write-sample-config` writes a `corealm-server.json` next to the executable with every setting an operator has to choose, and prints what each one is for. With no configuration file at all the executable prints a minimal sample and exits **78**, which is why the systemd unit below sets `RestartPreventExitStatus=78`: restarting cannot fix a missing configuration file.
+
+| Flag | Does |
+| --- | --- |
+| `--help` | Every option, and where the rest are documented. |
+| `--version` | `corealm-server <version> (built <time>, node <version>)`. |
+| `--write-sample-config` | Writes a documented `corealm-server.json` beside the executable. Refuses to overwrite one. |
+| `--tui` | Draws the live console. See below. |
+| `--config <path>` | A configuration file somewhere else. Relative to the executable's directory. |
+
+Every setting in [Configuration file](#configuration-file) works the same way, and so does every flag and environment variable there. The executable resolves its configuration file, its data directory and `adminUiDir` against its own directory rather than the working directory, so a service manager may start it from anywhere. Absolute paths are used as given.
+
+### Log lines
+
+The default output is one JSON object per line, one line per event, on stdout. journald keeps them as they are, and so does every log shipper.
+
+```json
+{"t":"2026-09-20T22:58:21.445Z","level":"info","event":"ready","ready":true,"host":"0.0.0.0","port":4180,"fixture":"authored-world","authentication":"account","catalogRevision":"b18876ed…","worlds":[{"id":"corealm","name":"Corealm","seed":1337,"capacity":200}]}
+{"t":"2026-09-20T22:59:02.118Z","level":"info","event":"session.join","accountId":"acc_9Qr7v2KpLd3XmB1sYwTgHa","detail":"corealm"}
+{"t":"2026-09-20T23:04:41.702Z","level":"warn","event":"session.rejected","accountId":"acc_5Lm2p8QrTv1XwYzAbCdEf","detail":"DUPLICATE_LOGIN"}
+```
+
+`t`, `level` and `event` always lead. `level` is `info`, `warn` or `error`. Covered events are the start, the ready line, the owner setup code, joins, leaves and rejections, bans, kicks, admin sessions, publishes and rollbacks, storage migration, catalog seeding, every change of directory registration outcome, errors and the shutdown.
+
+**No line ever contains a credential.** Any field named `token`, `session`, `secret`, `password`, `authorization`, `key`, `code` or `credential` is written as `[redacted]`, at any depth, and so is any `cas_…` or `cat_…` that turns up inside a message. The single exception is the `owner-setup-code` event, whose whole purpose is to show the code once.
+
+### The live console
+
+`--tui` replaces the log lines on stdout with a console that redraws once a second: players online against capacity per world, tick time last, mean and p95, memory, bandwidth, commands, rejections, errors, the active catalog revision, and the tail of the same event ring `GET /admin/stats` returns.
+
+```text
+  COREALM  Raid Night                                 up 3h 12m   0.0.0.0:4180
+
+  WORLDS
+    Corealm          12 / 200   players    tick 9031
+    Corealm II        0 / 50    players    tick 9031
+
+  tick     last 21.4 ms  mean 23.9 ms  p95 29.5 ms
+  memory   rss 1.1 GiB   heap 393.3 MiB
+  traffic  out 87.0 MiB  98.7 KiB/s
+  commands 4821          rejected 3    errors 0
+  catalog  9f2c1d4e7a0b3358   auth account
+
+  EVENTS
+    00:00:01  join          acc_9Qr7v2KpLd3XmB1sYwTgHa  corealm
+    00:00:02  rejected      acc_5Lm2p8QrTv1XwYzAbCdEf   DUPLICATE_LOGIN
+    00:00:03  leave         acc_5Lm2p8QrTv1XwYzAbCdEf   corealm
+
+  log lines to /var/lib/corealm-server/server.log      Ctrl+C stops the server
+```
+
+It is plain ANSI: the alternate screen, a hidden cursor, one write per frame, and ASCII characters only, because box drawing turns into mojibake on a Windows console left on code page 437. p95 tick time turns red above 100 ms. The terminal is restored on exit, on Ctrl+C and after a crash. Resizing redraws.
+
+While the console is up the log lines go to `server.log` in the data directory, capped at 8 MiB with one rotation kept as `server.log.1`. With stdout redirected to a file or a pipe, `--tui` says so once and keeps writing log lines, so a service manager can pass it harmlessly.
+
+### systemd
+
+`corealm-server.service` ships with the Linux release and is in the repository at `deploy/corealm-server.service`.
+
+```sh
+sudo useradd --system --home /opt/corealm --shell /usr/sbin/nologin corealm
+sudo install -d -o corealm -g corealm /opt/corealm
+sudo install -o corealm -g corealm -m 0755 corealm-server-linux-x64 /opt/corealm/corealm-server
+sudo install -o corealm -g corealm -m 0640 corealm-server.json /opt/corealm/corealm-server.json
+sudo install -m 0644 corealm-server.service /etc/systemd/system/corealm-server.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now corealm-server
+journalctl -u corealm-server -f
+```
+
+Set `"data": "/var/lib/corealm-server"` in the configuration file. The unit's `StateDirectory=corealm-server` creates that directory with the right owner, and `ProtectSystem=strict` makes everything else read-only. The hardening is the usual set minus two: `MemoryDenyWriteExecute` stays off because V8 needs writable-executable pages, and the data directory stays a real writable filesystem because SQLite's WAL needs its `-wal` and `-shm` files beside the database. `TimeoutStopSec=60s` gives every world time to save its players.
+
+The server speaks plain HTTP and `ws`, so put it behind a reverse proxy for TLS. One origin carries all three: the WebSocket, `/admin` and `/catalog`.
+
+```nginx
+server {
+  listen 443 ssl http2;
+  server_name worlds.example.com;
+  ssl_certificate     /etc/letsencrypt/live/worlds.example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/worlds.example.com/privkey.pem;
+
+  location / {
+    proxy_pass http://127.0.0.1:4180;
+    proxy_http_version 1.1;
+    # The game connection is a WebSocket. Without these two headers it never upgrades.
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    # A world connection is long lived and quiet between ticks.
+    proxy_read_timeout 1h;
+    # A content publish body is up to 16 MiB.
+    client_max_body_size 20m;
+  }
+}
+```
+
+`publicEndpoint` must be exactly what the proxy publishes, `wss://worlds.example.com/`, because every join token is minted for that audience. `allowedOrigins` must list the origin the game page and the admin UI are served from. Keep the server bound to `127.0.0.1` when a proxy is in front of it.
+
+### Building the executables
+
+```sh
+npm ci
+npm run devdocs:build:server     # writes dist/devdocs-server
+npm run server:build             # writes dist/server
+```
+
+`npm run guide:build` empties `dist/`, so run it before `server:build`, never after. The build:
+
+1. bundles `tools/multiplayer-server.ts` to one CommonJS file with esbuild;
+2. stages the SEA assets — the server world pack, the admin UI archive, the seed catalog with its `formulaRevision`, the asset manifest and a build record;
+3. builds the blob with `node --experimental-sea-config`, keeping `useCodeCache` and `useSnapshot` off, which is what makes the blob platform independent and lets one machine produce both executables;
+4. downloads the official Node binary of the exact version that generated the blob, checks it against that release's `SHASUMS256.txt`, copies it and injects the blob with `postject`.
+
+| Option | Does |
+| --- | --- |
+| `--targets win-x64,linux-x64` | Which executables to produce. |
+| `--version <name>` | What `--version` reports. Defaults to the tag, then `package.json`. |
+| `--cache <dir>` | Verified Node binaries, kept between builds. Default `.cache/node-binaries`, about 120 MB per target. |
+| `--admin-ui <dir>` | Default `dist/devdocs-server`. |
+| `--forbid a,b` | Packages the bundle may not contain. The default list is the renderer, the GLB reader and the bake's dependencies; `--allow-forbidden` builds anyway, which is for looking at a bundle and never for a release. |
+| `--bundle-only` | Stop after the blob. Prints the bundle's largest modules. |
+
+The build prints the bundle's size by package and every asset's size, so a release that grew has somewhere to look. On Windows it tries `signtool remove` first; the Windows SDK is usually absent, and the build says so and carries on, because the release executable is unsigned either way.
+
+Install before import survives bundling. The entry installs the database's catalog and only then reaches the simulation through `await import()`, which esbuild keeps lazy; `tests/server-bundle-ordering.test.ts` proves that against the exact options the build uses, and `test-results/m6/exe-proof.ts` proves it against the finished binary by starting it on a database whose catalog no build contains.
+
+### Releases
+
+`.github/workflows/release.yml` runs on a `v*` tag. It builds the admin UI, checks that the committed world pack is current, builds both executables, starts the Linux one from an empty folder with a generated configuration file, checks `/healthz`, `/worlds` and `/admin/`, stops it with `SIGTERM` and asserts a clean exit, then attaches both executables, the systemd unit, a sample configuration file and `SHA256SUMS` to a GitHub release. It needs no secret beyond the default `GITHUB_TOKEN` with `contents: write`. A `workflow_dispatch` run does everything except publish, which is the way to try a release without tagging.
+
 ## Registration and authentication
 
 `window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol version, fixture, seed, population, capacity, availability, and an optional `assetBaseUrl`. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
@@ -234,8 +383,10 @@ Administration is account work. A host in accounts mode serves `/admin/*`; a gue
 A host with no owner prints one line at start and nothing else about it:
 
 ```json
-{"event":"owner-setup-code","code":"K7M3Q-2WXPR-9TVBH-4CJ8N","message":"Sign in to devdocs and enter this code to become the owner of this server. It is shown once and is replaced on the next start."}
+{"t":"2026-09-20T22:58:21.445Z","level":"info","event":"owner-setup-code","code":"K7M3Q-2WXPR-9TVBH-4CJ8N","message":"Sign in to devdocs and enter this code to become the owner of this server. It is shown once and is replaced on the next start."}
 ```
+
+This is the only line that carries a secret, and it is the only one the logger is allowed to write one in. See [log lines](#log-lines).
 
 The code is 20 Crockford base32 characters, so 100 bits, and the database keeps only its SHA-256 hash. It does not expire; a restart with still no owner replaces it with a new one. Reading it back is impossible. Sign in through the identity service, then `POST /admin/setup` with that join token and the code. The first caller to get it right becomes owner and the code is spent, for everyone, including them. Typing is forgiving: any case, any separators, and O, I and L read as 0, 1 and 1. Wrong answers are capped at five per source address and twenty in total per minute, and a wrong code and a spent code give the same reply.
 
@@ -345,7 +496,7 @@ The directory is a convenience. A refusal or an unreachable service never stops 
 
 ### The admin UI
 
-The server serves the devdocs server-mode build at `/admin/`. Build it with `npx vite build --config devdocs/vite.config.ts --mode server`, which writes `dist/devdocs-server`. `adminUiDir` names another directory. When there is no build, `/admin/` answers 404 `admin_ui_missing` with that command in the message, and the API works as before. The same build also runs from any other origin listed in `allowedOrigins`.
+The server serves the devdocs server-mode build at `/admin/`. The [single executable](#the-server-executable) carries that build inside itself as one archive and needs no directory. Run from a checkout, build it with `npm run devdocs:build:server`, which writes `dist/devdocs-server`; `adminUiDir` names another directory. When there is no build, `/admin/` answers 404 `admin_ui_missing` with that command in the message, and the API works as before. The same build also runs from any other origin listed in `allowedOrigins`.
 
 The JSON API lives under `/admin/` as well, so the split is fixed:
 
@@ -453,7 +604,7 @@ Replacement `WorldStorage` adapters implement `load`, `openWorld`, `claimPlayer`
 
 ### Migrating an older database
 
-Databases written before the players table kept a whole player inside each world. Opening one migrates it once, in a single transaction. Reopening does nothing. The host prints one JSON line, `{"event":"storage-migrated","from":1,"to":2,...}`, with the number of worlds and players and every conflict it resolved. When the same player id exists in several worlds, the character with the most total skill XP is kept, then the one from the world with the higher tick, then the lower world key. The host discards the other characters, inventories included, and names them in that line. Every world keeps what the player owned there, its receipts and its random cursor. The host backs nothing up. Copy the data directory first if you may need the discarded characters. A database with a newer `schema_version` than the host understands is refused.
+Databases written before the players table kept a whole player inside each world. Opening one migrates it once, in a single transaction. Reopening does nothing. The host prints one JSON line, `{"t":"...","level":"warn","event":"storage-migrated","from":1,"to":2,...}`, with the number of worlds and players and every conflict it resolved. When the same player id exists in several worlds, the character with the most total skill XP is kept, then the one from the world with the higher tick, then the lower world key. The host discards the other characters, inventories included, and names them in that line. Every world keeps what the player owned there, its receipts and its random cursor. The host backs nothing up. Copy the data directory first if you may need the discarded characters. A database with a newer `schema_version` than the host understands is refused.
 
 Format 3 adds the catalog tables and replaces the hand-edited `contentVersion` in each world row. `corealm-pve-1` becomes `fixture: "authored"` and `corealm-pve-1:lab` becomes `fixture: "lab"`. The row also gains `catalogRevision`, the revision the save was written under, which is `null` for a migrated save because nothing recorded it. The host prints `{"event":"storage-migrated","from":2,"to":3,"worlds":N}` and records `schema_version` 3 in the `meta` table. A save loads under any catalog revision, because content changes while a world lives. It still refuses a different fixture or seed. When a world loads a save, each saved creature takes its model and scale from the world built from the running catalog, and keeps its health, position and timers.
 

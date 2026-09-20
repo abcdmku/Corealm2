@@ -21,4 +21,6 @@ The feature lab uses those production paths in a compact deterministic scene. An
 
 Shared contracts normally live in `game/src/contracts.ts`, but their contents come from the approved PRD. The template does not predeclare final-game schemas. When a contract is wrong, specialists stop; the root updates the contract and affected callers together.
 
+The game server runs the production simulation without the renderer. It boots the authored world from a baked server world pack that holds terrain heights, solids, the navmesh and the tree scatter as plain data, and it builds entities and creature placement from its live catalog at every boot. Code that needs three or GLB files to produce that pack lives in `game/src/multiplayer/bake/`, and a test keeps it out of the server's module graph. See [Server world pack](./world-authoring.md#server-world-pack).
+
 Use the commands in [the development loop](./feature-lab.md). Browser checks and the persistent session call production paths directly; there is no separate agent command dispatcher.

@@ -10,7 +10,8 @@ import {
 } from '../game/src/render/itemIconAppearances.js';
 import { buildItemIconPrimitive, fitItemIconCamera } from '../game/src/render/itemIconRenderer.js';
 import { AssetRegistry } from '../game/src/render/assets.js';
-import { isProceduralGearAsset, registerProceduralGear } from '../game/src/render/proceduralGear.js';
+import { isProceduralGearAsset } from '../game/src/render/proceduralGear.js';
+import { registerProceduralGear } from '../game/src/render/proceduralGearFactories.js';
 
 // Exercise the candidate catalogue through the production appearance table before world promotion.
 // Deduplication also keeps this fixture valid after the root registers the accepted items.

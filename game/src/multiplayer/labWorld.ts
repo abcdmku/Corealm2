@@ -1,4 +1,3 @@
-import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { FEATURE_LAB_BOOT_PROFILE } from "../app/bootProfile.js";
 import type { SemanticEntity, Vec3 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
@@ -66,12 +65,11 @@ export function multiplayerLabEntities(seed = 1337): SemanticEntity[] {
 /** The lab's flat central production build pad, with real Recast navigation and collision. */
 export async function createMultiplayerLabWorld(seed = 1337): Promise<HeadlessWorldPorts> {
   await Navigation.initLibrary();
-  const ground = new Mesh(new PlaneGeometry(96, 96), new MeshBasicMaterial());
-  ground.rotation.x = -Math.PI / 2; ground.updateMatrixWorld(true);
+  // A flat 96 m square, two triangles facing up. Written as triangles so the server loads no renderer for it.
   const nav = new Navigation();
-  if (!nav.build([ground])) throw new Error("Multiplayer lab navigation failed");
+  if (!nav.buildFromTriangles({ positions: new Float32Array([-48, 0, -48, 48, 0, -48, -48, 0, 48, 48, 0, 48]), indices: new Uint32Array([0, 2, 1, 2, 3, 1]) }))
+    throw new Error("Multiplayer lab navigation failed");
   nav.setRouteGraph([{id:"multiplayer:arrival",name:"Lab arrival",regionId:"fallowmarch",position:[14,0,5]}],[]);
-  ground.geometry.dispose(); ground.material.dispose();
   const entities = multiplayerLabEntities(seed);
   const solids = new Solids([]);
   return { nav, entities, spawn: [0, 0, 0] as Vec3,

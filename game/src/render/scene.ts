@@ -46,6 +46,7 @@ import { ScatterVisibility } from "./scatterVisibility.js";
 import { PLAYER_HEIGHT, PLAYER_RADIUS } from "../app/config.js";
 import { Rng } from "../core/rng.js";
 import { clamp } from "../core/math.js";
+import { pointInContour, sampleHeightGrid, signedDepth, type TerrainSamplerData } from "../world/terrainSampler.js";
 import { yieldToMainThread } from "../core/yield.js";
 import { resolveWaterBasinBaseHeight, waterBasinOuterBankHeight, type WaterBasinSpec } from "../world/waterBodies.js";
 import {
@@ -283,28 +284,6 @@ function smoothstep01(t: number): number {
 function isDevelopmentBuild(): boolean {
   const environment = (import.meta as ImportMeta & { readonly env?: { readonly DEV?: boolean } }).env;
   return environment?.DEV !== false;
-}
-
-/** Positive inside the rect, negative outside, in metres. */
-function signedDepth(rect: Rect, x: number, z: number): number {
-  const qx = Math.max(rect.minX - x, x - rect.maxX);
-  const qz = Math.max(rect.minZ - z, z - rect.maxZ);
-  const outside = Math.hypot(Math.max(qx, 0), Math.max(qz, 0));
-  const inside = Math.min(Math.max(qx, qz), 0);
-  return -(outside + inside);
-}
-
-function pointInContour(x: number, z: number, contour: readonly (readonly [number, number])[]): boolean {
-  let inside = false;
-  for (let index = 0, previous = contour.length - 1; index < contour.length; previous = index, index += 1) {
-    const a = contour[index];
-    const b = contour[previous];
-    if (!a || !b) continue;
-    const crosses = (a[1] > z) !== (b[1] > z)
-      && x < ((b[0] - a[0]) * (z - a[1])) / (b[1] - a[1]) + a[0];
-    if (crosses) inside = !inside;
-  }
-  return inside;
 }
 
 /**
@@ -2153,44 +2132,14 @@ export class WorldScene {
   private sampleLattice(x: number, z: number): number {
     const lattice = this.lattice;
     if (!lattice) return this.heightAtXZ(x, z);
-    const fx = clamp((x - lattice.minX) / lattice.step, 0, lattice.cols - 1);
-    const fz = clamp((z - lattice.minZ) / lattice.step, 0, lattice.rows - 1);
-    const x0 = Math.floor(fx);
-    const z0 = Math.floor(fz);
-    const x1 = Math.min(x0 + 1, lattice.cols - 1);
-    const z1 = Math.min(z0 + 1, lattice.rows - 1);
-    const tx = fx - x0;
-    const tz = fz - z0;
-    const h00 = lattice.heights[z0 * lattice.cols + x0]!;
-    const h10 = lattice.heights[z0 * lattice.cols + x1]!;
-    const h01 = lattice.heights[z1 * lattice.cols + x0]!;
-    const h11 = lattice.heights[z1 * lattice.cols + x1]!;
-    // PlaneGeometry and the coast split each quad along h10--h01.
-    return tx + tz <= 1
-      ? h00 + (h10 - h00) * tx + (h01 - h00) * tz
-      : h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
+    return sampleHeightGrid(lattice.heights, lattice.cols, lattice.rows, lattice.minX, lattice.minZ, lattice.step, lattice.step, x, z);
   }
 
   /** Triangle read of the shared coastal terrain grid. Coordinates outside its rectangle clamp to it. */
   private sampleCoastGrid(x: number, z: number): number | null {
     const grid = this.coastGrid;
     if (!grid) return null;
-    const fx = clamp((x - grid.minX) / grid.stepX, 0, grid.cols - 1);
-    const fz = clamp((z - grid.minZ) / grid.stepZ, 0, grid.rows - 1);
-    const x0 = Math.floor(fx);
-    const z0 = Math.floor(fz);
-    const x1 = Math.min(x0 + 1, grid.cols - 1);
-    const z1 = Math.min(z0 + 1, grid.rows - 1);
-    const tx = fx - x0;
-    const tz = fz - z0;
-    const h00 = grid.heights[z0 * grid.cols + x0]!;
-    const h10 = grid.heights[z0 * grid.cols + x1]!;
-    const h01 = grid.heights[z1 * grid.cols + x0]!;
-    const h11 = grid.heights[z1 * grid.cols + x1]!;
-    // PlaneGeometry and the coast split each quad along h10--h01.
-    return tx + tz <= 1
-      ? h00 + (h10 - h00) * tx + (h01 - h00) * tz
-      : h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
+    return sampleHeightGrid(grid.heights, grid.cols, grid.rows, grid.minX, grid.minZ, grid.stepX, grid.stepZ, x, z);
   }
 
   /**
@@ -2207,6 +2156,25 @@ export class WorldScene {
       return this.sampleCoastGrid(x, z) ?? this.sampleLattice(x, z);
     }
     return this.sampleLattice(x, z);
+  }
+
+  /**
+   * The plain data a `TerrainSampler` needs to answer this terrain's ground queries without a renderer.
+   * The server world pack stores it. The arrays are the live ones, so bake before the scene is disposed.
+   */
+  terrainSamplerData(): TerrainSamplerData {
+    const world = this.world, lattice = this.lattice, coast = world?.coast, grid = this.coastGrid;
+    if (!world || !lattice) throw new Error("Terrain sampler data needs a built world");
+    if (Boolean(coast) !== Boolean(grid)) throw new Error("Terrain sampler data needs the coast grid of a coastal world");
+    return {
+      bounds: { ...world.bounds },
+      coast: coast ? { collar: coast.collar, seaLevel: coast.seaLevel } : null,
+      regions: this.fields.map(field => ({ regionId: field.spec.regionId, rect: { ...field.spec.rect } })),
+      lattice: { heights: lattice.heights, cols: lattice.cols, rows: lattice.rows, minX: lattice.minX, minZ: lattice.minZ, stepX: lattice.step, stepZ: lattice.step },
+      coastGrid: grid ? { heights: grid.heights, cols: grid.cols, rows: grid.rows, minX: grid.minX, minZ: grid.minZ, stepX: grid.stepX, stepZ: grid.stepZ } : null,
+      waterBodies: this.getWaterBodies(),
+      roads: this.getRoadPolylines(),
+    };
   }
 
   /** A defensive snapshot used by startup tests and boot diagnostics. */

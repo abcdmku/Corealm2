@@ -1,0 +1,65 @@
+[Unit]
+Description=Corealm game server
+Documentation=https://github.com/abcdmku/Corealm2/blob/main/docs/multiplayer-hosting.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=corealm
+Group=corealm
+
+# The executable and corealm-server.json live here. The server resolves its configuration file and
+# any relative data directory beside the executable, so this is also what "./data" would mean.
+WorkingDirectory=/opt/corealm
+ExecStart=/opt/corealm/corealm-server
+
+# systemd creates and owns /var/lib/corealm-server. Point "data" in corealm-server.json at it.
+# SQLite keeps worlds.sqlite, its WAL and its shared-memory file together in that one directory.
+StateDirectory=corealm-server
+StateDirectoryMode=0750
+
+# One JSON object per line on stdout, which journald keeps as it is.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=corealm-server
+
+Restart=on-failure
+RestartSec=5s
+# 78 is "the configuration is missing or wrong". Restarting cannot fix that, so it does not.
+RestartPreventExitStatus=78
+# A world saves every player before it closes.
+KillSignal=SIGTERM
+TimeoutStopSec=60s
+
+LimitNOFILE=65535
+
+# Hardening. Everything here has been kept compatible with SQLite in WAL mode, which needs a real
+# writable directory and a memory-mapped shared file, and with V8, which needs writable-executable
+# pages: MemoryDenyWriteExecute would stop the server from starting at all.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectClock=true
+ProtectHostname=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectProc=invisible
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+[Install]
+WantedBy=multi-user.target

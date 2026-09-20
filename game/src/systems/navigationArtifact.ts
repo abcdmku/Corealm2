@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import type * as THREE from "three";
 
 export const NAVMESH_ARTIFACT_FORMAT = "corealm-navmesh" as const;
 export const NAVMESH_ARTIFACT_VERSION = 1 as const;
@@ -86,13 +86,46 @@ export function navigationMeshPositions(mesh: THREE.Mesh): Float32Array | null {
   if (!attribute || attribute.itemSize !== 3) return null;
   mesh.updateWorldMatrix(true, false);
   const positions = new Float32Array(attribute.count * 3);
-  const point = new THREE.Vector3();
+  // Vector3.applyMatrix4 written out, so this module and the server that imports it load no renderer.
+  const e = mesh.matrixWorld.elements;
   for (let vertex = 0; vertex < attribute.count; vertex++) {
-    point.fromBufferAttribute(attribute, vertex).applyMatrix4(mesh.matrixWorld);
-    point.toArray(positions, vertex * 3);
+    const x = attribute.getX(vertex), y = attribute.getY(vertex), z = attribute.getZ(vertex);
+    const w = 1 / (e[3]! * x + e[7]! * y + e[11]! * z + e[15]!);
+    positions[vertex * 3] = (e[0]! * x + e[4]! * y + e[8]! * z + e[12]!) * w;
+    positions[vertex * 3 + 1] = (e[1]! * x + e[5]! * y + e[9]! * z + e[13]!) * w;
+    positions[vertex * 3 + 2] = (e[2]! * x + e[6]! * y + e[10]! * z + e[14]!) * w;
   }
   if (!positions.every(Number.isFinite)) throw new Error("navigation geometry contains non-finite positions");
   return positions;
+}
+
+/**
+ * Grows `min` and `max` by the object's conservative world box: its local bounding box carried through
+ * the world matrix corner by corner, then its children. This is Box3.setFromObject written out.
+ */
+export function expandNavigationBounds(object: THREE.Object3D, min: [number, number, number], max: [number, number, number]): void {
+  object.updateWorldMatrix(false, false);
+  const mesh = object as THREE.Mesh & { boundingBox?: THREE.Box3 | null; computeBoundingBox?: () => void };
+  if (mesh.geometry !== undefined) {
+    let box: THREE.Box3 | null;
+    if (mesh.boundingBox !== undefined) {
+      if (mesh.boundingBox === null) mesh.computeBoundingBox?.();
+      box = mesh.boundingBox ?? null;
+    } else {
+      if (mesh.geometry.boundingBox === null) mesh.geometry.computeBoundingBox();
+      box = mesh.geometry.boundingBox;
+    }
+    if (box && box.max.x >= box.min.x && box.max.y >= box.min.y && box.max.z >= box.min.z) {
+      const e = object.matrixWorld.elements;
+      for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+        const w = 1 / (e[3]! * x + e[7]! * y + e[11]! * z + e[15]!);
+        const point = [(e[0]! * x + e[4]! * y + e[8]! * z + e[12]!) * w, (e[1]! * x + e[5]! * y + e[9]! * z + e[13]!) * w,
+          (e[2]! * x + e[6]! * y + e[10]! * z + e[14]!) * w];
+        for (let axis = 0; axis < 3; axis++) { min[axis] = Math.min(min[axis]!, point[axis]!); max[axis] = Math.max(max[axis]!, point[axis]!); }
+      }
+    }
+  }
+  for (const child of object.children) expandNavigationBounds(child, min, max);
 }
 
 /** Hash the same transformed inputs as the generator, including real sub-millimetre changes. */

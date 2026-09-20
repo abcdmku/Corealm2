@@ -6,7 +6,8 @@ import { createRpgRegionalPackCatalogue } from "../game/src/content/rpgRegionalP
 import { assembleRegionalPackFixture } from "../game/src/featureLab/regionalPacks.js";
 import type { AssetRegistry } from "../game/src/render/assets.js";
 import { WorldScene } from "../game/src/render/scene.js";
-import { Navigation, solidObstacleMeshes } from "../game/src/systems/navigation.js";
+import { Navigation } from "../game/src/systems/navigation.js";
+import { solidObstacleMeshes } from "../game/src/systems/navigationObstacles.js";
 import { Solids } from "../game/src/systems/solids.js";
 import { buildRegionalPackDressing } from "../game/src/world/regionalPackDressing.js";
 import { habitatIdleTargets } from "../game/src/world/habitatMovement.js";

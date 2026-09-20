@@ -25,7 +25,7 @@
  * faster and produces paths within 0.5% of the fine build. cs 0.60 is too coarse — it drops
  * walkable ground on the terrace risers and inflates the cross-world route by 30%.
  */
-import * as THREE from "three";
+import type * as THREE from "three";
 import type { NavMesh, NavMeshQuery } from "@recast-navigation/core";
 import type { EntityId, RegionId, SolidVolume, Vec3 } from "../contracts.js";
 import { generatedUrl, NAV_CONFIG, PLAYER_SPEED } from "../app/config.js";
@@ -34,6 +34,7 @@ import { NAVMESH_AUTHORING_INPUTS } from "../generated/navmeshFingerprint.js";
 import {
   decodeNavigationArtifact,
   encodeNavigationArtifact,
+  expandNavigationBounds,
   fingerprintNavigationGeometry,
   fingerprintNavigationInputs,
   navigationMeshPositions,
@@ -114,27 +115,6 @@ const ARRIVAL_TOLERANCE = 2.5;
  * size of the "destination sits just off-mesh" case the append was written for.
  */
 const APPEND_TOLERANCE = 0.6;
-
-/**
- * Vertical extent added BELOW a solid volume's base when it is carved out of the navmesh.
- *
- * The ring has to intersect the terrain triangles or Recast never merges the two spans and the
- * ground under the volume stays walkable. Volume bases come from the analytic height field and the
- * drawn mesh is a 2 m lattice sampled from it, so they differ by a few centimetres on flat ground
- * and by more on a ridge; 1.5 m covers it everywhere measured.
- */
-const CARVE_SKIRT = 1.5;
-
-/**
- * Shortest ring a carve may be.
- *
- * Recast merges spans within walkableClimb. Keep obstacle rings above that threshold even when
- * the slope rasterisation allowance changes, or short props disappear from route planning.
- */
-const MIN_CARVE_HEIGHT = NAV_CONFIG.walkableClimb * NAV_CONFIG.ch + 0.6;
-
-/** Sides on a cylinder carve. 10 gives a decagon within 5% of the circle it stands in for. */
-const CYLINDER_SEGMENTS = 10;
 
 /**
  * How many reachable anchors each end of a `planRouteVia` plan considers, and how many nodes it
@@ -382,6 +362,67 @@ export class Navigation {
     strategy: NavStrategy = "auto",
     overrides: NavConfigOverrides = {},
   ): boolean {
+    if (walkable.length > 0) this.measureSource(walkable);
+    const built = this.generateFrom(walkable.length === 0 ? null : () => navigationGeometry(walkable), strategy, overrides);
+    if (built) this.installArtifactExportHook(walkable, { worldSeed: "runtime-unspecified" });
+    return built;
+  }
+
+  /**
+   * Builds from triangles that are already in world space. A caller with no scene graph, such as the
+   * server's lab pad, generates a navmesh this way without loading a renderer.
+   */
+  buildFromTriangles(
+    source: { positions: Float32Array; indices: Uint32Array },
+    strategy: NavStrategy = "auto",
+    overrides: NavConfigOverrides = {},
+  ): boolean {
+    const { positions, indices } = source;
+    const min: [number, number, number] = [Infinity, Infinity, Infinity], max: [number, number, number] = [-Infinity, -Infinity, -Infinity];
+    for (let index = 0; index < positions.length; index++) {
+      min[index % 3] = Math.min(min[index % 3]!, positions[index]!);
+      max[index % 3] = Math.max(max[index % 3]!, positions[index]!);
+    }
+    this.sourceMeshes = 1;
+    this.sourceTriangles = Math.round(indices.length / 3);
+    this.bounds = positions.length > 0 ? { min, max } : null;
+    return this.generateFrom(positions.length === 0 ? null
+      : () => requireRecast().generators.mergePositionsAndIndices([{ positions, indices }]), strategy, overrides);
+  }
+
+  /**
+   * Adopts a Detour mesh that `exportNavData` wrote. The server world pack carries one, so a server
+   * answers path queries without the source geometry. The pack's own hash has already vouched for the bytes.
+   */
+  importNavData(navData: Uint8Array, source: { strategy: Exclude<NavStrategy, "auto">; sourceMeshes: number; sourceTriangles: number }): void {
+    const startedAt = now();
+    const { core } = requireRecast();
+    const imported = core.importNavMesh(navData);
+    this.navMesh = imported.navMesh;
+    this.query = new core.NavMeshQuery(imported.navMesh);
+    this.polyCount = this.countPolys();
+    if (this.polyCount <= 0) { this.navMesh = null; this.query = null; this.status = "failed"; throw new Error("Imported navmesh has no polygons"); }
+    this.strategy = source.strategy;
+    this.sourceMeshes = source.sourceMeshes;
+    this.sourceTriangles = source.sourceTriangles;
+    this.error = null;
+    this.fallbackFrom = null;
+    this.buildMs = Math.round(now() - startedAt);
+    this.status = "ready";
+  }
+
+  /** The raw Detour mesh, with what `importNavData` needs to describe it. */
+  exportNavData(): { navData: Uint8Array; strategy: Exclude<NavStrategy, "auto">; sourceMeshes: number; sourceTriangles: number; polyCount: number } {
+    if (!this.navMesh || !this.strategy || this.strategy === "auto" || this.status !== "ready") throw new Error("Cannot export navigation before a mesh is ready");
+    return { navData: requireRecast().core.exportNavMesh(this.navMesh), strategy: this.strategy,
+      sourceMeshes: this.sourceMeshes, sourceTriangles: this.sourceTriangles, polyCount: this.polyCount };
+  }
+
+  private generateFrom(
+    geometry: (() => [Float32Array, Uint32Array]) | null,
+    strategy: NavStrategy,
+    overrides: NavConfigOverrides,
+  ): boolean {
     this.status = "building";
     this.error = null;
     this.fallbackFrom = null;
@@ -396,18 +437,17 @@ export class Navigation {
     const startedAt = now();
 
     try {
-      if (walkable.length === 0) throw new Error("No walkable meshes supplied");
-      this.measureSource(walkable);
+      if (!geometry) throw new Error("No walkable meshes supplied");
 
       this.overrides = overrides;
       const chosen = strategy === "auto" ? this.autoStrategy() : strategy;
-      let navMesh = this.generate(walkable, chosen);
+      let navMesh = this.generate(geometry, chosen);
 
       if (!navMesh) {
         // Whichever generator was chosen, try the other one before giving up. A world with no
         // navmesh is unplayable; a world with a slower navmesh is merely slower.
         const alternate: NavStrategy = chosen === "solo" ? "tiled" : "solo";
-        navMesh = this.generate(walkable, alternate);
+        navMesh = this.generate(geometry, alternate);
         if (navMesh) {
           this.fallbackFrom = chosen;
           this.strategy = alternate;
@@ -423,7 +463,6 @@ export class Navigation {
       this.polyCount = this.countPolys();
       this.buildMs = Math.round(now() - startedAt);
       this.status = "ready";
-      this.installArtifactExportHook(walkable, { worldSeed: "runtime-unspecified" });
       return true;
     } catch (cause) {
       this.error = cause instanceof Error ? cause.message : String(cause);
@@ -627,7 +666,7 @@ export class Navigation {
     return this.worldExtent() > LARGE_WORLD_EXTENT ? LARGE_WORLD_CELL_SIZE : NAV_CONFIG.cs;
   }
 
-  private generate(walkable: THREE.Mesh[], strategy: NavStrategy): NavMesh | null {
+  private generate(geometry: () => [Float32Array, Uint32Array], strategy: NavStrategy): NavMesh | null {
     const { generators } = requireRecast();
     const config = {
       cs: this.worldCellSize(),
@@ -640,7 +679,7 @@ export class Navigation {
     };
 
     try {
-      const [positions, indices] = navigationGeometry(walkable);
+      const [positions, indices] = geometry();
       if (strategy === "tiled") {
         const tileSize = this.overrides.tileSizeVoxels ?? TILE_SIZE_VOXELS;
         const result = generators.generateTiledNavMesh(positions, indices, { ...config, tileSize });
@@ -668,19 +707,12 @@ export class Navigation {
     this.sourceTriangles = 0;
     const min: [number, number, number] = [Infinity, Infinity, Infinity];
     const max: [number, number, number] = [-Infinity, -Infinity, -Infinity];
-    const box = new THREE.Box3();
 
     for (const mesh of walkable) {
       const index = mesh.geometry.getIndex();
       const position = mesh.geometry.getAttribute("position");
       this.sourceTriangles += index ? index.count / 3 : position ? position.count / 3 : 0;
-      box.setFromObject(mesh);
-      min[0] = Math.min(min[0], box.min.x);
-      min[1] = Math.min(min[1], box.min.y);
-      min[2] = Math.min(min[2], box.min.z);
-      max[0] = Math.max(max[0], box.max.x);
-      max[1] = Math.max(max[1], box.max.y);
-      max[2] = Math.max(max[2], box.max.z);
+      expandNavigationBounds(mesh, min, max);
     }
     this.sourceTriangles = Math.round(this.sourceTriangles);
     this.bounds = Number.isFinite(min[0]) ? { min, max } : null;
@@ -1214,97 +1246,4 @@ function bytesToBase64(bytes: Uint8Array): string {
     binary += String.fromCharCode(...bytes.subarray(offset, offset + chunkSize));
   }
   return btoa(binary);
-}
-
-// ------------------------------------------------------------- nav carving
-
-/**
- * Invisible geometry handed to Recast so it carves a footprint out of the navmesh, one mesh per
- * volume. Never rendered — `visible = false` keeps them out of every draw call while Recast still
- * reads the buffers directly, so the measured cost against the 400-call budget is zero.
- *
- * OPEN-TOPPED on purpose. The closed `BoxGeometry` this replaces rasterises its top face into a
- * perfectly flat walkable polygon, and those polygons are real: probing the navmesh at (-146, 5,
- * -104) snapped to y = 7.841 on a cottage roof, (-160, 6, -60) to y = 9.041 on the March Company
- * Hall, and teleporting there let the player walk 5 m along the ridge (screenshot
- * runs/corealm/screenshots/collision-on-hall-roof.png). Every teleport in the game — region
- * travel, debug teleport, focus camera, death respawn — routes through `closestPoint`, so a roof
- * polygon is not "harmless because nothing connects to it", which is what the old comment claimed.
- * A ring has no top face and generates no roof polygon.
- *
- * The sides are what actually block: a vertical quad exceeds `walkableSlopeAngle` 78 degrees, so
- * it rasterises with the NULL area flag, and because the ring skirts 1.5 m below the volume base
- * its span merges with the terrain span underneath and takes the ring's flag rather than the
- * ground's. That is the whole carve.
- *
- * Callers must add these to the scene graph (or otherwise leave their world matrices valid) before
- * `nav.build`; matrices are updated here, so adding them to an identity group is enough.
- */
-export function solidObstacleMeshes(volumes: readonly SolidVolume[]): THREE.Mesh[] {
-  const meshes: THREE.Mesh[] = [];
-  // One shared material: it is never rendered, and a material per volume would be ~900 objects
-  // allocated for nothing.
-  const material = new THREE.MeshBasicMaterial();
-
-  for (const volume of volumes) {
-    const skirt = volume.elevated ? 0 : CARVE_SKIRT;
-    const base = volume.position[1] - skirt;
-    const geometry =
-      volume.kind === "box"
-        ? ringGeometry(boxFootprint(volume.size[0], volume.size[2]), skirt + Math.max(volume.size[1], MIN_CARVE_HEIGHT))
-        : ringGeometry(circleFootprint(volume.radius, CYLINDER_SEGMENTS), skirt + Math.max(volume.height, MIN_CARVE_HEIGHT));
-
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(volume.position[0], base, volume.position[2]);
-    if (volume.kind === "box") mesh.rotation.y = volume.rotationY;
-    mesh.name = `solid-carve-${volume.id}`;
-    mesh.visible = false;
-    mesh.updateMatrixWorld(true);
-    meshes.push(mesh);
-  }
-  return meshes;
-}
-
-function boxFootprint(sizeX: number, sizeZ: number): [number, number][] {
-  const hx = sizeX * 0.5;
-  const hz = sizeZ * 0.5;
-  return [[-hx, -hz], [hx, -hz], [hx, hz], [-hx, hz]];
-}
-
-function circleFootprint(radius: number, segments: number): [number, number][] {
-  const points: [number, number][] = [];
-  for (let i = 0; i < segments; i += 1) {
-    const angle = (i / segments) * Math.PI * 2;
-    points.push([Math.cos(angle) * radius, Math.sin(angle) * radius]);
-  }
-  return points;
-}
-
-/** A closed skirt of vertical quads around `footprint`, rising from y = 0 to y = `height`. */
-function ringGeometry(footprint: readonly [number, number][], height: number): THREE.BufferGeometry {
-  const count = footprint.length;
-  const positions = new Float32Array(count * 2 * 3);
-  const indices: number[] = [];
-
-  for (let i = 0; i < count; i += 1) {
-    const [x, z] = footprint[i]!;
-    positions[i * 6 + 0] = x;
-    positions[i * 6 + 1] = 0;
-    positions[i * 6 + 2] = z;
-    positions[i * 6 + 3] = x;
-    positions[i * 6 + 4] = height;
-    positions[i * 6 + 5] = z;
-  }
-  for (let i = 0; i < count; i += 1) {
-    const a = i * 2;
-    const b = a + 1;
-    const c = ((i + 1) % count) * 2;
-    const d = c + 1;
-    indices.push(a, c, b, b, c, d);
-  }
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setIndex(indices);
-  return geometry;
 }

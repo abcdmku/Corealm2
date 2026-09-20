@@ -3,9 +3,10 @@ import { resolve, relative, isAbsolute } from "node:path";
 import { NodeIO } from "@gltf-transform/core";
 import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 import { BufferGeometry, Float32BufferAttribute, Group, Matrix4, Mesh, MeshStandardMaterial } from "three";
-import type { AssetEntry, AssetManifest } from "../render/assets.js";
+import type { AssetEntry, AssetManifest } from "../../render/assets.js";
+import { assetMeasurements } from "../worldAssembly.js";
 
-/** Loads the production GLB triangles and manifest measurements without textures, DOM, or WebGL. */
+/** Loads the production GLB triangles and manifest measurements without textures, DOM, or WebGL. Bake-time only: the server reads the world pack instead. */
 export class NodeGeometryAssets {
   private readonly loaded = new Map<string, Promise<Group>>();
   private readonly ready = new Map<string, Group>();
@@ -19,11 +20,10 @@ export class NodeGeometryAssets {
   getManifest():AssetManifest{return this.manifest;}
   byTags(...tags:string[]):AssetEntry[]{return [...this.entries.values()].filter(entry=>tags.every(tag=>entry.tags.includes(tag)));}
   async loadMany(ids:readonly string[]):Promise<void>{await Promise.all(ids.map(id=>this.load(id)));}
-  baseY(id:string):number {const entry=this.entries.get(id);return entry?.groundY??entry?.base?.y??0;}
-  assetSize(id:string):{x:number;y:number;z:number}|null{return this.entries.get(id)?.size??null;}
-  assetCenterXZ(id:string):{x:number;z:number}|null{
-    const entry=this.entries.get(id);return entry?{x:(entry.base?.x??-entry.size.x/2)+entry.size.x/2,z:(entry.base?.z??-entry.size.z/2)+entry.size.z/2}:null;
-  }
+  private readonly measurements=assetMeasurements(id=>this.entries.get(id));
+  baseY(id:string):number {return this.measurements.baseY(id);}
+  assetSize(id:string):{x:number;y:number;z:number}|null{return this.measurements.assetSize(id);}
+  assetCenterXZ(id:string):{x:number;z:number}|null{return this.measurements.assetCenterXZ(id);}
   load(id:string):Promise<Group>{
     let pending=this.loaded.get(id);
     if(!pending){pending=this.read(id);this.loaded.set(id,pending);}

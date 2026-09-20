@@ -4,7 +4,7 @@ import {chromium} from "playwright";
 import {mkdir,writeFile} from "node:fs/promises";
 import {cpus,totalmem} from "node:os";
 import {WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
-import {createAuthoredWorld} from "../game/src/multiplayer/authoredWorld.js";
+import { createRepoPackedWorld } from "./lib/packed-world.js";
 import {startReferenceServer} from "../game/src/multiplayer/referenceServer.js";
 import {SqliteWorldStorage} from "../game/src/multiplayer/sqliteStorage.js";
 import {startGameServer} from "./lib/server.js";
@@ -21,7 +21,7 @@ const outputRoot=process.argv.find(arg=>arg.startsWith("--out="))?.slice(6)??"te
 const out=`${outputRoot}/${production?"production":"source"}`;await mkdir(out,{recursive:true});
 const world:WorldDescriptor={providerId:"render",worldId:"authored",name:"Crowded Corealm",endpoint:"ws://127.0.0.1:0/",
   protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"authored",seed:1337,capacity:1000,population:0,availability:"available"};
-const ports=await createAuthoredWorld(1337);
+const ports=await createRepoPackedWorld(1337);
 const server=await startReferenceServer({worlds:[world],storage:new SqliteWorldStorage(":memory:"),build:async()=>ports,
   authentication:{authenticate:async()=>({playerId:"observer",name:"Observer"})}});
 // Disposable A/B build: change only the simplifier's early-return condition. Production files stay intact.

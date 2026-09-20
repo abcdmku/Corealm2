@@ -1,0 +1,132 @@
+name: Server release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to stamp into the executables. A dry run uploads nothing."
+        required: true
+        default: v0.0.0-test
+
+concurrency:
+  group: server-release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      VERSION: ${{ github.event_name == 'push' && github.ref_name || inputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # The repository uses no LFS. Historical run captures are hundreds of MB and are not build inputs.
+          sparse-checkout: |
+            .github
+            deploy
+            devdocs
+            game
+            game/content
+            tests
+            tools
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Build the admin UI
+        run: npm run devdocs:build:server
+
+      # The pack is committed, so a release checks it rather than baking it: `--check` refuses a pack
+      # that is missing, of another format, or baked from different sources. Re-bake with
+      # `npm run world:build` and commit the result.
+      - name: The server world pack is current
+        run: npx tsx tools/build-server-world-pack.ts --check
+
+      - name: Build the executables
+        run: npm run server:build -- --version "$VERSION"
+
+      # The Windows executable is cross-built here and is only proved on Windows by hand. This is the
+      # Linux half of M6's done-when: an empty folder, one configuration file, a join-capable server,
+      # /admin served out of the binary, and a clean stop.
+      - name: Smoke-start the Linux executable
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/corealm-smoke
+          mkdir -p /tmp/corealm-smoke
+          cp dist/server/corealm-server-linux-x64 /tmp/corealm-smoke/corealm-server
+          cat > /tmp/corealm-smoke/corealm-server.json <<'JSON'
+          {
+            "host": "127.0.0.1",
+            "port": 4295,
+            "data": "./data",
+            "guests": true,
+            "worlds": [{ "id": "yard", "name": "yard", "seed": 1337, "capacity": 8 }]
+          }
+          JSON
+          cd /tmp/corealm-smoke
+          ./corealm-server --version
+          ./corealm-server > server.out 2>&1 &
+          pid=$!
+          for _ in $(seq 1 150); do
+            grep -q '"ready":true' server.out && break
+            sleep 2
+          done
+          grep -q '"ready":true' server.out || { echo "never became ready"; cat server.out; exit 1; }
+          curl -fsS http://127.0.0.1:4295/healthz
+          curl -fsS http://127.0.0.1:4295/worlds | head -c 400; echo
+          curl -fsS http://127.0.0.1:4295/admin/ | grep -qi "<script" || { echo "/admin/ did not serve the app"; exit 1; }
+          kill -TERM "$pid"
+          wait "$pid"
+          echo "stopped cleanly"
+          cat server.out
+
+      - name: Stage the release
+        run: |
+          set -euo pipefail
+          rm -rf release && mkdir release
+          cp dist/server/corealm-server-win-x64.exe dist/server/corealm-server-linux-x64 release/
+          cp deploy/corealm-server.service release/
+          # The sample the executable itself writes, so the file shipped is the file it documents.
+          (cd release && ./corealm-server-linux-x64 --write-sample-config >/dev/null)
+          cp dist/server/build-info.json release/
+          (cd release && sha256sum corealm-server-win-x64.exe corealm-server-linux-x64 corealm-server.service corealm-server.json > SHA256SUMS)
+          ls -l release
+
+      - name: Publish the release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          notes=$(cat <<'NOTES'
+          Corealm game server.
+
+          - `corealm-server-win-x64.exe` and `corealm-server-linux-x64` are single executables. They
+            need nothing installed, not even Node.
+          - Put one in a folder with `corealm-server.json` beside it and start it. Run it with
+            `--write-sample-config` for a documented file, and `--help` for the flags.
+          - `corealm-server.service` is a systemd unit. See `docs/multiplayer-hosting.md`.
+          - Both binaries are unsigned. Windows SmartScreen will warn the first time.
+          - Check what you downloaded against `SHA256SUMS`.
+          NOTES
+          )
+          gh release create "$VERSION" release/* --title "Corealm server $VERSION" --notes "$notes" \
+            || gh release upload "$VERSION" release/* --clobber
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: corealm-server-${{ env.VERSION }}
+          path: release/
+          retention-days: 14
