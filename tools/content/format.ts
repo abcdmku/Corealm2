@@ -8,7 +8,6 @@
  * through their schema (`canonicalRecords`) before writing.
  */
 import { mkdir, readFile } from "node:fs/promises";
-import { createHash } from "node:crypto";
 import path from "node:path";
 import { atomicReplaceFile } from "../lib/atomic-replace-file.js";
 import { repoRoot, resolveInside } from "../lib/paths.js";
@@ -18,10 +17,8 @@ export const contentRoot = path.join(repoRoot, "game", "content");
 export const contentDataRoot = path.join(contentRoot, "data");
 export const contentMetaRoot = path.join(contentRoot, "meta");
 
-/** Canonical text for any JSON value. Deterministic for equal inputs. */
-export function formatContentJson(value: unknown): string {
-  return `${JSON.stringify(value, null, 2)}\n`;
-}
+import { formatContentJson } from "../../game/src/content/compiler/canonical.js";
+export { contentRevision, formatContentJson } from "../../game/src/content/compiler/canonical.js";
 
 /**
  * Re-parses records through their schema so the written key order matches the schema and record
@@ -58,7 +55,3 @@ export async function writeContentJson(relative: string, value: unknown): Promis
   return true;
 }
 
-/** Stable hash-friendly text used by revision checks: identical bytes for identical records. */
-export function contentRevision(text: string): string {
-  return createHash("sha256").update(text).digest("hex");
-}

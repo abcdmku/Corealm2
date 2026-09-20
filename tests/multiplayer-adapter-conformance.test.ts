@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldUpdate } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldUpdate } from "../game/src/contracts.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
@@ -11,7 +11,7 @@ import { command, compatible, SessionFailure } from "../game/src/multiplayer/pro
 import { Replicator } from "../game/src/multiplayer/replication.js";
 
 const descriptor: WorldDescriptor = { providerId: "conformance", worldId: "yard", name: "Conformance yard",
-  endpoint: "ws://127.0.0.1:0/", protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION,
+  endpoint: "ws://127.0.0.1:0/", protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored",
   seed: 1337, capacity: 2, population: 0, availability: "available" };
 
 /** Separate transport adapter: deterministic steps, production rules, no sockets or wall clock. */

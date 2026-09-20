@@ -1,7 +1,7 @@
 import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { discriminated, enumOf, obj, opt, parseValue, refine, str, unknown as unknownSchema, type Infer, type ParseContext } from "../../../game/src/content/schema/core.js";
-import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
 import { contentRevision, formatContentJson } from "../../../tools/content/format.js";
 import { withFileLock } from "../../../tools/content/locks.js";
 import { emptyMetaRecord, MetaFileSchema, REQUEST_KINDS, type MetaFile, type MetaRecord, type MetaSnapshot } from "../../../tools/content/meta.js";

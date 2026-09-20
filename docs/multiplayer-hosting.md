@@ -76,7 +76,94 @@ Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `
 | `guests` | `--guests` | none |
 | `developmentGuests` | `--development-guests` | none |
 | `worlds` | `--worlds a,b` | `COREALM_WORLDS` |
+| follow the repo catalog | `--follow-repo-catalog` | none |
 | every world's capacity | `--capacity` | `COREALM_CAPACITY` |
+
+### Content catalog
+
+The server keeps its content in its database and simulates from there. Three tables hold it. `catalogs` has one row per published revision with the server catalog, the client catalog as the exact bytes it serves, the source collections it was compiled from, the formula revision, who stored it and when. `catalog_active` is one row naming the active revision. `catalog_history` gets a row each time that pointer moves, with the revision it replaced. A revision is a content hash, so storing one twice changes nothing. Server code reaches all of it through `CatalogStorage` in `game/src/multiplayer/catalogStorage.ts`, which is asynchronous and takes JSON text for the same reason `WorldStorage` takes plain data. `MemoryCatalogStorage` follows the same rules without a file.
+
+A server's content is its own copy of the source collections. An empty database is seeded from the catalog the server ships with and prints `{"event":"catalog-seeded","revision":"..."}`. From then on the database wins. A newer server release with a different shipped catalog changes nothing in a database that already has one, and prints one line so the owner knows:
+
+```json
+{"event":"catalog-base-ignored","activeRevision":"dee09b...","bundledRevision":"41c7aa...","message":"This database already has a catalog, so the catalog shipped with this server was not applied."}
+```
+
+Run from source, the shipped catalog is compiled at start from `game/content/data/` and the checkout's formulas. `--follow-repo-catalog` is for a developer's own database: at start it publishes that catalog over the active one when they differ, records the move in `catalog_history` under `follow`, and prints `catalog-followed`. `npm run multiplayer:dev` and `npm run multiplayer:prod` pass it, so content edited in the repo shows up in the local world. A live server never sets it, and no configuration file key exists for it.
+
+The host opens storage, seeds it, reads the active server catalog, installs it with `installCatalog` from `game/src/content/catalogInstall.ts`, and only then imports the simulation, because the content modules read their tables as they load. `installCatalog` throws if a content module loaded first. An embedder that passes `catalog` to `startReferenceServer` must do the same. The server refuses to start when the store's active revision is not the catalog the process runs on. Without `catalog` the server keeps the catalog compiled into the build in memory, which is what tests and harnesses use.
+
+Every descriptor the server sends carries `catalogRevision`, in `/worlds` and in the `joined` reply. A static page configuration leaves it out. The join message carries no content version. The client trusts the revision in `joined`, because the one it saw at discovery may be a publish old. It then loads the client catalog from the same host, `http` for `ws` and `https` for `wss`:
+
+```text
+GET /catalog/<revision>
+Content-Type: application/json
+Cache-Control: public, max-age=31536000, immutable
+ETag: "<revision>"
+Vary: Accept-Encoding
+Access-Control-Allow-Origin: *
+```
+
+The reply is Brotli or gzip when the request accepts it, compressed once per revision and kept in memory for the last three revisions asked for. The shipped catalog is 638,630 bytes, 79,589 as Brotli. Any stored revision is served, so a client that joined just before a publish still loads. A revision that is not 64 lowercase hex characters, or is not stored, gets 404. The client catalog holds nothing a player cannot see in the game, which is why any origin may read it. [Content authoring](content-authoring.md#two-catalogs-one-revision) lists what it contains. The page keeps the reply in the Cache API under `corealm-catalog-v1` and drops that server's older revisions when it stores a new one. Outside a secure context there is no Cache API and the HTTP cache holds the immutable reply. While connected, the page shows the server's names, icons, item stats and shop stock. Leaving the world puts the build's own tables back, so local play never runs on another server's numbers. If the catalog cannot be loaded, the session continues with the build's names and the console says so.
+
+### Publishing content
+
+An admin changes the content of a running server through three endpoints. All need the `content:publish` scope, from an admin session or an API token, and accept bodies up to 16 MiB. The shipped collections are about 2 MiB together.
+
+| Endpoint | Body | Does |
+| --- | --- | --- |
+| `POST /admin/content/validate` | same as publish | Runs every check a publish runs and stores nothing. Devdocs uses it as a dry run. |
+| `POST /admin/content/publish` | `{base, collections: {<name>: {revision, value}}, note?}` | Compiles, stores and activates a new revision, moves the running server onto it and tells connected clients. |
+| `POST /admin/content/rollback` | `{revision}` | Publishes the source collections of an earlier stored revision through the same path. |
+
+`base` is the catalog revision the edit started from. Each entry of `collections` is one whole collection as it sits under `game/content/data/`, with the revision the editor read it at. A collection revision is the SHA-256 of the collection written as canonical JSON: two-space indent, a trailing newline. `GET /admin/content/sources` returns the collections to hash. `note` is at most 512 characters and is kept with the revision and the audit row.
+
+A rollback compiles the stored sources of the named revision again, so the retire rule, the asset check and the spawn plan apply to it as they do to any publish. When the server's formulas are the ones that revision was compiled with, the result is that same revision and only the pointer moves. After a server release that changed formulas, the same sources compile to a new revision, and that one becomes active. Either way `catalog_history` gets a new row.
+
+A publish runs in this order, one publish at a time for the whole server:
+
+1. Each sent collection's revision is compared with the active sources. Any mismatch is a 409 that names the stale collections, so a second editor never overwrites the first without seeing their change.
+2. The sent collections are merged over the active sources. A server's content is its own copy, so there is no overlay to resolve.
+3. Asset ids are checked. See below.
+4. The merged sources are compiled with the formula revision the server was built with. The compile takes about 90 ms for the shipped content and runs between two turns of the event loop, outside the tick hold.
+5. The tick in flight finishes and the next one waits. The server looks for live instances of any item or creature definition the publish removes: stored characters and stored recovery caches through one JSON query over `players` and `world_players`, online players, their recovery caches, loot piles on the ground, and living creatures in every world.
+6. Every world plans the spawn groups that changed, on copies. A creature that cannot be given a walkable floor refuses the publish.
+7. The revision is stored and made active, and the `content.publish` or `content.rollback` audit row is written in the same transaction.
+8. The process moves onto the new catalog, the worlds take their spawn plans, and every connected peer in every world is sent `{"type":"content-updated","revision":"..."}`. These steps are assignments that cannot fail. If one ever did, the server stops the way it does after a failed commit, and the next start runs the published catalog.
+
+Nothing is written before step 7, so a refused publish leaves the database and the running game as they were. With the authored world, a publish took 225 to 250 ms end to end: about 90 ms to compile, 11 to 25 ms to plan spawns for 1 to 10 changed groups, 32 ms to store, 1 to 3 ms to swap. Ticks were held for 32 to 62 ms, less than one tick interval. [Content authoring](content-authoring.md#publishing-to-a-live-server) says which tables apply at once and which wait for a restart.
+
+The reply to all three is the same:
+
+```json
+{"revision":"2c5db1...","previous":"32768c...","unchanged":false,"stored":true,
+ "changedCollections":["placements"],"changedTables":["placements","world"],
+ "live":["placements","world"],"onRestart":[],
+ "affected":{"placements":["redsill_frogs"],"regions":["fallowmarch"],"spawnGroups":["redsill_frogs"]},
+ "problems":[],"assetValidation":"bundled",
+ "spawns":[{"world":"corealm","added":0,"pending":7,"retiring":0,"removed":0}],
+ "notified":12,
+ "timings":{"manifestMs":0.2,"compileMs":92,"blockersMs":0.2,"spawnPlanMs":11.1,"storeMs":32,"swapMs":2,"tickStallMs":45.3,"totalMs":239}}
+```
+
+`affected` lists changed record ids by collection and by compiled table, so a loot table edit names the enemies it reaches. `problems` carries compiler warnings and `info` lines. `spawns` counts, per world, creatures added at once, living creatures waiting for their next respawn, creatures that will finish their life and leave, and dead ones removed at once. `validate` answers with `stored: false` and empty `spawns`. A publish that compiles to the active revision answers `unchanged: true` and does nothing.
+
+| Status | `error.code` | Meaning |
+| --- | --- | --- |
+| 400 | `invalid_request` | The body is not `{base, collections, note?}`, a collection name is unknown, or a value has the wrong shape. |
+| 401, 403 | `unauthorized`, `forbidden` | No credential, or one without `content:publish`. |
+| 404 | `not_found` | Rollback to a revision that is not stored. |
+| 409 | `stale_collections` | `error.stale` names the collections, `error.revisions` their current revisions, `error.revision` the active catalog. |
+| 409 | `definition_in_use` | `error.blockers` lists up to 20 holders: `{kind:"item", id, heldBy:"player", place, accountId, name}` with `place` one of `inventory`, `bank`, `equipment` or `recovery-cache` (which adds `world`), `{kind:"item", id, heldBy:"loot-pile", world, pileId}` or `{kind:"creature", id, heldBy:"world", world, alive}`. Retire the definition instead. |
+| 409 | `already_active`, `no_sources` | Rollback to the active revision, or a catalog that was stored without source collections. |
+| 413 | `payload_too_large` | The body is over 16 MiB. It is counted as it streams and dropped at the cap. |
+| 422 | `content_invalid` | `error.problems` is the compiler's errors, each `{path, message, severity}`. An unknown asset id is one of them. |
+| 422 | `spawn_unplaceable` | A changed spawn group has a creature with no free walkable floor in `error.world`. |
+| 502 | `asset_manifest_unavailable` | The asset host's manifest could not be fetched or is not a manifest. |
+
+Asset ids are checked against the asset host the server points its clients at, because a server can only show models that host has. With `assetBaseUrl` set, the server fetches `<assetBaseUrl>assets/manifest.json`, the same file the client loads, with a 10 second timeout, a 32 MiB cap and a shape check. It keeps the result for 5 seconds and then revalidates with the manifest's ETag, so a run of publishes costs one download. Without `assetBaseUrl` it uses the manifest shipped with the server, which run from source is `game/public/assets/manifest.json`. The reply's `assetValidation` is `remote`, `bundled`, or `none` for an embedder that supplied neither. Audio files are not in the manifest, so the paths in the audio catalog are accepted as sent; the schema still checks their shape. A lab-only creature with an unknown model stays a warning.
+
+A connected game client shows one line at the top of the screen, "The server's content was updated. Refresh to load it.", with Refresh and Later buttons. It never reloads by itself and play continues. The session keeps the client catalog it joined with until the page loads again. Every save written after a publish carries the new `catalogRevision`, and a server restarted after a publish boots on the published revision.
 
 ### Asset host
 
@@ -90,7 +177,7 @@ For this standalone setup only, load one configuration example before the game m
 <script src="/multiplayer.example.directory.js"></script>
 ```
 
-The files `game/public/multiplayer.example.{single,list,directory}.js` demonstrate all three configuration forms. They are not loaded by default. These examples explicitly enable development guests and target the authored host above. For the lab, use `index.html?mode=combat&multiplayer=1`, world IDs `yard` / `second-yard`, and content version `corealm-pve-1:lab`. Authored worlds use `corealm-pve-1`. Scene/content mismatches are rejected before joining.
+The files `game/public/multiplayer.example.{single,list,directory}.js` demonstrate all three configuration forms. They are not loaded by default. These examples explicitly enable development guests and target the authored host above. For the lab, use `index.html?mode=combat&multiplayer=1`, world IDs `yard` / `second-yard`, and `fixture: "lab"`. Authored worlds use `fixture: "authored"`. A page refuses a world whose fixture is not the scene it loaded.
 
 Configured game pages show Worlds over the loading screen. The list starts with **Local play only**, which is selected until the player chooses otherwise, followed by the worlds that were found. One button acts on that choice: Play offline puts the panel away and starts the single-player character, Join world enters the selected world, and Leave world returns to local play. Choosing a world before loading finishes shows Join when ready; the join then happens on its own as soon as the first frame is drawn.
 
@@ -106,11 +193,11 @@ Fixed authored scenery stays loaded from that matching map when buildings lie be
 
 ## Registration and authentication
 
-`window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol/content versions, seed, population, capacity, availability, and an optional `assetBaseUrl`. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
+`window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol version, fixture, seed, population, capacity, availability, and an optional `assetBaseUrl`. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
 
 `WorldProvider` separates discovery, authentication, and transport from gameplay. Register alternative implementations through `window.__COREALM_PROVIDERS__`. Other configured provider IDs use the reference WebSocket adapter. Adapter conformance tests exercise it and an independent deterministic adapter.
 
-Protocol 2 adds public actions, visible activity timing, and authoritative targeted/area invocation commands. Update the browser and host together. Protocol 1 sessions are rejected explicitly. Existing durable character saves retain their storage schema and content version.
+Protocol 2 adds public actions, visible activity timing, and authoritative targeted/area invocation commands. Update the browser and host together. Protocol 1 sessions are rejected explicitly. Existing durable character saves retain their storage schema.
 
 ### Authentication modes
 
@@ -167,7 +254,7 @@ Devdocs signs in with `POST /admin/session`, exchanging a join token for a sessi
 
 ### Endpoints
 
-JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply is `Cache-Control: no-store`. `Authorization: Bearer <cas_… or cat_…>`. CORS allows the exact origins in `allowedOrigins` and never `*`; a request from any other origin gets no allow header, and its preflight gets 403. Bodies are capped at 8 KiB and every field, header, query value and path segment is validated at the boundary.
+JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply is `Cache-Control: no-store`. `Authorization: Bearer <cas_… or cat_…>`. CORS allows the exact origins in `allowedOrigins` and never `*`; a request from any other origin gets no allow header, and its preflight gets 403. Bodies are capped at 8 KiB, or 16 MiB for a content publish, and every field, header, query value and path segment is validated at the boundary.
 
 | Endpoint | Credential | Does |
 | --- | --- | --- |
@@ -186,12 +273,15 @@ JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply i
 | `DELETE /admin/tokens/<id>` | session | Revokes a token. |
 | `GET /admin/audit?limit=&before=` | session | Newest first. `before` is an id from the previous page. |
 | `GET /admin/stats` | `stats:read` | Below. |
+| `GET /admin/content/revision?limit=` | `content:read` | `{revision, history}`. `history` is the pointer moves, newest first, each `{id, revision, previous, by, at}`. `limit` is 1 to 200, default 50. |
+| `GET /admin/content/sources?revision=` | `content:read` | `{revision, sources}`: the source collections that revision was compiled from, keyed by collection name as under `game/content/data/`. Omit `revision` for the active one. 404 when it is not stored. |
+| `POST /admin/content/validate`, `/publish`, `/rollback` | `content:publish` | See [Publishing content](#publishing-content). |
 | `GET /admin/players?query=&limit=&cursor=` | `players:read` | Summaries, newest seen first. `cursor` comes from the previous page. |
 | `GET /admin/players/<accountId>` | `players:read` | One player with inventory, bank, equipment and skills. |
 
 A player who is online is read from the world holding them, not from the row the last commit wrote, so devdocs shows what the player is carrying right now. M5 adds editing and kicking beside these readers.
 
-`audit_log` gets one row inside the same transaction as the write that caused it: `id`, `at`, `account_id`, `credential`, `action`, `target`, `before` and `after`. The credential is `session`, `token:<id>`, `setup` for the one-time code, `config` for `ownerAccount`, or `login` for the join token that minted a session. Actions are `owner.setup`, `role.set`, `role.revoke`, `ban.set`, `ban.remove`, `token.create`, `token.revoke`, `session.create` and `session.revoke`.
+`audit_log` gets one row inside the same transaction as the write that caused it: `id`, `at`, `account_id`, `credential`, `action`, `target`, `before` and `after`. The credential is `session`, `token:<id>`, `setup` for the one-time code, `config` for `ownerAccount`, or `login` for the join token that minted a session. Actions are `owner.setup`, `role.set`, `role.revoke`, `ban.set`, `ban.remove`, `token.create`, `token.revoke`, `session.create`, `session.revoke`, `content.publish` and `content.rollback`. The content rows have the new revision as `target`, `{revision}` of the catalog it replaced as `before`, and `{revision, base, note, changedCollections, changedTables}` as `after`.
 
 ### Stats
 
@@ -250,7 +340,9 @@ Replacement `WorldStorage` adapters implement `load`, `openWorld`, `claimPlayer`
 
 ### Migrating an older database
 
-Databases written before the players table kept a whole player inside each world. Opening one migrates it once, in a single transaction, and records `schema_version` 2 in the `meta` table. Reopening does nothing. The host prints one JSON line, `{"event":"storage-migrated",...}`, with the number of worlds and players and every conflict it resolved. When the same player id exists in several worlds, the character with the most total skill XP is kept, then the one from the world with the higher tick, then the lower world key. The host discards the other characters, inventories included, and names them in that line. Every world keeps what the player owned there, its receipts and its random cursor. The host backs nothing up. Copy the data directory first if you may need the discarded characters. A database with a newer `schema_version` than the host understands is refused.
+Databases written before the players table kept a whole player inside each world. Opening one migrates it once, in a single transaction. Reopening does nothing. The host prints one JSON line, `{"event":"storage-migrated","from":1,"to":2,...}`, with the number of worlds and players and every conflict it resolved. When the same player id exists in several worlds, the character with the most total skill XP is kept, then the one from the world with the higher tick, then the lower world key. The host discards the other characters, inventories included, and names them in that line. Every world keeps what the player owned there, its receipts and its random cursor. The host backs nothing up. Copy the data directory first if you may need the discarded characters. A database with a newer `schema_version` than the host understands is refused.
+
+Format 3 adds the catalog tables and replaces the hand-edited `contentVersion` in each world row. `corealm-pve-1` becomes `fixture: "authored"` and `corealm-pve-1:lab` becomes `fixture: "lab"`. The row also gains `catalogRevision`, the revision the save was written under, which is `null` for a migrated save because nothing recorded it. The host prints `{"event":"storage-migrated","from":2,"to":3,"worlds":N}` and records `schema_version` 3 in the `meta` table. A save loads under any catalog revision, because content changes while a world lives. It still refuses a different fixture or seed. When a world loads a save, each saved creature takes its model and scale from the world built from the running catalog, and keeps its health, position and timers.
 
 Guests were stored under their bare name before this change and are `guest:<name>` now, so a guest character from an older local save is not resumed under the new id.
 

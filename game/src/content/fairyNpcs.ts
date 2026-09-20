@@ -1,5 +1,4 @@
-import npcData from "../../content/data/npcs.json";
-import dialogueData from "../../content/data/dialogue.json";
+import { RESOLVED_TABLES } from "./resolvedCatalog.js";
 import { parseCollection, stripExtras } from "./schema/core.js";
 import { npcRecordSchema } from "./schema/people.js";
 import { dialogueRecordSchema } from "./schema/story.js";
@@ -22,7 +21,7 @@ export interface FairyNpcCandidate extends NpcDef {
   bindHeightMetres: number;
 }
 
-export const FAIRY_NPC_CANDIDATES: readonly FairyNpcCandidate[] = parseCollection(npcRecordSchema, npcData, { name: "npcs" })
+export const FAIRY_NPC_CANDIDATES: readonly FairyNpcCandidate[] = parseCollection(npcRecordSchema, RESOLVED_TABLES["npcs"], { name: "npcs" })
   .filter((row) => row.catalog === "fairy")
   .map((row) => stripExtras(row, ["catalog"]));
 
@@ -90,7 +89,7 @@ export const FAIRY_NPC_STANDS: NpcStandDef[] = [
   },
 ];
 
-export const FAIRY_NPC_DIALOGUE: readonly DialogueNodeDef[] = parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" })
+export const FAIRY_NPC_DIALOGUE: readonly DialogueNodeDef[] = parseCollection(dialogueRecordSchema, RESOLVED_TABLES["dialogue"], { name: "dialogue" })
   .filter((row) => row.catalog === "fairy")
   .map((row) => stripExtras(row, ["catalog"]));
 

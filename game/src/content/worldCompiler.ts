@@ -12,6 +12,8 @@ export interface WorldCompilerInput {
   creatures: ReadonlyMap<string, WorldCreature>;
   regions: readonly WorldRegionBounds[];
   resolveCreature?: (id: string, level: number) => WorldCreature | undefined;
+  /** Retired creatures still resolve, so their members are skipped here instead of failing as unknown. */
+  retired?: ReadonlySet<string>;
 }
 /** Formation offsets are authored relative to the centre, so dragging never leaves residents behind. */
 export function placementAnchors(placement: WorldPlacement): [number, number][] {
@@ -78,7 +80,7 @@ export function compileWorld(input: WorldCompilerInput) {
     }
     encounter.members.forEach((member, memberIndex) => {
       const indices = assigned[memberIndex]!;
-      if (!indices.length) return;
+      if (!indices.length || input.retired?.has(member.creatureId)) return;
       const source = placement.level !== undefined && input.resolveCreature
         ? input.resolveCreature(member.creatureId, placement.level) : input.creatures.get(member.creatureId);
       if (!source) return;

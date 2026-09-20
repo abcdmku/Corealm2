@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { CONTENT_COLLECTIONS } from "../../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../../../../game/src/content/compiler/collections.js";
 import type { AppProps } from "../../model/contracts.js";
 import { fieldPath } from "../../model/fields.js";
 import { incomingReferences, roleLabel, summaryContext, useReferenceIndex, type IncomingReference } from "../../model/refs.js";

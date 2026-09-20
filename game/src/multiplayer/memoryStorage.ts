@@ -1,5 +1,6 @@
 import type { PlayerCharacter, PlayerClaim, PlayerWorldRecord, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
 import { MemoryAdminStorage, type MemoryPlayerRow, type ServerAdminStorage } from "./adminStorage.js";
+import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
 import { worldKey } from "./protocol.js";
 import { PLAYER_LEASE_MS } from "./sqliteStorage.js";
 
@@ -9,7 +10,9 @@ interface Account { name: string; character: string | null; lastWorld: WorldKey 
 /** The storage contract over plain maps, for tests and hosts that keep nothing. Same lease and fencing rules as SQLite. */
 export class MemoryWorldStorage implements WorldStorage {
   /** The same administration surface as SQLite, over the accounts below. Playtime is not accounted here. */
-  readonly admin: ServerAdminStorage = new MemoryAdminStorage(() => this.playerRows());
+  private readonly roles = new MemoryAdminStorage(() => this.playerRows());
+  readonly admin: ServerAdminStorage = this.roles;
+  readonly catalog: CatalogStorage = new MemoryCatalogStorage(this.roles.auditWriter);
   private readonly worlds = new Map<string, string>();
   private readonly accounts = new Map<string, Account>();
   private readonly owned = new Map<string, Map<string, string>>();
@@ -22,7 +25,12 @@ export class MemoryWorldStorage implements WorldStorage {
       const live = lease && !lease.reserved && lease.expiresAt > at ? JSON.parse(lease.world) as [string, string] : null;
       return { accountId, name: account.name, character: account.character ? JSON.parse(account.character) as PlayerCharacter : null,
         lastWorld: account.lastWorld, firstSeen: account.firstSeen, lastSeen: account.lastSeen, playtimeSeconds: 0,
-        online: live ? { providerId: live[0]!, worldId: live[1]! } : null };
+        online: live ? { providerId: live[0]!, worldId: live[1]! } : null,
+        recoveryCaches: [...this.owned].flatMap(([world, rows]) => {
+          const items = rows.has(accountId) ? (JSON.parse(rows.get(accountId)!) as PlayerWorldRecord).ownedWorld.recoveryCache?.items : undefined;
+          const [providerId, worldId] = JSON.parse(world) as [string, string];
+          return items ? [{ world: { providerId, worldId }, items }] : [];
+        }) };
     });
   }
   private compose(input: WorldKey, residentsOnly: boolean): WorldStorageRecord | null {

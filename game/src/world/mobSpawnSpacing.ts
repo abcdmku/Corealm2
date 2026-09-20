@@ -14,7 +14,7 @@ export interface MobSpawnSpacingPorts {
  * IDs, counts, stats and loot are retained. No cramped-layout fallback is permitted.
  */
 export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: readonly HabitatDef[],
-  ports: MobSpawnSpacingPorts): HabitatDef[] {
+  ports: MobSpawnSpacingPorts, settled: readonly SemanticEntity[] = []): HabitatDef[] {
   const sources = new Map(habitats.map(habitat => [habitat.groupId, habitat]));
   const mobs = entities.filter(entity => entity.archetype === 'enemy' || entity.archetype === 'boss');
   const groups = new Map<string, SemanticEntity[]>();
@@ -25,7 +25,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
   }
   type Occupant = { position: Vec3; radius: number; underground: boolean; extra: number; groupId?: string };
   const cells = new Map<string, Occupant[]>();
-  const largestRadius = Math.max(.5, ...mobs.map(entity => entity.combat?.bodyRadius ?? .5));
+  const largestRadius = Math.max(.5, ...[...mobs, ...settled].map(entity => entity.combat?.bodyRadius ?? .5));
   const reserve = (entry: Occupant): void => {
     const key = `${entry.underground}:${Math.floor(entry.position[0] / 32)}:${Math.floor(entry.position[2] / 32)}`;
     const cell = cells.get(key) ?? [];
@@ -35,6 +35,12 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
   for (const entity of mobs.filter(entity => entity.archetype === 'boss')) {
     reserve({ position: entity.position, radius: entity.combat?.bodyRadius ?? .5,
       underground: ports.underground(entity.regionId), extra: 0 });
+  }
+  // A live rebuild places a few groups among residents that keep their spawn. Those hold their ground first.
+  for (const entity of settled) {
+    const x = entity.meta?.spawnX, z = entity.meta?.spawnZ;
+    reserve({ position: typeof x === 'number' && typeof z === 'number' ? [x, entity.position[1], z] : entity.position, radius: entity.combat?.bodyRadius ?? .5,
+      underground: ports.underground(entity.regionId), extra: 0, groupId: String(entity.meta?.groupId ?? entity.id) });
   }
   const result: HabitatDef[] = [];
   const orderedGroups = [...groups].sort((a, b) =>

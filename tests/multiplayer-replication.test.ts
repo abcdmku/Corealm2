@@ -1,6 +1,6 @@
 import { expect, it, vi } from "vitest";
 import { EventBus } from "../game/src/core/events.js";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION } from "../game/src/contracts.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { ReplicatedState, Replicator, ReplicationFrame } from "../game/src/multiplayer/replication.js";
@@ -15,7 +15,7 @@ it("publishes replicated outcomes to presentation and agents without executing l
 
 it("keeps crowded health changes immediate while cosmetic transforms use compact updates", async () => {
   const world=new HeadlessWorld({providerId:"test",worldId:"crowd",name:"Crowd",endpoint:"ws://127.0.0.1/",protocolVersion:WORLD_PROTOCOL_VERSION,
-    contentVersion:WORLD_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"},await createMultiplayerLabWorld());
+    fixture: "authored",seed:1337,capacity:1000,population:0,availability:"available"},await createMultiplayerLabWorld());
   for(let i=0;i<130;i++)world.join(`player-${i}`);
   const prior=new Map<string,string>(); const replicator=new Replicator("session","player-0"); const replica=new ReplicatedState("session");
   replica.apply(replicator.update(world,0,new ReplicationFrame(world,prior),true));
@@ -38,7 +38,7 @@ it("keeps crowded health changes immediate while cosmetic transforms use compact
 
 it("merges private deltas atomically without disclosing another player's state", async () => {
   const world=new HeadlessWorld({providerId:"test",worldId:"private",name:"Private",endpoint:"ws://127.0.0.1/",protocolVersion:WORLD_PROTOCOL_VERSION,
-    contentVersion:WORLD_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"},await createMultiplayerLabWorld());
+    fixture: "authored",seed:1337,capacity:1000,population:0,availability:"available"},await createMultiplayerLabWorld());
   const owner=world.join("owner"); world.join("other").store.get().currency=987654;
   const replicator=new Replicator("session","owner"), replica=new ReplicatedState("session","owner");
   replica.apply(replicator.update(world,0,new Map(),true));

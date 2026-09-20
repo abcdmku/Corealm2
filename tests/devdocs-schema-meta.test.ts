@@ -8,7 +8,7 @@ import {
   ArraySchema, DiscriminatedSchema, ObjectSchema, RecordSchema, REF_KIND_SOURCES, TupleSchema,
   UnionSchema, type RefKind, type Schema,
 } from "../game/src/content/schema/core.js";
-import { CONTENT_COLLECTIONS } from "../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../game/src/content/compiler/collections.js";
 import { CreatureDefinitionSchema } from "../game/src/content/schema/creatureDefinitions.js";
 import { EncounterDefinitionSchema } from "../game/src/content/schema/encounters.js";
 import { EquipmentSetRecordSchema } from "../game/src/content/schema/equipmentSets.js";

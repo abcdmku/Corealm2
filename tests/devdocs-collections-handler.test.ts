@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { CONTENT_COLLECTIONS } from "../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../game/src/content/compiler/collections.js";
 import type { CollectionResponse, CollectionSummary } from "../devdocs/shared/contracts.js";
 import { createCollectionsHandler } from "../devdocs/server/handlers/collections.js";
 import { devdocsPlugin } from "../devdocs/server/plugin.js";

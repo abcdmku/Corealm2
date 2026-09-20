@@ -1,5 +1,5 @@
 import type { SpellElement } from "../contracts.js";
-import elementalSpellData from "../../content/data/elementalSpells.json";
+import { RESOLVED_TABLES } from "./resolvedCatalog.js";
 import { parseCollection } from "./schema/core.js";
 import { ElementalSpellSchema } from "./schema/spells.js";
 
@@ -40,7 +40,7 @@ export interface ElementalSpellDef {
 }
 
 export const ELEMENTAL_SPELLS: readonly ElementalSpellDef[] = parseCollection(
-  ElementalSpellSchema, elementalSpellData, { name: "elementalSpells" },
+  ElementalSpellSchema, RESOLVED_TABLES["elementalSpells"], { name: "elementalSpells" },
 );
 
 export function elementalSpell(id: string): ElementalSpellDef {

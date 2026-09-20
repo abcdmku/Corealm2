@@ -3,7 +3,7 @@ import { Suspense, useMemo, useState } from "react";
 import { lazyComponent } from "../workspaces/lazyView.js";
 import { useQuery } from "@tanstack/react-query";
 import * as Tabs from "@radix-ui/react-tabs";
-import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
 import { ObjectSchema, type Schema } from "../../../game/src/content/schema/core.js";
 import { apiGet } from "../api/client.js";
 import type { ContentRow, EntityDetailProps } from "../model/contracts.js";

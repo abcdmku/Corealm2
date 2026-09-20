@@ -2,9 +2,10 @@ import { DatabaseSync, type StatementSync } from "node:sqlite";
 import type { PlayerCharacter, PlayerClaim, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
 import type { PlayerSessionState } from "../state/store.js";
 import { ADMIN_SCHEMA, SqliteAdminStorage, type ServerAdminStorage } from "./adminStorage.js";
+import { CATALOG_SCHEMA, SqliteCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
 import { worldKey } from "./protocol.js";
 
-export const STORAGE_SCHEMA_VERSION = 2;
+export const STORAGE_SCHEMA_VERSION = 3;
 /** A live lease outlives this much silence from its world, then any world may take the account. */
 export const PLAYER_LEASE_MS = 30_000;
 /** Renewal and playtime accounting piggyback on a tick commit this often, never as a write of their own. */
@@ -49,6 +50,8 @@ export class SqliteWorldStorage implements WorldStorage {
   readonly entityPatches = true;
   /** Roles, the setup code, bans, admin sessions, API tokens and the audit log, on this connection. */
   readonly admin: ServerAdminStorage;
+  /** Published catalogs, the active revision and its history, on this connection. */
+  readonly catalog: CatalogStorage;
   private readonly db: DatabaseSync;
   private readonly now: () => number;
   private closed = false;
@@ -66,7 +69,9 @@ export class SqliteWorldStorage implements WorldStorage {
       this.db.exec("PRAGMA locking_mode=EXCLUSIVE; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;");
       this.migrate(options.log ?? (line => console.log(line)));
     } catch (error) { this.db.close(); throw error; }
-    this.admin = new SqliteAdminStorage(this.db);
+    const admin = new SqliteAdminStorage(this.db);
+    this.admin = admin;
+    this.catalog = new SqliteCatalogStorage(this.db, admin.auditWriter);
   }
   /** Raw inspection for tests and migration tooling. Server code reads player data through
    * `WorldStorage` and administration through `admin`; nothing else may hold this handle. */
@@ -85,8 +90,9 @@ export class SqliteWorldStorage implements WorldStorage {
       const version = table("meta") ? Number(this.db.prepare("SELECT value FROM meta WHERE key='schema_version'").get()?.value ?? 0) : 0;
       if (version > STORAGE_SCHEMA_VERSION) throw new Error(`Database schema ${version} is newer than this server understands`);
       const legacy = version === 0 && table("worlds");
-      this.db.exec(SCHEMA); this.db.exec(ADMIN_SCHEMA);
-      if (legacy) log(JSON.stringify({ event: "storage-migrated", from: 1, to: STORAGE_SCHEMA_VERSION, ...this.extractPlayers() }));
+      this.db.exec(SCHEMA); this.db.exec(ADMIN_SCHEMA); this.db.exec(CATALOG_SCHEMA);
+      if (legacy) log(JSON.stringify({ event: "storage-migrated", from: 1, to: 2, ...this.extractPlayers() }));
+      if (legacy || version === 2) log(JSON.stringify({ event: "storage-migrated", from: 2, to: 3, worlds: this.replaceContentVersion() }));
       this.db.prepare("INSERT INTO meta (key,value) VALUES ('schema_version',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(STORAGE_SCHEMA_VERSION));
       this.db.exec("COMMIT");
     } catch (error) { this.db.exec("ROLLBACK"); throw error; }
@@ -137,6 +143,21 @@ export class SqliteWorldStorage implements WorldStorage {
     if (chunked) this.db.exec("DROP TABLE world_chunks");
     return { worlds: worlds.length, players: best.size,
       conflicts: [...conflicts].map(([playerId, found]) => ({ playerId, kept: best.get(playerId)!.key, discarded: found.filter(key => key !== best.get(playerId)!.key) })) };
+  }
+
+  /**
+   * Format 2 stamped each world with a hand-edited `contentVersion`, `corealm-pve-1` or `corealm-pve-1:lab`.
+   * Format 3 keeps which scene the save is for as `fixture`, and records the catalog revision it was
+   * written under, which no older save knows.
+   */
+  private replaceContentVersion(): number {
+    const worlds = this.db.prepare("SELECT world_key, payload FROM worlds").all();
+    const put = this.db.prepare("UPDATE worlds SET payload=? WHERE world_key=?");
+    for (const row of worlds) {
+      const { contentVersion, ...value } = JSON.parse(String(row.payload)) as WorldStorageRecord & { contentVersion?: string };
+      put.run(JSON.stringify({ ...value, fixture: contentVersion?.endsWith(":lab") ? "lab" : "authored", catalogRevision: null }), String(row.world_key));
+    }
+    return worlds.length;
   }
 
   private world(key: string): WorldStorageRecord | null {

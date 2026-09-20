@@ -1,6 +1,6 @@
 import { chromium, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
-import { WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
@@ -24,7 +24,7 @@ await mkdir(out, { recursive: true });
 const started = Date.now(), clearDeadline = installTestDeadline("creature death stability", authored ? 120_000 : 60_000);
 const descriptor: WorldDescriptor = {
   providerId: "reference", worldId: "death-stability", name: "Creature death yard", endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: authored ? WORLD_CONTENT_VERSION : WORLD_LAB_CONTENT_VERSION,
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: authored ? "authored" : "lab",
   seed: 1337, capacity: 1000, population: 0, availability: "available",
 };
 const host = await startReferenceServer({ worlds: [descriptor], storage: new SqliteWorldStorage(":memory:"),

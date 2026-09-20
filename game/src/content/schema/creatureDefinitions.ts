@@ -1,4 +1,4 @@
-import { arr, enumOf, id, int, lit, num, obj, opt, ref, str, union, type Infer } from './core.js';
+import { arr, bool, enumOf, id, int, lit, num, obj, opt, ref, str, union, type Infer } from './core.js';
 import { SpeciesFields, RpgFields } from './creatures.js';
 import { EnemyOverridesSchema } from './enemies.js';
 import { LootPlanSchema } from './loot.js';
@@ -25,5 +25,6 @@ export const CreatureDefinitionSchema = obj({
   level: opt(int({ min: 1 }), { label: 'Level' }), profileId: opt(ref('creatureProfile', { role: 'Uses role' }), { label: 'Role curve', role: 'Uses role' }),
   presentation: opt(CreaturePresentationSchema, { label: 'Presentation' }),
   adjustments: opt(EnemyOverridesSchema, { label: 'Adjustments' }), loot: opt(CreatureLootSchema, { label: 'Loot' }),
+  retired: opt(bool({ label: 'Retired', help: 'Living members finish their life and the definition still resolves, but no placement spawns it. Retire a creature instead of deleting one that is alive in a world.' })),
 });
 export type CreatureDefinition = Infer<typeof CreatureDefinitionSchema>;

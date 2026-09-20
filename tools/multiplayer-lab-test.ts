@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
-import { WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
@@ -10,7 +10,7 @@ import { installTestDeadline } from "./lib/deadline.js";
 const clearDeadline = installTestDeadline("multiplayer lab", 60_000);
 const started = Date.now(); const out = "test-results/multiplayer-lab"; await mkdir(out, { recursive: true });
 const world: WorldDescriptor = { providerId: "reference", worldId: "yard", name: "Multiplayer lab", endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_LAB_CONTENT_VERSION, seed: 1337, capacity: 1000, population: 0, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture:"lab", seed: 1337, capacity: 1000, population: 0, availability: "available" };
 const secondWorld = { ...world, worldId: "second-yard", name: "Independent world" };
 const fullWorld={...world,worldId:"one-slot",name:"One slot",capacity:1};
 const mismatch={...world,worldId:"incompatible",name:"Incompatible",protocolVersion:999};
@@ -22,6 +22,7 @@ let server=await startHost();
 const game = await startGameServer();
 const browser = await chromium.launch({ headless: true, args: ["--use-angle=d3d11", "--disable-background-timer-throttling", "--disable-renderer-backgrounding"] });
 const errors: string[] = []; const checks: Record<string, boolean> = {};
+const catalogReplies: number[] = [];
 try {
   const pages = await Promise.all(["alice", "bob"].map(async (name) => {
     const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
@@ -29,6 +30,7 @@ try {
       window.__COREALM_MULTIPLAYER__ = descriptor;
       localStorage.setItem("corealm.settings.v1", JSON.stringify({ renderScale: 0.7, shadowQuality: "low", drawDistance: "near", music: 0, ambient: 0, sfx: 0 }));
     }, { descriptor: [world, secondWorld, fullWorld, mismatch, unavailable].map((entry) => ({ ...entry, endpoint: `ws://127.0.0.1:${server.port}/` })), name });
+    context.on("response", response => { if (new URL(response.url()).pathname.startsWith("/catalog/")) catalogReplies.push(response.status()); });
     const page = await context.newPage(); page.on("pageerror", (error) => errors.push(error.message)); page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
     await page.goto(`${game.url}/index.html?mode=combat&multiplayer=1`);
     await page.waitForFunction(() => !!window.__multiplayerLab, null, { timeout: 25_000 });
@@ -69,7 +71,8 @@ try {
   await a.waitForFunction(() => document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") === "connected", null, { timeout: 5000 });
   await b.waitForFunction(() => (window.__multiplayerLab!.observe() as {players:unknown[]}).players.length === 0, null, {timeout:5000});
   checks.separateWorldIsolation = (await a.evaluate(() => (window.__multiplayerLab!.observe() as {players:unknown[]}).players.length)) === 0;
-  checks.independentProgression = (await a.evaluate(() => (window.__multiplayerLab!.observe() as {inventory:{slots:({itemId:string}|null)[]}}).inventory.slots.some(slot=>slot?.itemId==="grithe_ore"))) === false;
+  // One character per host: the ore mined in the first world is in the inventory in the second.
+  checks.sharedCharacterAcrossWorlds = (await a.evaluate(() => (window.__multiplayerLab!.observe() as {inventory:{slots:({itemId:string}|null)[]}}).inventory.slots.some(slot=>slot?.itemId==="grithe_ore"))) === true;
   await a.locator(".worlds__row--local input").check(); await a.getByRole("button", { name: "Leave world", exact: true }).click();
   await b.waitForFunction(() => (window.__multiplayerLab!.observe() as { players: unknown[] }).players.length === 0, null, { timeout: 5000 });
   checks.disconnectCleanup = true;
@@ -137,14 +140,14 @@ try {
   await a.locator(`.loot-reveal[data-source-id="${combatPile!.id}"]`).waitFor({state:"visible",timeout:5000});
   await a.screenshot({path:`${out}/combat-loot.png`,timeout:5000});
   checks.combatLootPublic=await b.evaluate(id=>(window.__multiplayerLab!.observe() as {entities:{id:string}[]}).entities.some(entity=>entity.id===id),combatPile!.id);
-  checks.forgedWriteRejected=await a.evaluate(({port,protocolVersion,contentVersion})=>new Promise<boolean>(resolve=>{
+  checks.forgedWriteRejected=await a.evaluate(({port,protocolVersion})=>new Promise<boolean>(resolve=>{
     const socket=new WebSocket(`ws://127.0.0.1:${port}/`);const timer=setTimeout(()=>{socket.close();resolve(false);},4000);
-    socket.onopen=()=>socket.send(JSON.stringify({type:"join",providerId:"reference",worldId:"yard",token:"guest:forger",protocolVersion,contentVersion}));
+    socket.onopen=()=>socket.send(JSON.stringify({type:"join",providerId:"reference",worldId:"yard",token:"guest:forger",protocolVersion}));
     socket.onmessage=event=>{const message=JSON.parse(event.data);
       if(message.type==="joined")socket.send(JSON.stringify({type:"command",envelope:{sessionId:message.sessionId,sequence:1,operation:1,command:{method:"grantCurrency",args:[999999]}}}));
       if(message.type==="error"){clearTimeout(timer);socket.close();resolve(message.error.code==="INVALID_MESSAGE");}
     };
-  }),{port:server.port,protocolVersion:WORLD_PROTOCOL_VERSION,contentVersion:WORLD_LAB_CONTENT_VERSION});
+  }),{port:server.port,protocolVersion:WORLD_PROTOCOL_VERSION});
   const crowdOrigin=alice.store.get().player.position;
   for(let i=0;i<320;i++)hosted.runtime.join(`visibility-${i}`).store.get().player.position=[crowdOrigin[0]+(i-160)*.09,0,crowdOrigin[2]+4];
   hosted.runtime.join("visibility-far").store.get().player.position=[crowdOrigin[0],0,crowdOrigin[2]+40];
@@ -159,6 +162,8 @@ try {
   await a.locator(".worlds__row--local input").check(); await a.getByRole("button", { name: "Leave world", exact: true }).click();
   await a.waitForFunction(()=>(window.__multiplayerLab!.observe() as {visiblePlayerIds:string[]}).visiblePlayerIds.length===0,null,{timeout:5000});
   checks.visiblePlayersClearOnLeave=true;
+  // Every join names the server's catalog revision, and the page loads that client catalog from the host.
+  checks.clientCatalogFetched = catalogReplies.length > 0 && catalogReplies.every(status => status === 200);
   checks.noRuntimeErrors = errors.length === 0; checks.under60Seconds = Date.now() - started < 60_000;
   const report = { passed: Object.values(checks).every(Boolean), checks, before, after, interaction, errors, durationMs: Date.now() - started };
   await writeFile(`${out}/report.json`, JSON.stringify(report, null, 2)); console.log(JSON.stringify({ passed: report.passed, checks, errors }));

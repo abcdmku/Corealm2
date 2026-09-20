@@ -1,20 +1,20 @@
-import { parseCollection, parseValue, type Schema } from "../../game/src/content/schema/core.js";
-import { npcRecordSchema, shopSchema } from "../../game/src/content/schema/people.js";
-import { questSchema, dialogueRecordSchema } from "../../game/src/content/schema/story.js";
-import { SpellRecordSchema, SpellRuneSchema, ElementalSpellSchema } from "../../game/src/content/schema/spells.js";
-import { audioCatalogSchema } from "../../game/src/content/schema/audio.js";
-import { BALANCE_SCHEMAS } from '../../game/src/content/schema/balance.js';
-import { WorldRegionSchema } from '../../game/src/content/schema/worldRegions.js';
-import { ItemRecordSchema } from "../../game/src/content/schema/itemRecords.js";
-import { RecipeRecordSchema } from "../../game/src/content/schema/recipes.js";
-import { ResourceRecordSchema } from "../../game/src/content/schema/resources.js";
-import { ProgressionTierSchema, MaterialSchema, EquipmentFamilySchema, RecipeTemplateSchema } from "../../game/src/content/schema/progression.js";
-import { EquipmentSetRecordSchema } from "../../game/src/content/schema/equipmentSets.js";
+import { parseCollection, parseValue, type Schema } from "../schema/core.js";
+import { npcRecordSchema, shopSchema } from "../schema/people.js";
+import { questSchema, dialogueRecordSchema } from "../schema/story.js";
+import { SpellRecordSchema, SpellRuneSchema, ElementalSpellSchema } from "../schema/spells.js";
+import { audioCatalogSchema } from "../schema/audio.js";
+import { BALANCE_SCHEMAS } from '../schema/balance.js';
+import { WorldRegionSchema } from '../schema/worldRegions.js';
+import { ItemRecordSchema } from "../schema/itemRecords.js";
+import { RecipeRecordSchema } from "../schema/recipes.js";
+import { ResourceRecordSchema } from "../schema/resources.js";
+import { ProgressionTierSchema, MaterialSchema, EquipmentFamilySchema, RecipeTemplateSchema } from "../schema/progression.js";
+import { EquipmentSetRecordSchema } from "../schema/equipmentSets.js";
 
-import { CampfireFuelRecordSchema } from "../../game/src/content/schema/campfireFuels.js";
-import { CreatureDefinitionSchema, CreatureProfileSchema } from '../../game/src/content/schema/creatureDefinitions.js';
-import { EncounterDefinitionSchema, WorldPlacementSchema, ResourcePlacementSchema } from '../../game/src/content/schema/encounters.js';
-import { LootTableSchema } from '../../game/src/content/schema/loot.js';
+import { CampfireFuelRecordSchema } from "../schema/campfireFuels.js";
+import { CreatureDefinitionSchema, CreatureProfileSchema } from '../schema/creatureDefinitions.js';
+import { EncounterDefinitionSchema, WorldPlacementSchema, ResourcePlacementSchema } from '../schema/encounters.js';
+import { LootTableSchema } from '../schema/loot.js';
 
 /** The editor, formatter and checker share this registration. Paths are never supplied by HTTP clients. */
 export interface ContentCollection {

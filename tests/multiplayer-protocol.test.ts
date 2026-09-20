@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { Admission } from "../game/src/multiplayer/admission.js";
 import { command, compatible, descriptor, discoverWorlds, envelope, worldKey } from "../game/src/multiplayer/protocol.js";
 import { LocalSession } from "../game/src/multiplayer/localSession.js";
 
 const world: WorldDescriptor = {
   providerId: "reference", worldId: "yard", name: "Test yard", endpoint: "ws://127.0.0.1:4180/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION,
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored",
   seed: 1337, population: 0, capacity: 1000, availability: "available",
 };
 afterEach(() => vi.unstubAllGlobals());
@@ -40,11 +40,14 @@ describe("world discovery trust boundary", () => {
   it.each(["ws://example.test/", "wss://user:secret@example.test/", "wss://example.test/?token=secret", "wss://example.test/#secret"])("rejects insecure or credential-bearing endpoint %s", (endpoint) => {
     expect(() => descriptor({ ...world, endpoint })).toThrow();
   });
-  it("rejects extra credential fields, bad capacities, and incompatible content", () => {
+  it("rejects extra credential fields, bad capacities, unknown fixtures, malformed revisions and other protocols", () => {
     expect(() => descriptor({ ...world, token: "secret" })).toThrow();
     expect(() => descriptor({ ...world, capacity: 1001 })).toThrow();
     expect(() => descriptor({ ...world, population: -1 })).toThrow();
-    expect(() => compatible({ ...world, contentVersion: "other" })).toThrow();
+    expect(() => descriptor({ ...world, contentVersion: "corealm-pve-1" })).toThrow();
+    expect(() => descriptor({ ...world, fixture: "other" })).toThrow();
+    expect(() => descriptor({ ...world, catalogRevision: "latest" })).toThrow();
+    expect(descriptor({ ...world, catalogRevision: "ab".repeat(32) }).catalogRevision).toBe("ab".repeat(32));
     expect(() => compatible({ ...world, protocolVersion: WORLD_PROTOCOL_VERSION + 1 })).toThrow();
     expect(() => compatible({ ...world, protocolVersion: 1 })).toThrow();
   });

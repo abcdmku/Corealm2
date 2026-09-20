@@ -1,10 +1,11 @@
-﻿import { mkdir } from "node:fs/promises";
+﻿import { mkdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
-import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
-import { createAuthoredWorld } from "../game/src/multiplayer/authoredWorld.js";
-import { startReferenceServer, type AuthenticationAdapter } from "../game/src/multiplayer/referenceServer.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import type { AuthenticationAdapter } from "../game/src/multiplayer/referenceServer.js";
+import { installCatalog } from "../game/src/content/catalogInstall.js";
+import { activeServerCatalog, seedCatalog } from "../game/src/multiplayer/catalogHost.js";
+import { repoBaseCatalog } from "./lib/repoCatalog.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { guestAuthentication } from "../game/src/multiplayer/guestAuthentication.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
@@ -24,19 +25,33 @@ await mkdir(directory, { recursive: true });
 const worlds: WorldDescriptor[] = config.worlds.map(world => ({
   providerId: "reference", worldId: world.id, name: world.name,
   endpoint: config.publicEndpoint, protocolVersion: WORLD_PROTOCOL_VERSION,
-  contentVersion: config.authored ? WORLD_CONTENT_VERSION : WORLD_LAB_CONTENT_VERSION,
+  fixture: config.authored ? "authored" : "lab",
   seed: world.seed, capacity: world.capacity, population: 0, availability: "available",
   ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
 }));
 const storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"));
-const server = await startReferenceServer({ worlds, port: config.port, host: config.host, storage, admin: storage.admin,
+// Install before import. The simulation reads content tables as its modules load, so the database's
+// catalog goes in first and the server graph is imported only after it. Nothing above this line may
+// import a module that reads content; `installCatalog` throws if one did.
+const revision = await (async () => {
+  await seedCatalog(storage.catalog, await repoBaseCatalog(), event => console.log(JSON.stringify(event)), { follow: config.followRepoCatalog });
+  const catalog = await activeServerCatalog(storage.catalog);
+  installCatalog(catalog);
+  return catalog.revision;
+})().catch(async error => { await storage.close(); throw error; });
+const { startReferenceServer } = await import("../game/src/multiplayer/referenceServer.js");
+const { createAuthoredWorld } = await import("../game/src/multiplayer/authoredWorld.js");
+const { createMultiplayerLabWorld } = await import("../game/src/multiplayer/labWorld.js");
+const server = await startReferenceServer({ worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog,
   allowedOrigins: config.allowedOrigins.length ? config.allowedOrigins : undefined,
+  // A publish checks asset ids against the host the clients load from, or against this checkout's manifest.
+  assets: { ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}), bundledManifest: async () => JSON.parse(await readFile("game/public/assets/manifest.json", "utf8")) },
   ...(config.ownerAccount ? { ownerAccount: config.ownerAccount } : {}),
   build: world => config.authored ? createAuthoredWorld(world.seed) : createMultiplayerLabWorld(world.seed), authentication,
 }).catch(async error => { await storage.close(); throw error; });
 console.log(JSON.stringify({ ready: true, host: config.host, port: server.port,
   fixture: config.authored ? "authored-world" : "production-lab", authentication: config.authentication,
-  configFile: config.configFile, assetBaseUrl: config.assetBaseUrl ?? null, identityUrl: config.identityUrl ?? null,
+  catalogRevision: revision, configFile: config.configFile, assetBaseUrl: config.assetBaseUrl ?? null, identityUrl: config.identityUrl ?? null,
   worlds: config.worlds }));
 let closing = false;
 const shutdown = () => {

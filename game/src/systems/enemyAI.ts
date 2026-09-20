@@ -315,6 +315,12 @@ export interface EnemyAiDeps {
   groundHeightAt?: (x: number, z: number) => number;
   /** Explicit encounter habitats use the same movement rules as the authored world. */
   habitatForEntity?: (entity: SemanticEntity) => HabitatDef | null;
+  /**
+   * Runs as a dead creature's timer comes due, before anything is restored. A server uses it to hand
+   * the creature the spawn a content publish gave its group. False means the group is gone: the
+   * caller has removed the creature and it does not come back.
+   */
+  beforeRespawn?: (entity: SemanticEntity, runtime: NonNullable<GameState["world"]["enemies"][string]>) => boolean;
 }
 
 type AiMode = "idle" | "aggro" | "returning";
@@ -356,6 +362,9 @@ export class EnemyAiSystem implements TickSystem {
     // and what stops a `passive` frog standing still while it is beaten to death.
     deps.combat.onEnemyProvoked((enemyId, atMs) => this.provoke(enemyId, atMs));
   }
+
+  /** Creatures were added to or removed from the world: look again on the next tick instead of within two seconds. Fights keep their records. */
+  rescan(): void { this.nextScanAtMs = -1; }
 
   /** Entity IDs may name a different seeded encounter after a world replacement. */
   resetForNewWorld(): void {
@@ -704,6 +713,11 @@ export class EnemyAiSystem implements TickSystem {
       const entity = this.deps.entities.get(entityId);
       if (!entity) {
         runtime.respawnAtMs = atMs + 30_000;
+        continue;
+      }
+      if (this.deps.beforeRespawn?.(entity, runtime) === false) {
+        // Gone from the world. Drop it from this scan too, or the loop below would give it a runtime again.
+        this.enemies = this.enemies.filter(enemy => enemy !== entity); this.records.delete(entityId);
         continue;
       }
       const def = this.deps.combat.defFor(entity);

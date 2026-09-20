@@ -1,6 +1,7 @@
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type CommandOutcome, type GameCommand, type SessionCredentials, type SessionPhase, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldUpdate } from "../contracts.js";
-import { command, compatible, descriptor, discoverWorlds, MAX_PENDING_COMMANDS, record, SessionFailure, worldKey } from "./protocol.js";
+import { WORLD_PROTOCOL_VERSION, type CommandOutcome, type GameCommand, type SessionCatalog, type SessionCredentials, type SessionPhase, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldUpdate } from "../contracts.js";
+import { command, compatible, contentUpdated, descriptor, discoverWorlds, MAX_PENDING_COMMANDS, record, SessionFailure, worldKey } from "./protocol.js";
 import { ReplicatedState, MAX_OUTBOUND_BYTES } from "./replication.js";
+import { catalogUrl } from "./clientCatalogFetch.js";
 
 export class WebSocketSession implements WorldSession {
   private sequence = 0;
@@ -8,11 +9,15 @@ export class WebSocketSession implements WorldSession {
   private lastUpdate: WorldUpdate;
   private readonly listeners = new Set<(update: WorldUpdate) => void>();
   private readonly statusListeners = new Set<(phase: SessionPhase) => void>();
+  private readonly contentListeners = new Set<(revision: string) => void>();
   private readonly pending = new Map<number, { operation: number; resolve(outcome: CommandOutcome): void; timer: ReturnType<typeof setTimeout> }>();
   readonly state: ReplicatedState;
-  constructor(readonly id: string, readonly playerId: string, readonly world: WorldDescriptor, private readonly socket: WebSocket, initial: WorldUpdate,
+  readonly catalog: SessionCatalog;
+  /** `world` is the descriptor the server sent at join, so its `catalogRevision` is the one this session plays on. */
+  constructor(readonly id: string, readonly playerId: string, readonly world: WorldDescriptor & { catalogRevision: string }, private readonly socket: WebSocket, initial: WorldUpdate,
     private nextOperation: number, private readonly retries: Map<number, GameCommand>) {
     this.state = new ReplicatedState(id,playerId); this.state.apply(initial); this.lastUpdate = initial;
+    this.catalog = { revision: world.catalogRevision, url: catalogUrl(world.endpoint, world.catalogRevision) };
     socket.addEventListener("message", (event) => {
       try {
         if (typeof event.data !== "string" || event.data.length > MAX_OUTBOUND_BYTES) throw new Error("Invalid server response");
@@ -23,6 +28,9 @@ export class WebSocketSession implements WorldSession {
         } else if (message.type === "update") {
           const update = message.update as WorldUpdate;
           if (this.state.apply(update)) { this.lastUpdate = update; for (const listener of this.listeners) listener(update); }
+        } else if (message.type === "content-updated") {
+          const revision = contentUpdated(message);
+          for (const listener of this.contentListeners) listener(revision);
         } else if (message.type === "error") { this.failPending(); socket.close(4000, "World error"); }
       } catch {
         this.failPending(); socket.close(4000, "Invalid replication");
@@ -69,6 +77,9 @@ export class WebSocketSession implements WorldSession {
   subscribeStatus(listener: (phase: SessionPhase) => void): () => void {
     this.statusListeners.add(listener); return () => this.statusListeners.delete(listener);
   }
+  subscribeContent(listener: (revision: string) => void): () => void {
+    this.contentListeners.add(listener); return () => this.contentListeners.delete(listener);
+  }
   private failPending(): void {
     for (const [sequence, pending] of this.pending) { clearTimeout(pending.timer); pending.resolve({ status: "unknown", sequence,
       error: { code: "UNKNOWN_OUTCOME", message: "Connection lost before authoritative acknowledgement" } }); }
@@ -98,7 +109,7 @@ export class WebSocketProvider implements WorldProvider {
     if (signal?.aborted) throw new SessionFailure("SESSION_EXPIRED", "Join cancelled");
     const socket = new WebSocket(world.endpoint);
     return new Promise((resolve, reject) => {
-      let identity: { sessionId: string; playerId: string; nextOperation: number } | null = null;
+      let identity: { sessionId: string; playerId: string; nextOperation: number; world: WorldDescriptor & { catalogRevision: string } } | null = null;
       const timeout = setTimeout(() => fail(new SessionFailure("UNAVAILABLE", "World connection timed out")), 5000);
       const cleanup = () => { clearTimeout(timeout); signal?.removeEventListener("abort", abort); socket.removeEventListener("message", message); socket.removeEventListener("close", disconnect); socket.removeEventListener("error", disconnect); };
       const fail = (error: Error) => { cleanup(); socket.close(); reject(error); };
@@ -112,14 +123,16 @@ export class WebSocketProvider implements WorldProvider {
           if (data.type === "error" && record(data.error)) { fail(new SessionFailure(data.error.code as SessionFailure["code"], String(data.error.message))); return; }
           if (data.type === "joined" && typeof data.sessionId === "string" && typeof data.playerId === "string" && Number.isSafeInteger(data.nextOperation)) {
  const joined=descriptor(data.world);compatible(joined);
- if(worldKey(joined)!==worldKey(world)||joined.seed!==world.seed||joined.contentVersion!==world.contentVersion)throw new SessionFailure('INCOMPATIBLE','Joined world differs from selected world');
- identity = { sessionId: data.sessionId, playerId: data.playerId, nextOperation: Number(data.nextOperation) };
+ if(worldKey(joined)!==worldKey(world)||joined.seed!==world.seed||joined.fixture!==world.fixture)throw new SessionFailure('INCOMPATIBLE','Joined world differs from selected world');
+ // The revision seen at discovery may be a publish behind. Only the join reply names what this session plays on.
+ const catalogRevision=joined.catalogRevision;if(catalogRevision===undefined)throw new SessionFailure('INVALID_MESSAGE','The server did not name its content catalog');
+ identity = { sessionId: data.sessionId, playerId: data.playerId, nextOperation: Number(data.nextOperation), world: { ...world, catalogRevision } };
 }
           if (data.type === "update" && identity && record(data.update) && data.update.snapshot === true && data.update.sessionId === identity.sessionId && data.update.privateState) {
             cleanup();
             const key = JSON.stringify([worldKey(world), identity.playerId]);
             let retries = this.retries.get(key); if (!retries) { retries = new Map(); this.retries.set(key, retries); }
-            const session = new WebSocketSession(identity.sessionId, identity.playerId, world, socket, data.update as unknown as WorldUpdate, identity.nextOperation, retries);
+            const session = new WebSocketSession(identity.sessionId, identity.playerId, identity.world, socket, data.update as unknown as WorldUpdate, identity.nextOperation, retries);
             void session.resume().then(() => resolve(session), (error) => { void session.close(); reject(error); });
           }
         } catch (error) { fail(error instanceof SessionFailure ? error : new SessionFailure("INVALID_MESSAGE", "Invalid initial snapshot")); }
@@ -127,7 +140,7 @@ export class WebSocketProvider implements WorldProvider {
       signal?.addEventListener("abort", abort, { once: true });
       socket.addEventListener("message", message); socket.addEventListener("close", disconnect); socket.addEventListener("error", disconnect);
       socket.addEventListener("open", () => socket.send(JSON.stringify({ type: "join", providerId: world.providerId, worldId: world.worldId,
-        token: credentials.token, protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: world.contentVersion })), { once: true });
+        token: credentials.token, protocolVersion: WORLD_PROTOCOL_VERSION })), { once: true });
     });
   }
 }

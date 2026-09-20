@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { chromium, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
-import { WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
@@ -19,7 +19,7 @@ const targeting=process.argv.includes("--targeting");
 const latencyOnly=process.argv.includes("--latency");
 const started=Date.now(), out=`test-results/multiplayer-${targeting?"targeting":activities?"activities":invocations?"invocations":interactions?"interactions":lifecycle?"action-lifecycle":"actions"}`; await mkdir(out,{recursive:true});
 const world:WorldDescriptor={providerId:"reference",worldId:"actions",name:"Actions",endpoint:"ws://127.0.0.1:0/",
-  protocolVersion:WORLD_PROTOCOL_VERSION,contentVersion:WORLD_LAB_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"};
+  protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"lab",seed:1337,capacity:1000,population:0,availability:"available"};
 const server=await startReferenceServer({worlds:[world],storage:new SqliteWorldStorage(":memory:"),build:()=>createMultiplayerLabWorld(),
   authentication:{authenticate:async token=>({playerId:token.slice(6),name:token.slice(6)})}});
 const game=await startGameServer();

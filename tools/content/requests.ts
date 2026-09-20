@@ -7,7 +7,7 @@ import {
   type MetaFile, type MetaNote, type MetaRequest, type RequestKind, type RequestState,
   type MetaSnapshot,
 } from "./meta.js";
-import { CONTENT_COLLECTIONS, parseContentCollection } from "./collections.js";
+import { CONTENT_COLLECTIONS, parseContentCollection } from "../../game/src/content/compiler/collections.js";
 import { readContentJson } from "./format.js";
 
 export interface RequestEntry {

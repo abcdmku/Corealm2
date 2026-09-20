@@ -231,3 +231,11 @@ Do them in order. Each ends with a commit after its checks pass.
 - Add no native dependencies to the server. They break the single executable build.
 - Parse and validate all external input at the boundary: join messages, admin API bodies, config files and tokens.
 - Update `docs/multiplayer-hosting.md`, `docs/architecture.md` and `docs/content-authoring.md` as the behavior they describe changes.
+
+## Build notes
+
+- M4 keeps the static client import of the catalog. Until M7 makes the client thin, the client still builds the full simulation world at boot and needs the full tables, so the catalog it fetches from a server is laid over the bundled one while connected and removed on leaving. M7 deletes the static import together with the client simulation.
+- M4 compiles a publish on the tick thread. `compileCatalog` takes 85 to 120 ms on the shipped content, and it runs outside the tick hold, so it costs at most one late tick. No worker thread is used, and the M6 bundle needs no second entry for one. Revisit this if content grows several times over.
+- M4 keeps the inputs of spawn placement for the life of a world as `SpawnContext` in `game/src/multiplayer/spawnPlan.ts`: the floor height under a spot per region including dungeon chambers, each asset's base offset and box size, the body placement rules over the final solids, navmesh, door thresholds and terrain placement sampler, and the scattered tree trunks. Today these close over the GLB-built scene. M6's world pack must answer the same questions from baked data: a height and placement-surface sampler (height, slope, semantic region, water) per terrain, the solids, the navmesh, the dungeon spec and door thresholds, asset measurements, and the tree list.
+- A publish does not re-run `registerHabitatClearances`. That step only feeds the tree scatter at world build, so trees stay where the boot catalog put them until the next start.
+- The server checks asset ids against `assets/manifest.json`. M6 must embed the shipped manifest as a SEA asset and pass it as `assets.bundledManifest`.

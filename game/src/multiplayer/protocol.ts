@@ -1,8 +1,9 @@
 import {
-  EQUIP_SLOTS, GAME_COMMAND_METHODS, MAX_WORLD_PLAYERS, WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION,
+  EQUIP_SLOTS, GAME_COMMAND_METHODS, MAX_WORLD_PLAYERS, WORLD_PROTOCOL_VERSION,
   type CommandEnvelope, type GameCommand, type SessionErrorCode, type WorldConfiguration,
   type WorldDescriptor, type WorldKey,
 } from "../contracts.js";
+import { CATALOG_REVISION } from "../content/clientCatalog.js";
 
 export const MAX_MESSAGE_BYTES = 16_384;
 export const MAX_DIRECTORY_WORLDS = 256;
@@ -41,9 +42,10 @@ export function assetBase(value: unknown): string {
   return url.endsWith("/") ? url : `${url}/`;
 }
 export function descriptor(value: unknown): WorldDescriptor {
-  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "contentVersion", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication"])
+  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
-    || !integer(value.protocolVersion) || !id(value.contentVersion) || !integer(value.seed)
+    || !integer(value.protocolVersion) || (value.fixture !== "authored" && value.fixture !== "lab") || !integer(value.seed)
+    || (value.catalogRevision !== undefined && (typeof value.catalogRevision !== "string" || !CATALOG_REVISION.test(value.catalogRevision)))
     || !integer(value.capacity) || value.capacity < 1 || value.capacity > MAX_WORLD_PLAYERS
     || !integer(value.population) || value.population < 0 || value.population > value.capacity
     || !["available", "full", "unavailable"].includes(String(value.availability))
@@ -53,8 +55,15 @@ export function descriptor(value: unknown): WorldDescriptor {
   return { ...value, endpoint: endpoint(value.endpoint),
     ...(value.assetBaseUrl === undefined ? {} : { assetBaseUrl: assetBase(value.assetBaseUrl) }) } as unknown as WorldDescriptor;
 }
+/** `{type:"content-updated", revision}`: what a server sends every connected peer after a publish or a rollback. */
+export function contentUpdated(value: unknown): string {
+  if (!record(value) || !only(value, ["type", "revision"]) || typeof value.revision !== "string" || !CATALOG_REVISION.test(value.revision)) {
+    throw new SessionFailure("INVALID_MESSAGE", "Invalid content update");
+  }
+  return value.revision;
+}
 export function compatible(world: WorldDescriptor): void {
-  if (world.protocolVersion !== WORLD_PROTOCOL_VERSION || ![WORLD_CONTENT_VERSION,WORLD_LAB_CONTENT_VERSION].includes(world.contentVersion)) {
+  if (world.protocolVersion !== WORLD_PROTOCOL_VERSION) {
     throw new SessionFailure("INCOMPATIBLE", "This world requires a different game or protocol version");
   }
 }

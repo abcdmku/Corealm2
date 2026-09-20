@@ -120,7 +120,7 @@ export async function startLocalMultiplayer(mode: Mode, args: readonly string[] 
     console.log(`Starting ${options.lab ? "lab" : "authored"} world. Saved characters: ${options.data}`);
     const env = { ...process.env }; delete env.COREALM_AUTH_MODULE; delete env.COREALM_IDENTITY_URL; delete env.COREALM_CONFIG;
     child = spawn(process.execPath, ["--import", "tsx", "tools/multiplayer-server.ts",
-      ...(options.lab ? [] : ["--authored"]), "--development-guests", "--host", "127.0.0.1",
+      ...(options.lab ? [] : ["--authored"]), "--development-guests", "--follow-repo-catalog", "--host", "127.0.0.1",
       "--port", String(options.worldPort), "--public-endpoint", `ws://127.0.0.1:${options.worldPort}/`,
       "--worlds", options.worldId, "--capacity", String(options.capacity), "--data", options.data, "--origins", origin],
     { cwd: repoRoot, stdio: ["ignore", "pipe", "inherit", "ipc"], windowsHide: true, env });

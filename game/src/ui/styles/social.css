@@ -185,3 +185,26 @@
 
 /* The invite roster can be long on a busy world. */
 .ctx-menu { max-height: calc(100vh - 16px); overflow-y: auto; }
+
+/* ---- "the server's content was updated": one line under the top edge, clear of the HUD corners */
+
+.content-notice {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: min(92vw, 560px);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid rgba(212, 175, 88, 0.42);
+  border-radius: var(--radius);
+  background: rgba(14, 12, 9, 0.86);
+  backdrop-filter: blur(3px);
+  color: var(--ink);
+  font-size: 13px;
+  z-index: var(--z-tooltip);
+}
+
+.content-notice[hidden] { display: none; }

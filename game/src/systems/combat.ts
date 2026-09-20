@@ -1546,6 +1546,14 @@ export class CombatSystem implements TickSystem {
     this.nextCombatTickAtMs = -1;
   }
 
+  /**
+   * Content was republished: the next read of any enemy resolves its row again. Fights, overrides and
+   * pending hits are untouched, which is what separates this from `resetForNewWorld`.
+   */
+  invalidateDefinitions(entityId?: EntityId): void {
+    if (entityId === undefined) this.defCache.clear(); else this.defCache.delete(entityId);
+  }
+
   // ------------------------------------------------------------ read-only
 
   /** Recent swings, newest last. `render/vfx.ts` polls this for damage numbers. */

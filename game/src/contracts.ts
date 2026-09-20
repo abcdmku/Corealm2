@@ -26,8 +26,8 @@ export interface CompiledLootRoll { id: string; name: string; count: number; dro
 
 // Multiplayer protocol v3. Root owns this boundary and all changes to its callers.
 export const WORLD_PROTOCOL_VERSION = 3;
-export const WORLD_CONTENT_VERSION = "corealm-pve-1";
-export const WORLD_LAB_CONTENT_VERSION = "corealm-pve-1:lab";
+/** Which scene a world simulates: the authored map, or the compact lab yard with its lab-only creatures. */
+export type WorldFixture = "authored" | "lab";
 export const MAX_WORLD_PLAYERS = 1000;
 
 export interface WorldKey { providerId: string; worldId: string }
@@ -35,7 +35,14 @@ export interface WorldDescriptor extends WorldKey {
   name: string;
   endpoint: string;
   protocolVersion: number;
-  contentVersion: string;
+  fixture: WorldFixture;
+  /**
+   * The content catalog the server runs on, as its revision hash. Every descriptor a server sends
+   * carries it: `/worlds` and the `joined` reply. A static page configuration cannot know it and
+   * leaves it out. It moves when the server publishes, so a client trusts only the `joined` value
+   * and fetches `GET /catalog/<revision>` from the same host when it has not cached that revision.
+   */
+  catalogRevision?: string;
   seed: number;
   population: number;
   capacity: number;
@@ -161,13 +168,19 @@ export interface WorldUpdate {
   /** Changed top-level private fields. Applied atomically to a valid snapshot by the provider. */
   privateDelta?: Partial<import("./state/store.js").PlayerSessionState>;
 }
+/** The catalog a server runs on, as told at join, and where that server serves its client catalog. */
+export interface SessionCatalog { revision: string; url: string }
 export interface WorldSession {
   readonly id: string;
   readonly world: WorldKey | null;
   readonly playerId: string;
+  /** Absent for local play, which runs on the build's own catalog. */
+  readonly catalog?: SessionCatalog;
   command(command: GameCommand): Promise<CommandOutcome>;
   subscribe(listener: (update: WorldUpdate) => void): () => void;
   subscribeStatus?(listener: (phase: SessionPhase) => void): () => void;
+  /** The server published content while this session was open. The session stays on the catalog it joined with. */
+  subscribeContent?(listener: (revision: string) => void): () => void;
   close(): Promise<void>;
 }
 export interface SessionCredentials {
@@ -184,7 +197,10 @@ export interface WorldStorageRecord {
   parties?: PartyRecord[];
   schemaVersion: 1;
   key: WorldKey;
-  contentVersion: string;
+  /** A save only loads into the fixture and seed it was written for. */
+  fixture: WorldFixture;
+  /** The catalog revision this save was written under, for diagnosis. A save loads under any revision. Null when unknown. */
+  catalogRevision: string | null;
   seed: number;
   tick: number;
   world: import("./state/store.js").SharedWorldState;
@@ -547,6 +563,8 @@ export interface ItemDef {
   orb?: EssenceOrbSpec;
   food?: { healAmount: number };
   tool?: { skill: SkillId; gatherBonus: number };
+  /** Still resolves for held stacks. The compiler takes it out of every loot roll and shop. */
+  retired?: boolean;
 }
 
 // ------------------------------------------------------- the semantic entity

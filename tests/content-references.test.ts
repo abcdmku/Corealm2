@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { arr, discriminated, lit, obj, opt, ref } from "../game/src/content/schema/core.js";
-import { checkReferences } from "../tools/content/references.js";
+import { checkReferences } from "../game/src/content/compiler/references.js";
 import { npcRecordSchema } from "../game/src/content/schema/people.js";
 import { audioCatalogSchema } from "../game/src/content/schema/audio.js";
 

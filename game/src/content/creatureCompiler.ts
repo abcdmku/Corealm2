@@ -17,6 +17,8 @@ export interface ResolvedCreature {
   presentation?: CreatureSpeciesDef | RpgBestiaryEntry;
   profileId: string; level: number; inheritedFields: readonly string[];
   adjustments: NonNullable<CreatureDefinition['adjustments']>;
+  /** Set on the definition or inherited from its base. No placement spawns it. */
+  retired?: true;
 }
 
 /** The one place an enemy gets its rolls: gold first, sized by the final range (curve, then adjustments). */
@@ -37,10 +39,10 @@ export function resolveCreatureAtLevel(creature: ResolvedCreature, profiles: rea
 }
 
 /** Pure compilation, shared by runtime and authoring transactions. Variants have exactly one base. */
-export function compileCreatures(definitions: readonly CreatureDefinition[], profiles: readonly CreatureProfile[], lootTables: readonly LootTableRecord[]) {
+export function compileCreatures(definitions: readonly CreatureDefinition[], profiles: readonly CreatureProfile[], lootTables: readonly LootTableRecord[], retiredItems: ReadonlySet<string> = new Set()) {
   const source = new Map(definitions.map(row => [row.id, row]));
   const profileMap = new Map(profiles.map(row => [row.id, row]));
-  const compileLoot = createLootCompiler(lootTables);
+  const compileLoot = createLootCompiler(lootTables, retiredItems);
   if (source.size !== definitions.length) throw new Error('Duplicate creature definition id');
   if (profileMap.size !== profiles.length) throw new Error('Duplicate creature profile id');
   const creatures: ResolvedCreature[] = definitions.map(definition => {
@@ -58,7 +60,7 @@ export function compileCreatures(definitions: readonly CreatureDefinition[], pro
     let presentation: CreatureSpeciesDef | RpgBestiaryEntry | undefined;
     if (art) { const { kind: _kind, ...fields } = art; presentation = { ...fields, stats: enemy }; }
     return { id: row.id, definition, enemy, availability: row.availability, assetId: art?.assetId, scale: art?.scale,
-      presentation, profileId: row.profileId, level: row.level, adjustments: row.adjustments,
+      presentation, profileId: row.profileId, level: row.level, adjustments: row.adjustments, ...(row.retired ? { retired: true as const } : {}),
       inheritedFields: base ? Object.keys(base).filter(key => !(key in definition)) : [] };
   });
   const enemies = creatures.filter(row => row.availability === 'world').map(row => row.enemy);

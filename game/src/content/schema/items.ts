@@ -73,4 +73,5 @@ export const ItemSchema = obj({
     skill,
     gatherBonus: num({ min: 0 }, { label: "Effective gathering levels" }),
   }), { label: "Gathering tool" }),
+  retired: opt(bool({ label: "Retired", help: "Still resolves for stacks players hold, but no longer drops or sells. Retire an item instead of deleting one a player may hold." })),
 }) satisfies Schema<ItemDef>;

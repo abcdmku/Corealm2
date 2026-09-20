@@ -6,7 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { WebSocket } from "ws";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createSigningKey, joinTokenClaims, signJoinToken, type IdentityKey, type SigningKey } from "../identity/src/joinToken.js";
 import { ADMIN_SESSION_MS, MemoryAdminStorage, hashSecret, type MemoryPlayerRow } from "../game/src/multiplayer/adminStorage.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
@@ -15,12 +15,14 @@ import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
+import { seedCatalog } from "../game/src/multiplayer/catalogHost.js";
+import { RESOLVED_CATALOG } from "../game/src/content/resolvedCatalog.js";
 
 const OWNER = "acc_OOOOOOOOOOOOOOOOOOOOOO", ADMIN = "acc_DDDDDDDDDDDDDDDDDDDDDD";
 const ALICE = "acc_AAAAAAAAAAAAAAAAAAAAAA", BOB = "acc_BBBBBBBBBBBBBBBBBBBBBB";
 const DEVDOCS = "https://devdocs.example.com";
 const world = (worldId: string, capacity = 4): WorldDescriptor => ({ providerId: "reference", worldId, name: worldId, endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity, availability: "available" });
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity, availability: "available" });
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
 
@@ -34,13 +36,14 @@ function identity(clock: { ms: number }) {
     signJoinToken(signing, joinTokenClaims({ accountId, name, endpoint, issuedAt: clock.ms / 1000 })) };
 }
 
-async function serve(options: { file?: string; ownerAccount?: string; clock?: { ms: number } } = {}) {
+async function serve(options: { file?: string; ownerAccount?: string; clock?: { ms: number }; sources?: Record<string, unknown> } = {}) {
   const clock = options.clock ?? { ms: Date.now() };
   const id = identity(clock);
   const logs: Record<string, unknown>[] = [];
   const storage = new SqliteWorldStorage(options.file ?? ":memory:", { log: () => {} });
+  if (options.sources) await seedCatalog(storage.catalog, { catalog: RESOLVED_CATALOG, sources: options.sources }, () => {}, { now: () => clock.ms });
   const server = await startReferenceServer({
-    worlds: [world("north"), world("south")], storage, admin: storage.admin, build: () => createMultiplayerLabWorld(),
+    worlds: [world("north"), world("south")], storage, admin: storage.admin, ...(options.sources ? { catalog: storage.catalog } : {}), build: () => createMultiplayerLabWorld(),
     allowedOrigins: [DEVDOCS], now: () => clock.ms, log: event => logs.push(event),
     ...(options.ownerAccount ? { ownerAccount: options.ownerAccount } : {}),
     authentication: await createIdentityAuthentication({ identityUrl: "https://identity.test/", fetch: id.fetch, now: () => clock.ms }),
@@ -79,7 +82,7 @@ async function connect(port: number, worldId: string, token: string) {
   ws.on("message", data => messages.push(JSON.parse(data.toString())));
   cleanups.push(async () => { ws.terminate(); });
   await new Promise<void>(resolve => ws.once("open", resolve));
-  ws.send(JSON.stringify({ type: "join", providerId: "reference", worldId, token, protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION }));
+  ws.send(JSON.stringify({ type: "join", providerId: "reference", worldId, token, protocolVersion: WORLD_PROTOCOL_VERSION }));
   await expect.poll(() => messages.some(message => message.type === "joined" || message.type === "error"), { timeout: 3000, interval: 5 }).toBe(true);
   const verdict = messages.find(message => message.type === "joined" || message.type === "error");
   return { ws, messages, verdict, error: verdict.type === "error" ? verdict.error : null };
@@ -368,6 +371,30 @@ describe("stats and players", () => {
     expect((await call(`/admin/players/${BOB}`, { token: owner })).body)
       .toEqual({ error: { code: "not_found", message: "No such player on this server" } });
   }, 20_000);
+});
+
+describe("content reads", () => {
+  it("gives content:read the active revision, its history and the source collections of any stored revision", async () => {
+    const clock = { ms: 1_800_000_000_000 };
+    const sources = { items: [{ id: "lantern", name: "Lantern" }], "balance/sets": { thresholds: [2, 4] } };
+    const { call, claimOwner } = await serve({ clock, sources });
+    const owner = await claimOwner();
+    const revision = RESOLVED_CATALOG.revision;
+    expect((await call("/admin/content/revision")).status).toBe(401);
+    const watcher = (await call("/admin/tokens", { method: "POST", token: owner, body: { label: "watcher", scopes: ["stats:read"] } })).body.token;
+    expect((await call("/admin/content/revision", { token: watcher })).body)
+      .toEqual({ error: { code: "forbidden", message: "This credential is missing the content:read scope" } });
+    const exporter = (await call("/admin/tokens", { method: "POST", token: owner, body: { label: "export", scopes: ["content:read"] } })).body.token;
+    const active = await call("/admin/content/revision", { token: exporter });
+    expect(active.headers.get("cache-control")).toBe("no-store");
+    expect(active.body).toEqual({ revision, history: [{ id: 1, revision, previous: null, by: "seed", at: clock.ms }] });
+    expect((await call("/admin/content/sources", { token: exporter })).body).toEqual({ revision, sources });
+    expect((await call(`/admin/content/sources?revision=${revision}`, { token: owner })).body).toEqual({ revision, sources });
+    expect((await call(`/admin/content/sources?revision=${"0".repeat(64)}`, { token: exporter })).status).toBe(404);
+    expect((await call("/admin/content/sources?revision=latest", { token: exporter })).body)
+      .toEqual({ error: { code: "invalid_request", message: "A revision is 64 lowercase hex characters" } });
+    expect((await call("/admin/content/revision?limit=0", { token: exporter })).status).toBe(400);
+  });
 });
 
 describe("the admin API boundary", () => {

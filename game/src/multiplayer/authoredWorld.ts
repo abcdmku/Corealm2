@@ -1,7 +1,8 @@
 import { buildFairyTerrainSpec } from "../app/worldSpec.js";
 import { resolveFairyDressing } from "../app/fairyDressing.js";
 import { worldExclusions } from "../world/scatter.js";
-import { prepareMobSpawns } from "../app/mobSpawns.js";
+import { mobSpawnPlacementPorts, prepareMobSpawns } from "../app/mobSpawns.js";
+import { planSpawns, type SpawnContext } from "./spawnPlan.js";
 import { buildRegionalPackDressing } from "../world/regionalPackDressing.js";
 import { coastalBodyOnSafeGround } from "../content/coastalEncounterFormation.js";
 import { lavaObstacles } from "../world/lavaObstacles.js";
@@ -92,7 +93,8 @@ built.solids.push(...dressing.solids);sitePlacements.push(...dressing.placements
   nav.setRouteGraph(built.routeNodes,built.routeEdges);
   const doors=new DungeonDoors(doorBarriers,id=>built.entities.find(entity=>entity.id===id));
   nav.setPathConstraint(path=>doors.clipPath(path));
-  habitats = prepareMobSpawns(built.entities, habitats, {solids:built.solids,scene,nav,dungeonSpec:spec,doorThresholds:thresholds,profile:GAME_BOOT_PROFILE,assetSize:measurements.assetSize,terrainAt});
+  const placement = {solids:built.solids,scene,nav,dungeonSpec:spec,doorThresholds:thresholds,profile:GAME_BOOT_PROFILE,assetSize:measurements.assetSize,terrainAt};
+  habitats = prepareMobSpawns(built.entities, habitats, placement);
   registerExclusions(scene,built.solids,sitePlacements,fairyScene);
   registerHabitatClearances(nav,built.entities,habitats.filter(h=>h.regionId!==spec?.regionId));
   const trees:ForestTreeDescriptor[]=[];
@@ -100,12 +102,25 @@ built.solids.push(...dressing.solids);sitePlacements.push(...dressing.placements
     await scatterWorldTile(mapScene,assets,seed,tile,mapScene===fairyScene?fairyDressing.specs:DEFAULT_SCATTER,{semanticTreesOnly:true,onTree:tree=>{
       if(!worldExclusions.blocksTreeClearance(tree.position[0],tree.position[2],tree.trunkRadius))trees.push(tree);
     }});
+  // Kept for the life of the world so a content publish can place a few spawn groups again. Trees were scattered
+  // around the habitats of the boot catalog and stay where they are, so a new spawn must not land in a trunk.
+  let treeCells: Map<string, ForestTreeDescriptor[]> | null = null;
+  const treeAt = (x: number, z: number, radius: number): boolean => {
+    if (!treeCells) { treeCells = new Map(); for (const tree of trees) { const key = `${Math.floor(tree.position[0] / 8)}:${Math.floor(tree.position[2] / 8)}`; treeCells.set(key, [...treeCells.get(key) ?? [], tree]); } }
+    for (let gx = Math.floor((x - radius - 2) / 8); gx <= Math.floor((x + radius + 2) / 8); gx++) for (let gz = Math.floor((z - radius - 2) / 8); gz <= Math.floor((z + radius + 2) / 8); gz++)
+      if (treeCells.get(`${gx}:${gz}`)?.some(tree => Math.hypot(tree.position[0] - x, tree.position[2] - z) < radius + tree.trunkRadius)) return true;
+    return false;
+  };
+  const spawnContext: SpawnContext = { seed, baseY: measurements.baseY, assetSize: measurements.assetSize, refinePopulation: true,
+    floorAt: (region, x, z) => spec && region === spec.regionId ? dungeonFloorHeight(spec, x, z) : heightAt(region, x, z),
+    spacing: sources => { const ports = mobSpawnPlacementPorts(sources, placement); return { ...ports, place: (entity, x, z, radius) => treeAt(x, z, radius) ? null : ports.place(entity, x, z, radius) }; } };
   const forestObstacles=new ForestObstacles();let forest:ForestResources;
   const solids=new Solids(built.solids);const structureBounds=structures.meshes.map(mesh=>new Box3().setFromObject(mesh).expandByScalar(.35));
   const spawn=GAME_BOOT_PROFILE.spawn;const point:Vec3=[spawn.x,heightAt(spawn.regionId,spawn.x,spawn.z),spawn.z];
   const playable=(region:RegionId,position:Vec3)=>spec&&region===spec.regionId?chamberFloorAt(spec,position)!==null:
     terrainAt(position[0],position[2]).sampleWorld(position[0],position[2]).playable&&terrainAt(position[0],position[2]).regionAt(position[0],position[2])===region;
   return {nav,habitats,entities:built.entities,knownLocations:built.knownLocations,doorBarriers,spawn:nav.closestPoint(point)??point,
+    planSpawns:(world,groupIds,residents)=>planSpawns(spawnContext,world,groupIds,residents),
     initialize(world){
       forest=new ForestResources({entities:world.entities,getNodeState:id=>world.shared.nodes[id],onActivate:tree=>{if(world.shared.nodes[tree.id]?.state!=="depleted")forestObstacles.upsert(tree);},onDeactivate:tree=>{forestObstacles.remove(tree.id);}});
       for(const tree of trees){world.entities.remove(tree.id);forest.register(tree);}

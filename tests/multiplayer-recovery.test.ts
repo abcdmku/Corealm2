@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { rm } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { WebSocket as RawSocket } from "ws";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorageRecord } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorageRecord } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
@@ -14,7 +14,7 @@ import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { Replicator, ReplicatedState } from "../game/src/multiplayer/replication.js";
 
 const descriptor: WorldDescriptor = { providerId: "reference", worldId: "yard", name: "Yard", endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity: 4, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 4, availability: "available" };
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
 async function serverAt(file = ":memory:") {
@@ -27,7 +27,7 @@ async function connectRaw(port: number, playerId: string) {
   ws.on("message", (data) => messages.push(JSON.parse(data.toString())));
   await new Promise<void>((resolve) => ws.once("open", resolve));
   ws.send(JSON.stringify({ type: "join", providerId: "reference", worldId: "yard", token: playerId,
-    protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION }));
+    protocolVersion: WORLD_PROTOCOL_VERSION }));
   await expect.poll(() => messages.some((message) => message.type === "joined"), { timeout: 1500, interval: 10 }).toBe(true);
   const sessionId = messages.find((message) => message.type === "joined").sessionId as string;
   cleanups.push(async () => { ws.terminate(); });

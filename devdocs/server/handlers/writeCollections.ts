@@ -1,5 +1,5 @@
 import type { CollectionResponse } from '../../shared/contracts.js';
-import { CONTENT_COLLECTIONS } from '../../../tools/content/collections.js';
+import { CONTENT_COLLECTIONS } from '../../../game/src/content/compiler/collections.js';
 import { isLoopbackDevdocsRequest, type DevdocsJsonResponse, type DevdocsRequest } from './collections.js';
 import { transact, type TransactionOptions } from './transaction.js';
 export interface CollectionWriteHandlerOptions extends TransactionOptions {}

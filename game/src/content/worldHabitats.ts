@@ -47,3 +47,9 @@ export function habitatContains(habitat: HabitatDef, position: Vec3): boolean {
 export const WORLD_HABITATS = WORLD_CONTENT.habitats.filter(habitat => REGIONS.some(region => region.id === habitat.regionId));
 const HABITAT_BY_GROUP = new Map(WORLD_CONTENT.habitats.map(habitat => [habitat.groupId, habitat]));
 export function habitatForGroup(groupId: string): HabitatDef | null { return HABITAT_BY_GROUP.get(groupId) ?? null; }
+/** After a live publish, once `reindexWorldContent` ran. Both are refilled in place for the modules that hold them. */
+export function reindexHabitats(): void {
+  WORLD_HABITATS.splice(0, WORLD_HABITATS.length, ...WORLD_CONTENT.habitats.filter(habitat => REGIONS.some(region => region.id === habitat.regionId)));
+  HABITAT_BY_GROUP.clear();
+  for (const habitat of WORLD_CONTENT.habitats) HABITAT_BY_GROUP.set(habitat.groupId, habitat);
+}

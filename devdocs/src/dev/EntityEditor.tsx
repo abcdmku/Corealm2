@@ -1,7 +1,7 @@
 import { Fragment, useMemo, type ReactNode } from "react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "../components/ui/index.js";
-import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
 import { ArraySchema, ObjectSchema, RecordSchema, TupleSchema, type Schema } from "../../../game/src/content/schema/core.js";
 import type { ContentRow } from "../model/contracts.js";
 import { useRecordDraft } from "../model/draft.js";

@@ -6,7 +6,7 @@ import {
   CONTENT_COLLECTIONS,
   parseContentCollection,
   type ContentCollection,
-} from "../../../tools/content/collections.js";
+} from "../../../game/src/content/compiler/collections.js";
 import { contentRevision } from "../../../tools/content/format.js";
 import { repoRoot } from "../../../tools/lib/paths.js";
 import type { CollectionResponse, CollectionSummary } from "../../shared/contracts.js";

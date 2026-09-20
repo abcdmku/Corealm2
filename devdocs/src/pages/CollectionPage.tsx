@@ -3,7 +3,7 @@ import { lazyComponent } from "../workspaces/lazyView.js";
 import { useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { LayoutGrid, List, Table2 } from "lucide-react";
-import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
 import { apiGet, collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";

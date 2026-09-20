@@ -79,6 +79,11 @@ export interface PlayerSummary {
 /** One player with the private state devdocs edits: inventory, bank, equipment, skills. */
 export interface PlayerDetail extends PlayerSummary { character: PlayerCharacter | null }
 export interface PlayerPage { players: PlayerSummary[]; cursor: string | null }
+/** One stored character holding one item, for the publish that wants to remove that item's definition. */
+/** `world` is set for a recovery cache, which lies in one world. The character places are the account's own. */
+export interface ItemHolder { accountId: string; name: string; itemId: string; place: "inventory" | "bank" | "equipment" | "recovery-cache"; world: WorldKey | null }
+/** Writes one audit row inside a transaction the caller already holds. Only storage that shares the connection gets one. */
+export type AuditWriter = (by: AdminActor, entry: AuditWrite) => void;
 
 export interface ServerAdminStorage {
   listRoles(): Promise<RoleRecord[]>;
@@ -117,6 +122,8 @@ export interface ServerAdminStorage {
 
   listPlayers(query: string | null, limit: number, cursor: string | null, now: number): Promise<PlayerPage>;
   player(accountId: string, now: number): Promise<PlayerDetail | null>;
+  /** Stored characters that hold any of these items in their inventory, bank or equipment, and stored recovery caches in any world, without loading a character. At most `limit` rows. */
+  itemHolders(itemIds: readonly string[], limit: number): Promise<ItemHolder[]>;
 }
 
 const SETUP_CODE_KEY = "setup_code_hash";
@@ -316,6 +323,8 @@ export class SqliteAdminStorage implements ServerAdminStorage {
   }
 
   async record(by: AdminActor, entry: AuditWrite): Promise<void> { this.transact(() => this.log(by, entry)); }
+  /** For `SqliteCatalogStorage`, which moves the active catalog and audits the move in one transaction. */
+  readonly auditWriter: AuditWriter = (by, entry) => this.log(by, entry);
   async audit(limit: number, before: number | null): Promise<AuditEntry[]> {
     const rows = before === null
       ? this.db.prepare(`SELECT id,at,account_id,credential,action,target,"before","after" FROM audit_log ORDER BY id DESC LIMIT ?`).all(limit)
@@ -353,6 +362,18 @@ export class SqliteAdminStorage implements ServerAdminStorage {
       playtimeSeconds: Number(row.playtime_seconds), lastWorld: worldOf(row.last_world), position: character?.player?.position ?? null,
       regionId: character?.player?.regionId ?? null, online: worldOf(row.lease_world), ban: this.banRow(accountId, now), character };
   }
+  async itemHolders(itemIds: readonly string[], limit: number): Promise<ItemHolder[]> {
+    if (!itemIds.length) return [];
+    // JSON1 walks each character where it lies. Nothing is parsed into this process but the rows that match.
+    const held = (path: string, place: ItemHolder["place"]) => `SELECT p.account_id, p.name, json_extract(slot.value,'$.itemId') AS item_id, '${place}' AS place, NULL AS world_key
+      FROM players p, json_each(p.character,'${path}') slot WHERE p.character IS NOT NULL AND json_extract(slot.value,'$.itemId') IN (SELECT value FROM json_each(?1))`;
+    // What a dead player left behind lies in the world they died in, in that world's row for them.
+    const cached = `SELECT w.account_id, COALESCE(p.name, w.account_id) AS name, json_extract(slot.value,'$.itemId') AS item_id, 'recovery-cache' AS place, w.world_key
+      FROM world_players w LEFT JOIN players p ON p.account_id=w.account_id, json_each(w.owned,'$.recoveryCache.items') slot
+      WHERE json_type(w.owned,'$.recoveryCache.items')='array' AND json_extract(slot.value,'$.itemId') IN (SELECT value FROM json_each(?1))`;
+    return this.db.prepare(`${held("$.inventory.slots", "inventory")} UNION ALL ${held("$.bank.slots", "bank")} UNION ALL ${held("$.equipment", "equipment")} UNION ALL ${cached} ORDER BY 1, 3 LIMIT ?2`)
+      .all(JSON.stringify(itemIds), limit).map(row => ({ accountId: String(row.account_id), name: String(row.name), itemId: String(row.item_id), place: String(row.place) as ItemHolder["place"], world: worldOf(row.world_key) }));
+  }
 }
 
 function splitCursor(cursor: string): { lastSeen: number; accountId: string } | null {
@@ -365,6 +386,8 @@ function splitCursor(cursor: string): { lastSeen: number; accountId: string } | 
 export interface MemoryPlayerRow {
   accountId: string; name: string; character: PlayerCharacter | null; lastWorld: WorldKey | null;
   firstSeen: number; lastSeen: number; playtimeSeconds: number; online: WorldKey | null;
+  /** What the account left in each world it died in. */
+  recoveryCaches?: { world: WorldKey; items: readonly { itemId: string }[] }[];
 }
 
 /** The same rules over plain maps, for tests and hosts that keep nothing. */
@@ -480,6 +503,7 @@ export class MemoryAdminStorage implements ServerAdminStorage {
     return true;
   }
   async record(by: AdminActor, entry: AuditWrite): Promise<void> { this.log(by, entry); }
+  readonly auditWriter: AuditWriter = (by, entry) => this.log(by, entry);
   async audit(limit: number, before: number | null): Promise<AuditEntry[]> {
     return [...this.entries].reverse().filter(entry => before === null || entry.id < before).slice(0, limit);
   }
@@ -502,5 +526,15 @@ export class MemoryAdminStorage implements ServerAdminStorage {
   async player(accountId: string, now: number): Promise<PlayerDetail | null> {
     for (const row of this.source()) if (row.accountId === accountId) return { ...this.summary(row, now), character: row.character };
     return null;
+  }
+  async itemHolders(itemIds: readonly string[], limit: number): Promise<ItemHolder[]> {
+    const wanted = new Set(itemIds), found: ItemHolder[] = [];
+    for (const row of this.source()) {
+      for (const cache of row.recoveryCaches ?? []) for (const slot of cache.items) if (wanted.has(slot.itemId)) found.push({ accountId: row.accountId, name: row.name, itemId: slot.itemId, place: "recovery-cache", world: cache.world });
+      const character = row.character; if (!character) continue;
+      const places: [ItemHolder["place"], readonly ({ itemId: string } | null)[]][] = [["inventory", character.inventory.slots], ["bank", character.bank.slots], ["equipment", Object.values(character.equipment)]];
+      for (const [place, slots] of places) for (const slot of slots) if (slot && wanted.has(slot.itemId)) found.push({ accountId: row.accountId, name: row.name, itemId: slot.itemId, place, world: null });
+    }
+    return found.sort((a, b) => a.accountId.localeCompare(b.accountId) || a.itemId.localeCompare(b.itemId)).slice(0, limit);
   }
 }

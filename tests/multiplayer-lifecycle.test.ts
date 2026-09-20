@@ -1,9 +1,9 @@
 import { expect, it, vi } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type SessionPhase, type WorldDescriptor, type WorldSession, type WorldUpdate } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type SessionPhase, type WorldDescriptor, type WorldSession, type WorldUpdate } from "../game/src/contracts.js";
 import { ProviderRegistry, SessionController } from "../game/src/multiplayer/providers.js";
 
 const world: WorldDescriptor = { providerId: "test", worldId: "one", name: "One", endpoint: "ws://127.0.0.1/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1, population: 0, capacity: 2, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1, population: 0, capacity: 2, availability: "available" };
 
 it("switches only after release and ignores a late packet from the old session", async () => {
   const phases: SessionPhase[] = []; const apply = vi.fn(); const order: string[] = [];

@@ -11,7 +11,7 @@ export interface CollectionResponse {
   revision: string;
   data: unknown;
 }
-export interface ApiDiagnostic { path: string; message: string; severity: "error" | "warning" }
+export interface ApiDiagnostic { path: string; message: string; severity: "error" | "warning" | "info" }
 export interface ApiError { error: string; diagnostics?: ApiDiagnostic[] }
 
 export type ContentOperation =

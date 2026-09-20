@@ -4,7 +4,7 @@ import { mkdir, writeFile, readFile, readdir } from "node:fs/promises";
 import {createHash} from "node:crypto";
 import { WebSocket } from "ws";
 import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type GameCommand, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type GameCommand, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { Navigation } from "../game/src/systems/navigation.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
@@ -28,7 +28,7 @@ if (args.includes("--worker")) {
     const timeout = setTimeout(() => { socket.terminate(); reject(new Error("Join timeout")); }, 30_000);
     socket.on("error", (error) => { errors.push(error.message); });
     socket.on("open", () => socket.send(JSON.stringify({ type: "join", providerId: "capacity", worldId: "yard", token: `load-${index}`,
-      protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION })));
+      protocolVersion: WORLD_PROTOCOL_VERSION })));
     socket.on("message", (raw) => {
       bytesIn += Buffer.byteLength(raw.toString()); const message = JSON.parse(raw.toString());
       if (message.type === "joined") { client.sessionId = message.sessionId; client.operation = message.nextOperation; }
@@ -98,7 +98,7 @@ if (args.includes("--worker")) {
 } else {
   const directory = value("--out", `test-results/multiplayer-capacity/${placement}-${Date.now()}`); await mkdir(directory,{recursive:true});
   const world:WorldDescriptor = {providerId:"capacity",worldId:"yard",name:"Capacity fixture",endpoint:"ws://127.0.0.1:0/",protocolVersion:WORLD_PROTOCOL_VERSION,
-    contentVersion:WORLD_CONTENT_VERSION,seed:1337,population:0,capacity:count,availability:"available"};
+    fixture:"authored",seed:1337,population:0,capacity:count,availability:"available"};
   const ports = await createMultiplayerLabWorld();
   const ground = new Mesh(new PlaneGeometry(1200,1200),new MeshBasicMaterial()); ground.rotation.x=-Math.PI/2; ground.updateMatrixWorld(true);
   const nav = new Navigation(); if(!nav.build([ground])) throw new Error("Capacity navigation failed"); ports.nav=nav;

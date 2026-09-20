@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { rm } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { WebSocket } from "ws";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createSigningKey, joinTokenClaims, signJoinToken, type IdentityKey, type SigningKey } from "../identity/src/joinToken.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
 import { guestAuthentication } from "../game/src/multiplayer/guestAuthentication.js";
@@ -15,7 +15,7 @@ import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 
 const ALICE = "acc_AAAAAAAAAAAAAAAAAAAAAA", BOB = "acc_BBBBBBBBBBBBBBBBBBBBBB";
 const world = (worldId: string, capacity = 4): WorldDescriptor => ({ providerId: "reference", worldId, name: worldId, endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity, availability: "available" });
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity, availability: "available" });
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
 
@@ -51,7 +51,7 @@ async function connect(port: number, worldId: string, token: string) {
   ws.on("message", data => messages.push(JSON.parse(data.toString())));
   cleanups.push(async () => { ws.terminate(); });
   await new Promise<void>(resolve => ws.once("open", resolve));
-  ws.send(JSON.stringify({ type: "join", providerId: "reference", worldId, token, protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION }));
+  ws.send(JSON.stringify({ type: "join", providerId: "reference", worldId, token, protocolVersion: WORLD_PROTOCOL_VERSION }));
   await expect.poll(() => messages.some(message => message.type === "joined" || message.type === "error"), { timeout: 3000, interval: 5 }).toBe(true);
   const verdict = messages.find(message => message.type === "joined" || message.type === "error");
   const privateState = async () => {

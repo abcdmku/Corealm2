@@ -16,7 +16,7 @@ import { createAssetsHandler, isAssetsPath, ASSET_UPLOAD_MAX_REQUEST_BYTES } fro
 import { readRuntimeCatalogs } from "./catalogs.js";
 import { isIconMasterPath, readIconMaster } from "./handlers/icons.js";
 import { createCollectionWriteHandler, type CollectionWriteHandlerOptions } from "./handlers/writeCollections.js";
-import { readDevdocsReferencePools } from "./lib/referencePools.js";
+import { readRepoReferencePools } from "../../tools/content/referencePools.js";
 import { createTransactionHandler, isTransactionPath } from "./handlers/transaction.js";
 import { createFormulasHandler, isFormulasPath } from "./handlers/formulas.js";
 import { installFormulaWatcher } from "./lib/formulaWatcher.js";
@@ -39,12 +39,12 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
   const handleCollections = createCollectionsHandler({ extraCollections: readRuntimeCatalogs, ...options, editable: true });
   const formulaServices = installFormulaWatcher(server, options);
   options = {...options, compiler: formulaServices.compiler};
-  const handleWrite = createCollectionWriteHandler({ referencePools: readDevdocsReferencePools, ...options });
-  const handleTransaction = createTransactionHandler({referencePools: readDevdocsReferencePools,...options});
+  const handleWrite = createCollectionWriteHandler({ referencePools: readRepoReferencePools, ...options });
+  const handleTransaction = createTransactionHandler({referencePools: readRepoReferencePools,...options});
   const handleFormulas = createFormulasHandler(formulaServices);
-  const handleValidate = createValidateHandler({ referencePools: readDevdocsReferencePools, ...options });
+  const handleValidate = createValidateHandler({ referencePools: readRepoReferencePools, ...options });
   const handleGit = createGitHandler();
-  const handleBulk = createBulkHandler({ referencePools: readDevdocsReferencePools, ...options });
+  const handleBulk = createBulkHandler({ referencePools: readRepoReferencePools, ...options });
   const handleRequests = createRequestsHandler(options);
   const handleMeta = createMetaHandler(options);
   const handleAssets = createAssetsHandler(options);

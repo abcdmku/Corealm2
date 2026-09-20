@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { compileContent, readContentSources } from '../../../tools/content/compile.js';
-import { CONTENT_COLLECTIONS } from '../../../tools/content/collections.js';
+import { CONTENT_COLLECTIONS } from '../../../game/src/content/compiler/collections.js';
 import { repoRoot } from '../../../tools/lib/paths.js';
 import { isLoopbackDevdocsRequest, type DevdocsRequest, type DevdocsJsonResponse } from './collections.js';
 import type { CollectionWriteHandlerOptions } from './writeCollections.js';

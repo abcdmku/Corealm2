@@ -1,10 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { validateCollection, type ParseContext } from '../../../game/src/content/schema/core.js';
-import { CONTENT_COLLECTIONS, type ContentCollection } from '../../../tools/content/collections.js';
+import { CONTENT_COLLECTIONS, type ContentCollection } from '../../../game/src/content/compiler/collections.js';
 import { compileContent } from '../../../tools/content/compile.js';
 import type { ApiDiagnostic } from '../../shared/contracts.js';
-import type { ReferencePools } from '../../../tools/content/references.js';
+import type { ReferencePools } from '../../../game/src/content/compiler/references.js';
 export interface CollectionSnapshot { data: unknown; text: string; revision?: string }
 export type CollectionSnapshots = ReadonlyMap<string, CollectionSnapshot>;
 export function collectionFile(root: string, spec: ContentCollection): string {

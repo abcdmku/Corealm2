@@ -1,6 +1,6 @@
 import {chromium,type Page} from "playwright";
 import {mkdir,writeFile} from "node:fs/promises";
-import {WORLD_CONTENT_VERSION,WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
+import {WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
 import {createInitialState} from "../game/src/state/store.js";
 import {startAuthoredTestHost} from "./lib/authoredTestHost.js";
 import {startGameServer} from "./lib/server.js";
@@ -9,7 +9,7 @@ import {installTestDeadline} from "./lib/deadline.js";
 const clearDeadline=installTestDeadline("multiplayer authored integration",120_000);
 const started=Date.now(),out="test-results/multiplayer-authored";await mkdir(out,{recursive:true});
 const world:WorldDescriptor={providerId:"reference",worldId:"authored",name:"Corealm",endpoint:"ws://127.0.0.1:0/",
-  protocolVersion:WORLD_PROTOCOL_VERSION,contentVersion:WORLD_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"};
+  protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"authored",seed:1337,capacity:1000,population:0,availability:"available"};
 const server=await startAuthoredTestHost();console.log("Authored host ready",Date.now()-started);
 const game=await startGameServer();
 const browser=await chromium.launch({headless:true,args:["--use-angle=d3d11","--disable-background-timer-throttling","--disable-renderer-backgrounding"]});

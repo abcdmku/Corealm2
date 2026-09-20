@@ -5,7 +5,7 @@ import { useQueries } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ArrowUpRight, ChevronLeft, Search, SlidersHorizontal, X } from "lucide-react";
 import type { CollectionResponse, CollectionSummary } from "../../shared/contracts.js";
-import { CONTENT_COLLECTIONS } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
 import type { AppProps } from "../model/contracts.js";
 import { collectionQuery } from "../api/client.js";
 import { getPath } from "../model/draft.js";

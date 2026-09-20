@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorage, type WorldStorageRecord } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorage, type WorldStorageRecord } from "../game/src/contracts.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 
 const descriptor = (worldId: string): WorldDescriptor => ({ providerId: "lease", worldId, name: worldId, endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity: 8, availability: "available" });
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 8, availability: "available" });
 const north = descriptor("north"), south = descriptor("south");
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });

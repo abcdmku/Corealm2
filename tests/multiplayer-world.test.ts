@@ -2,19 +2,19 @@ import { runtimeTables } from "../game/src/content/runtimeCatalog.js";
 import { ALL_SPELLS } from "../game/src/content/spells.js";
 import { content } from "../game/src/content/index.js";
 import { beforeAll, describe, expect, it } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { playerSessionState } from "../game/src/state/store.js";
 
 const descriptor: WorldDescriptor = { providerId: "reference", worldId: "yard", name: "Yard", endpoint: "ws://127.0.0.1:4180/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity: 1000, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 1000, availability: "available" };
 let ports: HeadlessWorldPorts;
 beforeAll(async () => { ports = await createMultiplayerLabWorld(); });
 describe("headless production world", () => {
-  it.each([WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION])("uses the browser's resolved content for %s", contentVersion => {
-    new HeadlessWorld({ ...descriptor, contentVersion }, ports);
-    const expected = runtimeTables(contentVersion === WORLD_LAB_CONTENT_VERSION);
+  it.each(["authored", "lab"] as const)("uses the browser's resolved content for the %s fixture", fixture => {
+    new HeadlessWorld({ ...descriptor, fixture }, ports);
+    const expected = runtimeTables(fixture === "lab");
     expect(content.allItems()).toEqual(expected.items);
     expect(content.allRecipes()).toEqual(expected.recipes);
     expect(content.allResources()).toEqual(expected.resources);

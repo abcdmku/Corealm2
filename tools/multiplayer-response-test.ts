@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { cpus, totalmem } from "node:os";
 import { mkdir, writeFile } from "node:fs/promises";
-import { WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createAuthoredWorld } from "../game/src/multiplayer/authoredWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
@@ -46,7 +46,7 @@ if (probe >= 0) {
   const clearDeadline = installTestDeadline("multiplayer response", authored ? 120_000 : 60_000);
   await mkdir(out, { recursive: true });
   const world: WorldDescriptor = { providerId: "reference", worldId: "response", name: "Response check", endpoint: "ws://127.0.0.1:0/",
-    protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: authored ? WORLD_CONTENT_VERSION : WORLD_LAB_CONTENT_VERSION,
+    protocolVersion: WORLD_PROTOCOL_VERSION, fixture: authored ? "authored" : "lab",
     seed: 1337, capacity: 200, population: 0, availability: "available" };
   const server = await startReferenceServer({ worlds: [world], storage: new SqliteWorldStorage(`${out}/${Date.now()}.sqlite`),
     build: () => authored ? createAuthoredWorld(1337) : createMultiplayerLabWorld(),

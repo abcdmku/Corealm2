@@ -5,6 +5,9 @@ import {
   setupCodeDigits, type AdminActor, type ApiScope, type ServerAdminStorage, type ServerRole,
 } from "./adminStorage.js";
 import type { AuthenticatedPlayer, ReferenceServerMetrics, ServerEvent } from "./referenceServer.js";
+import type { CatalogHost } from "./catalogHost.js";
+import { CATALOG_REVISION } from "../content/clientCatalog.js";
+import { PublishFailure, publishRequest, type ContentPublisher } from "./contentPublish.js";
 
 /**
  * The admin HTTP API, mounted on the reference server's single route table. JSON in, JSON out,
@@ -17,11 +20,14 @@ import type { AuthenticatedPlayer, ReferenceServerMetrics, ServerEvent } from ".
  */
 
 const MAX_BODY_BYTES = 8_192;
+/** A publish carries whole collections. The largest is about 0.5 MiB and all of them together about 2 MiB, so this leaves room to grow. */
+export const MAX_CONTENT_BODY_BYTES = 16 * 1024 * 1024;
 const MAX_URL_CHARS = 2_048;
 const MAX_LABEL_CHARS = 64;
 const MAX_REASON_CHARS = 512;
 const PLAYER_PAGE_LIMIT = 100;
 const AUDIT_PAGE_LIMIT = 200;
+const CATALOG_HISTORY_LIMIT = 200;
 /** The setup code is the one brute-forceable secret on this API, so its window is the tightest. */
 const SETUP_ATTEMPTS_PER_MINUTE = 5;
 const SETUP_ATTEMPTS_PER_MINUTE_TOTAL = 20;
@@ -43,6 +49,10 @@ export interface AdminServerPorts {
 }
 export interface AdminApiOptions {
   admin: ServerAdminStorage;
+  /** The running catalog and its store. */
+  catalog: CatalogHost;
+  /** Publish, validate and rollback, under `content:publish`. */
+  publisher: ContentPublisher;
   /** Verifies a join token exactly as a join does, including audience and replay. */
   authenticate(token: string): Promise<AuthenticatedPlayer>;
   allowedOrigins: readonly string[];
@@ -104,7 +114,7 @@ function counted(value: string | null, fallback: number, max: number): number {
 }
 
 export function createAdminApi(options: AdminApiOptions) {
-  const { admin, server } = options;
+  const { admin, server, catalog, publisher } = options;
   const now = options.now ?? Date.now;
   const log = options.log ?? ((event: Record<string, unknown>) => console.log(JSON.stringify(event)));
   const origins = new Set(options.allowedOrigins);
@@ -123,11 +133,14 @@ export function createAdminApi(options: AdminApiOptions) {
       "Content-Length": Buffer.byteLength(payload), ...cors(request) });
     response.end(payload);
   }
-  async function body(request: IncomingMessage): Promise<Record<string, unknown>> {
+  async function body(request: IncomingMessage, cap = MAX_BODY_BYTES): Promise<Record<string, unknown>> {
     const chunks: Buffer[] = []; let length = 0;
+    // Counted as it streams, so an oversized body is dropped at the cap and never buffered whole.
+    const tooLarge = () => new ApiFailure(413, "payload_too_large", `Request bodies are capped at ${cap >= 1_048_576 ? `${cap / 1_048_576} MiB` : `${cap / 1024} KiB`}`);
+    if (Number(request.headers["content-length"]) > cap) throw tooLarge();
     for await (const chunk of request) {
       length += (chunk as Buffer).length;
-      if (length > MAX_BODY_BYTES) throw new ApiFailure(413, "payload_too_large", "Request bodies are capped at 8 KiB");
+      if (length > cap) throw tooLarge();
       chunks.push(chunk as Buffer);
     }
     if (!length) return {};
@@ -339,6 +352,37 @@ export function createAdminApi(options: AdminApiOptions) {
       if (before !== null && !/^[0-9]{1,15}$/.test(before)) throw new ApiFailure(400, "invalid_request", "A cursor is an audit row id");
       json(request, response, 200, { entries: await admin.audit(counted(url.searchParams.get("limit"), 50, AUDIT_PAGE_LIMIT), before === null ? null : Number(before)) });
       return;
+    }
+    if (method === "GET" && rest[0] === "content" && rest.length === 2) {
+      await scoped(request, "content:read");
+      if (rest[1] === "revision") {
+        json(request, response, 200, { revision: catalog.revision, history: await catalog.storage.history(counted(url.searchParams.get("limit"), 50, CATALOG_HISTORY_LIMIT)) }); return;
+      }
+      if (rest[1] === "sources") {
+        const wanted = url.searchParams.get("revision") ?? catalog.revision;
+        if (!CATALOG_REVISION.test(wanted)) throw new ApiFailure(400, "invalid_request", "A revision is 64 lowercase hex characters");
+        const found = await catalog.storage.sources(wanted);
+        if (!found) throw new ApiFailure(404, "not_found", "No catalog with that revision is stored");
+        // Source collections run to megabytes, so the stored text is spliced in rather than parsed and written again.
+        const payload = `{"revision":${JSON.stringify(found.revision)},"sources":${found.sources}}`;
+        response.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store", "Content-Length": Buffer.byteLength(payload), ...cors(request) });
+        response.end(payload); return;
+      }
+    }
+    if (method === "POST" && rest[0] === "content" && rest.length === 2 && (rest[1] === "publish" || rest[1] === "validate" || rest[1] === "rollback")) {
+      const held = await scoped(request, "content:publish");
+      const input = await body(request, rest[1] === "rollback" ? MAX_BODY_BYTES : MAX_CONTENT_BODY_BYTES);
+      try {
+        if (rest[1] === "rollback") {
+          if (typeof input.revision !== "string" || !CATALOG_REVISION.test(input.revision) || Object.keys(input).length !== 1) throw new ApiFailure(400, "invalid_request", "A rollback is {revision}, 64 lowercase hex characters");
+          json(request, response, 200, await publisher.rollback(input.revision, actorOf(held, at))); return;
+        }
+        const wanted = publishRequest(input);
+        json(request, response, 200, rest[1] === "validate" ? await publisher.validate(wanted) : await publisher.publish(wanted, actorOf(held, at))); return;
+      } catch (error) {
+        if (!(error instanceof PublishFailure)) throw error;
+        json(request, response, error.status, { error: { code: error.code, message: error.message, ...error.details } }); return;
+      }
     }
     if (method === "GET" && rest[0] === "stats" && rest.length === 1) {
       await scoped(request, "stats:read");

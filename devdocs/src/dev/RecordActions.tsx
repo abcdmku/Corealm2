@@ -3,7 +3,7 @@ import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Check, Copy, Eye, GitBranch, LoaderCircle, MoreHorizontal, Pencil, Plus, RefreshCw, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { Menu } from "../ui/Menu.js";
-import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
 import { defaultFieldValue, fieldIssues } from "../model/fields.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import { collectionQuery, collectionsQuery } from "../api/client.js";

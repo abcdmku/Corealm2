@@ -1,8 +1,6 @@
 import { chromium, type BrowserContext, type CDPSession, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import {
-  WORLD_CONTENT_VERSION,
-  WORLD_LAB_CONTENT_VERSION,
   WORLD_PROTOCOL_VERSION,
   SKILL_IDS,
   type WorldDescriptor,
@@ -39,7 +37,7 @@ const world: WorldDescriptor = {
   name: authored ? "Authored join stability" : "Join stability lab",
   endpoint: "ws://127.0.0.1:0/",
   protocolVersion: WORLD_PROTOCOL_VERSION,
-  contentVersion: authored ? WORLD_CONTENT_VERSION : WORLD_LAB_CONTENT_VERSION,
+  fixture: authored ? "authored" : "lab",
   seed: 1337,
   capacity: 1000,
   population: 0,

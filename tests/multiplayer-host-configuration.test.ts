@@ -46,7 +46,7 @@ describe('reference deployment configuration',()=>{
    identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
   expect(hostConfiguration([],{},read)).toEqual({authored:false,authentication:'account',developmentGuests:false,guests:false,host:'127.0.0.1',port:4200,
    data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
-   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,
+   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,
    configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
  });
  it('names the owner account from a flag, an environment variable or the file, and checks its shape',()=>{
@@ -105,4 +105,10 @@ describe('reference deployment configuration',()=>{
   expect(hostConfiguration([],{COREALM_IDENTITY_URL:'https://identity.example.com/auth'},files({'corealm-server.json':{}})).identityUrl)
    .toBe('https://identity.example.com/auth/');
  });
+});
+
+it('follows the repo catalog only when the flag asks, never from a configuration file', () => {
+  expect(hostConfiguration(['--guests', '--follow-repo-catalog'], {}, () => undefined).followRepoCatalog).toBe(true);
+  expect(hostConfiguration(['--guests'], {}, () => undefined).followRepoCatalog).toBe(false);
+  expect(() => hostConfiguration([], {}, () => JSON.stringify({ guests: true, followRepoCatalog: true }))).toThrow(/followRepoCatalog/);
 });

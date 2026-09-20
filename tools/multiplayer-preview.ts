@@ -1,7 +1,7 @@
 import {createServer} from "vite";
 import {WebSocket} from "ws";
 import {mkdir,writeFile} from "node:fs/promises";
-import {WORLD_CONTENT_VERSION,WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
+import {WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
 import {createAuthoredWorld} from "../game/src/multiplayer/authoredWorld.js";
 import {startReferenceServer} from "../game/src/multiplayer/referenceServer.js";
 import {SqliteWorldStorage} from "../game/src/multiplayer/sqliteStorage.js";
@@ -10,7 +10,7 @@ import {CROWD_EQUIPMENT} from "./lib/crowdEquipment.js";
 // Disposable local play session. Bots use real connections; fixture gear/placement is server setup.
 const ports=await createAuthoredWorld(1337);
 const world:WorldDescriptor={providerId:"reference",worldId:"preview-64",name:"Corealm with 64 bots",endpoint:"ws://127.0.0.1:0/",
-  protocolVersion:WORLD_PROTOCOL_VERSION,contentVersion:WORLD_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"};
+  protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"authored",seed:1337,capacity:1000,population:0,availability:"available"};
 const server=await startReferenceServer({worlds:[world],storage:new SqliteWorldStorage(":memory:"),build:async()=>ports,
   authentication:{authenticate:async token=>{
     if(!/^guest:[A-Za-z0-9_.-]{1,40}$/.test(token))throw new Error("Development guest required");
@@ -22,7 +22,7 @@ for(let i=0;i<64;i++)await new Promise<void>((resolve,reject)=>{
   const id=`bot-${String(i+1).padStart(2,"0")}`,socket=new WebSocket(endpoint);
   socket.once("error",reject);
   socket.on("open",()=>socket.send(JSON.stringify({type:"join",providerId:world.providerId,worldId:world.worldId,
-    token:`guest:${id}`,protocolVersion:world.protocolVersion,contentVersion:world.contentVersion})));
+    token:`guest:${id}`,protocolVersion:world.protocolVersion})));
   socket.on("message",bytes=>{
     const message=JSON.parse(String(bytes));
     if(message.type==="joined"){

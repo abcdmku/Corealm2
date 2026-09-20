@@ -1,11 +1,16 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
 import { WebSocket, WebSocketServer } from "ws";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type CommandEnvelope, type CommandOutcome, type PlayerCharacter, type PlayerLeaseWrite, type SessionErrorCode, type WorldDescriptor, type WorldKey, type WorldStorage, type WorldStorageRecord } from "../contracts.js";
+import { WORLD_PROTOCOL_VERSION, type CommandEnvelope, type CommandOutcome, type PlayerCharacter, type PlayerLeaseWrite, type SessionErrorCode, type WorldDescriptor, type WorldKey, type WorldStorage, type WorldStorageRecord } from "../contracts.js";
 import { adminUnavailable, createAdminApi } from "./adminApi.js";
 import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type ServerAdminStorage } from "./adminStorage.js";
 import { playerSessionState } from "../state/store.js";
 import { Admission } from "./admission.js";
+import { createCatalogHost, seedCatalog, serveCatalog, type CatalogHost } from "./catalogHost.js";
+import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
+import { createAssetHost, type AssetHostOptions } from "./assetManifest.js";
+import { createContentPublisher } from "./contentPublish.js";
+import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "./headlessWorld.js";
 import { compatible, descriptor, envelope, MAX_MESSAGE_BYTES, MAX_PENDING_COMMANDS, RECEIPT_LIMIT, record, SessionFailure, worldKey } from "./protocol.js";
 import { MAX_OUTBOUND_BYTES, Replicator, ReplicationFrame } from "./replication.js";
@@ -17,13 +22,24 @@ export interface AuthenticationAdapter {
   authenticate(token: string, world: WorldDescriptor): Promise<AuthenticatedPlayer>;
 }
 /** What an HTTP extension may read. Worlds and metrics are live objects, not copies. */
-export interface ReferenceServerContext { worlds: ReadonlyMap<string, HostedWorld>; metrics: ReferenceServerMetrics; events: readonly ServerEvent[] }
+export interface ReferenceServerContext { worlds: ReadonlyMap<string, HostedWorld>; metrics: ReferenceServerMetrics; events: readonly ServerEvent[]; catalog: CatalogHost }
 /** One entry of the bounded ring `GET /admin/stats` returns and M6's TUI draws. */
 export interface ServerEvent { at: number; kind: "join" | "leave" | "rejected" | "ban" | "unban" | "admin-session" | "owner-setup"; accountId: string | null; detail: string | null }
 const EVENT_RING = 256;
 export interface ReferenceServerOptions {
   worlds: WorldDescriptor[];
   storage: WorldStorage;
+  /**
+   * Published catalogs. Its active revision must be the catalog this process was started on: a host
+   * seeds the store, installs the active catalog, and only then imports this module. Without one the
+   * server keeps the catalog compiled into the build in memory, which is what tests and harnesses want.
+   */
+  catalog?: CatalogStorage;
+  /**
+   * Where a publish checks asset ids: the manifest of the asset host the worlds point clients at, or
+   * the manifest shipped with this server. With neither, asset ids are not checked.
+   */
+  assets?: AssetHostOptions;
   build(world: WorldDescriptor): Promise<HeadlessWorldPorts>;
   authentication: AuthenticationAdapter;
   /**
@@ -60,10 +76,34 @@ export interface ReferenceServerMetrics {
   commands: number; rejected: number; bytesOut: number; backlogDisconnects: number; errors: number;
 }
 
+/**
+ * The catalog this process simulates is the one its content modules loaded, or the one a publish
+ * moved it onto since (`contentSwap.ts` keeps `RESOLVED_CATALOG` in step), so the store can only
+ * agree with it. A store whose active revision is another catalog means the host imported the server
+ * before installing, and every table would disagree with what clients are told.
+ */
+async function runningCatalog(storage: CatalogStorage | undefined, now: () => number): Promise<CatalogHost> {
+  const running = RESOLVED_CATALOG.revision;
+  if (!storage) {
+    storage = new MemoryCatalogStorage();
+    // No sources: nothing can be published against a catalog that only exists in memory.
+    await seedCatalog(storage, { catalog: RESOLVED_CATALOG, sources: {} }, () => {}, { now });
+  }
+  const active = await storage.activeRevision();
+  if (active !== running) throw new Error(`This process runs catalog ${running} but the store's active catalog is ${active}. Install the active catalog before importing the server.`);
+  const host = createCatalogHost(storage, running);
+  // Compress in the background so the first join does not wait for it.
+  void host.served(running).catch(() => {});
+  return host;
+}
+
 export async function startReferenceServer(options: ReferenceServerOptions) {
+  const now = options.now ?? Date.now;
+  const log = options.log ?? ((event: Record<string, unknown>) => console.log(JSON.stringify(event)));
+  const catalog = await runningCatalog(options.catalog, now);
   const worlds = new Map<string, HostedWorld>();
   for (const input of options.worlds) {
-    const world = descriptor({ ...input, authentication: input.authentication ?? options.authentication.authentication ?? "guest" }); compatible(world);
+    const world = descriptor({ ...input, catalogRevision: catalog.revision, authentication: input.authentication ?? options.authentication.authentication ?? "guest" }); compatible(world);
     if (worlds.has(worldKey(world))) throw new Error("Duplicate hosted world");
     const saved = await options.storage.openWorld(world);
     worlds.set(worldKey(world), { runtime: new HeadlessWorld(world, await options.build(world), saved), admission: new Admission(world.capacity), peers: new Map(),
@@ -77,8 +117,6 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     hosted.runtime.committed(initial);
   }
   const metrics: ReferenceServerMetrics = { ticks: [], stages: { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }, commands: 0, rejected: 0, bytesOut: 0, backlogDisconnects: 0, errors: 0 };
-  const now = options.now ?? Date.now;
-  const log = options.log ?? ((event: Record<string, unknown>) => console.log(JSON.stringify(event)));
   const startedAt = now();
   const events: ServerEvent[] = [];
   const recordEvent = (event: Omit<ServerEvent, "at">): void => { events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift(); };
@@ -111,8 +149,9 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       response.end(JSON.stringify([...worlds.values()].map(({ runtime, admission }) => ({ ...runtime.descriptor,
         population: admission.population, availability: closed ? "unavailable" : admission.population >= admission.capacity ? "full" : "available" })))); return;
     }
+    if (await serveCatalog(request, response, catalog)) return;
     if (adminApi ? await adminApi(request, response) : adminUnavailable(request, response)) return;
-    if (await options.http?.(request, response, { worlds, metrics, events })) return;
+    if (await options.http?.(request, response, { worlds, metrics, events, catalog })) return;
     response.writeHead(404).end();
   }
   const http = createServer((request, response) => {
@@ -162,8 +201,31 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     const ban = accounts && await accounts.banOf(playerId, now());
     if (ban) throw new SessionFailure("BANNED", banMessage(ban));
   }
-  const adminApi = accounts ? createAdminApi({
-    admin: accounts, allowedOrigins: options.allowedOrigins ?? [], now, log,
+  /** No further acknowledgements or snapshots. A failed commit and a failed catalog swap both end here. */
+  function failClosed(): void {
+    closed = true; failed = true;
+    for (const waiting of [...releasing.keys()]) released(waiting);
+    for (const client of sockets.clients) { send(client, { type: "error", error: { code: "UNAVAILABLE", message: "World storage or simulation failed" } }); client.close(1011, "World unavailable"); }
+  }
+  /** A publish swaps content between ticks: the tick in flight finishes, and the next one waits for `run` to settle. */
+  let hold: Promise<void> | null = null; let running: Promise<void> = Promise.resolve();
+  async function betweenTicks<T>(run: () => Promise<T>): Promise<T> {
+    while (hold) await hold;
+    let release!: () => void; hold = new Promise<void>(settle => { release = settle; });
+    // `running` is the last tick that actually started. `inFlight` may be a tick that is itself waiting on this hold.
+    try { await running; return await run(); } finally { hold = null; release(); }
+  }
+  const publisher = accounts ? createContentPublisher({
+    catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, betweenTicks, failClosed,
+    worlds: () => [...worlds.values()].map(hosted => hosted.runtime),
+    broadcast(message) {
+      let told = 0;
+      for (const hosted of worlds.values()) for (const peer of hosted.peers.values()) if (send(peer.ws, message)) told++;
+      return told;
+    },
+  }) : null;
+  const adminApi = accounts && publisher ? createAdminApi({
+    admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
     authenticate: token => options.authentication.authenticate(token, [...worlds.values()][0]!.runtime.descriptor),
     server: {
       startedAt, metrics, events: () => events, record: recordEvent, liveCharacter, disconnect: disconnectAccount,
@@ -194,7 +256,6 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
           if (request.headers.origin && options.allowedOrigins && !options.allowedOrigins.includes(request.headers.origin)) throw new SessionFailure("UNAUTHORIZED", "Origin is not allowed");
           hosted = worlds.get(worldKey({ providerId: message.providerId, worldId: message.worldId })) ?? null;
           if (!hosted) throw new SessionFailure("UNAVAILABLE", "World is unavailable");
-          if(message.contentVersion!==hosted.runtime.descriptor.contentVersion)throw new SessionFailure("INCOMPATIBLE","Incompatible world content");
           const identity = await options.authentication.authenticate(message.token, hosted.runtime.descriptor);
           if (typeof identity?.playerId!=="string" || !/^[A-Za-z0-9_.:-]{1,128}$/.test(identity.playerId) || typeof identity.name!=="string") throw new SessionFailure("UNAUTHORIZED", "Invalid authenticated identity");
           const name = identity.name.slice(0,64);
@@ -339,9 +400,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     } catch {
       metrics.errors++;
       // No further acknowledgements or snapshots after a failed commit. Fail closed.
-      closed = true; failed = true;
-      for (const waiting of [...releasing.keys()]) released(waiting);
-      for (const client of sockets.clients) { send(client, { type: "error", error: { code: "UNAVAILABLE", message: "World storage or simulation failed" } }); client.close(1011, "World unavailable"); }
+      failClosed();
     } finally {
       metrics.ticks.push(performance.now() - start); if (metrics.ticks.length > 36_000) metrics.ticks.shift(); ticking = false;
     }
@@ -355,7 +414,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   const scheduleTick = (delay = 100) => {
     timer = setTimeout(() => {
       const started = performance.now();
-      inFlight = tick().finally(() => {
+      inFlight = (async () => { while (hold) await hold; await (running = tick()); })().finally(() => {
         // An overloaded simulation must yield to socket and HTTP work between ticks.
         if (!closed) scheduleTick(Math.max(5, 100 - (performance.now() - started)));
       });
@@ -363,7 +422,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   };
   scheduleTick();
   const heartbeat = setInterval(() => { for (const ws of sockets.clients) ws.ping(); }, 10_000);
-  return { port: address.port, worlds, metrics, events: events as readonly ServerEvent[],
+  return { port: address.port, worlds, metrics, catalog, events: events as readonly ServerEvent[],
     async close() {
       closed = true; clearTimeout(timer); clearInterval(heartbeat);
       await inFlight;

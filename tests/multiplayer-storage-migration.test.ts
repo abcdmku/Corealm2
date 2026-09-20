@@ -3,14 +3,14 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorageRecord } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorageRecord } from "../game/src/contracts.js";
 import type { PlayerSessionState } from "../game/src/state/store.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 
 const descriptor = (worldId: string): WorldDescriptor => ({ providerId: "reference", worldId, name: worldId, endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity: 8, availability: "available" });
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 8, availability: "available" });
 const key = (worldId: string) => JSON.stringify(["reference", worldId]);
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
@@ -38,7 +38,9 @@ it("moves format 1 players into one character per account, keeps every world's o
   const snapshot = world.snapshot({}, false);
   const player = (id: string, edit: (state: PlayerSessionState) => void): PlayerSessionState => { const state = structuredClone(snapshot.players[id]!); edit(state); return state; };
   const random = (seed: number) => ({ ...snapshot.random!.players.alice!, loot: seed });
-  const payload = (worldId: string, tick: number, extra: Partial<WorldStorageRecord> & { playerWrites?: "patch" }) => JSON.stringify({ ...snapshot, key: { providerId: "reference", worldId }, tick,
+  // Formats 1 and 2 stamped a hand-edited content version where format 3 keeps the fixture and the catalog revision.
+  const { fixture: _fixture, catalogRevision: _catalogRevision, ...legacySnapshot } = snapshot;
+  const payload = (worldId: string, tick: number, extra: Partial<WorldStorageRecord> & { playerWrites?: "patch" }) => JSON.stringify({ ...legacySnapshot, contentVersion: "corealm-pve-1", key: { providerId: "reference", worldId }, tick,
     entities: [], receipts: {}, entityWrites: "patch", removedEntityIds: [], players: {}, random: { world: snapshot.random!.world, players: {} }, playerWrites: "patch", ...extra });
 
   const old = new DatabaseSync(file); old.exec(FORMAT_1);
@@ -67,7 +69,8 @@ it("moves format 1 players into one character per account, keeps every world's o
   let storage = new SqliteWorldStorage(file, { now: () => 1_700_000_000_000, log: line => lines.push(line) });
   cleanups.push(() => storage.close());
   expect(lines.map(line => JSON.parse(line))).toEqual([{ event: "storage-migrated", from: 1, to: 2, worlds: 3, players: 4, conflicts: [
-    { playerId: "alice", kept: key("south"), discarded: [key("north")] }, { playerId: "bob", kept: key("east"), discarded: [key("south")] }] }]);
+    { playerId: "alice", kept: key("south"), discarded: [key("north")] }, { playerId: "bob", kept: key("east"), discarded: [key("south")] }] },
+    { event: "storage-migrated", from: 2, to: 3, worlds: 3 }]);
 
   const inspect = () => {
     const db = storage.database, rows = (sql: string) => db.prepare(sql).all().map(row => ({ ...row }));
@@ -82,7 +85,7 @@ it("moves format 1 players into one character per account, keeps every world's o
   };
   const at = 1_700_000_000_000;
   const expected = {
-    version: [{ value: "2" }], chunks: [],
+    version: [{ value: "3" }], chunks: [],
     players: [
       { account_id: "alice", name: "Wanderer", currency: 99, owned: null, last_world: key("south"), first_seen: at, last_seen: at, playtime_seconds: 0 },
       { account_id: "bob", name: "Wanderer", currency: 30, owned: null, last_world: key("east"), first_seen: at, last_seen: at, playtime_seconds: 0 },
@@ -136,9 +139,9 @@ it("stamps a new database with the schema version and refuses one written by a n
   });
   const lines: string[] = [];
   const storage = new SqliteWorldStorage(file, { log: line => lines.push(line) });
-  expect({ ...storage.database.prepare("SELECT value FROM meta WHERE key='schema_version'").get() }).toEqual({ value: "2" });
-  storage.database.prepare("UPDATE meta SET value='3' WHERE key='schema_version'").run();
+  expect({ ...storage.database.prepare("SELECT value FROM meta WHERE key='schema_version'").get() }).toEqual({ value: "3" });
+  storage.database.prepare("UPDATE meta SET value='4' WHERE key='schema_version'").run();
   await storage.close();
   expect(lines).toEqual([]);
-  expect(() => new SqliteWorldStorage(file)).toThrow("Database schema 3 is newer than this server understands");
+  expect(() => new SqliteWorldStorage(file)).toThrow("Database schema 4 is newer than this server understands");
 });

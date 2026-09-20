@@ -1,10 +1,10 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 
 const descriptor: WorldDescriptor = { providerId: "reference", worldId: "aggro", name: "Aggro", endpoint: "ws://127.0.0.1/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_LAB_CONTENT_VERSION, seed: 1337,
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "lab", seed: 1337,
   capacity: 20, population: 0, availability: "available" };
 let ports: HeadlessWorldPorts;
 beforeAll(async () => { ports = await createMultiplayerLabWorld(); });

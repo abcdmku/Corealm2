@@ -7,7 +7,118 @@ does not contain the authoring service.
 
 Use `npm run devdocs` to open the local editor. Run `npm run content:check` when reviewing a change
 from the command line. The checker parses every registered collection, compiles progression and
-creatures, and reports broken references or invalid values.
+creatures, and reports broken references or invalid values. It checks asset ids against
+`game/public/assets/manifest.json` with the same pools devdocs saves with, so an id that names no
+shipped asset fails the check. A missing model on a creature whose `availability` is `lab` is a
+warning, because lab creatures may be staged before their model is promoted.
+
+## Two catalogs, one revision
+
+The compiler is `compileCatalog(sources, { formulaRevision, pools })` in
+`game/src/content/compiler/catalog.ts`. It reads no file, so the repo tools, devdocs and a running
+server all call the same function. It returns two catalogs.
+
+The server catalog holds every resolved table and the authoring inputs. The game server simulates
+from it. `game/content/compiled/catalog.json` is the server catalog compiled from the repo.
+
+The client catalog is `clientCatalog(serverCatalog)` in `game/src/content/clientCatalog.ts`. It is an
+allowlist: a table or field you add to the server catalog stays on the server until you name it
+there. A game server serves it at `GET /catalog/<revision>`, and a connected client lays it over its
+own tables so names, icons, item stats and shop stock match the server. With the shipped content the
+server catalog is 4,166,619 bytes as compact JSON (420,357 gzipped) and the client catalog is
+638,630 bytes (97,719 gzipped, 79,589 as the Brotli reply).
+
+| Table | Client catalog | Why |
+| --- | --- | --- |
+| `items`, `recipes`, `resources` | whole | Tooltips, production and gathering panels show these stats. |
+| `progression`, `materials`, `campfireFuels`, `equipmentSets` | whole | Tier, material and set presentation. |
+| `shops` | whole | A player sees a shop's stock and prices. |
+| `npcs` | whole | Names, outfits and where they stand. |
+| `spells`, `spellRunes`, `elementalSpells` | whole | The spellbook and cast effects. |
+| `balance/recipes`, `balance/sets`, `balance/campfires` | whole | Displayed XP, set thresholds and campfire timings. |
+| `audio` | whole | Cue and loop tables. The current client still plays from the copy in its build. |
+| `world.regions` | as `regions` | Region geometry for the map. |
+| `species` | as `creatures`: id, asset id, scale, region, activity, description, rig and native size fields, plus name, family and tier | Presentation only. `stats`, `attack`, `habitat` and `respawnMs` stay on the server. |
+| `enemies` | id, name, family, tier | The death screen, effects and hunt text need a name and a level. |
+| `enemies` combat and AI fields, `lootRolls`, `gold` | no | Server only. |
+| `lootTables` | no | Server only. |
+| `compiledCreatures`, `creatureDefinitions`, `creatureProfiles` | no | Definitions, adjustments and inherited fields are authoring data. |
+| `world.encounters`, `world.placements`, `world.resources`, `world.groupsByRegion`, `world.habitats`, `world.creatureByGroup` | no | Spawn tables. |
+| `worldRegions`, `encounters`, `placements`, `resourcePlacements`, `equipmentFamilies`, `recipeTemplates`, `balance/formation` | no | Compiler inputs. |
+| `quests`, `dialogue` | no | The quest and dialogue panels draw the `QuestSummary` and `DialogueView` the server sends. No UI code reads these records, so predicates and branch conditions never leave the server. |
+| `sourceMap` | no | Authoring data. |
+
+A creature's model reaches a client another way. The server stamps `view.assetId` and `view.scale`
+on each creature when it builds the world, and replicates that view. A world that loads a save
+takes the model and scale from the catalog it runs on now, so a model change shows after the next
+server start on any client that loads, as long as the asset host has the file.
+
+`revision` names the pair. It is the SHA-256 of the source collections, the formula revision and
+the resolved tables, so equal inputs give the same revision and the same client catalog bytes on any
+machine. `formulaRevision` names the formula code. A checkout hashes every `.ts` file under
+`game/src/content`, with file names and line endings normalised so Windows and Linux agree. The
+compiler writes that value into the catalog. A packaged server has no source tree, so it compiles
+with the `formulaRevision` of the catalog it was built with. The two values are equal for one
+release, which keeps an export and re-import of unchanged data on the same revision. Formula
+changes ship with a server release and change the revision of everything compiled after it.
+
+## Publishing to a live server
+
+A running game server compiles and applies content itself. `POST /admin/content/publish` takes whole
+collections, merges them over the server's active sources, and runs the compiler described above with
+the asset ids of the server's asset host. [Multiplayer hosting](multiplayer-hosting.md#publishing-content)
+has the endpoint reference. This section says what a publish changes in the running game.
+
+The reply lists the compiled tables that changed, split into `live` and `onRestart`. The split is one
+map, `CATALOG_TABLE_APPLIES` in `game/src/multiplayer/contentSwap.ts`, next to the code that moves the
+process onto a new catalog. A test compiles the shipped content and fails if a table is missing from it.
+
+| Table | Applies | How |
+| --- | --- | --- |
+| `items`, `recipes`, `shops`, `enemies` | live | The content registry holds them and is registered again. The next kill rolls the new loot, the next purchase reads the new stock and price, the next craft reads the new recipe. |
+| `lootTables`, `creatureDefinitions`, `creatureProfiles` | live | Nothing reads them while the game runs. The compiler folds them into `enemies`, so their effect arrives there. |
+| `compiledCreatures`, `species` | live | The creature indexes are refilled. |
+| `world`, `encounters`, `placements` | live, at the next respawn | Each world builds the changed spawn groups again. See below. |
+| `resources`, `resourcePlacements` | on restart | Resource nodes are stamped onto world entities when the world is built. |
+| `spells`, `spellRunes`, `elementalSpells` | on restart | The spell tables are derived as their modules load. |
+| `worldRegions`, `npcs`, `quests`, `dialogue` | on restart | Region geometry, settlements, quest and dialogue graphs are built at load. |
+| `progression`, `materials`, `equipmentFamilies`, `recipeTemplates`, `campfireFuels`, `equipmentSets`, `balance/*`, `audio` | on restart | Tier tables and tuning are read at load. The `items` and `recipes` the compiler generates from them are live. |
+
+A spawn change touches only the groups whose placement, encounter, habitat or creature changed. Loot
+is left out of that comparison, so a loot edit never moves a spawn. For each changed group the world
+builds the creatures again from the new catalog and spaces them among the residents that keep their
+spawn, on copies, so the living world is never edited in place:
+
+- A living creature keeps its position, its spawn and its old habitat until it dies. At its next
+  respawn it takes the new spawn, model, scale and stat block.
+- A dead creature takes the new spawn now and appears there when its timer ends.
+- A creature whose placement was removed or shrunk finishes its life, then leaves the world and the save.
+- A creature of a new or grown placement appears at once.
+
+A model change reaches clients through the creature's replicated view as it respawns, and through the
+client catalog the next time a client loads. Trees were scattered around the habitats of the catalog
+the server started with and stay where they are until the next start. New spawn points avoid their
+trunks, but a moved habitat may have trees inside its wander area until then. Coastal and regional
+pack groups are generated from region tables at load and are not rebuilt by a publish.
+
+### Retiring a definition
+
+Deleting an item that a player holds, or a creature that is alive in a world, would leave instances
+with nothing to resolve to. A publish that does so is refused with `definition_in_use` and the list of
+holders. Set `retired: true` on the item or creature definition instead. A variant inherits it from its base.
+
+| | Retired item | Retired creature |
+| --- | --- | --- |
+| Still resolves | Yes. Stacks in an inventory, bank or loot pile keep their name, icon, stats and sell price. | Yes. Living members fight, drop loot and die as before. |
+| Drops | No. The compiler takes it out of every loot roll, direct or through a loot table. | n/a |
+| Sold by shops | No. The compiler takes it off every shelf. A player can still sell one to a shop. | n/a |
+| Crafted | No. A recipe whose output is retired leaves the compiled `recipes` table, so no station lists it. A recipe that only consumes it stays, so players can use up their stock. | n/a |
+| Gathered | A retired bonus yield is dropped from the resource. A retired main yield is a compiler warning, because a node must yield something: give the node another yield or remove it. Resources apply on restart. | n/a |
+| Spawns | n/a | No. The world compiler skips its encounter members, so its groups and habitats are gone and its living members are not replaced. |
+
+The compiler reports each thing it removed as an `info` diagnostic, such as
+`lootTables.shared_t0_frog.items: Retired item marsh_gland no longer drops`. Once no player holds a
+retired item and no world has a retired creature alive, the definition can be deleted.
 
 ## The save cycle
 

@@ -1,6 +1,6 @@
 import { chromium, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
-import { WORLD_CONTENT_VERSION, WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type SocialView, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type SocialView, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { resolveEnemyDef } from "../game/src/systems/combat.js";
 import { ENEMIES } from "../game/src/content/enemies.js";
@@ -16,7 +16,7 @@ const authored = process.argv.includes("--authored"), budget = authored ? 120_00
 const clearDeadline = installTestDeadline("multiplayer social", budget), started = Date.now();
 const out = `test-results/multiplayer-social${authored ? "-authored" : ""}`; await mkdir(out, { recursive: true });
 const world: WorldDescriptor = { providerId: "reference", worldId: authored ? "authored" : "social", name: "Party yard", endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: authored ? WORLD_CONTENT_VERSION : WORLD_LAB_CONTENT_VERSION,
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: authored ? "authored" : "lab",
   seed: 1337, capacity: 1000, population: 0, availability: "available" };
 const local = authored ? null : await startReferenceServer({ worlds: [world], storage: new SqliteWorldStorage(":memory:"), build: async () => {
   const ports = await createMultiplayerLabWorld(); content.register({ enemies: ENEMIES });

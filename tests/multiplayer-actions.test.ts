@@ -1,5 +1,5 @@
 import { beforeAll, expect, it } from "vitest";
-import { WORLD_LAB_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { Replicator, ReplicatedState, ReplicationFrame } from "../game/src/multiplayer/replication.js";
@@ -10,7 +10,7 @@ import { setSkillLevel } from "../game/src/state/store.js";
 import { command } from "../game/src/multiplayer/protocol.js";
 
 const descriptor: WorldDescriptor = { providerId: "reference", worldId: "actions", name: "Actions", endpoint: "ws://127.0.0.1/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_LAB_CONTENT_VERSION, seed: 1337, capacity: 1000, population: 0, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "lab", seed: 1337, capacity: 1000, population: 0, availability: "available" };
 let ports: HeadlessWorldPorts;
 beforeAll(async () => { ports = await createMultiplayerLabWorld(); });
 

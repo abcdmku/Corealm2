@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { SemanticEntity, WorldDescriptor } from "../game/src/contracts.js";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { deriveHuntTargets, generateHuntOffers } from "../game/src/content/huntContracts.js";
@@ -8,7 +8,7 @@ import { ENEMY_BLOCKS } from "../game/src/content/enemies.js";
 
 const descriptor: WorldDescriptor = {
   providerId: "reference", worldId: "yard", name: "Yard", endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337,
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337,
   population: 0, capacity: 1000, availability: "available",
 };
 

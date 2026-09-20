@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type LootStack, type PartyOperation, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type LootStack, type PartyOperation, type WorldDescriptor } from "../game/src/contracts.js";
 import { HeadlessWorld, type HeadlessWorldPorts } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { Replicator, ReplicatedState } from "../game/src/multiplayer/replication.js";
@@ -9,7 +9,7 @@ import { ALL_ITEMS } from "../game/src/content/items.js";
 import { parseChatInput } from "../game/src/ui/chatCommands.js";
 
 const descriptor: WorldDescriptor = { providerId: "reference", worldId: "social", name: "Social", endpoint: "ws://127.0.0.1:4180/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity: 1000, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 1000, availability: "available" };
 let ports: HeadlessWorldPorts;
 beforeAll(async () => { ports = await createMultiplayerLabWorld(); });
 function fixture() {

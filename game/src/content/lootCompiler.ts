@@ -20,7 +20,7 @@ export function withGoldRoll(rolls: readonly CompiledLootRoll[], range: readonly
 }
 
 /** Resolve reusable pools once. A reference joins a pool, never creates hidden extra rolls. */
-export function createLootCompiler(tables: readonly LootTableRecord[]) {
+export function createLootCompiler(tables: readonly LootTableRecord[], retiredItems: ReadonlySet<string> = new Set()) {
   const byId = new Map(tables.map(table => [table.id, table]));
   if (byId.size !== tables.length) throw new Error('Duplicate shared loot table id');
   const cache = new Map<string, LootDrop[]>();
@@ -29,7 +29,8 @@ export function createLootCompiler(tables: readonly LootTableRecord[]) {
     if (cache.has(path)) return cache.get(path)!;
     if (active.has(path)) throw new Error(`${path}: cyclic loot table reference`);
     active.add(path);
-    const drops = [...roll.drops];
+    // A retired item still resolves for the stacks players hold. It only stops dropping.
+    const drops = roll.drops.filter(drop => !retiredItems.has(drop.itemId));
     for (const link of roll.tables) {
       const table = byId.get(link.tableId);
       if (!table) throw new Error(`${path}: unknown loot table ${link.tableId}`);

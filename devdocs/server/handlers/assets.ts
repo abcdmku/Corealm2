@@ -4,7 +4,7 @@ import path from "node:path";
 
 import type { AssetCategory, AssetEntry, AssetManifest, AssetPack } from "../../../game/src/render/assets.js";
 import { parseValue } from "../../../game/src/content/schema/core.js";
-import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../tools/content/collections.js";
+import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
 import { contentRevision, formatContentJson } from "../../../tools/content/format.js";
 import {
   CANDIDATE_KINDS,

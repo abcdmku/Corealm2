@@ -2,13 +2,13 @@ import { expect, it } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, dirname, basename, resolve } from "node:path";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 
 const descriptor: WorldDescriptor = { providerId: "delta", worldId: "yard", name: "Yard", endpoint: "ws://127.0.0.1:0/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337, population: 0, capacity: 200, availability: "available" };
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 200, availability: "available" };
 
 it("migrates an existing full save, applies entity changes and deletions, and reopens complete state", async () => {
   const directory = await mkdtemp(join(tmpdir(), "corealm-storage-delta-")), file = join(directory, "world.sqlite");

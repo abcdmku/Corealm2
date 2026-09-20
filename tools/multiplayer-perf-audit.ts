@@ -3,7 +3,7 @@ import {resolve} from "node:path";
 import {chromium} from "playwright";
 import {mkdir,writeFile} from "node:fs/promises";
 import {cpus,totalmem} from "node:os";
-import {WORLD_CONTENT_VERSION,WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
+import {WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
 import {createAuthoredWorld} from "../game/src/multiplayer/authoredWorld.js";
 import {startReferenceServer} from "../game/src/multiplayer/referenceServer.js";
 import {SqliteWorldStorage} from "../game/src/multiplayer/sqliteStorage.js";
@@ -20,7 +20,7 @@ if(fullGeometry&&!production)throw new Error("--full-geometry requires --product
 const outputRoot=process.argv.find(arg=>arg.startsWith("--out="))?.slice(6)??"test-results/performance-audit";
 const out=`${outputRoot}/${production?"production":"source"}`;await mkdir(out,{recursive:true});
 const world:WorldDescriptor={providerId:"render",worldId:"authored",name:"Crowded Corealm",endpoint:"ws://127.0.0.1:0/",
-  protocolVersion:WORLD_PROTOCOL_VERSION,contentVersion:WORLD_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"};
+  protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"authored",seed:1337,capacity:1000,population:0,availability:"available"};
 const ports=await createAuthoredWorld(1337);
 const server=await startReferenceServer({worlds:[world],storage:new SqliteWorldStorage(":memory:"),build:async()=>ports,
   authentication:{authenticate:async()=>({playerId:"observer",name:"Observer"})}});

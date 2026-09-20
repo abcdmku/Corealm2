@@ -1,6 +1,6 @@
 import {chromium} from "playwright";
 import {mkdir,writeFile} from "node:fs/promises";
-import {WORLD_LAB_CONTENT_VERSION,WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
+import {WORLD_PROTOCOL_VERSION,type WorldDescriptor} from "../game/src/contracts.js";
 import {createMultiplayerLabWorld} from "../game/src/multiplayer/labWorld.js";
 import {startReferenceServer} from "../game/src/multiplayer/referenceServer.js";
 import {SqliteWorldStorage} from "../game/src/multiplayer/sqliteStorage.js";
@@ -12,7 +12,7 @@ import {CROWD_EQUIPMENT as kits} from "./lib/crowdEquipment.js";
 const clearDeadline=installTestDeadline("multiplayer crowd lab",60_000);
 const out="test-results/multiplayer-crowd";await mkdir(out,{recursive:true});
 const world:WorldDescriptor={providerId:"reference",worldId:"yard",name:"Crowd lab",endpoint:"ws://127.0.0.1:0/",
-  protocolVersion:WORLD_PROTOCOL_VERSION,contentVersion:WORLD_LAB_CONTENT_VERSION,seed:1337,capacity:1000,population:0,availability:"available"};
+  protocolVersion:WORLD_PROTOCOL_VERSION,fixture:"lab",seed:1337,capacity:1000,population:0,availability:"available"};
 const server=await startReferenceServer({worlds:[world],storage:new SqliteWorldStorage(":memory:"),build:()=>createMultiplayerLabWorld(),
   authentication:{authenticate:async()=>({playerId:"observer",name:"Observer"})}});
 const game=await startGameServer(),browser=await chromium.launch({headless:true,args:["--use-angle=d3d11"]});

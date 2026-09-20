@@ -1,7 +1,7 @@
 import {
   ArraySchema, DiscriminatedSchema, ObjectSchema, RecordSchema, TupleSchema, UnionSchema,
   unwrap, type RefKind, type Schema, type SchemaIssue,
-} from "../../game/src/content/schema/core.js";
+} from "../schema/core.js";
 
 export type ReferencePools = Partial<Record<RefKind, ReadonlySet<string>>>;
 

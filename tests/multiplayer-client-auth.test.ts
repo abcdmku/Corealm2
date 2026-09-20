@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type SessionError, type SessionPhase, type WorldDescriptor, type WorldSession } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type SessionError, type SessionPhase, type WorldDescriptor, type WorldSession } from "../game/src/contracts.js";
 import { IdentityClient } from "../game/src/multiplayer/identityClient.js";
 import { ProviderRegistry, SessionController } from "../game/src/multiplayer/providers.js";
 import { SessionFailure } from "../game/src/multiplayer/protocol.js";
@@ -8,7 +8,7 @@ import { accountBlocker, joinFailureMessage } from "../game/src/multiplayer/worl
 const NOW = 1_700_000_000;
 const world: WorldDescriptor = {
   providerId: "reference", worldId: "frostmere", name: "Frostmere", endpoint: "ws://127.0.0.1:4180/",
-  protocolVersion: WORLD_PROTOCOL_VERSION, contentVersion: WORLD_CONTENT_VERSION, seed: 1337,
+  protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337,
   population: 3, capacity: 40, availability: "available", authentication: "account",
 };
 

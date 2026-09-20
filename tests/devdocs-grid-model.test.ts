@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Schema } from "../game/src/content/schema/core.js";
-import { CONTENT_COLLECTIONS } from "../tools/content/collections.js";
+import { CONTENT_COLLECTIONS } from "../game/src/content/compiler/collections.js";
 import type { ContentRow } from "../devdocs/src/model/contracts.js";
 import { getPath } from "../devdocs/src/model/draft.js";
 import { fieldPath } from "../devdocs/src/model/fields.js";

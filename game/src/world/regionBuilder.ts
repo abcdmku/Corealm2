@@ -2161,8 +2161,11 @@ function buildCluster(
 }
 
 export interface EnemyGroupBuildOptions {
-  habitat: HabitatDef;
-  members: readonly { id: string; stats: EnemyDef; scaleMultiplier: number }[];
+  /** Null for a boss, which owns its encounter origin. */
+  habitat: HabitatDef | null;
+  members?: readonly { id: string; stats: EnemyDef; scaleMultiplier: number }[];
+  /** The group's stat block, for a build from a catalog the import-time world tables do not hold yet. */
+  stats?: EnemyDef;
 }
 
 /** Shared actor construction for authored groups and isolated pack fixtures. */
@@ -2180,8 +2183,8 @@ export function buildEnemyGroup(
   // radius, behaviour and the displayed level all come from here, and `EnemyGroupDef` no longer
   // carries any of them. See the level comment below. Read straight off the table rather than
   // through `content.enemy`, so building a world does not depend on boot having registered first.
-  if (options && options.members.length !== group.count) throw new Error(`Pack ${group.id} has mismatched members`);
-  const enemyBlock = options?.members[0]?.stats ?? WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
+  if (options?.members && options.members.length !== group.count) throw new Error(`Pack ${group.id} has mismatched members`);
+  const enemyBlock = options?.members?.[0]?.stats ?? options?.stats ?? WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
   if (!enemyBlock) {
     // Loud rather than silent. Without a block there is no health, no level and no behaviour, and
     // the old fallback fields that used to paper over this are gone. `content/regions.ts`
@@ -2204,10 +2207,10 @@ export function buildEnemyGroup(
   // axis that decides whether two of them are standing in each other. Null when the asset is not in
   // the manifest, which leaves `enemyAI` on its own fallback rather than inventing a size here.
   const assetBox = assetSize(group.assetId);
-  const habitat = options?.habitat ?? (bossRank === null ? habitatForGroup(group.id) : null);
+  const habitat = options ? options.habitat : bossRank === null ? habitatForGroup(group.id) : null;
 
   for (let index = 0; index < group.count; index += 1) {
-    const member = options?.members[index];
+    const member = options?.members?.[index];
     const stats = member?.stats ?? enemyBlock;
     const viewScale = baseViewScale * (member?.scaleMultiplier ?? 1);
     const scale = drawnScale(archetype, viewScale, group.tier);

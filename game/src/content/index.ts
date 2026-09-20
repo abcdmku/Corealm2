@@ -14,9 +14,9 @@
  */
 import { CREATURE_PURSUIT_CEILING_MPS } from "./creatureMotionTiming.js";
 import { tierSilhouetteScale } from "../core/math.js";
-import recipeBalanceData from "../../content/data/balance/recipes.json";
 import { recipesBalanceSchema } from "./schema/balance.js";
 import { parseValue } from "./schema/core.js";
+import { RESOLVED_TABLES } from "./resolvedCatalog.js";
 import * as recipeBalance from "./balance/recipes.js";
 import { ENEMY_BALANCE } from "./enemyBalanceData.js";
 import { combatLevel } from "./balance/enemies.js";
@@ -26,7 +26,7 @@ import type {
 
 // ---------------------------------------------------------------- resources
 
-const RECIPE_BALANCE = parseValue(recipesBalanceSchema, recipeBalanceData, "balance/recipes");
+const RECIPE_BALANCE = parseValue(recipesBalanceSchema, RESOLVED_TABLES["balance/recipes"], "balance/recipes");
 
 export type GatheringResourceArchetype = "ore" | "tree" | "fishing_spot";
 

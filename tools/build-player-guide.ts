@@ -13,7 +13,7 @@ import { pathToFileURL } from "node:url";
 import type { CollectionResponse, CollectionSummary } from "../devdocs/shared/contracts.js";
 import { readRuntimeCatalogs } from "../devdocs/server/catalogs.js";
 import { compileAndPublish } from "./content/compile.js";
-import { CONTENT_COLLECTIONS, type ContentCollection } from "./content/collections.js";
+import { CONTENT_COLLECTIONS, type ContentCollection } from "../game/src/content/compiler/collections.js";
 import { contentRoot, contentRevision, formatContentJson } from "./content/format.js";
 import { atomicReplaceFile } from "./lib/atomic-replace-file.js";
 import { repoRoot } from "./lib/paths.js";

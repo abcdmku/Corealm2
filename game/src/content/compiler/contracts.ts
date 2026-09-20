@@ -10,7 +10,8 @@ export interface SourceLocation {
 export interface ContentDiagnostic {
   path: string;
   message: string;
-  severity: 'error' | 'warning';
+  /** `info` reports what the compiler did on the author's behalf, such as taking a retired item out of a loot roll. */
+  severity: 'error' | 'warning' | 'info';
 }
 
 export interface CompiledDomain<T> {

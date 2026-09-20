@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { CONTENT_COLLECTIONS, parseContentCollection } from "./collections.js";
+import { CONTENT_COLLECTIONS, parseContentCollection } from "../../game/src/content/compiler/collections.js";
 import { contentPath, writeContentJson } from "./format.js";
 
 // Validate the entire batch before making the first write.

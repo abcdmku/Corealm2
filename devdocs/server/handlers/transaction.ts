@@ -1,9 +1,10 @@
 import { mkdir, readFile, unlink } from 'node:fs/promises';
 import path from 'node:path';
-import { CONTENT_COLLECTIONS } from '../../../tools/content/collections.js';
+import { CONTENT_COLLECTIONS } from '../../../game/src/content/compiler/collections.js';
 import { contentRevision, formatContentJson } from '../../../tools/content/format.js';
 import { compileContent, formulaSourceRevision } from '../../../tools/content/compile.js';
-import { renameReferences, type ReferencePools } from '../../../tools/content/references.js';
+import { renameReferences, type ReferencePools } from '../../../game/src/content/compiler/references.js';
+import { affectedCompiled, affectedSources, changedCollections, staleCollections } from '../../../game/src/content/compiler/changes.js';
 import { atomicReplaceFile } from '../../../tools/lib/atomic-replace-file.js';
 import { withFileLock } from '../../../tools/content/locks.js';
 import { repoRoot } from '../../../tools/lib/paths.js';
@@ -26,7 +27,7 @@ export async function transact(body:ContentTransactionRequest,options:Transactio
     try{const interrupted=JSON.parse(await readFile(journal,'utf8')) as {files:{file:string;text:string|null}[]};for(const entry of interrupted.files){const resolved=path.resolve(root,entry.file);if(path.relative(root,resolved).startsWith('..'))throw new Error('Invalid transaction recovery path');if(entry.text===null)await unlink(resolved).catch(()=>{});else await atomicReplaceFile(resolved,entry.text);}await unlink(journal);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
     const snapshots=await loadCollectionSnapshots(root), values=new Map([...snapshots].map(([name,row])=>[name,structuredClone(row.data)]));
     const revisions=Object.fromEntries([...snapshots].map(([name,row])=>[name,contentRevision(row.text)]));
-    for(const [name,revision] of Object.entries(body.revisions))if(revisions[name]!==revision)return json(409,{error:'Content changed. Your draft has been preserved.',revisions});
+    if(staleCollections(body.revisions,revisions).length)return json(409,{error:'Content changed. Your draft has been preserved.',revisions});
     try{for(const change of body.changes){
       const spec=CONTENT_COLLECTIONS.find(spec=>spec.name===change.collection);if(!spec)throw new Error(`Unknown collection ${change.collection}`);
       if(!change.id||typeof change.id!=='string')throw new Error('Record ID required');
@@ -49,15 +50,16 @@ export async function transact(body:ContentTransactionRequest,options:Transactio
 
       }else throw new Error('Unknown operation');
     }}catch(error){return json(422,{error:String(error)});}
-    const changed=CONTENT_COLLECTIONS.filter(spec=>JSON.stringify(values.get(spec.name))!==JSON.stringify(snapshots.get(spec.name)!.data));
+    const before=new Map([...snapshots].map(([name,row])=>[name,row.data as unknown]));
+    const changed=changedCollections(before,values);
     if(body.operation==='save'&&changed.some(spec=>body.revisions[spec.name]!==revisions[spec.name]))return json(409,{error:'Review current revisions for every affected collection. Your draft has been preserved.',revisions});
     if('error' in checked){const error=checked.error;return json(422,{error:error instanceof Error?error.message:String(error),diagnostics:[{path:'formulas',message:'Save is paused until formula source passes project checking',severity:'error'}],revisions});}
     const {compiler,sourceRevision}=checked;
     if(formulaSourceRevision()!==sourceRevision)return json(409,{error:'Formula source changed before compilation. Your draft has been preserved.',revisions});
     const compiled=compiler(values,await options.referencePools?.()??{});
     if(!compiled.ok)return json(422,{error:'Content failed validation. Sources and last valid build are unchanged.',diagnostics:compiled.diagnostics,revisions});
-    const affected=changed.flatMap(spec=>{const before=snapshots.get(spec.name)!.data;const rows=values.get(spec.name);if(!Array.isArray(rows)||!Array.isArray(before))return [{collection:spec.name,id:'$collection'}];const ids=new Set([...before,...rows].map(row=>String(row[spec.idKey])));return [...ids].filter(id=>JSON.stringify(before.find(row=>String(row[spec.idKey])===id))!==JSON.stringify(rows.find(row=>String(row[spec.idKey])===id))).map(id=>({collection:spec.name,id}));});
-    try{const previous=JSON.parse(await readFile(path.join(root,'compiled/catalog.json'),'utf8')) as {tables:Record<string,unknown>};for(const [name,table]of Object.entries(compiled.tables)){if(!Array.isArray(table))continue;const before=Array.isArray(previous.tables[name])?previous.tables[name] as {id?:string}[]:[];const ids=new Set([...before,...table as {id?:string}[]].map(row=>row.id).filter((id):id is string=>Boolean(id)));for(const id of ids)if(JSON.stringify(before.find(old=>old.id===id))!==JSON.stringify((table as {id?:string}[]).find(row=>row.id===id))&&!affected.some(entry=>entry.collection===name&&entry.id===id))affected.push({collection:name,id});}}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
+    const affected=affectedSources(changed,before,values);
+    try{const previous=JSON.parse(await readFile(path.join(root,'compiled/catalog.json'),'utf8')) as {tables:Record<string,unknown>};affected.push(...affectedCompiled(previous.tables,compiled.tables,affected));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
     const collections=changed.map(spec=>{const data=values.get(spec.name),text=formatContentJson(data);return {collection:{name:spec.name,count:Array.isArray(data)?data.length:Object.keys(data as object).length,editable:true,idKey:spec.idKey,shape:spec.shape},revision:contentRevision(text),data};});
     if(body.operation==='save'){
       if(formulaSourceRevision()!==sourceRevision)return json(409,{error:'Formula source changed during preview. Your draft has been preserved.',revisions});

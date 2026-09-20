@@ -1,5 +1,6 @@
 import type { WorldConfiguration, WorldUpdate, SemanticEntity, WorldDescriptor, SessionCredentials, WorldProvider, SessionPhase, RemotePlayer } from "../contracts.js";
-import {WORLD_CONTENT_VERSION,WORLD_LAB_CONTENT_VERSION} from "../contracts.js";
+import { content } from "../content/index.js";
+import { createServerCatalogOverlay } from "./clientCatalogFetch.js";
 import type { Store } from "../state/store.js";
 import { composeSessionState } from "../state/store.js";
 import type { GameLoop } from "../app/loop.js";
@@ -28,6 +29,7 @@ import type { TraversalPresentation } from "../render/traversalPresentation.js";
 import { sampleFishing } from "../render/fishingPose.js";
 import { GATHER_TICK_MS } from "../core/time.js";
 import { MultiplayerSocial } from "../ui/multiplayerSocial.js";
+import { ContentNotice } from "../ui/contentNotice.js";
 
 /** World selection that outlives the loading screen: built early, wired to the engine later. */
 export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & { attach(ports: SessionControllerPorts): void };
@@ -106,6 +108,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   const selector = selection ?? await startWorldSelection({fixture:options.fixture===true});
   if (!selector) return;
   const social = new MultiplayerSocial(ports.api);
+  const contentNotice = new ContentNotice(); let contentUpdates: (() => void) | null = null;
   let offline = ports.store.snapshot(); let offlineEntities = structuredClone(ports.entities.all());
   const replicatedEntities = new ReplicatedEntityLayer(ports.entities, offlineEntities);
   const remote = new Map<string, SemanticEntity>(); const entities = new Map<string, SemanticEntity>();
@@ -137,9 +140,11 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   };
   const outfit = npcOutfitParts("remote-player", "base_male");
   await Promise.all(["base_male", ...outfit].map((id) => ports.assets.load(id, { priority: "visible-spawn" })));
+  // Names, icons, item stats and shop stock follow the joined server's catalog revision, and only while connected.
+  const serverCatalog = createServerCatalogOverlay(content, { failed: error => console.warn("[corealm] The server's content catalog could not be loaded; showing this build's names and stats.", error) });
   selector.attach({
     validate(world){
-      if(world.contentVersion!==(options.fixture?WORLD_LAB_CONTENT_VERSION:WORLD_CONTENT_VERSION))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
+      if(world.fixture!==(options.fixture?"lab":"authored"))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
       if(ports.expectedSeed!==undefined&&world.seed!==ports.expectedSeed)throw new SessionFailure("INCOMPATIBLE","This world uses a different map seed from the loaded scene");
       if(foreignAssetHost(world.assetBaseUrl))throw new SessionFailure("INCOMPATIBLE","This world uses a different asset host from the loaded game");
     },
@@ -164,6 +169,10 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       ports.saves.setOnlineSession(online);
       ports.movement.setDirectInputSink(online ? steer : null); steering = false;
       const session=phase === "connected" ? selector.controller.session : null;
+      // A publish on the server offers a refresh and nothing more. Play carries on with the catalog this session joined with.
+      contentUpdates?.(); contentUpdates = session?.subscribeContent?.(() => contentNotice.show()) ?? null;
+      if (phase === "offline") contentNotice.clear();
+      if (session?.catalog) void serverCatalog.enter(session.catalog); else if (phase === "offline") serverCatalog.leave();
       ports.api.setCommandSession(session ? {
         id:session.id,world:session.world,playerId:session.playerId,
         subscribe:listener=>session.subscribe(listener),close:()=>session.close(),

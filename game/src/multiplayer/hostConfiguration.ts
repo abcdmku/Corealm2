@@ -23,6 +23,12 @@ export interface HostConfiguration {
   /** Account id made owner at start, instead of the one-time setup code. Setting it stops a code being printed. */
   ownerAccount?: string;
   authModule?: string;
+  /**
+   * `--follow-repo-catalog`, a flag only. At start the catalog the server ships with replaces the
+   * database's active one when they differ. The local launchers set it so repo content edits reach
+   * the local server. A live server leaves it off: its database is the source of truth.
+   */
+  followRepoCatalog: boolean;
   worlds: HostWorld[];
   /** The file the settings below came from, or null when there was none. */
   configFile: string | null;
@@ -141,7 +147,7 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   if (!worlds.length || new Set(worlds.map(world => world.id)).size !== worlds.length
     || worlds.some(world => !WORLD_ID.test(world.id))) throw new Error("World IDs must be unique nonempty identifiers");
   return { authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
-    assetBaseUrl, identityUrl, ownerAccount, authModule, worlds, configFile: text === undefined ? null : path };
+    assetBaseUrl, identityUrl, ownerAccount, authModule, followRepoCatalog: args.includes("--follow-repo-catalog"), worlds, configFile: text === undefined ? null : path };
 }
 
 /** The same rule the browser applies to a descriptor: HTTPS, or plain HTTP only on loopback. */

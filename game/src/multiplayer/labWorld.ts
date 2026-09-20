@@ -75,6 +75,8 @@ export async function createMultiplayerLabWorld(seed = 1337): Promise<HeadlessWo
   const entities = multiplayerLabEntities(seed);
   const solids = new Solids([]);
   return { nav, entities, spawn: [0, 0, 0] as Vec3,
+    // The pad's creatures are placed by this fixture, not by placements, so a publish has no group to rebuild here.
+    planSpawns: () => ({ groupIds: new Set<string>(), spawns: [], habitats: [] }),
     movement: { solids, heightAt: () => 0, regionAt: () => "fallowmarch" },
     campfirePlacement: {
       groundAt: (_region, x, z) => Math.abs(x) < 47 && Math.abs(z) < 47 ? { y: 0, normal: [0, 1, 0] } : null,

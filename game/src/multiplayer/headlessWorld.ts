@@ -1,6 +1,5 @@
 import { SKILL_IDS, type GameCommand, type PlayerCharacter, type PlayerClaim, type Result, type SemanticEntity, type SkillId, type Vec3, type WorldDescriptor, type WorldStorageRecord } from "../contracts.js";
 import { runtimeTables } from "../content/runtimeCatalog.js";
-import { WORLD_LAB_CONTENT_VERSION } from "../contracts.js";
 import { content } from "../content/index.js";
 import { ENEMIES } from "../content/enemies.js";
 import { SimClock } from "../core/time.js";
@@ -15,6 +14,9 @@ import { HeadlessPlayer } from "./headlessPlayer.js";
 import { SessionFailure } from "./protocol.js";
 import { PublicActions } from "./publicActions.js";
 import { WorldSocial } from "./social.js";
+import { spawnGroupOf, spawnSignature, type SpawnPlan } from "./spawnPlan.js";
+import type { CompiledWorld } from "../content/worldData.js";
+import type { HabitatDef } from "../content/worldHabitats.js";
 
 export interface HeadlessWorldPorts {
   nav: Navigation;
@@ -23,7 +25,13 @@ export interface HeadlessWorldPorts {
   movement: MovementPorts;
   campfirePlacement: import("../systems/campfire.js").CampfirePlacementProbes;
   enemies?: typeof ENEMIES;
-  habitats?: readonly import("../content/worldHabitats.js").HabitatDef[];
+  habitats?: readonly HabitatDef[];
+  /**
+   * Build the named spawn groups again from a newly published world table, spaced among `residents`.
+   * Pure with respect to the running world: the server calls it before it activates a publish, and a
+   * throw refuses the publish. Absent on a scene whose creatures do not come from placements.
+   */
+  planSpawns?(world: CompiledWorld, groupIds: ReadonlySet<string>, residents: readonly SemanticEntity[]): SpawnPlan;
   knownLocations?: readonly import("../world/entities.js").KnownLocation[];
   doorBarriers?: readonly import("../world/dungeonDoors.js").DungeonDoorBarrier[];
   initialize?(world:HeadlessWorld):void;
@@ -46,15 +54,34 @@ export class HeadlessWorld {
   private readonly sentinel: HeadlessPlayer;
   private selected: HeadlessPlayer;
   private persistedEntities = new Map<string, string>();
+  /** The current habitat of each spawn group. A publish replaces the entries of the groups it rebuilt. */
+  private readonly habitats = new Map<string, HabitatDef>();
+  /** A creature that outlived the habitat of its group keeps the one it was spawned into until it dies. */
+  private readonly heldHabitats = new Map<string, HabitatDef | null>();
+  /** The spawn each living creature takes at its next respawn, and the creatures that will not respawn at all. */
+  private readonly pendingSpawns = new Map<string, SemanticEntity>();
+  private readonly retiring = new Set<string>();
   private readonly pendingEntitySnapshots = new WeakMap<WorldStorageRecord, Map<string, string>>();
   constructor(readonly descriptor: WorldDescriptor, readonly ports: HeadlessWorldPorts, saved?: WorldStorageRecord | null) {
-    if (saved && (saved.contentVersion !== descriptor.contentVersion || saved.seed !== descriptor.seed)) {
-      throw new SessionFailure("INCOMPATIBLE", "Stored world content or seed does not match configuration");
+    // Content changes while a world lives, so a save loads under any catalog revision. The scene it was built for cannot change.
+    if (saved && (saved.fixture !== descriptor.fixture || saved.seed !== descriptor.seed)) {
+      throw new SessionFailure("INCOMPATIBLE", "Stored world fixture or seed does not match configuration");
     }
-    const catalog = runtimeTables(descriptor.contentVersion === WORLD_LAB_CONTENT_VERSION);
+    const catalog = runtimeTables(descriptor.fixture === "lab");
     content.register({ ...catalog, enemies: [...new Map([...catalog.enemies, ...(ports.enemies ?? [])].map(enemy => [enemy.id, enemy])).values()] });
     this.entities = new EntityStore({ skillLevels: () => Object.fromEntries(SKILL_IDS.map((id) => [id, 99])) as Record<SkillId, number> });
     this.entities.load(saved?.entities ?? structuredClone(ports.entities));
+    // A creature's model and scale are stamped from the catalog when the world is built, and a save keeps
+    // what it was built with. `ports` was built from the catalog this server runs on now, so a model
+    // an admin changed reaches the saved creature here, and the client through its replicated view.
+    if (saved) {
+      const built = new Map(ports.entities.map(entity => [entity.id, entity]));
+      for (const entity of this.entities.all()) {
+        const fresh = entity.archetype === "enemy" || entity.archetype === "boss" ? built.get(entity.id)?.view : undefined;
+        if (fresh && entity.view) Object.assign(entity.view, { assetId: fresh.assetId, scale: fresh.scale, materialTier: fresh.materialTier, labelHeight: fresh.labelHeight });
+      }
+    }
+    for (const habitat of ports.habitats ?? []) this.habitats.set(habitat.groupId, habitat);
     // Seed from the durable baseline before initialization can remove resident entities.
     for (const entity of saved?.entities ?? []) this.persistedEntities.set(entity.id, JSON.stringify(entity));
     this.shared = saved?.world ?? { nodes: {}, enemies: {}, lootPiles: {} };
@@ -70,7 +97,8 @@ export class HeadlessWorld {
       get store() { return world.selected.store; }, get events() { return world.selected.events; }, get combat() { return world.selected.combat; },
       entities: this.entities, nav: ports.nav,
       groundHeightAt: (x, z) => ports.movement.heightAt?.(world.selected.store.get().player.regionId, x, z) ?? 0,
-      habitatForEntity: entity => ports.habitats?.find(habitat => habitat.groupId === entity.meta?.groupId) ?? null,
+      habitatForEntity: entity => world.heldHabitats.has(entity.id) ? world.heldHabitats.get(entity.id)! : world.habitats.get(String(entity.meta?.groupId)) ?? null,
+      beforeRespawn: (entity, runtime) => world.respawning(entity, runtime),
       selectPlayerForEnemy(entity) {
         const oldId = world.targets.get(entity.id);
         let player = oldId ? world.players.get(oldId) : undefined;
@@ -95,6 +123,9 @@ export class HeadlessWorld {
       if(saved?.random?.players[id])restored.random.restore(saved.random.players[id]);
     }
     this.entities.registerLocations(ports.knownLocations??[]);
+    // A save keeps the creatures it was written with. Spawns that content moved, added or removed since then
+    // reach it the way a live publish does: through the next respawn. `ports` is the fresh build.
+    if (saved) this.applySpawns({ groupIds: null, spawns: ports.entities.filter(entity => entity.archetype === "enemy" || entity.archetype === "boss"), habitats: [] });
     ports.initialize?.(this);
   }
   private makePlayer(id: string, saved?: WorldStorageRecord["players"][string]): HeadlessPlayer {
@@ -144,6 +175,80 @@ export class HeadlessWorld {
   private releaseEnemyTargets(playerId: string, atMs: number): void {
     for (const [enemyId, target] of this.targets) if (target === playerId) this.selectEnemyTarget(enemyId, undefined, atMs);
   }
+  /**
+   * Take the spawns a content publish produced. Nothing alive moves: a living creature whose spawn
+   * changed takes the new one when it next respawns and keeps its old habitat until then, a dead one
+   * takes it now, a creature the plan no longer names finishes its life and is then removed for good,
+   * and a creature that is new to the world appears at once. Removals reach storage as entity deletes.
+   */
+  applySpawns(plan: SpawnPlan): { added: number; pending: number; retiring: number; removed: number } {
+    const fresh = new Map(plan.spawns.map(entity => [entity.id, entity]));
+    const previous = new Map(this.habitats);
+    for (const habitat of plan.habitats) this.habitats.set(habitat.groupId, habitat);
+    if (plan.groupIds) for (const id of plan.groupIds) if (!plan.habitats.some(habitat => habitat.groupId === id)) this.habitats.delete(id);
+    const counts = { added: 0, pending: 0, retiring: 0, removed: 0 };
+    for (const entity of this.entities.all()) {
+      if ((entity.archetype !== "enemy" && entity.archetype !== "boss") || (plan.groupIds && !plan.groupIds.has(spawnGroupOf(entity)))) continue;
+      const next = fresh.get(entity.id), dead = this.shared.enemies[entity.id]?.state === "dead";
+      fresh.delete(entity.id);
+      if (next && spawnSignature(next) === spawnSignature(entity)) { this.pendingSpawns.delete(entity.id); this.retiring.delete(entity.id); this.heldHabitats.delete(entity.id); continue; }
+      if (!this.heldHabitats.has(entity.id)) this.heldHabitats.set(entity.id, previous.get(spawnGroupOf(entity)) ?? null);
+      if (next) { this.pendingSpawns.set(entity.id, structuredClone(next)); this.retiring.delete(entity.id); counts.pending++; }
+      else { this.pendingSpawns.delete(entity.id); this.retiring.add(entity.id); counts.retiring++; }
+      // The dead have no position to keep. A retired one goes now; the rest take the new spawn and wait out their timer.
+      if (dead && !this.respawning(entity, this.shared.enemies[entity.id]!)) { counts.retiring--; counts.removed++; }
+    }
+    for (const entity of fresh.values()) { this.entities.add(structuredClone(entity)); counts.added++; }
+    if (counts.added || counts.removed) this.ai?.rescan();
+    return counts;
+  }
+  /** The `beforeRespawn` hook: hand a creature the spawn it was waiting for. False when it was retired, and is now gone. */
+  private respawning(entity: SemanticEntity, runtime: NonNullable<SharedWorldState["enemies"][string]>): boolean {
+    if (this.retiring.delete(entity.id)) {
+      this.heldHabitats.delete(entity.id); this.targets.delete(entity.id);
+      this.entities.remove(entity.id); delete this.shared.enemies[entity.id];
+      return false;
+    }
+    const next = this.pendingSpawns.get(entity.id);
+    if (!next) return true;
+    this.pendingSpawns.delete(entity.id); this.heldHabitats.delete(entity.id);
+    Object.assign(entity, { name: next.name, tier: next.tier, regionId: next.regionId, archetype: next.archetype,
+      ...(next.combat ? { combat: next.combat } : {}), ...(next.view ? { view: next.view } : {}), ...(next.meta ? { meta: next.meta } : {}) });
+    runtime.spawnPos = [...next.position];
+    // The creature may now be another definition entirely.
+    for (const player of this.players.values()) player.combat.invalidateDefinitions(entity.id);
+    this.sentinel.combat.invalidateDefinitions(entity.id);
+    return true;
+  }
+  /** Content was republished: every player's combat resolves enemy rows again at the next read. */
+  invalidateDefinitions(): void {
+    for (const player of this.players.values()) player.combat.invalidateDefinitions();
+    this.sentinel.combat.invalidateDefinitions();
+  }
+  /** Who and what holds any of these items in this world right now: players here or resident, their recovery caches, and piles on the ground. Plain data, so a world on its own thread can answer it. */
+  itemHolders(itemIds: ReadonlySet<string>): ({ heldBy: "player"; id: string; place: string; accountId: string; name: string } | { heldBy: "loot-pile"; id: string; pileId: string })[] {
+    const found: ReturnType<HeadlessWorld["itemHolders"]> = [];
+    for (const [accountId, player] of this.players) {
+      const state = player.store.get();
+      const places: [string, readonly ({ itemId: string } | null)[]][] = [["inventory", state.inventory.slots], ["bank", state.bank.slots],
+        ["equipment", Object.values(state.equipment)], ["recovery-cache", state.world.recoveryCache?.items ?? []]];
+      for (const [place, slots] of places) for (const id of new Set(slots.flatMap(slot => slot && itemIds.has(slot.itemId) ? [slot.itemId] : [])))
+        found.push({ heldBy: "player", id, place, accountId, name: state.player.name });
+    }
+    for (const [pileId, pile] of Object.entries(this.shared.lootPiles)) for (const id of new Set(pile.items.map(stack => stack.itemId))) if (itemIds.has(id)) found.push({ heldBy: "loot-pile", id, pileId });
+    return found;
+  }
+  /** Living creatures by definition id, for the publish that wants to remove a definition. */
+  livingCreatures(): Map<string, number> {
+    const alive = new Map<string, number>();
+    for (const entity of this.entities.all()) {
+      if ((entity.archetype !== "enemy" && entity.archetype !== "boss") || this.shared.enemies[entity.id]?.state === "dead") continue;
+      const id = String(entity.meta?.enemyDefId ?? entity.id);
+      alive.set(id, (alive.get(id) ?? 0) + 1);
+    }
+    return alive;
+  }
+
   /**
    * Put a player in the world. With a claim the character is the server's stored one, never the
    * copy this world kept for an offline owner; what the player owns here and their random cursor
@@ -230,7 +335,7 @@ export class HeadlessWorld {
     const snapshot: WorldStorageRecord = {
       parties: this.social.snapshot(),
       schemaVersion: 1, key: { providerId: this.descriptor.providerId, worldId: this.descriptor.worldId },
-      contentVersion: this.descriptor.contentVersion, seed: this.descriptor.seed, tick: this.clock.tick,
+      fixture: this.descriptor.fixture, catalogRevision: this.descriptor.catalogRevision ?? null, seed: this.descriptor.seed, tick: this.clock.tick,
       world: structuredClone(this.shared), entities, receipts,
       ...(entityPatches ? { entityWrites: "patch" as const, removedEntityIds } : {}),
       players: Object.fromEntries([...this.players].map(([id, player]) => [id, playerSessionState(player.store.get())])),
