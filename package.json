@@ -80,6 +80,7 @@
     "devdocs:build": "vite build --config devdocs/vite.config.ts",
     "devdocs:smoke": "tsx tools/devdocs-smoke.ts",
     "assets:review": "tsx tools/asset-review/server.ts",
+    "identity": "tsx tools/identity-server.ts",
     "multiplayer:server": "tsx tools/multiplayer-server.ts",
     "multiplayer:dev": "tsx tools/multiplayer-dev.ts",
     "multiplayer:prod": "tsx tools/multiplayer-prod.ts",

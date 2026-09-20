@@ -15,6 +15,6 @@
     "skipLibCheck": true,
     "types": ["node", "vite/client", "vitest/globals"]
   },
-  "include": ["game/src", "game/vite.config.ts", "tools", "tests", "devdocs"]
+  "include": ["game/src", "game/vite.config.ts", "identity/src", "tools", "tests", "devdocs"]
 }
 
