@@ -1,7 +1,7 @@
 import { DatabaseSync, type StatementSync } from "node:sqlite";
-import type { PlayerCharacter, PlayerClaim, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
+import type { PlayerCharacter, PlayerClaim, StoredPlayerEdit, StoredPlayerEditResult, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
 import type { PlayerSessionState } from "../state/store.js";
-import { ADMIN_SCHEMA, SqliteAdminStorage, type ServerAdminStorage } from "./adminStorage.js";
+import { ADMIN_SCHEMA, SqliteAdminStorage, type AuditWriter, type ServerAdminStorage } from "./adminStorage.js";
 import { CATALOG_SCHEMA, SqliteCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
 import { worldKey } from "./protocol.js";
 
@@ -53,6 +53,7 @@ export class SqliteWorldStorage implements WorldStorage {
   /** Published catalogs, the active revision and its history, on this connection. */
   readonly catalog: CatalogStorage;
   private readonly db: DatabaseSync;
+  private readonly audit: AuditWriter;
   private readonly now: () => number;
   private closed = false;
   private readonly cachedCharacters = new Map<string, Map<string, string>>();
@@ -70,7 +71,7 @@ export class SqliteWorldStorage implements WorldStorage {
       this.migrate(options.log ?? (line => console.log(line)));
     } catch (error) { this.db.close(); throw error; }
     const admin = new SqliteAdminStorage(this.db);
-    this.admin = admin;
+    this.admin = admin; this.audit = admin.auditWriter;
     this.catalog = new SqliteCatalogStorage(this.db, admin.auditWriter);
   }
   /** Raw inspection for tests and migration tooling. Server code reads player data through
@@ -228,7 +229,7 @@ export class SqliteWorldStorage implements WorldStorage {
   async commit(record: WorldStorageRecord): Promise<WorldCommitResult> {
     const key = worldKey(record.key), at = this.now();
     const patchEntities = record.entityWrites === "patch";
-    const { leases = {}, ...world } = record;
+    const { leases = {}, audits = [], ...world } = record;
     const payload = JSON.stringify({ ...world, ...(patchEntities ? { entities: [], removedEntityIds: [] } : {}), players: {}, receipts: {}, ...(record.random ? { random: { world: record.random.world, players: {} } } : {}) });
     const priorCharacters = this.cachedCharacters.get(key), nextCharacters = new Map<string, string>();
     const priorOwned = this.cachedOwned.get(key), nextOwned = new Map<string, string>();
@@ -290,6 +291,8 @@ export class SqliteWorldStorage implements WorldStorage {
         for (const receipt of receipts) if (!prior || receipt.operation > prior.operation) putReceipt.run(key, id, receipt.operation, JSON.stringify(receipt));
         pruneReceipts.run(key, id, head);
       }
+      // An admin edit of a live player is in the character written above. Its row lands with it or not at all.
+      for (const audit of audits) if (!fenced.includes(audit.accountId)) this.audit(audit.by, audit.entry);
       this.db.exec("COMMIT");
     } catch (error) { this.db.exec("ROLLBACK"); throw error; }
     for (const apply of settled) apply();
@@ -297,6 +300,24 @@ export class SqliteWorldStorage implements WorldStorage {
     this.cachedCharacters.set(key, nextCharacters); this.cachedOwned.set(key, nextOwned);
     this.receiptTails.set(key, nextReceipts); this.receiptHeads.set(key, nextHeads);
     return { fenced };
+  }
+  async editStoredPlayer(edit: StoredPlayerEdit): Promise<StoredPlayerEditResult> {
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const result = ((): StoredPlayerEditResult => {
+        // A reserved lease is a dropped player inside the reconnect window: their world saved them and writes no more.
+        if (this.db.prepare("SELECT 1 FROM player_leases WHERE account_id=? AND reserved=0 AND expires_at>?").get(edit.accountId, this.now())) return "leased";
+        const row = this.db.prepare("SELECT character FROM players WHERE account_id=?").get(edit.accountId);
+        if (!row || row.character == null) return "missing";
+        if (JSON.stringify(JSON.parse(String(row.character))) !== JSON.stringify(edit.expected)) return "changed";
+        if (edit.character.player?.id !== edit.accountId) throw new Error("Stored player identity mismatch");
+        this.db.prepare("UPDATE players SET character=? WHERE account_id=?").run(JSON.stringify(edit.character), edit.accountId);
+        this.audit(edit.by, edit.entry);
+        return "written";
+      })();
+      this.db.exec(result === "written" ? "COMMIT" : "ROLLBACK");
+      return result;
+    } catch (error) { if (this.db.isTransaction) this.db.exec("ROLLBACK"); throw error; }
   }
   async close(): Promise<void> {
     if (this.closed) return; this.closed = true;

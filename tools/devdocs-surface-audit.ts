@@ -1,11 +1,34 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { chromium, type Page } from "playwright";
-import { WORKSPACES } from "../devdocs/src/ui/workspaces.js";
+import { setBackend } from "../devdocs/src/api/backend.js";
+import { createRepoBackend } from "../devdocs/src/api/repoBackend.js";
+import { createServerBackend } from "../devdocs/src/api/serverBackend.js";
+import { FIXTURE_PLAYER, fixtureSession, startAdminFixture, type AdminFixture } from "./devdocs-admin-fixture.js";
+
+const args = process.argv.slice(2);
+const option = (name: string, fallback: string): string => { const index = args.indexOf(`--${name}`); return index >= 0 ? args[index + 1] ?? fallback : fallback; };
+/** Server mode walks the surfaces that exist only behind a live game server, against the fixture. */
+const serverMode = args.includes("--server");
+
+// Navigation is filtered by what the running backend can do, so the audit installs the backend for
+// the mode it walks before it reads the list: the dev server is repo mode, the fixture is server mode.
+setBackend(serverMode
+  ? createServerBackend({
+    session: { server: "http://127.0.0.1", audience: "http://127.0.0.1", token: "cas_fixture", expiresAt: Date.now() + 1, accountId: "acc_audit", name: "Audit", role: "owner" },
+    descriptor: { name: "Fixture", endpoint: "ws://127.0.0.1/", assetBaseUrl: "", identityUrl: null, catalogRevision: "" },
+  })
+  : createRepoBackend());
+const { WORKSPACES } = await import("../devdocs/src/ui/workspaces.js");
 
 /*
   Walk every devdocs surface and measure layout faults a screenshot pass misses:
     npx tsx tools/devdocs-surface-audit.ts --base http://127.0.0.1:4192 [--width 1440] [--samples 2] [--only quests] [--shots]
+    npx tsx tools/devdocs-surface-audit.ts --server [--width 1440] [--shots]
+
+  `--server` needs `dist/devdocs-server` (npm run devdocs:build:server). It starts the fake admin API
+  in `tools/devdocs-admin-fixture.ts` and walks the `players` and `server` workspaces against it,
+  which is the only way to see surfaces a repo checkout does not have.
 
   For each workspace view it opens the list, then sample records (the first one and the richest
   one), expands every collapsed row in the page, and reports:
@@ -22,25 +45,23 @@ import { WORKSPACES } from "../devdocs/src/ui/workspaces.js";
   reference kind on each surface, for finding choices that should be segments or icon pickers.
 */
 
-const args = process.argv.slice(2);
-const option = (name: string, fallback: string): string => { const index = args.indexOf(`--${name}`); return index >= 0 ? args[index + 1] ?? fallback : fallback; };
-const base = option("base", "http://127.0.0.1:4190");
 const width = Number(option("width", "1440"));
 const samples = Number(option("samples", "2"));
 const only = option("only", "");
-const outDir = path.resolve("test-results/devdocs-audit", String(width));
+const fixturePort = Number(option("fixture-port", "4277"));
+const outDir = path.resolve("test-results/devdocs-audit", serverMode ? `server-${width}` : String(width));
 
 interface Surface { route: string; click?: string }
 interface Fault { kind: string; where: string; detail: string }
 
-async function surfaces(): Promise<Surface[]> {
+async function surfaces(base: string): Promise<Surface[]> {
   const out: Surface[] = [];
   for (const workspace of WORKSPACES) {
     if (only && workspace.key !== only) continue;
     for (const view of workspace.views) {
       const route = `${workspace.key}/${view.key}`;
       out.push({ route });
-      if (!view.collection) continue;
+      if (serverMode || !view.collection) continue;
       try {
         const response = await fetch(`${base}/__devdocs/collections/${encodeURIComponent(view.collection)}`);
         if (!response.ok) continue;
@@ -54,6 +75,16 @@ async function surfaces(): Promise<Surface[]> {
         for (const id of [...new Set([ids[0], ...richest.slice(0, Math.max(0, samples - 1))])].filter(Boolean)) out.push({ route: `${route}/${encodeURIComponent(id!)}` });
       } catch { /* a view whose collection does not load is audited as a list only */ }
     }
+  }
+  // The server-only workspaces browse no collection, so their records are named here instead.
+  if (serverMode) {
+    const server: (Surface & { workspace: string })[] = [
+      { workspace: "players", route: `players/players/${FIXTURE_PLAYER}` },
+      { workspace: "players", route: "players/players/acc_playerThistleGravelmaw90" },
+      { workspace: "server", route: "server/audit", click: "main [aria-label='Show what changed'] >> nth=0" },
+    ];
+    for (const surface of server) if (!only || only === surface.workspace) out.push({ route: surface.route, click: surface.click });
+    return out;
   }
   // Drawers and the peek: a record opened in the side sheet is the narrowest layout there is.
   const extra: (Surface & { workspace: string })[] = [
@@ -195,10 +226,14 @@ function measure(): Fault[] {
 
 async function main() {
   await mkdir(outDir, { recursive: true });
-  const list = await surfaces();
+  const fixture: AdminFixture | undefined = serverMode ? await startAdminFixture(fixturePort) : undefined;
+  const base = fixture ? fixture.url.replace(/[/]$/, "") : option("base", "http://127.0.0.1:4190");
+  const list = await surfaces(base);
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width, height: 1000 } });
   await page.addInitScript("globalThis.__name = (t) => t;");
+  // The editor mounts only behind a session, so the fixture's one is seeded before the first load.
+  if (fixture) await page.addInitScript(session => { sessionStorage.setItem("corealm.devdocs.admin.v1", session); }, fixtureSession(fixture.origin));
   const report: { route: string; expanded: number; errors: string[]; faults: Fault[] }[] = [];
   let errors: string[] = [];
   const controls: ControlEntry[] = [];
@@ -225,6 +260,7 @@ async function main() {
     for (const error of errors.slice(0, 3)) console.log(`    error    ${error.slice(0, 160)}`);
   }
   await writeFile(path.join(outDir, "report.json"), JSON.stringify(report, null, 2));
+  await fixture?.close();
   if (args.includes("--controls")) await writeFile(path.join(outDir, "controls.json"), JSON.stringify(controls, null, 2));
   const total = report.reduce((sum, entry) => sum + entry.faults.length, 0);
   console.log(`\n${report.length} surfaces, ${total} faults, ${report.filter(entry => entry.faults.length).length} with faults`);

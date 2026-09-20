@@ -86,7 +86,7 @@ export function createCatalogHost(storage: CatalogStorage, revision: string): Ca
   };
 }
 
-function accepts(header: string | string[] | undefined, coding: string): boolean {
+export function accepts(header: string | string[] | undefined, coding: string): boolean {
   return String(header ?? "").split(",").some(part => {
     const [name, ...params] = part.trim().toLowerCase().split(";").map(text => text.trim());
     return name === coding && !params.some(param => /^q=0(\.0*)?$/.test(param));

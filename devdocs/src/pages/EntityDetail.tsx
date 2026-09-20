@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import * as Tabs from "@radix-ui/react-tabs";
 import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
 import { ObjectSchema, type Schema } from "../../../game/src/content/schema/core.js";
+import { can } from "../api/backend.js";
 import { apiGet } from "../api/client.js";
 import type { ContentRow, EntityDetailProps } from "../model/contracts.js";
 import { fieldCore, serialFieldSpec } from "../model/fields.js";
@@ -22,11 +23,11 @@ import { toneVariant } from "../components/ui/badge.js";
 import { cn } from "../lib/utils.js";
 import { EMPTY, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../ui/layout.js";
 
-const SetPiecePanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/SetPiecePanel.js"));
-const NotesPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/NotesPanel.js"));
-const EntityEditor = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/EntityEditor.js"));
-const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"), null);
-const AssetCandidates = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/AssetCandidates.js"));
+const SetPiecePanel = can("meta") ? lazyComponent(() => import("../dev/SetPiecePanel.js")) : undefined;
+const NotesPanel = can("meta") ? lazyComponent(() => import("../dev/NotesPanel.js")) : undefined;
+const EntityEditor = can("write") ? lazyComponent(() => import("../dev/EntityEditor.js")) : undefined;
+const RecordActions = can("write") ? lazyComponent(() => import("../dev/RecordActions.js"), null) : undefined;
+const AssetCandidates = can("assets") ? lazyComponent(() => import("../dev/AssetCandidates.js")) : undefined;
 const ADVANCED_FIELDS = new Set(["catalog", "source", "sourceInputId", "legacyOverride", "derived", "registrationOrder", "labOrder", "fantasyTierOrder", "lineage", "history", "provenance", "migration", "__compiled"]);
 
 /** A record page's tabs: a sticky strip of quiet text tabs, the active one on the selected surface. */
@@ -73,11 +74,11 @@ export function EntityDetail(props: EntityDetailProps) {
   const summary = summarize(collection, record, ctx);
   const id = props.recordId ?? String(record.id ?? record.itemId ?? record.logItemId ?? record.tier ?? "");
   const generated = record.__compiled === true || collection.startsWith("compiled-");
-  const canEdit = !__DEVDOCS_PLAYER__ && props.editable && !generated;
+  const canEdit = can("write") && props.editable && !generated;
   const description = typeof record.description === "string" ? record.description : "";
   const assetId = primaryAssetId(collection, record);
   const idKey = collection === "campfireFuels" ? "logItemId" : collection === "spellRunes" ? "itemId" : undefined;
-  const meta = useQuery({ queryKey: ["meta", collection, props.collectionShape === "object" ? "$collection" : id], queryFn: () => apiGet<MetaResponse>(`meta/${collection.split("/").map(encodeURIComponent).join("/")}/${encodeURIComponent(props.collectionShape === "object" ? "$collection" : id)}`), enabled: !__DEVDOCS_PLAYER__ && !generated, staleTime: 10_000, refetchOnWindowFocus: false, retry: false });
+  const meta = useQuery({ queryKey: ["meta", collection, props.collectionShape === "object" ? "$collection" : id], queryFn: () => apiGet<MetaResponse>(`meta/${collection.split("/").map(encodeURIComponent).join("/")}/${encodeURIComponent(props.collectionShape === "object" ? "$collection" : id)}`), enabled: can("meta") && !generated, staleTime: 10_000, refetchOnWindowFocus: false, retry: false });
   const status = meta.data?.data.status;
   const openRequests = meta.data?.data.notes.filter(note => note.request && note.request.state !== "closed").length ?? 0;
   const facts = summary.badges.filter(badge => !badge.tone || !["ok", "warn", "danger"].includes(badge.tone)).filter(badge => badge.text !== "Generated").map(badge => badge.text);
@@ -107,8 +108,8 @@ export function EntityDetail(props: EntityDetailProps) {
         <Tabs.List aria-label="Record detail" className="sticky top-0 z-3 mb-1 flex gap-0.5 border-b border-border-subtle bg-background py-1.5">
           <Tabs.Trigger className={TAB} value="edit">{canEdit ? "Record" : "Fields"}</Tabs.Trigger>
           {canEdit && collection === "equipmentSets" && <Tabs.Trigger className={TAB} value="pieces">Pieces</Tabs.Trigger>}
-          {!__DEVDOCS_PLAYER__ && assetId && <Tabs.Trigger className={TAB} value="model">Model candidates</Tabs.Trigger>}
-          {!__DEVDOCS_PLAYER__ && !generated && <Tabs.Trigger className={TAB} value="notes">Notes</Tabs.Trigger>}
+          {AssetCandidates && assetId && <Tabs.Trigger className={TAB} value="model">Model candidates</Tabs.Trigger>}
+          {NotesPanel && !generated && <Tabs.Trigger className={TAB} value="notes">Notes</Tabs.Trigger>}
           <Tabs.Trigger className={TAB} value="raw">JSON</Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content className={TAB_PANEL} value="edit" forceMount hidden={tab !== "edit"}>
@@ -117,8 +118,8 @@ export function EntityDetail(props: EntityDetailProps) {
           <ReferencedBy collection={collection} id={id} navigate={navigate} />
         </Tabs.Content>
         {canEdit && collection === "equipmentSets" && SetPiecePanel && visited.has("pieces") && <Tabs.Content className={TAB_PANEL} value="pieces" forceMount hidden={tab !== "pieces"}><Suspense fallback={<p className={EMPTY}>Loading pieces…</p>}><SetPiecePanel collection={collection} recordId={id} /></Suspense></Tabs.Content>}
-        {!__DEVDOCS_PLAYER__ && assetId && AssetCandidates && visited.has("model") && <Tabs.Content className={TAB_PANEL} value="model" forceMount hidden={tab !== "model"}><Suspense fallback={<p className={EMPTY}>Loading candidates…</p>}><AssetCandidates collection={collection} entityId={id} currentAssetId={assetId} targetLabel={`Candidates for ${summary.title}`} /></Suspense></Tabs.Content>}
-        {!__DEVDOCS_PLAYER__ && !generated && NotesPanel && visited.has("notes") && <Tabs.Content className={TAB_PANEL} value="notes" forceMount hidden={tab !== "notes"}><Suspense fallback={<p className={EMPTY}>Loading notes…</p>}><NotesPanel collection={collection} entityId={props.collectionShape === "object" ? "$collection" : id} /></Suspense></Tabs.Content>}
+        {assetId && AssetCandidates && visited.has("model") && <Tabs.Content className={TAB_PANEL} value="model" forceMount hidden={tab !== "model"}><Suspense fallback={<p className={EMPTY}>Loading candidates…</p>}><AssetCandidates collection={collection} entityId={id} currentAssetId={assetId} targetLabel={`Candidates for ${summary.title}`} /></Suspense></Tabs.Content>}
+        {!generated && NotesPanel && visited.has("notes") && <Tabs.Content className={TAB_PANEL} value="notes" forceMount hidden={tab !== "notes"}><Suspense fallback={<p className={EMPTY}>Loading notes…</p>}><NotesPanel collection={collection} entityId={props.collectionShape === "object" ? "$collection" : id} /></Suspense></Tabs.Content>}
         <Tabs.Content className={TAB_PANEL} value="raw"><pre className="overflow-auto font-mono text-xs leading-relaxed">{JSON.stringify(record, null, 2)}</pre></Tabs.Content>
       </Tabs.Root>
     </div>

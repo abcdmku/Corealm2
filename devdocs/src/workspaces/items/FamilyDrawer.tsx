@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { can } from "../../api/backend.js";
 import { lazyComponent } from "../lazyView.js";
 import { EquipmentBonusesSchema } from "../../../../game/src/content/schema/items.js";
 import { EquipmentFamilySchema, ProgressionTierSchema, type EquipmentFamily } from "../../../../game/src/content/schema/progression.js";
@@ -27,7 +28,7 @@ const PAIRS = "grid-cols-[repeat(2,minmax(0,14rem))]";
   number and wears the brass override dot (docs/devdocs-inputs.md 3.10).
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"), null);
+const CompiledCheck = can("formulas") ? lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"), null) : undefined;
 
 const family = (...path: Path[number][]) => specAt(EquipmentFamilySchema, ["parameters", ...path]);
 const VALUE = specAt(ProgressionTierSchema, ["equipment", 0, "adjustments", "value"]);
@@ -51,7 +52,7 @@ export function FamilyDrawer({ familyId, data, onClose, onOpenItem, onLive, stac
   const [scrub, setScrub] = useState<EquipmentFamily>();
   useEffect(() => setScrub(undefined), [committed]);
   const record = scrub ?? committed;
-  const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
+  const readOnly = !can("write") || !draft.editable;
   useEffect(() => { onLive?.(scrub ?? (draft.dirty ? committed : undefined)); }, [committed, scrub, draft.dirty, onLive]);
   useEffect(() => () => onLive?.(undefined), [onLive]);
 

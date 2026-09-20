@@ -1,16 +1,12 @@
-import { contentRevision, formatContentJson } from './canonical.js';
 import { CONTENT_COLLECTIONS, type ContentCollection } from './collections.js';
 
 /**
- * What a content write changed, for the two places that accept one: the devdocs repo transaction and
- * a live server's publish. Pure: values in, names and ids out.
+ * What a content write changed, for the three places that accept one: the devdocs repo transaction,
+ * a live server's publish, and the editor in the browser deciding what its save has to send. Pure:
+ * values in, names and ids out, and no Node built-in anywhere in this file's imports so the editor
+ * bundle can have it. Hashing a collection into a revision is `revision.ts`, which is Node only.
  */
 export interface AffectedRecord { collection: string; id: string }
-
-/** The revision an editor read a collection at. Canonical text, so equal values give equal revisions. */
-export function collectionRevision(value: unknown): string {
-  return contentRevision(formatContentJson(value));
-}
 
 /** Collections an editor read at another revision than the current one. Empty means the write may proceed. */
 export function staleCollections(read: Readonly<Record<string, string>>, current: Readonly<Record<string, string>>): string[] {

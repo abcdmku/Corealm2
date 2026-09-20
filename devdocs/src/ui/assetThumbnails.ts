@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { can } from "../api/backend.js";
 
 /**
  * Rendered thumbnails for GLB assets. The manifest ships no 2D previews for creatures, NPCs or
@@ -22,7 +23,7 @@ export function installThumbnailProvider(next: ThumbnailProvider | undefined): v
 export function thumbnailProviderInstalled(): boolean { return provider !== undefined; }
 
 export function requestAssetThumbnail(assetId: string): Promise<string | undefined> {
-  if (!provider || __DEVDOCS_PLAYER__) return Promise.resolve(undefined);
+  if (!provider) return Promise.resolve(undefined);
   if (cache.has(assetId)) return Promise.resolve(cache.get(assetId));
   let inFlight = pending.get(assetId);
   if (!inFlight) {

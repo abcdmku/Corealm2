@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { can } from "../../api/backend.js";
 import { useQueries } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Flag, Footprints, MapPin, Maximize2, Minus, Pickaxe, Plus } from "lucide-react";
@@ -47,7 +48,7 @@ function loadLayers(): Record<Layer, boolean> {
 }
 
 export default function MapView({ recordId, navigate }: ViewProps) {
-  const editable = !__DEVDOCS_PLAYER__;
+  const editable = can("write");
   const queries = useQueries({ queries: [...DRAFT_COLLECTIONS, ...LOOKUP_COLLECTIONS].map(name => collectionQuery(name)) });
   const loading = queries.slice(0, DRAFT_COLLECTIONS.length).some(query => query.isPending);
   const failed = queries.find(query => query.isError);

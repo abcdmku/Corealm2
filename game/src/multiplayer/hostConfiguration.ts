@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { endpoint } from "./protocol.js";
+import { MAX_DESCRIPTION_CHARS, SERVER_NAME } from "./serverSettings.js";
 
 /** One world on this server. Worlds differ by id, name, seed and capacity; everything else is shared. */
 export interface HostWorld { id: string; name: string; seed: number; capacity: number }
@@ -24,6 +25,16 @@ export interface HostConfiguration {
   ownerAccount?: string;
   authModule?: string;
   /**
+   * Defaults for settings an admin may change while the server runs: what the public directory lists
+   * this server as, what the picker says about it, and whether it registers with that directory.
+   * A value an admin stored in the database overrides the one here.
+   */
+  name?: string;
+  description?: string;
+  registerWithDirectory: boolean;
+  /** Directory holding the devdocs server-mode build, served at `/admin/`. */
+  adminUiDir: string;
+  /**
    * `--follow-repo-catalog`, a flag only. At start the catalog the server ships with replaces the
    * database's active one when they differ. The local launchers set it so repo content edits reach
    * the local server. A live server leaves it off: its database is the source of truth.
@@ -42,7 +53,7 @@ const DEFAULT_SEED = 1337;
 const DEFAULT_CAPACITY = 64;
 const WORLD_ID = /^[A-Za-z0-9_.:-]{1,128}$/;
 const FILE_KEYS = ["host", "port", "publicEndpoint", "allowedOrigins", "data", "assetBaseUrl", "identityUrl", "ownerAccount",
-  "authored", "developmentGuests", "guests", "authModule", "worlds"];
+  "authored", "developmentGuests", "guests", "authModule", "worlds", "name", "description", "registerWithDirectory", "adminUiDir"];
 /** The same account id shape the identity service mints and the join token carries. */
 const OWNER_ACCOUNT = /^acc_[A-Za-z0-9_-]{22,120}$/;
 const WORLD_KEYS = ["id", "name", "seed", "capacity"];
@@ -133,6 +144,13 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   const sources = [identityUrl !== undefined, guests || developmentGuests, authModule !== undefined].filter(Boolean).length;
   if (sources !== 1) throw new Error("Choose exactly one way to authenticate players: an identity service URL, guests, or an authentication module");
   const authentication = identityUrl !== undefined ? "account" : authModule !== undefined ? "module" : "guest";
+  const name = value("--name", "COREALM_SERVER_NAME", "name");
+  if (name !== undefined && !SERVER_NAME.test(name)) throw new Error("name must be 3 to 48 letters, digits, spaces or _ . ' - and start with a letter or digit");
+  const description = value("--description", "COREALM_SERVER_DESCRIPTION", "description")?.trim();
+  if (description !== undefined && (!description || description.length > MAX_DESCRIPTION_CHARS)) throw new Error(`description must be 1 to ${MAX_DESCRIPTION_CHARS} characters`);
+  const registerWithDirectory = args.includes("--register-with-directory") || fileFlag("registerWithDirectory");
+  if (registerWithDirectory && identityUrl === undefined) throw new Error("registerWithDirectory needs an identity service URL: the directory is the identity service's");
+  const adminUiDir = value("--admin-ui-dir", "COREALM_ADMIN_UI_DIR", "adminUiDir", "dist/devdocs-server")!;
 
   const capacityText = flag("--capacity") ?? env.COREALM_CAPACITY;
   const capacityOverride = capacityText === undefined ? undefined : Number(capacityText);
@@ -147,7 +165,7 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   if (!worlds.length || new Set(worlds.map(world => world.id)).size !== worlds.length
     || worlds.some(world => !WORLD_ID.test(world.id))) throw new Error("World IDs must be unique nonempty identifiers");
   return { authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
-    assetBaseUrl, identityUrl, ownerAccount, authModule, followRepoCatalog: args.includes("--follow-repo-catalog"), worlds, configFile: text === undefined ? null : path };
+    assetBaseUrl, identityUrl, ownerAccount, authModule, name, description, registerWithDirectory, adminUiDir, followRepoCatalog: args.includes("--follow-repo-catalog"), worlds, configFile: text === undefined ? null : path };
 }
 
 /** The same rule the browser applies to a descriptor: HTTPS, or plain HTTP only on loopback. */

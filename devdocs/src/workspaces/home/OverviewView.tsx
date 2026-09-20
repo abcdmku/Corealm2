@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
+import { can } from "../../api/backend.js";
 import { apiGet } from "../../api/client.js";
 import { WORKSPACES, viewForCollection, workspaceLabel } from "../../ui/workspaces.js";
 import type { ViewProps } from "../types.js";
@@ -15,11 +16,14 @@ interface GitChange { path: string; status: string; tracked: boolean }
 
 /** Home: where to go, and what is waiting. */
 export default function OverviewView({ navigate }: ViewProps) {
-  const requests = useQuery({ queryKey: ["requests"], queryFn: () => apiGet<{ requests: RequestEntry[] }>("requests"), enabled: !__DEVDOCS_PLAYER__, staleTime: 15_000, refetchOnWindowFocus: false, retry: false });
-  const changes = useQuery({ queryKey: ["git-status"], queryFn: () => apiGet<{ changes: GitChange[] }>("git/status"), enabled: !__DEVDOCS_PLAYER__, staleTime: 5_000, refetchOnWindowFocus: false, retry: false });
+  const requests = useQuery({ queryKey: ["requests"], queryFn: () => apiGet<{ requests: RequestEntry[] }>("requests"), enabled: can("requests"), staleTime: 15_000, refetchOnWindowFocus: false, retry: false });
+  const changes = useQuery({ queryKey: ["git-status"], queryFn: () => apiGet<{ changes: GitChange[] }>("git/status"), enabled: can("git"), staleTime: 5_000, refetchOnWindowFocus: false, retry: false });
   const openRequests = (requests.data?.requests ?? []).filter(entry => entry.request.state !== "closed");
   const changedFiles = changes.data?.changes ?? [];
   const workspaces = WORKSPACES.filter(workspace => workspace.key !== "home" && (!workspace.devOnly || !__DEVDOCS_PLAYER__));
+  // A live server has no checkout, so neither of these blocks exists there. One block alone would
+  // sit in half a row, so the grid narrows to what there is.
+  const blocks = [can("requests"), can("git")].filter(Boolean).length;
 
   return <div className={cn(PAGE, "max-w-[67.5rem]")}>
     <div className="mb-6 grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-2">
@@ -33,8 +37,8 @@ export default function OverviewView({ navigate }: ViewProps) {
         </button>;
       })}
     </div>
-    {!__DEVDOCS_PLAYER__ && <div className="grid grid-cols-2 items-start gap-6 max-[56rem]:grid-cols-1">
-      <Block title="Open requests" action={<Button variant="link" size="inline" onClick={() => navigate("home/requests")}>All requests <ArrowRight size={12} /></Button>}>
+    {blocks > 0 && <div className={cn("grid items-start gap-6 max-[56rem]:grid-cols-1", blocks > 1 ? "grid-cols-2" : "grid-cols-1")}>
+      {can("requests") && <Block title="Open requests" action={<Button variant="link" size="inline" onClick={() => navigate("home/requests")}>All requests <ArrowRight size={12} /></Button>}>
         {requests.isPending && <p className={EMPTY}>Loading…</p>}
         {requests.isError && <p className={EMPTY}>Requests unavailable.</p>}
         {requests.data && !openRequests.length && <p className={EMPTY}>Nothing waiting.</p>}
@@ -42,8 +46,8 @@ export default function OverviewView({ navigate }: ViewProps) {
           art={<Badge variant={toneVariant(entry.request.state === "open" ? "warn" : "info")} className="shrink-0">{entry.request.kind}</Badge>}
           title={<span className="font-normal">{entry.note.text}</span>}
           meta={workspaceLabel(viewForCollection(entry.collection)?.workspace.key ?? entry.collection)} />)}
-      </Block>
-      <Block title="Local changes" action={<Button variant="link" size="inline" onClick={() => navigate("home/changes")}>Review <ArrowRight size={12} /></Button>}>
+      </Block>}
+      {can("git") && <Block title="Local changes" action={<Button variant="link" size="inline" onClick={() => navigate("home/changes")}>Review <ArrowRight size={12} /></Button>}>
         {changes.isPending && <p className={EMPTY}>Loading…</p>}
         {changes.isError && <p className={EMPTY}>Git status unavailable.</p>}
         {changes.data && !changedFiles.length && <p className={EMPTY}>Working tree is clean.</p>}
@@ -51,7 +55,7 @@ export default function OverviewView({ navigate }: ViewProps) {
           title={<span className="font-mono font-normal">{change.path.replace(/^game\/content\//, "")}</span>}
           meta={change.status} />)}
         {changedFiles.length > 10 && <p className={cn(EMPTY, "px-1.5")}>{changedFiles.length - 10} more</p>}
-      </Block>
+      </Block>}
     </div>}
   </div>;
 }

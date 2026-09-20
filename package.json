@@ -78,6 +78,7 @@
     "devdocs:requests": "tsx tools/content/requests.ts",
     "devdocs": "vite --config devdocs/vite.config.ts",
     "devdocs:build": "vite build --config devdocs/vite.config.ts",
+    "devdocs:build:server": "vite build --config devdocs/vite.config.ts --mode server",
     "devdocs:smoke": "tsx tools/devdocs-smoke.ts",
     "assets:review": "tsx tools/asset-review/server.ts",
     "identity": "tsx tools/identity-server.ts",

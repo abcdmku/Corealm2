@@ -7,6 +7,8 @@ import { npcViews, questViews, shopViews } from "./story/index.js";
 import { views as spells } from "./spells/index.js";
 import { views as assets } from "./assets/index.js";
 import { views as tuning } from "./tuning/index.js";
+import { views as players } from "./players/index.js";
+import { views as server } from "./server/index.js";
 
 /** Purpose-built views by workspace. Each folder owns its own registry; pages inside are lazy. */
-export const REGISTRY: Readonly<Record<string, ViewRegistry>> = { home, items, creatures, world, quests: questViews, npcs: npcViews, shops: shopViews, spells, assets, tuning };
+export const REGISTRY: Readonly<Record<string, ViewRegistry>> = { home, items, creatures, world, quests: questViews, npcs: npcViews, shops: shopViews, spells, assets, tuning, players, server };

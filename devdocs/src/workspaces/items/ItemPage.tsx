@@ -1,4 +1,5 @@
 import { useMemo, useState, type ReactNode } from "react";
+import { can } from "../../api/backend.js";
 import { ArrowRight, Plus } from "lucide-react";
 import { EquipmentBonusesSchema, ItemSchema, ItemSkillRequirementsSchema } from "../../../../game/src/content/schema/items.js";
 import { ProgressionTierSchema, type EquipmentFamily, type ProgressionTier } from "../../../../game/src/content/schema/progression.js";
@@ -76,7 +77,7 @@ function prune(tier: ProgressionTier, index: number): ProgressionTier {
 function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, liveFamily, tierId }: ItemPageProps & { tierId: string }) {
   const draft = useRecordDraft<ProgressionTier>("progression", tierId);
   const peek = usePeek();
-  const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
+  const readOnly = !can("write") || !draft.editable;
   const [familyDrawer, setFamilyDrawer] = useState<string>();
   const [localFamily, setLocalFamily] = useState<EquipmentFamily>();
   const tier = draft.draft ?? data.tiers.find(row => row.id === tierId);
@@ -214,7 +215,7 @@ function AddBlocks({ absent, readOnly, onAdd }: { absent: readonly BlockKey[]; r
 
 function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
   const draft = useRecordDraft<ItemRecord>("items", id);
-  const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
+  const readOnly = !can("write") || !draft.editable;
   const record = draft.draft;
   if (!record) return <p className={EMPTY}>Loading…</p>;
   const set = draft.setPath;

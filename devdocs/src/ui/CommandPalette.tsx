@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { can } from "../api/backend.js";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Command } from "cmdk";
 import { useQueries } from "@tanstack/react-query";
@@ -84,7 +85,7 @@ export function CommandPalette({ open, onOpenChange, collections, navigate }: { 
 
   // ---------------------------------------------------------------- the selection
   const bulk = useMemo(() => {
-    if (__DEVDOCS_PLAYER__ || !selection.ids.length) return undefined;
+    if (!can("bulk") || !selection.ids.length) return undefined;
     const schema = CONTENT_COLLECTIONS.find(candidate => candidate.name === selection.collection)?.schema;
     if (!schema) return undefined;
     const fields = settableFields(schema, hotkeysFor(selection.collection).map(hotkey => hotkey.path));

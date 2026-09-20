@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
+import { can } from "./api/backend.js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { BookOpen, ChevronRight, Menu as MenuIcon, Moon, Search, Sun, X } from "lucide-react";
@@ -12,6 +13,7 @@ import { RecordNav } from "./ui/RecordNav.js";
 import { Kbd } from "./components/ui/index.js";
 import { cn } from "./lib/utils.js";
 import { RecordSetKey } from "./model/recordSetKey.js";
+import { SessionFooter } from "./ui/SessionFooter.js";
 import { ShellSaveBar, useDirtyByWorkspace } from "./ui/ShellSaveBar.js";
 import { ErrorState, LoadingRows } from "./ui/States.js";
 import { WORKSPACES, type Route } from "./ui/workspaces.js";
@@ -147,7 +149,7 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
         })}
       </nav>
       <div className="mt-auto flex items-center gap-2 border-t border-border px-2 py-1.5 text-[11px] text-muted-foreground">
-        <span>{__DEVDOCS_PLAYER__ ? "Player guide" : "Local editor"}</span>
+        <SessionFooter />
         <Button variant="ghost" size="icon-sm" className="ml-auto" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}</Button>
       </div>
     </aside>
@@ -171,7 +173,7 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
             : content}
         </RecordSetKey.Provider>
       </main>
-      {!__DEVDOCS_PLAYER__ && <ShellSaveBar navigate={go} />}
+      {can("write") && <ShellSaveBar navigate={go} />}
     </div>
     <CommandPalette open={palette} onOpenChange={setPalette} collections={collections} navigate={go} />
   </div></PeekProvider>;

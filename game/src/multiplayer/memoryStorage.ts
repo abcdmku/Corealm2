@@ -1,4 +1,4 @@
-import type { PlayerCharacter, PlayerClaim, PlayerWorldRecord, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
+import type { PlayerCharacter, PlayerClaim, PlayerWorldRecord, StoredPlayerEdit, StoredPlayerEditResult, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
 import { MemoryAdminStorage, type MemoryPlayerRow, type ServerAdminStorage } from "./adminStorage.js";
 import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
 import { worldKey } from "./protocol.js";
@@ -64,7 +64,7 @@ export class MemoryWorldStorage implements WorldStorage {
     if (lease?.world === worldKey(key) && lease.sessionId === sessionId) this.leases.delete(playerId);
   }
   async commit(record: WorldStorageRecord): Promise<WorldCommitResult> {
-    const key = worldKey(record.key), { leases = {}, ...world } = record, fenced: string[] = [];
+    const key = worldKey(record.key), { leases = {}, audits = [], ...world } = record, fenced: string[] = [];
     // Serialise everything first so a value that cannot be stored changes nothing.
     const payload = JSON.stringify({ ...world, players: {}, receipts: {}, ...(record.random ? { random: { world: record.random.world, players: {} } } : {}),
       ...(record.entityWrites === "patch" ? { entityWrites: undefined, removedEntityIds: undefined, entities: this.patched(key, record) } : {}) });
@@ -83,6 +83,7 @@ export class MemoryWorldStorage implements WorldStorage {
       if (write.action === "release") this.leases.delete(row.id);
       else { lease.expiresAt = this.now() + PLAYER_LEASE_MS; lease.reserved = write.action === "reserve"; }
     }
+    for (const audit of audits) if (!fenced.includes(audit.accountId)) this.roles.auditWriter(audit.by, audit.entry);
     return { fenced };
   }
   private patched(key: string, record: WorldStorageRecord): WorldStorageRecord["entities"] {
@@ -90,6 +91,15 @@ export class MemoryWorldStorage implements WorldStorage {
     for (const entity of record.entities) entities.set(entity.id, entity);
     for (const id of record.removedEntityIds ?? []) entities.delete(id);
     return [...entities.values()];
+  }
+  async editStoredPlayer(edit: StoredPlayerEdit): Promise<StoredPlayerEditResult> {
+    const lease = this.leases.get(edit.accountId), account = this.accounts.get(edit.accountId);
+    if (lease && !lease.reserved && lease.expiresAt > this.now()) return "leased";
+    if (!account?.character) return "missing";
+    if (JSON.stringify(JSON.parse(account.character)) !== JSON.stringify(edit.expected)) return "changed";
+    account.character = JSON.stringify(edit.character);
+    this.roles.auditWriter(edit.by, edit.entry);
+    return "written";
   }
   async close(): Promise<void> {}
 }

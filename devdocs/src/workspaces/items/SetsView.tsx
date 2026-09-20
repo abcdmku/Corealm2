@@ -1,4 +1,5 @@
 import { Fragment, useMemo } from "react";
+import { can } from "../../api/backend.js";
 import { useQuery } from "@tanstack/react-query";
 import { EquipmentSetRecordSchema, EquipmentSetThresholdSchema } from "../../../../game/src/content/schema/equipmentSets.js";
 import { collectionQuery } from "../../api/client.js";
@@ -85,7 +86,7 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
   const balance = useQuery(collectionQuery("balance/sets"));
   const { index } = useReferenceIndex();
   const peek = usePeek();
-  const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
+  const readOnly = !can("write") || !draft.editable;
   const set = draft.draft;
   const targets = useMemo(() => targetThresholds(balance.data?.data as SetBalance | undefined, set?.tier), [balance.data, set?.tier]);
   if (draft.error) return <ErrorState message={draft.error} />;

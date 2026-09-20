@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { LayoutGrid, List, Table2 } from "lucide-react";
 import { CONTENT_COLLECTIONS } from "../../../game/src/content/compiler/collections.js";
+import { can } from "../api/backend.js";
 import { apiGet, collectionQuery } from "../api/client.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
 import type { CollectionResponse } from "../../shared/contracts.js";
@@ -22,8 +23,8 @@ import { Button, NativeSelect, Segmented, SearchInput, ChoiceGroup } from "../co
 import { cn } from "../lib/utils.js";
 import { PAGE_WIDE, PANEL } from "../ui/layout.js";
 
-const BulkActionsPanel = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/BulkActionsPanel.js"), null);
-const RecordActions = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../dev/RecordActions.js"), null);
+const BulkActionsPanel = can("bulk") ? lazyComponent(() => import("../dev/BulkActionsPanel.js"), null) : undefined;
+const RecordActions = can("write") ? lazyComponent(() => import("../dev/RecordActions.js"), null) : undefined;
 const noRows: ContentRow[] = [];
 const PAGE = 240;
 const isGeneratedRow = (row: ContentRow): boolean => row.__compiled === true;
@@ -80,7 +81,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const lastToggled = useRef<string | undefined>(undefined);
   const facets = useMemo(() => facetsFor(collection), [collection]);
-  const meta = useQuery({ queryKey: ["meta-digest", collection], queryFn: () => apiGet<MetaDigest>(`meta/${collection.split("/").map(encodeURIComponent).join("/")}/$all`), enabled: !__DEVDOCS_PLAYER__ && !isGeneratedCollection(collection), staleTime: 15_000, refetchOnWindowFocus: false, retry: false });
+  const meta = useQuery({ queryKey: ["meta-digest", collection], queryFn: () => apiGet<MetaDigest>(`meta/${collection.split("/").map(encodeURIComponent).join("/")}/$all`), enabled: can("meta") && !isGeneratedCollection(collection), staleTime: 15_000, refetchOnWindowFocus: false, retry: false });
   const entries = useMemo<Entry[]>(() => rows.map(row => {
     const id = rowId(row, idKey);
     const summary = summarize(collection, row, ctx);
@@ -170,7 +171,7 @@ function Browser({ collection, response, rows, rawRows, idKey, editable, navigat
       <h1 className="sr-only">{labelFor(collection)}</h1>
       <span className="font-mono text-[11px] text-muted-foreground">{filtered.length === rows.length ? `${rows.length} ${labelFor(collection).toLowerCase()}` : `${filtered.length} of ${rows.length} ${labelFor(collection).toLowerCase()}`}</span>
       <div className="ml-auto flex items-center gap-1">
-        {collection.startsWith("balance/") && !__DEVDOCS_PLAYER__ && <Button variant="secondary" size="sm" onClick={() => navigate(collection, "$collection")}>Open parameters</Button>}
+        {collection.startsWith("balance/") && can("write") && <Button variant="secondary" size="sm" onClick={() => navigate(collection, "$collection")}>Open parameters</Button>}
         {editable && RecordActions && <Suspense fallback={null}><RecordActions collection={collection} mode="collection" templateRecord={rawRows[0]} knownIds={rawRows.map(row => rowId(row, idKey))} editable={editable} idKey={idKey} navigate={navigate} compact /></Suspense>}
       </div>
     </div>

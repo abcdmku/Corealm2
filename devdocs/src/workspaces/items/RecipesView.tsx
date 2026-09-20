@@ -1,4 +1,5 @@
 import { useMemo, useState, type KeyboardEvent } from "react";
+import { can } from "../../api/backend.js";
 import { ArrowRight } from "lucide-react";
 import { ProgressionTierSchema, type ProgressionTier } from "../../../../game/src/content/schema/progression.js";
 import { RecipeSchema } from "../../../../game/src/content/schema/recipes.js";
@@ -100,7 +101,7 @@ function RecipeEditor({ id, tierId, data, navigate }: { id: string; tierId: stri
   const draft = useRecordDraft<ProgressionTier>("progression", tierId);
   const { index } = useReferenceIndex();
   const peek = usePeek();
-  const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
+  const readOnly = !can("write") || !draft.editable;
   const [templateDrawer, setTemplateDrawer] = useState<string>();
   const tier = draft.draft ?? data.tiers.find(row => row.id === tierId);
   const entryIndex = tier ? tier.production.findIndex(entry => entry.id === id) : -1;

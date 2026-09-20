@@ -10,6 +10,7 @@ import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { guestAuthentication } from "../game/src/multiplayer/guestAuthentication.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
 import { hostConfiguration } from "../game/src/multiplayer/hostConfiguration.js";
+import { directoryAdminUi } from "../game/src/multiplayer/adminUi.js";
 
 const config = hostConfiguration(process.argv.slice(2));
 let authentication: AuthenticationAdapter;
@@ -47,6 +48,9 @@ const server = await startReferenceServer({ worlds, port: config.port, host: con
   // A publish checks asset ids against the host the clients load from, or against this checkout's manifest.
   assets: { ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}), bundledManifest: async () => JSON.parse(await readFile("game/public/assets/manifest.json", "utf8")) },
   ...(config.ownerAccount ? { ownerAccount: config.ownerAccount } : {}),
+  ...(config.identityUrl ? { identityUrl: config.identityUrl } : {}),
+  settings: { ...(config.name ? { name: config.name } : {}), ...(config.description ? { description: config.description } : {}), registerWithDirectory: config.registerWithDirectory },
+  adminUi: directoryAdminUi(resolve(config.adminUiDir)),
   build: world => config.authored ? createAuthoredWorld(world.seed) : createMultiplayerLabWorld(world.seed), authentication,
 }).catch(async error => { await storage.close(); throw error; });
 console.log(JSON.stringify({ ready: true, host: config.host, port: server.port,

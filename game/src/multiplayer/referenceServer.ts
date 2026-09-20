@@ -1,9 +1,12 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
 import { WebSocket, WebSocketServer } from "ws";
-import { WORLD_PROTOCOL_VERSION, type CommandEnvelope, type CommandOutcome, type PlayerCharacter, type PlayerLeaseWrite, type SessionErrorCode, type WorldDescriptor, type WorldKey, type WorldStorage, type WorldStorageRecord } from "../contracts.js";
+import { WORLD_PROTOCOL_VERSION, type CommandEnvelope, type CommandOutcome, type PlayerCharacter, type PlayerLeaseWrite, type SessionErrorCode, type Vec3, type WorldDescriptor, type WorldKey, type WorldStorage, type WorldStorageRecord } from "../contracts.js";
 import { adminUnavailable, createAdminApi } from "./adminApi.js";
-import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type ServerAdminStorage } from "./adminStorage.js";
+import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type AuditWrite, type ServerAdminStorage } from "./adminStorage.js";
+import { createAdminUi, type AdminUiSource } from "./adminUi.js";
+import { applyPlayerOps, editDiff, EditFailure, PLACE_SNAP_METRES, playerRevision, type PlayerPatch } from "./playerEdits.js";
+import { createDirectoryHeartbeat, DEFAULT_SERVER_NAME, effectiveSettings, settingsPatch, type ServerSettings } from "./serverSettings.js";
 import { playerSessionState } from "../state/store.js";
 import { Admission } from "./admission.js";
 import { createCatalogHost, seedCatalog, serveCatalog, type CatalogHost } from "./catalogHost.js";
@@ -24,7 +27,7 @@ export interface AuthenticationAdapter {
 /** What an HTTP extension may read. Worlds and metrics are live objects, not copies. */
 export interface ReferenceServerContext { worlds: ReadonlyMap<string, HostedWorld>; metrics: ReferenceServerMetrics; events: readonly ServerEvent[]; catalog: CatalogHost }
 /** One entry of the bounded ring `GET /admin/stats` returns and M6's TUI draws. */
-export interface ServerEvent { at: number; kind: "join" | "leave" | "rejected" | "ban" | "unban" | "admin-session" | "owner-setup"; accountId: string | null; detail: string | null }
+export interface ServerEvent { at: number; kind: "join" | "leave" | "rejected" | "ban" | "unban" | "kick" | "admin-session" | "owner-setup"; accountId: string | null; detail: string | null }
 const EVENT_RING = 256;
 export interface ReferenceServerOptions {
   worlds: WorldDescriptor[];
@@ -49,6 +52,14 @@ export interface ReferenceServerOptions {
   admin?: ServerAdminStorage;
   /** Makes this account owner with no setup code, and stops one being generated. */
   ownerAccount?: string;
+  /** Defaults for the settings an admin may change while the server runs. World capacity defaults come from `worlds`. */
+  settings?: Partial<Pick<ServerSettings, "name" | "description" | "registerWithDirectory">>;
+  /** The identity service: where the admin UI signs in, and whose public directory this server may register with. */
+  identityUrl?: string;
+  /** The directory heartbeat's transport and cadence, for tests. */
+  directory?: { fetch?: typeof fetch; intervalMs?: number };
+  /** The devdocs server-mode build, served under `/admin/`. Null or absent answers with how to build it. */
+  adminUi?: AdminUiSource | null;
   /** Runs after the ban check and before the player lease is claimed. Throw a SessionFailure to refuse the join. */
   beforeAdmission?(player: AuthenticatedPlayer, world: WorldDescriptor): Promise<void>;
   /** Routes beyond /healthz, /readyz, /worlds and /admin. Return true when the request was answered. */
@@ -70,7 +81,12 @@ export interface HostedWorld {
   runtime: HeadlessWorld; admission: Admission; peers: Map<string, Peer>; receipts: WorldStorageRecord["receipts"]; publicGameplay: Map<string,string>;
   /** Accounts whose character this world writes, and what the next commit does with each lease. */
   leases: Map<string, PlayerLeaseWrite>;
+  /** Admin edits applied to live players since the last commit. The next commit writes each row with the character it describes. */
+  audits: PendingAudit[];
 }
+interface PendingAudit { accountId: string; by: AdminActor; entry: AuditWrite; resolve(): void; reject(error: Error): void }
+/** What `PATCH /admin/players/<id>` did. `live` names the world whose player was edited. */
+export interface PlayerEditOutcome { applied: "live" | "stored"; world: WorldKey | null; changed: boolean; warnings: string[] }
 export interface ReferenceServerMetrics {
   ticks: number[]; stages: { simulationMs: number; snapshotMs: number; commitMs: number; replicationMs: number; samples: number };
   commands: number; rejected: number; bytesOut: number; backlogDisconnects: number; errors: number;
@@ -107,7 +123,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     if (worlds.has(worldKey(world))) throw new Error("Duplicate hosted world");
     const saved = await options.storage.openWorld(world);
     worlds.set(worldKey(world), { runtime: new HeadlessWorld(world, await options.build(world), saved), admission: new Admission(world.capacity), peers: new Map(),
-      receipts: Object.assign(Object.create(null), saved?.receipts ?? {}), publicGameplay: new Map(), leases: new Map() });
+      receipts: Object.assign(Object.create(null), saved?.receipts ?? {}), publicGameplay: new Map(), leases: new Map(), audits: [] });
   }
   // Establish the complete entity baseline before accepting clients. Subsequent ticks only
   // clone and persist changed rows. Failure here never advertises a ready world.
@@ -118,10 +134,24 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   }
   const metrics: ReferenceServerMetrics = { ticks: [], stages: { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }, commands: 0, rejected: 0, bytesOut: 0, backlogDisconnects: 0, errors: 0 };
   const startedAt = now();
-  const events: ServerEvent[] = [];
-  const recordEvent = (event: Omit<ServerEvent, "at">): void => { events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift(); };
   // Administration is account work. A guest or module host keeps its storage and answers 501.
   const accounts = options.authentication.authentication === "account" ? options.admin : undefined;
+  const settingDefaults: ServerSettings = { name: options.settings?.name ?? DEFAULT_SERVER_NAME, description: options.settings?.description ?? null,
+    registerWithDirectory: options.settings?.registerWithDirectory ?? false,
+    capacity: Object.fromEntries([...worlds.values()].map(hosted => [hosted.runtime.descriptor.worldId, hosted.admission.capacity])) };
+  let settings = accounts ? effectiveSettings(settingDefaults, await accounts.settings()) : settingDefaults;
+  const directory = accounts && options.identityUrl ? createDirectoryHeartbeat({ identityUrl: options.identityUrl, log, settings: () => settings,
+    endpoint: () => [...worlds.values()][0]!.runtime.descriptor.endpoint, ...options.directory }) : null;
+  /** Bring the running worlds in line with `settings`. Players already in a world stay when its capacity drops. */
+  function applySettings(): void {
+    for (const { runtime, admission } of worlds.values()) {
+      admission.capacity = runtime.descriptor.capacity = settings.capacity[runtime.descriptor.worldId] ?? admission.capacity;
+      if (settings.description) runtime.descriptor.description = settings.description; else delete runtime.descriptor.description;
+    }
+  }
+  applySettings();
+  const events: ServerEvent[] = [];
+  const recordEvent = (event: Omit<ServerEvent, "at">): void => { events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift(); };
   if (accounts && options.ownerAccount !== undefined) {
     if (!ACCOUNT_ID.test(options.ownerAccount)) throw new Error("ownerAccount must be an identity account id");
     await accounts.setSetupCodeHash(null);
@@ -146,8 +176,9 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     }
     if (request.method === "GET" && path === "/worlds") {
       response.setHeader("Content-Type", "application/json"); response.setHeader("Access-Control-Allow-Origin", "*");
+      // A capacity an admin lowered under the players already in is still a full world, not an invalid one.
       response.end(JSON.stringify([...worlds.values()].map(({ runtime, admission }) => ({ ...runtime.descriptor,
-        population: admission.population, availability: closed ? "unavailable" : admission.population >= admission.capacity ? "full" : "available" })))); return;
+        population: Math.min(admission.population, admission.capacity), availability: closed ? "unavailable" : admission.population >= admission.capacity ? "full" : "available" })))); return;
     }
     if (await serveCatalog(request, response, catalog)) return;
     if (adminApi ? await adminApi(request, response) : adminUnavailable(request, response)) return;
@@ -187,6 +218,92 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     }
     return found;
   }
+  /** The world that writes this account's character: connected, or disconnected and not yet saved. */
+  function holder(accountId: string): HostedWorld | null {
+    for (const hosted of worlds.values()) if (hosted.leases.has(accountId) && hosted.runtime.players.has(accountId)) return hosted;
+    return null;
+  }
+  const keyOf = (hosted: HostedWorld): WorldKey => ({ providerId: hosted.runtime.descriptor.providerId, worldId: hosted.runtime.descriptor.worldId });
+  const snapIn = (hosted: HostedWorld | null | undefined) => (position: Vec3): Vec3 | null => hosted?.runtime.ports.nav.nearestWalkable(position, PLACE_SNAP_METRES) ?? null;
+  /**
+   * Edit one player through the running server. Both paths run inside the publisher's hold, so no
+   * tick and no commit is in flight while the edit is computed and applied.
+   *
+   * A held account is edited in memory, where its world would otherwise overwrite the database, and
+   * the audit row rides the next tick commit, in the transaction that writes the edited character.
+   * The answer waits for that commit. A crash before it loses the edit and the row together; a
+   * fenced lease writes neither. An account nobody holds is edited in storage by compare and set
+   * under the lease, with its row in the same transaction. A join that claimed the lease a moment
+   * ago makes that refuse, and the edit is tried again against the world the player then is in.
+   */
+  async function editPlayer(accountId: string, patch: PlayerPatch, by: AdminActor): Promise<PlayerEditOutcome> {
+    const storage = options.storage, stored = accounts!;
+    for (let attempt = 0; ; attempt++) {
+      let durable: Promise<void> | null = null;
+      const outcome = await betweenTicks(async (): Promise<PlayerEditOutcome | "retry"> => {
+        if (closed) throw new EditFailure(503, "unavailable", "The server is shutting down");
+        const expected = (revision: string): void => {
+          if (patch.expect !== null && patch.expect !== revision) throw new EditFailure(409, "revision_mismatch", `The player changed since revision ${patch.expect} was read. It is now ${revision}`);
+        };
+        const live = holder(accountId);
+        if (live) {
+          const { ownedWorld: _owned, ...before } = playerSessionState(live.runtime.players.get(accountId)!.store.get());
+          expected(playerRevision(before));
+          const result = applyPlayerOps(before, patch.ops, { world: keyOf(live), snap: snapIn(live) });
+          const diff = editDiff(before, result.character);
+          if (!diff) return { applied: "live", world: keyOf(live), changed: false, warnings: result.warnings };
+          live.runtime.adoptCharacter(accountId, result.character, result.moved);
+          durable = new Promise<void>((resolve, reject) => live.audits.push({ accountId, by, resolve, reject,
+            entry: { action: "player.edit", target: accountId, before: diff.before, after: { ...diff.after, applied: "live", world: live.runtime.descriptor.worldId } } }));
+          return { applied: "live", world: keyOf(live), changed: true, warnings: result.warnings };
+        }
+        const detail = await stored.player(accountId, now());
+        if (!detail) throw new EditFailure(409, "not_found", "No such player on this server");
+        if (!detail.character) throw new EditFailure(409, "no_character", "This player has joined but has never been saved, so there is nothing to edit yet");
+        if (!storage.editStoredPlayer) throw new EditFailure(503, "unavailable", "This server's storage cannot edit a stored player");
+        expected(playerRevision(detail.character));
+        const last = detail.lastWorld && worlds.get(worldKey(detail.lastWorld));
+        const result = applyPlayerOps(detail.character, patch.ops, { world: last ? detail.lastWorld : null, snap: snapIn(last) });
+        const diff = editDiff(detail.character, result.character);
+        if (!diff) return { applied: "stored", world: null, changed: false, warnings: result.warnings };
+        const written = await storage.editStoredPlayer({ accountId, expected: detail.character, character: result.character, by,
+          entry: { action: "player.edit", target: accountId, before: diff.before, after: { ...diff.after, applied: "stored" } } });
+        if (written === "missing") throw new EditFailure(409, "not_found", "No such player on this server");
+        if (written !== "written") return "retry";
+        // A world that keeps this player for their campfire or cache holds a copy of the character. Nothing reads
+        // it on a join, which takes the stored one, but a publish asks it who holds an item.
+        for (const hosted of worlds.values()) if (!hosted.leases.has(accountId)) hosted.runtime.adoptCharacter(accountId, result.character, false);
+        return { applied: "stored", world: null, changed: true, warnings: result.warnings };
+      });
+      if (outcome !== "retry") { await durable; return outcome; }
+      if (attempt >= 20) throw new EditFailure(409, "player_busy", "This player is joining or leaving. Try again in a moment");
+      await new Promise(resolve => setTimeout(resolve, 50));
+    }
+  }
+  /** Hand the audit rows of live edits to a commit, and tell each edit what became of it. */
+  function auditsOf(hosted: HostedWorld): { rows: PendingAudit[]; settle(fenced: readonly string[] | null): void } {
+    const rows = hosted.audits.splice(0);
+    return { rows, settle(fenced) {
+      for (const row of rows) {
+        if (fenced && !fenced.includes(row.accountId)) row.resolve();
+        else row.reject(new EditFailure(fenced ? 409 : 503, fenced ? "player_busy" : "unavailable", fenced ? "This player's session ended before the edit was saved" : "World storage failed before the edit was saved"));
+      }
+    } };
+  }
+  async function patchSettings(body: Record<string, unknown>, by: AdminActor) {
+    const changes = settingsPatch(body, [...worlds.values()].map(hosted => hosted.runtime.descriptor.worldId), directory !== null);
+    const overrides = await accounts!.setSettings(changes, by);
+    settings = effectiveSettings(settingDefaults, overrides); applySettings(); directory?.sync();
+    return { settings, overrides, defaults: settingDefaults };
+  }
+  function serverInfo() {
+    const first = [...worlds.values()][0]!.runtime.descriptor;
+    return { name: settings.name, description: settings.description, endpoint: first.endpoint, assetBaseUrl: first.assetBaseUrl ?? null,
+      identityUrl: options.identityUrl ?? null, authentication: first.authentication ?? "guest", catalogRevision: catalog.revision,
+      host: options.host ?? "127.0.0.1", registerWithDirectory: settings.registerWithDirectory,
+      worlds: [...worlds.values()].map(({ runtime, admission }) => ({ providerId: runtime.descriptor.providerId, worldId: runtime.descriptor.worldId,
+        name: runtime.descriptor.name, seed: runtime.descriptor.seed, capacity: admission.capacity })) };
+  }
   function liveCharacter(accountId: string): { world: WorldKey; character: PlayerCharacter } | null {
     for (const hosted of worlds.values()) {
       if (!hosted.leases.has(accountId)) continue;
@@ -204,6 +321,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   /** No further acknowledgements or snapshots. A failed commit and a failed catalog swap both end here. */
   function failClosed(): void {
     closed = true; failed = true;
+    for (const hosted of worlds.values()) auditsOf(hosted).settle(null);
     for (const waiting of [...releasing.keys()]) released(waiting);
     for (const client of sockets.clients) { send(client, { type: "error", error: { code: "UNAVAILABLE", message: "World storage or simulation failed" } }); client.close(1011, "World unavailable"); }
   }
@@ -226,9 +344,12 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
+    ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: [...worlds.values()][0]?.runtime.descriptor.assetBaseUrl }),
     authenticate: token => options.authentication.authenticate(token, [...worlds.values()][0]!.runtime.descriptor),
     server: {
-      startedAt, metrics, events: () => events, record: recordEvent, liveCharacter, disconnect: disconnectAccount,
+      startedAt, metrics, events: () => events, record: recordEvent, liveCharacter, disconnect: disconnectAccount, editPlayer, info: serverInfo,
+      connected: accountId => [...worlds.values()].some(hosted => [...hosted.peers.values()].some(peer => peer.playerId === accountId)),
+      settings: { get: async () => ({ settings, overrides: await accounts.settings(), defaults: settingDefaults }), patch: patchSettings },
       worlds: () => [...worlds.values()].map(({ runtime, admission }) => ({ key: { providerId: runtime.descriptor.providerId, worldId: runtime.descriptor.worldId },
         name: runtime.descriptor.name, playersOnline: admission.population, capacity: admission.capacity, tick: runtime.clock.tick })),
     },
@@ -346,6 +467,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       hosted.admission.leave(peer.playerId, peer.sessionId, !peer.explicitLeave);
     });
   });
+  let committing: ReturnType<typeof auditsOf> | null = null;
   async function tick(): Promise<void> {
     if (closed || ticking) return; ticking = true; const start = performance.now();
     try {
@@ -379,7 +501,10 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
         const snapshotStart = performance.now(); const snapshot = hosted.runtime.snapshot(hosted.receipts, options.storage.entityPatches === true);
         const written = [...hosted.leases].map(([id, lease]) => [id, { ...lease }] as const);
         snapshot.leases = Object.assign(Object.create(null), Object.fromEntries(written));
+        const edits = auditsOf(hosted); committing = edits;
+        if (edits.rows.length) snapshot.audits = edits.rows.map(({ accountId, by, entry }) => ({ accountId, by, entry }));
         const commitStart = performance.now(); const { fenced } = await options.storage.commit(snapshot);
+        committing = null; edits.settle(fenced);
         hosted.runtime.committed(snapshot);
         for (const [id, lease] of written) {
           if (fenced.includes(id)) evict(hosted, id, lease.sessionId);
@@ -400,6 +525,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     } catch {
       metrics.errors++;
       // No further acknowledgements or snapshots after a failed commit. Fail closed.
+      committing?.settle(null); committing = null;
       failClosed();
     } finally {
       metrics.ticks.push(performance.now() - start); if (metrics.ticks.length > 36_000) metrics.ticks.shift(); ticking = false;
@@ -422,9 +548,12 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   };
   scheduleTick();
   const heartbeat = setInterval(() => { for (const ws of sockets.clients) ws.ping(); }, 10_000);
-  return { port: address.port, worlds, metrics, catalog, events: events as readonly ServerEvent[],
+  directory?.sync();
+  return { port: address.port, worlds, metrics, catalog, events: events as readonly ServerEvent[], directory,
+    /** The settings in force: configuration defaults under the overrides an admin stored. */
+    get settings(): ServerSettings { return settings; },
     async close() {
-      closed = true; clearTimeout(timer); clearInterval(heartbeat);
+      closed = true; clearTimeout(timer); clearInterval(heartbeat); directory?.close();
       await inFlight;
       for (const ws of sockets.clients) ws.terminate();
       await new Promise<void>((resolve) => sockets.close(() => resolve()));
@@ -432,8 +561,11 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       if (!failed) for (const hosted of worlds.values()) if (hosted.leases.size) {
         const snapshot = hosted.runtime.snapshot(hosted.receipts, options.storage.entityPatches === true);
         snapshot.leases = Object.assign(Object.create(null), Object.fromEntries([...hosted.leases].map(([id, lease]) => [id, { sessionId: lease.sessionId, action: "release" as const }])));
-        await options.storage.commit(snapshot).catch(() => { metrics.errors++; });
+        const edits = auditsOf(hosted);
+        if (edits.rows.length) snapshot.audits = edits.rows.map(({ accountId, by, entry }) => ({ accountId, by, entry }));
+        await options.storage.commit(snapshot).then(({ fenced }) => edits.settle(fenced), () => { metrics.errors++; edits.settle(null); });
       }
+      for (const hosted of worlds.values()) auditsOf(hosted).settle(null);
       for (const waiting of [...releasing.keys()]) released(waiting);
       await new Promise<void>((resolve) => http.close(() => resolve()));
       await options.storage.close();

@@ -6,6 +6,7 @@ import { Menu } from "../ui/Menu.js";
 import { CONTENT_COLLECTIONS, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
 import { defaultFieldValue, fieldIssues } from "../model/fields.js";
 import type { AppProps, ContentRow } from "../model/contracts.js";
+import { backend, can } from "../api/backend.js";
 import { collectionQuery, collectionsQuery } from "../api/client.js";
 import { contentRows, rowId, rowName } from "../model/rows.js";
 import type { ApiDiagnostic, CollectionResponse, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
@@ -119,14 +120,12 @@ function transactionBody(value: unknown): TransactionResult {
   };
 }
 
-async function postTransaction(request: ContentTransactionRequest): Promise<{ response: Response; body: TransactionResult }> {
-  const response = await fetch("/__devdocs/transaction", { method: "POST", headers: { "content-type": "application/json", Accept: "application/json" }, body: JSON.stringify(request) });
-  const text = await response.text();
-  let parsed: unknown;
-  try { parsed = text ? JSON.parse(text) as unknown : undefined; } catch { parsed = undefined; }
-  const body = transactionBody(parsed);
-  if (!response.ok && !body.error) body.error = `Transaction failed (${response.status})`;
-  return { response, body };
+async function postTransaction(request: ContentTransactionRequest): Promise<{ ok: boolean; status: number; body: TransactionResult }> {
+  const result = await backend().transact(request);
+  const body = transactionBody(result.body);
+  const status = result.ok ? 200 : result.status;
+  if (!result.ok && !body.error) body.error = `Transaction failed (${status})`;
+  return { ok: result.ok, status, body };
 }
 
 function recordReferences(value: unknown, targetId: string, path: string, out: string[] = [], allowLoose = false): string[] {
@@ -271,12 +270,12 @@ export default function RecordActions({ collection, record, recordId, mode = "re
       let attempt = await postTransaction({ operation: "preview", revisions, changes });
       // A rename can touch references in several collections. The server returns the missing
       // revisions so the preview can be retried against the same draft without losing input.
-      if (attempt.response.status === 409 && attempt.body.revisions) {
+      if (attempt.status === 409 && attempt.body.revisions) {
         const expanded = { ...revisions, ...attempt.body.revisions };
         attempt = await postTransaction({ operation: "preview", revisions: expanded, changes });
       }
-      if (!attempt.response.ok) {
-        setError(attempt.body.error ?? `Preview failed (${attempt.response.status}). Your draft is still here.`);
+      if (!attempt.ok) {
+        setError(attempt.body.error ?? `Preview failed (${attempt.status}). Your draft is still here.`);
         setDiagnostics(attempt.body.diagnostics);
         return;
       }
@@ -295,15 +294,15 @@ export default function RecordActions({ collection, record, recordId, mode = "re
     setError("");
     try {
       const attempt = await postTransaction({ operation: "save", revisions: preview.revisions, changes: preview.changes });
-      if (!attempt.response.ok) {
-        setError(attempt.body.error ?? `Save failed (${attempt.response.status}). Your draft is still here. Preview again after refreshing the changed content.`);
+      if (!attempt.ok) {
+        setError(attempt.body.error ?? `Save failed (${attempt.status}). Your draft is still here. Preview again after refreshing the changed content.`);
         setDiagnostics(attempt.body.diagnostics);
         setPreview(undefined);
         return;
       }
       for (const response of attempt.body.collections) if (response?.collection?.name) queryClient.setQueryData(collectionQuery(response.collection.name).queryKey, response);
       await queryClient.invalidateQueries({ queryKey: ["collections"] });
-      await queryClient.invalidateQueries({ queryKey: ["git-status"] });
+      if (can("git")) await queryClient.invalidateQueries({ queryKey: ["git-status"] });
       toastSaved();
       const savedChange = preview.changes[0];
       closeAction();

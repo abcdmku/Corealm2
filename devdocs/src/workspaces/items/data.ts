@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { can } from "../../api/backend.js";
 import { useQuery } from "@tanstack/react-query";
 import type { Schema } from "../../../../game/src/content/schema/core.js";
 import type { EquipmentFamily, ProgressionTier, RecipeTemplate } from "../../../../game/src/content/schema/progression.js";
@@ -163,4 +164,4 @@ export function targetThresholds(balance: SetBalance | undefined, tier: number |
   return [{ pieces: defencePieces[0], bonuses: { defence: row.defence } }, { pieces: healthPieces, bonuses: { health: row.health } }, { pieces: defencePieces[1], bonuses: { defence: row.defence } }];
 }
 
-export const readOnlyMode = (): boolean => __DEVDOCS_PLAYER__;
+export const readOnlyMode = (): boolean => !can("write");

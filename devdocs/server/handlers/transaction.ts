@@ -1,9 +1,9 @@
 import { mkdir, readFile, unlink } from 'node:fs/promises';
 import path from 'node:path';
-import { CONTENT_COLLECTIONS } from '../../../game/src/content/compiler/collections.js';
 import { contentRevision, formatContentJson } from '../../../tools/content/format.js';
 import { compileContent, formulaSourceRevision } from '../../../tools/content/compile.js';
-import { renameReferences, type ReferencePools } from '../../../game/src/content/compiler/references.js';
+import type { ReferencePools } from '../../../game/src/content/compiler/references.js';
+import { applyOperations } from '../../shared/applyOperations.js';
 import { affectedCompiled, affectedSources, changedCollections, staleCollections } from '../../../game/src/content/compiler/changes.js';
 import { atomicReplaceFile } from '../../../tools/lib/atomic-replace-file.js';
 import { withFileLock } from '../../../tools/content/locks.js';
@@ -14,7 +14,6 @@ import { isLoopbackDevdocsRequest, type DevdocsRequest, type DevdocsJsonResponse
 export interface TransactionOptions {contentRoot?:string;referencePools?:()=>Promise<ReferencePools>; compiler?:()=>Promise<typeof compileContent>}
 export const isTransactionPath=(url:string|undefined)=>url?.split(/[?#]/,1)[0]==='/__devdocs/transaction';
 const json=(status:number,data:unknown):DevdocsJsonResponse=>({status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'},body:JSON.stringify(data)});
-const kinds:Record<string,string>={items:'item',recipes:'recipe',resources:'resource',npcs:'npc',shops:'shop',quests:'quest',dialogue:'dialogue',spells:'spell',spellRunes:'rune',equipmentSets:'set',lootTables:'lootTable',creatureDefinitions:'species',creatureProfiles:'creatureProfile',encounters:'encounter',materials:'material',equipmentFamilies:'equipmentFamily',recipeTemplates:'recipeTemplate'};
 export async function transact(body:ContentTransactionRequest,options:TransactionOptions={}):Promise<DevdocsJsonResponse>{
   if(!body||!['preview','save'].includes(body.operation)||!Array.isArray(body.changes)||!body.changes.length||body.changes.length>1000||!body.revisions||typeof body.revisions!=='object')return json(422,{error:'Invalid content transaction'});
   const root=path.resolve(options.contentRoot??path.join(repoRoot,'game/content'));
@@ -28,28 +27,9 @@ export async function transact(body:ContentTransactionRequest,options:Transactio
     const snapshots=await loadCollectionSnapshots(root), values=new Map([...snapshots].map(([name,row])=>[name,structuredClone(row.data)]));
     const revisions=Object.fromEntries([...snapshots].map(([name,row])=>[name,contentRevision(row.text)]));
     if(staleCollections(body.revisions,revisions).length)return json(409,{error:'Content changed. Your draft has been preserved.',revisions});
-    try{for(const change of body.changes){
-      const spec=CONTENT_COLLECTIONS.find(spec=>spec.name===change.collection);if(!spec)throw new Error(`Unknown collection ${change.collection}`);
-      if(!change.id||typeof change.id!=='string')throw new Error('Record ID required');
-      if(spec.shape==='object'){if(change.kind!=='put'||change.id!=='$collection')throw new Error('Object collections support replacement only');values.set(spec.name,change.record);continue;}
-      const rows=values.get(spec.name) as Record<string,unknown>[], index=rows.findIndex(row=>String(row[spec.idKey])===change.id);
-      if(change.kind==='put'){
-        if(!change.record||typeof change.record!=='object'||String((change.record as Record<string,unknown>)[spec.idKey])!==change.id)throw new Error('Record ID must match URL. Use Rename to change identity.');
-        if(change.create&&index>=0)throw new Error(`Record ${change.id} already exists`);
-        if(index<0)rows.push(change.record as Record<string,unknown>);else rows[index]=change.record as Record<string,unknown>;
-      }else if(change.kind==='delete'){if(index<0)throw new Error(`Unknown record ${change.id}`);rows.splice(index,1);}
-      else if(change.kind==='rename'){
-        if(index<0||!change.nextId||rows.some(row=>String(row[spec.idKey])===change.nextId))throw new Error('Rename requires an existing record and unused new ID');
-        rows[index]![spec.idKey]=change.nextId;
-        const kind=kinds[spec.name];if(!kind)throw new Error('This collection has no rename reference contract');
-        for(const target of CONTENT_COLLECTIONS){const raw=values.get(target.name);const rewrite=(row:unknown)=>{let result=renameReferences(target.schema,row,kind,change.id,change.nextId);if(spec.name==='creatureDefinitions')result=renameReferences(target.schema,result,'enemy',change.id,change.nextId);return result;};values.set(target.name,target.shape==='array'?(raw as unknown[]).map(rewrite):rewrite(raw));}
-        // Domain references whose finite schemas use names rather than the shared RefKind union.
-        const field=({equipmentFamilies:'familyId',recipeTemplates:'templateId',creatureProfiles:'profileId',creatureDefinitions:'baseId',encounters:'encounterId'} as Record<string,string>)[spec.name];
-        if(field){const rewrite=(raw:unknown):unknown=>Array.isArray(raw)?raw.map(rewrite):raw&&typeof raw==='object'?Object.fromEntries(Object.entries(raw).map(([key,value])=>[key,key===field&&value===change.id?change.nextId:rewrite(value)])):raw;for(const [name,raw]of values)values.set(name,rewrite(raw));}
-        if(spec.name==='materials'){for(const tier of values.get('progression') as {materials:Record<string,string>}[])for(const key of Object.keys(tier.materials))if(tier.materials[key]===change.id)tier.materials[key]=change.nextId;}
-
-      }else throw new Error('Unknown operation');
-    }}catch(error){return json(422,{error:String(error)});}
+    // Server mode sends the same operations to a live server's publish endpoint, so the two writers
+    // share one implementation rather than two that have to be kept equal by hand.
+    try{applyOperations(values,body.changes);}catch(error){return json(422,{error:error instanceof Error?error.message:String(error)});}
     const before=new Map([...snapshots].map(([name,row])=>[name,row.data as unknown]));
     const changed=changedCollections(before,values);
     if(body.operation==='save'&&changed.some(spec=>body.revisions[spec.name]!==revisions[spec.name]))return json(409,{error:'Review current revisions for every affected collection. Your draft has been preserved.',revisions});

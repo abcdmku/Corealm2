@@ -8,8 +8,13 @@ interface Slot { sessionId: string; reservedUntil: number | null }
  */
 export class Admission {
   private readonly slots = new Map<string, Slot>();
-  constructor(readonly capacity: number, private readonly now = Date.now) {
+  private limit!: number;
+  constructor(capacity: number, private readonly now = Date.now) { this.capacity = capacity; }
+  get capacity(): number { return this.limit; }
+  /** An admin may change it while the world runs. Players already in stay; it decides the next join. */
+  set capacity(capacity: number) {
     if (!Number.isInteger(capacity) || capacity < 1 || capacity > MAX_WORLD_PLAYERS) throw new RangeError("Invalid world capacity");
+    this.limit = capacity;
   }
   private expire(): void {
     for (const [playerId, slot] of this.slots) if (slot.reservedUntil !== null && slot.reservedUntil <= this.now()) this.slots.delete(playerId);

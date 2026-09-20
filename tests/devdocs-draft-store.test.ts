@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { CollectionResponse, ContentTransactionRequest, ContentTransactionResponse } from "../devdocs/shared/contracts.js";
 import { COALESCE_MS, HISTORY_LIMIT, changedPath, createDraftStore, draftKey, lineDiff, type Contributor, type DraftStore } from "../devdocs/src/model/store.js";
+import { setBackend } from "../devdocs/src/api/backend.js";
+import { createRepoBackend } from "../devdocs/src/api/repoBackend.js";
 
 /*
   The draft store is plain TypeScript: no React, no DOM. These tests drive it the way the hook and
@@ -16,7 +18,8 @@ function collectionResponse(name: string, rows: Row[], revision: string): Collec
   return { collection: { name, count: rows.length, editable: true, idKey: "id", shape: "array" }, revision, data: rows };
 }
 function jsonResponse(status: number, body: unknown): Response {
-  return { ok: status < 300, status, json: async () => body } as unknown as Response;
+  const text = JSON.stringify(body);
+  return { ok: status < 300, status, json: async () => body, text: async () => text } as unknown as Response;
 }
 function adoptTiers(store: DraftStore, revision = "p1"): void {
   store.adopt({ collection: "progression", id: "tier_1", objectShaped: false, record: tierA, revision });
@@ -28,6 +31,7 @@ let store: DraftStore;
 const toasts: string[] = [];
 
 beforeEach(() => {
+  setBackend(createRepoBackend());
   store = createDraftStore();
   store.configure({ notify: { success: message => { toasts.push(message); }, error: message => { toasts.push(`error: ${message}`); }, message: message => { toasts.push(`message: ${message}`); } } });
   requests.length = 0; toasts.length = 0; responses = [];

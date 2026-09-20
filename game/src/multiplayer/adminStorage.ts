@@ -62,6 +62,8 @@ export function banMessage(ban: { reason: string; expiresAt: number | null }): s
 export interface AdminActor { accountId: string | null; credential: string; at: number }
 /** What M4 publish and M5 player edits pass to `record`, which is the only way to write the log. */
 export interface AuditWrite { action: string; target: string | null; before?: unknown; after?: unknown }
+/** Prefix matches, so `player.` finds every player write and `acc_AAAA` every account that starts that way. */
+export interface AuditFilter { action?: string; account?: string; target?: string }
 export interface AuditEntry { id: number; at: number; accountId: string | null; credential: string; action: string; target: string | null; before: unknown; after: unknown }
 
 export interface RoleRecord { accountId: string; name: string | null; role: ServerRole; grantedBy: string | null; grantedAt: number }
@@ -118,7 +120,12 @@ export interface ServerAdminStorage {
   /** The one audit helper. Every admin write outside this module goes through it. */
   record(by: AdminActor, entry: AuditWrite): Promise<void>;
   /** Newest first. `before` is an exclusive id, which is the cursor the previous page ends with. */
-  audit(limit: number, before: number | null): Promise<AuditEntry[]>;
+  audit(limit: number, before: number | null, filter?: AuditFilter): Promise<AuditEntry[]>;
+
+  /** Settings an admin changed while the server ran, by key. A key that is absent takes the configuration file's value. */
+  settings(): Promise<Record<string, unknown>>;
+  /** Set keys, or clear them with null, and audit the keys that moved, together. Returns every override. */
+  setSettings(changes: Readonly<Record<string, unknown>>, by: AdminActor): Promise<Record<string, unknown>>;
 
   listPlayers(query: string | null, limit: number, cursor: string | null, now: number): Promise<PlayerPage>;
   player(accountId: string, now: number): Promise<PlayerDetail | null>;
@@ -127,6 +134,11 @@ export interface ServerAdminStorage {
 }
 
 const SETUP_CODE_KEY = "setup_code_hash";
+/** Admin settings share `server_settings` with the setup code, apart from it by prefix. */
+const SETTING_PREFIX = "setting:";
+const prefixed = (filter: AuditFilter | undefined, entry: AuditEntry): boolean => !filter || (
+  (filter.action === undefined || entry.action.startsWith(filter.action)) && (filter.account === undefined || (entry.accountId ?? "").startsWith(filter.account))
+  && (filter.target === undefined || (entry.target ?? "").startsWith(filter.target)));
 export const ADMIN_SCHEMA = `
 CREATE TABLE IF NOT EXISTS server_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT;
 CREATE TABLE IF NOT EXISTS server_roles (account_id TEXT PRIMARY KEY, role TEXT NOT NULL, granted_by TEXT, granted_at INTEGER NOT NULL) STRICT;
@@ -325,13 +337,36 @@ export class SqliteAdminStorage implements ServerAdminStorage {
   async record(by: AdminActor, entry: AuditWrite): Promise<void> { this.transact(() => this.log(by, entry)); }
   /** For `SqliteCatalogStorage`, which moves the active catalog and audits the move in one transaction. */
   readonly auditWriter: AuditWriter = (by, entry) => this.log(by, entry);
-  async audit(limit: number, before: number | null): Promise<AuditEntry[]> {
-    const rows = before === null
-      ? this.db.prepare(`SELECT id,at,account_id,credential,action,target,"before","after" FROM audit_log ORDER BY id DESC LIMIT ?`).all(limit)
-      : this.db.prepare(`SELECT id,at,account_id,credential,action,target,"before","after" FROM audit_log WHERE id<? ORDER BY id DESC LIMIT ?`).all(before, limit);
+  async audit(limit: number, before: number | null, filter: AuditFilter = {}): Promise<AuditEntry[]> {
+    const where: string[] = [], params: (string | number)[] = [];
+    if (before !== null) { where.push("id<?"); params.push(before); }
+    // `substr` rather than LIKE: a prefix is literal text, and `_` is in every account id.
+    for (const [column, prefix] of [["action", filter.action], ["account_id", filter.account], ["target", filter.target]] as const)
+      if (prefix !== undefined) { where.push(`substr(${column},1,?)=?`); params.push([...prefix].length, prefix); }
+    const rows = this.db.prepare(`SELECT id,at,account_id,credential,action,target,"before","after" FROM audit_log
+      ${where.length ? `WHERE ${where.join(" AND ")}` : ""} ORDER BY id DESC LIMIT ?`).all(...params, limit);
     return rows.map(row => ({ id: Number(row.id), at: Number(row.at), accountId: row.account_id == null ? null : String(row.account_id),
       credential: String(row.credential), action: String(row.action), target: row.target == null ? null : String(row.target),
       before: json(row.before), after: json(row.after) }));
+  }
+  private settingRows(): Record<string, unknown> {
+    return Object.fromEntries(this.db.prepare("SELECT key,value FROM server_settings WHERE substr(key,1,?)=? ORDER BY key").all(SETTING_PREFIX.length, SETTING_PREFIX)
+      .map(row => [String(row.key).slice(SETTING_PREFIX.length), JSON.parse(String(row.value))]));
+  }
+  async settings(): Promise<Record<string, unknown>> { return this.settingRows(); }
+  async setSettings(changes: Readonly<Record<string, unknown>>, by: AdminActor): Promise<Record<string, unknown>> {
+    return this.transact(() => {
+      const stored = this.settingRows(), before: Record<string, unknown> = {}, after: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(changes)) {
+        const prior = Object.hasOwn(stored, key) ? stored[key] : null;
+        if (JSON.stringify(prior) === JSON.stringify(value ?? null)) continue;
+        before[key] = prior; after[key] = value ?? null;
+        if (value === null || value === undefined) this.db.prepare("DELETE FROM server_settings WHERE key=?").run(SETTING_PREFIX + key);
+        else this.db.prepare("INSERT INTO server_settings (key,value) VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(SETTING_PREFIX + key, JSON.stringify(value));
+      }
+      if (Object.keys(after).length) this.log(by, { action: "settings.set", target: null, before, after });
+      return this.settingRows();
+    });
   }
 
   async listPlayers(query: string | null, limit: number, cursor: string | null, now: number): Promise<PlayerPage> {
@@ -398,6 +433,7 @@ export class MemoryAdminStorage implements ServerAdminStorage {
   private readonly tokens = new Map<string, { record: ApiTokenRecord; hash: string }>();
   private readonly entries: AuditEntry[] = [];
   private setupHash: string | null = null;
+  private readonly overrides = new Map<string, unknown>();
   constructor(private readonly source: () => Iterable<MemoryPlayerRow> = () => []) {}
   private log(by: AdminActor, entry: AuditWrite): void {
     this.entries.push({ id: this.entries.length + 1, at: by.at, accountId: by.accountId, credential: by.credential, action: entry.action,
@@ -504,8 +540,20 @@ export class MemoryAdminStorage implements ServerAdminStorage {
   }
   async record(by: AdminActor, entry: AuditWrite): Promise<void> { this.log(by, entry); }
   readonly auditWriter: AuditWriter = (by, entry) => this.log(by, entry);
-  async audit(limit: number, before: number | null): Promise<AuditEntry[]> {
-    return [...this.entries].reverse().filter(entry => before === null || entry.id < before).slice(0, limit);
+  async audit(limit: number, before: number | null, filter?: AuditFilter): Promise<AuditEntry[]> {
+    return [...this.entries].reverse().filter(entry => (before === null || entry.id < before) && prefixed(filter, entry)).slice(0, limit);
+  }
+  async settings(): Promise<Record<string, unknown>> { return structuredClone(Object.fromEntries([...this.overrides].sort(([a], [b]) => a.localeCompare(b)))); }
+  async setSettings(changes: Readonly<Record<string, unknown>>, by: AdminActor): Promise<Record<string, unknown>> {
+    const before: Record<string, unknown> = {}, after: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(changes)) {
+      const prior = this.overrides.get(key) ?? null;
+      if (JSON.stringify(prior) === JSON.stringify(value ?? null)) continue;
+      before[key] = prior; after[key] = value ?? null;
+      if (value === null || value === undefined) this.overrides.delete(key); else this.overrides.set(key, structuredClone(value));
+    }
+    if (Object.keys(after).length) this.log(by, { action: "settings.set", target: null, before, after });
+    return this.settings();
   }
   private summary(row: MemoryPlayerRow, now: number): PlayerSummary {
     return { accountId: row.accountId, name: row.name, firstSeen: row.firstSeen, lastSeen: row.lastSeen, playtimeSeconds: row.playtimeSeconds,

@@ -5,8 +5,10 @@ Corealm content has one authored source and one compiler. Source records live un
 resolved catalog to `game/content/compiled/catalog.json`. The player build reads resolved content. It
 does not contain the authoring service.
 
-Use `npm run devdocs` to open the local editor. Run `npm run content:check` when reviewing a change
-from the command line. The checker parses every registered collection, compiles progression and
+Use `npm run devdocs` to open the local editor. The same editor also runs against a live game server,
+where a save publishes instead of writing files; see
+[two places to edit](#two-places-to-edit-the-repository-and-a-live-server). Run `npm run content:check`
+when reviewing a change from the command line. The checker parses every registered collection, compiles progression and
 creatures, and reports broken references or invalid values. It checks asset ids against
 `game/public/assets/manifest.json` with the same pools devdocs saves with, so an id that names no
 shipped asset fails the check. A missing model on a creature whose `availability` is `lab` is a
@@ -136,6 +138,87 @@ retired item and no world has a retired creature alive, the definition can be de
 There is one Save action for an ordinary edit. The workflow has no recompute, apply, or parity step.
 World bakes may run after a save when terrain or navigation must be regenerated; the bake records the
 source revision it used.
+
+## Two places to edit: the repository and a live server
+
+Devdocs is one app with two backends. The editing UI is the same in both: the same records, the same
+fields, the same save bar, the same conflict and diagnostic handling. What differs is where a save
+lands, and what else is there to work on.
+
+| | Repository mode | Server mode |
+| --- | --- | --- |
+| Start it with | `npm run devdocs` | `npm run devdocs:build:server`, then open the build |
+| Content comes from | `game/content/data/`, through the Vite middleware at `/__devdocs/` | `GET /admin/content/sources` on a running game server |
+| Derived tables (`compiled-items` and the rest) | `game/content/compiled/catalog.json` | `GET /admin/content/catalog/<revision>`, the server's own compiled catalog |
+| A save | writes the JSON files and a matching compiled catalog | `POST /admin/content/publish`: the running game moves onto the new catalog |
+| Sign-in | none; the API is loopback only | the identity service, then a 12 hour admin session |
+| Models, icons and map images | the repository's `game/public/` | the asset host the server names in `assetBaseUrl` |
+| Authoring notes, status and review requests | yes | no |
+| Local changes and per-file diff | yes | no |
+| Bulk status, note and retier actions | yes | no |
+| Asset import, candidate review and rendered thumbnails | yes | no |
+| Balance formula source and the compiled check | yes | no |
+
+The four **no** rows are all the same reason: they need the checkout. A live server holds content and
+nothing else, so those surfaces are left out of the navigation rather than shown and left to fail.
+Formulas are the one that is not about files: they are TypeScript that ships with a server release,
+so data changes live and code changes need a deploy.
+
+### Signing in to a server
+
+Server mode needs an account with a role on that server. Sign-in is three steps:
+
+1. The server address. A build the game server serves at `/admin` already knows it and does not ask.
+   A build hosted anywhere else asks once and remembers it.
+2. The identity service, which the **page** names through `window.__COREALM_IDENTITY_URL__` or a
+   `VITE_COREALM_IDENTITY_URL` baked into the build. A game server an admin typed the address of does
+   not get to choose where the login goes. A build the game server served itself may fall back to
+   that server's `/admin/info`, because the page and the API are then the same origin. If the page
+   and the server name different identity services, devdocs refuses to sign in and says so.
+3. A join token for the server's **published endpoint**, exchanged at `POST /admin/session`. The
+   published endpoint is what `/admin/info` reports, which is not always the address you typed: a
+   host behind a proxy publishes the proxy's origin, and it refuses a token minted for anything else.
+
+An account with no role on that server is told exactly that. A server that has no owner yet prints a
+one-time setup code at its first start; **Enter setup code** claims it through `POST /admin/setup` and
+makes that account the owner. The admin session lives in `sessionStorage`, so it ends with the tab.
+An expired session returns to the sign-in screen and keeps every unsaved draft.
+
+### What a save does on a live server
+
+The save bar's **Save all** runs the same transaction it always did. In server mode it is translated:
+the changed collections are sent whole, with the revision they were read at, to
+`POST /admin/content/publish`. That revision is the server's own: `GET /admin/content/sources` reports
+one per collection, computed by the function the publish checks against, and the publish reply reports
+the revision each stored collection now has. The editor never computes a content hash. The server's
+answers land in the states the editor already has.
+
+| The server answers | The editor shows |
+| --- | --- |
+| `409 stale_collections` | the ordinary conflict row, with Compare, Overwrite and Reload |
+| `422 content_invalid` | the compiler's problems, attached to the records that name them |
+| `409 definition_in_use` | who still holds the definition, and to set **Retired** on it instead |
+| `422 spawn_unplaceable` | the world whose changed spawn group has nowhere to stand |
+| `502 asset_manifest_unavailable` | that publishing waits for the asset host to answer |
+| `403` | that this credential may not publish, and that nothing was published |
+
+A successful publish leaves a result line in place of the save bar: the new revision, how many
+connected players were told to refresh, which compiled tables the running server reads **now**, which
+it reads again only at its **next restart**, how many creatures respawn onto the new plan, and the
+record ids the change reached. [Publishing content](multiplayer-hosting.md#publishing-content) has the
+full endpoint reference.
+
+### Building and hosting the server-mode app
+
+```sh
+npm run devdocs:build:server
+```
+
+The output is `dist/devdocs-server`, with relative URLs, so it works both at `/admin/` on a game
+server and at the root of any static host. It carries no public directory: a live server serves no
+assets, and the admin API owns the first path segment under `/admin/` for `info`, `setup`, `session`,
+`me`, `roles`, `bans`, `tokens`, `audit`, `content`, `stats`, `players` and `settings`. Run it after
+`npm run build`, which empties `dist/`.
 
 ## Progression
 

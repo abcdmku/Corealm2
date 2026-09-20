@@ -5,7 +5,7 @@ export const NAVMESH_AUTHORING_INPUTS = {
   "terrainGeometry": "3ef753cca837e0b9900661fecc645c750612563eda10a30eab2a6a56e4b47794",
   "roads": "f5e2ba3c768d8f50169d5aab40406993d192d71b220d97a59bf1e7ec596ccbb4",
   "water": "ad3a75cf42a2fc06c064b27d62b04ccb8bd88fc8ddd8f96b4309f6d5c1b598cb",
-  "solidCarves": "f5780789b8827f2f7f0a2503534503695b8a7904a79a62b7f92ba66b471e6714",
+  "solidCarves": "a641b36e9a0c3719d5978a8d9fefa9f29afe4200cc2a0d705cdf035d4e0d482a",
   "dungeonGeometry": "d3223d3476d3946952c39eb19bb263fe734b10aebb587e059f4e84c3a05c08e2",
   "seedDependentInputs": "4132690ae18484412bcbf76116d00123807ca7bb1eaf8a145b4ee9ce3be78e99",
   "navigationSettings": "489f7afe330f0bcaf9f17b9a4f0fc4dcf26a947e494670482f97a21c13babbeb"

@@ -4,15 +4,24 @@ import {
   ACCOUNT_ID, ADMIN_SESSION_MS, ADMIN_SESSION_PREFIX, API_SCOPES, API_TOKEN_PREFIX, banMessage, hashSecret, newApiTokenId, newSecret,
   setupCodeDigits, type AdminActor, type ApiScope, type ServerAdminStorage, type ServerRole,
 } from "./adminStorage.js";
-import type { AuthenticatedPlayer, ReferenceServerMetrics, ServerEvent } from "./referenceServer.js";
-import type { CatalogHost } from "./catalogHost.js";
+import type { AuthenticatedPlayer, PlayerEditOutcome, ReferenceServerMetrics, ServerEvent } from "./referenceServer.js";
+import { accepts, type CatalogHost } from "./catalogHost.js";
+import { ADMIN_API_SEGMENTS } from "./adminUi.js";
+import { EditFailure, MAX_PLAYER_PATCH_BYTES, playerPatch, playerRevision, type PlayerPatch } from "./playerEdits.js";
+import { SettingsFailure, type ServerSettings } from "./serverSettings.js";
+import { promisify } from "node:util";
+import { brotliCompress, constants, gzip } from "node:zlib";
 import { CATALOG_REVISION } from "../content/clientCatalog.js";
+import { collectionRevision } from "../content/compiler/revision.js";
 import { PublishFailure, publishRequest, type ContentPublisher } from "./contentPublish.js";
 
 /**
  * The admin HTTP API, mounted on the reference server's single route table. JSON in, JSON out,
  * `{error:{code,message}}` on failure, never cached, and never `*` for CORS: a browser origin
  * reaches `/admin/*` only when the host listed it in `allowedOrigins`.
+ *
+ * The devdocs build is served under `/admin/` too. The API owns the first path segments in
+ * `ADMIN_API_SEGMENTS`, for every method; every other path goes to `ui`.
  *
  * Two credentials, both `Authorization: Bearer …`. An admin session (`cas_…`) carries a role and
  * every scope. An API token (`cat_…`) carries only the scopes it was created with and can never
@@ -28,6 +37,8 @@ const MAX_REASON_CHARS = 512;
 const PLAYER_PAGE_LIMIT = 100;
 const AUDIT_PAGE_LIMIT = 200;
 const CATALOG_HISTORY_LIMIT = 200;
+const MAX_FILTER_CHARS = 128;
+const compressGzip = promisify(gzip), compressBrotli = promisify(brotliCompress);
 /** The setup code is the one brute-forceable secret on this API, so its window is the tightest. */
 const SETUP_ATTEMPTS_PER_MINUTE = 5;
 const SETUP_ATTEMPTS_PER_MINUTE_TOTAL = 20;
@@ -46,6 +57,18 @@ export interface AdminServerPorts {
   liveCharacter(accountId: string): { world: WorldKey; character: PlayerCharacter } | null;
   /** Disconnect an account from every world through the normal leave path: save, then release. */
   disconnect(accountId: string, code: SessionErrorCode, message: string): boolean;
+  /** Whether a connection of this account is open in any world. */
+  connected(accountId: string): boolean;
+  /** Apply a validated patch to the live player, or to the stored one when no world holds them. Throws `EditFailure`. */
+  editPlayer(accountId: string, patch: PlayerPatch, by: AdminActor): Promise<PlayerEditOutcome>;
+  /** What this server is and where its parts live. No secrets: the login screen reads it before anyone has signed in. */
+  info(): { name: string; description: string | null; endpoint: string; assetBaseUrl: string | null; identityUrl: string | null; authentication: string;
+    catalogRevision: string; host: string; registerWithDirectory: boolean; worlds: { providerId: string; worldId: string; name: string; seed: number; capacity: number }[] };
+  settings: {
+    get(): Promise<{ settings: ServerSettings; overrides: Record<string, unknown>; defaults: ServerSettings }>;
+    /** Validate, store with its audit row, and apply to the running worlds. Throws `SettingsFailure`. */
+    patch(body: Record<string, unknown>, by: AdminActor): Promise<{ settings: ServerSettings; overrides: Record<string, unknown>; defaults: ServerSettings }>;
+  };
 }
 export interface AdminApiOptions {
   admin: ServerAdminStorage;
@@ -57,6 +80,8 @@ export interface AdminApiOptions {
   authenticate(token: string): Promise<AuthenticatedPlayer>;
   allowedOrigins: readonly string[];
   server: AdminServerPorts;
+  /** Everything under `/admin` that is not the API: the devdocs build. */
+  ui(request: IncomingMessage, response: ServerResponse): Promise<boolean>;
   now?(): number;
   log?(event: Record<string, unknown>): void;
 }
@@ -121,6 +146,10 @@ export function createAdminApi(options: AdminApiOptions) {
   const setupPerAddress = new RateWindow(SETUP_ATTEMPTS_PER_MINUTE);
   const setupTotal = new RateWindow(SETUP_ATTEMPTS_PER_MINUTE_TOTAL);
   const loginPerAddress = new RateWindow(LOGIN_ATTEMPTS_PER_MINUTE);
+  /** The last server catalog asked for, compressed once. It runs to megabytes and an editor asks for the same one again. */
+  let servedCatalog: { revision: string; identity: Buffer; gzip: Buffer; br: Buffer } | null = null;
+  /** The last sources revision map, as its finished JSON. Hashing every collection parses megabytes, and an editor reloads. */
+  let servedRevisions: { revision: string; json: string } | null = null;
 
   function cors(request: IncomingMessage): Record<string, string> {
     const origin = request.headers.origin;
@@ -217,6 +246,8 @@ export function createAdminApi(options: AdminApiOptions) {
       bytesOut: metrics.bytesOut, bytesOutPerSecond: uptimeSeconds > 0 ? metrics.bytesOut / uptimeSeconds : 0,
       memory: { rssBytes: memory.rss, heapUsedBytes: memory.heapUsed },
       events: server.events().map(event => ({ ...event })),
+      // The publish history is `GET /admin/content/revision`.
+      catalogRevision: catalog.revision, server: server.info(),
     };
   }
 
@@ -231,13 +262,22 @@ export function createAdminApi(options: AdminApiOptions) {
       position: character?.player.position ?? detail.position, regionId: character?.player.regionId ?? detail.regionId,
       ban: detail.ban, currency: character?.currency ?? null, skills: character?.skills ?? null,
       inventory: character?.inventory.slots ?? null, bank: character?.bank.slots ?? null, equipment: character?.equipment ?? null,
+      // What `PATCH` takes back as `expect.revision`. It moves when anything an edit can touch moves, except position.
+      revision: character ? playerRevision(character) : null,
     };
   }
 
   async function dispatch(request: IncomingMessage, response: ServerResponse, url: URL, segments: string[]): Promise<void> {
     const method = request.method ?? "GET", at = now();
     const rest = segments.slice(1), target = rest[1] === undefined ? null : decodeURIComponent(rest[1]);
-    if (rest.length > 2) throw new ApiFailure(404, "not_found", "No such admin endpoint");
+    const deeper = (rest[0] === "players" && rest[2] === "kick") || (rest[0] === "content" && rest[1] === "catalog") ? 3 : 2;
+    if (rest.length > deeper) throw new ApiFailure(404, "not_found", "No such admin endpoint");
+
+    if (method === "GET" && rest[0] === "info" && rest.length === 1) {
+      // Public on purpose: the login screen needs the identity service and the token audience before there is a session.
+      const { host: _host, registerWithDirectory: _listed, ...info } = server.info();
+      json(request, response, 200, info); return;
+    }
 
     if (method === "POST" && rest[0] === "setup" && rest.length === 1) {
       if (!setupPerAddress.allow(caller(request), at) || !setupTotal.allow("", at)) throw new ApiFailure(429, "rate_limited", "Too many setup attempts");
@@ -272,8 +312,9 @@ export function createAdminApi(options: AdminApiOptions) {
     }
     if (method === "GET" && rest[0] === "me" && rest.length === 1) {
       const held = await credential(request);
+      const { name, endpoint, assetBaseUrl, identityUrl, catalogRevision } = server.info();
       json(request, response, 200, { credential: held.kind, accountId: held.accountId, tokenId: held.tokenId,
-        role: held.role, scopes: [...held.scopes] }); return;
+        role: held.role, scopes: [...held.scopes], server: { name, endpoint, assetBaseUrl, identityUrl, catalogRevision } }); return;
     }
 
     if (rest[0] === "roles") {
@@ -350,8 +391,43 @@ export function createAdminApi(options: AdminApiOptions) {
       await session(request);
       const before = url.searchParams.get("before");
       if (before !== null && !/^[0-9]{1,15}$/.test(before)) throw new ApiFailure(400, "invalid_request", "A cursor is an audit row id");
-      json(request, response, 200, { entries: await admin.audit(counted(url.searchParams.get("limit"), 50, AUDIT_PAGE_LIMIT), before === null ? null : Number(before)) });
+      const filter: { action?: string; account?: string; target?: string } = {};
+      for (const key of ["action", "account", "target"] as const) {
+        const prefix = url.searchParams.get(key);
+        if (prefix === null) continue;
+        if (!prefix || prefix.length > MAX_FILTER_CHARS) throw new ApiFailure(400, "invalid_request", `An ${key} filter is a prefix of 1 to ${MAX_FILTER_CHARS} characters`);
+        filter[key] = prefix;
+      }
+      json(request, response, 200, { entries: await admin.audit(counted(url.searchParams.get("limit"), 50, AUDIT_PAGE_LIMIT), before === null ? null : Number(before), filter) });
       return;
+    }
+    if (rest[0] === "settings" && rest.length === 1 && (method === "GET" || method === "PATCH")) {
+      const held = await session(request);
+      if (method === "GET") { json(request, response, 200, await server.settings.get()); return; }
+      try { json(request, response, 200, await server.settings.patch(await body(request), actorOf(held, at))); return; }
+      catch (error) { if (error instanceof SettingsFailure) throw new ApiFailure(error.status, error.status === 400 ? "invalid_request" : "conflict", error.message); throw error; }
+    }
+    if (method === "GET" && rest[0] === "content" && rest[1] === "catalog" && rest.length === 3) {
+      await scoped(request, "content:read");
+      const wanted = rest[2] === "active" ? catalog.revision : rest[2]!;
+      if (!CATALOG_REVISION.test(wanted)) throw new ApiFailure(400, "invalid_request", "A revision is 64 lowercase hex characters, or active");
+      if (servedCatalog?.revision !== wanted) {
+        const text = await catalog.storage.catalog(wanted, "server");
+        if (text === null) throw new ApiFailure(404, "not_found", "No catalog with that revision is stored");
+        const identity = Buffer.from(text);
+        const [zipped, br] = await Promise.all([compressGzip(identity, { level: 6 }), compressBrotli(identity, { params: { [constants.BROTLI_PARAM_QUALITY]: 5, [constants.BROTLI_PARAM_SIZE_HINT]: identity.length } })]);
+        servedCatalog = { revision: wanted, identity, gzip: zipped, br };
+      }
+      // The server catalog holds loot odds and spawn tables, so it is private to the caller. A revision is a content
+      // hash and never changes; `active` is a pointer and is asked again every time.
+      const etag = `"${wanted}"`, headers = { "Content-Type": "application/json", ETag: etag, "X-Catalog-Revision": wanted,
+        "Cache-Control": rest[2] === "active" ? "private, no-cache" : "private, max-age=31536000, immutable", ...cors(request), Vary: "Origin, Accept-Encoding",
+        "Access-Control-Expose-Headers": "ETag, X-Catalog-Revision" };
+      if (request.headers["if-none-match"] === etag) { response.writeHead(304, headers).end(); return; }
+      const coding = accepts(request.headers["accept-encoding"], "br") ? "br" : accepts(request.headers["accept-encoding"], "gzip") ? "gzip" : null;
+      const payload = coding === null ? servedCatalog.identity : servedCatalog[coding];
+      response.writeHead(200, { ...headers, "Content-Length": payload.length, ...(coding ? { "Content-Encoding": coding } : {}) });
+      response.end(payload); return;
     }
     if (method === "GET" && rest[0] === "content" && rest.length === 2) {
       await scoped(request, "content:read");
@@ -363,8 +439,14 @@ export function createAdminApi(options: AdminApiOptions) {
         if (!CATALOG_REVISION.test(wanted)) throw new ApiFailure(400, "invalid_request", "A revision is 64 lowercase hex characters");
         const found = await catalog.storage.sources(wanted);
         if (!found) throw new ApiFailure(404, "not_found", "No catalog with that revision is stored");
+        // `revisions` is what a publish compares a draft against, by the same function, so an editor
+        // never has to hash a collection itself to know what to send back.
+        if (servedRevisions?.revision !== found.revision) {
+          const parsed = JSON.parse(found.sources) as Record<string, unknown>;
+          servedRevisions = { revision: found.revision, json: JSON.stringify(Object.fromEntries(Object.keys(parsed).map(name => [name, collectionRevision(parsed[name])]))) };
+        }
         // Source collections run to megabytes, so the stored text is spliced in rather than parsed and written again.
-        const payload = `{"revision":${JSON.stringify(found.revision)},"sources":${found.sources}}`;
+        const payload = `{"revision":${JSON.stringify(found.revision)},"revisions":${servedRevisions.json},"sources":${found.sources}}`;
         response.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store", "Content-Length": Buffer.byteLength(payload), ...cors(request) });
         response.end(payload); return;
       }
@@ -388,7 +470,33 @@ export function createAdminApi(options: AdminApiOptions) {
       await scoped(request, "stats:read");
       json(request, response, 200, stats()); return;
     }
+    if (rest[0] === "players" && target !== null && (method === "PATCH" && rest.length === 2 || method === "POST" && rest[2] === "kick")) {
+      const held = await scoped(request, "players:write");
+      const id = accountId(target);
+      if (method === "POST") {
+        const input = await body(request);
+        if (Object.keys(input).some(key => key !== "reason") || (input.reason !== undefined && !text(input.reason, MAX_REASON_CHARS))) throw new ApiFailure(400, "invalid_request", `A kick is {reason?}, at most ${MAX_REASON_CHARS} characters`);
+        const reason = text(input.reason, MAX_REASON_CHARS);
+        if (!server.connected(id)) throw new ApiFailure(409, "not_online", "That player is not connected");
+        // Audited first: a kick that happened is always in the log, and one that is in the log at worst found the player already gone.
+        await admin.record(actorOf(held, at), { action: "player.kick", target: id, after: { reason } });
+        const kicked = server.disconnect(id, "KICKED", reason ? `Kicked from this server: ${reason}` : "Kicked from this server");
+        server.record({ kind: "kick", accountId: id, detail: reason });
+        log({ event: "admin.kick", accountId: id, by: held.accountId, kicked });
+        json(request, response, 200, { kicked }); return;
+      }
+      try {
+        const outcome = await server.editPlayer(id, playerPatch(await body(request, MAX_PLAYER_PATCH_BYTES)), actorOf(held, at));
+        if (outcome.changed) log({ event: "admin.player_edit", accountId: id, by: held.accountId, applied: outcome.applied });
+        json(request, response, 200, { ...outcome, player: playerBody(await admin.player(id, now())) }); return;
+      } catch (error) {
+        if (!(error instanceof EditFailure)) throw error;
+        const status = error.code === "not_found" ? 404 : error.status;
+        json(request, response, status, { error: { code: error.code, message: error.message, ...(error.opIndex === null ? {} : { op: error.opIndex }) } }); return;
+      }
+    }
     if (method === "GET" && rest[0] === "players") {
+      if (rest.length > 2) throw new ApiFailure(404, "not_found", "No such admin endpoint");
       await scoped(request, "players:read");
       if (rest.length === 1) {
         const query = url.searchParams.get("query");
@@ -421,10 +529,12 @@ export function createAdminApi(options: AdminApiOptions) {
     const url = new URL(raw, "http://server.invalid");
     const segments = url.pathname.replace(/\/+$/, "").split("/").filter(Boolean);
     if (segments[0] !== "admin") return false;
+    // The API owns its segments for every method and every Accept header. The rest of `/admin` is the devdocs build.
+    if (request.method !== "OPTIONS" && !ADMIN_API_SEGMENTS.includes(segments[1] ?? "")) return options.ui(request, response);
     if (request.method === "OPTIONS") {
       const headers = cors(request);
       response.writeHead(headers["Access-Control-Allow-Origin"] ? 204 : 403, { ...headers, "Cache-Control": "no-store",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "authorization, content-type", "Access-Control-Max-Age": "600", "Content-Length": 0 });
       response.end(); return true;
     }

@@ -46,8 +46,18 @@ describe('reference deployment configuration',()=>{
    identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
   expect(hostConfiguration([],{},read)).toEqual({authored:false,authentication:'account',developmentGuests:false,guests:false,host:'127.0.0.1',port:4200,
    data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
-   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,
+   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
    configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
+ });
+ it('reads the defaults of the runtime settings and the admin UI directory, and checks them',()=>{
+  const identity=['--identity-url','https://identity.example.com/'];
+  const file=hostConfiguration([],{},files({'corealm-server.json':{identityUrl:'https://identity.example.com/',name:'Raid Night',description:' Fridays ',registerWithDirectory:true,adminUiDir:'ui'}}));
+  expect([file.name,file.description,file.registerWithDirectory,file.adminUiDir]).toEqual(['Raid Night','Fridays',true,'ui']);
+  const flagged=hostConfiguration([...identity,'--name','LAN Box','--admin-ui-dir','build/ui','--register-with-directory'],{COREALM_SERVER_DESCRIPTION:'Weekends'},none);
+  expect([flagged.name,flagged.description,flagged.registerWithDirectory,flagged.adminUiDir]).toEqual(['LAN Box','Weekends',true,'build/ui']);
+  expect(()=>hostConfiguration([...identity,'--name','x'],{},none)).toThrow(/name must be 3 to 48/);
+  expect(()=>hostConfiguration(identity,{COREALM_SERVER_DESCRIPTION:'d'.repeat(201)},none)).toThrow(/description must be 1 to 200 characters/);
+  expect(()=>hostConfiguration(['--guests','--register-with-directory'],{},none)).toThrow(/registerWithDirectory needs an identity service URL/);
  });
  it('names the owner account from a flag, an environment variable or the file, and checks its shape',()=>{
   const identity=['--identity-url','https://identity.example.com/'];

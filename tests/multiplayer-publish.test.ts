@@ -9,7 +9,7 @@ import { WORLD_PROTOCOL_VERSION, type SemanticEntity, type Vec3, type WorldDescr
 import { createSigningKey, joinTokenClaims, signJoinToken, type IdentityKey } from "../identity/src/joinToken.js";
 import { content } from "../game/src/content/index.js";
 import { compileCatalog } from "../game/src/content/compiler/catalog.js";
-import { collectionRevision } from "../game/src/content/compiler/changes.js";
+import { collectionRevision } from "../game/src/content/compiler/revision.js";
 import { RESOLVED_CATALOG, RESOLVED_TABLES } from "../game/src/content/resolvedCatalog.js";
 import type { CompiledWorld } from "../game/src/content/worldData.js";
 import { setSkillLevel } from "../game/src/state/store.js";
@@ -117,17 +117,21 @@ async function respawn(id: string): Promise<SemanticEntity> {
   return running.runtime.entities.get(id)!;
 }
 
-async function current(): Promise<{ revision: string; sources: Sources }> {
+async function current(): Promise<{ revision: string; revisions: Record<string, string>; sources: Sources }> {
   const answer = await running.call("/admin/content/sources", { token: running.session });
   expect(answer.status).toBe(200);
   return answer.body;
 }
-/** Edit the active sources the way devdocs will: read, change whole collections, send each back with the revision it was read at. */
+/**
+ * Edit the active sources the way devdocs does: read, change whole collections, send each back with
+ * the revision the read reported. Nothing here hashes a collection, so every publish in this file is
+ * evidence that what `GET /admin/content/sources` reports is what `POST /admin/content/publish` takes.
+ */
 async function publish(change: (draft: Sources) => void, options: { path?: string; token?: string; note?: string } = {}) {
   const active = await current(), draft = clone(active.sources);
   change(draft);
   const collections = Object.fromEntries(Object.keys(draft).filter(name => JSON.stringify(draft[name]) !== JSON.stringify(active.sources[name]))
-    .map(name => [name, { revision: collectionRevision(active.sources[name]), value: draft[name] }]));
+    .map(name => [name, { revision: active.revisions[name]!, value: draft[name] }]));
   return running.call(options.path ?? "/admin/content/publish", { method: "POST", token: options.token ?? running.session,
     body: { base: active.revision, collections, ...(options.note ? { note: options.note } : {}) } });
 }
@@ -291,7 +295,7 @@ describe("publishing content into a running server", () => {
       body: { base: active.revision, collections: { lootTables: { revision: "f".repeat(64), value: active.sources.lootTables } } } });
     expect(stale.status).toBe(409);
     expect(stale.body.error).toEqual({ code: "stale_collections", message: "Content changed on the server since this edit began. Your draft has been preserved.",
-      stale: ["lootTables"], revisions: { lootTables: collectionRevision(active.sources.lootTables) }, revision: active.revision });
+      stale: ["lootTables"], revisions: { lootTables: active.revisions.lootTables }, revision: active.revision });
 
     const broken = await publish(draft => { draft.lootTables.find((row: any) => row.id === TABLE).rolls[0].drops = [{ itemId: "no_such_item", quantity: [1, 1], chance: 1 }]; });
     expect(broken.status).toBe(422);
@@ -314,7 +318,7 @@ describe("publishing content into a running server", () => {
   it("serialises concurrent publishes: the second sees the first", async () => {
     const active = await current();
     const send = (name: string) => { const items = clone(active.sources.items); items.find((row: any) => row.id === MARKER).name = name;
-      return running.call("/admin/content/publish", { method: "POST", token: running.session, body: { base: active.revision, collections: { items: { revision: collectionRevision(active.sources.items), value: items } } } }); };
+      return running.call("/admin/content/publish", { method: "POST", token: running.session, body: { base: active.revision, collections: { items: { revision: active.revisions.items!, value: items } } } }); };
     const answers = await Promise.all([send("Marker One"), send("Marker Two")]);
     expect(answers.map(answer => answer.status).sort()).toEqual([200, 409]);
     expect(answers.find(answer => answer.status === 409)!.body.error.code).toBe("stale_collections");
@@ -373,6 +377,23 @@ describe("publishing content into a running server", () => {
     running = await boot();
     expect((await (await fetch(`http://127.0.0.1:${running.server.port}/worlds`)).json())[0].catalogRevision).toBe(published);
   }, 60_000);
+
+  it("reports the revision of every source collection, which is the revision a publish accepts", async () => {
+    const active = await current();
+    expect(Object.keys(active.revisions).sort()).toEqual(Object.keys(active.sources).sort());
+    // The same function the stale check runs. An editor in a browser never has to compute one.
+    for (const name of Object.keys(active.sources)) expect(`${name}:${active.revisions[name]}`).toBe(`${name}:${collectionRevision(active.sources[name])}`);
+
+    const stored = await publish(draft => { draft.items.find((row: any) => row.id === "worn_sword").description = "Reported revisions."; });
+    expect(stored.status).toBe(200);
+    // What was stored is reported back, so the next edit sends a revision the server will still take.
+    expect(stored.body.revisions).toEqual({ items: collectionRevision((await current()).sources.items) });
+    const again = await publish(draft => { draft.items.find((row: any) => row.id === "worn_sword").description = "And again."; });
+    expect(again.status).toBe(200);
+    // A dry run stores nothing, so it moves no revision.
+    const dry = await publish(draft => { draft.items.find((row: any) => row.id === "worn_sword").description = "Only a dry run."; }, { path: "/admin/content/validate" });
+    expect([dry.status, dry.body.stored, dry.body.revisions]).toEqual([200, false, {}]);
+  });
 });
 
 describe("asset ids against a remote asset host", () => {

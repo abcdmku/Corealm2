@@ -18,7 +18,8 @@ export const contentDataRoot = path.join(contentRoot, "data");
 export const contentMetaRoot = path.join(contentRoot, "meta");
 
 import { formatContentJson } from "../../game/src/content/compiler/canonical.js";
-export { contentRevision, formatContentJson } from "../../game/src/content/compiler/canonical.js";
+export { formatContentJson } from "../../game/src/content/compiler/canonical.js";
+export { collectionRevision, contentRevision } from "../../game/src/content/compiler/revision.js";
 
 /**
  * Re-parses records through their schema so the written key order matches the schema and record

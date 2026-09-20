@@ -73,6 +73,10 @@ Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `
 | `identityUrl` | `--identity-url` | `COREALM_IDENTITY_URL` |
 | `ownerAccount` | `--owner-account` | `COREALM_OWNER_ACCOUNT` |
 | `authModule` | `--auth-module` | `COREALM_AUTH_MODULE` |
+| `name` | `--name` | `COREALM_SERVER_NAME` |
+| `description` | `--description` | `COREALM_SERVER_DESCRIPTION` |
+| `registerWithDirectory` | `--register-with-directory` | none |
+| `adminUiDir` | `--admin-ui-dir` | `COREALM_ADMIN_UI_DIR` |
 | `guests` | `--guests` | none |
 | `developmentGuests` | `--development-guests` | none |
 | `worlds` | `--worlds a,b` | `COREALM_WORLDS` |
@@ -116,7 +120,7 @@ An admin changes the content of a running server through three endpoints. All ne
 | `POST /admin/content/publish` | `{base, collections: {<name>: {revision, value}}, note?}` | Compiles, stores and activates a new revision, moves the running server onto it and tells connected clients. |
 | `POST /admin/content/rollback` | `{revision}` | Publishes the source collections of an earlier stored revision through the same path. |
 
-`base` is the catalog revision the edit started from. Each entry of `collections` is one whole collection as it sits under `game/content/data/`, with the revision the editor read it at. A collection revision is the SHA-256 of the collection written as canonical JSON: two-space indent, a trailing newline. `GET /admin/content/sources` returns the collections to hash. `note` is at most 512 characters and is kept with the revision and the audit row.
+`base` is the catalog revision the edit started from. Each entry of `collections` is one whole collection as it sits under `game/content/data/`, with the revision the editor read it at. A collection revision is the SHA-256 of the collection written as canonical JSON: two-space indent, a trailing newline. `GET /admin/content/sources` reports that revision for every collection beside the collections themselves, by the same function this check runs, so a client never computes one. `note` is at most 512 characters and is kept with the revision and the audit row.
 
 A rollback compiles the stored sources of the named revision again, so the retire rule, the asset check and the spawn plan apply to it as they do to any publish. When the server's formulas are the ones that revision was compiled with, the result is that same revision and only the pointer moves. After a server release that changed formulas, the same sources compile to a new revision, and that one becomes active. Either way `catalog_history` gets a new row.
 
@@ -138,6 +142,7 @@ The reply to all three is the same:
 ```json
 {"revision":"2c5db1...","previous":"32768c...","unchanged":false,"stored":true,
  "changedCollections":["placements"],"changedTables":["placements","world"],
+ "revisions":{"placements":"9d41e8..."},
  "live":["placements","world"],"onRestart":[],
  "affected":{"placements":["redsill_frogs"],"regions":["fallowmarch"],"spawnGroups":["redsill_frogs"]},
  "problems":[],"assetValidation":"bundled",
@@ -146,7 +151,7 @@ The reply to all three is the same:
  "timings":{"manifestMs":0.2,"compileMs":92,"blockersMs":0.2,"spawnPlanMs":11.1,"storeMs":32,"swapMs":2,"tickStallMs":45.3,"totalMs":239}}
 ```
 
-`affected` lists changed record ids by collection and by compiled table, so a loot table edit names the enemies it reaches. `problems` carries compiler warnings and `info` lines. `spawns` counts, per world, creatures added at once, living creatures waiting for their next respawn, creatures that will finish their life and leave, and dead ones removed at once. `validate` answers with `stored: false` and empty `spawns`. A publish that compiles to the active revision answers `unchanged: true` and does nothing.
+`revisions` is the revision each changed collection now has, which is what the next publish will compare a draft against; it is empty when nothing was stored, so a `validate` and an unchanged publish both move nothing. `affected` lists changed record ids by collection and by compiled table, so a loot table edit names the enemies it reaches. `problems` carries compiler warnings and `info` lines. `spawns` counts, per world, creatures added at once, living creatures waiting for their next respawn, creatures that will finish their life and leave, and dead ones removed at once. `validate` answers with `stored: false` and empty `spawns`. A publish that compiles to the active revision answers `unchanged: true` and does nothing.
 
 | Status | `error.code` | Meaning |
 | --- | --- | --- |
@@ -246,22 +251,23 @@ Devdocs signs in with `POST /admin/session`, exchanging a join token for a sessi
 
 | Scope | Allows |
 | --- | --- |
-| `content:read` | Reading source collections, for the export workflow. |
+| `content:read` | Reading source collections and the server catalog, for devdocs and the export workflow. |
 | `content:publish` | Publishing a catalog. |
 | `players:read` | `GET /admin/players`, `GET /admin/bans`. |
-| `players:write` | `POST /admin/bans`, `DELETE /admin/bans/<accountId>`. |
+| `players:write` | `POST /admin/bans`, `DELETE /admin/bans/<accountId>`, `PATCH /admin/players/<accountId>`, `POST /admin/players/<accountId>/kick`. |
 | `stats:read` | `GET /admin/stats`. |
 
 ### Endpoints
 
-JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply is `Cache-Control: no-store`. `Authorization: Bearer <cas_… or cat_…>`. CORS allows the exact origins in `allowedOrigins` and never `*`; a request from any other origin gets no allow header, and its preflight gets 403. Bodies are capped at 8 KiB, or 16 MiB for a content publish, and every field, header, query value and path segment is validated at the boundary.
+JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply is `Cache-Control: no-store`. `Authorization: Bearer <cas_… or cat_…>`. CORS allows the exact origins in `allowedOrigins` and never `*`; a request from any other origin gets no allow header, and its preflight gets 403. Bodies are capped at 8 KiB, 128 KiB for a player edit, or 16 MiB for a content publish, and every field, header, query value and path segment is validated at the boundary.
 
 | Endpoint | Credential | Does |
 | --- | --- | --- |
 | `POST /admin/setup` | join token + code | Makes the caller owner and returns a session. |
 | `POST /admin/session` | join token | Returns `{session, expiresAt, accountId, name, role}` for a role holder, otherwise 403. |
 | `DELETE /admin/session` | session | Revokes the presenting session. |
-| `GET /admin/me` | session or token | `{credential, accountId, tokenId, role, scopes}`. |
+| `GET /admin/info` | none | `{name, description, endpoint, assetBaseUrl, identityUrl, authentication, catalogRevision, worlds}`. What a login screen needs before anyone has signed in: where to sign in, and the `endpoint` to ask the identity service for a token for. No secrets. |
+| `GET /admin/me` | session or token | `{credential, accountId, tokenId, role, scopes, server}`. `server` is `{name, endpoint, assetBaseUrl, identityUrl, catalogRevision}`. |
 | `GET /admin/roles` | session | Every role holder. |
 | `PUT /admin/roles/<accountId>` | owner session | Body `{"role":"admin"}`. |
 | `DELETE /admin/roles/<accountId>` | owner session | Removes a role. |
@@ -271,17 +277,120 @@ JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply i
 | `GET /admin/tokens` | session | Metadata only: id, label, scopes, createdBy, createdAt, lastUsedAt, expiresAt. |
 | `POST /admin/tokens` | session | Body `{label, scopes[], expiresAt?}`. The reply is the only place the secret exists. |
 | `DELETE /admin/tokens/<id>` | session | Revokes a token. |
-| `GET /admin/audit?limit=&before=` | session | Newest first. `before` is an id from the previous page. |
+| `GET /admin/audit?limit=&before=&action=&account=&target=` | session | Newest first. `before` is an id from the previous page. `action`, `account` and `target` are prefixes: `action=player.` finds every player write. |
+| `GET /admin/settings`, `PATCH /admin/settings` | session | See [Settings](#settings). |
 | `GET /admin/stats` | `stats:read` | Below. |
 | `GET /admin/content/revision?limit=` | `content:read` | `{revision, history}`. `history` is the pointer moves, newest first, each `{id, revision, previous, by, at}`. `limit` is 1 to 200, default 50. |
-| `GET /admin/content/sources?revision=` | `content:read` | `{revision, sources}`: the source collections that revision was compiled from, keyed by collection name as under `game/content/data/`. Omit `revision` for the active one. 404 when it is not stored. |
+| `GET /admin/content/sources?revision=` | `content:read` | `{revision, revisions, sources}`: the source collections that revision was compiled from, keyed by collection name as under `game/content/data/`, and the revision of each one as a publish checks it. Omit `revision` for the active one. 404 when it is not stored. |
+| `GET /admin/content/catalog/<revision>` or `/active` | `content:read` | The whole server catalog as JSON, loot odds and spawn tables included, so it is `Cache-Control: private`. A revision is a content hash and is `immutable` for a year; `active` is a pointer and is `no-cache`. `ETag` and `X-Catalog-Revision` carry the revision. Served brotli or gzip. |
 | `POST /admin/content/validate`, `/publish`, `/rollback` | `content:publish` | See [Publishing content](#publishing-content). |
 | `GET /admin/players?query=&limit=&cursor=` | `players:read` | Summaries, newest seen first. `cursor` comes from the previous page. |
-| `GET /admin/players/<accountId>` | `players:read` | One player with inventory, bank, equipment and skills. |
+| `GET /admin/players/<accountId>` | `players:read` | One player with inventory, bank, equipment, skills and `revision`. |
+| `PATCH /admin/players/<accountId>` | `players:write` | Body `{ops[], expect?}`. See [Editing a player](#editing-a-player). |
+| `POST /admin/players/<accountId>/kick` | `players:write` | Body `{reason?}`. Returns `{kicked}`, or 409 `not_online`. |
 
-A player who is online is read from the world holding them, not from the row the last commit wrote, so devdocs shows what the player is carrying right now. M5 adds editing and kicking beside these readers.
+A player who is online is read from the world holding them, not from the row the last commit wrote, so devdocs shows what the player is carrying right now.
 
-`audit_log` gets one row inside the same transaction as the write that caused it: `id`, `at`, `account_id`, `credential`, `action`, `target`, `before` and `after`. The credential is `session`, `token:<id>`, `setup` for the one-time code, `config` for `ownerAccount`, or `login` for the join token that minted a session. Actions are `owner.setup`, `role.set`, `role.revoke`, `ban.set`, `ban.remove`, `token.create`, `token.revoke`, `session.create`, `session.revoke`, `content.publish` and `content.rollback`. The content rows have the new revision as `target`, `{revision}` of the catalog it replaced as `before`, and `{revision, base, note, changedCollections, changedTables}` as `after`.
+### Editing a player
+
+An edit goes through the running server and never straight to the database. The body is a list of typed operations, applied in order to a copy of the character. If any operation is malformed, names something the active catalog does not have, or does not fit, the whole patch is refused and nothing changes. The error names the operation: `{"error":{"code","message","op":2}}`. 400 is a patch that could never apply, 409 one that does not fit this player right now.
+
+| Operation | Fields | Rule |
+| --- | --- | --- |
+| `inventory.set` | `slots`: up to 28 of `{itemId, quantity}` or `null` | The slot list as given, padded with empty slots. An item that does not stack holds 1 per slot. One that stacks fills one slot only. |
+| `inventory.add`, `inventory.remove` | `itemId`, `quantity` | All of it or none: adding needs the free slots, removing needs the items. |
+| `bank.set` | `slots`: up to 400 of `{itemId, quantity}` | Everything stacks in the bank, one row per item. |
+| `bank.add`, `bank.remove` | `itemId`, `quantity` | The bank holds 400 kinds. |
+| `equipment.set` | `slot`, `itemId` or `null` | The item must be wearable on that slot, and a two-handed weapon needs an empty off hand. Skill requirements are yours to override: unmet ones come back in `warnings` and the item is equipped anyway. |
+| `currency.set` | `amount` | Gold is a balance, not a carried item, so `inventory.add` refuses it. |
+| `skill.setXp` | `skill`, `xp` | 0 to 9,999,879. The level is recomputed from the XP table. |
+| `position.set` | `world`: `{providerId, worldId}`, `regionId`, `position`: `[x, y, z]` | `world` must be the world the player is in, or the last one they were in. The region must exist, and the position snaps to walkable ground within 8 m or is refused. It stops whatever the player was doing, as a portal does. |
+
+Quantities are whole numbers from 1 to 2,147,483,647, item ids must exist in the active catalog, and a retired item still counts as existing. A patch is at most 64 operations. There is no operation for a name: names belong to the identity service.
+
+`GET` returns `revision`, a short hash of the inventory, bank, equipment, gold and skills. Send it back as `"expect":{"revision":"…"}` and an edit made from a stale view answers 409 `revision_mismatch` instead of overwriting what the player just looted. Position is left out of the hash so that an edit does not lose a race with a walking player.
+
+The reply is `{applied, world, changed, warnings, player}`. `applied` is `live` or `stored`, `player` is the same body `GET` returns, after the edit. A patch that changes nothing answers `changed: false` and writes no audit row.
+
+**Online.** The server applies the edit between ticks, inside the same hold a content publish uses, to the character the world is simulating. Max health, equipment bonuses and the player's own client follow through the ordinary tick: the client gets the change as a private delta one tick later, with `item.received` and `item.lost` events marked `source: "admin"`. The audit row rides that tick's commit, in the transaction that writes the edited character, and the reply waits for it. So the two land together: a crash or a failed commit loses both and the editor is told 503, and a lease that was lost in that instant writes neither and answers 409 `player_busy`.
+
+**Offline.** The server writes the stored character with a compare and set under the player lease, and the audit row in the same transaction. The write is refused while a live session holds the account, or if the stored character is no longer the one the edit was computed from; the server then tries again, against the world the player has meanwhile joined. After a second of that it answers 409 `player_busy`. A player who joins at the same instant either claimed first, and is edited live, or claims after, and loads the edited character.
+
+**Just disconnected.** Until the next commit saves a dropped player, their world still holds them, and the edit goes there and is saved with them. After it, the account is inside the 30 second reconnect reservation: the world has saved them and writes no more, so the edit goes to the stored character, and the reconnect loads it. A world that keeps a copy of an offline player for their campfire or recovery cache never writes that copy's character and never uses it for a join, and the edit refreshes the copy anyway so a publish that asks who holds an item gets the truth.
+
+The audit row is `player.edit` with the account as `target`. `before` and `after` hold only what changed: inventory and bank slots by index, equipment by slot, skills by id, `currency`, `position`. `after` adds `applied`, and `world` for a live edit.
+
+### Kicking a player
+
+`POST /admin/players/<accountId>/kick` disconnects an account from whichever world holds it. The client gets `{"type":"error","error":{"code":"KICKED","message":"Kicked from this server: <reason>"}}` and the socket closes with 4000. A kick goes through the ordinary leave path as a deliberate leave: the character is saved and the lease is released on the next commit, with no reconnect reservation, so the player may join again at once. It is not a ban. The audit row is `player.kick` with `{reason}`, written before the disconnect. An account that is not connected answers 409 `not_online` and nothing is recorded.
+
+### Settings
+
+Some settings change while the server runs, with no restart. The configuration file, with its flags and environment variables, gives the default. A value an admin stores in the database overrides it, and clearing the stored value with `null` gives the default back.
+
+| Setting | Body | Effect |
+| --- | --- | --- |
+| `name` | `"name": "Raid Night"` | What the public directory lists the server as. 3 to 48 letters, digits, spaces or `_ . ' -`. Default `Corealm server`. |
+| `description` | `"description": "Fridays"` | Up to 200 characters. Shown in `/worlds` on every world, and in the directory. |
+| `registerWithDirectory` | `"registerWithDirectory": true` | See [Directory registration](#directory-registration). Needs `identityUrl`. |
+| world capacity | `"worlds": {"corealm": {"capacity": 120}}` | 1 to 1000. Decides the next join. Players already in stay when it drops below them, and `/worlds` then reports the world as full. |
+
+`GET /admin/settings` and `PATCH /admin/settings` need an admin session, not an API token. Both return `{settings, overrides, defaults}`: what is in force, what is stored, and what the configuration says. A patch is validated whole before anything is stored. It writes one `settings.set` audit row, in the same transaction, whose `before` and `after` hold the stored keys that moved: `name`, `description`, `registerWithDirectory` and `capacity.<worldId>`.
+
+### Directory registration
+
+With `registerWithDirectory` on, the server sends `POST <identityUrl>servers/register` with `{name, endpoint, description?}`, where `endpoint` is its public endpoint. It does so at start, again whenever the setting, name or description changes, and every four minutes after, because the directory drops a server that has been silent for ten. The identity service checks that the endpoint is a public `wss:` address that answers `GET /worlds`, so a loopback server is refused unless the service allows private registration.
+
+The directory is a convenience. A refusal or an unreachable service never stops play: the server logs `directory.refused` with the status and reason, or `directory.unreachable`, once per change of outcome, then `directory.registered` when it works again.
+
+### The admin UI
+
+The server serves the devdocs server-mode build at `/admin/`. Build it with `npx vite build --config devdocs/vite.config.ts --mode server`, which writes `dist/devdocs-server`. `adminUiDir` names another directory. When there is no build, `/admin/` answers 404 `admin_ui_missing` with that command in the message, and the API works as before. The same build also runs from any other origin listed in `allowedOrigins`.
+
+The JSON API lives under `/admin/` as well, so the split is fixed:
+
+- The API owns these first path segments, for every method and whatever the `Accept` header says: `info`, `setup`, `session`, `me`, `roles`, `bans`, `tokens`, `audit`, `content`, `stats`, `players`, `settings`. A browser that navigates to `/admin/players` gets the API's JSON.
+- Everything else under `/admin/` is a static file, `GET` and `HEAD` only. The app routes in the URL fragment (`/admin/#/players`) and loads its files by relative path, so it never needs a path the API owns.
+- `/admin` redirects to `/admin/`, because relative paths only resolve under the slash. A path with no file extension is a stale link: directly under `/admin/` it gets the page, any deeper it is redirected to `/admin/`.
+
+`index.html` is `Cache-Control: no-cache` with an `ETag`. Files Vite wrote as `assets/<name>-<hash>.<ext>` are `public, max-age=31536000, immutable`; anything else is cached for five minutes. A path is decoded once and refused with 400 if it holds `..`, a dot file, a backslash, a colon, an empty segment, a control character or a second layer of percent-encoding, and the directory source refuses anything that resolves outside it.
+
+The page is served with:
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' <hash of each inline script>; style-src 'self' 'unsafe-inline';
+  img-src 'self' data: blob: <asset origin>; font-src 'self' data:; connect-src 'self' blob: data: <identity origin> <asset origin>;
+  media-src 'self' blob: <asset origin>; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+X-Content-Type-Options: nosniff
+Referrer-Policy: no-referrer
+X-Frame-Options: DENY
+```
+
+The identity origin comes from `identityUrl` and the asset origin from `assetBaseUrl`, so sign-in requests and model previews work and nothing else does. `'wasm-unsafe-eval'` is for the syntax highlighter's grammar engine, and inline styles are allowed because the component kit sets them. Every other file is served with `default-src 'none'; sandbox`, which makes an SVG opened on its own inert. The identity service hands the session back in the URL fragment, which a browser never sends in `Referer`; `no-referrer` keeps the rest of the URL private as well.
+
+### Using the admin UI
+
+Open `https://<your server>/admin/`. The page signs in through the identity service the server names, so the first screen is **Sign in with Discord** or **Sign in with GitHub**, then **Open this server**.
+
+The first time, nobody holds a role yet, so that answers "This account holds no role on this server". Take the setup code the server printed at its first start, press **Enter setup code**, paste it and press **Claim this server**. That account becomes the owner, the code is spent, and the editor opens. An account that is not an owner or admin stops at the same screen and is never given a session.
+
+Two workspaces appear that a repository checkout does not have. Everything else — items, creatures, the world map, quests, shops, spells — is the content editor, and **Save all** there publishes to the running server rather than writing files.
+
+**Players** lists every account this server has seen, searched by name or account id. Choosing one shows what they are carrying right now, read from the world holding them when they are online:
+
+- **Character** is the editable half: the 28 inventory slots, the bank, every equipment slot, gold, skill experience and position. Nothing is sent as it is typed. Edits collect in a panel at the top of the record which names each one in words, and **Apply** sends them as one patch against the record you read. A player who changed in between gets it refused rather than overwritten, and the record reloads. The result says whether it went to the live character or to the stored one, and repeats any warning the server gave, such as an item equipped over an unmet skill requirement.
+- **Audit** is that player's own history.
+- **Kick** and **Ban** are beside the name. Both state what will happen before they do it. A ban needs a reason and takes an optional expiry.
+
+**Server** is the host itself:
+
+- **Overview** reads `GET /admin/stats` about once a second while the tab is in front and stops while it is behind another: players per world against capacity, tick and stage times, memory, bandwidth, errors, the active catalog revision, and the recent events ring.
+- **Publishes** is every move of the catalog pointer, with who, when and the note, and a **Roll back** on each. A rollback is a publish of that revision's sources, so it can be refused for the same reasons any publish can.
+- **Settings** is name, description, directory registration and per-world capacity. A value an admin stored here carries an **override** badge and a **Restore default** that gives the configuration file's value back.
+- **Access** is roles and API tokens. Only an owner grants or removes a role; an admin sees the controls disabled with the reason. A new API token's secret is shown once, in the panel that creates it, and never again.
+- **Audit log** is every administrative write, filtered by kind, by who did it or by what it was done to.
+
+`audit_log` gets one row inside the same transaction as the write that caused it: `id`, `at`, `account_id`, `credential`, `action`, `target`, `before` and `after`. The credential is `session`, `token:<id>`, `setup` for the one-time code, `config` for `ownerAccount`, or `login` for the join token that minted a session. Actions are `owner.setup`, `role.set`, `role.revoke`, `ban.set`, `ban.remove`, `token.create`, `token.revoke`, `session.create`, `session.revoke`, `content.publish`, `content.rollback`, `player.edit`, `player.kick` and `settings.set`. The one exception to "same transaction as the write" is an edit to an online player, whose write is the next tick commit: the row is in that commit. The content rows have the new revision as `target`, `{revision}` of the catalog it replaced as `before`, and `{revision, base, note, changedCollections, changedTables}` as `after`.
 
 ### Stats
 
@@ -296,11 +405,15 @@ A player who is online is read from the world holding them, not from the row the
   "commands": 4821, "rejected": 3, "errors": 0, "backlogDisconnects": 0,
   "bytesOut": 91263344, "bytesOutPerSecond": 101021.2,
   "memory": { "rssBytes": 1231847424, "heapUsedBytes": 412398080 },
-  "events": [{ "at": 1758327303000, "kind": "join", "accountId": "acc_...", "detail": "corealm" }]
+  "events": [{ "at": 1758327303000, "kind": "join", "accountId": "acc_...", "detail": "corealm" }],
+  "catalogRevision": "9f2c…",
+  "server": { "name": "Raid Night", "description": "Fridays", "endpoint": "wss://play.example.com/", "assetBaseUrl": "https://cdn.example.com/corealm/",
+    "identityUrl": "https://identity.example.com/", "authentication": "account", "catalogRevision": "9f2c…", "host": "0.0.0.0", "registerWithDirectory": true,
+    "worlds": [{ "providerId": "reference", "worldId": "corealm", "name": "Corealm", "seed": 1337, "capacity": 200 }] }
 }
 ```
 
-Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
+Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `server` is the settings summary the devdocs `server` workspace shows, with no secrets in it; the publish history is `GET /admin/content/revision`. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `kick`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
 
 Without a credential the endpoint answers 401, and with a token that lacks `stats:read` it answers 403.
 

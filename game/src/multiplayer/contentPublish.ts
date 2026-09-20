@@ -1,6 +1,7 @@
 import { CATALOG_REVISION, serializeClientCatalog } from "../content/clientCatalog.js";
 import { compileCatalog, type ContentSources } from "../content/compiler/catalog.js";
-import { affectedCompiled, affectedSources, changedCollections, changedTables, collectionRevision, staleCollections, type AffectedRecord } from "../content/compiler/changes.js";
+import { affectedCompiled, affectedSources, changedCollections, changedTables, staleCollections, type AffectedRecord } from "../content/compiler/changes.js";
+import { collectionRevision } from "../content/compiler/revision.js";
 import { CONTENT_COLLECTIONS } from "../content/compiler/collections.js";
 import type { ContentDiagnostic } from "../content/compiler/contracts.js";
 import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
@@ -33,6 +34,11 @@ export interface PublishTimings { manifestMs: number; compileMs: number; blocker
 export interface PublishResult {
   revision: string; previous: string; unchanged: boolean; stored: boolean;
   changedCollections: string[]; changedTables: string[];
+  /**
+   * The revision each changed collection now has, which is what the next publish will check a draft
+   * against. Empty unless something was stored, so a validate and an unchanged publish move nothing.
+   */
+  revisions: Record<string, string>;
   /** Changed tables the running server now reads, and those it reads again only at its next start. */
   live: string[]; onRestart: string[];
   affected: Record<string, string[]>;
@@ -126,7 +132,7 @@ export function createContentPublisher(ports: PublishPorts) {
       { problems: compiled.problems.filter(problem => problem.severity === "error").slice(0, MAX_LISTED) });
     const { catalog, client } = compiled, after = catalog.tables, unchanged = catalog.revision === previous;
     const tables = changedTables(before, after);
-    const result: PublishResult = { revision: catalog.revision, previous, unchanged, stored: false, changedCollections: changed, changedTables: tables,
+    const result: PublishResult = { revision: catalog.revision, previous, unchanged, stored: false, changedCollections: changed, changedTables: tables, revisions: {},
       live: tables.filter(name => CATALOG_TABLE_APPLIES[name] === "live"), onRestart: tables.filter(name => CATALOG_TABLE_APPLIES[name] !== "live"),
       affected: {}, problems: compiled.problems.slice(0, MAX_LISTED), assetValidation: ports.assets.source, spawns: [], notified: 0, timings };
     for (const entry of [...affected, ...affectedCompiled(before, after, affected)]) { const list = result.affected[entry.collection] ??= []; if (list.length < MAX_LISTED) list.push(entry.id); }
@@ -155,6 +161,8 @@ export function createContentPublisher(ports: PublishPorts) {
       mark = performance.now();
       const at = ports.now(), by = actor.accountId ?? actor.credential;
       result.stored = await ports.catalog.storage.store({ revision: catalog.revision, formulaRevision: catalog.formulaRevision, ...text, by, at, note: audit.note });
+      // Only the collections that moved are hashed: together the sources run to megabytes.
+      result.revisions = Object.fromEntries(changed.map(name => [name, collectionRevision((sources as Record<string, unknown>)[name])]));
       await ports.catalog.storage.activate(catalog.revision, by, at, { by: { ...actor, at }, entry: { action: audit.action, target: catalog.revision,
         before: { revision: previous }, after: { revision: catalog.revision, base: audit.base, note: audit.note, changedCollections: changed, changedTables: tables } } });
       timings.storeMs = performance.now() - mark;

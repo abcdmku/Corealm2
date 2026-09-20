@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Redo2, Undo2 } from "lucide-react";
+import { describeBlocker, type PublishSummary } from "../api/backend.js";
 import type { AppProps } from "../model/contracts.js";
 import { canonical, draftStore, lineDiff, useDraftState, type RecordEntry } from "../model/store.js";
 import { viewForCollection } from "./workspaces.js";
 import { Button, Kbd } from "../components/ui/index.js";
 import { cn } from "../lib/utils.js";
-import { PANEL } from "./layout.js";
+import { BLOCK_TITLE, PANEL } from "./layout.js";
 
 /*
   The one save bar. It sits at the bottom of the workspace column, hidden until something is dirty,
@@ -21,7 +22,9 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
   const count = entries.length + contributors.reduce((sum, contributor) => sum + (contributor.count?.() ?? 1), 0);
   const error = state.error || entries.find(entry => !entry.conflict && entry.saveError)?.saveError || "";
   const diagnostics = entries.flatMap(entry => entry.diagnostics.filter(diagnostic => diagnostic.severity === "error").map(diagnostic => `${entry.name}: ${diagnostic.path} ${diagnostic.message}`));
-  if (!entries.length && !contributors.length) return null;
+  // A publish is the one result worth showing after the bar would otherwise be gone: what a save did
+  // to the running game is the question an author asks next.
+  if (!entries.length && !contributors.length) return state.published ? <PublishResult summary={state.published} /> : null;
   const undoLabel = draftStore.undoLabel(), redoLabel = draftStore.redoLabel();
   const tone = conflicts.length ? "danger" : error || diagnostics.length ? "warn" : undefined;
   const open = (entry: RecordEntry) => navigate(entry.collection, entry.objectShaped ? undefined : entry.id);
@@ -44,7 +47,37 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
       </span>
     </div>
     {(error || diagnostics.length > 0) && <div className="flex flex-col gap-0.5 text-destructive [overflow-wrap:anywhere]">{error}{diagnostics.map(line => <span key={line}>{line}</span>)}</div>}
+    {state.blockers.length > 0 && <div className="flex flex-col gap-0.5 border-t border-border-subtle pt-1 text-muted-foreground">
+      <span className={BLOCK_TITLE}>Still held</span>
+      {state.blockers.map((blocker, index) => <span key={`${blocker.kind}:${blocker.id}:${index}`} className="[overflow-wrap:anywhere]">{describeBlocker(blocker)}</span>)}
+      <span>Set <strong className="font-medium text-foreground">Retired</strong> on the definition instead of removing it. A retired definition still resolves, but no longer drops, spawns or sells.</span>
+    </div>}
     {conflicts.map(entry => <Conflict key={entry.key} entry={entry} onOpen={() => open(entry)} />)}
+  </div>;
+}
+
+/** What the last publish changed on the running server: applied now, waiting for a restart, and reached. */
+function PublishResult({ summary }: { summary: PublishSummary }) {
+  const reached = Object.entries(summary.affected).filter(([, ids]) => ids.length);
+  const waiting = summary.spawns.filter(row => row.pending > 0);
+  return <div className="flex min-w-0 shrink-0 flex-col gap-1 border-t border-primary bg-brass-soft px-3 py-1.5 text-xs" role="status" aria-label="Publish result">
+    <div className={ROW}>
+      <span className="shrink-0 font-medium whitespace-nowrap text-primary">
+        {summary.unchanged ? "Nothing to publish" : `Published to ${summary.notified} ${summary.notified === 1 ? "player" : "players"}`}
+      </span>
+      <code className="shrink-0 font-mono text-[11px] text-faint" title={`Was ${summary.previous}`}>{summary.revision.slice(0, 12)}</code>
+      <span className="min-w-0 flex-1 truncate text-muted-foreground">
+        {summary.live.length > 0 && <>Live now: {summary.live.join(", ")}. </>}
+        {summary.onRestart.length > 0 && <>At next restart: {summary.onRestart.join(", ")}. </>}
+        {waiting.length > 0 && <>{waiting.reduce((sum, row) => sum + row.pending, 0)} creatures respawn onto the new plan. </>}
+      </span>
+      <Button variant="ghost" size="sm" className="ml-auto shrink-0" onClick={() => draftStore.clearPublished()}>Dismiss</Button>
+    </div>
+    {reached.length > 0 && <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-muted-foreground">
+      {reached.map(([collection, ids]) => <span key={collection} className="[overflow-wrap:anywhere]">
+        <span className="text-faint">{collection}</span> {ids.slice(0, 6).join(", ")}{ids.length > 6 ? ` and ${ids.length - 6} more` : ""}
+      </span>)}
+    </div>}
   </div>;
 }
 

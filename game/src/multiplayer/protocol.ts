@@ -42,14 +42,15 @@ export function assetBase(value: unknown): string {
   return url.endsWith("/") ? url : `${url}/`;
 }
 export function descriptor(value: unknown): WorldDescriptor {
-  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication"])
+  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication", "description"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
     || !integer(value.protocolVersion) || (value.fixture !== "authored" && value.fixture !== "lab") || !integer(value.seed)
     || (value.catalogRevision !== undefined && (typeof value.catalogRevision !== "string" || !CATALOG_REVISION.test(value.catalogRevision)))
     || !integer(value.capacity) || value.capacity < 1 || value.capacity > MAX_WORLD_PLAYERS
     || !integer(value.population) || value.population < 0 || value.population > value.capacity
     || !["available", "full", "unavailable"].includes(String(value.availability))
-    || (value.authentication !== undefined && value.authentication !== "account" && value.authentication !== "guest")) {
+    || (value.authentication !== undefined && value.authentication !== "account" && value.authentication !== "guest")
+    || (value.description !== undefined && (typeof value.description !== "string" || !value.description.trim() || value.description.length > 200))) {
     throw new SessionFailure("INVALID_MESSAGE", "Invalid world descriptor");
   }
   return { ...value, endpoint: endpoint(value.endpoint),

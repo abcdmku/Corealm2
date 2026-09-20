@@ -57,12 +57,14 @@ export interface WorldDescriptor extends WorldKey {
    * for this endpoint; "guest" worlds take a `guest:<name>` token. Absent means "guest".
    */
   authentication?: "account" | "guest";
+  /** What the host says about this server, at most 200 characters. An admin edits it while the server runs. */
+  description?: string;
 }
 export type WorldConfiguration = WorldDescriptor | readonly WorldDescriptor[] | { directoryUrl: string };
 export type SessionPhase = "offline" | "connecting" | "connected" | "full" | "incompatible"
   | "unavailable" | "reconnecting" | "leaving";
 export type SessionErrorCode = "INVALID_MESSAGE" | "INCOMPATIBLE" | "UNAVAILABLE" | "FULL"
-  | "UNAUTHORIZED" | "BANNED" | "DUPLICATE_LOGIN" | "SESSION_EXPIRED" | "OUT_OF_ORDER"
+  | "UNAUTHORIZED" | "BANNED" | "KICKED" | "DUPLICATE_LOGIN" | "SESSION_EXPIRED" | "OUT_OF_ORDER"
   | "RATE_LIMITED" | "BACKLOG" | "UNKNOWN_OUTCOME";
 export interface SessionError { code: SessionErrorCode; message: string }
 
@@ -218,6 +220,11 @@ export interface WorldStorageRecord {
    * `players` with no entry here is a resident copy: only their world-owned objects are written.
    */
   leases?: Record<string, PlayerLeaseWrite>;
+  /**
+   * Audit rows for admin edits to live players in `leases`, written in this commit's transaction so
+   * an edit and its row land together. A row whose account was fenced is not written, and neither was the edit.
+   */
+  audits?: { accountId: string; by: import("./multiplayer/adminStorage.js").AdminActor; entry: import("./multiplayer/adminStorage.js").AuditWrite }[];
 }
 /** The character a player carries between worlds: everything private except what they own in one world. */
 export type PlayerCharacter = Omit<import("./state/store.js").PlayerSessionState, "ownedWorld">;
@@ -236,6 +243,13 @@ export interface PlayerClaim { character: PlayerCharacter | null; lastWorld: Wor
 export interface PlayerLeaseWrite { sessionId: string; action: "hold" | "reserve" | "release" }
 /** Players whose lease this world no longer held. Their characters were not written. */
 export interface WorldCommitResult { fenced: string[] }
+/** One admin edit of a stored character. `expected` is the character the edit was computed from. */
+export interface StoredPlayerEdit {
+  accountId: string; expected: PlayerCharacter; character: PlayerCharacter;
+  by: import("./multiplayer/adminStorage.js").AdminActor; entry: import("./multiplayer/adminStorage.js").AuditWrite;
+}
+/** `leased`: a live session holds the account, so the edit belongs to its world. `changed`: the stored character is no longer `expected`. */
+export type StoredPlayerEditResult = "written" | "leased" | "changed" | "missing";
 /**
  * One server's durable state. Every method is asynchronous and takes plain data, so the database
  * can move to its own thread or machine. Nothing here may assume that worlds share memory.
@@ -262,6 +276,13 @@ export interface WorldStorage {
    * are retained. A character is written only while its lease names this world and session.
    */
   commit(record: WorldStorageRecord): Promise<WorldCommitResult>;
+  /**
+   * Write an admin edit to a character no live session holds, with its audit row, or write neither.
+   * A compare and set under the lease: a live lease refuses it, and so does a stored character that
+   * moved on. A reserved lease does not, because its world saved the player before it reserved them.
+   * Absent on storage that keeps no accounts.
+   */
+  editStoredPlayer?(edit: StoredPlayerEdit): Promise<StoredPlayerEditResult>;
   close(): Promise<void>;
 }
 

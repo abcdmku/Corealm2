@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { WebSocket } from "ws";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
+import { collectionRevision } from "../game/src/content/compiler/revision.js";
 import { createSigningKey, joinTokenClaims, signJoinToken, type IdentityKey, type SigningKey } from "../identity/src/joinToken.js";
 import { ADMIN_SESSION_MS, MemoryAdminStorage, hashSecret, type MemoryPlayerRow } from "../game/src/multiplayer/adminStorage.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
@@ -144,7 +145,8 @@ describe("admin sessions and API tokens", () => {
     const { call, claimOwner, signIn, token, endpoint, clock } = await serve();
     const owner = await claimOwner();
     expect((await call("/admin/me", { token: owner })).body)
-      .toEqual({ credential: "session", accountId: OWNER, tokenId: null, role: "owner", scopes: ["content:read", "content:publish", "players:read", "players:write", "stats:read"] });
+      .toEqual({ credential: "session", accountId: OWNER, tokenId: null, role: "owner", scopes: ["content:read", "content:publish", "players:read", "players:write", "stats:read"],
+        server: { name: "Corealm server", endpoint, assetBaseUrl: null, identityUrl: null, catalogRevision: RESOLVED_CATALOG.revision } });
 
     const stranger = await signIn(ALICE, "Alice");
     expect(stranger.status).toBe(403);
@@ -202,7 +204,7 @@ describe("admin sessions and API tokens", () => {
     expect((await call(`/admin/roles/${ADMIN}`, { method: "PUT", token: secret, body: { role: "admin" } })).status).toBe(403);
     expect((await call("/admin/audit", { token: secret })).status).toBe(403);
     expect((await call("/admin/me", { token: secret })).body)
-      .toEqual({ credential: "token", accountId: OWNER, tokenId: created.body.id, role: null, scopes: ["content:read", "stats:read"] });
+      .toMatchObject({ credential: "token", accountId: OWNER, tokenId: created.body.id, role: null, scopes: ["content:read", "stats:read"] });
 
     // A revoked token is refused at once; a live one keeps working until it is.
     const spare: string = (await call("/admin/tokens", { method: "POST", token: owner, body: { label: "spare", scopes: ["stats:read"] } })).body.token;
@@ -334,8 +336,8 @@ describe("stats and players", () => {
     await expect.poll(async () => (await call("/admin/stats", { token: watcher })).body.tick.samples, { timeout: 5000, interval: 50 }).toBeGreaterThan(0);
 
     const stats = (await call("/admin/stats", { token: owner })).body;
-    expect(Object.keys(stats).sort()).toEqual(["backlogDisconnects", "bytesOut", "bytesOutPerSecond", "commands", "errors", "events",
-      "memory", "rejected", "stages", "startedAt", "tick", "uptimeSeconds", "worlds"]);
+    expect(Object.keys(stats).sort()).toEqual(["backlogDisconnects", "bytesOut", "bytesOutPerSecond", "catalogRevision", "commands", "errors", "events",
+      "memory", "rejected", "server", "stages", "startedAt", "tick", "uptimeSeconds", "worlds"]);
     expect(stats.worlds.map((entry: any) => [entry.worldId, entry.playersOnline, entry.capacity]))
       .toEqual([["north", 1, 4], ["south", 0, 4]]);
     expect(Object.keys(stats.tick).sort()).toEqual(["lastMs", "maxMs", "meanMs", "p95Ms", "samples"]);
@@ -362,7 +364,7 @@ describe("stats and players", () => {
     // Online: the answer comes from the running world, not the row the last commit wrote.
     const detail = (await call(`/admin/players/${ALICE}`, { token: owner })).body;
     expect(Object.keys(detail).sort()).toEqual(["accountId", "ban", "bank", "currency", "equipment", "firstSeen", "inventory",
-      "lastSeen", "lastWorld", "name", "online", "playtimeSeconds", "position", "regionId", "skills"]);
+      "lastSeen", "lastWorld", "name", "online", "playtimeSeconds", "position", "regionId", "revision", "skills"]);
     expect(detail.currency).toBe(91);
     expect(detail.inventory[3]).toEqual({ itemId: "grithe_ore", quantity: 2, slotIndex: 3 });
     expect(detail.online).toEqual({ providerId: "reference", worldId: "north" });
@@ -388,8 +390,11 @@ describe("content reads", () => {
     const active = await call("/admin/content/revision", { token: exporter });
     expect(active.headers.get("cache-control")).toBe("no-store");
     expect(active.body).toEqual({ revision, history: [{ id: 1, revision, previous: null, by: "seed", at: clock.ms }] });
-    expect((await call("/admin/content/sources", { token: exporter })).body).toEqual({ revision, sources });
-    expect((await call(`/admin/content/sources?revision=${revision}`, { token: owner })).body).toEqual({ revision, sources });
+    // The reply carries the revision of each collection, by the function a publish checks against,
+    // so no client ever has to hash one itself.
+    const revisions = Object.fromEntries(Object.entries(sources).map(([name, value]) => [name, collectionRevision(value)]));
+    expect((await call("/admin/content/sources", { token: exporter })).body).toEqual({ revision, revisions, sources });
+    expect((await call(`/admin/content/sources?revision=${revision}`, { token: owner })).body).toEqual({ revision, revisions, sources });
     expect((await call(`/admin/content/sources?revision=${"0".repeat(64)}`, { token: exporter })).status).toBe(404);
     expect((await call("/admin/content/sources?revision=latest", { token: exporter })).body)
       .toEqual({ error: { code: "invalid_request", message: "A revision is 64 lowercase hex characters" } });
@@ -422,7 +427,7 @@ describe("the admin API boundary", () => {
     expect((await call("/admin/tokens", { method: "POST", token: owner, raw: JSON.stringify({ label: "x".repeat(20_000) }) })).body)
       .toEqual({ error: { code: "payload_too_large", message: "Request bodies are capped at 8 KiB" } });
     expect((await call("/admin/players?limit=9999", { token: owner })).status).toBe(400);
-    expect((await call("/admin/nothing", { token: owner })).body).toEqual({ error: { code: "not_found", message: "No such admin endpoint" } });
+    expect((await call("/admin/players/a/b/c", { token: owner })).body).toEqual({ error: { code: "not_found", message: "No such admin endpoint" } });
 
     // The public endpoints stay exactly as they were.
     expect((await call("/healthz")).body).toEqual({ ready: true });

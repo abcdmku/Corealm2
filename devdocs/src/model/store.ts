@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import type { QueryClient } from "@tanstack/react-query";
-import type { ApiDiagnostic, CollectionResponse, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
+import type { ApiDiagnostic, CollectionResponse, ContentOperation, ContentTransactionResponse } from "../../shared/contracts.js";
+import { backend, type PublishBlocker, type PublishSummary } from "../api/backend.js";
 import { collectionQuery } from "../api/client.js";
 import type { ContentRow } from "./contracts.js";
 import { contentRows, rowId, rowName } from "./rows.js";
@@ -36,7 +37,13 @@ export interface RecordEntry {
   diagnostics: ApiDiagnostic[];
 }
 
-export interface TransactionFailure { error?: string; diagnostics?: ApiDiagnostic[]; revisions?: Record<string, string> }
+export interface TransactionFailure {
+  error?: string;
+  diagnostics?: ApiDiagnostic[];
+  revisions?: Record<string, string>;
+  /** Server mode: who still holds a definition this save would have removed. */
+  blockers?: readonly PublishBlocker[];
+}
 
 /** An editor whose draft is not a single record but still saves through the shared transaction. */
 export interface Contributor {
@@ -65,6 +72,10 @@ export interface DraftState {
   saving: boolean;
   /** A save failure that is not attached to one record (contributor errors, network). */
   error: string;
+  /** Server mode: holders that refused the last save, so the author knows what to retire. */
+  blockers: readonly PublishBlocker[];
+  /** Server mode: what the last publish did to the running game. Cleared by the next edit. */
+  published?: PublishSummary;
   /** Bumped when a contributor reports a dirtiness change so subscribers re-read `isDirty()`. */
   version: number;
 }
@@ -91,7 +102,7 @@ export function changedPath(before: unknown, after: unknown, prefix: (string | n
 interface AdoptInput { collection: string; id: string; objectShaped: boolean; idKey?: string; record: ContentRow | undefined; revision: string }
 
 class DraftStore {
-  private state: DraftState = { entries: new Map(), contributors: new Map(), undo: [], redo: [], saving: false, error: "", version: 0 };
+  private state: DraftState = { entries: new Map(), contributors: new Map(), undo: [], redo: [], saving: false, error: "", blockers: [], version: 0 };
   private listeners = new Set<() => void>();
   private queryClient: QueryClient | undefined;
   private notify: Notifier = { success() {}, error() {}, message() {} };
@@ -158,7 +169,7 @@ class DraftStore {
     const undo = last && last.key === key && last.label === stepLabel && at - last.at < COALESCE_MS
       ? [...this.state.undo.slice(0, -1), { ...last, after: next, at }]
       : [...this.state.undo, { key, before: entry.draft, after: next, label: stepLabel, at }].slice(-HISTORY_LIMIT);
-    this.set({ undo, redo: [], error: "" });
+    this.set({ undo, redo: [], error: "", blockers: [], published: undefined });
     this.put({ ...entry, draft: next, saveError: "", diagnostics: [] });
   }
 
@@ -208,6 +219,8 @@ class DraftStore {
   }
   /** Contributors call this when their dirtiness changed. */
   touch(): void { this.set({ version: this.state.version + 1 }); }
+  /** Put the publish result away. The next edit clears it too. */
+  clearPublished(): void { this.set({ published: undefined }); }
 
   // ------------------------------------------------------------------ saving
 
@@ -239,15 +252,17 @@ class DraftStore {
       return false;
     }
     if (!changes.length) return false;
-    this.set({ saving: true, error: "" });
+    this.set({ saving: true, error: "", blockers: [], published: undefined });
     for (const entry of entries) this.put({ ...entry, saving: true, saveError: "", diagnostics: [] });
     try {
-      const response = await fetch("/__devdocs/transaction", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ operation: "save", revisions, changes } satisfies ContentTransactionRequest) });
-      const body = await response.json() as ContentTransactionResponse & TransactionFailure;
-      if (!response.ok) {
-        this.fail(entries, contributors, revisions, response.status, body);
+      // Repo mode writes `game/content/data/`; server mode publishes to the running game. Both come
+      // back in the one transaction shape, so everything below this line is the same in either mode.
+      const result = await backend().transact({ operation: "save", revisions, changes });
+      if (!result.ok) {
+        this.fail(entries, contributors, revisions, result.status, result.body);
         return false;
       }
+      const body = result.body;
       for (const collection of body.collections) this.adoptCollection(collection, new Set(entries.map(entry => entry.key)));
       for (const entry of entries) {
         const current = this.state.entries.get(entry.key);
@@ -255,7 +270,9 @@ class DraftStore {
       }
       for (const contributor of contributors) contributor.afterSave(body);
       this.notify.success(`Saved ${count} ${count === 1 ? "record" : "records"}`);
+      if (body.publish) this.set({ published: body.publish });
       void this.queryClient?.invalidateQueries({ queryKey: ["collection"] });
+      void this.queryClient?.invalidateQueries({ queryKey: ["collections"] });
       return true;
     } catch (error) {
       const message = error instanceof Error ? error.message : "The save could not be completed. Your draft is still here.";
@@ -284,7 +301,8 @@ class DraftStore {
       } else this.put({ ...current, saving: false, saveError: message });
     }
     for (const contributor of contributors) contributor.onError?.(message, status, body);
-    this.set({ error: contributors.length || !entries.length ? message : "" });
+    // Blockers belong to the save, not to one record: several records can hold the same definition.
+    this.set({ error: contributors.length || !entries.length || body.blockers?.length ? message : "", blockers: body.blockers ?? [] });
   }
 
   /** Fetch the collection a conflicted record belongs to and remember the disk record for Compare. */
@@ -294,7 +312,7 @@ class DraftStore {
     try {
       const response = this.queryClient
         ? await this.queryClient.fetchQuery({ ...collectionQuery(entry.collection), staleTime: 0 })
-        : await fetch(`/__devdocs/collections/${encodeURIComponent(entry.collection)}`).then(result => result.json() as Promise<CollectionResponse>);
+        : await backend().collection(entry.collection);
       this.adoptCollection(response, new Set());
     } catch { /* The conflict is still shown; Compare just has no disk copy until the next fetch. */ }
   }

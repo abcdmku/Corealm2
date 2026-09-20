@@ -270,6 +270,33 @@ export class HeadlessWorld {
     this.social.join(id);
     return player;
   }
+  /**
+   * An admin edit lands on the character this world holds, in place, between ticks. The systems read
+   * the store each time they run, the health system derives max health from the new gear on the next
+   * tick, and replication diffs the private state, so the player's client sees it one tick later.
+   * `edited` comes from `applyPlayerOps` over this same character. False when the player is not here.
+   */
+  adoptCharacter(id: string, edited: PlayerCharacter, moved: boolean): boolean {
+    const player = this.players.get(id); if (!player) return false;
+    const state = player.store.get(), at = this.clock.elapsedMs;
+    const counts = (slots: readonly ({ itemId: string; quantity: number } | null)[]) => {
+      const held = new Map<string, number>();
+      for (const slot of slots) if (slot) held.set(slot.itemId, (held.get(slot.itemId) ?? 0) + slot.quantity);
+      return held;
+    };
+    const before = counts(state.inventory.slots), after = counts(edited.inventory.slots);
+    // A moved player stops walking, fighting and working first, as a portal does.
+    if (moved) { player.suspend(); Object.assign(state.player, structuredClone({ position: edited.player.position, regionId: edited.player.regionId, movement: edited.player.movement })); }
+    Object.assign(state, structuredClone({ inventory: edited.inventory, bank: edited.bank, equipment: edited.equipment, currency: edited.currency, skills: edited.skills, magic: edited.magic }));
+    player.store.markDirty();
+    if (moved && this.active.has(id)) this.spatial.move(id, state.player.position);
+    // The client's own log reads these, so the player is told what arrived and what went.
+    for (const itemId of new Set([...before.keys(), ...after.keys()])) {
+      const change = (after.get(itemId) ?? 0) - (before.get(itemId) ?? 0);
+      if (change) player.events.emit(change > 0 ? "item.received" : "item.lost", { itemId, name: content.item(itemId)?.name ?? itemId, quantity: Math.abs(change), source: "admin" }, undefined, at);
+    }
+    return true;
+  }
   /** A character from another world keeps what it carries and starts at this world's safe spawn, with nothing timed by the other world's clock. */
   private arrive(character: PlayerCharacter): PlayerCharacter {
     const initial = createInitialState(this.descriptor.seed);

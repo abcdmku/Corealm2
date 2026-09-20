@@ -1,4 +1,5 @@
-import { Boxes, Home, Map as MapIcon, PawPrint, ScrollText, SlidersHorizontal, Sparkles, Store, Swords, Users, type LucideIcon } from "lucide-react";
+import { Boxes, Gauge, Home, Map as MapIcon, PawPrint, ScrollText, SlidersHorizontal, Sparkles, Store, Swords, Users, UsersRound, type LucideIcon } from "lucide-react";
+import { can, type DevdocsCapabilities } from "../api/backend.js";
 
 /*
   Navigation is nine workspaces, each with a few views. A view is either a purpose-built page
@@ -15,6 +16,8 @@ export interface WorkspaceView {
   aliases?: readonly string[];
   /** Hidden from the tab strip; reachable by route or alias only. */
   hidden?: boolean;
+  /** Left out when the backend has no such surface. A live server has no checkout behind it. */
+  needs?: keyof DevdocsCapabilities;
 }
 
 export interface Workspace {
@@ -22,17 +25,19 @@ export interface Workspace {
   label: string;
   icon: LucideIcon;
   views: readonly WorkspaceView[];
-  /** The map takes the whole content area with its own rails. */
+  /** The map and the player list take the whole content area with their own rails. */
   fullBleed?: boolean;
   /** Only in the editor build. */
   devOnly?: boolean;
+  /** Left out when the backend has no such surface. */
+  needs?: keyof DevdocsCapabilities;
 }
 
-export const WORKSPACES: readonly Workspace[] = [
+const ALL_WORKSPACES: readonly Workspace[] = [
   { key: "home", label: "Home", icon: Home, views: [
     { key: "overview", label: "Overview" },
-    { key: "requests", label: "Requests", aliases: ["work-queue", "requests"] },
-    { key: "changes", label: "Local changes", aliases: ["review"] },
+    { key: "requests", label: "Requests", aliases: ["work-queue", "requests"], needs: "requests" },
+    { key: "changes", label: "Local changes", aliases: ["review"], needs: "git" },
   ] },
   { key: "items", label: "Items", icon: Swords, views: [
     { key: "ladder", label: "Ladder", aliases: ["kits"] },
@@ -69,8 +74,20 @@ export const WORKSPACES: readonly Workspace[] = [
     { key: "models", label: "Models", collection: "assets" },
     { key: "audio", label: "Audio", collection: "audio" },
   ] },
+  // A live server only. `needs: "publish"` is the one capability no checkout has, so these two are
+  // absent from repo mode and from the player guide rather than shown and left to fail.
+  { key: "players", label: "Players", icon: UsersRound, needs: "publish", fullBleed: true, views: [
+    { key: "players", label: "Players" },
+  ] },
+  { key: "server", label: "Server", icon: Gauge, needs: "publish", views: [
+    { key: "overview", label: "Overview" },
+    { key: "history", label: "Publishes" },
+    { key: "settings", label: "Settings" },
+    { key: "access", label: "Access" },
+    { key: "audit", label: "Audit log" },
+  ] },
   { key: "tuning", label: "Tuning", icon: SlidersHorizontal, devOnly: true, views: [
-    { key: "formulas", label: "Formulas", aliases: ["formulas"] },
+    { key: "formulas", label: "Formulas", aliases: ["formulas"], needs: "formulas" },
     { key: "families", label: "Equipment families", collection: "equipmentFamilies" },
     { key: "templates", label: "Recipe templates", collection: "recipeTemplates" },
     { key: "roles", label: "Combat roles", collection: "creatureProfiles" },
@@ -85,6 +102,20 @@ export const WORKSPACES: readonly Workspace[] = [
 ];
 
 export interface Route { workspace: Workspace; view: WorkspaceView; id?: string }
+
+/**
+ * Navigation for the installed backend. A surface a mode does not have is left out of the shell
+ * rather than shown and left to 404: on a live server there is no checkout, so no request queue, no
+ * working-tree diff and no formula source. The backend is installed before the first render, so this
+ * is a constant for the life of the page, exactly as the player build's `devOnly` is.
+ */
+export const WORKSPACES: readonly Workspace[] = ALL_WORKSPACES
+  .filter(workspace => !workspace.needs || can(workspace.needs))
+  .map(workspace => {
+    const views = workspace.views.filter(view => !view.needs || can(view.needs));
+    return views.length === workspace.views.length ? workspace : { ...workspace, views };
+  })
+  .filter(workspace => workspace.views.length > 0);
 
 const byKey = new Map(WORKSPACES.map(workspace => [workspace.key, workspace]));
 

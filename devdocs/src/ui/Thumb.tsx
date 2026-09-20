@@ -3,6 +3,7 @@ import { ImageOff, MapPinOff, type LucideIcon } from "lucide-react";
 import { itemIconUrl } from "../../../game/src/ui/itemIcons.js";
 import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellIcons.js";
 import { WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
+import { can } from "../api/backend.js";
 import { gameUrl } from "../model/gameUrl.js";
 import { IMAGE_BOX, boxFraction, onDrawnMap } from "../model/worldMap.js";
 import type { ThumbSpec } from "../model/summaries.js";
@@ -18,7 +19,9 @@ export type ThumbSize = "s" | "m" | "l" | "xl" | "fill";
 export function itemIconSource(id: string, large = false): string | undefined {
   const url = itemIconUrl({ id } as NonNullable<Parameters<typeof itemIconUrl>[0]>);
   if (!url) return undefined;
-  return large && !__DEVDOCS_PLAYER__ ? `/__devdocs/icons/${url.split("/").at(-1)}` : gameUrl(url);
+  // The master icon is a bigger source file that only the checkout holds; everywhere else takes the
+  // shipped icon from the asset host.
+  return large && can("assets") ? `/__devdocs/icons/${url.split("/").at(-1)}` : gameUrl(url);
 }
 
 function ItemImage({ id, alt, large }: { id: string; alt: string; large: boolean }) {

@@ -1,4 +1,5 @@
-import { contentRevision, formatContentJson } from './canonical.js';
+import { formatContentJson } from './canonical.js';
+import { contentRevision } from './revision.js';
 import { CONTENT_COLLECTIONS, parseContentCollection } from './collections.js';
 import { collectionReferenceIssues, type ReferencePools } from './references.js';
 import { compileProgression } from './progression.js';

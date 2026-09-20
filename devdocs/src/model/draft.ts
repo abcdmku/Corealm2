@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ApiDiagnostic, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
+import { backend, can } from "../api/backend.js";
 import { collectionQuery } from "../api/client.js";
 import type { ContentRow } from "./contracts.js";
 import { contentRows, rowId } from "./rows.js";
@@ -107,19 +108,18 @@ export function useRecordDraft<T extends ContentRow = ContentRow>(collection: st
     record: (entry?.base ?? serverRecord) as T | undefined, draft: entry?.draft as T | undefined,
     dirty: entry?.dirty ?? false, saving: entry?.saving ?? false, conflict: entry?.conflict ?? false,
     saveError: entry?.saveError ?? "", diagnostics: entry?.diagnostics ?? NO_DIAGNOSTICS, revision: entry?.revision,
-    editable: !__DEVDOCS_PLAYER__ && Boolean(query.data?.collection.editable),
+    editable: can("write") && Boolean(query.data?.collection.editable),
     set, setPath: setAt, save, reset,
   };
 }
 
 const NO_DIAGNOSTICS: ApiDiagnostic[] = [];
 
-/** Preview or save a multi-record change through the shared transaction endpoint. */
+/** Preview or save a multi-record change through whichever backend is installed. */
 export async function runTransaction(operation: ContentTransactionRequest["operation"], revisions: Record<string, string>, changes: ContentOperation[]): Promise<ContentTransactionResponse> {
-  const response = await fetch("/__devdocs/transaction", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ operation, revisions, changes } satisfies ContentTransactionRequest) });
-  const body = await response.json() as ContentTransactionResponse & { error?: string };
-  if (!response.ok) throw new Error(response.status === 409 ? CONFLICT_MESSAGE : body.error ?? `Request failed (${response.status})`);
-  return body;
+  const result = await backend().transact({ operation, revisions, changes });
+  if (!result.ok) throw new Error(result.status === 409 ? CONFLICT_MESSAGE : result.body.error ?? `Request failed (${result.status})`);
+  return result.body;
 }
 
 /** Diff two arrays of records into put/delete operations for `runTransaction`. */

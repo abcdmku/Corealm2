@@ -31,14 +31,21 @@ export default defineConfig(({ mode }) => ({
   cacheDir: fileURLToPath(new URL(`../node_modules/.vite-devdocs-${mode}`, import.meta.url)),
   // The guide is staged under `<game-base>/docs/`, while game assets remain under `<game-base>/`.
   // Absolute docs URLs work in Pages builds; local builds keep Vite's relative default.
+  // The server-mode build is served at `/admin/` by a game server and from the root by a static
+  // host, so its URLs stay relative and it never assumes where it was mounted.
   base: mode === "player" ? (process.env.DOCS_BASE?.trim() || "./") : "./",
-  publicDir: mode === "player" ? fileURLToPath(new URL("./generated/", import.meta.url)) : "../game/public",
-  plugins: [react(), tailwindcss(), ...(mode === "player"
-    ? [playerBasePlugin()]
+  // A live server serves no assets, so the server build carries no public directory: models, icons
+  // and map tiles come from the asset host its descriptor names. It also must stay empty because the
+  // admin API owns the first path segment under `/admin/` for `info`, `setup`, `session`, `me`,
+  // `roles`, `bans`, `tokens`, `audit`, `content`, `stats`, `players` and `settings`. The build emits
+  // `index.html` and `assets/` only, so nothing it writes can shadow an endpoint.
+  publicDir: mode === "player" ? fileURLToPath(new URL("./generated/", import.meta.url)) : mode === "server" ? false : "../game/public",
+  plugins: [react(), tailwindcss(), ...(mode === "player" ? [playerBasePlugin()]
+    : mode === "server" ? []
     : [devdocsPlugin({ contentRoot: process.env.DEVDOCS_CONTENT_ROOT })])],
-  define: { __DEVDOCS_PLAYER__: JSON.stringify(mode === "player") },
+  define: { __DEVDOCS_PLAYER__: JSON.stringify(mode === "player"), __DEVDOCS_MODE__: JSON.stringify(mode === "player" || mode === "server" ? mode : "repo") },
   resolve: { dedupe: ["react", "react-dom"], alias: { "@game": fileURLToPath(new URL("../game/src", import.meta.url)), "@content": fileURLToPath(new URL("../game/content", import.meta.url)) } },
   optimizeDeps: { include: ["react", "react-dom/client", "react-dom", "sonner", "react-hook-form", "shiki/core", "shiki/engine/oniguruma", "shiki/wasm", "@shikijs/langs/typescript", "@shikijs/themes/github-light", "@shikijs/themes/github-dark"] },
   server: { host: "127.0.0.1", port: 4190, strictPort: true, fs: { allow: [fileURLToPath(new URL("..", import.meta.url))] } },
-  build: { outDir: mode === "player" ? "../dist" : "../dist-devdocs", emptyOutDir: true, copyPublicDir: mode === "player" },
+  build: { outDir: mode === "player" ? "../dist" : mode === "server" ? "../dist/devdocs-server" : "../dist-devdocs", emptyOutDir: true, copyPublicDir: mode === "player" },
 }));

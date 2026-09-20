@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { can } from "../../api/backend.js";
 import { lazyComponent } from "../lazyView.js";
 import { ProgressionTierSchema, RecipeTemplateSchema, type RecipeTemplate } from "../../../../game/src/content/schema/progression.js";
 import { ConsequenceCell, ConsequenceNote, movesWith, rowMovement, tally } from "../../dev/formulas/consequences.js";
@@ -22,7 +23,7 @@ const PAIRS = "grid-cols-[repeat(2,minmax(0,14rem))]";
   keeps its number and wears the brass override dot: the curve moves, the recipe does not.
 */
 
-const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"), null);
+const CompiledCheck = can("formulas") ? lazyComponent(() => import("../../dev/formulas/CompiledCheck.js"), null) : undefined;
 
 type ParamKey = keyof RecipeTemplate["parameters"];
 const param = (key: ParamKey) => specAt(RecipeTemplateSchema, ["parameters", key]);
@@ -39,7 +40,7 @@ export function TemplateDrawer({ templateId, data, onClose, onOpenRecipe, stacke
   const [scrub, setScrub] = useState<RecipeTemplate>();
   useEffect(() => setScrub(undefined), [committed]);
   const template = scrub ?? committed;
-  const readOnly = __DEVDOCS_PLAYER__ || !draft.editable;
+  const readOnly = !can("write") || !draft.editable;
   const entries = useMemo(() => templateEntries(data.tiers, templateId), [data.tiers, templateId]);
   const rows = useMemo(() => !template ? [] : entries.map(({ tier, entry }) => {
     const after = deriveProductionEntry(tier, entry, template);

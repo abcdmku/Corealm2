@@ -1,6 +1,10 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { metaCollectionName, metaFileName } from "../tools/content/meta.js";
 import { gameUrl } from "../devdocs/src/model/gameUrl.js";
+import { setBackend } from "../devdocs/src/api/backend.js";
+import { createRepoBackend } from "../devdocs/src/api/repoBackend.js";
+import { createServerBackend } from "../devdocs/src/api/serverBackend.js";
+import type { AdminSession } from "../devdocs/src/api/session.js";
 afterEach(() => vi.unstubAllGlobals());
 it("maps balance metadata to safe flat names and back", () => {
   expect(metaFileName("balance/gear")).toBe("meta/balance--gear.meta.json");
@@ -10,8 +14,17 @@ it("maps balance metadata to safe flat names and back", () => {
   expect(() => metaFileName("balance/../items")).toThrow();
 });
 it("resolves assets against the deployed game base without escaping to the origin root", () => {
+  setBackend(createRepoBackend());
   vi.stubGlobal("document", { baseURI: "https://example.test/corealm/" });
   expect(gameUrl("assets/manifest.json")).toBe("https://example.test/corealm/assets/manifest.json");
   expect(gameUrl("/assets/icons/test.png")).toBe("https://example.test/corealm/assets/icons/test.png");
   expect(() => gameUrl("https://other.test/a.glb")).toThrow();
+});
+it("resolves assets against the server's own asset host in server mode", () => {
+  const session: AdminSession = { server: "https://play.test", audience: "https://play.test", token: "cas_x", expiresAt: Date.now() + 1000, accountId: "acc_1", name: "Rook", role: "owner" };
+  setBackend(createServerBackend({ session, descriptor: { name: "Play", endpoint: "wss://play.test/", assetBaseUrl: "https://cdn.test/corealm/", identityUrl: null, catalogRevision: "" } }));
+  vi.stubGlobal("document", { baseURI: "https://play.test/admin/" });
+  expect(gameUrl("assets/manifest.json")).toBe("https://cdn.test/corealm/assets/manifest.json");
+  expect(gameUrl("/assets/icons/test.png")).toBe("https://cdn.test/corealm/assets/icons/test.png");
+  setBackend(createRepoBackend());
 });
