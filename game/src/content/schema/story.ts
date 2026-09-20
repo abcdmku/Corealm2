@@ -49,7 +49,7 @@ export const questGrantSchema = obj({
   xp: opt(skillXp),
   items: opt(arr(itemStack("Reward of"), {}, { label: "Items", role: "Reward of" })),
   takeItems: opt(arr(itemStack("Taken by"), {}, { label: "Taken items", role: "Taken by" })),
-  currency: opt(int({ min: 0 }, { label: "Marks" })),
+  currency: opt(int({ min: 0 }, { label: "Gold" })),
   flags: opt(arr(name.describe({ label: "Flag" }), {}, { label: "Flags" })),
   worldState: opt(arr(worldState, {}, { label: "World state", role: "Set by" })),
   unlocks: opt(arr(text, {}, { label: "Unlocks" })),
@@ -91,7 +91,7 @@ export const questSchema = obj({
   rewards: obj({
     xp: skillXp,
     items: arr(itemStack("Reward of"), {}, { label: "Items", role: "Reward of" }),
-    currency: int({ min: 0 }, { label: "Marks" }),
+    currency: int({ min: 0 }, { label: "Gold" }),
     unlocks: arr(text, {}, { label: "Unlocks" }),
     worldState: opt(arr(worldState, {}, { label: "World state", role: "Set by" })),
   }, {}, { label: "Rewards" }),
@@ -109,7 +109,7 @@ export const dialogueConditionSchema = discriminated("kind", {
   skill: obj({ kind: lit("skill"), skill, level, reason }),
   item: obj({ kind: lit("item"), itemId: ref("item", { label: "Item", role: "Required by" }), quantity, reason }),
   lacksItem: obj({ kind: lit("lacksItem"), itemId: ref("item", { label: "Item", role: "Required by" }), quantity, reason }),
-  currency: obj({ kind: lit("currency"), amount: int({ min: 0 }, { label: "Marks" }), reason }),
+  currency: obj({ kind: lit("currency"), amount: int({ min: 0 }, { label: "Gold" }), reason }),
 });
 
 export const dialogueEffectSchema = discriminated("kind", {
@@ -119,7 +119,7 @@ export const dialogueEffectSchema = discriminated("kind", {
   giveItem: obj({ kind: lit("giveItem"), itemId: ref("item", { label: "Item", role: "Given by" }), quantity }),
   takeItem: obj({ kind: lit("takeItem"), itemId: ref("item", { label: "Item", role: "Taken by" }), quantity }),
   grantXp: obj({ kind: lit("grantXp"), skill, amount: num({ min: 0 }, { unit: "xp", label: "Amount" }) }),
-  grantCurrency: obj({ kind: lit("grantCurrency"), amount: int({ min: 0 }, { label: "Marks" }) }),
+  grantCurrency: obj({ kind: lit("grantCurrency"), amount: int({ min: 0 }, { label: "Gold" }) }),
 });
 
 // All conditions in one list must hold, so the list itself is unordered.

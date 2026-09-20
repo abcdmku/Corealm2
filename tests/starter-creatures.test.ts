@@ -20,7 +20,7 @@ describe("starter creature integration", () => {
       expect(asset.animations).toEqual(expect.arrayContaining(["Idle", "Walk", "Attack", "Hit", "Death"]));
       expect(species.stats.tier).toBe(1);
       expect(species.stats.maxHit).toBeLessThanOrEqual(2);
-      for (const drop of species.stats.drops) expect(ALL_ITEMS.some(item => item.id === drop.itemId)).toBe(true);
+      for (const drop of species.stats.lootRolls.flatMap(roll => roll.drops)) expect(ALL_ITEMS.some(item => item.id === drop.itemId)).toBe(true);
     }
   });
   it("keeps starter populations linked to their compiled habitats", () => {

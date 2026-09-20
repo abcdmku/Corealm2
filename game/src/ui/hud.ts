@@ -1,9 +1,10 @@
 import { sendGameCommand } from "../api/commands.js";
 /**
- * The always-on HUD: vitals, the current activity, the XP feed, toasts, and marks.
+ * The always-on HUD: vitals, the current activity, the XP feed, and toasts. Gold is read at the
+ * foot of the inventory panel, not here.
  *
  * Everything here is arranged around one constraint from the brief — the middle of the screen is
- * where the game is, so the HUD lives on the edges. Vitals top-left, marks and the XP feed
+ * where the game is, so the HUD lives on the edges. Vitals top-left, the XP feed
  * top-right (below the minimap, which owns direction-finding now — the compass lives on its rim),
  * toasts bottom-left where the context menu already put them.
  *
@@ -86,14 +87,12 @@ export class Hud {
   private readonly activityLabel: HTMLElement;
   private readonly activityFill: HTMLElement;
   private readonly activityCount: HTMLElement;
-  private readonly currencyValue: HTMLElement;
   private readonly xpFeed: HTMLElement;
   private readonly cacheBanner: HTMLElement;
   private readonly cacheDetail: HTMLElement;
 
   private healthSig = "";
   private activitySig = "";
-  private currencySig = "";
 
   private xpBaseline: Partial<Record<SkillId, number>> = {};
   private xpSeeded = false;
@@ -105,7 +104,7 @@ export class Hud {
   constructor(private readonly ctx: UiContext, private readonly options: UiOptions) {
     const root = document.createElement("div");
     // is-passive keeps the HUD out of the way of world clicks: #ui-root's rule opts it back out of
-    // pointer events. The cache and marks readout opt back in for their in-game hover surfaces.
+    // pointer events. The cache banner opts back in for its in-game hover surface.
     // Everything else stays passive so world clicks pass straight through.
     root.className = "hud is-passive";
 
@@ -176,30 +175,12 @@ export class Hud {
     this.cacheBanner = cache;
     this.cacheDetail = cacheDetail;
 
-    // ---- marks and the XP feed, top right
+    // ---- the XP feed, top right
     const right = document.createElement("div");
     right.className = "hud__right";
-    const currency = document.createElement("div");
-    currency.className = "hud__currency";
-    const currencyMark = document.createElement("span");
-    currencyMark.className = "hud__currency-mark";
-    currencyMark.textContent = "◈";
-    const currencyValue = document.createElement("span");
-    currencyValue.className = "hud__currency-value u-numeric";
-    currencyValue.textContent = "0";
-    const currencyWord = document.createElement("span");
-    currencyWord.className = "u-caps u-dim";
-    currencyWord.textContent = "marks";
-    currency.append(currencyMark, currencyValue, currencyWord);
-    this.ctx.tooltip.attach(currency, () => ({
-      kind: "text",
-      title: "Marks",
-      lines: [(currencyValue.textContent ?? "0") + " marks carried."],
-    }));
-
     const xpFeed = document.createElement("div");
     xpFeed.className = "hud__xp-feed";
-    right.append(currency, xpFeed);
+    right.append(xpFeed);
 
     root.append(vitals, right);
 
@@ -212,7 +193,6 @@ export class Hud {
     this.activityLabel = activityLabel;
     this.activityFill = activityFill;
     this.activityCount = activityCount;
-    this.currencyValue = currencyValue;
     this.xpFeed = xpFeed;
   }
 
@@ -245,7 +225,6 @@ export class Hud {
     // The bar stays hot for the whole no-regen window, not just while a target is alive.
     this.updateHealth(player.health, player.maxHealth, player.inCombat || player.regenBlocked, player.dead);
     this.updateActivity();
-    this.updateCurrency(api.getCurrency());
     this.updateXpFeed();
     this.updateCache();
 
@@ -346,13 +325,6 @@ export class Hud {
     this.activityCount.textContent = activity.remaining > 0
       ? `${activity.completed} done · ${activity.remaining} left`
       : `${activity.completed} done`;
-  }
-
-  private updateCurrency(currency: number): void {
-    const signature = String(currency);
-    if (signature === this.currencySig) return;
-    this.currencySig = signature;
-    this.currencyValue.textContent = formatQuantity(currency);
   }
 
   // ---------------------------------------------------------------- xp feed

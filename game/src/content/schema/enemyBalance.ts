@@ -5,8 +5,8 @@ const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
 const positiveInt = () => int({ min: 1 });
 const chance = () => num({ min: 0, max: 1 });
-const marks = refine(tuple([int({ min: 0 }), int({ min: 0 })] as const),
-  ([low, high]) => low <= high, 'marks minimum must not exceed maximum');
+const gold = refine(tuple([int({ min: 0 }), int({ min: 0 })] as const),
+  ([low, high]) => low <= high, 'gold minimum must not exceed maximum');
 const boss = obj({ tier: positiveInt(), multiplier: positive() });
 export const EnemyBalanceSchema = refine(obj({
   combatLevel: refine(obj({ rollLevelOffset: nonnegative(), bonusDivisor: positive(), defenceStyleCount: positiveInt(),

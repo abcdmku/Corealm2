@@ -16,7 +16,7 @@ describe('Crownward dragon encounters', () => {
       expect(species.stats.attackSpeedMs).toBe(source.stats.attackSpeedMs);
       expect(species.stats.tier).toBe(40);
       expect(species.stats.maxHealth).toBeGreaterThan(0);
-      for (const drop of species.stats.drops) expect(ALL_ITEMS.some(item => item.id === drop.itemId)).toBe(true);
+      for (const drop of species.stats.lootRolls.flatMap(roll => roll.drops)) expect(ALL_ITEMS.some(item => item.id === drop.itemId)).toBe(true);
     }
   });
 

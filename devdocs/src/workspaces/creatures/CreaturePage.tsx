@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, GitBranch, MapPin } from "lucide-react";
 import { toast } from "sonner";
-import { CreatureDefinitionSchema, CreatureLootSchema } from "../../../../game/src/content/schema/creatureDefinitions.js";
+import { CreatureDefinitionSchema } from "../../../../game/src/content/schema/creatureDefinitions.js";
 import { SpeciesFields } from "../../../../game/src/content/schema/creatures.js";
 import { EnemyOverridesSchema } from "../../../../game/src/content/schema/enemies.js";
 import { collectionQuery } from "../../api/client.js";
@@ -14,14 +14,16 @@ import { rowName } from "../../model/rows.js";
 import { EntitySummary } from "../../ui/EntitySummary.js";
 import { ListRow } from "../../ui/ListRow.js";
 import { RefRow } from "../../ui/RefChip.js";
-import {ChoiceField, DerivedChoice, DerivedNumber, Facts, Field, Fields, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema, usePeek, variantSchema, Static } from "../../ui/field/index.js";
+import {ChoiceField, DerivedChoice, DerivedNumber, Facts, Field, FieldRows, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema, usePeek, variantSchema, Static } from "../../ui/field/index.js";
 import { PointsMap } from "../../ui/PointsMap.js";
 import { EmptyState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
-import { DropRows, dropList, type Drop } from "./DropRows.js";
+import { goldRoll } from "../../../../game/src/content/lootCompiler.js";
+import { DROP, PART, SEGMENT } from "./LootCards.js";
+import { LootRollRows } from "./LootRollRows.js";
 import { CurveTable, RoleDrawer } from "./RoleDrawer.js";
-import { CURVE_LEVELS, identityChain, lootMode, mapResolved, resolveCreature, thumbFor, titleCase, useCreatureData, type Adjustments, type Creature, type CreatureData, type Loot, type LootMode, type Presentation, type Profile, type Spawn } from "./shared.js";
+import { CURVE_LEVELS, identityChain, mapResolved, resolveCreature, thumbFor, titleCase, useCreatureData, type Adjustments, type Creature, type CreatureData, type Loot, type Presentation, type Profile, type Spawn } from "./shared.js";
 import { Button } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
 import { EMPTY, PAGE, RAIL_BLOCK, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE } from "../../ui/layout.js";
@@ -35,15 +37,13 @@ import { EMPTY, PAGE, RAIL_BLOCK, RECORD, RECORD_HEAD, RECORD_RAIL, RECORD_TITLE
 */
 
 const ID_PATTERN = /^[A-Za-z][A-Za-z0-9_-]*$/;
+const GOLD_ITEM_ID = "gold";
 const RAIL_FIELDS = ["maxHealth", "attackLevel", "defenceLevel", "maxHit"] as const;
 const PRESENTATION_KINDS = ["basic", "rpg"] as const;
 
 const combatSpec = (key: string) => fieldFromSchema(EnemyOverridesSchema, key);
 const identitySpec = (key: string) => fieldFromSchema(CreatureDefinitionSchema, key);
 const speciesSpec = (key: keyof typeof SpeciesFields) => fieldFromSchema(SpeciesFields[key], key);
-const LOOT_TABLE = fieldFromSchema(variantSchema(CreatureLootSchema, "0")!, "tableId");
-const LOOT_DROPS = fieldFromSchema(variantSchema(CreatureLootSchema, "1")!, "drops");
-const LOOT_MODES: readonly { value: LootMode; label: string }[] = [{ value: "none", label: "None" }, { value: "table", label: "Shared table" }, { value: "drops", label: "Own drops" }];
 
 const withoutEmpty = (record: Creature, key: "adjustments" | "loot" | "presentation"): Creature => {
   const value = record[key];
@@ -155,31 +155,25 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
           </Section>
 
           <Section title="Combat" aside={profile ? <span>{profile.name} curve at level {derived.level}</span> : <span>No role: numbers are not derived</span>}>
-            <Fields columns={4}>
-              {COMBAT_FIELDS.map(key => {
+            <FieldRows>
+              {COMBAT_FIELDS.filter(key => key !== "gold").map(key => {
                 const spec = combatSpec(key);
                 const derivation = derived.combat[key]!;
-                const shared = { compact: true, label: spec.label, hint: spec.hint, onOpenRef: openRef, dirty: dirtyAt(["adjustments", key]), readOnly: !editable } as const;
+                const shared = { label: spec.label, hint: spec.hint, onOpenRef: openRef, dirty: dirtyAt(["adjustments", key]), readOnly: !editable } as const;
                 if (spec.kind === "enum") {
                   return <DerivedChoice key={key} {...shared} resolved={derivation.resolved as Resolved<string | undefined>} options={spec.choices ?? []} onChange={value => setAdjustment(key, value)} />;
-                }
-                if (key === "marks") {
-                  const marks = derivation.resolved as Resolved<[number, number] | undefined>;
-                  return <Field key={key} {...shared} unit={spec.unit} resolved={marks} onRevert={editable && marks.chain[0]?.origin.kind === "own" ? () => setAdjustment(key, undefined) : undefined} disabled={!editable}>
-                    <Static mono title="Marks are a range the curve sets">{fmtValue(marks.value)}{spec.unit && <small>{spec.unit}</small>}</Static>
-                  </Field>;
                 }
                 return <DerivedNumber key={key} {...shared} resolved={derivation.resolved as Resolved<number | undefined>} unit={spec.unit} integer={spec.integer ?? false} min={spec.min} step={spec.step} onChange={value => setAdjustment(key, value)} />;
               })}
               {UNCOMPUTED_FIELDS.map(key => {
                 const spec = combatSpec(key);
                 const movement = derived.combat[key]!.resolved as Resolved<number | undefined>;
-                return <Field key={key} compact label={spec.label} hint={spec.hint} unit={spec.unit} resolved={movement} dirty={dirtyAt(["adjustments", key])} onOpenRef={openRef} disabled={!editable}
+                return <Field key={key} label={spec.label} hint={spec.hint} unit={spec.unit} resolved={movement} dirty={dirtyAt(["adjustments", key])} onOpenRef={openRef} disabled={!editable}
                   onRevert={editable ? () => setAdjustment(key, undefined) : undefined}>
                   <NumberField value={movement.value} optional min={spec.min} step={spec.step ?? 0.1} unit={spec.unit} placeholder="none" readOnly={!editable} onChange={value => setAdjustment(key, value)} />
                 </Field>;
               })}
-            </Fields>
+            </FieldRows>
           </Section>
 
           <Section title="Spawns" aside={spawns.length ? <span>{spawns.length} {spawns.length === 1 ? "place" : "places"} · click a pin to edit it on the map</span> : undefined}>
@@ -192,7 +186,8 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
               : <p className={EMPTY}>Not placed in any encounter.</p>}
           </Section>
 
-          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
+          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef}
+            gold={derived.combat.gold!.resolved as Resolved<[number, number] | undefined>} onGold={value => setAdjustment("gold", value)} />
           <PresentationSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
 
           <Section title="Variants" aside={editable && !working.baseId ? <Button variant="secondary" size="sm" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</Button> : undefined}>
@@ -221,49 +216,32 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
 
 interface BlockProps { data: CreatureData; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; dirtyAt: (path: Path) => boolean; openRef: (ref: RecordRef) => void }
 
-function LootSection({ data, working, base, editable, draft, dirtyAt, openRef }: BlockProps) {
+function LootSection({ data, working, base, editable, draft, dirtyAt, openRef, gold, onGold }: BlockProps & { gold: Resolved<[number, number] | undefined>; onGold: (value: [number, number] | undefined) => void }) {
   const loot = identityChain(working, base, "loot");
-  const mode = mapResolved(loot, lootMode);
-  const current: Loot | undefined = loot.value;
-  const tableId = current && "tableId" in current ? current.tableId : undefined;
-  const table = tableId ? data.lootById.get(tableId) : undefined;
-  const drops = current && "drops" in current ? dropList(current.drops) : dropList(table?.drops);
-  const revert = editable ? () => draft.setPath(["loot"], undefined) : undefined;
-  /**
-   * What a switch to "own drops" starts from. The drops on show when there are any, otherwise the
-   * nearest list the chain still remembers, so going table → own drops → table → own drops does not
-   * quietly empty a creature's loot on the way through an empty table.
-   */
-  const seedDrops = (): Drop[] => {
-    if (drops.length) return structuredClone(drops);
-    for (const link of loot.chain) {
-      const value = link.value;
-      if (value && "drops" in value) return structuredClone(dropList(value.drops));
-      if (value && "tableId" in value) {
-        const carried = data.lootById.get(value.tableId);
-        if (carried?.drops?.length) return structuredClone(dropList(carried.drops));
-      }
-    }
-    return [];
-  };
-  const switchTo = (next: LootMode | undefined) => {
-    if (next === "table") draft.setPath(["loot"], { tableId: tableId ?? "" });
-    else if (next === "drops") draft.setPath(["loot"], { drops: seedDrops() });
-    else draft.setPath(["loot"], undefined);
-  };
-  const others = tableId ? data.usersOfTable(tableId).filter(entry => entry.id !== working.id).length : 0;
-  // The section already says "Loot"; the field names the shape of the block, which the schema's
-  // union has no label for.
-  return <Section title={identitySpec("loot").label}>
-    <Field label="Source" resolved={mode} dirty={dirtyAt(["loot"])} onRevert={revert} onOpenRef={openRef} disabled={!editable}>
-      <ChoiceField value={mode.value} options={LOOT_MODES} width="short" readOnly={!editable} onChange={switchTo} />
-    </Field>
-    {mode.value === "table" && <RefField kind={LOOT_TABLE.ref} label={LOOT_TABLE.label} value={tableId || undefined} resolved={mapResolved(loot, value => value && "tableId" in value ? value.tableId : undefined)} onRevert={revert}
-      hint={tableId ? (others ? `Shared with ${others} other ${others === 1 ? "creature" : "creatures"}. Click the chip to edit the table here.` : "Only this creature rolls on it. Click the chip to edit the table here.") : undefined}
-      dirty={dirtyAt(["loot"])} readOnly={!editable} onOpenRef={openRef} onChange={value => draft.setPath(["loot"], { tableId: value ?? "" })} />}
-    {(mode.value === "drops" || table) && <Field label={LOOT_DROPS.label} hint={mode.value === "table" ? `What ${table?.name ?? "the table"} drops. Edit them on the table.` : undefined} disabled={!editable}>
-      <DropRows drops={drops} readOnly={!editable || mode.value === "table"} onChange={next => draft.setPath(["loot"], { drops: next })} />
-    </Field>}
+  const inherited = loot.chain[0]?.origin.kind === "inherited";
+  const drop = goldRoll(gold.value)?.drops[0];
+  const [low, high] = gold.value ?? [0, 0];
+  return <Section title={identitySpec("loot").label} aside={base && (inherited
+    ? <span>Inherited from {rowName(base)}</span>
+    : editable && working.loot && base.loot ? <Button variant="link" size="inline" title={`Drop this creature's own loot and use ${rowName(base)}'s`} onClick={() => draft.setPath(["loot"], undefined)}>Reset to {rowName(base)}</Button> : undefined)}>
+    <LootRollRows rolls={loot.value?.rolls ?? []} tables={data.lootTables} readOnly={!editable} tableUsers={tableId => data.usersOfTable(tableId).length}
+      onChange={rolls => draft.setPath(["loot"], { rolls })}
+      leadFacts={[drop ? <><strong className="font-mono font-semibold">{drop.quantity[0] === drop.quantity[1] ? drop.quantity[0] : `${drop.quantity[0]} to ${drop.quantity[1]}`}</strong> gold every kill</> : "No gold"]}
+      lead={<div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-1">
+        <div data-slot="stack-field" className={DROP}>
+          <span className="flex min-w-0 flex-1 items-center gap-1.5 pl-1"><Thumb spec={{ kind: "item", id: GOLD_ITEM_ID }} size="s" alt="" /><span className="truncate">Gold</span></span>
+          <Field<[number, number] | undefined> bare className="h-full border-l border-border-subtle pr-1 [&_.field-body]:h-full [&_.field-control]:h-full" label={combatSpec("gold").label} hint={combatSpec("gold").hint} resolved={gold} dirty={dirtyAt(["adjustments", "gold"])} onOpenRef={openRef} disabled={!editable}
+            onRevert={editable ? () => onGold(undefined) : undefined}>
+            <span className={cn(SEGMENT, "h-full min-w-[4.25rem] justify-center border-l-0")}>
+              <span aria-hidden className="pl-1.5 text-faint">×</span>
+              <NumberField className={PART} value={low} integer min={0} readOnly={!editable} ariaLabel="Gold minimum" onChange={next => { const value = next ?? 0; onGold([value, Math.max(value, high)]); }} />
+              <span aria-hidden className="text-faint">–</span>
+              <NumberField className={PART} value={high} integer min={low} readOnly={!editable} ariaLabel="Gold maximum" onChange={next => onGold([low, Math.max(low, next ?? low)])} />
+            </span>
+          </Field>
+          <span className={cn(SEGMENT, "px-2 text-[11px] text-muted-foreground")}>every kill</span>
+        </div>
+      </div>} />
   </Section>;
 }
 

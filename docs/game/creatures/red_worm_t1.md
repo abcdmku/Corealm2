@@ -40,5 +40,5 @@ description: "Red Worm spawn locations, combat stats, and drops."
 
 
 <div class="codex-grid codex-grid--wide">
-<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">1-2 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Gold</span><span class="codex-card__meta">1-2 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
 </div>

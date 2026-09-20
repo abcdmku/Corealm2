@@ -126,10 +126,14 @@ describe('universal miniboss placement and rewards', () => {
       expect(species.stats.tier).toBe(species.id.endsWith('_t70') ? 70 : Math.max(10, REGION_COMBAT_TIERS[species.regionId]));
       expect(enemyCombatLevel(species.stats)).toBeGreaterThan(0);
       expect(species.stats.respawnSeconds).toBe(1800);
-      const [ringDrop, earringDrop] = species.stats.drops;
-      expect(species.stats.drops.map(drop => drop.itemId)).toEqual([`guardian_ring_t${species.stats.tier}`, `guardian_earring_t${species.stats.tier}`]);
+      // The guaranteed gold roll leads; the authored jewelry pool follows it.
+      const [goldRoll, ...authoredRolls] = species.stats.lootRolls;
+      expect(goldRoll!.id).toBe('gold');
+      const [ringDrop, earringDrop] = authoredRolls.flatMap(roll => roll.drops);
+      expect(authoredRolls.flatMap(roll => roll.drops).map(drop => drop.itemId)).toEqual([`guardian_ring_t${species.stats.tier}`, `guardian_earring_t${species.stats.tier}`]);
       expect(ringDrop!.chance).toBe(.15); expect(earringDrop!.chance).toBe(.15);
-      expect(ringDrop!.exclusiveGroup).toBe(earringDrop!.exclusiveGroup);
+      expect(authoredRolls).toHaveLength(1);
+      expect(authoredRolls[0]!.count).toBe(1);
       const ring = MINIBOSS_JEWELLERY.find(item => item.id === ringDrop!.itemId)!;
       const earring = MINIBOSS_JEWELLERY.find(item => item.id === earringDrop!.itemId)!;
       expect(ring.tier).toBe(species.stats.tier);

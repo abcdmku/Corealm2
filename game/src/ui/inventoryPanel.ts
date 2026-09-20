@@ -12,20 +12,27 @@ import { PanelFrame } from "./panelFrame.js";
  * this one: hiding what you cannot do is how a game becomes unlearnable.
  *
  * Hovering an item shows the shared tooltip with the stat delta against what is currently worn.
+ *
+ * Gold is an item that never takes a slot, so the footer under the grid is where it is read.
  */
 import type { InventorySlot, ItemId, ItemStack } from "../contracts.js";
 import { CAMPFIRE_FUELS } from "../content/gatheringProductionTiers.js";
+import { CURRENCY_ITEM_ID } from "../content/items.js";
+import { createItemIcon } from "./itemIcons.js";
 import { notify } from "./contextMenu.js";
 import { skillRequirementsLabel } from "./displayLabels.js";
 import type { ContextMenuItem } from "./contextMenu.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { INVENTORY_COLUMNS, INVENTORY_SLOTS, formatExact, installRovingGrid, itemDef, itemName, paintSlot, report, stackSignature } from "./panels.js";
+import { INVENTORY_COLUMNS, INVENTORY_SLOTS, formatExact, formatQuantity, installRovingGrid, itemDef, itemName, paintSlot, report, stackSignature } from "./panels.js";
 
 export class InventoryPanel implements ManagedPanel {
   readonly frame: PanelFrame;
   private readonly cells: HTMLButtonElement[] = [];
   private slots: (InventorySlot | null)[] = [];
   private signature = "";
+  private readonly goldRow: HTMLElement;
+  private readonly goldAmount: HTMLElement;
+  private gold = -1;
 
   constructor(private readonly ctx: UiContext) {
     this.frame = new PanelFrame({
@@ -51,9 +58,23 @@ export class InventoryPanel implements ManagedPanel {
     installRovingGrid(grid, INVENTORY_COLUMNS);
 
     this.frame.body.appendChild(grid);
+
+    // Outside the scrolling body, so the balance stays in view when a short phone panel scrolls.
+    this.goldRow = document.createElement("div");
+    this.goldRow.className = "panel__footer inv-gold";
+    const goldIcon = document.createElement("span");
+    goldIcon.className = "inv-gold__icon";
+    goldIcon.appendChild(createItemIcon(itemDef(CURRENCY_ITEM_ID)));
+    this.goldAmount = document.createElement("span");
+    this.goldAmount.className = "inv-gold__amount u-numeric";
+    this.goldRow.append(goldIcon, this.goldAmount);
+    this.ctx.tooltip.attach(this.goldRow, () => ({ kind: "item", itemId: CURRENCY_ITEM_ID, quantity: Math.max(0, this.gold) }));
+    this.frame.root.appendChild(this.goldRow);
+    this.paintGold(0);
   }
 
   refresh(force = false): void {
+    this.paintGold(this.ctx.api.getCurrency());
     const inventory = this.ctx.api.getInventory();
     const slots: (InventorySlot | null)[] = [];
     for (let index = 0; index < INVENTORY_SLOTS; index += 1) slots[index] = inventory.slots[index] ?? null;
@@ -74,6 +95,13 @@ export class InventoryPanel implements ManagedPanel {
 
   dispose(): void {
     this.frame.dispose();
+  }
+
+  private paintGold(gold: number): void {
+    if (gold === this.gold) return;
+    this.gold = gold;
+    this.goldAmount.textContent = `${formatQuantity(gold)} gold`;
+    this.goldRow.setAttribute("aria-label", `${formatExact(gold)} gold`);
   }
 
   /** The stack in a slot right now, for the tooltip and the menu. */

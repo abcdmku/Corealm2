@@ -106,7 +106,7 @@ describe("The Sparking Stone Air Orb route", () => {
 
     const boss = ENEMIES.find((enemy) => enemy.id === "tempest_roc_t1");
     expect(boss?.family).toBe("tempest_roc");
-    expect(boss?.drops).toContainEqual({ itemId: "air_orb", quantity: [1, 1], chance: 1 });
+    expect(boss?.lootRolls.flatMap(roll => roll.drops)).toContainEqual({ itemId: "air_orb", quantity: [1, 1], chance: 1 });
   });
 
   it("orders the tracked objectives as kill, loot, craft and equip, train, then return", () => {

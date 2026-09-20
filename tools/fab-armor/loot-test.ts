@@ -1,3 +1,4 @@
+import { rollItemDrops } from '../../game/src/systems/equipmentCombat.js';
 /** Root-run seeded rare loot proof. Keeps real drop probabilities and real kill/pickup/equip. */
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -7,7 +8,7 @@ import type { GameEvent, ItemStack, SemanticEntity } from '../../game/src/contra
 import type { GameState } from '../../game/src/state/store.js';
 import type { EnemyDef } from '../../game/src/content/index.js';
 import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS } from '../../game/src/content/bossArmor.js';
-import { wildernessDropsForCreature } from '../../game/src/content/wildernessLoot.js';
+import { wildernessLootForCreature } from '../../game/src/content/wildernessLoot.js';
 import { RngStreams } from '../../game/src/core/rng.js';
 import { CAMERA } from '../../game/src/app/config.js';
 import { GameDriver } from '../lib/driver.js';
@@ -27,17 +28,12 @@ interface Debug {
 }
 const count = (items: readonly (ItemStack | null)[], id: string) => items.reduce((sum, item) => sum + (item?.itemId === id ? item.quantity : 0), 0);
 
-function chooseSeed(drops: EnemyDef['drops'], tier: 50 | 70) {
+function chooseSeed(drops: EnemyDef['lootRolls'], tier: 50 | 70) {
   // Prefer a melee torso, which works even when the mage source pack is still being imported.
   const preferred = BOSS_ARMOR_SETS.find(set => set.tier === tier && set.style === 'melee')!.members.body!;
   for (let seed = 0; seed < 100_000; seed++) {
     const rng = new RngStreams(seed).get('loot');
-    const items: ItemStack[] = [];
-    for (const drop of drops) {
-      if (!rng.chance(drop.chance)) continue;
-      const quantity = rng.int(...drop.quantity);
-      if (quantity > 0) items.push({ itemId: drop.itemId, quantity });
-    }
+    const items = rollItemDrops(drops, rng);
     if (items.some(item => item.itemId === preferred)) return { seed, expected: items, itemId: preferred };
   }
   throw new Error('No deterministic torso drop seed found');
@@ -49,7 +45,7 @@ async function main(): Promise<void> {
   assert(tier === 50 || tier === 70, '--tier must be 50 or 70');
   const catalog = argValue(args, '--catalog'); assert(catalog, '--catalog is required');
   const keeperName = tier === 50 ? 'furnace_regent' : 'nightforge_marshal';
-  const drops = wildernessDropsForCreature(keeperName);
+  const drops = wildernessLootForCreature(keeperName);
   const prediction = chooseSeed(drops, tier);
   const item = BOSS_ARMOR_ITEMS.find(item => item.id === prediction.itemId)!;
   const set = BOSS_ARMOR_SETS.find(set => Object.values(set.members).includes(item.id))!;
@@ -136,7 +132,7 @@ async function main(): Promise<void> {
     const actualDrops = await page.evaluate(async id => {
       const modulePath = '/src/content/index.ts';
       const registry = await import(modulePath);
-      return registry.content.enemy(id)?.drops;
+      return registry.content.enemy(id)?.lootRolls;
     }, String(before.meta?.enemyDefId));
     assert.deepEqual(actualDrops, drops, 'Live keeper drop table differs from seed prediction');
     report.liveDrops = actualDrops;

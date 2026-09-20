@@ -145,5 +145,5 @@ Back to the square. He will have a pen ready; he always has a pen ready.
 | --- | --- |
 | Mining XP | 260 |
 | [Copper Pickaxe](../../items/grithe_pickaxe/) | 1 |
-| Marks | 220 |
+| Gold | 220 |
 | Unlock | Dorn will quote you real seam figures instead of the ledger's. |

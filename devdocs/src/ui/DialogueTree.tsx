@@ -144,7 +144,7 @@ function conditionText(name: (kind: string, id: unknown) => string) {
       case "skill": return `${titleCase(String(condition.skill))} ${String(condition.level)}`;
       case "item": return `has ${condition.quantity ?? 1} ${name("item", condition.itemId)}`;
       case "lacksItem": return `lacks ${name("item", condition.itemId)}`;
-      case "currency": return `${String(condition.amount)} marks`;
+      case "currency": return `${String(condition.amount)} gold`;
       default: return titleCase(String(condition.kind ?? "condition"));
     }
   };
@@ -159,7 +159,7 @@ function effectText(name: (kind: string, id: unknown) => string) {
       case "giveItem": return `gives ${effect.quantity ?? 1} ${name("item", effect.itemId)}`;
       case "takeItem": return `takes ${effect.quantity ?? 1} ${name("item", effect.itemId)}`;
       case "grantXp": return `+${String(effect.amount)} ${titleCase(String(effect.skill))} xp`;
-      case "grantCurrency": return `+${String(effect.amount)} marks`;
+      case "grantCurrency": return `+${String(effect.amount)} gold`;
       default: return titleCase(String(effect.kind ?? "effect"));
     }
   };

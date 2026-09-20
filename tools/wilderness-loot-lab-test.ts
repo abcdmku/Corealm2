@@ -249,7 +249,7 @@ async function main(): Promise<void> {
 
     stage = 'wounded keeper setup';
     await frame(0, 0, 0, 11);
-    const keeper = await page.evaluate(() => window.__featureLab!.spawnTarget('creature', 'candidate:furnace_regent', { distance: 3 }));
+    const keeper = await page.evaluate(() => window.__featureLab!.spawnTarget('creature', 'furnace_regent', { distance: 3 }));
     assert(keeper.target && keeper.target.health && keeper.target.maxHealth);
     const keeperId = keeper.target.entityId;
     const beforeWound = await driver.callDebug('getEntity', [keeperId]) as SemanticEntity;

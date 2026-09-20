@@ -29,7 +29,7 @@ for (const species of FAIRY_CROWN_SPECIES) {
   assert.equal(ENCOUNTER_ASSET_RADII[species.assetId], ENCOUNTER_ASSET_RADII[sourceId]);
   assert.deepEqual(CREATURE_MOTION_TIMING[species.assetId], CREATURE_MOTION_TIMING[sourceId]);
   assert.equal(CREATURE_PURSUIT_CEILING_MPS[species.assetId], CREATURE_PURSUIT_CEILING_MPS[sourceId]);
-  for (const drop of species.stats.drops) {
+  for (const drop of species.stats.lootRolls.flatMap(roll => roll.drops)) {
     assert(items.has(drop.itemId), `${species.id} drops unknown ${drop.itemId}`);
     assert(drop.quantity[0] > 0 && drop.quantity[1] >= drop.quantity[0]);
     assert(drop.chance > 0 && drop.chance <= 1);

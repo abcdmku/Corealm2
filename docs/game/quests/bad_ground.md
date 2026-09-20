@@ -147,5 +147,5 @@ He is at the middle of the camp. He will have the figure already; he always does
 | Mining XP | 900 |
 | Agility XP | 400 |
 | [Cobalt Pickaxe](../../items/kaldite_pickaxe/) | 1 |
-| Marks | 900 |
+| Gold | 900 |
 | Unlock | Arden will quote you the real distance between any two things on the moor. |

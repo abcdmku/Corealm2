@@ -17,7 +17,7 @@ describe("item runtime schema", () => {
     expect(parsed).toEqual(ALL_ITEMS);
     expect(parseCollection(ItemSchema, JSON.parse(JSON.stringify(ALL_ITEMS)), { name: "items" })).toEqual(ALL_ITEMS);
     // Keep the schema's inferred optional fields compatible in both directions with the contract.
-    const typed: Infer<typeof ItemSchema> = item("marks");
+    const typed: Infer<typeof ItemSchema> = item("gold");
     expect(parseValue(ItemSchema, typed, "item")).toEqual(typed);
   });
 
@@ -57,8 +57,8 @@ describe("item runtime schema", () => {
   });
 
   it("rejects duplicate ids and uncontracted collection extras", () => {
-    expect(() => parseCollection(ItemSchema, [item("marks"), item("marks")], { name: "items" })).toThrow("duplicate id");
-    expect(() => parseValue(ItemSchema, { ...item("marks"), derivation: { kind: "gear" } }, "item")).toThrow("unknown field");
+    expect(() => parseCollection(ItemSchema, [item("gold"), item("gold")], { name: "items" })).toThrow("duplicate id");
+    expect(() => parseValue(ItemSchema, { ...item("gold"), derivation: { kind: "gear" } }, "item")).toThrow("unknown field");
   });
 
   it("exposes identity and foreign-key metadata for forms", () => {

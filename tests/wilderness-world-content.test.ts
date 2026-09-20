@@ -53,7 +53,7 @@ function residents(group: EnemyGroupDef): SemanticEntity[] {
   return world.entities.filter(entity => entity.combat && entity.meta?.groupId === group.id);
 }
 function canonicalDropItems(block: EnemyDef): void {
-  for (const drop of block.drops) {
+  for (const drop of block.lootRolls.flatMap(roll => roll.drops)) {
     expect(content.item(drop.itemId), `${block.id} drops unregistered ${drop.itemId}`).toBeDefined();
     expect(drop.chance, `${block.id}/${drop.itemId}`).toBeGreaterThan(0);
     expect(drop.quantity[0]).toBeGreaterThan(0);
@@ -147,9 +147,9 @@ describe('final Wilderness content integration', () => {
     const level = enemyCombatLevel(block);
     expect(level).toBeGreaterThan(0);
     for (const row of [block]) {
-      expect(row.drops).toContainEqual({ itemId: keeper.rune, quantity: [24, 40], chance: 1 });
-      expect(row.drops).toContainEqual({ itemId: 'cosmic_rune', quantity: [24, 40], chance: 1 });
-      expect(row.drops).toContainEqual({ itemId: WILDERNESS_KEEPER_COMPONENTS[keeper.id], quantity: [1, 2], chance: 1 });
+      expect(row.lootRolls.flatMap(roll => roll.drops)).toContainEqual({ itemId: keeper.rune, quantity: [24, 40], chance: 1 });
+      expect(row.lootRolls.flatMap(roll => roll.drops)).toContainEqual({ itemId: 'cosmic_rune', quantity: [24, 40], chance: 1 });
+      expect(row.lootRolls.flatMap(roll => roll.drops)).toContainEqual({ itemId: WILDERNESS_KEEPER_COMPONENTS[keeper.id], quantity: [1, 2], chance: 1 });
       canonicalDropItems(row);
     }
     expect(residents(group)).toHaveLength(1);
@@ -186,14 +186,14 @@ describe('final Wilderness content integration', () => {
     for (const pack of courtPacks) {
       const component = WILDERNESS_STRUCTURE_COMPONENTS[pack.siteId as keyof typeof WILDERNESS_STRUCTURE_COMPONENTS];
       expect(pack.id).toBe(`${pack.siteId}_${pack.court}_conclave`);
-      expect(registeredEnemy(registeredGroup(pack.id)).drops.filter(drop => fortressMaterialIds.has(drop.itemId)))
+      expect(registeredEnemy(registeredGroup(pack.id)).lootRolls.flatMap(roll => roll.drops).filter(drop => fortressMaterialIds.has(drop.itemId)))
         .toEqual([{ itemId: component, quantity: [1, 1], chance: .12 }]);
       expect(content.allRecipes().some(recipe => recipe.inputs.some(input => input.itemId === component)
         && content.item(recipe.output.itemId)?.equip), `${component} has no equipment use`).toBe(true);
     }
     const courtIds = new Set(courtPacks.map(pack => pack.id));
     for (const group of wilderness.enemyGroups) if (!courtIds.has(group.id) && !keeperIds.has(group.id)) {
-      expect(registeredEnemy(group).drops.filter(drop => fortressMaterialIds.has(drop.itemId)), group.id).toEqual([]);
+      expect(registeredEnemy(group).lootRolls.flatMap(roll => roll.drops).filter(drop => fortressMaterialIds.has(drop.itemId)), group.id).toEqual([]);
     }
   });
 });
@@ -222,7 +222,7 @@ describe('regional boss world progression', () => {
     expect(actors[0]).toMatchObject({ id, archetype: 'boss', tier: level.tier, view: { assetId: group.assetId },
       combat: { level: combatLevel, maxHealth: block.maxHealth }, meta: { family: group.family, groupId: id } });
     for (const [itemId, chance] of legacyBossRewards[key]) {
-      expect(block.drops).toContainEqual({ itemId, quantity: [1, 1], chance });
+      expect(block.lootRolls.flatMap(roll => roll.drops)).toContainEqual({ itemId, quantity: [1, 1], chance });
       expect(content.item(itemId)).toBeDefined();
     }
   });

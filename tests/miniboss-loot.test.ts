@@ -1,12 +1,4 @@
-/**
- * Miniboss loot: the independent 10% rare-weapon rolls and the singleton Fire Orb.
- *
- * The rolls run through the REAL kill path — `CombatSystem.killEnemy` -> `rollDrops` on the
- * seeded `loot` stream — not through a re-implementation of the table. Sweeping seeds proves all
- * four outcomes (neither, sword only, staff only, both) are reachable and that the observed rate
- * sits near the authored 10%; a dependent roll (one flag deciding both weapons) would make the
- * exclusive outcomes unreachable and fail here.
- */
+/** Real combat kills prove that boss rewards use the authored roll groups. */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { EquipmentBonuses, ItemStack, SemanticEntity, SkillId } from "../game/src/contracts.js";
 import { SKILL_IDS, ok } from "../game/src/contracts.js";
@@ -107,8 +99,8 @@ function killOnce(seed: number, groupId: string, family: string, tier: number): 
   return piles.flatMap((pile) => pile.items);
 }
 
-describe("independent 10% rare-weapon rolls", () => {
-  it("reaches all four outcomes across seeds at a rate near the authored 10%", () => {
+describe("one rare-weapon roll with 10% per item", () => {
+  it("selects at most one rare weapon with each near its authored 10%", () => {
     const outcomes = { neither: 0, swordOnly: 0, staffOnly: 0, both: 0 };
     let swordDrops = 0;
     const SEEDS = 260;
@@ -122,13 +114,10 @@ describe("independent 10% rare-weapon rolls", () => {
       else if (staff) outcomes.staffOnly += 1;
       else outcomes.neither += 1;
     }
-    // Every outcome must be reachable: a shared roll could never produce the exclusive cases,
-    // and "both" at 1% needs a real sweep to show up (P(none in 260) < 8%; this is seeded, so
-    // the sweep is deterministic and these counts are frozen numbers, not flaky sampling).
     expect(outcomes.neither).toBeGreaterThan(0);
     expect(outcomes.swordOnly).toBeGreaterThan(0);
     expect(outcomes.staffOnly).toBeGreaterThan(0);
-    expect(outcomes.both).toBeGreaterThan(0);
+    expect(outcomes.both).toBe(0);
     // The sword rate over the sweep sits near 10%: far from 0 and far from a 19% "either" rate.
     expect(swordDrops / SEEDS).toBeGreaterThan(0.04);
     expect(swordDrops / SEEDS).toBeLessThan(0.18);

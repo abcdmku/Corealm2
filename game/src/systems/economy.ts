@@ -1,5 +1,5 @@
 /**
- * Shops and marks: the sink and the source that give gathered ore a number.
+ * Shops and gold: the sink and the source that give gathered ore a number.
  *
  * Prices are fixed and readable off the content tables, never haggled and never dynamic — an agent
  * should be able to work out whether a trip is worth it from `ItemDef.value` and two multipliers,
@@ -8,7 +8,7 @@
  *
  * Stock is fixed in the literal sense: `ShopDef.stock` quantities are what the shop always has.
  * There is no per-shop stock in `state`, so a depleting shelf would need a new state field, and the
- * frozen store owns that decision. Selling to a shop pays marks and the goods leave the world.
+ * frozen store owns that decision. Selling to a shop pays gold and the goods leave the world.
  *
  * Owner: W-INV. State touched: `state.currency` (through the inventory system) only.
  */
@@ -167,7 +167,7 @@ export class EconomySystem {
     const total = unit * wanted;
     // All or nothing on both checks: a half-filled purchase is harder to reason about than a refusal.
     if (this.state.currency < total) {
-      return err("NOT_ENOUGH_CURRENCY", `${wanted} ${item.name} costs ${total} marks; you have ${this.state.currency}`);
+      return err("NOT_ENOUGH_CURRENCY", `${wanted} ${item.name} costs ${total} gold; you have ${this.state.currency}`);
     }
     if (!this.deps.inventory.hasSpaceFor(itemId, wanted)) {
       return err("INVENTORY_FULL", `No room for ${wanted} ${item.name}`);
@@ -194,7 +194,7 @@ export class EconomySystem {
 
     const item = content.item(itemId);
     if (!item) return err("NOT_FOUND", `No item with id ${itemId}`);
-    if (item.category === "currency") return err("INVALID_ARGUMENT", "You cannot sell marks for marks");
+    if (item.category === "currency") return err("INVALID_ARGUMENT", "You cannot sell gold for gold");
 
     const held = this.deps.inventory.countOf(itemId);
     if (held < 1) return err("NOT_ENOUGH_ITEMS", `You are not carrying any ${item.name}`);

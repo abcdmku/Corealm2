@@ -80,7 +80,7 @@ She stands on the west side of the camp, at (138, -68).
 | Reward | Amount |
 | --- | --- |
 | Melee XP | 120 |
-| Marks | 150 |
+| Gold | 150 |
 
 ### 3. Ask Watcher Hale what the rota has seen come out of Stone Cavern.
 
@@ -219,7 +219,7 @@ She will hand you a Garnet (item `cairn_garnet`). Do not sell it; stage 7 checks
 | Reward | Amount |
 | --- | --- |
 | [Garnet](../../items/cairn_garnet/) | 1 |
-| Marks | 300 |
+| Gold | 300 |
 
 ### 7. Carry the Garnet into The Cairn Hall, kill the 2 Vault Custodians standing over the cairn, and set the stone on it.
 
@@ -261,6 +261,6 @@ With the door open, chamber 2 walks straight through to chamber 3. The stage com
 | Agility XP | 300 |
 | [Cobalt Dagger](../../items/kaldite_dagger/) | 1 |
 | [Seared Perch](../../items/seared_cragfin/) | 8 |
-| Marks | 2400 |
+| Gold | 2400 |
 | Unlock | The Quarry Warden's Gate (entity `ordrun_gate`) is unsealed. Quarry Warden is behind it. |
 | Unlock | Cairnkeeper Ode will speak plainly about what is under the Great Cairn. |

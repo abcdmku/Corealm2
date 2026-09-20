@@ -13,13 +13,13 @@ function defineFormula<I, P, O>(definition: {
   inputSchema: Schema<I>; parameterSchema: Schema<P>; outputSchema: Schema<O>;
   defaultInput: I; defaultParameters: P; calculate: (input: I, parameters: P) => O;
 }) { return definition; }
-const { id: _id, name: _name, family: _family, drops: _drops, ...combatFields } = EnemySchema.fields;
+const { id: _id, name: _name, family: _family, lootRolls: _lootRolls, ...combatFields } = EnemySchema.fields;
 export const formulaRegistry = {
   'creature.combat': defineFormula({
     title: 'Creature combat', description: 'One combat curve for creatures in every region.',
     source: { file: 'game/src/content/formulas/creature.ts', symbol: 'calculateCreatureCombat' }, profilesCollection: 'creatureProfiles',
     inputSchema: input, parameterSchema: CreatureProfileSchema, outputSchema: obj(combatFields),
-    defaultInput: { tier: 10 }, defaultParameters: {id:'example',name:'Example skirmisher',role:'skirmisher',healthPerLevel:8,healthBase:10,attackMultiplier:1,defenceMultiplier:1,accuracyPerLevel:1,armourPerLevel:0.5,magicArmourPerLevel:0.5,hitPerLevel:1,attackSpeedMs:2000,marksPerLevel:1} satisfies CreatureProfile,
+    defaultInput: { tier: 10 }, defaultParameters: {id:'example',name:'Example skirmisher',role:'skirmisher',healthPerLevel:8,healthBase:10,attackMultiplier:1,defenceMultiplier:1,accuracyPerLevel:1,armourPerLevel:0.5,magicArmourPerLevel:0.5,hitPerLevel:1,attackSpeedMs:2000,goldPerLevel:1} satisfies CreatureProfile,
     calculate: (input, parameters) => calculateCreatureCombat(input.tier, parameters),
   }),
   'equipment.linear': defineFormula({

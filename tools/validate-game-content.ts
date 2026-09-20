@@ -44,7 +44,7 @@ function validateContentTables(tables: ContentTables): string[] {
     requireItem(charge.orbItemId, `magic weapon ${item.id} Orb recipe`);
   }
   for (const enemy of tables.enemies) {
-    for (const drop of enemy.drops) requireItem(drop.itemId, `enemy ${enemy.id} drop`);
+    for (const drop of enemy.lootRolls.flatMap(roll => roll.drops)) requireItem(drop.itemId, `enemy ${enemy.id} drop`);
   }
   for (const shop of tables.shops) {
     for (const entry of shop.stock) requireItem(entry.itemId, `shop ${shop.id} stock`);

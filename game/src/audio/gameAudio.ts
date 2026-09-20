@@ -7,7 +7,7 @@ import type { CombatHit } from "../systems/combat.js";
 import { sameCombatRealm } from "../systems/combat.js";
 import { content } from "../content/index.js";
 import {
-  cueForActivity, cueForCreature, cueForMovement,
+  cueForActivity, cueForCreature, cueForLootedItem, cueForMovement,
   type ActivityAudioObservation, type AudioDirector, type FootstepSurface,
 } from "./director.js";
 import type { AudioEngine, PlayCueOptions } from "./engine.js";
@@ -163,11 +163,21 @@ export class CorealmAudioBridge implements TickSystem {
         }
         return;
       }
-      case "item.received":
-        if (stringField(data, "source") === "gather" && stringField(data, "skill") === "fishing") {
+      case "item.received": {
+        const source = stringField(data, "source");
+        if (source === "gather" && stringField(data, "skill") === "fishing") {
           this.deps.director.observeActivity({ kind: "gathering", skill: "fishing", phase: "completed" });
+          return;
+        }
+        // One sound per stack taken from a pile or a cache. Taking everything at once fires a burst
+        // of these in one tick; the cues' own minimum intervals collapse that into one knock and,
+        // when gold is in the pile, one ring.
+        const itemId = stringField(data, "itemId");
+        if (source === "loot" && itemId) {
+          this.play(cueForLootedItem(content.item(itemId)?.category === "currency"));
         }
         return;
+      }
       case "combat.started":
         if (stringField(data, "event") === "boss.slam") this.play("combat.special");
         return;

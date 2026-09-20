@@ -40,7 +40,7 @@ description: "Goose spawn locations, combat stats, and drops."
 
 
 <div class="codex-grid codex-grid--wide">
-<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">2-6 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Gold</span><span class="codex-card__meta">2-6 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
 <div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/goose_down.webp" alt="Goose Down" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/goose_down/">Goose Down</a></span><span class="codex-card__meta">1-3 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">75% chance</span></span></span></span></div>
 <div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/raw_game_meat.webp" alt="Raw Game Meat" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/raw_game_meat/">Raw Game Meat</a></span><span class="codex-card__meta">1 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">45% chance</span></span></span></span></div>
 </div>

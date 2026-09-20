@@ -21,7 +21,7 @@ import * as recipeBalance from "./balance/recipes.js";
 import { ENEMY_BALANCE } from "./enemyBalanceData.js";
 import { combatLevel } from "./balance/enemies.js";
 import type {
-  EquipSlot, ItemDef, ItemId, RecipeId, SkillId, SpellElement, SpellId, SpellRung, StationKind,
+  CompiledLootRoll, EquipSlot, ItemDef, ItemId, RecipeId, SkillId, SpellElement, SpellId, SpellRung, StationKind,
 } from "../contracts.js";
 
 // ---------------------------------------------------------------- resources
@@ -224,9 +224,9 @@ export interface EnemyDef {
   walkSpeedMps?: number;
   /** Behaviour selector. Bosses add phases on top. */
   behaviour: "passive" | "aggressive" | "territorial";
-  drops: { itemId: ItemId; quantity: [number, number]; chance: number; exclusiveGroup?: string }[];
+  lootRolls: CompiledLootRoll[];
   /** Currency drop range. */
-  marks?: [number, number];
+  gold?: [number, number];
 }
 
 // -------------------------------------------------------------------- shops

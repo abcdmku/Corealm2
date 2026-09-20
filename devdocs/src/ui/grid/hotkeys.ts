@@ -15,7 +15,6 @@ export interface Hotkey {
 
 export const HOTKEYS: readonly Hotkey[] = [
   { collection: "creatureDefinitions", key: "r", path: ["profileId"] },
-  { collection: "creatureDefinitions", key: "l", path: ["loot", "tableId"] },
   { collection: "creatureDefinitions", key: "g", path: ["presentation", "regionId"] },
   { collection: "creatureDefinitions", key: "a", path: ["availability"] },
   { collection: "items", key: "c", path: ["category"] },

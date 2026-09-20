@@ -72,7 +72,7 @@
       "args": [
         500
       ],
-      "label": "Give the player marks"
+      "label": "Give the player gold"
     },
     {
       "debug": "teleport",
@@ -99,7 +99,7 @@
     },
     {
       "inspect": "getState",
-      "label": "Marks before the sale"
+      "label": "Gold before the sale"
     },
     {
       "debug": "callTool",
@@ -119,7 +119,7 @@
     },
     {
       "inspect": "getState",
-      "label": "Marks went up, ore went out"
+      "label": "Gold went up, ore went out"
     },
     {
       "screenshot": "r3-shop"

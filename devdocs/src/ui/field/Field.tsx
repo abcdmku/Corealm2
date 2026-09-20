@@ -1,9 +1,9 @@
-import { useCallback, useId, useMemo, useState, type FocusEvent, type KeyboardEvent, type ReactNode } from "react";
+import { useCallback, useContext, useId, useMemo, useState, type FocusEvent, type KeyboardEvent, type ReactNode } from "react";
 import { Undo2 } from "lucide-react";
 import { describeChain, originState, revertTarget, type RecordRef, type Resolved } from "../../model/origin.js";
 import { Button } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
-import { ON_SHEET, ROW_COLUMNS, SheetLevel, useOnSheet } from "../Sheet.js";
+import { ON_SHEET, PairLevel, ROW_COLUMNS, SheetLevel, useOnSheet } from "../Sheet.js";
 import { FieldContext, type FieldContextValue, type LabelHandlers } from "./context.js";
 import { DOT_LEGEND, describeRevert, type DotState, type FieldPhase } from "./model.js";
 
@@ -15,8 +15,8 @@ import { DOT_LEGEND, describeRevert, type DotState, type FieldPhase } from "./mo
     label          [ 2400 ] ms   Inherited from Grazer
                    control       provenance in words, and the way back (under a control too wide for it)
 
-  In a `Fields` grid or a row cell there is no room for words: a dot and a revert glyph stand in,
-  and the sentence moves to the focus state and the dot's title.
+  In a `Fields` grid, a `FieldRows` line or a row cell there is no room for words: a dot and a
+  revert glyph stand in, and the sentence moves to the focus state and the dot's title.
 
   The wrapper owns the provenance, the revert, the hint shown while focused and
   the field-level keys (Backspace/Delete revert while focused but not editing). The control is
@@ -67,6 +67,9 @@ const PROVENANCE = new Set<DotState>(["overridden", "inherited"]);
 
 export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, expression, error, dirty, mixed, stale, compact = false, labelHidden = false, bare = false, span, disabled = false, className, children }: FieldProps<T>) {
   const onSheet = useOnSheet();
+  // In a `FieldRows` line: the usual label and control, with the dot standing in for the sentence.
+  const pair = useContext(PairLevel);
+  const terse = compact || Boolean(pair);
   const labelId = useId();
   const [focused, setFocused] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -90,13 +93,13 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
     const text = origin === "inherited" && head.text === "from " ? "Inherited from " : head.text.charAt(0).toUpperCase() + head.text.slice(1);
     return [{ ...head, text }, ...rest];
   }, [resolved, unit, origin, target]);
-  const worded = !compact && !bare;
+  const worded = !terse && !bare;
   const sentence = phrases.map(phrase => phrase.text).join("");
   const canRevert = Boolean(onRevert && target && !disabled);
 
   const context = useMemo<FieldContextValue>(() => ({
-    labelId, compact, disabled, setEditing, reportError: setControlError, setLabelHandlers, setScrubbing,
-  }), [labelId, compact, disabled]);
+    labelId, compact: terse, disabled, setEditing, reportError: setControlError, setLabelHandlers, setScrubbing,
+  }), [labelId, terse, disabled]);
 
   const onFocus = useCallback(() => setFocused(true), []);
   const onBlur = useCallback((event: FocusEvent<HTMLDivElement>) => {
@@ -107,7 +110,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
     if (event.key === "Backspace" || event.key === "Delete") { event.preventDefault(); onRevert?.(target.value); }
   };
 
-  const dotTitle = compact && sentence ? `${legendLabel(state)} · ${sentence}` : legendLabel(state);
+  const dotTitle = terse && sentence ? `${legendLabel(state)} · ${sentence}` : legendLabel(state);
   const origins = phrases.map((phrase, index) => phrase.ref
     ? (onOpenRef
       ? <button key={index} type="button" className="cursor-pointer text-link hover:underline" onClick={() => onOpenRef(phrase.ref!)}>{phrase.text}</button>
@@ -117,7 +120,7 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
   return <FieldContext.Provider value={context}>
     <div className={cn(
       "field group/field relative min-w-0",
-      bare ? "inline-flex min-w-0 items-center" : compact ? "flex flex-col gap-1" : cn("min-h-7 items-start py-px", onSheet ? ON_SHEET : ROW_COLUMNS),
+      bare ? "inline-flex min-w-0 items-center" : compact ? "flex flex-col gap-1" : pair ? "col-span-2 grid min-h-7 grid-cols-subgrid items-start py-px" : cn("min-h-7 items-start py-px", onSheet ? ON_SHEET : ROW_COLUMNS),
       span === 2 && "col-span-2", span === 3 && "col-span-3", span === 4 && "col-span-4",
       scrubbing && "cursor-ew-resize",
       // Unsaved: a bar in the gutter, outside the box, so it never moves the row.
@@ -128,12 +131,12 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
       <span className={cn(
         "field-label truncate select-none",
         labelHidden || bare ? "sr-only" : compact ? "text-[11px] leading-snug text-muted-foreground" : "block h-7 text-right text-xs leading-7 text-muted-foreground @max-[26rem]:h-auto @max-[26rem]:text-left @max-[26rem]:leading-normal",
-        disabled && "text-faint", state === "invalid" && "text-destructive",
+        pair === "rest" && "pl-4", disabled && "text-faint", state === "invalid" && "text-destructive",
       )} id={labelId} data-scrub={labelHandlers ? "true" : undefined}
         title={[typeof label === "string" ? label : undefined, hint, labelHandlers ? "Alt+drag to scrub" : undefined].filter(Boolean).join(" · ") || undefined} {...labelHandlers}>{label}</span>
       <SheetLevel.Provider value={false}>
         <div className={cn("field-body relative flex min-w-0 flex-col gap-0.5", bare && "flex-1")}>
-          <div className={cn("field-control flex min-h-7 min-w-0 items-center text-xs", compact ? "flex-nowrap gap-1" : "gap-1.5", worded && "flex-wrap gap-y-0.5")}>
+          <div className={cn("field-control flex min-h-7 min-w-0 items-center text-xs", terse ? "flex-nowrap gap-1" : "gap-1.5", worded && "flex-wrap gap-y-0.5")}>
             {children}
             {(!worded || !PROVENANCE.has(state) || !origins.length) && showDot(state) && <span className={cn("field-dot size-2 shrink-0 rounded-full", DOT[state])} data-state={state} title={dotTitle} aria-label={dotTitle} role="img" />}
             {canRevert && target && !worded && <Button variant="ghost" size="icon-xs" className="field-revert" tabIndex={-1} title={describeRevert(target, unit)} aria-label={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}><Undo2 /></Button>}
@@ -142,10 +145,10 @@ export function Field<T>({ label, hint, unit, resolved, onRevert, onOpenRef, exp
               {canRevert && target && <Button variant="link" size="inline" className="field-revert shrink-0 text-[11px] text-muted-foreground hover:text-foreground" tabIndex={-1} title={describeRevert(target, unit)} onClick={() => onRevert?.(target.value)}>Reset</Button>}
             </span>}
           </div>
-          {(compact || bare) && phase !== "idle" && origins.length > 0 && <span className={FLOAT}>{origins}</span>}
-          {shownError && <span className={cn("field-error text-[11px] leading-snug text-destructive", bare || compact ? "truncate" : "[overflow-wrap:anywhere]")} title={bare || compact ? shownError : undefined} role="alert">{shownError}</span>}
+          {(terse || bare) && phase !== "idle" && origins.length > 0 && <span className={FLOAT}>{origins}</span>}
+          {shownError && <span className={cn("field-error text-[11px] leading-snug text-destructive", bare || terse ? "truncate" : "[overflow-wrap:anywhere]")} title={bare || terse ? shownError : undefined} role="alert">{shownError}</span>}
           {/* Help and the curve's terms float under the control while it has focus; hovering the label shows the help too. */}
-          {!compact && !bare && phase !== "idle" && (hint || expression) && <span className={cn(FLOAT, "flex flex-wrap gap-x-2")}>
+          {!terse && !bare && phase !== "idle" && (hint || expression) && <span className={cn(FLOAT, "flex flex-wrap gap-x-2")}>
             {expression && <span className="font-mono">= {expression}</span>}
             {hint && <span>{hint}</span>}
           </span>}

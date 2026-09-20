@@ -29,14 +29,14 @@ describe("staged RPG bestiary contracts", () => {
   it("drops existing usable inventory items and valid currency amounts", () => {
     const ids = new Set(ALL_ITEMS.map(item => item.id));
     for (const row of RPG_BESTIARY) {
-      for (const drop of row.stats.drops) {
+      for (const drop of row.stats.lootRolls.flatMap(roll => roll.drops)) {
         expect(ids.has(drop.itemId), `${row.id}: ${drop.itemId}`).toBe(true);
         expect(drop.chance).toBeGreaterThan(0);
         expect(drop.chance).toBeLessThanOrEqual(1);
         expect(drop.quantity[1]).toBeGreaterThanOrEqual(drop.quantity[0]);
       }
-      expect(row.stats.marks![0]).toBeGreaterThan(0);
-      expect(row.stats.marks![1]).toBeGreaterThanOrEqual(row.stats.marks![0]);
+      expect(row.stats.gold![0]).toBeGreaterThan(0);
+      expect(row.stats.gold![1]).toBeGreaterThanOrEqual(row.stats.gold![0]);
       expect(row.respawnMs).toBe(30000);
       expect(row.attack.recoveryMs).toBeLessThan(row.stats.attackSpeedMs);
     }

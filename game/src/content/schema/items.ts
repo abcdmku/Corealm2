@@ -54,7 +54,7 @@ export const ItemSchema = obj({
   tier: int({ min: 0 }, { label: "Tier", step: 1, help: "Tier zero is used by starter gear." }),
   description: str({}, { label: "Description", multiline: true }),
   stackable: bool({ label: "Stackable" }),
-  value: int({ min: 0 }, { label: "Buy value", unit: "marks", step: 1 }),
+  value: int({ min: 0 }, { label: "Buy value", unit: "gold", step: 1 }),
   category: enumOf([
     "resource", "bar", "equipment", "food", "tool", "quest", "currency", "component",
   ] as const satisfies readonly ItemCategory[], { label: "Category" }),

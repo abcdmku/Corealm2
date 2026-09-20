@@ -58,7 +58,7 @@ describe("magic weapon recipes", () => {
       ...(tier.magic.basicStaff ? [tier.magic.basicStaff] : []),
     ]));
 
-    const enemyDrops = ENEMIES.flatMap((enemy) => enemy.drops.map((drop) => drop.itemId));
+    const enemyDrops = ENEMIES.flatMap((enemy) => enemy.lootRolls.flatMap(roll => roll.drops).map((drop) => drop.itemId));
     const shopStock = SHOPS.flatMap((shop) => shop.stock.map((stock) => stock.itemId));
     const questGrants = QUESTS.flatMap((quest) => [
       ...(quest.onStart?.items ?? []).map((item) => item.itemId),

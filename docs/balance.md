@@ -94,7 +94,7 @@ accuracy     = round(level * accuracyPerLevel)
 armour       = round(level * armourPerLevel)
 magicArmour  = round(level * magicArmourPerLevel)
 maxHit       = max(1, round(1 + level * hitPerLevel))
-marks        = [round(level * marksPerLevel), round(level * marksPerLevel * 2)]
+gold         = [round(level * goldPerLevel), round(level * goldPerLevel * 2)]
 ```
 
 The role also selects the default behavior, attack style, and attack range. A caster uses magic and

@@ -178,5 +178,5 @@ She is at the middle of Hillcrest. The handover takes the ore.
 | Magic XP | 700 |
 | Mining XP | 200 |
 | [Earth Essence](../../items/earth_essence/) | 25 |
-| Marks | 700 |
+| Gold | 700 |
 | Unlock | Vess stops calling the Cobalt "that" and starts calling it by its name. |

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import type { ItemModelAuthor } from '../contracts';
 
-const ids = ['marks','grithe_ore','march_stone','corven_ore','kaldite_ore','emberite_ore','kilnstone','cindervein_ore','nightglass_ore'] as const;
+const ids = ['gold','grithe_ore','march_stone','corven_ore','kaldite_ore','emberite_ore','kilnstone','cindervein_ore','nightglass_ore'] as const;
 const descriptions: Record<string,string> = {
-  marks:'Stamped Trade Company scrip. Every settlement between here and the moor takes it.',
+  gold:'Plain gold coins. Every shop and settlement takes them.',
   grithe_ore:'Grey ore, streaked rust-red. Smelts easily, which is the only nice thing about it.',
   march_stone:'Crumbly limestone from the Copper Pit. Every furnace on the frontier runs on it as flux.',
   corven_ore:'Dark deepwood ore. Heavier than it looks and slightly oily on the break.',
@@ -96,4 +96,4 @@ function coin(root:THREE.Group){
     const rim=add(face,'Rounded worn perimeter lip',new THREE.TorusGeometry(.036,.0011,8,128),gold);rim.position.z=.0026;
   }
 }
-export const author:ItemModelAuthor={ids,build(id){if(!ids.includes(id as typeof ids[number]))throw new Error('Unknown raw mineral '+id);const root=new THREE.Group();root.name=id;root.userData.itemModel={itemId:id,author:'minerals-raw',reference:`art/item-icons/generated/${id}.png`,description:descriptions[id]!};if(id==='marks')coin(root);else if(id==='march_stone'||id==='kilnstone')layered(root,id);else mineral(root,id);return root;}};
+export const author:ItemModelAuthor={ids,build(id){if(!ids.includes(id as typeof ids[number]))throw new Error('Unknown raw mineral '+id);const root=new THREE.Group();root.name=id;root.userData.itemModel={itemId:id,author:'minerals-raw',reference:`art/item-icons/generated/${id}.png`,description:descriptions[id]!};if(id==='gold')coin(root);else if(id==='march_stone'||id==='kilnstone')layered(root,id);else mineral(root,id);return root;}};

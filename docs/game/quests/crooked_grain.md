@@ -113,5 +113,5 @@ The handover takes the logs. He counts them; he counts everything from this stan
 | --- | --- |
 | Woodcutting XP | 420 |
 | [Iron Hatchet](../../items/corven_hatchet/) | 1 |
-| Marks | 400 |
+| Gold | 400 |
 | Unlock | Ansel will name the trees you are allowed to fell in the deep stand. |

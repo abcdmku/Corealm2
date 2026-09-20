@@ -153,7 +153,7 @@ describe("fire release", () => {
 describe("miniboss rewards", () => {
   it("guarantees Cinderwake's singleton Fire Orb", () => {
     const block = ENEMY_BLOCKS.find((row) => row.family === "cinderwake")!;
-    expect(block.drops.find((drop) => drop.itemId === "fire_orb")?.chance).toBe(1.0);
+    expect(block.lootRolls.flatMap(roll => roll.drops).find((drop) => drop.itemId === "fire_orb")?.chance).toBe(1.0);
   });
 });
 

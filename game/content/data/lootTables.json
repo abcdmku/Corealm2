@@ -2,3179 +2,2983 @@
   {
     "id": "shared_marsh_gland_raw_venison",
     "name": "Shared marsh gland raw venison",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "marsh_gland",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "marsh_gland",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.45
+          },
+          {
+            "itemId": "raw_venison",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "vell_amber",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          }
         ],
-        "chance": 0.45
-      },
-      {
-        "itemId": "raw_venison",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "vell_amber",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_bramble_hide_raw_venison",
     "name": "Shared bramble hide raw venison",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "bramble_hide",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.45
+          },
+          {
+            "itemId": "raw_venison",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "coney_foot",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.45
-      },
-      {
-        "itemId": "raw_venison",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.35
-      },
-      {
-        "itemId": "coney_foot",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_venom_gland_viper_skin",
     "name": "Shared venom gland viper skin",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "venom_gland",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "venom_gland",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "viper_skin",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "bramble_hide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.2
+          },
+          {
+            "itemId": "vell_amber",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.08
+          }
         ],
-        "chance": 0.35
-      },
-      {
-        "itemId": "viper_skin",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "bramble_hide",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.2
-      },
-      {
-        "itemId": "vell_amber",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.08
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_bramble_hide_corven_ore",
     "name": "Shared bramble hide corven ore",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "bramble_hide",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "bramble_hide",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "corven_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "corven_boots",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.03
+          }
         ],
-        "chance": 0.35
-      },
-      {
-        "itemId": "corven_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.15
-      },
-      {
-        "itemId": "corven_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.03
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_cairn_pelt_kaldite_ore",
     "name": "Shared cairn pelt kaldite ore",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "cairn_pelt",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "kaldite_ore",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "water_essence",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.2
+          },
+          {
+            "itemId": "kaldite_dagger",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.03
+          }
         ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "kaldite_ore",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "water_essence",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.2
-      },
-      {
-        "itemId": "kaldite_dagger",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.03
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_cairn_pelt_coyote_fang",
     "name": "Shared cairn pelt coyote fang",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "cairn_pelt",
-        "quantity": [
-          1,
-          1
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cairn_pelt",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "coyote_fang",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "raw_haunch",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.3
+          }
         ],
-        "chance": 0.35
+        "tables": []
       },
       {
-        "itemId": "coyote_fang",
-        "quantity": [
-          1,
-          3
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cragfin",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "cairn_garnet",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.06
+          }
         ],
-        "chance": 0.35
-      },
-      {
-        "itemId": "raw_haunch",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "cragfin",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "cairn_garnet",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.06
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_charhide_raw_ember_haunch",
     "name": "Shared charhide raw ember haunch",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "charhide",
-        "quantity": [
-          1,
-          1
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "charhide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.5
+          },
+          {
+            "itemId": "raw_ember_haunch",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.45
+          }
         ],
-        "chance": 0.5
+        "tables": []
       },
       {
-        "itemId": "raw_ember_haunch",
-        "quantity": [
-          1,
-          2
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "ashback_claw",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.28
+          },
+          {
+            "itemId": "emberite_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.18
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.08
+          }
         ],
-        "chance": 0.45
-      },
-      {
-        "itemId": "ashback_claw",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.28
-      },
-      {
-        "itemId": "emberite_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.18
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.08
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_charhide_raw_ember_haunch_2",
     "name": "Shared charhide raw ember haunch",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "charhide",
-        "quantity": [
-          1,
-          1
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "charhide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.45
+          },
+          {
+            "itemId": "raw_ember_haunch",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.4
+          }
         ],
-        "chance": 0.45
+        "tables": []
       },
       {
-        "itemId": "raw_ember_haunch",
-        "quantity": [
-          1,
-          2
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cinder_tusk",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "emberite_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.4
-      },
-      {
-        "itemId": "cinder_tusk",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "emberite_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_charhide_emberhorn",
     "name": "Shared charhide emberhorn",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "charhide",
-        "quantity": [
-          1,
-          2
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "charhide",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.5
+          },
+          {
+            "itemId": "emberhorn",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.28
+          }
         ],
-        "chance": 0.5
+        "tables": []
       },
       {
-        "itemId": "emberhorn",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_ember_haunch",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "cinderpine_log",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.1
+          }
         ],
-        "chance": 0.28
-      },
-      {
-        "itemId": "raw_ember_haunch",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.35
-      },
-      {
-        "itemId": "cinderpine_log",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.15
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.1
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_kiln_fang_venom_gland",
     "name": "Shared kiln fang venom gland",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "kiln_fang",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "kiln_fang",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "venom_gland",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "charhide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.2
+          },
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.12
+          }
         ],
-        "chance": 0.4
-      },
-      {
-        "itemId": "venom_gland",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "charhide",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.2
-      },
-      {
-        "itemId": "fire_essence",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.12
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_charhide_emberite_ore",
     "name": "Shared charhide emberite ore",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "charhide",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "charhide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "emberite_ore",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.2
+          },
+          {
+            "itemId": "emberite_boots",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.03
+          }
         ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "emberite_ore",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "fire_essence",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.2
-      },
-      {
-        "itemId": "emberite_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.03
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_venom_gland",
     "name": "Shared venom gland",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "venom_gland",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "venom_gland",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.65
+          }
         ],
-        "chance": 0.65
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_empty",
     "name": "Shared empty",
-    "drops": []
+    "rolls": []
   },
   {
     "id": "shared_earth_essence_earth_essence",
     "name": "Shared earth essence earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.25
+          }
         ],
-        "chance": 0.15
-      },
-      {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.25
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_earth_essence",
     "name": "Shared earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.4
+          }
         ],
-        "chance": 0.4
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_earth_essence_2",
     "name": "Shared earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.35
+          }
         ],
-        "chance": 0.35
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_fire_essence",
     "name": "Shared fire essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.35
+          }
         ],
-        "chance": 0.35
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_water_essence",
     "name": "Shared water essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "water_essence",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "water_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_earth_essence_3",
     "name": "Shared earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_water_essence_2",
     "name": "Shared water essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "water_essence",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "water_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_drake_scale_fire_essence",
     "name": "Shared drake scale fire essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "drake_scale",
-        "quantity": [
-          1,
-          2
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "drake_scale",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.85
+          }
         ],
-        "chance": 0.85
+        "tables": []
       },
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          2,
-          5
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              2,
+              5
+            ],
+            "chance": 0.65
+          }
         ],
-        "chance": 0.65
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_drake_scale_fire_essence_2",
     "name": "Shared drake scale fire essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "drake_scale",
-        "quantity": [
-          1,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "drake_scale",
+            "quantity": [
+              1,
+              4
+            ],
+            "chance": 0.85
+          }
         ],
-        "chance": 0.85
+        "tables": []
       },
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          2,
-          5
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              2,
+              5
+            ],
+            "chance": 0.65
+          }
         ],
-        "chance": 0.65
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_crownhide_air_essence",
     "name": "Shared crownhide air essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "crownhide",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "crownhide",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "air_essence",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "air_essence",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.18
+          }
         ],
-        "chance": 0.55
-      },
-      {
-        "itemId": "death_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.18
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_mistweave_earth_essence",
     "name": "Shared mistweave earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "mistweave",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "mistweave",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "chaos_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.18
+          },
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.14
+          }
         ],
-        "chance": 0.55
-      },
-      {
-        "itemId": "chaos_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.18
-      },
-      {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.14
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_faesilk_earth_essence",
     "name": "Shared faesilk earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "faesilk",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "faesilk",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.18
+          },
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.14
+          }
         ],
-        "chance": 0.55
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.18
-      },
-      {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.14
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_crownhide_drake_scale",
     "name": "Shared crownhide drake scale",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "crownhide",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "crownhide",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "drake_scale",
-        "quantity": [
-          1,
-          3
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.35
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          4,
-          8
+        "id": "guaranteed_drake_scale",
+        "name": "Guaranteed drake scale",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "drake_scale",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_fire_essence",
+        "name": "Guaranteed fire essence",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              4,
+              8
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 0.35
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_mistweave_earth_essence_2",
     "name": "Shared mistweave earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "mistweave",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "mistweave",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          3
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "chaos_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.18
+          },
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.14
+          }
         ],
-        "chance": 0.55
-      },
-      {
-        "itemId": "chaos_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.18
-      },
-      {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.14
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_faesilk_earth_essence_2",
     "name": "Shared faesilk earth essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "faesilk",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "faesilk",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "earth_essence",
-        "quantity": [
-          1,
-          3
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "earth_essence",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.18
+          },
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.14
+          }
         ],
-        "chance": 0.55
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.18
-      },
-      {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.14
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t10_guardian_earring_t10",
     "name": "Shared guardian ring t10 guardian earring t10",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t10",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t10",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t10",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t20_guardian_earring_t20",
     "name": "Shared guardian ring t20 guardian earring t20",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t20",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t20",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t20",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t20",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t50_guardian_earring_t50",
     "name": "Shared guardian ring t50 guardian earring t50",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t50",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t50",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t50",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t50",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t70_guardian_earring_t70",
     "name": "Shared guardian ring t70 guardian earring t70",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t70",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t70",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t70",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t70",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t40_guardian_earring_t40",
     "name": "Shared guardian ring t40 guardian earring t40",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t40",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t40",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t40",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t40",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t30_guardian_earring_t30",
     "name": "Shared guardian ring t30 guardian earring t30",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t30",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t30",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t30",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t30",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_guardian_ring_t60_guardian_earring_t60",
     "name": "Shared guardian ring t60 guardian earring t60",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "guardian_ring_t60",
-        "quantity": [
-          1,
-          1
+        "id": "jewelry",
+        "name": "Jewelry",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "guardian_ring_t60",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "guardian_earring_t60",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
-      },
-      {
-        "itemId": "guardian_earring_t60",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.15,
-        "exclusiveGroup": "jewelry"
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_air_essence",
     "name": "Shared air essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "air_essence",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "air_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_fire_essence_2",
     "name": "Shared fire essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.45
+          }
         ],
-        "chance": 0.45
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_fire_essence_3",
     "name": "Shared fire essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_fire_essence_4",
     "name": "Shared fire essence",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "fire_essence",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fire_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.15
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_dragonhide_cosmic_rune",
     "name": "Shared dragonhide cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "dragonhide",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_dragonhide",
+        "name": "Guaranteed dragonhide",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "dragonhide",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "mind_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "mind_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "chaos_rune",
+            "quantity": [
+              2,
+              3
+            ],
+            "chance": 0.28
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          }
         ],
-        "chance": 0.4
-      },
-      {
-        "itemId": "chaos_rune",
-        "quantity": [
-          2,
-          3
-        ],
-        "chance": 0.28
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_starhide_cosmic_rune",
     "name": "Shared starhide cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "starhide",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_starhide",
+        "name": "Guaranteed starhide",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "starhide",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.32
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.22
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "wrath_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          }
         ],
-        "chance": 0.32
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "wrath_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_grave_thread_cosmic_rune",
     "name": "Shared grave thread cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "grave_thread",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_grave_thread",
+        "name": "Guaranteed grave thread",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "grave_thread",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "mind_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "mind_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "chaos_rune",
+            "quantity": [
+              2,
+              3
+            ],
+            "chance": 0.28
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          }
         ],
-        "chance": 0.4
-      },
-      {
-        "itemId": "chaos_rune",
-        "quantity": [
-          2,
-          3
-        ],
-        "chance": 0.28
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_void_thread_cosmic_rune",
     "name": "Shared void thread cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "void_thread",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_void_thread",
+        "name": "Guaranteed void thread",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "void_thread",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.32
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.22
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "wrath_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          }
         ],
-        "chance": 0.32
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "wrath_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_astral_core_cosmic_rune",
     "name": "Shared astral core cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "astral_core",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_astral_core",
+        "name": "Guaranteed astral core",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "astral_core",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.32
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.22
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "wrath_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "nightglass_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          }
         ],
-        "chance": 0.32
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "wrath_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "nightglass_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_molten_heart_cosmic_rune",
     "name": "Shared molten heart cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "molten_heart",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_molten_heart",
+        "name": "Guaranteed molten heart",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "molten_heart",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "mind_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "mind_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "chaos_rune",
+            "quantity": [
+              2,
+              3
+            ],
+            "chance": 0.28
+          },
+          {
+            "itemId": "cindervein_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          }
         ],
-        "chance": 0.4
-      },
-      {
-        "itemId": "chaos_rune",
-        "quantity": [
-          2,
-          3
-        ],
-        "chance": 0.28
-      },
-      {
-        "itemId": "cindervein_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_void_thread_cosmic_rune_2",
     "name": "Shared void thread cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "void_thread",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_void_thread",
+        "name": "Guaranteed void thread",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "void_thread",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.32
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.22
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "wrath_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          },
+          {
+            "itemId": "chainbound_link",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.12
+          }
         ],
-        "chance": 0.32
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "wrath_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
-      },
-      {
-        "itemId": "chainbound_link",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.12
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_void_thread_cosmic_rune_3",
     "name": "Shared void thread cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "void_thread",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_void_thread",
+        "name": "Guaranteed void thread",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "void_thread",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.32
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.22
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "wrath_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          },
+          {
+            "itemId": "nightforge_seal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.12
+          }
         ],
-        "chance": 0.32
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "wrath_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
-      },
-      {
-        "itemId": "nightforge_seal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.12
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_void_thread_cosmic_rune_4",
     "name": "Shared void thread cosmic rune",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "void_thread",
-        "quantity": [
-          1,
-          3
+        "id": "guaranteed_void_thread",
+        "name": "Guaranteed void thread",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "void_thread",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 1
+          }
         ],
-        "chance": 1
+        "tables": []
       },
       {
-        "itemId": "cosmic_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "cosmic_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "death_rune",
+            "quantity": [
+              2,
+              4
+            ],
+            "chance": 0.32
+          },
+          {
+            "itemId": "blood_rune",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.22
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "death_rune",
-        "quantity": [
-          2,
-          4
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "wrath_rune",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "fire_opal",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.04
+          },
+          {
+            "itemId": "hollow_star_fragment",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.12
+          }
         ],
-        "chance": 0.32
-      },
-      {
-        "itemId": "blood_rune",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "wrath_rune",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "fire_opal",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.04
-      },
-      {
-        "itemId": "hollow_star_fragment",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.12
+        "tables": []
       }
     ]
   },
   {
     "id": "shared_t0_red_worm",
     "name": "Red Worm starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "march_stone",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "march_stone",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "grithe_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "pale_quartz",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.02
+          }
         ],
-        "chance": 0.45
+        "tables": []
       },
       {
-        "itemId": "grithe_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "pale_quartz",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.06
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_granary_rat",
     "name": "Granary Rat starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "rat_tail",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "rat_tail",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.65
+          }
         ],
-        "chance": 0.65
+        "tables": []
       },
       {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_cattle",
     "name": "Cow starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "coarse_hide",
-        "quantity": [
-          1,
-          2
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.6
+          }
         ],
-        "chance": 0.6
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          3
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.5
+          },
+          {
+            "itemId": "ox_horn",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.2
+          },
+          {
+            "itemId": "march_stone",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.15
+          }
         ],
-        "chance": 0.5
+        "tables": []
       },
       {
-        "itemId": "ox_horn",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.2
-      },
-      {
-        "itemId": "march_stone",
-        "quantity": [
-          1,
-          3
-        ],
-        "chance": 0.15
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_hen",
     "name": "Hen starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "hen_feather",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "hen_feather",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.35
+          }
         ],
-        "chance": 0.55
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "hen_egg",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          }
         ],
-        "chance": 0.35
+        "tables": []
       },
       {
-        "itemId": "hen_egg",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_coney",
     "name": "Rabbit starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "coarse_hide",
-        "quantity": [
-          1,
-          1
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.5
+          },
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.45
+          }
         ],
-        "chance": 0.5
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "coney_foot",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.12
+          }
         ],
-        "chance": 0.45
+        "tables": []
       },
       {
-        "itemId": "coney_foot",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.12
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_reaver",
     "name": "Reaver starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "coarse_hide",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.35
+          },
+          {
+            "itemId": "grithe_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.25
+          },
+          {
+            "itemId": "air_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.1
+          },
+          {
+            "itemId": "grithe_helm",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.03
+          }
         ],
-        "chance": 0.35
+        "tables": []
       },
       {
-        "itemId": "grithe_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "air_essence",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.1
-      },
-      {
-        "itemId": "grithe_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.03
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_fox",
     "name": "Fox starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "fox_guardhair",
-        "quantity": [
-          1,
-          2
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fox_guardhair",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.65
+          },
+          {
+            "itemId": "coarse_hide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.35
+          }
         ],
-        "chance": 0.65
+        "tables": []
       },
       {
-        "itemId": "coarse_hide",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.3
+          }
         ],
-        "chance": 0.35
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_gloam_fox",
     "name": "Gloam Fox starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "fox_guardhair",
-        "quantity": [
-          1,
-          2
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "fox_guardhair",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.65
+          },
+          {
+            "itemId": "coarse_hide",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.35
+          }
         ],
-        "chance": 0.65
+        "tables": []
       },
       {
-        "itemId": "coarse_hide",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "air_essence",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.25
+          }
         ],
-        "chance": 0.35
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "air_essence",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.25
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_frog",
     "name": "Frog starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.4
+          },
+          {
+            "itemId": "marsh_gland",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.3
+          },
+          {
+            "itemId": "march_stone",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.2
+          },
+          {
+            "itemId": "pale_quartz",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.06
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "marsh_gland",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.3
-      },
-      {
-        "itemId": "march_stone",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.2
-      },
-      {
-        "itemId": "pale_quartz",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.06
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_turkey",
     "name": "Turkey starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "turkey_tailfeather",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "turkey_tailfeather",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.45
+          }
         ],
-        "chance": 0.45
+        "tables": []
       },
       {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_goose",
     "name": "Goose starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "goose_down",
-        "quantity": [
-          1,
-          3
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "goose_down",
+            "quantity": [
+              1,
+              3
+            ],
+            "chance": 0.75
+          }
         ],
-        "chance": 0.75
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          1
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.45
+          }
         ],
-        "chance": 0.45
+        "tables": []
       },
       {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_goat",
     "name": "Goat starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "coarse_hide",
-        "quantity": [
-          1,
-          2
+        "id": "items_1",
+        "name": "Items 1",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "coarse_hide",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.55
+          },
+          {
+            "itemId": "raw_game_meat",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.4
+          }
         ],
-        "chance": 0.55
+        "tables": []
       },
       {
-        "itemId": "raw_game_meat",
-        "quantity": [
-          1,
-          2
+        "id": "items_2",
+        "name": "Items 2",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "curl_horn",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.22
+          },
+          {
+            "itemId": "grithe_ore",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.15
+          },
+          {
+            "itemId": "grithe_dagger",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.02
+          }
         ],
-        "chance": 0.4
+        "tables": []
       },
       {
-        "itemId": "curl_horn",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.22
-      },
-      {
-        "itemId": "grithe_ore",
-        "quantity": [
-          1,
-          2
-        ],
-        "chance": 0.15
-      },
-      {
-        "itemId": "grithe_dagger",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
       }
     ]
   },
   {
     "id": "shared_t0_creek_crab",
     "name": "Creek Crab starter drops",
-    "drops": [
+    "rolls": [
       {
-        "itemId": "crab_claw",
-        "quantity": [
-          1,
-          2
+        "id": "items",
+        "name": "Items",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "crab_claw",
+            "quantity": [
+              1,
+              2
+            ],
+            "chance": 0.65
+          }
         ],
-        "chance": 0.65
+        "tables": []
       },
       {
-        "itemId": "worn_helm",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
+        "id": "starter_gear",
+        "name": "Starter gear",
+        "count": 1,
+        "drops": [],
+        "tables": [
+          {
+            "tableId": "starter_gear",
+            "rollId": "gear"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "starter_gear",
+    "name": "Starter gear",
+    "rolls": [
       {
-        "itemId": "worn_cuirass",
-        "quantity": [
-          1,
-          1
+        "id": "gear",
+        "name": "Gear",
+        "count": 1,
+        "drops": [
+          {
+            "itemId": "worn_helm",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_cuirass",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_greaves",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_gloves",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_boots",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_hide_hood",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_hide_robe",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_hide_leggings",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_hide_wraps",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "worn_hide_boots",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.05
+          },
+          {
+            "itemId": "crafted_ring_t10",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.02
+          },
+          {
+            "itemId": "crafted_earring_t10",
+            "quantity": [
+              1,
+              1
+            ],
+            "chance": 0.02
+          }
         ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_greaves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_gloves",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_hood",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_robe",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_leggings",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_wraps",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "worn_hide_boots",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.05
-      },
-      {
-        "itemId": "crafted_ring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
-      },
-      {
-        "itemId": "crafted_earring_t10",
-        "quantity": [
-          1,
-          1
-        ],
-        "chance": 0.02
+        "tables": []
       }
     ]
   }

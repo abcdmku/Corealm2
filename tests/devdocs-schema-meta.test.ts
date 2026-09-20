@@ -116,11 +116,11 @@ describe("schema relationship and list metadata", () => {
     expect(fieldPath(RecipeRecordSchema, ["inputs"])?.ordered).toBeUndefined();
   });
 
-  it("tells a weighted list apart from a list of independent probabilities", () => {
+  it("tells a weighted list apart from a list of per-roll probabilities", () => {
     expect(fieldPath(EncounterDefinitionSchema, ["members"])).toMatchObject({ weight: "weight", role: "Spawns as" });
     expect(fieldPath(EncounterDefinitionSchema, ["members"])?.probability).toBeUndefined();
-    expect(fieldPath(LootTableSchema, ["drops"])).toMatchObject({ probability: "chance", role: "Dropped by" });
-    expect(fieldPath(LootTableSchema, ["drops"])?.weight).toBeUndefined();
+    expect(fieldPath(LootTableSchema, ["rolls", 0, "drops"])).toMatchObject({ probability: "chance", role: "Dropped by" });
+    expect(fieldPath(LootTableSchema, ["rolls", 0, "drops"])?.weight).toBeUndefined();
   });
 
   it("groups the small numbers a sheet draws as one grid", () => {
@@ -142,11 +142,9 @@ describe("addressing a real schema by path", () => {
     expect(fieldPath(shopSchema, ["stock"])).toMatchObject({ kind: "array", label: "Stock", role: "Sold at" });
   });
 
-  it("follows a union once the value says which member is in play", () => {
-    const table = { id: "a", availability: "world", loot: { tableId: "goblin_drops" } };
-    expect(fieldPath(CreatureDefinitionSchema, ["loot", "tableId"], table)).toMatchObject({ ref: "lootTable", role: "Rolled by" });
-    const own = { id: "a", availability: "world", loot: { drops: [{ itemId: "bone", quantity: [1, 1], chance: 1 }] } };
-    expect(fieldPath(CreatureDefinitionSchema, ["loot", "drops", 0, "itemId"], own)).toMatchObject({ ref: "item", role: "Dropped by" });
+  it("finds item and table references inside explicit rolls", () => {
+    expect(fieldPath(CreatureDefinitionSchema, ["loot", "rolls", 0, "tables", 0, "tableId"])).toMatchObject({ ref: "lootTable", role: "Rolled by" });
+    expect(fieldPath(CreatureDefinitionSchema, ["loot", "rolls", 0, "drops", 0, "itemId"])).toMatchObject({ ref: "item", role: "Dropped by" });
   });
 
   it("returns undefined instead of guessing at a path the schema does not have", () => {

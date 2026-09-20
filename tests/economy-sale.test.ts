@@ -148,7 +148,7 @@ describe("shop trade interaction", () => {
 });
 
 describe("shop sale quotes and receipts", () => {
-  it("quotes non-stock ore at 7 marks and pays that rounded unit price for every item sold", () => {
+  it("quotes non-stock ore at 7 gold and pays that rounded unit price for every item sold", () => {
     const fixture = runtime();
     expect(fixture.inventory.addItem("grithe_ore", 8)).toEqual({ ok: true, value: 8 });
     fixture.events.flush();
@@ -167,7 +167,7 @@ describe("shop sale quotes and receipts", () => {
 
     fixture.events.flush();
     expect(fixture.events.since(cursor, ["item.received"]).events).toEqual([
-      expect.objectContaining({ data: { itemId: "marks", name: "marks", quantity: 35 } }),
+      expect.objectContaining({ data: { itemId: "gold", name: "gold", quantity: 35 } }),
     ]);
     expect(fixture.events.since(cursor, ["item.lost"]).events).toEqual([
       expect.objectContaining({ data: { itemId: "grithe_ore", name: "Copper Ore", quantity: 5 } }),

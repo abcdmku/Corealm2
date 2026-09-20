@@ -208,7 +208,7 @@ export function conditionText(condition: ContentRow, ctx: SummaryContext): strin
     case "skill": return `${titleCase(text(condition.skill) ?? "?")} ${String(condition.level ?? "?")}`;
     case "item": return `carrying ${String(condition.quantity ?? 1)} × ${nameOf(ctx, "item", text(condition.itemId))}`;
     case "lacksItem": return `fewer than ${String(condition.quantity ?? 1)} × ${nameOf(ctx, "item", text(condition.itemId))}`;
-    case "currency": return `${String(condition.amount ?? 0)} marks`;
+    case "currency": return `${String(condition.amount ?? 0)} gold`;
     default: return text(condition.kind) ?? "condition";
   }
 }
@@ -228,7 +228,7 @@ export function effectText(effect: ContentRow, ctx: SummaryContext): string {
     case "giveItem": return `give ${String(effect.quantity ?? 1)} × ${nameOf(ctx, "item", text(effect.itemId))}`;
     case "takeItem": return `take ${String(effect.quantity ?? 1)} × ${nameOf(ctx, "item", text(effect.itemId))}`;
     case "grantXp": return `+${String(effect.amount ?? 0)} ${text(effect.skill) ?? "?"} xp`;
-    case "grantCurrency": return `+${String(effect.amount ?? 0)} marks`;
+    case "grantCurrency": return `+${String(effect.amount ?? 0)} gold`;
     default: return text(effect.kind) ?? "effect";
   }
 }

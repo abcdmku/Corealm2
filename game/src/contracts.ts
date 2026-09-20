@@ -10,6 +10,20 @@
 
 // ---------------------------------------------------------------- primitives
 
+/** A roll selects at most one stack. Unallocated probability means no item. */
+export interface LootDrop { itemId: string; quantity: [number, number]; chance: number }
+export interface LootRoll {
+  id: string;
+  name: string;
+  count: number;
+  drops: LootDrop[];
+  /** Pools merged into this roll; their own counts are not executed. */
+  tables: { tableId: string; rollId: string }[];
+}
+export interface LootPlan { rolls: LootRoll[] }
+/** Table references are resolved and validated before combat starts. */
+export interface CompiledLootRoll { id: string; name: string; count: number; drops: LootDrop[] }
+
 // Multiplayer protocol v3. Root owns this boundary and all changes to its callers.
 export const WORLD_PROTOCOL_VERSION = 3;
 export const WORLD_CONTENT_VERSION = "corealm-pve-1";
@@ -262,7 +276,8 @@ export const AUDIO_CUE_IDS = [
   "combat.magic_cast", "combat.magic_hit", "combat.special",
   "combat.player_hit", "combat.enemy_death", "combat.player_death",
   "interaction.door_open", "interaction.portal", "interaction.climb",
-  "interaction.vault", "interaction.loot", "interaction.equip", "interaction.consume",
+  "interaction.vault", "interaction.loot", "interaction.loot_item", "interaction.loot_coins",
+  "interaction.equip", "interaction.consume",
   "interaction.bank", "interaction.trade", "interaction.dialogue_open",
   "interaction.dialogue_close", "interaction.activity_stop",
   // Animal voices, one per VOICE rather than per family, because several families share a throat:
@@ -876,7 +891,7 @@ export interface GameEventPayloads {
   "inventory.full": { itemId?: ItemId; name?: string; attempted?: number; added?: number; recipeId?: RecipeId };
   "item.received": {
     itemId?: ItemId; name?: string; quantity?: number; source?: string; skill?: SkillId; from?: EntityId;
-    sourceName?: string; currency?: number; pileId?: EntityId; items?: ItemStack[];
+    sourceName?: string; pileId?: EntityId; items?: ItemStack[];
   };
   "item.lost": { itemId?: ItemId; name?: string; quantity?: number; reason?: string; cacheId?: EntityId; items?: ItemStack[] };
   "item.equipped": { itemId: ItemId; name: string; slot: EquipSlot; replaced: ItemId | null };

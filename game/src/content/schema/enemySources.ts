@@ -4,8 +4,8 @@ const positive = () => num({ exclusiveMin: 0 });
 const nonnegative = () => num({ min: 0 });
 const positiveInt = () => int({ min: 1 });
 const nonempty = () => str({ nonEmpty: true });
-const marks = () => refine(tuple<[Schema<number>, Schema<number>]>([int({ min: 0 }), int({ min: 0 })]),
-  ([low, high]) => low <= high, 'marks minimum must not exceed maximum');
+const gold = () => refine(tuple<[Schema<number>, Schema<number>]>([int({ min: 0 }), int({ min: 0 })]),
+  ([low, high]) => low <= high, 'gold minimum must not exceed maximum');
 const behaviour = () => enumOf(['passive', 'aggressive', 'territorial'] as const);
 export const RPG_BODY_FAMILIES = ['goblin', 'orc', 'skeleton', 'zombie', 'wraith', 'golem', 'harpy',
   'gargoyle', 'gnoll', 'lizardman', 'minotaur', 'demon', 'spider', 'wasp', 'forest_creature',
@@ -60,17 +60,17 @@ export const RpgParamsSchema = refine(obj({
   attackRangeM: obj({ melee: positive(), ranged: positive(), magic: positive() }),
   rangedActions: uniqueStrings(nonempty()), magicActions: uniqueStrings(nonempty()),
   territorialFamilies: uniqueStrings(enumOf(RPG_BODY_FAMILIES)), walkSpeedMps: positive(),
-  marksMinimum: marks(), marksPerTier: marks(),
+  goldMinimum: gold(), goldPerTier: gold(),
 }), p => Object.values(p.roles).every(role => (p.healthBase + p.healthPerTier) * role.healthMultiplier >= .5),
 'every RPG role must round to positive health at tier 1');
 export const StarterParamsSchema = obj({
   tier: positiveInt(), attackLevel: positiveInt(), defenceLevel: positiveInt(), accuracy: int({ min: 0 }),
   magicArmour: int({ min: 0 }), maxHit: positiveInt(), attackSpeedMs: positiveInt(),
   aggroRadius: obj({ aggressive: nonnegative(), other: nonnegative() }),
-  walkSpeedCap: positive(), walkSpeedDivisor: positive(), marks: marks(),
+  walkSpeedCap: positive(), walkSpeedDivisor: positive(), gold: gold(),
 });
 export const SourceParamsSchema = obj({
-  expansion: obj({ marksPerTier: marks() }), starter: StarterParamsSchema, rpg: RpgParamsSchema,
+  expansion: obj({ goldPerTier: gold() }), starter: StarterParamsSchema, rpg: RpgParamsSchema,
 });
 
 export type ExpansionSourceInput = Infer<typeof ExpansionSourceInputSchema>;

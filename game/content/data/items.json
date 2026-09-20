@@ -90,10 +90,10 @@
     "category": "food"
   },
   {
-    "id": "marks",
-    "name": "Marks",
+    "id": "gold",
+    "name": "Gold",
     "tier": 1,
-    "description": "Stamped Trade Company scrip. Every settlement between here and the moor takes it.",
+    "description": "Plain gold coins. Every shop and settlement takes them.",
     "stackable": true,
     "value": 1,
     "category": "currency"
@@ -870,7 +870,7 @@
     "id": "burnt_cragfin",
     "name": "Burnt Perch",
     "tier": 10,
-    "description": "Ninety-six marks of fish, ruined. Hillcrest has opinions about this.",
+    "description": "Ninety-six gold of fish, ruined. Hillcrest has opinions about this.",
     "stackable": false,
     "value": 1,
     "category": "food"

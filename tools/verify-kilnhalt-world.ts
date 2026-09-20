@@ -288,18 +288,18 @@ function playthroughSource(): string {
         + " (travel " + went + ")" + (dep.error ? " deposit refused: " + dep.error + " " + (dep.message || "") : ""));
     }
 
-    // Shop sanity: buy Fire Essence at Emberfast Provisioners. Marks are setup.
+    // Shop sanity: buy Fire Essence at Emberfast Provisioners. Gold is setup.
     {
       dbg.setCurrency(50000);
       const went = await travel({ entityId: "emberfast_general" }, 30000);
       const before = await count("fire_essence");
-      const marksBefore = (await agent.call("corealm_inventory")).currency;
+      const goldBefore = (await agent.call("corealm_inventory")).currency;
       const buy = await agent.call("corealm_shop",
         { op: "buy", shopId: "emberfast_general", itemId: "fire_essence", quantity: 5 });
       const after = await count("fire_essence");
-      const marksAfter = (await agent.call("corealm_inventory")).currency;
-      note("shop-buy-essence", !buy.error && after - before === 5 && marksAfter < marksBefore,
-        "fire_essence " + before + " -> " + after + ", marks " + marksBefore + " -> " + marksAfter
+      const goldAfter = (await agent.call("corealm_inventory")).currency;
+      note("shop-buy-essence", !buy.error && after - before === 5 && goldAfter < goldBefore,
+        "fire_essence " + before + " -> " + after + ", gold " + goldBefore + " -> " + goldAfter
         + " (travel " + went + ")" + (buy.error ? " buy refused: " + buy.error + " " + (buy.message || "") : ""));
     }
   }
@@ -662,7 +662,7 @@ const CLAIMS: Record<string, string> = {
   "craft-charhide-robe": "The Emberfast crafting table crafts charhide_robe from 3 charhide",
   "fletch-cinderpine-staff": "The Emberfast fletching bench fletches cinderpine_staff from 3 shafts",
   "bank-deposit": "The Emberfast bank accepts a deposit",
-  "shop-buy-essence": "Emberfast Provisioners sells fire_essence for marks",
+  "shop-buy-essence": "Emberfast Provisioners sells fire_essence for gold",
   "armour-magic": "The tier-20 magic style (charhide + cinder accessories) equips and fills its slots",
   "armour-melee": "The full melee_t20 kit equips and fills all nine slots",
   "cinderwake-kill": "Cinderwake (260 HP, territorial) dies to a real fight through the agent surface",

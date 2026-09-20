@@ -1,3 +1,4 @@
+import { lootRollPreview } from '../model/loot.js';
 import { Suspense, useMemo, useState } from "react";
 import { lazyComponent } from "../workspaces/lazyView.js";
 import { ArrowRight, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
@@ -66,7 +67,7 @@ export function ModelStage({ source, label, className, largeClassName = "aspect-
 
 function domainHandledPaths(base: string): RegExp | undefined {
   switch (base) {
-    case "lootTables": return /^drops\[/;
+    case "lootTables": return /^rolls\[/;
     case "creatureDefinitions": return /^(loot\.|baseId|profileId|presentation\.assetId)/;
     case "recipes": return /^(inputs\[|output\.|burntItemId)/;
     case "equipmentSets": return /^members\./;
@@ -77,7 +78,7 @@ function domainHandledPaths(base: string): RegExp | undefined {
     case "npcs": return /^(dialogueRootId|questIds)/;
     case "dialogue": return /^options\[/;
     case "spells": return /^cost\./;
-    case "enemies": case "species": return /^(drops\[|stats\.drops)/;
+    case "enemies": case "species": return /^(lootRolls\[|stats\.lootRolls)/;
     default: return undefined;
   }
 }
@@ -106,12 +107,11 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
   const itemCollection = refTargetCollection("item", index.available) ?? "items";
   const creatureCollection = refTargetCollection("enemy", index.available) ?? "creatureDefinitions";
   switch (collection) {
-    case "lootTables": return <DropsBlock drops={list(record.drops)} ctx={ctx} itemCollection={itemCollection} open={open} title="Drops" />;
-    case "enemies": case "species": return <DropsBlock drops={list(record.drops).length ? list(record.drops) : list(asRecord(record.stats).drops)} ctx={ctx} itemCollection={itemCollection} open={open} title="Drops" />;
+    case "lootTables": return <LootBlocks plan={record} ctx={ctx} itemCollection={itemCollection} open={open} />;
+    case "enemies": case "species": return <LootBlocks plan={{ rolls: record.lootRolls ?? asRecord(record.stats).lootRolls }} ctx={ctx} itemCollection={itemCollection} open={open} />;
     case "creatureDefinitions": {
-      const loot = asRecord(record.loot);
-      const tableId = text(loot.tableId);
-      const table = tableId ? ctx.lookup("lootTable", tableId) : undefined;
+      const base = text(record.baseId) ? ctx.lookup("enemy", String(record.baseId)) : undefined;
+      const loot = record.loot ?? base?.loot;
       const encounters = incoming.filter(reference => reference.collection === "encounters");
       const placements = encounters.flatMap(encounter => incomingReferences(index, "encounters", encounter.recordId).filter(reference => reference.collection === "placements"));
       return <>
@@ -121,7 +121,7 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
           {text(asRecord(record.presentation).assetId) && <RefChip collection="assets" id={asRecord(record.presentation).assetId as string} record={ctx.lookup("asset", asRecord(record.presentation).assetId as string)} ctx={ctx} onOpen={open} detail="model" />}
           {!text(record.profileId) && !text(record.baseId) && <span className={EMPTY}>No profile or base creature.</span>}
         </div></div>
-        <DropsBlock drops={list(loot.drops).length ? list(loot.drops) : list(table?.drops)} ctx={ctx} itemCollection={itemCollection} open={open} title={tableId ? "Drops" : "Inline drops"} action={tableId ? <Button variant="link" size="inline" onClick={() => open("lootTables", tableId)}>{table ? rowName(table) : tableId} <ArrowRight size={12} /></Button> : undefined} />
+        <LootBlocks plan={loot} ctx={ctx} itemCollection={itemCollection} open={open} />
         <div className={BLOCK}><h3>Spawns<small>{placements.length} placements</small></h3>
           {placements.length ? <div className="flex flex-col gap-0.5">{placements.slice(0, 12).map(placement => <RefRow key={`${placement.recordId}:${placement.path}`} collection="placements" id={placement.recordId} record={placement.record} ctx={ctx} onOpen={open} meta={<span>{titleCase(text(placement.record.regionId) ?? "")}</span>} />)}{placements.length > 12 && <span className={EMPTY}>{placements.length - 12} more on the map.</span>}</div>
             : encounters.length ? <div className="flex flex-wrap gap-1">{encounters.map(encounter => <RefChip key={encounter.recordId} collection="encounters" id={encounter.recordId} record={encounter.record} ctx={ctx} onOpen={open} />)}</div>
@@ -224,6 +224,11 @@ function DomainBlocks({ collection, record, recordId, ctx, index, incoming, open
   }
 }
 
+function LootBlocks({ plan, ctx, itemCollection, open }: { plan: unknown; ctx: SummaryContext; itemCollection: string; open: (collection: string, id: string) => void }) {
+  const rolls = lootRollPreview(plan, id => ctx.lookup("lootTable", id));
+  return <>{rolls.map(roll => <DropsBlock key={roll.id} drops={roll.drops} ctx={ctx} itemCollection={itemCollection} open={open} title={`${roll.name}: ${roll.count} rolls, chances per roll`} />)}</>;
+}
+
 function DropsBlock({ drops, ctx, itemCollection, open, title, action }: { drops: unknown[]; ctx: SummaryContext; itemCollection: string; open: (collection: string, id: string) => void; title: string; action?: React.ReactNode }) {
   const rows = drops.map(asRecord);
   return <div className={BLOCK}><h3>{title}<small>{rows.length}</small>{action}</h3>
@@ -234,7 +239,6 @@ function DropsBlock({ drops, ctx, itemCollection, open, title, action }: { drops
         <Thumb spec={{ kind: "item", id: itemId }} size="l" />
         <span className="w-full truncate text-xs leading-tight font-medium">{rowName(ctx.lookup("item", itemId) ?? { id: itemId })}</span>
         <span className="flex items-center gap-[5px] font-mono text-[11px] text-muted-foreground"><span>×{rangeText(drop.quantity) || "1"}</span>{chance !== undefined && <span className="rounded-sm px-1 text-foreground" style={{ background: `linear-gradient(90deg, var(--accent-soft) ${chance * 100}%, transparent 0)` }}>{percent(chance)}</span>}</span>
-        {text(drop.exclusiveGroup) && <Badge variant="info" className="absolute top-1 right-1 h-[15px] px-1 text-[11px]">{drop.exclusiveGroup as string}</Badge>}
       </button>;
     })}</div> : <span className={EMPTY}>No drops.</span>}
   </div>;

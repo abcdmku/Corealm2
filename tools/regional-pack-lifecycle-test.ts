@@ -428,13 +428,13 @@ async function main(): Promise<void> {
     const deadAt = Date.now();
     const corpse = dead.entities.find((row) => row.id === targetId)!;
     const kills = dead.events.filter((event) => event.type === "combat.ended" && event.data.enemyId === targetId);
-    const coin = dead.events.find((event) => event.type === "item.received" && event.data.from === targetId && Number(event.data.currency) > 0);
     const pile = dead.events.find((event) => event.type === "item.received" && typeof event.data.pileId === "string" && String(event.data.pileId).startsWith(`loot_${targetId}_`));
     report.kill = { id: targetId, xp: dead.state.skills.melee.xp - beforeKill.state.skills.melee.xp, currency: dead.state.currency - beforeKill.state.currency,
-      combatEnded: kills.length, dropTable: baseStats.drops, marks: baseStats.marks, attackCommands: killRounds,
+      combatEnded: kills.length, dropTable: baseStats.lootRolls, gold: baseStats.gold, attackCommands: killRounds,
       lootRoll: pile ? pile.data.items : "no item dropped in this natural roll" };
     check("killAwardsXp", dead.state.skills.melee.xp > beforeKill.state.skills.melee.xp, "melee XP did not rise");
-    check("killRollsNormalCoinLoot", Boolean(coin) && dead.state.currency > beforeKill.state.currency, "no currency drop event");
+    const coin = Array.isArray(pile?.data.items) ? (pile.data.items as { itemId: string; quantity: number }[]).find((stack) => stack.itemId === "gold" && stack.quantity > 0) : undefined;
+    check("killRollsNormalCoinLoot", Boolean(coin) || !baseStats.gold || baseStats.gold[1] < 1, "no gold stack in the kill's loot pile");
     await page.waitForTimeout(1200);
     await frame("corpse.png", { yaw: .7, pitch: .45 });
     if (pile) {

@@ -34,7 +34,7 @@ const CompiledCheck = __DEVDOCS_PLAYER__ ? undefined : lazyComponent(() => impor
 const PARAM_KEYS = (Object.keys(CreatureProfileSchema.fields) as (keyof Profile & string)[]).filter(key => fieldPath(CreatureProfileSchema, [key])?.group === "curve");
 const BEHAVIOUR_KEYS = ["behaviour", "aggroRadius", "attackStyle", "attackRangeM"] as const;
 const TABLE_LEVELS = [1, 5, 10, 20, 30, 50, 70] as const;
-const TABLE_FIELDS = ["maxHealth", "attackLevel", "defenceLevel", "accuracy", "armour", "magicArmour", "maxHit", "marks"] as const;
+const TABLE_FIELDS = ["maxHealth", "attackLevel", "defenceLevel", "accuracy", "armour", "magicArmour", "maxHit", "gold"] as const;
 /*
   The stats a consumer row can show. Attack speed is off the level table (it is the same at every
   level) but belongs here: most creatures override it, so a change to the role's attack speed is the

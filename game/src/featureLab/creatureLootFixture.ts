@@ -117,8 +117,8 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
     getState,
     prepareWoundedTarget(entityId) {
       const target = deps.entities.get(entityId);
-      if (!target?.combat || target.state !== 'alive' || !String(target.meta?.groupId ?? '').startsWith('candidate:')) {
-        throw new Error('Wounded-target setup requires a living candidate creature in the lab.');
+      if (!target?.combat || target.state !== 'alive' || !target.id.startsWith('feature-lab:creature:')) {
+        throw new Error('Wounded-target setup requires a living creature spawned by the lab.');
       }
       woundedTarget = { entityId, before: target.combat.health, maxHealth: target.combat.maxHealth, setupHealth: 1 };
       target.combat.health = 1;

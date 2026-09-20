@@ -17,7 +17,7 @@ export {
   fieldTransition, stepValue, clampNumber, evaluateNumber, scrubDelta, mixedEdit, parseMixedEdit, applyMixedOp, formatNumber, describeRevert, DOT_LEGEND,
   type FieldPhase, type FieldEvent, type FieldTransition, type NumberRules, type NumberResult, type MixedOp, type MixedParse, type DotState,
 } from "./model.js";
-export { Section, Fields, Row, Facts, Static, Sheet, Columns } from "../Sheet.js";
+export { Section, Fields, FieldRows, Row, Facts, Static, Sheet, Columns } from "../Sheet.js";
 export { ListField, type ListFieldProps, type ListItemApi } from "./ListField.js";
 export { MapField, type MapFieldProps } from "./MapField.js";
 export { WeightedList, type WeightedListProps } from "./WeightedList.js";

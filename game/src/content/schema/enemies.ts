@@ -1,15 +1,15 @@
 import type { EnemyDef } from "../index.js";
-import { DropSchema } from "./loot.js";
+import { CompiledLootRollSchema } from "./loot.js";
 import { arr, enumOf, id, int, num, obj, opt, ref, refine, str, tuple, type Schema } from "./core.js";
 
 const nonempty = () => str({ nonEmpty: true });
 
 // EnemyDef uses mutable pairs. The explicit tuple generic preserves assignability.
 // Do not reuse core.intRange, whose inferred pair is readonly.
-const MarksRangeSchema = refine(
+const GoldRangeSchema = refine(
   tuple<[Schema<number>, Schema<number>]>([int({ min: 0 }), int({ min: 0 })]),
   ([low, high]) => low <= high,
-  "marks minimum must not exceed maximum",
+  "gold minimum must not exceed maximum",
 );
 
 /** One `group` per grid the creature sheet draws: identity, then the combat numbers. */
@@ -30,7 +30,7 @@ export const EnemyFields = {
   behaviour: enumOf(["passive", "aggressive", "territorial"] as const, { label: "Behaviour", group: "combat" }),
   moveSpeedMps: opt(num({ exclusiveMin: 0 }, { unit: "m/s", label: "Chase speed", group: "movement" })),
   walkSpeedMps: opt(num({ exclusiveMin: 0 }, { unit: "m/s", label: "Walk speed", group: "movement" })),
-  marks: opt(MarksRangeSchema.describe({ label: "Marks dropped", unit: "marks", group: "combat" })),
+  gold: opt(GoldRangeSchema.describe({ label: "Gold dropped", unit: "gold", group: "combat" })),
   attackStyle: opt(enumOf(["melee", "ranged", "magic"] as const, { label: "Attack style", group: "combat" })),
   attackRangeM: opt(num({ exclusiveMin: 0 }, { unit: "m", label: "Attack range", group: "combat" })),
   respawnSeconds: opt(num({ min: 0 }, { unit: "s", label: "Respawn", group: "movement" })),
@@ -38,10 +38,10 @@ export const EnemyFields = {
 
 export const EnemySchema = obj({
   ...EnemyFields,
-  drops: arr(DropSchema, {}, { label: "Drops", role: "Dropped by", probability: "chance" }),
+  lootRolls: arr(CompiledLootRollSchema, {}, { label: "Loot rolls" }),
 }) satisfies Schema<EnemyDef>;
 
-// Closed partial EnemyDef excluding id and drops. List the fields explicitly;
+// Closed partial EnemyDef excluding id and lootRolls. List the fields explicitly;
 // do not widen them through Object.fromEntries or Record<string, Schema>.
 export const EnemyOverridesSchema = obj({
   name: opt(EnemyFields.name), family: opt(EnemyFields.family),
@@ -52,6 +52,6 @@ export const EnemyOverridesSchema = obj({
   attackSpeedMs: opt(EnemyFields.attackSpeedMs), aggroRadius: opt(EnemyFields.aggroRadius),
   behaviour: opt(EnemyFields.behaviour),
   moveSpeedMps: EnemyFields.moveSpeedMps, walkSpeedMps: EnemyFields.walkSpeedMps,
-  marks: EnemyFields.marks, attackStyle: EnemyFields.attackStyle,
+  gold: EnemyFields.gold, attackStyle: EnemyFields.attackStyle,
   attackRangeM: EnemyFields.attackRangeM, respawnSeconds: EnemyFields.respawnSeconds,
 });

@@ -8,27 +8,20 @@ export function criticalDamage(damage: number, vitality: number, rng: Pick<Rng, 
   return rng.chance(Math.min(1, vitality / 100)) ? Math.floor(damage * 1.5) : damage;
 }
 
-/** Exclusive groups use one [0,1) roll; the unallocated probability means no drop. */
-export function rollItemDrops(drops: EnemyDef['drops'], rng: Pick<Rng, 'next' | 'chance' | 'int'>,
-  allowed: (id: string) => boolean = () => true): ItemStack[] {
-  const items: ItemStack[] = [];
-  const visited = new Set<string>();
-  for (const drop of drops) {
-    if (drop.exclusiveGroup) {
-      if (visited.has(drop.exclusiveGroup)) continue;
-      visited.add(drop.exclusiveGroup);
-      let roll = rng.next();
-      for (const member of drops.filter(row => row.exclusiveGroup === drop.exclusiveGroup)) {
-        if (roll < member.chance) {
-          if (allowed(member.itemId)) items.push({ itemId: member.itemId, quantity: rng.int(...member.quantity) });
-          break;
-        }
-        roll -= member.chance;
+/** One selection per authored roll, with replacement across repeats. */
+export function rollItemDrops(rolls: EnemyDef['lootRolls'], rng: Pick<Rng, 'next' | 'int'>,
+  allowed: (id: string, rolledQuantity: number) => boolean = () => true): ItemStack[] {
+  const items = new Map<string, number>();
+  for (const group of rolls) for (let index = 0; index < group.count; index++) {
+    let sample = rng.next();
+    for (const drop of group.drops) {
+      if (sample < drop.chance) {
+        // Suppressed quest items consume their chance; never reroll or redistribute it.
+        if (allowed(drop.itemId, items.get(drop.itemId) ?? 0)) items.set(drop.itemId, (items.get(drop.itemId) ?? 0) + rng.int(...drop.quantity));
+        break;
       }
-    } else if (allowed(drop.itemId) && rng.chance(drop.chance)) {
-      const quantity = rng.int(...drop.quantity);
-      if (quantity > 0) items.push({ itemId: drop.itemId, quantity });
+      sample -= drop.chance;
     }
   }
-  return items;
+  return [...items].map(([itemId, quantity]) => ({ itemId, quantity }));
 }

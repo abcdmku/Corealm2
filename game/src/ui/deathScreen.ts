@@ -238,7 +238,7 @@ export class DeathScreen {
 
     const kept = document.createElement("p");
     kept.className = "death__kept u-dim";
-    kept.textContent = "Skills, worn equipment and marks came through untouched.";
+    kept.textContent = "Skills, worn equipment and gold came through untouched.";
 
     body.append(lead, kept);
 

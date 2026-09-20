@@ -39,7 +39,7 @@ const host = await startReferenceServer({ worlds: [descriptor], storage: new Sql
     const enemy = ports.entities[index]!;
     const def = resolveEnemyDef(enemy);
     enemy.meta = { ...enemy.meta, enemyId: "death_fixture" };
-    ports.enemies = [{ ...def, id: "death_fixture", drops: [{ itemId: "grithe_ore", chance: 1, quantity: [1, 1] }], marks: [0, 0] }];
+    ports.enemies = [{ ...def, id: "death_fixture", lootRolls: [{ id: "items", name: "Items", count: 1, drops: [{ itemId: "grithe_ore", chance: 1, quantity: [1, 1] }] }], gold: [0, 0] }];
     return ports;
   },
 });

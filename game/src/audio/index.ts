@@ -13,7 +13,7 @@ export type {
   FootstepSurface, MovementAudioObservation,
 } from "./director.js";
 export {
-  AudioDirector, cueForActivity, cueForCreature, cueForGameEvent, cueForMovement,
+  AudioDirector, cueForActivity, cueForCreature, cueForGameEvent, cueForLootedItem, cueForMovement,
   cuesForCombatHit, isCreatureFamily, loopsForRegion,
 } from "./director.js";
 export { CorealmAudioBridge } from "./gameAudio.js";

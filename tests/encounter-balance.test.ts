@@ -4,7 +4,7 @@ import { enemyCombatLevel, type EnemyDef } from '../game/src/content/index.js';
 
 const base: EnemyDef = { id:'balance-fixture', family:'fixture', name:'Fixture', tier:10,
   maxHealth:70, attackLevel:12, defenceLevel:8, accuracy:20, armour:15, magicArmour:5,
-  maxHit:6, attackSpeedMs:2400, aggroRadius:10, behaviour:'territorial', drops:[] };
+  maxHit:6, attackSpeedMs:2400, aggroRadius:10, behaviour:'territorial', lootRolls:[] };
 
 describe('regional encounter strength', () => {
   it('changes the actual fight to every ordinary and boss level, while retaining source identity', () => {
@@ -12,7 +12,7 @@ describe('regional encounter strength', () => {
       const result = tuneEnemyCombatLevel(base, target, target < 70 ? 50 : 70);
       expect(enemyCombatLevel(result)).toBe(target);
       expect(result.id).toBe(base.id);
-      expect(result.drops).toBe(base.drops);
+      expect(result.lootRolls).toBe(base.lootRolls);
       expect(result.maxHealth).toBeGreaterThan(0);
     }
     expect(base.maxHealth).toBe(70);

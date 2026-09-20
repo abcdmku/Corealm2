@@ -2,7 +2,7 @@ import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 import { QuantitySelector } from "./quantitySelector.js";
 /**
- * The shop window: stock on the left, your inventory on the right, prices on every row, marks in
+ * The shop window: stock on the left, your inventory on the right, prices on every row, gold in
  * the header. Buying and selling both use the shared quantity modes, so a stack of eighty ore is
  * one click to sell rather than eighty.
  *
@@ -27,7 +27,7 @@ export class ShopPanel implements ManagedPanel {
   readonly frame: PanelFrame;
 
   private readonly quantity: QuantitySelector;
-  private readonly marks: HTMLElement;
+  private readonly gold: HTMLElement;
   private readonly stockList: HTMLElement;
   private readonly stockStatus: HTMLElement;
   private readonly sellList: HTMLElement;
@@ -54,10 +54,10 @@ export class ShopPanel implements ManagedPanel {
     const toolbar = document.createElement("div");
     toolbar.className = "toolbar";
     this.quantity = new QuantitySelector("Amount");
-    this.marks = document.createElement("div");
-    this.marks.className = "shop__marks u-numeric";
-    this.marks.textContent = "0 marks";
-    toolbar.append(this.quantity.root, this.marks);
+    this.gold = document.createElement("div");
+    this.gold.className = "shop__gold u-numeric";
+    this.gold.textContent = "0 gold";
+    toolbar.append(this.quantity.root, this.gold);
     this.frame.body.appendChild(toolbar);
 
     const columns = document.createElement("div");
@@ -113,7 +113,7 @@ export class ShopPanel implements ManagedPanel {
         this.stockRows.clear();
         this.stockSignature = "";
       }
-      this.marks.textContent = `${formatQuantity(this.ctx.api.getCurrency())} marks`;
+      this.gold.textContent = `${formatQuantity(this.ctx.api.getCurrency())} gold`;
       this.paintSellSide(force);
       return;
     }
@@ -164,8 +164,8 @@ export class ShopPanel implements ManagedPanel {
     if (!force && signature === this.stockSignature) return;
     this.stockSignature = signature;
 
-    this.marks.textContent = `${formatQuantity(view.currency)} marks`;
-    this.frame.setSubtitle(`${view.stock.length} lines · ${formatExact(view.currency)} marks`);
+    this.gold.textContent = `${formatQuantity(view.currency)} gold`;
+    this.frame.setSubtitle(`${view.stock.length} lines · ${formatExact(view.currency)} gold`);
 
     if (view.stock.length === 0) {
       this.stockStatus.replaceChildren(emptyState("This shop has nothing in stock."));
@@ -184,7 +184,7 @@ export class ShopPanel implements ManagedPanel {
 
       const affordable = view.currency >= line.buyPrice;
       const inStock = line.quantity > 0;
-      const reason = !inStock ? "Out of stock" : !affordable ? "Not enough marks" : null;
+      const reason = !inStock ? "Out of stock" : !affordable ? "Not enough gold" : null;
       this.setRowState(row, reason);
       this.stockList.appendChild(row.root);
     }
@@ -293,7 +293,7 @@ export class ShopPanel implements ManagedPanel {
       itemId,
       compareEquipped: true,
       footer: [
-        `${verb} price ${formatExact(verb === "Buy" ? this.buyPriceFor(itemId) : this.sellPriceFor(itemId))} marks each.`,
+        `${verb} price ${formatExact(verb === "Buy" ? this.buyPriceFor(itemId) : this.sellPriceFor(itemId))} gold each.`,
         ...(action.dataset["reason"] ? [`Unavailable: ${action.dataset["reason"]}`] : []),
       ],
     }));

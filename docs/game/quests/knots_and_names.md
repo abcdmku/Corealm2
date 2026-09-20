@@ -126,5 +126,5 @@ She works the trade post side of the Oakwood stump. The handover takes both.
 | Fletching XP | 240 |
 | [Thick Hide Wraps](../../items/bramblehide_wraps/) | 1 |
 | [Air Essence](../../items/air_essence/) | 10 |
-| Marks | 300 |
+| Gold | 300 |
 | Unlock | Juno will explain how a boss Orb awakens a regional altar for elemental weapons. |

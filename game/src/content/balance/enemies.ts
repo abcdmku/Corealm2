@@ -5,8 +5,8 @@ export type LevelInput = Pick<EnemyDef,
   'maxHealth' | 'attackLevel' | 'defenceLevel' | 'accuracy' | 'armour' | 'magicArmour'>;
 export type CombatInput = LevelInput & { maxHit: number };
 export type CombatResult = CombatInput & { tier: number };
-export type MarksProfile = 'ordinary' | 'purse';
-export interface MarksPerTierParams {
+export type GoldProfile = 'ordinary' | 'purse';
+export interface GoldPerTierParams {
   readonly ordinary: readonly [number, number];
   readonly purse: readonly [number, number];
 }
@@ -34,11 +34,11 @@ export interface TuningParams {
   readonly healthPerCombatLevel: number;
 }
 export type LegacyBossId = 'galeskin' | 'tempest_roc' | 'mossbound' | 'rootheart' | 'tideworn' | 'ordrun' | 'cinderwake';
-export interface LegacyMarksInput {
+export interface LegacyGoldInput {
   readonly id: string;
   readonly enemyId: string;
   readonly tier: number;
-  readonly profile: MarksProfile;
+  readonly profile: GoldProfile;
 }
 export interface LegacyBossInput {
   readonly id: string;
@@ -64,11 +64,11 @@ export type OrdrunPhaseParams = readonly [
 ];
 /** Structural input for Stage 1. Other balance sections are not read by these formulas. */
 export interface EnemyBalanceStage1 {
-  readonly marksPerTier: MarksPerTierParams;
+  readonly goldPerTier: GoldPerTierParams;
   readonly combatLevel: CombatLevelParams;
   readonly tuning: TuningParams;
   readonly regionalBossLevels: RegionalBossLevelParams;
-  readonly legacyMarksInputs: readonly LegacyMarksInput[];
+  readonly legacyGoldInputs: readonly LegacyGoldInput[];
   readonly legacyBossInputs: readonly LegacyBossInput[];
   readonly ordrunPhases: OrdrunPhaseParams;
 }
@@ -82,7 +82,7 @@ export function combatLevel(p: CombatLevelParams, input: Readonly<LevelInput>): 
   return Math.max(p.minimum, Math.round(p.offenceWeight * offence + p.defenceWeight * defence + p.healthWeight * health));
 }
 
-export function tierMarks(p: MarksPerTierParams, tier: number, profile: MarksProfile): [number, number] {
+export function tierGold(p: GoldPerTierParams, tier: number, profile: GoldProfile): [number, number] {
   return [Math.round(tier * p[profile][0]), Math.round(tier * p[profile][1])];
 }
 

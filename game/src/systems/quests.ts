@@ -500,7 +500,7 @@ export class QuestSystem implements TickSystem {
       const record = state.quests[def.id];
       if (!record || record.status === "unstarted") continue;
 
-      // Completion can owe physical rewards after paying XP and marks. Deliver that saved debt
+      // Completion can owe physical rewards after paying XP and gold. Deliver that saved debt
       // without re-entering stages or applying the completion grant again.
       if (this.flushPending(record)) changed = true;
       if (record.status !== "active") continue;

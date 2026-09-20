@@ -93,7 +93,7 @@ export interface SettableField {
 /**
  * The enum and reference fields of a record schema, for "Set <field>…" on a selection. The grid's
  * own columns cover the flat cases; `extraPaths` (the hotkey table) adds the ones the grid shows as
- * a count instead, such as a leaf inside a union (`loot.tableId`, `presentation.regionId`). A named
+ * a count instead, such as a leaf inside a union (`presentation.regionId`). A named
  * extra path is always offered even when its value is typed rather than chosen (`items.tier`).
  */
 export function settableFields(schema: Schema, extraPaths: readonly (readonly string[])[] = []): SettableField[] {

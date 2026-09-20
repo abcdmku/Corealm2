@@ -36,7 +36,7 @@ describe('rare boss armor', () => {
     }
   });
 
-  it.each([50, 70] as const)('drops only tier %i armor with independent piece probabilities', tier => {
+  it.each([50, 70] as const)('drops only tier %i armor with per-roll piece probabilities', tier => {
     const drops = bossArmorDrops(tier);
     expect(drops).toHaveLength(BOSS_ARMOR_ITEMS.filter(item => item.tier === tier).length);
     expect(new Set(drops.map(drop => drop.itemId)).size).toBe(drops.length);
@@ -46,7 +46,6 @@ describe('rare boss armor', () => {
       expect(drop.chance).toBe(0.02 / drops.length);
     }
     expect(drops.reduce((sum, drop) => sum + drop.chance, 0)).toBeCloseTo(0.02);
-    expect(1 - drops.reduce((none, drop) => none * (1 - drop.chance), 1)).toBeCloseTo(1 - (1 - 0.02 / drops.length) ** drops.length);
     drops[0]!.quantity[0] = 99;
     expect(bossArmorDrops(tier)[0]!.quantity).toEqual([1, 1]);
   });

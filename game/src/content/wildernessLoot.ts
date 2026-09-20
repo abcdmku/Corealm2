@@ -20,8 +20,8 @@ export const WILDERNESS_KEEPER_COMPONENTS: Readonly<Record<string, ItemId>> = Ob
 ) as Record<string, ItemId>;
 
 /** Caller supplies the authored creature ID. Loot comes from its accepted compiled definition. */
-export function wildernessDropsForCreature(creatureId: string): EnemyDef['drops'] {
+export function wildernessLootForCreature(creatureId: string): EnemyDef['lootRolls'] {
   const creature = CREATURE_CATALOG.byCreatureId.get(creatureId);
   if (!creature) throw new Error(`Unknown creature ${creatureId}`);
-  return creature.enemy.drops;
+  return creature.enemy.lootRolls;
 }

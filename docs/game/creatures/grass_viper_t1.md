@@ -40,6 +40,6 @@ description: "Grass Viper spawn locations, combat stats, and drops."
 
 
 <div class="codex-grid codex-grid--wide">
-<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Marks</span><span class="codex-card__meta">1-3 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
+<div class="codex-card"><span class="codex-card__text"><span class="codex-card__title">Gold</span><span class="codex-card__meta">1-3 per kill</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">Always</span></span></span></span></div>
 <div class="codex-card is-linked"><span class="codex-card__media"><img class="codex-icon" src="../../assets/items/thumb/venom_gland.webp" alt="Venom Gland" width="128" height="128" loading="lazy" decoding="async" /></span><span class="codex-card__text"><span class="codex-card__title"><a class="codex-card__link" href="../../items/venom_gland/">Venom Gland</a></span><span class="codex-card__meta">1-2 per drop</span><span class="codex-card__footer"><span class="codex-tags"><span class="codex-tag">65% chance</span></span></span></span></div>
 </div>

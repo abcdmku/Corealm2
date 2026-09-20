@@ -1,4 +1,4 @@
-import { createContext, Fragment, useContext, useState, type ReactNode } from "react";
+import { Children, createContext, Fragment, isValidElement, useContext, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "../lib/utils.js";
 
@@ -77,6 +77,59 @@ export function Fields({ children, columns, className }: { children: ReactNode; 
     "[&_[data-slot=input-group]]:w-auto! [&_[data-slot=input-group]]:min-w-0 [&_[data-slot=input-group]]:flex-1 [&_[data-slot=native-select]]:w-auto! [&_[data-slot=native-select]]:min-w-0 [&_[data-slot=native-select]]:flex-1",
     className,
   )} style={columns ? { "--columns": columns } as React.CSSProperties : undefined}>{children}</div>;
+}
+
+/** Where a field sits in a `FieldRows` line: the first keeps the sheet's label column, the rest follow it. */
+export type PairSlot = "lead" | "rest";
+export const PairLevel = createContext<PairSlot | undefined>(undefined);
+
+/**
+ * Short like fields (a creature's combat numbers) set several to a line, each one the sheet's usual
+ * label and control. It is one grid, so every column is as wide as its widest label and control and
+ * no wider; its first track is measured off the sheet's label column, so values still start on the
+ * sheet's edge. A dot and a revert glyph stand in for the provenance sentence. Columns that do not
+ * fit are dropped, and at one to a line the fields are plain sheet rows again.
+ */
+export function FieldRows({ children, columns = 3 }: { children: ReactNode; columns?: number }) {
+  const onSheet = useOnSheet();
+  const wrapper = useRef<HTMLDivElement>(null);
+  const probe = useRef<HTMLSpanElement>(null);
+  const grid = useRef<HTMLDivElement>(null);
+  const seen = useRef(0);
+  const [fit, setFit] = useState(columns);
+  const [labelWidth, setLabelWidth] = useState<number>();
+  useLayoutEffect(() => {
+    const element = wrapper.current;
+    if (!element) return;
+    const measure = () => {
+      setLabelWidth(probe.current?.offsetWidth);
+      // Dropping a column changes the height, never the width: only a new width gets a fresh try.
+      if (element.clientWidth === seen.current) return;
+      seen.current = element.clientWidth;
+      setFit(columns);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [columns]);
+  useLayoutEffect(() => {
+    const element = grid.current;
+    if (element && fit > 1 && element.scrollWidth > element.clientWidth + 1) setFit(fit - 1);
+  });
+  const fields = Children.toArray(children);
+  const tracks = `${labelWidth === undefined ? "max-content" : `${labelWidth}px`} max-content${" max-content max-content".repeat(Math.max(0, fit - 1))}`;
+  return <div ref={wrapper} data-slot="field-rows" data-columns={fit} className={cn(onSheet ? ON_SHEET : ROW_COLUMNS, "[&_[data-slot=native-select]]:w-28!")}>
+    {/* Holds the sheet's label column open for these labels, and says how wide it came out. */}
+    <span ref={probe} aria-hidden className="invisible col-start-1 row-start-1 flex h-0 flex-col overflow-hidden text-xs whitespace-nowrap">
+      {fields.map((field, index) => <span key={index}>{isValidElement<{ label?: ReactNode }>(field) ? field.props.label : null}</span>)}
+    </span>
+    {fit === 1
+      ? fields
+      : <div ref={grid} className="col-span-full row-start-1 grid min-w-0 gap-x-2.5 overflow-x-clip" style={{ gridTemplateColumns: tracks }}>
+        {fields.map((field, index) => <PairLevel.Provider key={index} value={index % fit === 0 ? "lead" : "rest"}>{field}</PairLevel.Provider>)}
+      </div>}
+  </div>;
 }
 
 /** A label/value row for read-only or composite values. */

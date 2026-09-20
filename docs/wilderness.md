@@ -42,7 +42,7 @@ The 56 new biome packs add 154 residents. Together with the ruin haunts and rest
 
 `fantasyEncounters.ts` projects the authored occupants onto stable group IDs. Regional pack activation replaces remote natural wildlife while preserving existing fantasy assignments. Coastal generation excludes basic animal models. Original source bodies remain available under `source:` lab presets for animation regression checks.
 
-The trap-line and Stone Cavern quests now count the new inhabitants. Save repair transfers earned kills and their stage baselines once, preserving progress through both roster revisions. Stable group aliases retain original balance, marks, all twenty-one expansion trophies and fox material. Existing hunt contracts continue to credit their remapped groups without crediting unrelated creatures that share a body.
+The trap-line and Stone Cavern quests now count the new inhabitants. Save repair transfers earned kills and their stage baselines once, preserving progress through both roster revisions. Stable group aliases retain original balance, gold, all twenty-one expansion trophies and fox material. Existing hunt contracts continue to credit their remapped groups without crediting unrelated creatures that share a body.
 
 ## Acceptance and scope
 

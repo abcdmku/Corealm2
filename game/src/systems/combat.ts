@@ -269,8 +269,6 @@ export interface CombatInventoryPort {
   countItem(itemId: ItemId): number;
   freeSlots(): number;
   hasRoomFor(itemId: ItemId, quantity: number): boolean;
-  /** Optional. Falls back to writing `state.currency` directly. */
-  addCurrency?(amount: number): Result<number>;
 }
 
 /** Satisfied exactly by `Movement` in systems/movement.ts. Used only to walk back into range. */
@@ -1391,19 +1389,10 @@ export class CombatSystem implements TickSystem {
   /** Drop rolls run on the seeded `loot` stream so a kill never shifts the next hit roll. */
   private rollDrops(state: GameState, entity: SemanticEntity, def: EnemyDef, atMs: number): void {
     let items: import("../contracts.js").LootStack[] = [];
-    items.push(...rollItemDrops(def.drops, this.lootRng, itemId => !!this.deps.assignLoot || !(
-      content.item(itemId)?.orb && (state.magic.consumedOrbs[itemId] || ownsPhysicalItem(state, itemId, items))
+    items.push(...rollItemDrops(def.lootRolls, this.lootRng, (itemId, rolledQuantity) => !!this.deps.assignLoot || !(
+      content.item(itemId)?.orb && (rolledQuantity > 0 || state.magic.consumedOrbs[itemId] || ownsPhysicalItem(state, itemId, items))
     )));
     if (this.deps.assignLoot) items = this.deps.assignLoot(entity, items);
-
-    if (def.marks) {
-      const marks = this.lootRng.int(def.marks[0], def.marks[1]);
-      if (marks > 0) {
-        const added = this.deps.inventory.addCurrency?.(marks);
-        if (!added || !added.ok) state.currency += marks;
-        this.deps.events.emit("item.received", { currency: marks, from: entity.id }, entity.id, atMs);
-      }
-    }
 
     if (items.length === 0) return;
 
@@ -1948,6 +1937,6 @@ function synthesiseEnemyDef(entity: SemanticEntity): EnemyDef {
     attackSpeedMs: UNARMED_ATTACK_SPEED_MS,
     aggroRadius: entity.combat?.aggroRadius ?? 6,
     behaviour: behaviourOf(entity),
-    drops: [],
+    lootRolls: [],
   };
 }

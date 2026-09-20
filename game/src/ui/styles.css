@@ -312,6 +312,19 @@ html, body {
   background: rgba(0, 0, 0, 0.25);
 }
 
+/* The purse: gold is an item with no slot, read as one line under the inventory grid. */
+.inv-gold { display: flex; align-items: center; gap: var(--space-2); flex: none; cursor: help; }
+.inv-gold__icon { flex: none; width: 20px; height: 20px; }
+.inv-gold__icon .item-icon { position: relative; display: block; width: 100%; height: 100%; }
+.inv-gold__icon .item-icon__raster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.inv-gold__amount {
+  font-family: var(--font-display);
+  font-size: var(--size-sm);
+  font-weight: 700;
+  color: var(--accent);
+  text-shadow: var(--shadow-text);
+}
+
 .panel--sunken { background: var(--panel-sunken); box-shadow: var(--inset-well); }
 
 .panel__close {
@@ -969,27 +982,6 @@ html, body {
   gap: var(--space-1);
 }
 
-/* Just the number and the mark. No box: it is a purse, not a form field. */
-.hud__currency {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-1);
-  padding: 0;
-  background: none;
-  border: none;
-  pointer-events: auto;
-  cursor: help;
-}
-
-.hud__currency-mark { color: var(--accent); font-size: var(--size-sm); text-shadow: var(--shadow-text); }
-.hud__currency-value {
-  font-family: var(--font-display);
-  font-size: var(--size-md);
-  font-weight: 700;
-  color: var(--accent);
-  text-shadow: var(--shadow-text);
-}
-
 .hud__xp-feed {
   display: flex;
   flex-direction: column;
@@ -1480,7 +1472,7 @@ html, body {
 .shop-column { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--space-2); }
 .shop-column h3 { margin: 0; }
 .shop-list { display: flex; flex-direction: column; gap: 1px; max-height: 52vh; overflow: auto; }
-.shop__marks { margin-left: auto; font-family: var(--font-display); font-size: var(--size-sm); font-weight: 700; color: var(--accent); text-shadow: var(--shadow-text); }
+.shop__gold { margin-left: auto; font-family: var(--font-display); font-size: var(--size-sm); font-weight: 700; color: var(--accent); text-shadow: var(--shadow-text); }
 
 .shop-row {
   display: grid;

@@ -43,9 +43,9 @@ describe("default columns", () => {
   });
 
   it("never gives an array, map or union its own editable column", () => {
-    expect(byKey("loot")?.kind).toBe("count");
+    expect(byKey("loot.rolls")?.kind).toBe("count");
     expect(byKey("presentation")?.kind).toBe("count");
-    expect(byKey("adjustments.marks")?.kind).toBe("count");
+    expect(byKey("adjustments.gold")?.kind).toBe("count");
     // Nothing below a union is flattened into a column; the count cell opens the record instead.
     expect(byKey("loot.tableId")).toBeUndefined();
     expect(byKey("presentation.regionId")).toBeUndefined();
@@ -59,7 +59,7 @@ describe("default columns", () => {
   it("keeps every grouped scalar of a profile as its own number column", () => {
     const keys = defaultColumns(profiles).map(column => column.key);
     expect(keys.slice(0, 3)).toEqual(["name", "id", "role"]);
-    for (const key of ["healthPerLevel", "healthBase", "attackMultiplier", "accuracyPerLevel", "attackSpeedMs", "marksPerLevel"]) {
+    for (const key of ["healthPerLevel", "healthBase", "attackMultiplier", "accuracyPerLevel", "attackSpeedMs", "goldPerLevel"]) {
       expect(defaultColumns(profiles).find(column => column.key === key)?.kind).toBe("number");
     }
     expect(defaultColumns(profiles).find(column => column.key === "attackSpeedMs")?.spec.unit).toBe("ms");
@@ -86,7 +86,7 @@ describe("cell readings", () => {
   it("names a union variant and counts an array", () => {
     const loot = fieldPath(creatures, ["loot"])!;
     expect(countText(undefined, loot)).toBe("—");
-    expect(countText({ tableId: "goblin" }, loot)).toBe("Table ID");
+    expect(countText({ rolls: [] }, loot)).toBe("1 keys");
     expect(countText([1, 2, 3], loot)).toBe("3");
   });
 
@@ -111,9 +111,6 @@ describe("settable fields", () => {
   });
 
   it("adds the hotkeyed leaves that live inside a union", () => {
-    const loot = fields.find(field => field.key === "loot.tableId");
-    expect(loot?.kind).toBe("ref");
-    expect(loot?.label).toBe("Loot.Loot table");
     expect(fields.find(field => field.key === "presentation.regionId")?.kind).toBe("ref");
   });
 
@@ -153,8 +150,8 @@ describe("hotkeys", () => {
 
 describe("applying an edit to a selection", () => {
   const rows: ContentRow[] = [
-    { id: "goblin", name: "Goblin", availability: "world", level: 3, loot: { drops: [{ itemId: "coin", chance: 1 }] } },
-    { id: "wolf", name: "Wolf", availability: "world", level: 5, loot: { tableId: "wolf_table" } },
+    { id: "goblin", name: "Goblin", availability: "world", level: 3, loot: { rolls: [{ id: "items", name: "Items", count: 1, drops: [{ itemId: "coin", chance: 1, quantity: [1, 1] }], tables: [] }] } },
+    { id: "wolf", name: "Wolf", availability: "world", level: 5, loot: { rolls: [{ id: "items", name: "Items", count: 1, drops: [], tables: [{ tableId: "wolf_table", rollId: "items" }] }] } },
     { id: "rat", name: "Rat", availability: "lab", level: 1 },
   ];
   const context = (store: DraftStore) => ({ store, collection: "creatureDefinitions", idKey: "id", revision: "r1", schema: creatures });
@@ -185,16 +182,15 @@ describe("applying an edit to a selection", () => {
     expect([draftOf(store, "goblin")?.level, draftOf(store, "wolf")?.level, draftOf(store, "rat")?.level]).toEqual([4, 6, 2]);
   });
 
-  it("replaces an untagged union variant instead of merging both members", () => {
+  it("sets complete roll plans on multiple creatures", () => {
     const store = createDraftStore();
-    applyEdit(context(store), targets(["goblin", "wolf"]), ["loot", "tableId"], { kind: "set", value: "shared_table" });
-    expect(draftOf(store, "goblin")?.loot).toEqual({ tableId: "shared_table" });
-    expect(draftOf(store, "wolf")?.loot).toEqual({ tableId: "shared_table" });
+    const loot = { rolls: [{ id: "items", name: "Items", count: 2, drops: [], tables: [{ tableId: "shared_table", rollId: "items" }] }] };
+    applyEdit(context(store), targets(["goblin", "wolf"]), ["loot"], { kind: "set", value: loot });
+    expect(draftOf(store, "goblin")?.loot).toEqual(loot);
+    expect(draftOf(store, "wolf")?.loot).toEqual(loot);
   });
 
   it("places a leaf without a schema the plain way", () => {
-    expect(place({ id: "x", loot: { drops: [] } }, ["loot", "tableId"], "t")).toEqual({ id: "x", loot: { drops: [], tableId: "t" } });
-    expect(place({ id: "x", loot: { drops: [] } }, ["loot", "tableId"], "t", creatures)).toEqual({ id: "x", loot: { tableId: "t" } });
     expect(getPath(place({ id: "x" }, ["adjustments", "maxHealth"], 12, creatures), ["adjustments", "maxHealth"])).toBe(12);
   });
 

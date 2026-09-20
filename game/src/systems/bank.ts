@@ -127,7 +127,7 @@ export class BankSystem {
     const def = content.item(itemId);
     if (!def) return err("NOT_FOUND", `No item with id ${itemId}`);
     if (def.category === "currency") {
-      return err("INVALID_ARGUMENT", "Marks are a single carried balance and never take a bank slot");
+      return err("INVALID_ARGUMENT", "Gold is a single carried balance and never takes a bank slot");
     }
 
     const held = this.deps.inventory.countOf(itemId);

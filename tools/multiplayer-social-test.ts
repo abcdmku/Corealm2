@@ -22,7 +22,7 @@ const local = authored ? null : await startReferenceServer({ worlds: [world], st
   const ports = await createMultiplayerLabWorld(); content.register({ enemies: ENEMIES });
   const frog = ports.entities.find(entity => entity.id === "multiplayer:frog")!;
   const def = resolveEnemyDef(frog); frog.meta = { ...frog.meta, enemyId: "party_fixture" };
-  ports.enemies = [{ ...def, id: "party_fixture", drops: ["grithe_ore", "palewood_log", "grithe_ore"].map(itemId => ({ itemId, chance: 1, quantity: [1, 1] as [number, number] })), marks: [0, 0] }];
+  ports.enemies = [{ ...def, id: "party_fixture", lootRolls: ["grithe_ore", "palewood_log", "grithe_ore"].map((itemId, index) => ({ id: `items_${index}`, name: "Items", count: 1, drops: [{ itemId, chance: 1, quantity: [1, 1] as [number, number] }] })), gold: [0, 0] }];
   return ports;
 }, authentication: { authenticate: async token => ({ playerId: token.replace("guest:", ""), name: token.replace("guest:", "") }) } });
 const host = local ?? await startAuthoredTestHost();

@@ -969,7 +969,7 @@ function playthroughSource(): string {
       dbg.clearInventory();
       await sleep(500);
       const xpBefore = await skills();
-      const marksBefore = (await agent.call("corealm_inventory")).currency;
+      const goldBefore = (await agent.call("corealm_inventory")).currency;
 
       const told = await converse("npc_smith_harrow", [optionLike("#done|dagger held")]);
       if (!told.ok) trail.push("harrow: " + told.at + " -> " + told.detail);
@@ -992,23 +992,23 @@ function playthroughSource(): string {
       for (const stack of (expected ? expected.items : [])) {
         owed[stack.itemId] = (owed[stack.itemId] || 0) + stack.quantity;
       }
-      const marks = pack.currency - marksBefore;
+      const gold = pack.currency - goldBefore;
       const same = (got, want) => Object.keys(got).length === Object.keys(want).length
         && Object.keys(want).every((key) => got[key] === want[key]);
       const show = (map) => Object.keys(map).sort().map((key) => key + " " + map[key]).join(", ") || "nothing";
 
       const xpOk = !!expected && same(xpGained, expected.xp);
       const itemsOk = !!expected && same(held, owed);
-      const marksOk = !!expected && marks === expected.currency;
-      paidRight = quest.status === "complete" && xpOk && itemsOk && marksOk;
+      const goldOk = !!expected && gold === expected.currency;
+      paidRight = quest.status === "complete" && xpOk && itemsOk && goldOk;
       evidence = "cold_iron " + quest.status + " stage " + quest.stage + "/" + quest.stageCount
         + " via stages [" + reached.join(">") + "]"
         + "; xp {" + show(xpGained) + "} want {" + show(expected ? expected.xp : {}) + "}"
         + (xpOk ? "" : " MISMATCH")
         + "; pack {" + show(held) + "} want {" + show(owed) + "}"
         + (itemsOk ? "" : " MISMATCH")
-        + "; marks +" + marks + " want +" + (expected ? expected.currency : "?")
-        + (marksOk ? "" : " MISMATCH");
+        + "; gold +" + gold + " want +" + (expected ? expected.currency : "?")
+        + (goldOk ? "" : " MISMATCH");
     } else {
       evidence += " -- never reached the hand-in";
     }

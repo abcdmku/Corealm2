@@ -318,7 +318,7 @@ export const TOOL_SPECS = {
     mutates: true,
     description:
       "Use a shop the character is standing at: list stock (allowed in every mode), buy, or sell "
-      + "(play mode). Buying and selling spend the player's marks or goods, so each call asks the "
+      + "(play mode). Buying and selling spend the player's gold or goods, so each call asks the "
       + "player to approve unless they have pre-approved trades in the agent panel; the call "
       + "waits up to `approvalTimeoutMs` for the answer.",
     inputSchema: obj({

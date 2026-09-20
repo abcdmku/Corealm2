@@ -116,6 +116,6 @@ Every answer finishes the quest. Only one of them survives contact with the Ward
 | --- | --- |
 | Agility XP | 180 |
 | [Seared Minnow](../../items/seared_minnow/) | 4 |
-| Marks | 260 |
+| Gold | 260 |
 | Unlock | Warden Ilse will tell you where every shortcut in Farmland is. |
 | Unlock | Carter Bel will tell you about a cousin. |

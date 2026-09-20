@@ -162,11 +162,9 @@
   .minimap__btn--map { bottom: -6px; left: -6px; }
   .minimap__btn--compass { top: -6px; left: -6px; }
 
-  /* ---- the purse and XP feed, under the minimap. Just the number. */
+  /* ---- the XP feed, under the minimap. */
   .hud__right { right: calc(8px + var(--safe-right)); gap: 0; }
   .hud.has-minimap .hud__right { top: calc(84px + var(--safe-top)); }
-  .hud__currency-value { font-size: var(--size-sm); }
-  .hud__currency > .u-caps { display: none; }
   .xp-drop { padding: 0 2px; font-size: var(--size-xs); }
 
   /* ---- the tracked quest: in the left column under the chat, never dragged. */

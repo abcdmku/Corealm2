@@ -121,16 +121,16 @@ describe("tier 0 starter gear", () => {
     for (const enemyId of NEAR_BASE) {
       const def = ENEMIES.find((row) => row.id === enemyId);
       expect(def, enemyId).toBeDefined();
-      const drops = new Map(def!.drops.map((row) => [row.itemId, row.chance]));
+      const drops = new Map(def!.lootRolls.flatMap(roll => roll.drops).map((row) => [row.itemId, row.chance]));
       for (const itemId of [...MELEE_SET, ...MAGIC_SET]) expect(drops.get(itemId), `${enemyId} ${itemId}`).toBe(0.05);
       for (const itemId of JEWELRY) expect(drops.get(itemId), `${enemyId} ${itemId}`).toBe(0.02);
       // Materials survive the rewrite: every creature keeps at least one non-gear drop.
       const gear = new Set<string>([...MELEE_SET, ...MAGIC_SET, ...JEWELRY]);
-      expect(def!.drops.some((row) => !gear.has(row.itemId)), enemyId).toBe(true);
+      expect(def!.lootRolls.flatMap(roll => roll.drops).some((row) => !gear.has(row.itemId)), enemyId).toBe(true);
     }
     const starter = new Set<string>(NEAR_BASE);
     const elsewhere = ENEMIES.filter((row) => !starter.has(row.id)
-      && row.drops.some((drop) => drop.itemId === "worn_cuirass"));
+      && row.lootRolls.flatMap(roll => roll.drops).some((drop) => drop.itemId === "worn_cuirass"));
     expect(elsewhere.map((row) => row.id)).toEqual([]);
   });
 });

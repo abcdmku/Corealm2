@@ -92,13 +92,13 @@ describe("schema combinators", () => {
 
     const Tagged = discriminated("kind", {
       gear: obj({ kind: lit("gear"), tier: int() }),
-      marks: obj({ kind: lit("marks"), purse: bool() }),
+      gold: obj({ kind: lit("gold"), purse: bool() }),
     });
-    expect(Tagged.parse({ kind: "marks", purse: true }, "d", ctx())).toEqual({ kind: "marks", purse: true });
+    expect(Tagged.parse({ kind: "gold", purse: true }, "d", ctx())).toEqual({ kind: "gold", purse: true });
     const d = ctx();
     Tagged.parse({ kind: "other" }, "d", d);
     expect(d.issues[0]?.path).toBe("d.kind");
-    expect(d.issues[0]?.message).toContain('"gear", "marks"');
+    expect(d.issues[0]?.message).toContain('"gear", "gold"');
   });
 
   it("supports recursive shapes through lazy and custom rules through refine", () => {

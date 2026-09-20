@@ -34,13 +34,13 @@ The September 10, 2026 audit covered all 300 current items. GPT-5.6 Luna at maxi
 
 On September 11, the remaining 138 icons were replaced at the user's request. Astra medium workers used built-in image generation, and five fresh Luna max reviewers accepted every replacement at 256px and 48px. All 300 current items now have generated originals and recorded prompts. The first 162 originals and their published images were preserved unchanged.
 
-The production inventory check covered all 299 inventory items, with a separate pass for the final nine fish replacements. Marks use the wallet and were checked through the gallery. The gallery covers all 300 items, including their individual pages, images, mouse hover, and keyboard focus.
+The production inventory check covered all 299 inventory items, with a separate pass for the final nine fish replacements. Gold uses the purse line under the inventory grid and was checked through the gallery. The gallery covers all 300 items, including their individual pages, images, mouse hover, and keyboard focus.
 
-The second round checked all 137 replacement items that occupy inventory slots through the production lab, including image loading and matching hover cards. Marks was reviewed separately as currency.
+The second round checked all 137 replacement items that occupy inventory slots through the production lab, including image loading and matching hover cards. Gold was reviewed separately as currency.
 
 Inspect every icon at 48px and 256px. Reject blank images, clipped silhouettes, generic substitutes, confusing materials, and images that do not match the item's description. Confirm that a cooked or burnt item is distinguishable from its raw form.
 
-Use `tools/item-icon-docs-acceptance.ts` to check the production inventory and hover card in the feature lab. `--stage <directory>` serves staged 48px candidates through the real inventory image path. `--icons all` checks inventory items in batches of 24; `--icons <id,id>` selects a smaller review. Marks go straight to the wallet, so their artwork is checked in the gallery. Review the screenshots as well as the semantic report. After lab acceptance and publication, repeat a representative check with `--world` and verify the docs gallery's hover and item links in Chromium.
+Use `tools/item-icon-docs-acceptance.ts` to check the production inventory and hover card in the feature lab. `--stage <directory>` serves staged 48px candidates through the real inventory image path. `--icons all` checks inventory items in batches of 24; `--icons <id,id>` selects a smaller review. Gold goes straight to the purse, so its artwork is checked in the gallery. Review the screenshots as well as the semantic report. After lab acceptance and publication, repeat a representative check with `--world` and verify the docs gallery's hover and item links in Chromium.
 
 Use `--out <directory>` on the inventory acceptance tool to keep each review's screenshots and reports together. Contact sheets, browser screenshots, and detailed audit output belong in ignored `test-results/` directories. Original artwork and its source records are durable inputs.
 

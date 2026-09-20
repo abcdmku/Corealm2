@@ -1,3 +1,4 @@
+import { referencedLootTables } from '../../../../game/src/content/lootCompiler.js';
 import { useMemo } from "react";
 import type { CreatureDefinition, CreatureProfile } from "../../../../game/src/content/schema/creatureDefinitions.js";
 import type { LootTableRecord } from "../../../../game/src/content/schema/loot.js";
@@ -63,9 +64,6 @@ export function identityChain<K extends IdentityField>(definition: Creature, bas
 export function mapResolved<T, U>(resolved: Resolved<T>, project: (value: T) => U): Resolved<U> {
   return { ...resolved, value: project(resolved.value), chain: resolved.chain.map(link => ({ origin: link.origin, value: project(link.value) })) };
 }
-
-export type LootMode = "none" | "table" | "drops";
-export const lootMode = (loot: Loot | undefined): LootMode => loot === undefined ? "none" : "tableId" in loot ? "table" : "drops";
 
 export const titleCase = (value: string): string => value.replace(/[_-]+/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").replace(/^./, c => c.toUpperCase());
 
@@ -161,10 +159,12 @@ export function useCreatureData(): CreatureData {
     const tableUsers = new Map<string, ResolvedCreature[]>();
     for (const row of resolved) {
       const loot = row.row.loot;
-      if (!loot || !("tableId" in loot)) continue;
-      let list = tableUsers.get(loot.tableId);
-      if (!list) { list = []; tableUsers.set(loot.tableId, list); }
-      list.push(row);
+      if (!loot) continue;
+      for (const tableId of referencedLootTables(loot, lootById)) {
+        let list = tableUsers.get(tableId);
+        if (!list) { list = []; tableUsers.set(tableId, list); }
+        list.push(row);
+      }
     }
     return {
       index, ctx, loading, creatures, byId, resolved, resolvedById, profiles, profileById, lootTables, lootById, regions,

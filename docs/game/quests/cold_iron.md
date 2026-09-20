@@ -168,6 +168,6 @@ Walk back into Millfield Square and `interact("npc_smith_harrow", "talk")`.
 | Melee XP | 60 |
 | [Copper Hatchet](../../items/grithe_hatchet/) | 1 |
 | [Seared Minnow](../../items/seared_minnow/) | 5 |
-| Marks | 150 |
+| Gold | 150 |
 | Unlock | Harrow will talk about the higher tiers. |
 | Unlock | The rest of Millfield will give you work. |

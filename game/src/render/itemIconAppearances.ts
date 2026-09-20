@@ -185,7 +185,7 @@ function wood(id: ItemId): number {
 }
 
 // Currency and gathered resources.
-put("marks", [asset("coin", 0xd6a83f)], { rotation: [0.22, 0, -0.15] });
+put("gold", [asset("coin", 0xd6a83f)], { rotation: [0.22, 0, -0.15] });
 put("grithe_ore", [asset("corealm_item_grithe_ore")]);
 put("march_stone", [asset("rock_small_2", 0xb8aa91)]);
 put("corven_ore", [asset("corealm_item_corven_ore")]);

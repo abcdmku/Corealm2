@@ -12,7 +12,7 @@ const GRAZER: CreatureProfile = {
   id: "grazer", name: "Grazer", role: "grazer",
   healthBase: 10, healthPerLevel: 3, attackMultiplier: 0.8, defenceMultiplier: 0.9,
   accuracyPerLevel: 1.2, armourPerLevel: 0.5, magicArmourPerLevel: 0.25, hitPerLevel: 0.4,
-  attackSpeedMs: 2400, marksPerLevel: 0.5,
+  attackSpeedMs: 2400, goldPerLevel: 0.5,
 };
 
 const heathJack = (adjustments?: CreatureDefinition["adjustments"]): CreatureDefinition => ({

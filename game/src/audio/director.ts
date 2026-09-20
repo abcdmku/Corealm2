@@ -138,6 +138,15 @@ export function isCreatureFamily(family: string | null | undefined): boolean {
   return CREATURE_VOICE[normalise(family)] !== undefined;
 }
 
+/**
+ * What a looted stack sounds like as it lands. Coins ring; anything else is a dull knock, because
+ * a pack of ore and a pack of hides should not each invent their own voice. The caller resolves
+ * the item, so this module still maps meaning to cue names and never reads content.
+ */
+export function cueForLootedItem(currency: boolean): AudioCueId {
+  return currency ? "interaction.loot_coins" : "interaction.loot_item";
+}
+
 export function cueForGameEvent(event: GameEvent): AudioCueId | null {
   switch (event.type) {
     case "player.died": return "combat.player_death";

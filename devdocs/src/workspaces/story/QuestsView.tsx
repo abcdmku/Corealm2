@@ -71,7 +71,7 @@ function QuestList({ navigate }: { navigate: ViewProps["navigate"] }) {
           const requirements = Object.entries(asRecord(row.requirements));
           const rewards = asRecord(row.rewards);
           const xp = Object.entries(asRecord(rewards.xp)).map(([skill, amount]) => `${titleCase(skill)} ${String(amount)}`);
-          const rewardLine = [...xp, typeof rewards.currency === "number" ? `${rewards.currency} marks` : "", list(rewards.items).length ? `${list(rewards.items).length} items` : ""].filter(Boolean).join(" · ");
+          const rewardLine = [...xp, typeof rewards.currency === "number" ? `${rewards.currency} gold` : "", list(rewards.items).length ? `${list(rewards.items).length} items` : ""].filter(Boolean).join(" · ");
           return <TableRow key={id}>
             <TableCell pin><TableLink title={id} onClick={() => navigate("quests", id)}>{String(row.name)}</TableLink></TableCell>
             <TableCell className="text-muted-foreground">{regionName(index, text(row.regionId))}</TableCell>
@@ -324,7 +324,7 @@ function StageLine({ entry, page, navigate }: { entry: ReturnType<typeof stageDi
 const GRANT_KEYS = ["xp", "items", "takeItems", "currency", "flags", "unlocks", "worldState"] as const;
 type GrantKey = typeof GRANT_KEYS[number];
 
-/** One grant block as fields: xp per skill, marks, item stacks, flags, unlocks and world state. */
+/** One grant block as fields: xp per skill, gold, item stacks, flags, unlocks and world state. */
 function GrantFields({ schema, grant, path, page, readOnly, skills, renderRef, only = GRANT_KEYS, sparse = false }: {
   schema: Schema; grant: ContentRow; path: Path; page: Page<Quest>; readOnly: boolean;
   skills: { value: string; label?: string }[]; renderRef: RenderRef; only?: readonly GrantKey[];

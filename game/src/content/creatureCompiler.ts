@@ -1,3 +1,4 @@
+import { createLootCompiler, withGoldRoll } from './lootCompiler.js';
 import { formulaRegistry } from './formulas/index.js';
 export { calculateCreatureCombat } from './formulas/creature.js';
 import type { CreatureDefinition, CreatureProfile } from './schema/creatureDefinitions.js';
@@ -18,15 +19,20 @@ export interface ResolvedCreature {
   adjustments: NonNullable<CreatureDefinition['adjustments']>;
 }
 
+/** The one place an enemy gets its rolls: gold first, sized by the final range (curve, then adjustments). */
+function parseEnemy(fields: Record<string, unknown> & { gold?: [number, number]; lootRolls: EnemyDef['lootRolls'] }, path: string): EnemyDef {
+  return parseValue(EnemySchema, { ...fields, lootRolls: withGoldRoll(fields.lootRolls, fields.gold) }, path);
+}
+
 /** Encounter levels use the same curve and keep the creature's authored exceptions. */
 export function resolveCreatureAtLevel(creature: ResolvedCreature, profiles: readonly CreatureProfile[], level: number): EnemyDef {
   const profile = profiles.find(row => row.id === creature.profileId);
   if (!profile) throw new Error(`${creature.id}.profileId: unknown profile ${creature.profileId}`);
-  return parseValue(EnemySchema, {
+  return parseEnemy({
     ...formulaRegistry['creature.combat'].calculate({ tier: level }, profile),
     ...creature.adjustments,
     id: creature.id, name: creature.enemy.name, family: creature.enemy.family,
-    tier: level, drops: creature.enemy.drops,
+    tier: level, lootRolls: creature.enemy.lootRolls,
   }, `creatureDefinitions.${creature.id}.combat`);
 }
 
@@ -34,10 +40,9 @@ export function resolveCreatureAtLevel(creature: ResolvedCreature, profiles: rea
 export function compileCreatures(definitions: readonly CreatureDefinition[], profiles: readonly CreatureProfile[], lootTables: readonly LootTableRecord[]) {
   const source = new Map(definitions.map(row => [row.id, row]));
   const profileMap = new Map(profiles.map(row => [row.id, row]));
-  const lootMap = new Map(lootTables.map(row => [row.id, row]));
+  const compileLoot = createLootCompiler(lootTables);
   if (source.size !== definitions.length) throw new Error('Duplicate creature definition id');
   if (profileMap.size !== profiles.length) throw new Error('Duplicate creature profile id');
-  if (lootMap.size !== lootTables.length) throw new Error('Duplicate shared loot table id');
   const creatures: ResolvedCreature[] = definitions.map(definition => {
     const base = definition.baseId ? source.get(definition.baseId) : undefined;
     if (definition.baseId && !base) throw new Error(`${definition.id}.baseId: unknown base ${definition.baseId}`);
@@ -46,10 +51,9 @@ export function compileCreatures(definitions: readonly CreatureDefinition[], pro
     if (!row.name || !row.family || row.level === undefined || !row.profileId || !row.loot) throw new Error(`${row.id}: base creature needs name, family, level, profileId and loot`);
     const profile = profileMap.get(row.profileId);
     if (!profile) throw new Error(`${row.id}.profileId: unknown profile ${row.profileId}`);
-    const drops = 'drops' in row.loot ? row.loot.drops : lootMap.get(row.loot.tableId)?.drops;
-    if (!drops) throw new Error(`${row.id}.loot: unknown shared table`);
-    const enemy = parseValue(EnemySchema, { ...formulaRegistry['creature.combat'].calculate({ tier: row.level }, profile), ...row.adjustments,
-      id: row.id, name: row.name, family: row.family, tier: row.level, drops }, `creatureDefinitions.${row.id}.combat`);
+    const lootRolls = compileLoot(row.loot, `creatureDefinitions.${row.id}.loot`);
+    const enemy = parseEnemy({ ...formulaRegistry['creature.combat'].calculate({ tier: row.level }, profile), ...row.adjustments,
+      id: row.id, name: row.name, family: row.family, tier: row.level, lootRolls }, `creatureDefinitions.${row.id}.combat`);
     const art = row.presentation;
     let presentation: CreatureSpeciesDef | RpgBestiaryEntry | undefined;
     if (art) { const { kind: _kind, ...fields } = art; presentation = { ...fields, stats: enemy }; }

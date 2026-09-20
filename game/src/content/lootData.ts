@@ -1,6 +1,5 @@
 import { RESOLVED_TABLES } from './resolvedCatalog.js';
 const rawLootTables = RESOLVED_TABLES["lootTables"];
-import type { EnemyDef } from "./index.js";
 import { parseCollection } from "./schema/core.js";
 import { LootTableSchema, type LootTableRecord } from "./schema/loot.js";
 
@@ -24,7 +23,3 @@ export function lootTableById(id: string): LootTableRecord {
   return row;
 }
 
-/** Returns the cached drop array for a stable loot-table id. */
-export function lootDrops(id: string): EnemyDef["drops"] {
-  return lootTableById(id).drops;
-}

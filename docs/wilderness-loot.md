@@ -45,6 +45,16 @@ Ordinary shallow creatures supply Mind Runes at 40% for two to four and Chaos Ru
 
 Foundry guards have a 12% chance for one Chainbound Link. Bastion guards have the same chance for one Nightforge Seal; sanctum guards can supply one Hollow Star Fragment. These drops belong only to the matching fortress packs, giving their dense fights a reward distinct from nearby open ground.
 
+## Authoring loot rolls
+
+Creature definitions use `loot.rolls`; shared loot tables use `rolls`. Each group has a stable `id`, a display `name`, a `count`, item `drops`, and attached `tables`. One roll selects at most one item stack. Chances are fractions of a roll and must total at most 1 across direct and attached items. Unallocated chance produces nothing. Repeated rolls can select the same item, and their quantities are combined.
+
+For example, a roll with `count: 3`, a 25% ore entry and a 50% hide entry makes three selections, each with 25% ore, 50% hide and 25% nothing. Quantities apply to each successful selection.
+
+In the editor, **Attach table to this roll** joins one named pool from that table to the current pool. Its percentages stay unchanged; the current roll controls the count. **Attach table on its own rolls** creates a separate group for each pool in the table, starting with the table's counts. Those counts can then be edited on the creature. Item entries remain linked, so changing the shared table updates its users. Cycles, missing pools and totals above 100% cannot be saved.
+
+Guaranteed rewards have their own 100% rolls. Starter gear shares one pool with 46% no drop, preserving the listed 5% armour and 2% jewelry chances. Gold is a guaranteed first roll of its own, sized by the creature's gold range, and lands in the loot pile with everything else.
+
 ## Integration and evidence
 
 Root registers `WILDERNESS_LOOT_ITEMS` with items and `WILDERNESS_LOOT_RECIPES` with recipes. The resource module references `cindervein_vein` and `nightglass_vein`, which yield this module's `cindervein_ore` and `nightglass_ore`. Trees reuse `tree_teak` / `teak_log` and `tree_magic` / `magic_log`.

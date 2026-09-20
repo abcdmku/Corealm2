@@ -133,7 +133,7 @@ const COMBAT_EXPRESSIONS: Record<string, (level: number, profile: CreatureProfil
   armour: (level, p) => linear(0, level, p.armourPerLevel),
   magicArmour: (level, p) => linear(0, level, p.magicArmourPerLevel),
   maxHit: (level, p) => `max(1, round(1 + ${level} × ${fmt(p.hitPerLevel)}))`,
-  marks: (level, p) => `[round(${level} × ${fmt(p.marksPerLevel)}), ×2]`,
+  gold: (level, p) => `[round(${level} × ${fmt(p.goldPerLevel)}), ×2]`,
   attackSpeedMs: (_l, p) => `${p.attackSpeedMs} ms from role`,
   behaviour: (_l, p) => `${p.role} role`,
   aggroRadius: (_l, p) => `${p.role} role`,
@@ -142,14 +142,14 @@ const COMBAT_EXPRESSIONS: Record<string, (level: number, profile: CreatureProfil
 };
 const COMBAT_PARAM: Record<string, string> = {
   maxHealth: "healthPerLevel", attackLevel: "attackMultiplier", defenceLevel: "defenceMultiplier", accuracy: "accuracyPerLevel",
-  armour: "armourPerLevel", magicArmour: "magicArmourPerLevel", maxHit: "hitPerLevel", marks: "marksPerLevel", attackSpeedMs: "attackSpeedMs",
+  armour: "armourPerLevel", magicArmour: "magicArmourPerLevel", maxHit: "hitPerLevel", gold: "goldPerLevel", attackSpeedMs: "attackSpeedMs",
 };
 export const COMBAT_LABELS: Readonly<Record<string, string>> = {
   maxHealth: "Health", attackLevel: "Attack", defenceLevel: "Defence", accuracy: "Accuracy", armour: "Armour", magicArmour: "Magic armour",
-  maxHit: "Max hit", marks: "Marks", attackSpeedMs: "Attack speed", behaviour: "Behaviour", aggroRadius: "Aggro radius", attackStyle: "Attack style",
+  maxHit: "Max hit", gold: "Gold", attackSpeedMs: "Attack speed", behaviour: "Behaviour", aggroRadius: "Aggro radius", attackStyle: "Attack style",
   attackRangeM: "Attack range", moveSpeedMps: "Move speed", walkSpeedMps: "Walk speed",
 };
-export const COMBAT_FIELDS = ["maxHealth", "attackLevel", "defenceLevel", "accuracy", "armour", "magicArmour", "maxHit", "marks", "attackSpeedMs", "attackStyle", "attackRangeM", "behaviour", "aggroRadius"] as const;
+export const COMBAT_FIELDS = ["maxHealth", "attackLevel", "defenceLevel", "accuracy", "armour", "magicArmour", "maxHit", "gold", "attackSpeedMs", "attackStyle", "attackRangeM", "behaviour", "aggroRadius"] as const;
 /** Adjustable but not computed: the curve never sets these, so their chain never has a curve link. */
 export const UNCOMPUTED_FIELDS = ["moveSpeedMps", "walkSpeedMps"] as const;
 /** Fields a variant either authors or takes whole from its base. They are not adjustments. */

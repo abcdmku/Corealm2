@@ -31,7 +31,7 @@ describe('single-stat jewelry and paired boss rewards',()=>{
   }
  });
  it('uses exactly 30% total probability with mutually exclusive ring and earring',()=>{
-  const drops=universalMinibossSpecies('01','karrowmoor').stats.drops;
+  const drops=universalMinibossSpecies('01','karrowmoor').stats.lootRolls.filter(roll=>roll.id!=='gold');
   for(const [sample,suffix] of [[0,'ring'],[.149999,'ring'],[.15,'earring'],[.299999,'earring'],[.30,null],[.999,null]] as const){
    const rng={next:()=>sample,chance:()=>false,int:()=>1};
    const result=rollItemDrops(drops,rng);

@@ -9,7 +9,7 @@ for(const item of await fs.readdir(root,{withFileTypes:true})){
  let r;try{r=JSON.parse(await fs.readFile(file,'utf8'));}catch(error){if(error.code==='ENOENT')continue;throw error;}
  const before=r.beforeKill?.game,dead=r.dead?.game;
  rows.push({directory:item.name,species:r.species,assertionsPassed:r.passed,visualAccepted:r.visualAccepted??false,catalogueSha256:r.catalogueSha256,renderer:r.renderer,coverage:r.coverage,
-  xp:before&&dead?dead.skills.melee.xp-before.skills.melee.xp:null,marks:before&&dead?dead.currency-before.currency:null,
+  xp:before&&dead?dead.skills.melee.xp-before.skills.melee.xp:null,gold:before&&dead?dead.currency-before.currency:null,
   loot:r.reward?.expected??null,noItemDrop:r.noItemDrop,respawnSeconds:r.respawn&&r.dead?(r.respawn.at-r.dead.at)/1000:null,
   respawnHealth:r.respawn?.lab.target.health,respawnMaxHealth:r.respawn?.lab.target.maxHealth,
   settledCorpse:r.settledCorpse?{time:r.settledCorpse.motion.time,duration:r.settledCorpse.motion.duration}:null,

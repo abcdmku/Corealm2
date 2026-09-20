@@ -417,9 +417,19 @@ scalar belongs to.
 
 Same sections, same rail. Every value in Identity and Combat is one field with a dot and a
 provenance line. Attack speed reads `1800 ms ● ⟲ from Heath Jack · was 2400 from Grazer`. Movement
-speeds are ordinary fields whose chain is `[default]` until you type. Loot is one ref field to a
-table (peek to edit it there) or an inline drop list, and the choice between them is the field's
-"None / Table / Own" state, not a segmented control. Presentation's asset is a ref field; the
+speeds are ordinary fields whose chain is `[default]` until you type. Combat is a `FieldRows`
+block: the sheet's usual label and control, three to a line where they fit, with the dot and the
+revert glyph standing in for the sentence. Loot opens with the kill's odds (gold, the chance of any
+item, items per kill), then gold as the first loot card and one bordered panel per roll. A roll
+owns its loot: its own drops and any number of attached tables, with its own "Add drop" and
+"Attach table". A drop is a one-line loot card: the item stack control, its chance and a remove
+button. An attached table is a tinted block badged "Shared table" (with how many other creatures
+roll on it) so it never reads as the creature's own loot. It picks the table and which of its rolls
+to take, collapses to a one-line summary, and is edited in place: its cards write to the table's
+own draft, show "Unsaved", and save with everything else. A table it takes from in turn nests as
+its own shared block. A roll's head gives the name, how many times it is rolled and its odds;
+"Duplicate" copies a roll to vary it. A new drop
+takes only the chance the whole roll has left. Presentation's asset is a ref field; the
 section-header `×` is gone. Variants and Referenced by close the sheet. The role curve in the rail
 marks the level row and shows which of this creature's numbers beat the curve.
 

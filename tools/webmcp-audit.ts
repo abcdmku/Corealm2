@@ -669,13 +669,13 @@ async function scenarioShop({ page, mcp }: ScenarioContext): Promise<JsonObject>
   expectOk(await mcp.call("corealm_shop", { op: "sell", shopId: "coldbrace_general", itemId: "worn_hatchet", quantity: 1 }), "sell starter hatchet");
   expectOk(await mcp.call("corealm_shop", { op: "sell", shopId: "coldbrace_general", itemId: "worn_pickaxe", quantity: 1 }), "sell starter pickaxe");
   const afterSale = expectOk(await mcp.call("corealm_inventory"), "currency after sale");
-  const marks = numberAt(afterSale, "currency");
-  if (marks < 9) throw new Error(`Selling starter gear paid only ${marks} marks`);
+  const gold = numberAt(afterSale, "currency");
+  if (gold < 9) throw new Error(`Selling starter gear paid only ${gold} gold`);
   const essenceBefore = inventoryCount(afterSale, "air_essence");
   expectOk(await mcp.call("corealm_shop", { op: "buy", shopId: "coldbrace_general", itemId: "air_essence", quantity: 1 }), "buy Air Essence");
   const bought = expectOk(await mcp.call("corealm_inventory"), "inventory after purchase");
   if (inventoryCount(bought, "air_essence") !== essenceBefore + 1) throw new Error("Bought essence did not reach inventory");
-  return { stockRows: asArray(asObject(stock)["stock"]).length, marksAfterSale: marks, bought: "air_essence" };
+  return { stockRows: asArray(asObject(stock)["stock"]).length, goldAfterSale: gold, bought: "air_essence" };
 }
 
 async function scenarioMagicStop({ mcp }: ScenarioContext): Promise<JsonObject> {

@@ -1,3 +1,4 @@
+import { lootRollPreview } from './loot.js';
 import { Anvil, Bird, Boxes, Bug, Cat, Crown, Fish, FlaskConical, Ghost, Hammer, Leaf, MapPin, MessageCircle, Mountain, Music2, PawPrint, Rabbit, Rat, Route, ScrollText, Shield, Shirt, Skull, SlidersHorizontal, Snail, Sparkles, Store, Swords, TreePine, Turtle, User, Users, Wand2, Workflow, Film, Box, Home, Sword, Waves, type LucideIcon } from "lucide-react";
 import { SKILLS } from "../../../game/src/content/skills.js";
 import type { SkillId } from "../../../game/src/contracts.js";
@@ -145,12 +146,9 @@ function creatureSummary(row: ContentRow, ctx: SummaryContext, resolved?: Conten
     const value = num(stats[key]);
     if (value !== undefined) statList.push({ label, value: key === "attackSpeedMs" ? `${value} ms` : numberText(value) });
   }
-  const loot = asRecord(row.loot);
-  const drops = list(loot.drops).length ? list(loot.drops) : list(row.drops).length ? list(row.drops) : list(stats.drops);
-  const tableId = text(loot.tableId);
-  const table = tableId ? ctx.lookup("lootTable", tableId) : undefined;
-  const dropCount = drops.length || list(table?.drops).length;
-  if (dropCount) statList.push({ label: "Drops", value: String(dropCount) });
+  const rolls = lootRollPreview(row.loot ?? base?.loot ?? { rolls: row.lootRolls ?? stats.lootRolls }, id => ctx.lookup("lootTable", id));
+  const rollCount = rolls.reduce((sum, roll) => sum + roll.count, 0);
+  if (rollCount) statList.push({ label: "Loot rolls", value: String(rollCount) });
   return {
     title: text(row.name) ?? text(stats.name) ?? (base ? rowName(base) : rowName(row)),
     subtitle: [level !== undefined ? `Level ${level}` : undefined, text(presentation.habitat) ?? text(row.description)?.slice(0, 80) ?? (base && !text(row.name) ? `Variant of ${rowName(base)} · ${rowId(row)}` : undefined)].filter(Boolean).join(" · "),
@@ -232,13 +230,11 @@ export function summarize(collection: string, row: ContentRow, ctx: SummaryConte
       return { title: name, subtitle: `${Object.keys(members).length} pieces · ${list(row.thresholds).length} bonuses`, badges, thumb: ids.length ? { kind: "items", ids } : { kind: "glyph", icon: Shirt }, stats: [], tier: num(row.tier) };
     }
     case "lootTables": {
-      const drops = list(row.drops).map(asRecord);
+      const rolls = lootRollPreview(row, id => ctx.lookup("lootTable", id));
+      const drops = rolls.flatMap(roll => roll.drops);
       const ids = drops.map(drop => text(drop.itemId)).filter((value): value is string => Boolean(value));
-      const groups = new Set(drops.map(drop => text(drop.exclusiveGroup)).filter(Boolean));
-      const badges: Badge[] = [{ text: `${drops.length} drops`, mono: true }];
-      if (groups.size) badges.push({ text: `${groups.size} exclusive`, tone: "info" });
-      const owner = text(row.ownerId);
-      return { title: name, subtitle: owner ? `Owned by ${rowName(ctx.lookup("enemy", owner) ?? { id: owner })}` : ids.slice(0, 4).map(itemId => rowName(ctx.lookup("item", itemId) ?? { id: itemId })).join(", "), badges, thumb: ids.length ? { kind: "items", ids: ids.slice(0, 4) } : { kind: "glyph", icon: Boxes }, stats: [] };
+      const badges: Badge[] = [{ text: `${rolls.reduce((sum, roll) => sum + roll.count, 0)} rolls`, mono: true }];
+      return { title: name, subtitle: ids.slice(0, 4).map(itemId => rowName(ctx.lookup("item", itemId) ?? { id: itemId })).join(", "), badges, thumb: ids.length ? { kind: "items", ids: ids.slice(0, 4) } : { kind: "glyph", icon: Boxes }, stats: [] };
     }
     case "creatureDefinitions": return creatureSummary(row, ctx);
     case "enemies": return creatureSummary(row, ctx, row);

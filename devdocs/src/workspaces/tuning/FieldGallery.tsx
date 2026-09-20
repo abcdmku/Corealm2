@@ -137,7 +137,7 @@ export default function FieldGallery({ navigate }: ViewProps) {
           <RefField kind="item" label="Item" hint="A reference with a target. Click the chip or press Space to peek; hover for the card." value={refs.item} onChange={setRef("item", "Item")} />
           <RefField kind="item" label="Missing" hint="The id is not in the collection: dashed chip, red dot, and the picker opens on click." value={refs.missing} onChange={setRef("missing", "Missing")} />
           <RefField kind="item" label="Optional item" hint="Backspace clears it; the picker offers a None row." value={refs.optionalItem} optional onChange={setRef("optionalItem", "Optional item")} />
-          <RefField kind="lootTable" label="Loot table" hint="Inherited from the base creature. Picking makes it your own; Backspace hands it back." value={refs.inheritedLoot} resolved={resolve("loot.tableId", refs.inheritedLoot, [inherited<string | undefined>("shared_marsh_gland_raw_venison")])} onChange={setRef("inheritedLoot", "Loot table")} />
+          <RefField kind="lootTable" label="Loot table" hint="Inherited from the base creature. Picking makes it your own; Backspace hands it back." value={refs.inheritedLoot} resolved={resolve("loot.rolls[0].tables[0].tableId", refs.inheritedLoot, [inherited<string | undefined>("shared_marsh_gland_raw_venison")])} onChange={setRef("inheritedLoot", "Loot table")} />
           <RefField kind="skill" label="Skill" hint="No collection: the options come from the schema enum." value={refs.skill} onChange={setRef("skill", "Skill")} />
           <RefField kind="station" label="Station" hint="Derived from recipe templates. Optional." value={refs.station} optional onChange={setRef("station", "Station")} />
           <RefField kind="item" label="Read only" readOnly value="cooked_crown_trout" onChange={() => undefined} />
@@ -164,7 +164,7 @@ export default function FieldGallery({ navigate }: ViewProps) {
 /* ---------- Lists: ListField, MapField, WeightedList, UnionList (§3.6) ---------- */
 
 type Member = { creatureId: string; weight: number };
-type Drop = { itemId: string; quantity: [number, number]; chance: number; exclusiveGroup?: string };
+type Drop = { itemId: string; quantity: [number, number]; chance: number };
 
 const CREATURES = [{ value: "heath_jack", label: "Heath Jack" }, { value: "grazer", label: "Grazer" }, { value: "fox", label: "Fox" }, { value: "marsh_hen", label: "Marsh Hen" }];
 const ITEMS = [{ value: "fox_fur", label: "Fox Fur" }, { value: "bone", label: "Bone" }, { value: "ember_stone", label: "Ember Stone" }, { value: "raw_meat", label: "Raw Meat" }];
@@ -201,7 +201,7 @@ function ListsSection({ record }: { record: (name: string, value: unknown) => vo
   const [steps, setSteps] = useState<string[]>(["Gather fox fur", "Return to Heath Jack", "Light the beacon"]);
   const [skills, setSkills] = useState<Record<string, number>>({ woodcutting: 10, fishing: 5 });
   const [members, setMembers] = useState<Member[]>([{ creatureId: "heath_jack", weight: 3 }, { creatureId: "grazer", weight: 1 }, { creatureId: "fox", weight: 1 }]);
-  const [drops, setDrops] = useState<Drop[]>([{ itemId: "fox_fur", quantity: [1, 2], chance: 0.6, exclusiveGroup: "pelt" }, { itemId: "bone", quantity: [1, 1], chance: 1 }, { itemId: "ember_stone", quantity: [1, 1], chance: 0.05 }]);
+  const [drops, setDrops] = useState<Drop[]>([{ itemId: "fox_fur", quantity: [1, 2], chance: 0.6 }, { itemId: "bone", quantity: [1, 1], chance: .3 }, { itemId: "ember_stone", quantity: [1, 1], chance: 0.05 }]);
   const [predicates, setPredicates] = useState<unknown[]>([{ kind: "have", itemId: "fox_fur", quantity: 3 }, { kind: "kill", enemyFamily: "fox", count: 5 }, { kind: "skill", skill: "woodcutting", level: 10 }]);
   const renderRef: RenderRef = (kind, value, onChange) => <TextField value={value ?? ""} mono width="id" placeholder={kind} ariaLabel={kind} onChange={next => onChange(next || undefined)} />;
 
@@ -218,15 +218,14 @@ function ListsSection({ record }: { record: (name: string, value: unknown) => vo
       items={members} weightKey="weight" keepTotal keyOf={member => member.creatureId} min={1} addLabel="Add creature" onAdd={() => ({ creatureId: CREATURES.find(creature => !members.some(member => member.creatureId === creature.value))?.value ?? "fox", weight: 1 })}
       onChange={next => { setMembers(next); record("Members", next.map(member => `${member.creatureId}:${member.weight}`).join(" ")); }}
       renderItem={(member, api) => <ChoiceField value={member.creatureId} options={CREATURES} ariaLabel={`Creature ${api.index + 1}`} onChange={next => api.update({ ...member, creatureId: next ?? member.creatureId })} />} />
-    <WeightedList<Drop> label="Drops" hint="Each drop rolls on its own, so chances are independent and do not sum to 100."
+    <WeightedList<Drop> label="Drops" hint="Item chances are per roll. Keep their total at or below 100%; the remainder drops nothing."
       items={drops} probabilityKey="chance" keyOf={drop => drop.itemId} addLabel="Add drop" onAdd={() => ({ itemId: ITEMS.find(item => !drops.some(drop => drop.itemId === item.value))?.value ?? "bone", quantity: [1, 1], chance: 1 })}
-      onChange={next => { setDrops(next); record("Drops", next.map(drop => `${drop.itemId} ${drop.quantity.join("–")} ${Math.round(drop.chance * 100)}%${drop.exclusiveGroup ? ` [${drop.exclusiveGroup}]` : ""}`).join(", ")); }}
+      onChange={next => { setDrops(next); record("Drops", next.map(drop => `${drop.itemId} ${drop.quantity.join("–")} ${Math.round(drop.chance * 100)}%`).join(", ")); }}
       renderItem={(drop, api) => <>
         <ChoiceField display="select" value={drop.itemId} options={ITEMS} ariaLabel={`Item ${api.index + 1}`} onChange={next => api.update({ ...drop, itemId: next ?? drop.itemId })} />
         <NumberField value={drop.quantity[0]} integer min={1} ariaLabel={`Minimum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [next ?? 1, Math.max(next ?? 1, drop.quantity[1])] })} />
         <span className="shrink-0 text-[11px] text-faint">to</span>
         <NumberField value={drop.quantity[1]} integer min={drop.quantity[0]} ariaLabel={`Maximum ${api.index + 1}`} onChange={next => api.update({ ...drop, quantity: [drop.quantity[0], Math.max(drop.quantity[0], next ?? drop.quantity[0])] })} />
-        <TextField value={drop.exclusiveGroup ?? ""} width="short" className="w-28" placeholder="no group" ariaLabel={`Exclusive group ${api.index + 1}`} onChange={next => { const { exclusiveGroup, ...bare } = drop; void exclusiveGroup; api.update(next ? { ...bare, exclusiveGroup: next } : bare); }} />
       </>} />
     <UnionList label="Completion" hint="Each row is one predicate, collapsed to its sentence. Enter or click expands it. Switching kind keeps same-named fields and asks before dropping a value."
       schema={questPredicateSchema} items={predicates} summarize={predicateSummary} renderRef={renderRef} addLabel="Add predicate" emptyText="Completes at once."

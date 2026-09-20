@@ -123,5 +123,5 @@ Both answers finish the quest. One of them changes what Mott says to you for the
 | Melee XP | 200 |
 | Agility XP | 120 |
 | [Seared Trout](../../items/seared_trout/) | 5 |
-| Marks | 420 |
+| Gold | 420 |
 | Unlock | Mott will tell you what is moving in the deep wood, at length, whether you ask or not. |

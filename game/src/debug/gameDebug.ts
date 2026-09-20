@@ -516,9 +516,9 @@ export function installGameDebug(deps: DebugDeps): void {
       return store.get().skills[skill].level;
     },
 
-    setCurrency(marks: number): void {
-      if (!Number.isFinite(marks)) return;
-      store.get().currency = Math.max(0, Math.floor(marks));
+    setCurrency(gold: number): void {
+      if (!Number.isFinite(gold)) return;
+      store.get().currency = Math.max(0, Math.floor(gold));
       store.markDirty();
     },
 

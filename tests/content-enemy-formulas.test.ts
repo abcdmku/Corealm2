@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
-  combatLevel, tierMarks, tuneCombat, deriveLegacyBoss, ordrunPhases,
+  combatLevel, tierGold, tuneCombat, deriveLegacyBoss, ordrunPhases,
   type CombatInput, type CombatResult, type EnemyBalanceStage1,
 } from '../game/src/content/balance/enemies.js';
 
 // Original literals are an independent oracle; these tests do not load mutable balance JSON.
 const params: EnemyBalanceStage1 = {
-  marksPerTier: { ordinary: [3, 11], purse: [7, 27] },
+  goldPerTier: { ordinary: [3, 11], purse: [7, 27] },
   combatLevel: { rollLevelOffset: 9, bonusDivisor: 100, defenceStyleCount: 2, healthPerLevel: 3,
     offenceWeight: .5, defenceWeight: .25, healthWeight: .25, minimum: 1 },
   tuning: { minimumHealth: 3, minimumLevel: 1, minimumBonus: 0, maximumBonus: 80, maximumBonusScale: 1,
@@ -17,7 +17,7 @@ const params: EnemyBalanceStage1 = {
     mossbound: { tier: 5, multiplier: 3 }, rootheart: { tier: 5, multiplier: 5 },
     tideworn: { tier: 10, multiplier: 4 }, ordrun: { tier: 10, multiplier: 5 }, cinderwake: { tier: 20, multiplier: 4 },
   },
-  legacyMarksInputs: [], legacyBossInputs: [],
+  legacyGoldInputs: [], legacyBossInputs: [],
   ordrunPhases: [
     { atHealthFraction: 1, attackSpeedMs: 3000 },
     { atHealthFraction: .55, armourNumerator: 50, armourDenominator: 62, attackSpeedMs: 2400,
@@ -36,9 +36,9 @@ function freeze<T>(value: T): T {
 }
 describe('pure Stage 1 enemy formulas', () => {
   it('rounds mark half ties and uses the selected authored multiplier pair', () => {
-    expect(tierMarks(params.marksPerTier, .5, 'ordinary')).toEqual([2, 6]);
-    expect(tierMarks(params.marksPerTier, .5, 'purse')).toEqual([4, 14]);
-    expect(tierMarks({ ordinary: [4, 12], purse: [8, 28] }, 5, 'purse')).toEqual([40, 140]);
+    expect(tierGold(params.goldPerTier, .5, 'ordinary')).toEqual([2, 6]);
+    expect(tierGold(params.goldPerTier, .5, 'purse')).toEqual([4, 14]);
+    expect(tierGold({ ordinary: [4, 12], purse: [8, 28] }, 5, 'purse')).toEqual([40, 140]);
   });
 
   it('retains the first exact candidate across equal-error search plateaus', () => {
@@ -83,8 +83,8 @@ describe('pure Stage 1 enemy formulas', () => {
     const result = deriveLegacyBoss(frozen, input);
     const phases = ordrunPhases(frozen.ordrunPhases, freeze(result));
     phases[0]!.armour = -1;
-    const marks = tierMarks(frozen.marksPerTier, 5, 'ordinary');
-    marks[0] = -1;
+    const gold = tierGold(frozen.goldPerTier, 5, 'ordinary');
+    gold[0] = -1;
     expect({ frozen, input }).toEqual(before);
     expect(ordrunPhases(frozen.ordrunPhases, result)[0]!.armour).toBe(result.armour);
   });

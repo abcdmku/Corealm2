@@ -134,7 +134,7 @@ try{
  assert(report.coverage.movedMetres>.5,'Insufficient natural actor travel');assert(report.coverage.movingTurnRadians>.15,'No meaningful living actor turn while moving');assert(advancing.has('walk')||advancing.has('run'),'No advancing locomotion while moving');
  assert(report.captures.includes('attack'),'No screenshot remained in actual Attack throughout capture');assert(report.captures.includes('hit'),'No screenshot remained inside an active hit overlay throughout capture');
  assert(report.hitOverlays?.every((o:any)=>o.maskStatus==='native-masked'&&o.bones.length>0),'Hit overlay did not use the native masked reaction');
- report.rewards={meleeXP:dead.game.skills.melee.xp-report.beforeKill.game.skills.melee.xp,marks:dead.game.currency-report.beforeKill.game.currency};
- assert(report.rewards.meleeXP>0,'No kill XP after fixture level setup');assert(report.rewards.marks>0,'No kill marks');
+ report.rewards={meleeXP:dead.game.skills.melee.xp-report.beforeKill.game.skills.melee.xp,gold:(await page.evaluate(()=>(window as any).__gameDebug.getEvents(0).events.some((event:any)=>event.type==='item.received'&&Array.isArray(event.data?.items)&&event.data.items.some((stack:any)=>stack.itemId==='gold'&&stack.quantity>0))))};
+ assert(report.rewards.meleeXP>0,'No kill XP after fixture level setup');assert(report.rewards.gold,'No gold in the kill loot pile');
  report.errors=await driver.callDebug('getErrors');report.pageErrors=driver.pageErrors;assert.deepEqual(report.errors,[]);assert.deepEqual(report.pageErrors,[]);report.passed=true;
 }catch(error){report.error=String(error);process.exitCode=1;}finally{await driver.close();clearDeadline();await writeFile(`${out}/report.json`,JSON.stringify(report,null,2));console.log(JSON.stringify({passed:report.passed,error:report.error,out}));}

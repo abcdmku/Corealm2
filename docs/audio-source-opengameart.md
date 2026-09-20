@@ -134,11 +134,44 @@ directory.
 - The direct `rock_break.ogg`, `chop-tree-fall.ogg`, and `craft.ogg` attachments were accepted;
   only their destination names changed.
 
+## Loot pickup cues, September 20, 2026
+
+The loot pickup split (coins ring, every other item knocks) needed a purpose-recorded coin sound;
+nothing in the shipped set was one. Two files were taken from the OpenGameArt page
+[80 CC0 RPG SFX](https://opengameart.org/content/80-cc0-rpg-sfx) by **rubberduck**, published
+2018-07-08, the same author as the already-shipped `100 CC0 metal and wood SFX` and `100 CC0 SFX #2`
+packs. The page displays **License(s): CC0** and describes the pack as "80 sound effects for
+fantasy / rpg games", including "21x item (coins, gem, misc, stone, wood)".
+
+The page's **File(s)** row shows `80-CC0-RPG-SFX.zip`; the attachment carries the usual Drupal
+collision suffix. [`80-CC0-RPG-SFX_0.zip`](https://opengameart.org/sites/default/files/80-CC0-RPG-SFX_0.zip)
+returned HTTP 200, 1,845,114 bytes, SHA-256
+`1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd`, and extracted 80 OGG entries.
+
+Selection was made on measured shape rather than on the filenames alone. `item_coins_01.ogg` is
+short (0.406 s), carries four separate transients, and peaks in the 3.5-12 kHz band, which is a
+small handful of coins rather than a single struck bell. `misc_02.ogg` was taken for the item
+knock because it is the inverse: one transient, peak energy at 20-150 Hz, and 25 dB down by
+3.5 kHz. One file per cue is the whole selection: the pickup sounds are deliberately fixed rather
+than rotated, so the other three coin files in the pack are not shipped. The rest of the pack is
+out of scope; its creature and spell files are not shipped, because Corealm already has curated
+voices and spell sounds.
+
+| Cue | Shipped file | Original filename | Transformation | Duration (s) | Source SHA-256 | Shipped SHA-256 |
+| --- | --- | --- | --- | ---: | --- | --- |
+| `interaction.loot_coins` | `loot-coins-01.ogg` | `item_coins_01.ogg` | Copy + rename | 0.406333 | `4e701b281a4f88768beccbe87af4574d13ac5a4bc5cab6c522f0e79823d6e428` | `4e701b281a4f88768beccbe87af4574d13ac5a4bc5cab6c522f0e79823d6e428` |
+| `interaction.loot_item` | `loot-thump-01.ogg` | `misc_02.ogg` | Copy + rename | 0.543354 | `5a17c4f8d8511fef5345ce5879b76795897c0f15a5b1898b62d719c488d1b546` | `5a17c4f8d8511fef5345ce5879b76795897c0f15a5b1898b62d719c488d1b546` |
+
+Both are Ogg Vorbis, 48 kHz, stereo, copied bit-for-bit: source and shipped hashes are equal. The
+knock plays at 0.87 of its recorded rate, which is a catalogue number rather than a file edit.
+
 ## Integrity summary
 
-- Destination contains 24 files, all lowercase kebab-case `.ogg` names.
+- Destination contains 26 files, all lowercase kebab-case `.ogg` names.
 - `ffprobe` reports Vorbis for every destination file; there are no MP3/WAV files or source ZIPs
   in `game/public/audio/sfx/oga/`.
-- The 23 already-Vorbis assets retain their source bytes and SHA-256 hashes. The sole conversion
+- The 25 already-Vorbis assets retain their source bytes and SHA-256 hashes. The sole conversion
   is the CC0 WAV `blacksmithhammer.wav` to `smithing-anvil.ogg` (Vorbis q5, 44.1 kHz mono).
-- No code, manifest, or other directory was changed for this curation.
+- No code, manifest, or other directory was changed by the August 2026 curation. The September 20,
+  2026 loot cues added two files here and their two cue entries in
+  `game/content/data/audio/catalog.json`.

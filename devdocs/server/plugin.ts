@@ -113,6 +113,18 @@ export function devdocsPlugin(options: DevdocsPluginOptions = {}): Plugin {
     configureServer(server) {
       installDevdocsMiddleware(server, options);
     },
+    // The editor writes these files itself and re-reads them through its API. The 3D viewer pulls
+    // the compiled catalogue into the client graph, so without this every save is a full page
+    // reload: it lands while the save is still in flight, trips the unsaved-changes prompt, and
+    // throws away scroll, focus and undo.
+    hotUpdate({ file, modules }) {
+      if (this.environment.name !== "client") return;
+      const changed = file.replaceAll("\\", "/");
+      if (!/\/game\/content\/(?:data|compiled)\/[^/]+\.json$/.test(changed)) return;
+      // Drop the cached copy so the next real load of the page reads the new file.
+      for (const module of modules) this.environment.moduleGraph.invalidateModule(module);
+      return [];
+    },
   };
 }
 

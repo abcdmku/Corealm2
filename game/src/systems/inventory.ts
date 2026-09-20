@@ -135,7 +135,7 @@ export class InventorySystem {
     }
     const wanted = Math.floor(quantity);
 
-    // Marks are a balance, not a slot. See addCurrency for why.
+    // Gold is a balance, not a slot. See addCurrency for why.
     if (def.category === "currency") return this.addCurrency(wanted);
 
     const slots = this.state.inventory.slots;
@@ -272,13 +272,13 @@ export class InventorySystem {
   // ---------------------------------------------------------------- currency
 
   /**
-   * Marks live in `state.currency` and nowhere else.
+   * Gold lives in `state.currency` and nowhere else.
    *
-   * PRD 2.10 also describes marks as "carried in inventory". Honouring both would double-count:
+   * PRD 2.10 also describes gold as "carried in inventory". Honouring both would double-count:
    * `GameApi.getCurrency()` and `ShopView.currency` read `state.currency`, while a mirrored stack
    * would be a second, drifting copy of the same number, and reconciling them on every sale is a
    * bug farm. The balance wins because it is the one the frozen contract already reads. The visible
-   * consequence is that marks never occupy one of the 28 slots — which costs nothing, because a
+   * consequence is that gold never occupies one of the 28 slots — which costs nothing, because a
    * single always-stacked coin pile was never the constraint that made a route interesting.
    */
   addCurrency(amount: number): Result<number> {
@@ -287,7 +287,7 @@ export class InventorySystem {
     if (gained <= 0) return ok(0);
     this.state.currency += gained;
     this.deps.store.markDirty();
-    this.emit("item.received", { itemId: this.resolveCurrencyItemId(), name: "marks", quantity: gained });
+    this.emit("item.received", { itemId: this.resolveCurrencyItemId(), name: "gold", quantity: gained });
     return ok(gained);
   }
 
@@ -295,11 +295,11 @@ export class InventorySystem {
     if (!Number.isFinite(amount) || amount < 1) return err("INVALID_ARGUMENT", "Amount must be at least 1");
     const cost = Math.floor(amount);
     if (this.state.currency < cost) {
-      return err("NOT_ENOUGH_CURRENCY", `You have ${this.state.currency} marks, not ${cost}`);
+      return err("NOT_ENOUGH_CURRENCY", `You have ${this.state.currency} gold, not ${cost}`);
     }
     this.state.currency -= cost;
     this.deps.store.markDirty();
-    this.emit("item.lost", { itemId: this.resolveCurrencyItemId(), name: "marks", quantity: cost });
+    this.emit("item.lost", { itemId: this.resolveCurrencyItemId(), name: "gold", quantity: cost });
     return ok(cost);
   }
 
@@ -308,7 +308,7 @@ export class InventorySystem {
     if (this.currencyItemId !== null) return this.currencyItemId;
     const found = content.allItems().find((item) => item.category === "currency");
     if (found) this.currencyItemId = found.id;
-    return found ? found.id : "marks";
+    return found ? found.id : "gold";
   }
 
   // -------------------------------------------------------------------- food

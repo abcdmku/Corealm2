@@ -236,7 +236,7 @@ export function buildDocs(): DocEntry[] {
     }
     if (item.food) parts.push(`Eating it restores ${item.food.healAmount} health.`);
     if (item.tool) parts.push(`Used for ${item.tool.skill}, adding ${item.tool.gatherBonus} effective levels.`);
-    parts.push(`Worth ${item.value} marks in a shop, sells for about ${sellPrice(item.value)}.`);
+    parts.push(`Worth ${item.value} gold in a shop, sells for about ${sellPrice(item.value)}.`);
     entries.push({
       id: `item-${item.id}`,
       title: item.name,

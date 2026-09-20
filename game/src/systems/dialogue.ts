@@ -369,7 +369,7 @@ export class DialogueSystem {
       case "lacksItem":
         return `Only available while you are carrying fewer than ${condition.quantity} x ${condition.itemId}.`;
       case "currency":
-        return `Requires ${condition.amount} marks.`;
+        return `Requires ${condition.amount} gold.`;
       default:
         return "Not available.";
     }

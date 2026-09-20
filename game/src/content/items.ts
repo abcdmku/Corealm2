@@ -6,8 +6,8 @@ export const ITEMS: readonly ItemDef[] = ITEM_DATA;
 /** The table registered by the game, in the same order as the authored JSON file. */
 export const ALL_ITEMS: readonly ItemDef[] = ITEM_DATA;
 
-/** The currency item id, so nothing else has to spell it. PRD 2.10: currency is marks. */
-export const CURRENCY_ITEM_ID = "marks";
+/** The currency item id, so nothing else has to spell it. PRD 2.10: currency is gold. */
+export const CURRENCY_ITEM_ID = "gold";
 
 /**
  * What a new character carries and wears.

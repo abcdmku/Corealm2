@@ -119,7 +119,7 @@ try {
       report.currentCombat = { before, after, dead, trace, loot };
       const xp = (game: any) => ["melee", "magic"].reduce((sum, id) => sum + (game.skills?.[id]?.xp ?? 0), 0);
       assert(xp(after) > xp(before.game), "Credited kill did not award combat XP");
-      assert(after.currency > before.game.currency, "Credited kill did not award marks");
+      assert(await page.evaluate(() => (window as any).__gameDebug.getEvents(0).events.some((event: any) => event.type === "item.received" && Array.isArray(event.data?.items) && event.data.items.some((stack: any) => stack.itemId === "gold" && stack.quantity > 0))), "Credited kill did not drop gold");
       await driver.screenshot(out, `${row.id}-death`);
       let reward: any = null, inventoryAfter: any = null;
       if (loot.length) {
@@ -136,7 +136,7 @@ try {
       assert.deepEqual(reward.afterOpen.slots, reward.inventory.slots, "Opening loot transferred inventory before pointer pickup");
       await page.locator(".loot-reveal:not([hidden]) .loot-reveal__slot").first().click();
       inventoryAfter = await page.evaluate(async () => (window as any).__gameDebug.callTool("corealm_inventory", {}));
-      const quantity = (inventory: any, id: string) => (inventory.slots ?? []).reduce((sum: number, slot: any) => sum + (slot?.itemId === id ? slot.quantity : 0), 0);
+      const quantity = (inventory: any, id: string) => id === "gold" ? inventory.currency : (inventory.slots ?? []).reduce((sum: number, slot: any) => sum + (slot?.itemId === id ? slot.quantity : 0), 0);
       assert.equal(quantity(inventoryAfter, reward.expected.itemId) - quantity(reward.inventory, reward.expected.itemId), reward.expected.quantity, "Pointer loot pickup did not transfer exact stack");
       }
       let respawn: any = null;
@@ -153,7 +153,7 @@ try {
         assert.equal(respawn.target.entityId, before.lab.target.entityId);
         await driver.screenshot(out, `${row.id}-respawn`);
       }
-      report.combat.push({ id: row.id, setup: "Debug fixture spawn, combat levels35, Cobalt sword. One visible Attack button click; clock unmodified. When a normal item roll succeeds, loot opens through the production interaction dispatcher and one exact stack is taken by pointer click. Empty rolls are recorded. Final fight waits for the real respawn deadline.", before, after, dead, trace, respawn, loot, reward, inventoryAfter, dropTable: row.stats.drops, noItemDrop: loot.length === 0 });
+      report.combat.push({ id: row.id, setup: "Debug fixture spawn, combat levels35, Cobalt sword. One visible Attack button click; clock unmodified. When a normal item roll succeeds, loot opens through the production interaction dispatcher and one exact stack is taken by pointer click. Empty rolls are recorded. Final fight waits for the real respawn deadline.", before, after, dead, trace, respawn, loot, reward, inventoryAfter, dropTable: row.stats.lootRolls, noItemDrop: loot.length === 0 });
     }
   }
   report.errors = await driver.callDebug("getErrors");
