@@ -23,13 +23,13 @@ describe("JSON audio content", () => {
     expect(urls.every((url) => !url.startsWith("/"))).toBe(true);
   });
 
-  it("resolves the deployed base while preserving authored order and values", () => {
+  it("keeps catalogue paths relative so the asset host can own them, and preserves authored order", () => {
     expect(Object.keys(COREALM_AUDIO_CATALOG.cues)).toEqual(Object.keys(audioData.cues));
     expect(Object.keys(COREALM_AUDIO_CATALOG.loops)).toEqual(Object.keys(audioData.loops));
     expect(Object.keys(COREALM_AUDIO_CATALOG.regions)).toEqual(Object.keys(audioData.regions));
     expect(COREALM_AUDIO_CATALOG.cues["movement.footstep_grass"].variants[0])
-      .toBe("/audio/sfx/nox/footstep-grass-01.ogg");
-    expect(COREALM_AUDIO_CATALOG.loops["music.castle"]?.url).toBe("/audio/music/castle.mp3");
+      .toBe("audio/sfx/nox/footstep-grass-01.ogg");
+    expect(COREALM_AUDIO_CATALOG.loops["music.castle"]?.url).toBe("audio/music/castle.mp3");
     expect(audioData.regions.crownward?.musicAreas).toEqual(CROWNWARD_MUSIC_AREAS);
     expect(COREALM_AUDIO_CATALOG.regions.crownward?.musicAreas).toEqual(CROWNWARD_MUSIC_AREAS);
     expect(FUTURE_REGION_MUSIC_FILES).toEqual([

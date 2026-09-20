@@ -8,6 +8,7 @@ import type { EntityStore } from "../world/entities.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type { AssetRegistry } from "../render/assets.js";
 import { SessionFailure } from "./protocol.js";
+import { foreignAssetHost } from "../app/config.js";
 import { createWorldSelector, savedHosts } from "../multiplayer/worldSelector.js";
 import type { SessionControllerPorts } from "./providers.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
@@ -127,6 +128,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
     validate(world){
       if(world.contentVersion!==(options.fixture?WORLD_LAB_CONTENT_VERSION:WORLD_CONTENT_VERSION))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
       if(ports.expectedSeed!==undefined&&world.seed!==ports.expectedSeed)throw new SessionFailure("INCOMPATIBLE","This world uses a different map seed from the loaded scene");
+      if(foreignAssetHost(world.assetBaseUrl))throw new SessionFailure("INCOMPATIBLE","This world uses a different asset host from the loaded game");
     },
     clear() {
       social?.clear(); remote.clear(); interpolation.clear(); publicPlayers.clear(); motionTicks.clear();

@@ -1,36 +1,105 @@
-﻿import { endpoint } from "./protocol.js";
+import { readFileSync } from "node:fs";
+import { endpoint } from "./protocol.js";
+
+/** One world on this server. Worlds differ by id, name, seed and capacity; everything else is shared. */
+export interface HostWorld { id: string; name: string; seed: number; capacity: number }
 
 export interface HostConfiguration {
   authored: boolean; developmentGuests: boolean; host: string; port: number;
-  capacity: number; data: string; publicEndpoint: string; allowedOrigins: string[];
-  authModule?: string; worldIds: string[];
+  data: string; publicEndpoint: string; allowedOrigins: string[];
+  /** Static host the client loads models, textures, audio and generated world data from. */
+  assetBaseUrl?: string;
+  /** Identity service that signs join tokens. Carried now, used from M3. */
+  identityUrl?: string;
+  authModule?: string;
+  worlds: HostWorld[];
+  /** The file the settings below came from, or null when there was none. */
+  configFile: string | null;
 }
 
-/** Validate deployment choices before opening storage or preparing expensive world geometry. */
-export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEnv = process.env): HostConfiguration {
-  const value = (flag: string, variable: string, fallback?: string) => {
-    const index = args.indexOf(flag);
-    if (index >= 0 && (!args[index + 1] || args[index + 1]!.startsWith("--"))) throw new Error(`${flag} requires a value`);
-    return index >= 0 ? args[index + 1]! : env[variable] ?? fallback;
+/** Reads a configuration file, or returns undefined when it does not exist. Injected for tests. */
+export type ConfigReader = (path: string) => string | undefined;
+
+const DEFAULT_CONFIG_FILE = "corealm-server.json";
+const DEFAULT_SEED = 1337;
+const DEFAULT_CAPACITY = 64;
+const WORLD_ID = /^[A-Za-z0-9_.:-]{1,128}$/;
+const FILE_KEYS = ["host", "port", "publicEndpoint", "allowedOrigins", "data", "assetBaseUrl", "identityUrl",
+  "authored", "developmentGuests", "authModule", "worlds"];
+const WORLD_KEYS = ["id", "name", "seed", "capacity"];
+
+function readConfigFile(path: string): string | undefined {
+  try { return readFileSync(path, "utf8"); } catch { return undefined; }
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
+
+/** Authored worlds keep the display name the standalone host has always shown. */
+const worldName = (id: string): string => id === "corealm" ? "Corealm" : id;
+
+/**
+ * Validate deployment choices before opening storage or preparing expensive world geometry.
+ *
+ * Settings come from `corealm-server.json`, environment variables and flags, in that order of
+ * increasing precedence. `readFile` exists so the configuration file is testable without a disk.
+ */
+export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEnv = process.env,
+  readFile: ConfigReader = readConfigFile): HostConfiguration {
+  const flag = (name: string): string | undefined => {
+    const index = args.indexOf(name);
+    if (index >= 0 && (!args[index + 1] || args[index + 1]!.startsWith("--"))) throw new Error(`${name} requires a value`);
+    return index >= 0 ? args[index + 1]! : undefined;
   };
-  const authored = args.includes("--authored");
-  const developmentGuests = args.includes("--development-guests");
-  const host = value("--host", "COREALM_HOST", "127.0.0.1")!;
-  const port = Number(value("--port", "COREALM_PORT", "4180"));
-  const capacity = Number(value("--capacity", "COREALM_CAPACITY", "64"));
-  const data = value("--data", "COREALM_DATA", "local-worlds")!;
-  const authModule = value("--auth-module", "COREALM_AUTH_MODULE");
+  const configPath = flag("--config") ?? env.COREALM_CONFIG;
+  const path = configPath ?? DEFAULT_CONFIG_FILE;
+  const text = readFile(path);
+  if (text === undefined && configPath) throw new Error(`Configuration file not found: ${path}`);
+  let file: Record<string, unknown> = {};
+  if (text !== undefined) {
+    let parsed: unknown;
+    try { parsed = JSON.parse(text); } catch { throw new Error(`${path} is not valid JSON`); }
+    if (!isRecord(parsed)) throw new Error(`${path} must contain a JSON object`);
+    for (const key of Object.keys(parsed)) if (!FILE_KEYS.includes(key)) throw new Error(`${path}: unknown setting "${key}"`);
+    file = parsed;
+  }
+  const fileText = (key: string): string | undefined => {
+    const value = file[key];
+    if (value === undefined) return undefined;
+    if (typeof value !== "string" || !value) throw new Error(`${path}: ${key} must be a nonempty string`);
+    return value;
+  };
+  const fileFlag = (key: string): boolean => {
+    const value = file[key];
+    if (value === undefined) return false;
+    if (typeof value !== "boolean") throw new Error(`${path}: ${key} must be true or false`);
+    return value;
+  };
+  const value = (name: string, variable: string, key: string, fallback?: string): string | undefined =>
+    flag(name) ?? env[variable] ?? fileText(key) ?? fallback;
+
+  const authored = args.includes("--authored") || fileFlag("authored");
+  const developmentGuests = args.includes("--development-guests") || fileFlag("developmentGuests");
+  const host = value("--host", "COREALM_HOST", "host", "127.0.0.1")!;
+  const filePort = file.port;
+  if (filePort !== undefined && !Number.isSafeInteger(filePort)) throw new Error(`${path}: port must be an integer`);
+  const port = Number(flag("--port") ?? env.COREALM_PORT ?? (filePort === undefined ? "4180" : String(filePort)));
+  const data = value("--data", "COREALM_DATA", "data", "local-worlds")!;
+  const authModule = value("--auth-module", "COREALM_AUTH_MODULE", "authModule");
   if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("Port must be 0 through 65535");
-  if (!Number.isInteger(capacity) || capacity < 1 || capacity > 1000) throw new Error("Capacity must be 1 through 1000");
   if (developmentGuests === Boolean(authModule)) throw new Error("Choose an authentication module or explicit development guests");
   const loopback = ["127.0.0.1", "localhost", "::1"].includes(host);
   if (port === 0 && !loopback) throw new Error("Ephemeral ports require a loopback listener");
   if (developmentGuests && !loopback) throw new Error("Development guests require a loopback listener");
-  const configuredEndpoint = value("--public-endpoint", "COREALM_PUBLIC_ENDPOINT");
+  const configuredEndpoint = value("--public-endpoint", "COREALM_PUBLIC_ENDPOINT", "publicEndpoint");
   if (!loopback && !configuredEndpoint) throw new Error("A remote listener requires a public WSS endpoint");
   const publicEndpoint = endpoint(configuredEndpoint ?? `ws://127.0.0.1:${port}/`);
   if (!loopback && new URL(publicEndpoint).protocol !== "wss:") throw new Error("Remote hosting requires WSS");
-  const allowedOrigins = (value("--origins", "COREALM_ALLOWED_ORIGINS", "")!).split(",").map(s => s.trim()).filter(Boolean);
+  const fileOrigins = file.allowedOrigins;
+  if (fileOrigins !== undefined && (!Array.isArray(fileOrigins) || fileOrigins.some(entry => typeof entry !== "string")))
+    throw new Error(`${path}: allowedOrigins must be an array of origin strings`);
+  const allowedOrigins = (flag("--origins") ?? env.COREALM_ALLOWED_ORIGINS)?.split(",").map(s => s.trim()).filter(Boolean)
+    ?? (fileOrigins as string[] | undefined)?.map(entry => entry.trim()).filter(Boolean) ?? [];
   for (const origin of allowedOrigins) {
     const url = new URL(origin);
     const local = ["127.0.0.1", "localhost", "[::1]"].includes(url.hostname);
@@ -38,8 +107,48 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
       throw new Error("Allowed origins must be exact HTTPS origins or local HTTP origins");
   }
   if (new URL(publicEndpoint).protocol === "wss:" && !allowedOrigins.length) throw new Error("Public hosting requires explicit allowed origins");
-  const worldIds = value("--worlds", "COREALM_WORLDS", authored ? "corealm" : "yard")!.split(",").map(s => s.trim());
-  if (!worldIds.length || new Set(worldIds).size !== worldIds.length || worldIds.some(id => !/^[A-Za-z0-9_.:-]{1,128}$/.test(id)))
-    throw new Error("World IDs must be unique nonempty identifiers");
-  return { authored, developmentGuests, host, port, capacity, data, publicEndpoint, allowedOrigins, authModule, worldIds };
+  const assetBaseUrl = httpBase(value("--asset-base-url", "COREALM_ASSET_BASE_URL", "assetBaseUrl"), "assetBaseUrl");
+  const identityUrl = httpBase(value("--identity-url", "COREALM_IDENTITY_URL", "identityUrl"), "identityUrl");
+
+  const capacityText = flag("--capacity") ?? env.COREALM_CAPACITY;
+  const capacityOverride = capacityText === undefined ? undefined : Number(capacityText);
+  if (capacityOverride !== undefined && (!Number.isInteger(capacityOverride) || capacityOverride < 1 || capacityOverride > 1000))
+    throw new Error("Capacity must be 1 through 1000");
+  const shorthand = (list: string): HostWorld[] => list.split(",").map(entry => entry.trim())
+    .map(id => ({ id, name: worldName(id), seed: DEFAULT_SEED, capacity: capacityOverride ?? DEFAULT_CAPACITY }));
+  const listed = flag("--worlds") ?? env.COREALM_WORLDS;
+  const worlds = (listed !== undefined ? shorthand(listed)
+    : parseWorlds(file.worlds, path, capacityOverride) ?? shorthand(authored ? "corealm" : "yard"))
+    .map(world => capacityOverride === undefined ? world : { ...world, capacity: capacityOverride });
+  if (!worlds.length || new Set(worlds.map(world => world.id)).size !== worlds.length
+    || worlds.some(world => !WORLD_ID.test(world.id))) throw new Error("World IDs must be unique nonempty identifiers");
+  return { authored, developmentGuests, host, port, data, publicEndpoint, allowedOrigins,
+    assetBaseUrl, identityUrl, authModule, worlds, configFile: text === undefined ? null : path };
+}
+
+/** The same rule the browser applies to a descriptor: HTTPS, or plain HTTP only on loopback. */
+function httpBase(value: string | undefined, label: string): string | undefined {
+  if (value === undefined) return undefined;
+  let resolved: string;
+  try { resolved = endpoint(value, true); }
+  catch { throw new Error(`${label} must be an HTTPS URL, or an http URL on loopback, with no credentials or query`); }
+  return resolved.endsWith("/") ? resolved : `${resolved}/`;
+}
+
+function parseWorlds(value: unknown, path: string, capacityOverride: number | undefined): HostWorld[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || !value.length) throw new Error(`${path}: worlds must be a nonempty array`);
+  return value.map(entry => {
+    if (!isRecord(entry)) throw new Error(`${path}: every world must be a JSON object`);
+    for (const key of Object.keys(entry)) if (!WORLD_KEYS.includes(key)) throw new Error(`${path}: unknown world setting "${key}"`);
+    const { id, name, seed, capacity } = entry as { id: unknown; name?: unknown; seed?: unknown; capacity?: unknown };
+    if (typeof id !== "string" || !WORLD_ID.test(id)) throw new Error(`${path}: every world needs an id of letters, digits, _ . : or -`);
+    if (name !== undefined && (typeof name !== "string" || !name.trim() || name.length > 256))
+      throw new Error(`${path}: world ${id} name must be text of 1 to 256 characters`);
+    if (seed !== undefined && !Number.isSafeInteger(seed)) throw new Error(`${path}: world ${id} seed must be an integer`);
+    if (capacity !== undefined && (!Number.isSafeInteger(capacity) || (capacity as number) < 1 || (capacity as number) > 1000))
+      throw new Error(`${path}: world ${id} capacity must be 1 through 1000`);
+    return { id, name: (name as string | undefined) ?? worldName(id), seed: (seed as number | undefined) ?? DEFAULT_SEED,
+      capacity: (capacity as number | undefined) ?? capacityOverride ?? DEFAULT_CAPACITY };
+  });
 }

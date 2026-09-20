@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ASSET_BASE_URL } from '../app/config.js';
+import { assetBaseUrl } from '../app/config.js';
 
 export interface FairyGroundSurface {
   albedo: THREE.Texture;
@@ -13,7 +13,7 @@ let loaded: Promise<FairyGroundSurface> | undefined;
 /** Native grass detail is shared by the realm and its compact material fixture. */
 export function loadFairyGroundSurface(): Promise<FairyGroundSurface> {
   return loaded ??= (async () => {
-    const root = `${ASSET_BASE_URL}textures/fairy-ground/`;
+    const root = `${assetBaseUrl()}textures/fairy-ground/`;
     const loader = new THREE.TextureLoader();
     const results = await Promise.allSettled([
       loader.loadAsync(`${root}grass-albedo.webp`),

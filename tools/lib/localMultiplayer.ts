@@ -118,7 +118,7 @@ export async function startLocalMultiplayer(mode: Mode, args: readonly string[] 
     if (!address || typeof address === "string") throw new Error("Game web server did not open a port");
     const origin = `http://127.0.0.1:${address.port}`;
     console.log(`Starting ${options.lab ? "lab" : "authored"} world. Saved characters: ${options.data}`);
-    const env = { ...process.env }; delete env.COREALM_AUTH_MODULE;
+    const env = { ...process.env }; delete env.COREALM_AUTH_MODULE; delete env.COREALM_CONFIG;
     child = spawn(process.execPath, ["--import", "tsx", "tools/multiplayer-server.ts",
       ...(options.lab ? [] : ["--authored"]), "--development-guests", "--host", "127.0.0.1",
       "--port", String(options.worldPort), "--public-endpoint", `ws://127.0.0.1:${options.worldPort}/`,

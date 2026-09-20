@@ -35,7 +35,51 @@ npm run multiplayer:server -- --authored --development-guests --port 4180 --data
 npm run dev
 ```
 
-The standalone authored host exposes `corealm` by default. Use `--worlds corealm,second-corealm` for two independent worlds. Omit `--authored` for the production lab world `yard`. `--capacity <1..1000>` configures each world's admission ceiling. `/worlds` serves the directory. Keep the data directory across restarts. Run `npm run dev` in another terminal while the host is running.
+The standalone authored host exposes `corealm` by default. Use `--worlds corealm,second-corealm` for two independent worlds, which get seed 1337 and the `--capacity` ceiling. Omit `--authored` for the production lab world `yard`. `--capacity <1..1000>` sets the admission ceiling of every world and overrides the configuration file. `/worlds` serves the directory. Keep the data directory across restarts. Run `npm run dev` in another terminal while the host is running.
+
+### Configuration file
+
+The host reads `corealm-server.json` from its working directory. `--config <path>` or `COREALM_CONFIG` names a different file; a file named that way must exist, while a missing default file is fine. Settings resolve **flag, then environment variable, then file, then built-in default**. `--authored` and `--development-guests` are switches: the flag turns them on and the file's `authored` / `developmentGuests` do the same, so neither can turn the other off.
+
+```json
+{
+  "host": "127.0.0.1",
+  "port": 4180,
+  "publicEndpoint": "wss://worlds.example.com/",
+  "allowedOrigins": ["https://play.example.com"],
+  "data": "./local-worlds",
+  "assetBaseUrl": "https://assets.example.com/corealm/",
+  "identityUrl": "https://identity.example.com/",
+  "authored": true,
+  "authModule": "./auth.mjs",
+  "worlds": [
+    { "id": "corealm", "name": "Corealm", "seed": 1337, "capacity": 200 },
+    { "id": "second-corealm", "name": "Corealm II", "seed": 4242, "capacity": 50 }
+  ]
+}
+```
+
+Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `capacity` to 64. Unknown keys, wrong types, a capacity outside 1 to 1000 and duplicate world ids are all rejected before storage opens. `assetBaseUrl` and `identityUrl` must be HTTPS, or plain HTTP on loopback, and are normalised to end with a slash. `identityUrl` is parsed and carried but not yet used.
+
+| Setting | Flag | Environment variable |
+| --- | --- | --- |
+| config file | `--config` | `COREALM_CONFIG` |
+| `host` | `--host` | `COREALM_HOST` |
+| `port` | `--port` | `COREALM_PORT` |
+| `publicEndpoint` | `--public-endpoint` | `COREALM_PUBLIC_ENDPOINT` |
+| `allowedOrigins` | `--origins` | `COREALM_ALLOWED_ORIGINS` |
+| `data` | `--data` | `COREALM_DATA` |
+| `assetBaseUrl` | `--asset-base-url` | `COREALM_ASSET_BASE_URL` |
+| `identityUrl` | `--identity-url` | `COREALM_IDENTITY_URL` |
+| `authModule` | `--auth-module` | `COREALM_AUTH_MODULE` |
+| `worlds` | `--worlds a,b` | `COREALM_WORLDS` |
+| every world's capacity | `--capacity` | `COREALM_CAPACITY` |
+
+### Asset host
+
+A server that sets `assetBaseUrl` puts it on every world descriptor it publishes, so `/worlds` and the join reply both carry it. The client loads its whole public file tree from that base: the asset manifest, models, textures, icons, the display font, sound and the generated terrain, navmesh and world data. The client's own JavaScript and CSS stay on the origin the page was served from. Cross-origin hosting needs `Access-Control-Allow-Origin` on every one of those files; the world map images and the asset image loader request them in CORS mode so the map canvas stays readable.
+
+Boot picks the asset host once, before the first file is requested, from the worlds it discovered. All worlds a page can see must therefore agree on it; a world that names a different host is refused with an incompatible-world message, because a session cannot move hosts without reloading. A page with no server can set `window.__COREALM_ASSET_BASE__` before the game module, which wins over any world's answer and disables that check. With none of this configured the client uses relative paths exactly as before, which is what the GitHub Pages build needs.
 
 For this standalone setup only, load one configuration example before the game module in `game/index.html`:
 
@@ -53,13 +97,13 @@ Open the game menu with Escape or the minimap menu button to return to Worlds. T
 
 Players add their own hosts from the same panel. Type an address into the host field and select Add host: `127.0.0.1:4180`, `worlds.example.com`, a `ws://` endpoint, or a full directory URL. A bare address gets the reference host's `/worlds` path, loopback addresses default to `http` and everything else to `https`, which is what discovery accepts. Added hosts are stored in the browser under `corealm.hosts.v1`, are asked alongside the page's configured directory on every refresh, and are removed with the × beside the address. A host that cannot be reached reports itself in the status line without hiding the worlds other sources returned. Duplicate worlds are listed once. A page with no configuration of its own still shows Worlds when the player has added a host.
 
-The browser currently requires a world's seed to match the loaded authored scene (default 1337). A different seed produces an incompatible-world message. Switching worlds releases the old connection, keeps its frozen scene during connection setup, and replaces that scene when a validated snapshot arrives. Their progression remains independent even when terrain is identical.
+The browser currently requires a world's seed to match the loaded authored scene. Each world carries its own seed from the host's configuration, defaulting to 1337; a different seed produces an incompatible-world message. Switching worlds releases the old connection, keeps its frozen scene during connection setup, and replaces that scene when a validated snapshot arrives. Their progression remains independent even when terrain is identical.
 
 Fixed authored scenery stays loaded from that matching map when buildings lie beyond the server's gameplay interest radius. Actors, resources and interactables still come from authoritative snapshots and deltas. This keeps distant structures visible without sending a larger world snapshot to every player.
 
 ## Registration and authentication
 
-`window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol/content versions, seed, population, capacity, and availability. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
+`window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol/content versions, seed, population, capacity, availability, and an optional `assetBaseUrl`. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
 
 `WorldProvider` separates discovery, authentication, and transport from gameplay. Register alternative implementations through `window.__COREALM_PROVIDERS__`. Other configured provider IDs use the reference WebSocket adapter. Adapter conformance tests exercise it and an independent deterministic adapter.
 

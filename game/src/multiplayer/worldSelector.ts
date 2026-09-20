@@ -215,6 +215,13 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   renderHosts();
   await reload();
   return {panel,controller,
+    /**
+     * The asset host every discovered world agrees on, or undefined when they disagree or say
+     * nothing. Boot loads the session's files from it, so one answer is all it can use; a world
+     * that wants a different host is refused by the session's compatibility check.
+     */
+    assetBase(){const bases=new Set(worlds.map(world=>world.assetBaseUrl??""));
+      return bases.size===1?[...bases][0]!||undefined:undefined;},
     /** The engine is live: enable joining, and honour a choice made during loading. */
     setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)joinSelected();},
     /** Repaints availability after late ports arrive with the scene's seed check. */

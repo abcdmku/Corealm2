@@ -1,21 +1,83 @@
-﻿import {describe,it,expect} from 'vitest';
+import {describe,it,expect} from 'vitest';
 import {hostConfiguration} from '../game/src/multiplayer/hostConfiguration.js';
+/** Tests never touch disk: every case supplies its own reader. */
+const files=(entries:Record<string,unknown>)=>(path:string)=>path in entries?JSON.stringify(entries[path]):undefined;
+const none=()=>undefined;
+const guestFile={developmentGuests:true};
 describe('reference deployment configuration',()=>{
  it('requires an explicit identity policy',()=>{
-  expect(()=>hostConfiguration([],{})).toThrow(/authentication/);
-  expect(()=>hostConfiguration(['--development-guests','--auth-module','auth.mjs'],{})).toThrow(/authentication/);
+  expect(()=>hostConfiguration([],{},none)).toThrow(/authentication/);
+  expect(()=>hostConfiguration(['--development-guests','--auth-module','auth.mjs'],{},none)).toThrow(/authentication/);
  });
  it('keeps development guests local and bounds admission',()=>{
-  expect(hostConfiguration(['--development-guests'],{})).toMatchObject({host:'127.0.0.1',capacity:64,worldIds:['yard']});
-  expect(()=>hostConfiguration(['--development-guests','--host','0.0.0.0'],{})).toThrow(/loopback/);
-  expect(()=>hostConfiguration(['--development-guests','--capacity','1001'],{})).toThrow(/Capacity/);
+  expect(hostConfiguration(['--development-guests'],{},none)).toMatchObject({host:'127.0.0.1',
+   worlds:[{id:'yard',name:'yard',seed:1337,capacity:64}],configFile:null});
+  expect(hostConfiguration(['--development-guests','--authored'],{},none).worlds)
+   .toEqual([{id:'corealm',name:'Corealm',seed:1337,capacity:64}]);
+  expect(()=>hostConfiguration(['--development-guests','--host','0.0.0.0'],{},none)).toThrow(/loopback/);
+  expect(()=>hostConfiguration(['--development-guests','--capacity','1001'],{},none)).toThrow(/Capacity/);
  });
  it('requires encrypted public discovery and exact browser origins',()=>{
   const env={COREALM_AUTH_MODULE:'auth.mjs',COREALM_HOST:'0.0.0.0',COREALM_PUBLIC_ENDPOINT:'wss://game.example.com/',COREALM_ALLOWED_ORIGINS:'https://play.example.com'};
-  expect(hostConfiguration(['--authored'],env)).toMatchObject({worldIds:['corealm'],allowedOrigins:['https://play.example.com']});
-  expect(()=>hostConfiguration([], {...env,COREALM_ALLOWED_ORIGINS:'*'})).toThrow();
-  expect(()=>hostConfiguration([], {...env,COREALM_PUBLIC_ENDPOINT:'ws://127.0.0.1:4180/'})).toThrow(/WSS/);
-  expect(()=>hostConfiguration([], {...env,COREALM_ALLOWED_ORIGINS:''})).toThrow(/origins/);
-  expect(()=>hostConfiguration(['--worlds','one,one'],env)).toThrow(/unique/);
+  expect(hostConfiguration(['--authored'],env,none)).toMatchObject({worlds:[{id:'corealm',name:'Corealm',seed:1337,capacity:64}],
+   allowedOrigins:['https://play.example.com']});
+  expect(()=>hostConfiguration([],{...env,COREALM_ALLOWED_ORIGINS:'*'},none)).toThrow();
+  expect(()=>hostConfiguration([],{...env,COREALM_PUBLIC_ENDPOINT:'ws://127.0.0.1:4180/'},none)).toThrow(/WSS/);
+  expect(()=>hostConfiguration([],{...env,COREALM_ALLOWED_ORIGINS:''},none)).toThrow(/origins/);
+  expect(()=>hostConfiguration(['--worlds','one,one'],env,none)).toThrow(/unique/);
+ });
+ it('reads corealm-server.json from the working directory when it exists',()=>{
+  const read=files({'corealm-server.json':{...guestFile,port:4200,data:'./data',assetBaseUrl:'https://cdn.example.com/corealm',
+   identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
+  expect(hostConfiguration([],{},read)).toEqual({authored:false,developmentGuests:true,host:'127.0.0.1',port:4200,
+   data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
+   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,
+   configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
+ });
+ it('takes the config path from a flag or an environment variable and fails when it is missing',()=>{
+  const read=files({'/etc/corealm/server.json':{...guestFile,port:4300}});
+  expect(hostConfiguration(['--config','/etc/corealm/server.json'],{},read).port).toBe(4300);
+  expect(hostConfiguration([],{COREALM_CONFIG:'/etc/corealm/server.json'},read).port).toBe(4300);
+  expect(()=>hostConfiguration(['--config','/missing.json'],{},read)).toThrow(/\/missing\.json/);
+  expect(hostConfiguration(['--development-guests'],{},read).configFile).toBeNull();
+ });
+ it('orders flag over environment over file over default',()=>{
+  const read=files({'corealm-server.json':{...guestFile,port:4200,data:'file-data'}});
+  expect(hostConfiguration([],{},read)).toMatchObject({port:4200,data:'file-data'});
+  expect(hostConfiguration([],{COREALM_PORT:'4201',COREALM_DATA:'env-data'},read)).toMatchObject({port:4201,data:'env-data'});
+  expect(hostConfiguration(['--port','4202','--data','flag-data'],{COREALM_PORT:'4201',COREALM_DATA:'env-data'},read))
+   .toMatchObject({port:4202,data:'flag-data'});
+  expect(hostConfiguration(['--development-guests'],{},none)).toMatchObject({port:4180,data:'local-worlds'});
+ });
+ it('lets the world shorthand and the capacity flag override the file world list',()=>{
+  const read=files({'corealm-server.json':{...guestFile,worlds:[{id:'one',seed:7,capacity:12}]}});
+  expect(hostConfiguration(['--worlds','alpha,beta'],{},read).worlds)
+   .toEqual([{id:'alpha',name:'alpha',seed:1337,capacity:64},{id:'beta',name:'beta',seed:1337,capacity:64}]);
+  expect(hostConfiguration([],{COREALM_WORLDS:'alpha'},read).worlds).toEqual([{id:'alpha',name:'alpha',seed:1337,capacity:64}]);
+  expect(hostConfiguration(['--capacity','200'],{},read).worlds).toEqual([{id:'one',name:'one',seed:7,capacity:200}]);
+ });
+ it('rejects unknown keys, wrong types and unusable URLs in the file',()=>{
+  const bad=(file:unknown)=>()=>hostConfiguration([],{},files({'corealm-server.json':file}));
+  expect(bad({...guestFile,unknown:1})).toThrow(/unknown setting "unknown"/);
+  expect(bad({...guestFile,port:'4200'})).toThrow(/port/);
+  expect(bad({...guestFile,allowedOrigins:'https://play.example.com'})).toThrow(/allowedOrigins/);
+  expect(bad({...guestFile,authored:'yes'})).toThrow(/authored/);
+  expect(bad({...guestFile,worlds:[]})).toThrow(/worlds/);
+  expect(bad({...guestFile,worlds:[{id:'one',region:'eu'}]})).toThrow(/unknown world setting "region"/);
+  expect(bad({...guestFile,worlds:[{id:'one',name:'  '}]})).toThrow(/name/);
+  expect(bad({...guestFile,worlds:[{id:'one',seed:1.5}]})).toThrow(/seed/);
+  expect(bad({...guestFile,worlds:[{id:'one',capacity:0}]})).toThrow(/capacity/);
+  expect(bad({...guestFile,worlds:[{id:'one'},{id:'one'}]})).toThrow(/unique/);
+  expect(bad({...guestFile,assetBaseUrl:'http://cdn.example.com/'})).toThrow(/assetBaseUrl/);
+  expect(bad({...guestFile,assetBaseUrl:'/assets/'})).toThrow(/assetBaseUrl/);
+  expect(bad({...guestFile,identityUrl:'not a url'})).toThrow(/identityUrl/);
+  expect(()=>hostConfiguration([],{},()=>'{')).toThrow(/JSON/);
+  expect(()=>hostConfiguration([],{},()=>'[]')).toThrow(/object/);
+ });
+ it('carries a loopback asset host and an identity URL through overrides',()=>{
+  const read=files({'corealm-server.json':{...guestFile,assetBaseUrl:'https://cdn.example.com/'}});
+  expect(hostConfiguration(['--asset-base-url','http://127.0.0.1:4192'],{},read).assetBaseUrl).toBe('http://127.0.0.1:4192/');
+  expect(hostConfiguration([],{COREALM_IDENTITY_URL:'https://identity.example.com/auth'},read).identityUrl)
+   .toBe('https://identity.example.com/auth/');
  });
 });

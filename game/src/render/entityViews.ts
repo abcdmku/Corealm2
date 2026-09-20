@@ -1,4 +1,4 @@
-import { ASSET_BASE_URL } from "../app/config.js";
+import { assetBaseUrl } from "../app/config.js";
 import { RemoteActivityPose, type RemoteActivitySample } from "./remoteActivityPose.js";
 import { interpolatedGroundHeight } from "./terrainContact.js";
 import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
@@ -202,7 +202,7 @@ const ESSENCE_CACHE_ASSETS: ReadonlySet<string> = new Set([
 const ESSENCE_ALTAR_ASSET = "altar_ruins_altar";
 const ESSENCE_ALTAR_RUINS_ASSET = "altar_ruins_site";
 
-const ESSENCE_VEINS_MASK_URL = `${ASSET_BASE_URL}textures/essence_veins_mask.png`;
+const essenceVeinsMaskUrl = (): string => `${assetBaseUrl()}textures/essence_veins_mask.png`;
 
 /** Emissive colour and energy are element identity; the rock's authored albedo stays underneath. */
 const ESSENCE_GLOW: Readonly<Record<EssenceElement, { colour: number; intensity: number }>> = {
@@ -6365,12 +6365,12 @@ function loadEssenceVeinsMask(): THREE.Texture {
   const texture = typeof document === "undefined"
     ? new THREE.Texture()
     : new THREE.TextureLoader().load(
-      ESSENCE_VEINS_MASK_URL,
+      essenceVeinsMaskUrl(),
       undefined,
       undefined,
       (error: unknown) => {
         console.error(
-          `[entityViews] essence vein mask failed to load from ${ESSENCE_VEINS_MASK_URL}. `
+          `[entityViews] essence vein mask failed to load from ${essenceVeinsMaskUrl()}. `
           + "Essence caches will keep their rock texture but lose their elemental glow.",
           error,
         );

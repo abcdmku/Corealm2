@@ -23,6 +23,16 @@ describe("world discovery trust boundary", () => {
     expect(await discoverWorlds({ directoryUrl: "https://example.test/worlds" })).toEqual([world]);
     expect(fetch).toHaveBeenCalledWith("https://example.test/worlds", expect.objectContaining({ credentials: "omit", redirect: "error" }));
   });
+  it("carries and normalises a world's asset host", async () => {
+    expect(descriptor({ ...world, assetBaseUrl: "https://cdn.example.com/corealm" }).assetBaseUrl)
+      .toBe("https://cdn.example.com/corealm/");
+    expect(descriptor({ ...world, assetBaseUrl: "http://127.0.0.1:4192" }).assetBaseUrl).toBe("http://127.0.0.1:4192/");
+    expect(descriptor(world).assetBaseUrl).toBeUndefined();
+    for (const base of ["http://cdn.example.com/", "https://user:secret@cdn.example.com/",
+      "https://cdn.example.com/?token=secret", "/assets/", 7]) {
+      expect(() => descriptor({ ...world, assetBaseUrl: base })).toThrow(/Endpoints require|Invalid endpoint/);
+    }
+  });
   it("isolates ambiguous provider/world pairs and rejects duplicates", async () => {
     expect(worldKey({ providerId: "a:b", worldId: "c" })).not.toBe(worldKey({ providerId: "a", worldId: "b:c" }));
     await expect(discoverWorlds([world, world])).rejects.toMatchObject({ code: "INVALID_MESSAGE" });

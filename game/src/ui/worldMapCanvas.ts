@@ -12,6 +12,7 @@
  * was a single 1 MB 4800x6600 file that had to arrive in full before anything sharpened, and every
  * frame resampled all 31.7 megapixels of it.
  */
+import { publicUrl } from "../app/config.js";
 import type { Vec3 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
 import { REGION_PALETTES } from "../render/materials.js";
@@ -555,7 +556,8 @@ export class WorldMapCanvas {
       if (fallback) this.loadRendition(fallback);
       this.scheduleRender();
     };
-    const imageUrl = new URL(rendition.path, document.baseURI);
+    image.crossOrigin = "anonymous";
+    const imageUrl = new URL(publicUrl(rendition.path), document.baseURI);
     imageUrl.searchParams.set("v", rendition.sha256);
     image.src = imageUrl.href;
   }
@@ -801,7 +803,8 @@ export class WorldMapCanvas {
       }
       this.scheduleRender();
     };
-    const imageUrl = new URL(tile.path, document.baseURI);
+    image.crossOrigin = "anonymous";
+    const imageUrl = new URL(publicUrl(tile.path), document.baseURI);
     imageUrl.searchParams.set("v", tile.sha256);
     image.src = imageUrl.href;
   }

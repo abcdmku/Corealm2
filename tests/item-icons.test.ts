@@ -46,7 +46,7 @@ describe("3D item icon catalog", () => {
     };
     for (const item of ALL_ITEMS) {
       const url = itemIconUrl(item);
-      expect(url, item.id).toBe(`assets/icons/items/48/${swappedArtwork[item.id] ?? item.id}.png`);
+      expect(url, item.id).toBe(`/assets/icons/items/48/${swappedArtwork[item.id] ?? item.id}.png`);
       expect(url, item.id).not.toContain("256");
       expect(url, item.id).not.toContain("art/");
     }

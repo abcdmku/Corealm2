@@ -211,6 +211,8 @@ function harness(): Harness {
   } as unknown as HTMLCanvasElement;
   vi.stubGlobal("window", { devicePixelRatio: 1 });
   vi.stubGlobal("document", { baseURI: "https://example.test/Corealm/" });
+  // A deployed project path, the way a host's asset base or a GitHub Pages base reaches the client.
+  vi.stubGlobal("__COREALM_ASSET_BASE__", "https://example.test/Corealm/");
   vi.stubGlobal("Image", FakeImageElement);
 
   const map = new WorldMapCanvas(canvas, {

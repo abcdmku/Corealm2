@@ -17,6 +17,7 @@ import { sendGameCommand } from "../api/commands.js";
  * The cluster root is `.is-passive` (the square's open corners must not eat world clicks); the
  * disc and the corner buttons opt back in individually.
  */
+import { publicUrl } from "../app/config.js";
 import type { GameApi, ObservedEntity, Vec3 } from "../contracts.js";
 import { worldMapForRegion } from "../contracts.js";
 import {
@@ -492,7 +493,8 @@ export class Minimap {
       this.imageRetryAtMs = this.lastUpdateMs + retryDelay;
       this.setImageState("retrying");
     };
-    const imageUrl = new URL(WORLD_MAP_MINIMAP_RENDITION.path, document.baseURI);
+    image.crossOrigin = "anonymous";
+    const imageUrl = new URL(publicUrl(WORLD_MAP_MINIMAP_RENDITION.path), document.baseURI);
     imageUrl.searchParams.set("v", WORLD_MAP_MINIMAP_RENDITION.sha256);
     image.src = imageUrl.href;
   }

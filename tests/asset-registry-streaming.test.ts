@@ -174,7 +174,7 @@ describe("AssetRegistry streaming", () => {
     const parseAsync = vi.fn(async (_bytes: ArrayBuffer, root: string) => {
       managerEvents.push("parse");
       expect(_bytes).toBe(bytes);
-      expect(root).toBe("assets/");
+      expect(root).toBe("/assets/");
       return gltf("hero");
     });
     (registry as any).fileLoader = {

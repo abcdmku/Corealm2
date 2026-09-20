@@ -23,11 +23,12 @@ if (config.developmentGuests) {
 }
 const directory = resolve(config.data);
 await mkdir(directory, { recursive: true });
-const worlds: WorldDescriptor[] = config.worldIds.map(worldId => ({
-  providerId: "reference", worldId, name: worldId === "corealm" ? "Corealm" : worldId,
+const worlds: WorldDescriptor[] = config.worlds.map(world => ({
+  providerId: "reference", worldId: world.id, name: world.name,
   endpoint: config.publicEndpoint, protocolVersion: WORLD_PROTOCOL_VERSION,
   contentVersion: config.authored ? WORLD_CONTENT_VERSION : WORLD_LAB_CONTENT_VERSION,
-  seed: 1337, capacity: config.capacity, population: 0, availability: "available",
+  seed: world.seed, capacity: world.capacity, population: 0, availability: "available",
+  ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
 }));
 const storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"));
 const server = await startReferenceServer({ worlds, port: config.port, host: config.host, storage,
@@ -36,7 +37,8 @@ const server = await startReferenceServer({ worlds, port: config.port, host: con
 }).catch(async error => { await storage.close(); throw error; });
 console.log(JSON.stringify({ ready: true, host: config.host, port: server.port,
   fixture: config.authored ? "authored-world" : "production-lab", developmentGuests: config.developmentGuests,
-  worlds: config.worldIds, capacity: config.capacity }));
+  configFile: config.configFile, assetBaseUrl: config.assetBaseUrl ?? null, identityUrl: config.identityUrl ?? null,
+  worlds: config.worlds }));
 let closing = false;
 const shutdown = () => {
   if (closing) return;

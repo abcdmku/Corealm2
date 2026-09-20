@@ -20,17 +20,17 @@ describe("Corealm audio catalog", () => {
       expect(definition.variants.length).toBeGreaterThan(0);
       for (const variant of definition.variants as readonly (string | AudioVariant)[]) {
         const url = typeof variant === "string" ? variant : variant.url;
-        expect(url).toMatch(/^\/audio\/sfx\/[a-z0-9-/]+\.ogg$/);
+        expect(url).toMatch(/^audio\/sfx\/[a-z0-9-/]+\.ogg$/);
         urls.add(url);
       }
     }
     for (const definition of Object.values(COREALM_AUDIO_CATALOG.loops)) {
-      expect(definition.url).toMatch(/^\/audio\/(?:music|ambience)\/[a-z0-9-/]+\.(?:mp3|ogg)$/);
+      expect(definition.url).toMatch(/^audio\/(?:music|ambience)\/[a-z0-9-/]+\.(?:mp3|ogg)$/);
       urls.add(definition.url);
     }
 
     await Promise.all([...urls].map((url) => access(fileURLToPath(
-      new URL(`../game/public${url}`, import.meta.url),
+      new URL(`../game/public/${url}`, import.meta.url),
     ))));
   });
 
@@ -134,15 +134,15 @@ describe("Corealm audio catalog", () => {
     expect(stone.gain).toBe(0.66);
     expect(dirt.variants.map((variant) => typeof variant === "string" ? variant : variant.url))
       .toEqual([
-        "/audio/sfx/oga/footstep-ground-01.ogg",
-        "/audio/sfx/oga/footstep-ground-02.ogg",
+        "audio/sfx/oga/footstep-ground-01.ogg",
+        "audio/sfx/oga/footstep-ground-02.ogg",
       ]);
-    expect(dirt.variants[1]).toMatchObject({ url: "/audio/sfx/oga/footstep-ground-02.ogg", gain: 0.57 });
+    expect(dirt.variants[1]).toMatchObject({ url: "audio/sfx/oga/footstep-ground-02.ogg", gain: 0.57 });
     // The second wood step is 7.5 dB hotter than the first in the file; the variant gain closes that.
-    expect(wood.variants[1]).toMatchObject({ url: "/audio/sfx/nox/footstep-wood-02.ogg", gain: 0.42 });
+    expect(wood.variants[1]).toMatchObject({ url: "audio/sfx/nox/footstep-wood-02.ogg", gain: 0.42 });
     // The sharp stone heel click has a 27 dB crest. RMS matching alone would put its peak 8 dB over
     // the soft turf step, so the peak cap pulls it down instead.
-    expect(stone.variants[0]).toMatchObject({ url: "/audio/sfx/nox/footstep-stone-01.ogg", gain: 0.59 });
+    expect(stone.variants[0]).toMatchObject({ url: "audio/sfx/nox/footstep-stone-01.ogg", gain: 0.59 });
   });
 
   it("keeps every non-footstep cue at or under unity gain", () => {

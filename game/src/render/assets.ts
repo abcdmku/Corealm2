@@ -11,7 +11,7 @@ import { GameplayWork } from "./gameplayWork.js";
 import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
-import { ASSET_BASE_URL, ASSET_MANIFEST_URL } from "../app/config.js";
+import { assetBaseUrl, assetManifestUrl } from "../app/config.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { mirrorAnimationClip } from "./skinning.js";
 import { configureAssetDelivery, deliveryUrl, usesMobileAssets } from './assetDelivery.js';
@@ -400,10 +400,10 @@ export class AssetRegistry {
   private assetClips = new Map<string, THREE.AnimationClip>();
 
   async loadManifest(): Promise<AssetManifest> {
-    const response = await fetch(this.urls.manifestUrl ?? ASSET_MANIFEST_URL);
+    const response = await fetch(this.urls.manifestUrl ?? assetManifestUrl());
     if (!response.ok) throw new Error(`Asset manifest failed: ${response.status} ${response.statusText}`);
     const manifest = (await response.json()) as AssetManifest;
-    configureAssetDelivery(this.urls.assetBaseUrl ?? ASSET_BASE_URL, manifest.compactTextures, manifest.optimizedTextures);
+    configureAssetDelivery(this.urls.assetBaseUrl ?? assetBaseUrl(), manifest.compactTextures, manifest.optimizedTextures);
     this.manifest = manifest;
     this.byId.clear();
     for (const entry of manifest.assets) {
@@ -728,7 +728,7 @@ export class AssetRegistry {
           return group;
         }
         const entry = request.entry;
-        const baseUrl = this.urls.assetBaseUrl ?? ASSET_BASE_URL;
+        const baseUrl = this.urls.assetBaseUrl ?? assetBaseUrl();
         const url = `${baseUrl}${entry.file.replace(/^\/+/, "")}`;
         const gltf = entry.compactFile ? await (async () => {
           const response = await fetch(`${baseUrl}${entry.compactFile}`);

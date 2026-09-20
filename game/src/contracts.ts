@@ -40,6 +40,11 @@ export interface WorldDescriptor extends WorldKey {
   population: number;
   capacity: number;
   availability: "available" | "full" | "unavailable";
+  /**
+   * Static host this server's clients load models, textures, audio and generated world data from,
+   * with a trailing slash. Absent means the page's own origin, which is the GitHub Pages default.
+   */
+  assetBaseUrl?: string;
 }
 export type WorldConfiguration = WorldDescriptor | readonly WorldDescriptor[] | { directoryUrl: string };
 export type SessionPhase = "offline" | "connecting" | "connected" | "full" | "incompatible"

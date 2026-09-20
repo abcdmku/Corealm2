@@ -13,6 +13,7 @@ export const BOOT_SPANS = {
   TOTAL: "boot.total",
   JS_EVALUATION: "boot.js.evaluate",
   NAVIGATION_WASM_INIT: "boot.wasm.navigation.initialize",
+  ASSET_BASE_RESOLVE: "boot.assets.base.resolve",
   MANIFEST_LOAD: "boot.assets.manifest.load",
   ANIMATION_LOAD: "boot.assets.animations.load",
   TERRAIN_BUILD: "boot.terrain.build",

@@ -7,12 +7,12 @@
  */
 import * as THREE from "three";
 import type { Vec3 } from "../contracts.js";
-import { ASSET_BASE_URL } from "../app/config.js";
+import { assetBaseUrl } from "../app/config.js";
 
 export const LEVEL_UP_DURATION_MS = 2500;
 
 const ATLAS_GRID = 4;
-const ATLAS_URL = `${ASSET_BASE_URL}vfx/spell-atlas.png`;
+const atlasUrl = (): string => `${assetBaseUrl()}vfx/spell-atlas.png`;
 const MAX_INSTANCES = 96;
 const ORBIT_HEAD_COUNT = 12;
 const TRAIL_SEGMENTS = 7;
@@ -385,8 +385,8 @@ export class LevelUpVfx {
 function loadAtlasCell(index: number): THREE.Texture {
   const texture = typeof document === "undefined"
     ? new THREE.Texture()
-    : new THREE.TextureLoader().load(ATLAS_URL, undefined, undefined, (error: unknown) => {
-      console.error(`[levelUpVfx] magic atlas failed to load from ${ATLAS_URL}.`, error);
+    : new THREE.TextureLoader().load(atlasUrl(), undefined, undefined, (error: unknown) => {
+      console.error(`[levelUpVfx] magic atlas failed to load from ${atlasUrl()}.`, error);
     });
   texture.colorSpace = THREE.NoColorSpace;
   texture.minFilter = THREE.LinearMipmapLinearFilter;

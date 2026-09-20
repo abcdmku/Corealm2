@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ASSET_BASE_URL } from '../app/config.js';
+import { assetBaseUrl } from '../app/config.js';
 import type { CorealmSurfaceTextures } from './corealmSurfaceMaterials.js';
 
 let loaded: Promise<CorealmSurfaceTextures['stone']> | undefined;
@@ -7,7 +7,7 @@ let loaded: Promise<CorealmSurfaceTextures['stone']> | undefined;
 /** Native Asian mountain rock is shared by both fairy palettes; other realms keep their stone. */
 export function loadFairyRockSurface(): Promise<CorealmSurfaceTextures['stone']> {
   return loaded ??= (async () => {
-    const root = `${ASSET_BASE_URL}textures/fairy-rock/`, loader = new THREE.TextureLoader();
+    const root = `${assetBaseUrl()}textures/fairy-rock/`, loader = new THREE.TextureLoader();
     const results = await Promise.allSettled([
       ...['corealm-stone.png', 'corealm-stone-normal.png', 'corealm-stone-roughness.png'].map(file => loader.loadAsync(root + file)),
       fetch(root + 'stone-surface.json').then(async response => {

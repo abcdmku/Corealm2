@@ -4,8 +4,11 @@ import { parseValue } from "../content/schema/core.js";
 import { audioCatalogSchema } from "../content/schema/audio.js";
 import { defineAudioCatalog } from "./catalog.js";
 
-const publicBase = import.meta.env?.BASE_URL ?? "/";
-const publicAsset = (pathname: string): string => `${publicBase.replace(/\/?$/, "/")}${pathname.replace(/^\/+/, "")}`;
+/**
+ * Catalogue paths stay relative to the public file tree. The asset host is chosen at boot, long
+ * after this module is evaluated, so the engine resolves each URL when it fetches it.
+ */
+const publicAsset = (pathname: string): string => pathname.replace(/^\/+/, "");
 
 type StoredVariant = string | { url: string; gain?: number; startOffsetS?: number };
 type PublicVariant<T> = T extends string ? string : T extends { url: string } ? AudioVariant : never;
@@ -45,7 +48,7 @@ const cues = mapCues(parsedAudioData.cues);
 const loops = mapLoops(parsedAudioData.loops);
 const regions = asRegions(parsedAudioData.regions);
 
-/** Runtime catalogue: JSON supplies choices, while this loader resolves the deployed public base. */
+/** Runtime catalogue: JSON supplies the choices; URLs stay relative to the public file tree. */
 export const COREALM_AUDIO_CATALOG = defineAudioCatalog({ cues, loops, regions });
 
 export const FUTURE_REGION_MUSIC_FILES = [

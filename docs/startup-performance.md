@@ -68,3 +68,57 @@ Reproduce after building:
 ```sh
 npx tsx tools/boot-perf.ts --run runs/local-startup --boots 5
 ```
+
+## Live server plan M1 baseline, 20 September 2026
+
+Boot span medians before the live server work, for the two modes milestone M7 has to beat. Local
+play boots and stays offline. The connected session boots the same way, then picks the authored
+world and joins it, so these span numbers still describe a full local world build: today the client
+constructs the whole semantic world before it knows whether it will be used. M7 removes that from
+the connected path, which is what the "after" column will show.
+
+| Span | Local, ms | Connected, ms |
+| --- | ---: | ---: |
+| `boot.total` first playable | 13,735 | 14,207 |
+| `boot.shaders.effects` | 7,055 | 6,914 |
+| `boot.effects.programs` | 3,303 | 3,231 |
+| `boot.scatter.total` | 1,545 | 1,561 |
+| `boot.terrain.build` | 1,226 | 1,261 |
+| `boot.entities.preload` | 777 | 749 |
+| `boot.shaders.scene.submit` | 552 | 435 |
+| `boot.entities.firstSync` | 512 | 528 |
+| `boot.player.construct` | 506 | 490 |
+| `boot.js.evaluate` | 301 | 288 |
+| `boot.terrain.fairy` | 251 | 252 |
+| `boot.effects.sceneDraw` | 191 | 178 |
+| `boot.shaders.input-feedback` | 174 | 176 |
+| `boot.frame.first` | 154 | 145 |
+| `boot.ui.construct` | 139 | 95 |
+| `boot.wasm.navigation.initialize` | 120 | 140 |
+| `boot.effects.construct` | 116 | 221 |
+| `boot.world.semantic` | 101 | 105 |
+| `boot.entities.gltf.parse` (per model) | 79 | 81 |
+| `boot.assets.manifest.load` | 66 | 67 |
+| `boot.terrain.restamp` | 56 | 60 |
+| `boot.assets.animations.load` | 49 | 63 |
+
+Selecting the world and joining it took a median of 231 ms from the click to the first
+authoritative tick. That is measured after first playable, so it is not part of the totals above.
+
+Method: three cold boots per mode, medians reported, on the production build served by Vite preview
+from `game/dist` at `http://127.0.0.1:4195`. A world server started with `--authored
+--development-guests` on 4197 supplied the connected worlds through its `/worlds` directory. Each
+boot launched a fresh headless Chromium through Playwright with `--use-angle=d3d11`,
+`--disable-background-timer-throttling`, `--disable-renderer-backgrounding`,
+`--disable-background-networking` and `--mute-audio`, a 1280 by 800 viewport at scale 1, and
+service workers blocked, so no HTTP cache or worker carried into a later boot. Spans come from
+`window.__corealmBootTelemetry.snapshot()`; a span that ends after the first playable mark is left
+out, which is why post-play streaming work does not appear. No console or page errors in any of the
+six boots. Machine-local measurements on one Windows 11 desktop, not a hardware claim and not a
+prediction for remote hosting.
+
+SwiftShader, which `tools/boot-perf.ts` uses, could not finish the first frame of the authored
+world on this machine: all three attempts timed out at 120 s with "Unable to finish the first game
+frame". These numbers therefore come from the same D3D11 headless configuration the multiplayer
+browser gates use, and are not comparable with the SwiftShader figures in the September section
+above.

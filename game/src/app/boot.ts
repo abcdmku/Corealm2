@@ -1,4 +1,5 @@
-import { ASSET_BASE_URL } from "./config.js";
+import { assetBaseUrl, generatedUrl, publicUrl, setPublicBaseUrl } from "./config.js";
+import { registerDisplayFont } from "../ui/displayFont.js";
 import { runtimeTables } from '../content/runtimeCatalog.js';
 import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
 import { createRiverSurface } from '../render/riverSurface.js';
@@ -266,6 +267,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     screen.append(selection.panel);
   });
 
+  // 1b. The asset host. A server names the origin its clients load models, textures, audio and
+  //     generated world data from, and that answer arrives with discovery — so it has to be settled
+  //     before the first of those files is asked for. There is no recovery from a session that
+  //     loaded half its models from one origin and half from another, so this is the one place the
+  //     base is decided. A page with no multiplayer configuration resolves instantly and keeps the
+  //     relative paths it has always used. The WASM libraries need nothing from the asset host, so
+  //     they initialize across the wait instead of behind it.
+  const navigationLibrary = bootTelemetry.measureAsync(BOOT_SPANS.NAVIGATION_WASM_INIT, () => Navigation.initLibrary());
+  void navigationLibrary.catch(() => {}); // The awaited use below owns the failure screen.
+  setPublicBaseUrl(await bootTelemetry.measureAsync(BOOT_SPANS.ASSET_BASE_RESOLVE,
+    async () => (await worldSelection)?.assetBase()));
+  registerDisplayFont();
+
   // 2. Core services and save. The save must win before any seeded world work starts. Loading it
   // after buildWorld meant a custom-seed save resumed inside a world built from seed 1337.
   const armorSeedText = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('fabArmor') === '1'
@@ -296,6 +310,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? await import("../featureLab/music.js") : null;
   const audioCatalog = musicLab ? musicLab.musicLabCatalog(COREALM_AUDIO_CATALOG) : COREALM_AUDIO_CATALOG;
   const audioEngine = new AudioEngine(audioCatalog, {
+    // Sound files live on the asset host with everything else. The catalogue keeps its paths
+    // relative to the public tree, so this is the one place they become URLs.
+    fetcher: (input, init) => fetch(publicUrl(String(input)), init),
     initialVolumes: {
       music: initialSettings.music,
       ambient: initialSettings.ambient,
@@ -343,7 +360,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (profile.scatter) void manifestBootstrap.then(() => assets.load('corealm_grass_1',
     { priority: 'visible-spawn', primary: true })).catch(() => {});
   const navigationDownload = import.meta.env.PROD && profile.kind === 'game'
-    ? loadArtifactBytes(`${import.meta.env.BASE_URL}generated/corealm-navmesh.nav`,
+    ? loadArtifactBytes(generatedUrl('corealm-navmesh.nav'),
       {worldSeed:store.get().meta.seed,signal:AbortSignal.timeout(30_000)}) : undefined;
   void navigationDownload?.catch(()=>{}); // Import validation below owns the failure screen.
   const surfaceBootstrap = manifestBootstrap.then(() => import("../render/corealmSurfaceMaterials.js"))
@@ -402,7 +419,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const generationCache = bakeWriter ?? (fixtureWorldData
     ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope), fixtureWorldData, true)
     : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope),
-      `${import.meta.env.BASE_URL}generated/world/manifest.json`, import.meta.env.PROD) : localCache);
+      generatedUrl('world/manifest.json'), import.meta.env.PROD) : localCache);
   (window as any).__corealmGenerationCache = generationCache;
   const initialAreaPosition = resumedFromSave ? store.get().player.position : [profile.spawn.x,0,profile.spawn.z];
   const earlyAssets = generationCache instanceof ShippedWorldData && store.get().player.regionId !== 'gravelmaw'
@@ -412,10 +429,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   void earlyAssets.catch(()=>{}); // Normal residency preparation reports failures and offers retry.
 
   setStatus("Loading the game…",1);
-  await Promise.all([
-    bootTelemetry.measureAsync(BOOT_SPANS.NAVIGATION_WASM_INIT, () => Navigation.initLibrary()),
-    assetBootstrap,
-  ]);
+  await Promise.all([navigationLibrary, assetBootstrap]);
   bootTelemetry.milestone(BOOT_MILESTONES.WASM_READY);
   const cameraQueries = new StaticCameraQueries();
   const nav = new Navigation();
@@ -948,7 +962,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     || (profile.kind === "game" && authoredDungeonSpec !== null);
   const deferCaveRock = wantsCaveRock && runtimePerformanceEnabled;
   const caveRockSource = wantsCaveRock && !deferCaveRock
-    ? await (await import("../render/dungeon.js")).loadCaveRockSource(`${ASSET_BASE_URL}models/cave/rock-face-01.glb`)
+    ? await (await import("../render/dungeon.js")).loadCaveRockSource(`${assetBaseUrl()}models/cave/rock-face-01.glb`)
     : undefined;
   const { caveFixture, dungeonSpec, dungeon } = bootTelemetry.measureSync(BOOT_SPANS.DUNGEON_BUILD, () => {
     const caveFixture = denseCaveLab?.createDenseCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource, rockEnvelope: !!wantsCaveRock })
@@ -961,7 +975,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   const deferredCave = deferCaveRock && dungeon && dungeonSpec
     ? new DeferredDungeonFacing(caveFixture?.built ?? dungeon as BuiltDungeon, dungeonSpec, { surfaceTextures },
-      () => loadCaveRockSource(`${ASSET_BASE_URL}models/cave/rock-face-01.glb`), (mesh, source) => {
+      () => loadCaveRockSource(`${assetBaseUrl()}models/cave/rock-face-01.glb`), (mesh, source) => {
         mesh.userData["cameraHardBlocker"] = true;
         cameraQueries.addStaticMesh(mesh);
         caveFixture?.facingAttached(source);

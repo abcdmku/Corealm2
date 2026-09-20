@@ -14,6 +14,7 @@
  * from the answer, so a panel opened by a key, by a world interaction, or by another panel all
  * light the same button.
  */
+import { assetBaseUrl } from "../app/config.js";
 import { createUiIcon, type UiIconName } from "./icons.js";
 import type { Tooltip } from "./tooltips.js";
 
@@ -73,7 +74,7 @@ export class PanelDock {
       const artwork = PANEL_ART[entry.icon];
       if (artwork) {
         const image = document.createElement("img");
-        image.src = `assets/icons/panels/${artwork}.png`;
+        image.src = `${assetBaseUrl()}icons/panels/${artwork}.png`;
         image.alt = "";
         image.draggable = false;
         glyph.appendChild(image);

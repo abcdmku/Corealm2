@@ -1,3 +1,4 @@
+import { assetBaseUrl } from "../app/config.js";
 import { runeIconSvg } from "./runeIcons.js";
 /**
  * Item icon fallback shapes and the runtime raster element.
@@ -193,17 +194,17 @@ export function itemIconSvg(def: ItemDef | undefined): string {
 }
 
 export const ITEM_ICON_GAME_SIZE = 48;
-const ITEM_ICON_BASE_URL = "assets/icons/items/48/";
+const itemIconBase = (): string => `${assetBaseUrl()}icons/items/48/`;
 
 export function itemIconUrl(def: ItemDef | undefined): string | undefined {
   if (!def) return undefined;
   // Aurora uses renders of the delivered model. Keep them separate from the
   // older generated Frostweave art so a generic icon rebuild cannot replace it.
-  if (/^frostweave_(hood|robe|leggings|boots|wraps)$/.test(def.id)) return `${ITEM_ICON_BASE_URL}aurora_${def.id}.png`;
+  if (/^frostweave_(hood|robe|leggings|boots|wraps)$/.test(def.id)) return `${itemIconBase()}aurora_${def.id}.png`;
   // These ten crafted sets exchanged their complete appearances in R13.
   const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(def.id);
   const artworkId = match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : def.id;
-  return `${ITEM_ICON_BASE_URL}${encodeURIComponent(artworkId)}.png`;
+  return `${itemIconBase()}${encodeURIComponent(artworkId)}.png`;
 }
 
 /** Every inventory item, including runes, uses its audited 48px artwork. */

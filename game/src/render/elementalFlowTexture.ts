@@ -1,4 +1,4 @@
-import { ASSET_BASE_URL } from "../app/config.js";
+import { assetBaseUrl } from "../app/config.js";
 import * as THREE from "three";
 
 let flow: THREE.Texture | undefined;
@@ -7,7 +7,7 @@ export function elementalFlowTexture(): THREE.Texture {
   if (!flow) {
     flow = typeof document === "undefined"
       ? new THREE.DataTexture(new Uint8Array([110,110,110,255]),1,1)
-      : new THREE.TextureLoader().load(`${ASSET_BASE_URL}vfx/elemental-flow-v2.png`);
+      : new THREE.TextureLoader().load(`${assetBaseUrl()}vfx/elemental-flow-v2.png`);
     flow.name = "Elemental authored turbulent flow";
     flow.wrapS = flow.wrapT = THREE.MirroredRepeatWrapping;
     flow.colorSpace = THREE.NoColorSpace;

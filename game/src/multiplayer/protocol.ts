@@ -35,8 +35,13 @@ export function endpoint(value: unknown, directory = false): string {
   }
   return url.href;
 }
+/** A static asset host: HTTPS, or plain HTTP on loopback, normalised to end with a slash. */
+export function assetBase(value: unknown): string {
+  const url = endpoint(value, true);
+  return url.endsWith("/") ? url : `${url}/`;
+}
 export function descriptor(value: unknown): WorldDescriptor {
-  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "contentVersion", "seed", "population", "capacity", "availability"])
+  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "contentVersion", "seed", "population", "capacity", "availability", "assetBaseUrl"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
     || !integer(value.protocolVersion) || !id(value.contentVersion) || !integer(value.seed)
     || !integer(value.capacity) || value.capacity < 1 || value.capacity > MAX_WORLD_PLAYERS
@@ -44,7 +49,8 @@ export function descriptor(value: unknown): WorldDescriptor {
     || !["available", "full", "unavailable"].includes(String(value.availability))) {
     throw new SessionFailure("INVALID_MESSAGE", "Invalid world descriptor");
   }
-  return { ...value, endpoint: endpoint(value.endpoint) } as unknown as WorldDescriptor;
+  return { ...value, endpoint: endpoint(value.endpoint),
+    ...(value.assetBaseUrl === undefined ? {} : { assetBaseUrl: assetBase(value.assetBaseUrl) }) } as unknown as WorldDescriptor;
 }
 export function compatible(world: WorldDescriptor): void {
   if (world.protocolVersion !== WORLD_PROTOCOL_VERSION || ![WORLD_CONTENT_VERSION,WORLD_LAB_CONTENT_VERSION].includes(world.contentVersion)) {

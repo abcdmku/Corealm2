@@ -28,7 +28,7 @@
 import * as THREE from "three";
 import type { NavMesh, NavMeshQuery } from "@recast-navigation/core";
 import type { EntityId, RegionId, SolidVolume, Vec3 } from "../contracts.js";
-import { NAV_CONFIG, PLAYER_SPEED } from "../app/config.js";
+import { generatedUrl, NAV_CONFIG, PLAYER_SPEED } from "../app/config.js";
 import { distance, distanceXZ, pathLength } from "../core/math.js";
 import { NAVMESH_AUTHORING_INPUTS } from "../generated/navmeshFingerprint.js";
 import {
@@ -1192,10 +1192,8 @@ function now(): number {
 }
 
 function defaultArtifactUrl(): string {
-  if (typeof document !== "undefined") {
-    return new URL("generated/corealm-navmesh.bin", document.baseURI).toString();
-  }
-  return "/generated/corealm-navmesh.bin";
+  const url = generatedUrl("corealm-navmesh.bin");
+  return typeof document === "undefined" ? url : new URL(url, document.baseURI).toString();
 }
 
 export async function loadArtifactBytes(url: string, options: NavArtifactOptions): Promise<Uint8Array> {

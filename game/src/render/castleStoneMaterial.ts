@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { ASSET_BASE_URL } from "../app/config.js";
+import { assetBaseUrl } from "../app/config.js";
 
 export type CastleStoneStyle = "pearl" | "cinder";
 
@@ -41,7 +41,7 @@ function castleStoneTexture(style: CastleStoneStyle): THREE.Texture {
   pending.set(style, ready);
 
   const texture = new THREE.TextureLoader().load(
-    `${ASSET_BASE_URL}textures/castle-stone/${textureFiles[style]}`,
+    `${assetBaseUrl()}textures/castle-stone/${textureFiles[style]}`,
     resolve,
     undefined,
     reject,

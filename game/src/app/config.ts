@@ -156,5 +156,77 @@ export const RENDER_BUDGET = { maxDrawCalls: 400, targetFps: 55 } as const;
 
 export const AUTOSAVE_INTERVAL_MS = 10_000;
 
-export const ASSET_MANIFEST_URL = "assets/manifest.json";
-export const ASSET_BASE_URL = "assets/";
+/**
+ * Where the client fetches its public files: models, textures, icons, fonts, audio, and the
+ * generated terrain, navmesh and world data. The client bundle itself stays wherever Vite put it.
+ *
+ * One resolver, one chance to set it. A server's `assetBaseUrl` reaches the client through the
+ * world descriptor, so boot settles this before the first file is requested — a session with half
+ * its models from one origin and half from another has no way back. `window.__COREALM_ASSET_BASE__`
+ * is the same knob for a page with no server behind it, and it wins over any world's answer.
+ * With neither, the base is the page's own deployment directory, which is what GitHub Pages needs.
+ */
+const PAGE_BASE_URL = normalizePublicBase(import.meta.env?.BASE_URL) ?? "/";
+let configuredBase: string | null = null;
+let baseUsed = false;
+
+function normalizePublicBase(value: unknown): string | null {
+  if (typeof value !== "string" || !value.trim()) return null;
+  const text = value.trim();
+  if (text.includes("://") && !/^https?:\/\//i.test(text)) throw new Error("An asset base URL must be http or https");
+  return text.endsWith("/") ? text : `${text}/`;
+}
+
+function pageOverride(): string | null {
+  const global = (globalThis as { __COREALM_ASSET_BASE__?: unknown }).__COREALM_ASSET_BASE__;
+  return normalizePublicBase(global);
+}
+
+const currentBase = (): string => pageOverride() ?? configuredBase ?? PAGE_BASE_URL;
+
+/** Root of the public file tree, with a trailing slash. */
+export function publicBaseUrl(): string {
+  baseUsed = true;
+  return currentBase();
+}
+
+/** Boot's one call, before any file is requested. Undefined leaves the page's own directory. */
+export function setPublicBaseUrl(base: string | undefined): void {
+  const next = normalizePublicBase(base);
+  if (next !== null && next !== currentBase()) {
+    if (baseUsed) throw new Error("The asset base was already used to build a URL");
+    configuredBase = next;
+  }
+  // Reported for browser checks: one place to read what this session decided.
+  (globalThis as { __corealmAssetBase?: string }).__corealmAssetBase = currentBase();
+}
+
+/** Tests only: forget a resolved base so the next case starts from the page default. */
+export function resetPublicBaseUrl(): void {
+  configuredBase = null;
+  baseUsed = false;
+}
+
+/**
+ * True when a world's asset host is not the one this session already loaded its files from, so the
+ * world cannot be joined without a reload. A page that pinned its own host answers for itself.
+ */
+export function foreignAssetHost(worldBase: string | undefined): boolean {
+  if (pageOverride() !== null) return false;
+  return (normalizePublicBase(worldBase) ?? PAGE_BASE_URL) !== currentBase();
+}
+
+export function publicUrl(path: string): string {
+  return `${publicBaseUrl()}${path.replace(/^\/+/, "")}`;
+}
+/** The assets directory, including its trailing slash. */
+export function assetBaseUrl(): string {
+  return publicUrl("assets/");
+}
+export function assetManifestUrl(): string {
+  return publicUrl("assets/manifest.json");
+}
+/** Baked terrain, navmesh and world records under `generated/`. */
+export function generatedUrl(path: string): string {
+  return publicUrl(`generated/${path.replace(/^\/+/, "")}`);
+}
