@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
+import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { WebSocketProvider } from "../game/src/multiplayer/webSocketProvider.js";
 
@@ -11,11 +12,8 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const close of cleanup.splice(0).reverse()) await close(); });
 describe("real reference transport", () => {
   it("reports failed storage as unavailable to readiness, discovery and new connections", async () => {
-    const storage = new SqliteWorldStorage(":memory:");
-    const server = await startReferenceServer({ worlds: [world], storage: {
-      load: key => storage.load(key), close: () => storage.close(),
-      commit: async () => { throw new Error("disk unavailable"); },
-    }, build: () => createMultiplayerLabWorld(), authentication: {authenticate: async token => ({playerId:token,name:token})} });
+    const storage = Object.assign(new MemoryWorldStorage(), { commit: async () => { throw new Error("disk unavailable"); } });
+    const server = await startReferenceServer({ worlds: [world], storage, build: () => createMultiplayerLabWorld(), authentication: {authenticate: async token => ({playerId:token,name:token})} });
     cleanup.push(() => server.close());
     await expect.poll(() => server.metrics.errors).toBe(1);
     const base = `http://127.0.0.1:${server.port}`;

@@ -1,10 +1,38 @@
-import type { GameCommand, WorldConfiguration, WorldDescriptor, WorldProvider, SessionPhase } from "../contracts.js";
-import { discoverWorlds, SessionFailure, compatible, worldKey } from "./protocol.js";
+import type { GameCommand, SessionError, WorldConfiguration, WorldDescriptor, WorldProvider, SessionPhase } from "../contracts.js";
+import { discoverWorlds, record, SessionFailure, compatible, worldKey } from "./protocol.js";
 import { ProviderRegistry, SessionController, type SessionControllerPorts } from "./providers.js";
 import { WebSocketProvider } from "./webSocketProvider.js";
+import { LOGIN_PROVIDERS, type DirectoryServer, type IdentityClient } from "./identityClient.js";
 
 const HOSTS_KEY="corealm.hosts.v1";
 const MAX_HOSTS=20;
+
+/** Whether this page can sign a player in, and whether one is signed in now. */
+export interface AccountAccess { configured:boolean; signedIn:boolean }
+
+/** Why an account world cannot be joined yet, or null when nothing about the account stops it. */
+export function accountBlocker(world:WorldDescriptor, access:AccountAccess):string|null{
+  if(world.authentication!=="account")return null;
+  if(!access.configured)return "Login unavailable";
+  if(!access.signedIn)return "Sign in to join";
+  return null;
+}
+
+/**
+ * What a refused join says. The three codes a player can act on get an answer that names the
+ * action; everything else keeps what the server said.
+ */
+export function joinFailureMessage(failure:SessionError):string{
+  switch(failure.code){
+    // Only the server knows the reason and the expiry, so its sentence stands. What the client adds
+    // is the one thing the player can still do about it.
+    case "BANNED":return `${failure.message.replace(/[.\s]+$/,"")}. Local play and other servers still work.`;
+    case "DUPLICATE_LOGIN":return "That account is already playing on this server. Leave the other session, then join again.";
+    case "UNAUTHORIZED":return "This server refused your sign-in. Sign in again, then join.";
+    case "FULL":return "This world is full. Choose another world or try again.";
+    default:return failure.message;
+  }
+}
 
 /** Hosts the player added, kept as directory URLs. A client preference, like the tracker's pin. */
 export function savedHosts():string[]{
@@ -42,7 +70,11 @@ export function hostLabel(url:string):string{
 
 export async function createWorldSelector(configuration: WorldConfiguration|undefined, ports: SessionControllerPorts,
   authenticate: (world: WorldDescriptor) => Promise<{ token: string }>, providers:readonly WorldProvider[]=[],
-  options:{ready?:boolean}={} ) {
+  options:{ready?:boolean;identity?:IdentityClient|null;identityError?:string|null}={} ) {
+  const identity=options.identity??null;
+  // Set when a server rejected the join token: the way out is another sign-in, so offer one even
+  // though this browser still holds a session.
+  let retrySignIn=false;
   const panel=document.createElement("section");panel.id="multiplayer-selector";panel.className="worlds";
   panel.setAttribute("aria-label","Multiplayer worlds");panel.dataset.phase="offline";
   const header=document.createElement("div");header.className="worlds__header";
@@ -63,7 +95,24 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const status=document.createElement("p");status.role="status";status.tabIndex=-1;status.className="worlds__status";status.textContent="Playing single-player";
   const actions=document.createElement("div");actions.className="worlds__actions";
   const play=document.createElement("button");play.type="button";play.className="btn btn--primary";play.textContent="Play offline";
-  actions.append(play);panel.append(header,intro,list,hostForm,hostList,status,actions);
+  // Sign-in sits under the intro because it decides which worlds in the list below can be joined.
+  const account=document.createElement("div");account.className="worlds__account";account.hidden=true;
+  const accountNote=document.createElement("p");accountNote.className="worlds__account-note";
+  const accountActions=document.createElement("div");accountActions.className="worlds__account-actions";
+  const signIn=LOGIN_PROVIDERS.map(provider=>{
+    const button=document.createElement("button");button.type="button";button.className="btn worlds__sign-in";
+    button.dataset.provider=provider;button.textContent=`Sign in with ${provider==="discord"?"Discord":"GitHub"}`;
+    button.addEventListener("click",()=>{retrySignIn=false;identity?.login(provider);});
+    return button;});
+  const rename=document.createElement("button");rename.type="button";rename.className="worlds__account-link";rename.textContent="Rename";
+  const signOut=document.createElement("button");signOut.type="button";signOut.className="worlds__account-link";signOut.textContent="Sign out";
+  const renameForm=document.createElement("form");renameForm.className="worlds__rename";renameForm.hidden=true;
+  const renameInput=document.createElement("input");renameInput.type="text";renameInput.className="worlds__host-input";
+  renameInput.setAttribute("aria-label","Display name");renameInput.maxLength=24;renameInput.autocomplete="off";
+  const renameSave=document.createElement("button");renameSave.type="submit";renameSave.className="btn";renameSave.textContent="Save name";
+  renameForm.append(renameInput,renameSave);
+  account.append(accountNote,accountActions,renameForm);
+  actions.append(play);panel.append(header,intro,account,list,hostForm,hostList,status,actions);
   const registry=new ProviderRegistry(),registered=new Set<string>();
   for(const provider of providers){registry.register(provider);registered.add(provider.id);}
   // Local play is the first choice, not the absence of one: the panel opens over the loading screen
@@ -74,8 +123,14 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   // Joining waits for the engine when the selector opens over the loading screen. A player who
   // chooses early gets their world the moment the game is ready, without clicking again.
   let ready=options.ready!==false,pendingJoin=false;
+  // The public directory is fetched once and kept: it names servers, and each one's worlds still
+  // come from its own `/worlds`. A directory that does not answer leaves the configured hosts alone.
+  let directory:DirectoryServer[]|null=null;
+  const access=():AccountAccess=>({configured:identity!==null,signedIn:(identity?.account()??null)!==null});
   const unavailable=(world:WorldDescriptor):string|null=>{
     try{compatible(world);ports.validate?.(world);}catch{return "Incompatible version";}
+    const blocked=accountBlocker(world,access());
+    if(blocked)return blocked;
     if(world.availability==="unavailable")return "Unavailable";
     if(world.availability==="full"||world.population>=world.capacity)return "Full";
     return null;
@@ -129,7 +184,28 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       label.append(radio,detail,badge);list.append(label);
     }
     if(!worlds.length){const empty=document.createElement("p");empty.className="worlds__empty";empty.textContent="No worlds found. Add a host below, or play on your own.";list.append(empty);}
-    updateButtons();
+    renderAccount();updateButtons();
+  };
+  const renderAccount=()=>{
+    const who=identity?.account()??null;
+    // Only worth showing when it changes what the player can do: a world needs an account, or one
+    // is signed in and may want to rename or sign out.
+    account.hidden=who===null&&!worlds.some(world=>world.authentication==="account");
+    if(account.hidden)return;
+    accountActions.replaceChildren();
+    if(!identity){
+      accountNote.textContent=options.identityError??"This page cannot sign players in, so worlds that need an account are closed.";
+      renameForm.hidden=true;return;
+    }
+    if(who&&!retrySignIn){
+      accountNote.textContent=`Signed in as ${who.name}.`;
+      accountActions.append(rename,signOut);
+    }else{
+      accountNote.textContent=who?joinFailureMessage({code:"UNAUTHORIZED",message:""})
+        :identity.loginFailure()??"Some of these worlds need a Corealm account.";
+      accountActions.append(...signIn);
+      renameForm.hidden=true;
+    }
   };
   const renderHosts=()=>{
     hostList.replaceChildren(...hosts.map(host=>{
@@ -141,15 +217,19 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       row.append(label,remove);return row;}));
     hostList.hidden=!hosts.length;
   };
-  const controller=new SessionController(registry,{...ports,phase(next,message){
+  const controller=new SessionController(registry,{...ports,phase(next,message,failure){
     phase=next;panel.dataset.phase=next;
     const current=controller.session?.world;
     const name=worlds.find(w=>current&&worldKey(w)===worldKey(current))?.name;
     if(next==="offline")selected=LOCAL;
     else if(next==="connected"&&current)selected=worldKey(current);
     for(const radio of list.querySelectorAll<HTMLInputElement>("input[type=radio]"))radio.checked=radio.value===selected;
-    status.textContent=message??({offline:"Playing single-player",connecting:"Joining world…",connected:`Connected${name?` to ${name}`:""}`,reconnecting:"Connection lost. Reconnecting…",leaving:"Returning to single-player…",full:"This world is full. Choose another world or try again.",incompatible:"This world needs a different game version.",unavailable:"World unavailable. Refresh the list or try again."}[next]);
-    updateButtons();panel.dispatchEvent(new Event("worldsessionchange"));ports.phase(next,message);
+    // A refused join says which refusal it was: another session holds this account, the token was
+    // rejected, or the world is full. Each one has a different next move for the player.
+    if(failure?.code==="UNAUTHORIZED")retrySignIn=true;
+    if(next==="connected")retrySignIn=false;
+    status.textContent=failure?joinFailureMessage(failure):message??({offline:"Playing single-player",connecting:"Joining world…",connected:`Connected${name?` to ${name}`:""}`,reconnecting:"Connection lost. Reconnecting…",leaving:"Returning to single-player…",full:"This world is full. Choose another world or try again.",incompatible:"This world needs a different game version.",unavailable:"World unavailable. Refresh the list or try again."}[next]);
+    renderAccount();updateButtons();panel.dispatchEvent(new Event("worldsessionchange"));ports.phase(next,message,failure);
   }});
   let discovery:AbortController|null=null;
   const reload=async()=>{
@@ -157,10 +237,20 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     list.setAttribute("aria-busy","true");
     const timeout=setTimeout(()=>request.abort(),10000);
     try{
-      // The configured directory and every added host are asked in parallel. One unreachable host
-      // reports itself without hiding the worlds the others returned.
-      const sources=[{label:null as string|null,configuration},
-        ...hosts.map(host=>({label:hostLabel(host),configuration:{directoryUrl:host} as WorldConfiguration}))];
+      if(identity&&directory===null){
+        // Quiet on failure: a directory this page cannot reach is not the player's problem, and
+        // their own hosts still load.
+        try{directory=await identity.servers(request.signal);}catch{directory=[];}
+        if(discovery!==request)return;
+      }
+      const configured=record(configuration)&&typeof configuration.directoryUrl==="string"?configuration.directoryUrl:null;
+      const listed=(directory??[]).map(server=>({name:server.name,url:hostDirectoryUrl(server.endpoint)}))
+        .filter((entry):entry is {name:string;url:string}=>entry.url!==null&&entry.url!==configured&&!hosts.includes(entry.url));
+      // The configured directory, every added host and every public server are asked in parallel.
+      // One unreachable host reports itself without hiding the worlds the others returned.
+      const sources=[{label:null as string|null,listed:false,configuration},
+        ...hosts.map(host=>({label:hostLabel(host),listed:false,configuration:{directoryUrl:host} as WorldConfiguration})),
+        ...listed.map(entry=>({label:entry.name,listed:true,configuration:{directoryUrl:entry.url} as WorldConfiguration}))];
       const results=await Promise.all(sources.map(async source=>{
         try{return {source,found:await discoverWorlds(source.configuration,request.signal)};}
         catch(error){return {source,found:[] as WorldDescriptor[],
@@ -176,7 +266,9 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
         const current=controller.session?.world;
         selected=current&&worlds.some(w=>worldKey(w)===worldKey(current))?worldKey(current):LOCAL;
       }
-      const failed=results.find(result=>result.failure);
+      // A public server that is down is the directory's news, not this player's: only the page's
+      // own configuration and the hosts they typed take over the status line.
+      const failed=results.find(result=>result.failure&&!result.source.listed);
       if(failed)status.textContent=`${failed.source.label?`${failed.source.label}: `:""}${failed.failure}`;
       else if(phase==="offline")status.textContent="Playing single-player";
     }catch(error){
@@ -211,8 +303,30 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     if(hosts.length>=MAX_HOSTS){status.textContent="Remove a host before adding another.";return;}
     hosts=[...hosts,url];storeHosts(hosts);hostInput.value="";renderHosts();void reload();
   });
-  window.addEventListener("pagehide",()=>discovery?.abort(),{once:true});
+  rename.addEventListener("click",()=>{
+    renameForm.hidden=!renameForm.hidden;
+    if(renameForm.hidden)return;
+    renameInput.value=identity?.account()?.name??"";renameInput.focus();
+  });
+  renameForm.addEventListener("submit",event=>{
+    event.preventDefault();
+    const next=renameInput.value.trim();
+    if(!identity||!next)return;
+    renameSave.disabled=true;
+    void identity.rename(next).then(account=>{status.textContent=`You are now ${account.name}.`;renameForm.hidden=true;},
+      error=>{status.textContent=error instanceof Error?error.message:"That name could not be saved.";})
+      .finally(()=>{renameSave.disabled=false;});
+  });
+  signOut.addEventListener("click",()=>{
+    retrySignIn=false;renameForm.hidden=true;
+    void identity?.logout().then(()=>{status.textContent="Signed out. Guest worlds and local play still work.";});
+  });
+  const unsubscribeIdentity=identity?.subscribe(()=>{renderList();})??null;
+  window.addEventListener("pagehide",()=>{discovery?.abort();unsubscribeIdentity?.();},{once:true});
   renderHosts();
+  // A stored session may have been revoked since this browser last used it; a 401 signs out here
+  // rather than at the first join. The result repaints through the subscription above.
+  if(identity?.account())void identity.refresh();
   await reload();
   return {panel,controller,
     /**

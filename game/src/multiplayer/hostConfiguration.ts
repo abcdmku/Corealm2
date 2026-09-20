@@ -5,12 +5,23 @@ import { endpoint } from "./protocol.js";
 export interface HostWorld { id: string; name: string; seed: number; capacity: number }
 
 export interface HostConfiguration {
-  authored: boolean; developmentGuests: boolean; host: string; port: number;
+  authored: boolean; host: string; port: number;
+  /**
+   * How players prove who they are. Exactly one source is configured: `identityUrl` gives "account",
+   * `guests` or `developmentGuests` gives "guest", `authModule` gives "module".
+   */
+  authentication: "account" | "guest" | "module";
+  /** Guests on a loopback listener only. The launcher's switch: it can never open a public guest server by accident. */
+  developmentGuests: boolean;
+  /** Guests on any listener, for a LAN or offline server. Anyone who can reach it picks any name, so the owner asks for it by name. */
+  guests: boolean;
   data: string; publicEndpoint: string; allowedOrigins: string[];
   /** Static host the client loads models, textures, audio and generated world data from. */
   assetBaseUrl?: string;
-  /** Identity service that signs join tokens. Carried now, used from M3. */
+  /** Identity service whose published keys verify join tokens. Setting it selects account authentication. */
   identityUrl?: string;
+  /** Account id made owner at start, instead of the one-time setup code. Setting it stops a code being printed. */
+  ownerAccount?: string;
   authModule?: string;
   worlds: HostWorld[];
   /** The file the settings below came from, or null when there was none. */
@@ -24,8 +35,10 @@ const DEFAULT_CONFIG_FILE = "corealm-server.json";
 const DEFAULT_SEED = 1337;
 const DEFAULT_CAPACITY = 64;
 const WORLD_ID = /^[A-Za-z0-9_.:-]{1,128}$/;
-const FILE_KEYS = ["host", "port", "publicEndpoint", "allowedOrigins", "data", "assetBaseUrl", "identityUrl",
-  "authored", "developmentGuests", "authModule", "worlds"];
+const FILE_KEYS = ["host", "port", "publicEndpoint", "allowedOrigins", "data", "assetBaseUrl", "identityUrl", "ownerAccount",
+  "authored", "developmentGuests", "guests", "authModule", "worlds"];
+/** The same account id shape the identity service mints and the join token carries. */
+const OWNER_ACCOUNT = /^acc_[A-Za-z0-9_-]{22,120}$/;
 const WORLD_KEYS = ["id", "name", "seed", "capacity"];
 
 function readConfigFile(path: string): string | undefined {
@@ -80,6 +93,7 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
 
   const authored = args.includes("--authored") || fileFlag("authored");
   const developmentGuests = args.includes("--development-guests") || fileFlag("developmentGuests");
+  const guests = args.includes("--guests") || fileFlag("guests");
   const host = value("--host", "COREALM_HOST", "host", "127.0.0.1")!;
   const filePort = file.port;
   if (filePort !== undefined && !Number.isSafeInteger(filePort)) throw new Error(`${path}: port must be an integer`);
@@ -87,7 +101,6 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   const data = value("--data", "COREALM_DATA", "data", "local-worlds")!;
   const authModule = value("--auth-module", "COREALM_AUTH_MODULE", "authModule");
   if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("Port must be 0 through 65535");
-  if (developmentGuests === Boolean(authModule)) throw new Error("Choose an authentication module or explicit development guests");
   const loopback = ["127.0.0.1", "localhost", "::1"].includes(host);
   if (port === 0 && !loopback) throw new Error("Ephemeral ports require a loopback listener");
   if (developmentGuests && !loopback) throw new Error("Development guests require a loopback listener");
@@ -109,6 +122,11 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   if (new URL(publicEndpoint).protocol === "wss:" && !allowedOrigins.length) throw new Error("Public hosting requires explicit allowed origins");
   const assetBaseUrl = httpBase(value("--asset-base-url", "COREALM_ASSET_BASE_URL", "assetBaseUrl"), "assetBaseUrl");
   const identityUrl = httpBase(value("--identity-url", "COREALM_IDENTITY_URL", "identityUrl"), "identityUrl");
+  const ownerAccount = value("--owner-account", "COREALM_OWNER_ACCOUNT", "ownerAccount");
+  if (ownerAccount !== undefined && !OWNER_ACCOUNT.test(ownerAccount)) throw new Error("ownerAccount must be an identity account id, acc_ followed by 22 to 120 URL-safe characters");
+  const sources = [identityUrl !== undefined, guests || developmentGuests, authModule !== undefined].filter(Boolean).length;
+  if (sources !== 1) throw new Error("Choose exactly one way to authenticate players: an identity service URL, guests, or an authentication module");
+  const authentication = identityUrl !== undefined ? "account" : authModule !== undefined ? "module" : "guest";
 
   const capacityText = flag("--capacity") ?? env.COREALM_CAPACITY;
   const capacityOverride = capacityText === undefined ? undefined : Number(capacityText);
@@ -122,8 +140,8 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
     .map(world => capacityOverride === undefined ? world : { ...world, capacity: capacityOverride });
   if (!worlds.length || new Set(worlds.map(world => world.id)).size !== worlds.length
     || worlds.some(world => !WORLD_ID.test(world.id))) throw new Error("World IDs must be unique nonempty identifiers");
-  return { authored, developmentGuests, host, port, data, publicEndpoint, allowedOrigins,
-    assetBaseUrl, identityUrl, authModule, worlds, configFile: text === undefined ? null : path };
+  return { authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
+    assetBaseUrl, identityUrl, ownerAccount, authModule, worlds, configFile: text === undefined ? null : path };
 }
 
 /** The same rule the browser applies to a descriptor: HTTPS, or plain HTTP only on loopback. */

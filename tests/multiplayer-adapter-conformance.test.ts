@@ -5,6 +5,7 @@ import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { WebSocketProvider } from "../game/src/multiplayer/webSocketProvider.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
+import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { Admission } from "../game/src/multiplayer/admission.js";
 import { command, compatible, SessionFailure } from "../game/src/multiplayer/protocol.js";
 import { Replicator } from "../game/src/multiplayer/replication.js";
@@ -16,7 +17,7 @@ const descriptor: WorldDescriptor = { providerId: "conformance", worldId: "yard"
 /** Separate transport adapter: deterministic steps, production rules, no sockets or wall clock. */
 async function deterministicProvider(): Promise<WorldProvider> {
   const world = new HeadlessWorld(descriptor, await createMultiplayerLabWorld());
-  const admission = new Admission(2); let serial = 0;
+  const admission = new Admission(2), storage = new MemoryWorldStorage(); let serial = 0;
   return {
     id: descriptor.providerId,
     discover: async () => [structuredClone(descriptor)],
@@ -25,7 +26,10 @@ async function deterministicProvider(): Promise<WorldProvider> {
       compatible(input);
       if (signal?.aborted) throw new SessionFailure("SESSION_EXPIRED", "Cancelled");
       const id = `deterministic-${++serial}`; const playerId = credentials.token;
-      admission.join(playerId, id); world.join(playerId);
+      admission.check(playerId);
+      const claim = await storage.claimPlayer(descriptor, playerId, id, playerId);
+      if (!claim) throw new SessionFailure("DUPLICATE_LOGIN", "This player is already connected");
+      admission.join(playerId, id); world.join(playerId, claim);
       const replicator = new Replicator(id, playerId); let sequence = 0; let closed = false;
       const listeners = new Set<(update: WorldUpdate) => void>();
       return { id, playerId, world: descriptor,
@@ -38,7 +42,7 @@ async function deterministicProvider(): Promise<WorldProvider> {
             : { status: "rejected", sequence, tick: world.clock.tick, error: result.error };
         },
         subscribe(listener) { listeners.add(listener); listener(replicator.update(world, sequence, new Map(), true)); return () => { listeners.delete(listener); }; },
-        async close() { if (closed) return; closed = true; listeners.clear(); world.leave(playerId); admission.leave(playerId, id, false); },
+        async close() { if (closed) return; closed = true; listeners.clear(); world.leave(playerId); admission.leave(playerId, id, false); await storage.releasePlayer(descriptor, playerId, id); },
       };
     },
   };

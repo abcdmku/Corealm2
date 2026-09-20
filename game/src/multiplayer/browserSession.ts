@@ -8,7 +8,8 @@ import type { EntityStore } from "../world/entities.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type { AssetRegistry } from "../render/assets.js";
 import { SessionFailure } from "./protocol.js";
-import { foreignAssetHost } from "../app/config.js";
+import { foreignAssetHost, identityUrl } from "../app/config.js";
+import { IdentityClient } from "./identityClient.js";
 import { createWorldSelector, savedHosts } from "../multiplayer/worldSelector.js";
 import type { SessionControllerPorts } from "./providers.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
@@ -62,7 +63,13 @@ export interface BrowserSessionPorts {
  */
 export async function startWorldSelection(options:{fixture?:boolean}={}):Promise<WorldSelection|null> {
   const configuration = window.__COREALM_MULTIPLAYER__;
-  if (!configuration && !savedHosts().length) return null;
+  // Who signs this page's players in is a property of the page, never of a world: a game server
+  // that could name the identity service could name a lookalike and collect sessions.
+  let identity:IdentityClient|null=null,identityError:string|null=null;
+  try{const service=identityUrl();if(service)identity=new IdentityClient(service);}
+  catch(error){identityError=`Sign-in is unavailable: ${error instanceof Error?error.message:"the identity service address is unusable"}.`;}
+  (window as Window&{__corealmIdentity?:IdentityClient|null}).__corealmIdentity=identity;
+  if (!configuration && !savedHosts().length && !identity) return null;
   const name = document.createElement("input"); name.setAttribute("aria-label", "Development guest name"); name.placeholder = "Development guest name";
   name.value = `guest-${crypto.randomUUID().slice(0, 8)}`; name.maxLength = 40;
   const developmentGuests=options.fixture===true||window.__COREALM_DEVELOPMENT_GUESTS__===true;
@@ -76,12 +83,18 @@ export async function startWorldSelection(options:{fixture?:boolean}={}):Promise
     offline:async()=>{await attached.ports?.offline();},
   }, async world => {
     if(window.__COREALM_AUTHENTICATE__)return window.__COREALM_AUTHENTICATE__(world);
+    if(world.authentication==="account"){
+      if(!identity)throw new SessionFailure("UNAUTHORIZED","This page cannot sign in, so it cannot join worlds that need an account");
+      // One token per attempt, reconnects included: they last 60 seconds and are single use.
+      return {token:await identity.joinToken(world.endpoint)};
+    }
     if(developmentGuests)return {token:`guest:${name.value}`};
     throw new SessionFailure("UNAUTHORIZED","This deployment must provide a sign-in adapter");
-  }, window.__COREALM_PROVIDERS__, {ready:false});
+  }, window.__COREALM_PROVIDERS__, {ready:false,identity,identityError});
   if(developmentGuests){
-    const identity=document.createElement("label");identity.className="worlds__identity";
-    identity.append("Guest character",name);selector.panel.insertBefore(identity,selector.panel.children[2]??null);
+    const guest=document.createElement("label");guest.className="worlds__identity";
+    guest.append("Guest character",name);
+    selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__host"));
   }
   return {...selector, attach(ports){attached.ports=ports;selector.refresh();}};
 }

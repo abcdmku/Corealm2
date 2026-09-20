@@ -5,9 +5,24 @@ const files=(entries:Record<string,unknown>)=>(path:string)=>path in entries?JSO
 const none=()=>undefined;
 const guestFile={developmentGuests:true};
 describe('reference deployment configuration',()=>{
- it('requires an explicit identity policy',()=>{
-  expect(()=>hostConfiguration([],{},none)).toThrow(/authentication/);
-  expect(()=>hostConfiguration(['--development-guests','--auth-module','auth.mjs'],{},none)).toThrow(/authentication/);
+ it('requires exactly one way to authenticate players',()=>{
+  expect(()=>hostConfiguration([],{},none)).toThrow(/exactly one way to authenticate/);
+  expect(()=>hostConfiguration(['--development-guests','--auth-module','auth.mjs'],{},none)).toThrow(/exactly one way to authenticate/);
+  expect(()=>hostConfiguration(['--guests','--identity-url','https://identity.example.com/'],{},none)).toThrow(/exactly one way to authenticate/);
+  expect(()=>hostConfiguration(['--auth-module','auth.mjs'],{COREALM_IDENTITY_URL:'https://identity.example.com/'},none)).toThrow(/exactly one way to authenticate/);
+ });
+ it('names the authentication each source selects',()=>{
+  expect(hostConfiguration(['--identity-url','https://identity.example.com'],{},none))
+   .toMatchObject({authentication:'account',identityUrl:'https://identity.example.com/',guests:false,developmentGuests:false});
+  expect(hostConfiguration(['--development-guests'],{},none)).toMatchObject({authentication:'guest',guests:false,developmentGuests:true});
+  expect(hostConfiguration([],{},files({'corealm-server.json':{guests:true}}))).toMatchObject({authentication:'guest',guests:true,developmentGuests:false});
+  expect(hostConfiguration(['--auth-module','auth.mjs'],{},none)).toMatchObject({authentication:'module',authModule:'auth.mjs'});
+ });
+ it('lets an owner open guests to a network but never development guests',()=>{
+  const remote=['--host','0.0.0.0','--public-endpoint','wss://lan.example.com/','--origins','https://play.example.com'];
+  expect(hostConfiguration(['--guests',...remote],{},none)).toMatchObject({authentication:'guest',host:'0.0.0.0'});
+  expect(()=>hostConfiguration(['--development-guests',...remote],{},none)).toThrow(/loopback/);
+  expect(()=>hostConfiguration(['--guests','--development-guests',...remote],{},none)).toThrow(/loopback/);
  });
  it('keeps development guests local and bounds admission',()=>{
   expect(hostConfiguration(['--development-guests'],{},none)).toMatchObject({host:'127.0.0.1',
@@ -27,12 +42,22 @@ describe('reference deployment configuration',()=>{
   expect(()=>hostConfiguration(['--worlds','one,one'],env,none)).toThrow(/unique/);
  });
  it('reads corealm-server.json from the working directory when it exists',()=>{
-  const read=files({'corealm-server.json':{...guestFile,port:4200,data:'./data',assetBaseUrl:'https://cdn.example.com/corealm',
+  const read=files({'corealm-server.json':{port:4200,data:'./data',assetBaseUrl:'https://cdn.example.com/corealm',
    identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
-  expect(hostConfiguration([],{},read)).toEqual({authored:false,developmentGuests:true,host:'127.0.0.1',port:4200,
+  expect(hostConfiguration([],{},read)).toEqual({authored:false,authentication:'account',developmentGuests:false,guests:false,host:'127.0.0.1',port:4200,
    data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
    assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,
    configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
+ });
+ it('names the owner account from a flag, an environment variable or the file, and checks its shape',()=>{
+  const identity=['--identity-url','https://identity.example.com/'];
+  const owner='acc_OOOOOOOOOOOOOOOOOOOOOO';
+  expect(hostConfiguration([...identity,'--owner-account',owner],{},none).ownerAccount).toBe(owner);
+  expect(hostConfiguration(identity,{COREALM_OWNER_ACCOUNT:owner},none).ownerAccount).toBe(owner);
+  expect(hostConfiguration([],{},files({'corealm-server.json':{identityUrl:'https://identity.example.com/',ownerAccount:owner}})).ownerAccount).toBe(owner);
+  expect(hostConfiguration(identity,{},none).ownerAccount).toBeUndefined();
+  expect(()=>hostConfiguration(identity,{COREALM_OWNER_ACCOUNT:'someone'},none)).toThrow(/ownerAccount must be an identity account id/);
+  expect(()=>hostConfiguration([],{},files({'corealm-server.json':{identityUrl:'https://identity.example.com/',owner:'x'}}))).toThrow(/unknown setting "owner"/);
  });
  it('takes the config path from a flag or an environment variable and fails when it is missing',()=>{
   const read=files({'/etc/corealm/server.json':{...guestFile,port:4300}});
@@ -77,7 +102,7 @@ describe('reference deployment configuration',()=>{
  it('carries a loopback asset host and an identity URL through overrides',()=>{
   const read=files({'corealm-server.json':{...guestFile,assetBaseUrl:'https://cdn.example.com/'}});
   expect(hostConfiguration(['--asset-base-url','http://127.0.0.1:4192'],{},read).assetBaseUrl).toBe('http://127.0.0.1:4192/');
-  expect(hostConfiguration([],{COREALM_IDENTITY_URL:'https://identity.example.com/auth'},read).identityUrl)
+  expect(hostConfiguration([],{COREALM_IDENTITY_URL:'https://identity.example.com/auth'},files({'corealm-server.json':{}})).identityUrl)
    .toBe('https://identity.example.com/auth/');
  });
 });

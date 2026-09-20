@@ -2,36 +2,37 @@ import { MAX_WORLD_PLAYERS } from "../contracts.js";
 import { RECONNECT_RESERVATION_MS, SessionFailure } from "./protocol.js";
 
 interface Slot { sessionId: string; reservedUntil: number | null }
-/** Synchronous admission is atomic within the single process that owns this world. */
+/**
+ * One world's capacity. Who may play is the server's player lease, not this: a slot only keeps a
+ * dropped player's place in a full world for the reconnect window.
+ */
 export class Admission {
   private readonly slots = new Map<string, Slot>();
   constructor(readonly capacity: number, private readonly now = Date.now) {
     if (!Number.isInteger(capacity) || capacity < 1 || capacity > MAX_WORLD_PLAYERS) throw new RangeError("Invalid world capacity");
   }
-  expire(): string[] {
-    const expired: string[] = [];
-    for (const [playerId, slot] of this.slots) if (slot.reservedUntil !== null && slot.reservedUntil <= this.now()) {
-      this.slots.delete(playerId); expired.push(playerId);
-    }
-    return expired;
+  private expire(): void {
+    for (const [playerId, slot] of this.slots) if (slot.reservedUntil !== null && slot.reservedUntil <= this.now()) this.slots.delete(playerId);
   }
   get population(): number { this.expire(); return this.slots.size; }
-  join(playerId: string, sessionId: string): boolean {
+  /** Throws FULL when this player has no slot and none is free. Takes nothing. */
+  check(playerId: string): void {
     this.expire();
-    const prior = this.slots.get(playerId);
-    if (prior?.reservedUntil === null) throw new SessionFailure("DUPLICATE_LOGIN", "This player is already connected");
-    if (!prior && this.slots.size >= this.capacity) throw new SessionFailure("FULL", "This world is full");
+    if (!this.slots.has(playerId) && this.slots.size >= this.capacity) throw new SessionFailure("FULL", "This world is full");
+  }
+  join(playerId: string, sessionId: string): void {
+    this.check(playerId);
     this.slots.set(playerId, { sessionId, reservedUntil: null });
-    return prior !== undefined;
   }
-  owns(playerId: string, sessionId: string): boolean {
-    const slot = this.slots.get(playerId);
-    return slot?.sessionId === sessionId && slot.reservedUntil === null;
-  }
+  /** Free the slot, or with `reserve` hold it for the reconnect window. Only the session that owns it may. */
   leave(playerId: string, sessionId: string, reserve: boolean): void {
     const slot = this.slots.get(playerId);
     if (!slot || slot.sessionId !== sessionId) return;
     if (reserve) slot.reservedUntil = this.now() + RECONNECT_RESERVATION_MS;
     else this.slots.delete(playerId);
+  }
+  /** The player went to another world: a place held for their return is free again. */
+  forget(playerId: string): void {
+    if (this.slots.get(playerId)?.reservedUntil != null) this.slots.delete(playerId);
   }
 }

@@ -13,7 +13,7 @@ Use Node 24 and run `npm ci` once. These commands start both the game page and o
 
 Development runs Vite with hot reload. Production builds the release game first, then serves its compiled files with Vite preview. This is a local production-build preview, not a public hosting service. Both use the real reference world server in a separate process, durable SQLite, a 200-player admission ceiling and explicit local guest authentication. The ceiling is a configuration limit, not a measured capacity claim. There are no fake players.
 
-Stop an existing `npm run dev` before starting the development launcher, or choose a different web port. Wait for the launcher to print **Open ...**, then open that URL. Worlds appears automatically when loading finishes: enter a guest character name, select the world and **Join world**. A successful join closes the menu and enters that world. Use the same name to resume that character. Ctrl+C stops both listeners and closes storage. The two modes have separate world IDs and save directories, so they can run together. Local saves are ignored by Git.
+Stop an existing `npm run dev` before starting the development launcher, or choose a different web port. Wait for the launcher to print **Open ...**, then open that URL. Worlds appears automatically when loading finishes: enter a guest character name, select the world and **Join world**. A successful join closes the menu and enters that world. Use the same name to resume that character. The host stores a guest as `guest:<name>`. Ctrl+C stops both listeners and closes storage. The two modes have separate world IDs and save directories, so they can run together. Local saves are ignored by Git.
 
 Options go after `--`:
 
@@ -39,7 +39,7 @@ The standalone authored host exposes `corealm` by default. Use `--worlds corealm
 
 ### Configuration file
 
-The host reads `corealm-server.json` from its working directory. `--config <path>` or `COREALM_CONFIG` names a different file; a file named that way must exist, while a missing default file is fine. Settings resolve **flag, then environment variable, then file, then built-in default**. `--authored` and `--development-guests` are switches: the flag turns them on and the file's `authored` / `developmentGuests` do the same, so neither can turn the other off.
+The host reads `corealm-server.json` from its working directory. `--config <path>` or `COREALM_CONFIG` names a different file; a file named that way must exist, while a missing default file is fine. Settings resolve **flag, then environment variable, then file, then built-in default**. `--authored`, `--guests` and `--development-guests` are switches: the flag turns them on and the file's `authored` / `guests` / `developmentGuests` do the same, so neither can turn the other off.
 
 ```json
 {
@@ -50,8 +50,8 @@ The host reads `corealm-server.json` from its working directory. `--config <path
   "data": "./local-worlds",
   "assetBaseUrl": "https://assets.example.com/corealm/",
   "identityUrl": "https://identity.example.com/",
+  "ownerAccount": "acc_9Qr7v2KpLd3XmB1sYwTgHa",
   "authored": true,
-  "authModule": "./auth.mjs",
   "worlds": [
     { "id": "corealm", "name": "Corealm", "seed": 1337, "capacity": 200 },
     { "id": "second-corealm", "name": "Corealm II", "seed": 4242, "capacity": 50 }
@@ -59,7 +59,7 @@ The host reads `corealm-server.json` from its working directory. `--config <path
 }
 ```
 
-Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `capacity` to 64. Unknown keys, wrong types, a capacity outside 1 to 1000 and duplicate world ids are all rejected before storage opens. `assetBaseUrl` and `identityUrl` must be HTTPS, or plain HTTP on loopback, and are normalised to end with a slash. `identityUrl` is parsed and carried but not yet used.
+Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `capacity` to 64. Unknown keys, wrong types, a capacity outside 1 to 1000 and duplicate world ids are all rejected before storage opens. `assetBaseUrl` and `identityUrl` must be HTTPS, or plain HTTP on loopback, and are normalised to end with a slash. Setting `identityUrl` selects account authentication; see [Authentication modes](#authentication-modes).
 
 | Setting | Flag | Environment variable |
 | --- | --- | --- |
@@ -71,7 +71,10 @@ Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `
 | `data` | `--data` | `COREALM_DATA` |
 | `assetBaseUrl` | `--asset-base-url` | `COREALM_ASSET_BASE_URL` |
 | `identityUrl` | `--identity-url` | `COREALM_IDENTITY_URL` |
+| `ownerAccount` | `--owner-account` | `COREALM_OWNER_ACCOUNT` |
 | `authModule` | `--auth-module` | `COREALM_AUTH_MODULE` |
+| `guests` | `--guests` | none |
+| `developmentGuests` | `--development-guests` | none |
 | `worlds` | `--worlds a,b` | `COREALM_WORLDS` |
 | every world's capacity | `--capacity` | `COREALM_CAPACITY` |
 
@@ -109,9 +112,107 @@ Fixed authored scenery stays loaded from that matching map when buildings lie be
 
 Protocol 2 adds public actions, visible activity timing, and authoritative targeted/area invocation commands. Update the browser and host together. Protocol 1 sessions are rejected explicitly. Existing durable character saves retain their storage schema and content version.
 
-Development guests require an explicit host flag and browser configuration. Guest names do not prove identity ownership. Production hosts must supply an `AuthenticationAdapter` to `startReferenceServer` that verifies credentials, checks access to the requested world, and returns a stable player ID and display name. Set `window.__COREALM_AUTHENTICATE__` to an async sign-in function returning `{token}`, or supply authentication through a custom provider. No production identity service is bundled.
+### Authentication modes
+
+A host authenticates players in exactly one way. Configuring none, or more than one, stops the host before it opens storage.
+
+| Mode | Configure | Player id | Descriptor `authentication` |
+| --- | --- | --- | --- |
+| Accounts, the default for a public host | `identityUrl` | the account id, `acc_...` | `account` |
+| Guests | `guests: true` or `--guests` | `guest:<name>` | `guest` |
+| Development guests | `developmentGuests: true` or `--development-guests` | `guest:<name>` | `guest` |
+| Module | `authModule` | whatever the module returns | the module's `authentication`, else `guest` |
+
+**Accounts.** The host fetches `<identityUrl>/.well-known/corealm-keys.json` once at start and refuses to start when it cannot. After that it verifies every join token offline. It checks the signature, the audience, the expiry, and that it has not accepted this token id before. The audience is the host's `publicEndpoint`, so a token minted for another server is refused. A token that names a key the host has not seen triggers one key refetch, shared by every join waiting on it and at most once every 10 seconds, which is how key rotation reaches a running host. An identity outage after start does not affect joins signed with keys the host already holds. Rejections say only that the token expired, was issued for another server, or is invalid. See [identity service](identity-service.md).
+
+**Guests.** A guest presents `guest:<name>` and gets the player id `guest:<name>`. Guest names prove nothing. Anyone who can reach the host can play any guest. `--guests` is for a LAN or offline server whose owner accepts that, and works on any listener. `--development-guests` is the same adapter but refuses to start on a non-loopback listener, so a launcher or a copied command line cannot open a public guest server by accident. Account ids start with `acc_` and contain no colon, so no guest name can reach an account's character if the owner later switches the same database to accounts.
+
+**Module.** `--auth-module` loads a module that exports `authenticate(token, world)` returning a stable player id and display name, for hosts run from source. Embedders pass any `AuthenticationAdapter` to `startReferenceServer`, and may pass `beforeAdmission(player, world)`, which runs after the host's own ban check and before the player lease is claimed; throwing a `SessionFailure` there refuses the join.
+
+On the browser side, set `window.__COREALM_AUTHENTICATE__` to an async sign-in function returning `{token}`, or supply authentication through a custom provider.
 
 Credentials belong in memory and the connection exchange, never in descriptors, URLs, saves, or logs. Remote endpoints require HTTPS/WSS; HTTP/WS is accepted only for loopback development. Configure `allowedOrigins` and encrypted transport when hosting remotely. No production deployment is required for local use.
+
+## Administration
+
+Administration is account work. A host in accounts mode serves `/admin/*`; a guest or module host answers every admin path with 501 and `{"error":{"code":"admin_unavailable"}}`. `/healthz`, `/readyz` and `/worlds` stay public and unchanged.
+
+### Becoming the owner
+
+A host with no owner prints one line at start and nothing else about it:
+
+```json
+{"event":"owner-setup-code","code":"K7M3Q-2WXPR-9TVBH-4CJ8N","message":"Sign in to devdocs and enter this code to become the owner of this server. It is shown once and is replaced on the next start."}
+```
+
+The code is 20 Crockford base32 characters, so 100 bits, and the database keeps only its SHA-256 hash. It does not expire; a restart with still no owner replaces it with a new one. Reading it back is impossible. Sign in through the identity service, then `POST /admin/setup` with that join token and the code. The first caller to get it right becomes owner and the code is spent, for everyone, including them. Typing is forgiving: any case, any separators, and O, I and L read as 0, 1 and 1. Wrong answers are capped at five per source address and twenty in total per minute, and a wrong code and a spent code give the same reply.
+
+Set `ownerAccount` instead to name the owner in configuration. The host grants the role at start, records it in the audit log under the `config` credential and prints no code.
+
+### Roles, bans, and tokens
+
+Roles are `owner` and `admin`, by account id. Only an owner grants or revokes `admin`. No admin can demote an owner, an owner cannot be banned, and the last owner cannot be removed.
+
+Bans are per server, by account id, with a reason, an optional expiry, who set it and when. A banned account is refused at the join with `BANNED` and the reason, is refused an admin session, and loses any admin session it holds. Banning someone who is playing disconnects them through the ordinary leave path, so their character is saved and their lease is freed. An expired ban stops applying on its own; nothing sweeps.
+
+Devdocs signs in with `POST /admin/session`, exchanging a join token for a session token that starts `cas_` and lasts 12 hours. Automation uses API tokens, which start `cat_`, carry scopes, and expire only if given an expiry. Both are 32 random bytes, stored only as a SHA-256 hash, compared in constant time, and shown once at creation. A session carries every scope; a token carries only what it was created with and can never mint a token or grant a role.
+
+| Scope | Allows |
+| --- | --- |
+| `content:read` | Reading source collections, for the export workflow. |
+| `content:publish` | Publishing a catalog. |
+| `players:read` | `GET /admin/players`, `GET /admin/bans`. |
+| `players:write` | `POST /admin/bans`, `DELETE /admin/bans/<accountId>`. |
+| `stats:read` | `GET /admin/stats`. |
+
+### Endpoints
+
+JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply is `Cache-Control: no-store`. `Authorization: Bearer <cas_… or cat_…>`. CORS allows the exact origins in `allowedOrigins` and never `*`; a request from any other origin gets no allow header, and its preflight gets 403. Bodies are capped at 8 KiB and every field, header, query value and path segment is validated at the boundary.
+
+| Endpoint | Credential | Does |
+| --- | --- | --- |
+| `POST /admin/setup` | join token + code | Makes the caller owner and returns a session. |
+| `POST /admin/session` | join token | Returns `{session, expiresAt, accountId, name, role}` for a role holder, otherwise 403. |
+| `DELETE /admin/session` | session | Revokes the presenting session. |
+| `GET /admin/me` | session or token | `{credential, accountId, tokenId, role, scopes}`. |
+| `GET /admin/roles` | session | Every role holder. |
+| `PUT /admin/roles/<accountId>` | owner session | Body `{"role":"admin"}`. |
+| `DELETE /admin/roles/<accountId>` | owner session | Removes a role. |
+| `GET /admin/bans` | `players:read` | Live bans only. |
+| `POST /admin/bans` | `players:write` | Body `{accountId, reason, expiresAt?}`. Returns `{ban, kicked}`. |
+| `DELETE /admin/bans/<accountId>` | `players:write` | Lifts a ban. |
+| `GET /admin/tokens` | session | Metadata only: id, label, scopes, createdBy, createdAt, lastUsedAt, expiresAt. |
+| `POST /admin/tokens` | session | Body `{label, scopes[], expiresAt?}`. The reply is the only place the secret exists. |
+| `DELETE /admin/tokens/<id>` | session | Revokes a token. |
+| `GET /admin/audit?limit=&before=` | session | Newest first. `before` is an id from the previous page. |
+| `GET /admin/stats` | `stats:read` | Below. |
+| `GET /admin/players?query=&limit=&cursor=` | `players:read` | Summaries, newest seen first. `cursor` comes from the previous page. |
+| `GET /admin/players/<accountId>` | `players:read` | One player with inventory, bank, equipment and skills. |
+
+A player who is online is read from the world holding them, not from the row the last commit wrote, so devdocs shows what the player is carrying right now. M5 adds editing and kicking beside these readers.
+
+`audit_log` gets one row inside the same transaction as the write that caused it: `id`, `at`, `account_id`, `credential`, `action`, `target`, `before` and `after`. The credential is `session`, `token:<id>`, `setup` for the one-time code, `config` for `ownerAccount`, or `login` for the join token that minted a session. Actions are `owner.setup`, `role.set`, `role.revoke`, `ban.set`, `ban.remove`, `token.create`, `token.revoke`, `session.create` and `session.revoke`.
+
+### Stats
+
+`GET /admin/stats` exposes the metrics the server already collects. Times are milliseconds, sizes are bytes, timestamps are epoch milliseconds.
+
+```json
+{
+  "startedAt": 1758326400000, "uptimeSeconds": 903.4,
+  "worlds": [{ "providerId": "reference", "worldId": "corealm", "name": "Corealm", "playersOnline": 12, "capacity": 200, "tick": 9031 }],
+  "tick": { "samples": 9031, "lastMs": 21.4, "meanMs": 23.9, "p95Ms": 29.5, "maxMs": 134.2 },
+  "stages": { "samples": 9031, "simulationMs": 18.1, "snapshotMs": 3.4, "commitMs": 0.9, "replicationMs": 1.5 },
+  "commands": 4821, "rejected": 3, "errors": 0, "backlogDisconnects": 0,
+  "bytesOut": 91263344, "bytesOutPerSecond": 101021.2,
+  "memory": { "rssBytes": 1231847424, "heapUsedBytes": 412398080 },
+  "events": [{ "at": 1758327303000, "kind": "join", "accountId": "acc_...", "detail": "corealm" }]
+}
+```
+
+Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
+
+Without a credential the endpoint answers 401, and with a token that lacks `stats:read` it answers 403.
 
 ## Authority, reconnect, and durability
 
@@ -123,11 +224,35 @@ Protocol version 3 adds proximity chat, eight-player parties, shared kill-bonus 
 
 Commands have a transport sequence and a logical operation ID scoped to provider/world/player. Retrying the identical operation returns its durable receipt. Reusing an ID for another command or retrying outside the retained 256-operation window is rejected. Reconnect obtains a valid snapshot before commands resume. Session IDs and lifecycle generation guards reject late packets.
 
-Active duplicate logins are rejected. Unexpected disconnects reserve a slot for 30 seconds; reservations count toward capacity. Explicit leave releases the slot and restores the separate offline save. Network failure never creates an offline branch of the online world. Browser progression is neither imported nor overwritten automatically.
+A second simultaneous login of one account is rejected with `DUPLICATE_LOGIN` in every world of the host, not only the world the first session is in. An unexpected disconnect saves the player and keeps their place for 30 seconds: the place counts toward that world's capacity, and the same account may resume at once. If they join a different world of the host inside that window they are admitted there, because the drop already saved them, and the held place is freed. Explicit leave saves, frees the account and restores the separate offline save. Network failure never creates an offline branch of the online world. Browser progression is neither imported nor overwritten automatically.
 
-SQLite uses WAL, synchronous FULL transactions, and an exclusive database lock. State, random streams, and operation receipts commit atomically before acknowledgement. Storage failure stops simulation and acknowledgements. Restart resumes the saved simulation clock without advancing gameplay for downtime. Back up the directory while the host is stopped.
+SQLite uses WAL, synchronous FULL transactions, and an exclusive database lock. World state, random streams, operation receipts and the characters a world holds commit atomically before acknowledgement. Storage failure stops simulation and acknowledgements. Restart resumes the saved simulation clock without advancing gameplay for downtime. Back up the directory while the host is stopped. The file is `worlds.sqlite` in the data directory and holds the whole server, not one world.
 
-Replacement `WorldStorage` adapters implement `load`, `commit`, and `close`, preserving atomic commits and exclusive ownership. Optional paired `loadResident` / `loadPlayer` methods keep historical players on disk; `playerWrites: "patch"` retains omitted durable players. Inactive runtimes are evicted after a durable commit, retaining maintenance while an owned campfire or recovery cache exists.
+### Players, worlds and the lease
+
+A player has one character per host, shared by every world on it. The database keeps three things apart:
+
+| Table | Key | Holds |
+| --- | --- | --- |
+| `players` | account id | The character: inventory, bank, equipment, skills, quests, currency, position and the rest of the private state, as JSON in `character`. Also `name`, `last_world`, `first_seen` and `last_seen` in epoch milliseconds, and `playtime_seconds`. Position is stored once, as `$.player.position` and `$.player.regionId` inside `character`, and is meaningful in `last_world`. |
+| `world_players` | world, account id | What the player owns in that world: campfire, recovery cache and used obstacles, plus that world's random cursor. Command receipts stay in `world_receipts`. |
+| `player_leases` | account id | Which world and session may write the character, until when, and whether the row is a dropped player's reservation. |
+
+Administration lives in the same file, in `server_roles`, `server_settings`, `player_bans`, `admin_sessions`, `api_tokens` and `audit_log`. Server code reaches all of it through `ServerAdminStorage` in `game/src/multiplayer/adminStorage.ts`, which is asynchronous and takes plain data for the same reason `WorldStorage` is: the database moves to its own thread later.
+
+Joining a world claims the account's lease in one transaction. The claim succeeds when there is no lease, the lease has expired, or it is a reservation; otherwise the join is `DUPLICATE_LOGIN`. A live lease lasts 30 seconds and the holding world renews it every 10 seconds inside its ordinary tick commit, together with `last_seen` and `playtime_seconds`, so renewal costs no transaction of its own. A world that crashes stops renewing and its leases run out by themselves. A world that starts again frees the leases its previous life left behind.
+
+Every character write is fenced. The commit writes a character only while the lease still names that world and that session, in the same transaction as the world state. A world that lost the lease, because it stalled past the expiry and another world took the account, has its write refused, is told which players were refused, and disconnects them with `SESSION_EXPIRED`. What the player owns in that world is still written, because that belongs to the world.
+
+A player with a live campfire or recovery cache stays simulated in that world while offline, so the fire burns down and the cache expires on schedule. That resident copy never writes the character. When the player joins any world, the character comes from `players`, never from a resident copy, and is combined with what they own in the world they joined. Joining a different world than `last_world` places the character at that world's safe spawn and clears activity, dialogue, movement and combat timers, which were timed by the other world's clock. Joining the same world resumes at the saved position.
+
+Replacement `WorldStorage` adapters implement `load`, `openWorld`, `claimPlayer`, `releasePlayer`, `commit` and `close` from `game/src/contracts.ts`. Every method is asynchronous and takes plain data, and none may assume worlds share memory. The lease and the fence keep one character safe when worlds later run on separate threads. `commit` retains players the record omits. `MemoryWorldStorage` in `game/src/multiplayer/memoryStorage.ts` implements the same rules without a file. Inactive runtimes are evicted after their final save commits, retaining maintenance while an owned campfire or recovery cache exists.
+
+### Migrating an older database
+
+Databases written before the players table kept a whole player inside each world. Opening one migrates it once, in a single transaction, and records `schema_version` 2 in the `meta` table. Reopening does nothing. The host prints one JSON line, `{"event":"storage-migrated",...}`, with the number of worlds and players and every conflict it resolved. When the same player id exists in several worlds, the character with the most total skill XP is kept, then the one from the world with the higher tick, then the lower world key. The host discards the other characters, inventories included, and names them in that line. Every world keeps what the player owned there, its receipts and its random cursor. The host backs nothing up. Copy the data directory first if you may need the discarded characters. A database with a newer `schema_version` than the host understands is refused.
+
+Guests were stored under their bare name before this change and are `guest:<name>` now, so a guest character from an older local save is not resumed under the new id.
 
 Adapters may opt into `entityPatches: true`. Commits with `entityWrites: "patch"` upsert the supplied entity rows, retain omitted rows, and delete `removedEntityIds`, atomically with the world clock, player state, random cursors and receipts. Loads must reconstruct the complete entity list. The reference SQLite adapter migrates old monolithic entity saves in that transaction. The server establishes the initial baseline before accepting connections; adapters without this capability continue receiving complete snapshots. A failed commit stops the world rather than advancing its in-memory delta baseline and continuing to acknowledge commands.
 

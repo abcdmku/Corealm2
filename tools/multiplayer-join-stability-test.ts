@@ -959,12 +959,12 @@ try {
   if (local) {
     const runtime = [...local.worlds.values()][0]!.runtime;
     const originalJoin = runtime.join.bind(runtime);
-    runtime.join = (playerId: string) => {
+    runtime.join = (playerId, claim) => {
       const started = Date.now();
       const timing: JoinTiming = { playerId, startedAtMs: started };
       joinTimings.push(timing);
       try {
-        const player = originalJoin(playerId);
+        const player = originalJoin(playerId, claim);
         timing.endedAtMs = Date.now(); timing.durationMs = timing.endedAtMs - started;
         return player;
       } catch (error) {

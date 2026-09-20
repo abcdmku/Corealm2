@@ -45,12 +45,17 @@ export interface WorldDescriptor extends WorldKey {
    * with a trailing slash. Absent means the page's own origin, which is the GitHub Pages default.
    */
   assetBaseUrl?: string;
+  /**
+   * How this world admits players. "account" worlds need a join token the identity service minted
+   * for this endpoint; "guest" worlds take a `guest:<name>` token. Absent means "guest".
+   */
+  authentication?: "account" | "guest";
 }
 export type WorldConfiguration = WorldDescriptor | readonly WorldDescriptor[] | { directoryUrl: string };
 export type SessionPhase = "offline" | "connecting" | "connected" | "full" | "incompatible"
   | "unavailable" | "reconnecting" | "leaving";
 export type SessionErrorCode = "INVALID_MESSAGE" | "INCOMPATIBLE" | "UNAVAILABLE" | "FULL"
-  | "UNAUTHORIZED" | "DUPLICATE_LOGIN" | "SESSION_EXPIRED" | "OUT_OF_ORDER"
+  | "UNAUTHORIZED" | "BANNED" | "DUPLICATE_LOGIN" | "SESSION_EXPIRED" | "OUT_OF_ORDER"
   | "RATE_LIMITED" | "BACKLOG" | "UNKNOWN_OUTCOME";
 export interface SessionError { code: SessionErrorCode; message: string }
 
@@ -192,23 +197,55 @@ export interface WorldStorageRecord {
   receipts: Record<string, Readonly<{ operation: number; command: string; sequence: number; outcome: CommandOutcome }>[]>;
   /** Server-only random cursors survive restart; never included in replicated player state. */
   random?: {world:import("./core/rng.js").RngStreamState;players:Record<string,import("./core/rng.js").RngStreamState>};
-  /** Patch mode retains omitted players and their receipts durably; world state remains a full snapshot. */
-  playerWrites?: "patch";
+  /**
+   * Players whose character this commit may write, by the session that claimed them. A player in
+   * `players` with no entry here is a resident copy: only their world-owned objects are written.
+   */
+  leases?: Record<string, PlayerLeaseWrite>;
 }
-export interface StoredWorldPlayer {
-  state: import("./state/store.js").PlayerSessionState;
+/** The character a player carries between worlds: everything private except what they own in one world. */
+export type PlayerCharacter = Omit<import("./state/store.js").PlayerSessionState, "ownedWorld">;
+/** What one player keeps in one world: owned objects, that world's command receipts and random cursor. */
+export interface PlayerWorldRecord {
+  ownedWorld: import("./state/store.js").PlayerSessionState["ownedWorld"];
   receipts: WorldStorageRecord["receipts"][string];
   random?: import("./core/rng.js").RngStreamState;
 }
+/** A granted lease. `character` is null for an account this server has never saved. */
+export interface PlayerClaim { character: PlayerCharacter | null; lastWorld: WorldKey | null; world: PlayerWorldRecord | null }
+/**
+ * `hold` keeps a live lease, `reserve` saves a dropped player and keeps the lease for the reconnect
+ * window, `release` saves and frees the account for any world.
+ */
+export interface PlayerLeaseWrite { sessionId: string; action: "hold" | "reserve" | "release" }
+/** Players whose lease this world no longer held. Their characters were not written. */
+export interface WorldCommitResult { fenced: string[] }
+/**
+ * One server's durable state. Every method is asynchronous and takes plain data, so the database
+ * can move to its own thread or machine. Nothing here may assume that worlds share memory.
+ */
 export interface WorldStorage {
   /** Supports entity patches atomically with all other state. Loads always return complete entities. */
   readonly entityPatches?: true;
+  /** The complete world with every stored player composed from character and world record. For tools and tests. */
   load(key: WorldKey): Promise<WorldStorageRecord | null>;
-  /** Optional paired capability: load only players with live owned objects, and fetch others on admission. */
-  loadResident?(key:WorldKey):Promise<WorldStorageRecord|null>;
-  loadPlayer?(key:WorldKey,playerId:string):Promise<StoredWorldPlayer|null>;
-  /** Atomically commits state and command receipts. Resolve only after durable commit. */
-  commit(record: WorldStorageRecord): Promise<void>;
+  /**
+   * Start hosting a world. Frees leases a previous life of this world left behind, then returns the
+   * world with only its resident players: those with a live campfire or recovery cache.
+   */
+  openWorld(key: WorldKey): Promise<WorldStorageRecord | null>;
+  /**
+   * Atomically take the account's lease for this world. Null when a live session in any world holds
+   * it. An expired or reserved lease is taken over; its holder was saved before it was reserved.
+   */
+  claimPlayer(key: WorldKey, playerId: string, sessionId: string, name: string): Promise<PlayerClaim | null>;
+  /** Free a lease without saving, for a join that failed after its claim. No-op unless this session holds it. */
+  releasePlayer(key: WorldKey, playerId: string, sessionId: string): Promise<void>;
+  /**
+   * Atomically commit world state, receipts and the characters in `record.leases`. Omitted players
+   * are retained. A character is written only while its lease names this world and session.
+   */
+  commit(record: WorldStorageRecord): Promise<WorldCommitResult>;
   close(): Promise<void>;
 }
 

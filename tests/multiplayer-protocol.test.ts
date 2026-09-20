@@ -50,30 +50,35 @@ describe("world discovery trust boundary", () => {
   });
 });
 
-describe("atomic admission", () => {
+describe("world capacity", () => {
   it("admits 1000 and rejects 1001 without evicting anyone", () => {
     const admission = new Admission(1000);
     for (let i = 0; i < 1000; i++) admission.join(`p${i}`, `s${i}`);
     expect(() => admission.join("extra", "extra")).toThrow("full");
+    expect(() => admission.check("extra")).toThrow("full");
     expect(admission.population).toBe(1000);
-    for (let i = 0; i < 1000; i++) expect(admission.owns(`p${i}`, `s${i}`)).toBe(true);
   });
-  it("reserves once, rejects active duplicate login, and ignores an old disconnect", () => {
+  it("holds a dropped player's place for 30 seconds and ignores an old disconnect", () => {
     let now = 0; const admission = new Admission(1, () => now);
     admission.join("a", "one");
-    expect(() => admission.join("a", "duplicate")).toThrow("already connected");
     admission.leave("a", "one", true);
     expect(() => admission.join("b", "two")).toThrow("full");
-    expect(admission.join("a", "reconnected")).toBe(true);
+    admission.check("a"); admission.join("a", "reconnected");
     admission.leave("a", "one", false);
-    expect(admission.owns("a", "reconnected")).toBe(true);
-    admission.leave("a", "reconnected", true); now = 30_000;
-    expect(admission.join("b", "two")).toBe(false);
+    expect(admission.population).toBe(1);
+    admission.leave("a", "reconnected", true); now = 29_999;
+    expect(() => admission.check("b")).toThrow("full");
+    now = 30_000; admission.join("b", "two");
     expect(admission.population).toBe(1);
   });
   it("explicit leave releases the slot immediately", () => {
     const admission = new Admission(1); admission.join("a", "one"); admission.leave("a", "one", false);
-    admission.join("b", "two"); expect(admission.owns("b", "two")).toBe(true);
+    admission.join("b", "two"); expect(admission.population).toBe(1);
+  });
+  it("frees a held place when the player goes to another world, but never a live one", () => {
+    const admission = new Admission(2); admission.join("a", "one"); admission.join("b", "two");
+    admission.leave("a", "one", true); admission.forget("a"); admission.forget("b");
+    expect(admission.population).toBe(1);
   });
 });
 

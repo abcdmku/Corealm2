@@ -7,6 +7,7 @@ import { WebSocket as RawSocket } from "ws";
 import { WORLD_CONTENT_VERSION, WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldStorageRecord } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
+import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { WebSocketProvider } from "../game/src/multiplayer/webSocketProvider.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
@@ -51,8 +52,9 @@ describe("multiplayer recovery and privacy", () => {
     const world=new HeadlessWorld(descriptor,await createMultiplayerLabWorld());world.join("alice");
     const receipts=[1,2].map(operation=>({operation,sequence:operation,command:JSON.stringify({method:"stop",args:[]}),
       outcome:{status:"accepted" as const,sequence:operation,tick:0,result:{}}}));
-    await storage.commit(world.snapshot({alice:receipts}));
-    await storage.commit(world.snapshot({alice:[receipts[1]!]}));
+    await storage.claimPlayer(descriptor,"alice","s1","Alice");const leases={alice:{sessionId:"s1",action:"hold" as const}};
+    await storage.commit({...world.snapshot({alice:receipts}),leases});
+    await storage.commit({...world.snapshot({alice:[receipts[1]!]}),leases});
     expect((await storage.load(descriptor))!.receipts.alice!.map(receipt=>receipt.operation)).toEqual([2]);
   });
   it("archives inactive players while retaining durable progression and random cursors", async () => {
@@ -60,11 +62,17 @@ describe("multiplayer recovery and privacy", () => {
     const world=new HeadlessWorld(descriptor,await createMultiplayerLabWorld());
     const a=world.join("alice"),b=world.join("bob");a.store.get().currency=42;b.store.get().currency=7;
     a.random.get("loot").next();const random=a.random.snapshot();
-    await storage.commit({...world.snapshot(),playerWrites:"patch"});world.leave("alice");world.evictInactive();
-    await storage.commit({...world.snapshot(),playerWrites:"patch"});
-    expect((await storage.loadResident(descriptor))!.players).toEqual({});
-    const archived=(await storage.loadPlayer(descriptor,"alice"))!;expect(archived.state.currency).toBe(42);expect(archived.random).toEqual(random);
-    world.restorePlayer("alice",archived);expect(world.join("alice").store.get().currency).toBe(42);
+    await storage.claimPlayer(descriptor,"alice","s-alice","Alice");await storage.claimPlayer(descriptor,"bob","s-bob","Bob");
+    const leases={alice:{sessionId:"s-alice",action:"hold" as const},bob:{sessionId:"s-bob",action:"hold" as const}};
+    await storage.commit({...world.snapshot(),leases});world.leave("alice");
+    expect(world.evictInactive(id=>id==="alice")).toEqual([]);
+    await storage.commit({...world.snapshot(),leases:{...leases,alice:{sessionId:"s-alice",action:"release"}}});
+    expect(world.evictInactive()).toEqual(["alice"]);
+    await storage.commit({...world.snapshot(),leases:{bob:leases.bob}});
+    expect((await storage.openWorld(descriptor))!.players).toEqual({});
+    const archived=(await storage.claimPlayer(descriptor,"alice","s-return","Alice"))!;
+    expect(archived.character!.currency).toBe(42);expect(archived.world!.random).toEqual(random);expect(archived.lastWorld).toEqual({providerId:"reference",worldId:"yard"});
+    const returned=world.join("alice",archived);expect(returned.store.get().currency).toBe(42);expect(returned.random.snapshot()).toEqual(random);
     expect((await storage.load(descriptor))!.players.bob!.currency).toBe(7);
   });
   it("evicts a disconnected network player after commit and restores it on rejoin", async () => {
@@ -80,9 +88,10 @@ describe("multiplayer recovery and privacy", () => {
     let failCommit: ((reason:Error)=>void)|undefined;
     const server=await startReferenceServer({worlds:[descriptor],build:()=>createMultiplayerLabWorld(),
       authentication:{authenticate:async token=>({playerId:token,name:token})},
-      storage:{load:async()=>null,close:async()=>{},commit:async record=>{
+      storage:Object.assign(new MemoryWorldStorage(),{commit:async(record:WorldStorageRecord)=>{
         if(record.receipts.alice?.length)await new Promise<void>((_resolve,reject)=>{failCommit=reject;});
-      }}});
+        return {fenced:[]};
+      }})});
     cleanups.push(()=>server.close());
     const peer=await connectRaw(server.port,"alice");
     peer.ws.send(JSON.stringify({type:"command",envelope:{sessionId:peer.sessionId,sequence:1,operation:1,command:{method:"stop",args:[]}}}));

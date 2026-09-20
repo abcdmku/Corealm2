@@ -16,12 +16,13 @@ it("migrates an existing full save, applies entity changes and deletions, and re
   try {
     const ports = await createMultiplayerLabWorld();
     const world = new HeadlessWorld(descriptor, ports); world.join("alice");
-    const initial = world.snapshot(); await storage.commit(initial);
+    await storage.claimPlayer(descriptor, "alice", "s1", "Alice"); const leases = { alice: { sessionId: "s1", action: "hold" as const } };
+    const initial = world.snapshot(); initial.leases = leases; await storage.commit(initial);
     // Restart from a legacy save, including startup removal before the first patched commit.
     const restored = new HeadlessWorld(descriptor, { ...ports, initialize(runtime) { runtime.entities.remove("multiplayer:frog"); } }, await storage.load(descriptor));
     restored.join("alice").store.get().currency = 17;
     restored.entities.get("multiplayer:ore")!.state = "depleted";
-    const delta = restored.snapshot({}, true);
+    const delta = restored.snapshot({}, true); delta.leases = leases;
     expect(delta.entities.map(entity => entity.id)).toEqual(["multiplayer:ore"]);
     expect(delta.removedEntityIds).toEqual(["multiplayer:frog"]);
     const committedOre = structuredClone(delta.entities[0]);
@@ -33,7 +34,7 @@ it("migrates an existing full save, applies entity changes and deletions, and re
     expect(loaded.entities.find(entity => entity.id === "multiplayer:ore")?.state).toBe("depleted");
     expect(loaded.players.alice!.currency).toBe(17);
     expect(loaded.entityWrites).toBeUndefined();
-    expect((await storage.loadResident(descriptor))!.entities).toEqual(loaded.entities);
+    expect((await storage.openWorld(descriptor))!.entities).toEqual(loaded.entities);
     const next = restored.snapshot({}, true);
     expect(next.entities.map(entity => entity.id)).toEqual(["multiplayer:ore"]);
     expect(restored.snapshot({}, true).entities.map(entity => entity.id)).toEqual(["multiplayer:ore"]);
@@ -50,10 +51,12 @@ it("rolls back entities, player state, clock and receipts together when a patch 
   const storage = new SqliteWorldStorage(":memory:");
   try {
     const world = new HeadlessWorld(descriptor, await createMultiplayerLabWorld()); world.join("alice");
-    const initial = world.snapshot({}, true); await storage.commit(initial); world.committed(initial);
+    await storage.claimPlayer(descriptor, "alice", "s1", "Alice"); const leases = { alice: { sessionId: "s1", action: "hold" as const } };
+    const initial = world.snapshot({}, true); initial.leases = leases; await storage.commit(initial); world.committed(initial);
     const before = await storage.load(descriptor);
     world.players.get("alice")!.store.get().currency = 99; world.tick();
     const record = world.snapshot({ alice: [{ operation: 1, sequence: 1, command: "test", outcome: { status: "accepted", sequence: 1, tick: 1, result: {} } }] }, true);
+    record.leases = leases;
     record.entities.push({ ...world.entities.get("multiplayer:ore")!, id: null as never });
     await expect(storage.commit(record)).rejects.toThrow();
     expect(await storage.load(descriptor)).toEqual(before);

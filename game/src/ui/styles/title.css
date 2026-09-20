@@ -520,6 +520,17 @@
 @media(max-width: 520px) { .worlds__row { flex-wrap: wrap; } .worlds__badge { margin-left: 26px; } .worlds__header { align-items: flex-start; } .title__card:has(.worlds) .title__mark { font-size: 36px; } }
 .worlds__identity { display: block; color: #b6aa91; font-size: 12px; margin: 12px 0; }
 
+/* ---- signing in: who you are, which decides which worlds below will take you */
+.worlds__account { display: grid; gap: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid #514833; border-radius: 4px; background: #191810; }
+.worlds__account[hidden] { display: none; }
+.worlds__account-note { margin: 0; font-size: 13px; line-height: 1.5; color: #d6bf85; }
+.worlds__account-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.worlds__sign-in { flex: 1; min-width: 150px; min-height: 34px; }
+.worlds__account-link { padding: 0; font: inherit; font-size: 12px; color: #b6aa91; background: none; border: none; text-decoration: underline; cursor: pointer; }
+.worlds__account-link:hover { color: #f2e5c7; }
+.worlds__rename { display: flex; gap: 8px; }
+.worlds__rename[hidden] { display: none; }
+
 /* ---- adding a host: an address field, then the hosts the player keeps */
 .worlds__host { display: flex; gap: 8px; margin-top: 12px; }
 .worlds__host-input { flex: 1; min-width: 0; padding: 8px; font: inherit; font-size: 13px; color: #f2e5c7; background: #17160f; border: 1px solid #63553b; border-radius: 3px; }

@@ -216,6 +216,33 @@ export function foreignAssetHost(worldBase: string | undefined): boolean {
   return (normalizePublicBase(worldBase) ?? PAGE_BASE_URL) !== currentBase();
 }
 
+/**
+ * Where this page signs players in: the identity service that mints join tokens.
+ *
+ * A property of the page, never of a world. A game server naming its own identity service could
+ * point the login flow at a lookalike and collect sessions, so this comes from the build or from
+ * the page that embeds the client — `window.__COREALM_IDENTITY_URL__`, the same knob shape as
+ * `__COREALM_ASSET_BASE__` — with `VITE_COREALM_IDENTITY_URL` as the build-time default. Undefined
+ * means this deployment has no accounts: worlds that require one cannot be joined, and guest
+ * worlds and local play are unaffected.
+ *
+ * Throws when a value is configured but unusable, because silently falling back to "no accounts"
+ * hides a typo in a deployment's own configuration.
+ */
+export function identityUrl(): string | undefined {
+  const page = (globalThis as { __COREALM_IDENTITY_URL__?: unknown }).__COREALM_IDENTITY_URL__;
+  const configured = typeof page === "string" && page.trim() ? page.trim()
+    : typeof import.meta.env?.VITE_COREALM_IDENTITY_URL === "string" && import.meta.env.VITE_COREALM_IDENTITY_URL.trim()
+      ? import.meta.env.VITE_COREALM_IDENTITY_URL.trim() : null;
+  if (configured === null) return undefined;
+  let url: URL;
+  try { url = new URL(configured); } catch { throw new Error("The identity service URL must be an absolute URL"); }
+  const local = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  if (url.protocol !== "https:" && !(local && url.protocol === "http:")) throw new Error("The identity service URL must be https, or http on loopback");
+  if (url.username || url.password || url.search || url.hash) throw new Error("The identity service URL cannot carry credentials, a query or a fragment");
+  return url.href.replace(/\/+$/, "");
+}
+
 export function publicUrl(path: string): string {
   return `${publicBaseUrl()}${path.replace(/^\/+/, "")}`;
 }

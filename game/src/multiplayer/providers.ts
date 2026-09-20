@@ -1,4 +1,4 @@
-import type { SessionPhase, WorldDescriptor, WorldProvider, WorldSession, WorldUpdate } from "../contracts.js";
+import type { SessionError, SessionPhase, WorldDescriptor, WorldProvider, WorldSession, WorldUpdate } from "../contracts.js";
 import { compatible, descriptor, SessionFailure } from "./protocol.js";
 
 export class ProviderRegistry {
@@ -18,7 +18,8 @@ export interface SessionControllerPorts {
   validate?(world:WorldDescriptor):void;
   clear(): void;
   apply(update: WorldUpdate): void;
-  phase(phase: SessionPhase, message?: string): void;
+  /** `failure` carries the code behind a refused join, which the picker answers differently. */
+  phase(phase: SessionPhase, message?: string, failure?: SessionError): void;
   offline(): Promise<void>;
 }
 
@@ -67,9 +68,10 @@ export class SessionController {
       this.ports.phase("connected");
     } catch (error) {
       if (generation !== this.generation) return;
-      const code = error instanceof SessionFailure ? error.code : "UNAVAILABLE";
-      this.ports.phase(code === "FULL" ? "full" : code === "INCOMPATIBLE" ? "incompatible" : "unavailable",
-        error instanceof SessionFailure ? error.message : "Could not join this world");
+      const failure: SessionError = error instanceof SessionFailure ? { code: error.code, message: error.message }
+        : { code: "UNAVAILABLE", message: "Could not join this world" };
+      this.ports.phase(failure.code === "FULL" ? "full" : failure.code === "INCOMPATIBLE" ? "incompatible" : "unavailable",
+        failure.message, failure);
     }
   }
   async leave(): Promise<void> {

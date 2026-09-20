@@ -43,6 +43,18 @@ https://play.example.com/play#session=<token>&expiresAt=<unix>&account=acc_...&n
 
 A refused login returns `#error=access_denied`, `#error=exchange_failed` or `#error=provider_already_linked` instead. A successful link returns `#linked=<provider>`. Sessions last 30 days. The web app should strip the fragment after reading it and store the token itself.
 
+## How the game client uses it
+
+The client's half is `game/src/multiplayer/identityClient.ts`.
+
+The service address is a property of the **page**, never of a world: `window.__COREALM_IDENTITY_URL__`, or `VITE_COREALM_IDENTITY_URL` baked into the build, read and validated by `identityUrl()` in `game/src/app/config.ts`. A game server naming its own identity service could name a lookalike and harvest sessions, so a descriptor never gets a say. With no address configured, worlds whose descriptor says `"authentication":"account"` show as **Login unavailable** and cannot be selected; guest worlds and local play are unaffected.
+
+Signing in leaves the page for `GET /login/<provider>?return=<this page, minus its fragment>`. On the way back the client reads `session`, `expiresAt`, `account` and `name` out of the fragment and rewrites the address bar with `history.replaceState` in the same step, so no session token stays in the URL, in the history or in a `Referer`. The session then lives in `localStorage` under one key, `corealm.identity.v1`, with the expiry the service reported. An expired entry is dropped without being sent, and any `401` clears it and returns the player to signed out.
+
+Join tokens are never stored. `WorldProvider.authenticate` calls `joinToken(world.endpoint)` for every join attempt, including each automatic reconnect, because a token lasts 60 seconds and is single use. Guest worlds keep taking `guest:<name>` and need no session at all.
+
+The picker also reads `GET /servers` when an address is configured, and offers those servers next to the configured host and the ones the player added. Each listed server's worlds still come from its own `/worlds`. A directory that does not answer is ignored quietly.
+
 ## Join tokens
 
 A join token is a compact JWS. Both sides use `identity/src/joinToken.ts`; nothing else may re-implement it.

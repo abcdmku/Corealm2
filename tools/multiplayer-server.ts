@@ -6,17 +6,15 @@ import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { createAuthoredWorld } from "../game/src/multiplayer/authoredWorld.js";
 import { startReferenceServer, type AuthenticationAdapter } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
-import { SessionFailure } from "../game/src/multiplayer/protocol.js";
+import { guestAuthentication } from "../game/src/multiplayer/guestAuthentication.js";
+import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
 import { hostConfiguration } from "../game/src/multiplayer/hostConfiguration.js";
 
 const config = hostConfiguration(process.argv.slice(2));
 let authentication: AuthenticationAdapter;
-if (config.developmentGuests) {
-  authentication = { async authenticate(token) {
-    if (!/^guest:[A-Za-z0-9_.-]{1,40}$/.test(token)) throw new SessionFailure("UNAUTHORIZED", "A valid development guest name is required");
-    return { playerId: token.slice(6), name: token.slice(6) };
-  } };
-} else {
+if (config.authentication === "account") authentication = await createIdentityAuthentication({ identityUrl: config.identityUrl! });
+else if (config.authentication === "guest") authentication = guestAuthentication;
+else {
   const module = await import(pathToFileURL(resolve(config.authModule!)).href);
   authentication = module.default ?? module;
   if (typeof authentication.authenticate !== "function") throw new Error("Authentication module must export authenticate(token, world)");
@@ -31,12 +29,13 @@ const worlds: WorldDescriptor[] = config.worlds.map(world => ({
   ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
 }));
 const storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"));
-const server = await startReferenceServer({ worlds, port: config.port, host: config.host, storage,
+const server = await startReferenceServer({ worlds, port: config.port, host: config.host, storage, admin: storage.admin,
   allowedOrigins: config.allowedOrigins.length ? config.allowedOrigins : undefined,
+  ...(config.ownerAccount ? { ownerAccount: config.ownerAccount } : {}),
   build: world => config.authored ? createAuthoredWorld(world.seed) : createMultiplayerLabWorld(world.seed), authentication,
 }).catch(async error => { await storage.close(); throw error; });
 console.log(JSON.stringify({ ready: true, host: config.host, port: server.port,
-  fixture: config.authored ? "authored-world" : "production-lab", developmentGuests: config.developmentGuests,
+  fixture: config.authored ? "authored-world" : "production-lab", authentication: config.authentication,
   configFile: config.configFile, assetBaseUrl: config.assetBaseUrl ?? null, identityUrl: config.identityUrl ?? null,
   worlds: config.worlds }));
 let closing = false;

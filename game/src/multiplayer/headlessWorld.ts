@@ -1,4 +1,4 @@
-import { SKILL_IDS, type GameCommand, type Result, type SemanticEntity, type SkillId, type Vec3, type WorldDescriptor, type WorldStorageRecord } from "../contracts.js";
+import { SKILL_IDS, type GameCommand, type PlayerCharacter, type PlayerClaim, type Result, type SemanticEntity, type SkillId, type Vec3, type WorldDescriptor, type WorldStorageRecord } from "../contracts.js";
 import { runtimeTables } from "../content/runtimeCatalog.js";
 import { WORLD_LAB_CONTENT_VERSION } from "../contracts.js";
 import { content } from "../content/index.js";
@@ -144,22 +144,38 @@ export class HeadlessWorld {
   private releaseEnemyTargets(playerId: string, atMs: number): void {
     for (const [enemyId, target] of this.targets) if (target === playerId) this.selectEnemyTarget(enemyId, undefined, atMs);
   }
-  join(id: string): HeadlessPlayer {
+  /**
+   * Put a player in the world. With a claim the character is the server's stored one, never the
+   * copy this world kept for an offline owner; what the player owns here and their random cursor
+   * stay this world's. Without a claim a player already here is reused.
+   */
+  join(id: string, claim?: PlayerClaim): HeadlessPlayer {
     let player = this.players.get(id);
-    if (!player) { player = this.makePlayer(id); this.players.set(id, player); }
+    if (!player || claim) {
+      const owned = player ? playerSessionState(player.store.get()).ownedWorld : claim?.world?.ownedWorld;
+      const random = player ? player.random.snapshot() : claim?.world?.random;
+      const here = claim?.lastWorld?.providerId === this.descriptor.providerId && claim.lastWorld.worldId === this.descriptor.worldId;
+      player = this.makePlayer(id, claim?.character ? { ...(here ? claim.character : this.arrive(claim.character)),
+        ownedWorld: owned ?? { recoveryCache: null, campfire: null, obstaclesUsed: {} } } : undefined);
+      if (random) player.random.restore(random);
+      this.players.set(id, player);
+    }
     if (!this.active.has(id)) this.membershipVersion++;
     this.active.add(id); this.spatial.insert(id, player.store.get().player.position);
     this.social.join(id);
     return player;
   }
-  restorePlayer(id:string,saved:import("../contracts.js").StoredWorldPlayer):void {
-    if(this.players.has(id))return;
-    const player=this.makePlayer(id,saved.state);if(saved.random)player.random.restore(saved.random);
-    player.suspend();this.players.set(id,player);
+  /** A character from another world keeps what it carries and starts at this world's safe spawn, with nothing timed by the other world's clock. */
+  private arrive(character: PlayerCharacter): PlayerCharacter {
+    const initial = createInitialState(this.descriptor.seed);
+    return { ...character, meta: { ...character.meta, seed: this.descriptor.seed }, activity: null, dialogue: null,
+      combat: { ...initial.combat, preferredSpellId: character.combat.preferredSpellId },
+      player: { ...character.player, position: this.ports.spawn, regionId: initial.player.regionId, movement: initial.player.movement } };
   }
-  evictInactive():string[] {
+  /** Drop offline players who own nothing here. `keep` spares one whose final save has not committed yet. */
+  evictInactive(keep:(id:string)=>boolean=()=>false):string[] {
     const removed:string[]=[];
-    for(const [id,player]of this.players)if(!this.active.has(id)&&!player.store.get().world.campfire&&!player.store.get().world.recoveryCache){
+    for(const [id,player]of this.players)if(!this.active.has(id)&&!keep(id)&&!player.store.get().world.campfire&&!player.store.get().world.recoveryCache){
       this.players.delete(id);removed.push(id);
     }
     return removed;
