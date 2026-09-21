@@ -69,15 +69,12 @@ function afterPaint(run: () => void): void {
   const finish = () => {
     if (done) return;
     done = true;
-    // The fallback can fire in a host that has no frame scheduler, or after a test has put its
-    // stubs back, and an unguarded call there throws out of a timer where nothing can catch it.
-    if (frame !== undefined && typeof cancelAnimationFrame === "function") cancelAnimationFrame(frame);
+    cancelAnimationFrame(frame);
     clearTimeout(fallback);
     clearTimeout(painted);
     run();
   };
-  const frame = typeof requestAnimationFrame === "function"
-    ? requestAnimationFrame(() => { painted = setTimeout(finish, 0); }) : undefined;
+  const frame = requestAnimationFrame(() => { painted = setTimeout(finish, 0); });
   // Background tabs and a stopped render loop must still finish a requested destination.
   const fallback = setTimeout(finish, 100);
 }
