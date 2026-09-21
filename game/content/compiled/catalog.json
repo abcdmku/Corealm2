@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "4c59f6d5f3243267f3c82ccada75d6ee1309b42c4a9c00f24a1bca46230c1328",
+  "revision": "cd4853c1f909e8c2f67b072d7511eecf1d2461dadd279e14acbd5ac5d2d47bf0",
   "formulaRevision": "3b071422e0eb977d5bfba2115526a9f407b8a8df325b1a136b6b1b5328ef1c6b",
   "tables": {
     "items": [
@@ -46409,6 +46409,14 @@
                   1
                 ],
                 "chance": 0.02
+              },
+              {
+                "itemId": "gold",
+                "quantity": [
+                  10000,
+                  10000
+                ],
+                "chance": 0.001
               }
             ],
             "tables": []
@@ -46846,7 +46854,7 @@
                 "itemId": "marsh_gland",
                 "quantity": [
                   1,
-                  2
+                  3
                 ],
                 "chance": 0.3
               },
@@ -100172,6 +100180,14 @@
                     1
                   ],
                   "chance": 0.02
+                },
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    10000,
+                    10000
+                  ],
+                  "chance": 0.001
                 }
               ]
             },
@@ -100357,6 +100373,14 @@
                       1
                     ],
                     "chance": 0.02
+                  },
+                  {
+                    "itemId": "gold",
+                    "quantity": [
+                      10000,
+                      10000
+                    ],
+                    "chance": 0.001
                   }
                 ]
               },
@@ -164812,7 +164836,7 @@
                   "itemId": "marsh_gland",
                   "quantity": [
                     1,
-                    2
+                    3
                   ],
                   "chance": 0.3
                 },
@@ -165005,7 +165029,7 @@
                     "itemId": "marsh_gland",
                     "quantity": [
                       1,
-                      2
+                      3
                     ],
                     "chance": 0.3
                   },
@@ -207454,6 +207478,14 @@
                   1
                 ],
                 "chance": 0.02
+              },
+              {
+                "itemId": "gold",
+                "quantity": [
+                  10000,
+                  10000
+                ],
+                "chance": 0.001
               }
             ]
           },
@@ -228176,7 +228208,7 @@
                 "itemId": "marsh_gland",
                 "quantity": [
                   1,
-                  2
+                  3
                 ],
                 "chance": 0.3
               },
@@ -244282,6 +244314,14 @@
                     1
                   ],
                   "chance": 0.02
+                },
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    10000,
+                    10000
+                  ],
+                  "chance": 0.001
                 }
               ]
             },
@@ -261390,7 +261430,7 @@
                   "itemId": "marsh_gland",
                   "quantity": [
                     1,
-                    2
+                    3
                   ],
                   "chance": 0.3
                 },
@@ -310929,7 +310969,7 @@
                     "itemId": "marsh_gland",
                     "quantity": [
                       1,
-                      2
+                      3
                     ],
                     "chance": 0.3
                   },
@@ -313585,6 +313625,14 @@
                       1
                     ],
                     "chance": 0.02
+                  },
+                  {
+                    "itemId": "gold",
+                    "quantity": [
+                      10000,
+                      10000
+                    ],
+                    "chance": 0.001
                   }
                 ]
               },
