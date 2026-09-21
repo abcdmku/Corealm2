@@ -16,7 +16,7 @@ export async function assertServerWorldPack(): Promise<ServerWorldPack> {
   try {
     const bytes = await readFile(serverWorldPackFile);
     const header = readServerWorldPackHeader(bytes);
-    if (header.revision !== generationRevision(gameRoot)) throw new Error("Stale world revision");
+    if (header.revision !== await generationRevision(gameRoot)) throw new Error("Stale world revision");
     if (!header.seeds.includes(RELEASE_WORLD_SEED)) throw new Error(`Seed ${RELEASE_WORLD_SEED} is missing`);
     return loadServerWorldPack(bytes);
   } catch (error) { throw new Error(`Server world pack is missing, stale or damaged. Run npm run world:build. ${String(error)}`); }
@@ -26,7 +26,7 @@ export async function buildServerWorldPack(seeds: readonly number[] = [RELEASE_W
   const startedAt = performance.now();
   // Imported here so that checking a pack never loads the renderer and the GLB reader.
   const { bakeServerWorldPack } = await import("../game/src/multiplayer/bake/authoredWorld.js");
-  const pack = await bakeServerWorldPack(seeds, generationRevision(gameRoot), path.join(gameRoot, "public/assets"));
+  const pack = await bakeServerWorldPack(seeds, await generationRevision(gameRoot), path.join(gameRoot, "public/assets"));
   const bytes = encodeServerWorldPack(pack);
   loadServerWorldPack(bytes);
   await mkdir(path.dirname(serverWorldPackFile), { recursive: true });

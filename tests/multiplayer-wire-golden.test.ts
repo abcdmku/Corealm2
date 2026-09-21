@@ -3,6 +3,7 @@ import { WebSocket } from "ws";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
+import { RESOLVED_CATALOG } from "../game/src/content/resolvedCatalog.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { startThreadedServer } from "./helpers/threadedServer.js";
 
@@ -33,7 +34,7 @@ const varying = (frame: string) => frame.replace(/"sessionId":"[0-9a-f-]{36}"/g,
 const MODES = ["one thread", "a thread per world, frames as bytes", "a thread per world, frames as text"] as const;
 for (const mode of MODES) describe(mode, () => {
 it("sends a socket peer the same text for the same inputs", async () => {
-  const shared = { worlds: [world], log: () => {}, allowedOrigins: ["https://play.example"], authentication: { authenticate: async (token: string) => ({ playerId: token, name: `${token} the player` }) } };
+  const shared = { bundledBase: { version: "0.1.0", catalog: RESOLVED_CATALOG, sources: {} }, worlds: [world], log: () => {}, allowedOrigins: ["https://play.example"], authentication: { authenticate: async (token: string) => ({ playerId: token, name: `${token} the player` }) } };
   const server = mode === "one thread" ? await startReferenceServer({ ...shared, storage: new MemoryWorldStorage(), build: () => createMultiplayerLabWorld() })
     : await startThreadedServer({ ...shared, threads: { peerEncoding: mode.endsWith("bytes") ? "bytes" : "text" } });
   cleanup.push(() => server.close());
@@ -41,7 +42,7 @@ it("sends a socket peer the same text for the same inputs", async () => {
 
   const alice = await raw(server.port, "https://play.example"); alice.ws.send(join("alice")); await alice.next(2);
   expect(varying(alice.frames[0]!)).toBe(`{"type":"joined","sessionId":"<session>","playerId":"alice","world":{"providerId":"reference","worldId":"yard","name":"Yard","endpoint":"ws://127.0.0.1:${server.port}/",`
-    + `"protocolVersion":${WORLD_PROTOCOL_VERSION},"fixture":"lab","seed":1337,"population":0,"capacity":2,"availability":"available","catalogRevision":"${revision}","authentication":"guest"},"nextOperation":1}`);
+    + `"protocolVersion":${WORLD_PROTOCOL_VERSION},"fixture":"lab","seed":1337,"population":0,"capacity":2,"availability":"available","catalogRevision":"${revision}","authentication":"guest","baseVersion":"0.1.0"},"nextOperation":1}`);
   const snapshot = JSON.parse(alice.frames[1]!);
   expect([Object.keys(snapshot), snapshot.update.snapshot, snapshot.update.baseSequence, snapshot.update.privateState.player.name]).toEqual([["type", "update"], true, null, "alice the player"]);
   const sessionId = JSON.parse(alice.frames[0]!).sessionId;

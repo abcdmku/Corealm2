@@ -5,6 +5,7 @@ import { API_SCOPES as EDITOR_SCOPES, SCOPE_HELP } from "../devdocs/src/api/admi
 import { can, describeBlocker, setBackend, type PublishBlocker } from "../devdocs/src/api/backend.js";
 import { createRepoBackend } from "../devdocs/src/api/repoBackend.js";
 import { createServerBackend } from "../devdocs/src/api/serverBackend.js";
+import { applyBase, baseErrorLines, baseRecord, completeBaseBodies, previewBase, type BasePreview } from "../devdocs/src/api/baseGame.js";
 import { audienceOf, chooseIdentity, exchangeSession, normalizeServerUrl, readDescriptor, AdminFailure, type AdminSession } from "../devdocs/src/api/session.js";
 
 /*
@@ -52,6 +53,43 @@ function response(status: number, body: unknown): Response {
 }
 
 describe("the admin surfaces beyond content", () => {
+  it("previews decisions, applies the reviewed expectations and refreshes cached sources", async () => {
+    const decisions = [{ collection: "items", id: "worn_sword", take: "mine" as const }];
+    const expectRevision = { activeRevision: REVISION, bundledRevision: NEXT_REVISION };
+    const server = fakeServer({
+      "/admin/content/base/preview": { status: 200, body: { expect: expectRevision, decisionsNeeded: 0 } },
+      "/admin/content/base/apply": { status: 200, body: { revision: NEXT_REVISION } },
+    });
+    const backend = createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch });
+    setBackend(backend);
+    await backend.collections();
+    await previewBase(decisions, true);
+    await applyBase(expectRevision, decisions, true, "Keep our sword");
+    await backend.collections();
+    expect(server.calls.find(call => call.url.endsWith("/base/preview"))?.body).toEqual({ decisions, allowDowngrade: true });
+    expect(server.calls.find(call => call.url.endsWith("/base/apply"))?.body).toEqual({ expect: expectRevision, decisions, allowDowngrade: true, note: "Keep our sword" });
+    expect(server.calls.filter(call => call.url.endsWith("/content/sources"))).toHaveLength(2);
+  });
+
+  it("recovers capped comparison records and refuses sources that moved since preview", async () => {
+    const preview = { bodiesTruncated: true, base: { from: { version: "0.1.0", revision: REVISION }, to: { version: "0.2.0", revision: NEXT_REVISION } }, expect: { activeRevision: REVISION, bundledRevision: NEXT_REVISION }, conflicts: [{ collection: "items", id: "worn_sword", truncated: true, ancestor: null, mine: null, theirs: null }] } as BasePreview;
+    const server = fakeServer({
+      "/admin/content/base/sources?side=current": { status: 200, body: { revision: REVISION, sources } },
+      "/admin/content/base/sources?side=bundled": { status: 200, body: { revision: NEXT_REVISION, sources: { items: [] } } },
+    });
+    setBackend(createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch }));
+    const recovered = await completeBaseBodies(preview);
+    expect(recovered.conflicts[0]).toMatchObject({ truncated: false, ancestor: sources.items[0], mine: sources.items[0], theirs: null });
+    await expect(completeBaseBodies({ ...preview, expect: { ...preview.expect, activeRevision: NEXT_REVISION } })).rejects.toMatchObject({ code: "stale_base" });
+    expect(baseRecord({ campfireFuels: [{ logItemId: "oak", ticks: 3 }] }, "campfireFuels", "oak")).toEqual({ logItemId: "oak", ticks: 3 });
+    expect(baseRecord({ audio: { cues: { "ui/click": { gain: 1 } } } }, "audio", "cues/ui/click")).toEqual({ gain: 1 });
+  });
+
+  it("shows concrete publish blockers and compile paths when a base update fails", () => {
+    expect(baseErrorLines({ code: "definition_in_use", message: "blocked", blockers: [{ kind: "item", id: "marker", heldBy: "player", name: "Rook", place: "bank" }] })).toContain("marker: Rook holds one in their bank");
+    expect(baseErrorLines({ code: "content_invalid", message: "invalid", problems: [{ path: "items/sword", message: "missing material" }] })).toContain("items/sword missing material");
+    expect(baseErrorLines({ code: "stale_base", message: "stale" })[0]).toContain("Preview again");
+  });
   it("offers exactly the scopes the server has, each with a line saying what it allows", () => {
     // The editor declares them itself: `adminStorage.ts` reaches for `node:crypto` and cannot be in
     // a browser bundle. This is what stops the two lists from drifting apart.

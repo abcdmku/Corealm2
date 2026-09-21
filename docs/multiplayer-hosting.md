@@ -86,19 +86,37 @@ Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `
 
 ### Content catalog
 
-The server keeps its content in its database and simulates from there. Three tables hold it. `catalogs` has one row per published revision with the server catalog, the client catalog as the exact bytes it serves, the source collections it was compiled from, the formula revision, who stored it and when. `catalog_active` is one row naming the active revision. `catalog_history` gets a row each time that pointer moves, with the revision it replaced. A revision is a content hash, so storing one twice changes nothing. Server code reaches all of it through `CatalogStorage` in `game/src/multiplayer/catalogStorage.ts`, which is asynchronous and takes JSON text for the same reason `WorldStorage` takes plain data. `MemoryCatalogStorage` follows the same rules without a file.
+The server keeps its content in its database and simulates from there. `catalogs` has one row per
+published revision with the server catalog, the client catalog as the exact bytes it serves, the source
+collections it was compiled from, the formula revision, who stored it and when, and the base marker that
+the revision derives from. `catalog_active` names the active revision. `catalog_history`
+records each pointer move, including the base marker in force after the move. `catalog_bases`
+keeps the source collections for each base revision the server has taken. A revision is a content hash,
+so storing one twice changes nothing. Server code reaches all of it through `CatalogStorage` in
+`game/src/multiplayer/catalogStorage.ts`.
 
-A server's content is its own copy of the source collections. An empty database is seeded from the catalog the server ships with and prints `{"event":"catalog-seeded","revision":"..."}`. From then on the database wins. A newer server release with a different shipped catalog changes nothing in a database that already has one, and prints one line so the owner knows:
+A server owns its source collections. An empty database is seeded from the bundled base and prints
+`catalog-seeded` with `revision` and `baseVersion`. A later executable does not
+overwrite a database that already has a catalog. When its bundled base differs from the base marker on
+the active catalog, it prints `base-update-available` and leaves the active revision alone:
 
 ```json
-{"t":"2026-09-20T22:58:21.445Z","level":"warn","event":"catalog-base-ignored","activeRevision":"dee09b...","bundledRevision":"41c7aa...","message":"This database already has a catalog, so the catalog shipped with this server was not applied."}
+{"t":"2026-09-21T12:34:56.000Z","level":"info","event":"base-update-available","current":{"version":"0.1.0","revision":"dee09b..."},"bundled":{"version":"0.2.0","revision":"41c7aa..."},"message":"This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it."}
 ```
 
-Run from source, the shipped catalog is compiled at start from `game/content/data/` and the checkout's formulas. `--follow-repo-catalog` is for a developer's own database: at start it publishes that catalog over the active one when they differ, records the move in `catalog_history` under `follow`, and prints `catalog-followed`. `npm run multiplayer:dev` and `npm run multiplayer:prod` pass it, so content edited in the repo shows up in the local world. A live server never sets it, and no configuration file key exists for it.
+Run from source, the shipped base is compiled at start from `game/content/data/` and the
+checkout's formulas. `--follow-repo-catalog` remains for a developer's own database: it publishes
+the checkout's catalog over the active one when they differ. `npm run multiplayer:dev` and
+`npm run multiplayer:prod` pass it. A live server never sets it, and no configuration file key
+exists for it.
 
 The host opens storage, seeds it, reads the active server catalog, installs it with `installCatalog` from `game/src/content/catalogInstall.ts`, and only then imports the simulation, because the content modules read their tables as they load. `installCatalog` throws if a content module loaded first. An embedder that passes `catalog` to `startReferenceServer` must do the same. The server refuses to start when the store's active revision is not the catalog the process runs on. Without `catalog` the server keeps the catalog compiled into the build in memory, which is what tests and harnesses use.
 
-Every descriptor the server sends carries `catalogRevision`, in `/worlds` and in the `joined` reply. A static page configuration leaves it out. The join message carries no content version. The client trusts the revision in `joined`, because the one it saw at discovery may be a publish old. It then loads the client catalog from the same host, `http` for `ws` and `https` for `wss`:
+Every descriptor the server sends carries `catalogRevision` and `baseVersion`, in
+`/worlds` and in the `joined` reply. A static page configuration may leave both out.
+The join message carries no catalog version. The client trusts the revision in `joined`, because
+the one it saw at discovery may be a publish old. It then loads the client catalog from the same host,
+`http` for `ws` and `https` for `wss`:
 
 ```text
 GET /catalog/<revision>
@@ -110,6 +128,79 @@ Access-Control-Allow-Origin: *
 ```
 
 The reply is Brotli or gzip when the request accepts it, compressed once per revision and kept in memory for the last three revisions asked for. The shipped catalog is 638,630 bytes, 79,589 as Brotli. Any stored revision is served, so a client that joined just before a publish still loads. A revision that is not 64 lowercase hex characters, or is not stored, gets 404. The client catalog holds nothing a player cannot see in the game, which is why any origin may read it. [Content authoring](content-authoring.md#two-catalogs-one-revision) lists what it contains. The page keeps the reply in the Cache API under `corealm-catalog-v1` and drops that server's older revisions when it stores a new one. Outside a secure context there is no Cache API and the HTTP cache holds the immutable reply. While connected, the page shows the server's names, icons, item stats and shop stock. Leaving the world puts the build's own tables back, so local play never runs on another server's numbers. If the catalog cannot be loaded, the session continues with the build's names and the console says so.
+
+### Updating from a newer base
+
+The executable carries a bundled `BaseCatalog` with a strict semver `version`, a catalog
+`revision` and the source collections used to build it. The server records the base marker on
+each stored catalog revision and keeps the source snapshot for every base revision it has taken.
+Deploying a newer executable does not overwrite the active catalog. Startup emits
+`base-update-available` when the bundled base differs, then waits for an admin to choose the
+merge.
+
+The base update endpoints use the existing admin CORS and authentication rules, return JSON with
+`Cache-Control: no-store`, and require the following scopes:
+
+| Endpoint | Scope | Does |
+| --- | --- | --- |
+| `GET /admin/content/base` | `content:read` | Returns `current` and `bundled` markers, `updateAvailable`, `direction` and `serverModified`. |
+| `GET /admin/content/base/sources?side=current|bundled` | `content:read` | Returns the complete source snapshot for the selected base. |
+| `POST /admin/content/base/preview` | `content:publish` | Runs the three-way merge and full publish validation without storing anything. |
+| `POST /admin/content/base/apply` | `content:publish` | Recomputes the merge from server-held sources, then publishes it through the ordinary barrier. |
+
+`GET /admin/content/base` answers:
+
+```json
+{"current":{"version":"0.1.0","revision":"dee09b..."},"bundled":{"version":"0.2.0","revision":"41c7aa..."},"updateAvailable":true,"direction":"newer","serverModified":true}
+```
+
+`direction` is `newer`, `older`, `same` or
+`different-content-same-version`. An update is available for `newer` and
+`different-content-same-version`. An older bundled base is reported but requires
+`allowDowngrade: true` on preview and apply. The same-version case is for development or
+recovery; a release should still use a new semver.
+
+Preview and apply accept decisions in this form:
+
+```json
+{"decisions":[{"collection":"items","id":"marsh_gland","take":"mine"}],"allowDowngrade":false}
+```
+
+Preview returns `base.from`, `base.to`, `expect.activeRevision`,
+`expect.bundledRevision`, per-collection counts, every conflict, `decisionsNeeded`,
+and `validation`. A conflict includes the ancestor, server and bundled sides, the changed
+fields and a null decision. Large record bodies are capped at 64 KiB each and 4 MiB for the whole
+reply; when capped, `truncated: true` remains with the field lists, and the source endpoint
+can return the complete records. The request accepts at most 20,000 decisions and a base body is
+capped at 2 MiB.
+
+Apply also requires:
+
+```json
+{"expect":{"activeRevision":"dee09b...","bundledRevision":"41c7aa..."},"decisions":[],"note":"Take the 0.2.0 base"}
+```
+
+The server recomputes the merge and never trusts merged source data from the client. It runs compiler,
+retire/in-use, spawn-plan and asset-manifest checks, stores the bundled base sources, records the
+new base marker and audit entry, swaps the catalog and notifies clients when content changed. It
+returns the ordinary publish result plus `baseUpdate` with `from`, `to`,
+`direction`, summary and decision counts.
+
+If the merge has unresolved conflicts, apply returns `409 decisions_needed`. If the active
+or bundled revision changed since preview, it returns `409 stale_base` with the current
+expectations. Other base errors are `no_bundled_base`, `no_base`, `no_update`,
+`downgrade_refused`, `no_sources` and `no_base_sources`. Normal publish
+errors, including `definition_in_use`, `content_invalid`, `spawn_unplaceable`,
+`asset_manifest_unavailable` and `unavailable`, also apply.
+
+If the merged sources equal the active sources, apply records a real audited base marker move but
+keeps the active revision, registry and connected clients unchanged. Revision rollback cannot undo
+that marker-only move because the revision did not change. To move only base tracking back, run the
+previous executable and apply its bundled base with `allowDowngrade: true`; the merge keeps
+server edits. Ordinary rollback restores the base recorded on its target revision.
+
+The server-mode Base game view presents this flow and warns for marker-only results. The focused
+base-update tests and bounded browser audit cover the HTTP contract and its failure cases.
 
 ### Publishing content
 
@@ -231,7 +322,7 @@ Every setting in [Configuration file](#configuration-file) works the same way, a
 The default output is one JSON object per line, one line per event, on stdout. journald keeps them as they are, and so does every log shipper.
 
 ```json
-{"t":"2026-09-20T22:58:21.445Z","level":"info","event":"ready","ready":true,"host":"0.0.0.0","port":4180,"fixture":"authored-world","authentication":"account","catalogRevision":"b18876ed…","worlds":[{"id":"corealm","name":"Corealm","seed":1337,"capacity":200}]}
+{"t":"2026-09-20T22:58:21.445Z","level":"info","event":"ready","ready":true,"host":"0.0.0.0","port":4180,"fixture":"authored-world","authentication":"account","catalogRevision":"b18876ed…","baseVersion":"0.1.0","bundledBaseVersion":"0.1.0","worlds":[{"id":"corealm","name":"Corealm","seed":1337,"capacity":200}]}
 {"t":"2026-09-20T22:59:02.118Z","level":"info","event":"session.join","accountId":"acc_9Qr7v2KpLd3XmB1sYwTgHa","detail":"corealm"}
 {"t":"2026-09-20T23:04:41.702Z","level":"warn","event":"session.rejected","accountId":"acc_5Lm2p8QrTv1XwYzAbCdEf","detail":"DUPLICATE_LOGIN"}
 ```
@@ -245,7 +336,7 @@ The default output is one JSON object per line, one line per event, on stdout. j
 `--tui` replaces the log lines on stdout with a console that redraws once a second: players online against capacity per world, tick time last, mean and p95, memory, bandwidth, commands, rejections, errors, the active catalog revision, and the tail of the same event ring `GET /admin/stats` returns.
 
 ```text
-  COREALM  Raid Night                                 up 3h 12m   0.0.0.0:4180
+  COREALM  Raid Night  v0.1.0                         up 3h 12m   0.0.0.0:4180
 
   WORLDS
     Corealm          12 / 200   players    tick 9031
@@ -255,7 +346,7 @@ The default output is one JSON object per line, one line per event, on stdout. j
   memory   rss 1.1 GiB   heap 393.3 MiB
   traffic  out 87.0 MiB  98.7 KiB/s
   commands 4821          rejected 3    errors 0
-  catalog  9f2c1d4e7a0b3358   auth account
+  catalog  9f2c1d4e7a0b3358   base v0.1.0   auth account
 
   EVENTS
     00:00:01  join          acc_9Qr7v2KpLd3XmB1sYwTgHa  corealm
@@ -322,10 +413,11 @@ npm run devdocs:build:server     # writes dist/devdocs-server
 npm run server:build             # writes dist/server
 ```
 
-`npm run guide:build` empties `dist/`, so run it before `server:build`, never after. The build:
+`npm run build` and `npm run guide:build` empty `dist/`. Run the game and guide builds first, then
+run `npm run devdocs:build:server`, and run `npm run server:build` last. The server build:
 
 1. bundles `tools/multiplayer-server.ts` to one CommonJS file with esbuild;
-2. stages the SEA assets — the server world pack, the admin UI archive, the seed catalog with its `formulaRevision`, the asset manifest and a build record;
+2. stages the SEA assets: the server world pack, the admin UI archive, the seed catalog with its `formulaRevision` and strict base version, the asset manifest and a build record;
 3. builds the blob with `node --experimental-sea-config`, keeping `useCodeCache` and `useSnapshot` off, which is what makes the blob platform independent and lets one machine produce both executables;
 4. downloads the official Node binary of the exact version that generated the blob, checks it against that release's `SHASUMS256.txt`, copies it and injects the blob with `postject`.
 
@@ -344,11 +436,20 @@ Install before import survives bundling. The entry installs the database's catal
 
 ### Releases
 
-`.github/workflows/release.yml` runs on a `v*` tag. It builds the admin UI, checks that the committed world pack is current, builds both executables, starts the Linux one from an empty folder with a generated configuration file, checks `/healthz`, `/worlds` and `/admin/`, stops it with `SIGTERM` and asserts a clean exit, then attaches both executables, the systemd unit, a sample configuration file and `SHA256SUMS` to a GitHub release. It needs no secret beyond the default `GITHUB_TOKEN` with `contents: write`. A `workflow_dispatch` run does everything except publish, which is the way to try a release without tagging.
+`.github/workflows/release.yml` runs on a `v*` tag. The tag must be exactly `v` plus the strict
+`package.json` `version`, such as `v0.1.0`; the workflow rejects a mismatch before installing or
+building. The version is the base game version carried beside the seed catalog, while the catalog's
+content `revision` remains independent. The workflow builds the admin UI, checks that the committed
+world pack is current, builds both executables, starts the Linux one from an empty folder with a
+generated configuration file, checks `/healthz`, `/worlds` and `/admin/`, stops it with `SIGTERM` and
+asserts a clean exit, then attaches both executables, the systemd unit, a sample configuration file
+and `SHA256SUMS` to a GitHub release. It needs no secret beyond the default `GITHUB_TOKEN` with
+`contents: write`. A `workflow_dispatch` run does everything except publish, which is the way to try
+a release without tagging.
 
 ## Registration and authentication
 
-`window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol version, fixture, seed, population, capacity, availability, and an optional `assetBaseUrl`. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
+`window.__COREALM_MULTIPLAYER__` accepts `WorldConfiguration` from `game/src/contracts.ts`: one descriptor, an array, or `{directoryUrl}`. Descriptors contain provider/world IDs, name, endpoint, protocol version, fixture, seed, population, capacity, availability, optional `assetBaseUrl`, and optional strict-semver `baseVersion`. Static population is the discovery-time count, not an admission guarantee. The host decides admission atomically.
 
 `WorldProvider` separates discovery, authentication, and transport from gameplay. Register alternative implementations through `window.__COREALM_PROVIDERS__`. Other configured provider IDs use the reference WebSocket adapter. Adapter conformance tests exercise it and an independent deterministic adapter.
 
@@ -418,7 +519,7 @@ JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply i
 | `POST /admin/setup` | join token + code | Makes the caller owner and returns a session. |
 | `POST /admin/session` | join token | Returns `{session, expiresAt, accountId, name, role}` for a role holder, otherwise 403. |
 | `DELETE /admin/session` | session | Revokes the presenting session. |
-| `GET /admin/info` | none | `{name, description, endpoint, assetBaseUrl, identityUrl, authentication, catalogRevision, worlds}`. What a login screen needs before anyone has signed in: where to sign in, and the `endpoint` to ask the identity service for a token for. No secrets. |
+| `GET /admin/info` | none | `{name, description, endpoint, assetBaseUrl, identityUrl, authentication, catalogRevision, baseVersion, worlds}`. What a login screen needs before anyone has signed in: where to sign in, and the `endpoint` to ask the identity service for a token for. No secrets. |
 | `GET /admin/me` | session or token | `{credential, accountId, tokenId, role, scopes, server}`. `server` is `{name, endpoint, assetBaseUrl, identityUrl, catalogRevision}`. |
 | `GET /admin/roles` | session | Every role holder. |
 | `PUT /admin/roles/<accountId>` | owner session | Body `{"role":"admin"}`. |
@@ -434,8 +535,11 @@ JSON in, JSON out. Failures are `{"error":{"code","message"}}` and every reply i
 | `GET /admin/stats` | `stats:read` | Below. |
 | `GET /admin/content/revision?limit=` | `content:read` | `{revision, history}`. `history` is the pointer moves, newest first, each `{id, revision, previous, by, at}`. `limit` is 1 to 200, default 50. |
 | `GET /admin/content/sources?revision=` | `content:read` | `{revision, revisions, sources}`: the source collections that revision was compiled from, keyed by collection name as under `game/content/data/`, and the revision of each one as a publish checks it. Omit `revision` for the active one. 404 when it is not stored. |
+| `GET /admin/content/base` | `content:read` | `{current, bundled, updateAvailable, direction, serverModified}` for the base the active content derives from and the base bundled by this executable. |
+| `GET /admin/content/base/sources?side=current|bundled` | `content:read` | `{version, revision, sources}` for the selected base. 400 for another side, 404 when the marker or source snapshot is unavailable. |
 | `GET /admin/content/catalog/<revision>` or `/active` | `content:read` | The whole server catalog as JSON, loot odds and spawn tables included, so it is `Cache-Control: private`. A revision is a content hash and is `immutable` for a year; `active` is a pointer and is `no-cache`. `ETag` and `X-Catalog-Revision` carry the revision. Served brotli or gzip. |
 | `POST /admin/content/validate`, `/publish`, `/rollback` | `content:publish` | See [Publishing content](#publishing-content). |
+| `POST /admin/content/base/preview`, `/apply` | `content:publish` | See [Updating from a newer base](#updating-from-a-newer-base). The body cap is 2 MiB. |
 | `GET /admin/players?query=&limit=&cursor=` | `players:read` | Summaries, newest seen first. `cursor` comes from the previous page. |
 | `GET /admin/players/<accountId>` | `players:read` | One player with inventory, bank, equipment, skills and `revision`. |
 | `PATCH /admin/players/<accountId>` | `players:write` | Body `{ops[], expect?}`. See [Editing a player](#editing-a-player). |
@@ -561,13 +665,14 @@ Two workspaces appear that a repository checkout does not have. Everything else 
   "memory": { "rssBytes": 1231847424, "heapUsedBytes": 412398080 },
   "events": [{ "at": 1758327303000, "kind": "join", "accountId": "acc_...", "detail": "corealm" }],
   "catalogRevision": "9f2c…",
+  "base": {"current":{"version":"0.1.0","revision":"dee09b…"},"bundled":{"version":"0.2.0","revision":"41c7aa…"},"updateAvailable":true},
   "server": { "name": "Raid Night", "description": "Fridays", "endpoint": "wss://play.example.com/", "assetBaseUrl": "https://cdn.example.com/corealm/",
-    "identityUrl": "https://identity.example.com/", "authentication": "account", "catalogRevision": "9f2c…", "host": "0.0.0.0", "registerWithDirectory": true,
+    "identityUrl": "https://identity.example.com/", "authentication": "account", "catalogRevision": "9f2c…", "baseVersion": "0.1.0", "host": "0.0.0.0", "registerWithDirectory": true,
     "worlds": [{ "providerId": "reference", "worldId": "corealm", "name": "Corealm", "seed": 1337, "capacity": 200 }] }
 }
 ```
 
-Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `server` is the settings summary the devdocs `server` workspace shows, with no secrets in it; the publish history is `GET /admin/content/revision`. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `kick`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
+Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `server` is the settings summary the devdocs `server` workspace shows, with no secrets in it; `base` is the current and bundled base status; the publish history is `GET /admin/content/revision`. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `kick`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
 
 When each world runs in its own thread the body also has `threads`. `mode` is what the host asked for, `"on"` or `"auto"`. Per world it gives `worldId`, `available`, `restarts`, `failures` and `abandoned` (see [scaling](#scaling-on-one-machine)), `bootMs`, `buildMs`, its recent `ticks`, its `stages` totals, `heapUsedBytes`, `utilization` of its event loop and `cpuMs`; for the database thread it gives `calls`, `commits`, `commitMs`, `commitWaitMs`, `busyMs` and `utilization` since the last request. `tick` and `stages` above then cover every world's ticks together, and `worlds` is at most a second old. The field is absent when threads are off, which is what the devdocs **Server → Overview** Threads card reads to say so.
 
@@ -671,6 +776,8 @@ Replacement `WorldStorage` adapters implement `load`, `openWorld`, `claimPlayer`
 Databases written before the players table kept a whole player inside each world. Opening one migrates it once, in a single transaction. Reopening does nothing. The host prints one JSON line, `{"t":"...","level":"warn","event":"storage-migrated","from":1,"to":2,...}`, with the number of worlds and players and every conflict it resolved. When the same player id exists in several worlds, the character with the most total skill XP is kept, then the one from the world with the higher tick, then the lower world key. The host discards the other characters, inventories included, and names them in that line. Every world keeps what the player owned there, its receipts and its random cursor. The host backs nothing up. Copy the data directory first if you may need the discarded characters. A database with a newer `schema_version` than the host understands is refused.
 
 Format 3 adds the catalog tables and replaces the hand-edited `contentVersion` in each world row. `corealm-pve-1` becomes `fixture: "authored"` and `corealm-pve-1:lab` becomes `fixture: "lab"`. The row also gains `catalogRevision`, the revision the save was written under, which is `null` for a migrated save because nothing recorded it. The host prints `{"event":"storage-migrated","from":2,"to":3,"worlds":N}` and records `schema_version` 3 in the `meta` table. A save loads under any catalog revision, because content changes while a world lives. It still refuses a different fixture or seed. When a world loads a save, each saved creature takes its model and scale from the world built from the running catalog, and keeps its health, position and timers.
+
+Format 4 records the base game behind each catalog. `catalogs` and `catalog_history` gain `base_version` and `base_revision`; `catalog_bases` stores one source snapshot per base revision. The migration runs in the same transaction and is idempotent. It treats the first history entry as the seed, stores those source collections as the ancestor base, and marks every existing catalog with that base revision. If that revision matches the bundled base, it uses the bundled semver; otherwise it uses `0.0.0` to show that the old database has no trustworthy base version. The host logs `storage-migrated` with `from:3`, `to:4`, `baseRevision`, `baseVersion` and `bundledRevision`. A database whose schema version is newer than the executable understands is still refused.
 
 Guests were stored under their bare name before this change and are `guest:<name>` now, so a guest character from an older local save is not resumed under the new id.
 

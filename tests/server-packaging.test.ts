@@ -73,14 +73,14 @@ describe("embedded assets", () => {
   it("reports a development build when nothing stamped one", () => {
     expect(buildInfo(createEmbedded({ sea: null, root: "/repo", readFile: () => { throw new Error("ENOENT"); } }))).toEqual({
       name: "corealm-server", version: "dev", builtAt: "unknown", node: "dev", commit: null,
-      catalogRevision: null, formulaRevision: null, worldPack: false,
+      catalogRevision: null, formulaRevision: null, baseVersion: null, worldPack: false,
     });
     expect(DEVELOPMENT_BUILD.version).toBe("dev");
   });
 
   it("keeps every field a build stamped", () => {
     const stamped = { name: "corealm-server", version: "v0.4.0", builtAt: "2026-09-20T22:58:21.445Z", node: "24.14.0",
-      commit: "54f88cd", catalogRevision: "b18876ed", formulaRevision: "4ac48aaf", worldPack: true };
+      commit: "54f88cd", catalogRevision: "b18876ed", formulaRevision: "4ac48aaf", baseVersion: "0.4.0", worldPack: true };
     const embedded = createEmbedded({ sea: { isSea: () => true, getRawAsset: () => new TextEncoder().encode(JSON.stringify(stamped)).buffer as ArrayBuffer } });
     expect(buildInfo(embedded)).toEqual(stamped);
   });
@@ -236,7 +236,7 @@ describe("log lines", () => {
   });
 
   it("levels the events an operator has to act on", () => {
-    expect([logLevelOf("ready"), logLevelOf("catalog-base-ignored"), logLevelOf("directory.unreachable"), logLevelOf("admin.error")])
+    expect([logLevelOf("ready"), logLevelOf("storage-migrated"), logLevelOf("directory.unreachable"), logLevelOf("admin.error")])
       .toEqual(["info", "warn", "warn", "error"]);
     expect(logLine("warn", "directory.refused", { status: 422, level: "info", t: "ignored" }, at))
       .toBe('{"t":"2025-09-20T00:00:00.000Z","level":"warn","event":"directory.refused","status":422}');
@@ -280,6 +280,12 @@ describe("the live console", () => {
     ],
     logPath: "/var/lib/corealm-server/server.log",
   };
+
+  it("names the base game version after the server's name", () => {
+    expect(stripAnsi(renderConsole({ ...stats, baseVersion: "0.1.0" }, { columns: 80, rows: 24 })).split("\n")[0])
+      .toBe("  COREALM  Raid Night  v0.1.0                         up 3h 12m   0.0.0.0:4180  ");
+    expect(logLevelOf("base-update-available")).toBe("info");
+  });
 
   it("draws the frame an operator reads", () => {
     expect(stripAnsi(renderConsole(stats, { columns: 80, rows: 24 }))).toBe([

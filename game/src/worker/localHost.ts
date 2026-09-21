@@ -60,7 +60,7 @@ async function start(message: LocalHostStart): Promise<LocalHost> {
   const storageMs = lap();
   // The page describes the lab world once its scene is drawn. Everything above ran beside that.
   const labWorld = labSpec ? { spec: labSpec, data: labWorldData(await labWorldArrived) } : null;
-  const host = await startLocalHost({ fixture: message.fixture, seed: message.seed, ...(labWorld ? { lab: labWorld } : {}), ...(pack ? { pack: pack.bytes } : {}), ...(message.legacy ? { legacy: message.legacy } : {}), ...(storage ? { storage } : {}) });
+  const host = await startLocalHost({ fixture: message.fixture, seed: message.seed, ...(manifest.baseVersion ? { baseVersion: manifest.baseVersion } : {}), ...(labWorld ? { lab: labWorld } : {}), ...(pack ? { pack: pack.bytes } : {}), ...(message.legacy ? { legacy: message.legacy } : {}), ...(storage ? { storage } : {}) });
   const timings: LocalHostTimings = { manifestMs, catalogMs: catalogJson.took, packMs: pack?.took ?? 0, installMs, storageMs, importMs: host.timings.importMs, worldMs: host.timings.worldMs, totalMs: performance.now() - began };
   reply({ type: "ready", world: host.world, catalogRevision: manifest.catalog.revision, seed: host.seed, legacy: host.legacy, storage: storage ? "indexeddb" : "memory", timings });
   return host;

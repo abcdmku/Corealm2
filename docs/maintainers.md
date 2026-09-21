@@ -31,13 +31,13 @@ Local play needs no account. The same host core starts in a Web Worker, saves to
 
 ## How content reaches the game
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="figures/maintainers/content-dark.svg"><img alt="Authored JSON under game/content/data compiles into a client catalog and a server catalog under one revision hash. That compiled catalog seeds an empty server database once, and never again. Devdocs in server mode publishes new revisions into that server's database, and the running worlds take them. A note beside the database says exporting a server's content to a folder or your own repository, and promoting a change into the base game by hand, are optional tools; nothing flows back automatically." src="figures/maintainers/content-light.svg"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="figures/maintainers/content-dark.svg"><img alt="Base game JSON under game/content/data compiles into a client catalog and a server catalog under one revision hash. The bundled base seeds an empty server database once. Devdocs publishes new revisions into that server's database, and a newer base game reaches it through update from base: preview, resolve conflicts, and apply. A note beside the database says export is a manual backup or reviewed promotion; nothing flows back automatically." src="figures/maintainers/content-light.svg"></picture>
 
-The repository holds the base game. Authored JSON compiles to two catalogs under one revision hash: a small client catalog the browser may read, and the full server catalog with loot rolls and spawn tables. That compiled catalog seeds a new server's database once, on its first start with an empty database, and a later deploy never overwrites a database that already holds a catalog.
+The repository holds the base game. Authored JSON compiles to two catalogs under one content revision: a small client catalog the browser may read, and the full server catalog with loot rolls and spawn tables. The bundled base carries the strict `package.json` version beside those catalogs. It seeds a new server's database once, on its first start with an empty database, and a later deploy never overwrites a database that already holds a catalog.
 
-From then on the server's database is that server's content. Admins edit it live in devdocs, and those edits stay on that server. Nothing a server does reaches the base game on its own.
+From then on the server owns its source collections. Admins edit them live in devdocs, and those edits stay on that server. A later base release logs `base-update-available`; an admin can preview the ancestor/server/new-base merge, choose conflict sides and apply it through the normal publish checks.
 
-A publish from devdocs compiles, checks and swaps in one step. Loot applies at the next kill, spawns at the next respawn, and every other table at the next restart. A rollback is a publish of an older revision. Removing an item a player holds, or a creature alive in a world, is refused: mark the definition `retired` instead. See [content authoring](content-authoring.md).
+A publish from devdocs compiles, checks and swaps in one step. Loot applies at the next kill, spawns at the next respawn, and every other table at the next restart. A rollback is a publish of an older revision and restores that revision's recorded base marker. If a base update leaves the active revision unchanged, it records an audited marker-only move; rollback cannot undo that move, so restore the marker with the previous executable and `allowDowngrade: true`. Removing an item a player holds, or a creature alive in a world, is refused: mark the definition `retired` instead. See [content authoring](content-authoring.md).
 
 ## The repository
 
@@ -62,6 +62,7 @@ Neither content workflow runs on a schedule. Both are manual, both run inside th
 | Run a server locally | `npm run multiplayer:server -- --authored --development-guests --port 4180 --data ./local-worlds` | [multiplayer-hosting.md](multiplayer-hosting.md#run-locally) |
 | Run accounts locally | `npm run identity -- --origins http://127.0.0.1:4173` | [identity-service.md](identity-service.md#configuration) |
 | Edit content | Devdocs, then **Save all** | [content-authoring.md](content-authoring.md#the-save-cycle) |
+| Update a server from a newer base | Server API: preview, resolve conflicts, apply | [updating from a newer base](multiplayer-hosting.md#updating-from-a-newer-base) |
 | Push this checkout's content to a server I administer | The **Content publish** workflow, or `npm run content:publish:server -- --server <url> --confirm "<server name>"` | [content workflows](multiplayer-hosting.md#content-workflows-and-their-secrets) |
 | Back up a server's content, or promote one of its changes into the base game | The **Content export** workflow, or `npm run content:export:server -- --server <url> --dry-run` | [content workflows](multiplayer-hosting.md#content-workflows-and-their-secrets) |
 | Rebake the world | `npm run world:build` | [server world pack](world-authoring.md#server-world-pack) |
@@ -76,7 +77,7 @@ Neither content workflow runs on a schedule. Both are manual, both run inside th
 ## Rules that bite
 
 - Node 24, nothing else. `.node-version` and the `engines` field both pin it.
-- An edit under `game/src` or `game/content/data` stales the baked world. Run `npm run world:build` before the gates, or `tests/world-release-artifact.test.ts` fails.
+- A change in the world-bake entry points' import graph can stale the baked world. Run `npm run world:build` when a bake input changes, then check the committed pack before the gates. A small server or UI change outside that graph does not require a rebake.
 - Content schemas use the hand-rolled combinators in `game/src/content/schema/core.ts`. Do not add zod or another schema library.
 - The server takes no native dependency. One would break the single executable build.
 - The devdocs UI is Tailwind and the shadcn kit that is already in the app. Write no hand CSS.
@@ -90,11 +91,12 @@ Neither content workflow runs on a schedule. Both are manual, both run inside th
 | --- | --- | --- |
 | M1 to M3 | The configuration file, the asset base URL, the identity service, server accounts, the players table and the lease. | Done |
 | M4 | The catalog in the server database, live publish and rollback. | Done |
-| M5 | Devdocs server mode, the players and server workspaces. | Done |
+| M5 | Devdocs server mode, the players, server and Base game workspaces. | Done. The bounded browser audit covers the base preview, conflict resolution, apply and failure states; desktop and phone selector captures were inspected. |
 | M6 | The baked server world pack and the two single executables. | Done |
 | M7 | Thin client, local play in a Web Worker. | Done |
 | M8 | The CI content workflows. | Done. Export has run against the test server; publish has never run from `main`. |
 | M9 | A worker thread per world. | Done |
+| Base version and update API | Strict semver, per-revision base markers, schema 4 migration, three-way merge and authenticated preview/apply endpoints. | Done in server code, focused tests and the bounded browser audit. |
 
 Every milestone is built. [Live server status](live-server-status.md) has the evidence one line at a time, what is still unverified, and the checklist for merging `live-server` into `main`.
 

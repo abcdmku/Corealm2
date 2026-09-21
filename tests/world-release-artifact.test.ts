@@ -22,7 +22,7 @@ it('ships current, intact world records for every island tile', async () => {
 
 it('ships a server world pack baked from the same revision as the world records', async () => {
   const pack = await assertServerWorldPack();
-  expect(pack.revision).toBe(generationRevision(gameRoot));
+  expect(pack.revision).toBe(await generationRevision(gameRoot));
   expect(pack.seeds).toContain(RELEASE_WORLD_SEED);
   const world = pack.worlds.get(RELEASE_WORLD_SEED)!;
   expect(world.nav.polyCount).toBeGreaterThan(10_000);

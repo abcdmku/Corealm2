@@ -59,6 +59,12 @@ export interface WorldDescriptor extends WorldKey {
   authentication?: "account" | "guest";
   /** What the host says about this server, at most 200 characters. An admin edits it while the server runs. */
   description?: string;
+  /**
+   * The base game version this server's content comes from, as plain semver (`0.1.0`). A server
+   * seeded from a release, or updated from a newer base, says which. Local play carries the client
+   * build's own base version. Absent from an older server and from a static page configuration.
+   */
+  baseVersion?: string;
 }
 export type WorldConfiguration = WorldDescriptor | readonly WorldDescriptor[] | { directoryUrl: string };
 export type SessionPhase = "offline" | "connecting" | "connected" | "full" | "incompatible"

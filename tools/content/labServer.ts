@@ -17,6 +17,7 @@ import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { WORLD_PROTOCOL_VERSION, type SemanticEntity, type Vec3, type WorldDescriptor } from "../../game/src/contracts.js";
 import { createSigningKey, joinTokenClaims, signJoinToken, type IdentityKey } from "../../identity/src/joinToken.js";
 import { RESOLVED_CATALOG, RESOLVED_TABLES } from "../../game/src/content/resolvedCatalog.js";
+import { repoBaseVersion } from "../lib/baseVersion.js";
 import type { CompiledWorld } from "../../game/src/content/worldData.js";
 import { Navigation } from "../../game/src/systems/navigation.js";
 import { Solids } from "../../game/src/systems/solids.js";
@@ -83,7 +84,7 @@ export async function startLabServer(options: LabServerOptions = {}): Promise<La
   const created = createSigningKey();
   const keys: IdentityKey[] = [{ kid: created.signing.kid, alg: "EdDSA", publicKey: created.publicKey, status: "active" }];
   const storage = new SqliteWorldStorage(file, { log: () => {} });
-  await seedCatalog(storage.catalog, { catalog: RESOLVED_CATALOG, sources: Object.fromEntries(await readContentSources()) }, () => {}, { now: () => clock.ms });
+  await seedCatalog(storage.catalog, { version: repoBaseVersion(), catalog: RESOLVED_CATALOG, sources: Object.fromEntries(await readContentSources()) }, () => {}, { now: () => clock.ms });
   const server = await startReferenceServer({ worlds: [descriptor], storage, admin: storage.admin, catalog: storage.catalog, build: placementWorld,
     ownerAccount: LAB_OWNER, now: () => clock.ms, log: () => {}, ...(options.port === undefined ? {} : { port: options.port }),
     assets: { bundledManifest: async () => JSON.parse(await readFile("game/public/assets/manifest.json", "utf8")) },

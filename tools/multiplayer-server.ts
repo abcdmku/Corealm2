@@ -15,7 +15,8 @@ import { quietSqliteWarning, runThread, threadRole } from "../game/src/multiplay
 // evaluated before `installCatalog`. Its two functions are reached through `await import()` below.
 import type { ServerWorldPack } from "../game/src/multiplayer/worldPack.js";
 import { installCatalog } from "../game/src/content/catalogInstall.js";
-import { activeServerCatalog, seedCatalog, type BaseCatalog } from "../game/src/multiplayer/catalogHost.js";
+import { activeServerCatalog, baseMarkerOf, seedCatalog, type BaseCatalog } from "../game/src/multiplayer/catalogHost.js";
+import { semver } from "../game/src/multiplayer/semver.js";
 import { guestAuthentication } from "../game/src/multiplayer/guestAuthentication.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
 import { hostConfiguration } from "../game/src/multiplayer/hostConfiguration.js";
@@ -129,10 +130,13 @@ async function authoredWorld(pack: ServerWorldPack, seed: number): Promise<Headl
   return createPackedWorld(pack, seed);
 }
 
-/** The catalog this server ships with: an embedded asset when packaged, compiled from the checkout otherwise. */
+/**
+ * The base game this server ships with: an embedded asset when packaged, compiled from the checkout
+ * otherwise. It seeds an empty database, and it is what an update from base merges in.
+ */
 async function shippedCatalog(): Promise<BaseCatalog> {
-  const packed = embedded.json(SEED_CATALOG_ASSET);
-  if (packed !== null) return packed as BaseCatalog;
+  const packed = embedded.json(SEED_CATALOG_ASSET) as BaseCatalog | null;
+  if (packed !== null) return { ...packed, version: semver(packed.version, `The ${SEED_CATALOG_ASSET} in this build`) };
   const { repoBaseCatalog } = await import("./lib/repoCatalog.js");
   return repoBaseCatalog();
 }
@@ -141,7 +145,7 @@ async function shippedCatalog(): Promise<BaseCatalog> {
 interface ConsoleSource {
   port: number;
   metrics: ReferenceServerMetrics;
-  catalog: { revision: string };
+  catalog: { revision: string; base: { version: string } | null };
   settings: { name: string };
   status(): WorldStatus[];
   events: readonly ServerEvent[];
@@ -156,7 +160,7 @@ export function consoleStats(server: ConsoleSource, logPath: string | null,
   const memory = process.memoryUsage();
   return {
     name: server.settings.name, host: config.host, port: server.port, authentication: config.authentication,
-    catalogRevision: server.catalog.revision, uptimeSeconds,
+    catalogRevision: server.catalog.revision, baseVersion: server.catalog.base?.version ?? null, uptimeSeconds,
     worlds: server.status().map(world => ({
       worldId: world.key.worldId, name: world.descriptor.name,
       playersOnline: world.population, capacity: world.capacity, tick: world.tick,
@@ -246,17 +250,19 @@ async function main(argv: readonly string[]): Promise<number> {
   // With threads, the database thread opens the file and this thread asks it. Without, this thread opens it. Either way `storage` is the same interfaces.
   // A packaged server starts its threads from the bundle it carries; a checkout starts them from the source file, like everything else in it.
   const launchThreads = embedded.sea ? seaLauncher() : moduleLauncher(pathToFileURL(resolve(process.cwd(), "game/src/multiplayer/threads/threadEntry.ts")));
+  // Read before the database opens: moving an older database to schema 4 asks whether this base seeded it.
+  const shipped = await shippedCatalog();
   let database: DatabaseThread | null = null;
   let storage: WorldStorage & { admin: ServerAdminStorage; catalog: CatalogStorage };
   if (config.threads) {
-    database = await startDatabaseThread(launchThreads, { kind: "sqlite", path: resolve(directory, "worlds.sqlite") }, storageLog);
+    database = await startDatabaseThread(launchThreads, { kind: "sqlite", path: resolve(directory, "worlds.sqlite"), bundledBase: baseMarkerOf(shipped) }, storageLog);
     storage = Object.assign(database.storage.world, { admin: database.storage.admin, catalog: database.storage.catalog });
   } else {
     const { SqliteWorldStorage } = await import("../game/src/multiplayer/sqliteStorage.js");
-    storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), { log: storageLog });
+    storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), { log: storageLog, bundledBase: baseMarkerOf(shipped) });
   }
   const revision = await (async () => {
-    await seedCatalog(storage.catalog, await shippedCatalog(), event => logger.emit(event), { follow: config.followRepoCatalog });
+    await seedCatalog(storage.catalog, shipped, event => logger.emit(event), { follow: config.followRepoCatalog });
     const catalog = await activeServerCatalog(storage.catalog);
     installCatalog(catalog);
     return catalog.revision;
@@ -276,7 +282,7 @@ async function main(argv: readonly string[]): Promise<number> {
   const manifest = embedded.text(ASSET_MANIFEST_ASSET);
   const adminUiArchive = embedded.asset(ADMIN_UI_ASSET);
   const server = await startReferenceServer({
-    worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog, log: event => logger.emit(event),
+    worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog, bundledBase: shipped, log: event => logger.emit(event),
     allowedOrigins: config.allowedOrigins.length ? config.allowedOrigins : undefined,
     // A publish checks asset ids against the host the clients load from, or against the manifest this server ships with.
     assets: { ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
@@ -293,7 +299,7 @@ async function main(argv: readonly string[]): Promise<number> {
   // `ready: true` and `port` are what every launcher and proof script waits for.
   logger.emit({ event: "ready", ready: true, host: config.host, port: server.port,
     fixture: config.authored ? "authored-world" : "production-lab", authentication: config.authentication,
-    catalogRevision: revision, configFile: config.configFile, assetBaseUrl: config.assetBaseUrl ?? null, identityUrl: config.identityUrl ?? null,
+    catalogRevision: revision, baseVersion: server.catalog.base?.version ?? null, bundledBaseVersion: shipped.version, configFile: config.configFile, assetBaseUrl: config.assetBaseUrl ?? null, identityUrl: config.identityUrl ?? null,
     worlds: config.worlds });
 
   const ui = logPath === null ? null : startServerConsole({

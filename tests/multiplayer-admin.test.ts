@@ -43,7 +43,7 @@ async function serve(options: { file?: string; ownerAccount?: string; clock?: { 
   const id = identity(clock);
   const logs: Record<string, unknown>[] = [];
   const storage = new SqliteWorldStorage(options.file ?? ":memory:", { log: () => {} });
-  if (options.sources) await seedCatalog(storage.catalog, { catalog: RESOLVED_CATALOG, sources: options.sources }, () => {}, { now: () => clock.ms });
+  if (options.sources) await seedCatalog(storage.catalog, { version: "0.1.0", catalog: RESOLVED_CATALOG, sources: options.sources }, () => {}, { now: () => clock.ms });
   const server = await startReferenceServer({
     worlds: [world("north"), world("south")], storage, admin: storage.admin, ...(options.sources ? { catalog: storage.catalog } : {}), build: () => createMultiplayerLabWorld(),
     allowedOrigins: [DEVDOCS], now: () => clock.ms, log: event => logs.push(event),
@@ -337,7 +337,7 @@ describe("stats and players", () => {
     await expect.poll(async () => (await call("/admin/stats", { token: watcher })).body.tick.samples, { timeout: 5000, interval: 50 }).toBeGreaterThan(0);
 
     const stats = (await call("/admin/stats", { token: owner })).body;
-    expect(Object.keys(stats).sort()).toEqual(["backlogDisconnects", "bytesOut", "bytesOutPerSecond", "catalogRevision", "commands", "errors", "events",
+    expect(Object.keys(stats).sort()).toEqual(["backlogDisconnects", "base", "bytesOut", "bytesOutPerSecond", "catalogRevision", "commands", "errors", "events",
       "memory", "rejected", "server", "stages", "startedAt", "tick", "uptimeSeconds", "worlds"]);
     expect(stats.worlds.map((entry: any) => [entry.worldId, entry.playersOnline, entry.capacity]))
       .toEqual([["north", 1, 4], ["south", 0, 4]]);
@@ -390,7 +390,7 @@ describe("content reads", () => {
     const exporter = (await call("/admin/tokens", { method: "POST", token: owner, body: { label: "export", scopes: ["content:read"] } })).body.token;
     const active = await call("/admin/content/revision", { token: exporter });
     expect(active.headers.get("cache-control")).toBe("no-store");
-    expect(active.body).toEqual({ revision, history: [{ id: 1, revision, previous: null, by: "seed", at: clock.ms }] });
+    expect(active.body).toEqual({ revision, history: [{ id: 1, revision, previous: null, by: "seed", at: clock.ms, base: { version: "0.1.0", revision } }] });
     // The reply carries the revision of each collection, by the function a publish checks against,
     // so no client ever has to hash one itself.
     const revisions = Object.fromEntries(Object.entries(sources).map(([name, value]) => [name, collectionRevision(value)]));

@@ -11,7 +11,7 @@ import type { WorldDataManifest } from '../game/src/world/worldDataFormat.js';
 export async function bakeWorldData(options: { lab?: boolean; out?: string } = {}): Promise<WorldDataManifest> {
   const out = path.resolve(options.out ?? path.join(gameRoot, 'public/generated/world'));
   await mkdir(out, { recursive: true });
-  const revision = generationRevision(gameRoot);
+  const revision = await generationRevision(gameRoot);
   const records: WorldDataManifest['records'] = {};
   const server = await startGameServer({ hmr: false });
   let browser: Browser | undefined;
@@ -37,7 +37,7 @@ export async function bakeWorldData(options: { lab?: boolean; out?: string } = {
     await page.waitForFunction(() => window.__corealmWorldBake || document.querySelector('.boot-error'), undefined, { timeout: 900_000, polling: 1000 });
     const result = await page.evaluate(() => window.__corealmWorldBake);
     if (!result || errors.length) throw new Error(`World bake failed: ${errors.join('\n')}`);
-    if (result.revision !== revision || generationRevision(gameRoot) !== revision) throw new Error('Sources changed during world bake; rerun it');
+    if (result.revision !== revision || await generationRevision(gameRoot) !== revision) throw new Error('Sources changed during world bake; rerun it');
     if (!records['terrain/world'] || !records['spawns/world']
       || result.tiles.some(tile => !records[`scatter/${tile}`])
       || result.records.length !== Object.keys(records).length) throw new Error('World bake is incomplete');

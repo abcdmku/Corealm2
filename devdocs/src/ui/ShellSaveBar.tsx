@@ -57,7 +57,7 @@ export function ShellSaveBar({ navigate }: { navigate: AppProps["navigate"] }) {
 }
 
 /** What the last publish changed on the running server: applied now, waiting for a restart, and reached. */
-function PublishResult({ summary }: { summary: PublishSummary }) {
+export function PublishResult({ summary, onDismiss = () => draftStore.clearPublished() }: { summary: PublishSummary; onDismiss?: () => void }) {
   const reached = Object.entries(summary.affected).filter(([, ids]) => ids.length);
   const waiting = summary.spawns.filter(row => row.pending > 0);
   return <div className="flex min-w-0 shrink-0 flex-col gap-1 border-t border-primary bg-brass-soft px-3 py-1.5 text-xs" role="status" aria-label="Publish result">
@@ -71,7 +71,7 @@ function PublishResult({ summary }: { summary: PublishSummary }) {
         {summary.onRestart.length > 0 && <>At next restart: {summary.onRestart.join(", ")}. </>}
         {waiting.length > 0 && <>{waiting.reduce((sum, row) => sum + row.pending, 0)} creatures respawn onto the new plan. </>}
       </span>
-      <Button variant="ghost" size="sm" className="ml-auto shrink-0" onClick={() => draftStore.clearPublished()}>Dismiss</Button>
+      <Button variant="ghost" size="sm" className="ml-auto shrink-0" onClick={onDismiss}>Dismiss</Button>
     </div>
     {reached.length > 0 && <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-muted-foreground">
       {reached.map(([collection, ids]) => <span key={collection} className="[overflow-wrap:anywhere]">

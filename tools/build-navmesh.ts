@@ -7,6 +7,7 @@ import { decodeNavigationArtifact, type NavigationAuthoredInputs } from "../game
 import type {} from "./lib/debug-api.js";
 import { gameRoot } from "./lib/paths.js";
 import { worldGeometryView } from "./lib/bake-inputs.js";
+import { lockfileWithoutVersion } from "./lib/generation-revision.js";
 import { startGameServer } from "./lib/server.js";
 
 const repoRoot = path.resolve(gameRoot, "..");
@@ -141,7 +142,8 @@ export async function fingerprintNavmeshSources(): Promise<NavigationAuthoredInp
       hash.update("\0");
       // Git checkouts may use CRLF on Windows. Source meaning, not checkout line endings, owns the
       // artifact revision, so hash one canonical LF form on every platform.
-      hash.update((await readFile(path.join(repoRoot, file), "utf8")).replace(/\r\n/g, "\n"));
+      const text = (await readFile(path.join(repoRoot, file), "utf8")).replace(/\r\n/g, "\n");
+      hash.update(file === "package-lock.json" ? lockfileWithoutVersion(text) : text);
       hash.update("\0");
     }
     return [name, hash.digest("hex")] as const;

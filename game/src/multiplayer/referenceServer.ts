@@ -8,8 +8,8 @@ import { HoldFailure, localHostControl, type HostControl, type WorldStatus } fro
 import { editDiff, EditFailure, type PlayerPatch } from "./playerEdits.js";
 import { playerRevision } from "./playerRevision.js";
 import { createDirectoryHeartbeat, DEFAULT_SERVER_NAME, effectiveSettings, settingsPatch, type ServerSettings } from "./serverSettings.js";
-import { createCatalogHost, seedCatalog, serveCatalog, type CatalogHost } from "./catalogHost.js";
-import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
+import { createCatalogHost, seedCatalog, serveCatalog, type BaseCatalog, type CatalogHost } from "./catalogHost.js";
+import { MemoryCatalogStorage, UNKNOWN_BASE_VERSION, type CatalogStorage } from "./catalogStorage.js";
 import { createAssetHost, type AssetHostOptions } from "./assetManifest.js";
 import { createContentPublisher } from "./contentPublish.js";
 import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
@@ -48,6 +48,13 @@ export interface ReferenceServerOptions {
    * server keeps the catalog compiled into the build in memory, which is what tests and harnesses want.
    */
   catalog?: CatalogStorage;
+  /**
+   * The base game this server ships with: the catalog, sources and version `seedCatalog` seeded an
+   * empty database from. An update from base merges it into the server's own content. The entry
+   * point passes what it seeded with; a test passes a newer one to stand in for an upgraded
+   * executable. Without it the server offers no base update.
+   */
+  bundledBase?: BaseCatalog | null;
   /**
    * Where a publish checks asset ids: the manifest of the asset host the worlds point clients at, or
    * the manifest shipped with this server. With neither, asset ids are not checked.
@@ -107,16 +114,16 @@ export interface PlayerEditOutcome { applied: "live" | "stored"; world: WorldKey
  * agree with it. A store whose active revision is another catalog means the host imported the server
  * before installing, and every table would disagree with what clients are told.
  */
-async function runningCatalog(storage: CatalogStorage | undefined, now: () => number): Promise<CatalogHost> {
+async function runningCatalog(storage: CatalogStorage | undefined, now: () => number, version: string): Promise<CatalogHost> {
   const running = RESOLVED_CATALOG.revision;
   if (!storage) {
     storage = new MemoryCatalogStorage();
     // No sources: nothing can be published against a catalog that only exists in memory.
-    await seedCatalog(storage, { catalog: RESOLVED_CATALOG, sources: {} }, () => {}, { now });
+    await seedCatalog(storage, { version, catalog: RESOLVED_CATALOG, sources: {} }, () => {}, { now });
   }
   const active = await storage.activeRevision();
   if (active !== running) throw new Error(`This process runs catalog ${running} but the store's active catalog is ${active}. Install the active catalog before importing the server.`);
-  const host = createCatalogHost(storage, running);
+  const host = createCatalogHost(storage, running, await storage.activeBase());
   // Compress in the background so the first join does not wait for it.
   void host.served(running).catch(() => {});
   return host;
@@ -125,7 +132,7 @@ async function runningCatalog(storage: CatalogStorage | undefined, now: () => nu
 export async function startReferenceServer(options: ReferenceServerOptions) {
   const now = options.now ?? Date.now;
   const log = options.log ?? ((event: Record<string, unknown>) => console.log(JSON.stringify(event)));
-  const catalog = await runningCatalog(options.catalog, now);
+  const catalog = await runningCatalog(options.catalog, now, options.bundledBase?.version ?? UNKNOWN_BASE_VERSION);
   // Administration is account work. A guest or module host keeps its storage and answers 501.
   const accounts = options.authentication.authentication === "account" ? options.admin : undefined;
   /** A banned account never reaches the lease claim, in any world of this server. */
@@ -153,6 +160,8 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   /** Bring the running worlds in line with `settings`. Players already in a world stay when its capacity drops. */
   const applySettings = (): Promise<void> => host.configure({ capacity: settings.capacity, description: settings.description });
   await applySettings();
+  // Every descriptor says which base game this server's content comes from. A base update or a rollback moves it.
+  await host.configure({ baseVersion: catalog.base?.version ?? null });
   if (accounts && options.ownerAccount !== undefined) {
     if (!ACCOUNT_ID.test(options.ownerAccount)) throw new Error("ownerAccount must be an identity account id");
     await accounts.setSetupCodeHash(null);
@@ -248,12 +257,12 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   function serverInfo() {
     const { descriptor } = first();
     return { name: settings.name, description: settings.description, endpoint: descriptor.endpoint, assetBaseUrl: descriptor.assetBaseUrl ?? null,
-      identityUrl: options.identityUrl ?? null, authentication: descriptor.authentication ?? "guest", catalogRevision: catalog.revision,
+      identityUrl: options.identityUrl ?? null, authentication: descriptor.authentication ?? "guest", catalogRevision: catalog.revision, baseVersion: catalog.base?.version ?? null,
       host: options.host ?? "127.0.0.1", registerWithDirectory: settings.registerWithDirectory,
       worlds: host.status().map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId,
         name: world.descriptor.name, seed: world.descriptor.seed, capacity: world.capacity })) };
   }
-  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host }) : null;
+  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host, bundled: options.bundledBase ?? null }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
     ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: host.status()[0]?.descriptor.assetBaseUrl }),

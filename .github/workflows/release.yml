@@ -37,6 +37,27 @@ jobs:
             tests
             tools
 
+      # The tag names the base game release, and package.json's version is the base game version every
+      # server built from this commit reports. They must be the same, or a server would say one thing
+      # and the release page another. Checked before anything is installed or built. A sparse checkout
+      # always has the root files.
+      - name: The tag is package.json's version
+        if: github.event_name == 'push'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version=$(jq -r .version package.json)
+          if ! printf '%s' "$version" | grep -Eq '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error::package.json version $version is not MAJOR.MINOR.PATCH with an optional -prerelease"
+            exit 1
+          fi
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match package.json version $version. Tag the commit v$version, or bump package.json first."
+            exit 1
+          fi
+          echo "Tag $TAG matches package.json version $version"
+
       - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
@@ -59,7 +80,7 @@ jobs:
 
       # The Windows executable is cross-built here and is only proved on Windows by hand. This is the
       # Linux half of M6's done-when: an empty folder, one configuration file, a join-capable server,
-      # /admin served out of the binary, and a clean stop.
+      # guest-mode admin refusal, and a clean stop.
       - name: Smoke-start the Linux executable
         run: |
           set -euo pipefail
@@ -86,7 +107,10 @@ jobs:
           grep -q '"ready":true' server.out || { echo "never became ready"; cat server.out; exit 1; }
           curl -fsS http://127.0.0.1:4295/healthz
           curl -fsS http://127.0.0.1:4295/worlds | head -c 400; echo
-          curl -fsS http://127.0.0.1:4295/admin/ | grep -qi "<script" || { echo "/admin/ did not serve the app"; exit 1; }
+          # Guest hosts intentionally disable every admin path, including the bundled app.
+          admin_status=$(curl -sS -o admin.json -w '%{http_code}' http://127.0.0.1:4295/admin/)
+          [ "$admin_status" = 501 ] && jq -e '.error.code == "admin_unavailable"' admin.json >/dev/null \
+            || { echo "/admin/ did not reject guest-mode administration"; cat admin.json; exit 1; }
           kill -TERM "$pid"
           wait "$pid"
           echo "stopped cleanly"

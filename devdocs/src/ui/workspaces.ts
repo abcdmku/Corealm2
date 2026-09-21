@@ -82,6 +82,7 @@ const ALL_WORKSPACES: readonly Workspace[] = [
   { key: "server", label: "Server", icon: Gauge, needs: "publish", views: [
     { key: "overview", label: "Overview" },
     { key: "history", label: "Publishes" },
+    { key: "base", label: "Base game" },
     { key: "settings", label: "Settings" },
     { key: "access", label: "Access" },
     { key: "audit", label: "Audit log" },

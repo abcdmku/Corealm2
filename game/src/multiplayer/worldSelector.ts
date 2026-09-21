@@ -69,6 +69,31 @@ export function hostLabel(url:string):string{
   try{const parsed=new URL(url);return parsed.pathname==="/worlds"?parsed.host:`${parsed.host}${parsed.pathname}`;}catch{return url;}
 }
 
+/** A base game version as the picker prints it: `v0.1.0`. Nothing for a server too old to say. */
+export function baseVersionLabel(version:string|undefined):string|null{
+  return version?`v${version}`:null;
+}
+
+/**
+ * The world list as the picker draws it, with each base version placed once per server. A server is
+ * the worlds that share an endpoint. One world: its version sits on its row. Several worlds that
+ * agree: a heading names the host once, with the version, above their rows. Several that disagree,
+ * which a server should never do: each row carries its own. A server that reports none gets neither.
+ */
+export type WorldListEntry={kind:"server";host:string;version:string}|{kind:"world";world:WorldDescriptor;version:string|null};
+export function worldListLayout(worlds:readonly WorldDescriptor[]):WorldListEntry[]{
+  const servers=new Map<string,WorldDescriptor[]>();
+  for(const world of worlds){const group=servers.get(world.endpoint);if(group)group.push(world);else servers.set(world.endpoint,[world]);}
+  const entries:WorldListEntry[]=[];
+  for(const [endpoint,group] of servers){
+    const versions=new Set(group.map(world=>world.baseVersion));
+    const shared=versions.size===1?baseVersionLabel(group[0]!.baseVersion):null;
+    if(group.length>1&&shared)entries.push({kind:"server",host:(()=>{try{return new URL(endpoint).host;}catch{return endpoint;}})(),version:shared});
+    for(const world of group)entries.push({kind:"world",world,version:group.length>1&&versions.size===1?null:baseVersionLabel(world.baseVersion)});
+  }
+  return entries;
+}
+
 /** What the picker needs from the page it opened over, beyond discovery and the session. */
 export interface WorldSelectorOptions {
   ready?:boolean;
@@ -202,6 +227,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     refresh.disabled=loading;
     if(focused instanceof HTMLButtonElement&&panel.contains(focused)&&focused.disabled)status.focus({preventScroll:true});
   };
+  const versionTag=(text:string):HTMLElement=>{const tag=document.createElement("span");tag.className="worlds__version";tag.textContent=text;return tag;};
   const renderList=()=>{
     list.replaceChildren();
     const local=document.createElement("label");local.className="worlds__row worlds__row--local";
@@ -210,16 +236,26 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     localChoice.addEventListener("change",()=>{selected=LOCAL;updateButtons();});
     const localDetail=document.createElement("span");localDetail.className="worlds__detail";
     const localName=document.createElement("strong");localName.textContent="Play local";
+    // The base game this build carries, the same way a server's row says which base its content comes from.
+    const localVersion=baseVersionLabel(localWorld?.baseVersion);
+    if(localVersion)localName.append(" ",versionTag(localVersion));
     const localNote=document.createElement("small");localNote.textContent=localWorld?"Your single-player character, on this device.":"Local play is unavailable: this page could not read its world files.";
     localDetail.append(localName,localNote);
     const localBadge=document.createElement("span");localBadge.className="worlds__badge";
     localBadge.textContent=!localWorld?"Unavailable":playingLocal()?"Playing now":"Not connected";
     local.append(localChoice,localDetail,localBadge);list.append(local);
-    for(const world of worlds){
+    for(const entry of worldListLayout(worlds)){
+      if(entry.kind==="server"){
+        const heading=document.createElement("div");heading.className="worlds__server";
+        const host=document.createElement("span");host.textContent=entry.host;
+        heading.append(host," ",versionTag(entry.version));list.append(heading);continue;
+      }
+      const world=entry.world;
       const label=document.createElement("label");label.className="worlds__row worlds__row--world";
       const radio=document.createElement("input");radio.type="radio";radio.name="corealm-world";radio.value=worldKey(world);radio.checked=radio.value===selected;
       const detail=document.createElement("span");detail.className="worlds__detail";
       const name=document.createElement("strong");name.textContent=world.name;
+      if(entry.version)name.append(" ",versionTag(entry.version));
       const population=document.createElement("small");population.textContent=`${world.population.toLocaleString()} / ${world.capacity.toLocaleString()} players`;
       detail.append(name,population);
       const badge=document.createElement("span");badge.className="worlds__badge";

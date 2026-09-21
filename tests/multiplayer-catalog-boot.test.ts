@@ -10,6 +10,7 @@ import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { WebSocketProvider, type WebSocketSession } from "../game/src/multiplayer/webSocketProvider.js";
 import { compileContent, formulaSourceRevision, readContentSources } from "../tools/content/compile.js";
 import { repoRoot } from "../tools/lib/paths.js";
+import { repoBaseVersion } from "../tools/lib/baseVersion.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
@@ -48,19 +49,21 @@ it("boots on the database's catalog, not the one the build ships, and tells clie
   if (!published.ok) throw new Error(JSON.stringify(published.problems));
   expect(published.catalog.revision).not.toBe(shipped.revision);
   const storage = new SqliteWorldStorage(join(directory, "worlds.sqlite"), { log: () => {} });
-  await seedCatalog(storage.catalog, { catalog: published.catalog, sources: edited }, () => {});
+  await seedCatalog(storage.catalog, { version: "0.0.9", catalog: published.catalog, sources: edited }, () => {});
   await storage.close();
 
   const server = startServer(directory), ready = await server.ready, revision = published.catalog.revision;
   expect(ready.catalogRevision).toBe(revision);
   // Every line the host writes is `{t, level, event, …}`. `t` is a clock, so the rest is what is asserted.
-  expect(server.lines.filter(line => typeof line.event === "string" && line.event.startsWith("catalog-")).map(({ t, ...rest }) => rest))
-    .toEqual([{ level: "warn", event: "catalog-base-ignored",
-      activeRevision: revision, bundledRevision: shipped.revision, message: "This database already has a catalog, so the catalog shipped with this server was not applied." }]);
+  // The shipped base is not the one this content derives from, so the host says an update is there to take, and changes nothing.
+  expect(server.lines.filter(line => typeof line.event === "string" && (line.event.startsWith("catalog-") || line.event.startsWith("base-"))).map(({ t, ...rest }) => rest))
+    .toEqual([{ level: "info", event: "base-update-available", current: { version: "0.0.9", revision }, bundled: { version: repoBaseVersion(), revision: shipped.revision },
+      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it." }]);
+  expect([ready.baseVersion, ready.bundledBaseVersion]).toEqual(["0.0.9", repoBaseVersion()]);
 
   const port = Number(ready.port);
   const listed = await (await fetch(`http://127.0.0.1:${port}/worlds`)).json() as WorldDescriptor[];
-  expect(listed.map(world => world.catalogRevision)).toEqual([revision]);
+  expect(listed.map(world => [world.catalogRevision, world.baseVersion])).toEqual([[revision, "0.0.9"]]);
   // The simulation itself runs on the edited tables: the lab's ore node is named from the resource definition.
   const world: WorldDescriptor = { providerId: "reference", worldId: "yard", name: "yard", endpoint: `ws://127.0.0.1:${port}/`, protocolVersion: WORLD_PROTOCOL_VERSION,
     fixture: "lab", seed: 1337, population: 0, capacity: 64, availability: "available" };

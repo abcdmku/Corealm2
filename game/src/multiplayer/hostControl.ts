@@ -40,7 +40,8 @@ export interface PublishCheck {
   planMs: number;
 }
 export interface SpawnCounts { world: string; added: number; pending: number; retiring: number; removed: number }
-export interface WorldConfiguration { capacity?: Readonly<Record<string, number>>; description?: string | null; endpoint?: string }
+/** `baseVersion` null takes it off the descriptor. */
+export interface WorldConfiguration { capacity?: Readonly<Record<string, number>>; description?: string | null; endpoint?: string; baseVersion?: string | null }
 
 /** The hold could not be taken, or a world stopped answering inside it. The operation did nothing. */
 export class HoldFailure extends Error {
@@ -103,6 +104,7 @@ export function localHostControl<L extends PeerLink>(host: WorldHost<L>): HostCo
         if (change.capacity) admission.capacity = runtime.descriptor.capacity = change.capacity[runtime.descriptor.worldId] ?? admission.capacity;
         if (change.description !== undefined) { if (change.description) runtime.descriptor.description = change.description; else delete runtime.descriptor.description; }
         if (change.endpoint !== undefined) runtime.descriptor.endpoint = change.endpoint;
+        if (change.baseVersion !== undefined) { if (change.baseVersion) runtime.descriptor.baseVersion = change.baseVersion; else delete runtime.descriptor.baseVersion; }
       }
     },
     async liveCharacter(accountId) {

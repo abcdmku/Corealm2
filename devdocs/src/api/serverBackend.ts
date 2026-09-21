@@ -203,13 +203,15 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     },
 
     /** The authenticated fetch every non-content admin surface is built on. */
-    admin<T>(path: string, init: { method?: string; body?: unknown; signal?: AbortSignal } = {}): Promise<T> {
+    async admin<T>(path: string, init: { method?: string; body?: unknown; signal?: AbortSignal } = {}): Promise<T> {
       if (!path.startsWith("/admin/")) return Promise.reject(new BackendUnavailable(`\`${path}\``));
-      return admin<T>(path, {
+      const result = await admin<T>(path, {
         ...(init.method ? { method: init.method } : {}),
         ...(init.body === undefined ? {} : { headers: { "content-type": "application/json" }, body: JSON.stringify(init.body) }),
         ...(init.signal ? { signal: init.signal } : {}),
       });
+      if (init.method === "POST" && (path === "/admin/content/base/apply" || path === "/admin/content/rollback")) invalidate();
+      return result;
     },
   };
 }

@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="960" height="640" role="img" aria-labelledby="content-title content-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
-<title id="content-title">The base game seeds a server, then the server owns its content</title>
-<desc id="content-desc">A centre column runs top to bottom: the base game&#39;s authored JSON under game/content/data in the repository; the compiler, which turns it into a client catalog and a server catalog under one revision hash; the server database, which holds that one server&#39;s own content; and the running worlds, where loot applies at the next kill, spawns at the next respawn and everything else at the next restart. A dashed arrow between the compiler and the database is labelled &#39;seeds an empty database, once&#39;: a deploy never overwrites a database that already has a catalog. On the left, devdocs in server mode publishes into that server&#39;s database, and a rollback is a publish of an older revision. Nothing goes back to the repository automatically. A muted note to the right of the database says exporting a server&#39;s content to a folder or your own repository is a backup, and promoting a change into the base game is done by hand.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="960" height="700" role="img" aria-labelledby="content-title content-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="content-title">The base game seeds a server, then a newer base can update it</title>
+<desc id="content-desc">A centre column runs top to bottom: the base game&#39;s authored JSON under game/content/data in the repository; the compiler, which turns it into a client catalog and a server catalog under one revision hash; the server database, which holds that one server&#39;s own content; and the running worlds, where loot applies at the next kill, spawns at the next respawn and everything else at the next restart. A dashed arrow between the compiler and the database is labelled &#39;seeds an empty database, once&#39;: a deploy never overwrites a database that already has a catalog. On the left, devdocs in server mode publishes into that server&#39;s database, and a newer base game enters through &#39;update from base&#39;: preview, resolve conflicts, and apply. A marker-only update records history without swapping content. A muted note says export is a manual backup or reviewed promotion; nothing flows back automatically.</desc>
 <defs>
 <marker id="head-neutral-dark" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#9aa5b2"/></marker>
 <marker id="tail-neutral-dark" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#9aa5b2"/></marker>
@@ -11,7 +11,7 @@
 <marker id="head-muted-dark" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#828d9b"/></marker>
 <marker id="tail-muted-dark" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#828d9b"/></marker>
 </defs>
-<text data-owner="free" x="24" y="30" font-size="17" font-weight="600" fill="#e8eef5">Content: the base game seeds a server, then the server owns its content</text>
+<text data-owner="free" x="24" y="30" font-size="17" font-weight="600" fill="#e8eef5">Content: seed once, then update from a newer base by review</text>
 <g>
 <rect data-box="authored" x="320" y="62" width="320" height="66" rx="8" fill="#1a2029" stroke="#9aa5b2" stroke-width="1.6"/>
 <text data-owner="authored" x="336" y="93" font-size="15" font-weight="600" fill="#e8eef5">Base game JSON · repository</text>
@@ -25,46 +25,59 @@
 <text data-owner="compiler" x="336" y="252" font-size="13" fill="#c2ccd8">server catalog.</text>
 </g>
 <g>
-<rect data-box="database" x="320" y="314" width="320" height="100" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
-<text data-owner="database" x="336" y="345" font-size="15" font-weight="600" fill="#e8eef5">Server database</text>
-<text data-owner="database" x="336" y="366" font-size="13" fill="#c2ccd8">This server&#39;s own content. Every</text>
-<text data-owner="database" x="336" y="383" font-size="13" fill="#c2ccd8">revision it has published, and a</text>
-<text data-owner="database" x="336" y="400" font-size="13" fill="#c2ccd8">pointer to the active one.</text>
+<rect data-box="database" x="320" y="324" width="320" height="100" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
+<text data-owner="database" x="336" y="355" font-size="15" font-weight="600" fill="#e8eef5">Server database</text>
+<text data-owner="database" x="336" y="376" font-size="13" fill="#c2ccd8">This server&#39;s own sources, revisions</text>
+<text data-owner="database" x="336" y="393" font-size="13" fill="#c2ccd8">and base marker. Every base snapshot</text>
+<text data-owner="database" x="336" y="410" font-size="13" fill="#c2ccd8">needed for a later merge stays here.</text>
 </g>
 <g>
-<rect data-box="worlds" x="320" y="468" width="320" height="83" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
-<text data-owner="worlds" x="336" y="499" font-size="15" font-weight="600" fill="#e8eef5">Running worlds</text>
-<text data-owner="worlds" x="336" y="520" font-size="13" fill="#c2ccd8">Loot: next kill. Spawns: next respawn.</text>
-<text data-owner="worlds" x="336" y="537" font-size="13" fill="#c2ccd8">Everything else: next restart.</text>
+<rect data-box="worlds" x="320" y="478" width="320" height="83" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
+<text data-owner="worlds" x="336" y="509" font-size="15" font-weight="600" fill="#e8eef5">Running worlds</text>
+<text data-owner="worlds" x="336" y="530" font-size="13" fill="#c2ccd8">Loot: next kill. Spawns: next respawn.</text>
+<text data-owner="worlds" x="336" y="547" font-size="13" fill="#c2ccd8">Everything else: next restart.</text>
 </g>
 <g>
-<rect data-box="devdocs" x="30" y="314" width="230" height="117" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
-<text data-owner="devdocs" x="46" y="345" font-size="15" font-weight="600" fill="#e8eef5">Devdocs, server mode</text>
-<text data-owner="devdocs" x="46" y="366" font-size="13" fill="#c2ccd8">Save all publishes, to</text>
-<text data-owner="devdocs" x="46" y="383" font-size="13" fill="#c2ccd8">this server only. A rollback</text>
-<text data-owner="devdocs" x="46" y="400" font-size="13" fill="#c2ccd8">is a publish of an older</text>
-<text data-owner="devdocs" x="46" y="417" font-size="13" fill="#c2ccd8">revision.</text>
+<rect data-box="devdocs" x="30" y="324" width="230" height="117" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
+<text data-owner="devdocs" x="46" y="355" font-size="15" font-weight="600" fill="#e8eef5">Devdocs, server mode</text>
+<text data-owner="devdocs" x="46" y="376" font-size="13" fill="#c2ccd8">Save all publishes to</text>
+<text data-owner="devdocs" x="46" y="393" font-size="13" fill="#c2ccd8">this server. Base game</text>
+<text data-owner="devdocs" x="46" y="410" font-size="13" fill="#c2ccd8">previews merge conflicts</text>
+<text data-owner="devdocs" x="46" y="427" font-size="13" fill="#c2ccd8">before apply.</text>
+</g>
+<g>
+<rect data-box="newbase" x="672" y="62" width="258" height="83" rx="8" fill="#112b26" stroke="#5fd3a4" stroke-width="2"/>
+<text data-owner="newbase" x="688" y="93" font-size="15" font-weight="600" fill="#e8eef5">Newer base game</text>
+<text data-owner="newbase" x="688" y="114" font-size="13" fill="#c2ccd8">A release carries a version</text>
+<text data-owner="newbase" x="688" y="131" font-size="13" fill="#c2ccd8">and source snapshot.</text>
+</g>
+<g>
+<rect data-box="update" x="672" y="184" width="258" height="117" rx="8" fill="#112b26" stroke="#5fd3a4" stroke-width="2"/>
+<text data-owner="update" x="688" y="215" font-size="15" font-weight="600" fill="#e8eef5">Update from base</text>
+<text data-owner="update" x="688" y="236" font-size="13" fill="#c2ccd8">Preview the three-way merge.</text>
+<text data-owner="update" x="688" y="253" font-size="13" fill="#c2ccd8">Resolve record conflicts.</text>
+<text data-owner="update" x="688" y="270" font-size="13" fill="#c2ccd8">Apply through the publish barrier.</text>
+<text data-owner="update" x="688" y="287" font-size="13" fill="#c2ccd8">No automatic update.</text>
+</g>
+<g>
+<rect data-box="optional" x="672" y="374" width="258" height="100" rx="8" fill="#181d25" stroke="#828d9b" stroke-width="1.4"/>
+<text data-owner="optional" x="688" y="405" font-size="15" font-weight="600" fill="#e8eef5">Manual export</text>
+<text data-owner="optional" x="688" y="426" font-size="13" fill="#c2ccd8">Back up a server&#39;s content</text>
+<text data-owner="optional" x="688" y="443" font-size="13" fill="#c2ccd8">or promote a reviewed change</text>
+<text data-owner="optional" x="688" y="460" font-size="13" fill="#c2ccd8">into the base game.</text>
 </g>
 <path data-arrow="a-c" d="M480,128 V162" fill="none" stroke="#9aa5b2" stroke-width="2.1" marker-end="url(#head-neutral-dark)" stroke-linecap="round" stroke-linejoin="round"/>
 <text data-owner="free" x="462" y="150" font-size="13" text-anchor="end" fill="#c2ccd8">npm run content:compile</text>
-<path data-arrow="c-d" d="M480,266 V310" fill="none" stroke="#9aa5b2" stroke-width="2.1" stroke-dasharray="7 5" marker-end="url(#head-neutral-dark)" stroke-linecap="round" stroke-linejoin="round"/>
-<text data-owner="free" x="462" y="292" font-size="13" text-anchor="end" fill="#c2ccd8">seeds an empty database, once</text>
-<path data-arrow="d-w" d="M480,414 V464" fill="none" stroke="#79bbff" stroke-width="2.1" marker-end="url(#head-accent-dark)" stroke-linecap="round" stroke-linejoin="round"/>
-<text data-owner="free" x="500" y="444" font-size="13" text-anchor="start" fill="#79bbff">the active revision</text>
-<path data-arrow="dev-d" d="M260,352 H316" fill="none" stroke="#79bbff" stroke-width="2.1" marker-end="url(#head-accent-dark)" stroke-linecap="round" stroke-linejoin="round"/>
-<text data-owner="free" x="288" y="341" font-size="13" text-anchor="middle" fill="#79bbff">publish</text>
-<g>
-<rect data-box="optional" x="672" y="314" width="258" height="151" rx="8" fill="#181d25" stroke="#828d9b" stroke-width="1.4"/>
-<text data-owner="optional" x="688" y="345" font-size="15" font-weight="600" fill="#e8eef5">Optional tools</text>
-<text data-owner="optional" x="688" y="366" font-size="13" fill="#c2ccd8">Export a server&#39;s content to</text>
-<text data-owner="optional" x="688" y="383" font-size="13" fill="#c2ccd8">a folder or your own</text>
-<text data-owner="optional" x="688" y="400" font-size="13" fill="#c2ccd8">repository, as a backup. Or</text>
-<text data-owner="optional" x="688" y="417" font-size="13" fill="#c2ccd8">promote a change into the</text>
-<text data-owner="optional" x="688" y="434" font-size="13" fill="#c2ccd8">base game by hand. Nothing</text>
-<text data-owner="optional" x="688" y="451" font-size="13" fill="#c2ccd8">flows back automatically.</text>
-</g>
-<path d="M30,608 H64" fill="none" stroke="#79bbff" stroke-width="2"/>
-<text data-owner="free" x="74" y="612" font-size="13" fill="#c2ccd8">every publish, to this server</text>
-<path d="M272.86,608 H306.86" fill="none" stroke="#9aa5b2" stroke-width="2" stroke-dasharray="7 5"/>
-<text data-owner="free" x="316.86" y="612" font-size="13" fill="#c2ccd8">once, when the database is empty</text>
+<path data-arrow="c-d" d="M480,266 V320" fill="none" stroke="#9aa5b2" stroke-width="2.1" stroke-dasharray="7 5" marker-end="url(#head-neutral-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="462" y="294" font-size="13" text-anchor="end" fill="#c2ccd8">seeds an empty database, once</text>
+<path data-arrow="d-w" d="M480,428 V474" fill="none" stroke="#79bbff" stroke-width="2.1" marker-end="url(#head-accent-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="500" y="454" font-size="13" text-anchor="start" fill="#79bbff">the active revision</text>
+<path data-arrow="dev-d" d="M260,362 H316" fill="none" stroke="#79bbff" stroke-width="2.1" marker-end="url(#head-accent-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="288" y="351" font-size="13" text-anchor="middle" fill="#79bbff">publish</text>
+<path data-arrow="base-update" d="M801,148 V180" fill="none" stroke="#5fd3a4" stroke-width="2.1" marker-end="url(#head-secondary-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<path data-arrow="update-d" d="M670,242 H650 V374 H644" fill="none" stroke="#5fd3a4" stroke-width="2.1" marker-end="url(#head-secondary-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30,668 H64" fill="none" stroke="#79bbff" stroke-width="2"/>
+<text data-owner="free" x="74" y="672" font-size="13" fill="#c2ccd8">every publish, to this server</text>
+<path d="M272.86,668 H306.86" fill="none" stroke="#9aa5b2" stroke-width="2" stroke-dasharray="7 5"/>
+<text data-owner="free" x="316.86" y="672" font-size="13" fill="#c2ccd8">once, when the database is empty</text>
 </svg>

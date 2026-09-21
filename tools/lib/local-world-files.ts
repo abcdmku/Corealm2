@@ -4,6 +4,7 @@ import path from "node:path";
 import type { Plugin } from "vite";
 import { LOCAL_WORLD_MANIFEST, type LocalWorldManifest } from "../../game/src/worker/localHostProtocol.js";
 import { clientCatalog, serializeClientCatalog } from "../../game/src/content/clientCatalog.js";
+import { repoBaseVersion } from "./baseVersion.js";
 
 /**
  * What a page and its local-play worker fetch before they can run, published beside the client:
@@ -51,7 +52,9 @@ export function localWorldFiles(gameRoot: string): LocalWorldFiles {
   const pack = packHeader(path.join(gameRoot, "public/generated", PACK_FILE));
   const named = (prefix: string, text: string): string => `${prefix}-${createHash("sha256").update(text).digest("hex").slice(0, 16)}.json`;
   const catalogFile = named("server-catalog", catalog.text), clientCatalogFile = named("client-catalog", catalog.clientText);
-  return { catalogFile, catalogText: catalog.text, clientCatalogFile, clientCatalogText: catalog.clientText, manifest: { version: 1,
+  // The base game version sits beside the catalog: same content, same file names, whatever the version says.
+  const baseVersion = repoBaseVersion(path.resolve(gameRoot, ".."));
+  return { catalogFile, catalogText: catalog.text, clientCatalogFile, clientCatalogText: catalog.clientText, manifest: { version: 1, baseVersion,
     catalog: { revision: catalog.revision, formulaRevision: catalog.formulaRevision, file: catalogFile, bytes: Buffer.byteLength(catalog.text) },
     clientCatalog: { revision: catalog.revision, file: clientCatalogFile, bytes: Buffer.byteLength(catalog.clientText) },
     pack: { file: PACK_FILE, revision: pack.revision, seeds: pack.seeds, bytes: pack.bytes } } };

@@ -37,7 +37,7 @@ export interface HostConfiguration {
   /**
    * `--follow-repo-catalog`, a flag only. At start the catalog the server ships with replaces the
    * database's active one when they differ. The local launchers set it so repo content edits reach
-   * the local server. A live server leaves it off: its database is the source of truth.
+   * the local server. A live server leaves it off: each server owns its content, seeded once from the base game.
    */
   followRepoCatalog: boolean;
   /**

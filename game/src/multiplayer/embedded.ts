@@ -116,12 +116,14 @@ export interface BuildInfo {
   /** The catalog this release seeds an empty database with, and the formula code it was compiled with. */
   catalogRevision: string | null;
   formulaRevision: string | null;
+  /** The base game version of that catalog: `package.json`'s `version` at build time. `version` above names the executable build. */
+  baseVersion: string | null;
   /** Whether the baked server world pack is inside this build. */
   worldPack: boolean;
 }
 export const DEVELOPMENT_BUILD: BuildInfo = {
   name: "corealm-server", version: "dev", builtAt: "unknown", node: "dev", commit: null,
-  catalogRevision: null, formulaRevision: null, worldPack: false,
+  catalogRevision: null, formulaRevision: null, baseVersion: null, worldPack: false,
 };
 
 /** What `--version` prints. A checkout says `dev`, because nothing stamped it. */

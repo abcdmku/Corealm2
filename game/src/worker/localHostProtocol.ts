@@ -2,6 +2,7 @@ import { WORLD_PROTOCOL_VERSION, type PlayerCharacter, type PlayerWorldRecord, t
 import type { ClientCatalog } from "../content/clientCatalog.js";
 import type { LabFixtureSpec } from "../featureLab/labSpec.js";
 import type { LabWorldData } from "./labProtocol.js";
+import { isSemver } from "../multiplayer/semver.js";
 
 /**
  * What the page and the local-play worker say to each other, outside the session itself.
@@ -23,6 +24,8 @@ export interface LocalWorldManifest {
   clientCatalog: { revision: string; file: string; bytes: number };
   /** The server world pack. One file name, so its URL carries `revision` as a query to get past a cache. */
   pack: { file: string; revision: string; seeds: number[]; bytes: number };
+  /** The base game version of this build's catalog: `package.json`'s `version`. Local play shows it in the picker. */
+  baseVersion?: string;
 }
 export function parseLocalWorldManifest(value: unknown): LocalWorldManifest {
   const record = (input: unknown): input is Record<string, unknown> => typeof input === "object" && input !== null && !Array.isArray(input);
@@ -31,7 +34,7 @@ export function parseLocalWorldManifest(value: unknown): LocalWorldManifest {
     || typeof value.catalog.revision !== "string" || typeof value.catalog.formulaRevision !== "string" || !file(value.catalog.file)
     || !record(value.clientCatalog) || typeof value.clientCatalog.revision !== "string" || !file(value.clientCatalog.file)
     || !file(value.pack.file) || typeof value.pack.revision !== "string" || !Array.isArray(value.pack.seeds) || value.pack.seeds.length === 0
-    || !value.pack.seeds.every(Number.isSafeInteger)) throw new Error("The local world manifest is malformed");
+    || !value.pack.seeds.every(Number.isSafeInteger) || (value.baseVersion !== undefined && !isSemver(value.baseVersion))) throw new Error("The local world manifest is malformed");
   return value as unknown as LocalWorldManifest;
 }
 
@@ -50,9 +53,9 @@ export function packedSeed(seeds: readonly number[], wanted: number): number {
  * hosts it, so it is a pure function of fixture and seed. The seed is in the id because a stored
  * world only loads into the seed it was written for.
  */
-export function localWorldDescriptor(fixture: WorldFixture, seed: number): WorldDescriptor {
+export function localWorldDescriptor(fixture: WorldFixture, seed: number, baseVersion?: string): WorldDescriptor {
   return { providerId: LOCAL_PROVIDER_ID, worldId: `${fixture}-${seed}`, name: "Play local", endpoint: "local:worker", protocolVersion: WORLD_PROTOCOL_VERSION,
-    fixture, seed, population: 0, capacity: 1, availability: "available", authentication: "guest" };
+    fixture, seed, population: 0, capacity: 1, availability: "available", authentication: "guest", ...(baseVersion ? { baseVersion } : {}) };
 }
 
 /** An old main-thread save, already migrated and validated by the page. The shape `legacySaveImport` returns. */

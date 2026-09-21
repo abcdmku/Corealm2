@@ -51,10 +51,10 @@ const only = option("only", "");
 const fixturePort = Number(option("fixture-port", "4277"));
 const outDir = path.resolve("test-results/devdocs-audit", serverMode ? `server-${width}` : String(width));
 
-interface Surface { route: string; click?: string }
+interface Surface { route: string; click?: string; baseStep?: "preview" | "resolved" | "apply" | "stale_base" | "decisions_needed" | "definition_in_use" | "content_invalid" }
 interface Fault { kind: string; where: string; detail: string }
 
-async function surfaces(base: string): Promise<Surface[]> {
+async function surfaces(base: string, page: Page): Promise<Surface[]> {
   const out: Surface[] = [];
   for (const workspace of WORKSPACES) {
     if (only && workspace.key !== only) continue;
@@ -62,9 +62,10 @@ async function surfaces(base: string): Promise<Surface[]> {
       const route = `${workspace.key}/${view.key}`;
       out.push({ route });
       if (serverMode || !view.collection) continue;
-      try {
-        const response = await fetch(`${base}/__devdocs/collections/${encodeURIComponent(view.collection)}`);
-        if (!response.ok) continue;
+      {
+        // Node fetch blocks port 4190 as a reserved service port. Reuse Playwright's HTTP client.
+        const response = await page.request.get(`${base}/__devdocs/collections/${encodeURIComponent(view.collection)}`);
+        if (!response.ok()) throw new Error(`Cannot sample ${view.collection}: HTTP ${response.status()}`);
         const body = await response.json() as { data?: unknown; collection?: { idKey?: string } };
         const idKey = body.collection?.idKey ?? "id";
         const rows: Record<string, unknown>[] = Array.isArray(body.data)
@@ -73,7 +74,7 @@ async function surfaces(base: string): Promise<Surface[]> {
         const ids = rows.map(row => String(row[idKey] ?? row.id ?? "")).filter(Boolean);
         const richest = [...rows].sort((a, b) => JSON.stringify(b).length - JSON.stringify(a).length).map(row => String(row[idKey] ?? row.id ?? ""));
         for (const id of [...new Set([ids[0], ...richest.slice(0, Math.max(0, samples - 1))])].filter(Boolean)) out.push({ route: `${route}/${encodeURIComponent(id!)}` });
-      } catch { /* a view whose collection does not load is audited as a list only */ }
+      }
     }
   }
   // The server-only workspaces browse no collection, so their records are named here instead.
@@ -82,8 +83,9 @@ async function surfaces(base: string): Promise<Surface[]> {
       { workspace: "players", route: `players/players/${FIXTURE_PLAYER}` },
       { workspace: "players", route: "players/players/acc_playerThistleGravelmaw90" },
       { workspace: "server", route: "server/audit", click: "main [aria-label='Show what changed'] >> nth=0" },
+      ...(["preview", "resolved", "stale_base", "decisions_needed", "definition_in_use", "content_invalid", "apply"] as const).map(baseStep => ({ workspace: "server", route: "server/base", baseStep })),
     ];
-    for (const surface of server) if (!only || only === surface.workspace) out.push({ route: surface.route, click: surface.click });
+    for (const surface of server) if (!only || only === surface.workspace) out.push({ route: surface.route, click: surface.click, baseStep: surface.baseStep });
     return out;
   }
   // Drawers and the peek: a record opened in the side sheet is the narrowest layout there is.
@@ -228,9 +230,9 @@ async function main() {
   await mkdir(outDir, { recursive: true });
   const fixture: AdminFixture | undefined = serverMode ? await startAdminFixture(fixturePort) : undefined;
   const base = fixture ? fixture.url.replace(/[/]$/, "") : option("base", "http://127.0.0.1:4190");
-  const list = await surfaces(base);
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width, height: 1000 } });
+  const list = await surfaces(base, page);
   await page.addInitScript("globalThis.__name = (t) => t;");
   // The editor mounts only behind a session, so the fixture's one is seeded before the first load.
   if (fixture) await page.addInitScript(session => { sessionStorage.setItem("corealm.devdocs.admin.v1", session); }, fixtureSession(fixture.origin));
@@ -246,13 +248,16 @@ async function main() {
     if (surface.click === "peek") {
       try { await page.locator("main .ref-chip:not(.is-empty)").first().focus(); await page.keyboard.press(" "); await page.waitForTimeout(1500); } catch { errors.push("could not open a peek"); }
     } else if (surface.click) { try { await page.locator(surface.click).first().click({ timeout: 3000 }); await page.waitForTimeout(700); } catch { errors.push(`could not click ${surface.click}`); } }
+    if (surface.baseStep) {
+      try { await exerciseBase(page, surface.baseStep); } catch (error) { errors.push(`base ${surface.baseStep}: ${String(error)}`); }
+    }
     const expanded = /^[^/]+\/[^/]+\/.+/.test(surface.route) || surface.click ? await expandAll(page) : 0;
     // A dev-server reload mid-measure destroys the context; wait for the page to settle and measure again.
     if (args.includes("--controls")) controls.push(...(await page.evaluate(inventory).catch(() => [])).map(entry => ({ ...entry, route: surface.route })));
     const faults = await page.evaluate(measure).catch(async () => { await page.waitForTimeout(2500); return page.evaluate(measure); });
     const unique = [...new Map(faults.map(fault => [`${fault.kind}|${fault.where}`, fault])).values()];
-    report.push({ route: surface.route + (surface.click ? ` (click ${surface.click})` : ""), expanded, errors, faults: unique });
-    const slug = `${surface.route}${surface.click ? `-${surface.click === "peek" ? "peek" : "drawer"}` : ""}`.replace(/[^a-z0-9]+/gi, "-");
+    report.push({ route: surface.route + (surface.baseStep ? ` (${surface.baseStep})` : surface.click ? ` (click ${surface.click})` : ""), expanded, errors, faults: unique });
+    const slug = `${surface.route}${surface.baseStep ? `-${surface.baseStep}` : surface.click ? `-${surface.click === "peek" ? "peek" : "drawer"}` : ""}`.replace(/[^a-z0-9]+/gi, "-");
     if (unique.length || args.includes("--shots")) await page.screenshot({ path: path.join(outDir, `${slug}.png`), fullPage: true });
     console.log(`${unique.length ? "✗" : "✓"} ${surface.route}${surface.click ? " +drawer" : ""}  ${unique.length} faults${errors.length ? `, ${errors.length} errors` : ""}`);
     for (const fault of unique.slice(0, 12)) console.log(`    ${fault.kind.padEnd(8)} ${fault.where} · ${fault.detail}`);
@@ -265,6 +270,36 @@ async function main() {
   const total = report.reduce((sum, entry) => sum + entry.faults.length, 0);
   console.log(`\n${report.length} surfaces, ${total} faults, ${report.filter(entry => entry.faults.length).length} with faults`);
   await browser.close();
+  if (total || report.some(entry => entry.errors.length)) process.exitCode = 1;
+}
+
+/** Decisions go through the real UI and HTTP transport; failures are the server's documented replies. */
+async function exerciseBase(page: Page, step: NonNullable<Surface["baseStep"]>) {
+  await page.getByRole("button", { name: /^(Preview update|Start new preview)$/ }).click();
+  await page.getByRole("status").filter({ hasText: "3 conflicts need a choice" }).waitFor();
+  if (await page.locator("[data-changed=true]").count() === 0) throw new Error("No differing fields highlighted");
+  if (step === "preview") return;
+  await page.getByRole("region", { name: "items conflicts", exact: true }).getByRole("button", { name: "Keep all server records" }).click();
+  await page.getByRole("article", { name: "items/worn_sword" }).getByRole("button", { name: "Take the base record", exact: true }).click();
+  await page.getByRole("region", { name: "lootTables conflicts", exact: true }).getByRole("button", { name: "Take all base records" }).click();
+  await page.getByRole("button", { name: "Validate choices", exact: true }).click();
+  await page.getByRole("status").filter({ hasText: "Ready to apply" }).waitFor();
+  if (step === "resolved") return;
+  const failure = step !== "apply";
+  const endpoint = "**/admin/content/base/apply";
+  if (failure) await page.route(endpoint, route => route.fulfill({ status: step === "content_invalid" ? 422 : 409, json: { error: {
+    code: step, message: "Fixture refusal", ...(step === "definition_in_use" ? { blockers: [{ kind: "item", id: "old_marker", heldBy: "player", name: "Rook", place: "bank" }] } : {}),
+    ...(step === "content_invalid" ? { problems: [{ path: "lootTables/redsill", message: "Referenced item is missing" }] } : {}),
+  } } }));
+  try {
+    await page.getByRole("button", { name: "Apply base update", exact: true }).click();
+    const sent = page.waitForRequest(request => request.url().endsWith("/admin/content/base/apply"));
+    await page.getByRole("button", { name: "Publish base update", exact: true }).click();
+    const body = (await sent).postDataJSON() as { expect?: unknown; decisions?: { take: string }[] };
+    if (!body.expect || body.decisions?.length !== 3 || body.decisions.filter(row => row.take === "theirs").length !== 2) throw new Error("Apply lost reviewed decisions or expectations");
+    if (failure) await page.getByRole("alert").filter({ hasText: step === "stale_base" ? "changed" : step === "decisions_needed" ? "choice" : step === "definition_in_use" ? "still in use" : "failed validation" }).waitFor();
+    else { await page.getByRole("region", { name: "Base update result" }).waitFor(); await page.getByText("Up to date", { exact: true }).waitFor(); }
+  } finally { if (failure) await page.unroute(endpoint); }
 }
 
 void main();

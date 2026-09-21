@@ -114,17 +114,25 @@ const MINING_AGENT = `(async (targetLevel) => {
   // walk started, and every iteration abandoned its walk to start another one.
   let cursor = (await agent.call("corealm_context", { sections: ["events"] })).events.nextSeq;
 
+  const mark = async () => { cursor = (await agent.call("corealm_context", { sections: ["events"] })).events.nextSeq; };
+
   const waitFor = async (types, timeoutMs) => {
     const result = await agent.call("corealm_events", { sinceSeq: cursor, types, timeoutMs });
     cursor = result.nextSeq;
     return result.events || [];
   };
 
+  // Replication holds nearby entities. Remember a bank's discovered location before leaving it.
+  const bankLeads = await agent.call("corealm_observe", { scope: "known", archetypes: ["bank"], limit: 3 });
   const bankEverything = async () => {
-    const banks = await agent.call("corealm_observe", { scope: "known", archetypes: ["bank"], limit: 3 });
+    const nearbyBanks = await agent.call("corealm_observe", { scope: "known", archetypes: ["bank"], limit: 3 });
+    const banks = nearbyBanks.length ? nearbyBanks : bankLeads;
     if (!banks.length) { log.push("no known bank"); return false; }
     log.push("banking at " + banks[0].id);
-    await agent.call("corealm_move_to", { entityId: banks[0].id });
+    const alreadyThere = await agent.call("corealm_bank", { op: "depositAll" });
+    if (!alreadyThere.error) { log.push("banked: ok"); return true; }
+    await mark();
+    await agent.call("corealm_move_to", banks[0].locationId ? { locationId: banks[0].locationId } : { entityId: banks[0].id });
     await waitFor(["navigation.completed", "navigation.failed"], 90000);
     const deposited = await agent.call("corealm_bank", { op: "depositAll" });
     log.push("banked: " + (deposited.error ? deposited.error : "ok"));
@@ -154,8 +162,11 @@ const MINING_AGENT = `(async (targetLevel) => {
   const idsFromDocs = async (query) => {
     const hits = await agent.call("corealm_search_docs", { query, limit: 12 });
     const ids = [];
+    const level = (await agent.call("corealm_skills")).mining.level;
     for (const hit of hits || []) {
       const text = String(hit.snippet || "") + " " + String(hit.title || "");
+      const levels = [...text.matchAll(/Mining ([0-9]+)/g)].map(match => Number(match[1]));
+      if (!levels.some(required => required <= level)) continue;
       // A Places entry reads: moveTo({ locationId: "bracken_pit" }). That id is the one thing in
       // the documentation an agent cannot guess, which is the whole reason this lookup exists.
       //
@@ -170,8 +181,18 @@ const MINING_AGENT = `(async (targetLevel) => {
 
   /** Places named in the docs as having ore, best-first, resolved once and then walked in order. */
   let docLeads = null;
+  let workingMine = null;
 
   const travelToProspect = async () => {
+    if (workingMine) {
+      await mark();
+      const moved = await agent.call("corealm_move_to", { locationId: workingMine });
+      if (!moved.error) {
+        const arrived = await waitFor(["navigation.completed", "navigation.failed"], 120000);
+        if (arrived.some(event => event.type === "navigation.completed")) return true;
+      }
+      workingMine = null;
+    }
     if (docLeads === null) {
       const found = [];
       // Terms a mining agent can derive: the ore is Grithe (it is in the skill guide and in every
@@ -191,7 +212,7 @@ const MINING_AGENT = `(async (targetLevel) => {
     const looksMineable = (text) => /pit|seam|mine|quarry|face|scree|karrow/i.test(text);
     const nearby = (places || [])
       .map((place) => place.locationId || place.id)
-      .filter((id, index) => !visited.has(id) && looksMineable(id + " " + ((places[index] || {}).name || "")));
+      .filter((id, index) => !visited.has(id) && docLeads.includes(id) && looksMineable(id + " " + ((places[index] || {}).name || "")));
 
     const candidates = [...nearby, ...docLeads.filter((id) => !visited.has(id))];
     if (!candidates.length) { visited.clear(); docLeads = null; return false; }
@@ -199,10 +220,12 @@ const MINING_AGENT = `(async (targetLevel) => {
     const destination = candidates[0];
     visited.add(destination);
     log.push("prospecting at " + destination);
+    await mark();
     const moved = await agent.call("corealm_move_to", { locationId: destination });
     if (moved.error) { log.push("  refused: " + moved.error); return false; }
-    await waitFor(["navigation.completed", "navigation.failed"], 120000);
-    return true;
+    const arrived = await waitFor(["navigation.completed", "navigation.failed"], 120000);
+    if (arrived.some(event => event.type === "navigation.completed")) { workingMine = destination; return true; }
+    return false;
   };
 
   let guard = 0;
@@ -231,8 +254,13 @@ const MINING_AGENT = `(async (targetLevel) => {
     usable.sort((a, b) => (b.tier - a.tier) || (a.distance - b.distance));
     const target = usable[0];
 
+    await mark();
     const started = await agent.call("corealm_interact", { entityId: target.id, interaction: "mine" });
-    if (started.error) { log.push("interact refused: " + started.error); continue; }
+    if (started.error) {
+      if (started.error === "INVENTORY_FULL") await bankEverything();
+      else log.push("interact refused: " + started.error);
+      continue;
+    }
 
     if (String(started.started || "").startsWith("walking")) {
       await waitFor(["navigation.completed", "navigation.failed"], 90000);
@@ -408,7 +436,7 @@ async function runOne(
 ): Promise<ProofResult> {
   // A fresh character, then hands off entirely to the agent.
   await page.evaluate(() => window.__gameDebug?.reset());
-  await page.waitForTimeout(400);
+  await page.waitForFunction(() => window.__gameDebug?.getState().ready === true);
   await page.evaluate(async (scale) => {
     const api = window.__gameDebug as unknown as { setTimeScale?: (value: number) => void };
     await api.setTimeScale?.(scale);

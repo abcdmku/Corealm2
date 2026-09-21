@@ -4,6 +4,7 @@ import {
   type WorldDescriptor, type WorldKey,
 } from "../contracts.js";
 import { CATALOG_REVISION } from "../content/clientCatalog.js";
+import { isSemver } from "./semver.js";
 
 export const MAX_MESSAGE_BYTES = 16_384;
 export const MAX_DIRECTORY_WORLDS = 256;
@@ -55,7 +56,7 @@ export function assetBase(value: unknown): string {
  * nothing, which also admits `LOCAL_ENDPOINT`.
  */
 export function descriptor(value: unknown, transport: "any" | "socket" = "any"): WorldDescriptor {
-  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication", "description"])
+  if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication", "description", "baseVersion"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
     || !integer(value.protocolVersion) || (value.fixture !== "authored" && value.fixture !== "lab") || !integer(value.seed)
     || (value.catalogRevision !== undefined && (typeof value.catalogRevision !== "string" || !CATALOG_REVISION.test(value.catalogRevision)))
@@ -63,7 +64,8 @@ export function descriptor(value: unknown, transport: "any" | "socket" = "any"):
     || !integer(value.population) || value.population < 0 || value.population > value.capacity
     || !["available", "full", "unavailable"].includes(String(value.availability))
     || (value.authentication !== undefined && value.authentication !== "account" && value.authentication !== "guest")
-    || (value.description !== undefined && (typeof value.description !== "string" || !value.description.trim() || value.description.length > 200))) {
+    || (value.description !== undefined && (typeof value.description !== "string" || !value.description.trim() || value.description.length > 200))
+    || (value.baseVersion !== undefined && !isSemver(value.baseVersion))) {
     throw new SessionFailure("INVALID_MESSAGE", "Invalid world descriptor");
   }
   return { ...value, endpoint: transport === "any" && value.endpoint === LOCAL_ENDPOINT ? LOCAL_ENDPOINT : endpoint(value.endpoint),

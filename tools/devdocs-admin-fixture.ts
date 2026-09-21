@@ -3,6 +3,7 @@ import { readFile, stat } from "node:fs/promises";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import path from "node:path";
 import { collectionRevision } from "../game/src/content/compiler/revision.js";
+import { mergeBase, type BaseDecision } from "../game/src/content/compiler/baseMerge.js";
 import { ADMIN_API_SEGMENTS, contentType } from "../game/src/multiplayer/adminUi.js";
 import { readContentSources } from "./content/compile.js";
 import { gameRoot, repoRoot } from "./lib/paths.js";
@@ -147,13 +148,46 @@ export async function startAdminFixture(port: number): Promise<AdminFixture> {
   const cast = players();
   const publicRoot = path.join(gameRoot, "public");
   const buildRoot = path.resolve("dist/devdocs-server");
+  const baseFrom = { version: "0.1.0", revision: "b1".repeat(32) };
+  const baseTo = { version: "0.2.0", revision: "b2".repeat(32) };
+  let baseApplied = false;
+  const ancestor = { items: [{ id: "worn_sword", name: "Worn sword", value: 4 }, { id: "old_marker", name: "Old marker", value: 1 }], lootTables: [{ id: "redsill", rolls: [{ itemId: "marsh_gland", quantity: 1 }] }] };
+  const mine = { items: [{ id: "worn_sword", name: "Rook's worn sword", value: 9 }, { id: "old_marker", name: "Server keepsake", value: 1 }], lootTables: [{ id: "redsill", rolls: [{ itemId: "marsh_gland", quantity: 3 }] }] };
+  const theirs = { items: [{ id: "worn_sword", name: "Worn sword", value: 6 }], lootTables: [{ id: "redsill", rolls: [{ itemId: "marsh_gland", quantity: 2 }] }] };
+  const baseExpect = { activeRevision: REVISION, bundledRevision: baseTo.revision };
 
-  const api = (request: IncomingMessage, response: ServerResponse, url: URL): boolean => {
+  const api = async (request: IncomingMessage, response: ServerResponse, url: URL): Promise<boolean> => {
     const parts = url.pathname.replace(/\/+$/, "").split("/").filter(Boolean);
     const rest = parts.slice(1);
     const at = rest[0];
     // The same split the real server makes: the API owns its first segments, the rest is the build.
     if (parts[0] !== "admin" || at === undefined || !ADMIN_API_SEGMENTS.includes(at)) return false;
+    if (at === "content" && rest[1] === "base") {
+      if (request.method === "GET" && rest.length === 2) return json(response, 200, { current: baseApplied ? baseTo : baseFrom, bundled: baseTo, updateAvailable: !baseApplied, direction: baseApplied ? "same" : "newer", serverModified: true }), true;
+      if (request.method === "GET" && rest[2] === "sources") {
+        const bundled = url.searchParams.get("side") === "bundled";
+        return json(response, 200, { ...(bundled ? baseTo : baseFrom), sources: bundled ? theirs : ancestor }), true;
+      }
+      let raw = "";
+      for await (const chunk of request) raw += String(chunk);
+      const input = JSON.parse(raw || "{}") as { decisions?: BaseDecision[]; expect?: typeof baseExpect };
+      if (baseApplied) return json(response, 409, { error: { code: "no_update", message: "Already on the bundled base." } }), true;
+      const merge = mergeBase({ ancestor, mine, theirs }, input.decisions ?? []);
+      const validation = { revision: "d3".repeat(32), previous: REVISION, unchanged: false, stored: false, live: ["items", "lootTables"], onRestart: ["worldRegions"], affected: { items: ["worn_sword"] }, changedCollections: ["items", "lootTables"], changedTables: ["items", "lootTables"], spawns: [], notified: 12 };
+      if (rest[2] === "preview") return json(response, 200, {
+        base: { from: baseFrom, to: baseTo }, direction: "newer", expect: baseExpect,
+        summary: merge.summary, conflicts: merge.conflicts, conflictsTotal: merge.conflicts.length, bodiesTruncated: false, decisionsNeeded: merge.decisionsNeeded,
+        validation: merge.decisionsNeeded ? null : { ok: true, result: validation },
+        changedCollections: validation.changedCollections, affected: validation.affected,
+        live: merge.decisionsNeeded ? null : validation.live, onRestart: merge.decisionsNeeded ? null : validation.onRestart,
+      }), true;
+      if (rest[2] === "apply") {
+        if (input.expect?.activeRevision !== baseExpect.activeRevision || input.expect?.bundledRevision !== baseExpect.bundledRevision) return json(response, 409, { error: { code: "stale_base", message: "Preview is stale." } }), true;
+        if (merge.decisionsNeeded) return json(response, 409, { error: { code: "decisions_needed", message: "Choose every conflict.", missingTotal: merge.decisionsNeeded } }), true;
+        baseApplied = true;
+        return json(response, 200, { ...validation, stored: true, baseUpdate: { from: baseFrom, to: baseTo, direction: "newer", summary: merge.summary, decisions: { mine: (input.decisions ?? []).filter(row => row.take === "mine").length, theirs: (input.decisions ?? []).filter(row => row.take === "theirs").length } } }), true;
+      }
+    }
     // The asset host this fixture points the editor at is itself: it serves `game/public` at the root,
     // so every item icon resolves exactly as it does behind a real server with an asset host.
     if (at === "info") return json(response, 200, { ...(stats().server as Record<string, unknown>), assetBaseUrl: `http://127.0.0.1:${port}/` }), true;
@@ -196,7 +230,7 @@ export async function startAdminFixture(port: number): Promise<AdminFixture> {
   const server = createServer((request, response) => {
     void (async () => {
       const url = new URL(request.url ?? "/", "http://fixture.invalid");
-      if (api(request, response, url)) return;
+      if (await api(request, response, url)) return;
       // Everything else: the built editor under `/admin/`, and `game/public` at the root for icons.
       const underAdmin = url.pathname.startsWith("/admin/") || url.pathname === "/admin";
       const relative = underAdmin ? url.pathname.replace(/^\/admin\/?/, "") : url.pathname.slice(1);

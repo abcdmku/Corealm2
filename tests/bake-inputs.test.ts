@@ -2,8 +2,9 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { CONTENT_COLLECTIONS } from "../game/src/content/compiler/collections.js";
 import { NON_BAKE_CONTENT_FILES, worldGeometryView } from "../tools/lib/bake-inputs.js";
-import { generationInputs } from "../tools/lib/generation-revision.js";
-import { gameRoot } from "../tools/lib/paths.js";
+import { BAKE_ENTRIES, generationInputs } from "../tools/lib/generation-revision.js";
+import { gameRoot, repoRoot } from "../tools/lib/paths.js";
+import { pageGraph } from "../tools/lib/page-graph.js";
 import { compileContent, readContentSources } from "../tools/content/compile.js";
 
 /** Every value the navigation fingerprint and the generation revision may leave out. */
@@ -61,13 +62,31 @@ describe("bake inputs", () => {
     for (const needle of ['"lootRolls"', '"itemId"', '"chance"', '"drops"']) expect(geometry).not.toContain(needle);
   }, 120_000);
 
-  it("names content files that exist and that the generation revision then skips", () => {
+  it("names content files that exist and that the generation revision then skips", async () => {
     const files = CONTENT_COLLECTIONS.map(spec => `content/${spec.file}`);
     expect(NON_BAKE_CONTENT_FILES.filter(file => !files.includes(file))).toEqual([]);
-    const hashed = new Set(generationInputs(gameRoot).map(file => path.resolve(file)));
+    const hashed = new Set((await generationInputs(gameRoot)).map(file => path.resolve(file)));
     expect(NON_BAKE_CONTENT_FILES.filter(file => hashed.has(path.resolve(gameRoot, file)))).toEqual([]);
     // Everything else still pins the bake, including `items`: retiring one filters resource yields.
     expect(files.filter(file => !NON_BAKE_CONTENT_FILES.includes(file as never))
       .filter(file => !hashed.has(path.resolve(gameRoot, file)))).toEqual([]);
+  });
+
+  it("hashes every bake import while leaving server administration and UI out", async () => {
+    const hashed = new Set(await generationInputs(gameRoot));
+    for (const entry of BAKE_ENTRIES) {
+      const graph = await pageGraph(path.join(repoRoot, entry));
+      for (const file of graph.keys()) expect(hashed.has(file), path.relative(repoRoot, file)).toBe(true);
+    }
+    for (const file of ["src/app/boot.ts", "src/world/scatter.ts", "src/world/regionBuilder.ts",
+      "src/multiplayer/bake/authoredWorld.ts", "src/world/worldBake.ts", "src/render/assets.ts",
+      "src/world/cachedWorldValue.ts", "src/content/compiler/catalog.ts", "src/content/worldCompiler.ts",
+      "src/content/creatureCompiler.ts", "src/content/worldCreatureResolver.ts"]) {
+      expect(hashed.has(path.join(gameRoot, file)), file).toBe(true);
+    }
+    for (const file of ["src/multiplayer/adminApi.ts", "src/multiplayer/worldSelector.ts",
+      "src/multiplayer/contentPublish.ts", "src/ui/itemIcons.ts", "src/ui/styles/title.css"]) {
+      expect(hashed.has(path.join(gameRoot, file)), file).toBe(false);
+    }
   });
 });

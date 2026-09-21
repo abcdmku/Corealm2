@@ -14,7 +14,7 @@ import { promisify } from "node:util";
 import { brotliCompress, constants, gzip } from "node:zlib";
 import { CATALOG_REVISION } from "../content/clientCatalog.js";
 import { collectionRevision } from "../content/compiler/revision.js";
-import { PublishFailure, publishRequest, type ContentPublisher } from "./contentPublish.js";
+import { baseRequest, PublishFailure, publishRequest, type BaseApplyRequest, type ContentPublisher } from "./contentPublish.js";
 
 /**
  * The admin HTTP API, mounted on the reference server's single route table. JSON in, JSON out,
@@ -32,6 +32,8 @@ import { PublishFailure, publishRequest, type ContentPublisher } from "./content
 const MAX_BODY_BYTES = 8_192;
 /** A publish carries whole collections. The largest is about 0.5 MiB and all of them together about 2 MiB, so this leaves room to grow. */
 export const MAX_CONTENT_BODY_BYTES = 16 * 1024 * 1024;
+/** A base preview or apply carries decisions only, never content: up to 20,000 of them at about 80 bytes each. */
+export const MAX_BASE_BODY_BYTES = 2 * 1024 * 1024;
 const MAX_URL_CHARS = 2_048;
 const MAX_LABEL_CHARS = 64;
 const MAX_REASON_CHARS = 512;
@@ -67,7 +69,7 @@ export interface AdminServerPorts {
   editPlayer(accountId: string, patch: PlayerPatch, by: AdminActor): Promise<PlayerEditOutcome>;
   /** What this server is and where its parts live. No secrets: the login screen reads it before anyone has signed in. */
   info(): { name: string; description: string | null; endpoint: string; assetBaseUrl: string | null; identityUrl: string | null; authentication: string;
-    catalogRevision: string; host: string; registerWithDirectory: boolean; worlds: { providerId: string; worldId: string; name: string; seed: number; capacity: number }[] };
+    catalogRevision: string; baseVersion: string | null; host: string; registerWithDirectory: boolean; worlds: { providerId: string; worldId: string; name: string; seed: number; capacity: number }[] };
   settings: {
     get(): Promise<{ settings: ServerSettings; overrides: Record<string, unknown>; defaults: ServerSettings }>;
     /** Validate, store with its audit row, and apply to the running worlds. Throws `SettingsFailure`. */
@@ -154,6 +156,8 @@ export function createAdminApi(options: AdminApiOptions) {
   let servedCatalog: { revision: string; identity: Buffer; gzip: Buffer; br: Buffer } | null = null;
   /** The last sources revision map, as its finished JSON. Hashing every collection parses megabytes, and an editor reloads. */
   let servedRevisions: { revision: string; json: string } | null = null;
+  /** The bundled base's sources as JSON. They never change while the process runs. */
+  let bundledSources: string | null = null;
 
   function cors(request: IncomingMessage): Record<string, string> {
     const origin = request.headers.origin;
@@ -254,6 +258,7 @@ export function createAdminApi(options: AdminApiOptions) {
       events: server.events().map(event => ({ ...event })),
       // The publish history is `GET /admin/content/revision`.
       catalogRevision: catalog.revision, server: server.info(),
+      base: await publisher.baseStatus().then(({ current, bundled, updateAvailable }) => ({ current, bundled, updateAvailable })),
     };
   }
 
@@ -276,7 +281,7 @@ export function createAdminApi(options: AdminApiOptions) {
   async function dispatch(request: IncomingMessage, response: ServerResponse, url: URL, segments: string[]): Promise<void> {
     const method = request.method ?? "GET", at = now();
     const rest = segments.slice(1), target = rest[1] === undefined ? null : decodeURIComponent(rest[1]);
-    const deeper = (rest[0] === "players" && rest[2] === "kick") || (rest[0] === "content" && rest[1] === "catalog") ? 3 : 2;
+    const deeper = (rest[0] === "players" && rest[2] === "kick") || (rest[0] === "content" && (rest[1] === "catalog" || rest[1] === "base")) ? 3 : 2;
     if (rest.length > deeper) throw new ApiFailure(404, "not_found", "No such admin endpoint");
 
     if (method === "GET" && rest[0] === "info" && rest.length === 1) {
@@ -435,6 +440,7 @@ export function createAdminApi(options: AdminApiOptions) {
       response.writeHead(200, { ...headers, "Content-Length": payload.length, ...(coding ? { "Content-Encoding": coding } : {}) });
       response.end(payload); return;
     }
+    if (rest[0] === "content" && rest[1] === "base") { await baseEndpoint(request, response, url, method, rest[2] ?? null); return; }
     if (method === "GET" && rest[0] === "content" && rest.length === 2) {
       await scoped(request, "content:read");
       if (rest[1] === "revision") {
@@ -516,6 +522,46 @@ export function createAdminApi(options: AdminApiOptions) {
       const stored = await admin.player(accountId(target), at);
       if (!stored) throw new ApiFailure(404, "not_found", "No such player on this server");
       json(request, response, 200, await playerBody(stored)); return;
+    }
+    throw new ApiFailure(404, "not_found", "No such admin endpoint");
+  }
+
+  /**
+   * Update from base. `GET /admin/content/base` says where the content comes from and what this
+   * executable ships; `GET …/base/sources?side=current|bundled` reads either base's sources whole;
+   * `POST …/base/preview` runs the merge and every check its publish would, and stores nothing;
+   * `POST …/base/apply` merges again from what the server holds and publishes the result.
+   */
+  async function baseEndpoint(request: IncomingMessage, response: ServerResponse, url: URL, method: string, action: string | null): Promise<void> {
+    if (method === "GET" && action === null) {
+      await scoped(request, "content:read");
+      json(request, response, 200, await publisher.baseStatus()); return;
+    }
+    if (method === "GET" && action === "sources") {
+      await scoped(request, "content:read");
+      const side = url.searchParams.get("side");
+      if (side !== "current" && side !== "bundled") throw new ApiFailure(400, "invalid_request", "side is current or bundled");
+      const status = await publisher.baseStatus(), marker = side === "current" ? status.current : status.bundled;
+      if (!marker) throw new ApiFailure(404, "not_found", side === "current" ? "This server's content records no base" : "This server was started without a bundled base");
+      const text = side === "current" ? await catalog.storage.baseSources(marker.revision) : bundledSources ??= await publisher.bundledSources();
+      if (text === null) throw new ApiFailure(404, "not_found", "This server does not hold that base's sources");
+      // Megabytes of sources, spliced in as stored rather than parsed and written again.
+      const payload = `{"version":${JSON.stringify(marker.version)},"revision":${JSON.stringify(marker.revision)},"sources":${text}}`;
+      response.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store", "Content-Length": Buffer.byteLength(payload), ...cors(request) });
+      response.end(payload); return;
+    }
+    if (method === "POST" && (action === "preview" || action === "apply")) {
+      const held = await scoped(request, "content:publish");
+      const input = await body(request, MAX_BASE_BODY_BYTES);
+      try {
+        if (action === "preview") { json(request, response, 200, await publisher.basePreview(baseRequest(input, "preview"))); return; }
+        const applied = await publisher.baseApply(baseRequest(input, "apply") as BaseApplyRequest, actorOf(held, now()));
+        log({ event: "admin.base_update", by: held.accountId, from: applied.baseUpdate.from, to: applied.baseUpdate.to, revision: applied.revision });
+        json(request, response, 200, applied); return;
+      } catch (error) {
+        if (!(error instanceof PublishFailure)) throw error;
+        json(request, response, error.status, { error: { code: error.code, message: error.message, ...error.details } }); return;
+      }
     }
     throw new ApiFailure(404, "not_found", "No such admin endpoint");
   }

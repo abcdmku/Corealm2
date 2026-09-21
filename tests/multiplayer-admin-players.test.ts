@@ -373,7 +373,7 @@ describe("what devdocs reads before and after it signs in", () => {
     const served = await serve();
     const info = await served.call("/admin/info");
     expect([info.status, info.body]).toEqual([200, { name: "Corealm server", description: null, endpoint: served.endpoint, assetBaseUrl: ASSETS, identityUrl: IDENTITY,
-      authentication: "account", catalogRevision: RESOLVED_CATALOG.revision, worlds: [{ providerId: "reference", worldId: "north", name: "north", seed: 1337, capacity: 4 }, { providerId: "reference", worldId: "south", name: "south", seed: 1337, capacity: 4 }] }]);
+      authentication: "account", catalogRevision: RESOLVED_CATALOG.revision, baseVersion: "0.0.0", worlds: [{ providerId: "reference", worldId: "north", name: "north", seed: 1337, capacity: 4 }, { providerId: "reference", worldId: "south", name: "south", seed: 1337, capacity: 4 }] }]);
     expect((await served.call("/admin/me", { token: served.owner })).body.server).toEqual({ name: "Corealm server", endpoint: served.endpoint, assetBaseUrl: ASSETS, identityUrl: IDENTITY, catalogRevision: RESOLVED_CATALOG.revision });
     const stats = (await served.call("/admin/stats", { token: served.owner })).body;
     expect([stats.catalogRevision, stats.server.host, stats.server.identityUrl, stats.server.registerWithDirectory, stats.server.worlds.length]).toEqual([RESOLVED_CATALOG.revision, "127.0.0.1", IDENTITY, false, 2]);

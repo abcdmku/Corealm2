@@ -85,7 +85,7 @@ it("moves format 1 players into one character per account, keeps every world's o
   };
   const at = 1_700_000_000_000;
   const expected = {
-    version: [{ value: "3" }], chunks: [],
+    version: [{ value: "4" }], chunks: [],
     players: [
       { account_id: "alice", name: "Wanderer", currency: 99, owned: null, last_world: key("south"), first_seen: at, last_seen: at, playtime_seconds: 0 },
       { account_id: "bob", name: "Wanderer", currency: 30, owned: null, last_world: key("east"), first_seen: at, last_seen: at, playtime_seconds: 0 },
@@ -139,9 +139,9 @@ it("stamps a new database with the schema version and refuses one written by a n
   });
   const lines: string[] = [];
   const storage = new SqliteWorldStorage(file, { log: line => lines.push(line) });
-  expect({ ...storage.database.prepare("SELECT value FROM meta WHERE key='schema_version'").get() }).toEqual({ value: "3" });
-  storage.database.prepare("UPDATE meta SET value='4' WHERE key='schema_version'").run();
+  expect({ ...storage.database.prepare("SELECT value FROM meta WHERE key='schema_version'").get() }).toEqual({ value: "4" });
+  storage.database.prepare("UPDATE meta SET value='5' WHERE key='schema_version'").run();
   await storage.close();
   expect(lines).toEqual([]);
-  expect(() => new SqliteWorldStorage(file)).toThrow("Database schema 4 is newer than this server understands");
+  expect(() => new SqliteWorldStorage(file)).toThrow("Database schema 5 is newer than this server understands");
 });

@@ -69,7 +69,8 @@ export async function stageAssets(options: AssetOptions): Promise<{ assets: Stag
 
   // The catalog this release ships with, compiled from the checkout, with the `formulaRevision` of
   // the formulas that are in the bundle. A publish on the running server compiles with that same
-  // value, so a bundled server and this build agree on every revision they produce.
+  // value, so a bundled server and this build agree on every revision they produce. It carries the base
+  // version, `package.json`'s, beside the catalog: what the server's content says it comes from.
   const base = await repoBaseCatalog();
   await put(SEED_CATALOG_ASSET, Buffer.from(JSON.stringify(base), "utf8"), "game/content/data + game/src/content");
 
@@ -89,6 +90,7 @@ export async function stageAssets(options: AssetOptions): Promise<{ assets: Stag
     commit: await headCommit(options.root),
     catalogRevision: base.catalog.revision,
     formulaRevision: base.catalog.formulaRevision,
+    baseVersion: base.version,
     worldPack: pack !== null,
   };
   await put(BUILD_INFO_ASSET, Buffer.from(`${JSON.stringify(build, null, 2)}\n`, "utf8"), "the build");

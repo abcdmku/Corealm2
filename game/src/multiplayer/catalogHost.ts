@@ -3,7 +3,7 @@ import { promisify } from "node:util";
 import { brotliCompress, constants, gzip } from "node:zlib";
 import { CATALOG_REVISION, clientCatalog, serializeClientCatalog } from "../content/clientCatalog.js";
 import type { InstalledCatalog } from "../content/catalogInstall.js";
-import type { CatalogStorage } from "./catalogStorage.js";
+import type { BaseMarker, CatalogStorage } from "./catalogStorage.js";
 
 /**
  * What a server does with its catalog store before and while it runs. This module loads no content
@@ -11,35 +11,48 @@ import type { CatalogStorage } from "./catalogStorage.js";
  * simulation. See `content/catalogInstall.ts`.
  */
 
-/** The catalog a server ships with: compiled from the repo under tsx, embedded in the executable later. */
+/**
+ * The base game a server ships with: compiled from the repo under tsx, embedded in the executable
+ * as `seed-catalog.json`. It seeds an empty database, and it is the "new base" an update from base
+ * merges in. `version` is `package.json`'s version when it was built. It lives beside the catalog,
+ * never in it, so the same content under two versions is still one revision.
+ */
 export interface BaseCatalog {
+  version: string;
   catalog: InstalledCatalog;
   /** Source collections by name, as `game/content/data/` holds them. */
   sources: Readonly<Record<string, unknown>>;
 }
 type Log = (event: Record<string, unknown>) => void;
+export const baseMarkerOf = (base: BaseCatalog): BaseMarker => ({ version: base.version, revision: base.catalog.revision });
+/** True when the bundled base is not the base the server's content derives from: an update from base has something to offer or report. */
+export const baseDiffers = (current: BaseMarker | null, bundled: BaseMarker): boolean => current === null || current.revision !== bundled.revision || current.version !== bundled.version;
 
 /**
- * An empty database takes the shipped catalog. A database that has one keeps it: the server is the
- * source of truth for its content once it is live, so a deploy with a newer base changes nothing
- * and says so once. Returns the active revision.
+ * An empty database takes the shipped catalog, and records it as the base its content derives
+ * from. A database that has one keeps it: the server's content is its own once it is seeded, so a
+ * deploy with a newer base changes nothing. When the shipped base is not the one the content derives
+ * from, it says so once, and devdocs offers the update. Returns the active revision.
  *
  * `follow` is for a developer's own database: the shipped catalog is published over whatever is
  * active, so edits made in the repo show up in the local server. A live server never sets it.
  */
 export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, log: Log, options: { now?: () => number; follow?: boolean } = {}): Promise<string> {
-  const active = await storage.activeRevision(), revision = base.catalog.revision, now = options.now ?? Date.now;
+  const active = await storage.activeRevision(), revision = base.catalog.revision, now = options.now ?? Date.now, marker = baseMarkerOf(base);
   if (active !== null && !(options.follow && active !== revision)) {
-    if (active !== revision) log({ event: "catalog-base-ignored", activeRevision: active, bundledRevision: revision,
-      message: "This database already has a catalog, so the catalog shipped with this server was not applied." });
+    const current = await storage.activeBase();
+    if (baseDiffers(current, marker)) log({ event: "base-update-available", current, bundled: marker,
+      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it." });
     return active;
   }
   const at = now(), by = active === null ? "seed" : "follow";
+  const sources = JSON.stringify(base.sources);
+  await storage.storeBase({ revision, version: base.version, sources, at });
   await storage.store({ revision, formulaRevision: base.catalog.formulaRevision, server: JSON.stringify(base.catalog),
-    client: serializeClientCatalog(clientCatalog(base.catalog)), sources: JSON.stringify(base.sources), by, at,
+    client: serializeClientCatalog(clientCatalog(base.catalog)), sources, by, at, base: marker,
     note: active === null ? "Seeded from the catalog shipped with the server" : "Followed the catalog shipped with the server" });
-  await storage.activate(revision, by, at);
-  log(active === null ? { event: "catalog-seeded", revision } : { event: "catalog-followed", revision, previousRevision: active });
+  await storage.activate(revision, by, at, undefined, marker);
+  log(active === null ? { event: "catalog-seeded", revision, baseVersion: base.version } : { event: "catalog-followed", revision, previousRevision: active, baseVersion: base.version });
   return revision;
 }
 
@@ -59,15 +72,17 @@ export interface CatalogHost {
   readonly storage: CatalogStorage;
   /** The active revision: what `/worlds`, the `joined` reply and new saves carry. */
   revision: string;
+  /** The base the active revision derives from. Publishing keeps it, a base update and a rollback move it. */
+  base: BaseMarker | null;
   served(revision: string): Promise<ServedCatalog | null>;
 }
 const compressGzip = promisify(gzip), compressBrotli = promisify(brotliCompress);
 /** Clients ask for the active revision, and for the one before it for a moment after a publish. */
 const SERVED_REVISIONS = 3;
 
-export function createCatalogHost(storage: CatalogStorage, revision: string): CatalogHost {
+export function createCatalogHost(storage: CatalogStorage, revision: string, base: BaseMarker | null = null): CatalogHost {
   const cache = new Map<string, Promise<ServedCatalog | null>>();
-  return { storage, revision,
+  return { storage, revision, base,
     served(wanted) {
       let entry = cache.get(wanted);
       if (entry) { cache.delete(wanted); cache.set(wanted, entry); return entry; }

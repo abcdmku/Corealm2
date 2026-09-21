@@ -20,6 +20,9 @@ const ENTRIES = [
   "game/src/multiplayer/worldPack.ts",
   "game/src/multiplayer/labWorld.ts",
   "game/src/content/catalogInstall.ts",
+  // Devdocs imports the base merge's types and may run it; the world picker checks base versions with semver.
+  "game/src/content/compiler/baseMerge.ts",
+  "game/src/multiplayer/semver.ts",
 ];
 
 interface Graph { parent: Map<string, string | null>; builtins: { specifier: string; importer: string }[] }

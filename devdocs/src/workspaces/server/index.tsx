@@ -5,6 +5,7 @@ import { lazyView } from "../lazyView.js";
 export const views: ViewRegistry = {
   overview: lazyView(() => import("./OverviewView.js")),
   history: lazyView(() => import("./HistoryView.js")),
+  base: lazyView(() => import("./BaseGameView.js")),
   settings: lazyView(() => import("./SettingsView.js")),
   access: lazyView(() => import("./AccessView.js")),
   audit: lazyView(() => import("./AuditView.js")),

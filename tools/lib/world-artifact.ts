@@ -24,7 +24,7 @@ export async function assertWorldData(root: string): Promise<WorldDataManifest> 
     const manifest = JSON.parse(await readFile(path.join(directory, 'manifest.json'), 'utf8')) as WorldDataManifest;
     const tiles = expectedWorldTiles();
     if (manifest.format !== 'corealm-world' || manifest.version !== 1 || manifest.scope !== 'game/1337/world'
-      || manifest.revision !== generationRevision(root)) throw new Error('Stale world revision');
+      || manifest.revision !== await generationRevision(root)) throw new Error('Stale world revision');
     const expected = ['terrain/world', 'terrain/fairy', 'spawns/world', 'assembly/semantic', 'assembly/fairyDressing',
       ...WORLD_SITES.filter(site => site.dressing.length && site.cutFace?.stations.length).map(site => `site-cut/${site.id}`),
       ...tiles.map(tile => `scatter/${tile}`)].sort();

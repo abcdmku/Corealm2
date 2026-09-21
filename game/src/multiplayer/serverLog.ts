@@ -46,7 +46,7 @@ const CREDENTIAL_TEXT = /\b(cas|cat)_[A-Za-z0-9_-]{8,}/g;
 export const REDACTED = "[redacted]";
 
 const WARN_EVENTS: ReadonlySet<string> = new Set([
-  "catalog-base-ignored", "directory.refused", "directory.unreachable", "admin.setup_refused",
+  "directory.refused", "directory.unreachable", "admin.setup_refused",
   "session.rejected", "console.unavailable", "storage-migrated",
 ]);
 const ERROR_EVENTS: ReadonlySet<string> = new Set(["error", "admin.error", "content.swap_failed", "storage.failed", "start.failed"]);

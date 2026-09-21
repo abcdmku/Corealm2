@@ -19,14 +19,15 @@ import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { WebSocketProvider } from "../game/src/multiplayer/webSocketProvider.js";
 
 const A = "a".repeat(64), B = "b".repeat(64), F = "f".repeat(64);
+const marker = { version: "0.1.0", revision: A };
 const world: WorldDescriptor = { providerId: "reference", worldId: "yard", name: "Yard", endpoint: "ws://127.0.0.1:0/",
   protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "lab", seed: 1337, population: 0, capacity: 4, availability: "available" };
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
 const write = (revision: string, at: number, note: string | null = null): CatalogWrite => ({ revision, formulaRevision: F, server: `{"server":"${revision[0]}"}`,
-  client: `{"client":"${revision[0]}"}`, sources: `{"items":["${revision[0]}"]}`, by: "acc_test", at, note });
+  client: `{"client":"${revision[0]}"}`, sources: `{"items":["${revision[0]}"]}`, by: "acc_test", at, note, base: { version: "0.1.0", revision: A } });
 /** A shipped catalog that is not the one this process runs on: same tables, one renamed item. */
-const base = (revision: string, itemName: string): BaseCatalog => ({
+const base = (revision: string, itemName: string, version = "0.1.0"): BaseCatalog => ({ version,
   catalog: { version: 1, revision, formulaRevision: F, tables: { ...RESOLVED_CATALOG.tables, items: [{ ...RESOLVED_CATALOG.tables.items[0]!, name: itemName }] } },
   sources: { items: [{ id: RESOLVED_CATALOG.tables.items[0]!.id, name: itemName }] } });
 
@@ -42,18 +43,18 @@ describe.each([
     expect(await storage.store(write(A, 1000, "first"))).toBe(true);
     // A revision is a content hash: storing it again changes nothing, not even who stored it.
     expect(await storage.store({ ...write(A, 2000), server: "{}", by: "acc_other" })).toBe(false);
-    expect(await storage.revisionInfo(A)).toEqual({ revision: A, formulaRevision: F, storedBy: "acc_test", storedAt: 1000, note: "first" });
+    expect(await storage.revisionInfo(A)).toEqual({ revision: A, formulaRevision: F, storedBy: "acc_test", storedAt: 1000, note: "first", base: { version: "0.1.0", revision: A } });
     expect(await storage.catalog(A, "server")).toBe('{"server":"a"}');
     expect(await storage.catalog(A, "client")).toBe('{"client":"a"}');
     expect(await storage.catalog(B, "client")).toBeNull();
     expect(await storage.activeRevision()).toBeNull();
 
-    expect(await storage.activate(A, "seed", 1000)).toEqual({ id: 1, revision: A, previous: null, by: "seed", at: 1000 });
+    expect(await storage.activate(A, "seed", 1000)).toEqual({ id: 1, revision: A, previous: null, by: "seed", at: 1000, base: marker });
     await storage.store(write(B, 3000));
-    expect(await storage.activate(B, "acc_admin", 3000)).toEqual({ id: 2, revision: B, previous: A, by: "acc_admin", at: 3000 });
-    expect(await storage.activate(B, "acc_again", 3500)).toEqual({ id: 2, revision: B, previous: A, by: "acc_admin", at: 3000 });
+    expect(await storage.activate(B, "acc_admin", 3000)).toEqual({ id: 2, revision: B, previous: A, by: "acc_admin", at: 3000, base: marker });
+    expect(await storage.activate(B, "acc_again", 3500)).toEqual({ id: 2, revision: B, previous: A, by: "acc_admin", at: 3000, base: marker });
     // Rollback is activating an earlier stored revision.
-    expect(await storage.activate(A, "acc_admin", 4000)).toEqual({ id: 3, revision: A, previous: B, by: "acc_admin", at: 4000 });
+    expect(await storage.activate(A, "acc_admin", 4000)).toEqual({ id: 3, revision: A, previous: B, by: "acc_admin", at: 4000, base: marker });
     expect(await storage.activeRevision()).toBe(A);
     expect(await storage.sources()).toEqual({ revision: A, sources: '{"items":["a"]}' });
     expect(await storage.sources(B)).toEqual({ revision: B, sources: '{"items":["b"]}' });
@@ -63,23 +64,43 @@ describe.each([
     await expect(storage.store({ ...write(A, 1), revision: "latest" })).rejects.toThrow("sha256");
     expect(await storage.activeRevision()).toBe(A);
   });
+
+  it("records the base each revision derives from, moves it with the pointer, and keeps each base's sources once", async () => {
+    const storage = await open(), next = { version: "0.2.0", revision: B };
+    await storage.store(write(A, 1000)); await storage.store(write(B, 2000));
+    expect(await storage.activeBase()).toBeNull();
+    await storage.activate(A, "seed", 1000);
+    expect(await storage.activeBase()).toEqual(marker);
+    // The same revision under a new base is a move of its own, audited like one.
+    expect(await storage.activate(A, "acc_admin", 1500, undefined, next)).toEqual({ id: 2, revision: A, previous: A, by: "acc_admin", at: 1500, base: next });
+    expect([await storage.activeBase(), (await storage.revisionInfo(A))!.base]).toEqual([next, next]);
+    expect(await storage.activate(A, "acc_again", 1600, undefined, next)).toMatchObject({ id: 2 });
+    // Moving the pointer with no base keeps what the target recorded.
+    expect((await storage.activate(B, "acc_admin", 2000)).base).toEqual(marker);
+    expect(await storage.storeBase({ revision: B, version: "0.2.0", sources: '{"items":[]}', at: 2000 })).toBe(true);
+    expect(await storage.storeBase({ revision: B, version: "0.2.0", sources: '{"items":["changed"]}', at: 3000 })).toBe(false);
+    expect([await storage.baseSources(B), await storage.baseSources(A)]).toEqual(['{"items":[]}', null]);
+    await expect(storage.storeBase({ revision: A, version: "v1", sources: "{}", at: 1 })).rejects.toThrow("semver");
+    await expect(storage.activate(A, "acc_admin", 1, undefined, { version: "1.0", revision: A })).rejects.toThrow("semver");
+  });
 });
 
 describe("seeding", () => {
   it("seeds an empty store, and afterwards keeps the database's catalog over a different shipped one", async () => {
     const storage = new MemoryCatalogStorage(), logs: Record<string, unknown>[] = [];
     expect(await seedCatalog(storage, base(A, "Shipped first"), event => logs.push(event), { now: () => 1000 })).toBe(A);
-    expect(logs).toEqual([{ event: "catalog-seeded", revision: A }]);
-    expect(await storage.history(10)).toEqual([{ id: 1, revision: A, previous: null, by: "seed", at: 1000 }]);
+    expect(logs).toEqual([{ event: "catalog-seeded", revision: A, baseVersion: "0.1.0" }]);
+    expect(await storage.history(10)).toEqual([{ id: 1, revision: A, previous: null, by: "seed", at: 1000, base: marker }]);
+    expect(JSON.parse((await storage.baseSources(A))!)).toEqual(base(A, "Shipped first").sources);
     expect(JSON.parse((await storage.sources())!.sources)).toEqual(base(A, "Shipped first").sources);
     expect(JSON.parse((await storage.catalog(A, "client"))!).tables.items).toEqual([{ ...RESOLVED_CATALOG.tables.items[0]!, name: "Shipped first" }]);
     expect((await activeServerCatalog(storage)).tables.items).toEqual([{ ...RESOLVED_CATALOG.tables.items[0]!, name: "Shipped first" }]);
 
-    // A deploy with a newer base: the database wins, and says so once with both revisions.
+    // A deploy with a newer base: the database wins, and says once that an update is there to take.
     logs.length = 0;
-    expect(await seedCatalog(storage, base(B, "Shipped later"), event => logs.push(event), { now: () => 2000 })).toBe(A);
-    expect(logs).toEqual([{ event: "catalog-base-ignored", activeRevision: A, bundledRevision: B,
-      message: "This database already has a catalog, so the catalog shipped with this server was not applied." }]);
+    expect(await seedCatalog(storage, base(B, "Shipped later", "0.2.0"), event => logs.push(event), { now: () => 2000 })).toBe(A);
+    expect(logs).toEqual([{ event: "base-update-available", current: marker, bundled: { version: "0.2.0", revision: B },
+      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it." }]);
     expect(await storage.activeRevision()).toBe(A);
     expect(await storage.catalog(B, "server")).toBeNull();
     // The same base again is silent.
@@ -91,8 +112,8 @@ describe("seeding", () => {
     const storage = new MemoryCatalogStorage(), logs: Record<string, unknown>[] = [];
     await seedCatalog(storage, base(A, "First"), () => {}, { now: () => 1000 });
     expect(await seedCatalog(storage, base(B, "Edited in the repo"), event => logs.push(event), { now: () => 2000, follow: true })).toBe(B);
-    expect(logs).toEqual([{ event: "catalog-followed", revision: B, previousRevision: A }]);
-    expect(await storage.history(10)).toEqual([{ id: 2, revision: B, previous: A, by: "follow", at: 2000 }, { id: 1, revision: A, previous: null, by: "seed", at: 1000 }]);
+    expect(logs).toEqual([{ event: "catalog-followed", revision: B, previousRevision: A, baseVersion: "0.1.0" }]);
+    expect(await storage.history(10)).toEqual([{ id: 2, revision: B, previous: A, by: "follow", at: 2000, base: { version: "0.1.0", revision: B } }, { id: 1, revision: A, previous: null, by: "seed", at: 1000, base: marker }]);
   });
   it("refuses to start a server whose store is active on a catalog this process does not run", async () => {
     const storage = new MemoryCatalogStorage();
@@ -115,7 +136,7 @@ function get(port: number, path: string, headers: Record<string, string> = {}, m
 describe("serving the client catalog", () => {
   it("names the revision in /worlds and the join reply, and serves that revision immutably, compressed, to any origin", async () => {
     const storage = new SqliteWorldStorage(":memory:");
-    await seedCatalog(storage.catalog, { catalog: RESOLVED_CATALOG, sources: {} }, () => {});
+    await seedCatalog(storage.catalog, { version: "0.1.0", catalog: RESOLVED_CATALOG, sources: {} }, () => {});
     await storage.catalog.store(write(A, 1, "stored, never active"));
     const server = await startReferenceServer({ worlds: [world], storage, catalog: storage.catalog, build: () => createMultiplayerLabWorld(),
       authentication: { authenticate: async token => ({ playerId: token, name: token }) } });
@@ -284,7 +305,7 @@ describe("saves and catalog revisions", () => {
       json_type(payload,'$.contentVersion') AS legacy, json_extract(payload,'$.tick') AS tick FROM worlds ORDER BY world_key`).all().map(row => ({ ...row }));
     const migrated = [{ world_key: key("corealm"), fixture: "authored", revision: "null", legacy: null, tick: 42 }, { world_key: key("yard"), fixture: "lab", revision: "null", legacy: null, tick: 42 }];
     expect(rows()).toEqual(migrated);
-    expect({ ...storage.database.prepare("SELECT value FROM meta WHERE key='schema_version'").get() }).toEqual({ value: "3" });
+    expect({ ...storage.database.prepare("SELECT value FROM meta WHERE key='schema_version'").get() }).toEqual({ value: "4" });
     expect(await storage.catalog.activeRevision()).toBeNull();
 
     // The migrated lab save loads into a lab world running any catalog, and not into the authored fixture.

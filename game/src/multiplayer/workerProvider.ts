@@ -34,6 +34,8 @@ export interface WorkerProviderOptions {
   seed: number;
   /** Absolute URL of the public file tree, with a trailing slash. */
   assetBase: string;
+  /** This build's base game version, from the published manifest. The picker shows it on the local row. */
+  baseVersion?: string;
   spawn(): LocalWorkerLike;
   legacy?: LegacySavePort;
   /** Keep nothing between sessions. */
@@ -63,7 +65,7 @@ export class WorkerWorldProvider implements WorldProvider {
   private labWorld: LabWorldData | null = null;
   private starting: LocalWorkerLike | null = null;
   private starts = 0; private lastReady: LocalHostReady | null = null; private lastStartMs: number | null = null; private trouble: LocalStorageTrouble | null = null;
-  constructor(private readonly options: WorkerProviderOptions) { this.world = localWorldDescriptor(options.fixture, options.seed); }
+  constructor(private readonly options: WorkerProviderOptions) { this.world = localWorldDescriptor(options.fixture, options.seed, options.baseVersion); }
 
   async discover(): Promise<WorldDescriptor[]> { return [this.world]; }
   /** Local play has no login. The host's adapter ignores the token and answers with the one local account. */
@@ -198,7 +200,7 @@ export class WorkerWorldProvider implements WorldProvider {
  * worker's world must be the same seed. `wanted` is the old save's seed, or the one remembered from
  * the last session. The pack holds a fixed set, and anything else falls back to its first.
  */
-export async function resolveLocalSeed(assetBase: string, wanted: number, fetcher: typeof fetch = fetch): Promise<{ seed: number; fallback: boolean }> {
+export async function resolveLocalSeed(assetBase: string, wanted: number, fetcher: typeof fetch = fetch): Promise<{ seed: number; fallback: boolean; baseVersion?: string }> {
   const url = new URL(`generated/${LOCAL_WORLD_MANIFEST}`, assetBase).href;
   // The entry fetched this manifest moments ago to find its catalog. The same answer serves here.
   let manifest = sharedLocalWorldManifest(url);
@@ -208,5 +210,5 @@ export async function resolveLocalSeed(assetBase: string, wanted: number, fetche
     manifest = parseLocalWorldManifest(await response.json());
   }
   const seed = packedSeed(manifest.pack.seeds, wanted);
-  return { seed, fallback: seed !== wanted };
+  return { seed, fallback: seed !== wanted, ...(manifest.baseVersion ? { baseVersion: manifest.baseVersion } : {}) };
 }

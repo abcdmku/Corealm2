@@ -17,48 +17,19 @@ Agent training is out of scope. It comes after this plan, and it will pin a cata
 
 ## Current state
 
-Corealm2 is a TypeScript browser game with an authoritative multiplayer server. Node 24 is required, set in `.node-version` and `package.json` engines.
+Corealm2 is a TypeScript browser game with an authoritative multiplayer server. Node 24 is required, as set in `.node-version` and the `engines` field in `package.json`.
 
-Content:
+Content is authored as JSON under `game/content/data/`. The compiler produces a server catalog, a client projection and a content `revision` hash. The base game version is separate: `package.json` `version` is strict semver and travels beside the catalog in the bundled seed. Changing that version alone does not change the content revision or the world-bake generation revision.
 
-- Authored content is JSON in `game/content/data/*.json`. `tools/content/compile.ts` compiles it to `game/content/compiled/catalog.json`, which holds `version`, a content hash named `revision`, and `tables`.
-- Server and client both import that catalog statically at build time through `game/src/content/resolvedCatalog.ts`. Nothing reads content at runtime from a file or database. The client chunk for it is about 2.8 MB.
-- `WORLD_CONTENT_VERSION` in `game/src/contracts.ts` is a hand-edited string. The server rejects joins and saves that don't match it. Nothing checks `revision` at runtime.
-- The compile step flattens loot tables onto each enemy def as `lootRolls`. `CombatSystem.rollDrops` in `game/src/systems/combat.ts` reads them from the in-memory `ContentRegistry`, with a per-entity `defCache` in front.
-- Spawn habitats are computed once at world boot by `createAuthoredWorld` in `game/src/multiplayer/authoredWorld.ts`, from the compiled world table, then adjusted by `prepareMobSpawns`.
-- Balance formulas are TypeScript under `game/src/content/formulas/` and run during compile.
+The server stores source collections, compiled catalogs, the active revision, base markers and the source snapshot for each base it has taken. An empty database takes the bundled base once. A later executable leaves an existing catalog alone and emits `base-update-available` when its bundled base differs. An admin can preview and apply a per-record three-way merge between the stored ancestor base, the server's current sources and the bundled base. The merge runs through the normal publish checks and tick barrier.
 
-Server:
+The executable entry point is `tools/multiplayer-server.ts`. It loads the bundled world pack and base catalog, installs the active catalog before importing the simulation, and serves the game and admin endpoints. Accounts use the identity service's username and password pages. The server verifies signed join tokens offline, owns player leases and roles, and stores world and player data in SQLite. Each world can run in its own worker thread, with one database thread for the file.
 
-- Entry point is `tools/multiplayer-server.ts`, run with `tsx`. The server logic is `game/src/multiplayer/referenceServer.ts`, which uses `node:http` and the `ws` package.
-- Storage is `node:sqlite` in `game/src/multiplayer/sqliteStorage.ts`. Tables are `worlds`, `world_chunks`, `world_receipts` and `world_entities`, all keyed by `world_key`. There is no players table. Player state lives inside each world's payload.
-- One process hosts several worlds, and all of them tick on one thread.
-- Identity is an opaque token on the join message, resolved by an `AuthenticationAdapter` with one method, `authenticate(token, world)`, which returns `playerId` and `name`. Two adapters exist: loopback-only guests, and an external module loaded with `--auth-module`. There are no accounts, roles, bans or admin concepts.
-- `game/src/multiplayer/admission.ts` handles capacity, duplicate login rejection and a 30 second reconnect reservation, per world.
-- Config is flags and env vars in `game/src/multiplayer/hostConfiguration.ts`. There is no config file. The seed is hardcoded to 1337 in `tools/multiplayer-server.ts`.
-- Public endpoints are `/healthz`, `/readyz` and `/worlds`. A metrics object in `referenceServer.ts` collects tick durations, stage timings, commands, rejects and bytes out, but no endpoint exposes it.
-- `createAuthoredWorld` reads GLB files from `game/public/assets` relative to the working directory, through three and gltf-transform, to get collision geometry. The server only starts from the repo root.
-- The recast navigation wasm is base64-embedded under Node, so it needs no sidecar file.
+The client is a renderer and input layer in every mode. Local play starts the same host core in a Web Worker over a MessagePort and persists through IndexedDB. Connected play uses the same session client over WebSocket. The picker exposes the server's catalog revision and base version, and all static game assets come from the selected asset host.
 
-Client:
+Devdocs has repository and server backends. Repository mode edits source JSON through the local Vite middleware. Server mode publishes through the authenticated admin API. The Base game screen previews and applies base updates, resolves record conflicts, reports stale or invalid requests, and warns when an update only moves the base marker; the focused server tests and bounded browser audit cover those paths.
 
-- `game/src/app/boot.ts` builds the full semantic world, spawn prep, save load and all simulation systems before the player chooses a mode. On connect, `game/src/multiplayer/browserSession.ts` turns the simulation off with `loop.setRemoteSimulation(true)` and discards the local world state.
-- Local play steps the systems on the main thread through `GameLoop.simTick()` in `loop.ts`, with commands through `LocalSession` and the synchronous `CorealmGameApi`. This is a second orchestrator next to the server's `HeadlessWorld`, over the same system classes. There are no Web Workers.
-- Connected play already has movement prediction in `game/src/multiplayer/movementPrediction.ts` and needs the navmesh for it.
-- The world picker in `game/src/multiplayer/worldSelector.ts` only appears when a host is configured through `window.__COREALM_MULTIPLAYER__` or added by the player. With no hosts the game goes local with no picker.
-- `ASSET_BASE_URL` and `ASSET_MANIFEST_URL` in `game/src/app/config.ts` are relative constants. `game/src/render/assets.ts` accepts an `assetBaseUrl` override that nothing sets.
-- Boot phases are timed in `game/src/perf/bootTelemetry.ts` and exposed on `window.__corealmBootTelemetry`.
-
-Devdocs:
-
-- A React and Vite app in `devdocs/` with workspaces `home`, `items`, `creatures`, `world`, `quests`, `npcs`, `shops`, `spells`, `assets` and `tuning`, registered in `devdocs/src/workspaces/registry.ts`.
-- All API calls go through `devdocs/src/api/client.ts`, which hardcodes the `/__devdocs/` path. The API is a Vite dev middleware in `devdocs/server/`. Its only access control is a loopback check.
-- Writes go through `transact()` in `devdocs/server/handlers/transaction.ts`. It takes a lock, checks per-collection revisions, runs the full compile, returns 422 if the compile fails, and writes the JSON files and the catalog atomically.
-- A `--mode player` build produces the read-only player guide from a prebuilt bundle.
-
-CI:
-
-- One workflow, `.github/workflows/docs.yml`. It verifies pull requests and deploys the game and player guide to GitHub Pages. It uses no secrets.
+CI checks pull requests, builds the game and guide for GitHub Pages, and provides manual content export and publish workflows. A server never starts a workflow, and an export is a deliberate backup or promotion step that a human reviews.
 
 ## Architecture
 
@@ -76,8 +47,8 @@ Identity is global. Player data, rules and admin rights belong to a server. A se
 ### Identity service
 
 - A small Node 24 service in a new top-level `identity/` folder, using `node:sqlite` and `node:crypto`. It needs an HTTPS origin and CORS for the game and devdocs origins.
-- Login is OAuth only, with Discord and GitHub as the first providers. The service stores no passwords.
-- An account has a stable id, a unique display name, and linked provider ids.
+- Login uses username and password pages served by the identity origin. The service stores an scrypt password hash and never receives a password through the game or devdocs origin.
+- An account has a stable id and a unique display name. Provider links are not part of this service.
 - The service signs join tokens with Ed25519. Public keys are served at `/.well-known/corealm-keys.json` with key ids, so keys can rotate.
 - A join token carries the account id, the display name, an audience, an expiry of 60 seconds, and a unique token id.
 - The audience is the public endpoint origin of the game server the client is about to join. The client requests a fresh token for that endpoint before every join. A game server rejects any token whose audience is not its own configured public endpoint. This stops a hostile server from replaying a token against another server.
@@ -103,21 +74,23 @@ Identity is global. Player data, rules and admin rights belong to a server. A se
 
 ### Content catalog
 
-- The server database stores published catalogs as versioned rows keyed by revision hash, plus a pointer to the active revision. The catalog compiled from the repo seeds an empty database. A deploy never overwrites a database that already has a catalog.
-- A server's content is the base catalog plus that server's overrides. Publishing compiles the merged result and stores it under its own revision.
+- The server database stores published catalogs as versioned rows keyed by revision hash, plus a pointer to the active revision. Each catalog and history row records `base_version` and `base_revision`; `catalog_bases` stores the source snapshot for every base the server has taken. The bundled base seeds an empty database. A deploy never overwrites a database that already has a catalog.
+- A server owns its active source collections. A base update compares the stored ancestor base, the bundled base and those active sources record by record, then publishes the merged result after admin decisions.
 - The compile step produces two outputs. The client catalog holds what rendering and UI need: presentation, names, icons, item stats. The server catalog holds everything, including loot rolls, AI parameters and spawn tables.
+- `package.json` `version` is the base game version. It is strict semver and travels beside the catalog in the bundled seed, so changing the version alone does not change the content revision.
 - The game server serves the client catalog at `GET /catalog/<revision>` with immutable caching.
 - The join handshake exchanges the active revision hash. The client fetches that catalog if it isn't cached. `WORLD_CONTENT_VERSION` and the static client import of the catalog are deleted. Saves record the revision they were written under.
 - Publish runs inside the server process. It validates and compiles, stores the new revision, calls `content.register()` with the new tables, clears `defCache`, and marks regions whose placements changed for a habitat rebuild. Living monsters stay where they are. Rebuilt habitats take effect at the next respawn.
 - On publish, the server broadcasts a content-updated message. Clients show a refresh prompt.
 - Rollback is a publish of an earlier stored revision.
+- A base update whose merged sources equal the active revision still records a base marker move and audit entry, but does not swap the catalog or broadcast a refresh. A revision rollback cannot undo that marker-only move because the active revision did not change. To move the marker back, run the older executable and apply its bundled base with `allowDowngrade: true`; ordinary rollback restores the base recorded on its target revision.
 - Removing a definition that has live instances is refused. Items in any inventory or bank, and creatures alive in any world, block removal. The author marks the definition retired instead. Retired definitions still resolve but no longer drop, spawn or sell.
 - A server can only reference models that exist on the asset host it points at. Publish validates asset ids against that host's manifest.
 - Balance formulas stay in TypeScript and ship with a server release. Data changes live, code changes need a deploy.
 
 ### Asset host
 
-- The client takes its asset base URL from the selected server's descriptor. `WorldDescriptor` in `game/src/contracts.ts` gains `assetBaseUrl` and `catalogRevision`.
+- The client takes its asset base URL from the selected server's descriptor. `WorldDescriptor` in `game/src/contracts.ts` carries `assetBaseUrl`, `catalogRevision` and the server's adopted `baseVersion`.
 - Boot sets the existing `assetBaseUrl` override in `game/src/render/assets.ts`. Generated terrain and navmesh paths in `boot.ts` use the same base.
 - GitHub Pages remains the default asset host. A host who wants custom models runs their own asset pack and points their server at it.
 
@@ -126,6 +99,7 @@ Identity is global. Player data, rules and admin rights belong to a server. A se
 - The API client gets a configurable base URL and an auth header. It has two backends behind one interface.
 - Repo mode is the existing local Vite middleware that edits JSON files. It stays as the development workflow.
 - Server mode talks to a game server's admin API and requires login. The content editing UI is the same in both modes.
+- Server mode's **Base game** view reads the current and bundled base markers, previews the three-way merge, shows conflict sides and field differences, and sends per-record decisions with the preview's revision expectations. It shows the publish result, stale and validation failures, and the unchanged-content marker-only case. The HTTP endpoints remain the integration contract.
 - The server executable embeds the server-mode build and serves it at `/admin`. The same build also works when hosted elsewhere, by asking for a server URL at login. Thumbnails and model previews load from the server's `assetBaseUrl`.
 - The login screen signs in through the identity service, then exchanges for an admin session.
 - A new `players` workspace lists players with last seen, playtime, world, position, inventory and bank. It supports edit, kick, ban and unban.
@@ -139,18 +113,18 @@ Identity is global. Player data, rules and admin rights belong to a server. A se
 - A build step bakes a server world pack with collision shapes, navmesh and habitat inputs. The server boots from the pack. It no longer parses GLB files and no longer depends on three or gltf-transform at runtime. The pack and the embedded devdocs build ship as SEA assets.
 - A config file, `corealm-server.json`, sits next to the executable. It covers host, port, public endpoint, allowed origins, data directory, asset base URL, identity service URL, and the world list with id, name, seed and capacity. Flags and env vars override it. The hardcoded seed is removed.
 - Default output is one JSON log line per event, suited to systemd and journald.
-- `--tui` draws a live console with plain ANSI codes and no UI framework. It shows players online per world, tick time, memory, bandwidth, catalog revision and recent events, redrawn once a second. It falls back to log lines when stdout is not a terminal.
+- `--tui` draws a live console with plain ANSI codes and no UI framework. It shows players online per world, tick time, memory, bandwidth, catalog revision, base version and recent events, redrawn once a second. It falls back to log lines when stdout is not a terminal.
 - The Linux release includes a sample systemd unit.
 - A release workflow builds both executables when a version tag is pushed and attaches them to a GitHub release.
 
 ### Client
 
-- The loading screen always shows the picker: Play local, or a list of servers and then that server's worlds with live population. Players can add a server by address. A public server directory is a JSON list the identity service serves, which servers register with.
+- The loading screen always shows the picker: Play local, or a list of servers and then that server's worlds with live population and base version. Players can add a server by address. A public server directory is a JSON list the identity service serves, which servers register with.
 - While the picker shows, the client preloads what every mode needs: terrain, models, shaders, navmesh and UI.
 - The client runs no simulation in any mode. It keeps rendering, input, UI, interpolation and movement prediction.
 - Local play starts `HeadlessWorld` in a Web Worker and connects to it through the same session interface the socket uses, over a message channel. The worker uses an IndexedDB storage adapter. Local play needs no login.
 - Existing local saves are migrated once to the server's player and world record format.
-- When this lands, the semantic world build, spawn prep, save load and system construction leave the client boot path. `GameLoop.simTick()`, `LocalSession` and the synchronous command path of `CorealmGameApi` are deleted. The feature lab modes in `game/src/app/bootProfile.ts` move to a lab variant of the worker in the same milestone.
+- The final client keeps semantic world assembly for lab, bake and capture pages, while the authored game page reads baked records. `GameLoop.simTick()`, `LocalSession` and the old synchronous command path are gone. `CorealmGameApi` remains as a replica for page reads and as the executor hosts use for player commands. Feature-lab modes run in the same worker path.
 
 ### Scaling
 
@@ -159,9 +133,9 @@ Identity is global. Player data, rules and admin rights belong to a server. A se
 
 ### CI
 
-- An export workflow, manual and scheduled, uses a `content:read` API token from GitHub secrets to pull the live server's source collections and open a pull request against `game/content/data/`. It writes with the canonical JSON writer in `tools/content/format.ts`.
+- An export workflow, manual only, uses a `content:read` API token from GitHub secrets to pull one server's source collections and open a pull request against `game/content/data/`. It writes with the canonical JSON writer in `tools/content/format.ts`.
 - A publish workflow, manual only, uses a `content:publish` token to push the repo's content to a named server.
-- Once a server is live, it is the source of truth for its data. The repo receives exports.
+- Each server keeps its own database. Export is a backup or a reviewed promotion step, and no server starts it.
 
 ## Milestones
 
@@ -176,8 +150,8 @@ Do them in order. Each ends with a commit after its checks pass.
 
 ### M2. Identity service
 
-- Build `identity/` with OAuth for Discord and GitHub, accounts, Ed25519 signing, the keys endpoint, the join token endpoint and the server directory.
-- Done when a test logs in with a stubbed provider, requests a token for an endpoint, and verifies signature, audience and expiry with only the published key.
+- Build `identity/` with username and password accounts, Ed25519 signing, the keys endpoint, the join token endpoint and the server directory.
+- Done when a test registers and signs in with a username and password, requests a token for an endpoint, and verifies signature, audience and expiry with only the published key.
 
 ### M3. Server accounts, players table, lease
 
@@ -189,6 +163,8 @@ Do them in order. Each ends with a commit after its checks pass.
 ### M4. Catalog in the database
 
 - Split compile output into client and server catalogs. Store catalogs by revision and seed an empty database.
+- Record the strict `package.json` semver as the base version beside the catalog. Keep each active revision's base version and base revision, store base source snapshots, migrate schema 3 databases, and log `base-update-available` when the bundled base differs.
+- Add `GET /admin/content/base`, `GET /admin/content/base/sources`, `POST /admin/content/base/preview` and `POST /admin/content/base/apply`. Preview and apply use a canonical per-record three-way merge, require decisions for conflicts, validate the merged content, and apply through the normal publish barrier. A same-revision base move is an audited marker-only history move with no refresh.
 - Add `GET /catalog/<revision>`, the revision handshake and the client fetch. Delete `WORLD_CONTENT_VERSION` and the static client catalog import.
 - Add the publish endpoint with registry swap, `defCache` clear, habitat rebuild, the content-updated broadcast, rollback, the retire rule and asset id validation. Reuse the lock, revision check and compile gate from the devdocs `transact()` path.
 - Done when a test publishes a loot change against a running server and the next kill rolls the new table with no restart, a spawn move takes effect at the next respawn, a rollback restores the old table, and removing an item that a player holds is refused.
@@ -196,8 +172,9 @@ Do them in order. Each ends with a commit after its checks pass.
 ### M5. Devdocs server mode
 
 - Make the API client configurable with two backends. Add the login screen, the server-mode content editing path, and the `players` and `server` workspaces.
+- The **Base game** view previews and resolves a base update, shows per-record conflict sides and decisions, handles stale and validation failures, and warns for an unchanged-content marker-only update.
 - Serve the build from the game server at `/admin`.
-- Done when an admin logs in, edits a loot table, publishes, sees the revision change in the `server` workspace, edits an online player's inventory and sees it change in the game client, and finds both actions in the audit log. A non-admin account gets no admin session.
+- Done when an admin logs in, edits a loot table, publishes, sees the revision change in the `server` workspace, edits an online player's inventory and sees it change in the game client, and finds both actions in the audit log. The bounded server-mode audit also covers the Base game preview, resolved apply, stale preview, missing decisions, in-use record and invalid-content cases, with desktop and phone selector captures inspected. A non-admin account gets no admin session.
 
 ### M6. Server world pack and executables
 
@@ -223,8 +200,8 @@ Do them in order. Each ends with a commit after its checks pass.
 
 ## Working rules for this repo
 
-- Run the full check and test suite before each milestone commit: `npm run check`, `npm run smoke`, `npm run build`.
-- Any edit under `game/src` stales the world revision. Run `npm run world:build` before running gates.
+- Run focused checks while editing. After the round is complete, the root runs the combined gate and the hardware smoke test once.
+- A file in the world-bake entry points' import graph can stale the baked world. Run `npm run world:build` when a bake input changes, then use `npx tsx tools/build-server-world-pack.ts --check` to verify the committed pack.
 - Content schemas use the hand-rolled combinators in `game/src/content/schema/core.ts`. Don't add zod or another schema library.
 - Devdocs UI uses Tailwind and the shadcn kit already in the app. Write no hand CSS. Run the devdocs consistency test and the surface-audit tool after UI work.
 - The client build has enforced gzip budgets in `game/vite.config.ts`. Keep server-only code out of the client bundle, and keep the worker in its own chunk.
@@ -234,14 +211,13 @@ Do them in order. Each ends with a commit after its checks pass.
 
 ## Build notes
 
-- M4 keeps the static client import of the catalog. Until M7 makes the client thin, the client still builds the full simulation world at boot and needs the full tables, so the catalog it fetches from a server is laid over the bundled one while connected and removed on leaving. M7 deletes the static import together with the client simulation.
+- M7 installs the generated client catalog before importing the app. A connected session overlays the server's client catalog by revision and removes it on leaving. Lab, bake and capture pages fetch the full server catalog in their worker path; it is not bundled into the player page.
 - M4 compiles a publish on the tick thread. `compileCatalog` takes 85 to 120 ms on the shipped content, and it runs outside the tick hold, so it costs at most one late tick. No worker thread is used, and the M6 bundle needs no second entry for one. Revisit this if content grows several times over.
-- M4 keeps the inputs of spawn placement for the life of a world as `SpawnContext` in `game/src/multiplayer/spawnPlan.ts`: the floor height under a spot per region including dungeon chambers, each asset's base offset and box size, the body placement rules over the final solids, navmesh, door thresholds and terrain placement sampler, and the scattered tree trunks. Today these close over the GLB-built scene. M6's world pack must answer the same questions from baked data: a height and placement-surface sampler (height, slope, semantic region, water) per terrain, the solids, the navmesh, the dungeon spec and door thresholds, asset measurements, and the tree list.
+- Spawn placement still keeps its `SpawnContext` in `game/src/multiplayer/spawnPlan.ts`: floor heights, asset measurements, body rules, navmesh, door thresholds, terrain samples and tree trunks. The server world pack supplies those values without loading GLB files or a renderer.
 - A publish does not re-run `registerHabitatClearances`. That step only feeds the tree scatter at world build, so trees stay where the boot catalog put them until the next start.
-- The server checks asset ids against `assets/manifest.json`. M6 must embed the shipped manifest as a SEA asset and pass it as `assets.bundledManifest`.
-- The owner replaced OAuth with username and password accounts on 2026-09-21, so the "Login is OAuth only… The service stores no passwords" lines above no longer hold: there are no providers, and the service stores an scrypt hash per account. A password is typed only on the identity origin, which serves its own sign-in, registration and password pages; the game client and devdocs still redirect and read the session out of the fragment exactly as before. `docs/identity-service.md` is the current description, including the forward migration that keeps a database from the OAuth service and turns its accounts into unclaimed names.
-- M7 deleted less of the client than the plan text says, and one thing more. `GameLoop.simTick()`, the page's system ticks, `LocalSession`, the old save's load and autosave, `?local=main` and the static catalog import are gone. The synchronous `CorealmGameApi` stayed, because a host runs every command through it: a page now builds it as a replica that refuses the synchronous writes. `Movement`, `Navigation` and `Solids` stayed on the page for prediction, and so did the read-side systems behind the API's read hooks (bank and shop listings, quest summaries, hunt contracts). The semantic world build and spawn spreading also stayed in `boot.ts`, reachable only from lab pages, the world bake and the map capture, because the bake itself runs through the page; the authored game page reads the baked `assembly/semantic` and `spawns/world` records and keeps only scenery, collision, routes and the tree clearances creature placement implies.
-- M7's client catalog is installed by the entry before the app is imported, and it carries `quests` whole, completion predicates included, because the page builds the quest log from those rows. Cutting them to presentation needs `content/quests.ts` to parse a row without its predicate. Feature-lab, bake and capture pages install the full catalog by fetch; nothing full is bundled.
+- The server checks asset ids against `assets/manifest.json`. The executable embeds the shipped manifest as a SEA asset and passes it as `assets.bundledManifest`.
+- M7 deleted less of the client than the original plan promised. `GameLoop.simTick()`, the page's system ticks, `LocalSession`, the old save's load and autosave, `?local=main` and the static catalog import are gone. The synchronous `CorealmGameApi` stayed because a host runs every command through it: a page builds it as a replica that refuses synchronous writes. `Movement`, `Navigation` and `Solids` stay on the page for prediction, as do the read-side systems behind the API's read hooks. Semantic world build and spawn spreading stay reachable only from lab pages, the world bake and map capture; the authored game page reads the baked `assembly/semantic` and `spawns/world` records.
+- M7's client catalog is installed by the entry before the app is imported, and it carries the quest journal fields the page reads. Completion predicates stay on the server. Feature-lab, bake and capture pages install the full catalog by fetch; nothing full is bundled.
 - M7 found that the first-frame shader wait is a queue, not a list: the driver compiles programs in submission order, so the spell pools' programs are now submitted after the first frame rather than early, and a cast that beats them waits for its visual or, after 600 ms, goes without. See `docs/startup-performance.md` for the numbers.
 
 - The browser smoke test is not part of CI. Headless Chromium on a hosted runner falls back to SwiftShader, which never reaches the first simulation tick of the authored world, so `docs.yml` carries a `smoke` job that stays skipped until the repository variable `COREALM_GPU_RUNNER` names a self-hosted runner with a GPU. It is run by hand on the hardware workstation instead: `npm run smoke -- --run runs/corealm --hardware`. The job is kept skipped rather than deleted or made `continue-on-error`, so nothing reports green over a gate nobody ran.
@@ -250,6 +226,7 @@ Do them in order. Each ends with a commit after its checks pass.
 - M9 runs a thread per world only when the server has more than one world, or when `threads` is `"on"`. One world in its own thread ticks no faster than one world in the main thread and pays for the messages, so `"auto"` leaves a one-world server as it was. A commit failure still fails the whole server closed; a world thread that dies does not, and is started again. The M4 note above about compiling a publish on the tick thread now reads: with threads on the compile runs on the main thread, which ticks nothing. The single executable starts its threads from a second copy of the bundle embedded as the asset `server.cjs`, because Node refuses the executable itself as a worker script; `docs/multiplayer-hosting.md` has the measurements under "Scaling on one machine".
 - The save-recovery UI in the settings panel and the title screen is gone. M7 left it unreachable: nothing had passed `SaveRecoveryControls` since the client stopped loading a save. "Download my save" and "import a save" would be worth having, but the only `getSave`/`loadSave` path is the worker's debug channel, and inventing a player-facing one was not this pass's work. It is a follow-up idea, not a regression.
 - M9's restart of a crashed world gives up. Five failures inside ten minutes leave the world unavailable with one `world.abandoned` log line, and `/admin/stats` marks it, because a world that dies seconds after every start will not be fixed by another try. A failure older than the window is forgotten.
-- The client catalog carries a quest's journal only: name, region, giver, requirements, prerequisites and each stage's objective and refs. The M7 note above says it ships `quests` whole, predicates included; it no longer does. `content/quests.ts` parses whichever shape the catalog holds, and `questRules()` answers only on a host, which is the only place a predicate is evaluated.
-- The CI section above says "once a server is live, it is the source of truth for its data. The repo receives exports." The owner clarified on 2026-09-21 that this reads backwards. Every server owns its own database, and edits made on a server do not affect the main repository. The repository holds the base game, which seeds a new server's database once and never follows a server afterwards. The export workflow is therefore manual only, with no schedule, and is documented as two deliberate acts: a server owner backing up or versioning their own content, or the project owner promoting a change from their own server into the base game as a pull request somebody reviews and merges.
-- Updating an existing server from a newer base game does not exist. A server is seeded once, so content added to the base game in a later release never reaches a server that already has a catalog, and the only way to get it there today is a publish that replaces that server's own edits. The missing feature is a per-record three-way merge in devdocs, between the base the server was seeded from, the new base, and what the server holds now.
+- A base update that produces the active sources byte-for-byte records a real base marker move and audit entry without changing the catalog revision, swapping the registry or notifying clients. Revision rollback cannot undo that move. To restore only the base tracking, run the previous executable and apply its bundled base with `allowDowngrade: true`; the merge keeps server edits. Ordinary rollback restores the base recorded on its target revision.
+- The Base game view in devdocs is implemented. The focused server tests and bounded browser audit cover preview, resolved apply, stale previews, missing decisions, in-use records and invalid content; the UI warns when the result is a marker-only move.
+- The generation revision now follows the world-bake import graph, including the content compiler and the browser-side asset and cached-world inputs used by the bake drivers. `boot.ts` remains a conservative geometry input and unrelated UI imports are excluded. The world, navmesh and server pack were rebaked and passed the final integration checks on 2026-09-21; `docs/live-server-status.md` records the evidence and deployment limits.
+- The base game version comes from `package.json` and must be strict semver. A release tag is `v<version>`, and `release.yml` rejects a mismatch. The version travels beside the catalog and does not change its content revision or bake hash by itself.

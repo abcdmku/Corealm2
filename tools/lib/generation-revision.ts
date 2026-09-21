@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import type { Plugin } from "vite";
 import { NON_BAKE_CONTENT_FILES } from "./bake-inputs.js";
+import { pageGraph } from "./page-graph.js";
 
 function filesUnder(directory: string): string[] {
   if (!existsSync(directory)) return [];
@@ -10,27 +11,50 @@ function filesUnder(directory: string): string[] {
     .filter(entry => entry.isFile()).map(entry => path.join(entry.parentPath, entry.name));
 }
 
+/** The Node bake drivers and the browser-only writers they invoke through a page URL. */
+export const BAKE_ENTRIES = [
+  "tools/build-release-world.ts", "tools/build-navmesh.ts", "tools/build-server-world-pack.ts",
+  "game/src/world/worldBake.ts", "game/src/world/mobSpawnCache.ts", "game/src/app/realmTerrain.ts",
+  "game/src/app/mobSpawns.ts", "game/src/render/assets.ts", "game/src/world/cachedWorldValue.ts",
+  "tools/content/compile.ts",
+] as const;
+
 /**
- * Every file whose bytes can change derived world data. Exported so a test can prove the shipped
- * JSON content store is covered while the dev-only `content/meta` (notes, approvals) is not.
+ * Follow the bake's imports, including dynamic imports, with the same resolver as the bundle.
+ * The browser bake still assembles geometry in boot.ts, so that orchestrator remains an input.
+ * Its UI imports are not bake inputs. Geometry modules are shared with the server-world bake;
+ * the browser-only writers above cover serialization and the second terrain's cache.
  */
-export function generationInputs(root: string): string[] {
-  // Recursive source coverage includes separate terrain maps, region content and compositions
-  // such as realmTerrain, Crownward and the fairy regions without maintaining a second file list.
-  // `content/data` holds the JSON tables the loaders under `src/content` import; `content/meta`
-  // is deliberately absent because approval state must never invalidate a baked world, and
-  // `NON_BAKE_CONTENT_FILES` is absent because its bytes reach no baked record at all.
+export async function generationInputs(root: string): Promise<string[]> {
+  const repo = path.resolve(root, "..");
+  const graphs = await Promise.all(BAKE_ENTRIES.map(entry => pageGraph(path.join(repo, entry))));
   const excluded = new Set(NON_BAKE_CONTENT_FILES.map(file => path.resolve(root, file)));
-  return [...filesUnder(path.join(root, "src")), ...filesUnder(path.join(root, "content/data"))
-    .filter(file => !excluded.has(path.resolve(file))),
-    path.join(root, "public/assets/manifest.json"), path.join(root, "../package-lock.json")].sort();
+  return [...new Set([
+    ...graphs.flatMap(graph => [...graph.keys()]),
+    path.join(root, "src/app/boot.ts"),
+    ...filesUnder(path.join(root, "content/data")).filter(file => !excluded.has(path.resolve(file))),
+    path.join(root, "public/assets/manifest.json"), path.join(repo, "package-lock.json"),
+  ])].sort();
 }
 
-export function generationRevision(root: string): string {
+/**
+ * The lockfile pins the dependencies a bake runs on, but it also repeats `package.json`'s own
+ * `version`, which is the base game version and names a release, not an input. It is taken out,
+ * so bumping the base version for a release never stales a baked world.
+ */
+export function lockfileWithoutVersion(text: string): string {
+  const lock = JSON.parse(text) as { version?: unknown; packages?: Record<string, { version?: unknown }> };
+  delete lock.version;
+  if (lock.packages?.[""]) delete lock.packages[""].version;
+  return JSON.stringify(lock, null, 2);
+}
+
+export async function generationRevision(root: string): Promise<string> {
   const hash = createHash('sha256');
-  for (const file of generationInputs(root)) {
+  for (const file of await generationInputs(root)) {
+    const text = readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
     hash.update(path.relative(root, file).replaceAll('\\', '/'));
-    hash.update('\0'); hash.update(readFileSync(file, 'utf8').replace(/\r\n/g, '\n')); hash.update('\0');
+    hash.update('\0'); hash.update(path.basename(file) === 'package-lock.json' ? lockfileWithoutVersion(text) : text); hash.update('\0');
   }
   return hash.digest('hex');
 }
@@ -43,12 +67,12 @@ export function generationRevisionPlugin(): Plugin {
     name: "corealm-generation-revision",
     configResolved(config) { root = path.resolve(config.root); },
     resolveId(source) { if (source === id) return resolved; },
-    load(source) {
+    async load(source) {
       if (source !== resolved) return;
-      return `export default ${JSON.stringify(generationRevision(root))};`;
+      return `export default ${JSON.stringify(await generationRevision(root))};`;
     },
-    handleHotUpdate(context) {
-      if (!generationInputs(root).includes(path.resolve(context.file))) return;
+    async handleHotUpdate(context) {
+      if (!(await generationInputs(root)).includes(path.resolve(context.file))) return;
       const module = context.server.moduleGraph.getModuleById(resolved);
       if (module) context.server.moduleGraph.invalidateModule(module);
       // A live world cannot mix derived data from two source revisions.

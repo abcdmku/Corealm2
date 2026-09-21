@@ -23,6 +23,8 @@ export type LocalStorage = WorldStorage & { flush?(): Promise<void>; readonly fl
 export interface LocalHostOptions {
   fixture: WorldFixture;
   seed: number;
+  /** The build's base game version, from the published manifest. The local world's descriptor carries it. */
+  baseVersion?: string;
   /** The bytes of `server-world.pack`. Absent for the lab, which builds its own pad. */
   pack?: Uint8Array;
   legacy?: LegacyImport;
@@ -50,7 +52,7 @@ export async function startLocalHost(options: LocalHostOptions): Promise<LocalHo
   const storage: LocalStorage = options.storage ?? new MemoryWorldStorage();
   const pack = options.fixture === "authored" ? loadServerWorldPack(options.pack ?? new Uint8Array(0)) : null;
   const used = pack ? packedSeed(pack.seeds, options.seed) : options.seed;
-  const world = localWorldDescriptor(options.fixture, used);
+  const world = localWorldDescriptor(options.fixture, used, options.baseVersion);
   const legacy = options.legacy;
   let name = legacy?.character.player.name || null;
   const worldStart = performance.now();

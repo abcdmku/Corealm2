@@ -154,7 +154,7 @@ export function SchemaControl({ schema, name, value, onChange, renderRef, readOn
       const current = value !== null && typeof value === "object" ? value as Record<string, unknown> : {};
       const entries = (Object.entries(node.fields) as [string, Schema][]).filter(([key, field]) => !serialFieldSpec(field, key).hidden);
       const setKey = (key: string, next: unknown) => { const out = { ...current }; if (next === undefined) delete out[key]; else out[key] = next; onChange(out); };
-      return <div className="min-w-0 flex flex-1 flex-col gap-px"><ObjectFields entries={entries} current={current} setKey={setKey} renderRef={renderRef} readOnly={inert} compact={compact} /></div>;
+      return <div data-slot="object-fields" className="min-w-0 flex flex-1 flex-col gap-2"><ObjectFields entries={entries} current={current} setKey={setKey} renderRef={renderRef} readOnly={inert} compact /></div>;
     }
     case "record": {
       if (!(node instanceof RecordSchema)) break;

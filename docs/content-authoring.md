@@ -2,8 +2,8 @@
 
 Corealm content has one authored source and one compiler. Source records live under
 `game/content/data/`. Devdocs edits those records, validates the proposed transaction, and writes the
-resolved catalog to `game/content/compiled/catalog.json`. The player build reads resolved content. It
-does not contain the authoring service.
+resolved catalog to `game/content/compiled/catalog.json`. The player build reads the generated client
+projection. It does not contain the authoring service.
 
 Use `npm run devdocs` to open the local editor. The same editor also runs against a live game server,
 where a save publishes instead of writing files; see
@@ -64,14 +64,70 @@ on each creature when it builds the world, and replicates that view. A world tha
 takes the model and scale from the catalog it runs on now, so a model change shows after the next
 server start on any client that loads, as long as the asset host has the file.
 
-`revision` names the pair. It is the SHA-256 of the source collections, the formula revision and
-the resolved tables, so equal inputs give the same revision and the same client catalog bytes on any
-machine. `formulaRevision` names the formula code. A checkout hashes every `.ts` file under
-`game/src/content`, with file names and line endings normalised so Windows and Linux agree. The
-compiler writes that value into the catalog. A packaged server has no source tree, so it compiles
-with the `formulaRevision` of the catalog it was built with. The two values are equal for one
-release, which keeps an export and re-import of unchanged data on the same revision. Formula
-changes ship with a server release and change the revision of everything compiled after it.
+`revision` names the compiled content. It is the SHA-256 of the source collections, the formula
+revision and the resolved tables, so equal inputs give the same revision and the same client catalog
+bytes on any machine. `formulaRevision` names the formula code. A checkout hashes every `.ts` file
+under `game/src/content`, with file names and line endings normalised so Windows and Linux agree.
+The compiler writes that value into the catalog. A packaged server has no source tree, so it compiles
+with the `formulaRevision` of the catalog it was built with. Formula changes ship with a server
+release and change the revision of everything compiled after them.
+
+### Base game version and releases
+
+`package.json` `version` is the base game version. It must be strict semver in the form
+`MAJOR.MINOR.PATCH`, with an optional `-prerelease`, no leading `v`, no build metadata and no
+leading zeroes. The value is at most 64 characters. The bundled `BaseCatalog` carries this version
+beside the compiled catalog and its source collections. It is also exposed in the seed asset,
+`build-info.json`, local-world manifest, world descriptors and the server's ready/admin/TUI output.
+
+Bumping only `package.json` `version` does not change the content `revision` or the world-bake
+generation revision. The generation hash removes the root package version fields from
+`package-lock.json` for this reason. A content change still changes the revision, and a change to a
+world-bake input still needs a new world pack.
+
+Cut a release by updating `package.json` to the intended base version, running the content and
+release checks, and tagging the commit `v<version>`. `.github/workflows/release.yml` rejects a
+push tag that is not exactly `v` plus the strict `package.json` version. A release can therefore
+carry the same content revision under a new base version. A server with an existing catalog keeps its
+content until an admin applies an update from base.
+
+## Updating a live server from a newer base
+
+Deploying an executable with a newer bundled base never overwrites an existing server catalog.
+Startup keeps the active revision and logs `base-update-available` with the current and bundled
+markers. The database stores the source snapshot for the base the active content derives from. That
+snapshot is the ancestor for the merge.
+
+The update procedure is:
+
+1. Check `GET /admin/content/base` with `content:read`. It reports the current and bundled
+   `{version, revision}`, `direction`, `updateAvailable` and whether the server's active sources
+   differ from their ancestor base.
+2. Call `GET /admin/content/base/sources?side=current` or `side=bundled` when you need the complete
+   source records. The endpoint is read-only and has no cache.
+3. Call `POST /admin/content/base/preview` with optional decisions. The server compares the ancestor,
+   the server's current sources and the bundled base using canonical JSON. Unchanged records take the
+   bundled value. Records changed only on the server stay as they are. A record changed on both sides
+   becomes a conflict. The preview returns collection counts, conflict sides and the revisions that
+   `apply` must expect. It validates the merged content only after every conflict has a decision.
+4. For each conflict, send `{collection, id, take: "mine"|"theirs"}`, where `mine` keeps the server
+   record and `theirs` takes the bundled base record. Call `POST /admin/content/base/apply` with
+   those decisions, the preview's `expect.activeRevision` and `expect.bundledRevision`, and an
+   optional note. The server recomputes the merge from its own stored sources, runs the ordinary
+   publish validation and asset checks, crosses the world barrier, stores the new base marker and
+   applies the resulting catalog.
+5. If either revision changed, the server returns `409 stale_base`. Preview again and resolve against
+   the new state. An older bundled base requires `allowDowngrade: true`; use it only to recover base
+   tracking from an older executable.
+
+An update whose merged sources equal the active revision still creates an audited history move for the
+new base marker. It does not change the catalog revision, swap the registry or notify connected
+clients. A normal revision rollback restores the base recorded on its target revision, but it cannot
+undo a marker-only move because the active revision is unchanged. To move only the base tracking back,
+run the previous executable and apply its bundled base with `allowDowngrade: true`; the merge keeps
+the server's edits. The Base game view warns when preview reports this unchanged-content case.
+
+The server-mode Base game view presents the same flow as the HTTP contract in [multiplayer hosting](multiplayer-hosting.md#updating-from-a-newer-base); the focused server tests and bounded browser audit cover preview, conflict resolution, apply and the failure cases.
 
 ## Publishing to a live server
 

@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { WebSocket } from "ws";
 import { WORLD_PROTOCOL_VERSION, type GameCommand, type WorldDescriptor } from "../../game/src/contracts.js";
+import { repoBaseVersion } from "./baseVersion.js";
 
 /**
  * `multiplayer-capacity.ts --scaling`: N loaded authored worlds on one server, with the worlds in one
@@ -108,7 +109,7 @@ async function once(index: number, options: { worlds: number; clients: number; t
     const { moduleLauncher } = await import("../../game/src/multiplayer/threads/launch.js");
     const launch = moduleLauncher(pathToFileURL(resolve("game/src/multiplayer/threads/threadEntry.ts")));
     const database = await startDatabaseThread(launch, { kind: "sqlite", path: resolve(directory, "worlds.sqlite") });
-    await seedCatalog(database.storage.catalog, { catalog: RESOLVED_CATALOG, sources: {} }, () => {});
+    await seedCatalog(database.storage.catalog, { version: repoBaseVersion(), catalog: RESOLVED_CATALOG, sources: {} }, () => {});
     const shared = new Uint8Array(new SharedArrayBuffer(pack.byteLength)); shared.set(pack);
     server = await startReferenceServer({ worlds, port: options.port, storage: database.storage.world, catalog: database.storage.catalog, authentication, log: () => {},
       build: () => Promise.reject(new Error("built in its thread")),
@@ -117,7 +118,7 @@ async function once(index: number, options: { worlds: number; clients: number; t
     const { SqliteWorldStorage } = await import("../../game/src/multiplayer/sqliteStorage.js");
     const { createPackedWorld, loadServerWorldPack } = await import("../../game/src/multiplayer/worldPack.js");
     const loaded = loadServerWorldPack(pack), storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), { log: () => {} });
-    await seedCatalog(storage.catalog, { catalog: RESOLVED_CATALOG, sources: {} }, () => {});
+    await seedCatalog(storage.catalog, { version: repoBaseVersion(), catalog: RESOLVED_CATALOG, sources: {} }, () => {});
     server = await startReferenceServer({ worlds, port: options.port, storage, catalog: storage.catalog, authentication, log: () => {}, build: world => createPackedWorld(loaded, world.seed) });
   }
   const bootMs = performance.now() - bootStarted;

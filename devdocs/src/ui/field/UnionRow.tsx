@@ -78,7 +78,7 @@ export function UnionRow({ schema, value, onChange, renderRef, readOnly = false,
     if (key === itemKey && countKey) {
       const countSpec = serialFieldSpec(fields.find(([other]) => other === countKey)![1], countKey);
       const low = countSpec.min ?? 1;
-      return <StackField key={key} label={name} className="w-64 min-w-0 shrink" value={typeof raw === "string" && raw ? raw : undefined} readOnly={readOnly} onChange={next => setKey(key, next)}
+      return <StackField key={key} label={name} className="w-64 min-w-32 max-w-full shrink" value={typeof raw === "string" && raw ? raw : undefined} readOnly={readOnly} onChange={next => setKey(key, next)}
         quantity={typeof current[countKey] === "number" ? current[countKey] as number : low} min={low} onQuantityChange={next => setKey(countKey, next)} />;
     }
     if (own.ref) {
@@ -86,7 +86,7 @@ export function UnionRow({ schema, value, onChange, renderRef, readOnly = false,
       const primary = key === firstRef;
       // An unset optional extra is an offer to add it, not an empty box squeezed onto the line.
       if (!primary && own.optional && !text) return readOnly ? null : <RefAddButton key={key} kind={own.ref} label={keyWords(key)} className="ml-0 min-w-8 shrink text-muted-foreground" onPick={id => setKey(key, id)} />;
-      const width = primary ? "w-60 min-w-0 shrink" : "w-44 min-w-0 shrink";
+      const width = primary ? "w-60 min-w-28 max-w-full shrink" : "w-44 min-w-28 max-w-full shrink";
       const control = renderRef
         ? <span key={key} className={cn("inline-flex [&_.field]:w-full [&_.field-body]:w-full [&_.ref-control]:w-full [&_.ref-chip]:min-w-0 [&_.ref-chip]:flex-1", width)}>{renderRef(own.ref, text, next => setKey(key, own.optional && !next ? undefined : next ?? ""), { ...fieldFromSchema(field, key), label: name })}</span>
         : <RefField key={key} bare className={cn("[&_.ref-control]:w-full [&_.ref-chip]:min-w-0 [&_.ref-chip]:flex-1", width)} kind={own.ref} label={name} optional={own.optional} value={text} readOnly={readOnly} onChange={next => setKey(key, own.optional && !next ? undefined : next ?? "")} />;
@@ -104,9 +104,9 @@ export function UnionRow({ schema, value, onChange, renderRef, readOnly = false,
     }
   });
 
-  return <div className={cn("flex min-w-0 flex-col gap-1", className)}>
-    {/* One line: the target control gives way (its name truncates) before the line would wrap. */}
-    <div className="flex min-w-0 flex-nowrap items-center gap-1.5">
+  return <div className={cn("flex min-w-0 flex-1 flex-col gap-1", className)}>
+    {/* Nested conditions wrap before a target becomes too narrow to read or open. */}
+    <div className="flex min-w-0 flex-wrap items-center gap-1.5">
       <ChoiceField display="select" className="w-32 shrink-0" value={pending?.key ?? selected} options={variants.map(variant => ({ value: variant.key, label: variant.label }))} readOnly={readOnly} ariaLabel={`${label} kind`} onChange={switchTo} />
       {controls}
     </div>

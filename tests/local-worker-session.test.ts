@@ -200,8 +200,8 @@ describe("the files published for the worker", () => {
   it("settles local play on a seed the pack holds", async () => {
     const manifest = JSON.stringify(localWorldFiles(gameRoot).manifest), asked: string[] = [];
     const fetcher = (async (url: string) => { asked.push(url); return new Response(manifest); }) as typeof fetch;
-    expect(await resolveLocalSeed("https://assets.example.com/corealm/", 1337, fetcher)).toEqual({ seed: 1337, fallback: false });
-    expect(await resolveLocalSeed("https://assets.example.com/corealm/", 99, fetcher)).toEqual({ seed: 1337, fallback: true });
+    expect(await resolveLocalSeed("https://assets.example.com/corealm/", 1337, fetcher)).toEqual({ seed: 1337, fallback: false, baseVersion: "0.1.0" });
+    expect(await resolveLocalSeed("https://assets.example.com/corealm/", 99, fetcher)).toEqual({ seed: 1337, fallback: true, baseVersion: "0.1.0" });
     expect(asked[0]).toBe("https://assets.example.com/corealm/generated/local-world.json");
   });
 });

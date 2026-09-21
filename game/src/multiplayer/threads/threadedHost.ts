@@ -246,11 +246,13 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
     thread.available = true;
   }
   /** The catalog and settings in force, which a world that starts late must be brought onto. */
-  const current: { revision: string; capacity: Record<string, number> | null; description: string | null | undefined; endpoint: string | null } = { revision: options.catalogRevision, capacity: null, description: undefined, endpoint: null };
-  const configuredChange = () => ({ ...(current.capacity ? { capacity: current.capacity } : {}), ...(current.description !== undefined ? { description: current.description } : {}), ...(current.endpoint !== null ? { endpoint: current.endpoint } : {}) });
+  const current: { revision: string; capacity: Record<string, number> | null; description: string | null | undefined; endpoint: string | null; baseVersion: string | null | undefined } = { revision: options.catalogRevision, capacity: null, description: undefined, endpoint: null, baseVersion: undefined };
+  const configuredChange = () => ({ ...(current.capacity ? { capacity: current.capacity } : {}), ...(current.description !== undefined ? { description: current.description } : {}), ...(current.endpoint !== null ? { endpoint: current.endpoint } : {}),
+    ...(current.baseVersion !== undefined ? { baseVersion: current.baseVersion } : {}) });
   function configured(thread: WorldThread): Partial<WorldDescriptor> {
     const capacity = current.capacity?.[thread.input.worldId];
-    return { ...(capacity !== undefined ? { capacity } : {}), ...(current.endpoint !== null ? { endpoint: current.endpoint } : {}), ...(current.description ? { description: current.description } : {}) };
+    return { ...(capacity !== undefined ? { capacity } : {}), ...(current.endpoint !== null ? { endpoint: current.endpoint } : {}), ...(current.description ? { description: current.description } : {}),
+      ...(current.baseVersion ? { baseVersion: current.baseVersion } : {}) };
   }
 
   /** A world's thread ended while the server runs. The others keep going. */
@@ -327,9 +329,11 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
       if (change.capacity) current.capacity = { ...change.capacity };
       if (change.description !== undefined) current.description = change.description;
       if (change.endpoint !== undefined) current.endpoint = change.endpoint;
+      if (change.baseVersion !== undefined) current.baseVersion = change.baseVersion;
       for (const thread of threads) {
         const next = { ...thread.descriptor, ...configured(thread) };
         if (change.description !== undefined && !change.description) delete next.description;
+        if (change.baseVersion !== undefined && !change.baseVersion) delete next.baseVersion;
         thread.descriptor = next;
       }
       await each("configure", [change]);

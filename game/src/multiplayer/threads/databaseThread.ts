@@ -2,7 +2,7 @@ import { performance } from "node:perf_hooks";
 import type { MessagePort } from "node:worker_threads";
 import type { WorldStorage } from "../../contracts.js";
 import type { ServerAdminStorage } from "../adminStorage.js";
-import type { CatalogStorage } from "../catalogStorage.js";
+import type { BaseMarker, CatalogStorage } from "../catalogStorage.js";
 import { createRpc, type Endpoint } from "./rpc.js";
 import { serveStorage, storageShape, type DatabaseStats, type StorageShape } from "./storageProxy.js";
 
@@ -14,7 +14,7 @@ import { serveStorage, storageShape, type DatabaseStats, type StorageShape } fro
  *
  * This module reads no content table, so it needs no catalog installed.
  */
-export type DatabaseSpec = { kind: "sqlite"; path: string } | { kind: "memory" };
+export type DatabaseSpec = { kind: "sqlite"; path: string; bundledBase?: BaseMarker | null } | { kind: "memory" };
 export interface DatabaseThreadData { role: "database"; database: DatabaseSpec }
 /** What the main thread learns when the database is open. */
 export interface DatabaseReady { shape: StorageShape }
@@ -23,7 +23,7 @@ export interface DatabaseThreadStats { calls: number; commits: number; commitMs:
 type OpenStorage = WorldStorage & { admin: ServerAdminStorage; catalog: CatalogStorage };
 async function open(spec: DatabaseSpec, log: (line: string) => void): Promise<OpenStorage> {
   if (spec.kind === "memory") return new (await import("../memoryStorage.js")).MemoryWorldStorage();
-  return new (await import("../sqliteStorage.js")).SqliteWorldStorage(spec.path, { log });
+  return new (await import("../sqliteStorage.js")).SqliteWorldStorage(spec.path, { log, bundledBase: spec.bundledBase ?? null });
 }
 
 export async function runDatabaseThread(data: DatabaseThreadData, parent: MessagePort): Promise<void> {

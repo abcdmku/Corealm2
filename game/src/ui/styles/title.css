@@ -507,6 +507,9 @@
 .worlds__detail strong { color: #f2e5c7; font-size: 15px; overflow-wrap: anywhere; }
 .worlds__detail small { color: #b6aa91; font-size: 12px; }
 .worlds__badge { color: #a8c99b; font-size: 12px; flex-shrink: 0; }
+/* The base game version: plain text beside the server's name, quieter than the name it follows. */
+.worlds__version { color: #9d917a; font: 500 12px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: 0.02em; white-space: nowrap; }
+.worlds__server { display: flex; align-items: baseline; gap: 8px; padding: 6px 2px 0; color: #b6aa91; font-size: 12px; }
 .worlds__badge[data-unavailable] { color: #d1ab78; }
 .worlds__status { min-height: 20px; font-size: 13px; line-height: 1.5; color: #d6bf85; margin: 14px 0; }
 .worlds__actions { display: flex; gap: 10px; flex-wrap: wrap; }

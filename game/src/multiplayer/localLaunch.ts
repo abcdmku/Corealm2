@@ -41,10 +41,10 @@ export async function prepareLocalLaunch(options: { fixture: WorldFixture; memor
   };
   let legacy = read();
   const wanted = legacy?.seed ?? rememberedSeed() ?? DEFAULT_SEED;
-  const { seed, fallback } = await resolveLocalSeed(assetBase, wanted);
+  const { seed, fallback, baseVersion } = await resolveLocalSeed(assetBase, wanted);
   let notice: string | null = fallback ? `This build has no world for seed ${wanted}, so your character starts at the safe spawn of the standard world.` : null;
   const provider = new WorkerWorldProvider({
-    fixture: options.fixture, seed, assetBase, ...(options.memory ? { memory: true } : {}),
+    fixture: options.fixture, seed, assetBase, ...(baseVersion ? { baseVersion } : {}), ...(options.memory ? { memory: true } : {}),
     spawn: () => new Worker(new URL("../worker/localHost.ts", import.meta.url), { type: "module", name: "corealm-local-host" }),
     legacy: { read: () => legacy, migrated: () => { legacy = null; try { markLegacySaveMigrated(localStorage); } catch { /* It is offered again next boot, and the worker leaves a stored character alone. */ } } },
     storageTrouble(trouble) {

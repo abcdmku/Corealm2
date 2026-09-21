@@ -44,7 +44,7 @@ async function boot() {
   const keys: IdentityKey[] = [{ kid: created.signing.kid, alg: "EdDSA", publicKey: created.publicKey, status: "active" }];
   const logs: Record<string, unknown>[] = [];
   const storage = new SqliteWorldStorage(file, { log: () => {} });
-  await seedCatalog(storage.catalog, { catalog: RESOLVED_CATALOG, sources }, () => {}, { now: () => clock.ms });
+  await seedCatalog(storage.catalog, { version: "0.1.0", catalog: RESOLVED_CATALOG, sources }, () => {}, { now: () => clock.ms });
   const server = await startReferenceServer({ worlds: [world], storage, admin: storage.admin, catalog: storage.catalog, build: placementWorld,
     ownerAccount: OWNER, now: () => clock.ms, log: event => logs.push(event),
     assets: { bundledManifest: async () => JSON.parse(await readFile("game/public/assets/manifest.json", "utf8")) },

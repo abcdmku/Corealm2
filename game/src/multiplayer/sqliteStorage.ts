@@ -2,11 +2,11 @@ import { DatabaseSync, type StatementSync } from "node:sqlite";
 import type { PlayerCharacter, PlayerClaim, StoredPlayerEdit, StoredPlayerEditResult, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
 import type { PlayerSessionState } from "../state/store.js";
 import { ADMIN_SCHEMA, SqliteAdminStorage, type AuditWriter, type ServerAdminStorage } from "./adminStorage.js";
-import { CATALOG_SCHEMA, SqliteCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
+import { CATALOG_SCHEMA, migrateCatalogBases, SqliteCatalogStorage, type BaseMarker, type CatalogStorage } from "./catalogStorage.js";
 import { PLAYER_LEASE_MS } from "./playerTables.js";
 import { worldKey } from "./protocol.js";
 
-export const STORAGE_SCHEMA_VERSION = 3;
+export const STORAGE_SCHEMA_VERSION = 4;
 /** Renewal and playtime accounting piggyback on a tick commit this often, never as a write of their own. */
 export const PLAYER_LEASE_RENEW_MS = 10_000;
 
@@ -15,6 +15,11 @@ export interface SqliteStorageOptions {
   now?: () => number;
   /** Receives the one JSON line a schema migration writes. */
   log?: (line: string) => void;
+  /**
+   * The base game this server ships with. Only the move to schema 4 reads it: a database seeded
+   * from this very base learns its version, and any other seed is recorded as `0.0.0`.
+   */
+  bundledBase?: BaseMarker | null;
 }
 type Receipt = WorldStorageRecord["receipts"][string][number];
 interface Held { sessionId: string; renewedAt: number; accountedAt: number }
@@ -67,7 +72,7 @@ export class SqliteWorldStorage implements WorldStorage {
     try {
       // SQLite owns the OS lock, so a crashed process cannot leave a stale lock file.
       this.db.exec("PRAGMA locking_mode=EXCLUSIVE; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;");
-      this.migrate(options.log ?? (line => console.log(line)));
+      this.migrate(options.log ?? (line => console.log(line)), options.bundledBase ?? null);
     } catch (error) { this.db.close(); throw error; }
     const admin = new SqliteAdminStorage(this.db);
     this.admin = admin; this.audit = admin.auditWriter;
@@ -83,7 +88,7 @@ export class SqliteWorldStorage implements WorldStorage {
   }
 
   /** Bring any earlier format to the current one in a single transaction. Reopening is a no-op. */
-  private migrate(log: (line: string) => void): void {
+  private migrate(log: (line: string) => void, bundledBase: BaseMarker | null): void {
     const table = (name: string) => this.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?").get(name) !== undefined;
     this.db.exec("BEGIN IMMEDIATE");
     try {
@@ -93,6 +98,11 @@ export class SqliteWorldStorage implements WorldStorage {
       this.db.exec(SCHEMA); this.db.exec(ADMIN_SCHEMA); this.db.exec(CATALOG_SCHEMA);
       if (legacy) log(JSON.stringify({ event: "storage-migrated", from: 1, to: 2, ...this.extractPlayers() }));
       if (legacy || version === 2) log(JSON.stringify({ event: "storage-migrated", from: 2, to: 3, worlds: this.replaceContentVersion() }));
+      if (legacy || (version >= 2 && version < 4)) {
+        // Base markers. A database with no catalog yet gets them at its seed and says nothing here.
+        const bases = migrateCatalogBases(this.db, bundledBase);
+        if (bases) log(JSON.stringify({ event: "storage-migrated", from: 3, to: 4, ...bases }));
+      }
       this.db.prepare("INSERT INTO meta (key,value) VALUES ('schema_version',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(STORAGE_SCHEMA_VERSION));
       this.db.exec("COMMIT");
     } catch (error) { this.db.exec("ROLLBACK"); throw error; }

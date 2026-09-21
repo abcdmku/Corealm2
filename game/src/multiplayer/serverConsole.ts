@@ -20,6 +20,8 @@ export interface ConsoleStats {
   port: number;
   authentication: string;
   catalogRevision: string;
+  /** The base game version the content comes from, shown after the name. Null prints nothing. */
+  baseVersion?: string | null;
   uptimeSeconds: number;
   worlds: ConsoleWorldStats[];
   tick: { lastMs: number; meanMs: number; p95Ms: number };
@@ -89,7 +91,7 @@ export function renderConsole(stats: ConsoleStats, size: ConsoleSize): string {
   const label = (text: string): Part => dim(`  ${text.padEnd(9)}`);
 
   const address = `${stats.host}:${stats.port}`;
-  const heading = `  COREALM  ${stats.name}`;
+  const heading = `  COREALM  ${stats.name}${stats.baseVersion ? `  v${stats.baseVersion}` : ""}`;
   const clockText = `up ${formatUptime(stats.uptimeSeconds)}   ${address}  `;
   const header = row([plain(heading), plain(" ".repeat(Math.max(1, width - heading.length - clockText.length))), plain(clockText)], width, REVERSE);
 

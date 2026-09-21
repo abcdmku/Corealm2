@@ -34,8 +34,8 @@ describe("content store isolation", () => {
     }
   });
 
-  it("hashes shipped content data into the world revision and never the meta directory", () => {
-    const inputs = generationInputs(gameRoot).map(relative);
+  it("hashes shipped content data into the world revision and never the meta directory", async () => {
+    const inputs = (await generationInputs(gameRoot)).map(relative);
     expect(inputs).toContain("game/public/assets/manifest.json");
     expect(inputs.some((file) => file.startsWith("game/src/content/"))).toBe(true);
     expect(inputs.filter((file) => file.startsWith("game/content/meta/"))).toEqual([]);

@@ -356,7 +356,7 @@ function GrantFields({ schema, grant, path, page, readOnly, skills, renderRef, o
       renderItem={(flag, api) => <TextField value={flag} mono width="id" placeholder="flag_name" ariaLabel={`Flag ${api.index + 1}`} readOnly={readOnly} onChange={api.update} />} />}
     {shown("unlocks") && <ListField<string> label={spec("unlocks").label} items={strings(grant.unlocks)} readOnly={readOnly} addOnEnter
       emptyText="None." addLabel="Add unlock" onAdd={() => ""} onChange={next => keep("unlocks", next)}
-      renderItem={(unlock, api) => <TextField value={unlock} width="text" placeholder="What this opens up" ariaLabel={`Unlock ${api.index + 1}`} readOnly={readOnly} onChange={api.update} />} />}
+      renderItem={(unlock, api) => <TextField value={unlock} multiline width="full" placeholder="What this opens up" ariaLabel={`Unlock ${api.index + 1}`} readOnly={readOnly} onChange={api.update} />} />}
     {shown("worldState") && worldStateItem && <ListField<ContentRow> label={spec("worldState").label} items={list(grant.worldState).map(asRecord)} readOnly={readOnly}
       emptyText="None." addLabel="Add world state" onAdd={() => ({ entityId: "", state: "" })}
       summarize={entry => `${text(entry.entityId) ?? "?"} → ${text(entry.state) ?? "?"}`}
