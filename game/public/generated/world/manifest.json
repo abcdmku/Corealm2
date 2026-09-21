@@ -1,7 +1,7 @@
 {
   "format": "corealm-world",
   "version": 1,
-  "revision": "42ee10f5d3806c2734444dcbfd5ddfb783b181ce0736e52082c0a9a1e02fd9b9",
+  "revision": "ccac967de6470466c48b74ea7cb0dab1489e7dec5a73e844ccdc7a638238e640",
   "scope": "game/1337/world",
   "tiles": [
     "-6:-5",
@@ -438,9 +438,9 @@
       "bytes": 581349
     },
     "spawns/world": {
-      "file": "1c622b762ece7ebc3478e22e980d689676ab31b01b0a299efc5b135995bcf31e.world",
-      "sha256": "1c622b762ece7ebc3478e22e980d689676ab31b01b0a299efc5b135995bcf31e",
-      "bytes": 680833
+      "file": "e481bd8b014bd2d262945c04f254e83a091415c31659fb4fd246515dd1e35026.world",
+      "sha256": "e481bd8b014bd2d262945c04f254e83a091415c31659fb4fd246515dd1e35026",
+      "bytes": 780038
     },
     "scatter/-6:-5": {
       "file": "176726b86072856f1c0b359b7d29e88d40cb1864ade3b3f851578a5ae460b657.world",
