@@ -23,7 +23,7 @@ try{
  const call=(name:string,a:any)=>page.evaluate(async({name,a})=>{const r=await(window as any).__gameDebug.callTool(name,a);if(r?.error)throw Error(JSON.stringify(r));return r;},{name,a});
  await page.evaluate(async preset=>{const l=(window as any).__featureLab;await l.spawnTarget('creature',preset,{distance:7});l.setLevel('melee',1);await l.equipPlayer('mainHand',null);},preset);
  await page.waitForFunction(p=>(window as any).__featureLab.getState()?.target?.presetId===p,preset);
- const sample=async(stage:string)=>{const s=await page.evaluate(()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);
+ const sample=async(stage:string)=>{const s=await page.evaluate(async ()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:await d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);
   const overlay=s.motion?.hitOverlay;if(overlay?.active&&!report.hitOverlay)report.hitOverlay={clip:overlay.clip,duration:overlay.duration,maskStatus:overlay.maskStatus,bones:overlay.bones};
   return row;};
  // Since the running-hit overlay (Slice 03), Hit is an additive masked reaction over the base motion
@@ -32,10 +32,10 @@ try{
  const actionState=(s:any,expected:string)=>expected==='hit'?(hitPhase(s)===null?null:{motion:'hit',clip:s.motion.hitOverlay?.clip??s.motion.clip}):s.motion?{motion:s.motion.motion,clip:s.motion.clip}:null;
  // The camera sits at target + distance * (sin yaw, cos yaw). Looking across the player-target axis
  // keeps the player from standing between the camera and the actor or corpse.
- const frame=async(label:string,factor:number,waitMs:number)=>{await page.evaluate(({label,factor})=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);if(!b)return;
+ const frame=async(label:string,factor:number,waitMs:number)=>{await page.evaluate(async ({label,factor})=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);if(!b)return;
    const size=Math.max(b.max.x-b.min.x,b.max.y-b.min.y,b.max.z-b.min.z),c={x:(b.min.x+b.max.x)/2,y:(b.min.y+b.max.y)/2,z:(b.min.z+b.max.z)/2},p=l.player.position;
    const yaw=label==='corpse-front'?0:label==='corpse-side'?Math.PI/2:Math.atan2(p[0]-c.x,p[2]-c.z)+Math.PI/2;
-   d.inspectPose({x:c.x,y:c.y,z:c.z,yaw,pitch:.20,distance:Math.max(label.includes('corpse')?4.5:3,size*factor),detached:true});},{label,factor});await driver.wait(waitMs);};
+   await d.inspectPose({x:c.x,y:c.y,z:c.z,yaw,pitch:.20,distance:Math.max(label.includes('corpse')?4.5:3,size*factor),detached:true});},{label,factor});await driver.wait(waitMs);};
  const capture=async(label:string,expectedMotion?:string)=>{
   // A 0.33 s reaction leaves no time for a settle wait; the screenshot itself forces the next rendered frame.
   await frame(label,expectedMotion?1.6:label.includes('corpse')?2.6:1.8,expectedMotion==='hit'?0:expectedMotion?30:corpseOnly&&label.startsWith('corpse-')?16:180);
@@ -100,7 +100,7 @@ try{
   assert.equal(report.corpseInspection.lab.target.health,0);assert.equal(report.corpseInspection.motion.motion,'death');
   assert(report.corpseInspection.motion.time>=report.corpseInspection.motion.duration-.025);
  }
- const loot=await page.evaluate(id=>(window as any).__gameDebug.getEntities().filter((e:any)=>e.archetype==='loot'&&e.id.startsWith(`loot_${id}_`)),dead.lab.target.entityId);
+ const loot=await page.evaluate(async id=>(await (window as any).__gameDebug.getEntities()).filter((e:any)=>e.archetype==='loot'&&e.id.startsWith(`loot_${id}_`)),dead.lab.target.entityId);
  report.loot=loot;report.noItemDrop=loot.length===0;
  if(loot.length&&!corpseOnly){
   report.reward=await page.evaluate(async id=>{const d=(window as any).__gameDebug;const before=await d.callTool('corealm_inventory',{});const event=d.getEvents(0).events.find((e:any)=>e.data?.pileId===id);const opened=await d.callTool('corealm_interact',{entityId:id,interaction:'loot'});return {before,expected:event?.data?.items?.[0],opened,afterOpen:await d.callTool('corealm_inventory',{})};},loot[0].id);

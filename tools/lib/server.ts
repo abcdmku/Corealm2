@@ -33,7 +33,8 @@ export async function startGameServer(options: GameServerOptions = {}): Promise<
     logLevel: options.logLevel ?? "error",
     server: {
       host: "127.0.0.1",
-      port: options.port ?? 0,
+      // `COREALM_TEST_PORT` pins the port for a machine where other sessions hold ranges of their own.
+      port: options.port ?? (Number(process.env.COREALM_TEST_PORT) || 0),
       strictPort: options.strictPort ?? false,
       hmr: options.hmr ?? false,
     },

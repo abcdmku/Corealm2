@@ -36,7 +36,7 @@ try {
       for (const skill of ["melee", "magic"] as const) lab.setLevel(skill, id === "marsh_wasp" ? 8 : 1);
       await lab.equipPlayer("mainHand", null);
       await lab.spawnTarget("creature", `species:${id}`, { distance: 3 });
-      (window.__gameDebug as unknown as { inspectPose(p: unknown): boolean }).inspectPose(
+      await (window.__gameDebug as unknown as { inspectPose(p: unknown): boolean }).inspectPose(
         { x: 0, y: 0, z: 0, yaw: 1.3, pitch: 0.42, distance: 9 });
     }, species.id);
     await page.waitForTimeout(400);
@@ -55,8 +55,8 @@ try {
     report.push({ species: species.id, before, after });
     if (wasps) {
       for (const yaw of [1.3, -1.3]) {
-        await page.evaluate(({ position, yaw }) => {
-          (window.__gameDebug as unknown as { inspectPose(p: unknown): boolean }).inspectPose(
+        await page.evaluate(async ({ position, yaw }) => {
+          await (window.__gameDebug as unknown as { inspectPose(p: unknown): boolean }).inspectPose(
             { x: position[0], y: position[1], z: position[2], yaw, pitch: 0.32, distance: 5 });
         }, { position: after.player.position, yaw });
         await page.waitForTimeout(150);

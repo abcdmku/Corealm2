@@ -144,16 +144,16 @@ async function waitForEntity(
     };
     const deadline = Date.now() + timeout;
     while (Date.now() < deadline) {
-      const entity = debug.getEntity(id);
+      const entity = await debug.getEntity(id);
       const matched = wanted === "not-dead" ? entity !== null && entity.state !== "dead" : entity?.state === wanted;
       if (matched) {
-        if (pause) debug.setPaused(true);
+        if (pause) await debug.setPaused(true);
         return { entity, clock: debug.getState().clock };
       }
       await new Promise((resolve) => setTimeout(resolve, 10));
     }
-    if (pause) debug.setPaused(true);
-    return { entity: debug.getEntity(id), clock: debug.getState().clock };
+    if (pause) await debug.setPaused(true);
+    return { entity: await debug.getEntity(id), clock: debug.getState().clock };
   }, { id: entityId, wanted: mode, pause: pauseOnMatch, timeout: timeoutMs });
 }
 
@@ -174,13 +174,13 @@ async function waitForBossKill(
       const event = debug.getEvents(cursor).events.find((candidate) => candidate.type === "combat.ended"
         && candidate.entityId === id && candidate.data["reason"] === "killed");
       if (event) {
-        debug.setPaused(true);
-        return { event, entity: debug.getEntity(id), clock: debug.getState().clock };
+        await debug.setPaused(true);
+        return { event, entity: await debug.getEntity(id), clock: debug.getState().clock };
       }
       await new Promise((resolve) => setTimeout(resolve, 10));
     }
-    debug.setPaused(true);
-    return { event: null, entity: debug.getEntity(id), clock: debug.getState().clock };
+    await debug.setPaused(true);
+    return { event: null, entity: await debug.getEntity(id), clock: debug.getState().clock };
   }, { id: bossId, cursor: sinceSeq, timeout: timeoutMs });
 }
 
@@ -552,12 +552,12 @@ try {
             && event.entityId === targetId && event.data["spellId"] === "voltrend");
           if (found) {
             await debug.callTool("corealm_stop", {});
-            debug.setPaused(true);
+            await debug.setPaused(true);
             return found;
           }
           await new Promise((resolve) => setTimeout(resolve, 10));
         }
-        debug.setPaused(true);
+        await debug.setPaused(true);
         return null;
       }, { cursor: castCursor, targetId: victim.id }) as EventView | null;
       const afterCast = await tool("corealm_spellbook", { op: "read" }) as SpellbookView;

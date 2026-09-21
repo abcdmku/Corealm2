@@ -54,7 +54,7 @@ try {
   })()`);
 
   const pileId = async (): Promise<string | null> =>
-    await page.evaluate(`window.__gameDebug.listEntities().find(e => e.archetype === "loot")?.id ?? null`) as string | null;
+    await page.evaluate(`(async () => ((await window.__gameDebug.listEntities()).find(e => e.archetype === "loot")?.id ?? null))()`) as string | null;
   for (let swing = 0; swing < 24 && !(await pileId()); swing++) {
     await page.evaluate("window.__featureLab.perform('attack')").catch(() => undefined);
     await driver.wait(700);

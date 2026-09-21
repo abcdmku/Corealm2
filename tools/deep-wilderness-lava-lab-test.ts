@@ -35,9 +35,9 @@ try {
   await page.evaluate(() => window.__featureLab!.setWalkingEnabled(true));
   const pose = async (x: number, z: number, yaw = 0, pitch = .62): Promise<void> => {
     assert(pitch >= CAMERA.minPitch && pitch <= CAMERA.maxPitch);
-    await page.evaluate(({ x, z, yaw, pitch, distance }) => {
+    await page.evaluate(async ({ x, z, yaw, pitch, distance }) => {
       const debug = window.__gameDebug as any;
-      debug.inspectPose({ x, y: debug.groundHeight(x, z), z, yaw, pitch, distance });
+      await debug.inspectPose({ x, y: debug.groundHeight(x, z), z, yaw, pitch, distance });
     }, { x, z, yaw, pitch, distance: CAMERA.maxDistance });
     await page.waitForTimeout(300);
     await page.waitForFunction(() => {

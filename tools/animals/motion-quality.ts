@@ -38,9 +38,9 @@ try {
       groundHeight(x: number, z: number): number;
       callTool(n: string, a: unknown): Promise<unknown>;
     };
-    dbg.teleport({ entityId: args.id });
+    await dbg.teleport({ entityId: args.id });
     await new Promise((r) => { setTimeout(r, 1000); });
-    dbg.setHealth(9999);
+    await dbg.setHealth(9999);
     // Deliberately NOT attacking. Hitting a passive animal is the only way to make it chase, but a
     // hen has four health and dies inside a second, which measures a corpse rather than a walk.
     // An aggressive family comes on its own, and then the whole sample is steering.
@@ -48,7 +48,7 @@ try {
     // version stepped 19.8 m from a goat whose radius is 8 and measured ninety frames of a goat
     // doing nothing - which is a fact about the probe, not about the goat.
     const here = dbg.getPlayerPosition();
-    dbg.teleport({ x: here.x + 4, y: here.y, z: here.z + 4 });
+    await dbg.teleport({ x: here.x + 4, y: here.y, z: here.z + 4 });
 
     // Everything comes off `motionSnapshot`, which carries the SEMANTIC values the simulation
     // commands and the DRAWN ones the renderer settles on. Reading both separates a steering
@@ -59,8 +59,8 @@ try {
     }[] = [];
     for (let i = 0; i < args.samples; i += 1) {
       await new Promise((r) => { setTimeout(r, args.intervalMs); });
-      dbg.setHealth(9999);
-      const entity = dbg.getEntity(args.id) as Record<string, unknown> | null;
+      await dbg.setHealth(9999);
+      const entity = await dbg.getEntity(args.id) as Record<string, unknown> | null;
       if (!entity || entity.state === "dead") break;
       const m = dbg.getEntityMotion(args.id) as Record<string, unknown> | null;
       if (!m) continue;

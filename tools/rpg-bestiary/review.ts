@@ -53,7 +53,7 @@ try {
       }, presetId, { timeout: 10000 });
       const state: any = await page.evaluate(() => (window as any).__creatureGallery.getState());
       const bounds: any = await page.evaluate(() => (window as any).__creatureGallery.getBounds());
-      const entity: any = await page.evaluate(id => (window as any).__gameDebug.getEntities().find((e: any) => e.id === id), state.entityIds[0]);
+      const entity: any = await page.evaluate(async id => (await (window as any).__gameDebug.getEntities()).find((e: any) => e.id === id), state.entityIds[0]);
       const asset = assetCatalog.assets.find((entry: any) => entry.id === row.assetId);
       assert(asset && entity, "Missing measured asset or gallery actor for framing");
       const scale = row.scale * tierSilhouetteScale(row.stats.tier);
@@ -115,7 +115,7 @@ try {
       assert.equal(dead.target.ai.state, "dead");
       assert(dead.target.ai.respawnInMs > 0, "Natural death did not schedule respawn");
       const after: any = await page.evaluate(() => (window as any).__gameDebug.getState());
-      const loot: any[] = await page.evaluate(id => (window as any).__gameDebug.getEntities().filter((entity: any) => entity.archetype === "loot" && entity.id.startsWith(`loot_${id}_`)), before.lab.target.entityId);
+      const loot: any[] = await page.evaluate(async id => (await (window as any).__gameDebug.getEntities()).filter((entity: any) => entity.archetype === "loot" && entity.id.startsWith(`loot_${id}_`)), before.lab.target.entityId);
 
       report.currentCombat = { before, after, dead, trace, loot };
       const xp = (game: any) => ["melee", "magic"].reduce((sum, id) => sum + (game.skills?.[id]?.xp ?? 0), 0);

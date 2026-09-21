@@ -6,6 +6,7 @@ import { CAMERA } from '../game/src/app/config.js';
 import { CROWNWARD_FISH } from '../game/src/content/crownwardFishing.js';
 import { GameDriver } from './lib/driver.js';
 import { startGameServer } from './lib/server.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const world = process.argv.includes('--world');
 const out = `test-results/crownward-fishing/${world ? 'world' : 'lab'}`;
@@ -22,9 +23,9 @@ try {
   if (!world) await page.evaluate(() => window.__featureLab!.setFreeCameraEnabled(false));
   const close = page.locator('#panel-feature-lab .panel__close');
   if (await close.isVisible()) await close.click();
-  const schools = await page.evaluate(() => (window.__gameDebug as any).getEntities()
+  const schools = await page.evaluate(async () => await Promise.all((await (window.__gameDebug as any).getEntities())
     .filter((e: any) => e.archetype === 'fishing_spot' && /^(crownmere_|pearlwater_salmon_)/.test(e.id))
-    .map((e: any) => (window.__gameDebug as any).getEntity(e.id)));
+    .map(async (e: any) => await (window.__gameDebug as any).getEntity(e.id))));
   assert.equal(schools.length, 15);
   report.schools = schools;
   report.placement = await page.evaluate(schools => schools.map((e: any) => {
@@ -44,18 +45,18 @@ try {
     assert(bank);
     const dx = bank[0] - entity.position[0], dz = bank[2] - entity.position[2];
     const distance = Math.hypot(dx, dz);
-    const setup = await page.evaluate(({ bank, dx, dz, distance, tier }) => {
+    const setup = await page.evaluate(async ({ bank, dx, dz, distance, tier }) => {
       const d = window.__gameDebug as any;
-      d.setSkillLevel('fishing', 99);
+      await d.setSkillLevel('fishing', 99);
       const x = bank[0] + dx / distance * 3, z = bank[2] + dz / distance * 3;
       const y = d.sampleWorld(x, z).height;
-      d.teleport([x, y, z]);
-      d.inspectPose({ x, y, z, yaw: Math.atan2(dx, dz), pitch: .42, distance: 11, detached: false });
+      await d.teleport([x, y, z]);
+      await d.inspectPose({ x, y, z, yaw: Math.atan2(dx, dz), pitch: .42, distance: 11, detached: false });
       return { player: d.getPlayerPosition(), bank: d.sampleWorld(bank[0], bank[2]), required: tier };
     }, { bank, dx, dz, distance, tier: fish.tier });
     assert.equal(setup.bank.waterBodyId, null);
     await page.waitForTimeout(1500);
-    const before = await page.evaluate(() => JSON.parse((window.__gameDebug as any).getSaveBlob()));
+    const before = await page.evaluate(async () => JSON.parse(await (window.__gameDebug as any).getSaveBlob()));
     const quantity = (save: any) => save.inventory.slots.reduce((n: number, slot: any) => n + (slot?.itemId === fish.id ? slot.quantity : 0), 0);
     const cameraInfo = await page.evaluate(() => (window.__gameDebug as any).getCamera());
     const camera = new PerspectiveCamera(CAMERA.fov, 1440 / 900, CAMERA.near, CAMERA.far);
@@ -76,13 +77,13 @@ try {
       if (clicked) break;
     }
     assert(clicked, `${fish.name}: no real canvas hover on its fishing spot`);
-    await page.waitForFunction(({ itemId, previous }) => {
-      const save = JSON.parse((window.__gameDebug as any).getSaveBlob());
+    await waitForDebug(page, async ({ itemId, previous }) => {
+      const save = JSON.parse(await (window.__gameDebug as any).getSaveBlob());
       return save.inventory.slots.reduce((n: number, slot: any) => n + (slot?.itemId === itemId ? slot.quantity : 0), 0) > previous;
     }, { itemId: fish.id, previous: quantity(before) }, { timeout: 45_000 });
-    const after = await page.evaluate(id => {
+    const after = await page.evaluate(async id => {
       const d = window.__gameDebug as any, player = d.getPlayerPosition();
-      return { save: JSON.parse(d.getSaveBlob()), entity: d.getEntity(id), player,
+      return { save: JSON.parse(await d.getSaveBlob()), entity: await d.getEntity(id), player,
         surface: d.sampleWorld(player.x, player.z), camera: d.getCamera() };
     }, entity.id);
     assert.equal(after.surface.waterBodyId, null);
@@ -95,10 +96,10 @@ try {
     await driver.press('s', 100);
   }
   if (world) {
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const d = window.__gameDebug as any, x = 535, z = 220, y = d.sampleWorld(x, z).height;
-      d.teleport([x, y, z]);
-      d.inspectPose({ x, y, z, yaw: 1.3, pitch: .18, distance: 11, detached: false });
+      await d.teleport([x, y, z]);
+      await d.inspectPose({ x, y, z, yaw: 1.3, pitch: .18, distance: 11, detached: false });
     });
     await page.waitForTimeout(2000);
     await driver.screenshot(out, 'shoreline-low');

@@ -3,11 +3,11 @@ export interface HarnessGameDebug {
   getPlayer(): unknown;
   getPlayerPosition(): unknown;
   getCamera(): unknown;
-  getEntities(): unknown;
+  getEntities(): Promise<unknown>;
   getCurrentActivity(): unknown;
   getObjectives(): unknown;
   getNavigationState(): unknown;
-  reset(): void;
+  reset(): Promise<void>;
   [method: string]: unknown;
 }
 

@@ -4,7 +4,8 @@ import type { PlayerCharacter, Vec3, WorldDescriptor, WorldKey, WorldStorage } f
 import { adminUnavailable, createAdminApi } from "./adminApi.js";
 import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type ServerAdminStorage } from "./adminStorage.js";
 import { createAdminUi, type AdminUiSource } from "./adminUi.js";
-import { applyPlayerOps, editDiff, EditFailure, PLACE_SNAP_METRES, playerRevision, type PlayerPatch } from "./playerEdits.js";
+import { applyPlayerOps, editDiff, EditFailure, PLACE_SNAP_METRES, type PlayerPatch } from "./playerEdits.js";
+import { playerRevision } from "./playerRevision.js";
 import { createDirectoryHeartbeat, DEFAULT_SERVER_NAME, effectiveSettings, settingsPatch, type ServerSettings } from "./serverSettings.js";
 import { playerSessionState } from "../state/store.js";
 import { createCatalogHost, seedCatalog, serveCatalog, type CatalogHost } from "./catalogHost.js";

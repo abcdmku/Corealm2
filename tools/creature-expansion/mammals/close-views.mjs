@@ -36,7 +36,7 @@ try{
    if(view.clip){gallery.play(view.clip);await new Promise(r=>setTimeout(r,120));}
    const b=gallery.getBounds(),f=view.frac??[.5,.5,.5];
    const target={x:b.min[0]+f[0]*(b.max[0]-b.min[0]),y:b.min[1]+f[1]*(b.max[1]-b.min[1]),z:b.min[2]+f[2]*(b.max[2]-b.min[2])};
-   debug.inspectPose({...target,yaw:view.yaw,pitch:view.pitch,distance:view.distance,detached:true});
+   await debug.inspectPose({...target,yaw:view.yaw,pitch:view.pitch,distance:view.distance,detached:true});
    return {target,bounds:b,motion:debug.getEntityMotion(entityId)};
   },view);
   await page.waitForTimeout(view.settleMs??200);

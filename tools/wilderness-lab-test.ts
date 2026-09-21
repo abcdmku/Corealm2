@@ -23,14 +23,14 @@ try {
  const sky=await page.evaluate(()=>(window.__gameDebug as any).getBiomeAtmosphere()); evidence.push({sky});
  const path=await page.evaluate(()=>(window.__gameDebug as any).getNavPath([-8,0,41],[-8,0,20]));
  assert(path && path.length>=2,'Castle gate must connect the outside road and courtyard');
- await page.evaluate(()=>{window.__featureLab!.setWalkingEnabled(true);(window.__gameDebug as any).inspectPose({x:-8,y:0,z:41,yaw:0,pitch:.25,distance:12});});
+ await page.evaluate(async ()=>{window.__featureLab!.setWalkingEnabled(true);await (window.__gameDebug as any).inspectPose({x:-8,y:0,z:41,yaw:0,pitch:.25,distance:12});});
  const entryBefore=await page.evaluate(()=>window.__featureLab!.getState());
  await page.keyboard.down('w');await page.waitForTimeout(3300);await page.keyboard.up('w');
  const entryAfter=await page.evaluate(()=>window.__featureLab!.getState());
  assert(entryAfter.playerPosition[2]<30,`Player failed to walk through gate: ${entryAfter.playerPosition}`);
  evidence.push({path,entryBefore,entryAfter});await page.screenshot({path:`${out}/castle-walked-through.png`});
  for (const id of ['wraith','skeleton_soldier','grave_ghoul','mossback_sentinel','shale_elemental','beetle_golem','lava_golem']) {
-  await page.evaluate(async id=>{const g=(window as any).__creatureGallery;await g.show(`species:${id}`,1); const b=g.getBounds();const span=Math.max(...b.max.map((v:number,i:number)=>v-b.min[i]));(window.__gameDebug as any).inspectPose({x:(b.min[0]+b.max[0])/2,y:(b.min[1]+b.max[1])/2,z:(b.min[2]+b.max[2])/2,yaw:.65,pitch:.22,distance:span*1.8,detached:true});},id);
+  await page.evaluate(async id=>{const g=(window as any).__creatureGallery;await g.show(`species:${id}`,1); const b=g.getBounds();const span=Math.max(...b.max.map((v:number,i:number)=>v-b.min[i]));await (window.__gameDebug as any).inspectPose({x:(b.min[0]+b.max[0])/2,y:(b.min[1]+b.max[1])/2,z:(b.min[2]+b.max[2])/2,yaw:.65,pitch:.22,distance:span*1.8,detached:true});},id);
   await page.waitForTimeout(180);await page.screenshot({path:`${out}/${id}.png`});
   const motion=await page.evaluate(()=>{const g=(window as any).__creatureGallery;g.play('attack');return (window.__gameDebug as any).getEntityMotion(g.getState().entityIds[0]);});
   evidence.push({id,motion}); console.log(id);

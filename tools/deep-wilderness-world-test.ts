@@ -27,6 +27,7 @@ import { WILDERNESS_LAVA_EXPANSION_CHANNELS, lavaSections, sampleLavaChannel, ty
 import { DEEP_WILDERNESS_STRUCTURES, buildDeepWildernessStructure, buildDeepWildernessStructureCollisionParts } from '../game/src/render/compositions/deepWildernessStructures.js';
 import type { WildernessEffectsState } from '../game/src/render/wildernessEffects.js';
 import { SCATTER_STREAM_TILE_METRES } from '../game/src/world/scatter.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 type Point = { x: number; y: number; z: number };
 type XZ = readonly [number, number];
@@ -214,10 +215,10 @@ try {
 
   // Read initial populations before a visit can provoke an actor or change its state.
   stage = 'world population wiring';
-  const actors = await page.evaluate(() => {
+  const actors = await page.evaluate(async () => {
     const d = window.__gameDebug as any;
-    return d.getEntities().filter((row: any) => row.archetype === 'enemy' || row.archetype === 'boss')
-      .map((row: any) => d.getEntity(row.id)) as SemanticEntity[];
+    return await Promise.all((await d.getEntities()).filter((row: any) => row.archetype === 'enemy' || row.archetype === 'boss')
+      .map(async (row: any) => await d.getEntity(row.id))) as SemanticEntity[];
   });
   const groups = new Map<string, SemanticEntity[]>();
   for (const actor of actors) {
@@ -334,13 +335,13 @@ try {
 
   if (band === 'coast') {
     // Read reset results in the same browser turn, before a new AI tick can move a resident.
-    const coastalSnapshot = async (resetSeed?: number) => await page.evaluate(resetSeed => {
+    const coastalSnapshot = async (resetSeed?: number) => await page.evaluate(async resetSeed => {
       const d = window.__gameDebug as any;
       const previousErrors = d.getErrors();
-      if (resetSeed !== undefined) d.reset({ seed: resetSeed, keepSave: false });
-      const state = d.getState(), save = JSON.parse(d.getSaveBlob()) as GameState;
-      const rows = d.getEntities().filter((row: any) => row.id.startsWith('coastal_') && row.archetype === 'enemy')
-        .map((row: any) => d.getEntity(row.id)) as SemanticEntity[];
+      if (resetSeed !== undefined) await d.reset({ seed: resetSeed, keepSave: false });
+      const state = d.getState(), save = JSON.parse(await d.getSaveBlob()) as GameState;
+      const rows = await Promise.all((await d.getEntities()).filter((row: any) => row.id.startsWith('coastal_') && row.archetype === 'enemy')
+        .map(async (row: any) => await d.getEntity(row.id))) as SemanticEntity[];
       return { seed: state.seed as number, rows, player: save.player, combat: save.combat, activity: save.activity,
         runtimes: Object.fromEntries(Object.entries(save.world.enemies).filter(([id]) => id.startsWith('coastal_'))),
         previousErrors, errors: d.getErrors(), state, origin: performance.timeOrigin };
@@ -437,12 +438,12 @@ try {
       // the first visit can also create real pursuit state for the reset regression.
       const candidates = [...byGroup].filter(([, rows]) => rows[0]!.meta?.behaviour === 'aggressive')
         .sort((a, b) => a[1][0]!.tier - b[1][0]!.tier).slice(0, 32);
-      const approach = await page.evaluate(candidates => {
+      const approach = await page.evaluate(async candidates => {
         const d = window.__gameDebug as any;
-        const all = d.getEntities().filter((row: any) => row.archetype === 'enemy' || row.archetype === 'boss')
-          .map((row: any) => d.getEntity(row.id)) as SemanticEntity[];
+        const all = await Promise.all((await d.getEntities()).filter((row: any) => row.archetype === 'enemy' || row.archetype === 'boss')
+          .map(async (row: any) => await d.getEntity(row.id))) as SemanticEntity[];
         for (const [groupId, initial] of candidates) {
-          const rows = initial.map(row => d.getEntity(row.id)) as SemanticEntity[];
+          const rows = await Promise.all(initial.map(async row => await d.getEntity(row.id))) as SemanticEntity[];
           const centre = rows.reduce((sum, row) => [sum[0]! + row.position[0] / rows.length, sum[1]! + row.position[2] / rows.length], [0, 0]);
           const radius = Math.max(...rows.map(row => Math.hypot(row.position[0] - centre[0]!, row.position[2] - centre[1]!)
             + Math.max(row.combat?.aggroRadius ?? 0, row.combat?.bodyRadius ?? 0))) + 3;
@@ -467,14 +468,17 @@ try {
       assert(approach, 'No bounded coastal approach has a complete dry walking path and safe ordinary follow view');
       completePath(approach.path, approach.from, approach.to, `${name} coastal walk`);
       await frame([approach.from.x, approach.from.z], yawToward(-approach.direction[0]!, -approach.direction[1]!), .34, approach.ids);
-      const before = await page.evaluate(ids => ids.map(id => (window.__gameDebug as any).getEntity(id)) as SemanticEntity[], approach.ids);
+      const before = await page.evaluate(async ids => await Promise.all(ids.map(async id => await (window.__gameDebug as any).getEntity(id))) as SemanticEntity[], approach.ids);
       assert(before.every(row => row.state === 'alive'), 'Coastal patrol observation began during pursuit');
       const movement = await walk('s', 650, `${name} grounded coast walk`, .8);
-      await page.waitForFunction(before => before.some(row => {
-        const current = (window.__gameDebug as any).getEntity(row.id);
-        return current?.state === 'alive' && Math.hypot(current.position[0] - row.position[0], current.position[2] - row.position[2]) > .18;
-      }), before, { timeout: remaining(6500), polling: 120 });
-      const after = await page.evaluate(ids => ids.map(id => (window.__gameDebug as any).getEntity(id)) as SemanticEntity[], approach.ids);
+      await waitForDebug(page, async before => {
+        for (const row of before) {
+          const current = await (window.__gameDebug as any).getEntity(row.id);
+          if (current?.state === 'alive' && Math.hypot(current.position[0] - row.position[0], current.position[2] - row.position[2]) > .18) return true;
+        }
+        return false;
+      }, before, { timeout: remaining(6500), polling: 120 });
+      const after = await page.evaluate(async ids => await Promise.all(ids.map(async id => await (window.__gameDebug as any).getEntity(id))) as SemanticEntity[], approach.ids);
       assert(after.every(row => row.state === 'alive'), 'A pursuit was mistaken for coastal patrol movement');
       const save = JSON.parse(await debug<string>('getSaveBlob')) as GameState;
       const runtimes = Object.fromEntries(after.map(row => [row.id, save.world.enemies[row.id]]));
@@ -511,11 +515,11 @@ try {
     await frame(near, yawToward(-direction[0]!, -direction[1]!), .34, [target.id]);
     const pursuitBefore = await debug<SemanticEntity>('getEntity', [target.id]);
     await walk('w', 500, 'coast enter aggro range', .5);
-    await page.waitForFunction(id => (window.__gameDebug as any).getEntity(id)?.state === 'aggro', target.id,
+    await waitForDebug(page, async id => (await (window.__gameDebug as any).getEntity(id))?.state === 'aggro', target.id,
       { timeout: remaining(3500), polling: 80 });
     const pursuit = await debug<SemanticEntity>('getEntity', [target.id]);
     const click = await pointerEntity(target.id);
-    await page.waitForFunction(({ id, health }) => (window.__gameDebug as any).getEntity(id)?.combat?.health < health,
+    await waitForDebug(page, async ({ id, health }) => (await (window.__gameDebug as any).getEntity(id))?.combat?.health < health,
       { id: target.id, health: pursuit.combat!.health }, { timeout: remaining(6500), polling: 100 });
     const dirty = await coastalSnapshot();
     assert(dirty.runtimes[target.id]?.state !== 'idle', 'The pre-reset action did not leave a changed enemy runtime');
@@ -647,7 +651,7 @@ try {
       navigation: await navPath(from, rotate(site.position, site.rotationY, court.centre), `${site.id}/${court.id}`) });
     const parts = buildDeepWildernessStructure(site.id);
     const ids = parts.map(part => `${site.id}#${part.tag}`);
-    const liveParts = await page.evaluate(prefix => (window.__gameDebug as any).getEntities().filter((row: any) => row.id.startsWith(prefix)).map((row: any) => row.id), `${site.id}#`) as string[];
+    const liveParts = await page.evaluate(async prefix => (await (window.__gameDebug as any).getEntities()).filter((row: any) => row.id.startsWith(prefix)).map((row: any) => row.id), `${site.id}#`) as string[];
     assert(ids.every(id => liveParts.includes(id)), `${site.id}: production composition parts missing`);
     await frame(rotate(site.position, site.rotationY, definition.inspectionStops[0]!), site.rotationY, .34, ids);
     await capture(`${site.id}-approach`, { passage, courts, parts: liveParts.length });
@@ -681,10 +685,10 @@ try {
 
   if (band === 'resources') {
     stage = 'resource and recipe wiring';
-    const resourceRows = await page.evaluate(() => {
+    const resourceRows = await page.evaluate(async () => {
       const d = window.__gameDebug as any;
-      return d.getEntities().filter((row: any) => row.archetype === 'ore' || row.archetype === 'tree' || row.archetype === 'station')
-        .map((row: any) => d.getEntity(row.id)) as SemanticEntity[];
+      return await Promise.all((await d.getEntities()).filter((row: any) => row.archetype === 'ore' || row.archetype === 'tree' || row.archetype === 'station')
+        .map(async (row: any) => await d.getEntity(row.id))) as SemanticEntity[];
     });
     for (const cluster of WILDERNESS_RESOURCE_CLUSTERS) {
       const rows = resourceRows.filter(row => row.id.startsWith(`${cluster.id}_`));

@@ -91,8 +91,8 @@ try {
     }
     const slot = site.resourceSlots[0]!;
     const id = fishId || `${slot.clusterId}_${slot.index}`;
-    const selected = await page.evaluate(({ id, radius }) => {
-      const d: any = window.__gameDebug, entity = d.getEntity(id);
+    const selected = await page.evaluate(async ({ id, radius }) => {
+      const d: any = window.__gameDebug, entity = await d.getEntity(id);
       if (!entity?.interactionPosition) throw new Error(`Missing dry stance ${id}`);
       const a = entity.interactionPosition;
       const water = d.getWaterBodies().find((b: any) => b.id === entity.meta.clusterId);

@@ -39,10 +39,10 @@ try {
       select(entityId: string | null): void;
     };
     // Enough to end the fight quickly, so the sampling below is all corpse and no combat.
-    dbg.setSkillLevel("melee", 60);
-    dbg.teleport({ entityId: id });
+    await dbg.setSkillLevel("melee", 60);
+    await dbg.teleport({ entityId: id });
     await new Promise((r) => { setTimeout(r, 900); });
-    dbg.setHealth(999);
+    await dbg.setHealth(999);
     // Select it the way a player would before the fight, so the deselect below is a real
     // observation rather than a field that was never set.
     dbg.select(id);
@@ -51,8 +51,8 @@ try {
 
     for (let i = 0; i < 120; i += 1) {
       await new Promise((r) => { setTimeout(r, 150); });
-      dbg.setHealth(999);
-      const entity = dbg.getEntity(id) as Record<string, unknown> | null;
+      await dbg.setHealth(999);
+      const entity = await dbg.getEntity(id) as Record<string, unknown> | null;
       if (entity?.state === "dead") {
         return { died: true, selectedWhileAlive, selectedAtDeath: String(dbg.getState().selectedEntityId ?? "-") };
       }
@@ -87,7 +87,7 @@ try {
         height: typeof bounds?.height === "number" ? Number((bounds.height as number).toFixed(2)) : null,
         fade: typeof bounds?.fade === "number" ? Number((bounds.fade as number).toFixed(2)) : null,
         path: String(bounds?.path ?? "none"),
-        crates: dbg.getEntities().filter((e) => e.archetype === "loot").length,
+        crates: (await dbg.getEntities()).filter((e) => e.archetype === "loot").length,
         selected: String(dbg.getState().selectedEntityId ?? "-"),
       };
     }, { id: target, waitMs });
@@ -106,10 +106,10 @@ try {
       advanceGameTime(seconds: number): void;
       getEntities(): Record<string, unknown>[];
     };
-    const before = dbg.getEntities().filter((e) => e.archetype === "loot").length;
-    dbg.advanceGameTime(75);
+    const before = (await dbg.getEntities()).filter((e) => e.archetype === "loot").length;
+    await dbg.advanceGameTime(75);
     await new Promise((r) => { setTimeout(r, 1200); });
-    return { before, after: dbg.getEntities().filter((e) => e.archetype === "loot").length };
+    return { before, after: (await dbg.getEntities()).filter((e) => e.archetype === "loot").length };
   });
   console.log(`
   crates before +75 s: ${crates.before}, after: ${crates.after}`);

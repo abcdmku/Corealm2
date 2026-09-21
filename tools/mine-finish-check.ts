@@ -90,7 +90,8 @@ function check(mine: string, name: string, ok: boolean, detail: unknown): boolea
 }
 async function evaluate<T>(program: string, input: unknown = null, timeout = 8_000): Promise<T> {
   return driver.page!.evaluate<T>(
-    `(() => { const input = ${JSON.stringify(input)}; ${program}\n})()`,
+    // Async, because the programs await the debug surface's writes and whole-world reads.
+    `(async () => { const input = ${JSON.stringify(input)}; ${program}\n})()`,
   ) as Promise<T>;
 }
 async function debug<T>(method: string, params: unknown[] = []): Promise<T> {
@@ -232,8 +233,8 @@ interface Snapshot {
 async function observe(id: string, since: number): Promise<Snapshot> {
   return evaluate<Snapshot>(`
     const d = window.__gameDebug;
-    const save = JSON.parse(d.getSaveBlob());
-    return { state: d.getState(), player: d.getPlayerPosition(), entity: input.id ? d.getEntity(input.id) : null,
+    const save = JSON.parse(await d.getSaveBlob());
+    return { state: d.getState(), player: d.getPlayerPosition(), entity: input.id ? await d.getEntity(input.id) : null,
       activity: d.getCurrentActivity(), events: d.getEvents(input.since), movement: save.player.movement,
       errors: d.getErrors() };
   `, { id, since });
@@ -526,8 +527,8 @@ try {
           for (let attempt = 0; attempt < 60; attempt++) {
             const used = d.getState().inventoryUsed;
             if (used >= input.capacity) break;
-            d.giveItem(distinct[attempt % distinct.length], 1, 'inventory');
-            if (d.getState().inventoryUsed === used) d.giveItem('pale_quartz', 1, 'inventory');
+            await d.giveItem(distinct[attempt % distinct.length], 1, 'inventory');
+            if (d.getState().inventoryUsed === used) await d.giveItem('pale_quartz', 1, 'inventory');
           }
           return { used: d.getState().inventoryUsed, capacity: input.capacity };
         `, { capacity: INVENTORY_SLOTS }, 15_000);

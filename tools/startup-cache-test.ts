@@ -53,7 +53,7 @@ async function boot(name: string, storageUnavailable = false) {
   await page.locator("#boot-screen").waitFor({ state: "detached", timeout: 60_000 });
   // Keep the first second free of this harness's large semantic-state serialization and screenshots.
   await page.waitForTimeout(1100);
-  const state = await page.evaluate(() => {
+  const state = await page.evaluate(async () => {
     const debug = window.__gameDebug as any, globals = window as any;
     return { ready: debug.getState().ready, player: debug.getPlayer(), views: debug.getEntityViewStats(),
       scatter: debug.getScatterResidency(), scatterStats: debug.getScatterStats(), errors: debug.getErrors(),
@@ -62,11 +62,11 @@ async function boot(name: string, storageUnavailable = false) {
       playerAssets: globals.__corealmPlayerAssets?.snapshot(),
       modelTextureBytes: performance.getEntriesByType('resource').filter(entry => /\.(glb(?:\.model)?|png|jpe?g|webp)(?:\?|$)/.test(entry.name))
         .reduce((sum, entry) => sum + (entry as PerformanceResourceTiming).encodedBodySize, 0),
-      spawns: debug.getEntities().filter((e: any) => e.archetype === 'enemy' || e.archetype === 'boss')
-        .map((e: any) => { const entity = debug.getEntity(e.id); return { id: entity.id,
+      spawns: await Promise.all((await debug.getEntities()).filter((e: any) => e.archetype === 'enemy' || e.archetype === 'boss')
+        .map(async (e: any) => { const entity = await debug.getEntity(e.id); return { id: entity.id,
           x: entity.meta?.spawnX, z: entity.meta?.spawnZ, radius: entity.combat?.bodyRadius ?? .5,
-          boss: entity.archetype === 'boss', cave: entity.regionId === 'gravelmaw', groupId: entity.meta?.groupId }; }),
-      save: debug.getSaveBlob() };
+          boss: entity.archetype === 'boss', cave: entity.regionId === 'gravelmaw', groupId: entity.meta?.groupId }; })),
+      save: await debug.getSaveBlob() };
   });
   assert.equal(state.ready, true);
   assert.equal(state.views.residency.pending, 0);
@@ -145,12 +145,12 @@ try {
   if (!lab && process.argv.includes('--resume')) {
     for (const cave of [false, true]) {
       const page = context!.pages()[0]!;
-      const fixture = await page.evaluate(inCave => {
+      const fixture = await page.evaluate(async inCave => {
         const debug = window.__gameDebug as any;
-        const floor = inCave ? debug.getEntity('gravelmaw_exit_portal').position[1] : 10;
+        const floor = inCave ? (await debug.getEntity('gravelmaw_exit_portal')).position[1] : 10;
         const point = debug.getNavPoint(inCave ? [40, floor, -40] : [140, floor, -90]);
         if (!point) throw new Error('Resume requires reachable ground');
-        const blob = JSON.parse(debug.getSaveBlob());
+        const blob = JSON.parse(await debug.getSaveBlob());
         blob.player.position = [point.x, inCave ? point.y : debug.groundHeight(point.x, point.z), point.z];
         blob.player.regionId = inCave ? 'gravelmaw' : debug.sampleWorld(point.x, point.z).semanticRegion;
         blob.player.movement.path = [];

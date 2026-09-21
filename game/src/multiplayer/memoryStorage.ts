@@ -18,7 +18,14 @@ export class MemoryWorldStorage implements WorldStorage {
   readonly catalog: CatalogStorage = new MemoryCatalogStorage(this.roles.auditWriter);
   // Protected, not private: `indexedDbStorage.ts` reads these rows to persist them and fills them
   // on open. Leases stay private, because a stored lease is a lease no restart can free.
+  /** Each world without its entities, serialized. */
   protected readonly worlds = new Map<string, string>();
+  /**
+   * Each world's entities, serialized one by one. A commit in patch mode touches only the rows it names: local play
+   * commits ten times a second over a world of many thousand entities, and parsing them all back to change three is
+   * most of a tick.
+   */
+  protected readonly entityRows = new Map<string, Map<string, string>>();
   protected readonly accounts = new Map<string, Account>();
   protected readonly owned = new Map<string, Map<string, string>>();
   private readonly leases = new Map<string, Lease>();
@@ -41,6 +48,7 @@ export class MemoryWorldStorage implements WorldStorage {
   private compose(input: WorldKey, residentsOnly: boolean): WorldStorageRecord | null {
     const key = worldKey(input), json = this.worlds.get(key); if (!json) return null;
     const value = JSON.parse(json) as WorldStorageRecord;
+    value.entities = [...this.entityRows.get(key)?.values() ?? []].map(row => JSON.parse(row) as WorldStorageRecord["entities"][number]);
     value.players = Object.create(null); value.receipts = Object.create(null);
     for (const [id, stored] of this.owned.get(key) ?? []) {
       const record = JSON.parse(stored) as PlayerWorldRecord, character = this.accounts.get(id)?.character;
@@ -69,15 +77,20 @@ export class MemoryWorldStorage implements WorldStorage {
     if (lease?.world === worldKey(key) && lease.sessionId === sessionId) this.leases.delete(playerId);
   }
   async commit(record: WorldStorageRecord): Promise<WorldCommitResult> {
-    const key = worldKey(record.key), { leases = {}, audits = [], ...world } = record, fenced: string[] = [];
+    const key = worldKey(record.key), { leases = {}, audits = [], entities, entityWrites, removedEntityIds, ...world } = record, fenced: string[] = [];
     // Serialise everything first so a value that cannot be stored changes nothing.
-    const payload = JSON.stringify({ ...world, players: {}, receipts: {}, ...(record.random ? { random: { world: record.random.world, players: {} } } : {}),
-      ...(record.entityWrites === "patch" ? { entityWrites: undefined, removedEntityIds: undefined, entities: this.patched(key, record) } : {}) });
+    const payload = JSON.stringify({ ...world, entities: [], players: {}, receipts: {}, ...(record.random ? { random: { world: record.random.world, players: {} } } : {}) });
+    const written = entities.map(entity => [entity.id, JSON.stringify(entity)] as const);
     const own = <T>(map: Record<string, T> | undefined, id: string): T | undefined => map && Object.hasOwn(map, id) ? map[id] : undefined;
     const rows = Object.entries(record.players).map(([id, { ownedWorld, ...character }]) => ({ id, character: JSON.stringify(character),
       owned: JSON.stringify({ ownedWorld, receipts: own(record.receipts, id) ?? [], random: own(record.random?.players, id) } satisfies PlayerWorldRecord) }));
     let owned = this.owned.get(key); if (!owned) this.owned.set(key, owned = new Map());
     this.worlds.set(key, payload);
+    // A patch changes the rows it names. Anything else is the whole world, and replaces them.
+    let stored = this.entityRows.get(key);
+    if (!stored || entityWrites !== "patch") this.entityRows.set(key, stored = new Map());
+    for (const [id, row] of written) stored.set(id, row);
+    if (entityWrites === "patch") for (const id of removedEntityIds ?? []) stored.delete(id);
     for (const row of rows) {
       owned.set(row.id, row.owned);
       if (!Object.hasOwn(leases, row.id)) continue;
@@ -90,12 +103,6 @@ export class MemoryWorldStorage implements WorldStorage {
     }
     for (const audit of audits) if (!fenced.includes(audit.accountId)) this.roles.auditWriter(audit.by, audit.entry);
     return { fenced };
-  }
-  private patched(key: string, record: WorldStorageRecord): WorldStorageRecord["entities"] {
-    const prior = this.worlds.get(key), entities = new Map((prior ? (JSON.parse(prior) as WorldStorageRecord).entities : []).map(entity => [entity.id, entity]));
-    for (const entity of record.entities) entities.set(entity.id, entity);
-    for (const id of record.removedEntityIds ?? []) entities.delete(id);
-    return [...entities.values()];
   }
   async editStoredPlayer(edit: StoredPlayerEdit): Promise<StoredPlayerEditResult> {
     const lease = this.leases.get(edit.accountId), account = this.accounts.get(edit.accountId);

@@ -521,7 +521,7 @@ The identity origin comes from `identityUrl` and the asset origin from `assetBas
 
 ### Using the admin UI
 
-Open `https://<your server>/admin/`. The page signs in through the identity service the server names, so the first screen is **Sign in with Discord** or **Sign in with GitHub**, then **Open this server**.
+Open `https://<your server>/admin/`. The page signs in through the identity service the server names, so the first screen is **Sign in**, which leaves for that service's own sign-in form — a password is typed there and never in devdocs — and then **Open this server**.
 
 The first time, nobody holds a role yet, so that answers "This account holds no role on this server". Take the setup code the server printed at its first start, press **Enter setup code**, paste it and press **Claim this server**. That account becomes the owner, the code is spent, and the editor opens. An account that is not an owner or admin stops at the same screen and is never given a session.
 

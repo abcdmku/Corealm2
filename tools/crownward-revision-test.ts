@@ -90,10 +90,10 @@ try {
 
   const setFollowPose = async (pose: Pose): Promise<any> => {
     const y = await ground([pose.x, pose.z]);
-    await page.evaluate(({ pose, y, distance }) => {
+    await page.evaluate(async ({ pose, y, distance }) => {
       const debug = window.__gameDebug as any;
-      debug.teleport([pose.x, y, pose.z]);
-      debug.inspectPose({ ...pose, y, pitch: pose.pitch ?? .35, distance, detached: false });
+      await debug.teleport([pose.x, y, pose.z]);
+      await debug.inspectPose({ ...pose, y, pitch: pose.pitch ?? .35, distance, detached: false });
     }, { pose, y, distance: CAMERA.maxDistance });
     await page.waitForTimeout(250);
     const camera = await page.evaluate(() => (window.__gameDebug as any).getCamera());
@@ -109,12 +109,12 @@ try {
     drawn: { id: string; bounds: DrawnBounds }[];
     actualBounds: { min: Point; max: Point };
   }> => {
-    const ids = await page.evaluate(owner => {
+    const ids = await page.evaluate(async owner => {
       const base = owner.endsWith('#') ? owner.slice(0, -1) : owner;
-      return (window.__gameDebug as any).getEntities()
-      .map((entity: { id: string }) => entity.id)
-      .filter((id: string) => (id === base || id.startsWith(`${base}#`)) &&
-        !!(window.__gameDebug as any).getEntity(id)?.view);
+      // One whole-world read carries every view, so the parts need no read each.
+      return (await (window.__gameDebug as any).findEntities() as { id: string; view?: unknown }[])
+        .filter(entity => (entity.id === base || entity.id.startsWith(`${base}#`)) && !!entity.view)
+        .map(entity => entity.id);
     }, ownerId);
     assert(ids.length > 0, `${ownerId}: no semantic structure parts`);
     await page.waitForFunction(partIds => partIds.every((id: string) =>
@@ -152,11 +152,11 @@ try {
       );
     }, { gateway, fromY, toY });
     assert(pathResult && pathResult.length >= 2, 'Gateway has no production navigation path');
-    await page.evaluate(({ gateway, fromY, yaw, distance }) => {
+    await page.evaluate(async ({ gateway, fromY, yaw, distance }) => {
       window.__featureLab?.setWalkingEnabled(true);
       const debug = window.__gameDebug as any;
-      debug.teleport([gateway.from[0], fromY, gateway.from[1]]);
-      debug.inspectPose({ x: gateway.from[0], y: fromY, z: gateway.from[1], yaw,
+      await debug.teleport([gateway.from[0], fromY, gateway.from[1]]);
+      await debug.inspectPose({ x: gateway.from[0], y: fromY, z: gateway.from[1], yaw,
         pitch: .35, distance, detached: false });
     }, { gateway, fromY, yaw: yawToward(gateway.from, gateway.to), distance: CAMERA.maxDistance });
     await page.waitForTimeout(200);
@@ -203,8 +203,8 @@ try {
     };
     const camera = await setFollowPose(overview);
     const parts = await structureParts('feature-lab:structure');
-    const assetIds = await page.evaluate(ids => ids.map(id =>
-      (window.__gameDebug as any).getEntity(id).view.assetId), parts.ids);
+    const assetIds = await page.evaluate(async ids => await Promise.all(ids.map(async id =>
+      (await (window.__gameDebug as any).getEntity(id)).view.assetId)), parts.ids);
     await driver.screenshot(out, id);
     const navigation = await page.evaluate(() => (window.__gameDebug as any).getNavigationState());
     assert.equal(navigation.status, 'ready', `${id}: navigation is not ready`);

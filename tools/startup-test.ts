@@ -68,12 +68,12 @@ try {
   const cave = args.includes("--cave");
   await proveBoot(cave ? "cave-fresh" : "fresh");
   if (args.includes("--resume") || cave) {
-    const saved = await page.evaluate(inCave => {
+    const saved = await page.evaluate(async inCave => {
       const debug = window.__gameDebug as any;
-      const caveFloor = inCave ? debug.getEntity("gravelmaw_exit_portal").position[1] : 0;
+      const caveFloor = inCave ? (await debug.getEntity("gravelmaw_exit_portal")).position[1] : 0;
       const point = debug.getNavPoint(inCave ? [40, caveFloor, -40] : [140, 10, -90]);
       if (!point) throw new Error("Resume fixture needs reachable ground");
-      const blob = JSON.parse(debug.getSaveBlob());
+      const blob = JSON.parse(await debug.getSaveBlob());
       blob.player.position = [point.x, inCave ? point.y : debug.groundHeight(point.x, point.z), point.z];
       blob.player.regionId = inCave ? "gravelmaw" : (debug.sampleWorld(point.x, point.z) as any).semanticRegion;
       blob.player.movement.path = [];

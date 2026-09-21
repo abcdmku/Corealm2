@@ -2,6 +2,7 @@ import { chromium, type Page } from "playwright";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { startLocalMultiplayer } from "./lib/localMultiplayer.js";
 import { installTestDeadline } from "./lib/deadline.js";
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const mode = process.argv.includes("--prod") ? "prod" : "dev";
 const authored = process.argv.includes("--authored");
@@ -124,7 +125,7 @@ async function run(): Promise<void> {
   await page.getByRole("textbox", { name: "Development guest name", exact: true }).waitFor({ state: "visible" });
   checks.initialSelectorVisible = await selector.isVisible();
 
-  const landmarkHandle = await page.waitForFunction(({ authored }) => {
+  const landmarkHandle = await waitForDebug(page, async ({ authored }) => {
     const debug = Reflect.get(window, "__gameDebug") as {
       listEntities?: (filter?: { archetype?: string }) => Array<{
         id?: unknown;
@@ -135,7 +136,7 @@ async function run(): Promise<void> {
       getPlayerPosition?: () => { x: number; z: number };
     } | undefined;
     const player = debug?.getPlayerPosition?.();
-    const rows = debug?.listEntities?.({ archetype: "landmark" }) ?? [];
+    const rows = await debug?.listEntities?.({ archetype: "landmark" }) ?? [];
     const staticRows = rows.filter(row => {
       const interactions = row.interactions;
       return Array.isArray(interactions) && interactions.every(interaction => interaction === "inspect");
@@ -154,14 +155,13 @@ async function run(): Promise<void> {
     }).find(row => row?.drawn && (!authored || (row.distance > 52 && row.distance < 128)));
     return candidate ? { id: candidate.id, distance: candidate.distance, initialLandmarkIds } : false;
   }, { authored }, { timeout: authored ? 45_000 : 20_000 });
-  const landmark = await landmarkHandle.jsonValue() as { id: string; distance: number; initialLandmarkIds: string[] };
-  await landmarkHandle.dispose();
+  const landmark = landmarkHandle as { id: string; distance: number; initialLandmarkIds: string[] };
   landmarkSentinel = { id: landmark.id, distance: landmark.distance };
   initialLandmarkIds = landmark.initialLandmarkIds;
   report.landmark = { ...landmarkSentinel, initialStaticCount: initialLandmarkIds.length };
 
   const recordStage = async (stage: string): Promise<StageSnapshot> => {
-    const snapshot = await page!.evaluate(({ stage, sentinel, initialLandmarkIds, landmarkSentinel }) => {
+    const snapshot = await page!.evaluate(async ({ stage, sentinel, initialLandmarkIds, landmarkSentinel }) => {
       const debug = Reflect.get(window, "__gameDebug") as {
         getEntities?: () => Array<{ id: string }>;
         getEntity?: (id: string) => unknown | null;
@@ -174,7 +174,7 @@ async function run(): Promise<void> {
         entities?: Array<{ id: string }>;
         sessionId?: string | null;
       } | undefined;
-      const debugIds = [...new Set((debug?.getEntities?.() ?? [])
+      const debugIds = [...new Set((await debug?.getEntities?.() ?? [])
         .map(entity => entity.id).filter((id): id is string => typeof id === "string"))].sort();
       const replicatedIds = [...new Set((observed?.entities ?? [])
         .map(entity => entity.id).filter((id): id is string => typeof id === "string"))].sort();
@@ -206,7 +206,7 @@ async function run(): Promise<void> {
           id: landmarkSentinel.id,
           distance: landmarkSentinel.distance,
           replicated: replicatedIds.includes(landmarkSentinel.id),
-          semantic: Boolean(debug?.getEntity?.(landmarkSentinel.id)),
+          semantic: Boolean(await debug?.getEntity?.(landmarkSentinel.id)),
           drawn: landmarkDrawn,
         },
         runtimeErrorCount,
@@ -219,18 +219,18 @@ async function run(): Promise<void> {
     return snapshot;
   };
 
-  const readEntityIds = async (): Promise<string[]> => page!.evaluate(() => {
+  const readEntityIds = async (): Promise<string[]> => page!.evaluate(async () => {
     const debug = Reflect.get(window, "__gameDebug") as { getEntities?: () => Array<{ id: string }> } | undefined;
-    return [...new Set((debug?.getEntities?.() ?? []).map(entity => entity.id)
+    return [...new Set((await debug?.getEntities?.() ?? []).map(entity => entity.id)
       .filter((id): id is string => typeof id === "string"))].sort();
   });
 
-  await page.waitForFunction(id => {
+  await waitForDebug(page, async id => {
     const debug = Reflect.get(window, "__gameDebug") as {
       getEntity?: (entityId: string) => unknown;
       getDrawnBounds?: (entityId: string) => unknown | null;
     } | undefined;
-    return Boolean(debug?.getEntity?.(id) && debug.getDrawnBounds?.(id));
+    return Boolean(await debug?.getEntity?.(id) && debug?.getDrawnBounds?.(id));
   }, sentinel, { timeout: authored ? 30_000 : 15_000 });
   initialEntityIds = await readEntityIds();
   await recordStage("offline-initial");
@@ -301,14 +301,14 @@ async function run(): Promise<void> {
     const samples: RafSample[] = [];
     const end = performance.now() + durationMs;
     await new Promise<void>(resolve => {
-      const frame = (at: number) => {
+      const frame = async (at: number) => {
         const debug = Reflect.get(window, "__gameDebug") as {
           getEntity?: (id: string) => unknown;
           getDrawnBounds?: (id: string) => unknown | null;
         } | undefined;
         samples.push({
           phase: document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") ?? "missing",
-          semantic: Boolean(debug?.getEntity?.(sentinel)),
+          semantic: Boolean(await debug?.getEntity?.(sentinel)),
           drawn: Boolean(debug?.getDrawnBounds?.(sentinel)),
         });
         if (at < end) requestAnimationFrame(frame); else resolve();
@@ -357,9 +357,9 @@ async function run(): Promise<void> {
   await ensureWorldsVisible();
   await page!.locator(".worlds__row--local input").check(); await page!.getByRole("button", { name: "Leave world", exact: true }).click();
   await page!.waitForFunction(() => document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") === "offline", undefined, { timeout: 8_000 });
-  await page!.waitForFunction(expected => {
+  await waitForDebug(page!, async expected => {
     const debug = Reflect.get(window, "__gameDebug") as { getEntities?: () => Array<{ id: string }> } | undefined;
-    const ids = [...new Set((debug?.getEntities?.() ?? []).map(entity => entity.id))].sort();
+    const ids = [...new Set((await debug?.getEntities?.() ?? []).map(entity => entity.id))].sort();
     return ids.length === expected.length && ids.every((id, index) => id === expected[index]);
   }, initialEntityIds, { timeout: 8_000 });
   const offline = await recordStage("leave-restored-offline");

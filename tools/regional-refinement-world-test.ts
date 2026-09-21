@@ -13,9 +13,9 @@ try{
  await driver.launch();await driver.open(60000);const page=driver.page!;
  if(!caveOnly){
  for(const group of [...REGIONAL_VARIANT_GROUPS,AMETHYST_CAVE_GROUP]){
-  const result=await page.evaluate(group=>{const d=window.__gameDebug as any;
-   const actors=d.getEntities().filter((e:any)=>e.id===group.id||e.id.startsWith(group.id+'_')).map((e:any)=>d.getEntity(e.id));
-   if(!group.id.startsWith('gravelmaw'))d.inspectPose({x:group.centre[0],y:d.groundHeight(...group.centre),z:group.centre[1]+10,yaw:1.2,pitch:.38,distance:20});
+  const result=await page.evaluate(async group=>{const d=window.__gameDebug as any;
+   const actors=await Promise.all((await d.getEntities()).filter((e:any)=>e.id===group.id||e.id.startsWith(group.id+'_')).map(async (e:any)=>await d.getEntity(e.id)));
+   if(!group.id.startsWith('gravelmaw'))await d.inspectPose({x:group.centre[0],y:d.groundHeight(...group.centre),z:group.centre[1]+10,yaw:1.2,pitch:.38,distance:20});
    return {actors,samples:actors.map((a:any)=>d.sampleWorld(a.position[0],a.position[2])),paths:actors.slice(1).map((a:any)=>d.getNavPath(actors[0].position,a.position)),sky:d.getBiomeAtmosphere()};
   },group);
   evidence.push({id:group.id,...result});assert.equal(result.actors.length,group.count,group.id);
@@ -44,7 +44,7 @@ try{
  await page.getByRole('button',{name:'Close Map',exact:true}).click();
  }
  const entry=await page.evaluate(()=>(window.__gameDebug as any).getEntity('gravelmaw_mouth_portal'));
- await page.evaluate(e=>{const d=window.__gameDebug as any,s=e.interactionPosition,y=e.view.rotationY??0;d.teleport([s[0]+Math.sin(y)*3,s[1],s[2]+Math.cos(y)*3]);d.inspectPose({x:e.position[0],y:e.position[1]+1,z:e.position[2],yaw:y,pitch:.18,distance:15,detached:true});},entry);
+ await page.evaluate(async e=>{const d=window.__gameDebug as any,s=e.interactionPosition,y=e.view.rotationY??0;await d.teleport([s[0]+Math.sin(y)*3,s[1],s[2]+Math.cos(y)*3]);await d.inspectPose({x:e.position[0],y:e.position[1]+1,z:e.position[2],yaw:y,pitch:.18,distance:15,detached:true});},entry);
  await page.waitForTimeout(500);
  const pose=await page.evaluate(()=>(window.__gameDebug as any).getCamera());
  const camera=new THREE.PerspectiveCamera(55,1440/900,.1,1000);camera.position.set(pose.position.x,pose.position.y,pose.position.z);camera.lookAt(pose.target.x,pose.target.y,pose.target.z);camera.updateMatrixWorld();
@@ -52,7 +52,7 @@ try{
  const projected=new THREE.Vector3(entry.position[0]-Math.sin(yaw)*.3*scale,entry.position[1]+1.2*scale,entry.position[2]-Math.cos(yaw)*.3*scale).project(camera);
  await page.mouse.click((projected.x+1)*720,(1-projected.y)*450);
  await page.waitForFunction(()=>(window.__gameDebug as any).getState().regionId==='gravelmaw'&&!document.querySelector('.portal-transition'),undefined,{timeout:30000});
- const cave=await page.evaluate(()=>{const d=window.__gameDebug as any;const actors=d.getEntities().filter((a:any)=>a.id.startsWith('gravelmaw_amethyst_spiders')).map((a:any)=>d.getEntity(a.id));d.inspectPose({x:35,y:actors[0].position[1],z:-42,yaw:1.1,pitch:.42,distance:12,detached:true});return {actors,paths:actors.slice(1).map((a:any)=>d.getNavPath(actors[0].position,a.position)),state:d.getState()};});
+ const cave=await page.evaluate(async ()=>{const d=window.__gameDebug as any;const actors=await Promise.all((await d.getEntities()).filter((a:any)=>a.id.startsWith('gravelmaw_amethyst_spiders')).map(async (a:any)=>await d.getEntity(a.id)));await d.inspectPose({x:35,y:actors[0].position[1],z:-42,yaw:1.1,pitch:.42,distance:12,detached:true});return {actors,paths:actors.slice(1).map((a:any)=>d.getNavPath(actors[0].position,a.position)),state:d.getState()};});
  assert.equal(cave.actors.length,AMETHYST_CAVE_GROUP.count,'cave resident count');
  assert(cave.actors.every((actor:any)=>actor.view.assetId==='creature_blind_cave_weaver'),'cave uses accepted replacement bodies');
  for(const path of cave.paths)assert(path?.length,'cave spider path');evidence.push({cave});

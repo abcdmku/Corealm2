@@ -31,7 +31,7 @@ import type { TraversalPresentation } from "../render/traversalPresentation.js";
 import { sampleFishing } from "../render/fishingPose.js";
 import { GATHER_TICK_MS } from "../core/time.js";
 import { MultiplayerSocial } from "../ui/multiplayerSocial.js";
-import { ContentNotice } from "../ui/contentNotice.js";
+import { ContentNotice, SessionNotice } from "../ui/contentNotice.js";
 
 /** World selection that outlives the loading screen: built early, wired to the engine later. */
 export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & {
@@ -129,9 +129,9 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     guest.append("Guest character",name);
     selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__host"));
   }
-  // Local play was asked for by name, or picked while the scene loads: boot its world beside the scene.
+  // Local play was asked for by name, is the only thing this page can start, or is picked while the scene loads: boot its world beside the scene.
   if(local){
-    if(play?.kind==="local")local.provider.prestart();
+    if(play?.kind==="local"||(!configured&&play===null))local.provider.prestart();
     selector.panel.addEventListener("worldschosen",event=>{if((event as CustomEvent<{play:string|null}>).detail?.play==="local")local.provider.prestart();});
   }
   return {...selector, configured, local, attach(ports){attached.ports=ports;selector.refresh();}};
@@ -145,6 +145,10 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   if (!selector) return;
   const social = new MultiplayerSocial(ports.api);
   const contentNotice = new ContentNotice(); let contentUpdates: (() => void) | null = null;
+  // What local play has to say reaches the player in the game, not only on the picker they have already left.
+  const localNotice = selector.local ? new SessionNotice() : null; let localNoticeShown: string | null = null;
+  const sayLocalNotice = (): void => { const text = selector.local?.notice() ?? null; if (text && text !== localNoticeShown) { localNoticeShown = text; localNotice?.show(text); } };
+  if (localNotice) window.addEventListener("corealm:local-storage", sayLocalNotice);
   let offline = ports.store.snapshot(); let offlineEntities = structuredClone(ports.entities.all());
   const replicatedEntities = new ReplicatedEntityLayer(ports.entities, offlineEntities);
   const remote = new Map<string, SemanticEntity>(); const entities = new Map<string, SemanticEntity>();
@@ -219,6 +223,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       // A publish on the server offers a refresh and nothing more. Play carries on with the catalog this session joined with.
       contentUpdates?.(); contentUpdates = session?.subscribeContent?.(() => contentNotice.show()) ?? null;
       if (phase === "offline") contentNotice.clear();
+      if (phase === "connected" && session?.world?.providerId === workerLocal?.id) sayLocalNotice(); else if (phase !== "connected") localNotice?.clear();
       if (session?.catalog) void serverCatalog.enter(session.catalog); else if (phase === "offline") serverCatalog.leave();
       ports.api.setCommandSession(session ? {
         id:session.id,world:session.world,playerId:session.playerId,
@@ -336,7 +341,9 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
     label.append(toggle, "Simplify crowds"); selector.panel.append(label);
   }
   const animate = (now: number) => {
-    const simNow = (lastUpdate?.simMs??0) + Math.min(100, now - receivedAt);
+    // Debug time control moves the host's pace, and the page's clock mirrors it: presentation time stands still while paused and runs at the scale.
+    const simNow = (lastUpdate?.simMs??0) + (ports.clock.paused ? 0 : Math.min(100, (now - receivedAt) * ports.clock.timeScale));
+    prediction.setPace(ports.clock.paused, ports.clock.timeScale);
     ports.loop.setRemotePresentationTime(simNow);
     const traversal = ports.traversal ? ports.traversal.current() : online && lastUpdate
       ? replicatedTraversal(ports.store.get(), id => ports.entities.get(id),simNow) : null;

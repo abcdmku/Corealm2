@@ -23,9 +23,9 @@ try {
   await page.getByRole('button', { name: 'Close Feature lab', exact: true }).click();
   await page.waitForFunction(() => (window.__gameDebug as any).getBiomeAtmosphere().sky.night > .98,
     null, { timeout: 8000 });
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const debug = window.__gameDebug as any;
-    debug.inspectPose({ x: -2, y: debug.groundHeight(-2, 2), z: 2, yaw: .4, pitch: .6, distance: 11 });
+    await debug.inspectPose({ x: -2, y: debug.groundHeight(-2, 2), z: 2, yaw: .4, pitch: .6, distance: 11 });
   });
   await page.waitForTimeout(250);
   const first: WildernessEffectsState = await page.evaluate(() => (window as any).__wildernessEffects.getState());
@@ -57,9 +57,9 @@ try {
   assert(unlit.liveParticles > 0 && unlit.lights.every((light: { intensity: number }) => light.intensity === 0));
   evidence.push({ unlit });
   await page.evaluate(() => (window as any).__wildernessEffects.setLightingEnabled(true));
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     window.__featureLab!.setWalkingEnabled(true);
-    (window.__gameDebug as any).inspectPose({ x: 28, y: (window.__gameDebug as any).groundHeight(28, 16), z: 16, yaw: 0, pitch: .3, distance: 11 });
+    await (window.__gameDebug as any).inspectPose({ x: 28, y: (window.__gameDebug as any).groundHeight(28, 16), z: 16, yaw: 0, pitch: .3, distance: 11 });
   });
   const beforeWalk = await page.evaluate(() => window.__featureLab!.getState().playerPosition);
   await page.keyboard.down('w');

@@ -153,10 +153,10 @@ async function probe(targetPage: Page, entityId: string, _header: string): Promi
         setHealth(value: number): void;
       };
     }).__gameDebug;
-    debug.setSkillLevel("melee", 40);
-    debug.teleport({ entityId: id });
+    await debug.setSkillLevel("melee", 40);
+    await debug.teleport({ entityId: id });
     await new Promise((resolve) => { setTimeout(resolve, 1200); });
-    debug.setHealth(9999);
+    await debug.setHealth(9999);
   }, entityId);
 
   // Step off the spawn point so the creature has ground to cover, staying well inside every
@@ -170,7 +170,7 @@ async function probe(targetPage: Page, entityId: string, _header: string): Promi
       };
     }).__gameDebug;
     const here = debug.getPlayerPosition();
-    debug.teleport({ x: here.x + 3.5, y: here.y, z: here.z + 3.5 });
+    await debug.teleport({ x: here.x + 3.5, y: here.y, z: here.z + 3.5 });
     await debug.callTool("corealm_attack", { entityId: id }).catch(() => undefined);
   }, entityId);
 
@@ -208,14 +208,14 @@ async function probe(targetPage: Page, entityId: string, _header: string): Promi
       const out: unknown[] = [];
       for (let index = 0; index < args.count; index += 1) {
         await new Promise((resolve) => { setTimeout(resolve, args.intervalMs); });
-        debug.setHealth(9999);
+        await debug.setHealth(9999);
         const motion = debug.getEntityMotion(args.id);
         if (!motion) continue;
         const semantic = motion["semanticPosition"] as number[] | undefined;
         if (!semantic) continue;
         const [x, y, z] = [semantic[0]!, semantic[1]!, semantic[2]!];
         let neighbours = 0;
-        for (const entity of debug.getEntities()) {
+        for (const entity of await debug.getEntities()) {
           if (entity.id === args.id) continue;
           if (entity.archetype !== "enemy" && entity.archetype !== "boss") continue;
           const p = entity.position;

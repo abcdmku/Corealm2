@@ -7,6 +7,7 @@ import {startGameServer} from './lib/server.js';
 import {JEWELRY_RECIPES,CRAFTED_JEWELRY} from '../game/src/content/jewelry.js';
 import {MINIBOSS_JEWELLERY} from '../game/src/content/universalMinibossLoot.js';
 import type {GameState} from '../game/src/state/store.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 const world=process.argv.includes('--world');
 const out=path.resolve('test-results/jewelry-browser'+(world?'-world':''));await mkdir(out,{recursive:true});
 const server=await startGameServer();const driver=new GameDriver(server,{viewport:{width:1440,height:1000},browserArgs:['--enable-gpu','--ignore-gpu-blocklist','--mute-audio','--use-angle=d3d11']});
@@ -33,7 +34,7 @@ try{
    for(const input of recipe.inputs)await driver.callDebug('giveItem',[input.itemId,input.quantity,'inventory']);
    const before=await save();
    const result=await driver.callDebug('callTool',['corealm_produce',{recipeId:recipe.id,stationId:fixture.stationId,quantity:1}]);
-   await page.waitForFunction(id=>{const s=JSON.parse((window.__gameDebug as any).getSaveBlob());return s.inventory.slots.some((i:any)=>i?.itemId===id)},recipe.output.itemId,{timeout:12000});
+   await waitForDebug(page, async id=>{const s=JSON.parse(await (window.__gameDebug as any).getSaveBlob());return s.inventory.slots.some((i:any)=>i?.itemId===id)},recipe.output.itemId,{timeout:12000});
    const after=await save();assert.equal(count(after,recipe.output.itemId)-count(before,recipe.output.itemId),1);
    for(const input of recipe.inputs)assert.equal(count(before,input.itemId)-count(after,input.itemId),input.quantity);
    crafts.push({recipe:recipe.id,before:before.inventory.slots,after:after.inventory.slots,result});
@@ -54,7 +55,7 @@ try{
   for(const id of ['crafted_ring_t10','crafted_ring_t10','crafted_earring_t40','crafted_earring_t70']){
    await page.locator(`#panel-inventory .slot[data-item="${id}"]`).first().click();
   }
-  await page.waitForFunction(()=>{const e=JSON.parse((window.__gameDebug as any).getSaveBlob()).equipment;return e.accessory1?.itemId==='crafted_ring_t10'&&e.ring2?.itemId==='crafted_ring_t10'&&e.accessory2?.itemId==='crafted_earring_t40'&&e.earring2?.itemId==='crafted_earring_t70'},undefined,{timeout:5000});
+  await waitForDebug(page, async ()=>{const e=JSON.parse(await (window.__gameDebug as any).getSaveBlob()).equipment;return e.accessory1?.itemId==='crafted_ring_t10'&&e.ring2?.itemId==='crafted_ring_t10'&&e.accessory2?.itemId==='crafted_earring_t40'&&e.earring2?.itemId==='crafted_earring_t70'},undefined,{timeout:5000});
   report.equipment={before:beforeEquip.equipment,after:(await save()).equipment};
   await page.locator('.dock__btn[data-panel="equipment"]').click();
   await page.locator('#panel-equipment .panel__close').focus();

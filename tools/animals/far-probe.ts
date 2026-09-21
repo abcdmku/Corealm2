@@ -29,7 +29,7 @@ try {
       teleport(target: unknown): boolean;
       getDrawnBounds(id: string): Record<string, unknown> | null;
     };
-    const entities = dbg.getEntities();
+    const entities = await dbg.getEntities();
     const groups = new Map<string, string>();
     for (const e of entities) {
       if (e.archetype !== "enemy" && e.archetype !== "boss") continue;
@@ -41,11 +41,11 @@ try {
     const out: Record<string, unknown>[] = [];
     for (const [groupId, sampleId] of groups) {
       // Far first: sit at the world origin, which is outside the animation radius of everything.
-      dbg.teleport({ x: 0, y: 0, z: 0 });
+      await dbg.teleport({ x: 0, y: 0, z: 0 });
       await new Promise((r) => { setTimeout(r, 350); });
       const far = dbg.getDrawnBounds(sampleId) as Record<string, unknown> | null;
 
-      dbg.teleport({ entityId: sampleId });
+      await dbg.teleport({ entityId: sampleId });
       await new Promise((r) => { setTimeout(r, 900); });
       const near = dbg.getDrawnBounds(sampleId) as Record<string, unknown> | null;
 

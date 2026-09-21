@@ -11,6 +11,7 @@ import { DEFAULT_SETTINGS } from '../../game/src/ui/settings.js';
 import { GameDriver } from '../lib/driver.js';
 import { installTestDeadline } from '../lib/deadline.js';
 import { argValue, repoRoot } from '../lib/paths.js';
+import { waitForDebug } from "../lib/wait-for-debug.js";
 
 type Point = { x: number; y: number; z: number };
 interface Motion {
@@ -64,9 +65,9 @@ async function main(): Promise<void> {
     assert.equal(await page.evaluate(() => Boolean(window.__featureLab)), false, 'Expected normal full world');
     const origin = await page.evaluate(() => performance.timeOrigin);
     report.bootMs = Date.now() - started;
-    const read = () => page.evaluate(() => {
+    const read = () => page.evaluate(async () => {
       const d = window.__gameDebug as unknown as Debug;
-      return { player: d.getPlayerPosition(), camera: d.getCamera(), motion: d.getPlayerMotion(), save: JSON.parse(d.getSaveBlob()) as GameState };
+      return { player: d.getPlayerPosition(), camera: d.getCamera(), motion: d.getPlayerMotion(), save: JSON.parse(await d.getSaveBlob()) as GameState };
     });
     await driver.callDebug('setSkillLevel', ['melee', 99]);
     await driver.callDebug('setSkillLevel', ['magic', 99]);
@@ -122,9 +123,9 @@ async function main(): Promise<void> {
       for (const id of Object.values(scenario.members)) await inventory.locator(`.slot[data-item="${id}"]`).click();
       await page.locator('.dock__btn[data-panel="inventory"]').click();
       const expected = SLOTS.filter(slot => scenario.members[slot]).map(slot => `fab_male_${scenario.family}_${slot}`);
-      await page.waitForFunction(({ members, expected }) => {
+      await waitForDebug(page, async ({ members, expected }) => {
         const d = window.__gameDebug as unknown as Debug;
-        const save = JSON.parse(d.getSaveBlob()) as GameState;
+        const save = JSON.parse(await d.getSaveBlob()) as GameState;
         const motion = d.getPlayerMotion();
         return Object.entries(members).every(([slot, id]) => save.equipment[slot as keyof GameState['equipment']]?.itemId === id)
           && ['head', 'body', 'legs', 'hands', 'feet'].every(slot => members[slot as keyof typeof members] || !save.equipment[slot as keyof GameState['equipment']])

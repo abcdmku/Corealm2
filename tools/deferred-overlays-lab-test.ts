@@ -8,6 +8,7 @@ import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 interface OverlayDebug {
   getState(): { health: number; clock: { timeScale: number } };
@@ -158,7 +159,7 @@ async function main(): Promise<void> {
         const since = debug.getEvents(0).nextSeq;
         const lab = await window.__featureLab!.spawnTarget("creature", "kilnroad_reavers", { distance: 2 });
         // spawnTarget restores health. Lower it only after the real actor has finished loading.
-        debug.setHealth(1);
+        await debug.setHealth(1);
         return { since, target: lab.target, errors: lab.errors, health: debug.getState().health };
       });
       assert.equal(setup.errors.length, 0);
@@ -252,9 +253,9 @@ async function main(): Promise<void> {
     let completionError: unknown;
     try {
       // Taking is synchronous, but the event bus publishes its queued receipt at the next tick.
-      await page.waitForFunction(({ since, cacheId }) => {
+      await waitForDebug(page, async ({ since, cacheId }) => {
         const debug = window.__gameDebug as unknown as OverlayDebug;
-        const state = JSON.parse(debug.getSaveBlob()) as GameState;
+        const state = JSON.parse(await debug.getSaveBlob()) as GameState;
         const batch = debug.getEvents(since);
         const carried = state.inventory.slots.reduce((sum, stack) => sum + (stack?.itemId === "air_essence" ? stack.quantity : 0), 0);
         return batch.dropped || (carried === 5 && state.world.recoveryCache === null
@@ -264,9 +265,9 @@ async function main(): Promise<void> {
     } catch (error) {
       completionError = error;
     }
-    const { after, receipts } = await page.evaluate((since) => {
+    const { after, receipts } = await page.evaluate(async (since) => {
       const debug = window.__gameDebug as unknown as OverlayDebug;
-      return { after: JSON.parse(debug.getSaveBlob()) as GameState, receipts: debug.getEvents(since) };
+      return { after: JSON.parse(await debug.getSaveBlob()) as GameState, receipts: debug.getEvents(since) };
     }, cursor);
     report.lootAttempt = {
       cursor, cacheId: cache.id, before, after, receipts,

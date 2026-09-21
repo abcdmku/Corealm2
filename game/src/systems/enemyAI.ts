@@ -354,6 +354,8 @@ export class EnemyAiSystem implements TickSystem {
 
   private enemies: SemanticEntity[] = [];
   private readonly simulated: SemanticEntity[] = [];
+  /** The enemies the last tick actually ran. Everything else was left exactly as it was. */
+  simulatedLastTick(): readonly SemanticEntity[] { return this.simulated; }
   private nextScanAtMs = -1;
   private scannedRealm: RegionId | null | undefined;
 

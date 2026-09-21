@@ -236,8 +236,8 @@ function playthroughSource(): string {
       if (opened.error) { await sleep(500); continue; }
       for (let swing = 0; swing < 80; swing += 1) {
         await sleep(400);
-        if (dbg.getState().health < 60) dbg.setHealth(999);
-        const live = dbg.getEntity(target.id);
+        if (dbg.getState().health < 60) await dbg.setHealth(999);
+        const live = await dbg.getEntity(target.id);
         if (!live || live.state === "dead" || (live.combat && live.combat.health <= 0)) {
           felled.push(target.id);
           break;
@@ -259,9 +259,9 @@ function playthroughSource(): string {
    * stage that would not move: a check that can say no more than "stage 4 did not advance" costs
    * whoever reads it an hour.
    */
-  const questRecord = (id) => {
+  const questRecord = async (id) => {
     try {
-      return JSON.parse(dbg.getSaveBlob()).quests[id] || { counters: {}, flags: {} };
+      return JSON.parse(await dbg.getSaveBlob()).quests[id] || { counters: {}, flags: {} };
     } catch (cause) {
       return { counters: {}, flags: {} };
     }
@@ -419,7 +419,7 @@ function playthroughSource(): string {
 
       for (let round = 0; round < 12 && !depleted; round += 1) {
         await doInteract(node.id, "mine", ["resource.depleted", "activity.stopped", "inventory.full"], 45000);
-        const now = dbg.getEntity(node.id);
+        const now = await dbg.getEntity(node.id);
         depleted = now && now.state === "depleted";
         if (depleted) {
           // One view sync, no more: \`EntityViews.sync\` runs every 250 ms of sim time, which is a
@@ -484,9 +484,9 @@ function playthroughSource(): string {
       // Ingredients are set up with debug; the PRODUCTION must happen by playing.
       // A clear pack first: six ingredients at four each is 24 non-stackable slots, and whatever
       // the previous check left behind pushed it over 28 so the last ones silently never arrived.
-      dbg.clearInventory();
+      await dbg.clearInventory();
       for (const item of ["grithe_ore","march_stone","palewood_log","silt_minnow","pale_quartz","grithe_bar"]) {
-        dbg.giveItem(item, 3);
+        await dbg.giveItem(item, 3);
       }
       // Stations are found by their kind, which lives on the station block rather than in the name.
       const stationEntity = await findStation(station);
@@ -507,10 +507,10 @@ function playthroughSource(): string {
   // --------------------------------------------------------------- combat
   {
     const beforeMelee = (await skills()).melee.xp;
-    dbg.setSkillLevel("melee", 10);
-    dbg.giveItem("grithe_dagger", 1);
+    await dbg.setSkillLevel("melee", 10);
+    await dbg.giveItem("grithe_dagger", 1);
     await agent.call("corealm_equip", { itemId: "grithe_dagger" });
-    dbg.setHealth(999);
+    await dbg.setHealth(999);
     const enemy = await findNear(["enemy"], "attack", "march|camp|pit|frog");
     let killed = false;
     if (enemy) {
@@ -519,9 +519,9 @@ function playthroughSource(): string {
       await agent.call("corealm_attack", { entityId: enemy.id });
       for (let i = 0; i < 40 && !killed; i += 1) {
         await sleep(600);
-        const e = dbg.getEntity(enemy.id);
+        const e = await dbg.getEntity(enemy.id);
         if (!e || e.state === "dead" || (e.combat && e.combat.health <= 0)) killed = true;
-        if (dbg.getState().health < 12) dbg.setHealth(999);
+        if (dbg.getState().health < 12) await dbg.setHealth(999);
         if (!dbg.getState().combatTargetId && !killed) await agent.call("corealm_attack", { entityId: enemy.id });
       }
     }
@@ -532,17 +532,17 @@ function playthroughSource(): string {
 
   // ---------------------------------------------------------------- magic
   {
-    dbg.setSkillLevel("magic", 10);
+    await dbg.setSkillLevel("magic", 10);
     // Setup changes XP to the level-10 threshold, so the baseline must come afterwards. Otherwise
     // this gate passes before a wand is equipped or a spell is launched.
     const before = (await skills()).magic.xp;
-    dbg.clearInventory();
-    dbg.giveItem("basic_wooden_wand", 1);
-    dbg.giveItem("air_essence", 50);
+    await dbg.clearInventory();
+    await dbg.giveItem("basic_wooden_wand", 1);
+    await dbg.giveItem("air_essence", 50);
     const wand = await agent.call("corealm_equip", { itemId: "basic_wooden_wand" });
     const spellbookBefore = await agent.call("corealm_spellbook", { op: "read" });
     const essenceBefore = spellbookBefore.essence ? spellbookBefore.essence.wind : null;
-    dbg.setHealth(999);
+    await dbg.setHealth(999);
     // Filtered on "attack", not "cast". Enemies no longer advertise a separate cast verb - one
     // combat verb now means "hit that with what I am holding" - so a "cast" filter matches nothing
     // and this step would quietly report "no enemy found" instead of testing magic at all. The cast
@@ -584,7 +584,7 @@ function playthroughSource(): string {
     // "no obstacle found" printed next to it. It was passing on its own setup, which is the exact
     // thing rule 2 in this file's header exists to forbid. Traversal now has to actually move the
     // player, too: an obstacle that awards XP without displacing anybody is not a shortcut.
-    dbg.setSkillLevel("agility", 20);
+    await dbg.setSkillLevel("agility", 20);
     const before = (await skills()).agility.xp;
     // Either traversal verb, nearest first.
     //
@@ -612,11 +612,11 @@ function playthroughSource(): string {
 
   // ------------------------------------------------------- death and recovery
   {
-    dbg.clearInventory();
-    dbg.giveItem("grithe_ore", 5);
+    await dbg.clearInventory();
+    await dbg.giveItem("grithe_ore", 5);
     const carried = dbg.getState().inventoryUsed;
     const wherePlayer = dbg.getPlayerPosition();
-    dbg.setHealth(0);
+    await dbg.setHealth(0);
     await sleep(1500);
     const afterDeath = dbg.getState();
     const respawned = Math.hypot(dbg.getPlayerPosition().x - wherePlayer.x, dbg.getPlayerPosition().z - wherePlayer.z);
@@ -624,7 +624,7 @@ function playthroughSource(): string {
     // The cache is a real entity the player can walk back to and loot.
     // The cache is where you fell; respawn puts you hundreds of metres away, so go back before
     // looking for it. Searching from the respawn point finds nothing and proves nothing.
-    dbg.teleport({ x: wherePlayer.x, y: wherePlayer.y, z: wherePlayer.z });
+    await dbg.teleport({ x: wherePlayer.x, y: wherePlayer.y, z: wherePlayer.z });
     await sleep(600);
     const caches = await agent.call("corealm_observe", { archetypes: ["recovery_cache", "loot"], radius: 140, limit: 5 });
     let looted = false;
@@ -696,9 +696,9 @@ function playthroughSource(): string {
   {
     // Death cleared and dropped the pack, so without re-equipping the player swings barehanded at
     // a boss with 62 armour and lands almost nothing. Gear is setup; the fight is the check.
-    dbg.setSkillLevel("melee", 25);
-    dbg.clearInventory();
-    dbg.giveItem("kaldite_sword", 1);
+    await dbg.setSkillLevel("melee", 25);
+    await dbg.clearInventory();
+    await dbg.giveItem("kaldite_sword", 1);
     await agent.call("corealm_equip", { itemId: "kaldite_sword" });
     // The sleep is load-bearing. \`setHealth\` clamps to \`player.maxHealth\` AT CALL TIME, and
     // maxHealth is recomputed from the skills by the health system's own tick, so setting melee to
@@ -708,12 +708,12 @@ function playthroughSource(): string {
     // with OUT_OF_RANGE while \`deaths\` stays 0 because the poll never catches the zero-health frame.
     // One tick between the two calls is the whole fix.
     await sleep(400);
-    dbg.setHealth(999);
+    await dbg.setHealth(999);
     let entered = false;
     let enteredRegion = "none";
-    const portal = dbg.getEntity("gravelmaw_mouth_portal");
+    const portal = await dbg.getEntity("gravelmaw_mouth_portal");
     if (portal) {
-      dbg.teleport({ locationId: "gravelmaw_entrance" });
+      await dbg.teleport({ locationId: "gravelmaw_entrance" });
       await sleep(500);
       const result = await agent.call("corealm_interact", { entityId: "gravelmaw_mouth_portal", interaction: "enter" });
       entered = !result.error && dbg.getState().regionId === "gravelmaw";
@@ -722,9 +722,9 @@ function playthroughSource(): string {
 
     // The boss must take damage from a real attack, and the fight must be survivable long enough
     // to prove it is a fight rather than a decoration.
-    dbg.teleport({ locationId: "gravelmaw_arena" });
+    await dbg.teleport({ locationId: "gravelmaw_arena" });
     await sleep(700);
-    const bossBefore = dbg.getEntity("ordrun");
+    const bossBefore = await dbg.getEntity("ordrun");
     let bossHp = bossBefore && bossBefore.combat ? bossBefore.combat.health : 0;
     const startHp = bossHp;
     const opened = await agent.call("corealm_attack", { entityId: "ordrun" });
@@ -733,9 +733,9 @@ function playthroughSource(): string {
     for (let i = 0; i < 60; i += 1) {
       await sleep(500);
       const st = dbg.getState();
-      if (st.health <= 0) { deaths += 1; dbg.teleport({ locationId: "gravelmaw_arena" }); }
-      if (st.health < 40) dbg.setHealth(999);
-      const now = dbg.getEntity("ordrun");
+      if (st.health <= 0) { deaths += 1; await dbg.teleport({ locationId: "gravelmaw_arena" }); }
+      if (st.health < 40) await dbg.setHealth(999);
+      const now = await dbg.getEntity("ordrun");
       bossHp = now && now.combat ? now.combat.health : 0;
       if (bossHp <= 0) break;
       if (!st.combatTargetId) {
@@ -758,12 +758,12 @@ function playthroughSource(): string {
     // The preceding boss proof ends inside Gravelmaw with the tier-0 test wand still equipped.
     // Return to the overworld and give this independent melee assertion its own suitable weapon;
     // otherwise it can time out on a dungeon Elder and strand every later overworld quest check.
-    dbg.teleport({ locationId: "town_center" });
+    await dbg.teleport({ locationId: "town_center" });
     await sleep(500);
-    dbg.setSkillLevel("melee", 30);
-    dbg.giveItem("kaldite_sword", 1);
+    await dbg.setSkillLevel("melee", 30);
+    await dbg.giveItem("kaldite_sword", 1);
     await agent.call("corealm_equip", { itemId: "kaldite_sword" });
-    dbg.setHealth(999);
+    await dbg.setHealth(999);
     const enemy = await findNear(["enemy"], "attack", "march|camp|pit|frog|moor");
     let evidence = "no enemy found";
     let cleared = false;
@@ -777,9 +777,9 @@ function playthroughSource(): string {
       let killed = false;
       for (let i = 0; i < 40 && !killed; i += 1) {
         await sleep(500);
-        const e = dbg.getEntity(enemy.id);
+        const e = await dbg.getEntity(enemy.id);
         if (!e || e.state === "dead" || (e.combat && e.combat.health <= 0)) killed = true;
-        if (dbg.getState().health < 20) dbg.setHealth(999);
+        if (dbg.getState().health < 20) await dbg.setHealth(999);
         if (!dbg.getState().combatTargetId && !killed) await agent.call("corealm_attack", { entityId: enemy.id });
       }
       const after = await agent.call("corealm_player");
@@ -800,7 +800,7 @@ function playthroughSource(): string {
   {
     // An agent rebuilding its pack from item events used to read an equip as a loss: the piece
     // left the inventory through the ordinary remove path and emitted \`item.lost\`.
-    dbg.giveItem("grithe_dagger", 1);
+    await dbg.giveItem("grithe_dagger", 1);
     await agent.call("corealm_equip", { itemId: null, slot: "mainHand" });
     await sleep(200);
     const before = await agent.call("corealm_events", { sinceSeq: cursor, timeoutMs: 1 });
@@ -893,8 +893,8 @@ function playthroughSource(): string {
     const expected = (window.__gateExpect || {}).coldIron;
     const trail = [];
     const reached = [];
-    dbg.setSkillLevel("mining", 10);
-    dbg.setHealth(999);
+    await dbg.setSkillLevel("mining", 10);
+    await dbg.setHealth(999);
 
     let quest = await questOf("cold_iron");
     if (quest.status === "unstarted") {
@@ -906,7 +906,7 @@ function playthroughSource(): string {
 
     // Stage 1: mine 6 Grithe ore. \`gather\` counts receipts since the stage began.
     if (quest.status === "active" && quest.stage === 0) {
-      dbg.clearInventory();
+      await dbg.clearInventory();
       trail.push("bracken_pit " + await travel({ locationId: "bracken_pit" }, 150000));
       for (let round = 0; round < 12; round += 1) {
         const seams = await agent.call("corealm_observe",
@@ -923,7 +923,7 @@ function playthroughSource(): string {
 
     // Stage 2: two bars at the furnace. The flux is setup; the smelt is the check.
     if (quest.status === "active" && quest.stage === 1) {
-      dbg.giveItem("march_stone", 6);
+      await dbg.giveItem("march_stone", 6);
       trail.push("furnace " + await travel({ entityId: "coldbrace_furnace" }, 90000));
       const smelted = await agent.call("corealm_produce", { recipeId: "smelt_grithe_bar", quantity: 3 });
       if (smelted.error) trail.push("smelt refused: " + smelted.error + " " + smelted.message);
@@ -934,7 +934,7 @@ function playthroughSource(): string {
 
     // Stage 3: the dagger at the anvil.
     if (quest.status === "active" && quest.stage === 2) {
-      dbg.giveItem("palewood_shaft", 2);
+      await dbg.giveItem("palewood_shaft", 2);
       trail.push("anvil " + await travel({ entityId: "coldbrace_anvil" }, 90000));
       const forged = await agent.call("corealm_produce", { recipeId: "smith_grithe_dagger", quantity: 1 });
       if (forged.error) trail.push("smith refused: " + forged.error + " " + forged.message);
@@ -952,7 +952,7 @@ function playthroughSource(): string {
       quest = await waitStage("cold_iron", 3, 10000);
       reached.push(quest.stage);
       if (quest.stage === 3) {
-        const counters = questRecord("cold_iron").counters || {};
+        const counters = (await questRecord("cold_iron")).counters || {};
         trail.push("kill:frog counter reads "
           + (counters["kill:frog"] === undefined ? "ABSENT" : counters["kill:frog"])
           + " after " + hunt.killed + " confirmed kills");
@@ -967,7 +967,7 @@ function playthroughSource(): string {
       // Walk to him BEFORE the snapshot: nothing may happen between reading the numbers and the
       // choice that pays them, or the delta stops being the reward and starts being the journey.
       trail.push("harrow " + await travel({ entityId: "npc_smith_harrow" }, 120000));
-      dbg.clearInventory();
+      await dbg.clearInventory();
       await sleep(500);
       const xpBefore = await skills();
       const goldBefore = (await agent.call("corealm_inventory")).currency;
@@ -1026,10 +1026,10 @@ function playthroughSource(): string {
   // and the health top-ups exist because tier 10 kills a Melee 12 character and dying drops the
   // pack that the last stage checks. No stage is advanced by hand.
   {
-    dbg.setSkillLevel("melee", 30);
-    dbg.setSkillLevel("mining", 12);
-    dbg.setHealth(999);
-    dbg.giveItem("kaldite_sword", 1);
+    await dbg.setSkillLevel("melee", 30);
+    await dbg.setSkillLevel("mining", 12);
+    await dbg.setHealth(999);
+    await dbg.giveItem("kaldite_sword", 1);
     await agent.call("corealm_equip", { itemId: "kaldite_sword" });
 
     const trail = [];
@@ -1087,7 +1087,7 @@ function playthroughSource(): string {
     if (quest.status === "active" && quest.stage === 4) {
       const solved = await converse("npc_cairnkeeper_ode", [optionLike("#levers|three levers"), solveLevers]);
       if (!solved.ok) trail.push("levers: " + solved.at + " -> " + solved.detail);
-      const record = questRecord("long_cairn");
+      const record = await questRecord("long_cairn");
       leverAttempts = record.counters["lever_attempts"] || 0;
       solvedFirstTry = solved.ok && leverAttempts === 0 && record.flags["lever_order_known"] === true;
       trail.push("lever answer " + (solved.taken[solved.taken.length - 1] || "none")
@@ -1133,7 +1133,7 @@ function playthroughSource(): string {
     }
 
     if (quest.status !== "complete") {
-      const record = questRecord("long_cairn");
+      const record = await questRecord("long_cairn");
       trail.push("counters " + JSON.stringify(record.counters));
     }
 
@@ -1148,8 +1148,8 @@ function playthroughSource(): string {
 
   // ------------------------------------------------------------ persistence
   {
-    dbg.saveNow();
-    const blob = dbg.getSaveBlob();
+    await dbg.saveNow();
+    const blob = await dbg.getSaveBlob();
     const parsed = JSON.parse(blob);
     const kb = Math.round(blob.length / 1024);
     const levelled = Object.values(parsed.skills).filter((s) => s.level > 1).length;
@@ -1226,9 +1226,9 @@ export async function runGateCheck(runCandidate: string, timeScale: number): Pro
 
     await page.goto(server.url, { waitUntil: "load", timeout: 60_000 });
     await page.waitForFunction(() => window.__gameDebug?.getState().ready === true, undefined, { timeout: 90_000 });
-    await page.evaluate((scale) => {
+    await page.evaluate(async (scale) => {
       const api = window.__gameDebug as unknown as { setTimeScale?: (value: number) => void };
-      api.setTimeScale?.(scale);
+      await api.setTimeScale?.(scale);
     }, timeScale);
 
     // F3 asserts exact numbers, so it reads them from `content/quests.ts` rather than carrying its

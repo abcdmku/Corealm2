@@ -16,6 +16,7 @@ import { FOREST_CREATURE_REDESIGNS } from '../game/src/content/forestCreatureRed
 import { STONE_CREATURE_REDESIGNS } from '../game/src/content/stoneCreatureRedesigns.js';
 import { ASH_CREATURE_REDESIGNS } from '../game/src/content/ashCreatureRedesigns.js';
 import { inStarterWildlifeArea, isStarterAnimalAsset } from '../game/src/content/fantasyEncounters.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const out = 'test-results/biome-creatures-world';
 const started = Date.now(), budgetMs = 120_000;
@@ -71,9 +72,9 @@ async function run(): Promise<void> {
   });
   assert(!/swiftshader|llvmpipe|software|unavailable/i.test(report.renderer), 'Hardware rendering required for visual evidence');
 
-  const roster: any[] = await page.evaluate(() => {
+  const roster: any[] = await page.evaluate(async () => {
     const d: any = window.__gameDebug;
-    return d.listEntities().filter((e: any) => e.combat || e.view?.assetId?.startsWith('animal_')
+    return (await d.listEntities()).filter((e: any) => e.combat || e.view?.assetId?.startsWith('animal_')
       || /^creature_(redbrush_fox|marchwild_horse|reedbank_goose|marchfield_turkey|field_wasp|heath_wasp|reed_wasp)$/.test(e.view?.assetId ?? '')).map((e: any) => ({
       id: e.id, groupId: e.meta?.groupId, archetype: e.archetype, family: e.meta?.family,
       regionId: e.regionId, tier: e.tier, state: e.state, position: e.position,
@@ -137,18 +138,18 @@ async function run(): Promise<void> {
     let lastSignature = '', lastSavedAt = 0;
     try {
       while (Date.now() < deadline) {
-        const diagnostic = await page.evaluate(ids => {
+        const diagnostic = await page.evaluate(async ids => {
           const d: any = window.__gameDebug, residency = d.getEntityViewStats().residency;
           const residentIds = new Set(residency.residentIds), player = d.getPlayer();
           // This is photo/setup survival, never a mutation of creature health or combat state.
-          if (!player.dead && player.health < player.maxHealth) d.setHealth(player.maxHealth);
+          if (!player.dead && player.health < player.maxHealth) await d.setHealth(player.maxHealth);
           return { player, state: d.getState(), shaders: (window as any).__renderDistanceLab?.shaders(),
             residency: { resident: residency.resident, pending: residency.pending, failed: residency.failed, missing: residency.missing,
               pendingAssets: residency.pendingAssets, failedAssets: residency.failedAssets, missingAssets: residency.missingAssets },
-            actors: ids.map(id => { const entity = d.getEntity(id), bounds = d.getDrawnBounds(id), motion = d.getEntityMotion(id);
+            actors: await Promise.all(ids.map(async id => { const entity = await d.getEntity(id), bounds = d.getDrawnBounds(id), motion = d.getEntityMotion(id);
               return { id, resident: residentIds.has(id), state: entity?.state, health: entity?.combat?.health, position: entity?.position,
                 bounds, motion: motion ? { path: motion.path, liveRig: motion.liveRig, motion: motion.motion, clip: motion.clip,
-                  time: motion.time, duration: motion.duration, semanticPosition: motion.semanticPosition, drawnPosition: motion.drawnPosition } : null }; }) };
+                  time: motion.time, duration: motion.duration, semanticPosition: motion.semanticPosition, drawnPosition: motion.drawnPosition } : null }; })) };
         }, ids);
         check.last = diagnostic;
         const signature = JSON.stringify({ shaders: diagnostic.shaders, actors: diagnostic.actors.map((a: any) => [a.id, a.resident, a.state, a.health, a.bounds?.meshes, a.motion?.path, a.motion?.clip]) });
@@ -175,11 +176,11 @@ async function run(): Promise<void> {
   async function stageGroup(groupId: string, yaw: number, combat = false): Promise<string[]> {
     const group = byGroup.get(groupId); assert(group, `Unknown shot group ${groupId}`);
     const ids = rowsFor(groupId).map(actor => actor.id);
-    const relocate = async (preload: boolean) => page.evaluate(({ group, ids, yaw, combat, preload, radius, distance, pitch }) => {
+    const relocate = async (preload: boolean) => page.evaluate(async ({ group, ids, yaw, combat, preload, radius, distance, pitch }) => {
       const d: any = window.__gameDebug;
-      const focus = combat ? d.getEntity(ids[0]).position : [group.centre[0], 0, group.centre[1]];
+      const focus = combat ? (await d.getEntity(ids[0])).position : [group.centre[0], 0, group.centre[1]];
       const rejected: any[] = [];
-      const threats = preload ? d.listEntities({ regionId: group.regionId }).filter((e: any) => e.combat?.health > 0
+      const threats = preload ? (await d.listEntities({ regionId: group.regionId })).filter((e: any) => e.combat?.health > 0
         && (e.meta?.behaviour === 'aggressive' || e.meta?.behaviour === 'territorial')) : [];
       for (const offset of preload ? [28, 34, 40] : combat ? [3, 4, 5] : [2.5, 4, 1]) {
         for (const turn of preload ? [0, .6, -.6, 1.2, -1.2, Math.PI] : [0, .6, -.6, Math.PI]) {
@@ -190,12 +191,12 @@ async function run(): Promise<void> {
             - (e.combat.aggroRadius ?? 12) - (e.combat.bodyRadius ?? 0))) : null;
           if (aggroClearance !== null && aggroClearance < 3) { rejected.push({ nav, aggroClearance }); continue; }
           const clearance = d.probeWorldClearance({ ...nav, radius });
-          const target = d.getEntity(ids[0]).position, path = d.getNavPath([nav.x, nav.y, nav.z], target), end = path?.at(-1);
+          const target = (await d.getEntity(ids[0])).position, path = d.getNavPath([nav.x, nav.y, nav.z], target), end = path?.at(-1);
           if (clearance.staticShift > .05 || !end || Math.hypot(end.x - target[0], end.z - target[2]) > .6) {
             rejected.push({ nav, clearance, endpoint: end }); continue;
           }
-          d.setHealth(1_000_000);
-          d.inspectPose({ ...nav, yaw: angle, pitch, distance });
+          await d.setHealth(1_000_000);
+          await d.inspectPose({ ...nav, yaw: angle, pitch, distance });
           return { phase: preload ? 'preload-outside-aggro' : 'normal-camera', playerSetup: nav, cameraYaw: angle, clearance, aggroClearance, route: path, rejected };
         }
       }
@@ -215,12 +216,12 @@ async function run(): Promise<void> {
 
   async function capture(name: string, ids: string[]): Promise<void> {
     await residentsReady(ids, name);
-    const observation = await page.evaluate(ids => {
+    const observation = await page.evaluate(async ids => {
       const d: any = window.__gameDebug, canvas = document.querySelector('canvas')!.getBoundingClientRect();
       return { state: d.getState(), player: d.getPlayer(), camera: d.getCamera(), sky: d.getBiomeAtmosphere(),
         viewport: { width: innerWidth, height: innerHeight }, canvas: { x: canvas.x, y: canvas.y, width: canvas.width, height: canvas.height },
         residency: d.getEntityViewStats().residency, shaders: (window as any).__renderDistanceLab.shaders(),
-        actors: ids.map(id => ({ entity: d.getEntity(id), bounds: d.getDrawnBounds(id), motion: d.getEntityMotion(id) })) };
+        actors: await Promise.all(ids.map(async id => ({ entity: await d.getEntity(id), bounds: d.getDrawnBounds(id), motion: d.getEntityMotion(id) }))) };
     }, ids);
     assert.equal(observation.state.clock.timeScale, 1, `${name}: production clock`);
     assert.equal(observation.camera.freeMove, false, `${name}: player-follow camera`);
@@ -296,7 +297,7 @@ async function run(): Promise<void> {
   assert(clicked, `Could not acquire real canvas hover for ${targetId}`);
   const healthAtClick = report.combat.beforeClick.combat.health;
   assert(healthAtClick > 0, 'Original remapped target was alive at the verified click');
-  await page.waitForFunction(({ id, health }) => { const e = (window.__gameDebug as any).getEntity(id); return e?.combat?.health < health || e?.state === 'dead'; },
+  await waitForDebug(page, async ({ id, health }) => { const e = await (window.__gameDebug as any).getEntity(id); return e?.combat?.health < health || e?.state === 'dead'; },
     { id: targetId, health: healthAtClick }, { timeout: timeLeft(12_000) });
   report.combat.after = await driver.callDebug('getEntity', [targetId]);
   report.combat.events = await driver.callDebug('getEvents', [report.combat.click.eventCursor]);

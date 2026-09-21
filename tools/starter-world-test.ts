@@ -9,6 +9,7 @@ import { installTestDeadline } from "./lib/deadline.js";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { activatedRegionalPackIds, REGIONAL_PACK_ACTIVATION } from "../game/src/content/regionalPackActivation.js";
 import { createRpgRegionalPackCatalogue } from "../game/src/content/rpgRegionalPacks.js";
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 interface Debug {
   getState(): { ready: boolean; health: number };
@@ -36,18 +37,18 @@ try {
     ? "/index.html?mode=combat&rpg=1&pack=pack_fallowmarch_palewood_far_south_scrub" : "/index.html");
   const page = driver.page!;
   if (boundary) {
-    const setup = await page.evaluate(() => {
+    const setup = await page.evaluate(async () => {
       const debug = window.__gameDebug as unknown as Debug;
       const pack = (window as unknown as { __packLab: { ids: string[]; habitat: { centre: [number, number]; radius: number } } }).__packLab;
       window.__featureLab!.setLevel("melee", 1);
       window.__featureLab!.setLevel("magic", 1);
       const [x, z] = pack.habitat.centre;
-      const actor = debug.getEntity(pack.ids[0]!);
+      const actor = await debug.getEntity(pack.ids[0]!);
       const dx = actor.position[0] - x, dz = actor.position[2] - z;
       const distance = Math.hypot(dx, dz);
       const px = x + dx / distance * (pack.habitat.radius + 1);
       const pz = z + dz / distance * (pack.habitat.radius + 1);
-      debug.inspectPose({ x: px, y: debug.groundHeight(px, pz), z: pz,
+      await debug.inspectPose({ x: px, y: debug.groundHeight(px, pz), z: pz,
         yaw: 1.3, pitch: 0.5, distance: 14 });
       return { pack, state: debug.getState(), player: debug.getPlayerPosition() };
     });
@@ -68,17 +69,17 @@ try {
       const asset = MANIFEST.assets.find(row => row.id === id);
       return asset?.base ? { size: asset.size, base: asset.base } : null;
     }, activatedRegionalPackIds(), REGIONAL_PACK_ACTIVATION.assignmentOverrides);
-    const active = await page.evaluate(packs => {
+    const active = await page.evaluate(async packs => {
       const debug = window.__gameDebug as unknown as Debug;
-      const ids = debug.getEntities().map(row => row.id);
-      return { unique: new Set(ids).size === ids.length, packs: packs.map(pack => {
-        const actors = pack.ids.map(id => debug.getEntity(id));
+      const ids = (await debug.getEntities()).map(row => row.id);
+      return { unique: new Set(ids).size === ids.length, packs: await Promise.all(packs.map(async pack => {
+        const actors = await Promise.all(pack.ids.map(async id => await debug.getEntity(id)));
         return { id: pack.id, actors, dry: actors.every(actor => {
           const sample = debug.sampleWorld(actor.position[0], actor.position[2]);
           return sample.playable && !sample.waterBodyId;
         }), routes: actors.slice(1).map(actor => ({ id: actor.id, position: actor.position,
           path: debug.getNavPath(actors[0]!.position, actor.position) })) };
-      }) };
+      })) };
     }, catalogue.packs.map(pack => ({ id: pack.id, ids: pack.members.map(member => member.id) })));
     assert(active.unique, "No duplicate world entity IDs");
     for (const pack of active.packs) {
@@ -91,11 +92,11 @@ try {
     }
     evidence.push({ activatedRegionalPacks: active });
     for (const group of STARTER_GROUPS) {
-      const result = await page.evaluate(group => {
+      const result = await page.evaluate(async group => {
         const debug = window.__gameDebug as unknown as Debug;
-        const actors = debug.getEntities().filter(row => row.id === group.id || row.id.startsWith(`${group.id}_`)).map(row => debug.getEntity(row.id));
+        const actors = await Promise.all((await debug.getEntities()).filter(row => row.id === group.id || row.id.startsWith(`${group.id}_`)).map(async row => await debug.getEntity(row.id)));
         const [x, z] = group.centre;
-        debug.inspectPose({ x, y: debug.groundHeight(x, z), z: z + 9, yaw: 0.8, pitch: 0.5, distance: 16 });
+        await debug.inspectPose({ x, y: debug.groundHeight(x, z), z: z + 9, yaw: 0.8, pitch: 0.5, distance: 16 });
         const player = debug.getPlayerPosition();
         return { actors, samples: actors.map(actor => debug.sampleWorld(actor.position[0], actor.position[2])),
           paths: actors.map(actor => debug.getNavPath([player.x, player.y, player.z], actor.position)) };
@@ -121,11 +122,11 @@ try {
     const rat = STARTER_GROUPS.find(group => group.family === "granary_rat")!;
     const before = await page.evaluate(async group => {
       const debug = window.__gameDebug as unknown as Debug;
-      const actor = debug.getEntity(debug.getEntities().find(row => row.id.startsWith(`${group}_`))!.id);
+      const actor = await debug.getEntity((await debug.getEntities()).find(row => row.id.startsWith(`${group}_`))!.id);
       const result = await debug.callTool("corealm_attack", { entityId: actor.id });
       return { id: actor.id, health: actor.combat!.health, result };
     }, rat.id);
-    await page.waitForFunction(({ id, health }) => (window.__gameDebug as unknown as Debug).getEntity(id).combat!.health < health,
+    await waitForDebug(page, async ({ id, health }) => (await (window.__gameDebug as unknown as Debug).getEntity(id)).combat!.health < health,
       before, { timeout: 18000 });
     evidence.push({ combatBefore: before, combatAfter: await page.evaluate(id => (window.__gameDebug as unknown as Debug).getEntity(id), before.id) });
     await page.screenshot({ path: `${out}/world-rat-combat.png` });

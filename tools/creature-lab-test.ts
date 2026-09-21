@@ -595,12 +595,12 @@ async function observeRespawn(
   creature: { presetId: string; label: string },
 ): Promise<RespawnEvidence> {
   const skippedSeconds = Math.ceil(ENEMY_RESPAWN_MS / 1_000) + 1;
-  await targetPage.evaluate((seconds) => {
+  await targetPage.evaluate(async (seconds) => {
     const debug = (window as unknown as {
       __gameDebug?: { advanceGameTime?: (value: number) => void };
     }).__gameDebug;
     if (!debug?.advanceGameTime) throw new Error("__gameDebug.advanceGameTime is unavailable");
-    debug.advanceGameTime(seconds);
+    await debug.advanceGameTime(seconds);
   }, skippedSeconds);
 
   const alive = await waitForState(targetPage, "creature respawns", (state) => (
@@ -635,11 +635,11 @@ async function observeBoss(
   // standing still rather than mid-charge, and the screenshot frames the whole animal.
   const state = await spawn(targetPage, boss.presetId, 30);
   const ai = state.target?.ai;
-  const archetype = await targetPage.evaluate((entityId) => {
+  const archetype = await targetPage.evaluate(async (entityId) => {
     const debug = (window as unknown as {
       __gameDebug?: { getEntities?: () => { id: string; archetype?: string }[] };
     }).__gameDebug;
-    return debug?.getEntities?.().find((entity) => entity.id === entityId)?.archetype;
+    return (await debug?.getEntities?.())?.find((entity) => entity.id === entityId)?.archetype;
   }, state.target?.entityId ?? "");
   return {
     label: boss.label,

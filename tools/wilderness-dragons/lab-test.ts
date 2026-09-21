@@ -50,7 +50,7 @@ try{
   await page.evaluate(async({id,deep})=>{
    await (window as any).__creatureGallery.show(`candidate:${id}`,1);
    // Ordinary player-follow camera; 1.7 m sideways placement leaves the head visible.
-   (window.__gameDebug as any).inspectPose({x:1.7,y:0,z:deep?74:72,yaw:-.38,pitch:.38,distance:deep?11:8});
+   await (window.__gameDebug as any).inspectPose({x:1.7,y:0,z:deep?74:72,yaw:-.38,pitch:.38,distance:deep?11:8});
   },{id,deep});
   await page.waitForTimeout(180);
   await page.waitForFunction(()=>{

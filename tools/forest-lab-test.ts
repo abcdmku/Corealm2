@@ -80,11 +80,11 @@ async function main(): Promise<void> {
     return Math.max(1, Math.min(limit, time));
   };
   async function observe(includeBounds = false): Promise<Observation> {
-    const result = await driver.page!.evaluate(({ id, since, includeBounds }) => {
+    const result = await driver.page!.evaluate(async ({ id, since, includeBounds }) => {
       const debug = window.__gameDebug as unknown as ForestDebug;
       const forest = (window as unknown as { __forestLab: { getState(): ForestState } }).__forestLab;
       return {
-        entity: debug.getEntity(id), bounds: includeBounds ? debug.getDrawnBounds(id) : null, player: debug.getPlayerPosition(),
+        entity: await debug.getEntity(id), bounds: includeBounds ? debug.getDrawnBounds(id) : null, player: debug.getPlayerPosition(),
         forest: forest.getState(), clock: debug.getState().clock,
         events: debug.getEvents(since), errors: debug.getErrors(),
       };

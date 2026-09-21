@@ -301,13 +301,13 @@ async function main(): Promise<void> {
       }
       const fixture = await page.evaluate(() => (window as any).__environmentLab.getState() as EnvironmentLabState);
       assert(fixture.entityIds.length > 0, `${kind} environment fixture did not expose entities`);
-      const node = await page.evaluate(({ ids, operation, range }) => {
+      const node = await page.evaluate(async ({ ids, operation, range }) => {
         const debug = (window as any).__gameDebug;
-        for(const entity of ids.map((id: string) => debug.getEntity(id))) {
+        for(const entity of await Promise.all(ids.map(async (id: string) => await debug.getEntity(id)))) {
           if(!entity?.interactions?.includes(operation)||entity.resource?.remaining<=0)continue;
           const anchor=entity.interactionPosition??entity.position;
           const stance=entity.interactionPosition??[anchor[0]+1,anchor[1],anchor[2]+1];
-          debug.teleport(stance);const player=debug.getPlayerPosition();
+          await debug.teleport(stance);const player=debug.getPlayerPosition();
           if(Math.hypot(player.x-anchor[0],player.z-anchor[2])<range-.1)return entity;
         }
         return undefined;
@@ -344,9 +344,9 @@ async function main(): Promise<void> {
         return events.events.some((event: GameEvent) => event.type === "item.received" && event.entityId === id
           && (event.data as any).source === "gather" && (event.data as any).itemId === outputItem);
       }, { id: node.id, since: eventCursor, outputItem: node.resource.itemId }, { timeout: remaining(9_000), polling: 50 });
-      const evidence = await page.evaluate(({ id, since }) => {
+      const evidence = await page.evaluate(async ({ id, since }) => {
         const debug = (window as any).__gameDebug;
-        return { entity: debug.getEntity(id), events: debug.getEvents(since), motion: debug.getPlayerMotion(),
+        return { entity: await debug.getEntity(id), events: debug.getEvents(since), motion: debug.getPlayerMotion(),
           camera: debug.getCamera(), player: debug.getPlayerPosition(), errors: debug.getErrors() };
       }, { id: node.id, since: eventCursor }) as { entity: SemanticEntity; events: EventBatch; motion: PlayerMotion; camera: CameraState; player: Point; errors: unknown[] };
       await driver.callDebug("callTool", ["corealm_stop", {}]);
@@ -380,9 +380,9 @@ async function main(): Promise<void> {
       stage = "rod fixture setup";
       const fixture = await page.evaluate(() => (window as any).__fishingLab.getState() as FishingLabState);
       assert(fixture.entityIds.length > 0, "Fishing fixture did not expose entity ids");
-      const node = await page.evaluate(({ ids, wantedTier }) => {
+      const node = await page.evaluate(async ({ ids, wantedTier }) => {
         const debug = (window as any).__gameDebug;
-        return ids.map((id: string) => debug.getEntity(id)).find((entity: any) => entity?.tier === wantedTier
+        return (await Promise.all(ids.map(async (id: string) => await debug.getEntity(id)))).find((entity: any) => entity?.tier === wantedTier
           && entity.interactions?.includes("fish") && entity.resource?.remaining > 0);
       }, { ids: fixture.entityIds, wantedTier: tier }) as SemanticEntity | undefined;
       assert(node, `No tier-${tier} fish resource in the crownward production fixture`);
@@ -426,11 +426,11 @@ async function main(): Promise<void> {
         return events.events.some((event: GameEvent) => event.type === "item.received" && event.entityId === id
           && (event.data as any).source === "gather" && (event.data as any).itemId === outputItem);
       }, { id: node.id, since: eventCursor, outputItem: node.resource.itemId }, { timeout: remaining(9_000), polling: 50 });
-      const evidence = await page.evaluate(({ id, since }) => {
+      const evidence = await page.evaluate(async ({ id, since }) => {
         const global = window as any;
         clearInterval(global.__regionalRodTimer);
         const debug = global.__gameDebug;
-        return { entity: debug.getEntity(id), events: debug.getEvents(since), frames: global.__regionalRodFrames ?? [],
+        return { entity: await debug.getEntity(id), events: debug.getEvents(since), frames: global.__regionalRodFrames ?? [],
           motion: debug.getPlayerMotion(), camera: debug.getCamera(), player: debug.getPlayerPosition(), errors: debug.getErrors() };
       }, { id: node.id, since: eventCursor }) as { entity: SemanticEntity; events: EventBatch; frames: PlayerMotion[]; motion: PlayerMotion; camera: CameraState; player: Point; errors: unknown[] };
       await driver.callDebug("callTool", ["corealm_stop", {}]);
@@ -482,9 +482,9 @@ async function main(): Promise<void> {
     process.exitCode = 1;
     if (driver.page) {
       try {
-        report.failureObservation = await driver.page.evaluate(({ id, since }) => {
+        report.failureObservation = await driver.page.evaluate(async ({ id, since }) => {
           const debug = (window as any).__gameDebug;
-          return debug ? { entity: id ? debug.getEntity(id) : null, motion: debug.getPlayerMotion(), camera: debug.getCamera(),
+          return debug ? { entity: id ? await debug.getEntity(id) : null, motion: debug.getPlayerMotion(), camera: debug.getCamera(),
             player: debug.getPlayerPosition(), activity: debug.getCurrentActivity(), events: debug.getEvents(since), errors: debug.getErrors() } : { debugMissing: true };
         }, { id: currentEntityId, since: eventCursor });
       } catch (observationError) {

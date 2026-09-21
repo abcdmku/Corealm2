@@ -12,15 +12,15 @@ const driver = new GameDriver(server, { viewport: { width: 1440, height: 900 }, 
 const evidence: unknown[] = [], started = Date.now();
 try {
   await driver.launch(); await driver.open(60000); const page = driver.page!;
-  const actors = await page.evaluate(() => { const d = window.__gameDebug as any; return d.getEntities().map((e: any) => d.getEntity(e.id)); });
+  const actors = await page.evaluate(async () => { const d = window.__gameDebug as any; return await Promise.all((await d.getEntities()).map(async (e: any) => await d.getEntity(e.id))); });
   for (const actor of actors) if (actor.view && isStarterAnimalAsset(actor.view.assetId)) {
     assert(inStarterWildlifeArea(actor.regionId, [actor.position[0], actor.position[2]]), `${actor.id}: remote animal`);
   }
   evidence.push({ animalConfinement: true, actors: actors.length });
   for (const group of WILDERNESS_GROUPS) {
-    const result = await page.evaluate(group => {
+    const result = await page.evaluate(async group => {
       const d = window.__gameDebug as any;
-      const residents = d.getEntities().filter((e: any) => e.id === group.id || e.id.startsWith(`${group.id}_`)).map((e: any) => d.getEntity(e.id));
+      const residents = await Promise.all((await d.getEntities()).filter((e: any) => e.id === group.id || e.id.startsWith(`${group.id}_`)).map(async (e: any) => await d.getEntity(e.id)));
       return { residents, ground: residents.map((e: any) => d.sampleWorld(e.position[0], e.position[2])),
         paths: residents.slice(1).map((e: any) => d.getNavPath(residents[0].position, e.position)) };
     }, group);
@@ -39,7 +39,7 @@ try {
     { name: 'western-graves', x: -205, z: 570, yaw: 2.5, pitch: .2, distance: 25 },
     { name: 'petrified-grove', x: 255, z: 612, yaw: 2.4, pitch: .17, distance: 28 },
   ]) {
-    await page.evaluate(shot => { const d = window.__gameDebug as any; d.inspectPose({ ...shot, y: d.groundHeight(shot.x, shot.z) }); }, shot);
+    await page.evaluate(async shot => { const d = window.__gameDebug as any; await d.inspectPose({ ...shot, y: d.groundHeight(shot.x, shot.z) }); }, shot);
     await page.waitForFunction(() => {
       const residency = (window.__gameDebug as any).getEntityViewStats().residency;
       return residency.pending === 0 && residency.failed === 0 && residency.missing === 0;
@@ -50,9 +50,9 @@ try {
     if (shot.name !== 'last-light') assert(state.sky.sky.night > .9, `${shot.name}: night`);
     await page.screenshot({ path: `${out}/${shot.name}.png` });
   }
-  const before = await page.evaluate(() => {
+  const before = await page.evaluate(async () => {
     const d = window.__gameDebug as any, y = d.groundHeight(40, 574);
-    d.teleport([40, y, 574]); d.inspectPose({ x: 40, y, z: 581, yaw: Math.PI, pitch: .3, distance: 20, detached: true });
+    await d.teleport([40, y, 574]); await d.inspectPose({ x: 40, y, z: 581, yaw: Math.PI, pitch: .3, distance: 20, detached: true });
     return { state: d.getState(), path: d.getNavPath([40, y, 574], [40, d.groundHeight(40, 600), 600]) };
   });
   assert(before.path?.length, 'castle gate path');

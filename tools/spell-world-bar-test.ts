@@ -23,7 +23,7 @@ try{
     await lab.equipPlayer("offHand",null);await lab.equipPlayer("mainHand","basic_wooden_staff");
     await lab.equipPlayer("body","marchhide_robe");lab.setFreeCameraEnabled(false);
     const debug=window.__gameDebug as unknown as Debug;
-    for(const [id,n] of [["fire_essence",40],["air_essence",40],["water_essence",40],["mind_rune",5],["chaos_rune",5],["death_rune",5],["blood_rune",5],["wrath_rune",5],["cosmic_rune",10]] as const)debug.giveItem(id,n,"inventory");
+    for(const [id,n] of [["fire_essence",40],["air_essence",40],["water_essence",40],["mind_rune",5],["chaos_rune",5],["death_rune",5],["blood_rune",5],["wrath_rune",5],["cosmic_rune",10]] as const)await debug.giveItem(id,n,"inventory");
   });
   const api=()=>page.evaluate(()=>window.__featureLab!.getState());
   // The world bar mounts with the four entry spells and answers the spellbook's rows.

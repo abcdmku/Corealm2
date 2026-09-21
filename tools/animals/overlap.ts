@@ -69,7 +69,7 @@ try {
     const targets: string[] = [];
     if (opts.chase) {
       const seen = new Set<string>();
-      for (const e of dbg.getEntities()) {
+      for (const e of await dbg.getEntities()) {
         if (e.archetype !== "enemy" && e.archetype !== "boss") continue;
         const group = String(e.id).replace(/_\d+$/, "");
         if (seen.has(group)) continue;
@@ -83,10 +83,10 @@ try {
     const passes = targets.length > 0 ? targets : [""];
     for (const target of passes) {
       if (target) {
-        dbg.teleport({ entityId: target });
+        await dbg.teleport({ entityId: target });
         await new Promise((r) => { setTimeout(r, opts.waitMs); });
       }
-      const animals = dbg.getEntities().filter((e) => e.archetype === "enemy" || e.archetype === "boss");
+      const animals = (await dbg.getEntities()).filter((e) => e.archetype === "enemy" || e.archetype === "boss");
       total = animals.length;
       for (let i = 0; i < animals.length; i += 1) {
         for (let j = i + 1; j < animals.length; j += 1) {

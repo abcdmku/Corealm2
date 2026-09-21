@@ -160,6 +160,36 @@ it("flushes on its own timer while dirty", async () => {
   expect(((await port.get("worlds", JSON.stringify(["local", "home"]))) as { tick: number }).tick).toBeGreaterThanOrEqual(0);
 });
 
+it("writes a change to the player soon after it settles, caps the wait while changes keep coming, and leaves a ticking clock to the idle cadence", async () => {
+  vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+  try {
+    const port = memoryPort(), writes: number[] = [];
+    const counted: KeyValuePort = { ...port, async write(batch) { writes.push(Date.now()); return port.write(batch); } };
+    const { storage, world } = await open({ port: counted, guard: free });
+    // The first commit with a player in it is a change. Write it, then watch what follows.
+    await commit(storage, world); await storage.flush(); await vi.advanceTimersByTimeAsync(10_000); writes.length = 0;
+    const flushesBefore = storage.flushStats.flushes;
+    const began = Date.now(), alice = world.players.get("alice")!.store.get();
+
+    // Only the clock moves: the play clock ticks in every commit, and that alone waits the full five seconds.
+    for (let tick = 0; tick < 30; tick++) { alice.meta.playSeconds += 0.1; await commit(storage, world); await vi.advanceTimersByTimeAsync(100); }
+    expect(writes).toEqual([]);
+    await vi.advanceTimersByTimeAsync(2_100);
+    expect(writes.map(at => at - began)).toEqual([5_000]);
+
+    // One change, then quiet: written half a second after it.
+    writes.length = 0; alice.currency = 99; const changed = Date.now(); await commit(storage, world);
+    for (let tick = 0; tick < 10; tick++) { await vi.advanceTimersByTimeAsync(100); alice.meta.playSeconds += 0.1; await commit(storage, world); }
+    expect(writes.map(at => at - changed)).toEqual([500]);
+
+    // A player who never stands still is written every two seconds, not never.
+    writes.length = 0; const walking = Date.now();
+    for (let tick = 0; tick < 45; tick++) { alice.player.position = [tick + 1, 0, 0]; await commit(storage, world); await vi.advanceTimersByTimeAsync(100); }
+    expect(writes.map(at => at - walking)).toEqual([2_000, 4_000]);
+    expect(storage.flushStats.flushes - flushesBefore).toBe(4);
+  } finally { vi.useRealTimers(); }
+});
+
 it("lets one tab own the store and tells the second one why it cannot", async () => {
   await expect(openLocalWorldStorage({ port: memoryPort(), guard: async () => null }))
     .rejects.toThrow(/already open in another tab/);

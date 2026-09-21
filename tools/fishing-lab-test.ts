@@ -112,9 +112,9 @@ async function main(): Promise<void> {
     const fixtureSave = JSON.parse(await driver.callDebug("getSaveBlob") as string) as GameState;
     fixtureSave.inventory.slots = fixtureSave.inventory.slots.map(() => null);
     await driver.callDebug("loadSaveBlob", [JSON.stringify(fixtureSave)]);
-    const restored = await page.evaluate((ids) => {
+    const restored = await page.evaluate(async (ids) => {
       const debug = window.__gameDebug as unknown as FishingDebug;
-      return ids.map((id) => debug.getEntity(id));
+      return await Promise.all(ids.map(async (id) => await debug.getEntity(id)));
     }, fixture.entityIds);
     for (const [index, school] of restored.entries()) {
       const id = fixture.entityIds[index]!;
@@ -152,9 +152,9 @@ async function main(): Promise<void> {
       }
       throw new Error("Fishing camera did not settle before the canvas click");
     });
-    const initial = await page.evaluate((id) => {
+    const initial = await page.evaluate(async (id) => {
       const debug = window.__gameDebug as unknown as FishingDebug;
-      const school = debug.getEntity(id);
+      const school = await debug.getEntity(id);
       if (!school?.interactionPosition) throw new Error(`Fishing fixture ${id} lost its live entity or bank anchor during setup`);
       const bank = school.interactionPosition;
       const player = debug.getPlayerPosition();
@@ -178,10 +178,10 @@ async function main(): Promise<void> {
     const documentTimeOrigin = await page.evaluate(() => performance.timeOrigin);
 
     // Diagnostics generate candidates; only the live production raycaster can authorize the click.
-    const projection = await page.evaluate((id) => {
+    const projection = await page.evaluate(async (id) => {
       const debug = window.__gameDebug as unknown as FishingDebug;
       const rect = document.querySelector("canvas")!.getBoundingClientRect();
-      return { camera: debug.getCamera(), bounds: debug.getDrawnBounds(id)!, entity: debug.getEntity(id)!, rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height } };
+      return { camera: debug.getCamera(), bounds: debug.getDrawnBounds(id)!, entity: await debug.getEntity(id)!, rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height } };
     }, entityId);
     const camera = new PerspectiveCamera(CAMERA.fov, projection.rect.width / projection.rect.height, CAMERA.near, CAMERA.far);
     camera.position.set(projection.camera.position.x, projection.camera.position.y, projection.camera.position.z);
@@ -307,11 +307,11 @@ async function main(): Promise<void> {
         || (event.type === "item.received" && event.entityId === id && event.data.source === "gather"));
     }, { id: entityId, since: cursor }, { timeout: remaining(14_000), polling: 50 });
 
-    const final = await page.evaluate(({ id, since }) => {
+    const final = await page.evaluate(async ({ id, since }) => {
       const debug = window.__gameDebug as unknown as FishingDebug;
       const trace = (window as unknown as { __fishingTrace: DryTrace }).__fishingTrace;
       trace.stopped = true;
-      return { entity: debug.getEntity(id)!, player: debug.getPlayerPosition(), clock: debug.getState().clock, events: debug.getEvents(since), trace, errors: debug.getErrors(), timeOrigin: performance.timeOrigin };
+      return { entity: await debug.getEntity(id)!, player: debug.getPlayerPosition(), clock: debug.getState().clock, events: debug.getEvents(since), trace, errors: debug.getErrors(), timeOrigin: performance.timeOrigin };
     }, { id: entityId, since: cursor });
     report.final = final;
     if (itemModels) {
@@ -367,14 +367,14 @@ async function main(): Promise<void> {
     process.exitCode = 1;
     if (driver.page) {
       try {
-        report.failureObservation = await driver.page.evaluate(({ id, since }) => {
+        report.failureObservation = await driver.page.evaluate(async ({ id, since }) => {
           const debug = window.__gameDebug as unknown as FishingDebug | undefined;
           if (!debug) return { debugMissing: true };
           const global = window as unknown as { __fishingTrace?: DryTrace; __fishingLab?: { getState(): FishingLabState } };
           if (global.__fishingTrace) global.__fishingTrace.stopped = true;
           return {
             state: debug.getState(), player: debug.getPlayerPosition(), camera: debug.getCamera(),
-            entity: id ? debug.getEntity(id) : null, navigation: debug.getNavigationState(), activity: debug.getCurrentActivity(),
+            entity: id ? await debug.getEntity(id) : null, navigation: debug.getNavigationState(), activity: debug.getCurrentActivity(),
             events: debug.getEvents(since), trace: global.__fishingTrace ?? null,
             path: global.__fishingLab?.getState().path ?? null, errors: debug.getErrors(),
             panels: [...document.querySelectorAll<HTMLElement>(".panel")].map((panel) => ({ id: panel.id, hidden: panel.hidden })),

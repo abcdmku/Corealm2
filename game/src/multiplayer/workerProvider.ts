@@ -1,6 +1,7 @@
 import type { SessionCredentials, WorldDescriptor, WorldFixture, WorldProvider, WorldSession } from "../contracts.js";
 import type { ClientCatalog } from "../content/clientCatalog.js";
 import { LOCAL_PROVIDER_ID, LOCAL_WORLD_MANIFEST, localWorldDescriptor, packedSeed, parseLocalWorldManifest, type LegacyImport, type LocalHostReady, type LocalHostReply, type LocalHostRequest, type LocalStorageTrouble } from "../worker/localHostProtocol.js";
+import type { DebugOp, DebugReply } from "../worker/localDebugProtocol.js";
 import { messagePortTransport, type MessagePortTransport } from "./messagePortLink.js";
 import { compatible, SessionFailure, worldKey } from "./protocol.js";
 import { joinWorldSession, RetryLedger } from "./sessionClient.js";
@@ -95,6 +96,19 @@ export class WorkerWorldProvider implements WorldProvider {
   prestart(): void {
     if (this.running || this.warm || this.crashed) return;
     this.warm = this.start(); this.warm.catch(() => {});
+  }
+
+  /**
+   * One operation on local play's debug channel (`worker/localDebugProtocol.ts`). Resolves after the
+   * update that carries its effect has been applied to this page's session, because the host posts
+   * that update and then the answer on one port. Rejects when no local session is joined.
+   */
+  async debug(op: DebugOp): Promise<unknown> {
+    const transport = this.running && !this.running.ended ? this.running.transport : null;
+    if (!transport?.open) throw new Error("UNAVAILABLE: join the local world before using debug writes and whole-world reads");
+    const reply = await transport.debug(op) as DebugReply;
+    if (!reply.ok) throw new Error(reply.error);
+    return reply.value;
   }
 
   /** `visibilitychange` to hidden and `pagehide`: the worker cannot see either, and its next timed flush may never come. */

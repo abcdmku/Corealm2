@@ -31,9 +31,9 @@ try {
  await page.waitForFunction(()=> (window as any).__gameDebug?.getState().ready,undefined,{timeout:60000});
  const entryId = world ? 'gravelmaw_mouth_portal' : 'lab:portal:entry';
  const entry = await page.evaluate(id=>(window as any).__gameDebug.getEntity(id),entryId);
- await page.evaluate(e=>{const d=(window as any).__gameDebug,s=e.interactionPosition,y=e.view.rotationY ?? 0;
-   d.teleport([s[0]+Math.sin(y)*3,s[1],s[2]+Math.cos(y)*3]);
-   d.inspectPose({x:e.position[0],y:e.position[1]+1,z:e.position[2],yaw:y,pitch:0.18,distance:15,detached:true});
+ await page.evaluate(async e=>{const d=(window as any).__gameDebug,s=e.interactionPosition,y=e.view.rotationY ?? 0;
+   await d.teleport([s[0]+Math.sin(y)*3,s[1],s[2]+Math.cos(y)*3]);
+   await d.inspectPose({x:e.position[0],y:e.position[1]+1,z:e.position[2],yaw:y,pitch:0.18,distance:15,detached:true});
  },entry);
  await page.waitForTimeout(500);
  report.before = await player();
@@ -130,8 +130,8 @@ try {
    // The same dark recess must be clickable from inside, and cached re-entry must still unlock input.
    for (const id of ['lab:portal:exit',entryId]) {
      const e = await page.evaluate(id=>(window as any).__gameDebug.getEntity(id),id);
-     await page.evaluate(e=>{const d=(window as any).__gameDebug,s=e.interactionPosition,y=e.view.rotationY ?? 0;
-       d.teleport(s); d.inspectPose({x:e.position[0],y:e.position[1]+1,z:e.position[2],yaw:y,pitch:0.18,distance:6,detached:true});
+     await page.evaluate(async e=>{const d=(window as any).__gameDebug,s=e.interactionPosition,y=e.view.rotationY ?? 0;
+       await d.teleport(s); await d.inspectPose({x:e.position[0],y:e.position[1]+1,z:e.position[2],yaw:y,pitch:0.18,distance:6,detached:true});
      },e);
      await page.waitForTimeout(200);
      const s=e.view.scale ?? 1,y=e.view.rotationY ?? 0;

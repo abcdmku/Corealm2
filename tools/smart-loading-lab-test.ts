@@ -22,7 +22,7 @@ try {
   assert.equal(before.cameraRoots.length, 1);
   assert.equal(before.views.pending, 0);
   const inventory = await page.evaluate(async () => {
-    const state = JSON.parse((window.__gameDebug as any).getSaveBlob());
+    const state = JSON.parse(await (window.__gameDebug as any).getSaveBlob());
     state.inventory.slots = [{ itemId: 'worn_hatchet', quantity: 1 }];
     state.equipment = {};
     state.bank.slots = [{ itemId: 'kaldite_pickaxe', quantity: 1 }];

@@ -29,3 +29,25 @@ export class ContentNotice {
   /** Leaving the server takes its notice along. */
   clear(): void { this.root.hidden = true; }
 }
+
+/**
+ * One line about this session that the player should not miss and cannot act on: local play started
+ * at the safe spawn because this build has no world for the save's seed, or the browser stopped
+ * saving. The same strip as the content notice, with a button that puts it away.
+ */
+export class SessionNotice {
+  private readonly root = document.createElement("div");
+  private readonly text = document.createElement("span");
+  constructor() {
+    this.root.className = "content-notice content-notice--session";
+    this.root.hidden = true;
+    this.root.setAttribute("role", "status");
+    const dismiss = document.createElement("button");
+    dismiss.type = "button"; dismiss.className = "btn btn--ghost"; dismiss.textContent = "OK";
+    dismiss.addEventListener("click", () => { this.root.hidden = true; });
+    this.root.append(this.text, dismiss);
+    document.body.append(this.root);
+  }
+  show(message: string): void { this.text.textContent = message; this.root.hidden = false; }
+  clear(): void { this.root.hidden = true; }
+}

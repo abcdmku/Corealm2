@@ -80,6 +80,10 @@ export interface WorldHostMetrics {
   bytesOut: number;
   backlogDisconnects: number; errors: number;
 }
+export interface HostPace { paused: boolean; timeScale: number }
+/** The most ticks one timer turn runs back to back when the loop is scaled up, so a slow tick cannot starve the transport. */
+const MAX_TICK_BURST = 32;
+const THOROUGH_SNAPSHOT_TICKS = 10;
 /** How the tick loop waits. The default is the global timers, which is what a worker and the server want. */
 export interface HostTimers { set(run: () => void, delayMs: number): unknown; clear(handle: unknown): void }
 
@@ -97,6 +101,11 @@ export interface WorldHostOptions {
   /** One JSON object per session event. Absent logs nothing. */
   log?(event: Record<string, unknown>): void;
   timers?: HostTimers;
+  /**
+   * Compare the whole entity table with storage once a second instead of every tick, and only what is near a player in
+   * between (`HeadlessWorld.snapshot`). For local play, whose world is one player's. The final commit is always thorough.
+   */
+  sparseSnapshots?: boolean;
 }
 
 export interface WorldHost<L extends PeerLink = PeerLink> {
@@ -116,6 +125,18 @@ export interface WorldHost<L extends PeerLink = PeerLink> {
   step(): Promise<void>;
   /** Runs `run` once no tick is in flight, and starts no tick until it settles. */
   betweenTicks<T>(run: () => Promise<T>): Promise<T>;
+  /**
+   * Replicate without simulating: every joined peer gets an update of its world as it stands now. For
+   * a host that changed state between ticks, whose loop may be paused. `full` sends whole snapshots.
+   */
+  publish(full?: boolean): void;
+  /**
+   * How the loop keeps time. Ticks stay 100 ms of simulation each; `timeScale` changes how often one
+   * runs, and `paused` stops the loop running any. `step()` still runs one. Only local play's debug
+   * channel calls this. A server never does, and at scale 1 the loop is exactly the one it always ran.
+   */
+  readonly pace: Readonly<HostPace>;
+  setPace(pace: Partial<HostPace>): void;
   /** Stop serving, as a failed commit does: no further acknowledgements or snapshots. */
   failClosed(): void;
   /** Tell every joined peer in every world. Returns how many were told. */
@@ -317,6 +338,16 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     };
   }
 
+  /** One update to every open peer of a world. `committed` is the character state the tick just saved, when a tick is what asks. */
+  function replicate(hosted: HostedWorld<L>, full: boolean, committed?: WorldStorageRecord["players"]): void {
+    const cache = new ReplicationFrame(hosted.runtime,hosted.publicGameplay); const entityCache = new Map();
+    for (const peer of hosted.peers.values()) {
+      // A link its transport has declared dead gets no update. The transport is already closing it.
+      if (!peer.link.open) continue;
+      try { peer.link.send({ type: "update", update: peer.replicator.update(hosted.runtime, peer.committed, cache, full, entityCache, committed?.[peer.playerId]) }); }
+      catch { metrics.backlogDisconnects++; peer.link.send({ type: "error", error: { code: "BACKLOG", message: "Client interest exceeds replication limit" } }); peer.link.close(4008, "BACKLOG"); }
+    }
+  }
   let committing: ReturnType<typeof auditsOf> | null = null;
   /** One world's tick: commands, simulation, snapshot, commit, acknowledgements, replication. It reads no sibling world. */
   async function tickWorld(hosted: HostedWorld<L>): Promise<void> {
@@ -346,7 +377,8 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
       }
     }
     const simulationStart = performance.now(); hosted.runtime.tick();
-    const snapshotStart = performance.now(); const snapshot = hosted.runtime.snapshot(hosted.receipts, storage.entityPatches === true);
+    const snapshotStart = performance.now();
+    const snapshot = hosted.runtime.snapshot(hosted.receipts, storage.entityPatches === true, !options.sparseSnapshots || hosted.runtime.clock.tick % THOROUGH_SNAPSHOT_TICKS === 0);
     const written = [...hosted.leases].map(([id, lease]) => [id, { ...lease }] as const);
     snapshot.leases = Object.assign(Object.create(null), Object.fromEntries(written));
     const edits = auditsOf(hosted); committing = edits;
@@ -360,13 +392,7 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     }
     const replicationStart = performance.now();
     for (const { peer, outcome } of pending) { peer.committed = outcome.sequence; peer.link.send({ type: "ack", outcome }); }
-    const cache = new ReplicationFrame(hosted.runtime,hosted.publicGameplay); const entityCache = new Map();
-    for (const peer of hosted.peers.values()) {
-      // A link its transport has declared dead gets no update. The transport is already closing it.
-      if (!peer.link.open) continue;
-      try { peer.link.send({ type: "update", update: peer.replicator.update(hosted.runtime, peer.committed, cache, false, entityCache, snapshot.players[peer.playerId]) }); }
-      catch { metrics.backlogDisconnects++; peer.link.send({ type: "error", error: { code: "BACKLOG", message: "Client interest exceeds replication limit" } }); peer.link.close(4008, "BACKLOG"); }
-    }
+    replicate(hosted, false, snapshot.players);
     metrics.stages.simulationMs += snapshotStart-simulationStart; metrics.stages.snapshotMs += commitStart-snapshotStart;
     metrics.stages.commitMs += replicationStart-commitStart; metrics.stages.replicationMs += performance.now()-replicationStart; metrics.stages.samples++;
     for(const id of hosted.runtime.evictInactive(id=>hosted.leases.has(id)))delete hosted.receipts[id];
@@ -385,21 +411,33 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     }
   }
   /** A tick that waits out a hold first. `inFlight` is what joins and snapshots wait for. */
-  const turn = async (): Promise<void> => { while (hold) await hold; await (running = tick()); };
+  // Turns run one after another, so a `step()` asked for while the loop's tick is in flight still runs its own tick.
+  const turn = async (): Promise<void> => { while (hold) await hold; await (running = running.then(tick)); };
   let timer: unknown;
+  const pace: HostPace = { paused: false, timeScale: 1 };
+  let lastTurnAt = performance.now();
   const scheduleTick = (delay = 100): void => {
     timer = timers.set(() => {
-      const started = performance.now();
-      inFlight = turn().finally(() => {
+      const started = performance.now(), since = started - lastTurnAt; lastTurnAt = started;
+      if (pace.paused) { if (!closed) scheduleTick(100); return; }
+      // Scaled up, a turn runs as many ticks as the time since the last one is worth, because a timer cannot fire every millisecond.
+      const due = pace.timeScale > 1 ? Math.max(1, Math.min(MAX_TICK_BURST, Math.round(since * pace.timeScale / 100))) : 1;
+      inFlight = (async () => { for (let ran = 0; ran < due && !closed && !(ran && pace.paused); ran++) await turn(); })().finally(() => {
         // An overloaded simulation must yield to transport work between ticks.
-        if (!closed) scheduleTick(Math.max(5, 100 - (performance.now() - started)));
+        if (!closed) scheduleTick(Math.max(pace.timeScale > 1 ? 1 : 5, 100 / pace.timeScale - (performance.now() - started)));
       });
     }, delay);
   };
 
   return { worlds, metrics, events, get closed() { return closed; }, record: recordEvent, connect, betweenTicks, failClosed, disconnectAccount, holder,
-    start() { scheduleTick(); },
+    start() { lastTurnAt = performance.now(); scheduleTick(); },
     step() { return inFlight = turn(); },
+    publish(full = false) { if (!closed) for (const hosted of worlds.values()) replicate(hosted, full); },
+    pace,
+    setPace(next) {
+      if (next.paused !== undefined) pace.paused = next.paused;
+      if (next.timeScale !== undefined && Number.isFinite(next.timeScale) && next.timeScale > 0) pace.timeScale = next.timeScale;
+    },
     broadcast(message) {
       let told = 0;
       for (const hosted of worlds.values()) for (const peer of hosted.peers.values()) if (peer.link.send(message)) told++;

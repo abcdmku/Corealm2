@@ -60,9 +60,9 @@ try {
   console.log('Inventory acquisition and bank exclusion passed');
 
   for (const id of ['gravelmaw_mouth_portal', 'gravelmaw_exit_portal']) {
-    await page.evaluate(portalId => {
-      const d = window.__gameDebug as any, portal = d.getEntity(portalId);
-      d.teleport(portal.interactionPosition ?? portal.position);
+    await page.evaluate(async portalId => {
+      const d = window.__gameDebug as any, portal = await d.getEntity(portalId);
+      await d.teleport(portal.interactionPosition ?? portal.position);
     }, id);
     await settled();
     report[`${id}-approach`] = await snapshot();

@@ -1100,9 +1100,9 @@ async function waitForPlayerPart(targetPage: Page, assetId: string): Promise<voi
 }
 
 async function focusPlayerForArmourProof(targetPage: Page): Promise<void> {
-  await targetPage.evaluate(() => {
+  await targetPage.evaluate(async () => {
     const debug = Reflect.get(window, "__gameDebug") as { focusPlayer?: () => boolean } | undefined;
-    if (debug?.focusPlayer?.() !== true) {
+    if (await debug?.focusPlayer?.() !== true) {
       throw new Error("Production window.__gameDebug.focusPlayer is unavailable");
     }
   });

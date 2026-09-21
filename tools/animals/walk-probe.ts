@@ -18,17 +18,17 @@ try {
         getDrawnBounds(i: string): Record<string, unknown> | null;
         getPlayerPosition(): { x: number; y: number; z: number };
       };
-      dbg.setSkillLevel("melee", 30);
-      dbg.teleport({ entityId: enemyId });
+      await dbg.setSkillLevel("melee", 30);
+      await dbg.teleport({ entityId: enemyId });
       await new Promise((r) => { setTimeout(r, 1200); });
-      dbg.setHealth(999);
+      await dbg.setHealth(999);
       await dbg.callTool("corealm_attack", { entityId: enemyId });
       const paths = new Set<string>();
       for (let i = 0; i < 40; i += 1) {
         // Keep retreating so the enemy has to keep walking.
         if (i % 6 === 0) {
           const p = dbg.getPlayerPosition();
-          dbg.teleport({ x: p.x + 5, y: p.y, z: p.z + 5 });
+          await dbg.teleport({ x: p.x + 5, y: p.y, z: p.z + 5 });
         }
         await new Promise((r) => { setTimeout(r, 250); });
         const b = dbg.getDrawnBounds(enemyId);

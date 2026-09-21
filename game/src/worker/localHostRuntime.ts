@@ -6,6 +6,7 @@ import { MemoryWorldStorage } from "../multiplayer/memoryStorage.js";
 import { serveMessagePort, type MessagePortLike } from "../multiplayer/messagePortLink.js";
 import { createWorldHost, type WorldHost } from "../multiplayer/worldHost.js";
 import { createPackedWorld, loadServerWorldPack } from "../multiplayer/worldPack.js";
+import { createLocalDebug } from "./localDebug.js";
 import { DEFAULT_LOCAL_NAME, LOCAL_ACCOUNT_ID, localWorldDescriptor, packedSeed, type LegacyImport, type LegacyOutcome } from "./localHostProtocol.js";
 
 /**
@@ -15,7 +16,7 @@ import { DEFAULT_LOCAL_NAME, LOCAL_ACCOUNT_ID, localWorldDescriptor, packedSeed,
  */
 
 /** Storage that keeps its writes in memory between flushes. `MemoryWorldStorage` has nothing to flush. */
-export type LocalStorage = WorldStorage & { flush?(): Promise<void> };
+export type LocalStorage = WorldStorage & { flush?(): Promise<void>; readonly flushStats?: Readonly<Record<string, number>> };
 export interface LocalHostOptions {
   fixture: WorldFixture;
   seed: number;
@@ -49,7 +50,7 @@ export async function startLocalHost(options: LocalHostOptions): Promise<LocalHo
   let name = legacy?.character.player.name || null;
   const worldStart = performance.now();
   const host = await createWorldHost({
-    worlds: [world], storage, catalogRevision: RESOLVED_CATALOG.revision,
+    worlds: [world], storage, catalogRevision: RESOLVED_CATALOG.revision, sparseSnapshots: true,
     build: target => pack ? createPackedWorld(pack, target.seed) : createMultiplayerLabWorld(target.seed),
     // Local play needs no login: whoever holds the port is the one local player.
     authentication: { authentication: "guest", authenticate: async () => ({ playerId: LOCAL_ACCOUNT_ID, name: name ?? DEFAULT_LOCAL_NAME }) },
@@ -80,10 +81,15 @@ export async function startLocalHost(options: LocalHostOptions): Promise<LocalHo
     if (claim) await storage.releasePlayer(world, LOCAL_ACCOUNT_ID, sessionId);
   }
   const importMs = performance.now() - importStart;
+  // A first open has just committed every entity of the world, several megabytes. Write that now, while the page is still
+  // loading its scene, so the quick flushes that follow the player's own changes carry a handful of rows each.
+  void storage.flush?.();
   if (!options.manual) host.start();
+  // Only this link carries debug frames. A socket has none, and the host core refuses the message as unknown.
+  const debug = createLocalDebug({ host, hosted, playerId: LOCAL_ACCOUNT_ID, flush: async () => { await storage.flush?.(); return { ...storage.flushStats }; } });
   return {
     host, world, seed: { requested: options.seed, used }, legacy: outcome, timings: { importMs, worldMs },
-    connect(port) { serveMessagePort(port, host); },
+    connect(port) { serveMessagePort(port, host, { debug }); },
     clientCatalog: () => clientCatalog(RESOLVED_CATALOG),
     flush: async () => { await storage.flush?.(); },
     async close() { await host.close(); await storage.flush?.(); await storage.close(); },

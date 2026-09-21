@@ -62,9 +62,9 @@ async function call(surface: 'lab' | 'debug', method: string, values: unknown[] 
   }, { surface, method, values });
 }
 async function frame(entityId: string): Promise<any> {
-  return page.evaluate(entityId => {
+  return page.evaluate(async entityId => {
     const d = (window as any).__gameDebug, state = (window as any).__featureLab.getState();
-    return { wallMs: performance.now(), simMs: d.getState().clock.elapsedMs, player: d.getPlayer(), entity: d.getEntity(entityId),
+    return { wallMs: performance.now(), simMs: d.getState().clock.elapsedMs, player: d.getPlayer(), entity: await d.getEntity(entityId),
       motion: d.getEntityMotion(entityId), bounds: d.getDrawnBounds(entityId), ai: state.target?.ai ?? null };
   }, entityId);
 }
@@ -107,12 +107,12 @@ try {
         yaw: heading + Math.PI / 2, pitch: .18, distance: Math.max(4, (pose.bounds?.width ?? 1) * 2.3), detached: true }]);
       await page.evaluate(entityId => {
         const w = window as any, d = w.__gameDebug, trace = w.__attackContactTrace = { running: true, samples: [] as any[], ordinal: 0, previous: null as any };
-        function observe() {
+        async function observe() {
           if (!trace.running) return;
           const motion = d.getEntityMotion(entityId), prior = trace.previous;
           if (motion?.motion === 'attack' && (prior?.motion?.motion !== 'attack' || motion.time < prior.motion.time - .05)) trace.ordinal++;
           const sample = { wallMs: performance.now(), simMs: d.getState().clock.elapsedMs, ordinal: trace.ordinal,
-            motion, player: d.getPlayer(), entity: structuredClone(d.getEntity(entityId)) };
+            motion, player: d.getPlayer(), entity: structuredClone(await d.getEntity(entityId)) };
           trace.samples.push(sample); trace.previous = sample; requestAnimationFrame(observe);
         }
         requestAnimationFrame(observe);

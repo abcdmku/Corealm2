@@ -4,14 +4,19 @@
  * The host commits ten times a second. A commit that awaited IndexedDB would put a database round
  * trip inside the tick loop, so a commit here only applies in memory (`MemoryWorldStorage`, whose
  * lease and fencing rules are the ones the server runs) and marks the rows it changed. A timer
- * writes the marked rows through a `KeyValuePort` about every `flushMs`, and `close()` writes them
- * at once.
+ * writes the marked rows through a `KeyValuePort`, and `close()` writes them at once.
+ *
+ * When the timer fires depends on what changed. The clock moves every tick, so there is always
+ * something to write, and that alone waits the full `flushMs`. A change to what the player has or
+ * where they stand is written `settleMs` after the last such change, and never later than `maxWaitMs`
+ * after the first one still unwritten. A reload is the common way to lose play: the page can ask for a
+ * flush as it unloads, but the browser may end the worker before IndexedDB finishes the transaction.
  *
  * Crash consistency comes from two rules. Every marked row holds the value as of the commit that
  * marked it, copied there and then, and one flush writes every row marked since the last successful
  * flush in a single port batch — one IndexedDB transaction. So a batch is always a consistent cut
- * of the world: a killed tab loses at most `flushMs` of play, and never lands with an item both on
- * the ground and in an inventory.
+ * of the world: a killed tab loses at most `maxWaitMs` of what the player did, and never lands with
+ * an item both on the ground and in an inventory.
  *
  * Nothing here may import a Node built-in: `tests/browser-import-graph.test.ts` guards that.
  */
@@ -88,8 +93,12 @@ export interface LocalStorageErrorEvent {
 export interface LocalWorldStorageOptions {
   /** Defaults to `indexedDbPort()`. Tests pass `memoryPort()`. */
   port?: KeyValuePort;
-  /** Write-behind cadence while dirty. Default 5000 ms. */
+  /** Write-behind cadence while only the clock and the world around the player moved. Default 5000 ms. */
   flushMs?: number;
+  /** How long after the player's own state last changed it is written. Default a tenth of `flushMs`: 500 ms. */
+  settleMs?: number;
+  /** The longest a change to the player's own state waits, however long the changes keep coming. Default two fifths of `flushMs`: 2000 ms. */
+  maxWaitMs?: number;
   now?: () => number;
   /** Single-owner guard, injectable for tests. Null means another owner holds the store. */
   guard?: (name: string) => Promise<LocalStoreLock | null>;
@@ -126,6 +135,17 @@ export class LocalWorldStorage extends MemoryWorldStorage {
   /** Which entity rows each world has on disk, so a full commit can delete the ones it dropped. */
   private readonly entityIds = new Map<string, Set<string>>();
   private timer: ReturnType<typeof setTimeout> | null = null;
+  /** When the pending timer fires, on `clock`. */
+  private timerAt = Infinity;
+  private readonly settleMs: number;
+  private readonly maxWaitMs: number;
+  /** The player's own state as last committed, without the play clock, to tell a change worth writing soon from a tick. */
+  private readonly lastPlayer = new Map<string, string>();
+  /** When the oldest unwritten change to a player's own state was committed. Null when there is none. */
+  private changedAt: number | null = null;
+  private lastChangeAt = 0;
+  /** What flushing has cost, for the harness that watches it does not thrash. */
+  readonly flushStats = { flushes: 0, rows: 0, lastRows: 0, lastMs: 0, maxMs: 0, totalMs: 0 };
   private running: Promise<void> | null = null;
   private failures = 0;
   private degraded = false;
@@ -137,6 +157,8 @@ export class LocalWorldStorage extends MemoryWorldStorage {
     super(clock);
     this.port = port; this.lock = lock; this.clock = clock;
     this.flushMs = options.flushMs ?? 5_000;
+    this.settleMs = options.settleMs ?? this.flushMs / 10;
+    this.maxWaitMs = options.maxWaitMs ?? this.flushMs * 0.4;
     this.maxFailures = options.maxFlushFailures ?? 5;
     this.onError = options.onError;
   }
@@ -168,9 +190,10 @@ export class LocalWorldStorage extends MemoryWorldStorage {
     for (const [key, value] of worlds) {
       const { random, ...row } = value as StoredWorldRow;
       this.worlds.set(key, JSON.stringify({
-        ...row, players: {}, receipts: {}, entities: byWorld.get(key) ?? [],
+        ...row, players: {}, receipts: {}, entities: [],
         ...(random ? { random: { world: random.world, players: {} } } : {}),
       } satisfies WorldStorageRecord));
+      this.entityRows.set(key, new Map((byWorld.get(key) ?? []).map(entity => [entity.id, JSON.stringify(entity)])));
     }
     for (const [key, value] of players) this.accounts.set(key, value as Account);
     for (const [key, value] of worldPlayers) {
@@ -189,9 +212,14 @@ export class LocalWorldStorage extends MemoryWorldStorage {
       entityWrites: _writes, removedEntityIds: _removed, random, ...rest } = record;
     this.mark("worlds", key, structuredClone({ ...rest, ...(random ? { random: { world: random.world } } : {}) } satisfies StoredWorldRow));
     this.markEntities(key, record);
-    for (const id of Object.keys(record.players)) this.markPlayer(key, id);
+    let changed = false;
+    for (const [id, player] of Object.entries(record.players)) {
+      this.markPlayer(key, id);
+      const own = JSON.stringify({ ...player, meta: { ...player.meta, playSeconds: 0 } }), at = `${key}${SEPARATOR}${id}`;
+      if (this.lastPlayer.get(at) !== own) { this.lastPlayer.set(at, own); changed = true; }
+    }
     this.markMeta(record.catalogRevision);
-    this.schedule();
+    this.schedule(changed);
     return result;
   }
 
@@ -222,10 +250,15 @@ export class LocalWorldStorage extends MemoryWorldStorage {
   private async writePending(): Promise<void> {
     const batch = [...this.pending.values()];
     this.pending.clear();
+    const changedAt = this.changedAt; this.changedAt = null;
+    const started = performance.now();
     try {
       await this.port.write(batch);
       this.failures = 0;
+      const took = performance.now() - started, stats = this.flushStats;
+      stats.flushes++; stats.rows += batch.length; stats.lastRows = batch.length; stats.lastMs = took; stats.totalMs += took; stats.maxMs = Math.max(stats.maxMs, took);
     } catch (error) {
+      if (changedAt !== null) this.changedAt = Math.min(changedAt, this.changedAt ?? Infinity);
       // Put back only the rows no later commit has already replaced, so the next batch stays one
       // consistent cut rather than a stale row beside a fresh one.
       for (const write of batch) {
@@ -241,7 +274,7 @@ export class LocalWorldStorage extends MemoryWorldStorage {
   override async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;
-    if (this.timer !== null) { clearTimeout(this.timer); this.timer = null; }
+    if (this.timer !== null) { clearTimeout(this.timer); this.timer = null; this.timerAt = Infinity; }
     await this.flush();
     await this.port.close();
     await this.lock.release();
@@ -287,14 +320,29 @@ export class LocalWorldStorage extends MemoryWorldStorage {
     this.mark("meta", META_KEY, { schemaVersion: LOCAL_SCHEMA_VERSION, catalogRevision, updatedAt: this.clock() } satisfies LocalStoreMeta);
   }
 
-  private schedule(): void {
-    if (this.timer !== null || this.closed || this.degraded || !this.pending.size) return;
-    // A failed flush backs off: the quota does not clear in the next five seconds.
-    const delay = this.failures ? this.flushMs * 2 ** Math.min(this.failures, 4) : this.flushMs;
+  /** `changed`: this commit changed a player's own state, which is written soon instead of at the idle cadence. */
+  private schedule(changed = false): void {
+    if (this.closed || this.degraded || !this.pending.size) return;
+    const now = this.clock();
+    if (changed) { this.changedAt ??= now; this.lastChangeAt = now; }
+    let at: number;
+    if (this.failures) {
+      // A failed flush backs off: the quota does not clear in the next five seconds.
+      if (this.timer !== null) return;
+      at = now + this.flushMs * 2 ** Math.min(this.failures, 4);
+    } else if (this.changedAt !== null) {
+      // Settle after the latest change, but a player who never stands still gets written anyway.
+      at = Math.min(this.lastChangeAt + this.settleMs, this.changedAt + this.maxWaitMs);
+    } else {
+      if (this.timer !== null) return;
+      at = now + this.flushMs;
+    }
+    if (this.timer !== null) { if (at === this.timerAt) return; clearTimeout(this.timer); }
+    this.timerAt = at;
     this.timer = setTimeout(() => {
-      this.timer = null;
+      this.timer = null; this.timerAt = Infinity;
       void this.flush().then(() => this.schedule());
-    }, delay);
+    }, Math.max(0, at - now));
     // Node keeps the process alive for a pending timer; a write-behind timer must not.
     (this.timer as { unref?: () => void }).unref?.();
   }

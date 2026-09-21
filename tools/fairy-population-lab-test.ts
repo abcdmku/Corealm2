@@ -45,9 +45,9 @@ try {
     await driver.callDebug('inspectPose', [{ x, y: 0, z, yaw, pitch: .3, distance: CAMERA.minDistance, detached: false }]);
     await page.waitForTimeout(150);
   };
-  const snapshot = async (id: string) => page.evaluate(id => {
+  const snapshot = async (id: string) => page.evaluate(async id => {
     const d = window.__gameDebug as any;
-    return { entity: d.getEntity(id), motion: d.getEntityMotion(id), bounds: d.getDrawnBounds(id),
+    return { entity: await d.getEntity(id), motion: d.getEntityMotion(id), bounds: d.getDrawnBounds(id),
       player: d.getPlayerPosition(), camera: d.getCamera(), lab: window.__featureLab!.getState() };
   }, id);
   const capture = async (id: string, name: string) => {

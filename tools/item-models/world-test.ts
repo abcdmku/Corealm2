@@ -8,6 +8,7 @@ import { CAMERA } from "../../game/src/app/config.js";
 import { GameDriver } from "../lib/driver.js";
 import { startGameServer } from "../lib/server.js";
 import { installTestDeadline } from "../lib/deadline.js";
+import { waitForDebug } from "../lib/wait-for-debug.js";
 
 // Final-world wiring proof only. Run after root acceptance and promotion of the lab candidates.
 const armorTiers = process.argv.includes('--armor-tiers');
@@ -74,9 +75,9 @@ try {
   const documentOrigin = await page.evaluate(() => performance.timeOrigin);
   const servedManifest = await page.request.get(new URL("/assets/manifest.json", server.url).href, { timeout: remaining(3000) });
   assert.equal(hash(await servedManifest.body()), report.manifestSha256, "Server manifest differs from the promoted manifest");
-  const read = () => page.evaluate(() => {
+  const read = () => page.evaluate(async () => {
     const debug = window.__gameDebug as any;
-    const save = JSON.parse(debug.getSaveBlob());
+    const save = JSON.parse(await debug.getSaveBlob());
     return { timeOrigin: performance.timeOrigin, world: debug.getState(), player: debug.getPlayerPosition(),
       actor: debug.getPlayer(), equipment: save.equipment, motion: debug.getPlayerMotion(), camera: debug.getCamera(), errors: debug.getErrors() };
   });
@@ -137,8 +138,8 @@ try {
       operations.push({ itemId: id, result });
     }
     report.lastEquipmentOperations = { kit: kit.name, operations, atMs: Date.now() - started };
-    await page.waitForFunction(equipment => {
-      const debug = window.__gameDebug as any, motion = debug.getPlayerMotion(), save = JSON.parse(debug.getSaveBlob());
+    await waitForDebug(page, async equipment => {
+      const debug = window.__gameDebug as any, motion = debug.getPlayerMotion(), save = JSON.parse(await debug.getSaveBlob());
       return !motion.layerLoadPending && !Object.keys(motion.attachmentLoading ?? {}).length
         && Object.entries(equipment).every(([slot, id]) => save.equipment[slot]?.itemId === id
           && (["mainHand", "offHand"].includes(slot) ? motion.attachments?.[slot] === `equip-${slot}-corealm_item_${id}`

@@ -61,6 +61,16 @@ export class Replicator {
   constructor(readonly sessionId: string, readonly playerId: string) {
     this.cosmeticPhase = [...playerId].reduce((hash, character) => (hash * 31 + character.charCodeAt(0)) >>> 0, 0) % 5;
   }
+  /**
+   * Forget every baseline but the sequence. The world behind this connection was replaced, so its event
+   * and action counters start again; the next update must be a snapshot, and the client takes it as
+   * the next in order.
+   */
+  rebase(): void {
+    this.players.clear(); this.entities.clear(); this.gameplay.clear(); this.privateFields.clear();
+    this.eventSequence = 0; this.actionSequence = 0; this.socialJson = ""; this.nearby = []; this.fastMotion.clear();
+    this.interestTick = -Infinity; this.membershipVersion = -1; this.interestRegion = "";
+  }
   update(world: HeadlessWorld, acknowledgedCommand: number, publicCache: Map<string, CachedPlayer>, snapshot = false,
     entityCache = new Map<string, { json: string; value: SemanticEntity }>(),
     committedState?: NonNullable<WorldUpdate["privateState"]>): WorldUpdate {

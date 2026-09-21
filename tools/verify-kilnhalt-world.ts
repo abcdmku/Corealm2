@@ -120,14 +120,14 @@ function playthroughSource(): string {
   // Five walked crossings of z=200. Teleport to the southern side is SETUP; the walk north is the
   // check. The sim runs at 4x here so a 50 ms wall poll samples about every 200 ms of game time.
   {
-    dbg.setTimeScale(4);
+    await dbg.setTimeScale(4);
     for (const x of [-300, -150, 0, 150, 300]) {
       const wantStart = x < -20 ? "fallowmarch" : "vellenwood";
       let evidence = "";
       let ok = false;
       for (const off of [0, 8, -8, 16, -16]) {
         const sx = x + off;
-        dbg.teleport({ x: sx, y: 0, z: 185 });
+        await dbg.teleport({ x: sx, y: 0, z: 185 });
         await sleep(350);
         const p0 = dbg.getPlayerPosition();
         if (Math.hypot(p0.x - sx, p0.z - 185) > 15) {
@@ -188,17 +188,17 @@ function playthroughSource(): string {
   // Levels and tools are setup; every gather goes through corealm_interact and is proved by the
   // pack delta for that exact item.
   {
-    dbg.setTimeScale(20);
-    dbg.setSkillLevel("mining", 25);
-    dbg.setSkillLevel("woodcutting", 25);
-    dbg.setSkillLevel("fishing", 25);
-    dbg.clearInventory();
-    dbg.giveItem("emberite_pickaxe", 1);
-    dbg.giveItem("emberite_hatchet", 1);
-    dbg.giveItem("cinderpine_rod", 1);
+    await dbg.setTimeScale(20);
+    await dbg.setSkillLevel("mining", 25);
+    await dbg.setSkillLevel("woodcutting", 25);
+    await dbg.setSkillLevel("fishing", 25);
+    await dbg.clearInventory();
+    await dbg.giveItem("emberite_pickaxe", 1);
+    await dbg.giveItem("emberite_hatchet", 1);
+    await dbg.giveItem("cinderpine_rod", 1);
 
     const gatherOne = async (checkId, locationId, prefix, verb, itemId) => {
-      dbg.teleport({ locationId });
+      await dbg.teleport({ locationId });
       await sleep(400);
       const before = await count(itemId);
       const trail = [];
@@ -233,18 +233,18 @@ function playthroughSource(): string {
   // Raw materials are setup; every conversion is a corealm_produce at the named Emberfast station
   // and is proved by the output landing in the pack.
   {
-    dbg.setSkillLevel("smithing", 25);
-    dbg.setSkillLevel("cooking", 25);
-    dbg.setSkillLevel("crafting", 25);
-    dbg.setSkillLevel("fletching", 25);
-    dbg.clearInventory();
-    dbg.giveItem("emberite_ore", 6);
-    dbg.giveItem("kilnstone", 4);
-    dbg.giveItem("cinderpine_handle", 1);
-    dbg.giveItem("ashfin", 3);
-    dbg.giveItem("charhide", 3);
-    dbg.giveItem("cinderpine_shaft", 3);
-    dbg.teleport({ locationId: "emberfast_town" });
+    await dbg.setSkillLevel("smithing", 25);
+    await dbg.setSkillLevel("cooking", 25);
+    await dbg.setSkillLevel("crafting", 25);
+    await dbg.setSkillLevel("fletching", 25);
+    await dbg.clearInventory();
+    await dbg.giveItem("emberite_ore", 6);
+    await dbg.giveItem("kilnstone", 4);
+    await dbg.giveItem("cinderpine_handle", 1);
+    await dbg.giveItem("ashfin", 3);
+    await dbg.giveItem("charhide", 3);
+    await dbg.giveItem("cinderpine_shaft", 3);
+    await dbg.teleport({ locationId: "emberfast_town" });
     await sleep(400);
 
     const produceCheck = async (checkId, stationId, recipeId, quantity, outputId, minOut) => {
@@ -276,7 +276,7 @@ function playthroughSource(): string {
 
     // Bank sanity: deposit one smelted bar at the Emberfast bank, through the agent surface.
     {
-      dbg.giveItem("emberite_bar", 1); // guarantees something to deposit even if smelting failed
+      await dbg.giveItem("emberite_bar", 1); // guarantees something to deposit even if smelting failed
       const went = await travel({ entityId: "emberfast_bank_counter" }, 30000);
       const before = await count("emberite_bar");
       const dep = await agent.call("corealm_bank", { op: "deposit", itemId: "emberite_bar", quantity: 1 });
@@ -290,7 +290,7 @@ function playthroughSource(): string {
 
     // Shop sanity: buy Fire Essence at Emberfast Provisioners. Gold is setup.
     {
-      dbg.setCurrency(50000);
+      await dbg.setCurrency(50000);
       const went = await travel({ entityId: "emberfast_general" }, 30000);
       const before = await count("fire_essence");
       const goldBefore = (await agent.call("corealm_inventory")).currency;
@@ -309,16 +309,16 @@ function playthroughSource(): string {
   // the equipment slots back off the agent surface. Magic first, so the run ends wearing the
   // melee kit the Cinderwake fight needs.
   {
-    dbg.setSkillLevel("magic", 25);
-    dbg.setSkillLevel("melee", 40);
+    await dbg.setSkillLevel("magic", 25);
+    await dbg.setSkillLevel("melee", 40);
     await sleep(400); // maxHealth recomputes on the next tick; see gate-check's note
-    dbg.setHealth(999);
-    dbg.clearInventory();
+    await dbg.setHealth(999);
+    await dbg.clearInventory();
 
     const equipSet = async (pieces) => {
       const errors = [];
       for (const itemId of pieces) {
-        dbg.giveItem(itemId, 1);
+        await dbg.giveItem(itemId, 1);
         const worn = await agent.call("corealm_equip", { itemId });
         if (worn.error) errors.push(itemId + ": " + worn.error + " " + (worn.message || ""));
       }
@@ -364,13 +364,13 @@ function playthroughSource(): string {
 
   // ==================================================== 6. CINDERWAKE AND FIRE PROGRESSION
   {
-    dbg.clearInventory();
-    dbg.setHealth(999);
-    dbg.setTimeScale(20);
-    dbg.teleport({ locationId: "kilnhalt_fire_cache" });
+    await dbg.clearInventory();
+    await dbg.setHealth(999);
+    await dbg.setTimeScale(20);
+    await dbg.teleport({ locationId: "kilnhalt_fire_cache" });
     await sleep(400);
 
-    const bossBefore = dbg.getEntity("cinderwake");
+    const bossBefore = await dbg.getEntity("cinderwake");
     const startHp = bossBefore && bossBefore.combat ? bossBefore.combat.health : -1;
     const went = await travel({ entityId: "cinderwake" }, 60000);
     await drain();
@@ -384,16 +384,16 @@ function playthroughSource(): string {
       if (st.health <= 0) {
         deaths += 1;
         await sleep(1200);
-        dbg.teleport({ locationId: "cinderwake_arena" });
+        await dbg.teleport({ locationId: "cinderwake_arena" });
         await sleep(300);
-        dbg.setHealth(999);
-      } else if (st.health < st.maxHealth * 0.6) dbg.setHealth(999);
-      const live = dbg.getEntity("cinderwake");
+        await dbg.setHealth(999);
+      } else if (st.health < st.maxHealth * 0.6) await dbg.setHealth(999);
+      const live = await dbg.getEntity("cinderwake");
       if (!live || live.state === "dead" || (live.combat && live.combat.health <= 0)) { killed = true; break; }
       if (!dbg.getState().combatTargetId) await agent.call("corealm_attack", { entityId: "cinderwake" });
     }
     // Loot expires in 60 SIM seconds, which at 20x is three wall seconds: slow down immediately.
-    dbg.setTimeScale(1);
+    await dbg.setTimeScale(1);
     note("cinderwake-kill", killed,
       "cinderwake hp " + startHp + " -> " + (killed ? 0 : "still alive")
       + ", player deaths " + deaths + " (travel " + went + ") :: " + trail);
@@ -428,12 +428,12 @@ function playthroughSource(): string {
 
     // Awaken the altar with the carried Orb. The interact is the check; the Orb was earned above.
     {
-      dbg.setTimeScale(10);
+      await dbg.setTimeScale(10);
       const wentAltar = await travel({ entityId: "kilnhalt_fire_altar" }, 30000);
       await drain();
       const woke = await doInteract("kilnhalt_fire_altar", "awaken", null, 0);
       const seen = await waitFor(["essence.altarAwakened"], 8000);
-      const altar = dbg.getEntity("kilnhalt_fire_altar");
+      const altar = await dbg.getEntity("kilnhalt_fire_altar");
       const orbGone = (await count("fire_orb")) === 0;
       note("altar-awaken",
         !woke.error && seen.length > 0 && !!altar && altar.state === "awakened" && orbGone,
@@ -445,7 +445,7 @@ function playthroughSource(): string {
 
     // Craft the Fire Staff at the awakened altar. The cinderpine base is setup material.
     {
-      if ((await count("cinderpine_staff")) === 0) dbg.giveItem("cinderpine_staff", 1);
+      if ((await count("cinderpine_staff")) === 0) await dbg.giveItem("cinderpine_staff", 1);
       const before = await count("fire_staff");
       await drain();
       const made = await agent.call("corealm_produce",
@@ -468,13 +468,13 @@ function playthroughSource(): string {
     {
       await agent.call("corealm_equip", { unequipSlot: "offHand" }); // a staff is two-handed
       const worn = await agent.call("corealm_equip", { itemId: "fire_staff" });
-      if ((await count("fire_essence")) < 5) dbg.giveItem("fire_essence", 50);
+      if ((await count("fire_essence")) < 5) await dbg.giveItem("fire_essence", 50);
       const bookBefore = await agent.call("corealm_spellbook", { op: "read" });
       const chargesBefore = bookBefore.equippedWeapon ? bookBefore.equippedWeapon.charges : null;
       const essenceBefore = bookBefore.essence ? bookBefore.essence.fire : null;
-      dbg.teleport({ x: 80, y: 0, z: 380 }); // the Cinder Boar ground; teleport is setup
+      await dbg.teleport({ x: 80, y: 0, z: 380 }); // the Cinder Boar ground; teleport is setup
       await sleep(400);
-      dbg.setHealth(999);
+      await dbg.setHealth(999);
       const enemies = await agent.call("corealm_observe", { archetypes: ["enemy"], radius: 120, limit: 20 });
       const target = (enemies || []).find((e) => e.state !== "dead");
       let evidence = worn.error ? "staff equip refused: " + worn.error + " " + (worn.message || "") : "";
@@ -510,9 +510,9 @@ function playthroughSource(): string {
   // Teleports are setup. Each boss must exist as archetype "boss" rank "miniboss", die to real
   // attacks, leave a loot pile, schedule a ~180 s respawn, and come back after the clock advances.
   {
-    dbg.setSkillLevel("melee", 60);
+    await dbg.setSkillLevel("melee", 60);
     await sleep(400);
-    dbg.setHealth(999);
+    await dbg.setHealth(999);
 
     const lootPrefix = async (prefix) => {
       for (let i = 0; i < 12; i += 1) {
@@ -534,8 +534,8 @@ function playthroughSource(): string {
       for (let i = 0; i < 150; i += 1) {
         await sleep(150);
         const st = dbg.getState();
-        if (st.health < st.maxHealth * 0.5) dbg.setHealth(999);
-        const live = dbg.getEntity(id);
+        if (st.health < st.maxHealth * 0.5) await dbg.setHealth(999);
+        const live = await dbg.getEntity(id);
         if (!live || live.state === "dead" || (live.combat && live.combat.health <= 0)) return { killed: true, went };
         if (!st.combatTargetId) await agent.call("corealm_attack", { entityId: id });
       }
@@ -543,11 +543,11 @@ function playthroughSource(): string {
     };
 
     for (const [id, x, z] of [["galeskin", -300, 145], ["mossbound", 318, 72], ["tideworn", 18, -164]]) {
-      dbg.setTimeScale(20);
-      dbg.setHealth(999);
-      dbg.teleport({ x, y: 0, z });
+      await dbg.setTimeScale(20);
+      await dbg.setHealth(999);
+      await dbg.teleport({ x, y: 0, z });
       await sleep(500);
-      const ent = dbg.getEntity(id);
+      const ent = await dbg.getEntity(id);
       const isBoss = !!ent && ent.archetype === "boss" && !!ent.meta && ent.meta.rank === "miniboss";
       let killed = false;
       let lootInfo = null;
@@ -564,25 +564,25 @@ function playthroughSource(): string {
           const fight = await killOnce(id);
           killed = fight.killed;
           if (!killed) { evidence += ", fight round " + (round + 1) + " timed out (travel " + fight.went + ")"; break; }
-          dbg.setTimeScale(1); // loot expires in 60 sim seconds
+          await dbg.setTimeScale(1); // loot expires in 60 sim seconds
           try {
-            const rec = JSON.parse(dbg.getSaveBlob()).world.enemies[id];
+            const rec = JSON.parse(await dbg.getSaveBlob()).world.enemies[id];
             const simNow = dbg.getState().clock.elapsedMs;
             if (rec && typeof rec.respawnAtMs === "number") respawnInMs = rec.respawnAtMs - simNow;
           } catch (ignored) { /* respawnInMs stays null and the check reports it */ }
           lootInfo = await lootPrefix("loot_" + id);
           if (!lootInfo && round === 0) {
             evidence += ", kill 1 rolled no items";
-            dbg.setTimeScale(20);
-            dbg.advanceGameTime(200);
+            await dbg.setTimeScale(20);
+            await dbg.advanceGameTime(200);
             await sleep(900);
           }
         }
         if (killed) {
-          dbg.setTimeScale(20);
-          dbg.advanceGameTime(200);
+          await dbg.setTimeScale(20);
+          await dbg.advanceGameTime(200);
           await sleep(1000);
-          const back = dbg.getEntity(id);
+          const back = await dbg.getEntity(id);
           respawned = !!back && back.state === "alive" && !!back.combat && back.combat.health > 0;
         }
         evidence += ", killed=" + killed
@@ -608,11 +608,11 @@ function playthroughSource(): string {
   // Stand in Kilnhalt with the altar awakened and a tier-20 item carried, and force a save. The
   // harness then reloads the page and reads the other half of this check.
   {
-    dbg.setTimeScale(1);
-    dbg.teleport({ locationId: "emberfast_town" });
+    await dbg.setTimeScale(1);
+    await dbg.teleport({ locationId: "emberfast_town" });
     await sleep(500);
-    if ((await count("fire_staff")) === 0 && (await count("emberite_bar")) === 0) dbg.giveItem("emberite_bar", 1);
-    dbg.saveNow();
+    if ((await count("fire_staff")) === 0 && (await count("emberite_bar")) === 0) await dbg.giveItem("emberite_bar", 1);
+    await dbg.saveNow();
   }
 
   return { checks: out };
@@ -621,12 +621,12 @@ function playthroughSource(): string {
 
 /** The read-back after the reload. Everything here is observation, not action. */
 function persistedStateSource(): string {
-  return `(() => {
+  return `(async () => {
   const dbg = window.__gameDebug;
   const st = dbg.getState();
-  const altar = dbg.getEntity("kilnhalt_fire_altar");
+  const altar = await dbg.getEntity("kilnhalt_fire_altar");
   let blob = {};
-  try { blob = JSON.parse(dbg.getSaveBlob()); } catch (ignored) { blob = {}; }
+  try { blob = JSON.parse(await dbg.getSaveBlob()); } catch (ignored) { blob = {}; }
   const items = ((blob.inventory && blob.inventory.slots) || []).filter(Boolean).map((s) => s.itemId);
   const pos = dbg.getPlayerPosition();
   return {
@@ -706,9 +706,9 @@ export async function runKilnhaltVerification(timeScale: number): Promise<Kilnha
 
     await page.goto(server.url, { waitUntil: "load", timeout: 60_000 });
     await page.waitForFunction(() => window.__gameDebug?.getState().ready === true, undefined, { timeout: 90_000 });
-    await page.evaluate((scale) => {
+    await page.evaluate(async (scale) => {
       const api = window.__gameDebug as unknown as { setTimeScale?: (value: number) => void };
-      api.setTimeScale?.(scale);
+      await api.setTimeScale?.(scale);
     }, timeScale);
 
     const result = (await page.evaluate(playthroughSource())) as {

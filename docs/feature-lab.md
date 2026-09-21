@@ -56,6 +56,52 @@ need nothing: `bootProfile.ts` resolves them to the feature-lab profile, and boo
 builds a picker for that profile. `?play=<providerId>/<worldId>` is the other spelling, for
 a harness that wants a specific world joined as soon as the first frame is drawn.
 
+Local play runs in a Web Worker: the page renders and predicts, and the world lives in the
+worker, joined over the same session a socket uses. `?play=local` joins it as soon as the first
+frame is drawn. A page with no server to offer joins it on its own when loading finishes, as the
+old local game simply started. `getState().ready` is true once the local world is joined and its
+first snapshot is what the page shows. Two escape hatches:
+
+- `?local=main` runs the old main-thread game. It exists until the old path is deleted. The
+  feature labs still run on the old path and need no flag.
+- `?local=memory` runs the worker and stores nothing. Use it when a harness opens several
+  pages in one browser context: the stored local world belongs to one tab at a time, and a
+  second tab is told so instead of being let in.
+
+`window.__gameDebug` methods that change the simulation, or read the world beyond what is
+replicated to the page (48 m around the player), return promises. The list is
+`game/src/debug/asyncMethods.ts`. Each promise resolves only after the page's own state shows
+the effect, so this needs no wait between the lines:
+
+```ts
+await page.evaluate(async () => {
+  const debug = window.__gameDebug as any;
+  await debug.giveItem("grithe_ore", 5);
+  await debug.teleport({ entityId: "coldbrace_bank" });
+  return { used: debug.getState().inventoryUsed, at: debug.getPlayerPosition() };
+});
+```
+
+Reads of main-thread state stay synchronous: `getState`, `getPlayer`, `getPlayerPosition`,
+`getCamera`, `getDrawnBounds`, `getEvents`, render and UI state. `driver.callDebug` awaits
+every method. Three rules follow, and `npm run lint:debug-await` (also a vitest test) fails on
+the first two:
+
+1. Await every async debug call. A forgotten `await` still has its effect, a moment later, and
+   serialises to `{}`. `tsx tools/codemods/await-debug-mutators.ts` rewrites a file for you.
+2. Do not call one from a `page.waitForFunction` predicate. Playwright polls the predicate and
+   never awaits it, so an async predicate is true on its first poll. Use `waitForDebug` from
+   `tools/lib/wait-for-debug.ts`, which takes the same arguments after `page`.
+3. `getEntity`, `getEntities`, `listEntities` and `findEntities` ask the worker, which holds
+   the whole world. The page's own entity store holds what is near the player.
+
+Time control drives the worker's tick loop: `setPaused`, `setTimeScale` (0.1 to 100),
+`advanceGameTime(seconds)`, which moves the clock and runs one tick, and `advanceTicks(n)`,
+which runs exactly `n` ticks. A tick is always 100 ms of simulation. `getSaveBlob` returns the
+old save format at the same version, so a tool reads it as a `GameState`, and `loadSaveBlob`
+takes that or an old `corealm.save.v1` fixture. In a connected (socket) session the writes
+reject with `UNAVAILABLE`, and the entity reads answer from the replicated set.
+
 Wait for the `ready` response before sending commands. Interact with the canvas before
 keyboard movement; the lab panel can hold focus after boot. The session journal records all
 commands and results under ignored `test-results/lab-session/`. `ok: true` only means

@@ -267,15 +267,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // adds a host or types a character name while the scene is still being built. Joining stays shut
   // until the first frame is drawn; a choice made before then is honoured the moment it opens.
   //
-  // `?local=worker` makes "Play local" a world like the others: `HeadlessWorld` in a Web Worker,
-  // joined through the same session code a socket uses. The flag only reads the published manifest
-  // here, to settle the seed before the scene is built. The worker starts once local play is the
-  // known target, so its world boots beside the scene.
-  const localWorkerAsked = new URLSearchParams(location.search).get("local") === "worker"
-    || (window as Window & { __COREALM_LOCAL_WORKER__?: boolean }).__COREALM_LOCAL_WORKER__ === true;
-  const localLaunch = profile.kind === "game" && localWorkerAsked
+  // "Play local" is a world like the others: `HeadlessWorld` in a Web Worker, joined through the
+  // same session code a socket uses. Only the published manifest is read here, to settle the seed
+  // before the scene is built. The worker starts once local play is the known target, so its world
+  // boots beside the scene.
+  //
+  // `?local=main` keeps the old main-thread game until stage 6 deletes it; the feature labs still
+  // run on it and never reach this branch. `?local=memory` is the worker with nothing stored, for a
+  // harness that opens several pages at once: the stored world belongs to one tab at a time.
+  const localMode = new URLSearchParams(location.search).get("local");
+  const localLaunch = profile.kind === "game" && localMode !== "main"
     ? await bootTelemetry.measureAsync("boot.localWorker.prepare", async () =>
-      (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "authored", memory: !profile.persistent }))
+      (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "authored", memory: !profile.persistent || localMode === "memory" }))
       // Without the published manifest there is no worker world to offer, so the page plays the old way and says why.
       .catch((error: unknown) => { console.warn("[corealm] Worker-hosted local play is unavailable; using the main-thread game.", error); return null; })
     : null;
@@ -287,7 +290,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Set when the player answers "Play local" on the loading screen, or when `?play=local` answered
   // for them: the menu must not then open over the game they just asked to start.
   let choseLocalPlay = false;
+  /** Local play started because nobody chose and the page had no server to offer. */
+  let localDefaulted = false;
+  let worldSelectionResult: Awaited<typeof worldSelection> = null;
   void worldSelection.then((selection) => {
+    worldSelectionResult = selection;
     const screen = document.getElementById("boot-screen");
     if (!selection) return;
     selection.panel.addEventListener("worldsdismiss", () => { choseLocalPlay = true; });
@@ -3407,6 +3414,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
    * Places the camera around a documentation subject without adding a second camera system.
    * The normal orbit camera still owns projection, occlusion, region streaming, and rendering.
    */
+  /**
+   * Where a debug pose or teleport puts the player. The old local game owns its store and writes it.
+   * In worker-hosted play the host owns the player, so this asks it and resolves once the new
+   * position has been replicated back; `then` runs after that, or at once.
+   */
+  const localDebug = localLaunch ? (op: import("../worker/localDebugProtocol.js").DebugOp) => localLaunch.provider.debug(op) : null;
+  const debugPlace = <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): T | Promise<T> => {
+    if (localDebug) return localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }).then(then);
+    store.get().player.position = position;
+    store.get().player.regionId = regionId;
+    if (facingRad !== undefined) store.get().player.facingRad = facingRad;
+    return then();
+  };
   const frameDocumentationTarget = (
     target: Vec3,
     yaw: number,
@@ -3415,12 +3435,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     reason: string,
     playerTarget: Vec3 = target,
     playerFacingRad = yaw + Math.PI,
-  ): void => {
+  ): void | Promise<void> => {
     const landed = nav.closestPoint(playerTarget) ?? playerTarget;
     const regionId = regionAtPoint(landed);
-    store.get().player.position = landed;
-    store.get().player.regionId = regionId;
-    store.get().player.facingRad = playerFacingRad;
+    return debugPlace(landed, regionId, playerFacingRad, () => {
     if (profile.kind === "feature-lab") entityViews.sync(entityStore.all());
     else refreshVisualResidency(landed, regionId, true);
     audioDirector.setRegion(regionId, landed);
@@ -3431,7 +3449,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     camera.setPose(yaw, pitch, distance, 2);
     camera.update(target[0], target[1], target[2], true);
     renderer.followShadow(renderer.camera.position.clone().setY(landed[1]));
+    });
   };
+  const framed = (placed: void | Promise<void>): boolean | Promise<boolean> => placed ? placed.then(() => true) : true;
 
   const stableCaptureYaw = (id: string): number => {
     let hash = 2166136261;
@@ -3454,10 +3474,27 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       resolveSolid: (desired, from, radius) => movementSolids.resolve(desired, from, radius),
     });
   }
+  // When local play is what this page starts, by `?play=local` or because there was nothing else to choose, "ready"
+  // means it is joined and its first snapshot is what the page shows. Otherwise the picker is still the player's to answer.
+  const localSession = (): boolean => localLaunch !== null && worldSelectionResult?.controller.session?.world?.providerId === localLaunch.provider.id;
   installGameDebug({
     store, events, clock, nav, movement, api, renderer, camera, assets, errors,
-    isReady: () => debugReady,
+    isReady: () => debugReady && (!localLaunch || !(worldSelectionResult?.autoLocal || localDefaulted) || localSession()),
     version,
+    remote: localLaunch ? {
+      joined: localSession,
+      debug: op => localLaunch.provider.debug(op),
+      parseSave: (json) => { const loaded = saves.loadSerialized(json); return loaded.status === "loaded" && loaded.state ? { state: loaded.state } : { reason: loaded.reason ?? "Save import failed" }; },
+      presentationReset: () => {
+        const { position, facingRad, regionId } = store.get().player;
+        portalTransition.cancel(); traversalPresentation.reset(); input.clear(); loop.resetPresentation(); gameAudio.reset();
+        if (rigged) playerRig.setPosition(position, facingRad);
+        scene.syncPlayer(position, facingRad, true);
+        camera.reset(); camera.setPose(facingRad + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
+        camera.update(position[0], position[1], position[2], true);
+        audioDirector.setRegion(regionId, position); refreshVisualResidency(position, regionId, true); ui.update();
+      },
+    } : null,
     // Direct evidence that a cast drew something, for `tools/verify-magic.ts`. Reading `drawCalls`
     // instead conflates a spell with anything else that streamed in that frame.
     spellParticles: () => spellVfx.liveParticles(),
@@ -3521,13 +3558,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const regionId = regionAtPoint(navPoint);
       const snapped: Vec3 = regionId === dungeonSpec?.regionId
         ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
-      store.get().player.position = snapped;
-      store.get().player.regionId = regionId;
-      audioDirector.setRegion(regionId, snapped);
-      movement.stop(store.get(), clock.elapsedMs, "teleport");
-      scene.syncPlayer(snapped, store.get().player.facingRad, true);
-      camera.update(snapped[0], snapped[1], snapped[2], true);
-      refreshVisualResidency(snapped, regionId, true);
+      return debugPlace(snapped, regionId, undefined, () => {
+        audioDirector.setRegion(regionId, snapped);
+        movement.stop(store.get(), clock.elapsedMs, "teleport");
+        scene.syncPlayer(snapped, store.get().player.facingRad, true);
+        camera.update(snapped[0], snapped[1], snapped[2], true);
+        refreshVisualResidency(snapped, regionId, true);
+      });
     },
     saveNow: () => { saves.save(store.get(), Date.now()); },
     getSaveBlob: () => saves.serialize(store.get()),
@@ -3616,7 +3653,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           scene.heightAt(shot.regionId, shot.position[0], shot.position[1]) + 0.2,
           shot.position[1],
         ] as Vec3;
-      frameDocumentationTarget(
+      return framed(frameDocumentationTarget(
         target,
         shot.yaw,
         shot.pitch,
@@ -3624,8 +3661,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         "focus-camera",
         target,
         shot.yaw + (shot.playerFacingOffsetRad ?? Math.PI),
-      );
-      return true;
+      ));
     },
     focusPlayer: () => {
       const player = store.get().player;
@@ -3635,18 +3671,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       scene.terrainGroup.visible = !dungeonPlayer;
       if (dungeon) dungeon.group.visible = dungeonPlayer;
       const target: Vec3 = [player.position[0], player.position[1] + 1.05, player.position[2]];
-      frameDocumentationTarget(
+      return framed(frameDocumentationTarget(
         target,
         player.facingRad + Math.PI + 0.35,
         0.16,
         2.4,
         "focus-player",
         player.position,
-      );
-      return true;
+      ));
     },
-    focusEntity: (entityId: string) => {
-      const entity = entityStore.get(entityId);
+    focusEntity: async (entityId: string) => {
+      let entity = entityStore.get(entityId);
+      if (!entity && localDebug) {
+        // Beyond the replicated interest set the page does not hold the entity. Ask the host where it is, stand there, and it arrives.
+        const found = await localDebug({ op: "getEntity", entityId }) as SemanticEntity | null;
+        if (found) { const near = nav.closestPoint(found.position) ?? found.position; await debugPlace(near, found.regionId, undefined, () => {}); entity = entityStore.get(entityId); }
+      }
       if (!entity) return false;
       const dungeonEntity = entity.regionId === "gravelmaw";
       const settlementEntity = !dungeonEntity
@@ -3690,7 +3730,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
               ? 9
               : 10;
       if (switchingRealm) {
-        frameDocumentationTarget(entity.position, contextualYaw, 0.25, baseDistance, "focus-entity-region");
+        await frameDocumentationTarget(entity.position, contextualYaw, 0.25, baseDistance, "focus-entity-region");
       }
       const bounds = entityViews.drawnBounds(entityId);
       const width = bounds ? bounds.max[0] - bounds.min[0] : 0;
@@ -3721,7 +3761,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           target[2] - Math.sin(contextualYaw) * resourceFocusOffset,
         ]
         : target;
-      frameDocumentationTarget(target, contextualYaw, pitch, distance, "focus-entity", playerTarget);
+      await frameDocumentationTarget(target, contextualYaw, pitch, distance, "focus-entity", playerTarget);
       return true;
     },
     inspectPose: (target: Vec3, yaw: number, pitch: number, distance: number, detached = false) => {
@@ -3743,17 +3783,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       scene.terrainGroup.visible = true;
       if (dungeon) dungeon.group.visible = regionId === "gravelmaw";
       const stand: Vec3 = [target[0], terrain.meshHeightAt(target[0], target[2]), target[2]];
-      store.get().player.position = stand;
-      store.get().player.regionId = regionId;
-      store.get().player.facingRad = yaw + Math.PI;
-      refreshVisualResidency(stand, regionId, true);
-      audioDirector.setRegion(regionId, stand);
-      movement.stop(store.get(), clock.elapsedMs, "inspect-pose");
-      scene.syncPlayer(stand, yaw + Math.PI, true);
-      camera.setPose(yaw, pitch, distance);
-      camera.update(...stand, true);
-      renderer.followShadow(renderer.camera.position.clone().setY(stand[1]));
-      return true;
+      return debugPlace(stand, regionId, yaw + Math.PI, () => {
+        refreshVisualResidency(stand, regionId, true);
+        audioDirector.setRegion(regionId, stand);
+        movement.stop(store.get(), clock.elapsedMs, "inspect-pose");
+        scene.syncPlayer(stand, yaw + Math.PI, true);
+        camera.setPose(yaw, pitch, distance);
+        camera.update(...stand, true);
+        renderer.followShadow(renderer.camera.position.clone().setY(stand[1]));
+        return true;
+      });
     },
     focusLocation: (locationId: string) => {
       entityViews.setCaptureSubject(null);
@@ -3778,8 +3817,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
             authored.position[1],
           ] as Vec3;
         if (!target) return false;
-        frameDocumentationTarget(target, authored.yaw, authored.pitch, authored.distance, "focus-location");
-        return true;
+        return framed(frameDocumentationTarget(target, authored.yaw, authored.pitch, authored.distance, "focus-location"));
       }
       const node = nav.routeNode(locationId);
       if (!node) return false;
@@ -3792,16 +3830,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         : !dungeonLocation && centre && Math.hypot(contextX, contextZ) > 2
           ? Math.atan2(contextX, contextZ)
           : stableCaptureYaw(locationId);
-      frameDocumentationTarget(
+      return framed(frameDocumentationTarget(
         node.position,
         yaw,
         dungeonLocation ? 0.28 : bankLocation ? 0.32 : 0.44,
         dungeonLocation ? 8 : bankLocation ? 6 : 22,
         "focus-location",
-      );
-      return true;
+      ));
     },
     setCaptureMode: (enabled: boolean) => {
+      // The world that must hold still is the host's. The page's clock below only mirrors it.
+      const held = localDebug && localSession() ? localDebug({ op: "setPaused", paused: enabled ? true : capturePreviousPause }).then(() => {}) : undefined;
       if (enabled) {
         capturePreviousPause = clock.paused;
         capturePreviousRunning = loop.isRunning();
@@ -3821,6 +3860,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         entityViews.setCaptureSubject(null);
         if (capturePreviousRunning) loop.start();
       }
+      return held;
     },
     captureDocumentationFrame: () => renderer.captureFrame(),
     listShots: () => shotIds(),
@@ -3912,8 +3952,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         restored(){multiplayerWorld=false;forest.reset();for(const {descriptor}of forestInstances.values())if(!worldExclusions.blocksTreeClearance(descriptor.position[0],descriptor.position[2],descriptor.trunkRadius))forest.register(descriptor);updateForest();refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
       }, {crowds:true,equipment:true}, selection);
       // Only when there was something to join. The picker shows on every page now, but a page with
-      // no servers behind it has nothing to offer a player who let loading finish without choosing.
+      // no servers behind it has nothing to offer a player who let loading finish without choosing,
+      // so their own world starts, as the old local game did. It is a world to join now, not a game
+      // already running behind the picker.
       if(!choseLocalPlay&&selection.configured)ui.openTitle("worlds");
+      else if(!choseLocalPlay&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
     }
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
     const beforeGameplay = renderer.getPresentationState().submitted;

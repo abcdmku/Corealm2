@@ -94,16 +94,16 @@ try {
 
   // Capture population before visiting a haunt can wake its patrol or provoke combat.
   const hauntIds = WILDERNESS_RUIN_SITES.map(site => `${site.id}_haunt`);
-  const haunts = await page.evaluate(ids => {
+  const haunts = await page.evaluate(async ids => {
     const debug = window.__gameDebug as any;
-    return ids.map(groupId => ({
+    return await Promise.all(ids.map(async groupId => ({
       groupId,
-      residents: debug.getEntities().filter((entity: any) =>
-        entity.id === groupId || entity.id.startsWith(`${groupId}_`)).map((entity: any) => {
-        const actor = debug.getEntity(entity.id);
+      residents: await Promise.all((await debug.getEntities()).filter((entity: any) =>
+        entity.id === groupId || entity.id.startsWith(`${groupId}_`)).map(async (entity: any) => {
+        const actor = await debug.getEntity(entity.id);
         return { actor, ground: debug.sampleWorld(actor.position[0], actor.position[2]) };
-      }),
-    }));
+      })),
+    })));
   }, hauntIds);
   for (const haunt of haunts) {
     assert.equal(haunt.residents.length, 2, `${haunt.groupId}: expected two residents`);
@@ -127,16 +127,16 @@ try {
     const foundation = [-1, 0, 1].flatMap(x => [-1, 0, 1].map(z =>
       rotate(site.position, site.rotationY, [x * (ruin.footprint[0] / 2 - .6), z * (ruin.footprint[1] / 2 - .6)])));
     const standing = rotate(site.position, site.rotationY, [0, ruin.footprint[1] / 2 + 9]);
-    const result = await page.evaluate(({ site, from, to, foundation, standing }) => {
+    const result = await page.evaluate(async ({ site, from, to, foundation, standing }) => {
       const debug = window.__gameDebug as any;
       const a = { x: from[0], y: debug.groundHeight(...from), z: from[1] };
       const b = { x: to[0], y: debug.groundHeight(...to), z: to[1] };
       const foundationHeights = foundation.map(point => ({ point, height: debug.groundHeight(...point) }));
-      debug.teleport([standing[0], debug.groundHeight(...standing), standing[1]]);
-      debug.inspectPose({ x: site.position[0], y: debug.groundHeight(...site.position) + 2.8,
+      await debug.teleport([standing[0], debug.groundHeight(...standing), standing[1]]);
+      await debug.inspectPose({ x: site.position[0], y: debug.groundHeight(...site.position) + 2.8,
         z: site.position[1], yaw: site.rotationY + .55, pitch: .22, distance: 34, detached: true });
       return { from: a, to: b, path: debug.getNavPath([a.x, a.y, a.z], [b.x, b.y, b.z]),
-        partIds: debug.getEntities().filter((entity: any) => entity.id.startsWith(`${site.id}#`)).map((entity: any) => entity.id),
+        partIds: (await debug.getEntities()).filter((entity: any) => entity.id.startsWith(`${site.id}#`)).map((entity: any) => entity.id),
         centreHeight: debug.groundHeight(...site.position), foundationHeights,
         endpoints: [debug.sampleWorld(...from), debug.sampleWorld(...to)] };
     }, { site, from, to, foundation, standing });
@@ -175,9 +175,9 @@ try {
   if (!ruinsOnly) {
   const ecotone: { z: number; night: number; state: unknown }[] = [];
   for (const z of [430, 460, 490, 520, 550]) {
-    await page.evaluate(z => {
+    await page.evaluate(async z => {
       const debug = window.__gameDebug as any;
-      debug.inspectPose({ x: 0, y: debug.groundHeight(0, z), z, yaw: Math.PI + (z === 550 ? .55 : 0), pitch: .22, distance: 26 });
+      await debug.inspectPose({ x: 0, y: debug.groundHeight(0, z), z, yaw: Math.PI + (z === 550 ? .55 : 0), pitch: .22, distance: 26 });
     }, z);
     await settle(true);
     const state = await page.evaluate(() => {
@@ -205,13 +205,13 @@ try {
     { name: 'widows-furnace', x: 178, z: 638, yaw: Math.PI, pitch: .35, distance: 34, focus: [188, 665] },
   ];
   for (const shot of worldShots) {
-    await page.evaluate(shot => {
+    await page.evaluate(async shot => {
       const debug = window.__gameDebug as any;
       if (shot.focus) {
-        debug.teleport([shot.x, debug.groundHeight(shot.x, shot.z), shot.z]);
-        debug.inspectPose({ x: shot.focus[0], y: debug.groundHeight(...shot.focus) + .6, z: shot.focus[1],
+        await debug.teleport([shot.x, debug.groundHeight(shot.x, shot.z), shot.z]);
+        await debug.inspectPose({ x: shot.focus[0], y: debug.groundHeight(...shot.focus) + .6, z: shot.focus[1],
           yaw: shot.yaw, pitch: shot.pitch, distance: shot.distance, detached: true });
-      } else debug.inspectPose({ ...shot, y: debug.groundHeight(shot.x, shot.z) });
+      } else await debug.inspectPose({ ...shot, y: debug.groundHeight(shot.x, shot.z) });
     }, shot);
     await settle(true);
     const state = await page.evaluate(() => {
@@ -268,11 +268,11 @@ try {
   }
   evidence.push({ lavaSection: section, normal, navigation, detourLength, minimumPathClearance });
 
-  const setWalkPose = async (point: XZ, yaw: number) => page.evaluate(({ point, yaw }) => {
+  const setWalkPose = async (point: XZ, yaw: number) => page.evaluate(async ({ point, yaw }) => {
     const debug = window.__gameDebug as any;
     const y = debug.groundHeight(...point);
-    debug.teleport([point[0], y, point[1]]);
-    debug.inspectPose({ x: point[0], y, z: point[1], yaw, pitch: .24, distance: 13, detached: true });
+    await debug.teleport([point[0], y, point[1]]);
+    await debug.inspectPose({ x: point[0], y, z: point[1], yaw, pitch: .24, distance: 13, detached: true });
     return debug.getPlayerPosition() as Point;
   }, { point, yaw });
   const walkBefore = await setWalkPose(southBank, yawToward(-normal[0], -normal[1]));

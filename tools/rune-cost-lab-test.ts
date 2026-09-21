@@ -13,7 +13,7 @@ try {
  await p.evaluate(()=>window.__featureLab!.perform('open-bank'));
  await p.locator('#panel-bank').getByRole('button',{name:'Deposit all',exact:true}).click();
  await p.locator('#panel-bank .panel__close').click();
- await p.evaluate((ids)=>{const debug=window.__gameDebug as unknown as {giveItem(id:string,n:number,to:string):void};for(const id of ids){debug.giveItem(id,32,'inventory');debug.giveItem(id,20,'bank');}},ids);
+ await p.evaluate(async (ids)=>{const debug=window.__gameDebug as unknown as {giveItem(id:string,n:number,to:string):void};for(const id of ids){await debug.giveItem(id,32,'inventory');await debug.giveItem(id,20,'bank');}},ids);
  if(!await p.locator('#panel-inventory').isVisible()) await p.locator('.dock__btn[data-panel="inventory"]').click();
  const icons:Record<string,string>={};
  for(const id of ids){const icon=p.locator(`#panel-inventory [data-item="${id}"] .rune-icon`);await icon.waitFor();icons[id]=await icon.innerHTML();assert.equal(await p.locator(`#panel-inventory [data-item="${id}"] img`).count(),0);}

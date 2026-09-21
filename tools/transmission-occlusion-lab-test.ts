@@ -29,7 +29,7 @@ try {
       await w.__environmentLab.showGallery("corealm_water_trough", { verticalOffset: test.verticalOffset,
         companionAssetId: mixedShell ? "corealm_feed_trough" : undefined });
       const low = test.name === "shell-hidden";
-      w.__gameDebug.inspectPose({ x: 0, y: w.__gameDebug.groundHeight(0, 25) + (low ? .05 : .5), z: 25,
+      await w.__gameDebug.inspectPose({ x: 0, y: w.__gameDebug.groundHeight(0, 25) + (low ? .05 : .5), z: 25,
         yaw: .65, pitch: low ? .02 : .55, distance: 8, detached: true });
     }, { test, mixedShell });
     await page.waitForFunction("window.__environmentLab.getState().ready");

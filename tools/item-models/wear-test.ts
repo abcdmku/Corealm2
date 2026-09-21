@@ -233,7 +233,7 @@ try {
           const lab = window.__featureLab!;
           await lab.perform("reset-player");
           if (!lab.getState().equipment.mainHand) await lab.equipPlayer("mainHand", "earth_wand");
-          (window.__gameDebug as any).giveItem("earth_essence", 20, "inventory");
+          await (window.__gameDebug as any).giveItem("earth_essence", 20, "inventory");
           lab.setSpell("stonebrand");
           return lab.spawnTarget("creature", lab.getCatalog().targets.creature[0]!.id, { distance: 5 });
         });

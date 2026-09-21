@@ -4,6 +4,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { GameDriver } from './lib/driver.js';
 import { argValue, repoRoot } from './lib/paths.js';
 import { installAssetCandidates } from './lib/assetCandidates.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const args = process.argv.slice(2);
 const part = argValue(args, '--part') ?? 'portal';
@@ -27,10 +28,10 @@ try {
     return { player: d.getPlayer(), camera: d.getCamera(), errors: d.getErrors(),
       lab: window.__featureLab?.getState(), sky: (window as any).__biomeAtmosphereLab?.getState() };
   });
-  const pose = async (x: number, z: number, yaw = 0, distance = 18) => page.evaluate(({ x, z, yaw, distance }) => {
+  const pose = async (x: number, z: number, yaw = 0, distance = 18) => page.evaluate(async ({ x, z, yaw, distance }) => {
     const d = window.__gameDebug as any;
     const sample = d.sampleWorld?.(x, z) ?? d.getWorldSample?.(x, z);
-    d.inspectPose({ x, y: sample?.height ?? (x > 1900 ? -120 : 0), z, yaw, pitch: .35, distance, detached: false });
+    await d.inspectPose({ x, y: sample?.height ?? (x > 1900 ? -120 : 0), z, yaw, pitch: .35, distance, detached: false });
   }, { x, z, yaw, distance: Math.min(distance, 11) });
   const clickEntity = async (id: string) => {
     await page.waitForFunction(id => !!(window.__gameDebug as any).getDrawnBounds(id), id, { timeout: 15_000 });
@@ -75,22 +76,22 @@ try {
       const before = await page.evaluate(() => { const id = window.__featureLab!.getState().target!.entityId; return (window.__gameDebug as any).getEntity(id); });
       await page.screenshot({ path: path.join(out, `${id}.png`) });
       await page.evaluate(async () => { window.__featureLab!.setLevel('melee', 99); await window.__featureLab!.perform('attack'); });
-      await page.waitForFunction(id => { const e = (window.__gameDebug as any).getEntity(id); return e && (e.combat.health < e.combat.maxHealth || e.state !== 'alive'); }, before.id, { timeout: 10_000 });
+      await waitForDebug(page, async id => { const e = await (window.__gameDebug as any).getEntity(id); return e && (e.combat.health < e.combat.maxHealth || e.state !== 'alive'); }, before.id, { timeout: 10_000 });
       evidence[id] = { before, after: await page.evaluate(id => (window.__gameDebug as any).getEntity(id), before.id), state: await snap() };
     }
   } else if (part === 'resources') {
     const sites = (argValue(args, '--sites') ?? 'dewglass_workings,crown_silver_quarry,star_amethyst_cut,moonpetal_grove,orchid_yew_grove').split(',');
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       window.__featureLab!.setLevel('mining', 99); window.__featureLab!.setLevel('woodcutting', 99);
-      (window.__gameDebug as any).giveItem('emberite_pickaxe', 1, 'inventory');
-      (window.__gameDebug as any).giveItem('emberite_hatchet', 1, 'inventory');
+      await (window.__gameDebug as any).giveItem('emberite_pickaxe', 1, 'inventory');
+      await (window.__gameDebug as any).giveItem('emberite_hatchet', 1, 'inventory');
     });
     for (const site of sites) {
       await page.evaluate(async site => { await (window as any).__environmentLab.showSite(site); }, site);
       const fixture = await page.evaluate(() => (window as any).__environmentLab.getState());
       await pose(0, 28, .35, 23);
       await page.screenshot({ path: path.join(out, `${site}.png`) });
-      const node = await page.evaluate(ids => ids.map((id:string)=>(window.__gameDebug as any).getEntity(id))
+      const node = await page.evaluate(async ids => (await Promise.all(ids.map(async (id:string)=>await (window.__gameDebug as any).getEntity(id))))
         .filter((entity:any)=>entity?.resource?.remaining>0)
         .sort((a:any,b:any)=>Math.hypot(b.position[0]+8,b.position[2]-12)-Math.hypot(a.position[0]+8,a.position[2]-12))[0], fixture.entityIds);
       assert(node, `No gatherable fixture for ${site}`);
@@ -141,7 +142,7 @@ try {
     assert.equal(await page.locator('.map__figure').getAttribute('data-map-id'),'fairy');
     await page.screenshot({path:path.join(out,'fairy-map.png')});
   } else if (part === 'world') {
-    evidence.roster = await page.evaluate(() => (window.__gameDebug as any).getEntities().filter((e:any)=>['crownward','gloamgarden','faeholme'].includes(e.regionId)));
+    evidence.roster = await page.evaluate(async () => (await (window.__gameDebug as any).getEntities()).filter((e:any)=>['crownward','gloamgarden','faeholme'].includes(e.regionId)));
     assert((evidence.roster as any[]).length > 100);
     await page.getByRole('button', {name:'Open full map',exact:true}).click();
     await page.getByRole('button', {name:'Reset map view',exact:true}).click();
@@ -166,9 +167,9 @@ try {
     await page.waitForTimeout(300);
     await page.screenshot({ path:path.join(out,'fairy-map.png') });
     await page.locator('#panel-map .panel__close').click();
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const d = window.__gameDebug as any;
-      d.setSkillLevel('mining',99); d.giveItem('emberite_pickaxe',1,'inventory');
+      await d.setSkillLevel('mining',99); await d.giveItem('emberite_pickaxe',1,'inventory');
     });
     const mineId = (evidence.roster as any[]).find(e=>e.regionId==='gloamgarden'&&e.interactions.includes('mine'))?.id;
     const mine = await page.evaluate(id=>(window.__gameDebug as any).getEntity(id),mineId);

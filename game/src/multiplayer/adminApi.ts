@@ -7,7 +7,8 @@ import {
 import type { AuthenticatedPlayer, PlayerEditOutcome, ReferenceServerMetrics, ServerEvent } from "./referenceServer.js";
 import { accepts, type CatalogHost } from "./catalogHost.js";
 import { ADMIN_API_SEGMENTS } from "./adminUi.js";
-import { EditFailure, MAX_PLAYER_PATCH_BYTES, playerPatch, playerRevision, type PlayerPatch } from "./playerEdits.js";
+import { EditFailure, MAX_PLAYER_PATCH_BYTES, playerPatch, type PlayerPatch } from "./playerEdits.js";
+import { playerRevision } from "./playerRevision.js";
 import { SettingsFailure, type ServerSettings } from "./serverSettings.js";
 import { promisify } from "node:util";
 import { brotliCompress, constants, gzip } from "node:zlib";

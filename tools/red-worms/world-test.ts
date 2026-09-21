@@ -18,10 +18,10 @@ try {
     await driver.page!.screenshot({path:`${out}/boot.png`});throw error;
   }
   const page=driver.page!;
-  const before=await page.evaluate(()=>{
+  const before=await page.evaluate(async ()=>{
     const debug=window.__gameDebug as any;
-    const actors=debug.getEntities().filter((e:any)=>e.id.startsWith('coldbrace_red_worms_')).map((e:any)=>debug.getEntity(e.id));
-    debug.inspectPose({x:-155,y:debug.groundHeight(-155,-129),z:-129,yaw:Math.PI,pitch:.32,distance:14});
+    const actors=await Promise.all((await debug.getEntities()).filter((e:any)=>e.id.startsWith('coldbrace_red_worms_')).map(async (e:any)=>await debug.getEntity(e.id)));
+    await debug.inspectPose({x:-155,y:debug.groundHeight(-155,-129),z:-129,yaw:Math.PI,pitch:.32,distance:14});
     return actors;
   });
   assert.equal(before.length,8);
@@ -30,9 +30,9 @@ try {
   await page.mouse.click(950,650,{button:'right'});
   const positionBefore=await page.evaluate(()=>(window.__gameDebug as any).getPlayerPosition());
   await driver.press('w',600);
-  const after=await page.evaluate(()=>{
+  const after=await page.evaluate(async ()=>{
     const debug=window.__gameDebug as any;
-    const actors=debug.getEntities().filter((e:any)=>e.id.startsWith('coldbrace_red_worms_')).map((e:any)=>debug.getEntity(e.id));
+    const actors=await Promise.all((await debug.getEntities()).filter((e:any)=>e.id.startsWith('coldbrace_red_worms_')).map(async (e:any)=>await debug.getEntity(e.id)));
     return {player:debug.getPlayerPosition(),camera:debug.getCamera(),actors:actors.map((a:any)=>({entity:a,
       bounds:debug.getDrawnBounds(a.id),motion:debug.getEntityMotion?.(a.id),
       ground:debug.groundHeight(a.position[0],a.position[2]),sample:debug.sampleWorld(a.position[0],a.position[2])})),errors:debug.getErrors()};

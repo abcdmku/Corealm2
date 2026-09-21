@@ -23,9 +23,9 @@ try {
   await driver.open(90_000, '/index.html');
   console.log(`[fairy-world] ${region}: ready after ${Date.now() - start} ms`);
   const page = driver.page!;
-  const entities = await page.evaluate(() => {
+  const entities = await page.evaluate(async () => {
     const d = window.__gameDebug as any;
-    return d.listEntities().filter((e: any) => ['gloamgarden', 'faeholme'].includes(e.regionId)
+    return (await d.listEntities()).filter((e: any) => ['gloamgarden', 'faeholme'].includes(e.regionId)
       && ['enemy', 'boss', 'npc'].includes(e.archetype));
   });
   for (const regionId of ['gloamgarden', 'faeholme'] as const) {
@@ -85,9 +85,9 @@ try {
     assert.equal(residents.length, 7);
     const actor = residents[0];
     await pose(actor.position[0] - 2.5, actor.position[2] + 2.5, -.6, 8);
-    evidence[site] = await page.evaluate((ids: string[]) => {
+    evidence[site] = await page.evaluate(async (ids: string[]) => {
       const d = window.__gameDebug as any;
-      return ids.map(id => ({ entity: d.getEntity(id), motion: d.getEntityMotion(id), bounds: d.getDrawnBounds(id) }));
+      return await Promise.all(ids.map(async id => ({ entity: await d.getEntity(id), motion: d.getEntityMotion(id), bounds: d.getDrawnBounds(id) })));
     }, residents.map((e: any) => e.id));
     assert(evidence[site].some((e: any) => e.bounds), `${site}: drawn world residents`);
     await driver.screenshot(out, site);

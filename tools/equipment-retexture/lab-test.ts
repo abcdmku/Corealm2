@@ -126,13 +126,13 @@ async function main(): Promise<void> {
           return Object.fromEntries(Object.entries(inventory.equipment.slots).map(([slot, stack]) => [slot, (stack as { itemId: string } | null)?.itemId ?? null]));
         };
         let worn = await equipment();
-        d.setSkillLevel('melee', 99); d.setSkillLevel('magic', 99);
+        await d.setSkillLevel('melee', 99); await d.setSkillLevel('magic', 99);
         window.__featureLab = {
           getState: () => ({ ready: true, playerVisible: true, equipment: worn, movement: { mode: /walk|jog|run/i.test(d.getPlayerMotion().pose) ? 'moving' : 'idle' } }),
           setFreeCameraEnabled: () => {}, setWalkingEnabled: () => {}, setLevel: () => {},
           equipPlayer: async (slot: string, id: string | null) => {
             if (id) {
-              d.giveItem(id, 1, 'inventory');
+              await d.giveItem(id, 1, 'inventory');
               const result = await d.callTool('corealm_equip', { itemId: id });
               if (result.error) throw new Error(JSON.stringify(result));
             } else if (worn[slot]) {

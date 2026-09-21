@@ -31,12 +31,12 @@ try {
   await page.goto(`${server.url}/?mode=combat&performance=1&motion=legacy&motionActors=animal_cattle,animal_deer,animal_boar&sampledActors=1`, { waitUntil: 'commit' });
   await page.waitForFunction(() => (window as any).__gameDebug?.getState().ready, undefined, { timeout: 35000 });
   await page.locator('#boot-screen').waitFor({ state: 'detached' });
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const w = window as any, d = w.__gameDebug;
     w.__featureLab.setWalkingEnabled(true); w.__featureLab.setFreeCameraEnabled(false);
-    d.teleport([-58, d.groundHeight(-58, 26), 26]);
+    await d.teleport([-58, d.groundHeight(-58, 26), 26]);
     const p = d.getPlayerPosition();
-    d.inspectPose({ x: p.x, y: p.y, z: p.z, yaw: Math.PI, pitch: .45, distance: 11 });
+    await d.inspectPose({ x: p.x, y: p.y, z: p.z, yaw: Math.PI, pitch: .45, distance: 11 });
   });
   await page.getByRole('button', { name: 'Close Feature lab', exact: true }).click();
   await page.waitForFunction(() => (window as any).__renderDistanceLab.shaders().waiting === 0, undefined, { timeout: 10000 });

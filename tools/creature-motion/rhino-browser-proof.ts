@@ -64,10 +64,10 @@ async function call(surface: "lab" | "debug", method: string, values: unknown[] 
   }, { surface, method, values });
 }
 async function frame(entityId: string): Promise<any> {
-  return page.evaluate(entityId => {
+  return page.evaluate(async entityId => {
     const debug = (window as any).__gameDebug, state = (window as any).__featureLab.getState();
     return { wallMs: performance.now(), clock: debug.getState().clock, player: debug.getPlayer(),
-      entity: debug.getEntity(entityId), drawnBounds: debug.getDrawnBounds(entityId),
+      entity: await debug.getEntity(entityId), drawnBounds: debug.getDrawnBounds(entityId),
       motion: debug.getEntityMotion(entityId), ai: state.target?.ai ?? null };
   }, entityId);
 }
@@ -115,13 +115,13 @@ try {
       await page.evaluate(entityId => {
         const win = window as any, debug = win.__gameDebug;
         const trace = win.__rhinoContactTrace = { running: true, samples: [] as any[], ordinal: 0, previous: null as any };
-        function observe() {
+        async function observe() {
           if (!trace.running) return;
           const motion = debug.getEntityMotion(entityId), player = debug.getPlayer();
           const previous = trace.previous;
           if (motion?.motion === "attack" && (previous?.motion?.motion !== "attack" || motion.time < previous.motion.time - 0.05)) trace.ordinal++;
           const sample = { wallMs: performance.now(), simMs: debug.getState().clock.elapsedMs, ordinal: trace.ordinal,
-            motion, player, entity: structuredClone(debug.getEntity(entityId)) };
+            motion, player, entity: structuredClone(await debug.getEntity(entityId)) };
           trace.samples.push(sample); trace.previous = sample;
           requestAnimationFrame(observe);
         }

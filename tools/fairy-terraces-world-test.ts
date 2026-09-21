@@ -31,10 +31,10 @@ try {
   await page.waitForTimeout(150);
   await driver.callDebug('setHealth', [10000]);
   evidence.boot = await driver.snapshot();
-  const all = await page.evaluate(() => {
+  const all = await page.evaluate(async () => {
     const d = window.__gameDebug as any;
-    return d.getEntities().filter((e: any) => e.archetype === 'enemy' || e.archetype === 'boss' || e.archetype === 'npc')
-      .map((e: any) => d.getEntity(e.id));
+    return await Promise.all((await d.getEntities()).filter((e: any) => e.archetype === 'enemy' || e.archetype === 'boss' || e.archetype === 'npc')
+      .map(async (e: any) => await d.getEntity(e.id)));
   }) as any[];
   const guardians = all.filter(e => e.id.startsWith('universal_miniboss_'));
   evidence.guardians = guardians;
@@ -73,7 +73,7 @@ try {
       'Lantern Crown approach hides the route behind the avatar');
     evidence[`${id}:scatter`] = await driver.callDebug('getScatterStats');
     await driver.screenshot(out, id);
-    if (id === 'lantern-market') evidence['fairy-npc-views'] = await page.evaluate(() => { const d = window.__gameDebug as any; return d.getEntities().filter((e: any) => e.id.startsWith('npc_fey')).map((e: any) => ({ entity: d.getEntity(e.id), bounds: d.getDrawnBounds(e.id) })); });
+    if (id === 'lantern-market') evidence['fairy-npc-views'] = await page.evaluate(async () => { const d = window.__gameDebug as any; return await Promise.all((await d.getEntities()).filter((e: any) => e.id.startsWith('npc_fey')).map(async (e: any) => ({ entity: await d.getEntity(e.id), bounds: d.getDrawnBounds(e.id) }))); });
     if (id === 'lantern-market') evidence['bank-contacts'] = await driver.callDebug('getScatterInstances', ['fairy_rounded_bank', 2081, -88, 12]);
   }
   if (!args.includes('--views-only') && !args.includes('--npcs-only') && !args.includes('--gardens-only')) {

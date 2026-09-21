@@ -33,13 +33,13 @@ try {
     await page.evaluate(async id => { await (window as any).__environmentLab.showFoliage(id, { layout: 'lane', count: 1, span: 1 }); }, asset.id);
     const states: any[] = [];
     for (const shot of ['near', 'far', 'return'] as const) {
-      await page.evaluate(({ id, shot }) => {
+      await page.evaluate(async ({ id, shot }) => {
         const debug = window.__gameDebug as any;
 
         const low = id.endsWith('fallen');
         const pose = shot === 'far' ? { x: 0, z: -62, yaw: Math.PI, pitch: .18, distance: 11 }
           : { x: low ? 3 : 0, z: low ? 19 : 8, yaw: Math.PI - .28, pitch: low ? .45 : .18, distance: low ? 8 : 11 };
-        debug.inspectPose({ ...pose, y: debug.groundHeight(pose.x, pose.z) });
+        await debug.inspectPose({ ...pose, y: debug.groundHeight(pose.x, pose.z) });
       }, { id: asset.id, shot });
       await page.waitForTimeout(600);
       const state = await observe();
@@ -66,7 +66,7 @@ try {
   }
   if (!hollowOnly) { await page.evaluate(async (ids) => {
     await (window as any).__environmentLab.showFoliage(ids[0], { variants: ids, layout: 'grid', count: 20, span: 48 });
-    const d = window.__gameDebug as any; d.inspectPose({ x: 0, y: d.groundHeight(0, -12), z: -12, yaw: Math.PI, pitch: .3, distance: 11 });
+    const d = window.__gameDebug as any; await d.inspectPose({ x: 0, y: d.groundHeight(0, -12), z: -12, yaw: Math.PI, pitch: .3, distance: 11 });
   }, catalog.assets.map((a: any) => a.id));
   await page.waitForTimeout(650); const grove = await observe();
   assert.equal(grove.state.foliage.count, 20); assert.equal(grove.state.assets.length, 4); samples.push({ shot: 'mixed-night-grove', ...grove }); await capture('mixed-night-grove');

@@ -36,11 +36,11 @@ try {
     : [{ name: 'lake-outlet', x: 8, z: -4, yaw: 1.5 }];
   const observations = [];
   for (const shot of shots) {
-    await page.evaluate(shot => {
+    await page.evaluate(async shot => {
       const debug = window.__gameDebug as any;
       const y = debug.sampleWorld(shot.x, shot.z).height;
-      debug.teleport([shot.x, y, shot.z]);
-      debug.inspectPose({ ...shot, y, pitch: .3, distance: 11, detached: false });
+      await debug.teleport([shot.x, y, shot.z]);
+      await debug.inspectPose({ ...shot, y, pitch: .3, distance: 11, detached: false });
     }, shot);
     if (world) await page.waitForFunction(({ x, z }) => {
       const residency = (window.__gameDebug as any).getScatterResidency();
@@ -87,13 +87,13 @@ try {
       { name: 'white-castle-approach', from: [554.2, -102], to: [554.2, -85.8] },
       { name: 'ivory-citadel-approach', from: [560.2, 278], to: [560.2, 291.8] },
     ]) {
-      const before = await page.evaluate(leg => {
+      const before = await page.evaluate(async leg => {
         const d = window.__gameDebug as any;
         const from = [leg.from[0], d.sampleWorld(...leg.from).height, leg.from[1]];
         const to = [leg.to[0], d.sampleWorld(...leg.to).height, leg.to[1]];
         const path = d.getNavPath(from, to);
-        d.teleport(from);
-        d.inspectPose({ x: from[0], y: from[1], z: from[2],
+        await d.teleport(from);
+        await d.inspectPose({ x: from[0], y: from[1], z: from[2],
           yaw: Math.atan2(leg.from[0]! - leg.to[0]!, leg.from[1]! - leg.to[1]!),
           pitch: .3, distance: 11, detached: false });
         return { path, player: d.getPlayerPosition() };

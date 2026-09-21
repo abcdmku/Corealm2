@@ -130,17 +130,17 @@ function bankCount(bank: unknown, itemId: string): number {
 }
 
 async function resetFixture(page: Page, scale: number, seed = 1337): Promise<void> {
-  await page.evaluate(({ chosenSeed }) => {
+  await page.evaluate(async ({ chosenSeed }) => {
     const debug = window.__gameDebug as unknown as {
       reset(options?: { seed?: number; keepSave?: boolean }): void;
     };
-    debug.reset({ seed: chosenSeed, keepSave: false });
+    await debug.reset({ seed: chosenSeed, keepSave: false });
   }, { chosenSeed: seed });
   // Readiness is a state, not a delay: the reset is complete when the debug surface says so.
   await page.waitForFunction(() => window.__gameDebug?.getState().ready === true, undefined, { timeout: 30_000 });
-  await page.evaluate(({ chosenScale }) => {
+  await page.evaluate(async ({ chosenScale }) => {
     const debug = window.__gameDebug as unknown as { setTimeScale(scale: number): void };
-    debug.setTimeScale(chosenScale);
+    await debug.setTimeScale(chosenScale);
   }, { chosenScale: scale });
 }
 
@@ -584,18 +584,18 @@ async function scenarioArmour({ mcp }: ScenarioContext): Promise<JsonObject> {
 
 async function scenarioBossCamp({ page, mcp, fixture }: ScenarioContext): Promise<JsonObject> {
   fixture.push("Melee 40, a Kaldite combat kit, and food are installed before the boss loop; no loot or boss state is granted.");
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const debug = window.__gameDebug as unknown as {
       clearInventory(): void;
       setSkillLevel(skill: string, level: number): void;
       giveItem(itemId: string, quantity: number, to: "inventory" | "bank"): void;
     };
-    debug.clearInventory();
-    debug.setSkillLevel("melee", 40);
+    await debug.clearInventory();
+    await debug.setSkillLevel("melee", 40);
     for (const itemId of ["kaldite_sword", "cairnpine_shield", "kaldite_helm", "kaldite_plate", "kaldite_greaves", "kaldite_boots", "kaldite_gauntlets"]) {
-      debug.giveItem(itemId, 1, "inventory");
+      await debug.giveItem(itemId, 1, "inventory");
     }
-    debug.giveItem("seared_cragfin", 20, "inventory");
+    await debug.giveItem("seared_cragfin", 20, "inventory");
   });
   for (const itemId of ["kaldite_sword", "cairnpine_shield", "kaldite_helm", "kaldite_plate", "kaldite_greaves", "kaldite_boots", "kaldite_gauntlets"]) {
     expectOk(await mcp.call("corealm_equip", { itemId }), `equip boss fixture ${itemId}`);

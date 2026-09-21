@@ -27,14 +27,14 @@ try {
   await page.waitForFunction(() => window.__gameDebug?.getState().ready === true, null, { timeout: 90_000 });
 
   for (const group of groups) {
-    const target = await page.evaluate((wanted: string) => {
+    const target = await page.evaluate(async (wanted: string) => {
       const dbg = window.__gameDebug as unknown as {
         getEntities(): Record<string, unknown>[];
         teleport(t: unknown): boolean;
       };
-      const hit = dbg.getEntities().find((e) => String(e.id).startsWith(`${wanted}_`));
+      const hit = (await dbg.getEntities()).find((e) => String(e.id).startsWith(`${wanted}_`));
       if (!hit) return null;
-      dbg.teleport({ entityId: String(hit.id) });
+      await dbg.teleport({ entityId: String(hit.id) });
       return String(hit.id);
     }, group);
     if (!target) { console.log(`  ${group}: no such group`); continue; }

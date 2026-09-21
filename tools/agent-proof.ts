@@ -368,9 +368,9 @@ async function runOne(
   // A fresh character, then hands off entirely to the agent.
   await page.evaluate(() => window.__gameDebug?.reset());
   await page.waitForTimeout(400);
-  await page.evaluate((scale) => {
+  await page.evaluate(async (scale) => {
     const api = window.__gameDebug as unknown as { setTimeScale?: (value: number) => void };
-    api.setTimeScale?.(scale);
+    await api.setTimeScale?.(scale);
   }, timeScale);
   await installCounter(page);
 

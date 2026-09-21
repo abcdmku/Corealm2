@@ -48,11 +48,11 @@ async function call(surface: 'lab' | 'debug', method: string, values: unknown[] 
   }, { surface, method, values });
 }
 async function snap(entityId: string): Promise<any> {
-  return page.evaluate(entityId => {
+  return page.evaluate(async entityId => {
     const d = (window as any).__gameDebug, motion = d.getEntityMotion(entityId), player = d.getPlayer();
     const lateral = (player.position.x - motion.semanticPosition[0]) * Math.cos(motion.semanticRotationY)
       - (player.position.z - motion.semanticPosition[2]) * Math.sin(motion.semanticRotationY);
-    return { wallMs: performance.now(), simMs: d.getState().clock.elapsedMs, entity: d.getEntity(entityId), motion, player, lateral,
+    return { wallMs: performance.now(), simMs: d.getState().clock.elapsedMs, entity: await d.getEntity(entityId), motion, player, lateral,
       inferredImpactSide: Math.abs(lateral) < .1 ? 'front' : lateral < 0 ? 'left' : 'right' };
   }, entityId);
 }

@@ -17,6 +17,7 @@ import { installAssetCandidates } from '../lib/assetCandidates.js';
 import { installTestDeadline } from '../lib/deadline.js';
 import { argValue, repoRoot } from '../lib/paths.js';
 import { startGameServer } from '../lib/server.js';
+import { waitForDebug } from "../lib/wait-for-debug.js";
 
 type Point = { x: number; y: number; z: number };
 interface Debug {
@@ -146,7 +147,7 @@ async function main(): Promise<void> {
     const cursor = (await driver.callDebug('getEvents', [0]) as { nextSeq: number }).nextSeq;
     stage = 'real attack';
     await clickEntity(keeperId, `Attack ${wounded.name}`);
-    await page.waitForFunction(id => (window.__gameDebug as unknown as Debug).getEntity(id)?.state === 'dead', keeperId,
+    await waitForDebug(page, async id => (await (window.__gameDebug as unknown as Debug).getEntity(id))?.state === 'dead', keeperId,
       { timeout: remaining(12_000), polling: 60 });
     const events = await driver.callDebug('getEvents', [cursor]) as { events: GameEvent[] };
     assert(events.events.some(event => event.type === 'combat.started' && event.data.initiator === 'player'));

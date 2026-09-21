@@ -41,7 +41,7 @@ async function main(): Promise<void> {
       "air_orb", "earth_orb", "water_orb",
       "air_essence", "earth_essence", "water_essence",
     ];
-    await page.evaluate((itemIds) => {
+    await page.evaluate(async (itemIds) => {
       const api = window.__gameDebug as unknown as {
         clearInventory(): void;
         giveItem(itemId: string, quantity: number, to: "inventory"): unknown;
@@ -50,8 +50,8 @@ async function main(): Promise<void> {
       // setup evaluation avoids Playwright actionability waits against the continuously redrawn
       // WebGL canvas behind the title and panels.
       document.querySelector<HTMLButtonElement>(".title__action.btn--primary")?.click();
-      api.clearInventory();
-      for (const itemId of itemIds) api.giveItem(itemId, 1, "inventory");
+      await api.clearInventory();
+      for (const itemId of itemIds) await api.giveItem(itemId, 1, "inventory");
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "i", code: "KeyI", bubbles: true }));
     }, representative);
     process.stdout.write("icon verify: inventory setup dispatched\n");
@@ -100,7 +100,7 @@ async function main(): Promise<void> {
         callTool(name: string, args: unknown): Promise<unknown>;
         openBank(bankId?: string): boolean;
       };
-      if (!api.focusCamera("bank")) return { error: "Could not focus the bank acceptance shot" };
+      if (!await api.focusCamera("bank")) return { error: "Could not focus the bank acceptance shot" };
       const deposited = await api.callTool("corealm_bank", { op: "depositAll" }) as { error?: string };
       if (deposited?.error) return { error: `Could not populate bank: ${JSON.stringify(deposited)}` };
       return api.openBank() ? {} : { error: "Could not open bank panel" };
@@ -134,8 +134,8 @@ async function main(): Promise<void> {
         giveItem(itemId: string, quantity: number, to: "inventory"): unknown;
         callTool(name: string, args: unknown): Promise<unknown>;
       };
-      api.clearInventory();
-      for (const itemId of itemIds) api.giveItem(itemId, 1, "inventory");
+      await api.clearInventory();
+      for (const itemId of itemIds) await api.giveItem(itemId, 1, "inventory");
       for (const itemId of itemIds) {
         const result = await api.callTool("corealm_equip", { itemId }) as { error?: string };
         if (result?.error) return { error: `Could not equip ${itemId}: ${JSON.stringify(result)}` };
@@ -161,16 +161,16 @@ async function main(): Promise<void> {
     await driver.screenshot(screenshotDir, "equipment-item-icons");
     await page.evaluate(() => document.querySelector<HTMLButtonElement>("#panel-equipment .panel__close")?.click());
 
-    const opened = await page.evaluate((itemIds) => {
+    const opened = await page.evaluate(async (itemIds) => {
       const api = window.__gameDebug as unknown as {
         listEntities(filter: { archetype: string }): Array<{ id: string; interactions?: string[] }>;
         clearInventory(): void;
         giveItem(itemId: string, quantity: number, to: "inventory"): unknown;
         openShop(shopId?: string): boolean;
       };
-      api.clearInventory();
-      for (const itemId of itemIds) api.giveItem(itemId, 1, "inventory");
-      const shop = api.listEntities({ archetype: "shop" }).find((entry) => entry.interactions?.includes("trade"));
+      await api.clearInventory();
+      for (const itemId of itemIds) await api.giveItem(itemId, 1, "inventory");
+      const shop = (await api.listEntities({ archetype: "shop" })).find((entry) => entry.interactions?.includes("trade"));
       if (!shop) return { error: "No trade-capable shop entity exists" };
       return api.openShop(shop.id) ? {} : { error: `Could not open shop ${shop.id}` };
     }, representative);

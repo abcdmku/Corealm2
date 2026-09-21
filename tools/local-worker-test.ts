@@ -17,20 +17,22 @@ import { startGameServer } from "./lib/server.js";
  *
  * One browser profile goes through a player's whole life with the feature: an old main-thread save
  * is waiting, the first boot imports it, the player walks and gathers, a second tab is turned away,
- * and a reload finds the character where it was left. Fresh profiles then time the old local path
- * against the worker path. Ports 4340 to 4349.
+ * and a reload finds the character where it was left, including a reload one second after a walk.
+ * The debug channel is then held to its promise: an awaited write is visible to the very next read.
+ * Fresh profiles then time the old local path (`?local=main`) against the worker path, which is the
+ * default. Ports 4340 to 4349, or `COREALM_TEST_PORT`.
  */
 const dist = process.argv.includes("--dist");
 const out = path.join(repoRoot, "test-results/local-worker"); await mkdir(out, { recursive: true });
 const clearDeadline = installTestDeadline("local worker", 420_000);
-const PORT = dist ? 4341 : 4340;
+const PORT = Number(process.env.COREALM_TEST_PORT) || (dist ? 4341 : 4340);
 const server = dist
   ? await preview({ root: gameRoot, logLevel: "error", preview: { host: "127.0.0.1", port: PORT, strictPort: true } }).then(running => ({ url: `http://127.0.0.1:${PORT}`, close: () => running.close() }))
   : await startGameServer({ port: PORT, strictPort: true });
 const browser = await chromium.launch({ headless: true, args: ["--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio", "--disable-background-timer-throttling", "--disable-renderer-backgrounding",
   ...(process.platform === "win32" ? ["--use-angle=d3d11"] : [])] });
 const SETTINGS = JSON.stringify({ renderScale: 0.7, shadowQuality: "off", drawDistance: "near", music: 0, ambient: 0, sfx: 0 });
-const WORKER_URL = `${server.url}/?play=local&local=worker`;
+const WORKER_URL = `${server.url}/?play=local`;
 
 const checks: Record<string, boolean> = {}; const errors: string[] = []; const notes: Record<string, unknown> = {};
 
@@ -82,6 +84,8 @@ try {
   const started = await observe(first), arrived = await lab(first);
   notes.firstBoot = { startMs: Math.round(started.startMs ?? 0), timings: started.ready?.timings, storage: started.ready?.storage, seed: started.ready?.seed, ...(await timing(first)),
     firstSnapshotMs: Math.round(started.firstSnapshotAtMs ?? 0) };
+  // The first open writes every entity of the world once. It is written while the scene still loads, off the tick loop; this is what it cost.
+  notes.firstOpenFlush = await first.evaluate(() => (window.__gameDebug as unknown as { saveNow(): Promise<unknown> }).saveNow());
   checks.workerSession = started.phase === "connected" && started.running && started.starts === 1;
   checks.indexedDbStorage = started.ready?.storage === "indexeddb";
   checks.legacyCharacterLoaded = started.ready?.legacy === "imported" && arrived.player.name === "Maren" && arrived.currency === 431 && held(arrived).grithe_ore === 7;
@@ -151,10 +155,56 @@ try {
   const after = await lab(first);
   notes.unloadFlush = { walkedMetres: Number(Math.hypot(hurried.player.position[0]! - back.player.position[0]!, hurried.player.position[2]! - back.player.position[2]!).toFixed(2)),
     lostMetres: Number(Math.hypot(after.player.position[0]! - hurried.player.position[0]!, after.player.position[2]! - hurried.player.position[2]!).toFixed(2)) };
+
+  // ---- 7. Reload one second after a walk. Only the quick write that follows a change can have saved it: the timed flush is five seconds out.
+  await first.locator("canvas").first().click({ position: { x: 640, y: 200 } });
+  await first.keyboard.down("d"); await first.waitForTimeout(1200); await first.keyboard.up("d");
+  await first.evaluate(() => window.__corealmLocalWorker!.command({ method: "stop", args: [] }));
+  const stoodAt = await lab(first);
+  await first.waitForTimeout(1000);
+  await first.reload({ waitUntil: "load" }); await playing(first);
+  const quick = await lab(first);
+  notes.quickReload = { walkedMetres: Number(Math.hypot(stoodAt.player.position[0]! - after.player.position[0]!, stoodAt.player.position[2]! - after.player.position[2]!).toFixed(2)),
+    lostMetres: Number(Math.hypot(quick.player.position[0]! - stoodAt.player.position[0]!, quick.player.position[2]! - stoodAt.player.position[2]!).toFixed(2)) };
+  checks.positionKeptAfterQuickReload = (notes.quickReload as { walkedMetres: number }).walkedMetres > 1 && (notes.quickReload as { lostMetres: number }).lostMetres < 0.5;
+
+  // ---- 8. The debug channel. Each write is awaited and then read at once, from the page's own replicated state, with no wait between.
+  const debugged = await first.evaluate(async () => {
+    const debug = window.__gameDebug as unknown as Record<string, (...args: unknown[]) => Promise<unknown>> & { getState(): { currency: number; health: number; skills: Record<string, { level: number }>; clock: { tick: number; paused: boolean } }; getPlayerPosition(): { x: number; z: number } };
+    // No named helper in here: tsx wraps one in `__name`, which the page does not have.
+    type Slots = { inventory: { slots: ({ itemId: string; quantity: number } | null)[] } };
+    const before = (window.__multiplayerLab!.observe() as Slots).inventory.slots.reduce((sum, slot) => sum + (slot?.itemId === "palewood_log" ? slot.quantity : 0), 0);
+    await debug.giveItem!("palewood_log", 3, "inventory");
+    const gave = (window.__multiplayerLab!.observe() as Slots).inventory.slots.reduce((sum, slot) => sum + (slot?.itemId === "palewood_log" ? slot.quantity : 0), 0) - before;
+    await debug.setCurrency!(1234); const currency = debug.getState().currency;
+    await debug.setSkillLevel!("mining", 37); const mining = debug.getState().skills.mining!.level;
+    // The bank is far outside the 48 m the page is sent. The host still knows where it is.
+    const bank = await debug.getEntity!("coldbrace_bank") as { id: string; position: number[] } | null;
+    const local = (window.__multiplayerLab!.observe() as { entities: { id: string }[] }).entities.some(entity => entity.id === "coldbrace_bank");
+    await debug.teleport!({ entityId: "coldbrace_bank" }); const at = debug.getPlayerPosition();
+    const arrived = bank ? Math.hypot(at.x - bank.position[0]!, at.z - bank.position[2]!) : Infinity;
+    await debug.setPaused!(true); const pausedAt = debug.getState().clock.tick;
+    await new Promise(resolve => setTimeout(resolve, 600)); const stillAt = debug.getState().clock.tick;
+    await debug.advanceTicks!(5); const stepped = debug.getState().clock.tick;
+    await debug.advanceGameTime!(30); const jumped = debug.getState().clock.tick;
+    await debug.setPaused!(false);
+    const blob = await debug.getSaveBlob!() as string, saved = JSON.parse(blob) as { currency: number; meta: { saveVersion: number } };
+    await debug.setCurrency!(5); await debug.loadSaveBlob!(blob); const restored = debug.getState().currency;
+    const flush = await debug.saveNow!() as Record<string, number> | null;
+    return { gave, currency, mining, bankFound: bank?.id === "coldbrace_bank", bankReplicatedBefore: local, arrived, pausedAt, stillAt, stepped, jumped, savedCurrency: saved.currency, saveVersion: saved.meta.saveVersion, restored, flush };
+  });
+  notes.debug = debugged;
+  checks.debugWriteVisibleAtOnce = debugged.gave === 3 && debugged.currency === 1234 && debugged.mining === 37;
+  checks.debugReadsWholeWorld = debugged.bankFound && !debugged.bankReplicatedBefore && debugged.arrived < 8;
+  checks.debugTimeControl = debugged.stillAt === debugged.pausedAt && debugged.stepped === debugged.pausedAt + 5 && debugged.jumped === debugged.stepped + 301;
+  checks.debugSaveRoundTrip = debugged.savedCurrency === 1234 && debugged.saveVersion > 0 && debugged.restored === 1234;
+  // The big first-open write is long done. What is flushed now is a handful of rows, and it must stay cheap.
+  notes.flush = debugged.flush;
+  checks.flushStaysCheap = debugged.flush !== null && debugged.flush.lastRows! < 200 && debugged.flush.lastMs! < 250;
   await profile.close();
 
-  // ---- 7. Timings, each in a fresh profile: the old main-thread path, then the worker path.
-  const oldProfile = await context(), old = await open(oldProfile, `${server.url}/?play=local`, "old path");
+  // ---- 9. Timings, each in a fresh profile: the old main-thread path, then the worker path.
+  const oldProfile = await context(), old = await open(oldProfile, `${server.url}/?play=local&local=main`, "old path");
   await old.waitForFunction(() => window.__gameDebug?.getState().ready === true, null, { timeout: 120_000 });
   const oldTiming = await timing(old);
   checks.oldPathUnchanged = await old.evaluate(() => window.__corealmLocalWorker === undefined);
@@ -172,7 +222,7 @@ try {
 }
 const benign = (text: string): boolean => /favicon|ERR_ABORTED|AudioContext/.test(text);
 const failures = errors.filter(error => !benign(error));
-const passed = failures.length === 0 && Object.keys(checks).length >= 17 && Object.values(checks).every(Boolean);
+const passed = failures.length === 0 && Object.keys(checks).length >= 23 && Object.values(checks).every(Boolean);
 const report = { passed, mode: dist ? "dist" : "dev", checks, notes, errors: failures };
 await writeFile(path.join(out, dist ? "report-dist.json" : "report.json"), JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 2));

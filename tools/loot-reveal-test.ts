@@ -4,6 +4,7 @@ import { mkdir } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";
 import { repoRoot } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 interface LootStack { itemId: string; quantity: number }
 
@@ -63,22 +64,22 @@ try {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
     const lab = Reflect.get(window, "__featureLab") as BrowserLab | undefined;
     if (!debug || !lab) throw new Error("The production lab controls are unavailable");
-    debug.clearInventory();
+    await debug.clearInventory();
     await lab.equipPlayer("mainHand", "kaldite_sword");
     await lab.spawnTarget("creature", "tempest_roc", { distance: 2 });
     await lab.perform("attack");
   });
 
-  await page.waitForFunction(() => {
+  await waitForDebug(page, async () => {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
-    return (debug?.getEntities() ?? []).some((entity) => entity.archetype === "loot");
+    return (await debug?.getEntities() ?? []).some((entity) => entity.archetype === "loot");
   }, null, { timeout: 15_000 });
   console.log("[loot-reveal] guaranteed-drop box spawned");
 
   const dropped = await page.evaluate(async () => {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
     if (!debug) throw new Error("Production controls are unavailable");
-    const box = debug.getEntities().find((entity) => entity.archetype === "loot");
+    const box = (await debug.getEntities()).find((entity) => entity.archetype === "loot");
     if (!box) throw new Error("The defeated target did not leave a loot box");
     const spawned = debug.getEvents(0).events.find((event) => event.data?.["pileId"] === box.id);
     const expected = Array.isArray(spawned?.data?.["items"])
@@ -101,9 +102,9 @@ try {
   });
 
   await page.waitForTimeout(3_000);
-  await page.evaluate((entityId) => {
+  await page.evaluate(async (entityId) => {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
-    if (!debug?.focusEntity(entityId)) throw new Error(`Could not focus ${entityId}`);
+    if (!await debug?.focusEntity(entityId)) throw new Error(`Could not focus ${entityId}`);
   }, dropped.sourceId);
   await page.locator("#panel-feature-lab .panel__close").click();
   await page.waitForTimeout(150);
@@ -140,7 +141,7 @@ try {
       hasLootedHeading: /looted/i.test(panel.textContent ?? "")
         || panel.querySelector(".loot-reveal__heading") !== null,
       childCount: panel.children.length,
-      remains: debug.getEntities().some((entity) => entity.id === sourceId),
+      remains: (await debug.getEntities()).some((entity) => entity.id === sourceId),
       anchorGap: Math.hypot(gapX, gapY),
       rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
       anchor: { x: anchorX, y: anchorY },
@@ -207,7 +208,7 @@ try {
     }
     return {
       inventory,
-      remains: debug?.getEntities().some((entity) => entity.id === sourceId) ?? false,
+      remains: (await debug?.getEntities())?.some((entity) => entity.id === sourceId) ?? false,
     };
   }, dropped.sourceId);
   const first = dropped.expected[0];
@@ -220,10 +221,10 @@ try {
   for (let remaining = dropped.expected.length - 1; remaining > 0; remaining -= 1) {
     await page.locator(".loot-reveal__slot").first().click();
   }
-  await page.waitForFunction((sourceId) => {
+  await waitForDebug(page, async (sourceId) => {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
     const panel = document.querySelector<HTMLElement>(".loot-reveal");
-    return panel?.hidden === true && !debug?.getEntities().some((entity) => entity.id === sourceId);
+    return panel?.hidden === true && !(await debug?.getEntities())?.some((entity) => entity.id === sourceId);
   }, dropped.sourceId);
 
   const afterAll = await page.evaluate(async () => {

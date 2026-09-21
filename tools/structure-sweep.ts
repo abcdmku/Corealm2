@@ -208,12 +208,12 @@ async function pose(page: Page, view: FeatureLabStructureView, angle: AnglePose)
   // Free-camera focus stays on the structure centre, so the standing point only moves the rig.
   const standX = angle.showPlayer ? centreX + spanX / 2 + 1.4 : centreX;
   const standZ = angle.showPlayer ? centreZ - spanZ / 2 - 1.4 : centreZ;
-  await page.evaluate((request) => {
+  await page.evaluate(async (request) => {
     const debug = window.__gameDebug as {
       inspectPose?: (pose: typeof request.pose) => boolean;
     } | undefined;
     if (!debug?.inspectPose) throw new Error("window.__gameDebug.inspectPose is unavailable");
-    debug.inspectPose(request.pose);
+    await debug.inspectPose(request.pose);
     window.__featureLab?.setPlayerVisible(request.showPlayer);
   }, {
     pose: {

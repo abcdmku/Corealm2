@@ -289,3 +289,14 @@ In a development build, `window.__gameDebug` offers deterministic setup: `setSki
 `giveItem`, `teleport`, `advanceGameTime`, `setTimeScale`, `reset`. Use these to **set up** a
 test, never to accomplish the task. `__gameDebug.callTool` runs a tool without the session gate,
 for click-parity probes only; nothing reachable from WebMCP or `window.corealm.agent` can.
+
+Local play runs in a Web Worker, so every debug method that changes the simulation or reads the
+whole world returns a promise, and resolves once the page shows the effect. Await each one:
+`await __gameDebug.giveItem("grithe_ore", 5)`. The list is `game/src/debug/asyncMethods.ts`, and
+[feature-lab.md](./feature-lab.md) has the rules. In a connected world these writes reject with
+`UNAVAILABLE`. They exist only on the local worker's channel, and a server has no such message.
+
+The agent tools themselves are unchanged by this. Every tool that acts goes through the
+command path, which was already asynchronous, and every tool that reads answers from the
+player's own replicated state, which is what a player can see. No agent tool reads the whole
+world, by design: see "Information parity" above.

@@ -96,13 +96,17 @@ try {
   check("lastChoiceDoesNotAutoJoin", await panel.getAttribute("data-phase") === "offline");
   await page.screenshot({ path: `${out}/saved-host-only.png`, timeout: 10_000 });
 
-  // Choosing local play during loading puts the panel away and leaves the game offline.
+  // Choosing local play during loading puts the panel away, and joins the page's own world once the scene is up: local play is a world in a worker.
   checks.playLocalDuringLoading = await loading(page);
   await page.locator(".worlds__row--local input").check();
   await page.getByRole("button", { name: "Play local", exact: true }).click();
   check("playLocalPutsPanelAway", !await panel.isVisible());
   await page.locator("#boot-screen").waitFor({ state: "detached", timeout: 120_000 });
-  check("playLocalStaysOffline", await panel.getAttribute("data-phase") === "offline" && !await panel.isVisible());
+  await page.waitForFunction(() => document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") === "connected", null, { timeout: 120_000 });
+  check("playLocalJoinsTheLocalWorld", !await panel.isVisible() && await page.evaluate(() => {
+    const seen = window.__corealmLocalWorker?.observe() as { running: boolean; world: { providerId: string }; simTicks: number } | undefined;
+    return seen?.running === true && seen.world.providerId === "local" && seen.simTicks === 0;
+  }));
   check("playLocalLeavesTheMenuClosed", !await page.getByRole("dialog", { name: "Corealm", exact: true }).isVisible());
   check("playLocalRemembered", await page.evaluate(() => localStorage.getItem("corealm.play.v1")) === "local");
   await page.screenshot({ path: `${out}/local-play.png`, timeout: 10_000 });

@@ -28,9 +28,9 @@ try {
   await driver.launch(); const page = driver.page!;
   await page.addInitScript('globalThis.__name = (target, name) => Object.defineProperty(target, "name", {value:name, configurable:true});');
   await driver.open(60000,'/index.html');
-  const actors = await page.evaluate(() => {
+  const actors = await page.evaluate(async () => {
     const d = window.__gameDebug as any;
-    return d.getEntities().filter((e:any)=>e.archetype==='enemy'||e.archetype==='boss').map((e:any)=>d.getEntity(e.id));
+    return await Promise.all((await d.getEntities()).filter((e:any)=>e.archetype==='enemy'||e.archetype==='boss').map(async (e:any)=>await d.getEntity(e.id)));
   });
   const expectedAssets=[...new Set(REGIONS.find(region=>region.id==='wilderness')!.enemyGroups.map(group=>group.assetId))];
   report.assetCensus=expectedAssets.map(assetId=>({assetId,count:actors.filter((actor:any)=>actor.regionId==='wilderness'&&(actor.view?.assetId??actor.assetId)===assetId).length}));
@@ -55,12 +55,12 @@ try {
     const actor=actors.filter((e:any)=>e.meta?.groupId===groupId).sort((a:any,b:any)=>b.position[2]-a.position[2])[0];
     assert(actor,`Missing ${groupId}`);
     report.active = {groupId,actor};
-    await page.evaluate((a:any)=>{
+    await page.evaluate(async (a:any)=>{
       const d=window.__gameDebug as any;
       const x=a.position[0],z=a.position[2]+Math.max(9,(a.combat?.bodyRadius??2)+5);
       const floor=d.getNavPoint([x,d.groundHeight(x,z),z]);
       if(!floor)throw new Error('No walkable inspection approach');
-      d.inspectPose({x:floor.x,z:floor.z,y:d.groundHeight(floor.x,floor.z),
+      await d.inspectPose({x:floor.x,z:floor.z,y:d.groundHeight(floor.x,floor.z),
         yaw:Math.atan2(floor.x-a.position[0],floor.z-a.position[2]),pitch:.34,distance:11});
     },actor);
     await page.waitForFunction(id=>{
@@ -78,9 +78,9 @@ try {
     },prefixes);
     const materials=new Set<string>(asset.materials);
     assert(profile.some((draw:any)=>draw.pass.startsWith('colour')&&draw.materials.some((m:any)=>m.mapUuid&&(materials.has(m.name)||materials.has(m.name.split('@art:')[0])))),`${groupId} missing mapped colour draw`);
-    const observe=()=>page.evaluate(id=>{
+    const observe=()=>page.evaluate(async id=>{
       const d=window.__gameDebug as any;
-      return {actor:d.getEntity(id),motion:d.getEntityMotion(id),bounds:d.getDrawnBounds(id),player:d.getPlayerPosition(),camera:d.getCamera()};
+      return {actor:await d.getEntity(id),motion:d.getEntityMotion(id),bounds:d.getDrawnBounds(id),player:d.getPlayerPosition(),camera:d.getCamera()};
     },actor.id);
     const before=await observe();
     const inputs:string[]=[];
@@ -108,9 +108,9 @@ try {
 } catch(error) {
   report.error=String(error);
   if(driver.page&&!driver.page.isClosed()) {
-    report.failureState=await driver.page.evaluate(id=>{
+    report.failureState=await driver.page.evaluate(async id=>{
       const d=window.__gameDebug as any;
-      return {player:d.getPlayerPosition(),camera:d.getCamera(),actor:id?d.getEntity(id):null,
+      return {player:d.getPlayerPosition(),camera:d.getCamera(),actor:id?await d.getEntity(id):null,
         bounds:id?d.getDrawnBounds(id):null,motion:id?d.getEntityMotion(id):null,
         shaders:(window as any).__renderDistanceLab?.shaders?.()};
     },report.active?.actor.id).catch(error=>({error:String(error)}));

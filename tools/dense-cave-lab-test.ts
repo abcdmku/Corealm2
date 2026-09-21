@@ -22,7 +22,7 @@ try {
   await page.waitForFunction(() => (window as any).__denseCaveLab?.fixture.getState().ready
     && !!(window as any).__dungeonDoorLab, undefined, { timeout: 15_000 });
 
-  const snapshot = () => page.evaluate(() => {
+  const snapshot = () => page.evaluate(async () => {
     const lab = (window as any).__denseCaveLab, debug = window.__gameDebug as any;
     const player = debug.getPlayer(), p = player.position;
     return { fixture: lab.fixture.getState(), chambers: lab.fixture.spec.chambers,
@@ -31,9 +31,9 @@ try {
         activeTag: document.activeElement?.tagName, activeRole: document.activeElement?.getAttribute('role') },
       packs: lab.packs, player, camera: debug.getCamera(), probe: lab.fixture.probe(p.x, p.z),
       doors: (window as any).__dungeonDoorLab.getState(),
-      actors: lab.packs.flatMap((pack: any) => pack.entityIds.map((id: string) => ({
-        id, packId: pack.id, entity: debug.getEntity(id), drawn: debug.getDrawnBounds(id), motion: debug.getEntityMotion(id),
-      }))) };
+      actors: (await Promise.all(lab.packs.map(async (pack: any) => await Promise.all(pack.entityIds.map(async (id: string) => ({
+        id, packId: pack.id, entity: await debug.getEntity(id), drawn: debug.getDrawnBounds(id), motion: debug.getEntityMotion(id),
+      })))))).flat() };
   });
   function checkGrounded(state: any, label: string) {
     assert.equal(state.clock.paused, false, `${label}: simulation must be running`);
@@ -82,8 +82,8 @@ try {
     await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 50);
     // Camera setup occurs on the ordinary yard. The underground setup uses the real teleport
     // region resolver, then all acceptance movement and orbit come through gameplay input.
-    debug.inspectPose({ x: 0, y: debug.groundHeight(0, 74), z: 74, yaw: 0, pitch: .4, distance: 8 });
-    debug.teleport((window as any).__denseCaveLab.spawn);
+    await debug.inspectPose({ x: 0, y: debug.groundHeight(0, 74), z: 74, yaw: 0, pitch: .4, distance: 8 });
+    await debug.teleport((window as any).__denseCaveLab.spawn);
   });
   await page.waitForTimeout(450);
   const entry = await capture('gallery-entry');
@@ -103,17 +103,17 @@ try {
   await capture('gallery-pack-density');
 
   for (const [index, id] of ['gravelmaw_stone_door', 'ordrun_gate'].entries()) {
-    const threshold = await page.evaluate(id => {
+    const threshold = await page.evaluate(async id => {
       const workbench = (window as any).__dungeonDoorLab;
       workbench.setState(id, 'closed');
-      const entity = (window.__gameDebug as any).getEntity(id);
+      const entity = await (window.__gameDebug as any).getEntity(id);
       return { position: entity.position, yaw: entity.view.rotationY };
     }, id);
-    await page.evaluate(({ position, yaw }) => {
+    await page.evaluate(async ({ position, yaw }) => {
       const lab = (window as any).__denseCaveLab, x = position[0] + Math.sin(yaw) * 1.3, z = position[2] + Math.cos(yaw) * 1.3;
       const probe = lab.fixture.probe(x, z);
       if (!probe) throw new Error('Gate approach has no floor');
-      (window.__gameDebug as any).teleport([x, probe.floorY, z]);
+      await (window.__gameDebug as any).teleport([x, probe.floorY, z]);
     }, threshold);
     await orbitTo(threshold.yaw);
     const closed = await walk(550, `${id}-closed-walk`);

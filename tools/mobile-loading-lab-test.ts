@@ -64,9 +64,9 @@ try {
     await load.click();
     await page.waitForFunction(() => (window as any).__environmentLab.getState().ready);
     assert.deepEqual(await page.evaluate(() => (window as any).__environmentLab.getState()),first);
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const d = (window as any).__gameDebug;
-      d.inspectPose({x:70,y:d.groundHeight(70,18),z:18,yaw:Math.PI,pitch:.5,distance:9});
+      await d.inspectPose({x:70,y:d.groundHeight(70,18),z:18,yaw:Math.PI,pitch:.5,distance:9});
     });
     await page.waitForTimeout(400);
     await page.screenshot({path:path.join(output,'cached-cut.png')});

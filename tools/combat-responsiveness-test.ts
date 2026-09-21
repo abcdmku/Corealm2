@@ -40,7 +40,7 @@ try {
       const state = w.__featureLab.getState();
       return { id: state.target.entityId, position: state.target.position, screen: state.target.screen };
     }
-    const entities = w.__gameDebug.getEntities();
+    const entities = await w.__gameDebug.getEntities();
     const enemy = entities.find((e: any) => e.archetype === "enemy" && e.health > 0);
     if (!enemy) throw new Error("No live world creature");
     return { id: enemy.id, position: [enemy.position.x, enemy.position.y, enemy.position.z] };

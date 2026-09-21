@@ -23,9 +23,9 @@ try {
   ]);
   const page = driver.page!;
   const before = await driver.snapshot();
-  const actors = await page.evaluate(() => (window.__gameDebug!.getEntities() as any[])
+  const actors = await page.evaluate(async () => await Promise.all((await window.__gameDebug!.getEntities() as any[])
     .filter(e => e.archetype === 'enemy' || e.archetype === 'boss')
-    .map(e => (window.__gameDebug as any).getEntity(e.id)));
+    .map(async e => await (window.__gameDebug as any).getEntity(e.id))));
   assert(actors.length >= (stone ? 15 : 21), 'production mob fixture loaded');
   if (stone) {
     const groups = new Map<string, any[]>();

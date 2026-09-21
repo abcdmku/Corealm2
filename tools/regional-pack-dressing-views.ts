@@ -85,17 +85,17 @@ try {
   await installDressingCandidates(driver.page!);
   await driver.open(30000, `/index.html?mode=combat&rpg=1&pack=${settings[setting as keyof typeof settings]}`);
   const page = driver.page!;
-  const overview = await page.evaluate((expectedAsset) => {
+  const overview = await page.evaluate(async (expectedAsset) => {
     const w = window as unknown as { __packLab: { ids: string[]; habitat: { centre: [number, number]; radius: number; dressing: unknown[] } };
       __gameDebug: { setPaused(value: boolean): void; groundHeight(x: number, z: number): number;
         inspectPose(pose: Record<string, unknown>): boolean; getEntity(id: string): unknown; getErrors(): unknown[] } };
     const habitat = w.__packLab.habitat;
     if (!habitat.dressing.length) throw new Error("Representative setting has no dressing");
-    w.__gameDebug.setPaused(true);
+    await w.__gameDebug.setPaused(true);
     const [x, z] = habitat.centre;
     const y = w.__gameDebug.groundHeight(x, z);
-    w.__gameDebug.inspectPose({ x, y, z, yaw: 0, pitch: 0.8, distance: Math.max(20, habitat.radius * 2.2), detached: true });
-    const actors = w.__packLab.ids.map(id => w.__gameDebug.getEntity(id)) as { view?: { assetId?: string } }[];
+    await w.__gameDebug.inspectPose({ x, y, z, yaw: 0, pitch: 0.8, distance: Math.max(20, habitat.radius * 2.2), detached: true });
+    const actors = await Promise.all(w.__packLab.ids.map(async id => await w.__gameDebug.getEntity(id))) as { view?: { assetId?: string } }[];
     if (actors.length < 5 || actors.length > 10 || actors.some(actor => actor?.view?.assetId !== expectedAsset))
       throw new Error("Rendered pack does not match the retained resident assignment");
     const errors = w.__gameDebug.getErrors();
@@ -104,11 +104,11 @@ try {
   }, cases.find(row => row.setting === setting)!.assetId);
   await page.waitForTimeout(400);
   await page.screenshot({ path: path.join(output, "approach.png") });
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const w = window as unknown as { __packLab: { habitat: { centre: [number, number] } };
       __gameDebug: { groundHeight(x: number, z: number): number; inspectPose(pose: Record<string, unknown>): boolean } };
     const [x, z] = w.__packLab.habitat.centre;
-    w.__gameDebug.inspectPose({ x, y: w.__gameDebug.groundHeight(x, z), z, yaw: 0.6, pitch: 0.5, distance: 11, detached: true });
+    await w.__gameDebug.inspectPose({ x, y: w.__gameDebug.groundHeight(x, z), z, yaw: 0.6, pitch: 0.5, distance: 11, detached: true });
   });
   await page.waitForTimeout(400);
   await page.screenshot({ path: path.join(output, "setting-detail.png") });

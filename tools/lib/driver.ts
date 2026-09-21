@@ -64,7 +64,10 @@ export class GameDriver {
   async launch(): Promise<void> {
     this.browser = await chromium.launch({
       headless: this.options.headless ?? true,
-      args: this.options.browserArgs ?? ["--enable-unsafe-swiftshader", "--mute-audio"],
+      // `COREALM_HARDWARE=1` runs any driver tool on the GPU, for a machine where software rendering cannot finish the authored world's first frame.
+      args: this.options.browserArgs ?? (process.env.COREALM_HARDWARE === "1"
+        ? ["--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio", ...(process.platform === "win32" ? ["--use-angle=d3d11"] : [])]
+        : ["--enable-unsafe-swiftshader", "--mute-audio"]),
     });
     this.context = await this.browser.newContext({
       viewport: this.options.viewport ?? { width: 1280, height: 720 },
@@ -150,10 +153,11 @@ export class GameDriver {
   /**
    * Calls a `window.__gameDebug` method and returns its JSON-safe result.
    *
-   * The result is awaited before serialising. Several debug helpers are genuinely async — most
-   * importantly `callTool`, which drives the agent surface — and `JSON.stringify` of a pending
-   * Promise is `{}`. Without the await every async call silently returned an empty object, which
-   * looks like a passing step because the side effect still happened.
+   * The result is awaited before serialising. Every method that changes the simulation or reads the
+   * whole world is async (`game/src/debug/asyncMethods.ts`), because local play runs in a worker, and
+   * each resolves only after this page's state shows the effect. So a `callDebug` write followed by a
+   * `callDebug` read needs no wait between them. `JSON.stringify` of a pending Promise is `{}`, which
+   * is why an inline `page.evaluate` must await these too; `tools/debug-await-lint.ts` checks that.
    */
   async callDebug(method: string, args: unknown[] = []): Promise<unknown> {
     return this.requirePage().evaluate(
@@ -173,7 +177,7 @@ export class GameDriver {
    * rows and used to make every scripted action transfer and persist several megabytes twice.
    */
   async snapshot(profile: SnapshotProfile = "lean"): Promise<RuntimeSnapshot> {
-    return this.requirePage().evaluate((includeEntities) => {
+    return this.requirePage().evaluate(async (includeEntities) => {
       const api = window.__gameDebug;
       if (!api) throw new Error("window.__gameDebug is missing");
       return JSON.parse(JSON.stringify({
@@ -181,7 +185,8 @@ export class GameDriver {
         player: api.getPlayer(),
         playerPosition: api.getPlayerPosition(),
         camera: api.getCamera(),
-        entities: includeEntities ? api.getEntities() : null,
+        // The whole world, which only the host holds: local play runs in a worker and replicates what is near the player.
+        entities: includeEntities ? await api.getEntities() : null,
         currentActivity: api.getCurrentActivity(),
         objectives: api.getObjectives(),
         navigation: api.getNavigationState(),
@@ -209,7 +214,6 @@ export class GameDriver {
 
   async reset(): Promise<void> {
     await this.callDebug("reset");
-    await this.wait(150);
   }
 
   async reload(): Promise<void> {

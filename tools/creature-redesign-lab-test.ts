@@ -11,9 +11,9 @@ try{await driver.launch();const page=driver.page!;await installAssetCandidates(p
  await page.getByRole('button',{name:'Close Feature lab',exact:true}).click();
  for(const id of ['chalk_warden','hollow_bough','pallid_shade']){
   await page.getByLabel('Biome atmosphere',{exact:true}).selectOption(id==='chalk_warden'?'karrowmoor':'wilderness');
-  await page.evaluate(async id=>{const g=(window as any).__creatureGallery;await g.show(`candidate:${id}`,1);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const b=g.getBounds();const s=Math.max(...b.max.map((v:number,i:number)=>v-b.min[i]));(window.__gameDebug as any).inspectPose({x:(b.min[0]+b.max[0])/2,y:(b.min[1]+b.max[1])/2,z:(b.min[2]+b.max[2])/2,yaw:-.35,pitch:.18,distance:s*1.7,detached:true});},id);
+  await page.evaluate(async id=>{const g=(window as any).__creatureGallery;await g.show(`candidate:${id}`,1);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const b=g.getBounds();const s=Math.max(...b.max.map((v:number,i:number)=>v-b.min[i]));await (window.__gameDebug as any).inspectPose({x:(b.min[0]+b.max[0])/2,y:(b.min[1]+b.max[1])/2,z:(b.min[2]+b.max[2])/2,yaw:-.35,pitch:.18,distance:s*1.7,detached:true});},id);
   await page.waitForTimeout(1500);
-  await page.evaluate(id=>{const g=(window as any).__creatureGallery;const b=g.getBounds();(window.__gameDebug as any).inspectPose({x:0,y:(b.min[1]+b.max[1])/2,z:70,yaw:-.35,pitch:.18,distance:id==='chalk_warden'?6.5:id==='hollow_bough'?8:5.5,detached:true});},id);
+  await page.evaluate(async id=>{const g=(window as any).__creatureGallery;const b=g.getBounds();await (window.__gameDebug as any).inspectPose({x:0,y:(b.min[1]+b.max[1])/2,z:70,yaw:-.35,pitch:.18,distance:id==='chalk_warden'?6.5:id==='hollow_bough'?8:5.5,detached:true});},id);
   for(const motion of ['idle','walk','run','attack','hit']){
    await page.locator(`#creature-gallery-${motion}`).click();
    await page.waitForTimeout(180);

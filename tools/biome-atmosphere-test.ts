@@ -17,9 +17,9 @@ try {
     const results = [];
     for (const [id, x, z] of [["fallowmarch", -250, 30], ["vellenwood", 14, 166],
       ["karrowmoor", 140, -176], ["kilnhalt", 240, 340]] as const) {
-      await page.evaluate(({ x, z }) => {
+      await page.evaluate(async ({ x, z }) => {
         const debug = window.__gameDebug as any;
-        debug.inspectPose({ x, y: debug.groundHeight(x, z), z, yaw: .7, pitch: .24, distance: 26 });
+        await debug.inspectPose({ x, y: debug.groundHeight(x, z), z, yaw: .7, pitch: .24, distance: 26 });
       }, { x, z });
       await page.waitForFunction(() => {
         const debug = window.__gameDebug as any;

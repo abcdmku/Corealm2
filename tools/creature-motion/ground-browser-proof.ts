@@ -81,11 +81,11 @@ async function call(surface: "lab" | "debug", method: string, values: unknown[] 
   }, { surface, method, values });
 }
 async function snapshot(entityId: string, stage: string): Promise<Sample> {
-  return page.evaluate(({ entityId, stage }) => {
+  return page.evaluate(async ({ entityId, stage }) => {
     const state = (window as any).__featureLab.getState();
     const debug = (window as any).__gameDebug;
     return { elapsedMs: performance.now(), stage, state,
-      motion: debug.getEntityMotion(entityId), entity: debug.getEntity(entityId) };
+      motion: debug.getEntityMotion(entityId), entity: await debug.getEntity(entityId) };
   }, { entityId, stage });
 }
 async function sampleFor(entityId: string, samples: Sample[], stage: string, ms: number): Promise<void> {

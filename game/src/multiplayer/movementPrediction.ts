@@ -59,9 +59,12 @@ export class MovementPrediction {
     this.applyPending();
     this.movement.setDirectInput(this.held);
   }
+  private paused=false;private timeScale=1;
+  /** Debug time control. A paused world predicts no movement, and a scaled one predicts at the scale. */
+  setPace(paused:boolean,timeScale:number):void{this.paused=paused;this.timeScale=timeScale;}
   sample(now:number):{position:Vec3;facingRad:number}|null{
     if(!this.state)return null;
-    const delta=Math.max(0,Math.min(50,now-this.lastFrame));this.lastFrame=now;
+    const delta=this.paused?0:Math.max(0,Math.min(50,now-this.lastFrame))*this.timeScale;this.lastFrame=now;
     if(now-this.lastUpdate<=250){
       for (let elapsed = 0; elapsed < delta;) {
         const step = Math.min(20, delta - elapsed);

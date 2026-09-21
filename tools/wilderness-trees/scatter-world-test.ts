@@ -15,15 +15,15 @@ try{
  await page.addInitScript('globalThis.__name = (target, name) => Object.defineProperty(target, "name", { value: name, configurable: true });');
  await driver.open(65000,'/index.html');
  for(const [x,z] of [[-140,545],[140,610],[-130,790],[130,895]] as const){
-  await page.evaluate(({x,z})=>{const d=window.__gameDebug as any;d.inspectPose({x,z,y:d.groundHeight(x,z),yaw:0,pitch:.4,distance:11});},{x,z});
+  await page.evaluate(async ({x,z})=>{const d=window.__gameDebug as any;await d.inspectPose({x,z,y:d.groundHeight(x,z),yaw:0,pitch:.4,distance:11});},{x,z});
   await page.waitForTimeout(700);
   await page.waitForFunction(size=>{const d=window.__gameDebug as any,p=d.getPlayerPosition();return d.getScatterResidency().pending.every((id:string)=>{const [col,row]=id.split(':').map(Number);const dx=Math.max(col!*size-p.x,0,p.x-(col!+1)*size),dz=Math.max(row!*size-p.z,0,p.z-(row!+1)*size);return dx*dx+dz*dz>65*65;});},SCATTER_STREAM_TILE_METRES,{timeout:18000});
   await page.waitForTimeout(800);
-  const trees=await page.evaluate(()=>{const d=window.__gameDebug as any;return d.getEntities().filter((e:any)=>e.id.includes(':wandering_timber:')).map((e:any)=>d.getEntity(e.id));});
+  const trees=await page.evaluate(async ()=>{const d=window.__gameDebug as any;return await Promise.all((await d.getEntities()).filter((e:any)=>e.id.includes(':wandering_timber:')).map(async (e:any)=>await d.getEntity(e.id)));});
   report.samples.push({x,z,trees,scatter:await driver.callDebug('getScatterStats')});
   const tree=trees.find((e:any)=>Math.hypot(e.position[0]-x,e.position[2]-z)<40);
   if(tree){
-   await page.evaluate(p=>{const d=window.__gameDebug as any;d.inspectPose({x:p[0],z:p[2]+10,y:d.groundHeight(p[0],p[2]+10),yaw:0,pitch:.4,distance:11});},tree.position);
+   await page.evaluate(async p=>{const d=window.__gameDebug as any;await d.inspectPose({x:p[0],z:p[2]+10,y:d.groundHeight(p[0],p[2]+10),yaw:0,pitch:.4,distance:11});},tree.position);
    await page.waitForTimeout(1000);
    assert.equal(tree.name,tree.tier===50?'Veinwood':'Magic Tree');assert(tree.interactions.includes('chop')&&tree.resource.remaining>0);
   }

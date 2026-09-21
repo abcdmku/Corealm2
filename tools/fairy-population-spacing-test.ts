@@ -40,9 +40,9 @@ type Observation = {
   errors: string[];
 };
 
-const observe = async (): Promise<Observation> => driver.page!.evaluate(() => {
+const observe = async (): Promise<Observation> => driver.page!.evaluate(async () => {
   const debug = window.__gameDebug as any;
-  const actors = (debug.listEntities({ archetype: 'enemy' }) as any[])
+  const actors = (await debug.listEntities({ archetype: 'enemy' }) as any[])
     .filter((entity) => String(entity.meta?.groupId ?? '').startsWith('fairy_population_lab_'))
     .map((entity) => ({
       id: entity.id,

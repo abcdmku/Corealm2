@@ -150,9 +150,9 @@ async function main(): Promise<void> {
     await driver.launch();
     const page = driver.page!;
     await driver.open(30000, `/index.html?mode=combat&rpg=1&pack=${packId}`);
-    const read = (): Promise<Sample> => page.evaluate(() => {
+    const read = (): Promise<Sample> => page.evaluate(async () => {
       const w = window as unknown as { __packLab: PackFixture; __gameDebug: PackDebug };
-      return { fixture: w.__packLab, entities: w.__packLab.ids.map((id) => w.__gameDebug.getEntity(id)!),
+      return { fixture: w.__packLab, entities: await Promise.all(w.__packLab.ids.map(async (id) => await w.__gameDebug.getEntity(id)!)),
         state: w.__gameDebug.getState(), player: w.__gameDebug.getPlayerPosition(), events: w.__gameDebug.getEvents(0).events,
         motions: w.__packLab.ids.map((id) => w.__gameDebug.getEntityMotion(id)) } as unknown as Sample;
     });
@@ -164,9 +164,9 @@ async function main(): Promise<void> {
     const topUp = async (value: Sample): Promise<void> => {
       toppedUp = false;
       if (value.state.health > value.state.maxHealth * 0.5) return;
-      await page.evaluate(() => {
+      await page.evaluate(async () => {
         const w = window as unknown as { __gameDebug: PackDebug };
-        w.__gameDebug.setHealth(w.__gameDebug.getState().maxHealth);
+        await w.__gameDebug.setHealth(w.__gameDebug.getState().maxHealth);
       });
       topUps += 1;
       toppedUp = true;
@@ -302,9 +302,9 @@ async function main(): Promise<void> {
     });
     // Max health follows the combat level; let the health system re-derive the cap before filling it.
     await page.waitForTimeout(300);
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const w = window as unknown as { __gameDebug: PackDebug };
-      w.__gameDebug.setHealth(w.__gameDebug.getState().maxHealth);
+      await w.__gameDebug.setHealth(w.__gameDebug.getState().maxHealth);
     });
     const targetId = initial.fixture.ids[0]!;
     const beforeAggro = await read();
@@ -443,8 +443,8 @@ async function main(): Promise<void> {
       const beforeLoot = await read();
       // A large creature's pile lands outside the player's reach from where it was killed, and
       // corealm_take_loot then answers OUT_OF_RANGE. Walk to the pile before taking it.
-      const pilePosition = await page.evaluate((id) =>
-        (window as unknown as { __gameDebug: PackDebug }).__gameDebug.getEntity(id)?.position ?? null, pileId);
+      const pilePosition = await page.evaluate(async (id) =>
+        (await (window as unknown as { __gameDebug: PackDebug }).__gameDebug.getEntity(id))?.position ?? null, pileId);
       if (pilePosition) await invoke("corealm_move_to", { position: pilePosition }).catch(() => {});
       await invoke("corealm_interact", { entityId: pileId, interaction: "loot" });
       await poll("loot pile opens", (value) => value.events.some((event) => event.type === "activity.started" && event.data.entityId === pileId) || distance(value.player, corpse.position) < 3, 15_000);

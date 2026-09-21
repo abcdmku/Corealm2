@@ -50,9 +50,9 @@ async function main(): Promise<void> {
       { timeout: 60_000 },
     );
 
-    const enemies = (await page.evaluate(() => {
+    const enemies = (await page.evaluate(async () => {
       const debug = (window as never as { __gameDebug: { getEntities(): Record<string, unknown>[] } }).__gameDebug;
-      return debug.getEntities()
+      return (await debug.getEntities())
         .filter((entity) => entity.archetype === "enemy" || entity.archetype === "boss")
         // `getEntities` publishes a deliberately narrow projection (contracts.ts EntitySummary):
         // health and maxHealth are flattened onto the row and combat.level, meta and view are not

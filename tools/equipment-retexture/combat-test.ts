@@ -125,7 +125,7 @@ try {
     const before = await page.evaluate(async action => {
       const lab = window.__featureLab!;
       if (action === 'cast') {
-        (window.__gameDebug as any).giveItem('earth_essence', 20, 'inventory');
+        await (window.__gameDebug as any).giveItem('earth_essence', 20, 'inventory');
         lab.setSpell('stonebrand');
       }
       return lab.spawnTarget('creature', lab.getCatalog().targets.creature[0]!.id, { distance: action === 'attack' ? 2 : 5 });

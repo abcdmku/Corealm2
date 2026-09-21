@@ -29,10 +29,10 @@ try {
       await gallery.show(`candidate:${id}`, 1);
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
       const b = gallery.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i]));
-      (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: -.35, pitch: .16, distance: Math.max(2.8, size * 1.80), detached: true });
+      await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: -.35, pitch: .16, distance: Math.max(2.8, size * 1.80), detached: true });
     }, id);
     await page.waitForTimeout(650);
-    await page.evaluate(() => { const g=(window as any).__creatureGallery,b=g.getBounds(),size=Math.max(...b.max.map((v:number,i:number)=>v-b.min[i])); (window.__gameDebug as any).inspectPose({x:0,y:(b.min[1]+b.max[1])/2,z:70,yaw:-.35,pitch:.14,distance:Math.max(2.8,size*1.6),detached:true}); });
+    await page.evaluate(async () => { const g=(window as any).__creatureGallery,b=g.getBounds(),size=Math.max(...b.max.map((v:number,i:number)=>v-b.min[i])); await (window.__gameDebug as any).inspectPose({x:0,y:(b.min[1]+b.max[1])/2,z:70,yaw:-.35,pitch:.14,distance:Math.max(2.8,size*1.6),detached:true}); });
     const profiles = await page.evaluate(id => {
       const debug = window.__gameDebug as any;
       return [id, 'wraith_', 'lava_', 'Cube', 'ghoul_'].map(prefix => debug.getRenderProfile(prefix));
@@ -69,7 +69,7 @@ try {
     }
     await page.locator('#creature-gallery-idle').click();
     for (const [label, yaw] of [['front', 0], ['side', Math.PI / 2]] as const) {
-      await page.evaluate(yaw => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw, pitch: .11, distance: Math.max(2.8, size * 1.8), detached: true }); }, yaw);
+      await page.evaluate(async yaw => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw, pitch: .11, distance: Math.max(2.8, size * 1.8), detached: true }); }, yaw);
       await page.screenshot({ path: `${out}/${id}-${label}.png` });
     }
     await page.evaluate(async id => { const lab = window.__featureLab!; await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 40); await lab.spawnTarget('creature', `candidate:${id}`, { distance: 3 }); }, id);

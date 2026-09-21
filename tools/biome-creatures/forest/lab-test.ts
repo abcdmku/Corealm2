@@ -23,12 +23,12 @@ try {
       await gallery.show(`candidate:${id}`, 1);
       gallery.place(0, 70, .55);
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-      (window.__gameDebug as any).inspectPose({ x: 0, y: 1.2, z: 70, yaw: .95, pitch: .2, distance: 4, detached: true });
+      await (window.__gameDebug as any).inspectPose({ x: 0, y: 1.2, z: 70, yaw: .95, pitch: .2, distance: 4, detached: true });
     }, id);
     await page.waitForFunction(() => { const g = (window as any).__creatureGallery; return (window.__gameDebug as any).getEntityMotion(g.getState().entityIds[0])?.liveRig; }, undefined, { timeout: 8000 });
-    await page.evaluate(id => {
+    await page.evaluate(async id => {
       const gallery = (window as any).__creatureGallery, b = gallery.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i]));
-      (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: .95, pitch: id === 'fen_crawler' ? .68 : id === 'reed_strider' ? .30 : .18, distance: Math.max(2.5, size * 1.95), detached: true });
+      await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: .95, pitch: id === 'fen_crawler' ? .68 : id === 'reed_strider' ? .30 : .18, distance: Math.max(2.5, size * 1.95), detached: true });
     }, id);
     await page.waitForTimeout(160);
     for (const motion of ['idle', 'walk', 'run', 'attack', 'hit']) {
@@ -56,9 +56,9 @@ try {
       evidence.push({ id, motion, samples });
     }
     await page.locator('#creature-gallery-idle').click();
-    await page.evaluate(() => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: 2.12, pitch: .14, distance: Math.max(2.5, size * 1.95), detached: true }); });
+    await page.evaluate(async () => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: 2.12, pitch: .14, distance: Math.max(2.5, size * 1.95), detached: true }); });
     await page.screenshot({ path: `${out}/${id}-side.png` });
-    await page.evaluate(() => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: 3.69, pitch: .17, distance: Math.max(2.5, size * 1.95), detached: true }); });
+    await page.evaluate(async () => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: 3.69, pitch: .17, distance: Math.max(2.5, size * 1.95), detached: true }); });
     await page.screenshot({ path: `${out}/${id}-rear.png` });
     const profile = await page.evaluate(() => (window.__gameDebug as any).getRenderProfile());
     const bodyMaterials = profile.draws.flatMap((draw: any) => draw.materials).filter((material: any) => material.name.startsWith(`animal_rpg_${id}`));

@@ -34,25 +34,25 @@ try {
   if(rigs) await page.evaluate(async()=>{
     await (window as any).__featureLab.spawnTarget('creature','species:goblin_archer',{distance:4});
   });
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const w = window as any; w.__featureLab.setWalkingEnabled(true); w.__featureLab.setFreeCameraEnabled(false);
     // Normal follow camera and legal interactive distance, looking across the patrol fixture.
     const d = w.__gameDebug;
-    d.teleport([-58,d.groundHeight(-58,26),26]);
+    await d.teleport([-58,d.groundHeight(-58,26),26]);
     const p = d.getPlayerPosition();
-    d.inspectPose({ x:p.x,y:p.y,z:p.z,yaw:Math.PI,pitch:.45,distance:11 });
+    await d.inspectPose({ x:p.x,y:p.y,z:p.z,yaw:Math.PI,pitch:.45,distance:11 });
   });
   await page.getByRole('button',{name:'Close Feature lab',exact:true}).click();
   await page.waitForFunction(()=>(window as any).__renderDistanceLab.shaders().waiting===0,undefined,{timeout:10000});
   if(auto) await page.evaluate(()=>(window as any).__renderDistanceLab.set({drawDistance:'near',autoDrawDistance:true}));
-  const capture = () => page.evaluate(() => {
+  const capture = () => page.evaluate(async () => {
     const w = window as any, d = w.__gameDebug;
     const player = d.getPlayerPosition();
     const selected = w.__corealmPlayerAssets.selectArea({position:[player.x,player.y,player.z],regionId:'fallowmarch',resourceRadius:6,viewRadius:6});
     const canvas = document.querySelector('canvas')!;
-    return { player, selected, buffer: { width: canvas.width, height: canvas.height }, actors: w.__groundMotionLab.actors.map((a:any)=>({
-      id:a.entityId, entity:d.getEntity(a.entityId), motion:d.getEntityMotion(a.entityId), bounds:d.getDrawnBounds(a.entityId),
-    })), errors:d.getErrors(), views:d.getEntityViewStats(), distance:w.__renderDistanceLab.getState() };
+    return { player, selected, buffer: { width: canvas.width, height: canvas.height }, actors: await Promise.all(w.__groundMotionLab.actors.map(async (a:any)=>({
+      id:a.entityId, entity:await d.getEntity(a.entityId), motion:d.getEntityMotion(a.entityId), bounds:d.getDrawnBounds(a.entityId),
+    }))), errors:d.getErrors(), views:d.getEntityViewStats(), distance:w.__renderDistanceLab.getState() };
   });
   const before = await capture();
   await page.evaluate(() => { (window as any).__phase='idle'; });

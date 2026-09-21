@@ -29,9 +29,9 @@ try {
   report.clock = await page.evaluate("window.__gameDebug.getState().clock");
   report.hardware = await assertPerformanceHardware(page);
   for (const pose of [{ name: "near", pitch: .95, distance: 4 }, { name: "normal", pitch: .55, distance: 8 }]) {
-    await page.evaluate(pose => {
+    await page.evaluate(async pose => {
       const d = (window as any).__gameDebug;
-      d.inspectPose({ x: 0, y: d.groundHeight(0, 25) + .5, z: 25, yaw: .65, pitch: pose.pitch, distance: pose.distance, detached: true });
+      await d.inspectPose({ x: 0, y: d.groundHeight(0, 25) + .5, z: 25, yaw: .65, pitch: pose.pitch, distance: pose.distance, detached: true });
     }, pose);
     const result: any = { pose };
     for (const enabled of [false, true]) {

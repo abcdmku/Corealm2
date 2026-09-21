@@ -137,8 +137,8 @@ export async function runPerfTest(
     // a fast camera sweep from passing the budget while grass, stones and shrubs are still absent.
     // Pause rendering during this setup phase: an uncapped render loop can starve background
     // streaming. Capture mode restores the user's render scale and shadows before measurement.
-    await page.evaluate(() => {
-      (window.__gameDebug as unknown as { setCaptureMode(enabled: boolean): void }).setCaptureMode(true);
+    await page.evaluate(async () => {
+      await (window.__gameDebug as unknown as { setCaptureMode(enabled: boolean): void }).setCaptureMode(true);
     });
     try {
       await page.waitForFunction(() => {
@@ -158,8 +158,8 @@ export async function runPerfTest(
       report.errors.push(`Scatter did not finish loading: ${JSON.stringify(loading)}`);
       throw error;
     } finally {
-      await page.evaluate(() => {
-        (window.__gameDebug as unknown as { setCaptureMode(enabled: boolean): void }).setCaptureMode(false);
+      await page.evaluate(async () => {
+        await (window.__gameDebug as unknown as { setCaptureMode(enabled: boolean): void }).setCaptureMode(false);
       });
     }
     report.scatterResidency = await page.evaluate(() => {
@@ -205,9 +205,9 @@ export async function runPerfTest(
 
     for (const shot of requested) {
       if (shot !== "default" && available.includes(shot)) {
-        await page.evaluate((id) => {
+        await page.evaluate(async (id) => {
           const api = window.__gameDebug as unknown as { focusCamera?: (shotId: string) => boolean } | undefined;
-          api?.focusCamera?.(id);
+          await api?.focusCamera?.(id);
         }, shot);
       }
       await page.waitForTimeout(700);

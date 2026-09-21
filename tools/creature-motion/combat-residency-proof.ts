@@ -62,8 +62,8 @@ async function call(surface: 'lab'|'debug', method: string, values: any[] = []):
   return result;
 }
 async function sample(row: any, label: string): Promise<any> {
-  const result = await page.evaluate(({id,label}) => { const d = (window as any).__gameDebug; return { atMs: performance.now(), label,
-    entity: d.getEntity(id), motion: d.getEntityMotion(id), bounds: d.getDrawnBounds(id), state: (window as any).__featureLab.getState() }; }, {id:row.entityId,label});
+  const result = await page.evaluate(async ({id,label}) => { const d = (window as any).__gameDebug; return { atMs: performance.now(), label,
+    entity: await d.getEntity(id), motion: d.getEntityMotion(id), bounds: d.getDrawnBounds(id), state: (window as any).__featureLab.getState() }; }, {id:row.entityId,label});
   row.samples.push(result); return result;
 }
 async function camera(row: any, far = false) {

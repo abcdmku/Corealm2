@@ -694,7 +694,7 @@ export async function generateWorldMap(): Promise<MapMetadata> {
     console.log("World-map boot ready; full-residency capture can begin.");
     await page.waitForTimeout(250);
 
-    const settlementPresence = await page.evaluate((representatives) => {
+    const settlementPresence = await page.evaluate(async (representatives) => {
       const api = window.__gameDebug as unknown as {
         getEntities?: () => { id: string; regionId: string }[];
         getEntityViewStats?: () => {
@@ -718,7 +718,7 @@ export async function generateWorldMap(): Promise<MapMetadata> {
         throw new Error("World-map capture requires full entity residency after graphics settings are applied.");
       }
       const residentIds = new Set(residency.residentIds);
-      const entities = api.getEntities();
+      const entities = await api.getEntities();
       return representatives.map(({ settlement, regionId, buildingId }) => {
         // Buildings are emitted as individual #part entities, so their parent ID has no draw.
         const parts = entities.filter((entity) => entity.id.startsWith(`${buildingId}#`));

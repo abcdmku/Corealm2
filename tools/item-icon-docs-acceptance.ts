@@ -58,13 +58,13 @@ try {
     for (let offset = 0; offset < items.length; offset += 24) {
       const batch = items.slice(offset, offset + 24);
       const started = Date.now();
-      await page.evaluate(ids => {
+      await page.evaluate(async ids => {
         const debug = window.__gameDebug as unknown as {
           clearInventory(): void;
           giveItem(id: string, quantity: number, destination: string): unknown;
         };
-        debug.clearInventory();
-        for (const id of ids) debug.giveItem(id, 1, "inventory");
+        await debug.clearInventory();
+        for (const id of ids) await debug.giveItem(id, 1, "inventory");
       }, batch.map(item => item.id));
       if (!await page.locator("#panel-inventory").isVisible()) {
         if (process.argv.includes("--world")) await page.keyboard.press("i");

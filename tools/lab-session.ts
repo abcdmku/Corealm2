@@ -89,7 +89,7 @@ async function main(): Promise<void> {
   }
 
   async function observe(entityIds: string[] = []): Promise<unknown> {
-    const result = await driver.page!.evaluate(({ entityIds, since }) => {
+    const result = await driver.page!.evaluate(async ({ entityIds, since }) => {
       const debug = window.__gameDebug as unknown as Record<string, (...args: unknown[]) => unknown>;
       const lab = window.__featureLab?.getState();
       const creatures = (window as Window & { __creatureGallery?: CreatureGallery }).__creatureGallery?.getState();
@@ -107,7 +107,7 @@ async function main(): Promise<void> {
         creatures: creatures ?? null,
         player: debug.getPlayer?.(),
         camera: debug.getCamera?.(),
-        entities: ids.map((id) => ({ id, entity: debug.getEntity?.(id), bounds: debug.getDrawnBounds?.(id), motion: debug.getEntityMotion?.(id) })),
+        entities: await Promise.all(ids.map(async (id) => ({ id, entity: await debug.getEntity?.(id), bounds: debug.getDrawnBounds?.(id), motion: debug.getEntityMotion?.(id) }))),
         events: events ?? { nextSeq: since, events: [] },
         metrics: debug.getMetrics?.(),
         errors: debug.getErrors?.(),
@@ -229,7 +229,7 @@ async function main(): Promise<void> {
         const frames = [];
         for (let index = 0; index < samples; index += 1) {
           if (index) await driver.wait(intervalMs);
-          const state = await driver.page!.evaluate((entityIds) => {
+          const state = await driver.page!.evaluate(async (entityIds) => {
             const debug = window.__gameDebug as unknown as Record<string, (...args: unknown[]) => unknown>;
             if ((debug?.getState?.() as { ready?: boolean } | undefined)?.ready !== true) {
               throw new Error("Game is not ready for motion sampling; reopen after boot completes");
@@ -241,8 +241,8 @@ async function main(): Promise<void> {
             if (!ids.length) throw new Error("Motion sampling requires at least one production actor; select a creature or supply entityIds");
             return {
               documentId: performance.timeOrigin, atMs: performance.now(), player: debug.getPlayerMotion?.(),
-              entities: ids.map((id) => {
-                const entity = debug.getEntity?.(id);
+              entities: await Promise.all(ids.map(async (id) => {
+                const entity = await debug.getEntity?.(id);
                 if (!entity) throw new Error(`Motion actor ${id} is missing from the production entity store`);
                 const motion = debug.getEntityMotion?.(id) as EntityMotionSnapshot | null | undefined;
                 // Sampled and baked actor poses are valid evidence at distance. Requiring a live
@@ -251,7 +251,7 @@ async function main(): Promise<void> {
                 const bounds = debug.getDrawnBounds?.(id) as { meshes?: number } | null | undefined;
                 if (!bounds || !bounds.meshes || bounds.meshes <= 0) throw new Error(`Motion actor ${id} has no drawn geometry`);
                 return { id, entity, motion, bounds };
-              }),
+              })),
             };
           }, entityIds);
           if (index === 0) entityIds = state.entities.map((entity) => entity.id);

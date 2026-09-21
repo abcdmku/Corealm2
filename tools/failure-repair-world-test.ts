@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { GameDriver } from './lib/driver.js';
 import { installTestDeadline } from './lib/deadline.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const selected = process.argv[2] ?? 'cairn';
 assert(['cairn', 'far', 'castle'].includes(selected));
@@ -19,32 +20,32 @@ try {
   await page.addInitScript('globalThis.__name = (fn) => fn;');
   await driver.open(75_000, '/index.html?startup-cache=0');
   if (selected === 'cairn') {
-    const fish = await page.evaluate(() => {
+    const fish = await page.evaluate(async () => {
       const d = window.__gameDebug as any;
-      const row = d.getEntities().find((entity: any) => entity.id.startsWith('cairn_tarn_spots_'));
+      const row = (await d.getEntities()).find((entity: any) => entity.id.startsWith('cairn_tarn_spots_'));
       return d.getEntity(row.id);
     });
     assert(fish.interactionPosition);
     report.fishBefore = fish;
-    await page.evaluate((fish: any) => {
+    await page.evaluate(async (fish: any) => {
       const d = window.__gameDebug as any;
-      d.setSkillLevel('fishing', 99); d.giveItem('willow_rod', 1, 'inventory');
+      await d.setSkillLevel('fishing', 99); await d.giveItem('willow_rod', 1, 'inventory');
       const [x, y, z] = fish.interactionPosition;
-      d.teleport([x, y, z]);
-      d.inspectPose({ x, y, z, yaw: Math.atan2(x - fish.position[0], z - fish.position[2]), pitch: .42, distance: 11, detached: false });
+      await d.teleport([x, y, z]);
+      await d.inspectPose({ x, y, z, yaw: Math.atan2(x - fish.position[0], z - fish.position[2]), pitch: .42, distance: 11, detached: false });
     }, fish);
     report.started = await driver.callDebug('callTool', ['corealm_interact', { entityId: fish.id, interaction: 'fish' }]);
-    await page.waitForFunction(({ id, remaining }) => (window.__gameDebug as any).getEntity(id).resource.remaining < remaining,
+    await waitForDebug(page, async ({ id, remaining }) => (await (window.__gameDebug as any).getEntity(id)).resource.remaining < remaining,
       { id: fish.id, remaining: fish.resource.remaining }, { timeout: 25_000 });
     report.fishAfter = await driver.callDebug('getEntity', [fish.id]);
     assert(report.fishAfter.resource.remaining < fish.resource.remaining);
   } else {
     const points = selected === 'far' ? [[269.7997, -83.8045], [268.1532, -102.7745]] : [[512.5559, -107.9468], [534.2856, -109.6403]];
-    report.route = await page.evaluate((points: number[][]) => {
+    report.route = await page.evaluate(async (points: number[][]) => {
       const d = window.__gameDebug as any;
       const route = points.map(([x, z]) => [x, d.sampleWorld(x, z).height, z]);
-      const [x, y, z] = route[0]!; d.teleport(route[0]);
-      d.inspectPose({ x, y, z, yaw: Math.atan2(x - route[1]![0], z - route[1]![2]), pitch: .42, distance: 11, detached: false });
+      const [x, y, z] = route[0]!; await d.teleport(route[0]);
+      await d.inspectPose({ x, y, z, yaw: Math.atan2(x - route[1]![0], z - route[1]![2]), pitch: .42, distance: 11, detached: false });
       return route;
     }, points);
     report.before = await driver.callDebug('getPlayerPosition');
@@ -65,10 +66,10 @@ try {
   await driver.screenshot(out, selected);
   await driver.press('s', 100);
   if (selected === 'cairn') {
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const d = window.__gameDebug as any, x = 225, z = -63, y = d.sampleWorld(x, z).height;
-      d.teleport([x, y, z]);
-      d.inspectPose({ x, y, z, yaw: .65, pitch: .42, distance: 11, detached: false });
+      await d.teleport([x, y, z]);
+      await d.inspectPose({ x, y, z, yaw: .65, pitch: .42, distance: 11, detached: false });
     });
     await page.waitForTimeout(1500);
     await driver.screenshot(out, 'cairn-bank');

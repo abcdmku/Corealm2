@@ -32,7 +32,7 @@ try{
  const call=(name:string,a:any)=>page.evaluate(async({name,a})=>{const r=await(window as any).__gameDebug.callTool(name,a);if(r?.error)throw Error(JSON.stringify(r));return r;},{name,a});
  await page.evaluate(async preset=>{const l=(window as any).__featureLab;await l.spawnTarget('creature',preset,{distance:7});l.setLevel('melee',1);await l.equipPlayer('mainHand',null);},preset);
  await page.waitForFunction(p=>(window as any).__featureLab.getState()?.target?.presetId===p,preset);
- const sample=async(stage:string)=>{const s=await page.evaluate(()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);return row;};
+ const sample=async(stage:string)=>{const s=await page.evaluate(async ()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:await d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);return row;};
  const hitActive=(s:any)=>{const o=s.motion?.hitOverlay;return !!(o&&o.active&&o.duration>0&&o.time>=o.duration*.15&&o.time<=o.duration*.6);};
  // Corpse framing is relative to the KILLER, not to world axes. The detached camera sits at
   // (sin yaw, cos yaw) from its target, so a fixed yaw regularly puts the player between the lens
@@ -42,7 +42,7 @@ try{
   // given, which is right for a standing actor and wrong for one lying flat, so corpse frames add
   // that back. The yaw actually used is recorded with the capture.
  const capture=async(label:string,expected?:'attack'|'hit')=>{
-  const framing=await page.evaluate(label=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);
+  const framing=await page.evaluate(async label=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);
    if(!b)return null;
    const size=Math.max(b.max.x-b.min.x,b.max.y-b.min.y,b.max.z-b.min.z),corpse=label.startsWith('corpse-');
    const centre={x:(b.min.x+b.max.x)/2,y:(b.min.y+b.max.y)/2,z:(b.min.z+b.max.z)/2};
@@ -51,7 +51,7 @@ try{
     playerAzimuth=Math.atan2(dx,dz);
     yaw=playerAzimuth+(label==='corpse-front'?Math.PI:label==='corpse-rear'?-Math.PI/2:Math.PI/2);}
    const pose={x:centre.x,y:centre.y,z:centre.z,yaw,pitch:corpse?.30:.20,distance:Math.max(corpse?3:4.5,size*(corpse?1.6:1.8)),detached:true};
-   d.inspectPose(pose);
+   await d.inspectPose(pose);
    return {pose,playerAzimuth,size,centre};},label);
   await driver.wait(expected||label.startsWith('corpse-')?0:180);
   const before=await sample(`capture-${label}-before`);
@@ -116,7 +116,7 @@ try{
  // The production corpse begins fading shortly after Death settles, so one settled view per run.
  await capture(`corpse-${corpseView}`);report.corpseView=corpseView;
  report.corpseInspection=await sample('corpse-inspected');assert.equal(report.corpseInspection.lab.target.health,0);assert.equal(report.corpseInspection.motion.motion,'death');assert(report.corpseInspection.motion.time>=report.corpseInspection.motion.duration-settleMargin);
- const loot=await page.evaluate(id=>(window as any).__gameDebug.getEntities().filter((e:any)=>e.archetype==='loot'&&e.id.startsWith(`loot_${id}_`)),dead.lab.target.entityId);
+ const loot=await page.evaluate(async id=>(await (window as any).__gameDebug.getEntities()).filter((e:any)=>e.archetype==='loot'&&e.id.startsWith(`loot_${id}_`)),dead.lab.target.entityId);
  report.loot=loot;report.noItemDrop=loot.length===0;
  if(loot.length){
   report.reward=await page.evaluate(async id=>{const d=(window as any).__gameDebug;const before=await d.callTool('corealm_inventory',{});const event=d.getEvents(0).events.find((e:any)=>e.data?.pileId===id);const opened=await d.callTool('corealm_interact',{entityId:id,interaction:'loot'});return {before,expected:event?.data?.items?.[0],opened,afterOpen:await d.callTool('corealm_inventory',{})};},loot[0].id);

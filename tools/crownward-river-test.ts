@@ -122,11 +122,11 @@ try {
   };
 
   const followPose = async (at: XZ, yaw: number, pitch = .25) => {
-    await page.evaluate(({ at, yaw, pitch }) => {
+    await page.evaluate(async ({ at, yaw, pitch }) => {
       const debug = window.__gameDebug as any;
       const sample = debug.sampleWorld(at[0], at[1]);
-      debug.teleport([at[0], sample.height, at[1]]);
-      debug.inspectPose({ x: at[0], y: sample.height, z: at[1], yaw, pitch, distance: 11, detached: false });
+      await debug.teleport([at[0], sample.height, at[1]]);
+      await debug.inspectPose({ x: at[0], y: sample.height, z: at[1], yaw, pitch, distance: 11, detached: false });
     }, { at, yaw, pitch });
     await page.waitForTimeout(200);
     return assertNormalCamera();
@@ -222,9 +222,9 @@ try {
     assert.equal(structure.collisionCount, 0, 'Bridge unexpectedly fell back to box collision');
     await closeLabPanel();
 
-    const bridgeEntity = await page.evaluate(() => {
+    const bridgeEntity = await page.evaluate(async () => {
       const debug = window.__gameDebug as any;
-      const entity = debug.getEntities().find((row: { id: string }) =>
+      const entity = (await debug.getEntities()).find((row: { id: string }) =>
         row.id === 'feature-lab:structure' || row.id.startsWith('feature-lab:structure#'));
       return entity ? { entity, bounds: debug.getDrawnBounds(entity.id) } : null;
     });
@@ -287,7 +287,7 @@ try {
         await lab.spawnTarget('creature', `species:${speciesId}`, { distance: 5 });
         const state = lab.getState();
         const debug = window.__gameDebug as any;
-        return { state, entity: debug.getEntity(state.target!.entityId),
+        return { state, entity: await debug.getEntity(state.target!.entityId),
           bounds: debug.getDrawnBounds(state.target!.entityId) };
       }, id);
       assert(spawned.state.target?.presetId === `species:${id}`, `${id}: wrong production creature spawned`);
@@ -296,9 +296,9 @@ try {
       const player = await page.evaluate(() => (window.__gameDebug as any).getPlayerPosition());
       const camera = await followPose([spawned.entity.position[0], spawned.entity.position[2] + (id === 'crownward_red_dragon' ? 25 : 15)], 0);
       const shaders = await waitForShaders();
-      const before = await page.evaluate(() => {
+      const before = await page.evaluate(async () => {
         const state = window.__featureLab!.getState();
-        return { lab: state, entity: (window.__gameDebug as any).getEntity(state.target!.entityId),
+        return { lab: state, entity: await (window.__gameDebug as any).getEntity(state.target!.entityId),
           motion: (window.__gameDebug as any).getEntityMotion(state.target!.entityId),
           bounds: (window.__gameDebug as any).getDrawnBounds(state.target!.entityId) };
       });
@@ -310,9 +310,9 @@ try {
         const target = window.__featureLab!.getState().target;
         return target && target.health !== null && target.health < health;
       }, before.lab.target.health, { timeout: 15_000 });
-      const after = await page.evaluate(() => {
+      const after = await page.evaluate(async () => {
         const state = window.__featureLab!.getState();
-        return { lab: state, entity: (window.__gameDebug as any).getEntity(state.target!.entityId),
+        return { lab: state, entity: await (window.__gameDebug as any).getEntity(state.target!.entityId),
           motion: (window.__gameDebug as any).getEntityMotion(state.target!.entityId) };
       });
       const healthDelta = before.lab.target!.health! - after.lab.target!.health!;
@@ -330,13 +330,13 @@ try {
     for (const shot of worldShots) {
       const camera = await followPose(shot.at, shot.yaw, shot.pitch ?? .25);
       const shaders = await waitForShaders();
-      const state = await page.evaluate(entityIds => {
+      const state = await page.evaluate(async entityIds => {
         const debug = window.__gameDebug as any;
         const player = debug.getPlayer();
         return { player, position: debug.getPlayerPosition(), navigation: debug.getNavigationState(),
           sample: debug.sampleWorld(debug.getPlayerPosition().x, debug.getPlayerPosition().z),
           waterBodies: debug.getWaterBodies(),
-          entities: entityIds?.map((id: string) => ({ entity: debug.getEntity(id), bounds: debug.getDrawnBounds(id) })) ?? [] };
+          entities: await Promise.all(entityIds?.map(async (id: string) => ({ entity: await debug.getEntity(id), bounds: debug.getDrawnBounds(id) })) ?? []) ?? [] };
       }, shot.entityIds);
       assert.equal(state.navigation.status, 'ready', `${shot.name}: navigation is not ready`);
       if (shot.expectedRegion) assert.equal(state.player.regionId, shot.expectedRegion,

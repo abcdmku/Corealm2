@@ -34,9 +34,9 @@ try {
   for (const entry of catalog.assets) {
     await driver.callDebug("callTool", ["corealm_stop", {}]);
     await driver.callDebug("clearInventory");
-    const node = await page.evaluate(verb => {
+    const node = await page.evaluate(async verb => {
       const global = window as any;
-      return global.__environmentLab.getState().entityIds.map((id: string) => global.__gameDebug.getEntity(id))
+      return (await Promise.all(global.__environmentLab.getState().entityIds.map(async (id: string) => await global.__gameDebug.getEntity(id))))
         .find((entity: any) => entity?.interactions.includes(verb) && entity.resource?.remaining > 0);
     }, verb);
     assert(node, "No live gatherable fixture");

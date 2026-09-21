@@ -17,7 +17,7 @@ try {
  await driver.open(65000,'/index.html');
  for(const site of WILDERNESS_RESOURCE_SITES.filter(s=>s.kind==='grove')) {
   const x=site.centre[0], z=site.centre[1]+10;
-  await page.evaluate(({x,z})=>{const d=window.__gameDebug as any; d.inspectPose({x,z,y:d.groundHeight(x,z),yaw:0,pitch:.34,distance:11});},{x,z});
+  await page.evaluate(async ({x,z})=>{const d=window.__gameDebug as any; await d.inspectPose({x,z,y:d.groundHeight(x,z),yaw:0,pitch:.34,distance:11});},{x,z});
   await page.waitForFunction(()=>{const r=(window.__gameDebug as any).getEntityViewStats().residency;return !r.pending&&!r.failed&&!r.missing;},undefined,{timeout:14000});
   await page.waitForTimeout(350);
   const before:any=await driver.callDebug('getPlayerPosition');
@@ -25,7 +25,7 @@ try {
   const after:any=await driver.callDebug('getPlayerPosition');
   assert(Math.hypot(after.x-before.x,after.z-before.z)>.3,`${site.id}: walking through grove aisle`);
   await page.waitForTimeout(1800);
-  const trees=await page.evaluate(id=>{const d=window.__gameDebug as any;return d.getEntities().filter((e:any)=>e.archetype==='tree').map((e:any)=>d.getEntity(e.id)).filter((e:any)=>e.meta?.locationId===id).map((e:any)=>({entity:e,bounds:d.getDrawnBounds(e.id)}));},site.id);
+  const trees=await page.evaluate(async id=>{const d=window.__gameDebug as any;return (await Promise.all((await d.getEntities()).filter((e:any)=>e.archetype==='tree').map(async (e:any)=>await d.getEntity(e.id)))).filter((e:any)=>e.meta?.locationId===id).map((e:any)=>({entity:e,bounds:d.getDrawnBounds(e.id)}));},site.id);
   assert.equal(trees.length,9,`${site.id}: authored trees`);
   report.samples.push({site:site.id,before,after,trees,camera:await driver.callDebug('getCamera')});
   await page.screenshot({path:`${out}/${site.id}.png`,timeout:5000});

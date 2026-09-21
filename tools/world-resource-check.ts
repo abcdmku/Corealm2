@@ -13,6 +13,7 @@ import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 type Point = { x: number; y: number; z: number };
 type Bounds = { min: Point; max: Point; height: number; meshes: number; path: string };
@@ -84,14 +85,14 @@ async function main(): Promise<void> {
   // Candidate selection is a small local read, not a scan of the rendered island. Navigation
   // validates terrain and static obstacles; the real clicked walk still exercises live trunks.
   async function approachFor(entityId: string | null): Promise<Approach | null> {
-    return driver.page!.evaluate(({ id, radius, interactRange, ascent, descent }) => {
+    return driver.page!.evaluate(async ({ id, radius, interactRange, ascent, descent }) => {
       const debug = window.__gameDebug as unknown as Debug;
       const player = debug.getPlayerPosition();
-      const trees = debug.listEntities({ archetype: "tree", regionId: debug.getState().regionId });
+      const trees = await debug.listEntities({ archetype: "tree", regionId: debug.getState().regionId });
       const isolation = (entity: SemanticEntity): number => Math.min(35, ...trees
         .filter(other => other.id !== entity.id && other.state !== "depleted")
         .map(other => Math.hypot(other.position[0] - entity.position[0], other.position[2] - entity.position[2])));
-      const candidates = id ? [debug.getEntity(id)].filter((entity): entity is SemanticEntity => entity !== null)
+      const candidates = id ? [await debug.getEntity(id)].filter((entity): entity is SemanticEntity => entity !== null)
         : trees.filter((entity) => entity.meta?.forestTree === true && entity.state === "available" && (entity.resource?.remaining ?? 0) > 0
           && Math.hypot(entity.position[0] - player.x, entity.position[2] - player.z) <= 35)
           .sort((a, b) => isolation(b) - isolation(a) || (a.resource!.remaining - b.resource!.remaining)
@@ -182,10 +183,10 @@ async function main(): Promise<void> {
     await driver.page!.waitForFunction((id) => (window.__gameDebug as unknown as Debug).getDrawnBounds(id)?.meshes, id, { timeout: remaining(5_000) });
     const beforeBlob = await driver.callDebug("getSaveBlob") as string;
     const before = JSON.parse(beforeBlob) as GameState;
-    const initial = await driver.page!.evaluate((id) => {
+    const initial = await driver.page!.evaluate(async (id) => {
       const debug = window.__gameDebug as unknown as Debug;
       const rect = document.querySelector("canvas")!.getBoundingClientRect();
-      return { entity: debug.getEntity(id)!, bounds: debug.getDrawnBounds(id)!, camera: debug.getCamera(), player: debug.getPlayerPosition(), clock: debug.getState().clock,
+      return { entity: await debug.getEntity(id)!, bounds: debug.getDrawnBounds(id)!, camera: debug.getCamera(), player: debug.getPlayerPosition(), clock: debug.getState().clock,
         rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }, cursor: debug.getEvents(0).nextSeq };
     }, id);
     assert.equal(initial.clock.timeScale, 1);
@@ -262,9 +263,11 @@ async function main(): Promise<void> {
       if (stable) { await driver.click(candidate.x, candidate.y); clicked = candidate; break; }
     }
     assert(clicked, `No live canvas hover found ${id}; use --forest-near/--tree-id to choose an observed clear approach`);
-    const clickState = await driver.page!.evaluate(() => {
+    // A click is a command to the world, which answers on its next tick. Wait for the walk it starts, then read it.
+    await driver.page!.waitForFunction(() => (window.__gameDebug as unknown as { getPlayer(): { moving: boolean } }).getPlayer().moving, undefined, { timeout: 3_000 }).catch(() => undefined);
+    const clickState = await driver.page!.evaluate(async () => {
       const debug = window.__gameDebug as unknown as Debug;
-      const state = JSON.parse(debug.getSaveBlob()) as GameState;
+      const state = JSON.parse(await debug.getSaveBlob()) as GameState;
       const path = state.player.movement.path;
       let wetSamples = 0;
       for (let i = 1; i < (path?.length ?? 0); i++) {
@@ -280,20 +283,20 @@ async function main(): Promise<void> {
     assert.equal(clickState.state.selectedEntityId, id, "The canvas click selected another entity or ground");
     assert.equal(clickState.destinationEntityId, id, "The real click did not navigate toward the selected resource");
     assert.equal(clickState.wetSamples, 0, "The actual navigation path crosses water");
-    await driver.page!.waitForFunction(({ id, since, deplete }) => {
+    await waitForDebug(driver.page!, async ({ id, since, deplete }) => {
       const debug = window.__gameDebug as unknown as Debug;
       const trace = (window as unknown as { __worldResourceTrace: Trace }).__worldResourceTrace;
       const events = debug.getEvents(since);
       return trace.error !== null || trace.wet > 0 || events.dropped || events.events.some((event) => event.type === "navigation.failed")
-        || (deplete ? debug.getEntity(id)?.state === "depleted"
+        || (deplete ? (await debug.getEntity(id))?.state === "depleted"
           : events.events.some((event) => event.type === "item.received" && event.entityId === id && event.data.source === "gather"));
     }, { id, since: cursor, deplete }, { timeout: remaining(deplete ? 35_000 : 13_000), polling: 80 });
-    const final = await driver.page!.evaluate(({ id, since }) => {
+    const final = await driver.page!.evaluate(async ({ id, since }) => {
       const debug = window.__gameDebug as unknown as Debug;
       const trace = (window as unknown as { __worldResourceTrace: Trace }).__worldResourceTrace;
       trace.stopped = true;
-      return { entity: debug.getEntity(id)!, bounds: debug.getDrawnBounds(id), player: debug.getPlayerPosition(), clock: debug.getState().clock,
-        events: debug.getEvents(since), trace, errors: debug.getErrors(), save: debug.getSaveBlob() };
+      return { entity: await debug.getEntity(id)!, bounds: debug.getDrawnBounds(id), player: debug.getPlayerPosition(), clock: debug.getState().clock,
+        events: debug.getEvents(since), trace, errors: debug.getErrors(), save: await debug.getSaveBlob() };
     }, { id, since: cursor });
     const saved = JSON.parse(final.save) as GameState;
     const { save: _save, ...observation } = final;
@@ -388,14 +391,14 @@ async function main(): Promise<void> {
     stage = "natural tree harvest";
     const tree = await gather(forest, true);
     const assertStump = async () => {
-      await page.waitForFunction(({ id, standingHeight }) => {
+      await waitForDebug(page, async ({ id, standingHeight }) => {
         const debug = window.__gameDebug as unknown as Debug;
         const bounds = debug.getDrawnBounds(id);
-        return debug.getEntity(id)?.state === "depleted" && bounds && bounds.meshes > 0 && bounds.height < standingHeight * 0.35;
+        return (await debug.getEntity(id))?.state === "depleted" && bounds && bounds.meshes > 0 && bounds.height < standingHeight * 0.35;
       }, { id: forest.entity.id, standingHeight: tree.initial.bounds.height }, { timeout: remaining(3_000) });
-      const observed = await page.evaluate((id) => {
+      const observed = await page.evaluate(async (id) => {
         const debug = window.__gameDebug as unknown as Debug;
-        return { entity: debug.getEntity(id), bounds: debug.getDrawnBounds(id), player: debug.getPlayerPosition() };
+        return { entity: await debug.getEntity(id), bounds: debug.getDrawnBounds(id), player: debug.getPlayerPosition() };
       }, forest.entity.id);
       assert.equal(observed.entity?.state, "depleted");
       assert.equal(observed.entity.resource?.remaining, 0);
@@ -408,9 +411,9 @@ async function main(): Promise<void> {
     stage = "forest save and return";
     await driver.callDebug("loadSaveBlob", [tree.beforeBlob]);
     cursor = 0;
-    await page.waitForFunction(({ id, standingHeight }) => {
+    await waitForDebug(page, async ({ id, standingHeight }) => {
       const debug = window.__gameDebug as unknown as Debug;
-      return debug.getEntity(id)?.state === "available" && (debug.getDrawnBounds(id)?.height ?? 0) >= standingHeight * 0.9;
+      return (await debug.getEntity(id))?.state === "available" && (debug.getDrawnBounds(id)?.height ?? 0) >= standingHeight * 0.9;
     }, { id: forest.entity.id, standingHeight: tree.initial.bounds.height }, { timeout: remaining(3_000) });
     await driver.callDebug("loadSaveBlob", [tree.savedBlob]);
     await driver.wait(180);
@@ -466,12 +469,12 @@ async function main(): Promise<void> {
     process.exitCode = 1;
     if (driver.page) {
       try {
-        report.failure = await driver.page.evaluate(({ id, since }) => {
+        report.failure = await driver.page.evaluate(async ({ id, since }) => {
           const debug = window.__gameDebug as unknown as Debug | undefined;
           if (!debug) return { debugMissing: true };
           const trace = (window as unknown as { __worldResourceTrace?: Trace }).__worldResourceTrace;
           if (trace) trace.stopped = true;
-          return { state: debug.getState(), player: debug.getPlayerPosition(), entity: id ? debug.getEntity(id) : null, bounds: id ? debug.getDrawnBounds(id) : null,
+          return { state: debug.getState(), player: debug.getPlayerPosition(), entity: id ? await debug.getEntity(id) : null, bounds: id ? debug.getDrawnBounds(id) : null,
             camera: debug.getCamera(), navigation: debug.getNavigationState(), activity: debug.getCurrentActivity(), events: debug.getEvents(since), trace, errors: debug.getErrors() };
         }, { id: currentId, since: cursor });
         if (Date.now() - started < 82_000) screenshots.push(await driver.screenshot(output, "failure"));

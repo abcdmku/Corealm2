@@ -11,6 +11,7 @@ import type { Navigation } from "../systems/navigation.js";
 import { EntityStore } from "../world/entities.js";
 import { SpatialIndex } from "../world/spatial.js";
 import { HeadlessPlayer } from "./headlessPlayer.js";
+import { isStaticScenery } from "./replicatedEntities.js";
 import { SessionFailure } from "./protocol.js";
 import { PublicActions } from "./publicActions.js";
 import { WorldSocial } from "./social.js";
@@ -38,6 +39,9 @@ export interface HeadlessWorldPorts {
   beforeTick?(world:HeadlessWorld):void;
 }
 
+/** How far from a player a sparse snapshot still compares entities: past the interest radius, so nothing a player can touch is skipped. */
+const SPARSE_SNAPSHOT_RADIUS = 80;
+
 /** One entity table, navmesh, clock, resource schedule, and enemy AI per world. */
 export class HeadlessWorld {
   readonly social: WorldSocial;
@@ -54,6 +58,7 @@ export class HeadlessWorld {
   private readonly sentinel: HeadlessPlayer;
   private selected: HeadlessPlayer;
   private persistedEntities = new Map<string, string>();
+  private readonly sceneryRows = new WeakMap<SemanticEntity, string>();
   /** The current habitat of each spawn group. A publish replaces the entries of the groups it rebuilt. */
   private readonly habitats = new Map<string, HabitatDef>();
   /** A creature that outlived the habitat of its group keeps the one it was spawned into until it dies. */
@@ -342,14 +347,32 @@ export class HeadlessWorld {
     this.sentinel.advanceShared();
     this.clock.commitTick();
   }
-  snapshot(receipts: WorldStorageRecord["receipts"] = {}, entityPatches = false): WorldStorageRecord {
+  /**
+   * `thorough` compares every entity with what storage holds. Without it, only what could have changed this tick is
+   * compared: what stands near an active player, what the enemy AI ran, and anything storage has never seen. A change
+   * anywhere else waits for the next thorough snapshot. Local play asks for that between thorough ones, because
+   * serializing five thousand creatures ten times a second is most of its tick and all of what limits debug time scale.
+   */
+  snapshot(receipts: WorldStorageRecord["receipts"] = {}, entityPatches = false, thorough = true): WorldStorageRecord {
     let entities: SemanticEntity[];
     const nextEntities = new Map<string, string>();
     const removedEntityIds: string[] = [];
     if (entityPatches) {
       entities = [];
+      let touched: Set<string> | null = null;
+      if (!thorough) {
+        touched = new Set(this.ai.simulatedLastTick().map(entity => entity.id));
+        for (const id of this.active) this.entities.index().forEachInRadius(this.players.get(id)!.store.get().player.position, SPARSE_SNAPSHOT_RADIUS, near => { touched!.add(near); });
+      }
       for (const entity of this.entities.all()) {
+        const unchanged = touched && !touched.has(entity.id) ? this.persistedEntities.get(entity.id) : undefined;
+        if (unchanged !== undefined) { nextEntities.set(entity.id, unchanged); continue; }
+        // Scenery is most of an authored world and nothing in the simulation writes to it, so the same object is not
+        // serialized again each tick to find that out. A replaced object is, and so is everything a player can act on.
+        const scenery = isStaticScenery(entity), known = scenery ? this.sceneryRows.get(entity) : undefined;
+        if (known !== undefined && this.persistedEntities.get(entity.id) === known) { nextEntities.set(entity.id, known); continue; }
         const json = JSON.stringify(entity);
+        if (scenery) this.sceneryRows.set(entity, json);
         nextEntities.set(entity.id, json);
         if (this.persistedEntities.get(entity.id) !== json) {
           entities.push(structuredClone(entity));
@@ -371,6 +394,11 @@ export class HeadlessWorld {
     if (entityPatches) this.pendingEntitySnapshots.set(snapshot, nextEntities);
     return snapshot;
   }
+  /**
+   * Take over from the world this one replaces: storage holds the entity rows `previous` committed, so
+   * the next patch snapshot must be the difference from those, removals included.
+   */
+  adoptPersistence(previous: HeadlessWorld): void { this.persistedEntities = new Map(previous.persistedEntities); }
   /** Advance the delta baseline only after this exact snapshot commits durably. */
   committed(snapshot: WorldStorageRecord): void {
     const baseline = this.pendingEntitySnapshots.get(snapshot);

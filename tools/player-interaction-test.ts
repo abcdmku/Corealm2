@@ -6,6 +6,7 @@ import { startGameServer } from './lib/server.js';
 import { gameRoot } from './lib/paths.js';
 import { installTestDeadline } from './lib/deadline.js';
 import { armInputResponse, collectInputResponse, assertInputResponse } from './lib/input-response.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const mobile = process.argv.includes('--mobile'), world = process.argv.includes('--world');
 const cave = process.argv.includes('--cave');
@@ -55,8 +56,8 @@ try {
   }
   if(cave) {
     await page.evaluate(async()=>{
-      const d=(window as any).__gameDebug,p=d.getEntity('gravelmaw_mouth_portal');
-      d.teleport(p.interactionPosition??p.position);
+      const d=(window as any).__gameDebug,p=await d.getEntity('gravelmaw_mouth_portal');
+      await d.teleport(p.interactionPosition??p.position);
       await d.callTool('corealm_interact',{entityId:p.id,interaction:'enter'});
     });
     await page.waitForFunction(()=>(window as any).__gameDebug.getState().regionId==='gravelmaw'
@@ -81,15 +82,15 @@ try {
       return w.__featureLab.getState().target.entityId as string;
     }
     const player=d.getPlayerPosition();
-    const candidates=d.getEntities().filter((e:any)=>e.archetype==='enemy'&&e.health>0&&e.regionId===d.getState().regionId);
+    const candidates=(await d.getEntities()).filter((e:any)=>e.archetype==='enemy'&&e.health>0&&e.regionId===d.getState().regionId);
     candidates.sort((a:any,b:any)=>Math.hypot(a.position.x-player.x,a.position.z-player.z)-Math.hypot(b.position.x-player.x,b.position.z-player.z));
     if(!candidates[0])throw Error('No live creature near spawn');
     return candidates[0].id as string;
   },world);
   report.target=target;
-  if(world) await page.evaluate(id=>{
-    const d=(window as any).__gameDebug,e=d.getEntity(id);
-    d.teleport([e.position[0]-3,e.position[1],e.position[2]]);
+  if(world) await page.evaluate(async id=>{
+    const d=(window as any).__gameDebug,e=await d.getEntity(id);
+    await d.teleport([e.position[0]-3,e.position[1],e.position[2]]);
   },target);
   await page.waitForFunction(id=>{
     const w=window as any; return w.__gameDebug.getDrawnBounds(id)
@@ -112,7 +113,7 @@ try {
       const e=event as PointerEvent;w.__pointerEvents.push({type:e.type,x:e.clientX,y:e.clientY,pointer:e.pointerType,target:(e.target as Element)?.tagName});
     },true);
   });
-  const healthBefore=await page.evaluate(id=>(window as any).__gameDebug.getEntity(id).combat.health,target);
+  const healthBefore=await page.evaluate(async id=>(await (window as any).__gameDebug.getEntity(id)).combat.health,target);
   report.healthBefore=healthBefore;
   if(latency)await armInputResponse(page,{kind:'attack',target},mobile?'pointerup':'pointerdown');
   await tap(point[0],point[1],true);
@@ -126,9 +127,9 @@ try {
   assert.ok(selected?.visible&&selected.ready); assert.ok(selected.groundError<.035);
   assert.ok(!selected.children.includes('pip'));
   await page.screenshot({path:`${out}/selected.png`});
-  await page.waitForFunction(({id,health})=>(window as any).__gameDebug.getEntity(id).combat.health<health,
+  await waitForDebug(page, async ({id,health})=>(await (window as any).__gameDebug.getEntity(id)).combat.health<health,
     {id:target,health:healthBefore},{timeout:world?12_000:5000});
-  report.damage=healthBefore-(await page.evaluate(id=>(window as any).__gameDebug.getEntity(id).combat.health,target));
+  report.damage=healthBefore-(await page.evaluate(async id=>(await (window as any).__gameDebug.getEntity(id)).combat.health,target));
   // Real input interrupts combat, and the drawn player must move on the next few frames.
   const stick=mobile?await page.getByRole('slider',{name:'Move',exact:true}).boundingBox():null;
   if(mobile)assert.ok(stick);
@@ -256,8 +257,8 @@ try {
     report.probeCost=await activePage!.evaluate(()=>(window as any).__probeCost);
   }
   if(activePage && !activePage.isClosed()) {
-    report.final = await activePage.evaluate(id=>{
-      const w=window as any;return {state:w.__gameDebug?.getState(),entity:w.__gameDebug?.getEntity(id),
+    report.final = await activePage.evaluate(async id=>{
+      const w=window as any;return {state:w.__gameDebug?.getState(),entity:await w.__gameDebug?.getEntity(id),
         player:w.__gameDebug?.getPlayerPosition(),lab:w.__featureLab?.getState(),pointerEvents:w.__pointerEvents};
     },report.target).catch(()=>null);
     if(!report.passed)await activePage.screenshot({path:`${out}/failure.png`}).catch(()=>{});

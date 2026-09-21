@@ -25,14 +25,14 @@ try {
     await page.evaluate(async id => (window as any).__environmentLab.showFoliage(id, { layout: "lane", count: 1, span: 1 }), id);
     for (const [distance, motion] of [[22, "camera"], [55, "camera"], [22, "wind"]] as const) {
       const name = `${id}-${distance}-${motion}`;
-      const frames = await page.evaluate(({ distance, motion }) => {
+      const frames = await page.evaluate(async ({ distance, motion }) => {
         const w = window as any, debug = w.__gameDebug, environment = w.__environmentLab;
         const canvas = document.querySelector("canvas")!;
         const result = [];
         for (let i = 0; i < 13; i++) {
           // Follow mode uses the actual player and sun-follow path. The player stays outside
           // the tree's reveal footprint. Only the variable under test advances between frames.
-          debug.inspectPose({ x: 0, y: 5, z: 8, yaw: Math.PI + (motion === "camera" ? (i - 6) * .002 : 0),
+          await debug.inspectPose({ x: 0, y: 5, z: 8, yaw: Math.PI + (motion === "camera" ? (i - 6) * .002 : 0),
             pitch: .15, distance, detached: false });
           environment.sampleSurfaceTime(10 + (motion === "wind" ? i / 30 : 0));
           const profile = debug.getRenderProfile("lab-foliage-");

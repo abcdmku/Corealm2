@@ -2,7 +2,7 @@ import type { GameCommand, SessionError, WorldConfiguration, WorldDescriptor, Wo
 import { discoverWorlds, record, SessionFailure, compatible, worldKey } from "./protocol.js";
 import { ProviderRegistry, SessionController, type SessionControllerPorts } from "./providers.js";
 import { WebSocketProvider } from "./webSocketProvider.js";
-import { LOGIN_PROVIDERS, type DirectoryServer, type IdentityClient } from "./identityClient.js";
+import { type DirectoryServer, type IdentityClient } from "./identityClient.js";
 import { lastPlayChoice, playTargetText, rememberPlayChoice, type PlayTarget } from "./playIntent.js";
 
 const HOSTS_KEY="corealm.hosts.v1";
@@ -133,11 +133,12 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const account=document.createElement("div");account.className="worlds__account";account.hidden=true;
   const accountNote=document.createElement("p");accountNote.className="worlds__account-note";
   const accountActions=document.createElement("div");accountActions.className="worlds__account-actions";
-  const signIn=LOGIN_PROVIDERS.map(provider=>{
-    const button=document.createElement("button");button.type="button";button.className="btn worlds__sign-in";
-    button.dataset.provider=provider;button.textContent=`Sign in with ${provider==="discord"?"Discord":"GitHub"}`;
-    button.addEventListener("click",()=>{retrySignIn=false;identity?.login(provider);});
-    return button;});
+  // The password is typed on the identity service's own page, so this is one button that leaves.
+  const signIn=document.createElement("button");signIn.type="button";signIn.className="btn worlds__sign-in";
+  signIn.textContent="Sign in";
+  signIn.addEventListener("click",()=>{retrySignIn=false;identity?.login();});
+  const password=document.createElement("button");password.type="button";password.className="worlds__account-link";password.textContent="Change password";
+  password.addEventListener("click",()=>{identity?.changePassword();});
   const rename=document.createElement("button");rename.type="button";rename.className="worlds__account-link";rename.textContent="Rename";
   const signOut=document.createElement("button");signOut.type="button";signOut.className="worlds__account-link";signOut.textContent="Sign out";
   const renameForm=document.createElement("form");renameForm.className="worlds__rename";renameForm.hidden=true;
@@ -269,11 +270,11 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     }
     if(who&&!retrySignIn){
       accountNote.textContent=`Signed in as ${who.name}.`;
-      accountActions.append(rename,signOut);
+      accountActions.append(rename,password,signOut);
     }else{
       accountNote.textContent=who?joinFailureMessage({code:"UNAUTHORIZED",message:""})
         :identity.loginFailure()??"Some of these worlds need a Corealm account.";
-      accountActions.append(...signIn);
+      accountActions.append(signIn);
       renameForm.hidden=true;
     }
   };
@@ -447,6 +448,17 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     mounted(){focusChoice();},
     /** The engine is live: enable joining, and honour a choice made during loading. */
     setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)joinSelected();},
+    /**
+     * Local play without being asked: the page finished loading, nobody answered the picker, and there is no
+     * server on it to choose instead. The old local game simply started at that point, and so does this one.
+     * Nothing is remembered as a choice. False when there is no worker-hosted world or a join is already under way.
+     */
+    playLocal():boolean{
+      if(!localWorld||controller.session||pendingJoin)return false;
+      selected=LOCAL;dismiss();
+      if(ready)joinSelected();else{pendingJoin=true;updateButtons();}
+      return true;
+    },
     /** Repaints availability after late ports arrive with the scene's seed check. */
     refresh(){renderList();},
     async command(command:GameCommand){

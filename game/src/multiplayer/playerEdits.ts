@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { EQUIP_SLOTS, SKILL_IDS, type EquipSlot, type InventorySlot, type ItemDef, type ItemStack, type PlayerCharacter, type RegionId, type SkillId, type Vec3, type WorldKey } from "../contracts.js";
 import { content } from "../content/index.js";
 import { jewelrySlots } from "../content/jewelry.js";
@@ -13,6 +12,7 @@ import { MAX_STACK } from "../systems/inventory.js";
  * bank of 400 kinds, gold as a balance, levels from the XP table.
  *
  * Nothing here knows whether the player is online. `referenceServer` decides where the result goes.
+ * Nothing here needs Node either: local play's debug channel applies the same operations in a worker.
  */
 
 export const MAX_PLAYER_OPS = 64;
@@ -247,19 +247,6 @@ export function applyPlayerOps(original: PlayerCharacter, ops: readonly PlayerOp
 }
 function heldIds(character: PlayerCharacter): Set<string> {
   return new Set([...character.inventory.slots, ...Object.values(character.equipment)].flatMap(slot => slot ? [slot.itemId] : []));
-}
-
-const HASHED = ["inventory", "bank", "equipment", "currency", "skills"] as const;
-
-/**
- * A short hash of what an editor shows and changes. Position is left out: a walking player moves ten
- * times a second, and an inventory edit must not lose a race with their feet. `GET` returns it,
- * `PATCH` takes it back as `expect.revision`, and a player who looted in between is a 409.
- */
-export function playerRevision(character: PlayerCharacter): string {
-  const hash = createHash("sha256");
-  for (const key of HASHED) hash.update(JSON.stringify(key === "bank" ? character.bank.slots : key === "inventory" ? character.inventory.slots : character[key])).update("\n");
-  return hash.digest("hex").slice(0, 16);
 }
 
 /** Only what changed, for the audit row: slot lists by index, the rest by key. */

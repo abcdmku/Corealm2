@@ -23,10 +23,10 @@ try {
       await gallery.show(`candidate:${id}`, 1);
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
       const b = gallery.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i]));
-      (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: -.42, pitch: .17, distance: Math.max(3.3, size * 1.85), detached: true });
+      await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: -.42, pitch: .17, distance: Math.max(3.3, size * 1.85), detached: true });
     }, id);
     await page.waitForTimeout(1100);
-    await page.evaluate(id => { const gallery = (window as any).__creatureGallery, b = gallery.getBounds(), distances: Record<string, number> = { cairn_treader: 4.8, flint_mandible: 5.5, vault_custodian: 4.8, blind_cave_weaver: 3.2, scree_watcher: 5.2 }; (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: -.40, pitch: .14, distance: distances[id], detached: true }); }, id);
+    await page.evaluate(async id => { const gallery = (window as any).__creatureGallery, b = gallery.getBounds(), distances: Record<string, number> = { cairn_treader: 4.8, flint_mandible: 5.5, vault_custodian: 4.8, blind_cave_weaver: 3.2, scree_watcher: 5.2 }; await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: -.40, pitch: .14, distance: distances[id], detached: true }); }, id);
     await page.waitForTimeout(450);
     for (const motion of ['idle', 'walk', 'run', 'attack', 'hit']) {
       await page.locator(`#creature-gallery-${motion}`).click();
@@ -50,7 +50,7 @@ try {
     }
     await page.locator('#creature-gallery-idle').click();
     await page.waitForTimeout(650);
-    await page.evaluate(() => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: Math.PI / 2, pitch: .12, distance: Math.max(3.3, size * 1.8), detached: true }); });
+    await page.evaluate(async () => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: Math.PI / 2, pitch: .12, distance: Math.max(3.3, size * 1.8), detached: true }); });
     await page.waitForTimeout(250);
     await page.screenshot({ path: `${out}/${id}-side.png` });
     await page.evaluate(async id => { const lab = window.__featureLab!; await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 40); await lab.spawnTarget('creature', `candidate:${id}`, { distance: 3 }); }, id);

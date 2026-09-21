@@ -37,11 +37,11 @@ try {
     await driver.callDebug('inspectPose', [{ x, y: 0, z, yaw, pitch, distance, detached: false }]);
     await page.waitForTimeout(300);
   };
-  const snap = async () => page.evaluate(() => {
+  const snap = async () => page.evaluate(async () => {
     const d = window.__gameDebug as any;
     const lab = window.__featureLab!.getState();
     return { lab, player: d.getPlayer(), camera: d.getCamera(), errors: d.getErrors(),
-      target: lab.target ? d.getEntity(lab.target.entityId) : null,
+      target: lab.target ? await d.getEntity(lab.target.entityId) : null,
       motion: lab.target ? d.getEntityMotion(lab.target.entityId) : null,
       bounds: lab.target ? d.getDrawnBounds(lab.target.entityId) : null };
   });

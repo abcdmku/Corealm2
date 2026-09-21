@@ -61,9 +61,9 @@ try {
       await page.screenshot({ path: `${out}/${id}-interior.png` });
     }
 
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       window.__featureLab!.setWalkingEnabled(true);
-      (window.__gameDebug as any).inspectPose({ x: -8, y: 0, z: 19, yaw: 0, pitch: .25, distance: 12 });
+      await (window.__gameDebug as any).inspectPose({ x: -8, y: 0, z: 19, yaw: 0, pitch: .25, distance: 12 });
     });
     const walkBefore = await page.evaluate(() => window.__featureLab!.getState().playerPosition);
     await page.keyboard.down('w');

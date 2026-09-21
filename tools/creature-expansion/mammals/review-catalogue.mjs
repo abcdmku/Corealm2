@@ -34,7 +34,7 @@ try{
    if(requestedViews&&!requestedViews.includes(view))continue;
    const candidate=proposed.find(a=>a.id===entry.asset)??served.find(a=>a.id===entry.asset);
    if(process.env.SOURCE_NATIVE_PREVIEW==='1'&&(view==='run'||view==='walk')&&!candidate.animations?.some(name=>new RegExp(view,'i').test(name)))continue;
-   await page.evaluate(({yaw,pitch,mult,distance,view})=>{const b=window.__creatureGallery.getBounds(),size=Math.max(...b.max.map((v,i)=>v-b.min[i]));window.__gameDebug.inspectPose({x:(b.min[0]+b.max[0])/2,y:(b.min[1]+b.max[1])/2,z:(b.min[2]+b.max[2])/2,yaw,pitch,distance:Math.max(distance,size*mult),detached:true});if(view==='run'||view==='walk')window.__creatureGallery.play(view);},{yaw,pitch,mult,distance,view});
+   await page.evaluate(async ({yaw,pitch,mult,distance,view})=>{const b=window.__creatureGallery.getBounds(),size=Math.max(...b.max.map((v,i)=>v-b.min[i]));await window.__gameDebug.inspectPose({x:(b.min[0]+b.max[0])/2,y:(b.min[1]+b.max[1])/2,z:(b.min[2]+b.max[2])/2,yaw,pitch,distance:Math.max(distance,size*mult),detached:true});if(view==='run'||view==='walk')window.__creatureGallery.play(view);},{yaw,pitch,mult,distance,view});
    await page.waitForTimeout(160);
    await page.screenshot({path:`${output}/${entry.asset}-${view}.png`});
    viewStates.push({view,...await page.evaluate(()=>{const state=window.__creatureGallery.getState();return {state,motion:window.__gameDebug.getEntityMotion(state.entityIds[0])};})});

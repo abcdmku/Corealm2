@@ -38,9 +38,9 @@ try {
   await page.waitForFunction(() => !!(window as any).__environmentLab, undefined, { timeout: 8000 });
   const featurePanel = page.locator("#panel-feature-lab");
   if (await featurePanel.isVisible()) await featurePanel.locator(".panel__close").click();
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const debug = window.__gameDebug as any;
-    debug.teleport([.65, 0, 26.8]);
+    await debug.teleport([.65, 0, 26.8]);
   });
   await page.mouse.move(700, 500);
   for (let i = 0; i < 25; i++) await page.mouse.wheel(0, -100);

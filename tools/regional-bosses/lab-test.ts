@@ -33,7 +33,7 @@ try {
       await gallery.show(`candidate:boss_${id}`, 1);
       gallery.place(0, 70, .18);
       const d = window.__gameDebug as any;
-      d.inspectPose({ x: 0, y: d.groundHeight(0, 74), z: 74, yaw: .38, pitch: .40, distance: 8 });
+      await d.inspectPose({ x: 0, y: d.groundHeight(0, 74), z: 74, yaw: .38, pitch: .40, distance: 8 });
     }, id);
     await page.waitForTimeout(200);
     await page.waitForFunction(() => {
@@ -67,9 +67,9 @@ try {
       const cycleStarted = Date.now();
       for (let i = 0; i <= 8; i++) {
         if (i > 0) await page.waitForTimeout(Math.max(0, cycleStarted + playbackSeconds * 1000 * i / 8 - Date.now()));
-        const sample = await page.evaluate(() => {
+        const sample = await page.evaluate(async () => {
           const d = window.__gameDebug as any, g = (window as any).__creatureGallery, s = g.getState();
-          return { capturedAtMs: performance.now(), state: s, camera: d.getCamera(), player: d.getPlayerPosition(), bounds: g.getBounds(), motion: d.getEntityMotion(s.entityIds[0]), drawn: d.getDrawnBounds(s.entityIds[0]), entity: d.getEntity(s.entityIds[0]), ground: d.groundHeight(0, 70) };
+          return { capturedAtMs: performance.now(), state: s, camera: d.getCamera(), player: d.getPlayerPosition(), bounds: g.getBounds(), motion: d.getEntityMotion(s.entityIds[0]), drawn: d.getDrawnBounds(s.entityIds[0]), entity: await d.getEntity(s.entityIds[0]), ground: d.groundHeight(0, 70) };
         });
         assert(sample.state.ready && sample.motion && sample.bounds && sample.drawn, `${id} ${motion} actual rig missing`);
         assert(sample.camera.distance >= CAMERA.minDistance && sample.camera.distance <= CAMERA.maxDistance, `${id} gameplay zoom`);

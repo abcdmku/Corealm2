@@ -5,14 +5,17 @@
  * names, synchrony, and return shapes are not ours to choose (see runs/corealm/architecture.md,
  * correction R1):
  *
- *   - all nine are SYNCHRONOUS: the driver reads them inside page.evaluate and JSON-serialises the
- *     result. Full snapshots include getEntities(); the default lean profile omits those thousands
- *     of rows. A Promise from any getter would still serialise to {}.
- *   - all nine are JSON-SAFE: callDebug does JSON.parse(JSON.stringify(fn() ?? null))
+ *   - reads of main-thread state are SYNCHRONOUS: the camera, the renderer, the UI and the player
+ *     as replicated to this page. Anything that changes the simulation, or reads the world beyond
+ *     what is replicated here, returns a PROMISE, because local play runs in a worker. The list is
+ *     `ASYNC_DEBUG_METHODS` in `asyncMethods.ts`; `getEntities()` and `reset()` are on it.
+ *   - a promise resolves only after this page's store shows the effect, so a read that follows an
+ *     awaited write is race free. `tools/debug-await-lint.ts` fails on a call that is not awaited.
+ *   - all results are JSON-SAFE: callDebug does JSON.parse(JSON.stringify(await fn() ?? null))
  *   - getState().ready gates boot detection
  *   - getPlayerPosition() returns {x,y,z}, NOT the Vec3 tuple the contracts use internally
  *   - getNavigationState().status must literally be "ready"
- *   - reset() takes effect within ~150 ms and is not awaited
+ *   - reset() resolves once the fresh character and world are what this page shows
  *   - volatile per-frame data lives under exactly `clock` and `renderer`, because
  *     play-game.ts's semanticFingerprint deletes those two keys before diffing. Anything volatile
  *     elsewhere makes every scenario step report changed:true and destroys the signal.
@@ -20,7 +23,7 @@
  * Everything below the nine is a Corealm-specific test helper.
  */
 import * as THREE from "three";
-import type { EntityId, ItemId, QuestId, SkillId, Vec3 } from "../contracts.js";
+import type { EntityId, EquipSlot, ItemId, QuestId, SemanticEntity, SkillId, Vec3 } from "../contracts.js";
 import type { Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { SimClock } from "../core/time.js";
@@ -34,6 +37,9 @@ import type { AssetRegistry } from "../render/assets.js";
 import { addSkillXp, setSkillLevel as applySkillLevel } from "../state/store.js";
 import { roundVec3 } from "../core/math.js";
 import { keybindings } from "../input/keyboard.js";
+import type { GameState } from "../state/store.js";
+import type { DebugOp, EntityFilter } from "../worker/localDebugProtocol.js";
+import { ASYNC_DEBUG_METHODS, type AsyncDebugMethod } from "./asyncMethods.js";
 
 export interface RecordedError {
   atMs: number;
@@ -77,23 +83,38 @@ export interface DebugDeps {
   setContainedTroughWater?(enabled: boolean): unknown;
   setFoliageOcclusionBoundsOptimization?(enabled: boolean): void;
   version: { build: string; contracts: string; content: string };
+  /**
+   * Worker-hosted local play. Present when this page's "Play local" is a world in a worker; then the
+   * page holds no simulation, and every write and whole-world read below goes through `debug`.
+   */
+  remote?: {
+    /** True while the joined session is the local worker's. */
+    joined(): boolean;
+    /** One operation on the debug channel. Resolves after this page's store shows its effect. */
+    debug(op: DebugOp): Promise<unknown>;
+    /** The old save pipeline (migrate, recompute, validate). It runs here because the worker's module graph may not reach `localStorage`. */
+    parseSave(json: string): { state?: GameState; reason?: string };
+    /** Camera, input and presentation state that a new character or a loaded one must not inherit. */
+    presentationReset(): void;
+  } | null;
   /** Rebuilds the world and restores spawn state. Must complete synchronously. */
   resetWorld(seed?: number, keepSave?: boolean): void;
   /** True when nothing is pending: no navigation, activity, combat, or asset load. */
   isIdle(): boolean;
-  teleport(to: Vec3): void;
+  /** A promise when the host places the player: it resolves once the position is replicated here. */
+  teleport(to: Vec3): void | Promise<void>;
   saveNow(): void;
   getSaveBlob(): string;
   loadSaveBlob(json: string): void | Promise<void>;
   /** Fast-forwards world timers that deliberately do not use the session SimClock. */
   advanceWorldTime?(seconds: number): void;
-  focusCamera(shotId: string): boolean;
+  focusCamera(shotId: string): boolean | Promise<boolean>;
   /** Frames the live player closely enough to inspect held equipment. */
-  focusPlayer(): boolean;
+  focusPlayer(): boolean | Promise<boolean>;
   /** Frames one live entity for generated guide photography. */
-  focusEntity(entityId: EntityId): boolean;
+  focusEntity(entityId: EntityId): boolean | Promise<boolean>;
   /** Frames a route-graph location, using its authored shot when one exists. */
-  focusLocation(locationId: string): boolean;
+  focusLocation(locationId: string): boolean | Promise<boolean>;
   /**
    * Free orbit pose around an arbitrary world point, for structure inspection.
    *
@@ -102,10 +123,10 @@ export interface DebugDeps {
    * above head height and off the walkable surface. This one places the orbit centre exactly where
    * it is asked to.
    */
-  inspectPose(target: Vec3, yaw: number, pitch: number, distance: number, detached?: boolean): boolean;
+  inspectPose(target: Vec3, yaw: number, pitch: number, distance: number, detached?: boolean): boolean | Promise<boolean>;
   prepareView?(): Promise<void>;
   /** Freezes simulation and hides the player while documentation captures run. */
-  setCaptureMode(enabled: boolean): void;
+  setCaptureMode(enabled: boolean): void | Promise<void>;
   /** Renders and returns the current gameplay canvas before another frame can clear it. */
   captureDocumentationFrame(): string;
   listShots(): string[];
@@ -198,6 +219,7 @@ function round3(value: number): number {
 
 export function installGameDebug(deps: DebugDeps): void {
   const { store, events, clock, nav, movement, api, renderer, camera, assets } = deps;
+  const remote = deps.remote ?? null;
 
   const debugApi = {
     // ------------------------------------------------- the nine harness methods
@@ -486,17 +508,19 @@ export function installGameDebug(deps: DebugDeps): void {
       deps.select?.(entityId);
     },
 
-    teleport(to: Vec3 | { x: number; y: number; z: number } | { entityId: EntityId } | { locationId: string }): boolean {
+    async teleport(to: Vec3 | { x: number; y: number; z: number } | { entityId: EntityId } | { locationId: string }): Promise<boolean> {
       let target: Vec3 | null = null;
       if (Array.isArray(to)) target = to as Vec3;
       else if (typeof to === "object" && to !== null && "x" in to) target = [to.x, to.y, to.z];
       else if (typeof to === "object" && to !== null && "entityId" in to) {
-        target = api.hooks.entities?.get(to.entityId)?.position ?? null;
+        // An entity beyond the replicated interest set is still somewhere to go.
+        target = api.hooks.entities?.get(to.entityId)?.position
+          ?? (remote?.joined() ? (await remote.debug({ op: "getEntity", entityId: to.entityId }) as { position: Vec3 } | null)?.position : null) ?? null;
       } else if (typeof to === "object" && to !== null && "locationId" in to) {
         target = nav.routeNode(to.locationId)?.position ?? null;
       }
       if (!target) return false;
-      deps.teleport(target);
+      await deps.teleport(target);
       return true;
     },
 
@@ -551,6 +575,23 @@ export function installGameDebug(deps: DebugDeps): void {
 
     getEntity(entityId: EntityId): unknown {
       return api.hooks.entities?.get(entityId) ?? null;
+    },
+
+    /** Whole-world query. `near` is `{ position, radius }` in metres on the ground plane. */
+    findEntities(filter?: EntityFilter): unknown[] {
+      return (api.hooks.entities?.all() ?? []).filter((entity) => !(
+        (filter?.archetype !== undefined && entity.archetype !== filter.archetype)
+        || (filter?.regionId !== undefined && entity.regionId !== filter.regionId)
+        || (filter?.tier !== undefined && entity.tier !== filter.tier)
+        || (filter?.ids && !filter.ids.includes(entity.id))
+        || (filter?.near && Math.hypot(entity.position[0] - filter.near.position[0], entity.position[2] - filter.near.position[2]) > filter.near.radius)));
+    },
+
+    /** Node, enemy and loot-pile rows of the whole world, with the world clock. */
+    getWorldState(): unknown {
+      const world = store.get().world;
+      return { tick: clock.tick, simMs: clock.elapsedMs, seed: store.get().meta.seed, entityCount: api.hooks.entities?.all().length ?? 0,
+        nodes: world.nodes, enemies: world.enemies, lootPiles: world.lootPiles };
     },
 
     listEntities(filter?: { archetype?: string; regionId?: string; tier?: number }): unknown[] {
@@ -937,24 +978,24 @@ export function installGameDebug(deps: DebugDeps): void {
       return assets.clipNames();
     },
 
-    focusCamera(shotId: string): boolean {
+    focusCamera(shotId: string): boolean | Promise<boolean> {
       return deps.focusCamera(shotId);
     },
 
-    focusPlayer(): boolean {
+    focusPlayer(): boolean | Promise<boolean> {
       return deps.focusPlayer();
     },
 
-    focusEntity(entityId: EntityId): boolean {
+    focusEntity(entityId: EntityId): boolean | Promise<boolean> {
       return deps.focusEntity(entityId);
     },
 
-    focusLocation(locationId: string): boolean {
+    focusLocation(locationId: string): boolean | Promise<boolean> {
       return deps.focusLocation(locationId);
     },
 
-    setCaptureMode(enabled: boolean): void {
-      deps.setCaptureMode(Boolean(enabled));
+    setCaptureMode(enabled: boolean): void | Promise<void> {
+      return deps.setCaptureMode(Boolean(enabled));
     },
 
     captureDocumentationFrame(): string {
@@ -962,14 +1003,14 @@ export function installGameDebug(deps: DebugDeps): void {
     },
 
     /** Alias. `tools/screenshot.ts --preset` calls this name. */
-    setCameraPreset(shotId: string): boolean {
+    setCameraPreset(shotId: string): boolean | Promise<boolean> {
       return deps.focusCamera(shotId);
     },
 
     /** Orbit an arbitrary world point. Structure audits need poses no route node offers. */
     inspectPose(pose: {
       x: number; y: number; z: number; yaw?: number; pitch?: number; distance?: number; detached?: boolean;
-    }): boolean {
+    }): boolean | Promise<boolean> {
       return deps.inspectPose(
         [Number(pose.x), Number(pose.y), Number(pose.z)],
         Number(pose.yaw ?? 0), Number(pose.pitch ?? 0.35), Number(pose.distance ?? 14),
@@ -1004,6 +1045,13 @@ export function installGameDebug(deps: DebugDeps): void {
 
     forceRespawn(entityId: EntityId): boolean {
       return deps.forceRespawn(entityId);
+    },
+
+    setQuestState(questId: QuestId, state: { status: "unstarted" | "active" | "complete"; stage: number; counters?: Record<string, number>; flags?: Record<string, boolean> } | null): void {
+      const quests = store.get().quests;
+      if (state === null) delete quests[questId];
+      else quests[questId] = { status: state.status, stage: Math.max(0, Math.floor(state.stage)), counters: { ...state.counters }, flags: { ...state.flags } };
+      store.markDirty();
     },
 
     setQuestStage(questId: QuestId, stage: number): void {
@@ -1077,16 +1125,90 @@ export function installGameDebug(deps: DebugDeps): void {
     },
   };
 
-  const offlineWrites = new Set(["reset", "setPaused", "setTimeScale", "advanceGameTime", "teleport", "grantXp", "setSkillLevel",
-    "setCurrency", "setHealth", "loadSaveBlob", "depleteNode", "forceRespawn", "setQuestStage", "giveItem", "seedMagic",
-    "focusCamera", "focusEntity", "focusLocation", "setCameraPreset", "inspectPose"]);
+  const compactEntity = (entity: SemanticEntity) => ({
+    id: entity.id, archetype: entity.archetype, name: entity.name, tier: entity.tier, regionId: entity.regionId,
+    position: xyz(roundVec3(entity.position)), state: entity.state, interactions: entity.interactions,
+    ...(entity.resource ? { remaining: entity.resource.remaining } : {}),
+    ...(entity.combat ? { health: entity.combat.health, maxHealth: entity.combat.maxHealth } : {}),
+  });
+
+  /**
+   * The same surface when local play is a world in a worker. The page holds no simulation then, so
+   * each of these is one operation on the debug channel, which answers only after the update that
+   * carries the effect has been applied to this page's store. What is left here is presentation.
+   */
+  const ask = (op: DebugOp): Promise<unknown> => remote!.debug(op);
+  const remoteApi: Partial<Record<AsyncDebugMethod, (...args: never[]) => Promise<unknown>>> = {
+    async reset(options?: { seed?: number; keepSave?: boolean }) {
+      await ask({ op: "reset", ...(options?.seed === undefined ? {} : { seed: options.seed }) });
+      clock.paused = false; clock.timeScale = 1; deps.errors.length = 0; remote!.presentationReset();
+    },
+    saveNow: () => ask({ op: "flush" }),
+    async getSaveBlob() {
+      // The save format the old local game wrote, at the same version, so a tool reads it as a `GameState` and an old fixture loads back.
+      const state = await ask({ op: "getSave" }) as GameState;
+      return JSON.stringify({ ...state, settings: store.get().settings });
+    },
+    async loadSaveBlob(json: string) {
+      const loaded = remote!.parseSave(json);
+      if (!loaded.state) { deps.errors.push({ atMs: clock.elapsedMs, source: "debug.loadSaveBlob", message: loaded.reason ?? "Save import failed" }); return; }
+      await ask({ op: "loadSave", state: loaded.state });
+      remote!.presentationReset();
+    },
+    async setPaused(paused: boolean) { await ask({ op: "setPaused", paused: Boolean(paused) }); clock.paused = Boolean(paused); },
+    async setTimeScale(scale: number) {
+      if (!Number.isFinite(scale)) return;
+      const pace = await ask({ op: "setTimeScale", scale: Math.max(0.1, Math.min(100, scale)) }) as { timeScale: number };
+      clock.timeScale = pace.timeScale;
+    },
+    async advanceGameTime(seconds: number) { if (Number.isFinite(seconds) && seconds > 0) await ask({ op: "advanceGameTime", seconds }); },
+    advanceTicks: (ticks: number) => ask({ op: "advanceTicks", ticks }),
+    giveItem: (itemId: ItemId, quantity: number, to: "inventory" | "bank" = "inventory") => ask({ op: "giveItem", itemId, quantity, to }),
+    removeItem: (itemId: ItemId, quantity: number, from: "inventory" | "bank" = "inventory") => ask({ op: "removeItem", itemId, quantity, from }),
+    clearInventory: () => ask({ op: "clearInventory" }),
+    setEquipment: (slot: EquipSlot, itemId: ItemId | null) => ask({ op: "setEquipment", slot, itemId }),
+    async setHealth(health: number) { if (Number.isFinite(health)) await ask({ op: "setHealth", health }); },
+    setSkillLevel: (skill: SkillId, level: number) => ask({ op: "setSkillLevel", skill, level }),
+    grantXp: (skill: SkillId, amount: number) => ask({ op: "grantXp", skill, amount }),
+    async setCurrency(gold: number) { if (Number.isFinite(gold)) await ask({ op: "setCurrency", amount: gold }); },
+    async setSeed() { throw new Error("UNAVAILABLE: local play runs the seeds its world pack holds, and a running world keeps the one it started with."); },
+    async setQuestStage(questId: QuestId, stage: number) { await ask({ op: "setQuestStage", questId, stage }); },
+    async setQuestState(questId: QuestId, state: Extract<DebugOp, { op: "setQuestState" }>["state"]) { await ask({ op: "setQuestState", questId, state }); },
+    seedMagic: (magicLevel = 70, essenceQuantity = 5000) => ask({ op: "seedMagic", magicLevel, essenceQuantity }),
+    depleteNode: (entityId: EntityId) => ask({ op: "depleteNode", entityId }),
+    forceRespawn: (entityId: EntityId) => ask({ op: "forceRespawn", entityId }),
+    killEntity: (entityId: EntityId) => ask({ op: "killEntity", entityId }),
+    spawnEntity: (entity: SemanticEntity) => ask({ op: "spawnEntity", entity }),
+    despawnEntity: (entityId: EntityId) => ask({ op: "despawnEntity", entityId }),
+    getEntity: (entityId: EntityId) => ask({ op: "getEntity", entityId }),
+    async getEntities() { return (await ask({ op: "findEntities" }) as SemanticEntity[]).map(compactEntity); },
+    listEntities: (filter?: { archetype?: string; regionId?: string; tier?: number }) => ask({ op: "findEntities", ...(filter ? { filter: { ...filter } } : {}) }),
+    findEntities: (filter?: EntityFilter) => ask({ op: "findEntities", ...(filter ? { filter } : {}) }),
+    getWorldState: () => ask({ op: "getWorldState" }),
+  };
+  // `driver.callDebug` asks `Object.hasOwn`, so every name on the surface is a property of the object behind the proxy.
+  const workerOnly = (name: string) => (): never => { throw new Error(`UNAVAILABLE: __gameDebug.${name} needs worker-hosted local play. This page runs the old main-thread game (a lab, or ?local=main).`); };
+  for (const name of Object.keys(remoteApi)) if (!Object.hasOwn(debugApi, name)) Object.assign(debugApi, { [name]: workerOnly(name) });
+
+  /**
+   * These change nothing a server owns, so a connected world allows them. The entity reads then answer from what is
+   * replicated to this page, which is all a client of someone else's world can know.
+   */
+  const allowedConnected = new Set<string>(["waitForView", "callTool", "getEntity", "getEntities", "listEntities", "findEntities", "getWorldState"]);
+  const asyncMethods = new Set<string>(ASYNC_DEBUG_METHODS);
   (window as unknown as { __gameDebug?: unknown }).__gameDebug = new Proxy(debugApi, {
     get(target, property, receiver) {
       const value: unknown = Reflect.get(target, property, receiver);
-      if (typeof property !== "string" || !offlineWrites.has(property) || typeof value !== "function") return value;
-      return (...args: unknown[]) => {
-        if (api.isOnlineSession()) throw new Error("UNAVAILABLE: offline debug writes are disabled during a multiplayer session");
-        return Reflect.apply(value, target, args);
+      if (typeof property !== "string" || !asyncMethods.has(property) || typeof value !== "function") return value;
+      // One surface in every mode: these always return a promise, so a call that forgets `await` fails the same way everywhere.
+      return async (...args: unknown[]) => {
+        const local = remote?.joined() === true;
+        if (!allowedConnected.has(property)) {
+          if (api.isOnlineSession() && !local) throw new Error(`UNAVAILABLE: __gameDebug.${property} changes or reads the whole simulation, which a connected world does not allow. Play local to use it.`);
+          if (remote && !local) throw new Error(`UNAVAILABLE: __gameDebug.${property} needs a joined local world. Open the page with ?play=local, or choose Play local.`);
+        }
+        const hosted = local ? remoteApi[property as AsyncDebugMethod] as ((...values: unknown[]) => Promise<unknown>) | undefined : undefined;
+        return hosted ? hosted(...args) : Reflect.apply(value, target, args);
       };
     },
   });

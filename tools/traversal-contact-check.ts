@@ -30,15 +30,15 @@ const state = () => page.evaluate(() => (window as any).__agilityLab.getState())
 
 async function setup(id: string, reverse = false): Promise<any> {
   await call(page, "corealm_stop", {});
-  const lane = await page.evaluate(({ id, reverse }) => {
+  const lane = await page.evaluate(async ({ id, reverse }) => {
     const w = window as any;
     w.__agilityLab.prepare();
     if (id === "sunder_ledge") w.__agilityLab.setLevel(10);
     const lane = w.__agilityLab.getState().lanes.find((lane: any) => lane.id === id);
     if (!lane) throw new Error(`Missing fixture ${id}`);
-    w.__gameDebug.teleport(reverse ? lane.exit : lane.entry);
+    await w.__gameDebug.teleport(reverse ? lane.exit : lane.entry);
     const centre = lane.entry.map((value: number, i: number) => (value + lane.exit[i]) / 2);
-    w.__gameDebug.inspectPose({ x: centre[0], y: centre[1] + 0.6, z: centre[2],
+    await w.__gameDebug.inspectPose({ x: centre[0], y: centre[1] + 0.6, z: centre[2],
       yaw: id === "contact_climb" ? -1.05 : 1.05, pitch: 0.3, distance: 7.5, detached: true });
     return lane;
   }, { id, reverse });

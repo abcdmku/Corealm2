@@ -84,7 +84,7 @@ try {
       await (window as any).__creatureGallery.show(`candidate:${id}`, 1);
       // Place the player beside the subject. Camera target is always the player's normal head.
       const debug = window.__gameDebug as any;
-      debug.inspectPose({ x: -2.2, y: debug.groundHeight(-2.2, 73), z: 73, yaw: .15, pitch: .40, distance });
+      await debug.inspectPose({ x: -2.2, y: debug.groundHeight(-2.2, 73), z: 73, yaw: .15, pitch: .40, distance });
     }, { id, distance: viewDistance });
     await page.waitForTimeout(200);
     await page.waitForFunction(id => {
@@ -113,11 +113,11 @@ try {
     const initialProfile = await profile();
     latestProfile = { prefixes, materialNames: [...materialNames], profile: initialProfile };
     assert(initialProfile.draws.some((draw: any) => draw.pass.startsWith('colour') && draw.materials.some((material: any) => isAssetMaterial(material.name))), `${id} missing actual colour submissions`);
-    const baseline = await page.evaluate(() => {
+    const baseline = await page.evaluate(async () => {
       const gallery = (window as any).__creatureGallery, debug = window.__gameDebug as any;
       const state = gallery.getState();
       return { atmosphere: (window as any).__biomeAtmosphereLab.getState(), effects: (window as any).__wildernessCreatureEffects.getState(),
-        entity: debug.getEntity(state.entityIds[0]), subjectId: state.entityIds[0] };
+        entity: await debug.getEntity(state.entityIds[0]), subjectId: state.entityIds[0] };
     });
     if (hasBodyEffects) checkEffects(baseline.effects, baseline.subjectId, palette);
     const keeper = WILDERNESS_RUNE_KEEPERS.some(keeper => keeper.id === id);

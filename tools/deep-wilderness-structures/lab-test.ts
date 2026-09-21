@@ -45,9 +45,9 @@ try {
   const partIds = buildDeepWildernessStructure(id).map(part => `feature-lab:structure#${part.tag}`);
   const origin = [-8, 12] as const;
   const pose = async (x: number, z: number, yaw = 0, pitch = .3) => {
-    await page.evaluate(({ x, z, yaw, pitch, distance }) => {
+    await page.evaluate(async ({ x, z, yaw, pitch, distance }) => {
       window.__featureLab!.setWalkingEnabled(true);
-      (window.__gameDebug as any).inspectPose({ x, y: 0, z, yaw, pitch, distance });
+      await (window.__gameDebug as any).inspectPose({ x, y: 0, z, yaw, pitch, distance });
     }, { x: origin[0] + x, z: origin[1] + z, yaw, pitch, distance: CAMERA.maxDistance });
     await page.waitForTimeout(180);
   };

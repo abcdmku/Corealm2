@@ -19,10 +19,10 @@ try {
  await driver.wait(400);
  await page.evaluate(()=>{
   const w=window as any; w.__handoffSamples=[]; w.__sampleHandoff=true;
-  const sample=()=>{
+  const sample=async ()=>{
    if(!w.__sampleHandoff)return;
    const scatter=w.__forestLab.getScatterVisibility(), p=w.__gameDebug.getPlayerPosition();
-   w.__handoffSamples.push({t:performance.now(),p,trees:Object.entries(scatter).map(([id,visible])=>({id,scatter:visible,view:!!w.__gameDebug.getDrawnBounds(id),resident:!!w.__gameDebug.getEntity(id)}))});
+   w.__handoffSamples.push({t:performance.now(),p,trees:await Promise.all(Object.entries(scatter).map(async ([id,visible])=>({id,scatter:visible,view:!!w.__gameDebug.getDrawnBounds(id),resident:!!await w.__gameDebug.getEntity(id)})))});
    requestAnimationFrame(sample);
   }; requestAnimationFrame(sample);
  });

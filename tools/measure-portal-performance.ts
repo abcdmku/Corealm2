@@ -15,8 +15,8 @@ try {
   console.log("ready");
   report.hardware = await assertPerformanceHardware(page);
   report.boot = await page.evaluate("({state:window.__gameDebug.getState(),timings:window.__gameDebug.getPerformanceTimings()})");
-  await page.evaluate(`(() => { const d=window.__gameDebug,p=d.getEntity('gravelmaw_mouth_portal'),s=p.interactionPosition,y=p.view.rotationY;
-    d.teleport([s[0]+Math.sin(y)*7,s[1],s[2]+Math.cos(y)*7]); })()`);
+  await page.evaluate(`(async () => { const d=window.__gameDebug,p=await d.getEntity('gravelmaw_mouth_portal'),s=p.interactionPosition,y=p.view.rotationY;
+    await d.teleport([s[0]+Math.sin(y)*7,s[1],s[2]+Math.cos(y)*7]); })()`);
   await page.evaluate("window.__gameDebug.setCaptureMode(true)");
   try {
     await page.waitForFunction("window.__gameDebug.getScatterResidency().complete && window.__gameDebug.getState().assets.queued===0 && window.__gameDebug.getState().assets.inflight===0", undefined, { timeout: 60_000, polling: 100 });
@@ -35,8 +35,8 @@ try {
     : [{ name: "wide", pitch: .48, distance: 32, occlusion: false }, { name: "steep", pitch: 1, distance: 14, occlusion: false }];
   for (const pose of poses) {
     await page.evaluate(enabled => (window as any).__gameDebug.setTransmissionOcclusionEnabled(enabled), pose.occlusion);
-    await page.evaluate(`(() => { const d=window.__gameDebug,p=d.getEntity('gravelmaw_mouth_portal'),s=p.interactionPosition;
-      d.inspectPose({x:s[0],y:s[1]+4,z:s[2],yaw:p.view.rotationY,pitch:${pose.pitch},distance:${pose.distance},detached:true}); })()`);
+    await page.evaluate(`(async () => { const d=window.__gameDebug,p=await d.getEntity('gravelmaw_mouth_portal'),s=p.interactionPosition;
+      await d.inspectPose({x:s[0],y:s[1]+4,z:s[2],yaw:p.view.rotationY,pitch:${pose.pitch},distance:${pose.distance},detached:true}); })()`);
     await page.waitForTimeout(2000);
     const frames = await page.evaluate(`new Promise(resolve=>{const rows=[];let last;const end=performance.now()+4000;
       function frame(now){if(last!==undefined)rows.push(now-last);last=now;if(now<end)requestAnimationFrame(frame);else resolve(rows)}requestAnimationFrame(frame)})`) as number[];

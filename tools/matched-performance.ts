@@ -43,9 +43,9 @@ try {
       if (!focused) throw new Error(`Unknown shot ${shot}`);
     }
     await page.waitForTimeout(1200);
-    const snapshot = await page.evaluate(`(() => {
+    const snapshot = await page.evaluate(`(async () => {
       const a = window.__gameDebug;
-      return { camera: a.getCamera(), entities: a.getEntities(), residency: a.getScatterResidency?.() ?? null };
+      return { camera: a.getCamera(), entities: await a.getEntities(), residency: a.getScatterResidency?.() ?? null };
     })()`) as { camera: unknown; entities: unknown; residency: unknown };
     const populationHash = createHash("sha256").update(JSON.stringify(snapshot.entities)).digest("hex");
     // No screenshots or profiling renders inside this interval.

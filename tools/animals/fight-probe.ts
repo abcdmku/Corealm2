@@ -31,10 +31,10 @@ try {
         getDrawnBounds(id: string): Record<string, unknown> | null;
         getState(): Record<string, unknown>;
       };
-      dbg.setSkillLevel("melee", 1);
-      dbg.teleport({ entityId: id });
+      await dbg.setSkillLevel("melee", 1);
+      await dbg.teleport({ entityId: id });
       await new Promise((r) => { setTimeout(r, 900); });
-      dbg.setHealth(999);
+      await dbg.setHealth(999);
       await dbg.callTool("corealm_attack", { entityId: id });
 
       const seen: string[] = [];
@@ -47,7 +47,7 @@ try {
         if (seen[seen.length - 1] !== path) seen.push(path);
         // Keep the fight going without killing it: top the player up and re-engage.
         if (i % 8 === 0) {
-          dbg.setHealth(999);
+          await dbg.setHealth(999);
           const st = dbg.getState() as Record<string, unknown>;
           if (!st.combatTargetId) await dbg.callTool("corealm_attack", { entityId: id });
         }

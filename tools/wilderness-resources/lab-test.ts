@@ -7,6 +7,7 @@ import { installAssetCandidates } from '../lib/assetCandidates.js';
 import { startGameServer } from '../lib/server.js';
 import { installTestDeadline } from '../lib/deadline.js';
 import { CAMERA } from '../../game/src/app/config.js';
+import { waitForDebug } from "../lib/wait-for-debug.js";
 
 const mode = process.argv.includes('--mines') ? 'mines' : process.argv.includes('--groves') ? 'groves' : 'trees';
 const tierIndex = process.argv.indexOf('--tier'), tier = tierIndex < 0 ? undefined : Number(process.argv[tierIndex + 1]);
@@ -34,7 +35,7 @@ try {
   }
   async function pose(x: number, z: number, yaw: number, pitch: number, distance: number) {
     assert(pitch >= CAMERA.minPitch && pitch <= CAMERA.maxPitch && distance >= CAMERA.minDistance && distance <= CAMERA.maxDistance);
-    await page.evaluate(p => { const d = window.__gameDebug as any; const y = d.groundHeight(p.x, p.z); d.inspectPose({ ...p, y }); }, { x, z, yaw, pitch, distance });
+    await page.evaluate(async p => { const d = window.__gameDebug as any; const y = d.groundHeight(p.x, p.z); await d.inspectPose({ ...p, y }); }, { x, z, yaw, pitch, distance });
     await page.waitForTimeout(400);
     const o = await observe(); assert.equal(o.document, document); assert.deepEqual(o.errors, []);
     assert(Math.abs(o.player.x - x) < .5 && Math.abs(o.player.z - z) < .5, 'Camera setup must move the actual player');
@@ -97,7 +98,7 @@ try {
         if ((await driver.callDebug('getState') as any).hoveredEntityId === id) { hit = { x, y }; break; }
       }
       assert(hit, `${site}: production pointer did not hit the chosen resource`); await page.mouse.click(hit.x, hit.y);
-      await page.waitForFunction(target => (window.__gameDebug as any).getEntity(target)?.state === 'depleted', id, { timeout: remaining(20000) });
+      await waitForDebug(page, async target => (await (window.__gameDebug as any).getEntity(target))?.state === 'depleted', id, { timeout: remaining(20000) });
       await page.waitForTimeout(300);
       const after = JSON.parse(await driver.callDebug('getSaveBlob') as string), depleted: any = await driver.callDebug('getEntity', [id]);
       const events: any = await driver.callDebug('getEvents', [cursor]);
