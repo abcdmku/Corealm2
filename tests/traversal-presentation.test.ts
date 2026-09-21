@@ -43,10 +43,6 @@ describe("traversal presentation lifecycle", () => {
   it("waits for destination readiness and two painted frames before revealing a rapid restart", async () => {
     const frames: FrameRequestCallback[] = [];
     vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => { frames.push(callback); return frames.length; });
-    // A host with a frame scheduler always has both halves. Stubbing only the request left
-    // `afterPaint`'s 100 ms fallback throwing "cancelAnimationFrame is not defined" out of a
-    // timer, which failed the run under load and was attributed to no test.
-    vi.stubGlobal("cancelAnimationFrame", vi.fn());
     let ready!: () => void;
     let rejectClosing!: (reason?: unknown) => void;
     let finishOpening!: () => void;
