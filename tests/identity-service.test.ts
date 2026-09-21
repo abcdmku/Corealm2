@@ -1,81 +1,32 @@
-import { mkdtemp, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { afterEach, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { identityKeys, verifyJoinToken } from "../identity/src/joinToken.js";
-import type { OAuthProvider, ProviderIdentity } from "../identity/src/providers.js";
-import { startIdentityService, type IdentityService, type IdentityServiceOptions } from "../identity/src/server.js";
+import { fragmentOf, openForm, PASSWORD, PLAY_ORIGIN, RETURN_URL, signIn, startService, submit } from "./identity-harness.js";
 
-const PLAY_ORIGIN = "https://play.example.com";
-const RETURN_URL = `${PLAY_ORIGIN}/play?mode=live`;
 const GAME_ENDPOINT = "wss://eu.corealm.example/";
 
-/** Stands in for Discord. Codes map to provider identities, so a test can pick who logs in. */
-function stubProvider(users: Record<string, ProviderIdentity>): OAuthProvider & { challenges: string[] } {
-  const challenges: string[] = [];
-  return {
-    name: "stub", pkce: true, challenges,
-    authorizeUrl(state, redirectUri, codeChallenge) {
-      if (codeChallenge) challenges.push(codeChallenge);
-      const url = new URL("https://provider.example/authorize");
-      url.searchParams.set("state", state); url.searchParams.set("redirect_uri", redirectUri);
-      if (codeChallenge) url.searchParams.set("code_challenge", codeChallenge);
-      return url.href;
-    },
-    async exchange(code) {
-      const user = users[code];
-      if (!user) throw new Error("Unknown authorization code");
-      return user;
-    },
-  };
-}
-
-const running: { service: IdentityService; directory: string }[] = [];
-afterEach(async () => {
-  for (const entry of running.splice(0)) {
-    await entry.service.close();
-    await rm(entry.directory, { recursive: true, force: true });
-  }
-});
-
-async function startService(options: Partial<IdentityServiceOptions> & { providers: readonly OAuthProvider[] }) {
-  const directory = await mkdtemp(join(tmpdir(), "corealm-identity-"));
-  const clock = { unix: 1_700_000_000 };
-  const service = await startIdentityService({
-    dataDir: directory, allowedOrigins: [PLAY_ORIGIN, "http://127.0.0.1:5173"],
-    now: () => clock.unix, log: () => {}, stateTtlSeconds: 60, ...options,
-  });
-  running.push({ service, directory });
-  return { service, clock, base: `http://127.0.0.1:${service.port}` };
-}
-
-/** Walks the whole redirect flow a browser would, without following the provider hop. */
-async function login(base: string, code: string, returnUrl = RETURN_URL) {
-  const start = await fetch(`${base}/login/stub?return=${encodeURIComponent(returnUrl)}`, { redirect: "manual" });
-  const state = new URL(start.headers.get("location") ?? "https://provider.example/").searchParams.get("state") ?? "";
-  const callback = await fetch(`${base}/callback/stub?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`, { redirect: "manual" });
-  const location = new URL(callback.headers.get("location") ?? "https://play.example.com/");
-  const fragment = new URLSearchParams(location.hash.slice(1));
-  return { start, state, callback, location, fragment, session: fragment.get("session") ?? "" };
-}
-
 it("issues a join token a game server can verify from the published key alone", async () => {
-  const { service, clock, base } = await startService({ providers: [stubProvider({ "code-rook": { providerUserId: "1001", suggestedName: "Rook" } })] });
+  const { service, clock, base } = await startService();
 
-  const { start, callback, location, fragment, session } = await login(base, "code-rook");
-  expect(start.status).toBe(302);
-  expect(callback.status).toBe(302);
+  const opened = await openForm(base, "register");
+  expect(opened.response.status).toBe(200);
+  // The page says where the session is about to go, which is the one thing a player cannot check.
+  expect(opened.page).toContain("Creating an account to play on <strong>https://play.example.com</strong>");
+  const registered = await submit(base, "register", { state: opened.state, username: "Rook", password: PASSWORD });
+  const { location, fragment, session } = fragmentOf(registered);
+  // 303, so coming back and refreshing does not re-post the password.
+  expect(registered.status).toBe(303);
   expect(location.origin + location.pathname).toBe(`${PLAY_ORIGIN}/play`);
   expect(location.search).toBe("?mode=live");
   // The session arrives in the fragment, which browsers never send to a server or a referrer.
-  expect(callback.headers.get("location")).toContain("#");
+  expect(registered.headers.get("location")).toContain("#");
+  expect(registered.headers.get("referrer-policy")).toBe("no-referrer");
   expect(fragment.get("name")).toBe("Rook");
   expect(fragment.get("account")).toMatch(/^acc_[A-Za-z0-9_-]{22}$/);
   expect(Number(fragment.get("expiresAt"))).toBe(clock.unix + 30 * 24 * 60 * 60);
   expect(session).toHaveLength(43);
 
   const account = await (await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${session}` } })).json();
-  expect(account).toEqual({ id: fragment.get("account"), name: "Rook", providers: ["stub"] });
+  expect(account).toEqual({ id: fragment.get("account"), name: "Rook" });
 
   const minted = await fetch(`${base}/token`, {
     method: "POST", headers: { Authorization: `Bearer ${session}`, "Content-Type": "application/json", Origin: PLAY_ORIGIN },
@@ -114,68 +65,46 @@ it("issues a join token a game server can verify from the published key alone", 
   expect(verifyJoinToken(next.token, { keys, audience: GAME_ENDPOINT, now: clock.unix })).toEqual({ ok: false, reason: "unknown-key" });
 });
 
-it("refuses hostile returns, replayed state and sessions that were thrown away", async () => {
-  const provider = stubProvider({ "code-rook": { providerUserId: "1001", suggestedName: "Rook" } });
-  const { clock, base } = await startService({ providers: [provider] });
+it("signs a registered account back in and refuses a session that was thrown away", async () => {
+  const { base } = await startService();
+  const registered = await signIn(base, "register", "Rook", PASSWORD);
+  expect(registered.response.status).toBe(303);
 
-  const open = await fetch(`${base}/login/stub?return=${encodeURIComponent("https://evil.example.com/steal")}`, { redirect: "manual" });
-  expect(open.status).toBe(400);
-  expect(await open.json()).toEqual({ error: { code: "invalid_return", message: "The return URL must be an allowed origin" } });
-  expect((await fetch(`${base}/login/stub?return=${encodeURIComponent("https://play.example.com.evil.test/")}`, { redirect: "manual" })).status).toBe(400);
-  expect((await fetch(`${base}/login/stub`, { redirect: "manual" })).status).toBe(400);
-  expect((await fetch(`${base}/login/nope?return=${encodeURIComponent(RETURN_URL)}`, { redirect: "manual" })).status).toBe(404);
-
-  const first = await login(base, "code-rook");
-  expect(provider.challenges).toHaveLength(1);
-  expect(first.session).not.toBe("");
-  // Single use: the same state cannot mint a second session.
-  const replay = await fetch(`${base}/callback/stub?code=code-rook&state=${encodeURIComponent(first.state)}`, { redirect: "manual" });
-  expect(replay.status).toBe(400);
-  expect((await replay.json() as { error: { code: string } }).error.code).toBe("invalid_state");
-
-  const stale = await fetch(`${base}/login/stub?return=${encodeURIComponent(RETURN_URL)}`, { redirect: "manual" });
-  const staleState = new URL(stale.headers.get("location")!).searchParams.get("state")!;
-  clock.unix += 61;
-  const expired = await fetch(`${base}/callback/stub?code=code-rook&state=${encodeURIComponent(staleState)}`, { redirect: "manual" });
-  expect(expired.status).toBe(400);
-  expect((await expired.json() as { error: { code: string } }).error.code).toBe("invalid_state");
-
-  // A code the provider refuses returns the browser to the app with an error, not a session.
-  const failing = await fetch(`${base}/login/stub?return=${encodeURIComponent(RETURN_URL)}`, { redirect: "manual" });
-  const failingState = new URL(failing.headers.get("location")!).searchParams.get("state")!;
-  const rejected = await fetch(`${base}/callback/stub?code=bogus&state=${encodeURIComponent(failingState)}`, { redirect: "manual" });
-  expect(rejected.status).toBe(302);
-  expect(new URL(rejected.headers.get("location")!).hash).toBe("#error=exchange_failed");
+  const again = await signIn(base, "login", "rook", PASSWORD);
+  expect(again.response.status).toBe(303);
+  // The name is matched without case, and the original case is what other players see.
+  expect(again.fragment.get("account")).toBe(registered.fragment.get("account"));
+  expect(again.fragment.get("name")).toBe("Rook");
+  expect(again.session).not.toBe(registered.session);
 
   expect((await fetch(`${base}/token`, { method: "POST", body: JSON.stringify({ audience: GAME_ENDPOINT }) })).status).toBe(401);
   const bogus = await fetch(`${base}/token`, { method: "POST", headers: { Authorization: "Bearer not-a-session" }, body: JSON.stringify({ audience: GAME_ENDPOINT }) });
   expect(bogus.status).toBe(401);
   expect(await bogus.json()).toEqual({ error: { code: "unauthorized", message: "A session is required" } });
   const badAudience = await fetch(`${base}/token`, {
-    method: "POST", headers: { Authorization: `Bearer ${first.session}`, "Content-Type": "application/json" }, body: JSON.stringify({ audience: "ftp://play.example.com" }),
+    method: "POST", headers: { Authorization: `Bearer ${again.session}`, "Content-Type": "application/json" }, body: JSON.stringify({ audience: "ftp://play.example.com" }),
   });
   expect(badAudience.status).toBe(400);
   expect((await badAudience.json() as { error: { code: string } }).error.code).toBe("invalid_audience");
 
-  expect((await fetch(`${base}/logout`, { method: "POST", headers: { Authorization: `Bearer ${first.session}` } })).status).toBe(200);
-  expect((await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${first.session}` } })).status).toBe(401);
-  expect((await fetch(`${base}/token`, {
-    method: "POST", headers: { Authorization: `Bearer ${first.session}`, "Content-Type": "application/json" }, body: JSON.stringify({ audience: GAME_ENDPOINT }),
-  })).status).toBe(401);
+  expect((await fetch(`${base}/logout`, { method: "POST", headers: { Authorization: `Bearer ${again.session}` } })).status).toBe(200);
+  expect((await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${again.session}` } })).status).toBe(401);
+  expect((await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${registered.session}` } })).status).toBe(200);
 });
 
 it("signs an account out of every session at once", async () => {
-  const { base } = await startService({ providers: [stubProvider({
-    rook: { providerUserId: "1001", suggestedName: "Rook" }, hall: { providerUserId: "2002", suggestedName: "Hall" },
-  }) ] });
-  const phone = await login(base, "rook");
-  const desktop = await login(base, "rook");
-  const other = await login(base, "hall");
+  const { base } = await startService();
+  await signIn(base, "register", "Rook", PASSWORD);
+  await signIn(base, "register", "Hall", PASSWORD);
+  const phone = await signIn(base, "login", "Rook", PASSWORD);
+  const desktop = await signIn(base, "login", "Rook", PASSWORD);
+  const other = await signIn(base, "login", "Hall", PASSWORD);
   expect(desktop.fragment.get("account")).toBe(phone.fragment.get("account"));
 
   const revoked = await fetch(`${base}/logout/all`, { method: "POST", headers: { Authorization: `Bearer ${phone.session}` } });
   expect(revoked.status).toBe(200);
-  expect(await revoked.json()).toEqual({ ok: true, revoked: 2 });
+  // Three: the one the registration made, and the two logins.
+  expect(await revoked.json()).toEqual({ ok: true, revoked: 3 });
   expect((await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${phone.session}` } })).status).toBe(401);
   expect((await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${desktop.session}` } })).status).toBe(401);
   // Another account keeps its session.
@@ -183,71 +112,40 @@ it("signs an account out of every session at once", async () => {
   expect((await fetch(`${base}/logout/all`, { method: "POST" })).status).toBe(401);
 });
 
-it("keeps one account per provider identity and one display name per account", async () => {
-  const { base } = await startService({ providers: [stubProvider({
-    rook: { providerUserId: "1001", suggestedName: "Rook" },
-    twin: { providerUserId: "1002", suggestedName: "Rook" },
-    third: { providerUserId: "1003", suggestedName: "Rook" },
-    symbols: { providerUserId: "1004", suggestedName: "✨ ro" },
-    short: { providerUserId: "1005", suggestedName: "x" },
-  })] });
+it("keeps one display name per account, whoever asks for it", async () => {
+  const { base } = await startService();
+  const first = await signIn(base, "register", "Rook", PASSWORD);
 
-  const first = await login(base, "rook");
-  const again = await login(base, "rook");
-  expect(again.fragment.get("account")).toBe(first.fragment.get("account"));
-  expect(again.session).not.toBe(first.session);
+  const taken = await signIn(base, "register", "rook", "another-password-1");
+  expect(taken.response.status).toBe(409);
+  expect(await taken.response.text()).toContain("That username is taken. Choose another.");
+  const reserved = await signIn(base, "register", "admin", "another-password-1");
+  expect(reserved.response.status).toBe(400);
+  expect(await reserved.response.text()).toContain("That username is reserved. Choose another.");
+  const short = await signIn(base, "register", "no", "another-password-1");
+  expect(short.response.status).toBe(400);
+  expect(await short.response.text()).toContain("A username is 3 to 24 characters");
 
-  expect((await login(base, "twin")).fragment.get("name")).toBe("Rook2");
-  expect((await login(base, "third")).fragment.get("name")).toBe("Rook3");
-  expect((await login(base, "symbols")).fragment.get("name")).toBe("playerro");
-  expect((await login(base, "short")).fragment.get("name")).toBe("playerx");
-
+  // Renaming is a bearer call from the game origin, so it never carries a password.
   const rename = async (session: string, name: string) => fetch(`${base}/account/name`, {
     method: "POST", headers: { Authorization: `Bearer ${session}`, "Content-Type": "application/json" }, body: JSON.stringify({ name }),
   });
   const renamed = await rename(first.session, "Rookery");
   expect(renamed.status).toBe(200);
-  expect(await renamed.json()).toEqual({ id: first.fragment.get("account"), name: "Rookery", providers: ["stub"] });
-  const taken = await rename(first.session, "rook2");
-  expect(taken.status).toBe(409);
-  expect((await taken.json() as { error: { code: string } }).error.code).toBe("name_taken");
+  expect(await renamed.json()).toEqual({ id: first.fragment.get("account"), name: "Rookery" });
+  await signIn(base, "register", "Hall", PASSWORD);
+  const clash = await rename(first.session, "hall");
+  expect(clash.status).toBe(409);
+  expect((await clash.json() as { error: { code: string } }).error.code).toBe("name_taken");
   expect((await rename(first.session, "no")).status).toBe(400);
   expect((await rename(first.session, "has space")).status).toBe(400);
-  expect((await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${first.session}` } })).status).toBe(200);
-});
-
-it("links a second provider to a signed-in account and refuses a claimed identity", async () => {
-  const users = { rook: { providerUserId: "1001", suggestedName: "Rook" }, hall: { providerUserId: "2002", suggestedName: "Hall" } };
-  const { base } = await startService({ providers: [stubProvider(users), { ...stubProvider(users), name: "second" }] });
-
-  const rook = await login(base, "rook");
-  const hall = await login(base, "hall");
-  const beginLink = async (session: string, returnUrl = RETURN_URL) => {
-    const response = await fetch(`${base}/account/link/second`, {
-      method: "POST", headers: { Authorization: `Bearer ${session}`, "Content-Type": "application/json" }, body: JSON.stringify({ return: returnUrl }),
-    });
-    expect(response.status).toBe(200);
-    return new URL((await response.json() as { url: string }).url).searchParams.get("state")!;
-  };
-  const accepted = await fetch(`${base}/callback/second?code=hall&state=${encodeURIComponent(await beginLink(hall.session))}`, { redirect: "manual" });
-  expect(new URL(accepted.headers.get("location")!).hash).toBe("#linked=second");
-  expect(await (await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${hall.session}` } })).json())
-    .toEqual({ id: hall.fragment.get("account"), name: "Hall", providers: ["second", "stub"] });
-
-  // That provider identity now belongs to Hall, so nobody else may claim it.
-  const stolen = await fetch(`${base}/callback/second?code=hall&state=${encodeURIComponent(await beginLink(rook.session))}`, { redirect: "manual" });
-  expect(new URL(stolen.headers.get("location")!).hash).toBe("#error=provider_already_linked");
-  expect(await (await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${rook.session}` } })).json())
-    .toEqual({ id: rook.fragment.get("account"), name: "Rook", providers: ["stub"] });
-
-  expect((await fetch(`${base}/account/link/second`, { method: "POST", body: JSON.stringify({ return: RETURN_URL }) })).status).toBe(401);
-  expect((await fetch(`${base}/account/link/second`, {
-    method: "POST", headers: { Authorization: `Bearer ${hall.session}`, "Content-Type": "application/json" }, body: JSON.stringify({ return: "https://evil.example.com/" }),
-  })).status).toBe(400);
+  expect((await rename(first.session, "System")).status).toBe(400);
+  expect(await (await fetch(`${base}/account`, { headers: { Authorization: `Bearer ${first.session}` } })).json())
+    .toEqual({ id: first.fragment.get("account"), name: "Rookery" });
 });
 
 it("answers health, preflight and unknown routes the way a browser and a proxy expect", async () => {
-  const { base } = await startService({ providers: [stubProvider({})] });
+  const { base } = await startService();
   expect(await (await fetch(`${base}/healthz`)).json()).toEqual({ ok: true });
   const allowed = await fetch(`${base}/token`, { method: "OPTIONS", headers: { Origin: PLAY_ORIGIN } });
   expect(allowed.status).toBe(204);
@@ -259,6 +157,10 @@ it("answers health, preflight and unknown routes the way a browser and a proxy e
   const missing = await fetch(`${base}/nope`);
   expect(missing.status).toBe(404);
   expect(await missing.json()).toEqual({ error: { code: "not_found", message: "No such endpoint" } });
+  // The OAuth routes are gone, not redirected.
+  expect((await fetch(`${base}/login/discord?return=${encodeURIComponent(RETURN_URL)}`, { redirect: "manual" })).status).toBe(404);
+  expect((await fetch(`${base}/callback/github?code=x&state=y`, { redirect: "manual" })).status).toBe(404);
+  expect((await fetch(`${base}/account/link/discord`, { method: "POST" })).status).toBe(404);
   const oversized = await fetch(`${base}/account/name`, {
     method: "POST", headers: { Authorization: "Bearer x", "Content-Type": "application/json" }, body: JSON.stringify({ name: "x".repeat(20_000) }),
   });

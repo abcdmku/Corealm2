@@ -6,11 +6,31 @@ Source lives in `identity/src`. The entry point is `tools/identity-server.ts`, r
 
 ## What it does
 
-- Login is OAuth only, with Discord and GitHub as the first providers. No passwords are entered, transmitted or stored.
-- An account has a stable id (`acc_` plus 22 characters of randomness), a display name that is unique case-insensitively, and one or more linked provider identities.
+- An account is a username and a password. The username is the display name: 3 to 24 characters of `A-Z a-z 0-9 _ -`, unique without regard to case, stored with the case it was typed in.
+- **A password is typed on this origin and nowhere else.** The service serves its own sign-in, registration and password pages. The game client and devdocs never see a password, never hold one, and have no endpoint to send one to.
 - A browser session is a bearer token, not a cookie: the game client and devdocs are static apps on other origins. The service stores only a SHA-256 hash of each session token, so a copy of the database cannot be used to sign in.
+- A password is stored as scrypt with a per-account salt. The hash is never sent anywhere, and a password never appears in a log line or in a re-rendered form.
 - A join token is signed with Ed25519 and lives for 60 seconds. It names the exact game server it may be used against.
 - A game server verifies join tokens offline from the published keys, so a join makes no call to this service.
+
+## Pages
+
+These three are HTML, served by this service, and they are the only places a password is ever typed. Each one names the site the session is about to be handed to — "Signing in to continue to `https://play.example.com`" — because that is the one thing a player cannot check for themselves.
+
+| Method and path | Purpose |
+| --- | --- |
+| `GET /login?return=<url>` | The sign-in form, with a link to registration when it is open. |
+| `POST /login` | `application/x-www-form-urlencoded` with `state`, `username`, `password`. |
+| `GET /register?return=<url>` | The registration form, or a "registration is closed" page with status 403. |
+| `POST /register` | `state`, `username`, `password`. |
+| `GET /password?return=<url>` | Change a password: username, current password, new password. |
+| `POST /password` | `state`, `username`, `current`, `password`. |
+
+`return` must be on the allowed origin list. A success answers `303 See Other` to `return#session=…`, exactly as the OAuth callback used to, so the game client's half of the round trip did not change. A failure re-renders the same form with one message and a fresh `state`.
+
+The pages carry no JavaScript and load nothing from anywhere, which is what lets them be served under `Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; form-action 'self' <return origin>; frame-ancestors 'none'; base-uri 'none'`, with `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`. Every value interpolated into a page is HTML-escaped. A page with no form on it — an expired form, a closed registration — gets a bare `form-action 'self'`; a form page adds the return origin it was built for, because Chromium applies `form-action` to the redirect a submission ends on and would otherwise block the 303 that carries the session home.
+
+Each form carries a single-use `state`, valid for 15 minutes, bound to the `return` URL that was validated when the form was built. A POST without a valid state is refused, and the redirect target is read from that state row and checked against the allow-list again — never taken from the body. A POST must also be same-origin, so another site cannot post its own form here and sign a player into an account they did not choose. That check reads `Sec-Fetch-Site` first: `Referrer-Policy: no-referrer` makes a browser send `Origin: null` on these submissions, by the letter of the Fetch standard, so `Origin` alone would refuse every real sign-in. A named `Origin` still has to match, and a browser that sends neither header is refused.
 
 ## Endpoints
 
@@ -18,30 +38,92 @@ Source lives in `identity/src`. The entry point is `tools/identity-server.ts`, r
 | --- | --- | --- |
 | `GET /healthz` | none | Liveness. `{"ok":true}`. |
 | `GET /.well-known/corealm-keys.json` | none | Published Ed25519 verification keys. CORS `*`, cached for 60 seconds. |
-| `GET /login/<provider>?return=<url>` | none | Starts login. Redirects to the provider. `return` must be on the allowed origin list. |
-| `GET /callback/<provider>?code&state` | none | Provider redirect target. Redirects back to `return` with the result in the URL fragment. |
-| `GET /account` | bearer | `{"id","name","providers":[...]}`. |
-| `POST /account/name` | bearer | `{"name"}`. Renames. 409 when the name is taken. |
-| `POST /account/link/<provider>` | bearer | `{"return"}` returns `{"url"}` to send the browser to, which links a second provider to this account. |
+| `GET /account` | bearer | `{"id","name"}`. |
+| `POST /account/name` | bearer | `{"name"}`. Renames. 409 when the name is taken, 400 when it is reserved. Rate limited per account. |
 | `POST /logout` | bearer | Revokes this session immediately. |
 | `POST /logout/all` | bearer | Revokes every session for the account and returns `{"ok":true,"revoked":<count>}`. Use it when a token leaks. |
 | `POST /token` | bearer | `{"audience":"<game server endpoint>"}` returns `{"token","expiresAt"}`. Rate limited per account. |
 | `GET /servers` | none | Public directory: `{"servers":[{name,endpoint,description?,registeredAt,lastSeenAt}]}`. CORS `*`. |
 | `POST /servers/register` | none | `{"name","endpoint","description?"}` from a game server. Also the heartbeat. Rate limited per IP. |
 
-Errors are `{"error":{"code","message"}}` with a matching HTTP status. Every event writes one JSON line to stdout. Tokens, session values and client secrets are never logged.
+Errors are `{"error":{"code","message"}}` with a matching HTTP status. Every event writes one JSON line to stdout. Passwords, tokens and session values are never logged, and a refused sign-in logs neither the name that was tried nor the address that tried it.
 
 Cross-origin requests are answered only for origins on the allow-list, matched exactly, and no credentials header is sent: the session travels in `Authorization: Bearer`.
 
+A rename is a bearer call from the game origin, so it asks for no password — a password must not travel to an origin that is not this one. It is rate limited like a sign-in instead.
+
 ### Login result
 
-The callback redirects to the `return` URL with the result in the fragment, because a fragment is not sent to servers or leaked in a `Referer` header:
+The form redirects to the `return` URL with the result in the fragment, because a fragment is not sent to servers or leaked in a `Referer` header:
 
 ```
 https://play.example.com/play#session=<token>&expiresAt=<unix>&account=acc_...&name=Rook
 ```
 
-A refused login returns `#error=access_denied`, `#error=exchange_failed` or `#error=provider_already_linked` instead. A successful link returns `#linked=<provider>`. Sessions last 30 days. The web app should strip the fragment after reading it and store the token itself.
+Sessions last 30 days. The web app should strip the fragment after reading it and store the token itself. A wrong password never produces a redirect: it is answered on the form, on this origin.
+
+A password change hands back a session the same way, and revokes every session the account had before it — a password change is what someone does when they think a session leaked.
+
+## Reserved names
+
+`admin`, `administrator`, `moderator`, `owner`, `system`, `server`, `corealm`, `support`, `staff`, `guest`, `local`, `root`, `null`, `undefined`. Compared without case, refused at registration and at rename. The list is deliberately short: it covers the words the service itself speaks with and the ones that would let a player pass for staff.
+
+## Passwords
+
+- Stored as `scrypt$N$r$p$<salt base64url>$<hash base64url>`. The parameters are in the string, so raising them later is a one-line change and old hashes keep verifying until their owner next signs in, which rewrites them at the new cost.
+- Defaults: N = 131072 (2^17), r = 8, p = 1, a 16-byte random salt per account and a 64-byte key. That is roughly 128 MiB and a tenth of a second per hash.
+- Hashing is always the asynchronous `crypto.scrypt`, never `scryptSync`, so a sign-in does not stop the event loop. Verification uses `timingSafeEqual`.
+- An unknown username costs exactly what a known one does: it runs a real scrypt at the current parameters against a decoy, and the refusal is byte for byte the same page with the same status. An account migrated from OAuth, which has no password yet, takes the same path.
+- Scrypt work runs through a queue: four hashes at once, a backlog of 32, and a `503` past that. Without the bound, a flood of sign-ins is a memory exhaustion lever rather than a rate limit problem.
+- Policy: 10 to 256 characters counted as code points, not equal to the username, and not one of about a hundred passwords inlined in `identity/src/passwords.ts` that lead every credential dump. No composition rules. Passwords are normalised with NFKC before hashing, so a password typed with a ligature or a full-width digit still matches.
+
+## Limits
+
+In-memory fixed windows, like the rest of the service. Nothing here ever locks an account permanently: a lock that anyone can trigger by knowing a name is a denial of service lever, so the punishment is always a window that runs out on its own.
+
+| What | Default | Window |
+| --- | --- | --- |
+| Sign-in attempts per username | 10 | 15 minutes, cleared by a sign-in that works |
+| Sign-in attempts per address | 30 | 15 minutes |
+| Registrations per address | 5 | 1 hour |
+| Registrations in total | 60 | 1 hour |
+| Join tokens per account | 60 | 1 minute |
+| Directory registrations per address | 10 | 1 minute |
+
+Per-address limits are keyed on the socket peer, which behind a reverse proxy is the proxy: put per-IP limits in the proxy as well. `--trust-proxy` makes the service read the first entry of `X-Forwarded-For` instead. Only set it with a proxy you run in front that overwrites that header, because otherwise every limit here can be evaded with one forged header.
+
+`--registration closed` turns registration off: `GET /register` answers 403 with a plain page, the sign-in page stops offering the link, and accounts are made with the operator tool.
+
+## The operator tool
+
+There is no email in Corealm, so there is no self-service password reset. A player who forgets their password asks whoever runs the service:
+
+```sh
+npx tsx tools/identity-admin.ts --data identity-data list
+npx tsx tools/identity-admin.ts --data identity-data set-password Rook
+```
+
+| Command | What it does |
+| --- | --- |
+| `list` | Every account, whether it has a password, and when it was created. |
+| `create <name>` | A new account. The way to add players with registration closed. |
+| `set-password <name>` | Replaces the password and signs that account out everywhere. |
+| `claim <name>` | Sets the first password on an account that has none, which is what a migrated account is. |
+| `delete <name>` | Removes the account and its sessions. The name is free again afterwards. |
+| `revoke-sessions <name>` | Signs that account out everywhere, keeping the password. |
+
+The password is read from the terminal without echoing, or from stdin when the command is piped, and never from an argument: arguments end up in shell history and in every process listing on the machine. Operator passwords pass the same policy a player's does.
+
+The database is in WAL mode, so the tool may run while the service is up; SQLite serializes the writes, which are short. `delete` is the one worth stopping the service for, because a player holding a session for that account will otherwise see it fail mid-play.
+
+## Migrating a database from the OAuth service
+
+The store carries a `schema_version` table and migrates forward on open. Version 1 is this change:
+
+- `account_providers` is dropped, along with `/login/<provider>`, `/callback/<provider>` and `/account/link/*`.
+- Accounts keep their id, their name and their creation date, and gain an empty password. An account in that state is **unclaimed**: nobody can sign in to it, and nobody can register that name either, so a migrated player does not lose their name to whoever asks first. An operator turns it back into an account with `identity-admin claim <name>`.
+- Login states are dropped. They live minutes, so nothing is lost.
+- Signing keys, sessions and the server directory are untouched. Sessions issued before the migration keep working until they expire.
 
 ## How the game client uses it
 
@@ -49,7 +131,7 @@ The client's half is `game/src/multiplayer/identityClient.ts`.
 
 The service address is a property of the **page**, never of a world: `window.__COREALM_IDENTITY_URL__`, or `VITE_COREALM_IDENTITY_URL` baked into the build, read and validated by `identityUrl()` in `game/src/app/config.ts`. A game server naming its own identity service could name a lookalike and harvest sessions, so a descriptor never gets a say. With no address configured, worlds whose descriptor says `"authentication":"account"` show as **Login unavailable** and cannot be selected; guest worlds and local play are unaffected.
 
-Signing in leaves the page for `GET /login/<provider>?return=<this page, minus its fragment>`. On the way back the client reads `session`, `expiresAt`, `account` and `name` out of the fragment and rewrites the address bar with `history.replaceState` in the same step, so no session token stays in the URL, in the history or in a `Referer`. The session then lives in `localStorage` under one key, `corealm.identity.v1`, with the expiry the service reported. An expired entry is dropped without being sent, and any `401` clears it and returns the player to signed out.
+Signing in leaves the page for `GET /login?return=<this page, minus its fragment>`, and **Change password** leaves it for `GET /password?return=…`. The password is typed there. On the way back the client reads `session`, `expiresAt`, `account` and `name` out of the fragment and rewrites the address bar with `history.replaceState` in the same step, so no session token stays in the URL, in the history or in a `Referer`. The session then lives in `localStorage` under one key, `corealm.identity.v1`, with the expiry the service reported. An expired entry is dropped without being sent, and any `401` clears it and returns the player to signed out.
 
 Join tokens are never stored. `WorldProvider.authenticate` calls `joinToken(world.endpoint)` for every join attempt, including each automatic reconnect, because a token lasts 60 seconds and is single use. Guest worlds keep taking `guest:<name>` and need no session at all.
 
@@ -99,7 +181,7 @@ The address check runs at registration time, so a name that resolves publicly du
 
 ## Configuration
 
-Flags override environment variables. Secrets are environment variables only, never flags, so they stay out of shell history and process listings.
+Flags override environment variables. There are no secrets to configure: the service holds passwords, it is not given any.
 
 | Variable | Flag | Default | Meaning |
 | --- | --- | --- | --- |
@@ -108,42 +190,22 @@ Flags override environment variables. Secrets are environment variables only, ne
 | `COREALM_IDENTITY_PUBLIC_URL` | `--public-url` | loopback only | Public origin, for example `https://id.example.com`. Required when the listener is not loopback. Must be a bare origin and HTTPS. |
 | `COREALM_IDENTITY_DATA` | `--data` | `identity-data` | Directory holding `identity.sqlite`. |
 | `COREALM_IDENTITY_ORIGINS` | `--origins` | none | Comma-separated exact origins for the game and devdocs. Required. These are both the CORS allow-list and the `return` allow-list. |
-| `COREALM_IDENTITY_DISCORD_CLIENT_ID` | — | none | Discord application client id. |
-| `COREALM_IDENTITY_DISCORD_CLIENT_SECRET` | — | none | Discord client secret. |
-| `COREALM_IDENTITY_GITHUB_CLIENT_ID` | — | none | GitHub OAuth app client id. |
-| `COREALM_IDENTITY_GITHUB_CLIENT_SECRET` | — | none | GitHub client secret. |
+| `COREALM_IDENTITY_REGISTRATION` | `--registration` | `open` | `open` or `closed`. Closed means accounts come from `identity-admin` only. |
+| `COREALM_IDENTITY_TRUST_PROXY` | `--trust-proxy` | off | Read `X-Forwarded-For` for per-address limits. Only with a proxy you run in front. |
 | — | `--rotate-key` | off | Retire the current signing key at start and sign with a new one. |
 | `COREALM_IDENTITY_ALLOW_PRIVATE_SERVERS` | `--allow-private-servers` | off | Development only. Lets a loopback or private game server into the directory. Requires a loopback listener. |
 
-At least one provider must be configured, and each provider needs both halves of its credentials.
-
 ```sh
-COREALM_IDENTITY_DISCORD_CLIENT_ID=... COREALM_IDENTITY_DISCORD_CLIENT_SECRET=... \
 npm run identity -- --origins http://127.0.0.1:4173 --port 4190
 ```
 
-## Creating the OAuth apps
-
-Discord, at <https://discord.com/developers/applications>:
-
-1. Create an application, then open **OAuth2**.
-2. Add the redirect `https://id.example.com/callback/discord`, matching your public URL exactly.
-3. Copy the client id and generate a client secret into the environment. The service asks for the `identify` scope only and uses PKCE.
-
-GitHub, at <https://github.com/settings/developers> under **OAuth Apps**:
-
-1. Register a new application with any homepage URL.
-2. Set the authorization callback URL to `https://id.example.com/callback/github`.
-3. Copy the client id and generate a client secret into the environment. The service asks for the `read:user` scope only. GitHub OAuth apps do not support PKCE, so the `state` value carries the whole binding there.
-
-For local development, point both redirects at your loopback URL, such as `http://127.0.0.1:4190/callback/discord`.
-
 ## Deployment
 
-- Terminate TLS in front of the service and pass requests through to it. The public URL must be HTTPS because OAuth providers refuse plain-HTTP redirects and a session token in a fragment must not cross the network in the clear.
+- **Terminate TLS in front of the service.** The public URL must be HTTPS, and the service refuses to start with a public HTTP one: a password crosses the network to this origin, and a session token in a fragment must not cross it in the clear either.
+- Set `--trust-proxy` only when the proxy overwrites `X-Forwarded-For`, and keep per-IP limits in the proxy regardless.
 - The service binds loopback by default. Keep it that way behind a proxy and let the proxy hold the certificate.
 - Back up the data directory. Losing it loses every account, and every join token key with it.
-- Only the service account needs read access to the data directory. It holds the signing private keys.
-- Rate limits are in-memory and keyed on the socket peer address, which behind a proxy is the proxy. Put per-IP limits in the proxy as well.
-- Sessions last 30 days and are revocable one at a time with `POST /logout` or all at once with `POST /logout/all`.
+- Only the service account needs read access to the data directory. It holds the signing private keys and every password hash.
+- Sessions last 30 days and are revocable one at a time with `POST /logout`, all at once with `POST /logout/all`, or from outside with `identity-admin revoke-sessions`.
+- A hash at the default parameters wants about 128 MiB while it runs, and four may run at once, so size the host for roughly 512 MiB of headroom on top of everything else.
 - The service is a single process with one SQLite file. It is small by design: one instance is enough for a Corealm, and two instances must not share a data directory.

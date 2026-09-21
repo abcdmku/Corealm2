@@ -3,14 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { privateAddress, type AddressLookup } from "../identity/src/addresses.js";
-import type { OAuthProvider } from "../identity/src/providers.js";
 import { startIdentityService, type IdentityService } from "../identity/src/server.js";
-
-const provider: OAuthProvider = {
-  name: "stub", pkce: false,
-  authorizeUrl: (state) => `https://provider.example/authorize?state=${encodeURIComponent(state)}`,
-  async exchange() { return { providerUserId: "1", suggestedName: "Rook" }; },
-};
 
 const running: { service: IdentityService; directory: string }[] = [];
 afterEach(async () => {
@@ -50,7 +43,7 @@ async function startService(options: { probe: typeof fetch; lookup?: AddressLook
   const directory = await mkdtemp(join(tmpdir(), "corealm-directory-"));
   const clock = { unix: 1_700_000_000 };
   const service = await startIdentityService({
-    dataDir: directory, providers: [provider], allowedOrigins: ["https://play.example.com"],
+    dataDir: directory, allowedOrigins: ["https://play.example.com"],
     now: () => clock.unix, log: () => {}, fetch: options.probe, lookup: options.lookup ?? resolver({}).lookup,
     directoryTtlSeconds: 600, directoryCapacity: 2, registrationsPerMinute: options.registrationsPerMinute ?? 10,
     ...(options.allowPrivateServers ? { allowPrivateServers: true } : {}),

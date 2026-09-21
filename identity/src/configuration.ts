@@ -1,5 +1,3 @@
-import { discordProvider, githubProvider, type OAuthProvider } from "./providers.js";
-
 /** Deployment choices for the identity service, validated before anything opens a socket or a file. */
 export interface IdentityConfiguration {
   host: string;
@@ -8,7 +6,10 @@ export interface IdentityConfiguration {
   publicUrl: string;
   dataDir: string;
   allowedOrigins: string[];
-  providers: OAuthProvider[];
+  /** Whether anyone may create an account, or only the operator with `identity-admin`. */
+  registration: "open" | "closed";
+  /** Read `X-Forwarded-For` for per-address limits. Only true with a proxy you run in front. */
+  trustProxy: boolean;
   rotateKey: boolean;
   /** Development only: lets a loopback or private game server into the public directory. */
   allowPrivateServers: boolean;
@@ -16,7 +17,7 @@ export interface IdentityConfiguration {
 
 const LOOPBACK = ["127.0.0.1", "localhost", "::1", "[::1]"];
 
-/** Secrets come from the environment only. A flag would land in shell history and process lists. */
+/** Flags override environment variables, and nothing here is a secret: passwords never leave the database. */
 export function identityConfiguration(args: readonly string[], env: NodeJS.ProcessEnv = process.env): IdentityConfiguration {
   const value = (flag: string, variable: string, fallback?: string) => {
     const index = args.indexOf(flag);
@@ -36,7 +37,8 @@ export function identityConfiguration(args: readonly string[], env: NodeJS.Proce
   const publicUrl = !configuredPublicUrl && port === 0 ? null : new URL(configuredPublicUrl ?? `http://127.0.0.1:${port}`);
   if (publicUrl) {
     if (publicUrl.href.replace(/\/$/, "") !== publicUrl.origin) throw new Error("The public URL must be a bare origin, such as https://id.example.com");
-    if (publicUrl.protocol !== "https:" && !LOOPBACK.includes(publicUrl.hostname)) throw new Error("OAuth redirects require HTTPS");
+    // A password crosses the network to this origin, so anything but loopback has to be encrypted.
+    if (publicUrl.protocol !== "https:" && !LOOPBACK.includes(publicUrl.hostname)) throw new Error("Passwords require HTTPS");
   }
 
   const allowedOrigins = (value("--origins", "COREALM_IDENTITY_ORIGINS", "")!).split(",").map(part => part.trim()).filter(Boolean);
@@ -48,22 +50,15 @@ export function identityConfiguration(args: readonly string[], env: NodeJS.Proce
       throw new Error("Allowed origins must be exact HTTPS origins or local HTTP origins");
   }
 
-  const providers: OAuthProvider[] = [];
-  const credentials = (name: string, idVariable: string, secretVariable: string) => {
-    const clientId = env[idVariable]?.trim(), clientSecret = env[secretVariable]?.trim();
-    if (!clientId && !clientSecret) return null;
-    if (!clientId || !clientSecret) throw new Error(`${name} needs both ${idVariable} and ${secretVariable}`);
-    return { clientId, clientSecret };
-  };
-  const discord = credentials("Discord", "COREALM_IDENTITY_DISCORD_CLIENT_ID", "COREALM_IDENTITY_DISCORD_CLIENT_SECRET");
-  if (discord) providers.push(discordProvider(discord));
-  const github = credentials("GitHub", "COREALM_IDENTITY_GITHUB_CLIENT_ID", "COREALM_IDENTITY_GITHUB_CLIENT_SECRET");
-  if (github) providers.push(githubProvider(github));
-  if (!providers.length) throw new Error("Configure Discord or GitHub OAuth credentials in the environment");
+  const registration = (value("--registration", "COREALM_IDENTITY_REGISTRATION", "open")!).trim().toLowerCase();
+  if (registration !== "open" && registration !== "closed") throw new Error("Registration is open or closed");
 
-  const allowPrivate = args.includes("--allow-private-servers") || ["1", "true"].includes((env.COREALM_IDENTITY_ALLOW_PRIVATE_SERVERS ?? "").trim().toLowerCase());
+  const flagOrEnv = (flag: string, variable: string) =>
+    args.includes(flag) || ["1", "true"].includes((env[variable] ?? "").trim().toLowerCase());
+  const allowPrivate = flagOrEnv("--allow-private-servers", "COREALM_IDENTITY_ALLOW_PRIVATE_SERVERS");
   if (allowPrivate && !loopback) throw new Error("Private server registration is a development option and requires a loopback listener");
 
-  return { host, port, publicUrl: publicUrl?.origin ?? "", dataDir, allowedOrigins, providers,
+  return { host, port, publicUrl: publicUrl?.origin ?? "", dataDir, allowedOrigins, registration,
+    trustProxy: flagOrEnv("--trust-proxy", "COREALM_IDENTITY_TRUST_PROXY"),
     rotateKey: args.includes("--rotate-key"), allowPrivateServers: allowPrivate };
 }

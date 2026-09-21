@@ -8,11 +8,12 @@ const dataDir = resolve(config.dataDir);
 await mkdir(dataDir, { recursive: true });
 const service = await startIdentityService({
   host: config.host, port: config.port, dataDir, ...(config.publicUrl ? { publicUrl: config.publicUrl } : {}),
-  allowedOrigins: config.allowedOrigins, providers: config.providers, allowPrivateServers: config.allowPrivateServers,
+  allowedOrigins: config.allowedOrigins, registration: config.registration,
+  trustProxy: config.trustProxy, allowPrivateServers: config.allowPrivateServers,
 });
 if (config.rotateKey) service.rotateSigningKey();
 console.log(JSON.stringify({ ready: true, host: config.host, port: service.port, publicUrl: service.url,
-  providers: config.providers.map(provider => provider.name), origins: config.allowedOrigins }));
+  registration: config.registration, origins: config.allowedOrigins }));
 
 let closing = false;
 const shutdown = () => {

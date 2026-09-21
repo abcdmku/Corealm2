@@ -2,24 +2,38 @@ import { lookup as dnsLookup } from "node:dns/promises";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { publicHost, type AddressLookup } from "./addresses.js";
 import { audienceOf, joinTokenClaims, signJoinToken, MAX_JOIN_TOKEN_CHARS } from "./joinToken.js";
-import { pkcePair, type FetchLike, type OAuthProvider, type ProviderIdentity } from "./providers.js";
-import { IdentityStore, NAME_PATTERN, type AccountView } from "./store.js";
+import { displayOrigin, formPage, noticePage, pageHeaders, type PageKind } from "./pages.js";
+import { HashingBusy, passwordProblem, ScryptHasher, type PasswordHashing } from "./passwords.js";
+import { IdentityStore, NAME_PATTERN, reservedName, type AccountView } from "./store.js";
 
 /**
  * The identity service. It owns accounts, sessions, the signing keys and the public server
  * directory, and it issues short lived join tokens that game servers verify offline.
+ *
+ * An account is a username and a password. The password is typed on this origin and nowhere else:
+ * the game client and devdocs send a browser to `GET /login?return=<their URL>` and get it back with
+ * a session in the fragment, exactly as they did when this was an OAuth service. Neither of them
+ * ever sees a password, so there is no JSON password endpoint and no CORS rule that would let one
+ * be posted from another origin.
  */
 
+export type FetchLike = typeof globalThis.fetch;
+
 export interface IdentityServiceOptions {
-  providers: readonly OAuthProvider[];
   /** Exact browser origins allowed to call the service and to receive a login redirect. */
   allowedOrigins: readonly string[];
   /** Directory holding `identity.sqlite`. Created by the caller. */
   dataDir: string;
-  /** Public origin of this service, used to build the OAuth redirect URI. */
+  /** Public origin of this service. Also what a form POST's `Origin` header has to match. */
   publicUrl?: string;
   host?: string;
   port?: number;
+  /** Whether `GET /register` hands out accounts, or answers that registration is closed. */
+  registration?: "open" | "closed";
+  /** Injected so tests can hash with a cost that runs in milliseconds. */
+  hasher?: PasswordHashing;
+  /** Read `X-Forwarded-For` for the per-address limits. Only ever with a proxy you run in front. */
+  trustProxy?: boolean;
   /** Unix seconds. Injected so tests can move time without waiting. */
   now?: () => number;
   fetch?: FetchLike;
@@ -34,6 +48,12 @@ export interface IdentityServiceOptions {
   directoryCapacity?: number;
   tokensPerMinute?: number;
   registrationsPerMinute?: number;
+  loginWindowSeconds?: number;
+  loginsPerName?: number;
+  loginsPerAddress?: number;
+  registrationWindowSeconds?: number;
+  registrationsPerAddress?: number;
+  registrationsPerWindow?: number;
 }
 export interface IdentityService {
   port: number;
@@ -46,10 +66,19 @@ export interface IdentityService {
 const MAX_BODY_BYTES = 8_192;
 const MAX_URL_CHARS = 4_096;
 const MAX_PROBE_BYTES = 262_144;
+const MAX_FIELD_CHARS = 1_024;
 const DEFAULTS = {
-  sessionTtlSeconds: 30 * 24 * 60 * 60, stateTtlSeconds: 300, directoryTtlSeconds: 600,
+  sessionTtlSeconds: 30 * 24 * 60 * 60, stateTtlSeconds: 900, directoryTtlSeconds: 600,
   directoryCapacity: 256, tokensPerMinute: 60, registrationsPerMinute: 10,
+  // Ten tries per name per quarter hour, then the window has to run out. Nothing locks an account:
+  // a permanent lock is a denial of service lever anyone who knows a name can pull.
+  loginWindowSeconds: 900, loginsPerName: 10, loginsPerAddress: 30,
+  registrationWindowSeconds: 3_600, registrationsPerAddress: 5, registrationsPerWindow: 60,
 };
+/** One wording for every refused sign-in, whoever the name belongs to. */
+const SIGN_IN_REFUSED = "That username and password do not match.";
+const BUSY = "The service is busy signing people in. Try again in a moment.";
+const EXPIRED_FORM = "This form expired or was already used. Start signing in again from the game.";
 
 class HttpFailure extends Error {
   constructor(readonly status: number, readonly code: string, message: string) { super(message); this.name = "HttpFailure"; }
@@ -58,14 +87,16 @@ class HttpFailure extends Error {
 /** A fixed window per key. Enough to stop a loop, cheap enough to run on every request. */
 class RateWindow {
   private readonly hits = new Map<string, { start: number; count: number }>();
-  constructor(private readonly limit: number) {}
+  constructor(private readonly limit: number, private readonly windowSeconds = 60) {}
   allow(key: string, now: number): boolean {
-    for (const [name, hit] of this.hits) if (now - hit.start >= 60) this.hits.delete(name);
+    for (const [name, hit] of this.hits) if (now - hit.start >= this.windowSeconds) this.hits.delete(name);
     const hit = this.hits.get(key);
-    if (!hit || now - hit.start >= 60) { this.hits.set(key, { start: now, count: 1 }); return true; }
+    if (!hit || now - hit.start >= this.windowSeconds) { this.hits.set(key, { start: now, count: 1 }); return true; }
     hit.count++;
     return hit.count <= this.limit;
   }
+  /** A sign-in that worked clears the name's window, so one player's typos cannot lock them out. */
+  forget(key: string): void { this.hits.delete(key); }
 }
 
 function text(value: unknown, max: number): string | null {
@@ -91,18 +122,19 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
     directoryCapacity: options.directoryCapacity ?? DEFAULTS.directoryCapacity,
     tokensPerMinute: options.tokensPerMinute ?? DEFAULTS.tokensPerMinute,
     registrationsPerMinute: options.registrationsPerMinute ?? DEFAULTS.registrationsPerMinute,
+    loginWindowSeconds: options.loginWindowSeconds ?? DEFAULTS.loginWindowSeconds,
+    loginsPerName: options.loginsPerName ?? DEFAULTS.loginsPerName,
+    loginsPerAddress: options.loginsPerAddress ?? DEFAULTS.loginsPerAddress,
+    registrationWindowSeconds: options.registrationWindowSeconds ?? DEFAULTS.registrationWindowSeconds,
+    registrationsPerAddress: options.registrationsPerAddress ?? DEFAULTS.registrationsPerAddress,
+    registrationsPerWindow: options.registrationsPerWindow ?? DEFAULTS.registrationsPerWindow,
   };
   const now = options.now ?? (() => Math.floor(Date.now() / 1000));
   const fetchImpl: FetchLike = options.fetch ?? globalThis.fetch;
   const lookup: AddressLookup = options.lookup ?? (hostname => dnsLookup(hostname, { all: true, verbatim: true }));
   const log = options.log ?? ((event: Record<string, unknown>) => console.log(JSON.stringify(event)));
-  const providers = new Map<string, OAuthProvider>();
-  for (const provider of options.providers) {
-    if (!/^[a-z][a-z0-9-]{1,30}$/.test(provider.name)) throw new Error("Provider names are lowercase identifiers");
-    if (providers.has(provider.name)) throw new Error(`Duplicate provider ${provider.name}`);
-    providers.set(provider.name, provider);
-  }
-  if (!providers.size) throw new Error("At least one OAuth provider is required");
+  const hasher = options.hasher ?? new ScryptHasher();
+  const registrationOpen = (options.registration ?? "open") === "open";
   const origins = new Set<string>();
   for (const origin of options.allowedOrigins) {
     const url = new URL(origin);
@@ -115,6 +147,11 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
   store.activeSigningKey(now());
   const tokenLimit = new RateWindow(settings.tokensPerMinute);
   const registerLimit = new RateWindow(settings.registrationsPerMinute);
+  const renameLimit = new RateWindow(settings.loginsPerName, settings.loginWindowSeconds);
+  const loginNameLimit = new RateWindow(settings.loginsPerName, settings.loginWindowSeconds);
+  const loginAddressLimit = new RateWindow(settings.loginsPerAddress, settings.loginWindowSeconds);
+  const signUpAddressLimit = new RateWindow(settings.registrationsPerAddress, settings.registrationWindowSeconds);
+  const signUpLimit = new RateWindow(settings.registrationsPerWindow, settings.registrationWindowSeconds);
   let publicUrl = options.publicUrl?.replace(/\/+$/, "") ?? "";
 
   function json(response: ServerResponse, status: number, body: unknown, headers: Record<string, string> = {}): void {
@@ -122,12 +159,29 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
     response.writeHead(status, { "Content-Type": "application/json", "Cache-Control": "no-store", "Content-Length": Buffer.byteLength(payload), ...headers });
     response.end(payload);
   }
+  /** Every HTML answer, including the failures, carries the same locked-down headers. */
+  function html(response: ServerResponse, status: number, body: string, returnOrigin?: string): void {
+    response.writeHead(status, { ...pageHeaders(returnOrigin), "Content-Length": Buffer.byteLength(body) });
+    response.end(body);
+  }
+  function notice(response: ServerResponse, status: number, heading: string, body: string): void {
+    html(response, status, noticePage({ title: `${heading} · Corealm`, heading, body }));
+  }
   function corsFor(request: IncomingMessage): Record<string, string> {
     const origin = request.headers.origin;
     // Exact match only, and no credentials header: sessions travel as bearer tokens.
     return typeof origin === "string" && origins.has(origin) ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : { Vary: "Origin" };
   }
-  async function body(request: IncomingMessage): Promise<Record<string, unknown>> {
+  /** The socket peer, or the proxy's report of it when a proxy in front is explicitly trusted. */
+  function clientAddress(request: IncomingMessage): string {
+    if (options.trustProxy) {
+      const forwarded = request.headers["x-forwarded-for"];
+      const first = (Array.isArray(forwarded) ? forwarded[0] : forwarded)?.split(",")[0]?.trim();
+      if (first) return first;
+    }
+    return request.socket.remoteAddress ?? "unknown";
+  }
+  async function rawBody(request: IncomingMessage): Promise<Buffer> {
     const chunks: Buffer[] = [];
     let length = 0;
     for await (const chunk of request) {
@@ -135,9 +189,13 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
       if (length > MAX_BODY_BYTES) throw new HttpFailure(413, "payload_too_large", "Request bodies are capped at 8 KiB");
       chunks.push(chunk as Buffer);
     }
-    if (!length) return {};
+    return Buffer.concat(chunks);
+  }
+  async function body(request: IncomingMessage): Promise<Record<string, unknown>> {
+    const raw = await rawBody(request);
+    if (!raw.length) return {};
     let value: unknown;
-    try { value = JSON.parse(Buffer.concat(chunks).toString("utf8")); } catch { throw new HttpFailure(400, "invalid_request", "A JSON body is required"); }
+    try { value = JSON.parse(raw.toString("utf8")); } catch { throw new HttpFailure(400, "invalid_request", "A JSON body is required"); }
     if (value === null || typeof value !== "object" || Array.isArray(value)) throw new HttpFailure(400, "invalid_request", "A JSON object body is required");
     return value as Record<string, unknown>;
   }
@@ -149,17 +207,25 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
     if (!account) throw new HttpFailure(401, "unauthorized", "A session is required");
     return { token, account };
   }
-  function redirectTarget(value: unknown): string {
+  /** The allow-list is what keeps this from being an open redirect that leaks a session. */
+  function allowedReturn(value: unknown): string | null {
     const raw = text(value, 2048);
-    if (!raw) throw new HttpFailure(400, "invalid_request", "A return URL is required");
+    if (!raw) return null;
     let url: URL;
-    try { url = new URL(raw); } catch { throw new HttpFailure(400, "invalid_return", "The return URL must be an allowed origin"); }
-    // The allow-list is what keeps this from being an open redirect that leaks a session.
-    if (!origins.has(url.origin) || url.username || url.password) throw new HttpFailure(400, "invalid_return", "The return URL must be an allowed origin");
-    return url.href;
+    try { url = new URL(raw); } catch { return null; }
+    return origins.has(url.origin) && !url.username && !url.password ? url.href : null;
   }
+  function redirectTarget(value: unknown): string {
+    const target = allowedReturn(value);
+    if (!target) throw new HttpFailure(400, "invalid_return", "The return URL must be an allowed origin");
+    return target;
+  }
+  /** 303 after a form, so a refresh on the way back does not re-post the password. */
   function redirect(response: ServerResponse, location: string): void {
-    response.writeHead(302, { Location: location, "Cache-Control": "no-store", "Content-Length": 0, "Referrer-Policy": "no-referrer" });
+    response.writeHead(303, {
+      Location: location, "Cache-Control": "no-store", "Content-Length": 0,
+      "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff",
+    });
     response.end();
   }
   /** The web apps are static and cross origin, so the session comes back in the fragment. */
@@ -168,11 +234,127 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
     url.hash = new URLSearchParams(values).toString();
     return url.href;
   }
-  function beginLogin(response: ServerResponse, provider: OAuthProvider, returnUrl: string, intent: "login" | "link", accountId: string | null): void {
-    const pkce = provider.pkce ? pkcePair() : null;
-    const state = store.createLoginState({ provider: provider.name, returnUrl, verifier: pkce?.verifier ?? null, intent, accountId }, now(), settings.stateTtlSeconds);
-    log({ event: "login.start", provider: provider.name, intent });
-    redirect(response, provider.authorizeUrl(state, `${publicUrl}/callback/${provider.name}`, pkce?.challenge));
+  function signedIn(response: ServerResponse, account: AccountView, returnUrl: string): void {
+    const session = store.createSession(account.id, now(), settings.sessionTtlSeconds);
+    redirect(response, returnWith(returnUrl, {
+      session: session.token, expiresAt: String(session.expiresAt), account: account.id, name: account.name,
+    }));
+  }
+
+  /** A form page with a fresh single-use state bound to the return URL it was built for. */
+  function form(response: ServerResponse, kind: PageKind, returnUrl: string, status = 200, detail: { username?: string; error?: string } = {}): void {
+    const state = store.createLoginState({ purpose: kind, returnUrl }, now(), settings.stateTtlSeconds);
+    html(response, status, formPage({ kind, state, returnUrl, registrationOpen, ...detail }), displayOrigin(returnUrl));
+  }
+
+  /**
+   * A password form is posted from this origin by a browser the service itself sent the page to.
+   * The state already binds the destination; this is what stops another site posting its own form
+   * here and signing a player into an account they did not choose.
+   *
+   * `Sec-Fetch-Site` leads, because these pages are served with `Referrer-Policy: no-referrer` and
+   * that makes a browser send `Origin: null` on the form POST — by the letter of the Fetch standard,
+   * not as a quirk. A browser old enough to send neither header is refused rather than trusted.
+   */
+  function sameOriginPost(request: IncomingMessage): boolean {
+    const origin = request.headers.origin;
+    const host = request.headers.host;
+    const named = typeof origin === "string" && origin !== "null";
+    const matches = named && (origin === publicUrl || (typeof host === "string" && (origin === `http://${host}` || origin === `https://${host}`)));
+    const site = request.headers["sec-fetch-site"];
+    if (typeof site === "string") return site === "same-origin" && (!named || matches);
+    return matches;
+  }
+  function field(values: URLSearchParams, name: string): string {
+    const value = values.get(name);
+    return typeof value === "string" && value.length <= MAX_FIELD_CHARS ? value : "";
+  }
+
+  async function handleForm(request: IncomingMessage, response: ServerResponse, kind: PageKind): Promise<void> {
+    const values = new URLSearchParams((await rawBody(request)).toString("utf8"));
+    if (!sameOriginPost(request)) { notice(response, 403, "Sign-in refused", "This form was sent from another site. Start signing in again from the game."); return; }
+    const state = store.consumeLoginState(field(values, "state"), now());
+    // The return URL comes from the row the service wrote, never from the body, and is checked
+    // again in case the allow-list changed while the form was open.
+    const returnUrl = state && state.purpose === kind ? allowedReturn(state.returnUrl) : null;
+    if (!returnUrl) { notice(response, 400, "This form expired", EXPIRED_FORM); return; }
+    const username = field(values, "username").trim();
+    const password = field(values, "password");
+    const address = clientAddress(request);
+    try {
+      if (kind === "login") await signIn(response, returnUrl, username, password, address);
+      else if (kind === "register") await signUp(response, returnUrl, username, password, address);
+      else await changePassword(response, returnUrl, username, field(values, "current"), password, address);
+    } catch (error) {
+      if (!(error instanceof HashingBusy)) throw error;
+      log({ event: "hash.busy", purpose: kind });
+      form(response, kind, returnUrl, 503, { error: BUSY });
+    }
+  }
+
+  async function signIn(response: ServerResponse, returnUrl: string, username: string, password: string, address: string): Promise<void> {
+    const key = username.toLowerCase();
+    if (!loginNameLimit.allow(key, now()) || !loginAddressLimit.allow(address, now())) {
+      log({ event: "login.rate_limited" });
+      form(response, "login", returnUrl, 429, { error: "Too many sign-in attempts. Wait a few minutes, then try again." });
+      return;
+    }
+    const account = NAME_PATTERN.test(username) ? store.accountByName(username) : null;
+    // An unknown name, an unclaimed account and a wrong password all run one real hash and answer
+    // the same thing, so none of the three can be told apart by what comes back or how long it took.
+    const result = await hasher.verify(password, account?.passwordHash ?? null);
+    if (!result.ok || !account) {
+      log({ event: "login.refused" });
+      form(response, "login", returnUrl, 401, { error: SIGN_IN_REFUSED });
+      return;
+    }
+    if (result.stale) store.setPassword(account.id, await hasher.hash(password));
+    loginNameLimit.forget(key);
+    log({ event: "login.complete", accountId: account.id, rehashed: result.stale });
+    signedIn(response, account, returnUrl);
+  }
+
+  async function signUp(response: ServerResponse, returnUrl: string, username: string, password: string, address: string): Promise<void> {
+    if (!registrationOpen) { notice(response, 403, "Registration is closed", "This Corealm is not taking new accounts. Ask the operator for one."); return; }
+    if (!signUpAddressLimit.allow(address, now()) || !signUpLimit.allow("all", now())) {
+      log({ event: "register.rate_limited" });
+      form(response, "register", returnUrl, 429, { error: "Too many accounts have been created recently. Try again later." });
+      return;
+    }
+    const refuse = (status: number, error: string) => form(response, "register", returnUrl, status, { username, error });
+    if (!NAME_PATTERN.test(username)) { refuse(400, "A username is 3 to 24 characters of letters, digits, underscore or hyphen."); return; }
+    if (reservedName(username)) { refuse(400, "That username is reserved. Choose another."); return; }
+    const problem = passwordProblem(password, username);
+    if (problem) { refuse(400, problem); return; }
+    // Hash before the insert: the name is only claimed once there is a credential to claim it with.
+    const account = store.createAccount(username, await hasher.hash(password), now());
+    if (!account) { refuse(409, "That username is taken. Choose another."); return; }
+    log({ event: "account.created", accountId: account.id });
+    signedIn(response, account, returnUrl);
+  }
+
+  async function changePassword(response: ServerResponse, returnUrl: string, username: string, current: string, next: string, address: string): Promise<void> {
+    const key = username.toLowerCase();
+    if (!loginNameLimit.allow(key, now()) || !loginAddressLimit.allow(address, now())) {
+      form(response, "password", returnUrl, 429, { error: "Too many attempts. Wait a few minutes, then try again." });
+      return;
+    }
+    const account = NAME_PATTERN.test(username) ? store.accountByName(username) : null;
+    const result = await hasher.verify(current, account?.passwordHash ?? null);
+    if (!result.ok || !account) {
+      log({ event: "password.refused" });
+      form(response, "password", returnUrl, 401, { error: SIGN_IN_REFUSED });
+      return;
+    }
+    const problem = passwordProblem(next, username);
+    if (problem) { form(response, "password", returnUrl, 400, { username, error: problem }); return; }
+    store.setPassword(account.id, await hasher.hash(next));
+    // A password change is what someone does when they think a session leaked, so every session
+    // that existed goes; the browser doing the changing gets a new one on the way back.
+    const revoked = store.revokeAllSessions(account.id);
+    loginNameLimit.forget(key);
+    log({ event: "password.changed", accountId: account.id, revoked });
+    signedIn(response, account, returnUrl);
   }
 
   async function route(request: IncomingMessage, response: ServerResponse): Promise<void> {
@@ -180,7 +362,6 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
     const url = new URL(request.url, "http://identity.invalid");
     const path = url.pathname.replace(/\/+$/, "") || "/";
     const method = request.method ?? "GET";
-    const segments = path.split("/").filter(Boolean);
 
     if (method === "OPTIONS") {
       const cors = corsFor(request);
@@ -198,50 +379,21 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
       return;
     }
 
-    if (method === "GET" && segments[0] === "login" && segments.length === 2) {
-      const provider = providers.get(segments[1]!);
-      if (!provider) throw new HttpFailure(404, "unknown_provider", "No such login provider");
-      beginLogin(response, provider, redirectTarget(url.searchParams.get("return")), "login", null);
-      return;
-    }
-
-    if (method === "GET" && segments[0] === "callback" && segments.length === 2) {
-      const provider = providers.get(segments[1]!);
-      if (!provider) throw new HttpFailure(404, "unknown_provider", "No such login provider");
-      const state = text(url.searchParams.get("state"), 256);
-      if (!state) throw new HttpFailure(400, "invalid_state", "The login state is missing, expired or already used");
-      const login = store.consumeLoginState(state, now());
-      if (!login || login.provider !== provider.name) throw new HttpFailure(400, "invalid_state", "The login state is missing, expired or already used");
-      const denial = text(url.searchParams.get("error"), 128);
-      if (denial) { log({ event: "login.denied", provider: provider.name }); redirect(response, returnWith(login.returnUrl, { error: "access_denied" })); return; }
-      const code = text(url.searchParams.get("code"), 1024);
-      if (!code || /[\s#?&]/.test(code)) throw new HttpFailure(400, "invalid_request", "An authorization code is required");
-      let identity: ProviderIdentity | undefined;
-      try {
-        identity = await provider.exchange(code, `${publicUrl}/callback/${provider.name}`, { ...(login.verifier ? { codeVerifier: login.verifier } : {}), fetch: fetchImpl });
-      } catch (error) {
-        log({ event: "login.failed", provider: provider.name, reason: error instanceof Error ? error.message : "exchange failed" });
-        redirect(response, returnWith(login.returnUrl, { error: "exchange_failed" })); return;
-      }
-      if (typeof identity?.providerUserId !== "string" || !/^[A-Za-z0-9_.:-]{1,128}$/.test(identity.providerUserId)) {
-        log({ event: "login.failed", provider: provider.name, reason: "invalid provider identity" });
-        redirect(response, returnWith(login.returnUrl, { error: "exchange_failed" })); return;
-      }
-      const suggestedName = typeof identity.suggestedName === "string" ? identity.suggestedName : "player";
-      if (login.intent === "link") {
-        const account = login.accountId ? store.account(login.accountId) : null;
-        if (!account) throw new HttpFailure(401, "unauthorized", "The account that started this link no longer exists");
-        const linked = store.linkProvider(account.id, provider.name, identity.providerUserId, now());
-        log({ event: linked ? "account.linked" : "account.link_conflict", provider: provider.name, accountId: account.id });
-        redirect(response, returnWith(login.returnUrl, linked ? { linked: provider.name } : { error: "provider_already_linked" }));
+    // The pages. Passwords are typed here and only here, so these are the only routes that render
+    // HTML, and they are served with a policy that permits nothing but their own inline stylesheet.
+    if ((method === "GET" || method === "POST") && (path === "/login" || path === "/register" || path === "/password")) {
+      const kind = path.slice(1) as PageKind;
+      if (method === "POST") { await handleForm(request, response, kind); return; }
+      if (kind === "register" && !registrationOpen) {
+        notice(response, 403, "Registration is closed", "This Corealm is not taking new accounts. Ask the operator for one.");
         return;
       }
-      const account = store.findOrCreateAccount(provider.name, identity.providerUserId, suggestedName, now());
-      const session = store.createSession(account.id, now(), settings.sessionTtlSeconds);
-      log({ event: "login.complete", provider: provider.name, accountId: account.id });
-      redirect(response, returnWith(login.returnUrl, {
-        session: session.token, expiresAt: String(session.expiresAt), account: account.id, name: account.name,
-      }));
+      const returnUrl = allowedReturn(url.searchParams.get("return"));
+      if (!returnUrl) {
+        notice(response, 400, "Sign-in refused", "This link does not name a Corealm site that may receive a sign-in. Start again from the game.");
+        return;
+      }
+      form(response, kind, returnUrl);
       return;
     }
 
@@ -261,28 +413,20 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
 
     if (method === "GET" && path === "/account") {
       const { account } = bearer(request);
-      json(response, 200, { id: account.id, name: account.name, providers: account.providers }, corsFor(request)); return;
+      json(response, 200, { id: account.id, name: account.name }, corsFor(request)); return;
     }
 
+    // A rename is a bearer call from the game origin, so it asks for no password: a password must
+    // not travel to an origin that is not this one. It is limited like a sign-in instead.
     if (method === "POST" && path === "/account/name") {
       const { account } = bearer(request);
+      if (!renameLimit.allow(account.id, now())) throw new HttpFailure(429, "rate_limited", "Too many name changes; slow down");
       const name = text((await body(request)).name, 64);
       if (!name || !NAME_PATTERN.test(name)) throw new HttpFailure(400, "invalid_name", "Names are 3 to 24 characters of letters, digits, underscore or hyphen");
+      if (reservedName(name)) throw new HttpFailure(400, "reserved_name", "That display name is reserved");
       if (!store.renameAccount(account.id, name)) throw new HttpFailure(409, "name_taken", "That display name is taken");
       log({ event: "account.renamed", accountId: account.id });
-      json(response, 200, { id: account.id, name, providers: account.providers }, corsFor(request)); return;
-    }
-
-    if (method === "POST" && segments[0] === "account" && segments[1] === "link" && segments.length === 3) {
-      const { account } = bearer(request);
-      const provider = providers.get(segments[2]!);
-      if (!provider) throw new HttpFailure(404, "unknown_provider", "No such login provider");
-      const returnUrl = redirectTarget((await body(request)).return);
-      const pkce = provider.pkce ? pkcePair() : null;
-      const state = store.createLoginState({ provider: provider.name, returnUrl, verifier: pkce?.verifier ?? null, intent: "link", accountId: account.id }, now(), settings.stateTtlSeconds);
-      log({ event: "account.link_start", provider: provider.name, accountId: account.id });
-      json(response, 200, { url: provider.authorizeUrl(state, `${publicUrl}/callback/${provider.name}`, pkce?.challenge) }, corsFor(request));
-      return;
+      json(response, 200, { id: account.id, name }, corsFor(request)); return;
     }
 
     if (method === "POST" && path === "/token") {
@@ -307,9 +451,8 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
     }
 
     if (method === "POST" && path === "/servers/register") {
-      // Proxy headers are forgeable, so the window is keyed on the socket peer.
-      const peer = request.socket.remoteAddress ?? "unknown";
-      if (!registerLimit.allow(peer, now())) throw new HttpFailure(429, "rate_limited", "Too many registrations; slow down");
+      // Proxy headers are forgeable, so the window is keyed on the socket peer unless a proxy is trusted.
+      if (!registerLimit.allow(clientAddress(request), now())) throw new HttpFailure(429, "rate_limited", "Too many registrations; slow down");
       const input = await body(request);
       const endpoint = gameEndpoint(input.endpoint);
       const name = text(input.name, 48);
@@ -359,8 +502,10 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
 
   const http = createServer((request, response) => {
     void route(request, response).catch((error: unknown) => {
-      const failure = error instanceof HttpFailure ? error : new HttpFailure(500, "internal_error", "The identity service failed to handle the request");
-      if (!(error instanceof HttpFailure)) log({ event: "request.failed", path: request.url?.split("?")[0], reason: error instanceof Error ? error.message : "unknown" });
+      const failure = error instanceof HttpFailure ? error
+        : error instanceof HashingBusy ? new HttpFailure(503, "busy", BUSY)
+        : new HttpFailure(500, "internal_error", "The identity service failed to handle the request");
+      if (failure.status >= 500 && !(error instanceof HashingBusy)) log({ event: "request.failed", path: request.url?.split("?")[0], reason: error instanceof Error ? error.message : "unknown" });
       if (response.headersSent) { response.end(); return; }
       json(response, failure.status, { error: { code: failure.code, message: failure.message } }, corsFor(request));
     });
@@ -371,7 +516,7 @@ export async function startIdentityService(options: IdentityServiceOptions): Pro
   const address = http.address();
   if (!address || typeof address === "string") { store.close(); await new Promise<void>(resolve => http.close(() => resolve())); throw new Error("Identity service did not bind"); }
   if (!publicUrl) publicUrl = `http://${address.address.includes(":") ? `[${address.address}]` : address.address}:${address.port}`;
-  log({ event: "identity.ready", port: address.port, publicUrl, providers: [...providers.keys()], origins: [...origins] });
+  log({ event: "identity.ready", port: address.port, publicUrl, registration: registrationOpen ? "open" : "closed", origins: [...origins] });
 
   let closing: Promise<void> | null = null;
   return {

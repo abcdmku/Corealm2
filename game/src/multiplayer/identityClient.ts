@@ -21,8 +21,6 @@ const MAX_TOKEN_CHARS = 4_096;
 const MAX_RESPONSE_CHARS = 65_536;
 const MAX_DIRECTORY_SERVERS = 256;
 
-export const LOGIN_PROVIDERS = ["discord", "github"] as const;
-export type LoginProvider = typeof LOGIN_PROVIDERS[number];
 export interface IdentityAccount { id: string; name: string }
 export interface DirectoryServer { name: string; endpoint: string; description?: string }
 
@@ -33,7 +31,7 @@ export interface IdentityPorts {
   href?(): string;
   /** Rewrites the address bar without navigating: how the session leaves the URL and the history. */
   replace?(url: string): void;
-  /** A full page load, which is what an OAuth redirect is. */
+  /** A full page load, which is what leaving for the identity service is. */
   navigate?(url: string): void;
   /** Unix seconds, matching the service's `expiresAt`. */
   now?(): number;
@@ -41,11 +39,13 @@ export interface IdentityPorts {
 
 interface StoredSession { token: string; expiresAt: number; account: IdentityAccount }
 
-/** What the service puts in the fragment when a login does not produce a session. */
+/**
+ * What the service puts in the fragment when a login does not produce a session. A wrong password
+ * never gets this far — that is answered on the service's own page — so this is the short list of
+ * ways the round trip itself can end badly.
+ */
 const LOGIN_FAILURES: Record<string, string> = {
   access_denied: "Sign-in was cancelled.",
-  exchange_failed: "The sign-in provider did not finish. Try again.",
-  provider_already_linked: "That provider account is already linked to another Corealm account.",
 };
 
 function text(value: unknown, max: number): string | null {
@@ -90,11 +90,20 @@ export class IdentityClient {
   loginFailure(): string | null { return this.failure; }
   subscribe(listener: () => void): () => void { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; }
 
-  /** Leaves the page. Comes back to the same URL, so the player keeps their place in the picker. */
-  login(provider: LoginProvider): void {
+  /**
+   * Leaves the page for the identity service's own sign-in form and comes back to the same URL, so
+   * the player keeps their place in the picker. The password is typed there and never here: this
+   * code has no password field and no password endpoint to send one to.
+   */
+  login(): void { this.leave("/login"); }
+
+  /** The same round trip for a password change. It returns signed in, with every other session gone. */
+  changePassword(): void { this.leave("/password"); }
+
+  private leave(path: string): void {
     const url = new URL(this.href()); url.hash = "";
     this.failure = null;
-    this.navigate(`${this.base}/login/${provider}?return=${encodeURIComponent(url.href)}`);
+    this.navigate(`${this.base}${path}?return=${encodeURIComponent(url.href)}`);
   }
 
   async logout(): Promise<void> {
@@ -199,7 +208,7 @@ export class IdentityClient {
     const hash = url.hash.replace(/^#/, "");
     if (!hash) return;
     const values = new URLSearchParams(hash);
-    if (!values.has("session") && !values.has("error") && !values.has("linked")) return;
+    if (!values.has("session") && !values.has("error")) return;
     url.hash = "";
     this.replace(url.href);
     const error = values.get("error");

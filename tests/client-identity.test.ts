@@ -62,14 +62,17 @@ describe("the login round trip", () => {
     expect(client.account()).toBeNull();
   });
 
-  it("sends the player to the provider and back to this page without its fragment", () => {
+  it("sends the player to the service's own form and back to this page without its fragment", () => {
     const navigated: string[] = [];
     const client = new IdentityClient("http://127.0.0.1:4190", {
       storage: storage(), now: () => NOW, replace: () => {}, navigate: (url) => navigated.push(url),
       href: () => "http://127.0.0.1:4210/play?world=frostmere#worldMenu",
     });
-    client.login("discord");
-    expect(navigated).toEqual(["http://127.0.0.1:4190/login/discord?return=http%3A%2F%2F127.0.0.1%3A4210%2Fplay%3Fworld%3Dfrostmere"]);
+    client.login();
+    // The password is typed on the identity origin, so signing in is a navigation and not a fetch.
+    expect(navigated).toEqual(["http://127.0.0.1:4190/login?return=http%3A%2F%2F127.0.0.1%3A4210%2Fplay%3Fworld%3Dfrostmere"]);
+    client.changePassword();
+    expect(navigated[1]).toBe("http://127.0.0.1:4190/password?return=http%3A%2F%2F127.0.0.1%3A4210%2Fplay%3Fworld%3Dfrostmere");
   });
 });
 
@@ -163,7 +166,7 @@ describe("join tokens", () => {
 describe("the account and the public directory", () => {
   it("keeps a new display name", async () => {
     const store = stored();
-    const client = new IdentityClient("http://127.0.0.1:4190", { storage: store, now: () => NOW, replace: () => {}, fetch: (async () => json({ id: "acc_rook", name: "Rookwood", providers: ["discord"] })) as unknown as typeof fetch });
+    const client = new IdentityClient("http://127.0.0.1:4190", { storage: store, now: () => NOW, replace: () => {}, fetch: (async () => json({ id: "acc_rook", name: "Rookwood" })) as unknown as typeof fetch });
     expect(await client.rename("Rookwood")).toEqual({ id: "acc_rook", name: "Rookwood" });
     expect(client.account()).toEqual({ id: "acc_rook", name: "Rookwood" });
     expect(JSON.parse(store.map.get(SESSION_KEY)!).account).toEqual({ id: "acc_rook", name: "Rookwood" });

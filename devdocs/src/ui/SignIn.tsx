@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { KeyRound, LoaderCircle, ServerCog } from "lucide-react";
-import { IdentityClient, LOGIN_PROVIDERS, type LoginProvider } from "../../../game/src/multiplayer/identityClient.js";
+import { IdentityClient } from "../../../game/src/multiplayer/identityClient.js";
 import {
   AdminFailure, audienceOf, chooseIdentity, exchangeSession, identityUrl, normalizeServerUrl, readDescriptor, rememberedServer, rememberServer,
   writeSession, type AdminSession, type ServerDescriptor,
@@ -119,14 +119,13 @@ export function SignIn({ onSignedIn }: { onSignedIn: (session: AdminSession) => 
         <Field label="Signed in as"><span className={VALUE}>{account.name}</span></Field>
         <Row>
           <Button onClick={() => void exchange()} disabled={busy === "session"}>{busy === "session" ? <LoaderCircle className="animate-spin" /> : <KeyRound />}Open this server</Button>
+          <Button variant="ghost" onClick={() => client.changePassword()}>Change password</Button>
           <Button variant="ghost" onClick={() => void client.logout()}>Use another account</Button>
         </Row>
       </div>
       : <div className={FORM}>
-        <p className={TEXT}>Sign in with the account that holds a role on this server.</p>
-        <Row>{LOGIN_PROVIDERS.map((provider: LoginProvider) => <Button key={provider} variant="secondary" onClick={() => client.login(provider)}>
-          Sign in with {provider === "discord" ? "Discord" : "GitHub"}
-        </Button>)}</Row>
+        <p className={TEXT}>Sign in with the account that holds a role on this server. The password is typed on the identity service's own page, never here.</p>
+        <Row><Button variant="secondary" onClick={() => client.login()}>Sign in</Button></Row>
       </div>)}
 
     {step.phase === "no-role" && <div className={FORM}>
