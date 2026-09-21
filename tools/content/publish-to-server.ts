@@ -118,7 +118,7 @@ async function main(argv: string[]): Promise<number> {
   const token = process.env.COREALM_CONTENT_TOKEN ?? "";
   const serverUrl = argValue(argv, "--server") ?? "";
   if (!serverUrl) { console.error("Publishing needs an explicit --server https://…. It is never taken from the environment, so a stray variable cannot redirect it."); return 2; }
-  if (!token) { console.error("Set COREALM_CONTENT_TOKEN to a content:publish token. It is never accepted as a flag."); return 2; }
+  if (!token) { console.error("Set COREALM_CONTENT_TOKEN to a token with both content:read and content:publish scopes. It is never accepted as a flag."); return 2; }
   if (argv.some(argument => argument === "--token" || argument.startsWith("--token="))) { console.error("--token is not a flag here: a command line is visible to every process on the machine. Use COREALM_CONTENT_TOKEN."); return 2; }
 
   try {

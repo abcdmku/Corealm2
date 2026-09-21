@@ -7,7 +7,7 @@ name: Content publish
 #
 # Configure it once, per `docs/multiplayer-hosting.md` → "Content workflows and their secrets":
 #   environment  live-server                      with required reviewers, so a publish needs approval
-#   environment secret COREALM_CONTENT_PUBLISH_TOKEN   a cat_… token with the content:publish scope
+#   environment secret COREALM_CONTENT_PUBLISH_TOKEN   a cat_… token with both the content:read and content:publish scopes
 #
 # A refusal is the normal outcome when somebody has edited the server in devdocs. Export the
 # server's content, reconcile it with this branch, then publish again. Never force.
@@ -65,7 +65,7 @@ jobs:
           HAS_TOKEN: ${{ secrets.COREALM_CONTENT_PUBLISH_TOKEN != '' }}
         run: |
           if [ "${HAS_TOKEN}" != "true" ]; then
-            echo "::error title=No publish token::Add COREALM_CONTENT_PUBLISH_TOKEN to the live-server environment. Mint it in devdocs under Server → Access with the content:publish scope."
+            echo "::error title=No publish token::Add COREALM_CONTENT_PUBLISH_TOKEN to the live-server environment. Mint it in devdocs under Server → Access with both the content:read and content:publish scopes."
             exit 1
           fi
 

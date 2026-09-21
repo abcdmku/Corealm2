@@ -687,7 +687,7 @@ A server owns its own content. The repository's catalog seeds an empty database 
 | Workflow | When | Scope it uses | What it does |
 | --- | --- | --- | --- |
 | `.github/workflows/content-export.yml` | Manual only | `content:read` | Reads the active revision's source collections, writes them into `game/content/data/`, recompiles, and opens a pull request on the branch `content/live-export` that a human has to merge. Use it to back up a server's content, or to promote a change into the base game. |
-| `.github/workflows/content-publish.yml` | Manual only | `content:publish` | Pushes the collections this branch differs on to a server you administer, for restoring a backup or loading content you authored offline. Validates by default; storing is an explicit choice. |
+| `.github/workflows/content-publish.yml` | Manual only | `content:read` + `content:publish` | Reads the server's source collections, then pushes the collections this branch differs on to a server you administer, for restoring a backup or loading content you authored offline. Validates by default; storing is an explicit choice. |
 
 Both run `tsx` tools you can run yourself, which is the honest way to see what a workflow will do:
 
@@ -705,9 +705,9 @@ The token comes from `COREALM_CONTENT_TOKEN` and nowhere else. Both tools refuse
 | Repository variable | `COREALM_SERVER_URL` | The one server the export reads, e.g. `https://play.example.com/`. A run can override it. |
 | Repository secret | `COREALM_CONTENT_READ_TOKEN` | A `cat_…` token with `content:read` only. |
 | Environment | `live-server` | Protects the publish workflow. Add required reviewers so a publish waits for a human. |
-| Environment secret | `COREALM_CONTENT_PUBLISH_TOKEN` | A `cat_…` token with `content:publish`, stored **in that environment**, not at repository level, so the approval gate is the only way to reach it. |
+| Environment secret | `COREALM_CONTENT_PUBLISH_TOKEN` | A `cat_…` token with both `content:read` and `content:publish`, stored **in that environment**, not at repository level, so the approval gate is the only way to reach it. |
 
-Mint each token in the admin UI: **Server → Access → API tokens → New token**, label it after the workflow, tick only the scope it needs, and copy the secret then. It is shown once. Give the publish token an expiry and mint a fresh one when it lapses; the export token can live longer because reading is the safe direction. Revoking a token in the same panel takes effect at once.
+Mint each token in the admin UI: **Server → Access → API tokens → New token**, label it after the workflow, tick `content:read` for the export token and both `content:read` and `content:publish` for the publish token, then copy the secret. It is shown once. Give the publish token an expiry and mint a fresh one when it lapses; the export token can live longer because reading is the safe direction. Revoking a token in the same panel takes effect at once.
 
 Set the environment up in **Settings → Environments → New environment**, name it `live-server`, add the reviewers who may approve a publish, and add `COREALM_CONTENT_PUBLISH_TOKEN` as an environment secret there. Optionally restrict the environment to the default branch. With no environment of that name, GitHub creates one with no protection on the first run, so the reviewer list is the part that actually guards it.
 

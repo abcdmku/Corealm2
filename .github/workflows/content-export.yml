@@ -24,11 +24,6 @@ on:
         description: "Server to export from. Defaults to the COREALM_SERVER_URL repository variable."
         required: false
         type: string
-  # TEMPORARY, remove when live-server merges to main: workflow_dispatch only works from the default
-  # branch, so touching .github/export-now on this branch runs an export against it.
-  push:
-    branches: [live-server]
-    paths: ['.github/export-now']
 
 permissions: {}
 

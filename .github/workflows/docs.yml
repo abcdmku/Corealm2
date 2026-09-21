@@ -41,6 +41,7 @@ concurrency:
 env:
   GAME_BASE: /${{ github.event.repository.name }}/
   DOCS_BASE: /${{ github.event.repository.name }}/docs
+  VITE_COREALM_IDENTITY_URL: ${{ vars.COREALM_IDENTITY_URL }}
 
 jobs:
   verify:
