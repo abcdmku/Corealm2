@@ -35,7 +35,8 @@ concurrency:
 jobs:
   export:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The world bake, and a navigation bake when an export moves geometry, run inside this job.
+    timeout-minutes: 45
     permissions:
       contents: write
       pull-requests: write
@@ -70,6 +71,7 @@ jobs:
           sparse-checkout: |
             .github
             game
+            identity
             tools
       - uses: actions/setup-node@v5
         if: steps.configured.outputs.ready == 'true'
@@ -102,6 +104,19 @@ jobs:
         if: steps.configured.outputs.ready == 'true'
         run: npm run content:check
 
+      # An export that moves a spawn, a region or a creature's size stales the baked world, and the
+      # pull request would then fail three artifact tests with "Stale world revision". Bake it here
+      # so the export is green by construction. A GitHub runner bakes the release world in about
+      # three minutes, and the bake is reproducible, so an export that cannot change baked bytes
+      # rewrites nothing but the revision in `manifest.json`.
+      - name: Install Chromium
+        if: steps.configured.outputs.ready == 'true' && steps.export.outputs.changed == 'true'
+        run: npx --no-install playwright install --with-deps chromium
+
+      - name: Rebake whatever the export staled
+        if: steps.configured.outputs.ready == 'true' && steps.export.outputs.changed == 'true'
+        run: npm run world:build
+
       - name: Open or update the export pull request
         if: steps.configured.outputs.ready == 'true' && steps.export.outputs.changed == 'true'
         env:
@@ -117,7 +132,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$BRANCH"
-          git add game/content
+          git add game/content game/public/generated game/src/generated
           git commit --message "$title" --message "Collections: ${COLLECTIONS}" --message "$(cat "$SUMMARY")"
           # The branch is owned by this workflow and rebuilt from the default branch every run.
           git push --force origin "HEAD:refs/heads/$BRANCH"

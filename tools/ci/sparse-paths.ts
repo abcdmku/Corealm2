@@ -49,16 +49,17 @@ export const SUITE_CHECKOUT = [
 /** The server release: no test suite and no art, but the executable bundles the join-token code. */
 export const RELEASE_CHECKOUT = [".github", "deploy", "devdocs", "game", "identity", "tests", "tools"] as const;
 
-/** Jobs that only compile content and move it between a live server and the repository. */
-export const CONTENT_CHECKOUT = [".github", "game", "tools"] as const;
-
-/** The export self-test also starts a lab server, which signs join tokens. */
-export const CONTENT_LAB_CHECKOUT = [".github", "game", "identity", "tools"] as const;
+/**
+ * Jobs that compile content, move it between a live server and the repository, or rebake the world
+ * an export staled. `identity` is here because `tools/content/labServer.ts` signs join tokens, and
+ * because an import a bake cannot resolve fails minutes into the job.
+ */
+export const CONTENT_CHECKOUT = [".github", "game", "identity", "tools"] as const;
 
 export const WORKFLOW_CHECKOUTS: Readonly<Record<string, readonly string[]>> = {
   "content-export.yml": CONTENT_CHECKOUT,
   "content-publish.yml": CONTENT_CHECKOUT,
-  "content-selftest.yml": CONTENT_LAB_CHECKOUT,
+  "content-selftest.yml": CONTENT_CHECKOUT,
   "docs.yml": SUITE_CHECKOUT,
   "release.yml": RELEASE_CHECKOUT,
 };

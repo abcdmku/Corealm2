@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import type { Plugin } from "vite";
+import { NON_BAKE_CONTENT_FILES } from "./bake-inputs.js";
 
 function filesUnder(directory: string): string[] {
   if (!existsSync(directory)) return [];
@@ -17,8 +18,11 @@ export function generationInputs(root: string): string[] {
   // Recursive source coverage includes separate terrain maps, region content and compositions
   // such as realmTerrain, Crownward and the fairy regions without maintaining a second file list.
   // `content/data` holds the JSON tables the loaders under `src/content` import; `content/meta`
-  // is deliberately absent because approval state must never invalidate a baked world.
-  return [...filesUnder(path.join(root, "src")), ...filesUnder(path.join(root, "content/data")),
+  // is deliberately absent because approval state must never invalidate a baked world, and
+  // `NON_BAKE_CONTENT_FILES` is absent because its bytes reach no baked record at all.
+  const excluded = new Set(NON_BAKE_CONTENT_FILES.map(file => path.resolve(root, file)));
+  return [...filesUnder(path.join(root, "src")), ...filesUnder(path.join(root, "content/data"))
+    .filter(file => !excluded.has(path.resolve(file))),
     path.join(root, "public/assets/manifest.json"), path.join(root, "../package-lock.json")].sort();
 }
 

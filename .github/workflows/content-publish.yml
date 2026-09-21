@@ -73,6 +73,7 @@ jobs:
           sparse-checkout: |
             .github
             game
+            identity
             tools
       - uses: actions/setup-node@v5
         with:
