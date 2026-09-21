@@ -1,8 +1,8 @@
 # Live server status
 
-Where the [live server plan](live-server-plan.md) stands. All nine milestones are built on the
-`live-server` branch. This page is the short version: what proves each one, what nobody has proved
-yet, what the known limits are, and what merging to `main` still needs.
+Where the [live server plan](live-server-plan.md) stands. All nine milestones are built and merged
+into `main`. Version `v0.1.0` is released. This page records the acceptance evidence, remaining
+deployment checks and known limits.
 
 ## Done
 
@@ -41,28 +41,40 @@ yet, what the known limits are, and what merging to `main` still needs.
 - The migrated database initially recorded an unknown base as `0.0.0`. Previewing and applying the
   bundled `0.1.0` base kept both server-specific loot edits, with no conflicts or changed content tables.
   Before/after source hashes match. Both worlds now report `0.1.0`, and the built client's desktop and
-  phone selectors were checked against live discovery. The Pages client still needs its identity URL
-  and the branch deployment before account play can be checked there; see the merge checklist below.
+  phone selectors were checked against live discovery. The Pages identity URL is now configured and
+  the merged branch has been deployed by the Game and guide workflow.
 - The live admin now uses `https://abcdmku.github.io/Corealm2/` as its asset host. Item icons were
   visually checked in the signed-in owner session. Server-mode model thumbnails now render in the
   browser without repository cache endpoints, including when the renderer loads after the view.
   Typecheck, ten focused tests, the admin build and the Windows executable build pass. The rebuilt
   server is deployed; its content revision and base markers are unchanged.
+- The `live-server` branch was merged into `main` at `a2b61f9`. Pages now reads its identity URL
+  from the repository variable, Ravenwood is registered in the directory, and the temporary export
+  trigger is removed. Twelve focused identity and content-sync tests pass.
+- [Content publish from main](https://github.com/abcdmku/Corealm2/actions/runs/35669081743) passed
+  with `validate_only`: the server validated the differing loot tables against its remote asset
+  manifest and returned `stored: false`. The live revision remains `161e021a661b`, with both custom
+  loot edits preserved. The Content sync self-test also passed on the merged commit.
+- [Game and guide](https://github.com/abcdmku/Corealm2/actions/runs/35669072473) deployed the
+  merged build to Pages. The owner signed in through the identity service, joined Corealm, and
+  played in the rendered world. After a reload, the account stayed signed in, rejoined, and retained
+  the same 61 Magic XP. Browser screenshots were inspected and no console errors were reported.
+- [Server release](https://github.com/abcdmku/Corealm2/actions/runs/35669622293) passed on the
+  matching `v0.1.0` tag. It checked the world pack, built both executables, smoke-started the Linux
+  binary on Ubuntu, and stopped it cleanly. The release includes both binaries, the sample config,
+  systemd unit, build metadata and checksums.
 
 ## Not verified
 
-- **The publish workflow has never run from `main`.** `content-publish.yml` is manual and gated on
-  the `live-server` GitHub environment. It has been read and its inputs validated, and nothing has
-  pushed repository content to a live server through it.
-- **The Linux executable has only run under WSL.** It has not been started on a real Debian or
-  Ubuntu host, and the shipped `deploy/corealm-server.service` has not been run by systemd.
+- **The systemd unit has not been exercised.** The Linux executable starts and stops cleanly on
+  the Ubuntu release runner and under WSL, but `deploy/corealm-server.service` still needs a check
+  on a persistent Linux host before using that deployment method.
 - **The browser smoke test does not run in CI.** `docs.yml` carries a `smoke` job that stays
   skipped until the repository variable `COREALM_GPU_RUNNER` names a self-hosted runner with a GPU,
   because headless Chromium's software rasteriser never reaches the first simulation tick of the
   authored world. Run it by hand before merging anything that touches boot, rendering or
   navigation: `npm run smoke -- --run runs/corealm --hardware`.
-- **`release.yml` has never run on a real tag.** Its `workflow_dispatch` path does everything
-  except publish, which is how it has been exercised.
+
 ## Known limits
 
 - **Skipping time in local play is bounded by the worker.** `setTimeScale(100)` reaches 100x in the
@@ -87,14 +99,12 @@ yet, what the known limits are, and what merging to `main` still needs.
   base tracking, run the previous executable and apply its bundled base with `allowDowngrade: true`;
   the merge keeps server edits. Ordinary rollback restores the base recorded on its target revision.
 
-## Merging `live-server` into `main`
+## Release complete
 
-1. Remove the temporary `push` trigger on `live-server` from `.github/workflows/content-export.yml`
-   and delete `.github/export-now`. `workflow_dispatch` works from the default branch, which is
-   what the trigger stood in for.
-2. Decide whether worlds on an account server should be joinable from the Pages client. If so, the
-   Pages build needs the identity service URL, which `docs.yml` does not pass today.
-3. Run the **Content publish** workflow once with `validate_only`, against the test server, so the
-   one workflow nobody has run has been run.
-4. Push a `v<package.json version>` tag and let `release.yml` build and attach both executables, so
-   the release path has been run on a real matching tag rather than on `workflow_dispatch`.
+The merge and release checklist is complete. The temporary export trigger is removed, Pages has
+its identity URL and live directory discovery, the publish workflow passed without storing content,
+and the matching tag produced the release files.
+
+- [Play Corealm](https://abcdmku.github.io/Corealm2/)
+- [Live admin](https://ravenwood.io:4443/admin/)
+- [Download v0.1.0](https://github.com/abcdmku/Corealm2/releases/tag/v0.1.0)

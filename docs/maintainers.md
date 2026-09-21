@@ -94,11 +94,11 @@ Neither content workflow runs on a schedule. Both are manual, both run inside th
 | M5 | Devdocs server mode, the players, server and Base game workspaces. | Done. The bounded browser audit covers the base preview, conflict resolution, apply and failure states; desktop and phone selector captures were inspected. |
 | M6 | The baked server world pack and the two single executables. | Done |
 | M7 | Thin client, local play in a Web Worker. | Done |
-| M8 | The CI content workflows. | Done. Export has run against the test server; publish has never run from `main`. |
+| M8 | The CI content workflows. | Done. Export has run against the test server; [publish validation](https://github.com/abcdmku/Corealm2/actions/runs/35669081743) ran from `main`, sent the differing `lootTables`, and returned `stored:false`, so the active content stayed unchanged. |
 | M9 | A worker thread per world. | Done |
 | Base version and update API | Strict semver, per-revision base markers, schema 4 migration, three-way merge and authenticated preview/apply endpoints. | Done in server code, focused tests and the bounded browser audit. |
 
-Every milestone is built. [Live server status](live-server-status.md) has the evidence one line at a time, what is still unverified, and the checklist for merging `live-server` into `main`.
+Every milestone is built. [Live server status](live-server-status.md) has the evidence one line at a time and records what is still unverified.
 
 ## Where to read more
 
