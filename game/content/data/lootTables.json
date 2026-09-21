@@ -2190,6 +2190,14 @@
               1
             ],
             "chance": 0.02
+          },
+          {
+            "itemId": "gold",
+            "quantity": [
+              10000,
+              10000
+            ],
+            "chance": 0.001
           }
         ],
         "tables": []
@@ -2627,7 +2635,7 @@
             "itemId": "marsh_gland",
             "quantity": [
               1,
-              2
+              3
             ],
             "chance": 0.3
           },
