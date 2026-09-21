@@ -1,0 +1,179 @@
+import "./lib/repoContent.js";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { chromium, type BrowserContext, type Page } from "playwright";
+import { preview } from "vite";
+import { SaveService } from "../game/src/persistence/storage.js";
+import { createInitialState } from "../game/src/state/store.js";
+import { installTestDeadline } from "./lib/deadline.js";
+import { gameRoot, repoRoot } from "./lib/paths.js";
+import { startGameServer } from "./lib/server.js";
+
+/**
+ * Worker-hosted local play in a real browser, on hardware rendering.
+ *
+ *   tsx tools/local-worker-test.ts            the dev server
+ *   tsx tools/local-worker-test.ts --dist     the production build in game/dist (run `npm run build` first)
+ *
+ * One browser profile goes through a player's whole life with the feature: an old main-thread save
+ * is waiting, the first boot imports it, the player walks and gathers, a second tab is turned away,
+ * and a reload finds the character where it was left. Fresh profiles then time the old local path
+ * against the worker path. Ports 4340 to 4349.
+ */
+const dist = process.argv.includes("--dist");
+const out = path.join(repoRoot, "test-results/local-worker"); await mkdir(out, { recursive: true });
+const clearDeadline = installTestDeadline("local worker", 420_000);
+const PORT = dist ? 4341 : 4340;
+const server = dist
+  ? await preview({ root: gameRoot, logLevel: "error", preview: { host: "127.0.0.1", port: PORT, strictPort: true } }).then(running => ({ url: `http://127.0.0.1:${PORT}`, close: () => running.close() }))
+  : await startGameServer({ port: PORT, strictPort: true });
+const browser = await chromium.launch({ headless: true, args: ["--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio", "--disable-background-timer-throttling", "--disable-renderer-backgrounding",
+  ...(process.platform === "win32" ? ["--use-angle=d3d11"] : [])] });
+const SETTINGS = JSON.stringify({ renderScale: 0.7, shadowQuality: "off", drawDistance: "near", music: 0, ambient: 0, sfx: 0 });
+const WORKER_URL = `${server.url}/?play=local&local=worker`;
+
+const checks: Record<string, boolean> = {}; const errors: string[] = []; const notes: Record<string, unknown> = {};
+
+interface Observation {
+  starts: number; running: boolean; crashed: boolean; phase: string; status: string; simTicks: number; remoteSimulation: boolean; tick: number | null; firstSnapshotAtMs: number | null; startMs: number | null;
+  ready: { legacy: string; storage: string; seed: { requested: number; used: number }; timings: Record<string, number> } | null; storageTrouble: unknown;
+}
+interface Lab { player: { name: string; position: number[] }; currency: number; inventory: { slots: ({ itemId: string; quantity: number } | null)[] };
+  entities: { id: string; archetype: string; state: string; position: number[]; interactions: string[]; requirements?: Record<string, number> }[]; skills: Record<string, { level: number }> }
+const observe = (page: Page): Promise<Observation> => page.evaluate(() => window.__corealmLocalWorker!.observe() as never);
+const lab = (page: Page): Promise<Lab> => page.evaluate(() => window.__multiplayerLab!.observe() as never);
+const held = (state: Lab): Record<string, number> => { const counts: Record<string, number> = {}; for (const slot of state.inventory.slots) if (slot) counts[slot.itemId] = (counts[slot.itemId] ?? 0) + slot.quantity; return counts; };
+
+async function context(seed?: string): Promise<BrowserContext> {
+  const made = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+  await made.addInitScript(({ settings, save }) => {
+    localStorage.setItem("corealm.settings.v1", settings);
+    // Once: a reload must find whatever the first boot left, not the fixture again.
+    if (save && !localStorage.getItem("corealm.test.seeded")) { localStorage.setItem("corealm.test.seeded", "1"); localStorage.setItem("corealm.save.v1", save); }
+  }, { settings: SETTINGS, save: seed ?? null });
+  return made;
+}
+async function open(made: BrowserContext, url: string, label: string): Promise<Page> {
+  const page = await made.newPage();
+  page.on("pageerror", error => errors.push(`${label}: ${error.message}`));
+  page.on("console", message => { if (message.type() === "error") errors.push(`${label}: ${message.text().slice(0, 400)}`); });
+  await page.goto(url, { waitUntil: "load" });
+  return page;
+}
+const playing = (page: Page, timeout = 120_000) => page.waitForFunction(() => {
+  const seen = window.__corealmLocalWorker?.observe() as { phase: string; firstSnapshotAtMs: number | null } | undefined;
+  return seen?.phase === "connected" && seen.firstSnapshotAtMs !== null && window.__gameDebug?.getState().ready === true;
+}, null, { timeout });
+/** First playable, in milliseconds since navigation start. For the worker path that is the later of the scene and the first snapshot. */
+const timing = (page: Page) => page.evaluate(() => {
+  const telemetry = (window as unknown as { __corealmBootTelemetry: { snapshot(): { startedAtEpochMs: number; marks: { name: string; atMs: number }[]; spans: { name: string; startMs: number; endMs: number }[] } } }).__corealmBootTelemetry.snapshot();
+  const mark = telemetry.marks.find(entry => entry.name === "boot.playable");
+  const prepare = telemetry.spans.find(span => span.name === "boot.localWorker.prepare");
+  return { scenePlayableMs: mark ? Math.round(telemetry.startedAtEpochMs + mark.atMs - performance.timeOrigin) : null, prepareMs: prepare ? Math.round(prepare.endMs - prepare.startMs) : null };
+});
+
+try {
+  // ---- 1. An old save is waiting. The first worker boot imports it.
+  const legacy = createInitialState(1337);
+  legacy.player.name = "Maren"; legacy.currency = 431;
+  const free = legacy.inventory.slots.findIndex(slot => slot === null); legacy.inventory.slots[free] = { slotIndex: free, itemId: "grithe_ore", quantity: 7 };
+  const profile = await context(new SaveService(false).serialize(legacy));
+  const first = await open(profile, WORKER_URL, "first"); await playing(first);
+  const started = await observe(first), arrived = await lab(first);
+  notes.firstBoot = { startMs: Math.round(started.startMs ?? 0), timings: started.ready?.timings, storage: started.ready?.storage, seed: started.ready?.seed, ...(await timing(first)),
+    firstSnapshotMs: Math.round(started.firstSnapshotAtMs ?? 0) };
+  checks.workerSession = started.phase === "connected" && started.running && started.starts === 1;
+  checks.indexedDbStorage = started.ready?.storage === "indexeddb";
+  checks.legacyCharacterLoaded = started.ready?.legacy === "imported" && arrived.player.name === "Maren" && arrived.currency === 431 && held(arrived).grithe_ore === 7;
+  const keys = await first.evaluate(() => ({ save: localStorage.getItem("corealm.save.v1") !== null, backup: localStorage.getItem("corealm.save.v1.backup"), migrated: localStorage.getItem("corealm.save.v1.migrated") }));
+  checks.legacyBackupAndMarker = !keys.save && typeof keys.backup === "string" && JSON.parse(keys.backup).player.name === "Maren" && keys.migrated !== null;
+
+  // ---- 2. The page simulates nothing, and the world still moves: it arrives by replication.
+  const tickBefore = started.tick ?? 0; await first.waitForTimeout(1500);
+  const later = await observe(first);
+  checks.noMainThreadSimulation = later.simTicks === 0 && later.remoteSimulation === true;
+  checks.replicationAdvances = (later.tick ?? 0) >= tickBefore + 10;
+
+  // ---- 3. Walk with the keyboard, then gather with the UI's own command entry.
+  await first.locator("canvas").first().click({ position: { x: 640, y: 200 } });
+  await first.keyboard.down("w"); await first.waitForTimeout(1500); await first.keyboard.up("w");
+  await first.waitForTimeout(400);
+  const walked = await lab(first);
+  notes.walkedMetres = Number(Math.hypot(walked.player.position[0]! - arrived.player.position[0]!, walked.player.position[2]! - arrived.player.position[2]!).toFixed(2));
+  checks.walkedByInput = (notes.walkedMetres as number) > 1;
+  const verbs: Record<string, [string, string]> = { tree: ["chop", "woodcutting"], ore: ["mine", "mining"], fish: ["fish", "fishing"] };
+  const nodes = walked.entities.filter(entity => verbs[entity.archetype] && entity.state === "available"
+    && (entity.requirements?.[verbs[entity.archetype]![1]] ?? 1) <= (walked.skills[verbs[entity.archetype]![1]]?.level ?? 1))
+    .map(entity => ({ entity, metres: Math.hypot(entity.position[0]! - walked.player.position[0]!, entity.position[2]! - walked.player.position[2]!) })).sort((a, b) => a.metres - b.metres);
+  const node = nodes[0];
+  if (!node) throw new Error("No gatherable node was replicated near the spawn");
+  notes.gathered = { id: node.entity.id, archetype: node.entity.archetype, metres: Number(node.metres.toFixed(1)) };
+  const before = held(walked);
+  const outcome = await first.evaluate(([id, verb]) => window.__corealmLocalWorker!.command({ method: "interact", args: [id!, verb as "mine"] }) as Promise<{ status: string }>, [node.entity.id, verbs[node.entity.archetype]![0]]);
+  checks.commandAccepted = outcome.status === "accepted";
+  await first.waitForFunction((known) => {
+    const slots = (window.__multiplayerLab!.observe() as { inventory: { slots: ({ itemId: string; quantity: number } | null)[] } }).inventory.slots;
+    const counts: Record<string, number> = {}; for (const slot of slots) if (slot) counts[slot.itemId] = (counts[slot.itemId] ?? 0) + slot.quantity;
+    return Object.keys(counts).some(id => counts[id] !== (known as Record<string, number>)[id]);
+  }, before, { timeout: 120_000 });
+  checks.inventoryChangedByCommand = true;
+  checks.stillNoMainThreadSimulation = (await observe(first)).simTicks === 0;
+  await first.screenshot({ path: path.join(out, dist ? "playing-dist.png" : "playing.png"), timeout: 10_000 }).catch(() => {});
+
+  // ---- 4. A second tab is turned away, and says why.
+  const second = await open(profile, WORKER_URL, "second tab");
+  await second.waitForFunction(() => (window.__corealmLocalWorker?.observe() as { phase: string } | undefined)?.phase === "unavailable", null, { timeout: 120_000 });
+  const refused = await observe(second);
+  notes.secondTab = refused.status;
+  checks.secondTabRefused = /already open in another tab/i.test(refused.status) && !refused.running;
+  await second.screenshot({ path: path.join(out, "second-tab.png"), timeout: 10_000 }).catch(() => {});
+  await second.close();
+  checks.firstTabUnaffected = (await observe(first)).phase === "connected";
+
+  // ---- 5. Reload. The character, what it carries and where it stood come back from IndexedDB.
+  await first.evaluate(() => window.__corealmLocalWorker!.command({ method: "stop", args: [] }));
+  await first.waitForTimeout(6500); // One write-behind interval, so this proves the timed flush rather than the unload.
+  const left = await lab(first);
+  await first.reload({ waitUntil: "load" }); await playing(first);
+  const back = await lab(first), again = await observe(first);
+  notes.reload = { startMs: Math.round(again.startMs ?? 0), timings: again.ready?.timings, legacy: again.ready?.legacy,
+    movedMetres: Number(Math.hypot(back.player.position[0]! - left.player.position[0]!, back.player.position[2]! - left.player.position[2]!).toFixed(2)) };
+  checks.characterPersisted = back.player.name === "Maren" && back.currency === left.currency;
+  checks.inventoryPersisted = JSON.stringify(held(back)) === JSON.stringify(held(left)) && JSON.stringify(held(back)) !== JSON.stringify(before);
+  checks.positionPersisted = (notes.reload as { movedMetres: number }).movedMetres < 0.5;
+  checks.legacyNotOfferedAgain = again.ready?.legacy === "none";
+
+  // ---- 6. Leave at once: only the unload flush can have saved this walk. Reported, not required, because a browser may end the worker first.
+  await first.locator("canvas").first().click({ position: { x: 640, y: 200 } });
+  await first.keyboard.down("s"); await first.waitForTimeout(1200); await first.keyboard.up("s"); await first.waitForTimeout(300);
+  const hurried = await lab(first);
+  await first.reload({ waitUntil: "load" }); await playing(first);
+  const after = await lab(first);
+  notes.unloadFlush = { walkedMetres: Number(Math.hypot(hurried.player.position[0]! - back.player.position[0]!, hurried.player.position[2]! - back.player.position[2]!).toFixed(2)),
+    lostMetres: Number(Math.hypot(after.player.position[0]! - hurried.player.position[0]!, after.player.position[2]! - hurried.player.position[2]!).toFixed(2)) };
+  await profile.close();
+
+  // ---- 7. Timings, each in a fresh profile: the old main-thread path, then the worker path.
+  const oldProfile = await context(), old = await open(oldProfile, `${server.url}/?play=local`, "old path");
+  await old.waitForFunction(() => window.__gameDebug?.getState().ready === true, null, { timeout: 120_000 });
+  const oldTiming = await timing(old);
+  checks.oldPathUnchanged = await old.evaluate(() => window.__corealmLocalWorker === undefined);
+  await oldProfile.close();
+  const freshProfile = await context(), fresh = await open(freshProfile, WORKER_URL, "fresh worker"); await playing(fresh);
+  const freshSeen = await observe(fresh), freshTiming = await timing(fresh);
+  notes.timings = { oldPathFirstPlayableMs: oldTiming.scenePlayableMs,
+    workerPath: { scenePlayableMs: freshTiming.scenePlayableMs, firstSnapshotMs: Math.round(freshSeen.firstSnapshotAtMs ?? 0), manifestPrepareMs: freshTiming.prepareMs,
+      firstPlayableMs: Math.max(freshTiming.scenePlayableMs ?? 0, Math.round(freshSeen.firstSnapshotAtMs ?? 0)), workerColdStartMs: Math.round(freshSeen.startMs ?? 0), worker: freshSeen.ready?.timings } };
+  await freshProfile.close();
+} catch (error) {
+  errors.push(error instanceof Error ? `${error.message}\n${error.stack ?? ""}` : String(error));
+} finally {
+  await browser.close(); await server.close(); clearDeadline();
+}
+const benign = (text: string): boolean => /favicon|ERR_ABORTED|AudioContext/.test(text);
+const failures = errors.filter(error => !benign(error));
+const passed = failures.length === 0 && Object.keys(checks).length >= 17 && Object.values(checks).every(Boolean);
+const report = { passed, mode: dist ? "dist" : "dev", checks, notes, errors: failures };
+await writeFile(path.join(out, dist ? "report-dist.json" : "report.json"), JSON.stringify(report, null, 2));
+console.log(JSON.stringify(report, null, 2));
+process.exit(passed ? 0 : 1);

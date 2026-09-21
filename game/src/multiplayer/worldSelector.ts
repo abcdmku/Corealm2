@@ -85,6 +85,14 @@ export interface WorldSelectorOptions {
    * took the join over, which means a reload is already under way and nothing else should happen.
    */
   rebase?:(world:WorldDescriptor)=>boolean;
+  /**
+   * Local play as a world: the descriptor of the page's own worker-hosted world, whose provider is
+   * among `providers`. With it, "Play local" joins that world through the session controller like
+   * any other row. Without it, "Play local" steps aside for the old main-thread game.
+   */
+  local?:WorldDescriptor;
+  /** Something the player should know about how the local world started, such as a seed this build does not hold. */
+  localNotice?:()=>string|null;
 }
 
 export async function createWorldSelector(configuration: WorldConfiguration|undefined, ports: SessionControllerPorts,
@@ -92,6 +100,8 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   options:WorldSelectorOptions={} ) {
   const identity=options.identity??null;
   const play=options.play??null;
+  const localWorld=options.local??null;
+  const playingLocal=():boolean=>{const current=controller.session?.world;return localWorld!==null&&!!current&&worldKey(current)===worldKey(localWorld);};
   // A `?play=local` page never sees the picker, so it never pays for discovery before its first
   // frame either: the list fills in the background, for the menu the player may open later.
   const autoLocal=play?.kind==="local";
@@ -169,6 +179,10 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const primary=():{label:string;disabled:boolean;action:"join"|"leave"|"dismiss"|"none"}=>{
     if(["connecting","reconnecting"].includes(phase))return {label:"Cancel connection",disabled:false,action:"leave"};
     if(phase==="leaving")return {label:"Leaving world",disabled:true,action:"none"};
+    if(selected===LOCAL&&localWorld){
+      if(playingLocal())return {label:"Playing local",disabled:true,action:"none"};
+      return pendingJoin?{label:"Starting when ready",disabled:true,action:"none"}:{label:"Play local",disabled:false,action:"join"};
+    }
     if(selected===LOCAL)return phase==="offline"
       ?{label:"Play local",disabled:false,action:"dismiss"}
       :{label:"Leave world",disabled:false,action:"leave"};
@@ -198,7 +212,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     const localNote=document.createElement("small");localNote.textContent="Your single-player character, on this device.";
     localDetail.append(localName,localNote);
     const localBadge=document.createElement("span");localBadge.className="worlds__badge";
-    localBadge.textContent=phase==="offline"?"Playing now":"Not connected";
+    localBadge.textContent=(localWorld?playingLocal():phase==="offline")?"Playing now":"Not connected";
     local.append(localChoice,localDetail,localBadge);list.append(local);
     for(const world of worlds){
       const label=document.createElement("label");label.className="worlds__row worlds__row--world";
@@ -278,13 +292,14 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     const current=controller.session?.world;
     const name=worlds.find(w=>current&&worldKey(w)===worldKey(current))?.name;
     if(next==="offline")selected=LOCAL;
-    else if(next==="connected"&&current)selected=worldKey(current);
+    else if(next==="connected"&&current)selected=playingLocal()?LOCAL:worldKey(current);
     for(const radio of list.querySelectorAll<HTMLInputElement>("input[type=radio]"))radio.checked=radio.value===selected;
     // A refused join says which refusal it was: another session holds this account, the token was
     // rejected, or the world is full. Each one has a different next move for the player.
     if(failure?.code==="UNAUTHORIZED")retrySignIn=true;
     if(next==="connected")retrySignIn=false;
-    status.textContent=failure?joinFailureMessage(failure):message??({offline:"",connecting:"Joining world…",connected:`Connected${name?` to ${name}`:""}`,reconnecting:"Connection lost. Reconnecting…",leaving:"Returning to single-player…",full:"This world is full. Choose another world or try again.",incompatible:"This world needs a different game version.",unavailable:"World unavailable. Refresh the list or try again."}[next]);
+    status.textContent=failure?joinFailureMessage(failure):message??(next==="connected"&&playingLocal()?options.localNotice?.()??"Playing on your own. Open the menu to join a world later."
+      :next==="connecting"&&selected===LOCAL&&localWorld?"Starting your world…":null)??({offline:"",connecting:"Joining world…",connected:`Connected${name?` to ${name}`:""}`,reconnecting:"Connection lost. Reconnecting…",leaving:"Returning to single-player…",full:"This world is full. Choose another world or try again.",incompatible:"This world needs a different game version.",unavailable:"World unavailable. Refresh the list or try again."}[next]);
     renderAccount();updateButtons();panel.dispatchEvent(new Event("worldsessionchange"));ports.phase(next,message,failure);
   }});
   let discovery:AbortController|null=null;
@@ -338,6 +353,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     panel.dispatchEvent(new CustomEvent("worldschosen",{detail:{play:playTargetText(target)}}));
   };
   const joinSelected=()=>{
+    if(selected===LOCAL&&localWorld){void controller.join(localWorld);return;}
     const world=worlds.find(w=>worldKey(w)===selected);
     if(!world)return;
     chose({kind:"world",providerId:world.providerId,worldId:world.worldId});
@@ -360,6 +376,9 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     if(state.action==="leave"){pendingJoin=false;void controller.leave();return;}
     if(state.action==="dismiss"){chose({kind:"local"});dismiss();return;}
     if(state.action!=="join")return;
+    // The local world is a join like any other, but choosing it still means "get out of my way".
+    if(selected===LOCAL&&localWorld){chose({kind:"local"});dismiss();}
+    if(!ready&&selected===LOCAL&&localWorld){pendingJoin=true;updateButtons();return;}
     if(!ready){pendingJoin=true;status.textContent="Joining as soon as the game finishes loading.";updateButtons();return;}
     joinSelected();
   };
@@ -416,6 +435,8 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     selected=worldKey(found);focusPending=true;renderList();
     return found;
   })();
+  // `?play=local` with a worker-hosted world: the answer is already given, so it joins when the engine is ready.
+  if(autoLocal&&localWorld){selected=LOCAL;if(ready)joinSelected();else{pendingJoin=true;updateButtons();}}
   if(play?.kind==="invalid")status.textContent="That play link does not name a world. Choose one below.";
   if(autoWorld&&ready)joinSelected();
   else if(autoWorld){pendingJoin=true;status.textContent=`Joining ${autoWorld.name} as soon as the game finishes loading.`;updateButtons();}

@@ -68,7 +68,7 @@ it("boots on the database's catalog, not the one the build ships, and tells clie
   const session = await provider.connect(world, { token: "guest:alice" }) as WebSocketSession; cleanups.push(() => session.close());
   expect(session.catalog.revision).toBe(revision);
   expect(session.state.entities.get("multiplayer:ore")!.name).toBe("Verdigris Seam");
-  const client = await (await fetch(session.catalog.url)).json() as { revision: string; tables: { resources: { id: string; name: string }[] } };
+  const client = await session.catalog.load() as unknown as { revision: string; tables: { resources: { id: string; name: string }[] } };
   expect([client.revision, client.tables.resources.find(row => row.id === "ore_grithe")!.name]).toEqual([revision, "Verdigris Seam"]);
 }, 120_000);
 

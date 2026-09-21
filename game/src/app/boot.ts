@@ -266,9 +266,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // nothing from the engine, so the panel goes on the loading screen and the player picks a world,
   // adds a host or types a character name while the scene is still being built. Joining stays shut
   // until the first frame is drawn; a choice made before then is honoured the moment it opens.
+  //
+  // `?local=worker` makes "Play local" a world like the others: `HeadlessWorld` in a Web Worker,
+  // joined through the same session code a socket uses. The flag only reads the published manifest
+  // here, to settle the seed before the scene is built. The worker starts once local play is the
+  // known target, so its world boots beside the scene.
+  const localWorkerAsked = new URLSearchParams(location.search).get("local") === "worker"
+    || (window as Window & { __COREALM_LOCAL_WORKER__?: boolean }).__COREALM_LOCAL_WORKER__ === true;
+  const localLaunch = profile.kind === "game" && localWorkerAsked
+    ? await bootTelemetry.measureAsync("boot.localWorker.prepare", async () =>
+      (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "authored", memory: !profile.persistent }))
+      // Without the published manifest there is no worker world to offer, so the page plays the old way and says why.
+      .catch((error: unknown) => { console.warn("[corealm] Worker-hosted local play is unavailable; using the main-thread game.", error); return null; })
+    : null;
   const worldSelection = profile.kind === "game"
     ? import("../multiplayer/browserSession.js")
-      .then(({ startWorldSelection }) => startWorldSelection({ play: playTarget, launch: pendingLaunch }))
+      .then(({ startWorldSelection }) => startWorldSelection({ play: playTarget, launch: pendingLaunch, local: localLaunch }))
       .catch(() => null)
     : Promise.resolve(null);
   // Set when the player answers "Play local" on the loading screen, or when `?play=local` answered
@@ -299,8 +312,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? new URLSearchParams(location.search).get('fabLootSeed') : null;
   const armorSeed = armorSeedText !== null && /^\d+$/.test(armorSeedText) ? Number(armorSeedText) : 1337;
   if (!Number.isSafeInteger(armorSeed) || armorSeed < 0 || armorSeed > 0xffffffff) throw new Error('Invalid armor lab loot seed');
-  const store = new Store(armorSeed, Date.now());
-  const saves = new SaveService(profile.persistent);
+  // Worker-hosted local play keeps its character in the worker's store. This thread then neither
+  // loads nor writes the old save: `localLaunch` read it for import, and it stays put until the
+  // worker has it.
+  const store = new Store(localLaunch?.seed ?? armorSeed, Date.now());
+  const saves = new SaveService(profile.persistent && !localLaunch);
   const loadedSave = saves.load();
   const resumedFromSave = loadedSave.status === "loaded" && loadedSave.state !== undefined;
   if (resumedFromSave) {

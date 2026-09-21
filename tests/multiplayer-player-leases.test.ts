@@ -4,6 +4,7 @@ import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
+import { memoryPort, openLocalWorldStorage } from "../game/src/multiplayer/indexedDbStorage.js";
 
 const descriptor = (worldId: string): WorldDescriptor => ({ providerId: "lease", worldId, name: worldId, endpoint: "ws://127.0.0.1:0/",
   protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 8, availability: "available" });
@@ -18,15 +19,18 @@ function record(world: HeadlessWorld, playerId: string, currency: number, sessio
   return { ...world.snapshot(), leases: { [playerId]: { sessionId, action } } };
 }
 
-for (const kind of ["sqlite", "memory"] as const) describe(`${kind} player leases`, () => {
-  function open() {
+// `local` is the worker's IndexedDB storage over a port in memory: same rules, written behind.
+for (const kind of ["sqlite", "memory", "local"] as const) describe(`${kind} player leases`, () => {
+  async function open() {
     const clock = { now: 1_000_000 };
-    const storage: WorldStorage = kind === "sqlite" ? new SqliteWorldStorage(":memory:", { now: () => clock.now }) : new MemoryWorldStorage(() => clock.now);
+    const storage: WorldStorage = kind === "sqlite" ? new SqliteWorldStorage(":memory:", { now: () => clock.now })
+      : kind === "memory" ? new MemoryWorldStorage(() => clock.now)
+      : await openLocalWorldStorage({ port: memoryPort(), now: () => clock.now });
     cleanups.push(() => storage.close());
     return { storage, clock };
   }
   it("grants one live lease per account across worlds and lets only its holder release it", async () => {
-    const { storage } = open();
+    const { storage } = await open();
     expect(await storage.claimPlayer(north, "p", "s1", "P")).toEqual({ character: null, lastWorld: null, world: null });
     expect(await storage.claimPlayer(north, "p", "s2", "P")).toBeNull();
     expect(await storage.claimPlayer(south, "p", "s3", "P")).toBeNull();
@@ -37,7 +41,7 @@ for (const kind of ["sqlite", "memory"] as const) describe(`${kind} player lease
     expect(await storage.claimPlayer(south, "p", "s3", "P")).not.toBeNull();
   });
   it("expires a crashed world's lease on its own, and a renewing world keeps its lease", async () => {
-    const { storage, clock } = open(); const world = await runtime(north);
+    const { storage, clock } = await open(); const world = await runtime(north);
     await storage.claimPlayer(north, "p", "s1", "P");
     clock.now += 10_000; await storage.commit(record(world, "p", 5, "s1"));
     // Renewed at +10 s, so the lease now runs to +40 s. Then the world dies and renews nothing.
@@ -47,7 +51,7 @@ for (const kind of ["sqlite", "memory"] as const) describe(`${kind} player lease
     expect(claim?.character?.currency).toBe(5); expect(claim?.lastWorld).toEqual({ providerId: "lease", worldId: "north" }); expect(claim?.world).toBeNull();
   });
   it("refuses a character write from a world whose lease was taken, and still keeps that world's own objects", async () => {
-    const { storage, clock } = open(); const stalled = await runtime(north), taker = await runtime(south);
+    const { storage, clock } = await open(); const stalled = await runtime(north), taker = await runtime(south);
     await storage.claimPlayer(north, "p", "s1", "P");
     expect(await storage.commit(record(stalled, "p", 5, "s1"))).toEqual({ fenced: [] });
     clock.now += 30_000;
@@ -63,7 +67,7 @@ for (const kind of ["sqlite", "memory"] as const) describe(`${kind} player lease
     expect(await storage.claimPlayer(north, "p", "s3", "P")).toBeNull();
   });
   it("never writes the character from a resident copy", async () => {
-    const { storage } = open(); const world = await runtime(north);
+    const { storage } = await open(); const world = await runtime(north);
     await storage.claimPlayer(north, "p", "s1", "P");
     await storage.commit(record(world, "p", 5, "s1", "release"));
     world.players.get("p")!.store.get().currency = 999;
@@ -71,14 +75,14 @@ for (const kind of ["sqlite", "memory"] as const) describe(`${kind} player lease
     expect((await storage.claimPlayer(south, "p", "s2", "P"))?.character?.currency).toBe(5);
   });
   it("saves a dropped player with the reservation, so any world may take the account at once", async () => {
-    const { storage } = open(); const world = await runtime(north);
+    const { storage } = await open(); const world = await runtime(north);
     await storage.claimPlayer(north, "p", "s1", "P");
     await storage.commit(record(world, "p", 7, "s1", "reserve"));
     expect((await storage.claimPlayer(south, "p", "s2", "P"))?.character?.currency).toBe(7);
     expect(await storage.commit(record(world, "p", 1, "s1"))).toEqual({ fenced: ["p"] });
   });
   it("frees the leases a world left behind when that world starts again, and no others", async () => {
-    const { storage } = open();
+    const { storage } = await open();
     await storage.claimPlayer(north, "p", "s1", "P"); await storage.claimPlayer(south, "q", "s2", "Q");
     await storage.openWorld(north);
     expect(await storage.claimPlayer(south, "p", "s3", "P")).not.toBeNull();

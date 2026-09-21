@@ -15,6 +15,15 @@ export function catalogUrl(endpoint: string, revision: string): string {
   return new URL(`catalog/${revision}`, url).href;
 }
 
+/** One revision at one server. */
+export interface CatalogAddress { url: string; revision: string }
+
+/** What a socket session offers: the catalog beside its endpoint, through the page's cache. `url` is kept for diagnosis. */
+export function socketSessionCatalog(endpoint: string, revision: string, ports: CatalogFetchPorts = {}): SessionCatalog & { url: string } {
+  const url = catalogUrl(endpoint, revision);
+  return { revision, url, load: signal => fetchClientCatalog({ url, revision }, ports, signal) };
+}
+
 export interface CatalogFetchPorts {
   fetch?: typeof fetch;
   /** The Cache API when the page has one. It is absent outside a secure context, where the HTTP cache still holds the immutable reply. */
@@ -40,7 +49,7 @@ async function limitedText(response: Response): Promise<string> {
  * hash and its reply is immutable, so a cached copy is never revalidated, and storing a new revision
  * drops this server's older ones. Only a reply that parses is cached.
  */
-export async function fetchClientCatalog({ url, revision }: SessionCatalog, ports: CatalogFetchPorts = {}, signal?: AbortSignal): Promise<ClientCatalog> {
+export async function fetchClientCatalog({ url, revision }: CatalogAddress, ports: CatalogFetchPorts = {}, signal?: AbortSignal): Promise<ClientCatalog> {
   const stores = ports.caches ?? (globalThis as { caches?: CacheStorage }).caches;
   const cache = await stores?.open(CACHE_NAME).catch(() => undefined);
   const cached = await cache?.match(url);
@@ -60,10 +69,11 @@ export async function fetchClientCatalog({ url, revision }: SessionCatalog, port
 
 /**
  * Keeps the content registry on the revision of the world the page is connected to. Entering a
- * world fetches and overlays its client catalog; leaving undoes the overlay, so local play runs on
- * the build's own tables. A fetch that finishes after the player left, or joined elsewhere, is dropped.
+ * world loads its client catalog from the session, whatever carries it, and overlays it. Leaving
+ * undoes the overlay, so the page is back on the build's own tables. A load that finishes after the
+ * player left, or joined elsewhere, is dropped.
  */
-export function createServerCatalogOverlay(registry: OverlayRegistry, ports: CatalogFetchPorts & { failed?(error: unknown): void } = {}) {
+export function createServerCatalogOverlay(registry: OverlayRegistry, ports: { failed?(error: unknown): void } = {}) {
   let applied: { revision: string; undo(): void } | null = null, request = 0;
   const leave = (): void => { request++; applied?.undo(); applied = null; };
   return {
@@ -74,7 +84,9 @@ export function createServerCatalogOverlay(registry: OverlayRegistry, ports: Cat
       if (applied?.revision === source.revision) return;
       leave(); const mine = request;
       try {
-        const catalog = await fetchClientCatalog(source, ports);
+        const catalog = await source.load();
+        // The source answers for its own transport, so what it hands back is checked here, once, for both.
+        if (catalog.revision !== source.revision) throw new SessionFailure("INVALID_MESSAGE", "The catalog is not the revision this session joined");
         if (mine === request) applied = { revision: source.revision, undo: overlayClientCatalog(registry, catalog) };
       } catch (error) { if (mine === request) ports.failed?.(error); }
     },

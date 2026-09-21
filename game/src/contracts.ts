@@ -171,12 +171,16 @@ export interface WorldUpdate {
   privateDelta?: Partial<import("./state/store.js").PlayerSessionState>;
 }
 /** The catalog a server runs on, as told at join, and where that server serves its client catalog. */
-export interface SessionCatalog { revision: string; url: string }
+/**
+ * The client catalog a session plays on. The transport knows where it comes from: a socket session
+ * fetches `GET /catalog/<revision>` from its server, a local session asks its worker.
+ */
+export interface SessionCatalog { revision: string; load(signal?: AbortSignal): Promise<import("./content/clientCatalog.js").ClientCatalog> }
 export interface WorldSession {
   readonly id: string;
   readonly world: WorldKey | null;
   readonly playerId: string;
-  /** Absent for local play, which runs on the build's own catalog. */
+  /** Absent for the old main-thread local play, which runs on the build's own catalog. */
   readonly catalog?: SessionCatalog;
   command(command: GameCommand): Promise<CommandOutcome>;
   subscribe(listener: (update: WorldUpdate) => void): () => void;

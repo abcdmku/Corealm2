@@ -476,8 +476,13 @@ export class GameLoop {
     this.resetPresentation();
   }
 
+  /** How many simulation steps this thread has run. It stays 0 when a session, remote or worker-hosted, owns the simulation. */
+  simTickCount = 0;
+  get remoteSimulationActive(): boolean { return this.remoteSimulation; }
+
   /** One 100 ms simulation step. */
   private simTick(): void {
+    this.simTickCount++;
     const { store, clock, events } = this.deps;
     const state = store.get();
     const atMs = clock.elapsedMs;

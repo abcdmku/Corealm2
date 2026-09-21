@@ -1,104 +1,49 @@
-import { WORLD_PROTOCOL_VERSION, type CommandOutcome, type GameCommand, type SessionCatalog, type SessionCredentials, type SessionPhase, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldUpdate } from "../contracts.js";
-import { command, compatible, contentUpdated, descriptor, discoverWorlds, MAX_PENDING_COMMANDS, record, SessionFailure, worldKey } from "./protocol.js";
-import { ReplicatedState, MAX_OUTBOUND_BYTES } from "./replication.js";
-import { catalogUrl } from "./clientCatalogFetch.js";
+import type { SessionCredentials, WorldDescriptor, WorldProvider, WorldSession } from "../contracts.js";
+import { compatible, discoverWorlds, SessionFailure } from "./protocol.js";
+import { MAX_OUTBOUND_BYTES } from "./replication.js";
+import { socketSessionCatalog } from "./clientCatalogFetch.js";
+import { ClientWorldSession, joinWorldSession, RetryLedger, type SessionTransport, type TransportListener } from "./sessionClient.js";
 
-export class WebSocketSession implements WorldSession {
-  private sequence = 0;
-  private closed = false;
-  private lastUpdate: WorldUpdate;
-  private readonly listeners = new Set<(update: WorldUpdate) => void>();
-  private readonly statusListeners = new Set<(phase: SessionPhase) => void>();
-  private readonly contentListeners = new Set<(revision: string) => void>();
-  private readonly pending = new Map<number, { operation: number; resolve(outcome: CommandOutcome): void; timer: ReturnType<typeof setTimeout> }>();
-  readonly state: ReplicatedState;
-  readonly catalog: SessionCatalog;
-  /** `world` is the descriptor the server sent at join, so its `catalogRevision` is the one this session plays on. */
-  constructor(readonly id: string, readonly playerId: string, readonly world: WorldDescriptor & { catalogRevision: string }, private readonly socket: WebSocket, initial: WorldUpdate,
-    private nextOperation: number, private readonly retries: Map<number, GameCommand>) {
-    this.state = new ReplicatedState(id,playerId); this.state.apply(initial); this.lastUpdate = initial;
-    this.catalog = { revision: world.catalogRevision, url: catalogUrl(world.endpoint, world.catalogRevision) };
-    socket.addEventListener("message", (event) => {
-      try {
-        if (typeof event.data !== "string" || event.data.length > MAX_OUTBOUND_BYTES) throw new Error("Invalid server response");
-        const message = JSON.parse(event.data);
-        if (message.type === "ack") {
-          const outcome = message.outcome as CommandOutcome; const pending = this.pending.get(outcome.sequence);
-          if (pending) { clearTimeout(pending.timer); this.pending.delete(outcome.sequence); this.retries.delete(pending.operation); pending.resolve(outcome); }
-        } else if (message.type === "update") {
-          const update = message.update as WorldUpdate;
-          if (this.state.apply(update)) { this.lastUpdate = update; for (const listener of this.listeners) listener(update); }
-        } else if (message.type === "content-updated") {
-          const revision = contentUpdated(message);
-          for (const listener of this.contentListeners) listener(revision);
-        } else if (message.type === "error") { this.failPending(); socket.close(4000, "World error"); }
-      } catch {
-        this.failPending(); socket.close(4000, "Invalid replication");
-      }
-    });
-    socket.addEventListener("close", () => {
-      const unexpected = !this.closed; this.closed = true; this.failPending();
-      if (unexpected) for (const listener of this.statusListeners) listener("reconnecting");
-    });
-    socket.addEventListener("error", () => this.failPending());
-  }
-  async command(input: GameCommand): Promise<CommandOutcome> {
-    if (this.closed || this.socket.readyState !== WebSocket.OPEN) throw new SessionFailure("SESSION_EXPIRED", "World connection is closed");
-    if (this.pending.size >= MAX_PENDING_COMMANDS) throw new SessionFailure("BACKLOG", "Too many pending commands");
-    return this.submit(command(input), this.nextOperation++);
-  }
-  async resume(): Promise<void> {
-    for (const [operation, input] of [...this.retries].sort(([a], [b]) => a - b)) {
-      this.nextOperation = Math.max(this.nextOperation, operation + 1);
-      const outcome = await this.submit(input, operation);
-      if (outcome.status === "unknown") throw new SessionFailure("UNKNOWN_OUTCOME", outcome.error.message);
-    }
-  }
-  private async submit(value: GameCommand, operation: number): Promise<CommandOutcome> {
-    if (this.closed || this.socket.readyState !== WebSocket.OPEN) throw new SessionFailure("SESSION_EXPIRED", "World connection is closed");
-    if (this.pending.size >= MAX_PENDING_COMMANDS) throw new SessionFailure("BACKLOG", "Too many pending commands");
-    const sequence = ++this.sequence;
-    return new Promise((resolve) => {
-      const timer = setTimeout(() => {
-        resolve({ status: "unknown", sequence, error: { code: "UNKNOWN_OUTCOME", message: "No authoritative acknowledgement received" } });
-        // Stop accepting intents until a new snapshot and bounded retry reconciliation succeed.
-        this.failPending(); this.socket.close(4000,"Acknowledgement timeout");
-      }, 5000);
-      this.pending.set(sequence, { operation, resolve, timer }); this.retries.set(operation, value);
-      this.socket.send(JSON.stringify({ type: "command", envelope: { sessionId: this.id, sequence, operation, command: value } }));
-    });
-  }
-  subscribe(listener: (update: WorldUpdate) => void): () => void {
-    this.listeners.add(listener);
-    listener({ ...this.lastUpdate, snapshot: true, baseSequence: null, players: [...this.state.players.values()], entities: [...this.state.entities.values()],
-      privateState: this.state.privateState, events: [], actions: [], removedPlayers: [], removedEntities: [] });
-    return () => this.listeners.delete(listener);
-  }
-  subscribeStatus(listener: (phase: SessionPhase) => void): () => void {
-    this.statusListeners.add(listener); return () => this.statusListeners.delete(listener);
-  }
-  subscribeContent(listener: (revision: string) => void): () => void {
-    this.contentListeners.add(listener); return () => this.contentListeners.delete(listener);
-  }
-  private failPending(): void {
-    for (const [sequence, pending] of this.pending) { clearTimeout(pending.timer); pending.resolve({ status: "unknown", sequence,
-      error: { code: "UNKNOWN_OUTCOME", message: "Connection lost before authoritative acknowledgement" } }); }
-    this.pending.clear();
-  }
-  async close(): Promise<void> {
-    if (this.closed) return; this.closed = true; this.failPending(); this.listeners.clear();
-    if (this.socket.readyState === WebSocket.OPEN) this.socket.send(JSON.stringify({ type: "leave" }));
-    this.socket.close(1000, "Left world");
-    await new Promise<void>((resolve) => {
-      if (this.socket.readyState === WebSocket.CLOSED) { resolve(); return; }
+/** A session that reached its world over a socket. The protocol itself lives in `sessionClient.ts`. */
+export type WebSocketSession = ClientWorldSession;
+
+/**
+ * The wire half of a connected session: JSON text frames under the server's size limit, held until
+ * the socket opens, a five second patience for the join and for each acknowledgement, and a close
+ * that waits for the server's own close frame so the next join finds the account released.
+ */
+export function webSocketTransport(socket: WebSocket): SessionTransport {
+  let listener: TransportListener | null = null; const held: string[] = [];
+  socket.addEventListener("open", () => { for (const text of held.splice(0)) socket.send(text); }, { once: true });
+  socket.addEventListener("message", (event) => {
+    if (!listener) return;
+    if (typeof event.data !== "string" || event.data.length > MAX_OUTBOUND_BYTES) { listener.invalid(); return; }
+    let value: unknown;
+    try { value = JSON.parse(event.data); } catch { listener.invalid(); return; }
+    listener.message(value);
+  });
+  socket.addEventListener("close", () => listener?.closed());
+  socket.addEventListener("error", () => listener?.failed());
+  return {
+    remote: true, joinTimeoutMs: 5000, ackTimeoutMs: 5000,
+    get open() { return socket.readyState === WebSocket.OPEN; },
+    send(message) {
+      const text = JSON.stringify(message);
+      if (socket.readyState === WebSocket.CONNECTING) held.push(text); else socket.send(text);
+    },
+    close(code, reason) { socket.close(code, reason); },
+    listen(next) { listener = next; },
+    whenClosed: () => new Promise<void>((resolve) => {
+      if (socket.readyState === WebSocket.CLOSED) { resolve(); return; }
       const timeout = setTimeout(resolve, 1500);
-      this.socket.addEventListener("close", () => { clearTimeout(timeout); resolve(); }, { once: true });
-    });
-  }
+      socket.addEventListener("close", () => { clearTimeout(timeout); resolve(); }, { once: true });
+    }),
+    catalog: (world, revision) => socketSessionCatalog(world.endpoint, revision),
+  };
 }
 
 export class WebSocketProvider implements WorldProvider {
-  private readonly retries = new Map<string, Map<number, GameCommand>>();
+  private readonly retries = new RetryLedger();
   constructor(readonly id: string, private readonly worlds: WorldDescriptor[],
     private readonly authenticatePlayer: (world: WorldDescriptor, signal?: AbortSignal) => Promise<SessionCredentials>) {}
   discover(signal?: AbortSignal): Promise<WorldDescriptor[]> { return discoverWorlds(this.worlds, signal); }
@@ -107,40 +52,6 @@ export class WebSocketProvider implements WorldProvider {
     compatible(world);
     if (world.providerId !== this.id) throw new SessionFailure("UNAVAILABLE", "Wrong provider");
     if (signal?.aborted) throw new SessionFailure("SESSION_EXPIRED", "Join cancelled");
-    const socket = new WebSocket(world.endpoint);
-    return new Promise((resolve, reject) => {
-      let identity: { sessionId: string; playerId: string; nextOperation: number; world: WorldDescriptor & { catalogRevision: string } } | null = null;
-      const timeout = setTimeout(() => fail(new SessionFailure("UNAVAILABLE", "World connection timed out")), 5000);
-      const cleanup = () => { clearTimeout(timeout); signal?.removeEventListener("abort", abort); socket.removeEventListener("message", message); socket.removeEventListener("close", disconnect); socket.removeEventListener("error", disconnect); };
-      const fail = (error: Error) => { cleanup(); socket.close(); reject(error); };
-      const abort = () => fail(new SessionFailure("SESSION_EXPIRED", "Join cancelled"));
-      const disconnect = () => fail(new SessionFailure("UNAVAILABLE", "World connection failed"));
-      const message = (event: MessageEvent) => {
-        try {
-          if (typeof event.data !== "string" || event.data.length > MAX_OUTBOUND_BYTES) throw new Error("Invalid response");
-          const data = JSON.parse(event.data);
-          if (!record(data)) throw new Error("Invalid response");
-          if (data.type === "error" && record(data.error)) { fail(new SessionFailure(data.error.code as SessionFailure["code"], String(data.error.message))); return; }
-          if (data.type === "joined" && typeof data.sessionId === "string" && typeof data.playerId === "string" && Number.isSafeInteger(data.nextOperation)) {
- const joined=descriptor(data.world);compatible(joined);
- if(worldKey(joined)!==worldKey(world)||joined.seed!==world.seed||joined.fixture!==world.fixture)throw new SessionFailure('INCOMPATIBLE','Joined world differs from selected world');
- // The revision seen at discovery may be a publish behind. Only the join reply names what this session plays on.
- const catalogRevision=joined.catalogRevision;if(catalogRevision===undefined)throw new SessionFailure('INVALID_MESSAGE','The server did not name its content catalog');
- identity = { sessionId: data.sessionId, playerId: data.playerId, nextOperation: Number(data.nextOperation), world: { ...world, catalogRevision } };
-}
-          if (data.type === "update" && identity && record(data.update) && data.update.snapshot === true && data.update.sessionId === identity.sessionId && data.update.privateState) {
-            cleanup();
-            const key = JSON.stringify([worldKey(world), identity.playerId]);
-            let retries = this.retries.get(key); if (!retries) { retries = new Map(); this.retries.set(key, retries); }
-            const session = new WebSocketSession(identity.sessionId, identity.playerId, identity.world, socket, data.update as unknown as WorldUpdate, identity.nextOperation, retries);
-            void session.resume().then(() => resolve(session), (error) => { void session.close(); reject(error); });
-          }
-        } catch (error) { fail(error instanceof SessionFailure ? error : new SessionFailure("INVALID_MESSAGE", "Invalid initial snapshot")); }
-      };
-      signal?.addEventListener("abort", abort, { once: true });
-      socket.addEventListener("message", message); socket.addEventListener("close", disconnect); socket.addEventListener("error", disconnect);
-      socket.addEventListener("open", () => socket.send(JSON.stringify({ type: "join", providerId: world.providerId, worldId: world.worldId,
-        token: credentials.token, protocolVersion: WORLD_PROTOCOL_VERSION })), { once: true });
-    });
+    return joinWorldSession(webSocketTransport(new WebSocket(world.endpoint)), world, credentials, this.retries, signal);
   }
 }

@@ -1,11 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldUpdate } from "../game/src/contracts.js";
+import { WORLD_PROTOCOL_VERSION, type WorldDescriptor, type WorldProvider, type WorldSession, type WorldStorage, type WorldUpdate } from "../game/src/contracts.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { WebSocketProvider } from "../game/src/multiplayer/webSocketProvider.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
+import { memoryPort, openLocalWorldStorage } from "../game/src/multiplayer/indexedDbStorage.js";
 import { Admission } from "../game/src/multiplayer/admission.js";
 import { command, compatible, SessionFailure } from "../game/src/multiplayer/protocol.js";
 import { Replicator } from "../game/src/multiplayer/replication.js";
@@ -15,9 +16,9 @@ const descriptor: WorldDescriptor = { providerId: "conformance", worldId: "yard"
   seed: 1337, capacity: 2, population: 0, availability: "available" };
 
 /** Separate transport adapter: deterministic steps, production rules, no sockets or wall clock. */
-async function deterministicProvider(): Promise<WorldProvider> {
+async function deterministicProvider(storage: WorldStorage): Promise<WorldProvider> {
   const world = new HeadlessWorld(descriptor, await createMultiplayerLabWorld());
-  const admission = new Admission(2), storage = new MemoryWorldStorage(); let serial = 0;
+  const admission = new Admission(2); let serial = 0;
   return {
     id: descriptor.providerId,
     discover: async () => [structuredClone(descriptor)],
@@ -51,11 +52,15 @@ async function deterministicProvider(): Promise<WorldProvider> {
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const close of cleanups.splice(0).reverse()) await close(); });
 
-for (const kind of ["deterministic", "websocket"] as const) describe(`${kind} provider conformance`, () => {
+// The storage adapters run the same suite: memory, the worker's write-behind IndexedDB store, SQLite.
+for (const kind of ["deterministic", "deterministic-local", "websocket"] as const) describe(`${kind} provider conformance`, () => {
   it("replays an owning snapshot, awaits rules, validates input, enforces admission, and releases sessions", async () => {
     let provider: WorldProvider;
-    if (kind === "deterministic") provider = await deterministicProvider();
-    else {
+    if (kind !== "websocket") {
+      const storage = kind === "deterministic-local" ? await openLocalWorldStorage({ port: memoryPort() }) : new MemoryWorldStorage();
+      cleanups.push(() => storage.close());
+      provider = await deterministicProvider(storage);
+    } else {
       const server = await startReferenceServer({ worlds: [descriptor], storage: new SqliteWorldStorage(":memory:"),
         build: () => createMultiplayerLabWorld(), authentication: { authenticate: async (token) => ({ playerId: token, name: token }) } });
       cleanups.push(() => server.close());

@@ -36,12 +36,25 @@ export function endpoint(value: unknown, directory = false): string {
   }
   return url.href;
 }
+/**
+ * Where local play lives: a Web Worker in this page, reached over a MessagePort. It is not a URL to
+ * dial, so it is this one exact string rather than a `ws:` address that nothing listens on. Only a
+ * descriptor the page made itself may carry it: see `descriptor`.
+ */
+export const LOCAL_ENDPOINT = "local:worker";
+export function localWorld(world: { endpoint: string }): boolean { return world.endpoint === LOCAL_ENDPOINT; }
 /** A static asset host: HTTPS, or plain HTTP on loopback, normalised to end with a slash. */
 export function assetBase(value: unknown): string {
   const url = endpoint(value, true);
   return url.endsWith("/") ? url : `${url}/`;
 }
-export function descriptor(value: unknown): WorldDescriptor {
+/**
+ * `transport` says who may have written the descriptor. A directory, a `/worlds` reply and a socket's
+ * `joined` message are remote input and pass "socket": an encrypted or loopback `ws(s):` endpoint, or
+ * a refusal, so no server can name the page's own worker as its address. The page's own code passes
+ * nothing, which also admits `LOCAL_ENDPOINT`.
+ */
+export function descriptor(value: unknown, transport: "any" | "socket" = "any"): WorldDescriptor {
   if (!record(value) || !only(value, ["providerId", "worldId", "name", "endpoint", "protocolVersion", "fixture", "catalogRevision", "seed", "population", "capacity", "availability", "assetBaseUrl", "authentication", "description"])
     || !id(value.providerId) || !id(value.worldId) || !text(value.name) || !value.name.trim()
     || !integer(value.protocolVersion) || (value.fixture !== "authored" && value.fixture !== "lab") || !integer(value.seed)
@@ -53,7 +66,7 @@ export function descriptor(value: unknown): WorldDescriptor {
     || (value.description !== undefined && (typeof value.description !== "string" || !value.description.trim() || value.description.length > 200))) {
     throw new SessionFailure("INVALID_MESSAGE", "Invalid world descriptor");
   }
-  return { ...value, endpoint: endpoint(value.endpoint),
+  return { ...value, endpoint: transport === "any" && value.endpoint === LOCAL_ENDPOINT ? LOCAL_ENDPOINT : endpoint(value.endpoint),
     ...(value.assetBaseUrl === undefined ? {} : { assetBaseUrl: assetBase(value.assetBaseUrl) }) } as unknown as WorldDescriptor;
 }
 /** `{type:"content-updated", revision}`: what a server sends every connected peer after a publish or a rollback. */
@@ -94,7 +107,7 @@ export async function discoverWorlds(configuration?: WorldConfiguration, signal?
   }
   const list = Array.isArray(values) ? values : [values];
   if (list.length > MAX_DIRECTORY_WORLDS) throw new SessionFailure("INVALID_MESSAGE", "Too many worlds");
-  const worlds = list.map(descriptor); const keys = new Set<string>();
+  const worlds = list.map(world => descriptor(world, "socket")); const keys = new Set<string>();
   for (const world of worlds) {
     const key = worldKey(world);
     if (keys.has(key)) throw new SessionFailure("INVALID_MESSAGE", "Duplicate world registration");

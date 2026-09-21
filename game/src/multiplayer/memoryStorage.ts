@@ -7,7 +7,8 @@ import { MemoryAdminStorage, PLAYER_LEASE_MS, type MemoryPlayerRow } from "./pla
 import { worldKey } from "./protocol.js";
 
 interface Lease { world: string; sessionId: string; expiresAt: number; reserved: boolean }
-interface Account { name: string; character: string | null; lastWorld: WorldKey | null; firstSeen: number; lastSeen: number }
+/** One account row. `character` is the serialized `PlayerCharacter`, so a store can persist it as is. */
+export interface Account { name: string; character: string | null; lastWorld: WorldKey | null; firstSeen: number; lastSeen: number }
 
 /** The storage contract over plain maps, for tests and hosts that keep nothing. Same lease and fencing rules as SQLite. */
 export class MemoryWorldStorage implements WorldStorage {
@@ -15,9 +16,11 @@ export class MemoryWorldStorage implements WorldStorage {
   private readonly roles = new MemoryAdminStorage(() => this.playerRows());
   readonly admin: ServerAdminStorage = this.roles;
   readonly catalog: CatalogStorage = new MemoryCatalogStorage(this.roles.auditWriter);
-  private readonly worlds = new Map<string, string>();
-  private readonly accounts = new Map<string, Account>();
-  private readonly owned = new Map<string, Map<string, string>>();
+  // Protected, not private: `indexedDbStorage.ts` reads these rows to persist them and fills them
+  // on open. Leases stay private, because a stored lease is a lease no restart can free.
+  protected readonly worlds = new Map<string, string>();
+  protected readonly accounts = new Map<string, Account>();
+  protected readonly owned = new Map<string, Map<string, string>>();
   private readonly leases = new Map<string, Lease>();
   constructor(private readonly now: () => number = Date.now) {}
   private playerRows(): MemoryPlayerRow[] {

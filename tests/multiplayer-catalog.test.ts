@@ -11,7 +11,7 @@ import type { OverlayRegistry } from "../game/src/content/clientCatalogOverlay.j
 import type { ContentTables } from "../game/src/content/index.js";
 import { activeServerCatalog, seedCatalog, type BaseCatalog } from "../game/src/multiplayer/catalogHost.js";
 import { MemoryCatalogStorage, type CatalogStorage, type CatalogWrite } from "../game/src/multiplayer/catalogStorage.js";
-import { catalogUrl, createServerCatalogOverlay, fetchClientCatalog } from "../game/src/multiplayer/clientCatalogFetch.js";
+import { catalogUrl, createServerCatalogOverlay, fetchClientCatalog, type CatalogAddress, type CatalogFetchPorts } from "../game/src/multiplayer/clientCatalogFetch.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
@@ -159,8 +159,8 @@ describe("serving the client catalog", () => {
     const selected = { ...world, endpoint: `ws://127.0.0.1:${server.port}/`, catalogRevision: B };
     const provider = new WebSocketProvider("reference", [selected], async () => ({ token: "alice" }));
     const session = await provider.connect(selected, { token: "alice" }); cleanups.push(() => session.close());
-    expect(session.catalog).toEqual({ revision, url: `http://127.0.0.1:${server.port}/catalog/${revision}` });
-    expect((await fetchClientCatalog(session.catalog!)).tables.items).toEqual(RESOLVED_CATALOG.tables.items);
+    expect(session.catalog).toMatchObject({ revision, url: `http://127.0.0.1:${server.port}/catalog/${revision}` });
+    expect((await session.catalog!.load()).tables.items).toEqual(RESOLVED_CATALOG.tables.items);
   });
   it("derives the catalog address from the socket endpoint and refuses a malformed revision", () => {
     expect(catalogUrl("wss://worlds.example.com/", A)).toBe(`https://worlds.example.com/catalog/${A}`);
@@ -174,7 +174,9 @@ describe("serving the client catalog", () => {
 describe("the client's copy of a server catalog", () => {
   const catalog = (revision: string, name: string) => JSON.stringify({ version: 1, revision, tables: { items: [{ id: "sword", name }], recipes: [], resources: [],
     spells: [], shops: [], regions: [], creatures: [], enemies: [] } });
-  const source = (revision: string): SessionCatalog => ({ revision, url: `https://worlds.example.com/catalog/${revision}` });
+  const source = (revision: string): CatalogAddress => ({ revision, url: `https://worlds.example.com/catalog/${revision}` });
+  /** What a socket session hands the overlay: the same address, loaded through this page's fetch and cache. */
+  const session = (revision: string, ports: CatalogFetchPorts): SessionCatalog => ({ revision, load: signal => fetchClientCatalog(source(revision), ports, signal) });
   function page(replies: Record<string, () => Response | Promise<Response>>) {
     const held = new Map<string, string>(), fetched: string[] = [];
     const cache = { match: async (url: string) => held.has(url) ? new Response(held.get(url)!) : undefined,
@@ -211,19 +213,22 @@ describe("the client's copy of a server catalog", () => {
     let release: ((response: Response) => void) | undefined;
     const { ports } = page({ [source(A).url]: () => new Response(catalog(A, "Server sword")), [source(B).url]: () => new Promise<Response>(resolve => { release = resolve; }) });
     const held = registry(), failures: unknown[] = [];
-    const overlay = createServerCatalogOverlay(held, { ...ports, failed: error => failures.push(error) });
-    await overlay.enter(source(A));
+    const overlay = createServerCatalogOverlay(held, { failed: error => failures.push(error) });
+    await overlay.enter(session(A, ports));
     expect([overlay.revision, held.names()]).toEqual([A, ["Server sword"]]);
     overlay.leave();
     expect([overlay.revision, held.names()]).toEqual([null, ["Build sword"]]);
 
-    const slow = overlay.enter(source(B));
+    const slow = overlay.enter(session(B, ports));
     await expect.poll(() => release !== undefined, { interval: 1 }).toBe(true);
     overlay.leave(); release!(new Response(catalog(B, "Too late"))); await slow;
     expect([overlay.revision, held.names()]).toEqual([null, ["Build sword"]]);
 
-    await overlay.enter(source("c".repeat(64)));
+    await overlay.enter(session("c".repeat(64), ports));
     expect([overlay.revision, held.names(), failures.length]).toEqual([null, ["Build sword"], 1]);
+    // Whatever carries the catalog, the overlay only applies the revision the session joined.
+    await overlay.enter({ revision: A, load: async () => JSON.parse(catalog(B, "Another revision")) });
+    expect([overlay.revision, held.names(), failures.length]).toEqual([null, ["Build sword"], 2]);
   });
 });
 

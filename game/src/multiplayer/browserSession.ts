@@ -14,6 +14,7 @@ import { IdentityClient } from "./identityClient.js";
 import { createWorldSelector, savedHosts } from "../multiplayer/worldSelector.js";
 import { canStorePendingLaunch, joinRoute, storePendingLaunch, type PendingLaunch, type PlayTarget } from "./playIntent.js";
 import type { SessionControllerPorts } from "./providers.js";
+import type { LocalLaunch } from "./localLaunch.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
 import { ActorInterpolation } from "../multiplayer/interpolation.js";
 import {MovementPrediction} from "./movementPrediction.js";
@@ -37,6 +38,8 @@ export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & {
   attach(ports: SessionControllerPorts): void;
   /** Whether this page had any world to offer: a configuration, a saved host or an identity service. */
   configured: boolean;
+  /** Set when "Play local" is a worker-hosted world on this page, rather than the old main-thread game. */
+  local: LocalLaunch | null;
 };
 
 declare global {
@@ -46,6 +49,8 @@ declare global {
     __COREALM_AUTHENTICATE__?: (world:WorldDescriptor) => Promise<SessionCredentials>;
     __COREALM_PROVIDERS__?: WorldProvider[];
     __multiplayerLab?: { observe(): unknown };
+    /** Worker-hosted local play, for harnesses: the worker's start report, and proof that this thread simulates nothing. */
+    __corealmLocalWorker?: { observe(): unknown; command(command: import("../contracts.js").GameCommand): Promise<unknown> };
   }
 }
 
@@ -71,7 +76,8 @@ export interface BrowserSessionPorts {
  * a choice a player makes rather than the absence of one. `configured` still reports whether there
  * was anything to join, which is what decides if the menu opens on the worlds view afterwards.
  */
-export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTarget|null;launch?:PendingLaunch|null}={}):Promise<WorldSelection|null> {
+export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTarget|null;launch?:PendingLaunch|null;local?:LocalLaunch|null}={}):Promise<WorldSelection|null> {
+  const local = options.local ?? null;
   const configuration = window.__COREALM_MULTIPLAYER__;
   // Who signs this page's players in is a property of the page, never of a world: a game server
   // that could name the identity service could name a lookalike and collect sessions.
@@ -104,7 +110,8 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     }
     if(developmentGuests)return {token:`guest:${name.value}`};
     throw new SessionFailure("UNAUTHORIZED","This deployment must provide a sign-in adapter");
-  }, window.__COREALM_PROVIDERS__, {ready:false,identity,identityError,play,
+  }, [...(window.__COREALM_PROVIDERS__ ?? []), ...(local ? [local.provider] : [])], {ready:false,identity,identityError,play,
+    ...(local ? {local:local.provider.world,localNotice:local.notice} : {}),
     rebase(world){
       const route=joinRoute({assetHostForeign:foreignAssetHost(world.assetBaseUrl),
         rebaseAttempts:launch?.attempts??0,canStore:canStorePendingLaunch()});
@@ -122,7 +129,12 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     guest.append("Guest character",name);
     selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__host"));
   }
-  return {...selector, configured, attach(ports){attached.ports=ports;selector.refresh();}};
+  // Local play was asked for by name, or picked while the scene loads: boot its world beside the scene.
+  if(local){
+    if(play?.kind==="local")local.provider.prestart();
+    selector.panel.addEventListener("worldschosen",event=>{if((event as CustomEvent<{play:string|null}>).detail?.play==="local")local.provider.prestart();});
+  }
+  return {...selector, configured, local, attach(ports){attached.ports=ports;selector.refresh();}};
 }
 
 /** Shared browser presentation and session lifecycle; simulation remains behind the session boundary. */
@@ -145,6 +157,14 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   let simplifyCrowds = options.crowds === true;
   const prediction=new MovementPrediction(ports.movement);
   let online = false; let lastUpdate: WorldUpdate | null = null;
+  // Worker-hosted local play: this thread never simulates, joined or not. Between sessions the game
+  // simply waits, as it does while a connection is being made.
+  const workerLocal = selector.local?.provider ?? null;
+  let firstSnapshotAt: number | null = null;
+  if (workerLocal) {
+    ports.loop.setRemoteSimulation(true); ports.events.setSimulationEnabled(false);
+    ports.saves.setOnlineSession(true); ports.api.setCommandSession(null, true);
+  }
   let receivedAt = 0;
   let traversing = false;
   let lastSteer = -Infinity; let steering = false;
@@ -190,9 +210,10 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
         replicatedEntities.capture(offlineEntities);
       }
       ports.phase?.(phase);
-      online = phase !== "offline"; ports.loop.setRemoteSimulation(online);
-      ports.events.setSimulationEnabled(!online);
-      ports.saves.setOnlineSession(online);
+      online = phase !== "offline"; const remote = online || workerLocal !== null;
+      ports.loop.setRemoteSimulation(remote);
+      ports.events.setSimulationEnabled(!remote);
+      ports.saves.setOnlineSession(remote);
       ports.movement.setDirectInputSink(online ? steer : null); steering = false;
       const session=phase === "connected" ? selector.controller.session : null;
       // A publish on the server offers a refresh and nothing more. Play carries on with the catalog this session joined with.
@@ -209,7 +230,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
             prediction.acknowledge(token,outcome);return outcome;
           } catch(error) {prediction.cancel(token);throw error;}
         },
-      } : null, online);
+      } : null, remote);
     },
     async offline() {
       ports.store.replace(structuredClone(offline)); ports.entities.load(structuredClone(offlineEntities));
@@ -218,6 +239,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
     apply(update) {
       lastUpdate = update;
       receivedAt = performance.now();
+      if (update.snapshot) firstSnapshotAt ??= receivedAt;
       if (update.snapshot) { remote.clear(); interpolation.clear(); publicPlayers.clear(); motionTicks.clear(); entities.clear(); replicatedEntities.reset(); }
       if (update.privateState) ports.store.replace(composeSessionState(update.privateState, { nodes: {}, enemies: {}, lootPiles: {} }, ports.store.get().settings));
       for (const player of update.players) {
@@ -338,6 +360,15 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   };
   frame = requestAnimationFrame(animate);
   window.addEventListener("blur", () => { if (online) steer({ forward: 0, strafe: 0, cameraYaw: 0 }); });
+  if (workerLocal) {
+    // The worker's store writes behind, and a worker hears neither of these. Hidden is the last moment a phone reliably gives.
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") workerLocal.flush(); });
+    window.addEventListener("pagehide", () => workerLocal.flush());
+    // `command` is the UI's own entry point, `api.submit`: through prediction, over the session, to the worker.
+    window.__corealmLocalWorker = { command: command => ports.api.submit(command), observe: () => ({ ...workerLocal.observe(), world: workerLocal.world, notice: selector.local?.notice() ?? null,
+      simTicks: ports.loop.simTickCount, remoteSimulation: ports.loop.remoteSimulationActive, phase: selector.panel.dataset.phase ?? "offline",
+      status: selector.panel.querySelector(".worlds__status")?.textContent ?? "", firstSnapshotAtMs: firstSnapshotAt, tick: lastUpdate?.tick ?? null }) };
+  }
   window.addEventListener("pagehide", () => { cancelAnimationFrame(frame); void selector.controller.leave(); }, { once: true });
   window.__multiplayerLab = { observe: () => ({ phase: selector.panel.dataset.phase ?? "offline", players: [...remote.values()], visiblePlayerIds:[...visibleIds], entities: [...entities.values()],
     presentation: visibleIds.map(id => ({id, equipment:ports.entities.get(`remote:${id}`)?.view?.equipment, materials:ports.views.materialNames(`remote:${id}`), crowd: ports.entities.get(`remote:${id}`)?.view?.crowd === true, motion: ports.views.motionSnapshot(`remote:${id}`), render: ports.views.presentationSnapshot(`remote:${id}`), activity:ports.views.remoteActivitySnapshot(`remote:${id}`)})),

@@ -14,6 +14,8 @@ import { repoRoot } from "../tools/lib/paths.js";
  */
 const ENTRIES = [
   "game/src/multiplayer/memoryStorage.ts",
+  "game/src/multiplayer/indexedDbStorage.ts",
+  "game/src/persistence/localSaveMigration.ts",
   "game/src/multiplayer/headlessWorld.ts",
   "game/src/multiplayer/worldPack.ts",
   "game/src/multiplayer/labWorld.ts",
