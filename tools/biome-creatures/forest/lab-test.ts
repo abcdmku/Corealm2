@@ -21,7 +21,7 @@ try {
     await page.evaluate(async id => {
       const gallery = (window as any).__creatureGallery;
       await gallery.show(`candidate:${id}`, 1);
-      gallery.place(0, 70, .55);
+      await gallery.place(0, 70, .55);
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
       await (window.__gameDebug as any).inspectPose({ x: 0, y: 1.2, z: 70, yaw: .95, pitch: .2, distance: 4, detached: true });
     }, id);
@@ -65,7 +65,7 @@ try {
     assert(bodyMaterials.length > 0, `${id} production body material did not submit`);
     assert(bodyMaterials.some((material: any) => material.mapUuid !== null), `${id} authored surface is not bound to a production texture`);
     evidence.push({ id, renderProfile: profile });
-    await page.evaluate(async id => { const lab = window.__featureLab!; await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 40); await lab.spawnTarget('creature', `candidate:${id}`, { distance: 3 }); }, id);
+    await page.evaluate(async id => { const lab = window.__featureLab!; await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); await lab.setLevel('melee', 40); await lab.spawnTarget('creature', `candidate:${id}`, { distance: 3 }); }, id);
     await page.keyboard.press('l');
     const before = await page.evaluate(() => window.__featureLab!.getState());
     await page.getByRole('button', { name: 'Attack spawned creature', exact: true }).click();

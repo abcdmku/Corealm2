@@ -93,7 +93,7 @@ async function main(): Promise<void> {
     await page.evaluate(async () => {
       const lab = window.__featureLab!;
       lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true); lab.setPlayerVisible(true);
-      lab.setLevel('crafting', 70); lab.setLevel('magic', 99); lab.setLevel('melee', 99);
+      await lab.setLevel('crafting', 70); await lab.setLevel('magic', 99); await lab.setLevel('melee', 99);
       await lab.equipPlayer('offHand', null);
       await lab.equipPlayer('mainHand', 'chainbound_sword');
     });

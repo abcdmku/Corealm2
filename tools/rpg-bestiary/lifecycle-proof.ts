@@ -21,7 +21,7 @@ try{
  await driver.launch();const page=driver.page!;await installAssetCandidates(page,catalog);await driver.open(25000,'/index.html?mode=combat');
  report.renderer=await page.evaluate(()=>{const g=document.querySelector('canvas')!.getContext('webgl2')!,e=g.getExtension('WEBGL_debug_renderer_info');return g.getParameter(e?e.UNMASKED_RENDERER_WEBGL:g.RENDERER);});assert(report.renderer&&!/swiftshader|software|llvmpipe/i.test(report.renderer));
  const call=(name:string,a:any)=>page.evaluate(async({name,a})=>{const r=await(window as any).__gameDebug.callTool(name,a);if(r?.error)throw Error(JSON.stringify(r));return r;},{name,a});
- await page.evaluate(async preset=>{const l=(window as any).__featureLab;await l.spawnTarget('creature',preset,{distance:7});l.setLevel('melee',1);await l.equipPlayer('mainHand',null);},preset);
+ await page.evaluate(async preset=>{const l=(window as any).__featureLab;await l.spawnTarget('creature',preset,{distance:7});await l.setLevel('melee',1);await l.equipPlayer('mainHand',null);},preset);
  await page.waitForFunction(p=>(window as any).__featureLab.getState()?.target?.presetId===p,preset);
  const sample=async(stage:string)=>{const s=await page.evaluate(async ()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:await d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);
   const overlay=s.motion?.hitOverlay;if(overlay?.active&&!report.hitOverlay)report.hitOverlay={clip:overlay.clip,duration:overlay.duration,maskStatus:overlay.maskStatus,bones:overlay.bones};
@@ -80,7 +80,7 @@ try{
   }
  }
  }
- await call('corealm_stop',{});await page.evaluate(async()=>{const l=(window as any).__featureLab;l.setLevel('melee',35);await l.equipPlayer('mainHand','kaldite_sword');});
+ await call('corealm_stop',{});await page.evaluate(async()=>{const l=(window as any).__featureLab;await l.setLevel('melee',35);await l.equipPlayer('mainHand','kaldite_sword');});
  report.beforeKill=await sample('kill-setup');
  if(corpseOnly){await page.keyboard.press('l');await page.evaluate(()=>(window as any).__featureLab.perform('attack'));}else await page.locator('#lab-attack').click();const end=Date.now()+35000;let dead:any;
  while(Date.now()<end){const s=await sample('natural-combat');await captureActions(s);if(s.lab.target.state==='dead'&&s.lab.target.health===0){dead=s;break;}await driver.wait(60);}

@@ -124,7 +124,7 @@ async function main(): Promise<void> {
     report["weapon"] = weapon;
 
     await page.evaluate(async (itemId) => { await window.__featureLab!.equipPlayer("mainHand", itemId); }, weapon);
-    await page.evaluate(() => { window.__featureLab!.setLevel("melee", 1); });
+    await page.evaluate(async () => { await window.__featureLab!.setLevel("melee", 1); });
     await page.evaluate(async () => { await window.__featureLab!.perform("reset-player"); });
     const spawned: FeatureLabState = await page.evaluate(async (id) => window.__featureLab!.spawnTarget("creature", id, { distance: 6 }), preset.id);
     assert.ok(spawned.target, "spawn produced no target");

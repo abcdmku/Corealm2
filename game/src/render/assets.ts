@@ -456,6 +456,14 @@ export class AssetRegistry {
     return this.byId.get(assetId)?.size ?? null;
   }
 
+  /**
+   * The manifest measurements of every asset, as plain data. The lab worker grounds a fixture's models with them, the way
+   * the server world pack carries them for the authored world.
+   */
+  measurements(): Record<string, { size: { x: number; y: number; z: number }; base?: { x: number; y: number; z: number }; groundY?: number }> {
+    return Object.fromEntries([...this.byId].map(([id, entry]) => [id, { size: { ...entry.size }, ...(entry.base ? { base: { ...entry.base } } : {}), ...(entry.groundY === undefined ? {} : { groundY: entry.groundY }) }]));
+  }
+
   /** Local XZ centre of the measured mesh bounds relative to the GLB origin. */
   assetCenterXZ(assetId: string): { x: number; z: number } | null {
     const entry = this.byId.get(assetId);

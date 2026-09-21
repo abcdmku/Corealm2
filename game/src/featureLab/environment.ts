@@ -60,7 +60,7 @@ export interface EnvironmentWorkbench {
   setVisibilityOptimization(enabled: boolean): void;
   /** Sample a repeatable animation pose for the next synchronous draw. The live loop resumes it. */
   sampleSurfaceTime(seconds: number): void;
-  dispose(): void;
+  dispose(): Promise<void>;
 }
 
 export interface EnvironmentGalleryOptions {
@@ -92,10 +92,15 @@ interface EnvironmentDeps {
   entityStore: EntityStore;
   entityViews: EntityViews;
   replaceCollision(solids: readonly SolidVolume[]): void;
+  /**
+   * The showcase changed what stands in the lab world. The lab worker owns the simulation, so the page tells it: which
+   * entities left, which arrived, and (through the caller) the collision and navmesh that `replaceCollision` just rebuilt.
+   */
+  worldChanged?(change: { remove: string[]; add: SemanticEntity[] }): Promise<void>;
 }
 
 /** Original models and authored settings, using the same semantic views and scatter as the game. */
-export async function createEnvironmentWorkbench({ assets, scene, entityStore, entityViews, replaceCollision }: EnvironmentDeps): Promise<EnvironmentWorkbench> {
+export async function createEnvironmentWorkbench({ assets, scene, entityStore, entityViews, replaceCollision, worldChanged }: EnvironmentDeps): Promise<EnvironmentWorkbench> {
   const cuts = new Map<string, unknown>();
   const cutCache: GenerationCachePort = {
     async get<T>(key: string, valid: (value: unknown) => value is T) {
@@ -156,7 +161,12 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     const next = queue.catch(() => {}).then(async () => {
       if (disposed) throw new Error("Environment workbench has been disposed");
       state.ready = false;
-      try { await build(); }
+      const before = [...state.entityIds];
+      try {
+        await build();
+        // Ready only once the worker's world holds what the page now draws.
+        await worldChanged?.({ remove: before, add: state.entityIds.flatMap((id) => entityStore.get(id) ?? []) });
+      }
       finally { state.ready = !disposed; }
     });
     queue = next;
@@ -457,11 +467,13 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         entityViews.sync(entityStore.all());
       });
     },
-    dispose() {
+    async dispose() {
       if (disposed) return;
       disposed = true;
+      const before = [...state.entityIds];
       clear();
       state.ready = false;
+      await worldChanged?.({ remove: before, add: [] });
     },
   };
   await workbench.showGallery("corealm_oak_1");

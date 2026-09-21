@@ -14,13 +14,13 @@ try{
   await page.waitForFunction(()=>window.__featureLab?.getState().ready);
   const preset=await page.evaluate(()=>window.__featureLab!.getState().target!.presetId);
   await page.evaluate(async()=>{
-    const lab=window.__featureLab!;for(const skill of ["magic","melee"] as const)lab.setLevel(skill,99);
+    const lab=window.__featureLab!;for(const skill of ["magic","melee"] as const)await lab.setLevel(skill,99);
     await lab.equipPlayer("offHand",null);await lab.equipPlayer("mainHand","basic_wooden_staff");
     await lab.equipPlayer("body","marchhide_robe");lab.setFreeCameraEnabled(false);
   });
   for(const spell of ["squallsurge","tidesurge","scarpsurge","kilnsurge"] as const){
     const before=await page.evaluate(async({preset,spell})=>{const lab=window.__featureLab!;
-      await lab.perform("reset-player");await lab.spawnTarget("creature",spell==="scarpsurge"?"redsill_cattle":preset,{distance:10});lab.setSpell(spell);return lab.getState();},{preset,spell});
+      await lab.perform("reset-player");await lab.spawnTarget("creature",spell==="scarpsurge"?"redsill_cattle":preset,{distance:10});await lab.setSpell(spell);return lab.getState();},{preset,spell});
     await page.evaluate(()=>window.__featureLab!.perform("cast"));
     await page.waitForFunction(({count,element})=>{
       const debug=window.__gameDebug as unknown as {getBasicSpellState():{element:string;particles:number}[]};

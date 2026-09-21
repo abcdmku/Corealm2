@@ -7,6 +7,9 @@ import { serveMessagePort, type MessagePortLike } from "../multiplayer/messagePo
 import { createWorldHost, type WorldHost } from "../multiplayer/worldHost.js";
 import { createPackedWorld, loadServerWorldPack } from "../multiplayer/worldPack.js";
 import { createLocalDebug } from "./localDebug.js";
+import type { LabFixtureSpec } from "../featureLab/labSpec.js";
+import type { LabWorldData } from "./labProtocol.js";
+import { createLabWorld, type LabWorld } from "./labWorld.js";
 import { DEFAULT_LOCAL_NAME, LOCAL_ACCOUNT_ID, localWorldDescriptor, packedSeed, type LegacyImport, type LegacyOutcome } from "./localHostProtocol.js";
 
 /**
@@ -25,6 +28,8 @@ export interface LocalHostOptions {
   legacy?: LegacyImport;
   /** Defaults to a store that keeps nothing. The worker passes the IndexedDB one. */
   storage?: LocalStorage;
+  /** A feature-lab session: the spec from the URL and the world description from the drawn scene. Without it the lab fixture is the multiplayer pad. */
+  lab?: { spec: LabFixtureSpec; data: LabWorldData };
   /** The caller steps the host by hand, as a test that owns time does. The tick loop is not started. */
   manual?: boolean;
 }
@@ -49,9 +54,10 @@ export async function startLocalHost(options: LocalHostOptions): Promise<LocalHo
   const legacy = options.legacy;
   let name = legacy?.character.player.name || null;
   const worldStart = performance.now();
+  let lab: LabWorld | null = null;
   const host = await createWorldHost({
     worlds: [world], storage, catalogRevision: RESOLVED_CATALOG.revision, sparseSnapshots: true,
-    build: target => pack ? createPackedWorld(pack, target.seed) : createMultiplayerLabWorld(target.seed),
+    build: async target => pack ? createPackedWorld(pack, target.seed) : options.lab ? (lab = await createLabWorld(options.lab.spec, options.lab.data)).ports : createMultiplayerLabWorld(target.seed),
     // Local play needs no login: whoever holds the port is the one local player.
     authentication: { authentication: "guest", authenticate: async () => ({ playerId: LOCAL_ACCOUNT_ID, name: name ?? DEFAULT_LOCAL_NAME }) },
   });
@@ -86,7 +92,7 @@ export async function startLocalHost(options: LocalHostOptions): Promise<LocalHo
   void storage.flush?.();
   if (!options.manual) host.start();
   // Only this link carries debug frames. A socket has none, and the host core refuses the message as unknown.
-  const debug = createLocalDebug({ host, hosted, playerId: LOCAL_ACCOUNT_ID, flush: async () => { await storage.flush?.(); return { ...storage.flushStats }; } });
+  const debug = createLocalDebug({ host, hosted, playerId: LOCAL_ACCOUNT_ID, ...(lab && options.lab ? { lab: { world: lab, assets: options.lab.data.assets, fixtureData: options.lab.data.fixtureData } } : {}), flush: async () => { await storage.flush?.(); return { ...storage.flushStats }; } });
   return {
     host, world, seed: { requested: options.seed, used }, legacy: outcome, timings: { importMs, worldMs },
     connect(port) { serveMessagePort(port, host, { debug }); },

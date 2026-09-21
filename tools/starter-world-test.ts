@@ -40,8 +40,8 @@ try {
     const setup = await page.evaluate(async () => {
       const debug = window.__gameDebug as unknown as Debug;
       const pack = (window as unknown as { __packLab: { ids: string[]; habitat: { centre: [number, number]; radius: number } } }).__packLab;
-      window.__featureLab!.setLevel("melee", 1);
-      window.__featureLab!.setLevel("magic", 1);
+      await window.__featureLab!.setLevel("melee", 1);
+      await window.__featureLab!.setLevel("magic", 1);
       const [x, z] = pack.habitat.centre;
       const actor = await debug.getEntity(pack.ids[0]!);
       const dx = actor.position[0] - x, dz = actor.position[2] - z;

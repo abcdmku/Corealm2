@@ -2,6 +2,7 @@ import type { WorldFixture } from "../contracts.js";
 import { publicBaseUrl } from "../app/config.js";
 import { legacySaveImport, markLegacySaveMigrated, readLegacySave } from "../persistence/localSaveMigration.js";
 import { WorkerWorldProvider, resolveLocalSeed } from "./workerProvider.js";
+import type { LabFixtureSpec } from "../featureLab/labSpec.js";
 
 /**
  * Everything the page decides about worker-hosted local play before it builds a scene: which seed,
@@ -25,8 +26,14 @@ function rememberedSeed(): number | null {
   catch { return null; }
 }
 
-export async function prepareLocalLaunch(options: { fixture: WorldFixture; memory?: boolean }): Promise<LocalLaunch> {
+export async function prepareLocalLaunch(options: { fixture: WorldFixture; memory?: boolean; lab?: LabFixtureSpec }): Promise<LocalLaunch> {
   const assetBase = new URL(publicBaseUrl(), location.href).href;
+  // A lab keeps nothing and imports nothing, and its seed is its spec's: no pack decides it.
+  if (options.lab) {
+    const provider = new WorkerWorldProvider({ fixture: "lab", seed: options.lab.seed, assetBase, memory: true, lab: options.lab,
+      spawn: () => new Worker(new URL("../worker/localHost.ts", import.meta.url), { type: "module", name: "corealm-lab-host" }) });
+    return { provider, seed: options.lab.seed, notice: () => null };
+  }
   // Read once, here: the load pipeline (migrate, recompute, validate) is not free, and the seed is needed now.
   const read = (): ReturnType<typeof legacySaveImport> | null => {
     if (options.memory) return null;

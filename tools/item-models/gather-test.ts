@@ -26,7 +26,7 @@ try {
   await page.addInitScript("globalThis.__name = (target, name) => Object.defineProperty(target, 'name', {value:name, configurable:true});");
   await driver.open(22000, "/index.html?mode=combat&environment=1");
   await page.evaluate(async ({ site }) => {
-    window.__featureLab!.setLevel("mining", 99); window.__featureLab!.setLevel("woodcutting", 99);
+    await window.__featureLab!.setLevel("mining", 99); await window.__featureLab!.setLevel("woodcutting", 99);
     await (window as any).__environmentLab.showSite(site);
   }, { site });
   const panel = page.locator("#panel-feature-lab");

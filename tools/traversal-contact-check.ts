@@ -4,6 +4,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { chromium, type Page } from "playwright";
 import { argValue } from "./lib/paths.js";
 import { installTestDeadline } from "./lib/deadline.js";
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const args = process.argv.slice(2);
 const url = argValue(args, "--url") ?? "http://127.0.0.1:4175";
@@ -32,9 +33,9 @@ async function setup(id: string, reverse = false): Promise<any> {
   await call(page, "corealm_stop", {});
   const lane = await page.evaluate(async ({ id, reverse }) => {
     const w = window as any;
-    w.__agilityLab.prepare();
-    if (id === "sunder_ledge") w.__agilityLab.setLevel(10);
-    const lane = w.__agilityLab.getState().lanes.find((lane: any) => lane.id === id);
+    await w.__agilityLab.prepare();
+    if (id === "sunder_ledge") await w.__agilityLab.setLevel(10);
+    const lane = (await w.__agilityLab.getState()).lanes.find((lane: any) => lane.id === id);
     if (!lane) throw new Error(`Missing fixture ${id}`);
     await w.__gameDebug.teleport(reverse ? lane.exit : lane.entry);
     const centre = lane.entry.map((value: number, i: number) => (value + lane.exit[i]) / 2);
@@ -45,13 +46,17 @@ async function setup(id: string, reverse = false): Promise<any> {
   await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
   await page.evaluate(() => {
     const w = window as any;
-    w.__traversalProof = { running: true, rows: [] };
+    w.__traversalProof = { running: true, rows: [], pending: [] };
+    // Every frame is sampled, so the lab state, which is a round trip to the worker, is filled in when it
+    // arrives instead of holding the next frame back. `finishRows` awaits what is still on its way.
     const sample = () => {
       if (!w.__traversalProof.running) return;
-      const state = w.__agilityLab.getState();
       const curtain = document.querySelector(".traversal-transition");
-      w.__traversalProof.rows.push({ at: performance.now(), state, motion: w.__gameDebug.getPlayerMotion(),
-        opacity: curtain ? Number(getComputedStyle(curtain).opacity) : 0 });
+      const row = { at: performance.now(), state: null, motion: w.__gameDebug.getPlayerMotion(),
+        opacity: curtain ? Number(getComputedStyle(curtain).opacity) : 0 };
+      w.__traversalProof.rows.push(row);
+      // debug-await-lint: ignore, awaited through `pending` in finishRows
+      w.__traversalProof.pending.push(w.__agilityLab.getState().then((state: any) => { row.state = state; }));
       requestAnimationFrame(sample);
     };
     requestAnimationFrame(sample);
@@ -60,7 +65,7 @@ async function setup(id: string, reverse = false): Promise<any> {
 }
 
 async function finishRows(): Promise<any[]> {
-  return page.evaluate(() => { const w = window as any; w.__traversalProof.running = false; return w.__traversalProof.rows; });
+  return page.evaluate(async () => { const w = window as any; w.__traversalProof.running = false; await Promise.all(w.__traversalProof.pending); return w.__traversalProof.rows; });
 }
 
 try {
@@ -85,10 +90,10 @@ try {
     const before = await state();
     const started = await call(page, "corealm_interact", { entityId: id, interaction: kind === "vault" ? "vault" : "climb" });
     assert(!started.error, `${id} refused: ${JSON.stringify(started)}`);
-    await page.waitForFunction(() => (window as any).__agilityLab.getState().traversal?.progress >= 0.55,
+    await waitForDebug(page, async () => (await (window as any).__agilityLab.getState()).traversal?.progress >= 0.55,
       null, { timeout: 7000 });
     await page.screenshot({ path: path.join(out, `${id}-contact.png`) });
-    await page.waitForFunction(() => !(window as any).__agilityLab.getState().activity, null, { timeout: 7000 });
+    await waitForDebug(page, async () => !(await (window as any).__agilityLab.getState()).activity, null, { timeout: 7000 });
     const after = await state();
     const rows = await finishRows();
     assert(after.agility.xp - before.agility.xp === 18, `${id} XP receipt was not 18`);
@@ -137,8 +142,8 @@ try {
     },
       null, { timeout: 7000 });
     await page.screenshot({ path: path.join(out, `sunder-${reverse ? "reverse" : "forward"}-concealed.png`) });
-    await page.waitForFunction(() => !(window as any).__agilityLab.getState().activity
-      && (window as any).__agilityLab.getState().movement.mode === "idle", null, { timeout: 9000 });
+    await waitForDebug(page, async () => !(await (window as any).__agilityLab.getState()).activity
+      && (await (window as any).__agilityLab.getState()).movement.mode === "idle", null, { timeout: 9000 });
     const after = await state();
     const rows = await finishRows();
     const target = reverse ? lane.entry : lane.exit;
@@ -152,7 +157,7 @@ try {
   await setup("contact_climb");
   const beforeCancel = await state();
   await call(page, "corealm_interact", { entityId: "contact_climb", interaction: "climb" });
-  await page.waitForFunction(() => (window as any).__agilityLab.getState().traversal?.progress > 0.45);
+  await waitForDebug(page, async () => (await (window as any).__agilityLab.getState()).traversal?.progress > 0.45);
   await call(page, "corealm_stop", {});
   await page.waitForFunction(() => !document.querySelector(".traversal-transition"), null, { timeout: 3000 });
   const afterCancel = await state();

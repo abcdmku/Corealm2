@@ -1,11 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
-import { calleeName, cannotAwait, child, children, embeddedScripts, enclosingFunction, findAsyncDebugCalls, functionName, hasOptionalLink, isAsync, isAwaited, lineOf, outermost, pageRole, parse, promiseChainTop, receivingCall, unwrap, walk, type Node } from "../lib/debug-calls.js";
+import { MENTIONS_SURFACE, calleeName, cannotAwait, child, children, embeddedScripts, enclosingFunction, findAsyncDebugCalls, functionName, hasOptionalLink, isAsync, isAwaited, isIgnored, lineOf, outermost, pageRole, parse, promiseChainTop, receivingCall, unwrap, walk, type Node } from "../lib/debug-calls.js";
 import { repoRoot } from "../lib/paths.js";
 
 /**
- * Awaits every call to an asynchronous `window.__gameDebug` method under `tools/` and `tests/`.
+ * Awaits every call to an asynchronous `window.__gameDebug` or lab surface method (`window.__featureLab`
+ * and the others in `game/src/featureLab/asyncMethods.ts`) under `tools/` and `tests/`.
  *
  *   tsx tools/codemods/await-debug-mutators.ts            rewrite the files
  *   tsx tools/codemods/await-debug-mutators.ts --dry      report only
@@ -22,6 +23,7 @@ import { repoRoot } from "../lib/paths.js";
  * It edits text by position and leaves everything else as it was, including each file's line
  * endings. Running it again changes nothing. What it cannot decide is printed, by file and line, for
  * a person: an async callback given to `filter` or `find`, a wait whose handle is used, a getter.
+ * A call the lint is told to skip (`debug-await-lint: ignore`) is left as it is.
  */
 interface Edit { pos: number; text: string; closing: boolean; extent: number; replaceTo?: number }
 interface FileResult { file: string; awaits: number; asyncFunctions: number; waits: number; promiseAlls: number; notes: string[]; changed: boolean }
@@ -144,7 +146,7 @@ function transform(file: string, text: string): { output: string; result: FileRe
   }
 
   for (const script of embeddedScripts(program, text)) if (script.problem) note(script.host, script.problem);
-  for (const found of findAsyncDebugCalls(program, text)) if (!found.awaited && !found.returnedToPlaywright) awaitSite(found.call);
+  for (const found of findAsyncDebugCalls(program, text)) if (!found.awaited && !found.returnedToPlaywright && !isIgnored(text, found.call.start)) awaitSite(found.call);
   if (!edits.length) return { output: text, result };
 
   // Left to right. At one position closers go first, the closer of the smaller node before the larger, and the opener of the larger node before the smaller.
@@ -177,7 +179,7 @@ const results: FileResult[] = [];
 for (const file of files) {
   const absolute = path.join(repoRoot, file);
   let text = await readFile(absolute, "utf8"), pass: FileResult | null = null;
-  if (!/__gameDebug|waitForDebug/.test(text)) continue;
+  if (!MENTIONS_SURFACE.test(text) && !/waitForDebug/.test(text)) continue;
   // Awaiting a helper can expose another un-awaited call one level up, so run to a fixed point.
   for (let round = 0; round < 6; round++) {
     let step: ReturnType<typeof transform>;

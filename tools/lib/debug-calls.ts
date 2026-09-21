@@ -1,26 +1,33 @@
 import { parseAst } from "vite";
 import { ASYNC_DEBUG_METHODS } from "../../game/src/debug/asyncMethods.js";
+import { ASYNC_LAB_METHODS } from "../../game/src/featureLab/asyncMethods.js";
 
 /**
- * Finds calls to the asynchronous `window.__gameDebug` methods in one source file and says whether
- * each is awaited. The codemod (`tools/codemods/await-debug-mutators.ts`) and the lint
+ * Finds calls to the asynchronous methods of `window.__gameDebug` and of the lab surfaces
+ * (`window.__featureLab` and the rest of `ASYNC_SURFACES`) in one source file and says whether each
+ * is awaited. The codemod (`tools/codemods/await-debug-mutators.ts`) and the lint
  * (`tools/debug-await-lint.ts`) share it, so what one rewrites is exactly what the other checks.
  *
  * It works on syntax alone, because the debug surface is reached through `any` casts in most tools
  * and no type checker would know it. The parser is the one Vite ships (`parseAst`, which reads
  * TypeScript), so this adds no dependency. A call counts when its method is on the async list and:
  *
- *   - its receiver is provably the debug surface: `window.__gameDebug`, a cast of it, or a local
- *     bound to one (`const d = (window as any).__gameDebug`, `const debug = () => window.__gameDebug`);
- *   - or it sits in page context (a callback given to `evaluate`, `waitForFunction` and the like),
- *     where a typed local or a parameter is the usual receiver and nothing else has these names.
- *     `reset` and `removeItem` are left out of this second rule: forms, labs and `localStorage` have their own.
+ *   - its receiver is provably a surface: `window.__gameDebug`, a cast of it, or a local bound to
+ *     one (`const d = (window as any).__gameDebug`, `const debug = () => window.__gameDebug`). The
+ *     method is then looked up on that surface alone, because the surfaces share names:
+ *     `__featureLab.getState()` is synchronous and `__agilityLab.getState()` is not. A local is
+ *     resolved to its nearest declaration, so `lab` may be a different surface in each callback;
+ *   - or it is a `__gameDebug` method and sits in page context (a callback given to `evaluate`,
+ *     `waitForFunction` and the like), where a typed local or a parameter is the usual receiver and
+ *     nothing else has these names. `reset` and `removeItem` are left out of this second rule: forms,
+ *     labs and `localStorage` have their own. The lab surfaces have no such rule. Their names
+ *     (`show`, `place`, `getState`) are everybody's.
  *
  * A call with a computed name on a proven receiver (`api[method](...)`) counts as well, since the
  * name may be any of them.
  *
  * Page scripts kept as strings are read too, which is how the long playthrough tools are written. A
- * string that mentions `__gameDebug` and one of the methods is parsed as JavaScript, with each
+ * string that mentions a surface and one of its methods is parsed as JavaScript, with each
  * template substitution blanked to a name of the same length so positions still point into the file.
  * All of it is page context. Playwright awaits what such a script evaluates to, so its last
  * expression, or an immediately invoked function that is its last expression, is as good as awaited.
@@ -30,7 +37,15 @@ import { ASYNC_DEBUG_METHODS } from "../../game/src/debug/asyncMethods.js";
 export interface Node { type: string; start: number; end: number; parent: Node | null; [key: string]: unknown }
 type Expression = Node;
 
-const ASYNC = new Set<string>(ASYNC_DEBUG_METHODS);
+/** Every asynchronous surface on `window`, and its asynchronous methods. `"*"` means every method. */
+export const ASYNC_SURFACES: ReadonlyMap<string, ReadonlySet<string> | "*"> = new Map<string, ReadonlySet<string> | "*">([
+  ["__gameDebug", new Set<string>(ASYNC_DEBUG_METHODS)],
+  ...Object.entries(ASYNC_LAB_METHODS as Record<string, readonly string[] | "*">).map(([surface, methods]): [string, ReadonlySet<string> | "*"] => [surface, methods === "*" ? "*" : new Set(methods)]),
+]);
+/** A file that matches none of this has nothing to check. */
+export const MENTIONS_SURFACE = new RegExp([...ASYNC_SURFACES.keys()].join("|"));
+const DEBUG = ASYNC_SURFACES.get("__gameDebug") as ReadonlySet<string>;
+const isAsyncOn = (surface: string, method: string): boolean => { const methods = ASYNC_SURFACES.get(surface); return methods === "*" || methods?.has(method) === true; };
 /** Callbacks given to these run in the page, and Playwright awaits what they return. `waitForDebug` is this repo's awaiting poll. */
 export const AWAITING_PAGE_CALLS = new Set(["evaluate", "evaluateHandle", "$eval", "$$eval", "waitForDebug"]);
 /** `waitForFunction` polls its predicate and tests what it returns without awaiting it, so a promise reads as true at once. */
@@ -71,7 +86,8 @@ export function parse(file: string, text: string): Node {
 }
 
 const SNIPPET_PREFIX = "(async()=>{";
-const MENTIONS_ASYNC = new RegExp("[.](?:" + ASYNC_DEBUG_METHODS.join("|") + ")\\s*(?:[?][.])?[(]");
+const MENTIONS_ASYNC = [...ASYNC_SURFACES].map(([surface, methods]) => ({ surface, call: new RegExp("[.](?:" + (methods === "*" ? "\\w+" : [...methods].join("|")) + ")\\s*(?:[?][.])?[(]") }));
+const mentionsAsync = (source: string): boolean => MENTIONS_ASYNC.some(({ surface, call }) => source.includes(surface) && call.test(source));
 /**
  * A page script kept in a string. `program` has the file's positions. `snippet` means it only parsed as a
  * function body, so something else wraps it before the page sees it. `polled` means it is a
@@ -85,7 +101,7 @@ export function embeddedScripts(program: Node, text: string): EmbeddedScript[] {
     if (host.parent?.type === "TaggedTemplateExpression" || host.parent?.type === "ImportDeclaration") return;
     const from = host.start + 1, to = host.end - 1;
     let source = text.slice(from, to);
-    if (!source.includes("__gameDebug") || !MENTIONS_ASYNC.test(source)) return;
+    if (!mentionsAsync(source)) return;
     const quasis = children(host, "quasis");
     for (let index = 0; index + 1 < quasis.length; index++) {
       const start = quasis[index]!.end - 2 - from, end = quasis[index + 1]!.start + 1 - from;
@@ -97,7 +113,9 @@ export function embeddedScripts(program: Node, text: string): EmbeddedScript[] {
     let parsed = attempt(source, from), snippet = false;
     if (!parsed) { parsed = attempt(SNIPPET_PREFIX + source + "\n})()", from - SNIPPET_PREFIX.length); snippet = parsed !== null; }
     if (parsed) { parsed.embedded = true; parsed.snippet = snippet; parsed.polled = polled; }
-    found.push({ host, program: parsed, snippet, polled, problem: parsed ? null : "this page script could not be parsed, so its debug calls are unchecked" });
+    // A sentence about a surface ("__someLab.prepare() is not exposed") is not a script: code that fails to parse has a `;`, a brace or an `=` in it.
+    if (!parsed && !/[;{}=]/.test(source)) return;
+    found.push({ host, program: parsed, snippet, polled, problem: parsed ? null : "this page script could not be parsed, so its debug and lab calls are unchecked" });
   });
   return found;
 }
@@ -182,30 +200,56 @@ function inPageContext(node: Node, program: Node): boolean {
   return false;
 }
 
-/** `X.__gameDebug`, with or without casts around it. */
-function isDebugAccess(node: Expression): boolean {
+/** The surface that `X.__gameDebug`, `X["__featureLab"]` or `Reflect.get(X, "__featureLab")` reads, with or without casts around it. */
+function surfaceAccess(node: Expression): string | null {
   const value = unwrap(node);
-  if (value.type !== "MemberExpression") return false;
-  const property = child(value, "property")!;
-  return value.computed ? property.type === "Literal" && property.value === "__gameDebug" : property.name === "__gameDebug";
+  let name: unknown = null;
+  if (value.type === "MemberExpression") { const property = child(value, "property")!; name = value.computed ? (property.type === "Literal" ? property.value : null) : property.name; }
+  else if (value.type === "CallExpression" && calleeName(value) === "get" && unwrap(child(unwrap(child(value, "callee")!), "object") ?? value).name === "Reflect") { const key = children(value, "arguments")[1]; name = key?.type === "Literal" ? key.value : null; }
+  return typeof name === "string" && ASYNC_SURFACES.has(name) ? name : null;
 }
-/** Locals bound to the debug surface, and functions that return it. Name based: a tool rarely shadows these. */
-function debugBindings(program: Node): { values: Set<string>; getters: Set<string> } {
-  const values = new Set<string>(), getters = new Set<string>();
+/** What one declaration of a name holds: a surface, a function that returns one, or neither, which still hides an outer one. */
+interface Binding { scope: Node; surface: string | null; returns: string | null }
+const SCOPES = new Set(["Program", "BlockStatement", "ForStatement", "ForInStatement", "ForOfStatement", "SwitchStatement", "CatchClause", "StaticBlock"]);
+function scopeOf(node: Node, functionWide = false): Node {
+  let at = node.parent;
+  while (at?.parent && !isFunctionNode(at) && (functionWide || !SCOPES.has(at.type))) at = at.parent;
+  return at ?? node;
+}
+/** The surface a function hands back: `() => window.__gameDebug`, or a body that is one `return` of it. */
+function returnedSurface(fn: Node): string | null {
+  const body = child(fn, "body");
+  if (!body) return null;
+  if (body.type !== "BlockStatement") return surfaceAccess(body);
+  const only = children(body, "body");
+  return only.length === 1 && only[0]!.type === "ReturnStatement" && child(only[0]!, "argument") ? surfaceAccess(child(only[0]!, "argument")!) : null;
+}
+/** Every simple declaration, by name: locals, parameters and functions. */
+function declarations(program: Node): Map<string, Binding[]> {
+  const found = new Map<string, Binding[]>();
+  const add = (name: unknown, binding: Binding): void => { const list = found.get(String(name)); if (list) list.push(binding); else found.set(String(name), [binding]); };
   walk(program, node => {
-    if (node.type !== "VariableDeclarator" || child(node, "id")?.type !== "Identifier" || !child(node, "init")) return;
-    const name = String(child(node, "id")!.name), initial = unwrap(child(node, "init")!);
-    if (isDebugAccess(initial)) values.add(name);
-    else if ((initial.type === "ArrowFunctionExpression" || initial.type === "FunctionExpression") && initial.expression === true && isDebugAccess(child(initial, "body")!)) getters.add(name);
+    if (node.type === "VariableDeclarator" && child(node, "id")?.type === "Identifier") {
+      const initial = child(node, "init") ? unwrap(child(node, "init")!) : null;
+      add(child(node, "id")!.name, { scope: scopeOf(node, node.parent?.kind === "var"), surface: initial ? surfaceAccess(initial) : null, returns: initial && isFunctionNode(initial) ? returnedSurface(initial) : null });
+    } else if (isFunctionNode(node)) {
+      if (node.type === "FunctionDeclaration" && child(node, "id")) add(child(node, "id")!.name, { scope: scopeOf(node), surface: null, returns: returnedSurface(node) });
+      for (const parameter of children(node, "params")) {
+        const id = parameter.type === "AssignmentPattern" ? child(parameter, "left")! : parameter.type === "TSParameterProperty" ? child(parameter, "parameter")! : parameter;
+        if (id.type === "Identifier") add(id.name, { scope: node, surface: null, returns: null });
+      }
+    }
   });
-  return { values, getters };
+  return found;
 }
 
 export interface DebugCall {
   call: Node;
   /** The method name, or null for a computed one on a proven receiver. */
   method: string | null;
-  /** The receiver is provably the debug surface, rather than matched by name in page context. */
+  /** The surface the method is on: `__gameDebug`, `__featureLab` and so on. */
+  surface: string;
+  /** The receiver is provably that surface, rather than matched by name in page context. */
   proven: boolean;
   awaited: boolean;
   /** Returned as it is from a callback Playwright awaits, which is as good as awaited. */
@@ -244,6 +288,11 @@ function returnedFrom(call: Expression): Node | null {
   return null;
 }
 export const lineOf = (text: string, position: number): number => text.slice(0, position).split("\n").length;
+/** The line at `position`, or the one above it, says `debug-await-lint: ignore`. The lint skips it and the codemod leaves it alone. */
+export function isIgnored(text: string, position: number): boolean {
+  const lines = text.split("\n"), line = lineOf(text, position);
+  return /debug-await-lint:\s*ignore/.test(`${lines[line - 2] ?? ""}\n${lines[line - 1] ?? ""}`);
+}
 
 export function findAsyncDebugCalls(program: Node, text: string): DebugCall[] {
   const found = findIn(program, text);
@@ -251,33 +300,42 @@ export function findAsyncDebugCalls(program: Node, text: string): DebugCall[] {
   return found;
 }
 function findIn(program: Node, text: string): DebugCall[] {
-  const { values, getters } = debugBindings(program), found: DebugCall[] = [];
-  const provenReceiver = (node: Expression): boolean => {
-    const value = unwrap(node);
-    if (isDebugAccess(value)) return true;
-    if (value.type === "Identifier") return values.has(String(value.name));
-    return value.type === "CallExpression" && unwrap(child(value, "callee")!).type === "Identifier" && getters.has(String(unwrap(child(value, "callee")!).name));
+  const declared = declarations(program), found: DebugCall[] = [];
+  /** The nearest declaration of a name, looking outward from where it is used. */
+  const resolve = (use: Node): Binding | null => {
+    const list = declared.get(String(use.name));
+    if (list) for (let at: Node | null = use.parent; at; at = at.parent) { const here = list.filter(binding => binding.scope === at); if (here.length) return here.find(binding => binding.surface || binding.returns) ?? here[0]!; }
+    return null;
+  };
+  const surfaceOf = (node: Expression): string | null => {
+    const value = unwrap(node), direct = surfaceAccess(value);
+    if (direct) return direct;
+    if (value.type === "Identifier") return resolve(value)?.surface ?? null;
+    const callee = value.type === "CallExpression" ? unwrap(child(value, "callee")!) : null;
+    return callee?.type === "Identifier" ? resolve(callee)?.returns ?? null : null;
   };
   walk(program, node => {
     if (node.type !== "CallExpression") return;
     const callee = unwrap(child(node, "callee")!);
     if (callee.type !== "MemberExpression") return;
     const receiver = child(callee, "object")!, property = child(callee, "property")!;
-    let method: string | null | undefined, proven = false;
+    let surface = surfaceOf(receiver), method: string | null;
+    const proven = surface !== null;
     if (!callee.computed) {
-      const name = String(property.name);
-      if (!ASYNC.has(name)) return;
-      proven = provenReceiver(receiver);
+      method = String(property.name);
+      if (surface) { if (!isAsyncOn(surface, method)) return; }
       // Node-side wrappers such as `driver.callDebug(...)` are promises already and are not matched here.
-      if (proven || (!UNPROVEN_EXCLUDED.has(name) && unwrap(receiver).type !== "ThisExpression" && inPageContext(node, program))) method = name;
-    } else if (provenReceiver(receiver)) {
-      if (property.type === "Literal" && typeof property.value === "string" && !ASYNC.has(property.value)) return;
-      method = property.type === "Literal" ? String(property.value) : null; proven = true;
+      else if (DEBUG.has(method) && !UNPROVEN_EXCLUDED.has(method) && unwrap(receiver).type !== "ThisExpression" && inPageContext(node, program)) surface = "__gameDebug";
+      else return;
+    } else {
+      if (!surface) return;
+      const literal = property.type === "Literal" && typeof property.value === "string" ? property.value : null;
+      if (literal !== null && !isAsyncOn(surface, literal)) return;
+      method = property.type === "Literal" ? String(property.value) : null;
     }
-    if (method === undefined) return;
     const from = returnedFrom(node);
     const result = isScriptResult(outermost(promiseChainTop(node))) && program.polled !== true;
-    found.push({ call: node, method, proven, awaited: isAwaited(node), returnedToPlaywright: result || (from !== null && pageRole(from, program) === "awaiting"), line: lineOf(text, node.start) });
+    found.push({ call: node, method, surface, proven, awaited: isAwaited(node), returnedToPlaywright: result || (from !== null && pageRole(from, program) === "awaiting"), line: lineOf(text, node.start) });
   });
   return found;
 }

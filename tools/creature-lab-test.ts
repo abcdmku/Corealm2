@@ -756,10 +756,10 @@ async function perform(targetPage: Page, action: "attack" | "cast" | "flee" | "r
 
 /** Drops the two combat skills off the lab's default 99 so damage and XP are both observable. */
 async function setCombatLevels(targetPage: Page, level: number): Promise<void> {
-  await targetPage.evaluate((value) => {
+  await targetPage.evaluate(async (value) => {
     const api = window.__featureLab;
     if (!api) throw new Error("window.__featureLab is unavailable");
-    for (const skill of ["melee", "magic"] as const) api.setLevel(skill, value);
+    for (const skill of ["melee", "magic"] as const) await api.setLevel(skill, value);
   }, level);
 }
 

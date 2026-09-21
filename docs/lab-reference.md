@@ -28,6 +28,27 @@ The sustained response check uses the documented p95 acknowledgement target of 2
 
 The combat and building labs are two modes of the same compact Fallowmarch yard. Both boot through `game/index.html`, the production renderer and `WorldScene`, and the normal asset, material, rig, animation, entity-view, effect, navigation, physics, and input paths. The yard is a 256 m by 256 m plains terrain with gentle relief and a 96 m by 96 m flat central build pad. It keeps edit feedback fast by leaving out the full authored island and its ordinary content. Optional fixtures add production foliage, forest gathering and persistence, or an enclosed fishing basin when those systems are under review.
 
+### How a lab runs
+
+The page draws the lab and the lab worker simulates it. `bootProfile.ts` still resolves `?mode=combat` and `?mode=building` to the feature-lab profile, and `boot.ts` still builds the scene the URL flags ask for: the terrain variant, the structure, the cave shell, the forest scatter, a fixture's entities. It then sends the worker a `LabFixtureSpec` (`featureLab/labSpec.ts`) and, once the scene is drawn, one `LabWorldData` (`worker/labProtocol.ts`), and joins the worker's `lab-<seed>` world the way `?play=local` joins the authored one. Everything after that goes through the session: input and UI are commands, `__gameDebug` writes are debug operations, and lab setup is a `lab.*` operation.
+
+| The page sends | When | What it carries |
+| --- | --- | --- |
+| `LabFixtureSpec` | worker start | mode, seed, terrain variant, spawn, opening structure and creature, what the character starts with, which fixtures the worker hosts, the interest radius (400 m, the whole yard) |
+| `LabWorldData` | once, before the join | terrain sampler data for the yard and the fairy realm, the cave spec, the baked navmesh, solids, walk-surface bounds, route graph, known locations, door barriers, habitats, forest trees, asset measurements, the agility course, and every entity that is not static scenery |
+| `lab.world` | `setStructure`, an environment showcase | a new navmesh, solids and walk-surface bounds, entities removed and added |
+| `lab.entities`, `lab.moveEntity`, `lab.setEntityState` | creature gallery, door workbench | entities placed, moved or switched by a render-side fixture |
+
+Typed arrays are transferred, so the page hands over copies of what its scene still reads. The worker validates the shape of every message and operation at its boundary and refuses what it cannot read.
+
+The lab operations are `lab.init`, `lab.world`, `lab.spawnTarget`, `lab.setLevel`, `lab.equip`, `lab.resetPlayer`, `lab.resetBank`, `lab.awakenAltar`, `lab.entities`, `lab.moveEntity`, `lab.setEntityState`, `lab.call`, `lab.view` and `lab.skipTicks`. `lab.call` runs one method of a fixture the worker hosts whole, because the fixture only ever wrote the simulation: the agility workbench, the regional tier, creature loot, quest recovery and gameplay acceptance fixtures. Their window names on the page are remote surfaces.
+
+`__featureLab.getState().target.ai` is the enemy AI's runtime, which lives in the worker's shared world rows and is never replicated. The worker writes the target's onto the entity after each tick (`meta.labAi`), so it arrives in the same update as the health and position that tick produced.
+
+`__gameDebug.reset()` and `loadSaveBlob()` rebuild the worker's world over the lab scene as it stands, structure included. The target actor is not part of the scene, so spawn it again after a reset.
+
+`?mode=…&multiplayer=1` joins a server's lab world over a socket instead, and the bake and capture flags (`navmesh-bake`, `world-bake`, `world-map-capture`) draw a scene and leave. Neither starts a lab worker.
+
 The shared setting matters. A structure seen in building mode and an actor or spell seen in combat mode receive the same terrain, daylight, fog, camera stack, and scene treatment. The labs are real game scenes, not separate Three.js turntables.
 
 ## Development loop

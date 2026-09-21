@@ -2,6 +2,8 @@ import type { SessionCredentials, WorldDescriptor, WorldFixture, WorldProvider, 
 import type { ClientCatalog } from "../content/clientCatalog.js";
 import { LOCAL_PROVIDER_ID, LOCAL_WORLD_MANIFEST, localWorldDescriptor, packedSeed, parseLocalWorldManifest, type LegacyImport, type LocalHostReady, type LocalHostReply, type LocalHostRequest, type LocalStorageTrouble } from "../worker/localHostProtocol.js";
 import type { DebugOp, DebugReply } from "../worker/localDebugProtocol.js";
+import type { LabFixtureSpec } from "../featureLab/labSpec.js";
+import { labTransferables, type LabOp, type LabWorldData } from "../worker/labProtocol.js";
 import { messagePortTransport, type MessagePortTransport } from "./messagePortLink.js";
 import { compatible, SessionFailure, worldKey } from "./protocol.js";
 import { joinWorldSession, RetryLedger } from "./sessionClient.js";
@@ -35,6 +37,8 @@ export interface WorkerProviderOptions {
   legacy?: LegacySavePort;
   /** Keep nothing between sessions. */
   memory?: boolean;
+  /** A feature-lab session. The worker waits for `provideLabWorld` before it builds its world. */
+  lab?: LabFixtureSpec;
   /** Told once per worker start: timings, the seed that was used, what became of an old save. */
   started?(ready: LocalHostReady): void;
   /** The worker could not write its store. The session plays on; the player should be told their progress may not be kept. */
@@ -54,6 +58,9 @@ export class WorkerWorldProvider implements WorldProvider {
   /** A worker started before anyone joined, so its world boots beside the scene instead of after it. */
   private warm: Promise<Running> | null = null;
   private crashed = false;
+  /** The lab world description, until a worker has taken it. Its arrays are transferred, so it is given once. */
+  private labWorld: LabWorldData | null = null;
+  private starting: LocalWorkerLike | null = null;
   private starts = 0; private lastReady: LocalHostReady | null = null; private lastStartMs: number | null = null; private trouble: LocalStorageTrouble | null = null;
   constructor(private readonly options: WorkerProviderOptions) { this.world = localWorldDescriptor(options.fixture, options.seed); }
 
@@ -103,12 +110,21 @@ export class WorkerWorldProvider implements WorldProvider {
    * update that carries its effect has been applied to this page's session, because the host posts
    * that update and then the answer on one port. Rejects when no local session is joined.
    */
-  async debug(op: DebugOp): Promise<unknown> {
+  async debug(op: DebugOp | LabOp): Promise<unknown> {
     const transport = this.running && !this.running.ended ? this.running.transport : null;
     if (!transport?.open) throw new Error("UNAVAILABLE: join the local world before using debug writes and whole-world reads");
     const reply = await transport.debug(op) as DebugReply;
     if (!reply.ok) throw new Error(reply.error);
     return reply.value;
+  }
+
+  /**
+   * The lab world, described by the page once its scene is drawn. A lab worker that is already booting takes it now;
+   * one started later takes it with its start. The typed arrays are handed over, so pass copies of anything the scene still reads.
+   */
+  provideLabWorld(data: LabWorldData): void {
+    if (!this.options.lab) throw new Error("Only a lab session takes a lab world");
+    if (this.starting) this.starting.postMessage({ type: "lab-world", data }, labTransferables(data)); else this.labWorld = data;
   }
 
   /** `visibilitychange` to hidden and `pagehide`: the worker cannot see either, and its next timed flush may never come. */
@@ -140,10 +156,16 @@ export class WorkerWorldProvider implements WorldProvider {
         if (legacy && data.legacy !== "none") this.options.legacy?.migrated();
         this.lastReady = data; this.lastStartMs = performance.now() - began; this.options.started?.(data);
         this.running = running = { worker, ready: data, transport: null, calls: new Map(), nextCall: 1, ended: false };
+        if (this.starting === worker) this.starting = null;
         resolve(running);
       });
       worker.postMessage({ type: "start", assetBase: this.options.assetBase, fixture: this.options.fixture, seed: this.options.seed,
-        ...(legacy ? { legacy } : {}), ...(this.options.memory ? { memory: true } : {}) });
+        ...(legacy ? { legacy } : {}), ...(this.options.memory ? { memory: true } : {}), ...(this.options.lab ? { lab: this.options.lab } : {}) });
+      if (this.options.lab) {
+        this.starting = worker;
+        const world = this.labWorld; this.labWorld = null;
+        if (world) worker.postMessage({ type: "lab-world", data: world }, labTransferables(world));
+      }
     });
   }
 

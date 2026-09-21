@@ -83,7 +83,7 @@ export class Replicator {
       || this.membershipVersion!==world.membershipVersion || this.interestRegion!==region;
     if(refreshInterest){
       this.nearby=[];
-      world.spatial.forEachInRadius(position,INTEREST_RADIUS,(id)=>{
+      world.spatial.forEachInRadius(position,world.ports.interestRadius??INTEREST_RADIUS,(id)=>{
         if(id!==this.playerId && sameCombatRealm(world.players.get(id)!.store.get().player.regionId,region))this.nearby.push(id);
       });
       const visible=new Set(this.nearby);
@@ -116,7 +116,7 @@ export class Replicator {
       if (send) this.gameplay.set(id,cached.gameplay);
     }
     const nextEntities = new Map<string, string>(); const entities: SemanticEntity[] = [];
-    world.entities.index().forEachInRadius(position, INTEREST_RADIUS, (id) => {
+    world.entities.index().forEachInRadius(position, world.ports.interestRadius ?? INTEREST_RADIUS, (id) => {
       const privateEntity = player.questEntities.get(id);
       const entity = privateEntity ?? world.entities.get(id)!;
       if (!sameCombatRealm(entity.regionId, player.store.get().player.regionId)) return;
@@ -140,7 +140,7 @@ export class Replicator {
     this.eventSequence = events.nextSeq;
     const actions = snapshot ? [] : world.actions.since(this.actionSequence).filter(action =>
       sameCombatRealm(action.regionId, region) && (action.playerId === this.playerId ||
-        Math.hypot(action.position[0] - position[0], action.position[2] - position[2]) <= INTEREST_RADIUS));
+        Math.hypot(action.position[0] - position[0], action.position[2] - position[2]) <= (world.ports.interestRadius ?? INTEREST_RADIUS)));
     this.actionSequence = world.actions.currentSequence();
     const social = world.social.view(this.playerId), socialJson = JSON.stringify(social);
     const update: WorldUpdate = {

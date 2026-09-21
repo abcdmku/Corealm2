@@ -2,18 +2,21 @@ import { readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { calleeName, child, children, embeddedScripts, enclosingFunction, findAsyncDebugCalls, lineOf, outermost, pageRole, parse, walk } from "./lib/debug-calls.js";
+import { MENTIONS_SURFACE, calleeName, child, children, embeddedScripts, enclosingFunction, findAsyncDebugCalls, isIgnored, lineOf, outermost, pageRole, parse, walk } from "./lib/debug-calls.js";
 import { ASYNC_DEBUG_METHODS } from "../game/src/debug/asyncMethods.js";
 import { repoRoot } from "./lib/paths.js";
 
 /**
- * Fails on a call to an asynchronous `window.__gameDebug` method that is not awaited, anywhere under
- * `tools/` and `tests/`.
+ * Fails on a call to an asynchronous `window.__gameDebug` or lab surface method (`window.__featureLab`
+ * and the others) that is not awaited, anywhere under `tools/` and `tests/`.
  *
  *   tsx tools/debug-await-lint.ts           every file
  *   tsx tools/debug-await-lint.ts <files>   only these
  *
- * Local play runs in a worker, so these methods (`game/src/debug/asyncMethods.ts`) return promises. A
+ * Local play and the feature lab run in workers, so these methods (`game/src/debug/asyncMethods.ts`,
+ * `game/src/featureLab/asyncMethods.ts`) return promises. The surfaces share method names, so a lab
+ * call counts only when its receiver is traced to the surface: `__featureLab.getState()` is
+ * synchronous, `__agilityLab.getState()` and every method of a hosted fixture are not. A
  * call that forgets `await` still has its effect, a moment later, and its result serialises to `{}`:
  * the tool reads state from before the change and the failure shows up somewhere else. Three shapes:
  *
@@ -32,16 +35,12 @@ export interface Violation { file: string; line: number; message: string }
 const ASYNC = new Set<string>(ASYNC_DEBUG_METHODS);
 
 export function lintText(file: string, text: string): Violation[] {
-  if (!/__gameDebug|callDebug|waitForDebug/.test(text)) return [];
-  const program = parse(file, text), lines = text.split("\n"), found: Violation[] = [];
-  const report = (position: number, message: string): void => {
-    const line = lineOf(text, position);
-    if (/debug-await-lint:\s*ignore/.test(`${lines[line - 2] ?? ""}\n${lines[line - 1] ?? ""}`)) return;
-    found.push({ file, line, message });
-  };
+  if (!MENTIONS_SURFACE.test(text) && !/callDebug|waitForDebug/.test(text)) return [];
+  const program = parse(file, text), found: Violation[] = [];
+  const report = (position: number, message: string): void => { if (!isIgnored(text, position)) found.push({ file, line: lineOf(text, position), message }); };
   for (const script of embeddedScripts(program, text)) if (script.problem) report(script.host.start, script.problem);
   for (const call of findAsyncDebugCalls(program, text)) {
-    const name = call.method ? `__gameDebug.${call.method}()` : "a computed __gameDebug method";
+    const name = call.method ? `${call.surface}.${call.method}()` : `a computed ${call.surface} method`;
     let top = call.call; while (top.parent) top = top.parent;
     let polled = top.polled === true;
     for (let fn = enclosingFunction(call.call); fn && !polled; fn = enclosingFunction(fn)) polled = pageRole(fn, top) === "polling";
@@ -65,7 +64,7 @@ export async function lintFiles(files?: string[]): Promise<Violation[]> {
     const text = await readFile(path.join(repoRoot, file), "utf8").catch(() => null);
     if (text === null) continue;
     try { violations.push(...lintText(file, text)); }
-    catch (error) { if (/__gameDebug/.test(text)) violations.push({ file, line: 1, message: `could not be parsed: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}` }); }
+    catch (error) { if (MENTIONS_SURFACE.test(text)) violations.push({ file, line: 1, message: `could not be parsed: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}` }); }
   }
   return violations;
 }
@@ -74,6 +73,6 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const named = process.argv.slice(2).filter(arg => !arg.startsWith("--")).map(file => path.relative(repoRoot, path.resolve(file)).replaceAll("\\", "/"));
   const violations = await lintFiles(named.length ? named : undefined);
   for (const violation of violations) console.error(`${violation.file}:${violation.line} ${violation.message}`);
-  console.log(violations.length ? `${violations.length} asynchronous debug call(s) are not awaited. Run: tsx tools/codemods/await-debug-mutators.ts` : "Every asynchronous debug call is awaited.");
+  console.log(violations.length ? `${violations.length} asynchronous debug or lab call(s) are not awaited. Run: tsx tools/codemods/await-debug-mutators.ts` : "Every asynchronous debug and lab call is awaited.");
   process.exitCode = violations.length ? 1 : 0;
 }

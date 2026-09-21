@@ -619,10 +619,10 @@ async function testCombat(
   ));
   remember(bankReset);
 
-  const levels = await targetPage.evaluate((skillIds) => {
+  const levels = await targetPage.evaluate(async (skillIds) => {
     const api = window.__featureLab;
     if (!api) throw new Error("window.__featureLab is unavailable");
-    for (const skillId of skillIds) api.setLevel(skillId, 99);
+    for (const skillId of skillIds) await api.setLevel(skillId, 99);
     return api.getState();
   }, [...SKILL_IDS]);
   remember(levels);
@@ -790,7 +790,7 @@ async function testCombat(
     if (!api) throw new Error("window.__featureLab is unavailable");
     await api.perform("reset-player");
     await api.spawnTarget("creature", targetId);
-    api.setSpell(spellId);
+    await api.setSpell(spellId);
     return api.getState();
   }, { targetId: creaturePreset.id, spellId: spell.id });
   remember(castBefore);

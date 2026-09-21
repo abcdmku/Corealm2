@@ -1816,6 +1816,8 @@ export class EntityViews {
   private readonly rigCandidates = new Set<ViewRecord>();
   private readonly preparingUniques = new Set<ViewRecord>();
   private readonly isViewReady: (root: THREE.Object3D) => boolean;
+  /** Records drawn with their live parts because their group's spent variant was not GPU-ready when the slot was written. */
+  private readonly awaitingSpent = new Set<ViewRecord>();
   private readonly groundHeightAt: (x: number, z: number, referenceY: number) => number;
   private readonly schedulePreparation: EntityViewOptions['schedulePreparation'];
   private readonly pendingViews = new Map<EntityId, Promise<void>>();
@@ -2130,6 +2132,14 @@ export class EntityViews {
     const delta = Math.min(Math.max(deltaSeconds, 0), 0.25);
 
     this.resourceTimeSeconds += delta;
+    // A spent variant is built the first time a node of its group is worked out, and the streaming compiler needs a few
+    // frames for it. Its slot was written with the live parts in the meantime, and nothing about the entity changes again,
+    // so the structural sync never comes back to it. This does, until the stump can be drawn.
+    for (const record of this.awaitingSpent) {
+      const group = this.groups.get(record.groupKey);
+      if (!group || !record.spent || record.slot < 0 || this.records.get(record.entityId) !== record) { this.awaitingSpent.delete(record); continue; }
+      if (group.spent.every(draw => this.isViewReady(draw.batch.mesh))) { this.awaitingSpent.delete(record); this.writeSlot(group, record); }
+    }
     for (const record of this.fishingViews) {
       if (this.captureSubjectId !== null && record.entityId !== this.captureSubjectId) continue;
       if (record.unique || record.slot < 0) continue;
@@ -5226,6 +5236,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // disappear from the world entirely. The walk variant works the same way.
     const spentReady = record.spent && group.spent.length > 0
       && group.spent.every(draw => this.isViewReady(draw.batch.mesh));
+    if (record.spent && group.spent.length > 0 && !spentReady) this.awaitingSpent.add(record);
     const movingReady = !record.spent && moving && group.moving.length > 0
       && group.moving.every(draw => this.isViewReady(draw.batch.mesh));
     const active = spentReady ? group.spent : movingReady ? group.moving : group.live;

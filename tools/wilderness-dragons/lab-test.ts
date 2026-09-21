@@ -134,7 +134,7 @@ try{
  // Gallery attack cycles do not establish outgoing dragon contact timing.
  if(!materialOnly){
  const combatId=ids.length===1?ids[0]!:ids[deep?2:0]!;
- await page.evaluate(async({id,deep})=>{const lab=window.__featureLab!;await lab.perform('reset-player');lab.setFreeCameraEnabled(false);lab.setLevel('melee',99);lab.setLevel('magic',99);await lab.spawnTarget('creature',`candidate:${id}`,{distance:deep?8:4});},{id:combatId,deep});
+ await page.evaluate(async({id,deep})=>{const lab=window.__featureLab!;await lab.perform('reset-player');lab.setFreeCameraEnabled(false);await lab.setLevel('melee',99);await lab.setLevel('magic',99);await lab.spawnTarget('creature',`candidate:${id}`,{distance:deep?8:4});},{id:combatId,deep});
  await page.keyboard.press('l');const before=await page.evaluate(()=>window.__featureLab!.getState());
  await page.getByRole('button',{name:'Attack spawned creature',exact:true}).click();
  await page.waitForFunction(hp=>(window.__featureLab!.getState().target?.health??hp)<hp,before.target!.health!,{timeout:10000});

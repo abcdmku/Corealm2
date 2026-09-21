@@ -85,7 +85,8 @@ export function createDungeonDoorWorkbench(fixture: DungeonDoorFixture, deps: {
   entities: { get(id: EntityId): SemanticEntity | undefined };
   doors: DungeonDoors;
   playerPosition: () => Vec3;
-  setDoorState: (id: EntityId, state: string) => boolean;
+  /** The door is an entity of the lab worker's world, so switching it is an operation there. Resolves once this page's copy shows it. */
+  setDoorState: (id: EntityId, state: string) => Promise<boolean>;
   navigation: Pick<Navigation, "findPathDetailed" | "planRoute">;
 }) {
   function getState() {
@@ -109,10 +110,10 @@ export function createDungeonDoorWorkbench(fixture: DungeonDoorFixture, deps: {
   }
   return {
     getState,
-    setState(id: EntityId, state: string) {
+    async setState(id: EntityId, state: string) {
       if (!fixture.thresholds.some((threshold) => threshold.id === id)) throw new Error(`Unknown fixture door: ${id}`);
       if (!["locked", "sealed", "closed", "unbarred", "open"].includes(state)) throw new Error(`Invalid door state: ${state}`);
-      if (!deps.setDoorState(id, state)) throw new Error(`Fixture door is unavailable: ${id}`);
+      if (!await deps.setDoorState(id, state)) throw new Error(`Fixture door is unavailable: ${id}`);
       return getState();
     },
   };

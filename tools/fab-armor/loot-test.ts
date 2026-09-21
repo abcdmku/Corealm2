@@ -81,7 +81,7 @@ async function main(): Promise<void> {
     assert.equal((await save()).meta.seed, prediction.seed, 'Lab boot must apply fabLootSeed before constructing RNG streams');
     await page.evaluate(async () => {
       const lab = window.__featureLab!;
-      lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true); lab.setLevel('melee', 99); lab.setLevel('magic', 99);
+      lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true); await lab.setLevel('melee', 99); await lab.setLevel('magic', 99);
       await lab.equipPlayer('body', null); await lab.equipPlayer('offHand', null); await lab.equipPlayer('mainHand', 'chainbound_sword');
     });
     await driver.callDebug('clearInventory');

@@ -53,6 +53,8 @@ export interface HeadlessPlayerPorts {
   campfirePlacement: CampfirePlacementProbes;
   knownLocations?: readonly DiscoverableLocation[];
   doorBarriers?: readonly DungeonDoorBarrier[];
+  /** Seed the player's random streams with the world seed alone, as the single-player lab page always did. */
+  sharedRandomSeed?: boolean;
 }
 
 /** Production player rules composed without DOM, renderer, browser storage, or frame callbacks. */
@@ -64,6 +66,10 @@ export class HeadlessPlayer implements CommandExecutor {
   readonly api: CorealmGameApi;
   readonly combat: CombatSystem;
   readonly inventory: InventorySystem;
+  /** For the lab worker, which equips into a named slot and re-reads altars after a structure changes. */
+  readonly equipment: EquipmentSystem;
+  readonly essence: EssenceSystem;
+  readonly quests: QuestSystem;
   readonly gathering: GatheringSystem;
   readonly activity: ActivitySystem;
   readonly questEntities = new Map<string, import("../contracts.js").SemanticEntity>();
@@ -79,7 +85,8 @@ export class HeadlessPlayer implements CommandExecutor {
     const store = this.store = new Store(state.meta.seed);
     store.replace(state);
     const events = this.events;
-    const playerSeed=[...state.player.id].reduce((hash,char)=>Math.imul(hash^char.charCodeAt(0),16777619)>>>0,state.meta.seed);
+    // A lab is one player and a deterministic script, written against the streams the world seed gives. Everywhere else each player gets their own.
+    const playerSeed=ports.sharedRandomSeed?state.meta.seed:[...state.player.id].reduce((hash,char)=>Math.imul(hash^char.charCodeAt(0),16777619)>>>0,state.meta.seed);
     const rng = this.random = new RngStreams(playerSeed);
     const now = () => clock.elapsedMs;
     const skillLevels = () => Object.fromEntries(SKILL_IDS.map((id) => [id, store.get().skills[id].level])) as Record<SkillId, number>;
@@ -98,7 +105,7 @@ export class HeadlessPlayer implements CommandExecutor {
     let equipment: EquipmentSystem; let eating: EatingSystem;
     const inventory = this.inventory = new InventorySystem({ store, events, now,
       equip: (id) => equipment.equip(id), beginEating: (id, duration, at) => eating.beginEating(id, duration, at) });
-    equipment = new EquipmentSystem({ store, events, inventory, now });
+    equipment = this.equipment = new EquipmentSystem({ store, events, inventory, now });
     const activity = this.activity = new ActivitySystem(store, events);
     eating = new EatingSystem({ store, activity, inventory });
     const campfire = new CampfireSystem({ store, events, activity, inventory, entities, now,
@@ -120,7 +127,7 @@ export class HeadlessPlayer implements CommandExecutor {
     for (const entity of entities.all()) if (entity.meta?.essenceAltar || entity.meta?.essenceAltarRuins) {
       this.questEntities.set(entity.id, structuredClone(entity));
     }
-    new EssenceSystem({ store, events, inventory, dispatcher,
+    this.essence = new EssenceSystem({ store, events, inventory, dispatcher,
       entities: { get: localEntity, all: () => entities.all().map((entity) => localEntity(entity.id)!) }, now });
     this.combat = new CombatSystem({ store, events, rng, entities, equipment, inventory, dispatcher,
       activity, movement: this.movement, ownsEnemy: ports.ownsEnemy, lootView:LOOT_PILE_VIEW,
@@ -144,7 +151,10 @@ export class HeadlessPlayer implements CommandExecutor {
       snapToGround: (point) => nav.nearestWalkable(point) });
     this.sharedLootTick=atMs=>death.tickSharedLoot(atMs);
     this.maintenance = [campfire, death];
-    const production = new ProductionSystem({ store, events, rng, entities, inventory, activity, dispatcher });
+    // A station a player has changed for themselves (an altar they awakened) is their private copy, as the essence system and the dispatcher see it.
+    // Through the shared table the altar is dormant for ever, and nothing can be made at it.
+    const production = new ProductionSystem({ store, events, rng, inventory, activity, dispatcher,
+      entities: { get: localEntity, all: () => entities.all().map((entity) => localEntity(entity.id)!) } });
     activity.register(production.driver);
     const xp = { award: (skill: SkillId, amount: number) => {
       const result = addSkillXp(store.get(), skill, amount); store.markDirty();
@@ -156,7 +166,7 @@ export class HeadlessPlayer implements CommandExecutor {
       if (lockedReason !== undefined) entity.meta = { ...entity.meta, lockedReason };
       this.questEntities.set(id, entity); return true;
     } };
-    const quests = new QuestSystem({ store, events, clock, entities: questEntities, inventory, xp, dispatcher });
+    const quests = this.quests = new QuestSystem({ store, events, clock, entities: questEntities, inventory, xp, dispatcher });
     const hunts = new HuntContractsSystem({ state: () => store.get().huntContracts,
       markDirty: () => store.markDirty(), events, playerId: () => store.get().player.id,
       targets: () => deriveHuntTargets(entities.all(), (id) => content.enemy(id), (id) => getRegion(id)?.name ?? "Gravelmaw",

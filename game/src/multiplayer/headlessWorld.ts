@@ -35,8 +35,14 @@ export interface HeadlessWorldPorts {
   planSpawns?(world: CompiledWorld, groupIds: ReadonlySet<string>, residents: readonly SemanticEntity[]): SpawnPlan;
   knownLocations?: readonly import("../world/entities.js").KnownLocation[];
   doorBarriers?: readonly import("../world/dungeonDoors.js").DungeonDoorBarrier[];
+  /** How far from a player entities and other players replicate. Absent is the played world's 48 m; a lab replicates its whole yard. */
+  interestRadius?: number;
+  /** A lab's one player rolls from the world seed's own streams, so a lab script sees the rolls it was written against. */
+  sharedRandomSeed?: boolean;
   initialize?(world:HeadlessWorld):void;
   beforeTick?(world:HeadlessWorld):void;
+  /** After every system has run and before the tick is committed, so what it writes replicates with the tick that caused it. */
+  afterTick?(world:HeadlessWorld):void;
 }
 
 /** How far from a player a sparse snapshot still compares entities: past the interest radius, so nothing a player can touch is skipped. */
@@ -345,6 +351,7 @@ export class HeadlessWorld {
     }
     for (const [id,player] of this.players) if(!this.active.has(id))player.advanceInactive();
     this.sentinel.advanceShared();
+    this.ports.afterTick?.(this);
     this.clock.commitTick();
   }
   /**

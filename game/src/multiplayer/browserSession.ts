@@ -20,7 +20,7 @@ import { ActorInterpolation } from "../multiplayer/interpolation.js";
 import {MovementPrediction} from "./movementPrediction.js";
 import {visibleRemotePlayers} from "./visiblePlayers.js";
 import {CrowdDetail} from "./crowdDetail.js";
-import {ReplicatedEntityLayer,upsertReplicatedEntity} from "./replicatedEntities.js";
+import {ReplicatedEntityLayer,isStaticScenery,upsertReplicatedEntity} from "./replicatedEntities.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { EventBus } from "../core/events.js";
 import type { SaveService } from "../persistence/storage.js";
@@ -62,6 +62,11 @@ export interface BrowserSessionPorts {
   applied?(update:WorldUpdate):void;
   restored?():void;
   expectedSeed?:number;
+  /**
+   * A lab page changes its own static scenery while joined (a new structure). It is handed `recapture`, and calls it with the
+   * page's entities after such a change, so the next full snapshot restores the scenery that is there now.
+   */
+  sceneryChanges?(recapture:(entities:readonly SemanticEntity[])=>void):void;
   traversal?: TraversalPresentation;
 }
 
@@ -138,7 +143,7 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
 }
 
 /** Shared browser presentation and session lifecycle; simulation remains behind the session boundary. */
-export async function installBrowserSession(ports: BrowserSessionPorts, options:{fixture?:boolean;crowds?:boolean;equipment?:boolean}={},
+export async function installBrowserSession(ports: BrowserSessionPorts, options:{fixture?:boolean;/** A feature-lab session in a lab worker: the lab scene, and no picker on screen. */lab?:boolean;crowds?:boolean;equipment?:boolean}={},
   selection?: WorldSelection|null):Promise<void> {
   // A selection made during loading is adopted; otherwise this is the first thing built.
   const selector = selection ?? await startWorldSelection({fixture:options.fixture===true});
@@ -152,6 +157,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   let offline = ports.store.snapshot(); let offlineEntities = structuredClone(ports.entities.all());
   const replicatedEntities = new ReplicatedEntityLayer(ports.entities, offlineEntities);
   const remote = new Map<string, SemanticEntity>(); const entities = new Map<string, SemanticEntity>();
+  ports.sceneryChanges?.(current=>replicatedEntities.capture(structuredClone(current.filter(isStaticScenery))));
   const interpolation = new Map<string, ActorInterpolation>();
   const publicPlayers = new Map<string, RemotePlayer>();
   const motionTicks = new Map<string, number>();
@@ -192,7 +198,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   const serverCatalog = createServerCatalogOverlay(content, { failed: error => console.warn("[corealm] The server's content catalog could not be loaded; showing this build's names and stats.", error) });
   selector.attach({
     validate(world){
-      if(world.fixture!==(options.fixture?"lab":"authored"))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
+      if(world.fixture!==(options.fixture||options.lab?"lab":"authored"))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
       if(ports.expectedSeed!==undefined&&world.seed!==ports.expectedSeed)throw new SessionFailure("INCOMPATIBLE","This world uses a different map seed from the loaded scene");
       // A different asset host is no longer a refusal. Preloading starts from this page's own base
       // before a world is chosen, so the answer is a reload onto the world's host, which the
@@ -313,7 +319,8 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   // The boot path marks the selector ready once the first frame is drawn; a selector created here
   // has a live engine already.
   if(!selection)selector.setReady();
-  if(ports.mountWorlds)ports.mountWorlds(selector.panel);
+  if(options.lab){selector.panel.hidden=true;document.body.append(selector.panel);}
+  else if(ports.mountWorlds)ports.mountWorlds(selector.panel);
   else {selector.panel.classList.add("worlds--fixture");document.body.append(selector.panel);}
   const gather = document.createElement("button"); gather.textContent = "Mine copper"; gather.type = "button";
   gather.addEventListener("click", () => { void selector.command({ method: "interact", args: ["multiplayer:ore", "mine"] }); });

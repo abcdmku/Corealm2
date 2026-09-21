@@ -283,7 +283,7 @@ try {
         const lab = window.__featureLab!;
         await lab.perform('reset-player');
         lab.setFreeCameraEnabled(false);
-        lab.setLevel('melee', 99);
+        await lab.setLevel('melee', 99);
         await lab.spawnTarget('creature', `species:${speciesId}`, { distance: 5 });
         const state = lab.getState();
         const debug = window.__gameDebug as any;

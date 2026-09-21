@@ -7,6 +7,7 @@ import { agilityXp } from '../game/src/content/index.js';
 import { GameDriver } from './lib/driver.js';
 import { argValue } from './lib/paths.js';
 import { installTestDeadline } from './lib/deadline.js';
+import { waitForDebug } from "./lib/wait-for-debug.js";
 
 const args = process.argv.slice(2);
 const out = argValue(args, '--out') ?? 'test-results/fairy-agility-lab';
@@ -51,10 +52,10 @@ try {
   for (const link of selected) {
     const id = link.obstacle.id;
     await driver.callDebug('callTool', ['corealm_stop', {}]);
-    const lane = await page.evaluate(({ id, level }) => {
+    const lane = await page.evaluate(async ({ id, level }) => {
       const w = window as any;
-      w.__agilityLab.prepare(); w.__agilityLab.setLevel(level);
-      return w.__agilityLab.getState().lanes.find((candidate: any) => candidate.id === id);
+      await w.__agilityLab.prepare(); await w.__agilityLab.setLevel(level);
+      return (await w.__agilityLab.getState()).lanes.find((candidate: any) => candidate.id === id);
     }, { id, level: link.obstacle.reqLevel - 1 });
     const dx = lane.exit[0] - lane.entry[0], dz = lane.exit[2] - lane.entry[2];
     const length = Math.hypot(dx, dz);
@@ -95,13 +96,15 @@ try {
     const covered = await state();
     assert.deepEqual(covered.playerPosition, before.playerPosition);
     assert.equal(covered.uses[id], before.uses[id]);
-    await page.waitForFunction(id => {
-      const state = (window as any).__agilityLab.getState();
+    await waitForDebug(page, async id => {
+      const state = await (window as any).__agilityLab.getState();
       return !state.activity && state.uses[id] > 0;
     }, id, { timeout: 6000 });
     const after = await state();
-    const rows = await page.evaluate(() => {
+    // The wait above can see the landing within the frame it happened in. The sampler runs once a frame, so give it the frame that draws the landing before it stops.
+    const rows = await page.evaluate(async () => {
       const proof = (window as any).__fairyAgilityProof;
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       proof.active = false; return proof.rows;
     }) as { position: number[]; opacity: number; simMs: number }[];
     assert(Math.hypot(...after.playerPosition.map((value: number, index: number) => value - lane.exit[index])) < .35);

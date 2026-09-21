@@ -148,10 +148,10 @@ async function main(): Promise<void> {
       assert.deepEqual(names.filter(name => !hostBones.has(name)), [], `${id}: joints missing from live host skeleton`);
     }
     report.boneProof = { source: 'Candidate skin joint names compared with live player hostBones exposed in motion.fishing.bones', hostBones: [...hostBones], joints };
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const lab = window.__featureLab!;
       lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true);
-      lab.setLevel('melee', 99); lab.setLevel('magic', 99);
+      await lab.setLevel('melee', 99); await lab.setLevel('magic', 99);
     });
     const panel = page.locator('#panel-feature-lab');
     if (await panel.isVisible()) await panel.locator('.panel__close').click();

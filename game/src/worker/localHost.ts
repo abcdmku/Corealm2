@@ -1,6 +1,8 @@
 import { installCatalog, type InstalledCatalog } from "../content/catalogInstall.js";
 import { LOCAL_WORLD_MANIFEST, parseLocalWorldManifest, type LocalHostReply, type LocalHostRequest, type LocalHostStart, type LocalHostTimings } from "./localHostProtocol.js";
 import type { LocalHost } from "./localHostRuntime.js";
+import { parseLabFixtureSpec } from "../featureLab/labSpec.js";
+import { labWorldData } from "./labProtocol.js";
 
 /**
  * The local-play worker: the server, in the page.
@@ -38,6 +40,9 @@ async function start(message: LocalHostStart): Promise<LocalHost> {
   const manifest = parseLocalWorldManifest(await (await fetched(generated(LOCAL_WORLD_MANIFEST), { cache: "no-cache" })).json());
   const manifestMs = lap();
   const lab = message.fixture === "lab";
+  // Refused before anything is fetched: a lab whose spec cannot be read must not fall back to some other world.
+  const labSpec = message.lab === undefined ? null : parseLabFixtureSpec(message.lab);
+  if (labSpec && !lab) throw new Error("A lab spec needs the lab fixture");
   const [catalogJson, pack] = await Promise.all([
     fetched(generated(manifest.catalog.file)).then(response => response.json()).then(value => { const took = performance.now() - mark; return { value: value as unknown, took }; }),
     lab ? Promise.resolve(null) : fetched(`${generated(manifest.pack.file)}?v=${encodeURIComponent(manifest.pack.revision)}`)
@@ -49,16 +54,20 @@ async function start(message: LocalHostStart): Promise<LocalHost> {
   // Everything below reads content as it loads. Nothing above does.
   const [{ startLocalHost }, storage] = await Promise.all([
     import("./localHostRuntime.js"),
-    message.memory ? Promise.resolve(undefined) : import("../multiplayer/indexedDbStorage.js").then(({ openLocalWorldStorage }) => openLocalWorldStorage({
+    message.memory || labSpec ? Promise.resolve(undefined) : import("../multiplayer/indexedDbStorage.js").then(({ openLocalWorldStorage }) => openLocalWorldStorage({
       onError: ({ error, attempt, pending, degraded }) => reply({ type: "storage-error", message: error instanceof Error ? error.message : String(error), attempt, pending, degraded }) })),
   ]);
   const storageMs = lap();
-  const host = await startLocalHost({ fixture: message.fixture, seed: message.seed, ...(pack ? { pack: pack.bytes } : {}), ...(message.legacy ? { legacy: message.legacy } : {}), ...(storage ? { storage } : {}) });
+  // The page describes the lab world once its scene is drawn. Everything above ran beside that.
+  const labWorld = labSpec ? { spec: labSpec, data: labWorldData(await labWorldArrived) } : null;
+  const host = await startLocalHost({ fixture: message.fixture, seed: message.seed, ...(labWorld ? { lab: labWorld } : {}), ...(pack ? { pack: pack.bytes } : {}), ...(message.legacy ? { legacy: message.legacy } : {}), ...(storage ? { storage } : {}) });
   const timings: LocalHostTimings = { manifestMs, catalogMs: catalogJson.took, packMs: pack?.took ?? 0, installMs, storageMs, importMs: host.timings.importMs, worldMs: host.timings.worldMs, totalMs: performance.now() - began };
   reply({ type: "ready", world: host.world, catalogRevision: manifest.catalog.revision, seed: host.seed, legacy: host.legacy, storage: storage ? "indexeddb" : "memory", timings });
   return host;
 }
 
+let labWorldArrives!: (data: unknown) => void;
+const labWorldArrived = new Promise<unknown>(resolve => { labWorldArrives = resolve; });
 let running: Promise<LocalHost | null> | null = null;
 scope.addEventListener("message", (event: MessageEvent<LocalHostRequest>) => {
   const message = event.data;
@@ -72,6 +81,7 @@ scope.addEventListener("message", (event: MessageEvent<LocalHostRequest>) => {
     });
     return;
   }
+  if (message.type === "lab-world") { labWorldArrives(message.data); return; }
   void running?.then(async (host) => {
     if (!host) return;
     if (message.type === "connect") host.connect(message.port);

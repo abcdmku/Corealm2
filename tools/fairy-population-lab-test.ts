@@ -65,7 +65,7 @@ try {
     if (!combat && !pursuit) {
       await page.evaluate(async preset => {
         const g = (window as any).__creatureGallery;
-        await g.show(preset, 1); g.place(0, 74, Math.PI * .2);
+        await g.show(preset, 1); await g.place(0, 74, Math.PI * .2);
       }, preset);
       await pose(-1.3, 74);
       const id = await page.evaluate(() => (window as any).__creatureGallery.getState().entityIds[0]);
@@ -82,7 +82,7 @@ try {
       await pose(0, 0);
       await page.evaluate(async preset => {
         const lab = window.__featureLab!;
-        lab.setLevel('melee', 99);
+        await lab.setLevel('melee', 99);
         await lab.equipPlayer('mainHand', 'emberite_sword');
         await lab.spawnTarget('creature', preset, { distance: 3 });
       }, preset);

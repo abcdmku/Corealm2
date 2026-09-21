@@ -83,7 +83,7 @@ try {
       await page.evaluate(async id => {
         const lab = (window as any).__featureLab;
         await lab.spawnTarget("creature", id, { distance: 7 });
-        lab.setLevel("melee", 35); lab.setLevel("magic", 35);
+        await lab.setLevel("melee", 35); await lab.setLevel("magic", 35);
         await lab.equipPlayer("mainHand", "kaldite_sword");
       }, presetId);
       await page.waitForFunction(id => {

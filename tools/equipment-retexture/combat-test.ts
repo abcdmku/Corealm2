@@ -48,7 +48,7 @@ try {
   await page.evaluate(async equipment => {
     const lab = window.__featureLab!;
     lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true);
-    lab.setLevel('melee', 99); lab.setLevel('magic', 99);
+    await lab.setLevel('melee', 99); await lab.setLevel('magic', 99);
     await lab.equipPlayer('offHand', null); await lab.equipPlayer('mainHand', null);
     for (const [slot, id] of Object.entries(equipment)) await lab.equipPlayer(slot as EquipSlot, id);
   }, equipment);
@@ -126,7 +126,7 @@ try {
       const lab = window.__featureLab!;
       if (action === 'cast') {
         await (window.__gameDebug as any).giveItem('earth_essence', 20, 'inventory');
-        lab.setSpell('stonebrand');
+        await lab.setSpell('stonebrand');
       }
       return lab.spawnTarget('creature', lab.getCatalog().targets.creature[0]!.id, { distance: action === 'attack' ? 2 : 5 });
     }, action);

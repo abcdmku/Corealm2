@@ -17,7 +17,8 @@ const fullWorld={...world,worldId:"one-slot",name:"One slot",capacity:1};
 const mismatch={...world,worldId:"incompatible",name:"Incompatible",protocolVersion:999};
 const unavailable={...world,worldId:"missing",name:"Unavailable"};
 const database=`${out}/restart-${Date.now()}.sqlite`;
-const startHost=(port=0)=>startReferenceServer({port, worlds:[world,secondWorld,fullWorld],storage:new SqliteWorldStorage(database),build:()=>createMultiplayerLabWorld(),
+// `COREALM_SERVER_PORT` pins the first host's port for a machine where other sessions hold ranges of their own.
+const startHost=(port=Number(process.env.COREALM_SERVER_PORT)||0)=>startReferenceServer({port, worlds:[world,secondWorld,fullWorld],storage:new SqliteWorldStorage(database),build:()=>createMultiplayerLabWorld(),
   authentication:{authenticate:async(token:string)=>({playerId:token.replace("guest:",""),name:token.replace("guest:","")})}});
 let server=await startHost();
 const game = await startGameServer();

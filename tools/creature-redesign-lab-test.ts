@@ -24,7 +24,7 @@ try{await driver.launch();const page=driver.page!;await installAssetCandidates(p
    assert(before.state.ready && before.bounds && before.motion);assert(after?.clip);
    evidence.push({id,motion,before,after});
   }
-  await page.evaluate(async id=>{const lab=window.__featureLab!;await lab.perform('reset-player');lab.setFreeCameraEnabled(false);lab.setLevel('melee',40);await lab.spawnTarget('creature',`candidate:${id}`,{distance:3});},id);
+  await page.evaluate(async id=>{const lab=window.__featureLab!;await lab.perform('reset-player');lab.setFreeCameraEnabled(false);await lab.setLevel('melee',40);await lab.spawnTarget('creature',`candidate:${id}`,{distance:3});},id);
   await page.keyboard.press('l');
   const combatBefore=await page.evaluate(()=>window.__featureLab!.getState());
   await page.getByRole('button',{name:'Attack spawned creature',exact:true}).click();

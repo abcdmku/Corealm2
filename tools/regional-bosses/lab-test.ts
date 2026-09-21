@@ -31,7 +31,7 @@ try {
     await page.evaluate(async id => {
       const gallery = (window as any).__creatureGallery;
       await gallery.show(`candidate:boss_${id}`, 1);
-      gallery.place(0, 70, .18);
+      await gallery.place(0, 70, .18);
       const d = window.__gameDebug as any;
       await d.inspectPose({ x: 0, y: d.groundHeight(0, 74), z: 74, yaw: .38, pitch: .40, distance: 8 });
     }, id);
@@ -117,7 +117,7 @@ try {
   const combatId = selected.at(-1)!;
   await page.evaluate(async id => {
     const lab = window.__featureLab!;
-    await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 50);
+    await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); await lab.setLevel('melee', 50);
     await lab.spawnTarget('creature', `candidate:boss_${id}`, { distance: 3 });
   }, combatId);
   await page.keyboard.press('l');

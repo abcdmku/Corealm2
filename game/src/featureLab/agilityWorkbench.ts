@@ -1,12 +1,15 @@
 import type { EntityId, InteractionId, MoveTarget, Result } from "../contracts.js";
 import type { AgilityWorkbenchApi } from "./agility.js";
 
+/** The workbench as the page holds it: hosted by the lab worker, so every method is a round trip. */
+export type RemoteAgilityWorkbench = { [K in keyof AgilityWorkbenchApi]: (...args: Parameters<AgilityWorkbenchApi[K]>) => Promise<ReturnType<AgilityWorkbenchApi[K]>> };
+
 /** Realtime fixture controls. All movement and traversals use the ordinary GameApi commands. */
-export function mountAgilityWorkbench(workbench: AgilityWorkbenchApi, ports: {
-  interact(id: EntityId, interaction: InteractionId): Result<unknown>;
-  moveTo(destination: MoveTarget): Result<unknown>;
-  stop(): Result<unknown>;
-}): () => void {
+export async function mountAgilityWorkbench(workbench: RemoteAgilityWorkbench, ports: {
+  interact(id: EntityId, interaction: InteractionId): Promise<Result<unknown>>;
+  moveTo(destination: MoveTarget): Promise<Result<unknown>>;
+  stop(): Promise<Result<unknown>>;
+}): Promise<() => void> {
   const panel = document.createElement("details");
   panel.className = "agility-workbench";
   panel.style.cssText = "position:fixed;left:14px;bottom:18px;z-index:4000;padding:10px;background:#17201fee;color:#e5e0cd;border:1px solid #667264;border-radius:6px;max-width:290px;font:13px system-ui;";
@@ -15,7 +18,8 @@ export function mountAgilityWorkbench(workbench: AgilityWorkbenchApi, ports: {
   panel.append(summary);
   const select = document.createElement("select");
   select.setAttribute("aria-label", "Traversal fixture");
-  for (const lane of workbench.getState().lanes) {
+  let lanes = (await workbench.getState()).lanes;
+  for (const lane of lanes) {
     const option = document.createElement("option");
     option.value = lane.id;
     option.textContent = lane.name ?? (lane.contact ? `${lane.contact.kind} contact` : lane.id === "root_tunnel" ? "Root Tunnel" : "Broken Ledge");
@@ -30,14 +34,16 @@ export function mountAgilityWorkbench(workbench: AgilityWorkbenchApi, ports: {
     element.textContent = label;
     element.style.margin = "5px 4px 0 0";
     element.addEventListener("click", () => {
-      try {
-        const value = run() as Result<unknown> | undefined;
-        result.textContent = value && "ok" in value && !value.ok ? value.error.message : label;
-      } catch (error) { result.textContent = error instanceof Error ? error.message : String(error); }
+      void (async () => {
+        try {
+          const value = await run() as Result<unknown> | undefined;
+          result.textContent = value && "ok" in value && !value.ok ? value.error.message : label;
+        } catch (error) { result.textContent = error instanceof Error ? error.message : String(error); }
+      })();
     });
     panel.append(element);
   };
-  const lane = () => workbench.getState().lanes.find((candidate) => candidate.id === select.value)!;
+  const lane = () => lanes.find((candidate) => candidate.id === select.value)!;
   button("Prepare level 8", () => workbench.prepare());
   button("Set level 10", () => workbench.setLevel(10));
   button("Set required level", () => workbench.setLevel(lane().reqLevel));
@@ -48,9 +54,10 @@ export function mountAgilityWorkbench(workbench: AgilityWorkbenchApi, ports: {
   button("Stop", () => ports.stop());
   panel.append(result, stats);
   document.body.append(panel);
-  const timer = setInterval(() => {
+  const timer = setInterval(async () => {
     if (!panel.open) return;
-    const state = workbench.getState();
+    const state = await workbench.getState();
+    lanes = state.lanes;
     const traversal = state.traversal;
     stats.textContent = `Agility ${state.agility.level} · ${state.agility.xp} XP · ${state.health} health`
       + (traversal ? ` · ${traversal.phase} ${Math.round(traversal.progress * 100)}%` : " · ready");

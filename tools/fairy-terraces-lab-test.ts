@@ -106,7 +106,7 @@ try {
       const preset = `species:guardian_${number}_fallowmarch`;
       await page.evaluate(async preset => {
         const gallery = (window as any).__creatureGallery;
-        await gallery.show(preset, 1); gallery.place(0, 70, Math.PI);
+        await gallery.show(preset, 1); await gallery.place(0, 70, Math.PI);
       }, preset);
       await pose(0, 76, 0, .3, 8);
       const id = await page.evaluate(() => (window as any).__creatureGallery.getState().entityIds[0]);
@@ -161,7 +161,7 @@ try {
       const miniboss = presets.at(-1)!.includes('guardian_');
       const respawnMs = miniboss ? 1800_000 : 30_000;
       await page.evaluate(async () => {
-        window.__featureLab!.setLevel('melee', 85);
+        await window.__featureLab!.setLevel('melee', 85);
         await window.__featureLab!.equipPlayer('mainHand', 'emberite_sword');
       });
       await page.getByRole('button', { name: 'Attack spawned creature', exact: true }).click();

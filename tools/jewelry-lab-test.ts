@@ -18,7 +18,7 @@ try{
  const start=page.locator('.title__action.btn--primary');if(await start.isVisible())await start.click();
  await page.locator('.dock__btn[data-panel="inventory"]').waitFor();
  if(!world){
-  await page.evaluate(()=>{window.__featureLab!.setLevel('melee',99);window.__featureLab!.setLevel('magic',99);window.__featureLab!.setLevel('crafting',99);});
+  await page.evaluate(async ()=>{await window.__featureLab!.setLevel('melee',99);await window.__featureLab!.setLevel('magic',99);await window.__featureLab!.setLevel('crafting',99);});
   for(const slot of ['accessory1','accessory2','ring2','earring2'] as const)await page.evaluate(async slot=>{await window.__featureLab!.equipPlayer(slot,null)},slot);
  }
  const save=async()=>JSON.parse(await driver.callDebug('getSaveBlob') as string) as GameState;

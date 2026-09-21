@@ -79,7 +79,7 @@ try {
 
   await page.evaluate(async () => {
     const lab = window.__featureLab!, debug = window.__gameDebug as any;
-    await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 50);
+    await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); await lab.setLevel('melee', 50);
     // Camera setup occurs on the ordinary yard. The underground setup uses the real teleport
     // region resolver, then all acceptance movement and orbit come through gameplay input.
     await debug.inspectPose({ x: 0, y: debug.groundHeight(0, 74), z: 74, yaw: 0, pitch: .4, distance: 8 });
@@ -105,7 +105,7 @@ try {
   for (const [index, id] of ['gravelmaw_stone_door', 'ordrun_gate'].entries()) {
     const threshold = await page.evaluate(async id => {
       const workbench = (window as any).__dungeonDoorLab;
-      workbench.setState(id, 'closed');
+      await workbench.setState(id, 'closed');
       const entity = await (window.__gameDebug as any).getEntity(id);
       return { position: entity.position, yaw: entity.view.rotationY };
     }, id);

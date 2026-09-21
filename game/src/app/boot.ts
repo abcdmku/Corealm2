@@ -67,7 +67,7 @@ import type {
   Vec3,
 } from "../contracts.js";
 import { SKILL_IDS } from "../contracts.js";
-import { Store, addSkillXp, computeMaxHealth } from "../state/store.js";
+import { Store, addSkillXp } from "../state/store.js";
 import { EventBus } from "../core/events.js";
 import { SimClock } from "../core/time.js";
 import { RngStreams } from "../core/rng.js";
@@ -169,6 +169,8 @@ import {
 } from "../audio/index.js";
 import { GAME_BOOT_PROFILE, type BootProfile } from "./bootProfile.js";
 import type { FeatureLabStructureAssembly } from "../featureLab/structures.js";
+import { isStaticScenery } from "../multiplayer/replicatedEntities.js";
+import { sendGameCommand } from "../api/commands.js";
 import { BOOT_MILESTONES, BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { AdaptiveDrawDistance } from "../render/adaptiveDrawDistance.js";
 
@@ -276,15 +278,27 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // run on it and never reach this branch. `?local=memory` is the worker with nothing stored, for a
   // harness that opens several pages at once: the stored world belongs to one tab at a time.
   const localMode = new URLSearchParams(location.search).get("local");
-  const localLaunch = profile.kind === "game" && localMode !== "main"
+  // A feature lab is a lab worker: the same worker, started with the lab fixture and a spec read from
+  // the URL. This page draws the lab scene and describes it to the worker once it is drawn (see
+  // `describeLabWorld` below); it never simulates. The multiplayer lab joins a server's lab world
+  // instead, and the bake and capture modes draw a scene and leave.
+  const labSpec = profile.kind === "feature-lab" && !multiplayerFixture && !worldMapCapture && !worldBake
+    && new URLSearchParams(location.search).get("navmesh-bake") !== "1"
+    ? (await import("../featureLab/labSpec.js")).labFixtureSpec(location.search) : null;
+  const localLaunch = labSpec
+    ? await bootTelemetry.measureAsync("boot.labWorker.prepare", async () =>
+      (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "lab", memory: true, lab: labSpec }))
+    : profile.kind === "game" && localMode !== "main"
     ? await bootTelemetry.measureAsync("boot.localWorker.prepare", async () =>
       (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "authored", memory: !profile.persistent || localMode === "memory" }))
       // Without the published manifest there is no worker world to offer, so the page plays the old way and says why.
       .catch((error: unknown) => { console.warn("[corealm] Worker-hosted local play is unavailable; using the main-thread game.", error); return null; })
     : null;
-  const worldSelection = profile.kind === "game"
+  const worldSelection = profile.kind === "game" || labSpec
     ? import("../multiplayer/browserSession.js")
-      .then(({ startWorldSelection }) => startWorldSelection({ play: playTarget, launch: pendingLaunch, local: localLaunch }))
+      // A lab has one world to join and nobody to ask, so it is `?play=local` without the flag.
+      .then(({ startWorldSelection }) => startWorldSelection(labSpec ? { play: { kind: "local" }, local: localLaunch }
+        : { play: playTarget, launch: pendingLaunch, local: localLaunch }))
       .catch(() => null)
     : Promise.resolve(null);
   // Set when the player answers "Play local" on the loading screen, or when `?play=local` answered
@@ -932,6 +946,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (excluded()) setVisible(false);
     else forest.register(descriptor);
     if(multiplayerWorld){const entity=entityStore.get(descriptor.id);if(entity)forestPresentation.activate(descriptor.id,entity.state==="depleted");else forestPresentation.deactivate(descriptor.id);}
+  };
+  /**
+   * The forest as a lab page sees it. Joined to the lab worker, the residents are the worker's: the trees it has made
+   * entities of near the player and replicated here. Before the join they are this page's own.
+   */
+  const labForestStats = (): { registered: number; resident: number; depleted: number } => {
+    if (!multiplayerWorld) return forest.stats();
+    let resident = 0, depleted = 0;
+    for (const id of forestInstances.keys()) { const entity = entityStore.get(id); if (entity) { resident += 1; if (entity.state === "depleted") depleted += 1; } }
+    return { registered: forestInstances.size, resident, depleted };
   };
   const updateForest = (): void => {
     if(multiplayerWorld)return;
@@ -1651,7 +1675,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // node semantics, and this second sync makes depleted rocks, stumps, and fishing recovery marks
   // visible before the loading screen is dismissed.
   entityViews.sync(profile.kind === "feature-lab" ? entityStore.all() : surfaceEntities);
-  const essenceSystem = new EssenceSystem({
+  // Constructed for its dispatcher registration, like the other main-thread systems stage 6 deletes. The lab no longer reaches into it.
+  new EssenceSystem({
     store,
     events,
     inventory: inventorySystem,
@@ -1933,9 +1958,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   api.register("hunts", hunts);
   if (!api.isOnlineSession() && store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
   if (huntFixture) (window as Window & { __huntLab?: unknown }).__huntLab = {
-    snapshot: () => hunts.snapshot(), refreshOffers: () => hunts.refreshOffers(),
-    accept: (id: string) => hunts.accept(id), claim: () => hunts.claim(), abandon: () => hunts.abandon(),
-    attack: (id: string) => api.attack(id),
+    // Reads answer from this page's replicated contracts. The rest are commands to the lab worker's world.
+    snapshot: () => hunts.snapshot(), refreshOffers: () => sendGameCommand(api, "hunt", "refresh"),
+    accept: (id: string) => sendGameCommand(api, "hunt", "accept", id), claim: () => sendGameCommand(api, "hunt", "claim"), abandon: () => sendGameCommand(api, "hunt", "abandon"),
+    attack: (id: string) => sendGameCommand(api, "attack", id),
     spawn: huntFixture.spawn,
   };
   let pausedBeforePortal = false;
@@ -2302,6 +2328,23 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   let environmentLab: import("../featureLab/environment.js").EnvironmentWorkbench | undefined;
   let creatureGallery: import("../featureLab/creatureGallery.js").CreatureGallery | undefined;
   let forestFixture: Awaited<ReturnType<typeof import("../featureLab/forest.js").createForestFixture>> | undefined;
+  /**
+   * The lab worker's two hooks. `describeLabWorld` is everything about the lab world that comes from
+   * this scene, read once the scene is drawn and posted to the worker before the join. `startFeatureLab`
+   * runs after the join: it builds the `__featureLab` runtime over the worker's operations.
+   */
+  /** Sim setup a lab fixture used to do inline at boot. It runs once the lab worker is joined and the runtime exists. */
+  const labAfterJoin: ((lab: FeatureLabApi) => Promise<void>)[] = [];
+  /** True once the lab worker's world is joined and its first snapshot is what this page shows. */
+  let labJoined = false;
+  let describeLabWorld: (() => import("../worker/labProtocol.js").LabWorldData) | null = null;
+  let startFeatureLab: (() => Promise<void>) | null = null;
+  let labSceneryChanged: (entities: readonly SemanticEntity[]) => void = () => {};
+  /** One operation on the lab worker. Rejects until the lab session is joined. */
+  const labOp = (op: import("../worker/labProtocol.js").LabOp): Promise<unknown> => {
+    if (!localLaunch || !labSpec) return Promise.reject(new Error("UNAVAILABLE: this page has no lab worker"));
+    return localLaunch.provider.debug(op);
+  };
   if (profile.kind === "feature-lab") {
     // The workbench runtime is never used by the authored game. Keep it out of the critical game
     // bundle and load it only after a lab profile has been selected.
@@ -2318,16 +2361,23 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     let activeStructureCamera: THREE.Mesh[] = [];
     let structureRevision = 0;
     let labFreeCameraEnabled = false;
+    /** Collision as the lab has it now: the yard's own solids and the current structure's. The worker is sent this list. */
+    let labSolids: readonly SolidVolume[] = built.solids;
+    const labSessionJoined = (): boolean => labJoined;
 
+    /**
+     * Camera, input and rig follow the player back to the spawn. Joined, the worker has already put
+     * the player there and this page's store shows it. Before the join there is no world yet, and
+     * the spawn written here is only where the scene is first drawn from.
+     */
     const resetLabPlayer = (): void => {
       const state = store.get();
-      const landed: Vec3 = [spawn[0], scene.meshHeightAt(spawn[0], spawn[2]), spawn[2]];
-      state.player.position = [...landed] as Vec3;
-      state.player.regionId = spawnSpec.regionId;
-      state.player.facingRad = spawnFacing;
-      state.player.maxHealth = computeMaxHealth(state, equipmentSystem!.totals().health);
-      state.player.health = state.player.maxHealth;
-      movement.stop(state, clock.elapsedMs, "feature-lab-reset");
+      const landed: Vec3 = labSessionJoined() ? [...state.player.position] as Vec3 : [spawn[0], scene.meshHeightAt(spawn[0], spawn[2]), spawn[2]];
+      if (!labSessionJoined()) {
+        state.player.position = [...landed] as Vec3;
+        state.player.regionId = spawnSpec.regionId;
+        state.player.facingRad = spawnFacing;
+      }
       input.clear();
       overlays.clear(WALK_DESTINATION_HIGHLIGHT_ID);
       camera.reset();
@@ -2335,7 +2385,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       camera.update(landed[0], landed[1], landed[2], true);
       scene.syncPlayer(landed, spawnFacing, true);
       if (rigged) playerRig.setPosition(landed, spawnFacing);
-      store.markDirty();
     };
 
     const replaceLabCollision = (
@@ -2343,8 +2392,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       structureMeshes: readonly THREE.Mesh[],
       cameraMeshes: readonly THREE.Mesh[] = activeStructureCamera,
     ): void => {
-      movement.stop(store.get(), clock.elapsedMs, "feature-lab-structure");
-
       const allSolids = [...built.solids, ...structureSolids];
       const previousCarves = navCarves;
       const candidateCarves = solidObstacleMeshes(allSolids.map((solid) => encounterNavSolids.get(solid.id) ?? solid));
@@ -2407,8 +2454,53 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       for (const mesh of [...structureCamera.meshes, ...cameraMeshes]) cameraQueries.addStaticMesh(mesh);
       cameraQueries.setHiddenEntities(roofVisibility.hiddenEntities, roofVisibility.cutHeights);
       solids = new Solids(allSolids);
+      labSolids = allSolids;
       structureMovementBounds = importedSurfaceBounds([...structureNavigation.meshes, ...structureMeshes]);
       movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, authoritativeGround: true, preserveNavigationHeight, entities: entityStore });
+    };
+
+    /** The page's navmesh, collision and walk surfaces as plain data. The bytes are a copy, because they are handed over. */
+    const labGeometry = (): Pick<import("../worker/labProtocol.js").LabWorldData, "nav" | "solids" | "surfaceBounds"> => {
+      const baked = nav.exportNavData();
+      return {
+        nav: { navData: baked.navData.slice(), strategy: baked.strategy, sourceMeshes: baked.sourceMeshes, sourceTriangles: baked.sourceTriangles, polyCount: baked.polyCount },
+        solids: structuredClone([...labSolids]),
+        surfaceBounds: structureMovementBounds.map(box => ({ min: box.min.toArray() as Vec3, max: box.max.toArray() as Vec3 })),
+      };
+    };
+    /**
+     * A render-side fixture (the environment showcase, the creature gallery) changed what stands in the lab. Before the join
+     * that is only the scene the worker will be told about. Joined, the worker's world follows: the entities that are more
+     * than scenery, and the collision and navmesh when the fixture rebuilt them.
+     */
+    const labWorldChanged = async (change: { remove: string[]; add: SemanticEntity[] }, geometry: boolean): Promise<void> => {
+      if (!labJoined) return;
+      const add = structuredClone(change.add.filter(entity => !isStaticScenery(entity)));
+      await labOp(geometry ? { op: "lab.world", patch: { ...labGeometry(), removeEntities: change.remove, addEntities: add } } : { op: "lab.entities", remove: change.remove, add });
+      labSceneryChanged(entityStore.all());
+    };
+    describeLabWorld = () => {
+      // The sampler arrays are the scene's live ones, and the message hands its arrays over, so the worker gets copies.
+      const sampler = (source: WorldScene): import("../world/terrainSampler.js").TerrainSamplerData => {
+        const data = source.terrainSamplerData();
+        return { ...data, lattice: { ...data.lattice, heights: data.lattice.heights.slice() }, coastGrid: data.coastGrid ? { ...data.coastGrid, heights: data.coastGrid.heights.slice() } : null };
+      };
+      const player = store.get().player;
+      return {
+        ...labGeometry(),
+        terrain: sampler(scene), fairyTerrain: fairyRealm ? sampler(fairyRealm.scene) : null,
+        dungeon: dungeonSpec ? structuredClone(dungeonSpec) : null,
+        routeNodes: structuredClone(nav.listRouteNodes()), routeEdges: structuredClone(nav.listRouteEdges()),
+        knownLocations: structuredClone(built.knownLocations), doorBarriers: structuredClone(doorThresholds.map(threshold => threshold.barrier)),
+        habitats: structuredClone(worldHabitats),
+        // Static scenery stays here: it is drawn, and its collision is already in `solids` and the navmesh.
+        entities: structuredClone(entityStore.all().filter(entity => !isStaticScenery(entity))),
+        trees: structuredClone(forestFixture?.trees ?? []),
+        spawn: { position: [...player.position] as Vec3, regionId: player.regionId, facingRad: player.facingRad },
+        assets: assets.measurements(),
+        // The course carries a height function for its own assembly. The workbench reads its lanes and entities, which are data.
+        fixtureData: agilityFixture ? { agility: JSON.parse(JSON.stringify({ entities: agilityFixture.entities, lanes: agilityFixture.lanes })) as unknown } : {},
+      };
     };
 
     const disposeCarve = (carve: THREE.Mesh): void => {
@@ -2475,6 +2567,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       structureUrl.searchParams.set("depth", String(next.selection.depth));
       structureUrl.searchParams.set("seed", String(next.selection.seed));
       window.history.replaceState(window.history.state, "", structureUrl.href);
+      // The page has rebuilt its own navigation and collision for prediction and the camera. The
+      // simulation is the worker's, so it gets the same navmesh, solids and walk surfaces, and the
+      // structure's entities that are more than scenery (a station, an altar, an ore face).
+      if (labSessionJoined()) {
+        await labOp({ op: "lab.world", patch: { ...labGeometry(),
+          removeEntities: previousEntities.filter(entity => !isStaticScenery(entity)).map(entity => entity.id),
+          addEntities: structuredClone(next.entities.filter(entity => !isStaticScenery(entity))) } });
+        labSceneryChanged(entityStore.all());
+        await labOp({ op: "lab.resetPlayer" });
+      }
       resetLabPlayer();
 
       let min: Vec3 | null = null;
@@ -2504,7 +2606,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       };
     };
 
-    const fitStructure = (view: FeatureLabStructureView): void => {
+    const fitStructure = async (view: FeatureLabStructureView): Promise<void> => {
       const current = activeStructure;
       if (!current) return;
       const bounds = view.bounds;
@@ -2529,17 +2631,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         camera.update(centreX, focusY, centreZ, true);
         return;
       }
-      const state = store.get();
-      state.player.position = [...point] as Vec3;
-      state.player.regionId = spawnSpec.regionId;
-      state.player.facingRad = 0;
-      movement.stop(state, clock.elapsedMs, "feature-lab-fit-structure");
+      await localLaunch!.provider.debug({ op: "place", position: point, regionId: spawnSpec.regionId, facingRad: 0 });
       input.clear();
       scene.syncPlayer(point, 0, true);
       if (rigged) playerRig.setPosition(point, 0);
       camera.setPose(Math.PI, 0.46, viewingDistance);
       camera.update(point[0], point[1], point[2], true);
-      store.markDirty();
     };
 
     const initialStructure: FeatureLabStructureView = {
@@ -2560,39 +2657,24 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     api.setMovementCommandsEnabled(initialWalkingEnabled);
 
     const params = new URLSearchParams(window.location.search);
-    musicLab?.createMusicWorkbench(point => teleportPlayer(point, "fallowmarch"));
+    // The music stops are places to stand, and standing somewhere is the worker's to decide. The page follows the replicated position.
+    musicLab?.createMusicWorkbench(point => { void localLaunch?.provider.debug({ op: "place", position: nav.closestPoint(point) ?? point, regionId: "fallowmarch" }); });
     if (params.get("atmosphere") === "1") {
       const { createBiomeAtmosphereWorkbench } = await import("../featureLab/biomeAtmosphere.js");
       createBiomeAtmosphereWorkbench(renderer.biomeAtmosphere);
     }
-    if (profile.labMode === "combat" && ['30', '40', '60'].includes(params.get('regionalTier') ?? '')) {
-      const { createRegionalTierFixture } = await import('../featureLab/regionalTierFixture.js');
-      (window as Window & { __regionalTierFixture?: unknown }).__regionalTierFixture = createRegionalTierFixture({
-        store, entities: entityStore,
-        prepareEntities: async (entities) => {
-          const result = await entityViews.prepare([...entities]);
-          if (result.missing.length) throw new Error(`Missing regional tier fixture assets: ${result.missing.join(', ')}`);
-        },
-        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-        baseY: (assetId) => assets.baseY(assetId),
-      });
-    }
-    if (profile.labMode === "combat" && params.get("creatureLoot") === "1") {
-      const { createCreatureLootFixture } = await import("../featureLab/creatureLootFixture.js");
-      (window as Window & { __creatureLootFixture?: unknown }).__creatureLootFixture = createCreatureLootFixture({
-        store, entities: entityStore,
-        prepareEntities: async (entities) => {
-          const result = await entityViews.prepare([...entities]);
-          if (result.missing.length) throw new Error(`Missing creature loot fixture assets: ${result.missing.join(", ")}`);
-        },
-        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-        baseY: (assetId) => assets.baseY(assetId),
-      });
-    }
+    // These four fixtures only ever wrote the simulation, so the lab worker hosts them (`worker/labDebug.ts`) and the page
+    // keeps their window names as remote surfaces: every method is one `lab.call`, and returns a promise.
+    const hostedFixture = (fixture: import("../featureLab/labSpec.js").LabRuntimeFixture): unknown => new Proxy({}, {
+      get: (_target, method) => typeof method !== "string" || method === "then" ? undefined
+        : (...args: unknown[]) => labOp({ op: "lab.call", fixture, method, args }),
+    });
+    if (labSpec?.runtime.includes("regionalTier")) (window as Window & { __regionalTierFixture?: unknown }).__regionalTierFixture = hostedFixture("regionalTier");
+    if (labSpec?.runtime.includes("creatureLoot")) (window as Window & { __creatureLootFixture?: unknown }).__creatureLootFixture = hostedFixture("creatureLoot");
     if (doorLab && doorFixture && dungeonDoors) {
       (window as Window & { __dungeonDoorLab?: unknown }).__dungeonDoorLab = doorLab.createDungeonDoorWorkbench(doorFixture, {
         entities: entityStore, doors: dungeonDoors, playerPosition: () => store.get().player.position,
-        setDoorState: questEntityPort.setState, navigation: nav,
+        setDoorState: (id, state) => labOp({ op: "lab.setEntityState", entityId: id, state }).then(() => true), navigation: nav,
       });
     }
     if (caveFixture) {
@@ -2618,17 +2700,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       };
     }
     if (agilityLabModule && agilityFixture) {
-      const agilityWorkbench = agilityLabModule.createAgilityWorkbench(agilityFixture, {
-        store, quests: questSystem, navigation: nav, movement, rng: rng.get("misc"),
-        elapsedMs: () => clock.elapsedMs,
-        getEntity: (id) => entityStore.get(id),
-      });
+      // The workbench reads and writes the character, the quest log and the random cursor, all of which are the worker's.
+      // It runs there, over the course this page assembled and sent along with the lab world.
+      const agilityWorkbench = hostedFixture("agility") as import("../featureLab/agilityWorkbench.js").RemoteAgilityWorkbench;
       (window as Window & { __agilityLab?: unknown }).__agilityLab = agilityWorkbench;
       const { mountAgilityWorkbench } = await import("../featureLab/agilityWorkbench.js");
-      mountAgilityWorkbench(agilityWorkbench, {
-        interact: (id, verb) => api.interact(id, verb),
-        moveTo: (target) => api.moveTo(target),
-        stop: () => api.stop(),
+      labAfterJoin.push(async () => {
+        await mountAgilityWorkbench(agilityWorkbench, {
+          interact: (id, verb) => sendGameCommand(api, "interact", id, verb),
+          moveTo: (target) => sendGameCommand(api, "moveTo", target),
+          stop: () => sendGameCommand(api, "stop"),
+        });
       });
     }
     const frameLabBounds = (bounds: { min: Vec3; max: Vec3 }, detail = false): void => {
@@ -2648,39 +2730,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       ]);
       environmentLab = await createEnvironmentWorkbench({ assets, scene, entityStore, entityViews,
         replaceCollision: (solids) => replaceLabCollision([...(activeStructure?.solids ?? []), ...solids], activeStructureNavigation),
+        worldChanged: (change) => labWorldChanged(change, true),
       });
       new EnvironmentLabPanel(environmentLab, { onFrame: frameLabBounds });
     }
-    if (params.get("progression") === "1") {
-      const { createQuestRecoveryFixture } = await import("../featureLab/questRecovery.js");
-      (window as Window & { __questRecoveryLab?: unknown }).__questRecoveryLab = createQuestRecoveryFixture({
-        store, quests: questSystem, entities: entityStore,
-        prepareEntities: async (entities) => {
-          const result = await entityViews.prepare([...entities]);
-          if (result.missing.length) throw new Error(`Missing quest fixture assets: ${result.missing.join(", ")}`);
-        },
-        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-        baseY: (assetId) => assets.baseY(assetId),
-      });
-    }
-    if (params.get("gameplay") === "1") {
-      const { createGameplayAcceptanceFixture } = await import("../featureLab/gameplayAcceptance.js");
-      (window as Window & { __gameplayAcceptance?: unknown }).__gameplayAcceptance = createGameplayAcceptanceFixture({
-        store, entities: entityStore,
-        prepareEntities: async (entities) => {
-          const result = await entityViews.prepare([...entities]);
-          if (result.missing.length) throw new Error(`Missing gameplay fixture assets: ${result.missing.join(", ")}`);
-        },
-        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-        baseY: (assetId) => assets.baseY(assetId),
-        assetSize: (assetId) => assets.assetSize(assetId),
-      });
-    }
+    if (labSpec?.runtime.includes("progression")) (window as Window & { __questRecoveryLab?: unknown }).__questRecoveryLab = hostedFixture("progression");
+    if (labSpec?.runtime.includes("gameplay")) (window as Window & { __gameplayAcceptance?: unknown }).__gameplayAcceptance = hostedFixture("gameplay");
     if (params.get("creatures") === "1") {
       const [{ createCreatureGallery }, { CreatureGalleryPanel }] = await Promise.all([
         import("../featureLab/creatureGallery.js"), import("../ui/creatureGalleryPanel.js"),
       ]);
-      creatureGallery = await createCreatureGallery({ assets, scene, entityStore, entityViews });
+      creatureGallery = await createCreatureGallery({ assets, scene, entityStore, entityViews, worldChanged: (change) => labWorldChanged(change, false) });
       new CreatureGalleryPanel(creatureGallery, { onFrame: frameLabBounds });
     }
     if (params.get("forest") === "1") {
@@ -2688,7 +2748,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       updateForest();
       await entityViews.prepare(entityStore.all());
       entityViews.sync(entityStore.all());
-      inventorySystem.addItem("grithe_hatchet", 1);
+      // The hatchet is the worker's to hand out: `character.forestHatchet` of the lab spec.
     }
     const presentation = params.get("presentation") === "1"
       ? await (await import("../featureLab/presentation.js")).createPresentationFixture({
@@ -2697,65 +2757,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       })
       : undefined;
 
-    featureLab = createFeatureLabRuntime({
-      api,
-      store,
-      events,
-      clock,
-      assets,
-      entityStore,
-      entityViews,
-      inventory: inventorySystem,
-      equipment: equipmentSystem!,
-      essence: essenceSystem,
-      combat: combatSystem,
-      playerRig,
-      playerRigReady: rigged,
-      canvas,
-      camera: renderer.camera,
-      spawn,
-      spawnRegionId: spawnSpec.regionId,
-      initialMode: profile.labMode ?? "combat",
-      initialWalkingEnabled,
-      initialPlayerVisible,
-      initialFreeCameraEnabled,
-      initialStructure,
-      ...(presentation ? { presentation } : {}),
-      replaceStructure,
-      setWalkingEnabled: (enabled) => {
-        input.setMovementEnabled(enabled);
-        api.setMovementCommandsEnabled(enabled);
-      },
-      setPlayerVisible: (visible) => {
-        playerRig.root.visible = visible;
-      },
-      setFreeCameraEnabled: (enabled) => {
-        labFreeCameraEnabled = enabled;
-        input.setFreeCameraEnabled(enabled);
-        const player = store.get().player.position;
-        camera.setFreeTarget(enabled ? player : null);
-        camera.update(player[0], player[1], player[2], true);
-      },
-      reloadMode: (nextMode) => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("mode", nextMode);
-        window.location.assign(url.href);
-      },
-      fitStructure,
-      resetPlayer: resetLabPlayer,
-      selectedEntityId: () => selectedEntityId,
-      liveSpellParticles: () => spellVfx.liveParticles(),
-      engineErrors: () => errors.map((entry) => `${entry.source}: ${entry.message}`),
-      groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-    });
-    featureLab = new Proxy(featureLab, { get(target, key, receiver) {
-      const value=Reflect.get(target,key,receiver);
-      if (typeof value!=="function" || key==="getState" || key==="getCatalog") return value;
-      return (...args:unknown[])=>{
-        if(api.isOnlineSession())throw new Error("Leave the multiplayer world before changing local lab fixtures");
-        return value.apply(target,args);
-      };
-    } });
+    // The initial structure is part of the scene the worker is told about, so it is assembled before the join, page side
+    // only. Every later `setStructure` goes through the same function and then to the worker.
     const structurePatch: Partial<FeatureLabStructureSelection> = {};
     const sourceKind = params.get("kind");
     if (sourceKind === "prefab" || sourceKind === "composition" || sourceKind === "wall-run") {
@@ -2771,15 +2774,73 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const value = params.get(key);
       if (value !== null) structurePatch[key] = Number(value);
     }
-    await featureLab.setStructure(structurePatch);
-    if (profile.labMode !== "building") {
-      const creatures = featureLab.getCatalog().targets.creature;
-      const requestedCreature = params.get("creature");
-      const initialTarget = (requestedCreature
-        ? creatures.find((entry) => entry.id === requestedCreature || entry.id === `species:${requestedCreature}`)
-        : undefined) ?? creatures[0];
-      if (!initialTarget) throw new Error("The production content has no creature for the feature lab");
-      await featureLab.spawnTarget("creature", initialTarget.id);
+    const openingStructure = await replaceStructure({ ...DEFAULT_FEATURE_LAB_STRUCTURE_SELECTION, ...structurePatch });
+
+    {
+      const runtime = createFeatureLabRuntime({
+        api,
+        store,
+        events,
+        clock,
+        assets,
+        entityStore,
+        entityViews,
+        lab: labOp,
+        playerRig,
+        playerRigReady: rigged,
+        canvas,
+        camera: renderer.camera,
+        spawn,
+        spawnRegionId: spawnSpec.regionId,
+        initialMode: profile.labMode ?? "combat",
+        initialWalkingEnabled,
+        initialPlayerVisible,
+        initialFreeCameraEnabled,
+        initialStructure: openingStructure,
+        ...(presentation ? { presentation } : {}),
+        replaceStructure,
+        setWalkingEnabled: (enabled) => {
+          input.setMovementEnabled(enabled);
+          api.setMovementCommandsEnabled(enabled);
+        },
+        setPlayerVisible: (visible) => {
+          playerRig.root.visible = visible;
+        },
+        setFreeCameraEnabled: (enabled) => {
+          labFreeCameraEnabled = enabled;
+          input.setFreeCameraEnabled(enabled);
+          const player = store.get().player.position;
+          camera.setFreeTarget(enabled ? player : null);
+          camera.update(player[0], player[1], player[2], true);
+        },
+        reloadMode: (nextMode) => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("mode", nextMode);
+          window.location.assign(url.href);
+        },
+        fitStructure,
+        presentPlayerReset: resetLabPlayer,
+        selectedEntityId: () => selectedEntityId,
+        liveSpellParticles: () => spellVfx.liveParticles(),
+        engineErrors: () => errors.map((entry) => `${entry.source}: ${entry.message}`),
+        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
+      });
+      // The panel and the equipment picker hold this from the moment the interface is built. It answers reads at once and
+      // `ready: false` until the lab worker's world is joined and `start` has set the character up.
+      featureLab = runtime;
+      startFeatureLab = async () => {
+      await runtime.start();
+      if (profile.labMode !== "building") {
+        const creatures = runtime.getCatalog().targets.creature;
+        const requestedCreature = params.get("creature");
+        const initialTarget = (requestedCreature
+          ? creatures.find((entry) => entry.id === requestedCreature || entry.id === `species:${requestedCreature}`)
+          : undefined) ?? creatures[0];
+        if (!initialTarget) throw new Error("The production content has no creature for the feature lab");
+        await runtime.spawnTarget("creature", initialTarget.id);
+      }
+      for (const task of labAfterJoin) await task(runtime);
+      };
     }
   }
   // Published at the final ready boundary below. Test and authoring clients treat the presence of
@@ -3149,20 +3210,21 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setSpellVfx(spellVfx);
   if (profile.kind === "feature-lab" && profile.labMode === "combat" && new URLSearchParams(location.search).get("spells") === "1") {
     const { createSpellRange } = await import("../featureLab/spellRange.js");
-    featureLab?.setWalkingEnabled(true);
     const rangeSpawn: Vec3 = [20, scene.meshHeightAt(20, 28), 28];
-    store.get().player.position = rangeSpawn;
-    store.get().player.facingRad = 0;
-    movement.stop(store.get(), clock.elapsedMs, "spell-range-setup");
-    // Production robe and staff, through the same equipment path as the combat workbench.
-    // The feature-lab store is transient; this fixture never changes a saved character.
-    await featureLab?.equipPlayer("offHand", null);
-    for (const [slot, item] of [
-      ["head", "marchhide_hood"], ["body", "marchhide_robe"],
-      ["legs", "marchhide_leggings"], ["feet", "marchhide_boots"],
-      ["hands", "marchhide_wraps"], ["mainHand", "basic_wooden_staff"],
-    ] as const) await featureLab?.equipPlayer(slot, item);
-    if (rigged) await playerRig.applyEquipment(store.get().equipment);
+    // The range is drawn here. Standing the player on it and dressing them is the worker's, so it waits for the join.
+    labAfterJoin.push(async (lab) => {
+      lab.setWalkingEnabled(true);
+      await localLaunch!.provider.debug({ op: "place", position: rangeSpawn, regionId: store.get().player.regionId, facingRad: 0 });
+      // Production robe and staff, through the same equipment path as the combat workbench.
+      // The lab worker keeps nothing; this fixture never changes a saved character.
+      await lab.equipPlayer("offHand", null);
+      for (const [slot, item] of [
+        ["head", "marchhide_hood"], ["body", "marchhide_robe"],
+        ["legs", "marchhide_leggings"], ["feet", "marchhide_boots"],
+        ["hands", "marchhide_wraps"], ["mainHand", "basic_wooden_staff"],
+      ] as const) await lab.equipPlayer(slot, item);
+      if (rigged) await playerRig.applyEquipment(store.get().equipment);
+    });
     const range = createSpellRange({
       parent: scene.overlayGroup,
       camera: renderer.camera,
@@ -3178,6 +3240,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       },
       castPose: (rank, speed) => {
         const at = store.get().player.position;
+        // Presentation only: the range casts are drawn by this page and never reach the worker, so the rig is turned on
+        // this page's copy of the player. The worker's next word on the player puts its own facing back.
         store.get().player.facingRad = Math.atan2(20 - at[0], 40 - at[2]);
         if (rigged) playerRig.play("cast", true, (rank < 2 ? 1.15 : rank < 4 ? .85 : .65) * speed);
       },
@@ -3929,12 +3993,32 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (featureLab) window.__featureLab = featureLab;
     if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
-    if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
+    if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...labForestStats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
   } else {
     // The configured multiplayer entry point presents world selection as loading finishes.
     // Keep the boot cover until discovery and the selector are mounted, so there is no extra
     // offline "enter game" step before the player can choose their actual world.
     const selection = await worldSelection;
+    if(labSpec&&selection&&localLaunch&&describeLabWorld){
+      // The scene is drawn, so the lab worker can be told what its world is. It has been booting beside the scene since the page opened.
+      localLaunch.provider.provideLabWorld(bootTelemetry.measureSync("boot.labWorker.describe", describeLabWorld));
+      const {installBrowserSession}=await import("../multiplayer/browserSession.js");
+      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,saves,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
+        sceneryChanges:recapture=>{labSceneryChanged=recapture;},
+        // The forest fixture's trees are the worker's entities now, so the page stops running its own forest, as it does in any joined world.
+        phase(phase){multiplayerWorld=phase!=="offline";},
+        // Standing trunks are what this page's movement prediction walks around, so they follow the worker's residents too.
+        applied(update){
+          if(update.snapshot)for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}
+          for(const entity of update.entities){
+            const tree=forestInstances.get(entity.id);if(!tree)continue;
+            forestPresentation.activate(entity.id,entity.state==="depleted");
+            if(entity.state==="depleted")forestObstacles.remove(entity.id);else forestObstacles.upsert(tree.descriptor);
+          }
+          for(const id of update.removedEntities)if(forestInstances.has(id)){forestPresentation.deactivate(id);forestObstacles.remove(id);}
+        },
+      }, {lab:true,equipment:true}, selection);
+    }
     if(profile.kind==="game"&&selection){
       const {installBrowserSession}=await import("../multiplayer/browserSession.js");
       await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,saves,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
@@ -3973,6 +4057,23 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       bootTelemetry.milestone(BOOT_MILESTONES.BOOT_SCREEN_REMOVED);
       // The scene is on screen, so a world chosen during loading can be joined now.
       selection?.setReady();
+      if (labSpec && startFeatureLab) {
+        // A lab is ready when its worker's world is joined, the character is set up and the first target stands in it.
+        await new Promise<void>((resolve, reject) => {
+          const started = performance.now();
+          const poll = (): void => {
+            if (localSession() && store.get().player.id !== "player") { resolve(); return; }
+            const phase = selection?.panel.dataset.phase ?? "";
+            if (["unavailable", "incompatible", "full"].includes(phase) || performance.now() - started > 60_000) {
+              reject(new Error(`The lab worker's world could not be joined (${phase || "no answer"}): ${selection?.panel.querySelector(".worlds__status")?.textContent ?? ""}`)); return;
+            }
+            window.setTimeout(poll, 20);
+          };
+          poll();
+        });
+        labJoined = true;
+        await startFeatureLab();
+      }
       bootTotalSpan.end();
       bootTelemetry.recordPerformanceResources();
       // Publish readiness last so an attached runner cannot capture the timeline between the
@@ -3984,7 +4085,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       if (featureLab) window.__featureLab = featureLab;
       if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
-      if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
+      if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...labForestStats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
       window.setTimeout(() => {
         audioDirector.setRegion(store.get().player.regionId, store.get().player.position);
         // The starting view is complete. Travel prefetch follows movement; equipment and newly

@@ -62,8 +62,7 @@ frame is drawn. A page with no server to offer joins it on its own when loading 
 old local game simply started. `getState().ready` is true once the local world is joined and its
 first snapshot is what the page shows. Two escape hatches:
 
-- `?local=main` runs the old main-thread game. It exists until the old path is deleted. The
-  feature labs still run on the old path and need no flag.
+- `?local=main` runs the old main-thread game. It exists until the old path is deleted.
 - `?local=memory` runs the worker and stores nothing. Use it when a harness opens several
   pages in one browser context: the stored local world belongs to one tab at a time, and a
   second tab is told so instead of being let in.
@@ -82,6 +81,44 @@ await page.evaluate(async () => {
 });
 ```
 
+### Labs run in the lab worker
+
+A feature lab is the same worker, started with the `lab` fixture. The page reads the URL flags
+into a `LabFixtureSpec` (`game/src/featureLab/labSpec.ts`, a pure function with a unit test for
+every mode), draws the lab scene, and then describes the world to the worker once: the terrain
+sampler, the baked navmesh, collision solids, walk-surface bounds, route graph, door barriers,
+habitats, forest trees, asset measurements and every entity that is more than scenery
+(`LabWorldData` in `game/src/worker/labProtocol.ts`). The worker builds its world from the spec
+and that description and simulates it. The page never simulates: `__corealmLocalWorker.observe()`
+reports `simTicks: 0` in every lab. A lab always uses the in-memory store, so it starts clean and
+writes nothing to IndexedDB or to the old `corealm.save.v1` save. Lab routes still need no flag.
+
+`window.__featureLab` follows the same rule as `__gameDebug`. Methods that change the simulation
+return promises that resolve once the page's replicated state shows the change: `setStructure`,
+`fitStructure`, `spawnTarget`, `setLevel`, `equipPlayer`, `setSpell` and `perform`. Reads
+(`getState`, `getCatalog`) and page-only controls (`setWalkingEnabled`, `setPlayerVisible`,
+`setFreeCameraEnabled`, `previewPlayerReaction`, `setMode`) stay synchronous. `getState().ready`
+turns true once the worker's world is joined and the lab character is set up.
+
+```ts
+await page.evaluate(async () => {
+  const lab = window.__featureLab as any;
+  await lab.setLevel("melee", 40);
+  await lab.spawnTarget("creature", "redsill_frogs", { distance: 6 });
+  await lab.perform("attack");
+  return lab.getState().target.ai; // asked of the worker before the call above resolved
+});
+```
+
+The other lab surfaces follow. `game/src/featureLab/asyncMethods.ts` is the list, and the await
+codemod and `npm run lint:debug-await` read it: `__environmentLab` and `__creatureGallery` tell
+the worker what they placed before `show…` resolves, `__dungeonDoorLab.setState` and the
+`__huntLab` actions are operations on the worker's world, and four fixtures that only ever wrote
+the simulation run in the worker whole, so every method of `__agilityLab`,
+`__regionalTierFixture`, `__creatureLootFixture`, `__questRecoveryLab` and
+`__gameplayAcceptance` is a round trip, `getState` included. A `page.waitForFunction` predicate
+may not call any of these; use `waitForDebug`.
+
 Reads of main-thread state stay synchronous: `getState`, `getPlayer`, `getPlayerPosition`,
 `getCamera`, `getDrawnBounds`, `getEvents`, render and UI state. `driver.callDebug` awaits
 every method. Three rules follow, and `npm run lint:debug-await` (also a vitest test) fails on
@@ -97,7 +134,10 @@ the first two:
 
 Time control drives the worker's tick loop: `setPaused`, `setTimeScale` (0.1 to 100),
 `advanceGameTime(seconds)`, which moves the clock and runs one tick, and `advanceTicks(n)`,
-which runs exactly `n` ticks. A tick is always 100 ms of simulation. `getSaveBlob` returns the
+which runs exactly `n` ticks. A tick is always 100 ms of simulation. Skipping time sends no
+frames nobody watches: above 1x, only the last tick of each burst takes a snapshot and
+replicates, and in a lab `advanceTicks(n)` runs its ticks back to back and replicates every
+fiftieth and the last. A tick that ran a player command is always a whole tick. `getSaveBlob` returns the
 old save format at the same version, so a tool reads it as a `GameState`, and `loadSaveBlob`
 takes that or an old `corealm.save.v1` fixture. In a connected (socket) session the writes
 reject with `UNAVAILABLE`, and the entity reads answer from the replicated set.

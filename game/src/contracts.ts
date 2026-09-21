@@ -1580,6 +1580,11 @@ export interface SpellRangeApi {
   castAt(point: Vec3): void;
 }
 
+/**
+ * The lab world runs in a lab worker, so every method that changes the simulation returns a promise
+ * that resolves once this page's replicated state shows the change. `featureLab/asyncMethods.ts`
+ * lists them for the await codemod and lint. Page-only controls and reads stay synchronous.
+ */
 export interface FeatureLabApi {
   getState(): FeatureLabState;
   getCatalog(): FeatureLabCatalog;
@@ -1590,7 +1595,8 @@ export interface FeatureLabApi {
   previewPlayerReaction(pose: "hit" | "death"): FeatureLabState;
   setFreeCameraEnabled(enabled: boolean): FeatureLabState;
   setStructure(patch: Partial<FeatureLabStructureSelection>): Promise<FeatureLabState>;
-  fitStructure(): FeatureLabState;
+  /** Moves the player in front of the structure, so it is an operation on the lab worker. */
+  fitStructure(): Promise<FeatureLabState>;
   /**
    * Spawns one actor in front of the player, replacing whatever was there.
    *
@@ -1603,9 +1609,9 @@ export interface FeatureLabApi {
     presetId: string,
     options?: { distance?: number },
   ): Promise<FeatureLabState>;
-  setLevel(skillId: SkillId, level: number): FeatureLabState;
+  setLevel(skillId: SkillId, level: number): Promise<FeatureLabState>;
   equipPlayer(slot: EquipSlot, itemId: ItemId | null): Promise<FeatureLabState>;
-  setSpell(spellId: SpellId): FeatureLabState;
+  setSpell(spellId: SpellId): Promise<FeatureLabState>;
   /**
    * Runs one production action.
    *

@@ -114,10 +114,10 @@ try {
 
   // A low combat level so a provoked animal survives long enough to walk. At the lab's default 99
   // a swing kills a tier 1 animal outright and the sample is a corpse.
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const api = window.__featureLab;
     if (!api) throw new Error("window.__featureLab is unavailable");
-    for (const skill of ["melee", "magic"] as const) api.setLevel(skill, 1);
+    for (const skill of ["melee", "magic"] as const) await api.setLevel(skill, 1);
   });
   await page.evaluate(async () => {
     const api = window.__featureLab;

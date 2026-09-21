@@ -1,5 +1,5 @@
 import { Box3, Vector3 } from "three";
-import type { FeatureLabPreset, Vec3 } from "../contracts.js";
+import type { FeatureLabPreset, SemanticEntity, Vec3 } from "../contracts.js";
 import type { AssetRegistry } from "../render/assets.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type { WorldScene } from "../render/scene.js";
@@ -22,12 +22,15 @@ export interface CreatureGallery {
   getCatalog(): FeatureLabPreset[];
   show(presetId: string, count?: number): Promise<void>;
   play(motion: GalleryMotion, impactSide?: 'front' | 'left' | 'right'): void;
-  place(x: number, z: number, yaw?: number): void;
+  /** Moves the row, so it is an operation on the lab worker's world. */
+  place(x: number, z: number, yaw?: number): Promise<void>;
   getBounds(): { min: Vec3; max: Vec3 } | null;
-  dispose(): void;
+  dispose(): Promise<void>;
 }
 
 interface CreatureGalleryDeps {
+  /** The lab worker owns the simulation. The page tells it which creatures left the row and which arrived. */
+  worldChanged?(change: { remove: string[]; add: SemanticEntity[] }): Promise<void>;
   assets: AssetRegistry;
   scene: WorldScene;
   entityStore: EntityStore;
@@ -35,7 +38,7 @@ interface CreatureGalleryDeps {
 }
 
 /** A stationary acceptance grid of production actors, shared rigs and real skeletal LOD paths. */
-export async function createCreatureGallery({ assets, scene, entityStore, entityViews }: CreatureGalleryDeps): Promise<CreatureGallery> {
+export async function createCreatureGallery({ assets, scene, entityStore, entityViews, worldChanged }: CreatureGalleryDeps): Promise<CreatureGallery> {
   const catalog = FEATURE_LAB_CATALOG.targets.creature;
   let state: CreatureGalleryState = { ready: false, presetId: "", assetId: "", count: 0, motion: "idle", entityIds: [] };
   let queue = Promise.resolve();
@@ -61,6 +64,7 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
         if (!preset) throw new Error(`Unknown production creature preset: ${presetId}`);
         if (!Number.isInteger(count) || count < 1 || count > 64) throw new Error("Creature count must be a whole number from 1 to 64");
         state.ready = false;
+        const before = [...state.entityIds];
         try {
           const template = createFeatureLabEntity(preset, {
             entityId: `lab:creatures:${presetId}:0`, groundPosition: [0, scene.meshHeightAt(0, 70), 70],
@@ -91,6 +95,8 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
             entityIds: entities.map((entity) => entity.id),
           };
           entityViews.sync(entityStore.all());
+          // The creatures are simulated by the lab worker, so the row is ready once its world holds them.
+          await worldChanged?.({ remove: before, add: entities });
         } finally {
           state.ready = !disposed;
         }
@@ -112,7 +118,7 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
       state.motion = motion;
       if (failed.length) throw new Error(`Production motion ${motion} was unavailable for ${failed.join(", ")}`);
     },
-    place(x, z, yaw = 0) {
+    async place(x, z, yaw = 0) {
       if (![x, z, yaw].every(Number.isFinite) || Math.abs(x) > 115 || Math.abs(z) > 115) throw new Error("Gallery placement must stay within the terrain yard");
       for (const [index, id] of state.entityIds.entries()) {
         const entity = entityStore.get(id);
@@ -122,6 +128,7 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
         if (entity.view) entity.view.rotationY = yaw;
       }
       entityViews.sync(entityStore.all());
+      await worldChanged?.({ remove: [...state.entityIds], add: state.entityIds.flatMap((id) => entityStore.get(id) ?? []) });
     },
     getBounds() {
       const box = new Box3();
@@ -133,11 +140,13 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
       }
       return box.isEmpty() ? null : { min: box.min.toArray() as Vec3, max: box.max.toArray() as Vec3 };
     },
-    dispose() {
+    async dispose() {
       if (disposed) return;
       disposed = true;
+      const before = [...state.entityIds];
       clear();
       state.ready = false;
+      await worldChanged?.({ remove: before, add: [] });
     },
   };
   await gallery.show(catalog.find((preset) => preset.id === "redsill_cattle")?.id ?? catalog[0]!.id);

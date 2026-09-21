@@ -1,5 +1,7 @@
 import { WORLD_PROTOCOL_VERSION, type PlayerCharacter, type PlayerWorldRecord, type SessionErrorCode, type WorldDescriptor, type WorldFixture } from "../contracts.js";
 import type { ClientCatalog } from "../content/clientCatalog.js";
+import type { LabFixtureSpec } from "../featureLab/labSpec.js";
+import type { LabWorldData } from "./labProtocol.js";
 
 /**
  * What the page and the local-play worker say to each other, outside the session itself.
@@ -64,10 +66,17 @@ export interface LocalHostStart {
   legacy?: LegacyImport;
   /** Keep nothing: for harnesses and focused sessions that must not touch the player's character. */
   memory?: boolean;
+  /**
+   * A feature-lab session. The worker boots its catalog and host code at once, then waits for one `lab-world` message before it
+   * builds the world, because the page has to draw the lab scene before it can describe it. A lab keeps nothing, whatever `memory` says.
+   */
+  lab?: LabFixtureSpec;
 }
 export type LocalHostRequest =
   | LocalHostStart
   | { type: "connect"; port: MessagePort }
+  /** The lab world description, once, after `start` with a `lab` spec. Its typed arrays are transferred. */
+  | { type: "lab-world"; data: LabWorldData }
   | { type: "catalog"; id: number }
   | { type: "flush"; id?: number }
   | { type: "close"; id: number };

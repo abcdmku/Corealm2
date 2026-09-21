@@ -296,9 +296,9 @@ async function main(): Promise<void> {
     await frame("patrol.png", { yaw: 0, pitch: .35 });
 
     // ------------------------------------------------------------ 3. aggro, pursuit and contact
-    await page.evaluate(() => {
-      window.__featureLab!.setLevel("melee", 1);
-      window.__featureLab!.setLevel("magic", 1);
+    await page.evaluate(async () => {
+      await window.__featureLab!.setLevel("melee", 1);
+      await window.__featureLab!.setLevel("magic", 1);
     });
     // Max health follows the combat level; let the health system re-derive the cap before filling it.
     await page.waitForTimeout(300);
@@ -396,8 +396,8 @@ async function main(): Promise<void> {
     // ------------------------------------------------------------ 5. kill, XP and loot
     await page.evaluate(async () => {
       const lab = window.__featureLab!;
-      lab.setLevel("melee", 90);
-      lab.setLevel("magic", 90);
+      await lab.setLevel("melee", 90);
+      await lab.setLevel("magic", 90);
       // Strongest production sword first. The old first-match search handed the player a tier 10
       // Cobalt Sword against tier 20-34 Kilnhalt residents, and no hit landed in the whole kill leg.
       const items = lab.getCatalog().equipment.find((row) => row.slot === "mainHand")?.items ?? [];

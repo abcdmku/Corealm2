@@ -33,7 +33,7 @@ try {
     await page.evaluate(async id => {
       const lab = window.__featureLab!;
       await lab.perform("reset-player");
-      for (const skill of ["melee", "magic"] as const) lab.setLevel(skill, id === "marsh_wasp" ? 8 : 1);
+      for (const skill of ["melee", "magic"] as const) await lab.setLevel(skill, id === "marsh_wasp" ? 8 : 1);
       await lab.equipPlayer("mainHand", null);
       await lab.spawnTarget("creature", `species:${id}`, { distance: 3 });
       await (window.__gameDebug as unknown as { inspectPose(p: unknown): boolean }).inspectPose(

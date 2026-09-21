@@ -25,7 +25,7 @@ try {
   await driver.open(25000,'/index.html?mode=combat&startup-cache=0');
   await page.evaluate(async ids=>{
     const lab=window.__featureLab!;lab.setFreeCameraEnabled(false);lab.setWalkingEnabled(true);
-    lab.setLevel('melee',99);lab.setLevel('magic',99);
+    await lab.setLevel('melee',99);await lab.setLevel('magic',99);
     for(const slot of ['head','body','legs','feet','hands','mainHand','offHand'] as const) await lab.equipPlayer(slot,null);
     await (await import('/src/render/regionalEquipmentTextures.ts' as string)).preloadRegionalEquipmentTextures(ids);
   },ids);

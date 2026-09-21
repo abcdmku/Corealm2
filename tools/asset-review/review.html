@@ -116,10 +116,10 @@
         if (!part.value) throw new Error('This catalog entry has no model asset.');
         await win.__environmentLab.showGallery(part.value,{scale,rotationY:Number($('model-rotation').value)*Math.PI/180,verticalOffset:0});
         if (!win.__gameDebug?.teleport) throw new Error('The game teleport control is unavailable.');
-        win.__gameDebug.teleport([.65,0,26.8]);
+        await win.__gameDebug.teleport([.65,0,26.8]);
       } else {
         await win.__environmentLab.showGallery('corealm_oak_1');
-        win.__gameDebug.teleport(spawnPosition);
+        await win.__gameDebug.teleport(spawnPosition);
         const kit = mode.value === 'set' ? selected.kit : [{slot:selected.equipSlot,itemId:selected.itemId}];
         for (const piece of kit) await lab.equipPlayer(piece.slot,piece.itemId);
       }

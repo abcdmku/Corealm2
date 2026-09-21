@@ -53,7 +53,7 @@ try {
     await page.evaluate(async () => { const g = (window as any).__creatureGallery, b = g.getBounds(), size = Math.max(...b.max.map((v: number, i: number) => v - b.min[i])); await (window.__gameDebug as any).inspectPose({ x: 0, y: (b.min[1] + b.max[1]) / 2, z: 70, yaw: Math.PI / 2, pitch: .12, distance: Math.max(3.3, size * 1.8), detached: true }); });
     await page.waitForTimeout(250);
     await page.screenshot({ path: `${out}/${id}-side.png` });
-    await page.evaluate(async id => { const lab = window.__featureLab!; await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); lab.setLevel('melee', 40); await lab.spawnTarget('creature', `candidate:${id}`, { distance: 3 }); }, id);
+    await page.evaluate(async id => { const lab = window.__featureLab!; await lab.perform('reset-player'); lab.setFreeCameraEnabled(false); await lab.setLevel('melee', 40); await lab.spawnTarget('creature', `candidate:${id}`, { distance: 3 }); }, id);
     await page.keyboard.press('l');
     const before = await page.evaluate(() => window.__featureLab!.getState());
     await page.getByRole('button', { name: 'Attack spawned creature', exact: true }).click();

@@ -75,14 +75,14 @@ try {
       await page.waitForTimeout(600);
       const before = await page.evaluate(() => { const id = window.__featureLab!.getState().target!.entityId; return (window.__gameDebug as any).getEntity(id); });
       await page.screenshot({ path: path.join(out, `${id}.png`) });
-      await page.evaluate(async () => { window.__featureLab!.setLevel('melee', 99); await window.__featureLab!.perform('attack'); });
+      await page.evaluate(async () => { await window.__featureLab!.setLevel('melee', 99); await window.__featureLab!.perform('attack'); });
       await waitForDebug(page, async id => { const e = await (window.__gameDebug as any).getEntity(id); return e && (e.combat.health < e.combat.maxHealth || e.state !== 'alive'); }, before.id, { timeout: 10_000 });
       evidence[id] = { before, after: await page.evaluate(id => (window.__gameDebug as any).getEntity(id), before.id), state: await snap() };
     }
   } else if (part === 'resources') {
     const sites = (argValue(args, '--sites') ?? 'dewglass_workings,crown_silver_quarry,star_amethyst_cut,moonpetal_grove,orchid_yew_grove').split(',');
     await page.evaluate(async () => {
-      window.__featureLab!.setLevel('mining', 99); window.__featureLab!.setLevel('woodcutting', 99);
+      await window.__featureLab!.setLevel('mining', 99); await window.__featureLab!.setLevel('woodcutting', 99);
       await (window.__gameDebug as any).giveItem('emberite_pickaxe', 1, 'inventory');
       await (window.__gameDebug as any).giveItem('emberite_hatchet', 1, 'inventory');
     });

@@ -265,11 +265,11 @@ async function main(): Promise<void> {
         && (!needsEnvironment || Boolean(global.__environmentLab))
         && (!needsFishing || Boolean(global.__fishingLab));
     }, { needsEnvironment: kinds.some((kind) => kind !== "rod"), needsFishing: kinds.includes("rod") }, { timeout: remaining(5_000) });
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const lab = (window as any).__featureLab;
       lab.setFreeCameraEnabled(false);
       lab.setWalkingEnabled(true);
-      for (const skill of ["mining", "woodcutting", "fishing"]) lab.setLevel(skill, 99);
+      for (const skill of ["mining", "woodcutting", "fishing"]) await lab.setLevel(skill, 99);
     });
     await page.evaluate(async (itemIds: string[]) => {
       const textures = await import("/src/render/regionalEquipmentTextures.ts" as string);

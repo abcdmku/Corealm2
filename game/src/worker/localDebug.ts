@@ -7,6 +7,10 @@ import type { HeadlessPlayer } from "../multiplayer/headlessPlayer.js";
 import { applyPlayerOps, type PlayerOp } from "../multiplayer/playerEdits.js";
 import type { HostedWorld, WorldHost } from "../multiplayer/worldHost.js";
 import { debugOp, type DebugOp, type DebugReply, type EntityFilter } from "./localDebugProtocol.js";
+import type { AssetMeasure } from "../multiplayer/worldAssembly.js";
+import { createLabDebug } from "./labDebug.js";
+import { isLabOp, labOp } from "./labProtocol.js";
+import type { LabWorld } from "./labWorld.js";
 
 /**
  * The host end of local play's debug channel: every `window.__gameDebug` mutator and whole-world
@@ -26,6 +30,8 @@ export interface LocalDebugPorts {
   playerId: string;
   /** Write the store through now. Answers with what flushing has cost so far, when the store keeps count. */
   flush(): Promise<unknown>;
+  /** A feature-lab session. Present, the channel also answers the `lab.*` operations of `labProtocol.ts`. */
+  lab?: { world: LabWorld; assets: Record<string, AssetMeasure>; fixtureData: { agility?: unknown } };
 }
 
 const READS = new Set<DebugOp["op"]>(["getEntity", "findEntities", "getWorldState", "getSave"]);
@@ -196,8 +202,21 @@ export function createLocalDebug(ports: LocalDebugPorts): (op: unknown) => Promi
   }
 
   const done = (value: unknown): DebugReply => ({ ok: true, value, tick: world().clock.tick });
+  const lab = ports.lab ? createLabDebug({ world, player, playerId, lab: ports.lab.world, assets: ports.lab.assets, fixtureData: ports.lab.fixtureData }) : null;
   return async (input) => {
     try {
+      if (isLabOp(input)) {
+        if (!lab) throw new Error("UNAVAILABLE: lab operations need a feature-lab session");
+        const op = labOp(input);
+        if (op.op === "lab.skipTicks") { await host.skip(op.ticks); return await host.betweenTicks(async () => done({ tick: world().clock.tick, simMs: world().clock.elapsedMs })); }
+        return await host.betweenTicks(async () => {
+          const { value, full } = await lab.apply(op);
+          if (op.op === "lab.view") return done(value);
+          for (const joined of world().players.values()) joined.events.flush();
+          host.publish(full === true);
+          return done(value);
+        });
+      }
       const op = debugOp(input);
       if (op.op === "flush") return done(await ports.flush());
       if (op.op === "setPaused" || op.op === "setTimeScale") {
@@ -207,7 +226,9 @@ export function createLocalDebug(ports: LocalDebugPorts): (op: unknown) => Promi
       if (op.op === "advanceGameTime" || op.op === "advanceTicks") {
         // A jump moves the clock and runs one tick, as the old debug clock did: systems catch up from elapsed time. Stepping runs every tick.
         if (op.op === "advanceGameTime") await host.betweenTicks(async () => { player(); world().clock.skipMs(op.seconds * 1000); });
-        for (let ran = 0, ticks = op.op === "advanceTicks" ? op.ticks : 1; ran < ticks; ran++) await host.step();
+        // A lab that steps many ticks is skipping time, and watches none of it: one update at the end. A played world replicates every tick it steps.
+        if (lab && op.op === "advanceTicks" && op.ticks > 1) await host.skip(op.ticks);
+        else for (let ran = 0, ticks = op.op === "advanceTicks" ? op.ticks : 1; ran < ticks; ran++) await host.step();
         return await host.betweenTicks(async () => done({ tick: world().clock.tick, simMs: world().clock.elapsedMs }));
       }
       return await host.betweenTicks(async () => {

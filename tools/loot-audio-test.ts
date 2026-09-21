@@ -48,7 +48,7 @@ try {
     const preset = lab.getCatalog().targets.creature.find(p => /Granary Rat|Red Worm|Coney/.test(p.label));
     if (!preset) throw new Error("No starter creature preset in the lab catalogue");
     await lab.spawnTarget("creature", preset.id, { distance: 2 });
-    lab.setLevel("melee", 99);
+    await lab.setLevel("melee", 99);
     await lab.equipPlayer("mainHand", "kaldite_sword");
     return preset.label;
   })()`);

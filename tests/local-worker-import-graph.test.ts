@@ -83,7 +83,9 @@ it("keeps the renderer, the DOM, Node and the bundled catalog out of the worker'
 
 it("evaluates no content before the catalog is installed", async () => {
   const before = reach(await browserInputs(ENTRY), ENTRY, true);
-  expect([...before.keys()].sort()).toEqual(["game/src/content/catalogInstall.ts", "game/src/contracts.ts", "game/src/worker/localHost.ts", "game/src/worker/localHostProtocol.ts"]);
+  // `labSpec.ts` and `labProtocol.ts` are the lab's two boundary validators. Like `localHostProtocol.ts`, they import the contracts and types only.
+  expect([...before.keys()].sort()).toEqual(["game/src/content/catalogInstall.ts", "game/src/contracts.ts", "game/src/featureLab/labSpec.ts", "game/src/worker/labProtocol.ts",
+    "game/src/worker/localHost.ts", "game/src/worker/localHostProtocol.ts"]);
 }, 120_000);
 
 it("still sees the renderer when it is there", async () => {

@@ -19,7 +19,7 @@ try{
   await page.waitForFunction(()=>window.__featureLab?.getState().ready);
   await page.evaluate(()=>localStorage.removeItem("corealm.action-bars.v2"));
   await page.evaluate(async()=>{
-    const lab=window.__featureLab!;for(const skill of ["magic","melee"] as const)lab.setLevel(skill,99);
+    const lab=window.__featureLab!;for(const skill of ["magic","melee"] as const)await lab.setLevel(skill,99);
     await lab.equipPlayer("offHand",null);await lab.equipPlayer("mainHand","basic_wooden_staff");
     await lab.equipPlayer("body","marchhide_robe");lab.setFreeCameraEnabled(false);
     const debug=window.__gameDebug as unknown as Debug;

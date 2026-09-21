@@ -142,8 +142,8 @@ async function main(): Promise<void> {
     const combatSetup = await page.evaluate(async () => {
       const lab = window.__featureLab!;
       for (const { slot } of lab.getCatalog().equipment) await lab.equipPlayer(slot, null);
-      lab.setLevel("melee", 1);
-      lab.setLevel("magic", 1);
+      await lab.setLevel("melee", 1);
+      await lab.setLevel("magic", 1);
       lab.setWalkingEnabled(true);
       lab.setPlayerVisible(true);
       return lab.getState();

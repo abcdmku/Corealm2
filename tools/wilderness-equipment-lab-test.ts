@@ -106,10 +106,10 @@ async function main(): Promise<void> {
     const documentId = await page.evaluate(() => performance.timeOrigin);
     const initial = await page.evaluate(() => window.__featureLab!.getState());
     assert(initial.ready && initial.playerVisible, 'Production player rig must be ready and visible');
-    await page.evaluate(() => {
+    await page.evaluate(async () => {
       const lab = window.__featureLab!;
       lab.setFreeCameraEnabled(false); lab.setWalkingEnabled(true);
-      lab.setLevel('melee', 99); lab.setLevel('magic', 99);
+      await lab.setLevel('melee', 99); await lab.setLevel('magic', 99);
     });
     const panel = page.locator('#panel-feature-lab');
     if (await panel.isVisible()) await panel.locator('.panel__close').click();

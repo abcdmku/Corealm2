@@ -123,6 +123,11 @@ export interface WorldHost<L extends PeerLink = PeerLink> {
   start(): void;
   /** Run one tick now, after any hold, as the loop would. For tests and hosts that own time. */
   step(): Promise<void>;
+  /**
+   * Run `ticks` ticks back to back for a caller that skips time and watches none of it: only every fiftieth and the last
+   * take a snapshot, commit and replicate. Local play's lab sessions use it. A tick that ran a player's command is always whole.
+   */
+  skip(ticks: number): Promise<void>;
   /** Runs `run` once no tick is in flight, and starts no tick until it settles. */
   betweenTicks<T>(run: () => Promise<T>): Promise<T>;
   /**
@@ -350,7 +355,7 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
   }
   let committing: ReturnType<typeof auditsOf> | null = null;
   /** One world's tick: commands, simulation, snapshot, commit, acknowledgements, replication. It reads no sibling world. */
-  async function tickWorld(hosted: HostedWorld<L>): Promise<void> {
+  async function tickWorld(hosted: HostedWorld<L>, quiet = false): Promise<void> {
     const pending: { peer: Peer<L>; outcome: CommandOutcome }[] = [];
     for (const peer of hosted.peers.values()) {
       for (const input of peer.queue.splice(0)) {
@@ -377,6 +382,8 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
       }
     }
     const simulationStart = performance.now(); hosted.runtime.tick();
+    // A skipped tick simulates and nothing else: no snapshot, no commit, no update. A command it ran still gets the whole tick, because its acknowledgement waits on the commit.
+    if (quiet && pending.length === 0) { metrics.stages.simulationMs += performance.now() - simulationStart; metrics.stages.samples++; return; }
     const snapshotStart = performance.now();
     const snapshot = hosted.runtime.snapshot(hosted.receipts, storage.entityPatches === true, !options.sparseSnapshots || hosted.runtime.clock.tick % THOROUGH_SNAPSHOT_TICKS === 0);
     const written = [...hosted.leases].map(([id, lease]) => [id, { ...lease }] as const);
@@ -397,10 +404,12 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     metrics.stages.commitMs += replicationStart-commitStart; metrics.stages.replicationMs += performance.now()-replicationStart; metrics.stages.samples++;
     for(const id of hosted.runtime.evictInactive(id=>hosted.leases.has(id)))delete hosted.receipts[id];
   }
+  /** Set for the ticks of `skip` that nobody watches. */
+  let quietTicks = false;
   async function tick(): Promise<void> {
     if (closed || ticking) return; ticking = true; const start = performance.now();
     try {
-      for (const hosted of worlds.values()) await tickWorld(hosted);
+      for (const hosted of worlds.values()) await tickWorld(hosted, quietTicks);
     } catch {
       metrics.errors++;
       // No further acknowledgements or snapshots after a failed commit. Fail closed.
@@ -422,7 +431,12 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
       if (pace.paused) { if (!closed) scheduleTick(100); return; }
       // Scaled up, a turn runs as many ticks as the time since the last one is worth, because a timer cannot fire every millisecond.
       const due = pace.timeScale > 1 ? Math.max(1, Math.min(MAX_TICK_BURST, Math.round(since * pace.timeScale / 100))) : 1;
-      inFlight = (async () => { for (let ran = 0; ran < due && !closed && !(ran && pace.paused); ran++) await turn(); })().finally(() => {
+      // Scaled time is a caller skipping ahead, so only the last tick of a burst is a whole one: the page gets one update per turn, as it does at 1x.
+      inFlight = (async () => { for (let ran = 0; ran < due && !closed && !(ran && pace.paused); ran++) {
+        const whole = ran === due - 1;
+        while (hold) await hold;
+        await (running = running.then(async () => { quietTicks = !whole; try { await tick(); } finally { quietTicks = false; } }));
+      } })().finally(() => {
         // An overloaded simulation must yield to transport work between ticks.
         if (!closed) scheduleTick(Math.max(pace.timeScale > 1 ? 1 : 5, 100 / pace.timeScale - (performance.now() - started)));
       });
@@ -432,6 +446,16 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
   return { worlds, metrics, events, get closed() { return closed; }, record: recordEvent, connect, betweenTicks, failClosed, disconnectAccount, holder,
     start() { lastTurnAt = performance.now(); scheduleTick(); },
     step() { return inFlight = turn(); },
+    skip(ticks) {
+      return inFlight = (async () => {
+        for (let ran = 0; ran < ticks && !closed; ran++) {
+          // Every fiftieth tick and the last are whole ticks, so an update never carries more events than a client accepts and the store never falls far behind.
+          const whole = ran === ticks - 1 || ran % 50 === 49;
+          while (hold) await hold;
+          await (running = running.then(async () => { quietTicks = !whole; try { await tick(); } finally { quietTicks = false; } }));
+        }
+      })();
+    },
     publish(full = false) { if (!closed) for (const hosted of worlds.values()) replicate(hosted, full); },
     pace,
     setPace(next) {

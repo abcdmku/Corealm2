@@ -20,7 +20,7 @@ try {
  await page.screenshot({path:`${out}/map-lab.png`});await page.getByRole('button',{name:'Close Map',exact:true}).click();await page.keyboard.press('l');
  for(const species of REGIONAL_CREATURE_VARIANTS){
   await page.getByLabel('Biome atmosphere',{exact:true}).selectOption(species.regionId);
-  await page.evaluate(async id=>{const lab=window.__featureLab!;await lab.perform('reset-player');lab.setLevel('melee',10);await lab.spawnTarget('creature',`species:${id}`,{distance:3});await (window.__gameDebug as any).inspectPose({x:0,y:0,z:0,yaw:1.3,pitch:.23,distance:10});},species.id);
+  await page.evaluate(async id=>{const lab=window.__featureLab!;await lab.perform('reset-player');await lab.setLevel('melee',10);await lab.spawnTarget('creature',`species:${id}`,{distance:3});await (window.__gameDebug as any).inspectPose({x:0,y:0,z:0,yaw:1.3,pitch:.23,distance:10});},species.id);
   await page.waitForTimeout(1400);
   const before=await page.evaluate(()=>window.__featureLab!.getState());
   await page.screenshot({path:`${out}/${species.id}.png`});

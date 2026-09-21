@@ -23,21 +23,19 @@ import {
 } from "../contracts.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { EventBus } from "../core/events.js";
-import type { SimClock } from "../core/time.js";
 import type { AssetRegistry } from "../render/assets.js";
 import type { CharacterRig } from "../render/characterRig.js";
 import type { EntityViews } from "../render/entityViews.js";
 import { SPELLS } from "../content/spells.js";
+import { sendGameCommand } from "../api/commands.js";
+import type { SimClock } from "../core/time.js";
 import { enemyBlockFor } from "../content/enemies.js";
 import { enemyCombatLevel } from "../content/index.js";
 import { distanceXZ } from "../core/math.js";
-import type { GameState, Store } from "../state/store.js";
-import { BANK_CAPACITY, setSkillLevel } from "../state/store.js";
-import type { CombatSystem } from "../systems/combat.js";
-import type { EquipmentSystem } from "../systems/equipment.js";
-import type { InventorySystem } from "../systems/inventory.js";
-import { ESSENCE_BY_ELEMENT, type EssenceSystem } from "../systems/essence.js";
+import type { Store } from "../state/store.js";
+import { BANK_CAPACITY } from "../state/store.js";
 import type { EntityStore } from "../world/entities.js";
+import type { LabOp } from "../worker/labProtocol.js";
 import { FEATURE_LAB_CATALOG, createFeatureLabEntity, featureLabTargetOffset, stagedCreaturePreset } from "./catalog.js";
 
 const TARGET_DISTANCE = 10;
@@ -52,29 +50,21 @@ const MAX_TARGET_DISTANCE = 40;
 /** How far `perform("flee")` sends the player. Past the 28 m leash from any sane spawn. */
 const FLEE_DISTANCE = 45;
 const TARGET_LATERAL_OFFSET = 3;
-const LAB_ITEM_QUANTITY = 100_000;
-const LAB_BANK_CONTENTS = Object.freeze([
-  { itemId: "grithe_ore", quantity: 25 },
-  { itemId: "duskoak_log", quantity: 12 },
-  { itemId: "seared_trout", quantity: 5 },
-] satisfies readonly { itemId: ItemId; quantity: number }[]);
-const LAB_BANK_INVENTORY = Object.freeze([
-  { itemId: "grithe_ore", quantity: 8 },
-  { itemId: "palewood_log", quantity: 6 },
-] satisfies readonly { itemId: ItemId; quantity: number }[]);
 
 export interface FeatureLabRuntimeDeps {
   readonly api: CorealmGameApi;
   readonly store: Store;
   readonly events: EventBus;
+  /** The page's clock, which follows the worker's: `elapsedMs` is the simulation time of the last update. */
   readonly clock: SimClock;
   readonly assets: AssetRegistry;
   readonly entityStore: EntityStore;
   readonly entityViews: EntityViews;
-  readonly inventory: InventorySystem;
-  readonly equipment: EquipmentSystem;
-  readonly essence: EssenceSystem;
-  readonly combat: CombatSystem;
+  /**
+   * One `lab.*` operation on the lab worker, which owns the simulation. It resolves after the update that carries the
+   * effect has been applied to this page's store and entity set.
+   */
+  readonly lab: (op: LabOp) => Promise<unknown>;
   readonly playerRig: CharacterRig;
   readonly playerRigReady: boolean;
   readonly canvas: HTMLCanvasElement;
@@ -94,8 +84,10 @@ export interface FeatureLabRuntimeDeps {
   readonly setPlayerVisible: (visible: boolean) => void;
   readonly setFreeCameraEnabled: (enabled: boolean) => void;
   readonly reloadMode: (mode: FeatureLabMode) => void;
-  readonly fitStructure: (structure: FeatureLabStructureView) => void;
-  readonly resetPlayer: () => void;
+  readonly fitStructure: (structure: FeatureLabStructureView) => void | Promise<void>;
+  /** Camera, input and rig follow the player to where the worker has just put it. */
+  readonly presentPlayerReset: () => void;
+
   readonly selectedEntityId: () => EntityId | null;
   readonly liveSpellParticles: () => number;
   readonly engineErrors: () => readonly string[];
@@ -105,11 +97,21 @@ export interface FeatureLabRuntimeDeps {
 /**
  * Transient setup controls around the production runtime.
  *
- * This deliberately owns no simulation. Every actor is a normal SemanticEntity, every action goes
- * through CorealmGameApi, and the normal GameLoop remains the only thing that advances movement,
- * enemy AI, combat, animation, damage, and spell flight.
+ * This owns no simulation, and neither does the page: the lab world runs in the lab worker. Every
+ * actor is a normal SemanticEntity there, every action is a command over the session, and whatever
+ * sets a session up (levels, equipment, the target, the bank fixture) is a `lab.*` operation on the
+ * worker's debug channel. A method that changes the simulation therefore returns a promise, which
+ * resolves once this page's replicated state shows the change. `getState` reads that replicated
+ * state and stays synchronous.
  */
-export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLabApi {
+export interface FeatureLabRuntime extends FeatureLabApi {
+  /** Run once, after the lab worker's world is joined: the character a lab starts with. `getState().ready` is false until it has. */
+  start(): Promise<void>;
+  /** Wait until every update the worker has sent so far is applied to this page. */
+  refreshView(): Promise<void>;
+}
+
+export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLabRuntime {
   let target: { preset: FeatureLabPreset; entityId: EntityId } | null = null;
   let mode = deps.initialMode;
   let walkingEnabled = deps.initialWalkingEnabled;
@@ -137,18 +139,19 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
     else if (event.type === "spell.launched") counters.spellLaunched += 1;
   });
 
-  // A feature session starts ready to exercise the whole content ladder. These are real state and
-  // inventory mutations, but SaveService is disabled by the lab boot profile so none can leak into
-  // a player's character.
-  deps.store.get().inventory.slots.fill(null);
-  for (const skill of SKILL_IDS) setSkillLevel(deps.store.get(), skill, 99);
-  deps.store.markDirty();
-  resetBankFixture();
+  let started = false;
   const initialSpellId = FEATURE_LAB_CATALOG.spells[0]?.id ?? null;
-  if (initialSpellId) requireOk(deps.api.setPreferredSpell(initialSpellId), `select ${initialSpellId}`);
 
-  const api: FeatureLabApi = {
+  const api: FeatureLabRuntime = {
     getState,
+    refreshView,
+    // A feature session starts ready to exercise the whole content ladder. The worker's store keeps
+    // nothing, so none of it can leak into a player's character.
+    async start() {
+      await deps.lab({ op: "lab.init" });
+      if (initialSpellId) requireOk(await sendGameCommand(deps.api, "setPreferredSpell", initialSpellId), `select ${initialSpellId}`);
+      started = true;
+    },
     getCatalog: () => FEATURE_LAB_CATALOG,
 
     setMode(nextMode) {
@@ -213,7 +216,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
           .then(async () => {
             try {
               const next = await deps.replaceStructure(selection);
-              deps.essence.hydrateAltars();
+              deps.presentPlayerReset();
               structure = cloneStructureView(next);
               if (requestSequence === structureRequestSequence) {
                 requestedStructureSelection = { ...next.selection };
@@ -231,9 +234,9 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       });
     },
 
-    fitStructure() {
-      return guard(() => {
-        deps.fitStructure(structure);
+    async fitStructure() {
+      return guardAsync(async () => {
+        await deps.fitStructure(structure);
         return getState();
       });
     },
@@ -270,30 +273,14 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
         if (mode !== "combat" || requestedModeRevision !== modeRevision) return;
 
         // Asset preparation is the failure-prone step, so finish it before disturbing the live
-        // target or combat state. The yard and current structure are ordinary semantic entities
-        // and must remain in the store when one actor replaces another.
-        deps.api.stop();
-        deps.combat.resetOnDeath(deps.clock.elapsedMs);
-        deps.combat.resetForNewWorld();
-        deps.store.get().world.enemies = {};
-        deps.resetPlayer();
-
-        const previousTarget = target;
-        const previousEntity = previousTarget
-          ? deps.entityStore.get(previousTarget.entityId)
-          : undefined;
-        if (previousTarget) deps.entityStore.remove(previousTarget.entityId);
-        try {
-          deps.entityStore.add(entity);
-          deps.entityViews.sync(deps.entityStore.all());
-          target = { preset, entityId };
-          sequence = nextSequence;
-        } catch (cause) {
-          deps.entityStore.remove(entityId);
-          if (previousEntity) deps.entityStore.add(previousEntity);
-          deps.entityViews.sync(deps.entityStore.all());
-          throw cause;
-        }
+        // target or combat state. The worker stops the player, clears combat and every enemy
+        // runtime, puts the player back on the spawn and swaps the one actor. The yard and the
+        // current structure are ordinary semantic entities and stay where they are.
+        await deps.lab({ op: "lab.spawnTarget", entity, replaces: target?.entityId ?? null });
+        target = { preset, entityId };
+        sequence = nextSequence;
+        deps.presentPlayerReset();
+        await refreshView();
         });
       targetQueue = task;
       return guardAsync(async () => {
@@ -302,12 +289,10 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       });
     },
 
-    setLevel(skillId, level) {
-      return guard(() => {
+    async setLevel(skillId, level) {
+      return guardAsync(async () => {
         if (!SKILL_IDS.includes(skillId)) throw new Error(`Unknown skill: ${skillId}`);
-        const normal = Number.isFinite(level) ? Math.max(1, Math.min(99, Math.floor(level))) : 1;
-        setSkillLevel(deps.store.get(), skillId, normal);
-        deps.store.markDirty();
+        await deps.lab({ op: "lab.setLevel", skill: skillId, level: Number.isFinite(level) ? level : 1 });
         return getState();
       });
     },
@@ -315,35 +300,22 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
     async equipPlayer(slot, itemId) {
       return guardAsync(async () => {
         if (!EQUIP_SLOTS.includes(slot)) throw new Error(`Unknown equipment slot: ${String(slot)}`);
-        const current = deps.equipment.slots()[slot];
-        if (itemId === null) {
-          if (current) {
-            const result = requireOk(deps.equipment.unequip(slot), `clear ${slot}`);
-            discardFromSetupInventory(result.itemId);
-          }
-          return getState();
+        if (itemId !== null) {
+          const row = FEATURE_LAB_CATALOG.equipment.find((entry) => entry.slot === slot);
+          if (!row?.items.some((item) => item.id === itemId)) throw new Error(`${itemId} is not valid for ${slot}`);
         }
-
-        const row = FEATURE_LAB_CATALOG.equipment.find((entry) => entry.slot === slot);
-        if (!row?.items.some((item) => item.id === itemId)) {
-          throw new Error(`${itemId} is not valid for ${slot}`);
-        }
-        if (current?.itemId === itemId) return getState();
-
-        discardFromSetupInventory(itemId);
-        requireOk(deps.inventory.addItem(itemId, 1, { silent: true }), `stage ${itemId}`);
-        const equipped = requireOk(deps.equipment.equip(itemId, slot), `equip ${itemId}`);
-        if (equipped.replaced) discardFromSetupInventory(equipped.replaced);
+        await deps.lab({ op: "lab.equip", slot, itemId });
         return getState();
       });
     },
 
-    setSpell(spellId) {
-      return guard(() => {
+    async setSpell(spellId) {
+      return guardAsync(async () => {
         if (!FEATURE_LAB_CATALOG.spells.some((spell) => spell.id === spellId)) {
           throw new Error(`Unknown spell: ${spellId}`);
         }
-        requireOk(deps.api.setPreferredSpell(spellId), `select ${spellId}`);
+        requireOk(await sendGameCommand(deps.api, "setPreferredSpell", spellId), `select ${spellId}`);
+        await refreshView();
         return getState();
       });
     },
@@ -355,28 +327,24 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
           throw new Error(`Unknown feature-lab action: ${String(action)}`);
         }
         if (action === "reset-player") {
-          deps.api.stop();
-          deps.combat.resetOnDeath(deps.clock.elapsedMs);
-          deps.resetPlayer();
+          await deps.lab({ op: "lab.resetPlayer" });
+          deps.presentPlayerReset();
           return getState();
         }
         if (action === "awaken-altar") {
-          const altar = deps.entityStore.all().find((entity) => entity.meta?.essenceAltar === true);
-          if (!altar) throw new Error("Select the Essence Altar Ruins composition first");
-          if (altar.state !== "awakened") {
-            requireOk(deps.essence.awaken(altar.id), `awaken ${altar.name}`);
-          }
+          await deps.lab({ op: "lab.awakenAltar" });
           return getState();
         }
         if (action === "reset-bank") {
-          resetBankFixture();
-          deps.resetPlayer();
+          await deps.lab({ op: "lab.resetBank" });
+          deps.presentPlayerReset();
           return getState();
         }
         if (action === "open-bank") {
           const bank = deps.entityStore.all().find((entity) => entity.archetype === "bank");
           if (!bank) throw new Error("The feature-lab bank fixture is missing");
-          requireOk(deps.api.interact(bank.id, "bank"), `open ${bank.name}`);
+          requireOk(await sendGameCommand(deps.api, "interact", bank.id, "bank"), `open ${bank.name}`);
+          await refreshView();
           return getState();
         }
         const live = requireCreatureTarget();
@@ -394,18 +362,21 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
           const x = player[0] + ux * FLEE_DISTANCE;
           const z = player[2] + uz * FLEE_DISTANCE;
           requireOk(
-            deps.api.moveTo({ position: [x, deps.groundHeightAt(x, z), z] }),
+            await sendGameCommand(deps.api, "moveTo", { position: [x, deps.groundHeightAt(x, z), z] }),
             `flee from ${live.preset.label}`,
           );
+          await refreshView();
           return getState();
         }
         if (action === "attack") {
-          requireOk(deps.api.attack(live.entityId), `attack ${live.preset.label}`);
+          requireOk(await sendGameCommand(deps.api, "attack", live.entityId), `attack ${live.preset.label}`);
         } else {
           const spellId = deps.api.getSpellbook().preferredSpellId ?? initialSpellId;
           if (!spellId) throw new Error("No spell is selected");
-          requireOk(deps.api.cast(spellId, live.entityId), `cast ${spellId}`);
+          requireOk(await sendGameCommand(deps.api, "cast", spellId, live.entityId), `cast ${spellId}`);
         }
+        // The acknowledgement comes ahead of the update that carries the effect. One more round trip puts this after it.
+        await refreshView();
         return getState();
       });
     },
@@ -434,10 +405,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
         usedSlots: state.bank.slots.length,
         capacity: BANK_CAPACITY,
       },
-      inventory: deps.inventory.distinctItemIds().map((itemId) => ({
-        itemId,
-        quantity: deps.inventory.countOf(itemId),
-      })),
+      inventory: carried(state.inventory.slots),
     } : null;
     const altarEntity = deps.entityStore.all().find((candidate) => candidate.meta?.essenceAltar === true);
     const altarElement = altarEntity?.meta?.essenceElement;
@@ -460,7 +428,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
     const entityMotion = entity ? deps.entityViews.motionSnapshot(entity.id) : null;
 
     return {
-      ready: true,
+      ready: started,
       engine: "corealm-production",
       world: "fallowmarch-yard",
       mode,
@@ -503,7 +471,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
           time: entityMotion.time,
           liveRig: entityMotion.liveRig,
         } : null,
-        ai: creatureAi(entity, state),
+        ai: creatureAi(entity),
       } : null,
       equipment: worn,
       equipmentTotals: { ...equipment.totals },
@@ -516,16 +484,19 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
   }
 
   /**
-   * The live AI runtime for a spawned creature, as `systems/enemyAI.ts` sees it.
+   * The live AI runtime of the spawned creature, as `systems/enemyAI.ts` sees it in the worker.
    *
-   * Null for anything that is not an enemy, and null before the first tick has registered the
-   * creature in `state.world.enemies` — a caller that polls will see it appear rather than get a
-   * fabricated "idle" for something the AI has not met yet.
+   * The runtime lives in the worker's shared world rows, which are never replicated. After each
+   * tick the lab worker writes the target's onto the entity as `meta.labAi`, so it arrives in the
+   * same update as the health and position that tick produced. Null for anything that is not an
+   * enemy, and null before the first tick has registered the creature, so a caller that polls
+   * sees it appear rather than a fabricated "idle".
    */
-  function creatureAi(entity: SemanticEntity, state: GameState): FeatureLabCreatureAi | null {
+  function creatureAi(entity: SemanticEntity): FeatureLabCreatureAi | null {
     if (entity.archetype !== "enemy" && entity.archetype !== "boss") return null;
-    const runtime = state.world.enemies[entity.id];
-    if (!runtime) return null;
+    const stamped = entity.meta?.["labAi"];
+    if (typeof stamped !== "string") return null;
+    const runtime = JSON.parse(stamped) as { state: FeatureLabCreatureAi["state"]; spawnPos: Vec3; respawnAtMs: number | null };
     const family = typeof entity.meta?.["family"] === "string" ? entity.meta["family"] : "";
     const groupId = typeof entity.meta?.["groupId"] === "string" ? entity.meta["groupId"] : entity.id;
     const block = enemyBlockFor(groupId, family, entity.tier);
@@ -541,11 +512,20 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       bodyRadius: entity.combat?.bodyRadius ?? null,
       spawnPosition: [...runtime.spawnPos] as Vec3,
       distanceFromSpawn: round2(distanceXZ(entity.position, runtime.spawnPos)),
-      distanceFromPlayer: round2(distanceXZ(entity.position, state.player.position)),
+      distanceFromPlayer: round2(distanceXZ(entity.position, deps.store.get().player.position)),
       respawnInMs: runtime.respawnAtMs === null
         ? null
         : Math.max(0, Math.round(runtime.respawnAtMs - deps.clock.elapsedMs)),
     };
+  }
+
+  /**
+   * One round trip to the worker that changes nothing. A command's acknowledgement comes ahead of the
+   * update that carries its effect, and the answer to this comes after it, so awaiting it puts the
+   * caller behind the effect.
+   */
+  async function refreshView(): Promise<void> {
+    await deps.lab({ op: "lab.view", targetId: target?.entityId ?? null });
   }
 
   function projectEntity(position: Vec3, labelHeight: number): readonly [number, number] | null {
@@ -595,47 +575,6 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       throw new Error("Spawn a creature target first");
     }
     return target;
-  }
-
-  function discardFromSetupInventory(itemId: ItemId): void {
-    const quantity = deps.inventory.countOf(itemId);
-    if (quantity > 0) requireOk(deps.inventory.removeItem(itemId, quantity, { silent: true }), `discard ${itemId}`);
-  }
-
-  function resetBankFixture(): void {
-    const fixtureItemIds = new Set<ItemId>([
-      ...LAB_BANK_CONTENTS.map((stack) => stack.itemId),
-      ...LAB_BANK_INVENTORY.map((stack) => stack.itemId),
-      ...Object.values(ESSENCE_BY_ELEMENT).filter((itemId): itemId is ItemId => itemId !== null),
-      "air_orb",
-      ...(deps.presentation?.enabled ? ["grithe_pickaxe", "grithe_hatchet"] : []),
-    ]);
-    for (const itemId of fixtureItemIds) discardFromSetupInventory(itemId);
-    deps.store.get().bank.slots = LAB_BANK_CONTENTS.map((stack) => ({ ...stack }));
-    for (const itemId of Object.values(ESSENCE_BY_ELEMENT)) {
-      if (!itemId) continue;
-      requireOk(deps.inventory.addItem(itemId, LAB_ITEM_QUANTITY), `stock ${itemId}`);
-    }
-    requireOk(deps.inventory.addItem("air_orb", 1), "stock the Air Orb");
-    if (deps.presentation?.enabled) {
-      requireOk(deps.inventory.addItem("grithe_pickaxe", 1), "stock the presentation pickaxe");
-      requireOk(deps.inventory.addItem("grithe_hatchet", 1), "stock the presentation hatchet");
-    }
-    for (const stack of LAB_BANK_INVENTORY) {
-      requireOk(deps.inventory.addItem(stack.itemId, stack.quantity), `stock ${stack.itemId}`);
-    }
-    deps.store.markDirty();
-  }
-
-  function clearTarget(): void {
-    if (!target) return;
-    deps.api.stop();
-    deps.combat.resetOnDeath(deps.clock.elapsedMs);
-    deps.combat.resetForNewWorld();
-    deps.store.get().world.enemies = {};
-    deps.entityStore.remove(target.entityId);
-    deps.entityViews.sync(deps.entityStore.all());
-    target = null;
   }
 
   /**
@@ -690,6 +629,13 @@ function normalDistance(value: number | undefined): number {
 
 function round2(value: number): number {
   return Math.round(value * 100) / 100;
+}
+
+/** The carried stacks, one row per item in first-slot order: what `InventorySystem.distinctItemIds` and `countOf` answered. */
+function carried(slots: readonly ({ itemId: ItemId; quantity: number } | null)[]): { itemId: ItemId; quantity: number }[] {
+  const totals = new Map<ItemId, number>();
+  for (const slot of slots) if (slot) totals.set(slot.itemId, (totals.get(slot.itemId) ?? 0) + slot.quantity);
+  return [...totals].map(([itemId, quantity]) => ({ itemId, quantity }));
 }
 
 function toPlayerMotion(snapshot: ReturnType<CharacterRig["motionSnapshot"]>): FeatureLabMotionView {
