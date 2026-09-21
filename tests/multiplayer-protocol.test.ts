@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { Admission } from "../game/src/multiplayer/admission.js";
 import { command, compatible, descriptor, discoverWorlds, envelope, worldKey } from "../game/src/multiplayer/protocol.js";
-import { LocalSession } from "../game/src/multiplayer/localSession.js";
 
 const world: WorldDescriptor = {
   providerId: "reference", worldId: "yard", name: "Test yard", endpoint: "ws://127.0.0.1:4180/",
@@ -111,13 +110,5 @@ describe("command boundary", () => {
     expect(command({method:"castArea",args:["furnace-whip",[1,0,2]]}).method).toBe("castArea");
     expect(()=>command({method:"castArea",args:["furnace-whip",[1,NaN,2]]})).toThrow();
     expect(()=>command({method:"dialogue",args:["choose"]})).toThrow();
-  });
-  it("local sessions report the executor decision asynchronously and refuse closed writes", async () => {
-    const execute = vi.fn().mockReturnValue({ ok: false, error: { code: "OUT_OF_RANGE", message: "Too far away" } });
-    const session = new LocalSession("local", "player", { execute, tick: 4 });
-    const result = session.command({ method: "attack", args: ["enemy"] }); expect(result).toBeInstanceOf(Promise);
-    expect(await result).toMatchObject({ status: "rejected", sequence: 1, error: { code: "OUT_OF_RANGE" } });
-    await session.close(); await session.command({ method: "attack", args: ["enemy"] });
-    expect(execute).toHaveBeenCalledTimes(1);
   });
 });

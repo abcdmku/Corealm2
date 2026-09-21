@@ -1,7 +1,7 @@
 import { CorealmGameApi } from "../api/gameApi.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { LOOT_PILE_VIEW, RECOVERY_CACHE_VIEW } from "../persistence/worldContainers.js";
-import { SKILL_IDS, err, ok, type GameCommand, type Result, type SkillId, type Vec3 } from "../contracts.js";
+import { SKILL_IDS, err, ok, type GameApi, type GameCommand, type Result, type SkillId, type Vec3 } from "../contracts.js";
 import { EventBus } from "../core/events.js";
 import { distanceXZ } from "../core/math.js";
 import { RngStreams } from "../core/rng.js";
@@ -37,7 +37,6 @@ import { DungeonDoors, type DungeonDoorBarrier } from "../world/dungeonDoors.js"
 import { RespawnAnchorSystem, buildSettlementRespawnAnchors } from "../systems/respawnAnchors.js";
 import type { EntityStore } from "../world/entities.js";
 import { InteractionDispatcher } from "../world/interactions.js";
-import type { CommandExecutor } from "./localSession.js";
 
 export interface HeadlessPlayerPorts {
   state: GameState;
@@ -55,6 +54,12 @@ export interface HeadlessPlayerPorts {
   doorBarriers?: readonly DungeonDoorBarrier[];
   /** Seed the player's random streams with the world seed alone, as the single-player lab page always did. */
   sharedRandomSeed?: boolean;
+}
+
+/** What a host runs a player's commands through: the synchronous game API, one command at a time, on the host's tick. */
+export interface CommandExecutor {
+  execute(command: GameCommand): ReturnType<GameApi["stop"]> | { ok: true; value: unknown } | { ok: false; error: { code: string; message: string } };
+  readonly tick: number;
 }
 
 /** Production player rules composed without DOM, renderer, browser storage, or frame callbacks. */

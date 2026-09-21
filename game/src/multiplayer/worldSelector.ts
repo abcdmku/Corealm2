@@ -88,7 +88,7 @@ export interface WorldSelectorOptions {
   /**
    * Local play as a world: the descriptor of the page's own worker-hosted world, whose provider is
    * among `providers`. With it, "Play local" joins that world through the session controller like
-   * any other row. Without it, "Play local" steps aside for the old main-thread game.
+   * any other row. Without it the page has no local world, and the row says so instead of offering one.
    */
   local?:WorldDescriptor;
   /** Something the player should know about how the local world started, such as a seed this build does not hold. */
@@ -177,7 +177,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     return null;
   };
   /** What the one button does for the current choice and connection. */
-  const primary=():{label:string;disabled:boolean;action:"join"|"leave"|"dismiss"|"none"}=>{
+  const primary=():{label:string;disabled:boolean;action:"join"|"leave"|"none"}=>{
     if(["connecting","reconnecting"].includes(phase))return {label:"Cancel connection",disabled:false,action:"leave"};
     if(phase==="leaving")return {label:"Leaving world",disabled:true,action:"none"};
     if(selected===LOCAL&&localWorld){
@@ -185,7 +185,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       return pendingJoin?{label:"Starting when ready",disabled:true,action:"none"}:{label:"Play local",disabled:false,action:"join"};
     }
     if(selected===LOCAL)return phase==="offline"
-      ?{label:"Play local",disabled:false,action:"dismiss"}
+      ?{label:"Play local",disabled:true,action:"none"}
       :{label:"Leave world",disabled:false,action:"leave"};
     const world=worlds.find(w=>worldKey(w)===selected);
     const current=controller.session?.world;
@@ -210,10 +210,10 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     localChoice.addEventListener("change",()=>{selected=LOCAL;updateButtons();});
     const localDetail=document.createElement("span");localDetail.className="worlds__detail";
     const localName=document.createElement("strong");localName.textContent="Play local";
-    const localNote=document.createElement("small");localNote.textContent="Your single-player character, on this device.";
+    const localNote=document.createElement("small");localNote.textContent=localWorld?"Your single-player character, on this device.":"Local play is unavailable: this page could not read its world files.";
     localDetail.append(localName,localNote);
     const localBadge=document.createElement("span");localBadge.className="worlds__badge";
-    localBadge.textContent=(localWorld?playingLocal():phase==="offline")?"Playing now":"Not connected";
+    localBadge.textContent=!localWorld?"Unavailable":playingLocal()?"Playing now":"Not connected";
     local.append(localChoice,localDetail,localBadge);list.append(local);
     for(const world of worlds){
       const label=document.createElement("label");label.className="worlds__row worlds__row--world";
@@ -375,7 +375,6 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     const state=primary();
     if(state.disabled)return;
     if(state.action==="leave"){pendingJoin=false;void controller.leave();return;}
-    if(state.action==="dismiss"){chose({kind:"local"});dismiss();return;}
     if(state.action!=="join")return;
     // The local world is a join like any other, but choosing it still means "get out of my way".
     if(selected===LOCAL&&localWorld){chose({kind:"local"});dismiss();}
@@ -450,7 +449,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)joinSelected();},
     /**
      * Local play without being asked: the page finished loading, nobody answered the picker, and there is no
-     * server on it to choose instead. The old local game simply started at that point, and so does this one.
+     * server on it to choose instead, so the page's own world starts.
      * Nothing is remembered as a choice. False when there is no worker-hosted world or a join is already under way.
      */
     playLocal():boolean{

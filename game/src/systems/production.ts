@@ -25,7 +25,7 @@ import type { ActivityState, GameState, Store } from "../state/store.js";
 import { addSkillXp } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { RngStreams } from "../core/rng.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import type { InteractionDispatcher } from "../world/interactions.js";
 import { distance } from "../core/math.js";
 import { INTERACT_RANGE } from "../app/config.js";
@@ -399,24 +399,7 @@ export class ProductionSystem implements TickSystem {
   // ---------------------------------------------------------------- summary
 
   private summarise(activity: ActivityState, _state: GameState, atMs: number): ActivitySummary {
-    if (activity.kind !== "production") {
-      return { kind: activity.kind, progress: 0, completed: 0, remaining: 0 };
-    }
-    const recipe = content.recipe(activity.recipeId);
-    const durationMs = recipe?.durationMs ?? 1;
-    const left = activity.nextCompleteAtMs - atMs;
-    const progress = durationMs > 0 ? clamp01(1 - left / durationMs) : 1;
-
-    const summary: ActivitySummary = {
-      kind: "production",
-      skill: activity.skill,
-      recipeId: activity.recipeId,
-      progress,
-      completed: activity.completed,
-      remaining: activity.remaining,
-    };
-    if (activity.stationId) summary.entityId = activity.stationId;
-    return summary;
+    return productionSummary(activity, atMs);
   }
 
   // -------------------------------------------------------------- read-only
@@ -613,6 +596,28 @@ function isRecipe(value: RecipeDef | undefined): value is RecipeDef {
 function formatStations(stations: readonly string[]): string {
   const names = stations.map((kind) => kind.replace(/_/g, " "));
   return names.length < 2 ? `a ${names[0] ?? "station"}` : names.map((name) => `a ${name}`).join(" or ");
+}
+
+/** A production run as the HUD and the batch panel show it. Pure, so a page answers it from its replicated activity. */
+export function productionSummary(activity: ActivityState, atMs: number): ActivitySummary {
+  if (activity.kind !== "production") {
+    return { kind: activity.kind, progress: 0, completed: 0, remaining: 0 };
+  }
+  const recipe = content.recipe(activity.recipeId);
+  const durationMs = recipe?.durationMs ?? 1;
+  const left = activity.nextCompleteAtMs - atMs;
+  const progress = durationMs > 0 ? clamp01(1 - left / durationMs) : 1;
+
+  const summary: ActivitySummary = {
+    kind: "production",
+    skill: activity.skill,
+    recipeId: activity.recipeId,
+    progress,
+    completed: activity.completed,
+    remaining: activity.remaining,
+  };
+  if (activity.stationId) summary.entityId = activity.stationId;
+  return summary;
 }
 
 function clamp01(value: number): number {

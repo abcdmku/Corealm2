@@ -9,7 +9,7 @@ import { WorkerWorldProvider, type LocalWorkerLike } from "../game/src/multiplay
 import { debugOp, type DebugOp } from "../game/src/worker/localDebugProtocol.js";
 import { LOCAL_ACCOUNT_ID, type LocalHostReply, type LocalHostRequest } from "../game/src/worker/localHostProtocol.js";
 import { startLocalHost, type LocalHost } from "../game/src/worker/localHostRuntime.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { createInitialState, SAVE_VERSION } from "../game/src/state/store.js";
 import { RESOLVED_CATALOG } from "../game/src/content/resolvedCatalog.js";
 
@@ -125,7 +125,7 @@ describe("the debug channel of local play", () => {
     await debug({ op: "giveItem", itemId: "grithe_ore", quantity: 4, to: "inventory" });
     await debug({ op: "place", position: [3, 0, 2], regionId: "fallowmarch" });
     await debug({ op: "depleteNode", entityId: "multiplayer:ore" });
-    const blob = new SaveService(false).serialize(await debug({ op: "getSave" }) as GameState);
+    const blob = serializeSave(await debug({ op: "getSave" }) as GameState);
     const parsed = JSON.parse(blob) as GameState;
     expect([parsed.meta.saveVersion, parsed.world.nodes["multiplayer:ore"]?.state, parsed.inventory.slots.reduce((sum, slot) => sum + (slot?.itemId === "grithe_ore" ? slot.quantity : 0), 0)]).toEqual([SAVE_VERSION, "depleted", 4]);
 
@@ -133,7 +133,7 @@ describe("the debug channel of local play", () => {
     expect([held("grithe_ore"), seen().player.position, seen().player.name]).toEqual([0, [0, 0, 0], "Adventurer"]);
     expect(await debug({ op: "getEntity", entityId: "multiplayer:ore" })).toMatchObject({ state: "available" });
 
-    const loaded = new SaveService(false).loadSerialized(blob); expect(loaded.status).toBe("loaded");
+    const loaded = loadSerializedSave(blob); expect(loaded.status).toBe("loaded");
     expect(await debug({ op: "loadSave", state: loaded.state! })).toEqual({ seedMatched: true });
     expect([held("grithe_ore"), seen().player.position]).toEqual([4, [3, 0, 2]]);
     await debug({ op: "advanceTicks", ticks: 1 });
@@ -142,7 +142,7 @@ describe("the debug channel of local play", () => {
 
     // An old main-thread save from another seed still loads: the character arrives, its world does not.
     const old = createInitialState(99); old.currency = 250; old.world.nodes["somewhere:else"] = { remaining: 0, maxYields: 3, state: "depleted", respawnAtMs: 5 };
-    expect(await debug({ op: "loadSave", state: new SaveService(false).loadSerialized(new SaveService(false).serialize(old)).state! })).toEqual({ seedMatched: false });
+    expect(await debug({ op: "loadSave", state: loadSerializedSave(serializeSave(old)).state! })).toEqual({ seedMatched: false });
     expect([seen().currency, seen().meta.seed, seen().player.position]).toEqual([250, 1337, [0, 0, 0]]);
   }, 60_000);
 

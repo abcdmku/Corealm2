@@ -15,7 +15,7 @@ import type {
 import { err, ok } from "../contracts.js";
 import type { ActivityState, GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import type { CampfireFuelDef, GatheringProductionTierDef } from "../content/index.js";
 import type {

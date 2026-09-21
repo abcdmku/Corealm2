@@ -4,7 +4,7 @@ import { content } from "../game/src/content/index.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { EventBus } from "../game/src/core/events.js";
 import { SimClock } from "../game/src/core/time.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { addSkillXp, setSkillLevel, Store, type GameState } from "../game/src/state/store.js";
 import { BankSystem } from "../game/src/systems/bank.js";
 import { DialogueSystem } from "../game/src/systems/dialogue.js";
@@ -87,8 +87,7 @@ function runtime(saved?: GameState) {
 }
 
 function reload(previous: ReturnType<typeof runtime>) {
-  const saves = new SaveService(false);
-  const loaded = saves.deserialize(saves.serialize(previous.store.get()));
+  const loaded = loadSerializedSave(serializeSave(previous.store.get()));
   expect(loaded.status).toBe("loaded");
   if (!loaded.state) throw new Error(loaded.reason ?? "Save did not return state");
   previous.quests.dispose();

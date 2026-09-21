@@ -122,3 +122,87 @@ world on this machine: all three attempts timed out at 120 s with "Unable to fin
 frame". These numbers therefore come from the same D3D11 headless configuration the multiplayer
 browser gates use, and are not comparable with the SwiftShader figures in the September section
 above.
+
+## After M7, 21 September 2026
+
+The thin client against the M1 baseline above: same machine, same method (production build, three
+cold boots per mode in a fresh headless Chromium through ANGLE D3D11, 1280 by 800 at scale 1,
+service workers blocked, medians, spans that end after the first playable mark left out). Two things
+differ, because M7 changed them. The picker now always shows, so both modes start from an
+auto-pick: `?play=local` and `?play=reference/local-prod`, the authored world of a server started
+with `--authored --development-guests`. And the page was served by
+`tools/lib/localMultiplayer.ts` in production mode, which serves `game/dist` and injects the
+server's directory, where M1 used Vite preview. First playable keeps its definition: the GPU has
+finished the first gameplay frame and the boot screen is gone.
+
+| Span | M1 local, ms | After, local | M1 connected, ms | After, connected |
+| --- | ---: | ---: | ---: | ---: |
+| `boot.total` first playable | 13,735 | 9,148 | 14,207 | 9,178 |
+| `boot.shaders.effects` | 7,055 | 4,037 | 6,914 | 3,642 |
+| `boot.effects.programs` | 3,303 | 3,763 | 3,231 | 3,348 |
+| `boot.scatter.total` | 1,545 | 1,347 | 1,561 | 1,377 |
+| `boot.terrain.build` | 1,226 | 1,108 | 1,261 | 1,210 |
+| `boot.entities.preload` | 777 | 449 | 749 | 456 |
+| `boot.shaders.scene.submit` | 552 | 164 | 435 | 285 |
+| `boot.entities.firstSync` | 512 | 42 | 528 | under 40 |
+| `boot.player.construct` | 506 | 1,707 | 490 | 487 |
+| `boot.js.evaluate` | 301 | 289 | 288 | 286 |
+| `boot.terrain.fairy` | 251 | 320 | 252 | 235 |
+| `boot.effects.sceneDraw` | 191 | 271 | 178 | 283 |
+| `boot.shaders.input-feedback` | 174 | 90 | 176 | 95 |
+| `boot.frame.first` | 154 | 70 | 145 | 67 |
+| `boot.ui.construct` | 139 | 155 | 95 | 53 |
+| `boot.wasm.navigation.initialize` | 120 | 83 | 140 | 93 |
+| `boot.effects.construct` | 116 | 226 | 221 | 214 |
+| `boot.world.semantic` | 101 | 103 | 105 | 107 |
+| `boot.entities.gltf.parse` (per model) | 79 | 766 | 81 | 783 |
+| `boot.assets.manifest.load` | 66 | 82 | 64 | 64 |
+| `boot.terrain.restamp` | 56 | 58 | 60 | 57 |
+| `boot.assets.animations.load` | 49 | 47 | 63 | 53 |
+
+Connected first playable fell from 14,207 ms to 9,178 ms, and local from 13,735 ms to 9,148 ms, so
+connected boot beats the M1 baseline, which is the M7 done-when. The first authoritative tick
+reached the page 547 ms after first playable when connected and 523 ms after it in local play;
+M1 measured 231 ms from a click, which is not the same interval.
+
+Where the five seconds went. At M1 the spell pools' programs were submitted during boot (about 150
+when they go first, 82 that nothing else uses), and the loading gate then waited for every program. The driver compiles in submission order, a few at a
+time, so those programs stood in front of the scene programs the first frame needs. The spell pools
+are now submitted after the first frame and nobody waits for them: `boot.shaders.effects` fell by
+about 3.1 s. The rest is the deleted simulation: the first entity sync draws scenery only (512 ms to
+about 40 ms), the preload is smaller, and no systems, save or spawn spreading run. What is left of
+`boot.effects.programs` is the wait for the 139 scene programs, and it did not shrink: that wait is
+now the largest span on the path, and it is the next thing to attack, by submitting scene programs as
+their models arrive instead of once at the end.
+
+New spans, and spans that no longer mean what they did:
+
+- `boot.effects.ready` ends after first playable by design: a median 11,150 ms local and 11,065 ms
+  connected, about 1.9 s after the first frame, for 82 programs. Until then a cast's visual waits, and
+  is dropped if it waited more than 600 ms. `tools/effects-deferral-test.ts --dist` cast 248 ms after
+  first playable with the programs not ready: the largest frame gap was 67 ms and the programs were
+  usable 879 ms later.
+- `boot.effects.deferredSubmit` (63 ms) is that submission. It runs in a task of its own after the
+  first playable mark.
+- `boot.catalog.install` (28 ms, of which 12 ms is the manifest) is the entry fetching and installing
+  the client catalog before it imports the app. It sits inside `boot.js.evaluate`, which did not grow.
+- `boot.spawns` (23 ms) is no longer spawn preparation. The page reads the baked placement record for
+  tree clearances and spreads nothing.
+- `boot.localWorker.prepare` (7 ms) reuses the manifest the entry fetched.
+- `boot.preload.behindPicker` (about 1.9 s) overlaps the rest of boot and is not additive.
+- `boot.player.construct` varied between 430 ms and 1,707 ms across local runs on an otherwise idle
+  machine. It overlaps world restoration, so it moves with what it competes against.
+- `boot.entities.gltf.parse` is reported here as the longest single parse in a boot, where M1 gave a
+  per-model figure. They are not comparable.
+
+Deleted with the old path, and so absent from any timeline: the main-thread save load, system
+construction, `GameLoop.simTick()` and the autosave. None of them had a span of its own at M1;
+together with the semantic work they were about 0.3 s.
+
+Bundle sizes from the same build: initial application JavaScript 0.621 MB gzip against the 1.000 MB
+budget (0.974 MB before, with the 4 MB catalog compiled in), critical JavaScript plus WASM 1.132 MB
+against 1.500 MB, the local-play worker 0.290 MB against 0.350 MB. The client catalog is 1,056,568
+bytes, 152 KB gzipped, fetched once and cached for good.
+
+No console or page errors in any of the six boots. Machine-local measurements on one Windows 11
+desktop, not a hardware claim and not a prediction for remote hosting.

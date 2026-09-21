@@ -88,7 +88,7 @@ Secrets live in three places: the game server's own database, the identity servi
 | M4 | The catalog in the server database, live publish and rollback. | Done |
 | M5 | Devdocs server mode, the players and server workspaces. | Done |
 | M6 | The baked server world pack and the two single executables. | Done |
-| M7 | Thin client, local play in a Web Worker. | In progress |
+| M7 | Thin client, local play in a Web Worker. | Done |
 | M8 | The CI content workflows. | Done |
 | M9 | A worker thread per world. | Not started |
 

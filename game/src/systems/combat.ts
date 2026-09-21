@@ -35,7 +35,7 @@ import {
   HEALTH_REGEN_BLOCKED_MS, MELEE_RANGE, PLAYER_RADIUS, SPELL_RANGE, spellFlightMs,
 } from "../app/config.js";
 import type { InteractionDispatcher } from "../world/interactions.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import type { EnemyDef, SpellDef } from "../content/index.js";
 import { content } from "../content/index.js";
 import { REGIONS } from "../content/regions.js";

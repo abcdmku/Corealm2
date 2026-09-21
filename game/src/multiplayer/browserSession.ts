@@ -23,7 +23,6 @@ import {CrowdDetail} from "./crowdDetail.js";
 import {ReplicatedEntityLayer,isStaticScenery,upsertReplicatedEntity} from "./replicatedEntities.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { EventBus } from "../core/events.js";
-import type { SaveService } from "../persistence/storage.js";
 import type { Movement, DirectInput } from "../systems/movement.js";
 import { replicatedTraversal } from "./traversal.js";
 import { sampleTraversal } from "../systems/traversalMotion.js";
@@ -38,7 +37,7 @@ export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & {
   attach(ports: SessionControllerPorts): void;
   /** Whether this page had any world to offer: a configuration, a saved host or an identity service. */
   configured: boolean;
-  /** Set when "Play local" is a worker-hosted world on this page, rather than the old main-thread game. */
+  /** "Play local": a world hosted in a worker on this page. Null on a page that offers none (the multiplayer lab). */
   local: LocalLaunch | null;
 };
 
@@ -49,7 +48,7 @@ declare global {
     __COREALM_AUTHENTICATE__?: (world:WorldDescriptor) => Promise<SessionCredentials>;
     __COREALM_PROVIDERS__?: WorldProvider[];
     __multiplayerLab?: { observe(): unknown };
-    /** Worker-hosted local play, for harnesses: the worker's start report, and proof that this thread simulates nothing. */
+    /** Worker-hosted local play, for harnesses: the worker's start report and the state of the join. */
     __corealmLocalWorker?: { observe(): unknown; command(command: import("../contracts.js").GameCommand): Promise<unknown> };
   }
 }
@@ -57,9 +56,10 @@ declare global {
 export interface BrowserSessionPorts {
   mountWorlds?(panel:HTMLElement):void;
   store: Store; loop: GameLoop; clock: SimClock; entities: EntityStore; views: EntityViews; assets: AssetRegistry;
-  api: CorealmGameApi; events: EventBus; saves: SaveService; movement: Movement;
+  api: CorealmGameApi; events: EventBus; movement: Movement;
   phase?(phase:SessionPhase):void;
   applied?(update:WorldUpdate):void;
+  /** The session ended and the page shows its own scenery again, with nobody in it. */
   restored?():void;
   expectedSeed?:number;
   /**
@@ -167,14 +167,10 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   let simplifyCrowds = options.crowds === true;
   const prediction=new MovementPrediction(ports.movement);
   let online = false; let lastUpdate: WorldUpdate | null = null;
-  // Worker-hosted local play: this thread never simulates, joined or not. Between sessions the game
-  // simply waits, as it does while a connection is being made.
+  // This thread never simulates, joined or not. Between sessions the game simply waits, as it does
+  // while a connection is being made.
   const workerLocal = selector.local?.provider ?? null;
   let firstSnapshotAt: number | null = null;
-  if (workerLocal) {
-    ports.loop.setRemoteSimulation(true); ports.events.setSimulationEnabled(false);
-    ports.saves.setOnlineSession(true); ports.api.setCommandSession(null, true);
-  }
   let receivedAt = 0;
   let traversing = false;
   let lastSteer = -Infinity; let steering = false;
@@ -220,10 +216,8 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
         replicatedEntities.capture(offlineEntities);
       }
       ports.phase?.(phase);
-      online = phase !== "offline"; const remote = online || workerLocal !== null;
-      ports.loop.setRemoteSimulation(remote);
-      ports.events.setSimulationEnabled(!remote);
-      ports.saves.setOnlineSession(remote);
+      online = phase !== "offline";
+      ports.loop.sessionChanged();
       ports.movement.setDirectInputSink(online ? steer : null); steering = false;
       const session=phase === "connected" ? selector.controller.session : null;
       // A publish on the server offers a refresh and nothing more. Play carries on with the catalog this session joined with.
@@ -241,7 +235,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
             prediction.acknowledge(token,outcome);return outcome;
           } catch(error) {prediction.cancel(token);throw error;}
         },
-      } : null, remote);
+      } : null);
     },
     async offline() {
       ports.store.replace(structuredClone(offline)); ports.entities.load(structuredClone(offlineEntities));
@@ -380,7 +374,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
     window.addEventListener("pagehide", () => workerLocal.flush());
     // `command` is the UI's own entry point, `api.submit`: through prediction, over the session, to the worker.
     window.__corealmLocalWorker = { command: command => ports.api.submit(command), observe: () => ({ ...workerLocal.observe(), world: workerLocal.world, notice: selector.local?.notice() ?? null,
-      simTicks: ports.loop.simTickCount, remoteSimulation: ports.loop.remoteSimulationActive, phase: selector.panel.dataset.phase ?? "offline",
+      phase: selector.panel.dataset.phase ?? "offline",
       status: selector.panel.querySelector(".worlds__status")?.textContent ?? "", firstSnapshotAtMs: firstSnapshotAt, tick: lastUpdate?.tick ?? null }) };
   }
   window.addEventListener("pagehide", () => { cancelAnimationFrame(frame); void selector.controller.leave(); }, { once: true });

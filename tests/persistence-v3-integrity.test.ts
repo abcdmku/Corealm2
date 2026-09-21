@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { migrate } from "../game/src/persistence/migrate.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave } from "../game/src/persistence/storage.js";
 import { createInitialState, type GameState } from "../game/src/state/store.js";
 
 class MemoryStorage {
@@ -16,12 +16,10 @@ class MemoryStorage {
 
 describe("save v3 integrity", () => {
   let storage: MemoryStorage;
-  let service: SaveService;
 
   beforeEach(() => {
     storage = new MemoryStorage();
     vi.stubGlobal("localStorage", storage);
-    service = new SaveService();
   });
 
   afterEach(() => {
@@ -38,14 +36,12 @@ describe("save v3 integrity", () => {
     },
   );
 
-  it("uses one parse, migration, and repair pipeline for storage and serialized imports", () => {
-    storage.setItem("corealm.save.v1", "{");
-    expect(service.load()).toEqual({ status: "failed", reason: "Save is not valid JSON" });
-    expect(service.loadSerialized("{")).toEqual({ status: "failed", reason: "Save is not valid JSON" });
+  it("runs serialized imports through the parse, migration, and repair pipeline", () => {
+    expect(loadSerializedSave("{")).toEqual({ status: "failed", reason: "Save is not valid JSON" });
 
     const state = createInitialState(440, 10);
     state.activity = { kind: "eating", itemId: "seared_minnow", endsAtMs: 9_999 };
-    const imported = service.loadSerialized(JSON.stringify(state));
+    const imported = loadSerializedSave(JSON.stringify(state));
 
     expect(imported.status).toBe("loaded");
     expect(imported.state?.activity).toBeNull();
@@ -85,7 +81,7 @@ describe("save v3 integrity", () => {
     const state = createInitialState(441, 10);
     state.world.campfire = campfire as unknown as GameState["world"]["campfire"];
 
-    const loaded = service.loadSerialized(JSON.stringify(state));
+    const loaded = loadSerializedSave(JSON.stringify(state));
 
     expect(loaded.status).toBe("loaded");
     expect(loaded.state?.world.campfire).toBeNull();
@@ -105,7 +101,7 @@ describe("save v3 integrity", () => {
     const withExtraField = JSON.parse(JSON.stringify(state)) as Record<string, unknown>;
     ((withExtraField.world as Record<string, unknown>).campfire as Record<string, unknown>).obsolete = true;
 
-    const loaded = service.loadSerialized(JSON.stringify(withExtraField));
+    const loaded = loadSerializedSave(JSON.stringify(withExtraField));
 
     expect(loaded.status).toBe("loaded");
     expect(loaded.state?.activity).toBeNull();
@@ -119,7 +115,7 @@ describe("save v3 integrity", () => {
     partial.meta = { ...(partial.meta as Record<string, unknown>), saveVersion: 1 };
     partial.combat = { targetId: "marchwolf_1" };
 
-    const loaded = service.loadSerialized(JSON.stringify(partial));
+    const loaded = loadSerializedSave(JSON.stringify(partial));
 
     expect(loaded.status).toBe("loaded");
     // `targetId` no longer survives a load: the live engagement is dropped with its clock
@@ -140,8 +136,8 @@ describe("save v3 integrity", () => {
     const malformed = JSON.parse(JSON.stringify(state)) as Record<string, unknown>;
     malformed.skills = 7;
 
-    expect(() => service.loadSerialized(JSON.stringify(malformed))).not.toThrow();
-    expect(service.loadSerialized(JSON.stringify(malformed))).toEqual({
+    expect(() => loadSerializedSave(JSON.stringify(malformed))).not.toThrow();
+    expect(loadSerializedSave(JSON.stringify(malformed))).toEqual({
       status: "failed",
       reason: "Save repair failed",
     });

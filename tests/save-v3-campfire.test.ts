@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { migrate } from "../game/src/persistence/migrate.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { SAVE_VERSION, createInitialState, type GameState } from "../game/src/state/store.js";
 
 class MemoryStorage {
@@ -67,20 +67,13 @@ describe("save v3 portable campfire persistence", () => {
       expiresAtPlaySeconds: 155.5,
     };
 
-    const service = new SaveService();
-    const serialized = service.serialize(state);
+    const serialized = serializeSave(state);
     const serializedState = JSON.parse(serialized) as GameState;
     expect(serializedState.meta.playSeconds).toBe(35.5);
     expect(serializedState.world.campfire?.expiresAtPlaySeconds).toBe(155.5);
     expect(serializedState.world.campfire).not.toHaveProperty("expiresAtMs");
 
-    expect(service.save(state, 88_888_888_888)).toBe(true);
-    const stored = JSON.parse(storage.getItem("corealm.save.v1") ?? "null") as GameState;
-    expect(stored.meta.lastSavedAtMs).toBe(88_888_888_888);
-    expect(stored.meta.playSeconds).toBe(35.5);
-    expect(stored.world.campfire?.expiresAtPlaySeconds).toBe(155.5);
-
-    const loaded = service.load();
+    const loaded = loadSerializedSave(serialized);
     expect(loaded.status).toBe("loaded");
     expect(loaded.state?.meta.playSeconds).toBe(35.5);
     expect(loaded.state?.world.campfire).toEqual(state.world.campfire);

@@ -1,5 +1,5 @@
 import type { RegionId, Vec3 } from "../contracts.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import { REGIONS } from "../content/regions.js";
 import type { Store } from "../state/store.js";
 import type { RespawnPoint } from "./death.js";

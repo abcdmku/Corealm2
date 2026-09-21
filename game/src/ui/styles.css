@@ -230,6 +230,19 @@ html, body {
   max-height: 50vh;
 }
 
+/* The entry could not fetch the game's content. One way out, and it is the fetch again. */
+.boot-retry {
+  margin-top: 14px;
+  padding: 8px 22px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.5);
+  color: #f0e6d2;
+  font: inherit;
+  cursor: pointer;
+}
+.boot-retry:hover, .boot-retry:focus-visible { background: rgba(240, 180, 168, 0.18); }
+
 /* ------------------------------------------------------------- foundations */
 
 /* One focus ring for the whole UI. Keyboard reachability is a requirement, not a nicety. */

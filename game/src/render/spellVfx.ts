@@ -19,6 +19,11 @@ export interface SpellVfxDeps {
   multiplayer?:boolean;
   /** The staff socket the invocation's gathering light binds to, when a rig is drawn. */
   castingFocus?():Vec3|undefined;
+  /**
+   * Whether the pools' shader programs are usable. Boot submits them early and lets them finish
+   * after the first frame, so a cast can arrive first. Absent means always ready.
+   */
+  ready?():boolean;
 }
 export interface SpellCastRequest {
   id:string;element:SpellElement;rung:SpellRung;
@@ -116,7 +121,20 @@ export class SpellVfx {
   /** Actual production meshes and lights, available before the first invocation. */
   preparationRoot():THREE.Object3D{return this.root;}
   flightMs(rung:SpellRung,distanceM=0):number{return spellFlightMs(rung,distanceM);}
+  /**
+   * Casts that arrived before the pools' programs were usable. Showing a pool then makes the driver
+   * finish its link inside the frame, a stall of seconds. The visual waits instead: the host has
+   * already decided the cast, and its damage number and sound come from events, not from here. A
+   * bolt is only worth drawing while its cast is still in the air, so one that waited longer than
+   * that is dropped rather than shown after its hit landed.
+   */
+  private waiting:{request:SpellCastRequest;at:number}[]=[];
+  private static readonly WAIT_LIMIT_MS=600;
   cast(request:SpellCastRequest,nowMs:number):void {
+    if(this.deps.ready&&!this.deps.ready()){
+      if(!this.waiting.some(entry=>entry.request.id===request.id))this.waiting.push({request,at:nowMs});
+      return;
+    }
     if(this.slots.some(s=>s.cast&&s.id===request.id))return;
     const advancedId=advancedElementalId(request.spellId);
     if(advancedId){this.castAdvanced(advancedId,request,nowMs);return;}
@@ -174,6 +192,10 @@ export class SpellVfx {
   }
   update(nowMs:number):void {
     this.lastNow=nowMs;
+    if(this.waiting.length&&(!this.deps.ready||this.deps.ready())){
+      const waiting=this.waiting;this.waiting=[];
+      for(const entry of waiting)if(nowMs-entry.at<=SpellVfx.WAIT_LIMIT_MS)this.cast(entry.request,nowMs);
+    }
     for(const slot of this.slots)if(slot.cast)slot.update(nowMs);
     this.advanced?.update(nowMs,this.deps.castingFocus?.());
     for(const slot of this.remoteAdvanced)if(slot.cast)slot.update(nowMs,slot.focus);
@@ -198,6 +220,6 @@ export class SpellVfx {
   }
   /** The invocation being drawn right now, for the debug surface and the browser gates. */
   advancedState(){const a=this.advanced;return a?.cast?{spellId:a.cast.spellId,elapsed:this.lastNow-a.cast.started,particles:a.vfx.particleCount,instances:a.vfx.instances}:null;}
-  clear():void { for(const slot of [...this.slots,...this.remoteAdvanced,...(this.advanced?[this.advanced]:[])]){slot.cast=null;slot.update(this.lastNow);} }
+  clear():void { this.waiting=[]; for(const slot of [...this.slots,...this.remoteAdvanced,...(this.advanced?[this.advanced]:[])]){slot.cast=null;slot.update(this.lastNow);} }
   dispose():void {for(const slot of [...this.slots,...this.remoteAdvanced])slot.dispose();this.slots.length=0;this.remoteAdvanced.length=0;this.advanced?.dispose();this.advanced=null;this.advancedGround=null;this.root.removeFromParent();}
 }

@@ -18,6 +18,9 @@ try {
   }));
   await page.goto(`${server.url}/glow-probe`);
   const result = await page.evaluate(async (threePath) => {
+    // A probe page has no entry to install a catalog, and the effect modules read content as they load.
+    const catalogPath = '/src/content/bundledCatalog.ts';
+    await import(catalogPath);
     const modulePath = '/src/render/renderer.ts';
     const { Renderer } = await import(modulePath);
     const renderer = new Renderer(document.querySelector('canvas'));

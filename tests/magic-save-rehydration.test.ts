@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { SemanticEntity, SkillId } from "../game/src/contracts.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave } from "../game/src/persistence/storage.js";
 import { rehydrateWorldContainers } from "../game/src/persistence/worldContainers.js";
 import { createInitialState } from "../game/src/state/store.js";
 import { EntityStore } from "../game/src/world/entities.js";
@@ -44,7 +44,7 @@ describe("save migration and runtime container rehydration", () => {
     delete oldShape.magic;
     delete oldShape.equipment.focus;
 
-    const loaded = new SaveService().deserialize(JSON.stringify(legacy));
+    const loaded = loadSerializedSave(JSON.stringify(legacy));
 
     expect(loaded.status).toBe("loaded");
     expect(loaded.state?.meta.saveVersion).toBe(8);
@@ -58,7 +58,7 @@ describe("save migration and runtime container rehydration", () => {
   });
 
   it("rejects invalid debug-import JSON instead of replacing state with it", () => {
-    expect(new SaveService().deserialize("{broken")).toEqual({
+    expect(loadSerializedSave("{broken")).toEqual({
       status: "failed",
       reason: "Save is not valid JSON",
     });

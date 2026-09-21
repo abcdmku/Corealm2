@@ -25,10 +25,15 @@ from it. `game/content/compiled/catalog.json` is the server catalog compiled fro
 
 The client catalog is `clientCatalog(serverCatalog)` in `game/src/content/clientCatalog.ts`. It is an
 allowlist: a table or field you add to the server catalog stays on the server until you name it
-there. A game server serves it at `GET /catalog/<revision>`, and a connected client lays it over its
-own tables so names, icons, item stats and shop stock match the server. With the shipped content the
-server catalog is 4,166,619 bytes as compact JSON (420,357 gzipped) and the client catalog is
-638,630 bytes (97,719 gzipped, 79,589 as the Brotli reply).
+there. It has two readers. The game page installs the build's copy, `generated/client-catalog-<hash>.json`,
+as its only catalog before it imports the app, so every content module the page evaluates runs on it.
+A game server serves its own at `GET /catalog/<revision>`, and a connected client lays it over the
+installed one so names, icons, item stats and shop stock match the server, and removes it on
+leaving. With the shipped content the server catalog is 4,166,940 bytes as compact JSON (420,393
+gzipped) and the client catalog is 1,048,136 bytes (151,752 gzipped).
+`tests/client-catalog-page-graph.test.ts` fails when a page module reads a table this projection
+does not carry. Feature-lab, world-bake and map-capture pages are authoring surfaces and install the
+server catalog instead.
 
 | Table | Client catalog | Why |
 | --- | --- | --- |
@@ -44,10 +49,13 @@ server catalog is 4,166,619 bytes as compact JSON (420,357 gzipped) and the clie
 | `enemies` | id, name, family, tier | The death screen, effects and hunt text need a name and a level. |
 | `enemies` combat and AI fields, `lootRolls`, `gold` | no | Server only. |
 | `lootTables` | no | Server only. |
-| `compiledCreatures`, `creatureDefinitions`, `creatureProfiles` | no | Definitions, adjustments and inherited fields are authoring data. |
+| `compiledCreatures` | id, asset id, profile id, scale, availability, level; `presentation` cut down like a `creatures` row; `enemy` as id, name, family, tier | The page's creature modules index models by creature id. The definition, adjustments, inherited fields and the combat block stay on the server. |
+| `species` | the `creatures` fields, with `stats` as id, name, family, tier | The same rows under the name the page's modules read. |
+| `creatureDefinitions`, `creatureProfiles` | no | Authoring data. |
 | `world.encounters`, `world.placements`, `world.resources`, `world.groupsByRegion`, `world.habitats`, `world.creatureByGroup` | no | Spawn tables. |
 | `worldRegions`, `encounters`, `placements`, `resourcePlacements`, `equipmentFamilies`, `recipeTemplates`, `balance/formation` | no | Compiler inputs. |
-| `quests`, `dialogue` | no | The quest and dialogue panels draw the `QuestSummary` and `DialogueView` the server sends. No UI code reads these records, so predicates and branch conditions never leave the server. |
+| `quests` | whole | The page builds the quest log (`QuestSummary`) from these records and the replicated quest state. The rows include each stage's completion predicate, so a client can read how a stage completes. Cutting them to names, objectives, hints and rewards needs `content/quests.ts` to parse a row without its predicate first. |
+| `dialogue` | an empty table | The dialogue panel draws the `DialogueView` replicated in the player's state. Dialogue text and branch conditions never leave the server. |
 | `sourceMap` | no | Authoring data. |
 
 A creature's model reaches a client another way. The server stamps `view.assetId` and `view.scale`

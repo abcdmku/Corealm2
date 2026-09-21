@@ -1,7 +1,7 @@
 import type {
   AudioCueId, GameEvent, InteractionId, RegionId, Result, SemanticEntity, Vec3,
 } from "../contracts.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import type { Store } from "../state/store.js";
 import type { CombatHit } from "../systems/combat.js";
 import { sameCombatRealm } from "../systems/combat.js";

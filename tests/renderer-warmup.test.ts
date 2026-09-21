@@ -241,7 +241,7 @@ it("prepares hidden real effect meshes before drawing the base and glow passes",
     render: () => { order.push("base"); },
   };
   const renderer = Object.assign(Object.create(Renderer.prototype), {
-    scene, camera, renderer: fake,
+    scene, camera, renderer: fake, deferredEffectPrograms: new Set(), deferredEffectRoots: new Set(),
     elementalRefraction: {
       compile: (actualRenderer: unknown, actualScene: THREE.Scene, actualCamera: THREE.Camera, actualRoot: THREE.Object3D) => {
         refractionCalls.push({ renderer: actualRenderer, scene: actualScene, camera: actualCamera, root: actualRoot,
@@ -332,7 +332,7 @@ it("prepares a startup creature's fade with its real skinning and retains the pr
 });
 
 it('rejects a failed release shader before drawing gameplay', async () => {
-  const renderer = Object.assign(Object.create(Renderer.prototype), { compileEffects() {}, renderer: {
+  const renderer = Object.assign(Object.create(Renderer.prototype), { compileEffects() {}, deferredEffectPrograms: new Set(), renderer: {
     debug: { checkShaderErrors: false }, info: { programs: [{ program: {} }] },
     getContext: () => ({ getExtension: () => null, getProgramParameter: () => false,
       getProgramInfoLog: () => 'invalid shader' }),

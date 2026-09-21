@@ -8,7 +8,7 @@ export interface OverlayRegistry {
   allSpells(): ContentTables['spells']; allEnemies(): ContentTables['enemies']; allShops(): ContentTables['shops'];
 }
 
-/** A server enemy this build has never heard of: it has a name and a level here, and no way to fight. */
+/** The combat fields of an enemy only the server knows. It has a name and a tier here, and the page needs no more. */
 const UNKNOWN_ENEMY: Omit<EnemyDef, 'id' | 'name' | 'family' | 'tier'> = {
   maxHealth: 1, attackLevel: 1, defenceLevel: 1, accuracy: 0, armour: 0, magicArmour: 0, maxHit: 0,
   attackSpeedMs: 2400, aggroRadius: 0, behaviour: 'passive', lootRolls: [],
@@ -24,11 +24,12 @@ function merged<T extends { id: string }>(base: readonly T[], server: readonly P
 }
 
 /**
- * Connected play reads names, icons, item stats and shop stock from the server's revision. The
- * build's own tables stay underneath, because until the client is thin it still simulates local
- * play from them: a projected enemy carries no combat block, so it is merged into the full
- * definition, never swapped for it. Returns the undo, which leaving the world must call so local
- * play runs on the build's tables again.
+ * A joined world's names, icons, item stats and shop stock come from its host's catalog revision. The
+ * page's own registry underneath is the build's client catalog, installed by the entry, so both
+ * sides carry the same presentation fields and a server row simply wins field by field. A row only
+ * the server has is appended; an enemy of that kind gets inert combat fields, because `EnemyDef`
+ * demands them and nothing on a page fights. Returns the undo, which leaving the world must call so
+ * the next world, or local play, starts from the build's tables again.
  */
 export function overlayClientCatalog(registry: OverlayRegistry, catalog: ClientCatalog): () => void {
   const before: ContentTables = { items: registry.allItems(), resources: registry.allResources(), recipes: registry.allRecipes(),

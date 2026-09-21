@@ -66,6 +66,8 @@ export interface BundleBudgetReport {
   localWorkerFiles: string[];
   /** Worker files that carry compiled content tables. The worker fetches its catalog, so there must be none. */
   localWorkerCatalogFiles: string[];
+  /** Page scripts that carry compiled content tables. The page fetches its client catalog, so there must be none. */
+  pageCatalogFiles: string[];
   recastCompatibilityChunks: string[];
   sourceMaps: string[];
   missingDedicatedChunks: string[];
@@ -98,10 +100,14 @@ function resolveBundleImport(from: string, imported: string, bundle: Readonly<Re
   return bundle[relative] ? relative : null;
 }
 
+/** The app is imported by the entry on every boot, after the catalog is installed. It is first-load code although the import is dynamic. */
+const ALWAYS_LOADED_MODULE = /[\\/]src[\\/]app[\\/]boot\.ts$/;
+
 function collectInitialChunks(bundle: Readonly<Record<string, BundleArtifact>>): Set<string> {
   const initial = new Set<string>();
   const queue = Object.values(bundle)
-    .filter((artifact): artifact is BundleChunkArtifact => artifact.type === "chunk" && artifact.isEntry)
+    .filter((artifact): artifact is BundleChunkArtifact => artifact.type === "chunk"
+      && (artifact.isEntry || Object.keys(artifact.modules ?? {}).some((id) => ALWAYS_LOADED_MODULE.test(id))))
     .map((artifact) => artifact.fileName);
   while (queue.length > 0) {
     const fileName = queue.shift();
@@ -134,11 +140,11 @@ export function analyzeBundleBudget(bundle: Readonly<Record<string, BundleArtifa
   );
   const wasm = artifacts.filter((artifact) => artifact.kind === "wasm");
   const worker = artifacts.filter((artifact) => artifact.kind === "js" && artifact.fileName.startsWith(LOCAL_WORKER_DIRECTORY));
-  // Two table names that only the compiled catalog spells as keys of an array.
+  // Two table names that only the compiled catalog spells as keys of an array, and a loot roll list with rows in it.
   const carriesCatalog = (fileName: string): boolean => {
     const artifact = bundle[fileName], content = artifact ? bytesOf(artifact) : "";
     const text = typeof content === "string" ? content : Buffer.from(content).toString("utf8");
-    return /["']?(?:compiledCreatures|lootTables)["']?\s*:\s*\[/.test(text);
+    return /["']?(?:compiledCreatures|lootTables|habitats)["']?\s*:\s*\[\s*\{|["']?lootRolls["']?\s*:\s*\[\s*\{/.test(text);
   };
   const initialJs = artifacts.filter((artifact) => artifact.kind === "js" && artifact.initial);
   const criticalJs = artifacts.filter((artifact) => {
@@ -172,6 +178,8 @@ export function analyzeBundleBudget(bundle: Readonly<Record<string, BundleArtifa
     localWorkerJsGzipBytes: worker.reduce((total, artifact) => total + artifact.gzipBytes, 0),
     localWorkerFiles: worker.map((artifact) => artifact.fileName).sort(),
     localWorkerCatalogFiles: worker.map((artifact) => artifact.fileName).filter(carriesCatalog).sort(),
+    pageCatalogFiles: artifacts.filter((artifact) => artifact.kind === "js" && !artifact.fileName.startsWith(LOCAL_WORKER_DIRECTORY))
+      .map((artifact) => artifact.fileName).filter(carriesCatalog).sort(),
     recastCompatibilityChunks,
     sourceMaps: Object.keys(bundle).filter((fileName) => fileName.endsWith(".map")).sort(),
     missingDedicatedChunks: DEDICATED_ENGINE_CHUNKS.filter((name) => !presentChunkPolicies.has(name)),
@@ -197,6 +205,9 @@ export function assertBundleBudgets(report: BundleBudgetReport): void {
   }
   if (report.localWorkerCatalogFiles.length > 0) {
     failures.push(`the local-play worker bundles content tables it must fetch instead: ${report.localWorkerCatalogFiles.join(", ")}`);
+  }
+  if (report.pageCatalogFiles.length > 0) {
+    failures.push(`the page bundles content tables it must fetch instead (loot rolls, habitats or the compiled catalog): ${report.pageCatalogFiles.join(", ")}`);
   }
   if (report.sourceMaps.length > 0) failures.push(`production source maps emitted: ${report.sourceMaps.join(", ")}`);
   if (report.missingDedicatedChunks.length > 0) {
@@ -309,18 +320,6 @@ export default defineConfig({
         // static entry dependency again.
         codeSplitting: {
           groups: [
-            {
-              // Install before import, in the bundle too. Content modules are shared with the
-              // dynamic chunks, so the bundler lifts `resolvedCatalog` into a chunk of its own, and a
-              // chunk evaluates before the entry that imports it. Left alone, the entry's
-              // `bundledCatalog` install runs after `resolvedCatalog` has looked for a catalog and
-              // thrown. In one chunk with `catalogInstall`, which `resolvedCatalog` imports, the
-              // install is a dependency of every content module instead of a sibling.
-              name: "catalog",
-              test: /[\\/]content[\\/](?:catalogInstall|bundledCatalog)\.ts$|[\\/]content[\\/]compiled[\\/]catalog\.json$/,
-              priority: 4,
-              includeDependenciesRecursively: false,
-            },
             {
               name: "recast",
               test: /node_modules[\/](?:@recast-navigation|recast-navigation)[\/]/,

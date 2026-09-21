@@ -32,7 +32,7 @@ import type { InteractionContext, InteractionDispatcher } from "../world/interac
 import type { ActivityDriver, ActivityTickResult, EntityLookup } from "./activity.js";
 import type { ActivitySystem } from "./activity.js";
 import { CONTINUE, awardXp, progressToward, stopWith } from "./activity.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import { agilitySuccessChance, agilityXp } from "../content/index.js";
 import { distanceXZ } from "../core/math.js";
 import { sampleTraversal, type TraversalPresentationPort } from "./traversalMotion.js";

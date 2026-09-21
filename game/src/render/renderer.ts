@@ -322,7 +322,7 @@ export class Renderer {
     this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera);
   }
 
-  streamingShaderState() { return this.streamedShaders?.getState() ?? null; }
+  streamingShaderState() { const state = this.streamedShaders?.getState() ?? null; return state ? { ...state, effectsReady: this.effectsReady, deferredEffectPrograms: this.deferredEffectPrograms.size } : null; }
 
   setDestinationLoading(active: boolean): void {
     this.startStreamingWarmup();
@@ -679,8 +679,29 @@ export class Renderer {
     }
   }
 
-  /** Submit hidden effect programs early so the GPU can compile while world construction runs. */
-  compileEffects(root: THREE.Object3D): void {
+  /**
+   * Hidden effect pools whose programs the first frame does not draw. The driver compiles programs
+   * in the order they were submitted, a few at a time, so 150 spell programs submitted during boot
+   * sit in front of the scene programs the first frame is waiting for. A deferred pool is therefore
+   * not submitted at all until `finishDeferredEffects` runs after the first frame, and
+   * `effectsReady` tells the effect layer when it may show a pool for the first time.
+   */
+  private readonly deferredEffectRoots = new Set<THREE.Object3D>();
+  private readonly deferredEffectPrograms = new Set<THREE.WebGLProgram>();
+  private deferredEffectsDone: Promise<void> | null = null;
+  /** False while a deferred pool is unsubmitted or compiling. Showing its mesh then would stall the frame on the link. */
+  get effectsReady(): boolean { return this.deferredEffectRoots.size === 0 && this.deferredEffectPrograms.size === 0; }
+
+  /**
+   * Submit hidden effect programs so the GPU can compile them while other work runs. With
+   * `deferred`, the pool is only noted, and submitted once the first frame is on screen.
+   */
+  compileEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): void {
+    if (options.deferred && !this.deferredEffectsDone) { this.deferredEffectRoots.add(root); return; }
+    this.submitEffects(root);
+  }
+
+  private submitEffects(root: THREE.Object3D): void {
     const meshes: THREE.Mesh[] = [];
     root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
     // Compile-only traversal keeps real geometry, instancing, parents and scene light counts.
@@ -723,29 +744,74 @@ export class Renderer {
     }
   }
 
-  /** Prepare the actual hidden effect pools and HDR compositor before a timed cast can begin. */
-  async prepareEffects(root: THREE.Object3D): Promise<void> {
-    bootTelemetry.measureSync("boot.effects.submit", () => this.compileEffects(root));
-    const programSpan = bootTelemetry.startSpan("boot.effects.programs");
+  /** Polls one program to completion through `KHR_parallel_shader_compile`, then reflects it. `pause` spreads the reflection over tasks. */
+  private async finishProgram(program: THREE.WebGLProgram): Promise<void> {
+    const handle = program.program as WebGLProgram | undefined;
+    if (!handle) return;
     const gl = this.renderer.getContext();
     const extension = gl.getExtension('KHR_parallel_shader_compile');
-    try {
-      for (const program of this.renderer.info.programs ?? []) {
-        if (!program.program) continue;
-        while (extension && !gl.getProgramParameter(program.program as WebGLProgram, extension.COMPLETION_STATUS_KHR)) {
-          await new Promise<void>(resolve => setTimeout(resolve, 8));
+    while (extension && !gl.getProgramParameter(handle, extension.COMPLETION_STATUS_KHR)) {
+      await new Promise<void>(resolve => setTimeout(resolve, 8));
+    }
+    if (!gl.getProgramParameter(handle, gl.LINK_STATUS)) {
+      throw new Error(`Unable to prepare game graphics: ${gl.getProgramInfoLog(handle)}`);
+    }
+    // Link status already validates this program. Avoid three synchronous driver-log queries
+    // for every successful shader, while retaining normal diagnostics for later programs.
+    const checkErrors = this.renderer.debug.checkShaderErrors;
+    this.renderer.debug.checkShaderErrors = false;
+    try { program.getUniforms(); program.getAttributes(); }
+    finally { this.renderer.debug.checkShaderErrors = checkErrors; }
+  }
+
+  /**
+   * After the first frame: see the deferred effect programs through without holding a frame. Each
+   * program is polled until the driver reports it done and is reflected in its own task, so no
+   * frame pays for more than one. Resolves, and `effectsReady` turns true, when all are usable.
+   */
+  finishDeferredEffects(): Promise<void> {
+    this.deferredEffectsDone ??= (async () => {
+      const span = bootTelemetry.startSpan("boot.effects.ready", { startMs: 0 });
+      try {
+        // Submitting is synchronous work for the CPU. It belongs to the first idle moment after the caller's frame, not to the caller.
+        await new Promise<void>(resolve => setTimeout(resolve, 0));
+        for (const root of [...this.deferredEffectRoots]) {
+          const known = new Set(this.renderer.info.programs ?? []);
+          bootTelemetry.measureSync("boot.effects.deferredSubmit", () => this.submitEffects(root));
+          for (const program of this.renderer.info.programs ?? []) if (!known.has(program)) this.deferredEffectPrograms.add(program);
+          this.deferredEffectRoots.delete(root);
+          await new Promise<void>(resolve => setTimeout(resolve, 0));
         }
-        if (!gl.getProgramParameter(program.program as WebGLProgram, gl.LINK_STATUS)) {
-          throw new Error(`Unable to prepare game graphics: ${gl.getProgramInfoLog(program.program as WebGLProgram)}`);
+        const programs = this.deferredEffectPrograms.size;
+        for (const program of [...this.deferredEffectPrograms]) {
+          await this.finishProgram(program);
+          this.deferredEffectPrograms.delete(program);
+          await new Promise<void>(resolve => setTimeout(resolve, 0));
         }
-        // Link status already validates this program. Avoid three synchronous driver-log queries
-        // for every successful shader, while retaining normal diagnostics for later programs.
-        const checkErrors = this.renderer.debug.checkShaderErrors;
-        this.renderer.debug.checkShaderErrors = false;
-        try { program.getUniforms(); program.getAttributes(); }
-        finally { this.renderer.debug.checkShaderErrors = checkErrors; }
+        span.end({ programs });
+      } catch (error) {
+        // A program that will not link stays unusable: the effect layer keeps its pools hidden and play goes on.
+        span.fail(error);
+        console.error("[corealm] An effect shader could not be prepared; spell effects stay hidden.", error);
       }
-      programSpan.end();
+    })();
+    return this.deferredEffectsDone;
+  }
+
+  /**
+   * Prepare hidden pools and the HDR compositor before the view is revealed. Every program the
+   * frame can draw is waited for. Programs of deferred effect pools are not: see `compileEffects`.
+   */
+  async prepareEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): Promise<void> {
+    bootTelemetry.measureSync("boot.effects.submit", () => this.compileEffects(root, options));
+    const programSpan = bootTelemetry.startSpan("boot.effects.programs");
+    try {
+      let waited = 0;
+      for (const program of this.renderer.info.programs ?? []) {
+        if (this.deferredEffectPrograms.has(program)) continue;
+        await this.finishProgram(program); waited += 1;
+      }
+      programSpan.end({ programs: waited });
     } catch (error) {
       programSpan.fail(error);
       throw error;

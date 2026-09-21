@@ -36,7 +36,7 @@ import type { InteractionContext, InteractionDispatcher } from "../world/interac
 import type { ActivityDriver, ActivityTickResult, EntityLookup, InventoryPort } from "./activity.js";
 import type { ActivitySystem } from "./activity.js";
 import { CONTINUE, awardXp, clamp01, stopWith } from "./activity.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import type { ItemMoveOptions } from "./inventory.js";
 import type { ResourceDef } from "../content/index.js";
 import {

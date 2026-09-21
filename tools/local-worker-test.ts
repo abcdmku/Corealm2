@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { chromium, type BrowserContext, type Page } from "playwright";
 import { preview } from "vite";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { serializeSave } from "../game/src/persistence/storage.js";
 import { createInitialState } from "../game/src/state/store.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { gameRoot, repoRoot } from "./lib/paths.js";
@@ -19,8 +19,7 @@ import { startGameServer } from "./lib/server.js";
  * is waiting, the first boot imports it, the player walks and gathers, a second tab is turned away,
  * and a reload finds the character where it was left, including a reload one second after a walk.
  * The debug channel is then held to its promise: an awaited write is visible to the very next read.
- * Fresh profiles then time the old local path (`?local=main`) against the worker path, which is the
- * default. Ports 4340 to 4349, or `COREALM_TEST_PORT`.
+ * A fresh profile then times the path to the first snapshot. Ports 4340 to 4349, or `COREALM_TEST_PORT`.
  */
 const dist = process.argv.includes("--dist");
 const out = path.join(repoRoot, "test-results/local-worker"); await mkdir(out, { recursive: true });
@@ -37,7 +36,7 @@ const WORKER_URL = `${server.url}/?play=local`;
 const checks: Record<string, boolean> = {}; const errors: string[] = []; const notes: Record<string, unknown> = {};
 
 interface Observation {
-  starts: number; running: boolean; crashed: boolean; phase: string; status: string; simTicks: number; remoteSimulation: boolean; tick: number | null; firstSnapshotAtMs: number | null; startMs: number | null;
+  starts: number; running: boolean; crashed: boolean; phase: string; status: string; tick: number | null; firstSnapshotAtMs: number | null; startMs: number | null;
   ready: { legacy: string; storage: string; seed: { requested: number; used: number }; timings: Record<string, number> } | null; storageTrouble: unknown;
 }
 interface Lab { player: { name: string; position: number[] }; currency: number; inventory: { slots: ({ itemId: string; quantity: number } | null)[] };
@@ -79,7 +78,7 @@ try {
   const legacy = createInitialState(1337);
   legacy.player.name = "Maren"; legacy.currency = 431;
   const free = legacy.inventory.slots.findIndex(slot => slot === null); legacy.inventory.slots[free] = { slotIndex: free, itemId: "grithe_ore", quantity: 7 };
-  const profile = await context(new SaveService(false).serialize(legacy));
+  const profile = await context(serializeSave(legacy));
   const first = await open(profile, WORKER_URL, "first"); await playing(first);
   const started = await observe(first), arrived = await lab(first);
   notes.firstBoot = { startMs: Math.round(started.startMs ?? 0), timings: started.ready?.timings, storage: started.ready?.storage, seed: started.ready?.seed, ...(await timing(first)),
@@ -92,10 +91,9 @@ try {
   const keys = await first.evaluate(() => ({ save: localStorage.getItem("corealm.save.v1") !== null, backup: localStorage.getItem("corealm.save.v1.backup"), migrated: localStorage.getItem("corealm.save.v1.migrated") }));
   checks.legacyBackupAndMarker = !keys.save && typeof keys.backup === "string" && JSON.parse(keys.backup).player.name === "Maren" && keys.migrated !== null;
 
-  // ---- 2. The page simulates nothing, and the world still moves: it arrives by replication.
+  // ---- 2. The world moves, and it arrives by replication: the page has no simulation of its own to run.
   const tickBefore = started.tick ?? 0; await first.waitForTimeout(1500);
   const later = await observe(first);
-  checks.noMainThreadSimulation = later.simTicks === 0 && later.remoteSimulation === true;
   checks.replicationAdvances = (later.tick ?? 0) >= tickBefore + 10;
 
   // ---- 3. Walk with the keyboard, then gather with the UI's own command entry.
@@ -121,7 +119,6 @@ try {
     return Object.keys(counts).some(id => counts[id] !== (known as Record<string, number>)[id]);
   }, before, { timeout: 120_000 });
   checks.inventoryChangedByCommand = true;
-  checks.stillNoMainThreadSimulation = (await observe(first)).simTicks === 0;
   await first.screenshot({ path: path.join(out, dist ? "playing-dist.png" : "playing.png"), timeout: 10_000 }).catch(() => {});
 
   // ---- 4. A second tab is turned away, and says why.
@@ -203,15 +200,10 @@ try {
   checks.flushStaysCheap = debugged.flush !== null && debugged.flush.lastRows! < 200 && debugged.flush.lastMs! < 250;
   await profile.close();
 
-  // ---- 9. Timings, each in a fresh profile: the old main-thread path, then the worker path.
-  const oldProfile = await context(), old = await open(oldProfile, `${server.url}/?play=local&local=main`, "old path");
-  await old.waitForFunction(() => window.__gameDebug?.getState().ready === true, null, { timeout: 120_000 });
-  const oldTiming = await timing(old);
-  checks.oldPathUnchanged = await old.evaluate(() => window.__corealmLocalWorker === undefined);
-  await oldProfile.close();
+  // ---- 9. Timings in a fresh profile.
   const freshProfile = await context(), fresh = await open(freshProfile, WORKER_URL, "fresh worker"); await playing(fresh);
   const freshSeen = await observe(fresh), freshTiming = await timing(fresh);
-  notes.timings = { oldPathFirstPlayableMs: oldTiming.scenePlayableMs,
+  notes.timings = {
     workerPath: { scenePlayableMs: freshTiming.scenePlayableMs, firstSnapshotMs: Math.round(freshSeen.firstSnapshotAtMs ?? 0), manifestPrepareMs: freshTiming.prepareMs,
       firstPlayableMs: Math.max(freshTiming.scenePlayableMs ?? 0, Math.round(freshSeen.firstSnapshotAtMs ?? 0)), workerColdStartMs: Math.round(freshSeen.startMs ?? 0), worker: freshSeen.ready?.timings } };
   await freshProfile.close();
@@ -222,7 +214,7 @@ try {
 }
 const benign = (text: string): boolean => /favicon|ERR_ABORTED|AudioContext/.test(text);
 const failures = errors.filter(error => !benign(error));
-const passed = failures.length === 0 && Object.keys(checks).length >= 23 && Object.values(checks).every(Boolean);
+const passed = failures.length === 0 && Object.keys(checks).length >= 20 && Object.values(checks).every(Boolean);
 const report = { passed, mode: dist ? "dist" : "dev", checks, notes, errors: failures };
 await writeFile(path.join(out, dist ? "report-dist.json" : "report.json"), JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 2));

@@ -18,7 +18,8 @@ import type { ActivityState, GameState } from "../state/store.js";
 import type { Store } from "../state/store.js";
 import { addSkillXp } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
+import { productionSummary } from "./production.js";
 
 /** The five activity kinds the frozen `ActivityState` union allows. */
 export type ActivityKind = ActivityState["kind"];
@@ -298,6 +299,17 @@ export class ActivitySystem implements TickSystem {
 }
 
 // ---------------------------------------------------------------- helpers
+
+/**
+ * The summary of a replicated activity, for a page. The host's `ActivitySystem` asks each activity's
+ * driver. A page has no drivers, only the activity record and the host's clock, and production is the
+ * one kind whose record carries more than a name: how many are made and how many are left.
+ */
+export function activitySummary(activity: ActivityState | null, atMs: number): ActivitySummary | null {
+  if (!activity) return null;
+  if (activity.kind === "production") return productionSummary(activity, atMs);
+  return { kind: activity.kind, skill: skillOf(activity), entityId: entityIdOf(activity), progress: 0, completed: 0, remaining: 0 };
+}
 
 /** The entity an activity is aimed at, whatever the kind calls its field. */
 export function entityIdOf(activity: ActivityState): EntityId | undefined {

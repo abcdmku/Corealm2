@@ -10,9 +10,7 @@ import { resolveFairyDressing } from './fairyDressing.js';
 import { cachedWorldValue } from '../world/cachedWorldValue.js';
 import releaseNavigation from 'virtual:corealm-release-navigation';
 import { loadArtifactBytes } from '../systems/navigation.js';
-import { FAIRY_COMBAT_PLATEAUS, FAIRY_DEEP_PATH_CLEARINGS } from '../world/fairyLandforms.js';
 import { buildFairyTerrainSpec } from './worldSpec.js';
-import { FAIRY_GARDEN_LANDINGS } from '../world/fairyRegionalRelief.js';
 import { FAIRY_PORTAL_LAB_TERRAIN, assembleFairyPortalFixture, createFairyPortalWorkbench } from '../featureLab/fairyPortal.js';
 import { immediatePlayerItems, PlayerEntitySelector, type PlayerAssetArea } from '../render/playerAssetPlan.js';
 import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
@@ -21,7 +19,6 @@ import { GenerationCache } from "../world/generationCache.js";
 import { generationScope } from "../world/worldDataFormat.js";
 import { ShippedWorldData } from "../world/shippedWorldData.js";
 import { mobSpawnPlacementPorts } from "./mobSpawns.js";
-import { registerHabitatClearances } from "./habitatClearances.js";
 import { registerExclusions } from "./worldExclusions.js";
 import { buildDungeonSpec } from "./dungeonSpec.js";
 /**
@@ -34,7 +31,7 @@ import { buildDungeonSpec } from "./dungeonSpec.js";
  * views, A4's input. Each depends only on frozen contracts, so no worker had to know about another.
  */
 import * as THREE from "three";
-import { WILDERNESS_LAVA_CHANNELS, lavaSections, WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
+import { WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
 import { WildernessEffects, wildernessEffectsLabTorches, deepWildernessEffectsLabTorches, torchFlameOrigin, type WildernessTorch } from "../render/wildernessEffects.js";
 import { WildernessCreatureEffects, type WildernessCreatureEmitter } from '../render/wildernessCreatureEffects.js';
 import { assertCreatureCatalog } from '../content/creatureCatalog.js';
@@ -43,15 +40,11 @@ import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../r
 import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js';
 import { lavaObstacles } from "../world/lavaObstacles.js";
 import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";
-import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
-import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
-import { CREATURE_MOTION_TIMING } from "../content/creatureMotionTiming.js";
-import { ForestResources, type ForestTreeDescriptor } from "../world/forestResources.js";
+import type { ForestTreeDescriptor } from "../world/forestResources.js";
 import { ForestPresentation } from "../render/forestPresentation.js";
 import { ForestObstacles } from "../world/forestObstacles.js";
-import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
+import { WORLD_SITES, type WorldSite } from "../content/worldSites.js";
 import { WORLD_HABITATS, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
-import { REGIONAL_PACK_ACTIVATION, activatedRegionalPackIds } from "../content/regionalPackActivation.js";
 import { habitatIdleTargets } from "../world/habitatMovement.js";
 import { resolveWorldSiteDressing, type ResolvedWorldSiteDressing } from "../render/worldSiteDressing.js";
 import type {
@@ -67,11 +60,10 @@ import type {
   Vec3,
 } from "../contracts.js";
 import { SKILL_IDS } from "../contracts.js";
-import { Store, addSkillXp } from "../state/store.js";
+import { Store } from "../state/store.js";
 import { EventBus } from "../core/events.js";
 import { SimClock } from "../core/time.js";
-import { RngStreams } from "../core/rng.js";
-import { drawDistanceMetres, fogOpaqueMetres, Renderer } from "../render/renderer.js";
+import { fogOpaqueMetres, Renderer } from "../render/renderer.js";
 import { OrbitCamera } from "../render/camera.js";
 import { AssetRegistry } from "../render/assets.js";
 import { registerProceduralGear } from "../render/proceduralGearFactories.js";
@@ -88,14 +80,7 @@ import { dryNavigationMeshes } from "../world/waterNavigation.js";
 import { Movement } from "../systems/movement.js";
 import { Solids } from "../systems/solids.js";
 import { CorealmGameApi } from "../api/gameApi.js";
-import { SaveService } from "../persistence/storage.js";
-import { relocateDungeonSave } from "../persistence/dungeonPlacement.js";
-import {
-  LOOT_PILE_VIEW,
-  RECOVERY_CACHE_VIEW,
-  rehydrateEnemyRuntimes,
-  rehydrateWorldContainers,
-} from "../persistence/worldContainers.js";
+import { loadSerializedSave } from "../persistence/storage.js";
 import type { RecordedError } from "../debug/gameDebug.js";
 import { installBootPlaceholder } from "../debug/bootPlaceholder.js";
 import { GameLoop } from "./loop.js";
@@ -104,48 +89,27 @@ import { InputController } from "../input/mouse.js";
 import { prepareWorldSurface } from "./worldSurface.js";
 import { fishingSiteAnchors } from "./fishingAccess.js";
 import { miningAccessPositions } from "./miningAccess.js";
-import { worldSiteHaulRamp } from "../world/siteTerrain.js";
 import { CAMERA } from "./config.js";
-import type { BuildingBox } from "../world/regionBuilder.js";
 import { EntityStore, straightLineDistance } from "../world/entities.js";
 import { InteractionDispatcher } from "../world/interactions.js";
 import { InventorySystem } from "../systems/inventory.js";
 import { BankSystem } from "../systems/bank.js";
-import { EquipmentSystem } from "../systems/equipment.js";
 import { EconomySystem } from "../systems/economy.js";
-import { ActivitySystem } from "../systems/activity.js";
-import { EatingSystem } from "../systems/eating.js";
-import { CAMPFIRE_ENTITY_ID, CampfireSystem, campfireFuelLookup } from "../systems/campfire.js";
-import { GatheringSystem } from "../systems/gathering.js";
-import { EssenceSystem } from "../systems/essence.js";
-import { AgilitySystem } from "../systems/agility.js";
+import { activitySummary } from "../systems/activity.js";
 import { TraversalPresentation } from "../render/traversalPresentation.js";
 import { huntContractsView } from "../ui/huntContracts.js";
 import { HuntContractsSystem } from "../systems/huntContracts.js";
 import { deriveHuntTargets } from "../content/huntContracts.js";
-import { CombatSystem } from "../systems/combat.js";
-import { EnemyAiSystem } from "../systems/enemyAI.js";
 import { coastalSpawnSites } from "./coastalSpawns.js";
-import { HealthSystem } from "../systems/health.js";
-import { DeathSystem } from "../systems/death.js";
-import { RespawnAnchorSystem, buildSettlementRespawnAnchors } from "../systems/respawnAnchors.js";
-import { ProductionSystem } from "../systems/production.js";
 import { QuestSystem } from "../systems/quests.js";
-import { DiscoverySystem } from "../systems/discovery.js";
-import { DeferredDialogueSystem } from "../systems/deferredDialogue.js";
-import { TravelSystem } from "../systems/travel.js";
 import { PortalTransition } from "../ui/portalTransition.js";
 import { INTERACT_RANGE } from "./config.js";
 import { distanceXZ } from "../core/math.js";
 import {
-  ESSENCE_ALTAR_CLEAR_RADIUS,
-  REGIONAL_ESSENCE_ALTARS,
+  
   REGIONS,
-  getRegion,
-} from "../content/regions.js";
+  getRegion } from "../content/regions.js";
 import { content } from "../content/index.js";
-import { GATHERING_PRODUCTION_TIERS } from "../content/gatheringProductionTiers.js";
-import { QUESTS } from "../content/quests.js";
 import { worldExclusions, type ScatterResult } from "../world/scatter.js";
 import { ScatterStreamingController } from "../world/scatterStreaming.js";
 import { findShot, shotIds, SHOTS } from "../debug/shots.js";
@@ -156,8 +120,7 @@ import { SettingsStore, type UiSettings } from "../ui/settings.js";
 import { keybindings } from "../input/keyboard.js";
 import { CharacterRig } from "../render/characterRig.js";
 import {
-  addChamberLights, buildDungeon, chamberFloorAt, dungeonFloorHeight, dungeonNavigationBlockers, loadCaveRockSource, type DungeonSpec, type BuiltDungeon,
-} from "../render/dungeon.js";
+  addChamberLights, buildDungeon, dungeonFloorHeight, dungeonNavigationBlockers, loadCaveRockSource, type BuiltDungeon } from "../render/dungeon.js";
 import { DeferredDungeonFacing } from "../render/deferredDungeonFacing.js";
 import { Ambience, Vfx, type AmbienceEmitter, type AmbienceKind } from "../render/vfx.js";
 import { SpellVfx } from "../render/spellVfx.js";
@@ -168,6 +131,8 @@ import {
   footstepSurfaceAt, type AudioDiagnostic,
 } from "../audio/index.js";
 import { GAME_BOOT_PROFILE, type BootProfile } from "./bootProfile.js";
+/** Re-exported so the entry reaches the whole app through this one module. */
+export { bootProfileFor } from "./bootProfile.js";
 import type { FeatureLabStructureAssembly } from "../featureLab/structures.js";
 import { isStaticScenery } from "../multiplayer/replicatedEntities.js";
 import { sendGameCommand } from "../api/commands.js";
@@ -195,6 +160,8 @@ function structureResidencyRadius(distance: UiSettings["drawDistance"]): number 
 
 export interface BootOptions {
   profile?: BootProfile;
+  /** What the entry fetched and installed before this module was imported, for the boot timeline. */
+  catalog?: import("../content/catalogEntry.js").InstalledPageCatalog;
 }
 
 export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {}): Promise<BootResult> {
@@ -214,6 +181,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     startMs: Math.max(0, navigationTiming?.responseEnd ?? 0),
     endMs: bootEntryMs,
   });
+  if (options.catalog) {
+    const { startedAtMs, manifestMs, catalogMs, kind, bytes } = options.catalog;
+    bootTelemetry.recordSpan({ name: "boot.catalog.install", startMs: startedAtMs, endMs: startedAtMs + manifestMs + catalogMs, detail: { kind, bytes, manifestMs: Math.round(manifestMs) } });
+  }
   bootTelemetry.milestone(BOOT_MILESTONES.JS_EVALUATED);
 
   const errors: RecordedError[] = [];
@@ -274,9 +245,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // before the scene is built. The worker starts once local play is the known target, so its world
   // boots beside the scene.
   //
-  // `?local=main` keeps the old main-thread game until stage 6 deletes it; the feature labs still
-  // run on it and never reach this branch. `?local=memory` is the worker with nothing stored, for a
-  // harness that opens several pages at once: the stored world belongs to one tab at a time.
+  // `?local=memory` is the worker with nothing stored, for a harness that opens several pages at
+  // once: the stored world belongs to one tab at a time.
   const localMode = new URLSearchParams(location.search).get("local");
   // A feature lab is a lab worker: the same worker, started with the lab fixture and a spec read from
   // the URL. This page draws the lab scene and describes it to the worker once it is drawn (see
@@ -288,11 +258,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const localLaunch = labSpec
     ? await bootTelemetry.measureAsync("boot.labWorker.prepare", async () =>
       (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "lab", memory: true, lab: labSpec }))
-    : profile.kind === "game" && localMode !== "main"
+    : profile.kind === "game" && !worldBake && !worldMapCapture
     ? await bootTelemetry.measureAsync("boot.localWorker.prepare", async () =>
       (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "authored", memory: !profile.persistent || localMode === "memory" }))
-      // Without the published manifest there is no worker world to offer, so the page plays the old way and says why.
-      .catch((error: unknown) => { console.warn("[corealm] Worker-hosted local play is unavailable; using the main-thread game.", error); return null; })
+      // Without the published manifest there is no local world to offer. The picker still lists servers, and says why.
+      .catch((error: unknown) => { console.warn("[corealm] Local play is unavailable: its world files could not be read.", error); return null; })
     : null;
   const worldSelection = profile.kind === "game" || labSpec
     ? import("../multiplayer/browserSession.js")
@@ -327,31 +297,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   void navigationLibrary.catch(() => {}); // The awaited use below owns the failure screen.
   registerDisplayFont();
 
-  // 2. Core services and save. The save must win before any seeded world work starts. Loading it
-  // after buildWorld meant a custom-seed save resumed inside a world built from seed 1337.
+  // 2. Core services. The seed is settled first, because the scene and the host's world must be one seed.
   const armorSeedText = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('fabArmor') === '1'
     ? new URLSearchParams(location.search).get('fabLootSeed') : null;
   const armorSeed = armorSeedText !== null && /^\d+$/.test(armorSeedText) ? Number(armorSeedText) : 1337;
   if (!Number.isSafeInteger(armorSeed) || armorSeed < 0 || armorSeed > 0xffffffff) throw new Error('Invalid armor lab loot seed');
-  // Worker-hosted local play keeps its character in the worker's store. This thread then neither
-  // loads nor writes the old save: `localLaunch` read it for import, and it stays put until the
-  // worker has it.
+  // The store is a replica: a session fills it, and until one does it holds a blank character at the
+  // spawn. A character lives with its host, so this thread neither loads nor writes a save. The old
+  // main-thread save is read once by `localLaunch`, which hands it to the worker to import.
   const store = new Store(localLaunch?.seed ?? armorSeed, Date.now());
-  const saves = new SaveService(profile.persistent && !localLaunch);
-  const loadedSave = saves.load();
-  const resumedFromSave = loadedSave.status === "loaded" && loadedSave.state !== undefined;
-  if (resumedFromSave) {
-    store.replace(loadedSave.state!);
-  } else if (loadedSave.status === "failed") {
-    errors.push({
-      atMs: atMs(),
-      source: "persistence",
-      message: `Save could not be loaded: ${loadedSave.reason ?? "unknown"}`,
-    });
-  }
   const events = new EventBus();
+  // Quests, contracts and the rest below are built over the replica to answer reads. None of them may react to a replicated event as if it had happened here.
+  events.setSimulationEnabled(false);
   const clock = new SimClock();
-  const rng = new RngStreams(store.get().meta.seed);
   const clientSettings = new SettingsStore();
   const initialSettings = clientSettings.get();
   const adaptiveDistance = new AdaptiveDrawDistance(initialSettings.drawDistance);
@@ -471,9 +429,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope),
       generatedUrl('world/manifest.json'), import.meta.env.PROD) : localCache);
   (window as any).__corealmGenerationCache = generationCache;
-  const initialAreaPosition = resumedFromSave ? store.get().player.position : [profile.spawn.x,0,profile.spawn.z];
+  const initialAreaPosition = [profile.spawn.x,0,profile.spawn.z];
   // The world records and models around the spawn, from this page's own asset base, started while
-  // the picker is still on screen. Its own span so stage 6 can read how much of the wait for a
+  // the picker is still on screen. Its own span, to read how much of the wait for a
   // choice was already paid for.
   const earlyAssets = generationCache instanceof ShippedWorldData && store.get().player.regionId !== 'gravelmaw'
     ? bootTelemetry.measureAsync('boot.preload.behindPicker', () => generationCache.preloadArea(initialAreaPosition[0]!,initialAreaPosition[2]!,
@@ -757,9 +715,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     } else mobSpacingFixture.push(...createMobSpacingFixture(ports, population === 'stone'));
     built.entities.push(...structuredClone(mobSpacingFixture));
   }
-  let currentCoastalHabitats = built.coastalHabitats ?? [];
   worldHabitats.push(...(built.coastalHabitats ?? []));
   for (const habitat of built.coastalHabitats ?? []) worldPackHabitats.set(habitat.groupId, habitat);
+  // The authored game page has no habitat content: its catalog is the client projection. Habitats still decide two things it
+  // draws, the dressing around them and the trees scatter leaves out of creature corridors, and the shipped scatter tiles are
+  // accepted only if the page reproduces the bake's exclusions exactly. So it takes both from the baked placement record, which
+  // is world data on the asset host: the habitats as the bake dressed them here, and the spread placement further down.
+  const thinGame = profile.kind === "game" && !worldBake && !worldMapCapture;
+  const bakedSiteHabitats = thinGame && generationCache ? await (await import("../world/mobSpawnCache.js")).readBakedSiteHabitats(generationCache) : null;
+  if (bakedSiteHabitats) worldHabitats.splice(0, worldHabitats.length, ...bakedSiteHabitats);
   const huntLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("hunt") === "1"
     ? await import("../featureLab/huntContracts.js") : null;
   const huntFixture = huntLab?.assembleHuntContractsFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), worldPorts.baseY, worldPorts.assetSize);
@@ -908,16 +872,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // "discovery is not gating anything", so `observe({ scope: "known" })` handed a character who had
   // never left the spawn square all forty named places in the world. The system that answers it is
   // built below, once there are locations to sweep; the closure defers to it.
-  let discoverySystem: DiscoverySystem | null = null;
   const entityStore = new EntityStore({
     skillLevels,
-    discoveredLocationIds: () => discoverySystem?.discovered() ?? null,
+    discoveredLocationIds: () => new Set(Object.keys(store.get().discovery.locations)),
   });
-  entityStore.load(built.entities);
-  if (authoredDungeonSpec) relocateDungeonSave(store.get(), authoredDungeonSpec, {
-    surfaceHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-    entityRegion: (id) => entityStore.get(id)?.regionId,
-  });
+  // The authored game draws its own scenery and nothing else: creatures, characters, nodes and doors are the host's, and
+  // arrive by replication. A lab assembles its world here and describes it to the lab worker, so it keeps everything until the join.
+  const loadedEntities = (entities: readonly SemanticEntity[]): SemanticEntity[] =>
+    profile.kind === "game" && !worldBake && !worldMapCapture ? entities.filter(isStaticScenery) : [...entities];
+  entityStore.load(loadedEntities(built.entities));
   const dungeonDoors = doorLogic && doorThresholds.length
     ? new doorLogic.DungeonDoors(doorThresholds.map((entry) => entry.barrier), (id) => entityStore.get(id))
     : null;
@@ -926,57 +889,34 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const forestObstacles = new ForestObstacles();
   const forestInstances = new Map<string, { descriptor: ForestTreeDescriptor; setVisible: (visible: boolean) => void }>();
   const forestPresentation = new ForestPresentation();
-  let multiplayerWorld=false;
-  const forest = new ForestResources({
-    entities: entityStore,
-    getNodeState: (id) => store.get().world.nodes[id],
-    onActivate: (tree) => {
-      forestPresentation.activate(tree.id, store.get().world.nodes[tree.id]?.state === "depleted");
-      if (store.get().world.nodes[tree.id]?.state !== "depleted") forestObstacles.upsert(tree);
-    },
-    onDeactivate: (tree) => {
-      forestPresentation.deactivate(tree.id);
-      forestObstacles.remove(tree.id);
-    },
-  });
+  /**
+   * Scatter draws every tree. The host makes an entity of the ones near the player and replicates them, and only those can
+   * be chopped or collided with: a replicated tree is drawn by its entity view, and its trunk joins movement prediction.
+   */
   const registerForestTree = (descriptor: ForestTreeDescriptor, setVisible: (visible: boolean) => void): void => {
     forestInstances.set(descriptor.id, { descriptor, setVisible });
     const excluded = () => worldExclusions.blocksTreeClearance(descriptor.position[0], descriptor.position[2], descriptor.trunkRadius);
     forestPresentation.register(descriptor.id, visible => setVisible(visible && !excluded()));
     if (excluded()) setVisible(false);
-    else forest.register(descriptor);
-    if(multiplayerWorld){const entity=entityStore.get(descriptor.id);if(entity)forestPresentation.activate(descriptor.id,entity.state==="depleted");else forestPresentation.deactivate(descriptor.id);}
+    const entity = entityStore.get(descriptor.id);
+    if (entity) forestPresentation.activate(descriptor.id, entity.state === "depleted"); else forestPresentation.deactivate(descriptor.id);
   };
-  /**
-   * The forest as a lab page sees it. Joined to the lab worker, the residents are the worker's: the trees it has made
-   * entities of near the player and replicated here. Before the join they are this page's own.
-   */
+  /** Trees the host has replicated here, with how many of them are stumps. */
   const labForestStats = (): { registered: number; resident: number; depleted: number } => {
-    if (!multiplayerWorld) return forest.stats();
     let resident = 0, depleted = 0;
     for (const id of forestInstances.keys()) { const entity = entityStore.get(id); if (entity) { resident += 1; if (entity.state === "depleted") depleted += 1; } }
     return { registered: forestInstances.size, resident, depleted };
   };
-  const updateForest = (): void => {
-    if(multiplayerWorld)return;
-    const state = store.get();
-    const pins = new Set<string>();
-    if (state.player.movement.destinationEntityId) pins.add(state.player.movement.destinationEntityId);
-    if (state.activity?.kind === "gathering") pins.add(state.activity.entityId);
-    forest.update(state.player.position, pins);
-    forest.forEachResident((entity, tree) => {
-      forestPresentation.activate(tree.id, entity.state === "depleted");
-      if (entity.state === "depleted") forestObstacles.remove(tree.id);
-      else forestObstacles.upsert(tree);
-    });
+  /** Follows one update from the host: which scatter trees are entities now, and which trunks prediction walks around. */
+  const forestApplied = (update: import("../contracts.js").WorldUpdate): void => {
+    if (update.snapshot) for (const id of forestInstances.keys()) { forestPresentation.deactivate(id); forestObstacles.remove(id); }
+    for (const entity of update.entities) {
+      const tree = forestInstances.get(entity.id); if (!tree) continue;
+      forestPresentation.activate(entity.id, entity.state === "depleted");
+      if (entity.state === "depleted") forestObstacles.remove(entity.id); else forestObstacles.upsert(tree.descriptor);
+    }
+    for (const id of update.removedEntities) if (forestInstances.has(id)) { forestPresentation.deactivate(id); forestObstacles.remove(id); }
   };
-  rehydrateWorldContainers(store.get(), entityStore, {
-    regionAt: (position) => terrainAt(position[0], position[2]).regionAt(position[0], position[2]),
-  });
-  // The other half of the same restore: dead or damaged enemy runtimes reapplied onto the freshly
-  // rebuilt entities, or a monster killed just before a refresh comes back as an unattackable
-  // ghost for the rest of its respawn timer.
-  rehydrateEnemyRuntimes(store.get(), entityStore, clock.elapsedMs);
   const audioForward = new THREE.Vector3();
   const gameAudio = new CorealmAudioBridge({
     store,
@@ -1154,13 +1094,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       worldHabitats.splice(0, worldHabitats.length, ...habitats.filter(habitat => habitat.regionId !== dungeonSpec?.regionId));
       for (const habitat of habitats) worldPackHabitats.set(habitat.groupId, habitat);
     };
-    if (cached && generationCache) return spreadMobSpawnsCached(generationCache, actors, worldHabitats, ports).then(apply);
+    if (cached && generationCache) return spreadMobSpawnsCached(generationCache, actors, worldHabitats, ports, { trustBaked: thinGame }).then(apply);
     apply(spreadMobSpawns(actors, worldHabitats, ports));
   };
+  // A lab spreads its creatures here because it tells its worker where everything stands, and the bake because it writes the
+  // placement record. The authored game page only reads that record: it draws no creature from it, and needs where they stand
+  // for the tree clearances below.
   if (mobSpacingLab || denseCaveLab || profile.kind === 'game') {
     await bootTelemetry.measureAsync("boot.spawns", async () => { await applyMobSpacing(built.entities, true); });
-    entityStore.load(built.entities);
-    rehydrateEnemyRuntimes(store.get(), entityStore, clock.elapsedMs);
+    entityStore.load(loadedEntities(built.entities));
   }
 
   // Path distance, not straight line: `ObservedEntity.distance` is documented as walking distance,
@@ -1229,17 +1171,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     camera: renderer.camera,
     groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
     castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
+    ready: () => renderer.effectsReady,
   });
+  // Nobody can cast before they have joined a world, so the authored game does not hold its first frame for the spell pools'
+  // programs: they are submitted here, finish after the first frame, and a cast that beats them waits for its visual. A lab
+  // casts the moment it is ready, so it waits for them as before.
+  const deferSpellPrograms = profile.kind === "game";
   effectsConstructionSpan.end();
   if (!worldMapCapture) bootTelemetry.measureSync("boot.shaders.effects.submit",
-    () => renderer.compileEffects(spellVfx.preparationRoot()));
+    () => renderer.compileEffects(spellVfx.preparationRoot(), { deferred: deferSpellPrograms }));
 
   // 10. Procedural dressing, kept clear of anything authored.
   setStatus("Loading nearby scenery…",4);
   const fixtureSpawn = groundMotionFixture?.spawn ?? packFixture?.spawn;
   const spawnSpec = fixtureSpawn ? { ...profile.spawn, x: fixtureSpawn[0], z: fixtureSpawn[2], regionId: "fallowmarch" as const } : profile.spawn;
-  const loadPosition: Vec3 = resumedFromSave ? [...store.get().player.position] : [spawnSpec.x, 0, spawnSpec.z];
-  const loadRegion = resumedFromSave ? store.get().player.regionId : spawnSpec.regionId;
+  const loadPosition: Vec3 = [spawnSpec.x, 0, spawnSpec.z];
+  const loadRegion = spawnSpec.regionId;
   const initialTerrainPreparation = terrainAt(loadPosition[0],loadPosition[2])
     .prepareTerrainArea(loadPosition[0],loadPosition[2],structureResidencyRadius(initialSettings.drawDistance))
     .then(() => {
@@ -1357,8 +1304,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     viewRadius: structureResidencyRadius(clientSettings.get().drawDistance) + ahead,
   });
   const playerEntitySelector = new PlayerEntitySelector();
-  const preparePlayerArea = async (area: PlayerAssetArea, prefetch = false): Promise<void> => {
-    const selected = playerEntitySelector.select(entityStore.renderSnapshot(), area);
+  /**
+   * `hints` are entities this page does not hold but expects to be sent: at boot, the baked creatures and characters
+   * around the spawn, so their models are loaded by the time the first snapshot names them.
+   */
+  const preparePlayerArea = async (area: PlayerAssetArea, prefetch = false, hints: readonly SemanticEntity[] = []): Promise<void> => {
+    const selected = playerEntitySelector.select(hints.length ? [...entityStore.renderSnapshot(), ...hints] : entityStore.renderSnapshot(), area);
     const options = { priority: prefetch ? 'travel-prefetch' as const : 'visible-spawn' as const,
       regionId: area.regionId, primary: !prefetch };
     const cameraCount = structureCamera.meshes.length;
@@ -1398,7 +1349,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         roofVisibility.setSources(structureCamera.meshes);
         return;
       }
-      const preparation = preparePlayerArea(playerAssetArea(spawnPosition, loadRegion));
+      const preparation = preparePlayerArea(playerAssetArea(spawnPosition, loadRegion), false,
+        built.entities.filter(entity => !entityStore.get(entity.id)));
       // `prepare` queues the full list synchronously. Freeze its size once so only the completed
       // side advances while the boot screen is visible.
       statusAssetTarget = assets.getLoadStats().requested;
@@ -1407,7 +1359,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
   );
   await scatterPreparation;
-  forest.update(spawnPosition, new Set());
   surfaceEntities = entityStore.all().filter((entity) =>
     worldMapForRegion(entity.regionId) === worldMapForRegion(loadRegion));
   // Harvestable trees are registered by scatter. Their sources already loaded with the tiles.
@@ -1456,11 +1407,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Facing convention matches NpcStandDef and debug/shots.ts: 0 looks toward +z.
   // The camera sits behind the player, so its yaw is the player's facing plus pi.
   const spawnFacing = packFixture ? Math.PI : spawnSpec.facingRad;
-  if (!resumedFromSave) {
-    store.get().player.position = spawn;
-    store.get().player.regionId = spawnSpec.regionId;
-    store.get().player.facingRad = spawnFacing;
-  }
+  store.get().player.position = spawn;
+  store.get().player.regionId = spawnSpec.regionId;
+  store.get().player.facingRad = spawnFacing;
   const initialPlayerPosition = store.get().player.position;
   const initialPlayerFacing = store.get().player.facingRad;
   // A real skinned character rather than the round-0 capsule. If the rig fails to build for any
@@ -1531,7 +1480,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       : movementHeightAt(store.get().player.regionId, x, z);
   movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, authoritativeGround: true,
     preserveNavigationHeight, entities: entityStore, dynamicObstacles: forestObstacles });
-  const api = new CorealmGameApi(store, events, nav, movement, clock);
+  const api = new CorealmGameApi(store, events, nav, movement, clock, { replica: true });
 
   const interactions = new InteractionDispatcher({
     get: (id) => entityStore.get(id),
@@ -1539,8 +1488,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     skillLevels,
   });
 
-  // ---- Round 2 systems. Construction order follows the dependency chain: inventory first, then
-  // the systems that move items, then the activity spine, then the activities themselves.
+  // ---- Read-side view computers. The host runs the rules; these answer the API's reads (a bank or
+  // shop listing, quest summaries, contract offers) from the replicated store. Nothing here ticks,
+  // and every write they could make is refused by the replica API before it reaches them.
 
   const now = (): number => clock.elapsedMs;
 
@@ -1554,31 +1504,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     return false;
   };
 
-  // `use()` on a wearable should equip it, which is what clicking a sword means. Equipment does not
-  // exist yet at this point, so the dep is a late-bound closure rather than a direct reference.
-  let equipmentSystem: EquipmentSystem | undefined;
-  let eatingSystem: EatingSystem | undefined;
   const inventorySystem = new InventorySystem({
     store, events, now,
-    beginEating: (itemId, durationMs, atMs) =>
-      eatingSystem?.beginEating(itemId, durationMs, atMs) ?? false,
-    equip: (itemId) => equipmentSystem
-      ? equipmentSystem.equip(itemId)
-      : { ok: false as const, error: { code: "UNAVAILABLE" as const, message: "Equipment is not ready" } },
-  });
-  equipmentSystem = new EquipmentSystem({
-    store,
-    events,
-    inventory: inventorySystem,
-    now,
-    // Equipment previews permit every kit; the production workbench exercises real skill gates.
-    ...(profile.kind === "feature-lab" && !new URLSearchParams(location.search).has('regionalTier')
-      ? { skillLevel: () => 99 } : {}),
+    beginEating: () => false,
+    equip: () => ({ ok: false as const, error: { code: "UNAVAILABLE" as const, message: "Equipment belongs to the world's host" } }),
   });
   const bankSystem = new BankSystem({
     store, events, inventory: inventorySystem, dispatcher: interactions, now,
     inRangeOfBank: () => nearArchetype("bank"),
-    persist: () => { saves.save(store.get(), Date.now()); },
+    persist: () => {},
   });
   const economySystem = new EconomySystem({
     store, events, inventory: inventorySystem, dispatcher: interactions, now,
@@ -1598,93 +1532,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
   });
 
-  const activitySystem = new ActivitySystem(store, events);
-  eatingSystem = new EatingSystem({ store, activity: activitySystem, inventory: inventorySystem });
-  const campfireSystem = new CampfireSystem({
-    store,
-    events,
-    activity: activitySystem,
-    inventory: {
-      countItem: (itemId) => inventorySystem.countItem(itemId),
-      removeItem: (itemId, quantity) => inventorySystem.removeItem(itemId, quantity),
-    },
-    entities: entityStore,
-    fuelFor: campfireFuelLookup(GATHERING_PRODUCTION_TIERS),
-    now,
-    placement: {
-      groundAt: (regionId, x, z) => {
-        if (dungeonSpec && regionId === dungeonSpec.regionId) {
-          const y = chamberFloorAt(dungeonSpec, [x, 0, z]);
-          if (y === null) return null;
-          const step = 0.35;
-          const dx = (dungeonFloorHeight(dungeonSpec, x + step, z)
-            - dungeonFloorHeight(dungeonSpec, x - step, z)) / (step * 2);
-          const dz = (dungeonFloorHeight(dungeonSpec, x, z + step)
-            - dungeonFloorHeight(dungeonSpec, x, z - step)) / (step * 2);
-          const length = Math.hypot(dx, 1, dz);
-          return { y, normal: [-dx / length, 1 / length, -dz / length] as Vec3 };
-        }
-        const sample = terrainAt(x, z).sampleWorld(x, z);
-        if (!sample.playable || sample.semanticRegion !== regionId || sample.waterBodyId) return null;
-        return { y: terrainAt(x, z).meshHeightAt(x, z), normal: terrainAt(x, z).normalAt(x, z) };
-      },
-      withinPlayableBounds: (regionId, position) => {
-        if (dungeonSpec && regionId === dungeonSpec.regionId) {
-          return chamberFloorAt(dungeonSpec, position) !== null;
-        }
-        const sample = terrainAt(position[0], position[2]).sampleWorld(position[0], position[2]);
-        return sample.playable && sample.semanticRegion === regionId;
-      },
-      distanceToWater: (regionId, position) => {
-        if (dungeonSpec && regionId === dungeonSpec.regionId) return Number.POSITIVE_INFINITY;
-        // The placement rule only needs to distinguish "closer than one metre". Dense, concentric
-        // probes against the solved water contours also catch the authored ocean just outside the
-        // playable rectangle without introducing a second water calculation.
-        const radii = [0, 0.2, 0.4, 0.6, 0.8, 1] as const;
-        for (const radius of radii) {
-          const samples = radius === 0 ? 1 : 32;
-          for (let index = 0; index < samples; index += 1) {
-            const angle = (index / samples) * Math.PI * 2;
-            const sample = terrainAt(position[0], position[2]).sampleWorld(
-              position[0] + Math.sin(angle) * radius,
-              position[2] + Math.cos(angle) * radius,
-            );
-            if (!sample.playable || sample.waterBodyId) return radius;
-          }
-        }
-        return 1.001;
-      },
-      clearAt: (regionId, position, radius) => {
-        // `Solids.resolve` already answers circle-vs-building/resource collision for movement. A
-        // zero-length move with the campfire clearance radius reuses that exact canonical shape.
-        const resolved = solids.resolve(position, position, radius);
-        if (distanceXZ(position, resolved) > 0.001) return false;
-        for (const entity of entityStore.all()) {
-          if (!entity.resource || entity.id === CAMPFIRE_ENTITY_ID || entity.regionId !== regionId) continue;
-          if (distanceXZ(position, entity.position) < radius) return false;
-        }
-        return true;
-      },
-    },
-  });
-  const gatheringSystem = new GatheringSystem({
-    store, events, clock, rng, entities: { get: (id) => entityStore.get(id) ?? forest.resolve(id) },
-    inventory: inventorySystem, activity: activitySystem, dispatcher: interactions,
-  });
-  // The first render happened before the save was loaded. Gathering construction hydrates saved
-  // node semantics, and this second sync makes depleted rocks, stumps, and fishing recovery marks
-  // visible before the loading screen is dismissed.
-  entityViews.sync(profile.kind === "feature-lab" ? entityStore.all() : surfaceEntities);
-  // Constructed for its dispatcher registration, like the other main-thread systems stage 6 deletes. The lab no longer reaches into it.
-  new EssenceSystem({
-    store,
-    events,
-    inventory: inventorySystem,
-    dispatcher: interactions,
-    entities: entityStore,
-    syncViews: () => entityViews.sync(entityStore.all()),
-    now,
-  });
   const traversalPresentation = new TraversalPresentation(async () => {
     const player = store.get().player;
     scene.syncPlayer(player.position, player.facingRad, true);
@@ -1693,149 +1540,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
     renderer.render(performance.now());
   });
-  const agilitySystem = new AgilitySystem({
-    store, events, clock, rng, entities: entityStore,
-    activity: activitySystem, dispatcher: interactions, nav,
-    presentation: traversalPresentation,
-    isLandingSafe: (position) => distanceXZ(position, solids.resolve(position, position, 0.35)) < 0.01,
-  });
-  movement.setPorts({ shortcuts: {
-    begin: (id, entry, exit) => agilitySystem.beginRoute(id, entry, exit),
-    cancel: (atMs, reason) => agilitySystem.cancelTraversal(atMs, reason),
-  } });
-
-  // ---- Combat and production. Combat is not an activity: it owns an independent state slice.
-  // Food still rejects an active attack target, and an eating activity pauses the attack cadence.
-  const combatSystem = new CombatSystem({
-    store, events, rng,
-    entities: entityStore,
-    equipment: equipmentSystem,
-    inventory: inventorySystem,
-    dispatcher: interactions,
-    movement,
-    activity: activitySystem,
-    lootView: LOOT_PILE_VIEW,
-    meleeTiming: (attacker, sourceId) => {
-      if (attacker === "player") return playerRig.meleeTiming();
-      const assetId = entityStore.get(sourceId)?.view?.assetId;
-      const clip = assetId ? assets.clipOf(assetId, "Attack") : undefined;
-      const timing = assetId ? CREATURE_MOTION_TIMING[assetId] : undefined;
-      const authoredTiming = assetId ? assets.entry(assetId) : undefined;
-      const recoveryMs = (timing?.seconds ?? authoredTiming?.attackSeconds ?? clip?.duration ?? 0.9) * 1000;
-      const reviewingRhinoContact = profile.kind === "feature-lab"
-        && new URLSearchParams(location.search).get("rhinoTiming") === "1"
-        && assetId?.startsWith("boss_rhino_");
-      return { contactMs: recoveryMs * (reviewingRhinoContact ? 0.33229264631653577 : timing?.contactNormalized ?? authoredTiming?.contactNormalized ?? 0.45), recoveryMs };
-    },
-  });
-  const enemyAiSystem = new EnemyAiSystem({
-    store, events, entities: entityStore, combat: combatSystem, nav,
-    ...((packFixture || groundMotionFixture || worldPackHabitats.size) ? { habitatForEntity: (entity: SemanticEntity) =>
-      groundMotionFixture?.habitatForEntity(entity)
-      ?? (packFixture && entity.meta?.groupId === packFixture.habitat.groupId ? packFixture.habitat : null)
-      ?? worldPackHabitats.get(String(entity.meta?.groupId))
-      ?? null } : {}),
-    // `meshHeightAt`, not `heightAt`: the drawn lattice needs no region id, and a creature's feet
-    // should land on the same surface the SpellVfx impact rings chose it for. Without this port,
-    // every step kept the navmesh's Y — 0.147-0.417 m above the drawn ground — so any animal that
-    // had ever moved hovered in the air. The player's movement has carried the equivalent
-    // `heightAt` port since that float was measured; this is the same fix for everything else.
-    groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-  });
-  const healthSystem = new HealthSystem({ store, events, equipment: equipmentSystem });
   let openLootContainer: ((container: LootContainerView) => void) | undefined;
-  const respawnAnchors = new RespawnAnchorSystem({
-    store, anchors: () => buildSettlementRespawnAnchors((id) => nav.routeNode(id)),
-  });
-  respawnAnchors.update();
-  const deathSystem = new DeathSystem({
-    store, events,
-    entities: entityStore,
-    inventory: inventorySystem,
-    dispatcher: interactions,
-    onLootOpened: (container) => openLootContainer?.(container),
-    // Respawn points are authored per region; fall back to the region's own spawn.
-    respawn: {
-      resolve: (respawnPointId: string, regionId: RegionId) => {
-        const anchor = respawnAnchors.resolve(respawnPointId);
-        if (anchor) return anchor;
-        const node = nav.routeNode(respawnPointId);
-        if (node) return { position: node.position, regionId: node.regionId as RegionId };
-        const region = getRegion(regionId) ?? getRegion("fallowmarch");
-        const fallbackId: RegionId = region?.id ?? "fallowmarch";
-        const spot = region?.spawnPoint ?? [spawnSpec.x, spawnSpec.z];
-        const y = terrainAt(spot[0], spot[1]).heightAt(fallbackId, spot[0], spot[1]);
-        return { position: [spot[0], y, spot[1]] as Vec3, regionId: fallbackId };
-      },
-    },
-    health: healthSystem,
-    combat: combatSystem,
-    enemyAi: enemyAiSystem,
-    activity: activitySystem,
-    movement,
-    snapToGround: (point) => nav.closestPoint(point),
-    // Without this the recovery cache has no `view`, and `entityViews.sync` skips any entity that
-    // has none — so everything the player was carrying sat on a patch of grass with nothing drawn
-    // over it and nothing to right-click. The agent path never noticed, because an agent finds it
-    // through `observe` and loots it by id; a human had no way to see that it was there at all.
-    // That asymmetry is the exact thing this project's parity rule exists to catch.
-    cacheView: RECOVERY_CACHE_VIEW,
-  });
-  const productionSystem = new ProductionSystem({
-    store, events, rng,
-    entities: entityStore,
-    inventory: inventorySystem,
-    activity: activitySystem,
-    dispatcher: interactions,
-  });
-  activitySystem.register(productionSystem.driver);
 
-  // ---- Quests and dialogue.
-  //
-  // Quests are the only system that writes world state (two doors), so the entity port is narrowed
-  // to exactly that: read, and set a state with an optional locked reason.
-  const questEntityPort = {
-    get: (id: EntityId) => entityStore.get(id),
-    setState: (id: EntityId, state: string, lockedReason?: string): boolean => {
-      const entity = entityStore.get(id);
-      if (!entity) return false;
-      entity.state = state;
-      if (entity.view && entity.meta?.["dungeonDoor"] === true) {
-        const assetId = entity.meta[state === "open" || state === "unbarred" ? "openAssetId" : "closedAssetId"];
-        if (typeof assetId === "string") entity.view.assetId = assetId;
-      }
-      if (lockedReason !== undefined) {
-        entity.meta = { ...(entity.meta ?? {}), lockedReason };
-      }
-      return true;
-    },
-  };
-
-  // XP must travel the real level-up path, or `level.gained` never fires and quests that reward XP
-  // silently skip the level a player just earned.
-  const questXpPort = {
-    award: (skill: SkillId, amount: number): void => {
-      const result = addSkillXp(store.get(), skill, amount);
-      if (result.levelsGained > 0) {
-        events.emit(
-          "level.gained",
-          { skill, level: result.newLevel, levelsGained: result.levelsGained },
-          undefined,
-          clock.elapsedMs,
-        );
-      }
-      store.markDirty();
-    },
-  };
-
-  discoverySystem = new DiscoverySystem({
-    store,
-    events,
-    locations: () => built.knownLocations,
-  });
-  // Once, before the first frame: a loaded save or a fresh spawn knows where it is standing rather
-  // than finding out 700 ms in.
-  discoverySystem.sweep(clock.elapsedMs);
+  // ---- Quests. Built for `summaries()`. The ports a quest would write through do nothing here.
+  const questEntityPort = { get: (id: EntityId) => entityStore.get(id), setState: (): boolean => false };
+  const questXpPort = { award: (): void => {} };
 
   const questSystem = new QuestSystem({
     store, events, clock,
@@ -1844,18 +1553,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     xp: questXpPort,
     dispatcher: interactions,
   });
-  questSystem.rehydrateWorldState();
-  const dialogueSystem = new DeferredDialogueSystem({
-    store, events, clock,
-    entities: entityStore,
-    inventory: inventorySystem,
-    xp: questXpPort,
-    quests: questSystem,
-    dispatcher: interactions,
-  });
 
-  // Portals. Registered AFTER agility so this handler wins the `enter` verb; it hands genuine
-  // obstacles back rather than teleporting past a climb the player has not earned.
   /**
    * Which region a world point is in, accounting for the dungeon underneath Karrowmoor.
    *
@@ -1925,19 +1623,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
   };
 
-  const teleportPlayer = (position: Vec3, regionId: RegionId): void => {
-    const navPoint = nav.closestPoint(position) ?? position;
-    const snapped: Vec3 = regionId === dungeonSpec?.regionId
-      ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
-    store.get().player.position = snapped;
-    store.get().player.regionId = regionId;
-    audioDirector.setRegion(regionId, snapped);
-    movement.stop(store.get(), clock.elapsedMs, "portal");
-    scene.syncPlayer(snapped, store.get().player.facingRad, true);
-    camera.update(snapped[0], snapped[1], snapped[2], true);
-    refreshVisualResidency(snapped, regionId, true);
-  };
-
   const hunts = new HuntContractsSystem({
     state: () => store.get().huntContracts,
     markDirty: () => store.markDirty(), events,
@@ -1956,7 +1641,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     awardXp: questXpPort.award,
   });
   api.register("hunts", hunts);
-  if (!api.isOnlineSession() && store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
   if (huntFixture) (window as Window & { __huntLab?: unknown }).__huntLab = {
     // Reads answer from this page's replicated contracts. The rest are commands to the lab worker's world.
     snapshot: () => hunts.snapshot(), refreshOffers: () => sendGameCommand(api, "hunt", "refresh"),
@@ -1994,7 +1678,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       scene.syncPlayer(player.position, player.facingRad, true);
       camera.update(...player.position, true);
       refreshVisualResidency(player.position, player.regionId, true);
-      discoverySystem?.sweep(clock.elapsedMs);
     },
     settled: async () => {
       await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
@@ -2010,36 +1693,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     },
   });
-  const travelSystem = new TravelSystem({
-    store, events, clock,
-    entities: entityStore,
-    nav,
-    dispatcher: interactions,
-    traverseObstacle: (context) => agilitySystem.begin(context),
-    activity: activitySystem,
-    place: teleportPlayer,
-    transition: transitionThroughPortal,
-  });
-  movement.setPorts({ portals: {
-    transition: (position, regionId, commit) => transitionThroughPortal({ position, regionId, name: regionId === "gravelmaw" ? "Gravelmaw" : "Surface" }, commit),
-  } });
-  void travelSystem;
-
   api.register("quests", questSystem);
-  api.register("dialogue", dialogueSystem);
-  api.register("combat", combatSystem.hook());
-  api.register("production", productionSystem.hook());
-  api.register("campfire", campfireSystem.hook());
-  api.register("inventory", {
-    slots: () => inventorySystem.slots(),
-    freeSlots: () => inventorySystem.freeSlots(),
-    use: (itemId, target) => {
-      const result = inventorySystem.use(itemId, target);
-      gameAudio.handleInventoryUse(result);
-      return result;
-    },
-  });
-  api.register("equipment", equipmentSystem);
   api.register("bank", {
     op: (op, args) => {
       const result = bankSystem.op(op, args);
@@ -2054,10 +1708,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       return result;
     },
   });
-  api.register("activity", activitySystem.hook());
-  api.register("loot", {
-    take: (entityId, stackIndex, stackId) => deathSystem.take(entityId, stackIndex, stackId),
-  });
+  // The host's clock, mirrored here on every update, is what a progress bar is measured against.
+  api.register("activity", { summary: () => activitySummary(store.get().activity, clock.elapsedMs) });
 
   api.register("entities", {
     get: (id) => entityStore.get(id),
@@ -2065,13 +1717,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     observe: (filter, from) => entityStore.observe(filter, from),
   });
   api.register("interactions", {
-    run: (id, interaction) => {
-      const result = interactions.run(id, interaction);
-      gameAudio.handleInteraction(interaction, result);
-      return result;
-    },
-    // Lets `GameApi.interact` walk to the VERB's reach instead of one constant for all of them,
-    // which is what makes a staff attack open fire at nine metres instead of closing to 2.4 first.
+    // Interactions are commands to the host. The page keeps the dispatcher for each verb's reach, which route planning reads.
+    run: (id) => ({ ok: false as const, error: { code: "UNAVAILABLE" as const, message: "Interactions run on the world's host", entityId: id } }),
     rangeFor: (interaction, entityId) => interactions.rangeFor(interaction, entityId),
   });
 
@@ -2124,17 +1771,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   events.subscribe((event) => loop.handleSpellLaunch(event, performance.now()));
   events.subscribe((event) => gameAudio.handleEvent(event));
 
-  // An altar payment is small but irreversible. Persist its charge and essence changes as soon as
-  // the event publishes, and also on pagehide so a reload between the click and the next sim flush
-  // cannot roll the transaction back. The regular ten-second autosave remains the general path.
-  const persistCurrentState = (): void => { saves.save(store.get(), Date.now()); };
-  events.subscribe((event) => {
-    if (event.type === "essence.recharged" || event.type === "essence.altarAwakened") {
-      persistCurrentState();
-    }
-  });
-  window.addEventListener("pagehide", persistCurrentState);
-
   // Standing atmosphere, as opposed to the event-driven feedback above. Both are polled from Vfx's
   // own update, so the loop needs no change. One InstancedMesh for the whole world.
   const ambience = new Ambience(scene.overlayGroup, { maxParticles: 640 });
@@ -2177,25 +1813,25 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       syncCampfireAmbience();
     }
   });
-  // Polled rather than pushed: a telegraph has to keep drawing for the whole wind-up, and a dropped
-  // frame on an `onTelegraph` listener would leave a ring on the ground after the slam landed.
-  vfx.setTelegraphSource(() => enemyAiSystem.telegraphs().map((telegraph) => ({
-    id: telegraph.enemyId,
-    centre: telegraph.centre,
-    radius: telegraph.radius,
-    progress: telegraph.firesAtMs > telegraph.startedAtMs
-      ? Math.min(1, Math.max(0, (clock.elapsedMs - telegraph.startedAtMs) / (telegraph.firesAtMs - telegraph.startedAtMs)))
-      : 1,
-  })));
-
-  // "Click a distant ore" must walk there AND THEN mine it. The API remembers the intent; this is
-  // what fires it on arrival. Both a human click and an agent tool call route through here.
-  events.subscribeSimulation((event) => {
-    // Events are flushed after input. A finished or cancelled old route must not consume the
-    // interaction queued by a replacement route that is already moving.
-    if (store.get().player.movement.mode !== "idle") return;
-    if (event.type === "navigation.completed") api.resumePending();
-    else if (event.type === "navigation.failed") api.clearPending();
+  // A boss wind-up arrives as an event from the host. The ring is drawn from it until the slam event, or until its time is
+  // up. Polled rather than pushed, because a telegraph has to keep drawing for the whole wind-up.
+  const telegraphs = new Map<string, { centre: Vec3; radius: number; startedAtMs: number; firesAtMs: number }>();
+  events.subscribe((event) => {
+    if (event.type !== "combat.started") return;
+    const data = event.data as Record<string, unknown>;
+    const enemyId = String(data["enemyId"] ?? event.entityId ?? "");
+    if (data["event"] === "boss.slam") telegraphs.delete(enemyId);
+    if (data["event"] !== "boss.telegraph" || !Array.isArray(data["centre"]) || typeof data["radius"] !== "number" || typeof data["firesAtMs"] !== "number") return;
+    telegraphs.set(enemyId, { centre: data["centre"] as unknown as Vec3, radius: data["radius"], startedAtMs: event.atMs, firesAtMs: data["firesAtMs"] });
+  });
+  vfx.setTelegraphSource(() => {
+    for (const [id, telegraph] of telegraphs) if (clock.elapsedMs > telegraph.firesAtMs + 500) telegraphs.delete(id);
+    return [...telegraphs].map(([id, telegraph]) => ({
+      id, centre: telegraph.centre, radius: telegraph.radius,
+      progress: telegraph.firesAtMs > telegraph.startedAtMs
+        ? Math.min(1, Math.max(0, (clock.elapsedMs - telegraph.startedAtMs) / (telegraph.firesAtMs - telegraph.startedAtMs)))
+        : 1,
+    }));
   });
 
   // Documentation is generated from canonical runtime content on first use. Keeping the import and
@@ -2237,7 +1873,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
 
   const input = new InputController(canvas, renderer, camera, api, movement, {
-    movementPosition: () => api.isOnlineSession() ? playerRig.root.position.toArray() as Vec3 : api.getPlayer().position,
+    // The drawn player, which runs ahead of the replicated one by the prediction.
+    movementPosition: () => playerRig.root.position.toArray() as Vec3,
     onHoverChange: (entityId) => {
       const inspected = entityId ? api.inspect(entityId) : null;
       const next = inspected?.ok && inspected.value.interactions.length > 0 ? entityId : null;
@@ -2745,7 +2382,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     if (params.get("forest") === "1") {
       forestFixture = await (await import("../featureLab/forest.js")).createForestFixture({ assets, scene, registerTree: registerForestTree });
-      updateForest();
       await entityViews.prepare(entityStore.all());
       entityViews.sync(entityStore.all());
       // The hatchet is the worker's to hand out: `character.forestHatchet` of the lab spec.
@@ -2902,24 +2538,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
     // The spell range mounts its own bar with range semantics over the same slot.
     actionBars: !spellRangeLab,
-    saveRecovery: {
-      getRecovery: () => saves.getRecovery(),
-      recoverSave: async (json) => {
-        const recovery = JSON.stringify(saves.getRecovery());
-        const result = saves.loadSerialized(json);
-        if (result.status !== "loaded" || !result.state) return { ok: false, reason: result.reason ?? "Save recovery failed" };
-        if (result.state.player.regionId === "gravelmaw") {
-          try { await deferredCave?.ensure(); }
-          catch (cause) { return { ok: false, reason: describeError(cause) }; }
-        }
-        if (JSON.stringify(saves.getRecovery()) !== recovery) return { ok: false, reason: "Save recovery was cancelled" };
-        const recovered = saves.recoverSerialized(json);
-        if (recovered.status !== "loaded" || !recovered.state) return { ok: false, reason: recovered.reason ?? "Save recovery failed" };
-        await replaceWorldFromSave(recovered.state);
-        ui.update();
-        return { ok: true };
-      },
-    },
     settings: clientSettings,
     mapTerrain: {
       ...surfaceMapSource,
@@ -2953,10 +2571,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     getHeadingRad: () => camera.yaw,
     // The minimap's destination marker. GameApi does not expose the live path; the store does.
     getDestination: () => store.get().player.movement.destination,
-    hasSave: () => resumedFromSave,
-    // Declared below. Referenced from inside a closure, so the temporal dead zone never applies:
-    // nothing can press "New game" before boot has finished running.
-    onNewGame: () => resetWorld(undefined, false),
+    // A character is its host's. Only the local world can be asked for a new one; a server decides that for its players.
+    hasSave: () => localSession(),
+    onNewGame: () => { if (localSession() && localDebug) void localDebug({ op: "reset" }).then(presentationReset); },
     ...(featureLab ? { featureLab } : {}),
     agentSession: agent.session,
   });
@@ -3146,30 +2763,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     interact: id => api.interact(id, 'enter'), player: () => store.get().player,
   });
   const loop = new GameLoop({
-    store, events, clock, rng, renderer, camera, scene, terrainAt, nav, movement, api, saves, input,
-
+    store, events, clock, renderer, camera, scene, input,
   });
   // The Gravelmaw chambers are authored a few metres below the surface, right beside the entrance,
   // so rendering every entity unconditionally drew the whole dungeon population on top of the
   // terrace. That single pose measured 803 draw calls against a 400 budget. The dungeon is only
   // visible from inside it.
-  const playerInDungeon = (): boolean => store.get().player.regionId === "gravelmaw";
-  // Tick order is each system's own `order` field, following the PRD's documented update order.
-  loop.addSystem(campfireSystem);
-  loop.addSystem(activitySystem);
-  loop.addSystem(agilitySystem);
-  loop.addSystem(gatheringSystem);
-  loop.addSystem({ name: "forest-residency", order: 5, tick: updateForest });
-  loop.addSystem(enemyAiSystem);
-  loop.addSystem(combatSystem);
-  loop.addSystem(healthSystem);
-  loop.addSystem(deathSystem);
-  loop.addSystem(respawnAnchors);
-  loop.addSystem(productionSystem);
-  loop.addSystem(questSystem);
-  loop.addSystem(discoverySystem);
-  loop.addSystem(gameAudio);
-
   if (dungeon) loop.addInterior(dungeon.group, () => store.get().player.regionId === "gravelmaw");
   if (portalFixture || dungeon || fairyRealm) {
     loop.addInterior(scene.scatterGroup, () => worldMapForRegion(store.get().player.regionId) === "surface");
@@ -3282,9 +2881,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
   });
   loop.setHealthBars(healthBars);
-  loop.setCombatHits(() => combatSystem.consumeHits());
-  loop.setCombatAttackStarts(() => combatSystem.consumeAttackStarts(),
-    (id) => combatSystem.isAttackCommitted(id) && entityStore.get(id)?.regionId === store.get().player.regionId);
   window.addEventListener("pagehide", (event) => { if (event.isTrusted && !event.persisted) loop.dispose(); });
   loop.setCombatPresentationHandler((hit, phase) => gameAudio.handlePlayerCombatMotion(hit, phase));
   loop.setPlayerMotionHandler((event) => {
@@ -3326,150 +2922,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     refreshVisualResidency(player.position, player.regionId);
   }, () => forestPresentation.reconcile((id) => entityViews.hasView(id)));
   ui.setHuntContracts(huntContractsView(hunts, api));
-  loop.setTraversalPresentation(() => traversalPresentation.current());
-
-  const rebuildSemanticWorld = (): void => {
-    enemyAiSystem.resetForNewWorld();
-    forest.reset();
-    forestObstacles.clear();
-    const rebuilt = profile.buildSemanticWorld(store.get().meta.seed, heightAt, {
-      ...worldPorts, coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
-    });
-    for (const habitat of currentCoastalHabitats) worldPackHabitats.delete(habitat.groupId);
-    currentCoastalHabitats = rebuilt.coastalHabitats ?? [];
-    for (const habitat of currentCoastalHabitats) worldPackHabitats.set(habitat.groupId, habitat);
-    worldHabitats.splice(0, worldHabitats.length, ...WORLD_HABITATS,
-      ...currentCoastalHabitats);
-    if (huntFixture) rebuilt.entities.push(...structuredClone(huntFixture.entities));
-    if (groundMotionFixture) rebuilt.entities.push(...structuredClone(groundMotionFixture.entities));
-    if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
-
-    if (mobSpacingLab) rebuilt.entities.push(...structuredClone(mobSpacingFixture));
-    if (fairyPortalFixture) {
-      rebuilt.entities.push(...structuredClone(fairyPortalFixture.entities));
-      rebuilt.routeNodes.push(...fairyPortalFixture.routeNodes);
-      rebuilt.routeEdges.push(...fairyPortalFixture.routeEdges);
-      rebuilt.knownLocations.push(...fairyPortalFixture.knownLocations);
-    }
-    if (portalFixture) {
-      rebuilt.entities.push(...structuredClone(portalFixture.entities));
-      rebuilt.routeNodes.push(...portalFixture.routeNodes);
-      rebuilt.routeEdges.push(...portalFixture.routeEdges);
-    }
-    if (shopFixture) rebuilt.entities.push(...structuredClone(shopFixture.entities));
-    if (doorFixture) {
-      rebuilt.entities.push(...structuredClone(doorFixture.entities));
-      rebuilt.routeNodes.push(...doorFixture.routeNodes);
-      rebuilt.routeEdges.push(...doorFixture.routeEdges);
-    }
-    if (agilityFixture) {
-      rebuilt.entities.push(...structuredClone(agilityFixture.entities));
-      rebuilt.routeNodes.push(...agilityFixture.routeNodes);
-      rebuilt.routeEdges.push(...agilityFixture.routeEdges);
-    }
-    rebuilt.entities.push(...(fishingLab?.createFishingLabEntities(scene, assets) ?? []));
-    if (mobSpacingLab || denseCaveLab || profile.kind === 'game') applyMobSpacing(rebuilt.entities);
-    if (profile.scatter) {
-      // Physical terrain, cut faces and lava stay resident across a semantic save/reset.
-      // Keep their complete boot-time solid reservations while replacing actor corridors.
-      registerExclusions(scene, built.solids, sitePlacements, fairyRealm?.scene);
-      registerHabitatTreeClearance(rebuilt.entities);
-    }
-    entityStore.load(rebuilt.entities);
-    if (authoredDungeonSpec) relocateDungeonSave(store.get(), authoredDungeonSpec, {
-      surfaceHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
-      entityRegion: (id) => entityStore.get(id)?.regionId,
-      navClosest: (point) => nav.closestPoint(point),
-    });
-    questSystem.rehydrateWorldState();
-    entityStore.registerLocations(rebuilt.knownLocations);
-    for (const { descriptor, setVisible } of forestInstances.values()) {
-      const excluded = worldExclusions.blocksTreeClearance(descriptor.position[0], descriptor.position[2], descriptor.trunkRadius);
-      setVisible(!excluded);
-      if (!excluded) forest.register(descriptor);
-    }
-    updateForest();
-    nav.setRouteGraph(rebuilt.routeNodes, rebuilt.routeEdges);
-    rehydrateWorldContainers(store.get(), entityStore, { regionAt: regionAtPoint });
-    rehydrateEnemyRuntimes(store.get(), entityStore, clock.elapsedMs);
-    campfireSystem.reconstruct();
-    syncCampfireAmbience();
-    if (profile.kind === "feature-lab") entityViews.sync(entityStore.all());
-    else refreshVisualResidency(store.get().player.position, store.get().player.regionId, true);
-    if (store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
-  };
-
-  const resetWorld = (seed?: number, keepSave = false): void => {
-    portalTransition.cancel();
-    travelSystem.cancel();
-    agilitySystem.cancelTraversal(clock.elapsedMs, "replaced");
-    traversalPresentation.reset();
-    if (!keepSave) saves.clear();
-    store.reset(seed ?? store.get().meta.seed, Date.now());
-    store.get().player.position = spawn;
-    store.get().player.regionId = spawnSpec.regionId;
-    store.get().player.facingRad = spawnFacing;
-    rng.reseed(store.get().meta.seed);
-    events.reset();
-    clock.reset();
-    productionSystem.reset(0);
-    movement.stop(store.get(), 0, "reset");
-    movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: 0 });
-    input.clear();
-    camera.reset();
-    camera.setPose(spawnFacing + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
-    camera.update(spawn[0], spawn[1], spawn[2], true);
-    scene.syncPlayer(spawn, spawnFacing, true);
-    loop.resetPresentation();
-    // Combat holds two things outside `GameState` - the hit log and any spell still in the air -
-    // and a world swap has to drop both. Without this a bolt rolled against the old world lands in
-    // the new one, on an entity id that now belongs to something else.
-    combatSystem.resetForNewWorld();
-    gameAudio.reset();
-
-    // Node yields and enemy health are seeded world state, so a reset rebuilds them rather than
-    // leaving a half-mined world behind a nominally fresh character.
-    rebuildSemanticWorld();
-    errors.length = 0;
-  };
-
-  /** Applies a migrated save to every runtime owner, not just to the JSON store. */
-  const replaceWorldFromSave = async (next: NonNullable<ReturnType<SaveService["deserialize"]>["state"]>): Promise<void> => {
-    portalTransition.cancel();
-    if (next.player.regionId === "gravelmaw" && deferredCave && !deferredCave.getState().ready) {
-      await transitionThroughPortal({ position: next.player.position, regionId: next.player.regionId, name: "Gravelmaw" },
-        () => applyWorldFromSave(next));
-      return;
-    }
-    applyWorldFromSave(next);
-  };
-  const applyWorldFromSave = (next: NonNullable<ReturnType<SaveService["deserialize"]>["state"]>): void => {
-    travelSystem.cancel();
-    agilitySystem.cancelTraversal(clock.elapsedMs, "replaced");
-    traversalPresentation.reset();
-    movement.stop(store.get(), clock.elapsedMs, "load");
-    movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: 0 });
-    store.replace(next);
-    rng.reseed(next.meta.seed);
-    events.reset();
-    input.clear();
-    loop.resetPresentation();
-    combatSystem.resetForNewWorld();
-    gameAudio.reset();
-    rebuildSemanticWorld();
-    productionSystem.reset(clock.elapsedMs);
-    gatheringSystem.tick(0, clock.elapsedMs);
-
-    const position = store.get().player.position;
-    const facing = store.get().player.facingRad;
-    if (rigged) playerRig.setPosition(position, facing);
-    scene.syncPlayer(position, facing, true);
-    camera.reset();
-    camera.setPose(facing + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
-    camera.update(position[0], position[1], position[2], true);
-    audioDirector.setRegion(store.get().player.regionId, position);
-    discoverySystem.sweep(clock.elapsedMs);
-  };
 
   let capturePreviousPause = false;
   let capturePreviousRunning = false;
@@ -3479,17 +2931,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
    * The normal orbit camera still owns projection, occlusion, region streaming, and rendering.
    */
   /**
-   * Where a debug pose or teleport puts the player. The old local game owns its store and writes it.
-   * In worker-hosted play the host owns the player, so this asks it and resolves once the new
-   * position has been replicated back; `then` runs after that, or at once.
+   * Where a debug pose or teleport puts the player. The host owns the player, so this asks the local
+   * world and resolves once the new position has been replicated back; `then` runs after that. A page
+   * with no local world (the multiplayer lab, a capture) has nobody to ask, and the pose is refused.
    */
   const localDebug = localLaunch ? (op: import("../worker/localDebugProtocol.js").DebugOp) => localLaunch.provider.debug(op) : null;
-  const debugPlace = <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): T | Promise<T> => {
-    if (localDebug) return localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }).then(then);
-    store.get().player.position = position;
-    store.get().player.regionId = regionId;
-    if (facingRad !== undefined) store.get().player.facingRad = facingRad;
-    return then();
+  const debugPlace = <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): Promise<T> => {
+    if (!localDebug) return Promise.reject(new Error("UNAVAILABLE: only a local world lets the debug surface place the player."));
+    return localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }).then(then);
   };
   const frameDocumentationTarget = (
     target: Vec3,
@@ -3540,6 +2989,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   // When local play is what this page starts, by `?play=local` or because there was nothing else to choose, "ready"
   // means it is joined and its first snapshot is what the page shows. Otherwise the picker is still the player's to answer.
+  /** Camera, input and presentation state that a new character or a loaded one must not inherit. */
+  const presentationReset = (): void => {
+    const { position, facingRad, regionId } = store.get().player;
+    portalTransition.cancel(); traversalPresentation.reset(); input.clear(); loop.resetPresentation(); gameAudio.reset();
+    if (rigged) playerRig.setPosition(position, facingRad);
+    scene.syncPlayer(position, facingRad, true);
+    camera.reset(); camera.setPose(facingRad + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
+    camera.update(position[0], position[1], position[2], true);
+    audioDirector.setRegion(regionId, position); refreshVisualResidency(position, regionId, true); ui.update();
+  };
   const localSession = (): boolean => localLaunch !== null && worldSelectionResult?.controller.session?.world?.providerId === localLaunch.provider.id;
   installGameDebug({
     store, events, clock, nav, movement, api, renderer, camera, assets, errors,
@@ -3548,16 +3007,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     remote: localLaunch ? {
       joined: localSession,
       debug: op => localLaunch.provider.debug(op),
-      parseSave: (json) => { const loaded = saves.loadSerialized(json); return loaded.status === "loaded" && loaded.state ? { state: loaded.state } : { reason: loaded.reason ?? "Save import failed" }; },
-      presentationReset: () => {
-        const { position, facingRad, regionId } = store.get().player;
-        portalTransition.cancel(); traversalPresentation.reset(); input.clear(); loop.resetPresentation(); gameAudio.reset();
-        if (rigged) playerRig.setPosition(position, facingRad);
-        scene.syncPlayer(position, facingRad, true);
-        camera.reset(); camera.setPose(facingRad + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
-        camera.update(position[0], position[1], position[2], true);
-        audioDirector.setRegion(regionId, position); refreshVisualResidency(position, regionId, true); ui.update();
-      },
+      parseSave: (json) => { const loaded = loadSerializedSave(json); return loaded.status === "loaded" && loaded.state ? { state: loaded.state } : { reason: loaded.reason ?? "Save import failed" }; },
+      presentationReset,
     } : null,
     // Direct evidence that a cast drew something, for `tools/verify-magic.ts`. Reading `drawCalls`
     // instead conflates a spell with anything else that streamed in that frame.
@@ -3615,7 +3066,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         if (!worldMapCapture) scene.updateStreaming(position[0], position[2]);
       }
     },
-    resetWorld,
     isIdle: () => store.get().player.movement.mode === "idle" && store.get().activity === null,
     teleport: (to: Vec3) => {
       const navPoint = nav.closestPoint(to) ?? to;
@@ -3630,42 +3080,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         refreshVisualResidency(snapped, regionId, true);
       });
     },
-    saveNow: () => { saves.save(store.get(), Date.now()); },
-    getSaveBlob: () => saves.serialize(store.get()),
-    loadSaveBlob: async (json: string) => {
-      const loadedBlob = saves.loadSerialized(json);
-      if (loadedBlob.status !== "loaded" || !loadedBlob.state) {
-        errors.push({
-          atMs: clock.elapsedMs,
-          source: "debug.loadSaveBlob",
-          message: loadedBlob.reason ?? "Save import failed",
-        });
-        return;
-      }
-      await replaceWorldFromSave(loadedBlob.state);
-      ui.update();
-    },
-    advanceWorldTime: (seconds) => gatheringSystem.fastForwardRespawns(seconds),
-    /**
-     * Moves the camera to a named repeatable pose. Screenshots and the perf budget both use these,
-     * so a shot points at the thing it is named after rather than at a fixed compass bearing.
-     */
-    /**
-     * Empties a node through the REAL depletion path rather than by writing `remaining = 0`, so a
-     * test sees the same events, the same state transition, and the same respawn timer a player
-     * would. A shortcut that bypasses the system proves nothing about the system.
-     */
-    depleteNode: (entityId: string) => {
-      const entity = entityStore.get(entityId);
-      if (!entity?.resource) return false;
-      const node = store.get().world.nodes[entityId];
-      if (node) node.remaining = 1;
-      entity.resource.remaining = 1;
-      // One more successful gather now empties it, and the system does the rest.
-      return gatheringSystem.forceDeplete(entityId, clock.elapsedMs);
-    },
-
-    forceRespawn: (entityId: string) => gatheringSystem.forceRespawn(entityId, clock.elapsedMs),
     // Observation must not update the renderer or repair a missed state transition.
     drawnBounds: (entityId: string) => entityViews.drawnBounds(entityId, true),
     entityViewStats: () => entityViews.stats(),
@@ -3683,16 +3097,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       rotationY: building.rotationY,
     }))),
 
-    // Silent on purpose. `addItem` emits `item.received`, which the quest system counts into
-    // `gather:<itemId>` — so an unsilenced debug grant could complete a gather stage on its own,
-    // which is exactly the hole the gate check's "debug may set a check up, never satisfy one" rule
-    // exists to close. Cold Iron stage 1 and the whole of Dorn's Tally were satisfiable by
-    // `giveItem` alone.
-    giveItem: (itemId: string, quantity: number, to: string) => (
-      to === "bank"
-        ? bankSystem.op("deposit", { itemId, quantity })
-        : inventorySystem.addItem(itemId, quantity, { silent: true })
-    ),
     openBank: (bankId?: string) => {
       ui.openBank(bankId);
       return true;
@@ -3966,7 +3370,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   if (!worldMapCapture) {
     setStatus("Starting the game…",5);
-    await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot()));
+    // Submitted again because the scene's lights are final only now, and a pool's program depends on them.
+    await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot(), { deferred: deferSpellPrograms }));
     await bootTelemetry.measureAsync("boot.shaders.input-feedback", () => renderer.prepareEffects(overlays.preparationRoot()));
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
@@ -4003,42 +3408,35 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // The scene is drawn, so the lab worker can be told what its world is. It has been booting beside the scene since the page opened.
       localLaunch.provider.provideLabWorld(bootTelemetry.measureSync("boot.labWorker.describe", describeLabWorld));
       const {installBrowserSession}=await import("../multiplayer/browserSession.js");
-      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,saves,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
+      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
         sceneryChanges:recapture=>{labSceneryChanged=recapture;},
-        // The forest fixture's trees are the worker's entities now, so the page stops running its own forest, as it does in any joined world.
-        phase(phase){multiplayerWorld=phase!=="offline";},
-        // Standing trunks are what this page's movement prediction walks around, so they follow the worker's residents too.
-        applied(update){
-          if(update.snapshot)for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}
-          for(const entity of update.entities){
-            const tree=forestInstances.get(entity.id);if(!tree)continue;
-            forestPresentation.activate(entity.id,entity.state==="depleted");
-            if(entity.state==="depleted")forestObstacles.remove(entity.id);else forestObstacles.upsert(tree.descriptor);
-          }
-          for(const id of update.removedEntities)if(forestInstances.has(id)){forestPresentation.deactivate(id);forestObstacles.remove(id);}
-        },
+        applied(update){forestApplied(update);gameAudio.tick(0,update.simMs);},
       }, {lab:true,equipment:true}, selection);
     }
     if(profile.kind==="game"&&selection){
       const {installBrowserSession}=await import("../multiplayer/browserSession.js");
-      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,saves,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
+      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
         mountWorlds:panel=>{panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);},
         phase(phase){
-          multiplayerWorld=phase!=="offline";
           if(["reconnecting","unavailable","incompatible","full"].includes(phase))ui.openTitle("worlds");
         },
         applied(update){
-          if(update.snapshot)for(const id of forestInstances.keys())forestPresentation.deactivate(id);
-          for(const entity of update.entities)if(forestInstances.has(entity.id))forestPresentation.activate(entity.id,entity.state==="depleted");
-          for(const id of update.removedEntities)if(forestInstances.has(id))forestPresentation.deactivate(id);
-          const player=store.get().player;refreshVisualResidency(player.position,player.regionId,update.snapshot);audioDirector.setRegion(player.regionId);
+          forestApplied(update);gameAudio.tick(0,update.simMs);
+          // Within a map the working set follows the player. Across maps (a portal, or a join that lands in the cave) the
+          // curtain covers the change while the destination loads, because the cave's rock and a realm's dressing load on arrival.
+          const player=store.get().player;
+          const crossed=worldMapForRegion(player.regionId)!==worldMapForRegion(activeVisualRegion)
+            ||(player.regionId==="gravelmaw"&&deferredCave!==null&&!deferredCave.getState().ready);
+          if(!crossed){refreshVisualResidency(player.position,player.regionId,update.snapshot);return;}
+          if(portalTransition.active)return;
+          void transitionThroughPortal({position:[...player.position] as Vec3,regionId:player.regionId,name:getRegion(player.regionId)?.name??"Gravelmaw"},()=>{})
+            .catch(cause=>{errors.push({atMs:atMs(),source:"portalTransition",message:describeError(cause)});});
         },
-        restored(){multiplayerWorld=false;forest.reset();for(const {descriptor}of forestInstances.values())if(!worldExclusions.blocksTreeClearance(descriptor.position[0],descriptor.position[2],descriptor.trunkRadius))forest.register(descriptor);updateForest();refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
+        restored(){for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
       }, {crowds:true,equipment:true}, selection);
       // Only when there was something to join. The picker shows on every page now, but a page with
       // no servers behind it has nothing to offer a player who let loading finish without choosing,
-      // so their own world starts, as the old local game did. It is a world to join now, not a game
-      // already running behind the picker.
+      // so their own world starts. It is a world to join, not a game already running behind the picker.
       if(!choseLocalPlay&&selection.configured)ui.openTitle("worlds");
       else if(!choseLocalPlay&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
     }
@@ -4057,6 +3455,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       bootTelemetry.milestone(BOOT_MILESTONES.BOOT_SCREEN_REMOVED);
       // The scene is on screen, so a world chosen during loading can be joined now.
       selection?.setReady();
+      // The first frame is on screen. The spell pools' programs finish now, between frames; `boot.effects.ready` records when.
+      void renderer.finishDeferredEffects();
       if (labSpec && startFeatureLab) {
         // A lab is ready when its worker's world is joined, the character is set up and the first target stands in it.
         await new Promise<void>((resolve, reject) => {
@@ -4081,7 +3481,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       bootTelemetry.milestone(BOOT_MILESTONES.FIRST_PLAYABLE);
       debugReady = true;
       assets.setGameplayActive(runtimePerformanceEnabled);
-      if (saves.getRecovery()) ui.openTitle();
       if (featureLab) window.__featureLab = featureLab;
       if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
@@ -4095,7 +3494,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   if (profile.kind === "feature-lab" && new URLSearchParams(location.search).get("multiplayer") === "1") {
     const { installMultiplayerLab } = await import("../featureLab/multiplayer.js");
-    await installMultiplayerLab({ store, loop, clock, entities: entityStore, views: entityViews, assets, api, events, saves, movement, traversal:traversalPresentation,
+    await installMultiplayerLab({ store, loop, clock, entities: entityStore, views: entityViews, assets, api, events, movement, traversal:traversalPresentation,
       ...(new URLSearchParams(location.search).has("worldMenu")?{mountWorlds:(panel:HTMLElement)=>{ui.setWorlds(panel);ui.openTitle("worlds");}}:{}) });
   }
   return { loop, api, ...(featureLab ? { featureLab } : {}) };

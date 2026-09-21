@@ -1,29 +1,21 @@
-import { stepPlayerFrame } from "./playerMovementStep.js";
 import { spellImpactPoint } from "../systems/spellAim.js";
 /**
- * The update loop. Fixed 100 ms sim tick with an accumulator, decoupled from render.
+ * The frame loop. It draws and it simulates nothing: the world is a session's, on a server or in the
+ * local-play worker, and this thread shows what that session replicates.
  *
- * Update order matters and is fixed by runs/corealm/PRD.md section 3. The one ordering that must
- * never be changed: events flush LAST, after quests, so a `level.gained` and the `quest.updated`
- * it triggers land in the same tick and in causal order.
- *
- * Local movement updates each frame in collision steps of at most 20 ms. Its authoritative
- * position is drawn immediately. Other actors still interpolate between world simulation ticks.
+ * Each frame reads input, draws the replicated store, and presents the world actions the session
+ * delivered since the last one. The player's drawn pose is the prediction the session layer hands in
+ * through `setRemotePose`; other actors interpolate between the host's ticks.
  */
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { SimClock } from "../core/time.js";
-import type { RngStreams } from "../core/rng.js";
 import type { Renderer } from "../render/renderer.js";
 import type { OrbitCamera } from "../render/camera.js";
 import type { WorldScene } from "../render/scene.js";
-import type { Navigation } from "../systems/navigation.js";
-import type { Movement } from "../systems/movement.js";
 import type { TraversalSample } from "../systems/traversalMotion.js";
 import { EnemyProjectiles } from "../render/enemyProjectiles.js";
 import type { CombatAttackStart, CombatHit } from "../systems/combat.js";
-import type { CorealmGameApi } from "../api/gameApi.js";
-import type { SaveService } from "../persistence/storage.js";
 import type { InputController } from "../input/mouse.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type {
@@ -39,40 +31,26 @@ import { content } from "../content/index.js";
 import type { GameEvent, ItemId, SkillId, SpellElement, SpellId, SpellRung, WorldAction } from "../contracts.js";
 import type { Ui } from "../ui/panels.js";
 import type { EntityId, SemanticEntity, Vec3 } from "../contracts.js";
-import { GATHER_TICK_MS, SIM_TICK_MS } from "../core/time.js";
-import { AUTOSAVE_INTERVAL_MS, MOVEMENT } from "./config.js";
+import { GATHER_TICK_MS } from "../core/time.js";
+import { MOVEMENT } from "./config.js";
 
 /**
- * The overlay layer's per-frame hook. Gets the player as DRAWN this frame, interpolated between
- * sim ticks, because a route head that follows the store's position steps at the sim rate.
+ * The overlay layer's per-frame hook. Gets the player as DRAWN this frame, the predicted pose,
+ * because a route head that follows the store's position steps at the host's tick rate.
  */
 export interface OverlayTicker {
   update(nowMs: number, playerRenderPosition: Vec3): void;
 }
 
-/** A system that wants a slice of each sim tick. Registered by later build rounds. */
-export interface TickSystem {
-  readonly name: string;
-  /** Lower runs earlier. Keep inside the PRD's documented order. */
-  readonly order: number;
-  tick(deltaMs: number, atMs: number): void;
-}
-
 export interface LoopDeps {
   store: Store;
   events: EventBus;
+  /** A mirror of the host's clock: the session layer writes the replicated time into it. */
   clock: SimClock;
-  rng: RngStreams;
   renderer: Renderer;
   camera: OrbitCamera;
   updateRoofVisibility?(position: Vec3 | null): void;
   scene: WorldScene;
-  /** Select the terrain map without moving player visuals out of the main scene. */
-  terrainAt?(x: number, z: number): WorldScene;
-  nav: Navigation;
-  movement: Movement;
-  api: CorealmGameApi;
-  saves: SaveService;
   input: InputController;
 }
 
@@ -152,13 +130,10 @@ export class GameLoop {
   private running = false;
   private frameHandle = 0;
   private lastFrameAt = 0;
-  private lastAutosaveAt = 0;
-  private systems: TickSystem[] = [];
   private entityViews: EntityViews | null = null;
   private entitySource: (() => readonly SemanticEntity[]) | null = null;
   private refreshEntityResidency: (() => void) | null = null;
   private reconcileEntityPresentation: (() => void) | null = null;
-  private traversalPresentation: (() => TraversalSample | null) | null = null;
   private remoteTraversal: TraversalSample | null = null;
   setRemoteTraversal(sample: TraversalSample | null): void { this.remoteTraversal = sample; }
   private viewSyncAccumulatorMs = 0;
@@ -166,9 +141,6 @@ export class GameLoop {
   private playerRig: CharacterRig | null = null;
   private vfx: Vfx | null = null;
   private environmentEffects: { update(seconds: number, camera: Renderer['camera']): void; dispose(): void } | null = null;
-  private drainHits: (() => readonly CombatHit[]) | null = null;
-  private drainAttackStarts: (() => readonly CombatAttackStart[]) | null = null;
-  private attackStillCommitted: ((id: EntityId) => boolean) | null = null;
   private enemyProjectiles: EnemyProjectiles | null = null;
   private projectileRegion: string | null = null;
   private playerMotionHandler: ((event: CharacterMotionEvent) => void) | null = null;
@@ -198,8 +170,6 @@ export class GameLoop {
   private frameObserver: ((frameMs: number) => void) | null = null;
   private pendingRenderDeltaMs = 0;
 
-  /** Render fraction for actors driven by the fixed world tick. */
-  private renderAlpha = 1;
   /** Scratch, reused every frame. The render pose is written here rather than allocated. */
   private readonly renderPos: [number, number, number] = [0, 0, 0];
   private renderFacingRad = 0;
@@ -251,11 +221,6 @@ export class GameLoop {
     this.entitySource = entities;
     this.refreshEntityResidency = refreshResidency ?? null;
     this.reconcileEntityPresentation = reconcilePresentation ?? null;
-  }
-
-  /** Samples presentation without moving the authoritative player before traversal resolves. */
-  setTraversalPresentation(sample: () => TraversalSample | null): void {
-    this.traversalPresentation = sample;
   }
 
   /**
@@ -317,30 +282,6 @@ export class GameLoop {
     this.healthBars = healthBars;
   }
 
-  /**
-   * Where damage numbers come from.
-   *
-   * `systems/combat.ts` has kept a hit log since round 3, with a comment on `consumeHits()` saying
-   * "render/vfx.ts polls this for damage numbers", and nothing ever polled it — `Vfx.damage()` had
-   * no callers anywhere in the project. So every fight in the game, including the two-phase boss,
-   * happened in complete silence: health bars moved and nothing else did. It went unnoticed because
-   * the gate check reads combat out of XP and entity state, which are both correct.
-   *
-   * The same drain now also drives the swing and flinch poses, which is the only place the edge
-   * they need is visible: `PlayerView.inCombat` is a multi-second state flag, and `Sword_Attack`
-   * and `Hit_Chest` are 1.533 s and 0.333 s events.
-   *
-   * The log is drained rather than read, so a frame that drops cannot replay yesterday's swings.
-   */
-  setCombatHits(drain: () => readonly CombatHit[]): void {
-    this.drainHits = drain;
-  }
-
-  setCombatAttackStarts(drain: () => readonly CombatAttackStart[], committed?: (id: EntityId) => boolean): void {
-    this.drainAttackStarts = drain;
-    this.attackStillCommitted = committed ?? null;
-  }
-
   /** Sound and other presentation systems consume the rig's measured contact frames here. */
   setPlayerMotionHandler(handler: (event: CharacterMotionEvent) => void): void {
     this.playerMotionHandler = handler;
@@ -373,12 +314,6 @@ export class GameLoop {
     this.frameObserver = observer;
   }
 
-  /** Later rounds register their systems here. Kept sorted by declared order. */
-  addSystem(system: TickSystem): void {
-    this.systems.push(system);
-    this.systems.sort((a, b) => a.order - b.order);
-  }
-
   start(): void {
     if (this.running) return;
     this.running = true;
@@ -407,7 +342,7 @@ export class GameLoop {
     this.enemyProjectiles = null;
   }
 
-  /** Clears render-only work when debug or save loading replaces the canonical world. */
+  /** Clears render-only work when a session starts or ends, or when the host replaces the character. */
   resetPresentation(): void {
     this.enemyProjectiles?.clear();
     this.pendingRigPose = null;
@@ -425,18 +360,10 @@ export class GameLoop {
 
     const frameMs = nowMs - this.lastFrameAt;
     // A first RAF timestamp can precede start() after a long task in that browser frame.
-    // Never turn shader preparation into simulation time that gameplay must pay back.
     const realDelta = Math.max(0, Math.min(frameMs, 250));
     this.lastFrameAt = nowMs;
 
     this.deps.input.update();
-    const clock = this.deps.clock;
-    if (!this.remoteSimulation) stepPlayerFrame(clock, realDelta,
-      (delta, atMs) => this.deps.movement.update(this.deps.store.get(), delta, atMs),
-      () => this.simTick());
-    // Remote actors interpolate fixed world ticks; local movement already has this frame's pose.
-    this.renderAlpha = this.remoteSimulation || clock.paused ? 1 : clock.alpha();
-
     this.pendingRenderDeltaMs = Math.min(250, this.pendingRenderDeltaMs + realDelta);
     // Chromium can have a press waiting behind this RAF callback. Yield before another
     // expensive scene traversal so that the handler runs before we draw an obsolete input state.
@@ -446,17 +373,15 @@ export class GameLoop {
       this.renderFrame(nowMs, this.pendingRenderDeltaMs);
       this.pendingRenderDeltaMs = 0;
     } else {
-      // Input and simulation have already advanced. Avoid spending the main thread on
-      // palettes/scene updates that cannot be drawn, while menus still reflect current state.
+      // Input has already been read. Avoid spending the main thread on palettes/scene updates
+      // that cannot be drawn, while menus still reflect current state.
       this.ui?.update();
     }
-    if (!this.remoteSimulation) this.maybeAutosave(nowMs);
     // A responsive JS loop does not mean the GPU is keeping up. Distance adaptation must
     // see unfinished graphics work too, including frames deliberately not submitted.
     this.frameObserver?.(Math.max(frameMs, this.deps.renderer.getFramePressureMs?.() ?? 0));
   };
 
-  private remoteSimulation = false;
   private remotePresentationTime: number | null = null;
   setRemotePresentationTime(now: number): void { this.remotePresentationTime = now; }
   private networkStarts: CombatAttackStart[] = [];
@@ -465,41 +390,14 @@ export class GameLoop {
   private remotePose:{position:Vec3;facingRad:number}|null=null;
   remoteProjectileState(): {visible:number;targets:string[]} { return this.enemyProjectiles?.snapshot()??{visible:0,targets:[]}; }
   setRemotePose(pose:{position:Vec3;facingRad:number}|null):void{this.remotePose=pose;}
-  /** Online presentation never advances local gameplay or writes an offline save. */
-  setRemoteSimulation(enabled: boolean): void {
-    this.remoteSimulation = enabled;
+  /** A session began or ended: what the last one left in flight must not be drawn over the next. */
+  sessionChanged(): void {
     this.remotePresentationTime = null;
     this.networkStarts.length = 0; this.networkHits.length = 0;
     this.networkCommitted.clear(); this.enemyProjectiles?.clear(); this.remoteTraversal = null;
     this.spellVfx?.clear();
     this.remotePose=null;
     this.resetPresentation();
-  }
-
-  /** How many simulation steps this thread has run. It stays 0 when a session, remote or worker-hosted, owns the simulation. */
-  simTickCount = 0;
-  get remoteSimulationActive(): boolean { return this.remoteSimulation; }
-
-  /** One 100 ms simulation step. */
-  private simTick(): void {
-    this.simTickCount++;
-    const { store, clock, events } = this.deps;
-    const state = store.get();
-    const atMs = clock.elapsedMs;
-
-    // 4..11. registered systems: gathering, production, combat, enemy AI, health, quests
-    for (const system of this.systems) system.tick(SIM_TICK_MS, atMs);
-
-    // 13. clock commit
-    clock.commitTick();
-    state.meta.playSeconds += SIM_TICK_MS / 1000;
-    // Played time is persisted state and is also the clock for portable fires and resource
-    // respawns. Keep the save dirty between autosave intervals so an idle countdown cannot rewind
-    // after reload. `Store` holds one boolean, so this does not queue writes per tick.
-    store.markDirty();
-
-    // 14. events flush LAST, on purpose.
-    events.flush();
   }
 
   private updateRenderPose(): void {
@@ -511,10 +409,10 @@ export class GameLoop {
   }
 
   private renderFrame(nowMs: number, realDeltaMs: number): void {
-    const { store, scene, camera, renderer, input } = this.deps;
+    const { store, scene, camera, renderer } = this.deps;
     const state = store.get();
 
-    const traversal = this.remoteSimulation ? this.remoteTraversal : this.traversalPresentation?.() ?? null;
+    const traversal = this.remoteTraversal;
     this.updateRenderPose();
     if (traversal) {
       this.renderPos[0] = traversal.position[0];
@@ -522,8 +420,8 @@ export class GameLoop {
       this.renderPos[2] = traversal.position[2];
       this.renderFacingRad = traversal.facingRad;
     }
-    const position: Vec3 = this.remoteSimulation&&this.remotePose?this.remotePose.position:this.renderPos;
-    const facingRad = this.remoteSimulation&&this.remotePose?this.remotePose.facingRad:this.renderFacingRad;
+    const position: Vec3 = this.remotePose?this.remotePose.position:this.renderPos;
+    const facingRad = this.remotePose?this.remotePose.facingRad:this.renderFacingRad;
 
     for (const interior of this.interiors) interior.group.visible = interior.visible();
     // Residency follows the player every frame, including frames without a structural diff.
@@ -532,10 +430,10 @@ export class GameLoop {
     this.syncEntityViews(realDeltaMs);
     this.reconcileEntityPresentation?.();
     // Structure at 4 Hz, motion every frame. `sync` is throttled because rebuilding instance groups
-    // is expensive, but `EnemyAiSystem.stepToward` writes a new position every 100 ms sim tick, so
-    // at 4 Hz three of every four movement steps were invisible and the fourth was a 40 cm jump.
+    // is expensive, but the host moves a creature every 100 ms tick, so at 4 Hz three of every four
+    // movement steps were invisible and the fourth was a 40 cm jump.
     // The resident references are refreshed by structural sync and active-area changes.
-    this.entityViews?.syncResidentMotion(this.renderAlpha);
+    this.entityViews?.syncResidentMotion(1);
     // Animation advances on real time, not sim time: a paused sim should still idle, and a
     // time-scaled test run should not play idles at 100x.
     //
@@ -550,9 +448,9 @@ export class GameLoop {
     this.presentAttackStarts();
     for (const [id, attack] of this.networkCommitted) if (attack.until <= this.deps.clock.elapsedMs) this.networkCommitted.delete(id);
     if (this.enemyProjectiles) {
-      this.enemyProjectiles.update(this.remoteSimulation ? this.remotePresentationTime ?? this.deps.clock.elapsedMs : this.deps.clock.elapsedMs,
-        (id, attack) => this.remoteSimulation ? this.networkCommitted.get(id)?.owner === attack.targetId
-          && this.networkCommitted.get(id)?.attackId === attack.id && this.entityPositionFor(id) !== null : this.attackStillCommitted?.(id) ?? false,
+      this.enemyProjectiles.update(this.remotePresentationTime ?? this.deps.clock.elapsedMs,
+        (id, attack) => this.networkCommitted.get(id)?.owner === attack.targetId
+          && this.networkCommitted.get(id)?.attackId === attack.id && this.entityPositionFor(id) !== null,
         (id) => id === state.player.id ? position : this.entityViews?.motionSnapshot(`remote:${id}`)?.drawnPosition ?? this.entityViews?.motionSnapshot(id)?.drawnPosition);
     }
     this.paintCombatHits(nowMs);
@@ -629,13 +527,9 @@ export class GameLoop {
 
     if (activity?.kind === "gathering" && (activity.skill === "mining" || activity.skill === "woodcutting")) {
       const key = `${activity.entityId}:${activity.startedAtMs}:${activity.skill}`;
-      // Systems evaluate at the start of a sim tick, then the clock commits 100 ms. Rewinding one
-      // tick and adding the render interpolation fraction gives the same instant the current state
-      // represents, so the contact pose does not lead its semantic roll by a whole fixed step.
-      const presentationAtMs = Math.max(
-        0,
-        this.remoteSimulation ? this.remotePresentationTime ?? this.deps.clock.elapsedMs : this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS,
-      );
+      // The session layer extrapolates the host's clock between updates, so the contact pose does
+      // not lead or trail its roll by a whole tick.
+      const presentationAtMs = Math.max(0, this.remotePresentationTime ?? this.deps.clock.elapsedMs);
       rig.syncGatheringCycle(
         activity.nextRollAtMs - presentationAtMs,
         GATHER_TICK_MS,
@@ -647,7 +541,7 @@ export class GameLoop {
     }
 
     if (activity?.kind === "gathering" && activity.skill === "fishing" && state.player.health > 0) {
-      const presentationAtMs = Math.max(0, this.remoteSimulation ? this.remotePresentationTime ?? this.deps.clock.elapsedMs : this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS);
+      const presentationAtMs = Math.max(0, this.remotePresentationTime ?? this.deps.clock.elapsedMs);
       const key = `${activity.entityId}:${activity.startedAtMs}:fishing`;
       rig.syncFishingCycle(this.entityPositionFor(activity.entityId), presentationAtMs - activity.startedAtMs,
         activity.nextRollAtMs - presentationAtMs, GATHER_TICK_MS, key !== this.fishingRigKey);
@@ -731,7 +625,7 @@ export class GameLoop {
    * interruption and recovers before the next 600 ms combat tick.
    */
   private presentAttackStarts(): void {
-    for (const start of [...this.networkStarts.splice(0), ...this.drainAttackStarts?.() ?? []]) {
+    for (const start of this.networkStarts.splice(0)) {
       const durationSeconds = Math.max(0.05, (start.recoverAtMs - start.atMs) / 1000 / (this.deps.clock.timeScale || 1));
       if (start.attacker === "player") {
         this.pendingRigPose = "attack_melee";
@@ -740,23 +634,14 @@ export class GameLoop {
         this.playerSwingSounded = false;
       } else {
         this.entityViews?.playAction(start.sourceId, "attack", { durationSeconds });
-        if (start.kind !== "melee" && this.attackStillCommitted?.(start.sourceId)) {
-          const source = this.entityViews?.motionSnapshot(start.sourceId)?.drawnPosition;
-          const player = this.deps.store.get().player;
-          if (source && start.targetId === player.id) {
-            this.enemyProjectiles ??= new EnemyProjectiles(this.deps.scene.overlayGroup);
-            this.projectileRegion = player.regionId;
-            this.enemyProjectiles.start(start, source, this.renderPos);
-          }
-        }
       }
     }
   }
 
   private paintCombatHits(nowMs: number): void {
     const playerId = this.deps.store.get().player.id;
-    for (const hit of [...this.networkHits.splice(0), ...this.drainHits?.() ?? []]) {
-      // Simulation has reached the contact frame. Health, recoil, sound and numbers agree here.
+    for (const hit of this.networkHits.splice(0)) {
+      // The host has reached the contact frame. Health, recoil, sound and numbers agree here.
       // A melee blow whose swing already sounded on the rig marker presents as the impact alone.
       const swung = hit.attacker === "player" && hit.kind === "melee" && this.playerSwingSounded;
       if (hit.attacker === "player" && hit.kind === "melee") {
@@ -953,12 +838,5 @@ export class GameLoop {
     if (this.viewSyncAccumulatorMs < 250) return;
     this.viewSyncAccumulatorMs = 0;
     this.entityViews.sync(this.entitySource());
-  }
-
-  private maybeAutosave(nowMs: number): void {
-    if (nowMs - this.lastAutosaveAt < AUTOSAVE_INTERVAL_MS) return;
-    this.lastAutosaveAt = nowMs;
-    if (!this.deps.store.consumeDirty()) return;
-    this.deps.saves.save(this.deps.store.get(), Date.now());
   }
 }

@@ -34,7 +34,6 @@ import type { Renderer } from "../render/renderer.js";
 import { SCREEN_AA_MATERIAL } from "../render/screenAntialiasing.js";
 import type { OrbitCamera } from "../render/camera.js";
 import type { AssetRegistry } from "../render/assets.js";
-import { addSkillXp, setSkillLevel as applySkillLevel } from "../state/store.js";
 import { roundVec3 } from "../core/math.js";
 import { keybindings } from "../input/keyboard.js";
 import type { GameState } from "../state/store.js";
@@ -84,8 +83,9 @@ export interface DebugDeps {
   setFoliageOcclusionBoundsOptimization?(enabled: boolean): void;
   version: { build: string; contracts: string; content: string };
   /**
-   * Worker-hosted local play. Present when this page's "Play local" is a world in a worker; then the
-   * page holds no simulation, and every write and whole-world read below goes through `debug`.
+   * The local world's debug channel. The page holds no simulation, so every write and whole-world
+   * read below is one operation on it. Null on a page that offers no local world (the multiplayer
+   * lab, a capture page): those methods then refuse.
    */
   remote?: {
     /** True while the joined session is the local worker's. */
@@ -97,17 +97,10 @@ export interface DebugDeps {
     /** Camera, input and presentation state that a new character or a loaded one must not inherit. */
     presentationReset(): void;
   } | null;
-  /** Rebuilds the world and restores spawn state. Must complete synchronously. */
-  resetWorld(seed?: number, keepSave?: boolean): void;
   /** True when nothing is pending: no navigation, activity, combat, or asset load. */
   isIdle(): boolean;
   /** A promise when the host places the player: it resolves once the position is replicated here. */
   teleport(to: Vec3): void | Promise<void>;
-  saveNow(): void;
-  getSaveBlob(): string;
-  loadSaveBlob(json: string): void | Promise<void>;
-  /** Fast-forwards world timers that deliberately do not use the session SimClock. */
-  advanceWorldTime?(seconds: number): void;
   focusCamera(shotId: string): boolean | Promise<boolean>;
   /** Frames the live player closely enough to inspect held equipment. */
   focusPlayer(): boolean | Promise<boolean>;
@@ -131,16 +124,10 @@ export interface DebugDeps {
   captureDocumentationFrame(): string;
   listShots(): string[];
   callTool(name: string, args: unknown): Promise<unknown>;
-  /** Test-only item grant. Goes through the real inventory so slot limits still apply. */
-  giveItem(itemId: ItemId, quantity: number, to: "inventory" | "bank"): unknown;
   /** Opens the real bank panel after a browser check has moved the player into bank range. */
   openBank?(bankId?: EntityId): boolean;
   /** Opens the real shop panel for browser acceptance without depending on unfinished trade wiring. */
   openShop?(shopId?: EntityId): boolean;
-  /** Empties a resource node through the real depletion path, so events and respawn still fire. */
-  depleteNode(entityId: EntityId): boolean;
-  /** Brings a node or enemy back immediately, skipping its respawn timer. */
-  forceRespawn(entityId: EntityId): boolean;
   /** World-space box the renderer draws for one entity, or null when it draws nothing. */
   drawnBounds(
     entityId: EntityId,
@@ -347,11 +334,6 @@ export function installGameDebug(deps: DebugDeps): void {
       ) as unknown as Record<string, unknown>;
     },
 
-    /** Synchronous by contract: the driver calls it, waits 150 ms, and does not await. */
-    reset(options?: { seed?: number; keepSave?: boolean }): void {
-      deps.resetWorld(options?.seed, options?.keepSave ?? false);
-    },
-
     // ------------------------------------------------ additional test surface
 
     ready(): boolean {
@@ -360,15 +342,6 @@ export function installGameDebug(deps: DebugDeps): void {
 
     getVersion(): { build: string; contracts: string; content: string } {
       return deps.version;
-    },
-
-    setPaused(paused: boolean): void {
-      clock.paused = Boolean(paused);
-    },
-
-    setTimeScale(scale: number): void {
-      if (!Number.isFinite(scale)) return;
-      clock.timeScale = Math.max(0.1, Math.min(100, scale));
     },
 
     getPerformanceTimings(): Record<string, unknown> {
@@ -498,12 +471,6 @@ export function installGameDebug(deps: DebugDeps): void {
       return deps.isIdle();
     },
 
-    advanceGameTime(seconds: number): void {
-      if (!Number.isFinite(seconds) || seconds <= 0) return;
-      clock.skipMs(seconds * 1000);
-      deps.advanceWorldTime?.(seconds);
-    },
-
     select(entityId: EntityId | null): void {
       deps.select?.(entityId);
     },
@@ -522,47 +489,6 @@ export function installGameDebug(deps: DebugDeps): void {
       if (!target) return false;
       await deps.teleport(target);
       return true;
-    },
-
-    grantXp(skill: SkillId, amount: number): number {
-      const result = addSkillXp(store.get(), skill, amount);
-      if (result.levelsGained > 0) {
-        events.emit("level.gained", { skill, level: result.newLevel, levelsGained: result.levelsGained }, undefined, clock.elapsedMs);
-        events.flush();
-      }
-      store.markDirty();
-      return result.newLevel;
-    },
-
-    setSkillLevel(skill: SkillId, level: number): number {
-      applySkillLevel(store.get(), skill, level);
-      store.markDirty();
-      return store.get().skills[skill].level;
-    },
-
-    setCurrency(gold: number): void {
-      if (!Number.isFinite(gold)) return;
-      store.get().currency = Math.max(0, Math.floor(gold));
-      store.markDirty();
-    },
-
-    setHealth(health: number): void {
-      const state = store.get();
-      if (!Number.isFinite(health)) return;
-      state.player.health = Math.max(0, Math.min(state.player.maxHealth, Math.floor(health)));
-      store.markDirty();
-    },
-
-    setSeed(seed: number): void {
-      if (!Number.isFinite(seed)) return;
-      store.get().meta.seed = seed >>> 0;
-      store.markDirty();
-    },
-
-    clearInventory(): void {
-      const slots = store.get().inventory.slots;
-      for (let index = 0; index < slots.length; index += 1) slots[index] = null;
-      store.markDirty();
     },
 
     openBank(bankId?: EntityId): boolean {
@@ -1022,107 +948,11 @@ export function installGameDebug(deps: DebugDeps): void {
       return deps.listShots();
     },
 
-    saveNow(): void {
-      deps.saveNow();
-    },
-
-    getSaveBlob(): string {
-      return deps.getSaveBlob();
-    },
-
-    async loadSaveBlob(json: string): Promise<void> {
-      await deps.loadSaveBlob(json);
-    },
-
     /** Invokes an agent tool in-page. This is how parity between a click and a tool call is proven. */
     callTool(name: string, args: unknown): Promise<unknown> {
       return deps.callTool(name, args);
     },
 
-    depleteNode(entityId: EntityId): boolean {
-      return deps.depleteNode(entityId);
-    },
-
-    forceRespawn(entityId: EntityId): boolean {
-      return deps.forceRespawn(entityId);
-    },
-
-    setQuestState(questId: QuestId, state: { status: "unstarted" | "active" | "complete"; stage: number; counters?: Record<string, number>; flags?: Record<string, boolean> } | null): void {
-      const quests = store.get().quests;
-      if (state === null) delete quests[questId];
-      else quests[questId] = { status: state.status, stage: Math.max(0, Math.floor(state.stage)), counters: { ...state.counters }, flags: { ...state.flags } };
-      store.markDirty();
-    },
-
-    setQuestStage(questId: QuestId, stage: number): void {
-      const quests = store.get().quests;
-      const existing = quests[questId] ?? { status: "active" as const, stage: 0, counters: {}, flags: {} };
-      existing.stage = Math.max(0, Math.floor(stage));
-      existing.status = "active";
-      quests[questId] = existing;
-      store.markDirty();
-    },
-
-    giveItem(itemId: ItemId, quantity: number, to: "inventory" | "bank" = "inventory"): unknown {
-      return deps.giveItem(itemId, quantity, to);
-    },
-
-    /**
-     * Sets the character up to exercise the released magic ladder in one call.
-     *
-     * The first argument remains the Magic level. The second remains numeric for older callers,
-     * but now means how much of each released essence to grant. Weapons, orbs, and essence all pass
-     * through the real inventory and equipment paths. This matters for orbs: the first inventory
-     * grant creates the charged weapon's 1,000-charge ledger entry, while duplicate grants do not
-     * refill one that has already been used.
-     *
-     * The default level equips Cairnpine plus Water. A lower level equips the strongest released
-     * charged staff it can use. Fire stays out until its region ships.
-     */
-    seedMagic(magicLevel = 70, essenceQuantity = 5000): Record<string, unknown> {
-      applySkillLevel(store.get(), "magic", magicLevel);
-
-      const weapons: ItemId[] = [
-        "basic_wooden_wand", "basic_wooden_staff",
-        "palewood_wand", "palewood_staff",
-        "duskoak_wand", "duskoak_staff",
-        "cairnpine_wand", "cairnpine_staff",
-        "air_wand", "air_staff",
-        "earth_wand", "earth_staff",
-        "water_wand", "water_staff",
-      ];
-      const releasedOrbs: ItemId[] = ["air_orb", "earth_orb", "water_orb"];
-      const releasedEssence: ItemId[] = ["air_essence", "earth_essence", "water_essence"];
-      const essencePerType = Math.max(1, Math.floor(essenceQuantity));
-
-      // A two-handed staff cannot share the normal off hand. Use the same unequip path as the UI.
-      if (store.get().equipment.offHand) api.unequipItem("offHand");
-      for (const itemId of weapons) deps.giveItem(itemId, 1, "inventory");
-      for (const itemId of releasedOrbs) deps.giveItem(itemId, 1, "inventory");
-      for (const itemId of releasedEssence) deps.giveItem(itemId, essencePerType, "inventory");
-
-      const level = store.get().skills.magic.level;
-      const loadout = level >= 10
-        ? { weapon: "water_staff" as ItemId }
-        : level >= 5
-          ? { weapon: "earth_staff" as ItemId }
-          : { weapon: "air_staff" as ItemId };
-      const weaponResult = api.equipItem(loadout.weapon);
-      store.markDirty();
-
-      const book = api.getSpellbook();
-      const weapon = book.equippedWeapon;
-      return {
-        magic: level,
-        weapons,
-        equippedWeapon: weaponResult.ok ? loadout.weapon : null,
-        weaponError: weaponResult.ok ? null : weaponResult.error.message,
-        weaponCharges: weapon?.charges ?? 0,
-        essence: book.essence,
-        castable: book.spells.filter((row) => row.castable).length,
-        activeSpellId: book.activeSpellId,
-      };
-    },
   };
 
   const compactEntity = (entity: SemanticEntity) => ({
@@ -1133,9 +963,10 @@ export function installGameDebug(deps: DebugDeps): void {
   });
 
   /**
-   * The same surface when local play is a world in a worker. The page holds no simulation then, so
-   * each of these is one operation on the debug channel, which answers only after the update that
-   * carries the effect has been applied to this page's store. What is left here is presentation.
+   * Everything that changes the simulation, or reads the world beyond what is replicated here. The
+   * world is its host's, so each of these is one operation on the local world's debug channel, which
+   * answers only after the update that carries the effect has been applied to this page's store.
+   * What is left on this thread is presentation.
    */
   const ask = (op: DebugOp): Promise<unknown> => remote!.debug(op);
   const remoteApi: Partial<Record<AsyncDebugMethod, (...args: never[]) => Promise<unknown>>> = {
@@ -1187,7 +1018,7 @@ export function installGameDebug(deps: DebugDeps): void {
     getWorldState: () => ask({ op: "getWorldState" }),
   };
   // `driver.callDebug` asks `Object.hasOwn`, so every name on the surface is a property of the object behind the proxy.
-  const workerOnly = (name: string) => (): never => { throw new Error(`UNAVAILABLE: __gameDebug.${name} needs worker-hosted local play. This page runs the old main-thread game (a lab, or ?local=main).`); };
+  const workerOnly = (name: string) => (): never => { throw new Error(`UNAVAILABLE: __gameDebug.${name} needs a joined local world.`); };
   for (const name of Object.keys(remoteApi)) if (!Object.hasOwn(debugApi, name)) Object.assign(debugApi, { [name]: workerOnly(name) });
 
   /**
@@ -1203,10 +1034,7 @@ export function installGameDebug(deps: DebugDeps): void {
       // One surface in every mode: these always return a promise, so a call that forgets `await` fails the same way everywhere.
       return async (...args: unknown[]) => {
         const local = remote?.joined() === true;
-        if (!allowedConnected.has(property)) {
-          if (api.isOnlineSession() && !local) throw new Error(`UNAVAILABLE: __gameDebug.${property} changes or reads the whole simulation, which a connected world does not allow. Play local to use it.`);
-          if (remote && !local) throw new Error(`UNAVAILABLE: __gameDebug.${property} needs a joined local world. Open the page with ?play=local, or choose Play local.`);
-        }
+        if (!allowedConnected.has(property) && !local) throw new Error(`UNAVAILABLE: __gameDebug.${property} changes or reads the whole simulation, which belongs to the world's host. Open the page with ?play=local, or choose Play local.`);
         const hosted = local ? remoteApi[property as AsyncDebugMethod] as ((...values: unknown[]) => Promise<unknown>) | undefined : undefined;
         return hosted ? hosted(...args) : Reflect.apply(value, target, args);
       };

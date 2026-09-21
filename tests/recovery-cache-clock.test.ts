@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SkillId } from "../game/src/contracts.js";
 import { ok } from "../game/src/contracts.js";
 import { EventBus } from "../game/src/core/events.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { rehydrateWorldContainers } from "../game/src/persistence/worldContainers.js";
 import { Store, type GameState } from "../game/src/state/store.js";
 import type { CombatInventoryPort } from "../game/src/systems/combat.js";
@@ -193,15 +193,14 @@ describe("recovery cache wall clock", () => {
 
 describe("recovery cache save and rehydration clocks", () => {
   it("preserves the original epoch and elapsed wall time across repeated real save roundtrips", () => {
-    const saves = new SaveService(false);
     let h = fixture();
     h.die(5_000_000);
     const originalCache = h.store.snapshot().world.recoveryCache;
 
     for (const elapsedWallMs of [60_000, 300_000, FIFTEEN_MINUTES - 1]) {
-      const raw = saves.serialize(h.store.get());
+      const raw = serializeSave(h.store.get());
       vi.setSystemTime(WALL_START + elapsedWallMs);
-      const loaded = saves.deserialize(raw);
+      const loaded = loadSerializedSave(raw);
       expect(loaded.status).toBe("loaded");
       if (!loaded.state) throw new Error(loaded.reason ?? "Save returned no state");
       h = fixture(loaded.state);
@@ -221,13 +220,12 @@ describe("recovery cache save and rehydration clocks", () => {
   it.each([FIFTEEN_MINUTES, FIFTEEN_MINUTES + 86_400_000])(
     "discards an offline-expired wall cache while deserializing after %i ms",
     (elapsedWallMs) => {
-      const saves = new SaveService(false);
       const h = fixture();
       h.die(5_000_000);
-      const raw = saves.serialize(h.store.get());
+      const raw = serializeSave(h.store.get());
       vi.setSystemTime(WALL_START + elapsedWallMs);
 
-      const loaded = saves.deserialize(raw);
+      const loaded = loadSerializedSave(raw);
       expect(loaded.status).toBe("loaded");
       if (!loaded.state) throw new Error(loaded.reason ?? "Save returned no state");
       expect(loaded.state.world.recoveryCache).toBeNull();
@@ -239,12 +237,11 @@ describe("recovery cache save and rehydration clocks", () => {
   );
 
   it("removes a cache that expires between deserialization and world rehydration", () => {
-    const saves = new SaveService(false);
     const h = fixture();
     h.die();
-    const raw = saves.serialize(h.store.get());
+    const raw = serializeSave(h.store.get());
     vi.setSystemTime(WALL_START + FIFTEEN_MINUTES - 1);
-    const loaded = saves.deserialize(raw);
+    const loaded = loadSerializedSave(raw);
     expect(loaded.status).toBe("loaded");
     if (!loaded.state) throw new Error(loaded.reason ?? "Save returned no state");
     expect(loaded.state.world.recoveryCache).not.toBeNull();

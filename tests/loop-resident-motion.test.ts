@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { GameLoop, type LoopDeps } from "../game/src/app/loop.js";
-import { SimClock } from "../game/src/core/time.js";
 import type { EntityViews } from "../game/src/render/entityViews.js";
 import type { CharacterRig } from "../game/src/render/characterRig.js";
 import type { TraversalSample } from "../game/src/systems/traversalMotion.js";
@@ -63,7 +62,7 @@ describe("frame loop resident motion", () => {
   it("moves online enemy shots between authoritative updates", () => {
     const f=fixture(),base={playerId:"player",position:[0,0,0] as const,regionId:"fallowmarch" as const};
     f.source.mockReturnValue([{id:"archer",position:[4,0,0]}] as never);
-    f.loop.setRemoteSimulation(true);f.deps.clock.elapsedMs=500;
+    f.deps.clock.elapsedMs=500;
     try {
       f.loop.handleWorldAction({...base,sequence:1,type:"attack",attack:{id:1,sourceId:"archer",targetId:"player",attacker:"enemy",kind:"ranged",atMs:0,contactAtMs:1000,recoverAtMs:1200}},0);
       const mesh=f.deps.scene.overlayGroup.getObjectByName("enemy-projectiles") as THREE.InstancedMesh;
@@ -77,7 +76,7 @@ describe("frame loop resident motion", () => {
   it("keeps an enemy's new target flight when the previous target cancels later in the batch", () => {
     const f=fixture(),base={position:[0,0,0] as const,regionId:"fallowmarch" as const};
     f.source.mockReturnValue([{id:"archer",position:[4,0,0]},{id:"remote:previous",position:[2,0,0]}] as never);
-    f.loop.setRemoteSimulation(true);f.deps.clock.elapsedMs=500;
+    f.deps.clock.elapsedMs=500;
     const attack={id:1,sourceId:"archer",attacker:"enemy" as const,kind:"ranged" as const,atMs:0,contactAtMs:1000,recoverAtMs:1200};
     try {
       f.loop.handleWorldAction({...base,sequence:1,playerId:"previous",type:"attack",attack:{...attack,targetId:"previous"}},0);
@@ -125,19 +124,13 @@ describe("frame loop resident motion", () => {
     try { f.render(16); expect(observer).toHaveBeenCalledWith(180); }
     finally { f.loop.dispose(); }
   });
-  it("does not create a startup time debt when the first RAF predates a long boot task", () => {
-    const f = fixture(), clock = new SimClock();
-    f.deps.clock.advance = (delta: number) => {
-      const ticks = clock.advance(delta);
-      for (let i = 0; i < ticks; i++) clock.commitTick();
-      return 0;
-    };
+  it("draws a zero-length frame when the first RAF predates a long boot task", () => {
+    const f = fixture();
     try {
       f.render(-5000);
       expect(f.views.update.mock.calls[0]![0]).toBe(0);
       f.render(-4900);
-      expect(clock.tick).toBe(1);
-      expect(clock.elapsedMs).toBe(100);
+      expect(f.views.update.mock.calls[1]![0]).toBeCloseTo(.1, 3);
     } finally { f.loop.dispose(); }
   });
   it("reconciles resource handoffs after structural sync and before drawing every frame", () => {
@@ -157,15 +150,11 @@ describe("frame loop resident motion", () => {
     const f = fixture();
     f.views.actionDurationSeconds.mockReturnValue(1.034);
     f.views.playAction.mockReturnValue(true);
-    let pending = true;
-    f.loop.setCombatHits(() => {
-      if (!pending) return [];
-      pending = false;
-      return [{ atMs: 500, attacker: 'player', sourceId: 'player', targetId: 'archer', damage: 1,
-        hit: true, maxHit: 1, kind: 'melee', killed: false, spellId: null }];
-    });
     try {
       f.deps.clock.elapsedMs = 500; f.deps.clock.timeScale = 2;
+      f.loop.handleWorldAction({ sequence: 1, playerId: 'player', position: [0, 0, 0], regionId: 'fallowmarch', type: 'hit',
+        hit: { atMs: 500, attacker: 'player', sourceId: 'player', targetId: 'archer', damage: 1,
+          hit: true, maxHit: 1, kind: 'melee', killed: false, spellId: null } }, 0);
       f.render(16);
       expect(f.views.actionDurationSeconds).toHaveBeenCalledWith('archer', 'hit', 'left');
       expect(f.views.playAction).toHaveBeenCalledWith('archer', 'hit', { impactSide: 'left', durationSeconds: .517 });
@@ -173,35 +162,28 @@ describe("frame loop resident motion", () => {
   });
   it("renders committed enemy shots and clears interrupted flights, realm changes, resets and disposal", () => {
     const f = fixture();
-    let committed = true;
-    let id = 0;
-    let pending = true;
-    f.loop.setCombatAttackStarts(() => {
-      if (!pending) return [];
-      pending = false;
-      return [{ id: ++id, attacker: "enemy", sourceId: "archer", targetId: "player", kind: "ranged",
-        atMs: 0, contactAtMs: 1000, recoverAtMs: 1200 }];
-    }, () => committed);
+    f.source.mockReturnValue([{ id: "archer", position: [4, 0, 0] }] as never);
+    let id = 0, sequence = 0;
+    const base = { playerId: "player", position: [0, 0, 0] as const, regionId: "fallowmarch" as const };
+    const shoot = (): void => f.loop.handleWorldAction({ ...base, sequence: ++sequence, type: "attack", attack: { id: ++id, attacker: "enemy",
+      sourceId: "archer", targetId: "player", kind: "ranged", atMs: 0, contactAtMs: 1000, recoverAtMs: 1200 } }, 0);
     const mesh = (): THREE.InstancedMesh => f.deps.scene.overlayGroup.getObjectByName("enemy-projectiles") as THREE.InstancedMesh;
     try {
       f.deps.clock.elapsedMs = 500;
-      f.render(16);
+      shoot(); f.render(16);
       expect(mesh().count).toBe(1);
-      committed = false;
+      f.loop.handleWorldAction({ ...base, sequence: ++sequence, type: "attackCancelled", sourceId: "archer" }, 0);
       f.render(32);
       expect(mesh().count).toBe(0);
-      committed = true; pending = true;
-      f.render(48);
+      shoot(); f.render(48);
       expect(mesh().count).toBe(1);
       f.deps.store.get().player.regionId = "gravelmaw";
       f.render(64);
       expect(mesh().count).toBe(0);
-      pending = true;
-      f.render(80);
+      shoot(); f.render(80);
       f.loop.resetPresentation();
       expect(mesh().count).toBe(0);
-      pending = true;
-      f.render(96);
+      shoot(); f.render(96);
       expect(mesh().count).toBe(1);
       f.loop.dispose();
       expect(f.deps.scene.overlayGroup.children).toHaveLength(0);
@@ -210,13 +192,13 @@ describe("frame loop resident motion", () => {
 
   it("chooses hit side using the attacker's position relative to the target's facing", () => {
     const f = fixture();
-    f.loop.setCombatHits(() => [{ atMs: 0, attacker: "player", sourceId: "player", targetId: "archer",
-      damage: 1, hit: true, maxHit: 1, kind: "melee", killed: false, spellId: null }]);
+    const land = (sequence: number): void => f.loop.handleWorldAction({ sequence, playerId: "player", position: [0, 0, 0], regionId: "fallowmarch", type: "hit",
+      hit: { atMs: 0, attacker: "player", sourceId: "player", targetId: "archer", damage: 1, hit: true, maxHit: 1, kind: "melee", killed: false, spellId: null } }, 0);
     try {
-      f.render(16);
+      land(1); f.render(16);
       expect(f.views.playAction).toHaveBeenLastCalledWith("archer", "hit", { impactSide: "left" });
       f.deps.store.get().player.position = [8, 0, 0];
-      f.render(32);
+      land(2); f.render(32);
       expect(f.views.playAction).toHaveBeenLastCalledWith("archer", "hit", { impactSide: "right" });
     } finally { f.loop.dispose(); }
   });
@@ -226,7 +208,7 @@ describe("frame loop resident motion", () => {
       for (let frame = 1; frame <= 60; frame += 1) f.render(frame * 16);
       expect(f.refresh).toHaveBeenCalledTimes(60);
       expect(f.views.syncResidentMotion).toHaveBeenCalledTimes(60);
-      expect(f.views.syncResidentMotion).toHaveBeenLastCalledWith(0.375);
+      expect(f.views.syncResidentMotion).toHaveBeenLastCalledWith(1);
       expect(f.source).toHaveBeenCalledTimes(3);
       expect(f.views.sync).toHaveBeenCalledTimes(3);
       expect(f.order.slice(0, 3)).toEqual(["residency", "motion", "animation"]);
@@ -237,7 +219,7 @@ describe("frame loop resident motion", () => {
     } finally { f.loop.stop(); }
   });
 
-  it("uses the semantic pose while paused and replaces stale residency callbacks on reattachment", () => {
+  it("replaces stale residency callbacks on reattachment", () => {
     const f = fixture();
     try {
       f.render(16);
@@ -263,9 +245,8 @@ describe("frame loop resident motion", () => {
       progress: 0.4, curtainOpacity: 0, concealed: false,
     };
     f.loop.setPlayerRig(rig as unknown as CharacterRig);
-    f.loop.setTraversalPresentation(() => sample);
     try {
-      f.render(16);
+      f.loop.setRemoteTraversal(sample); f.render(16);
       expect(f.deps.store.get().player.position).toEqual([0, 0, 0]);
       expect(rig.setPosition).toHaveBeenLastCalledWith([1.25, 0.6, 0], Math.PI / 2);
       expect(f.deps.scene.syncPlayer).toHaveBeenLastCalledWith([1.25, 0.6, 0], Math.PI / 2);
@@ -273,12 +254,12 @@ describe("frame loop resident motion", () => {
       expect(rig.play).not.toHaveBeenCalled();
       expect(rig.syncTraversalPose).toHaveBeenLastCalledWith(sample);
       sample = { ...sample, concealed: true, position: [0, 0, 0], kind: "passage" };
-      f.render(32);
+      f.loop.setRemoteTraversal(sample); f.render(32);
       expect(rig.play).not.toHaveBeenCalled();
       expect(rig.syncTraversalPose).toHaveBeenLastCalledWith(sample);
       f.deps.store.get().player.position = [1.5, 0, 0];
       sample = null;
-      f.render(48);
+      f.loop.setRemoteTraversal(sample); f.render(48);
       expect(rig.syncTraversalPose).toHaveBeenLastCalledWith(null);
       expect(f.deps.scene.syncPlayer).toHaveBeenLastCalledWith([1.5, 0, 0], 0);
     } finally { f.loop.stop(); }

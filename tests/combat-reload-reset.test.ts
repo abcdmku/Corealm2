@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { createInitialState } from "../game/src/state/store.js";
 
 class MemoryStorage {
@@ -26,12 +26,10 @@ class MemoryStorage {
  */
 describe("combat state across a reload", () => {
   let storage: MemoryStorage;
-  let service: SaveService;
 
   beforeEach(() => {
     storage = new MemoryStorage();
     vi.stubGlobal("localStorage", storage);
-    service = new SaveService();
   });
 
   afterEach(() => {
@@ -47,9 +45,9 @@ describe("combat state across a reload", () => {
     state.combat.inCombatUntilMs = 295_000;
     state.combat.nextAttackAtMs = 298_400;
     state.combat.preferredSpellId = "skirlbolt";
-    service.save(state, 300_000);
 
-    const loaded = service.load();
+
+    const loaded = loadSerializedSave(serializeSave(state));
     expect(loaded.state, "save did not round-trip").not.toBeNull();
     const combat = loaded.state!.combat;
     expect(combat.targetId).toBeNull();

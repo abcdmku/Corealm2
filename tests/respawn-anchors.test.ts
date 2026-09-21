@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { RegionId, SkillId, Vec3 } from "../game/src/contracts.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { EventBus } from "../game/src/core/events.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { Store } from "../game/src/state/store.js";
 import { DeathSystem } from "../game/src/systems/death.js";
 import { InventorySystem } from "../game/src/systems/inventory.js";
@@ -117,8 +117,7 @@ describe("settlement respawn anchors", () => {
     const original = runtime();
     original.visit(COLDBRACE);
     original.visit(ROOTFALL);
-    const saves = new SaveService(false);
-    const loaded = saves.deserialize(saves.serialize(original.store.get()));
+    const loaded = loadSerializedSave(serializeSave(original.store.get()));
     expect(loaded.status).toBe("loaded");
     if (!loaded.state) throw new Error(loaded.reason ?? "Missing loaded state");
     const current = runtime();

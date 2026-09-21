@@ -23,7 +23,7 @@
 import type { EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import { CREATURE_RUN_SPEED } from "../app/config.js";
 import { distanceXZ, turnToward } from "../core/math.js";
 import { Rng } from "../core/rng.js";

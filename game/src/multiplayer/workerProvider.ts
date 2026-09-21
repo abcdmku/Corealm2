@@ -1,6 +1,7 @@
 import type { SessionCredentials, WorldDescriptor, WorldFixture, WorldProvider, WorldSession } from "../contracts.js";
 import type { ClientCatalog } from "../content/clientCatalog.js";
 import { LOCAL_PROVIDER_ID, LOCAL_WORLD_MANIFEST, localWorldDescriptor, packedSeed, parseLocalWorldManifest, type LegacyImport, type LocalHostReady, type LocalHostReply, type LocalHostRequest, type LocalStorageTrouble } from "../worker/localHostProtocol.js";
+import { sharedLocalWorldManifest } from "../content/catalogEntry.js";
 import type { DebugOp, DebugReply } from "../worker/localDebugProtocol.js";
 import type { LabFixtureSpec } from "../featureLab/labSpec.js";
 import { labTransferables, type LabOp, type LabWorldData } from "../worker/labProtocol.js";
@@ -198,8 +199,14 @@ export class WorkerWorldProvider implements WorldProvider {
  * the last session. The pack holds a fixed set, and anything else falls back to its first.
  */
 export async function resolveLocalSeed(assetBase: string, wanted: number, fetcher: typeof fetch = fetch): Promise<{ seed: number; fallback: boolean }> {
-  const response = await fetcher(new URL(`generated/${LOCAL_WORLD_MANIFEST}`, assetBase).href, { cache: "no-cache", credentials: "omit" });
-  if (!response.ok) throw new Error(`The local world manifest answered ${response.status}`);
-  const seed = packedSeed(parseLocalWorldManifest(await response.json()).pack.seeds, wanted);
+  const url = new URL(`generated/${LOCAL_WORLD_MANIFEST}`, assetBase).href;
+  // The entry fetched this manifest moments ago to find its catalog. The same answer serves here.
+  let manifest = sharedLocalWorldManifest(url);
+  if (!manifest) {
+    const response = await fetcher(url, { cache: "no-cache", credentials: "omit" });
+    if (!response.ok) throw new Error(`The local world manifest answered ${response.status}`);
+    manifest = parseLocalWorldManifest(await response.json());
+  }
+  const seed = packedSeed(manifest.pack.seeds, wanted);
   return { seed, fallback: seed !== wanted };
 }

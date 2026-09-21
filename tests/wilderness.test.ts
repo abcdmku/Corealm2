@@ -8,7 +8,7 @@ import { buildWorldTerrainSpec } from '../game/src/app/worldSpec.js';
 import { sampleOrganicBiomeWeights } from '../game/src/world/organicFields.js';
 import { blendBiomeSky } from '../game/src/render/biomeSky.js';
 import { createInitialState } from '../game/src/state/store.js';
-import { SaveService } from '../game/src/persistence/storage.js';
+import { loadSerializedSave, serializeSave } from '../game/src/persistence/storage.js';
 
 describe('northern wilderness and fantasy encounters', () => {
   it('confines every authored animal footprint to the starting area and resolves its actual occupant stats', () => {
@@ -55,14 +55,14 @@ describe('northern wilderness and fantasy encounters', () => {
   });
 
   it('loads wilderness saves and transfers earned quest kills and stage baselines exactly once', () => {
-    const state = createInitialState(7, 0), saves = new SaveService(false);
+    const state = createInitialState(7, 0);
     state.player.regionId = 'wilderness';
     state.player.position = [40, 9, 594];
     state.quests.eleven_empty_days = { status: 'active', stage: 1,
       counters: { 'kill:hog': 9, '@base:kill:hog': 7 }, flags: { walked_the_line: true } };
     state.quests.long_cairn = { status: 'active', stage: 6,
       counters: { 'kill:rat': 10, '@base:kill:rat': 6, 'kill:bear': 6, '@base:kill:bear': 5 }, flags: {} };
-    const loaded = saves.loadSerialized(saves.serialize(state));
+    const loaded = loadSerializedSave(serializeSave(state));
     expect(loaded.status).toBe('loaded');
     expect(loaded.state?.player.regionId).toBe('wilderness');
     expect(loaded.state?.quests.eleven_empty_days?.counters).toEqual({ 'kill:fen_crawler': 9, '@base:kill:fen_crawler': 7 });
@@ -70,12 +70,12 @@ describe('northern wilderness and fantasy encounters', () => {
       'kill:blind_cave_weaver': 10, '@base:kill:blind_cave_weaver': 6,
       'kill:vault_custodian': 6, '@base:kill:vault_custodian': 5,
     });
-    const twice = saves.loadSerialized(saves.serialize(loaded.state!));
+    const twice = loadSerializedSave(serializeSave(loaded.state!));
     expect(twice.state?.quests).toEqual(loaded.state?.quests);
   });
 
   it('merges prior fantasy kills with current families without losing progress or changing unrelated skeleton counters', () => {
-    const state = createInitialState(7, 0), saves = new SaveService(false);
+    const state = createInitialState(7, 0);
     state.quests.eleven_empty_days = { status: 'active', stage: 1, counters: {
       'kill:beetle_golem': 4, '@base:kill:beetle_golem': 2,
       'kill:fen_crawler': 1, '@base:kill:fen_crawler': 1,
@@ -90,7 +90,7 @@ describe('northern wilderness and fantasy encounters', () => {
     state.quests.the_carters_wager = { status: 'active', stage: 0,
       counters: { 'kill:skeleton_soldier': 2, '@base:kill:skeleton_soldier': 1 }, flags: {} };
     const unrelated = structuredClone(state.quests.the_carters_wager);
-    const loaded = saves.loadSerialized(saves.serialize(state));
+    const loaded = loadSerializedSave(serializeSave(state));
     expect(loaded.status).toBe('loaded');
     expect(loaded.state?.quests.eleven_empty_days).toEqual({ status: 'active', stage: 1,
       counters: { 'kill:fen_crawler': 5, '@base:kill:fen_crawler': 3 }, flags: { walked_the_line: true } });
@@ -100,7 +100,7 @@ describe('northern wilderness and fantasy encounters', () => {
       stones_given: 1,
     }, flags: { door_open: true } });
     expect(loaded.state?.quests.the_carters_wager).toEqual(unrelated);
-    const twice = saves.loadSerialized(saves.serialize(loaded.state!));
+    const twice = loadSerializedSave(serializeSave(loaded.state!));
     expect(twice.state?.quests).toEqual(loaded.state?.quests);
   });
 });

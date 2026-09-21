@@ -4,7 +4,7 @@ import { content } from "../game/src/content/index.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { EventBus } from "../game/src/core/events.js";
 import { SimClock } from "../game/src/core/time.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { addSkillXp, Store, type GameState } from "../game/src/state/store.js";
 import { DialogueSystem } from "../game/src/systems/dialogue.js";
 import { InventorySystem } from "../game/src/systems/inventory.js";
@@ -69,8 +69,7 @@ function runtime(saved?: GameState, withDoors = true) {
 }
 
 function reload(previous: ReturnType<typeof runtime>, withDoors = true) {
-  const saves = new SaveService(false);
-  const loaded = saves.deserialize(saves.serialize(previous.store.get()));
+  const loaded = loadSerializedSave(serializeSave(previous.store.get()));
   expect(loaded.status).toBe("loaded");
   if (!loaded.state) throw new Error(loaded.reason ?? "Missing loaded state");
   previous.quests.dispose();

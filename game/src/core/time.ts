@@ -80,3 +80,11 @@ export class SimClock {
     this.paused = false;
   }
 }
+
+/** A system that wants a slice of each simulation tick of a hosted world. */
+export interface TickSystem {
+  readonly name: string;
+  /** Lower runs earlier. Keep inside the PRD's documented order. */
+  readonly order: number;
+  tick(deltaMs: number, atMs: number): void;
+}

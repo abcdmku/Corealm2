@@ -5,6 +5,12 @@
  * and a WebMCP call reach the identical function, which is what makes agent parity a property of
  * the architecture rather than a claim in a document.
  *
+ * The class has two lives. A host (the server, or the local-play worker) builds one per player over
+ * the authoritative store and runs that player's commands through its synchronous methods. A page
+ * builds one as a `replica` over the replicated store: reads answer at once from what the session
+ * sent, and every write is a command `submit()` hands to the joined session. A replica refuses the
+ * synchronous writes, because running them would change a copy nobody else can see.
+ *
  * Nothing here throws across the boundary. Failures come back as `Result<T>`.
  *
  * FROZEN. Only the root edits this file.
@@ -29,7 +35,6 @@ import { distanceXZ } from "../core/math.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { content } from "../content/index.js";
 import type { CommandOutcome, GameCommand, WorldSession } from "../contracts.js";
-import { LocalSession } from "../multiplayer/localSession.js";
 import { magicMaxHit } from "../systems/combat.js";
 import { SPELL_RUNES } from "../content/spells.js";
 import {
@@ -151,13 +156,11 @@ type ShopViewLike = import("../contracts.js").ShopView;
 
 export class CorealmGameApi implements GameApiContract {
   private commandSession: WorldSession | null = null;
-  private commandsBlocked = false;
-  private localSession: LocalSession | null = null;
-  setCommandSession(session: WorldSession | null, pending = false): void {
-    this.commandSession = session; this.commandsBlocked = pending || session !== null;
-  }
+  /** True on a page: the store is a replica, so the synchronous writes below are refused. */
+  private readonly commandsBlocked: boolean;
+  /** The session a replica's commands go to. Null between sessions, when `submit` rejects. */
+  setCommandSession(session: WorldSession | null): void { this.commandSession = session; }
 
-  isOnlineSession(): boolean { return this.commandsBlocked; }
   hunt(op: "refresh" | "accept" | "claim" | "abandon", offerId?: string): Result<unknown> {
     if (this.commandsBlocked) return err("UNAVAILABLE", "Use asynchronous command submission in multiplayer");
     const hunts = this.hooks.hunts;
@@ -172,22 +175,8 @@ export class CorealmGameApi implements GameApiContract {
   }
   async submit(input: GameCommand): Promise<CommandOutcome> {
     if (this.commandSession) return this.commandSession.command(input);
-    if (this.commandsBlocked) return { status: "rejected", sequence: 0, tick: this.clock.tick,
+    return { status: "rejected", sequence: 0, tick: this.clock.tick,
       error: { code: "UNAVAILABLE", message: "Waiting for an authoritative world snapshot" } };
-    const api = this;
-    this.localSession ??= new LocalSession("offline", this.store.get().player.id, {
-      get tick() { return api.clock.tick; },
-      execute(command) {
-        if (command.method === "chat" || command.method === "party" || command.method === "who") return err("UNAVAILABLE", "Join a multiplayer world first.");
-        if (command.method === "steer") {
-          api.movement.setDirectInput({ strafe: command.args[0], forward: -command.args[1], cameraYaw: 0 });
-          return ok({ steering: true });
-        }
-        const method = api[command.method] as (...args: unknown[]) => Result<unknown>;
-        return method.apply(api, command.args);
-      },
-    });
-    return this.localSession.command(input);
   }
   readonly hooks: SystemHooks = {};
   private movementCommandsEnabled = true;
@@ -209,7 +198,8 @@ export class CorealmGameApi implements GameApiContract {
     private readonly nav: Navigation,
     private readonly movement: Movement,
     private readonly clock: SimClock,
-  ) {}
+    options: { replica?: boolean } = {},
+  ) { this.commandsBlocked = options.replica === true; }
 
   register<K extends keyof SystemHooks>(key: K, hook: NonNullable<SystemHooks[K]>): void {
     this.hooks[key] = hook;

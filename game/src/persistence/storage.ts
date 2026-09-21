@@ -1,18 +1,20 @@
 /**
- * Typed persistence over localStorage. The only place the game touches browser storage.
+ * The load pipeline for the old single-character save text, plus the matching serializer.
+ *
+ * Nothing here touches browser storage. The page no longer keeps a save of its own: a character
+ * lives with its host. What remains is reading the JSON an older build wrote, for the one-time
+ * migration of `localStorage["corealm.save.v1"]` and for the debug surface's save import.
  *
  * Content-derived values (maxHealth, skill levels, prices) are recomputed on load rather than
  * trusted, so a content rebalance applies to existing saves.
  */
-import { SAVE_VERSION, createInitialState, type GameState } from "../state/store.js";
+import { createInitialState, type GameState } from "../state/store.js";
 import { levelForXp } from "../content/xp.js";
 import { CAMPFIRE_FUELS } from "../content/gatheringProductionTiers.js";
 import { SKILL_IDS, type RegionId } from "../contracts.js";
 import { migrate, type MigrationResult } from "./migrate.js";
 import { validateSaveState } from "./validate.js";
 import { RECOVERY_CACHE_TTL_MS } from "../systems/death.js";
-
-const SAVE_KEY = "corealm.save.v1";
 
 /** Runtime membership check for the frozen RegionId union. Record keeps this list exhaustive. */
 const REGION_IDS: Readonly<Record<RegionId, true>> = {
@@ -28,137 +30,42 @@ const REGION_IDS: Readonly<Record<RegionId, true>> = {
 };
 
 export interface LoadOutcome {
-  status: "loaded" | "empty" | "failed";
+  status: "loaded" | "failed";
   state?: GameState;
   reason?: string;
 }
 
-/** The original storage record stays untouched while this recovery notice is present. */
-export interface SaveRecovery {
-  reason: string;
-  raw: string | null;
+/** Parses save text, migrates it to the current version, repairs its shape and validates it. */
+export function loadSerializedSave(json: string): LoadOutcome {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(json);
+  } catch {
+    return { status: "failed", reason: "Save is not valid JSON" };
+  }
+
+  let result: MigrationResult;
+  try {
+    result = migrate(parsed);
+  } catch {
+    return { status: "failed", reason: "Save migration failed" };
+  }
+  if (!result.ok || !result.state) return { status: "failed", reason: result.reason ?? "Migration failed" };
+
+  try {
+    const state = recompute(result.state);
+    const invalid = validateSaveState(state);
+    if (invalid) return { status: "failed", reason: invalid };
+    repairRecoveryCacheClock(state, Date.now());
+    return { status: "loaded", state };
+  } catch {
+    return { status: "failed", reason: "Save repair failed" };
+  }
 }
 
-export class SaveService {
-  private available: boolean;
-  private recovery: SaveRecovery | null = null;
-  private onlineSession = false;
-
-  /** All offline write paths share this guard, including recovery and explicit reset. */
-  setOnlineSession(active: boolean): void { this.onlineSession = active; }
-
-  constructor(persistent = true) {
-    // Focused real-engine sessions must never load or overwrite the player's normal save. Keeping
-    // the same service with persistence disabled also keeps GameLoop's autosave path unchanged.
-    this.available = persistent && detectStorage();
-  }
-
-  isAvailable(): boolean {
-    return this.available;
-  }
-
-  /** A copy suitable for the title/settings recovery flow, including an exact-byte export. */
-  getRecovery(): SaveRecovery | null {
-    return this.recovery ? { ...this.recovery } : null;
-  }
-
-  save(state: GameState, nowMs: number): boolean {
-    if (!this.available || this.recovery) return false;
-    return this.write(state, nowMs);
-  }
-
-  private write(state: GameState, nowMs: number): boolean {
-    if (this.onlineSession) return false;
-    try {
-      const payload = JSON.parse(JSON.stringify(state)) as GameState;
-      payload.meta.saveVersion = SAVE_VERSION;
-      payload.meta.lastSavedAtMs = nowMs;
-      localStorage.setItem(SAVE_KEY, JSON.stringify(payload));
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  load(): LoadOutcome {
-    if (!this.available) return { status: "empty" };
-    let raw: string | null = null;
-    try {
-      raw = localStorage.getItem(SAVE_KEY);
-    } catch {
-      this.recovery = { reason: "localStorage read failed", raw: null };
-      return { status: "failed", reason: "localStorage read failed" };
-    }
-    if (raw === null) {
-      this.recovery = null;
-      return { status: "empty" };
-    }
-
-    const loaded = this.loadSerialized(raw);
-    this.recovery = loaded.status === "failed"
-      ? { reason: loaded.reason ?? "Save could not be loaded", raw }
-      : null;
-    return loaded;
-  }
-
-  /** Runs the same import pipeline as load(), without writing the supplied text to localStorage. */
-  loadSerialized(json: string): LoadOutcome {
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(json);
-    } catch {
-      return { status: "failed", reason: "Save is not valid JSON" };
-    }
-
-    let result: MigrationResult;
-    try {
-      result = migrate(parsed);
-    } catch {
-      return { status: "failed", reason: "Save migration failed" };
-    }
-    if (!result.ok || !result.state) return { status: "failed", reason: result.reason ?? "Migration failed" };
-
-    try {
-      const state = recompute(result.state);
-      const invalid = validateSaveState(state);
-      if (invalid) return { status: "failed", reason: invalid };
-      repairRecoveryCacheClock(state, Date.now());
-      return { status: "loaded", state };
-    } catch {
-      return { status: "failed", reason: "Save repair failed" };
-    }
-  }
-
-  /** Compatibility name used by callers that treat exported text as a deserialization boundary. */
-  deserialize(raw: string): LoadOutcome {
-    return this.loadSerialized(raw);
-  }
-
-  /** Explicit recovery replaces the rejected record only after the replacement is valid. */
-  recoverSerialized(json: string, nowMs = Date.now()): LoadOutcome {
-    const loaded = this.loadSerialized(json);
-    if (loaded.status !== "loaded" || !loaded.state) return loaded;
-    if (!this.available || !this.write(loaded.state, nowMs)) {
-      return { status: "failed", reason: "Recovered save could not be written" };
-    }
-    this.recovery = null;
-    return loaded;
-  }
-
-  /** The raw JSON that would be written. Used by the debug API and the export-on-failure path. */
-  serialize(state: GameState): string {
-    return JSON.stringify(state);
-  }
-
-  clear(): void {
-    if (!this.available || this.onlineSession) return;
-    try {
-      localStorage.removeItem(SAVE_KEY);
-      this.recovery = null;
-    } catch {
-      /* nothing useful to do */
-    }
-  }
+/** The save text for a state, in the form loadSerializedSave reads. */
+export function serializeSave(state: GameState): string {
+  return JSON.stringify(state);
 }
 
 /**
@@ -395,15 +302,4 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isRegionId(value: unknown): value is RegionId {
   return typeof value === "string" && Object.prototype.hasOwnProperty.call(REGION_IDS, value);
-}
-
-function detectStorage(): boolean {
-  try {
-    const probe = "__corealm_probe__";
-    localStorage.setItem(probe, "1");
-    localStorage.removeItem(probe);
-    return true;
-  } catch {
-    return false;
-  }
 }

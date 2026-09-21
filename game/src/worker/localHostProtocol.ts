@@ -19,6 +19,8 @@ export interface LocalWorldManifest {
   version: 1;
   /** The server catalog: every compiled table plus `formulaRevision`. The file name carries a hash of its bytes. */
   catalog: { revision: string; formulaRevision: string; file: string; bytes: number };
+  /** The client projection of that catalog, which the game page installs before it imports the app. The worker never reads it. */
+  clientCatalog: { revision: string; file: string; bytes: number };
   /** The server world pack. One file name, so its URL carries `revision` as a query to get past a cache. */
   pack: { file: string; revision: string; seeds: number[]; bytes: number };
 }
@@ -27,6 +29,7 @@ export function parseLocalWorldManifest(value: unknown): LocalWorldManifest {
   const file = (input: unknown): input is string => typeof input === "string" && /^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$/.test(input);
   if (!record(value) || value.version !== 1 || !record(value.catalog) || !record(value.pack)
     || typeof value.catalog.revision !== "string" || typeof value.catalog.formulaRevision !== "string" || !file(value.catalog.file)
+    || !record(value.clientCatalog) || typeof value.clientCatalog.revision !== "string" || !file(value.clientCatalog.file)
     || !file(value.pack.file) || typeof value.pack.revision !== "string" || !Array.isArray(value.pack.seeds) || value.pack.seeds.length === 0
     || !value.pack.seeds.every(Number.isSafeInteger)) throw new Error("The local world manifest is malformed");
   return value as unknown as LocalWorldManifest;

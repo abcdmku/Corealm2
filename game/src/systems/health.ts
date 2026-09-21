@@ -19,7 +19,7 @@ import type { EntityId, EquipmentBonuses } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import { computeMaxHealth } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import { HEALTH_REGEN_INTERVAL_MS, LOW_HEALTH_FRACTION } from "../app/config.js";
 
 /** Satisfied exactly by `EquipmentSystem` in systems/equipment.ts. */

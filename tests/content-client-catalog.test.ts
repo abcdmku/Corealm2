@@ -36,11 +36,17 @@ describe("compile outputs", () => {
 describe("client catalog", () => {
   const client = fromDisk.client, text = serializeClientCatalog(client);
   it("holds presentation and player-visible tables and nothing the server keeps", () => {
-    expect(Object.keys(client.tables)).toEqual([...CLIENT_TABLES, "regions", "creatures", "enemies"]);
+    expect(Object.keys(client.tables)).toEqual([...CLIENT_TABLES, "regions", "worldResources", "creatures", "enemies", "compiledCreatures", "species", "dialogue"]);
     for (const secret of ["lootRolls", "lootTables", "habitats", "groupsByRegion", "creatureByGroup", "placements", "encounters", "sourceMap",
-      "aggroRadius", "maxHit", "attackLevel", "maxHealth", "\"stats\"", "\"loot\"", "inheritedFields", "respawnMs"]) expect(text.includes(secret), secret).toBe(false);
-    expect(client.tables).not.toHaveProperty("quests");
-    expect(client.tables).not.toHaveProperty("dialogue");
+      "aggroRadius", "maxHit", "attackLevel", "maxHealth", "\"loot\"", "inheritedFields", "respawnMs"]) expect(text.includes(secret), secret).toBe(false);
+    // The game page installs this catalog, so its content modules find the names they read. A combat block is cut to its label,
+    // the quest log's text is here because a player reads it, and dialogue text reaches a page only through the replicated conversation.
+    expect(client.tables.dialogue).toEqual([]);
+    expect(client.tables).toHaveProperty("quests");
+    for (const row of [...client.tables.species, ...client.tables.compiledCreatures.flatMap(creature => creature.presentation ? [creature.presentation as Record<string, unknown>] : [])]) {
+      expect(Object.keys(row.stats as object).every(key => ["id", "name", "family", "tier"].includes(key))).toBe(true);
+    }
+    for (const creature of client.tables.compiledCreatures) expect(Object.keys(creature).every(key => ["assetId", "availability", "enemy", "id", "level", "presentation", "profileId", "scale"].includes(key))).toBe(true);
     expect(Object.keys(client.tables.enemies.find(enemy => enemy.id === "redbrush_fox_t1")!)).toEqual(["id", "name", "family", "tier"]);
     expect(client.tables.enemies.find(enemy => enemy.id === "redbrush_fox_t1")).toEqual({ id: "redbrush_fox_t1", name: "Red Fox", family: "redbrush_fox", tier: 1 });
     expect(client.tables.creatures.find(creature => creature.id === "redbrush_fox")).toEqual({ id: "redbrush_fox", assetId: "creature_redbrush_fox", scale: 1,
@@ -52,8 +58,8 @@ describe("client catalog", () => {
     const server = JSON.stringify(fromDisk.catalog);
     const sizes = { client: text.length, clientGzip: gzipSync(text, { level: 9 }).length, server: server.length, serverGzip: gzipSync(server, { level: 9 }).length };
     console.log(JSON.stringify({ event: "catalog-sizes", ...sizes }));
-    expect(sizes.client).toBeLessThan(sizes.server / 4);
-    expect(sizes.clientGzip).toBeLessThan(150_000);
+    expect(sizes.client).toBeLessThan(sizes.server / 3);
+    expect(sizes.clientGzip).toBeLessThan(200_000);
   });
   it("parses what it serialised and refuses another revision, another version and a table without ids", () => {
     const revision = client.revision;

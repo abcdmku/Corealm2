@@ -98,4 +98,21 @@ describe("basic spell replacement",()=>{
     expect(vfx.liveParticles()).toBeLessThanOrEqual(10880);expect(vfx.getState().every(s=>s.dropped===0)).toBe(true);
     vfx.update(5000);expect(vfx.liveParticles()).toBe(0);vfx.dispose();expect(parent.children).toHaveLength(0);
   });
+  it("holds a cast's visual until the pools' programs are usable, and drops one that waited past its flight",()=>{
+    let ready=false;
+    const parent=new THREE.Group(),vfx=new SpellVfx({parent,camera:new THREE.PerspectiveCamera(),groundHeightAt:()=>0,ready:()=>ready});
+    const bolt={element:"wind" as const,rung:"bolt" as const,from:[0,1.2,0] as [number,number,number],to:[0,0,12] as [number,number,number],hit:true};
+    try{
+      vfx.cast({...bolt,id:"early"},1000);vfx.update(1100);
+      expect(vfx.getState()).toEqual([]);
+      ready=true;vfx.update(1300);
+      expect(vfx.getState().map(state=>state.id)).toEqual(["early"]);
+      vfx.clear();ready=false;
+      vfx.cast({...bolt,id:"stale"},5000);vfx.update(5100);
+      ready=true;vfx.update(7000);
+      expect(vfx.getState()).toEqual([]);
+      vfx.cast({...bolt,id:"later"},7100);
+      expect(vfx.getState().map(state=>state.id)).toEqual(["later"]);
+    }finally{vfx.dispose();}
+  });
 });

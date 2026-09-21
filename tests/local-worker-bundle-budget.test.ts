@@ -24,3 +24,16 @@ it("fails a worker that outgrows its budget or carries the content it must fetch
   expect(bundled.localWorkerCatalogFiles).toEqual(["assets/worker/localHostRuntime-a.js"]);
   expect(() => assertBundleBudgets(bundled)).toThrow("bundles content tables it must fetch instead");
 });
+
+it("fails a page script that carries loot rolls, habitats or the compiled catalog, and counts the app chunk as first-load code", () => {
+  const app = (code: string): BundleArtifact => ({ type: "chunk", fileName: "assets/chunks/boot-a.js", name: "boot", code, isEntry: false, imports: [], modules: { "D:/repo/game/src/app/boot.ts": {} } } as BundleArtifact);
+  const clean = analyzeBundleBudget(bundle(app(`const unknownEnemy={lootRolls:[]};const x="${noise(30_000)}"`)));
+  expect(clean.pageCatalogFiles).toEqual([]);
+  expect(clean.initialChunks).toContain("assets/chunks/boot-a.js");
+  expect(clean.applicationInitialJsGzipBytes).toBeGreaterThan(15_000);
+  for (const leak of [`{id:"frog",lootRolls:[{itemId:"hide",chance:.5}]}`, `{"habitats":[{"id":"h1","anchors":[]}]}`, `{compiledCreatures:[{id:"frog"}]}`]) {
+    const leaked = analyzeBundleBudget(bundle(app(`const tables=${leak}`)));
+    expect(leaked.pageCatalogFiles).toEqual(["assets/chunks/boot-a.js"]);
+    expect(() => assertBundleBudgets(leaked)).toThrow("the page bundles content tables it must fetch instead");
+  }
+});

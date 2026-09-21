@@ -46,15 +46,16 @@ function fixture() {
   loop.setPlayerRig(rig as unknown as CharacterRig);
   const phases: Array<{ kind: CombatHit["kind"]; hit: boolean; phase: string }> = [];
   loop.setCombatPresentationHandler((hit, phase) => phases.push({ kind: hit.kind, hit: hit.hit, phase }));
-  let starts: CombatAttackStart[] = [];
-  let hits: CombatHit[] = [];
-  loop.setCombatAttackStarts(() => starts.splice(0, starts.length));
-  loop.setCombatHits(() => hits.splice(0, hits.length));
+  // Attacks and hits reach the page as world actions from the host.
+  const base = { playerId: "player", position: [0, 0, 0] as const, regionId: "fallowmarch" as const };
+  let sequence = 0;
   loop.start();
   const started = performance.now();
   const start: CombatAttackStart = { id: 1, atMs: 0, contactAtMs: 460, recoverAtMs: 1533, attacker: "player", sourceId: "player", targetId: "bear", kind: "melee" };
   const hit: CombatHit = { atMs: 460, attacker: "player", sourceId: "player", targetId: "bear", damage: 3, hit: true, maxHit: 5, kind: "melee", killed: false, spellId: null };
-  return { loop, motion, phases, start, hit, queueStart: (s: CombatAttackStart) => { starts.push(s); }, queueHit: (h: CombatHit) => { hits.push(h); },
+  return { loop, motion, phases, start, hit,
+    queueStart: (s: CombatAttackStart) => { loop.handleWorldAction({ ...base, sequence: ++sequence, type: "attack", attack: s }, 0); },
+    queueHit: (h: CombatHit) => { loop.handleWorldAction({ ...base, sequence: ++sequence, type: "hit", hit: h }, 0); },
     render: (offset: number) => frame!(started + offset) };
 }
 

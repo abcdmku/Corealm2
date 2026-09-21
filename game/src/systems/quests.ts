@@ -45,7 +45,7 @@ import { err, ok } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { SimClock } from "../core/time.js";
-import type { TickSystem } from "../app/loop.js";
+import type { TickSystem } from "../core/time.js";
 import type { InteractionContext, InteractionDispatcher } from "../world/interactions.js";
 import type { QuestDef, QuestGrant, QuestPredicate, QuestStageDef } from "../content/quests.js";
 import { QUESTS, quest } from "../content/quests.js";

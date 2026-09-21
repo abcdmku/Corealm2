@@ -58,11 +58,10 @@ a harness that wants a specific world joined as soon as the first frame is drawn
 
 Local play runs in a Web Worker: the page renders and predicts, and the world lives in the
 worker, joined over the same session a socket uses. `?play=local` joins it as soon as the first
-frame is drawn. A page with no server to offer joins it on its own when loading finishes, as the
-old local game simply started. `getState().ready` is true once the local world is joined and its
-first snapshot is what the page shows. Two escape hatches:
+frame is drawn. A page with no server to offer joins it on its own when loading finishes.
+`getState().ready` is true once the local world is joined and its first snapshot is what the page
+shows. The page has no simulation of its own in any mode. One escape hatch:
 
-- `?local=main` runs the old main-thread game. It exists until the old path is deleted.
 - `?local=memory` runs the worker and stores nothing. Use it when a harness opens several
   pages in one browser context: the stored local world belongs to one tab at a time, and a
   second tab is told so instead of being let in.
@@ -89,8 +88,10 @@ every mode), draws the lab scene, and then describes the world to the worker onc
 sampler, the baked navmesh, collision solids, walk-surface bounds, route graph, door barriers,
 habitats, forest trees, asset measurements and every entity that is more than scenery
 (`LabWorldData` in `game/src/worker/labProtocol.ts`). The worker builds its world from the spec
-and that description and simulates it. The page never simulates: `__corealmLocalWorker.observe()`
-reports `simTicks: 0` in every lab. A lab always uses the in-memory store, so it starts clean and
+and that description and simulates it. The page never simulates: it has no tick to run. A lab
+page installs the full catalog the build publishes for the worker, because it assembles whole
+entities to send; the authored game page installs only the client catalog. A lab always uses the
+in-memory store, so it starts clean and
 writes nothing to IndexedDB or to the old `corealm.save.v1` save. Lab routes still need no flag.
 
 `window.__featureLab` follows the same rule as `__gameDebug`. Methods that change the simulation

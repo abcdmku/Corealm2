@@ -104,8 +104,8 @@ try {
   await page.locator("#boot-screen").waitFor({ state: "detached", timeout: 120_000 });
   await page.waitForFunction(() => document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") === "connected", null, { timeout: 120_000 });
   check("playLocalJoinsTheLocalWorld", !await panel.isVisible() && await page.evaluate(() => {
-    const seen = window.__corealmLocalWorker?.observe() as { running: boolean; world: { providerId: string }; simTicks: number } | undefined;
-    return seen?.running === true && seen.world.providerId === "local" && seen.simTicks === 0;
+    const seen = window.__corealmLocalWorker?.observe() as { running: boolean; world: { providerId: string } } | undefined;
+    return seen?.running === true && seen.world.providerId === "local";
   }));
   check("playLocalLeavesTheMenuClosed", !await page.getByRole("dialog", { name: "Corealm", exact: true }).isVisible());
   check("playLocalRemembered", await page.evaluate(() => localStorage.getItem("corealm.play.v1")) === "local");

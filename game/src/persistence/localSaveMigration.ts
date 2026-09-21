@@ -18,7 +18,7 @@
  */
 import type { PlayerCharacter } from "../contracts.js";
 import { playerSessionState, type GameState, type PlayerSessionState } from "../state/store.js";
-import { SaveService } from "./storage.js";
+import { loadSerializedSave } from "./storage.js";
 
 /** The old single-record save. */
 export const LEGACY_SAVE_KEY = "corealm.save.v1";
@@ -61,7 +61,7 @@ export function readLegacySave(
   const raw = read(storage, LEGACY_SAVE_KEY);
   if (raw === null || raw === "") return null;
   backup(storage, raw);
-  const loaded = new SaveService(false).loadSerialized(raw);
+  const loaded = loadSerializedSave(raw);
   if (loaded.status !== "loaded" || !loaded.state) {
     onRejected({ reason: loaded.reason ?? "Save could not be loaded", raw });
     return null;

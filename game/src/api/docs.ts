@@ -266,17 +266,21 @@ export function buildDocs(): DocEntry[] {
   }
 
   // ---------------------------------------------------------------- enemies
+  // A game page runs on the client catalog, which names a creature and says nothing of how it fights: those numbers are its
+  // host's. A page or tool that holds the full catalog (the player guide build, a lab) writes the full entry.
   for (const enemy of content.allEnemies()) {
+    const measured = Number.isFinite(enemy.maxHealth) && Number.isFinite(enemy.attackSpeedMs);
     entries.push({
       id: `enemy-${enemy.id}`,
       title: enemy.name,
       section: "Enemies",
-      body:
-        `${enemy.name} is level ${enemyCombatLevel(enemy)} with ${enemy.maxHealth} health. `
-        + `It hits for up to ${enemy.maxHit}, attacks every ${(enemy.attackSpeedMs / 1000).toFixed(1)} `
-        + `seconds, and has ${enemy.armour} armour and ${enemy.magicArmour} magic armour. `
-        + `It is ${enemy.behaviour}${enemy.behaviour === "aggressive" ? ` and attacks on sight within ${enemy.aggroRadius} metres` : ""}.`,
-      keywords: [enemy.id, enemy.family, `level ${enemyCombatLevel(enemy)}`],
+      body: measured
+        ? `${enemy.name} is level ${enemyCombatLevel(enemy)} with ${enemy.maxHealth} health. `
+          + `It hits for up to ${enemy.maxHit}, attacks every ${(enemy.attackSpeedMs / 1000).toFixed(1)} `
+          + `seconds, and has ${enemy.armour} armour and ${enemy.magicArmour} magic armour. `
+          + `It is ${enemy.behaviour}${enemy.behaviour === "aggressive" ? ` and attacks on sight within ${enemy.aggroRadius} metres` : ""}.`
+        : `${enemy.name} is a tier ${enemy.tier} creature of the ${enemy.family} family. Inspect one in the world to see its level and health.`,
+      keywords: measured ? [enemy.id, enemy.family, `level ${enemyCombatLevel(enemy)}`] : [enemy.id, enemy.family, `tier ${enemy.tier}`],
     });
   }
 

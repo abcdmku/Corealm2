@@ -3,7 +3,7 @@ import type { ItemId, RegionId, Result, SemanticEntity, Vec3 } from "../game/src
 import { err, ok } from "../game/src/contracts.js";
 import type { CampfireFuelDef } from "../game/src/content/index.js";
 import { EventBus } from "../game/src/core/events.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave } from "../game/src/persistence/storage.js";
 import { Store } from "../game/src/state/store.js";
 import { ActivitySystem } from "../game/src/systems/activity.js";
 import {
@@ -135,7 +135,7 @@ describe("campfire persistence integrity", () => {
     before.finishBuild();
 
     expect(before.store.get().world.campfire?.id).toBe(CAMPFIRE_SAVE_ID);
-    const loaded = new SaveService().loadSerialized(JSON.stringify(before.store.get()));
+    const loaded = loadSerializedSave(JSON.stringify(before.store.get()));
     expect(loaded.status).toBe("loaded");
     expect(loaded.state?.world.campfire).toEqual(before.store.get().world.campfire);
 

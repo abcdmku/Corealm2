@@ -12,7 +12,13 @@ interface CompiledWorld {
 }
 /** Player builds read only the last catalog accepted by the source compiler. */
 export type { CompiledWorld };
-const world = RESOLVED_TABLES.world as CompiledWorld;
+/**
+ * A host's catalog carries the whole world table. A game page runs on the client projection, which carries region geometry
+ * under `regions`, resource clusters under `worldResources` (terrain is shaped around them) and no population at all: a page draws the world and the host fills it.
+ */
+const world: CompiledWorld = 'world' in RESOLVED_TABLES ? RESOLVED_TABLES.world as CompiledWorld
+  : { regions: RESOLVED_TABLES.regions as WorldRegionGeometry[], encounters: [], placements: [],
+      resources: (RESOLVED_TABLES.worldResources ?? []) as ResourcePlacement[], groupsByRegion: {}, habitats: [], creatureByGroup: {} };
 export const ENCOUNTER_DEFINITIONS = world.encounters;
 export const WORLD_PLACEMENTS = world.placements;
 export const RESOURCE_PLACEMENTS = world.resources;
@@ -24,6 +30,7 @@ export const WORLD_CONTENT = {
 };
 /** After a live publish: spawn groups, habitats and group creatures from the new world table. The source collections above keep their import-time rows. */
 export function reindexWorldContent(): void {
+  if (!('world' in RESOLVED_TABLES)) return;
   const next = RESOLVED_TABLES.world as CompiledWorld;
   const fill = <V>(map: Map<string, V>, rows: Record<string, V>) => { map.clear(); for (const [id, row] of Object.entries(rows)) map.set(id, row); };
   fill(WORLD_CONTENT.groupsByRegion, next.groupsByRegion); fill(WORLD_CONTENT.creatureByGroup, next.creatureByGroup);

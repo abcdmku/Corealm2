@@ -110,6 +110,12 @@ function magicCommandRuntime() {
     clock,
   );
   api.register("combat", combat.hook());
+  // A tool submits a command to the joined session. Here the session is a host in miniature: it runs the command on this same executor.
+  api.setCommandSession({ id: "test", world: null, playerId: "player", subscribe: () => () => {}, close: async () => {},
+    command: async (command) => {
+      const result = ((api as unknown as Record<string, unknown>)[command.method] as (...args: unknown[]) => { ok: boolean; value?: unknown; error?: { code: string; message: string } }).apply(api, command.args);
+      return result.ok ? { status: "accepted", sequence: 1, tick: 0, result: result.value } : { status: "rejected", sequence: 1, tick: 0, error: result.error! };
+    } });
   return { api, enemy, store, tool: findTool(createTools(api), "corealm_attack") };
 }
 

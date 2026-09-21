@@ -8,7 +8,7 @@ import { totalXpAt } from "../game/src/content/xp.js";
 import { EventBus } from "../game/src/core/events.js";
 import { RngStreams } from "../game/src/core/rng.js";
 import { SimClock } from "../game/src/core/time.js";
-import { SaveService } from "../game/src/persistence/storage.js";
+import { loadSerializedSave, serializeSave } from "../game/src/persistence/storage.js";
 import { createInitialState, Store } from "../game/src/state/store.js";
 import { ActivitySystem } from "../game/src/systems/activity.js";
 import { GatheringSystem, type NodeRuntime } from "../game/src/systems/gathering.js";
@@ -233,8 +233,7 @@ describe("gathering event and save integrity", () => {
     if (before.entity.resource) before.entity.resource.remaining = respawned.remaining;
     expect(respawned.remaining).toBeLessThan(respawnCapacity);
 
-    const saves = new SaveService();
-    const loaded = saves.loadSerialized(saves.serialize(before.store.get()));
+    const loaded = loadSerializedSave(serializeSave(before.store.get()));
     expect(loaded.status).toBe("loaded");
     const persisted = loaded.state?.world.nodes[before.entity.id];
     expect(persisted).toEqual(respawned);
@@ -263,7 +262,7 @@ describe("gathering event and save integrity", () => {
     };
     delete (legacy.world.nodes.test_grithe_seam as Partial<NodeRuntime>).maxYields;
 
-    const loaded = new SaveService().loadSerialized(JSON.stringify(legacy));
+    const loaded = loadSerializedSave(JSON.stringify(legacy));
     expect(loaded.status).toBe("loaded");
     expect(loaded.state?.world.nodes.test_grithe_seam).toEqual({
       remaining: 4,
