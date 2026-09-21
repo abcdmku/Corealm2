@@ -34,9 +34,15 @@ yet, what the known limits are, and what merging to `main` still needs.
 - The rebuilt Windows executable reports `0.1.0`; the Linux executable boots under Ubuntu WSL.
   Guest-mode `/admin` intentionally returns `501 admin_unavailable`; the release smoke now checks
   that policy instead of expecting a guest server to expose administration.
-- Deployment backed up the test executable and database, copied in the new executable and started
-  identity. Automatic tool approval rejected starting the public TLS proxy. The public game restart,
-  health checks and selector check are therefore still pending; no content was published to that server.
+- Deployment is running at `https://ravenwood.io:4443`, with identity at port `4444`. After the owner
+  started the TLS proxy, the rebuilt game server started both worlds and migrated storage from schema
+  3 to 4. Both public health checks and game readiness pass. The deployed admin page loads without
+  browser errors and sends sign-in to the identity service's username/password page.
+- The migrated database initially recorded an unknown base as `0.0.0`. Previewing and applying the
+  bundled `0.1.0` base kept both server-specific loot edits, with no conflicts or changed content tables.
+  Before/after source hashes match. Both worlds now report `0.1.0`, and the built client's desktop and
+  phone selectors were checked against live discovery. The Pages client still needs its identity URL
+  and the branch deployment before account play can be checked there; see the merge checklist below.
 
 ## Not verified
 
