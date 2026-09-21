@@ -157,5 +157,19 @@ lifecycle and full-world checks 120 seconds. Keep performance measurements separ
 builds and other rendering work. An overrun is a failed budget, not permission to raise it.
 CI's configured workflow timeout includes installation and release builds.
 
+Those numbers describe a developer machine. `docs.yml` sets `COREALM_LAB_CI=1`, which scales
+two budgets in `tools/feature-lab-test.ts` for a shared hosted runner with no GPU: the
+boot-to-readiness wait and the wall-clock ceiling. Both only ever measured the machine.
+Every gameplay budget — an interaction taking effect, a structure rebuilding — keeps its
+strict value there, so a shard that gets slower at what it proves still fails in CI. Do not
+reach for that flag locally; an overrun on your own machine is the failure it looks like.
+
+The final-world smoke test (`npm run smoke -- --run runs/corealm`) needs a real GPU, so it
+does not run in CI at all. Under headless Chromium's SwiftShader fallback it never reaches
+the first simulation tick; with `--hardware` it passes. `docs.yml` keeps it as a named job
+that stays skipped until the repository variable `COREALM_GPU_RUNNER` names a self-hosted
+GPU runner. Run it on hardware yourself before merging anything that touches boot,
+rendering or navigation.
+
 Report changed behavior, the commands actually run, semantic results, visual evidence when
 needed, and any untested scope. Do not repeat passing checks without a new change or failure.
