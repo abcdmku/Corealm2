@@ -1,4 +1,5 @@
 /** CPU-only audit of the authored distance ledger; runtime nav detours are separate. */
+import "./lib/repoContent.js";
 import { REGIONS, WALK_SPEED_MPS } from '../game/src/content/regions.js';
 
 const locations = new Map(REGIONS.flatMap(region => region.locations.map(location => [location.id, location] as const)));

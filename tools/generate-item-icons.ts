@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { access, mkdir, readFile, writeFile, readdir, unlink } from "node:fs/promises";

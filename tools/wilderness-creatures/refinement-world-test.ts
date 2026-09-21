@@ -1,4 +1,5 @@
 /** Final-world wiring and spacing after the production creature lab has accepted each asset. */
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { NodeIO } from '@gltf-transform/core';

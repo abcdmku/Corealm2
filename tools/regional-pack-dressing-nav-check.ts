@@ -1,4 +1,5 @@
 /** CPU-only Recast check on the real authored lab terrain and production dressing solid boxes. */
+import "./lib/repoContent.js";
 import * as THREE from "three";
 import { readFileSync } from "node:fs";
 import { COMBAT_LAB_BOOT_PROFILE } from "../game/src/app/bootProfile.js";

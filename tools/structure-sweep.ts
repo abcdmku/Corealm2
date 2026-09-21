@@ -7,6 +7,7 @@
  * poses so joinery, ground contact and part alignment can be inspected without hand-driving the
  * lab. Output is disposable: screenshots plus one JSON manifest under `test-results/`.
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";

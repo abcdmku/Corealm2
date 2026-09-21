@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { RUNTIME_CATALOG } from '../game/src/content/runtimeCatalog.js';
 /** Authoring checks run before packaging, so players do not download or repeat the build audit. */
 import path from "node:path";

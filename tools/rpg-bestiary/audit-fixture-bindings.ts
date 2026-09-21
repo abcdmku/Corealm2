@@ -1,4 +1,5 @@
 /** Verify an explicit staged catalogue against production lab stats before GPU use. */
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';

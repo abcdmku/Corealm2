@@ -1,4 +1,5 @@
 /** Read-only CPU screen for authored low lamps outside production solid footprints. */
+import "./lib/repoContent.js";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { NodeIO } from "@gltf-transform/core";
 import { KHRONOS_EXTENSIONS } from "@gltf-transform/extensions";

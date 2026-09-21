@@ -8,6 +8,7 @@
  *   npm run structure:lint -- --only "composition region_gate" --kind FLOATING
  *   npm run structure:lint -- --quiet --json test-results/structure-lint.json
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { writeFile } from "node:fs/promises";
 import { lintStructures, structureCaseCount } from "./lib/structure-geometry.js";

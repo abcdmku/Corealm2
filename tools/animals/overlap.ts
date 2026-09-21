@@ -10,6 +10,7 @@
  * 1.2 m apart are two hens and two cattle 1.2 m apart are one lump of beef. The bodies come from
  * the sizes `build-animals.ts` measured into the manifest, so the threshold is the animals' own.
  */
+import "../lib/repoContent.js";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
 import { REGIONS } from "../../game/src/content/regions.js";

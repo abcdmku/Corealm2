@@ -75,6 +75,9 @@ it("boots on the database's catalog, not the one the build ships, and tells clie
 it("throws when a catalog is installed after the content modules have loaded", () => {
   const script = `
     const { installCatalog } = await import("./game/src/content/catalogInstall.ts");
+    // The repo's catalog, the way every tool and harness gets one. Without it the import below
+    // throws for the other reason, and this case would stop covering the late-install guard.
+    await import("./game/src/content/bundledCatalog.ts");
     const { RESOLVED_CATALOG } = await import("./game/src/content/resolvedCatalog.ts");
     try { installCatalog({ ...RESOLVED_CATALOG, revision: "${"a".repeat(64)}" }); console.log("installed"); }
     catch (error) { console.log(error.message); }`;

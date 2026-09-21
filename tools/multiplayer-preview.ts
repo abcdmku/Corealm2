@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import {createServer} from "vite";
 import {WebSocket} from "ws";
 import {mkdir,writeFile} from "node:fs/promises";

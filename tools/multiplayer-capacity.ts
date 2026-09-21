@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { fork } from "node:child_process";
 import { cpus, totalmem, platform, release } from "node:os";
 import { mkdir, writeFile, readFile, readdir } from "node:fs/promises";

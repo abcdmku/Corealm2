@@ -14,6 +14,7 @@
  * `game/public/assets/manifest.json` -- the same bytes the final world loads. A pack whose asset is
  * missing from that manifest fails here rather than being propped up by a staged candidate.
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, readFile, writeFile } from "node:fs/promises";

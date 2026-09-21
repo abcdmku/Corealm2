@@ -3,6 +3,7 @@
  * A representative --world --case smoke uses the documented 120-second full-world budget.
  * --world checks promoted file hashes and uses real inventory/equip tools in the authored world.
  */
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';

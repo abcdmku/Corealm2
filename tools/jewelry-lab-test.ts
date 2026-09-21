@@ -1,4 +1,5 @@
 ﻿import assert from 'node:assert/strict';
+import "./lib/repoContent.js";
 import path from 'node:path';
 import {mkdir,writeFile,access} from 'node:fs/promises';
 import {GameDriver} from './lib/driver.js';

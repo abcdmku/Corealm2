@@ -26,6 +26,7 @@
  *   npx tsx tools/creature-walk-probe.ts               # every creature preset
  *   npx tsx tools/creature-walk-probe.ts goat coyote   # only ids containing these
  */
+import "./lib/repoContent.js";
 import { chromium, type Browser, type Page } from "playwright";
 import type { FeatureLabCatalog, FeatureLabState } from "../game/src/contracts.js";
 import { REGIONS } from "../game/src/content/regions.js";

@@ -4,6 +4,7 @@
  * --fish-id redsill_spots_1 selects a separate 60s real-receipt subcase for that lake.
  * world-resource-check.ts covers Cairn only; it is not evidence for the other four lakes.
  */
+import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';

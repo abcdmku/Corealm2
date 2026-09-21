@@ -3,6 +3,7 @@
  * proven for it in `test-results/regional-pack-lifecycle/`. Root reads this to build the activation
  * list one region at a time. A group with no passing representative is not accepted.
  */
+import "./lib/repoContent.js";
 import { readdir, readFile } from "node:fs/promises";
 import { REGIONAL_PACKS, REGIONAL_PACK_VARIANTS } from "../game/src/content/regionalPacks.js";
 import { REGIONAL_PACK_LAYOUT } from "../game/src/content/regionalPackLayout.js";

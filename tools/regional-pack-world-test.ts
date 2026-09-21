@@ -1,4 +1,5 @@
 /** Generated-world spatial audit. Candidate metadata is injected only into this browser page. */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { createHash } from "node:crypto";

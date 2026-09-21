@@ -28,6 +28,7 @@
  *
  *   npx tsx tools/verify-magic.ts --run runs/corealm
  */
+import "./lib/repoContent.js";
 import { pathToFileURL } from "node:url";
 import { GameDriver } from "./lib/driver.js";
 import { startGameServer } from "./lib/server.js";

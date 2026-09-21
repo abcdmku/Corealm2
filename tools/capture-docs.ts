@@ -5,6 +5,7 @@
  * camera and region streaming used during play. The output is web-sized WebP rather than a folder
  * of manually chosen screenshots that drifts away from the content tables.
  */
+import "./lib/repoContent.js";
 import { createHash } from "node:crypto";
 import { access, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";

@@ -567,6 +567,9 @@
 .worlds--boot .worlds__intro { margin-bottom: 12px; }
 .worlds--boot .worlds__list { flex: 0 1 auto; min-height: 0; max-height: none; overflow-y: auto; }
 .worlds--boot .worlds__status { margin: 12px 0; }
+/* The empty state is a line of prose inside the list, not a card: its own padding on top of the
+ * list gap left a hole under the local row wide enough to read as a missing entry. */
+.worlds--boot .worlds__empty { padding: 4px 2px; }
 .worlds__identity input[aria-label] { margin-top: 5px; }
 .title .worlds > button, .title .worlds > label:not(.worlds__identity) { display: none; }
 .worlds { width: 100%; box-sizing: border-box; }

@@ -1,34 +1,32 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { randomUUID } from "node:crypto";
 import { WebSocket, WebSocketServer } from "ws";
-import { WORLD_PROTOCOL_VERSION, type CommandEnvelope, type CommandOutcome, type PlayerCharacter, type PlayerLeaseWrite, type SessionErrorCode, type Vec3, type WorldDescriptor, type WorldKey, type WorldStorage, type WorldStorageRecord } from "../contracts.js";
+import type { PlayerCharacter, Vec3, WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
 import { adminUnavailable, createAdminApi } from "./adminApi.js";
-import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type AuditWrite, type ServerAdminStorage } from "./adminStorage.js";
+import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type ServerAdminStorage } from "./adminStorage.js";
 import { createAdminUi, type AdminUiSource } from "./adminUi.js";
 import { applyPlayerOps, editDiff, EditFailure, PLACE_SNAP_METRES, playerRevision, type PlayerPatch } from "./playerEdits.js";
 import { createDirectoryHeartbeat, DEFAULT_SERVER_NAME, effectiveSettings, settingsPatch, type ServerSettings } from "./serverSettings.js";
 import { playerSessionState } from "../state/store.js";
-import { Admission } from "./admission.js";
 import { createCatalogHost, seedCatalog, serveCatalog, type CatalogHost } from "./catalogHost.js";
 import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
 import { createAssetHost, type AssetHostOptions } from "./assetManifest.js";
 import { createContentPublisher } from "./contentPublish.js";
 import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
-import { HeadlessWorld, type HeadlessWorldPorts } from "./headlessWorld.js";
-import { compatible, descriptor, envelope, MAX_MESSAGE_BYTES, MAX_PENDING_COMMANDS, RECEIPT_LIMIT, record, SessionFailure, worldKey } from "./protocol.js";
-import { MAX_OUTBOUND_BYTES, Replicator, ReplicationFrame } from "./replication.js";
+import type { HeadlessWorldPorts } from "./headlessWorld.js";
+import { MAX_MESSAGE_BYTES, SessionFailure, worldKey } from "./protocol.js";
+import { MAX_OUTBOUND_BYTES } from "./replication.js";
+import { createWorldHost, type AuthenticatedPlayer, type AuthenticationAdapter, type HostedWorld as CoreHostedWorld, type PeerLink, type ServerEvent, type WorldHostMetrics } from "./worldHost.js";
 
-export interface AuthenticatedPlayer { playerId: string; name: string }
-export interface AuthenticationAdapter {
-  /** What descriptors tell clients to present. Absent means the adapter takes an opaque token, advertised as "guest". */
-  readonly authentication?: "account" | "guest";
-  authenticate(token: string, world: WorldDescriptor): Promise<AuthenticatedPlayer>;
-}
+/**
+ * The reference server is the host core of `worldHost.ts` behind a WebSocket transport, plus what only
+ * a network server has: HTTP routes, the catalog endpoint, administration, publishing, settings and
+ * the directory heartbeat. Everything about worlds, peers, joins, commands and ticks is the core's.
+ */
+export type { AuthenticatedPlayer, AuthenticationAdapter, ServerEvent } from "./worldHost.js";
+export type ReferenceServerMetrics = WorldHostMetrics;
+export type HostedWorld = CoreHostedWorld<WebSocketLink>;
 /** What an HTTP extension may read. Worlds and metrics are live objects, not copies. */
 export interface ReferenceServerContext { worlds: ReadonlyMap<string, HostedWorld>; metrics: ReferenceServerMetrics; events: readonly ServerEvent[]; catalog: CatalogHost }
-/** One entry of the bounded ring `GET /admin/stats` returns and M6's TUI draws. */
-export interface ServerEvent { at: number; kind: "join" | "leave" | "rejected" | "ban" | "unban" | "kick" | "admin-session" | "owner-setup"; accountId: string | null; detail: string | null }
-const EVENT_RING = 256;
 export interface ReferenceServerOptions {
   worlds: WorldDescriptor[];
   storage: WorldStorage;
@@ -72,24 +70,34 @@ export interface ReferenceServerOptions {
   /** One JSON object per event. The owner setup code is printed through this, once. */
   log?(event: Record<string, unknown>): void;
 }
-interface Peer {
-  ws: WebSocket; playerId: string; sessionId: string; replicator: Replicator;
-  sequence: number; committed: number; queue: CommandEnvelope[]; receipts: Map<number, { json: string; outcome: CommandOutcome }>;
-  rateStart: number; rateCount: number; lastSeen: number; explicitLeave: boolean;
-}
-export interface HostedWorld {
-  runtime: HeadlessWorld; admission: Admission; peers: Map<string, Peer>; receipts: WorldStorageRecord["receipts"]; publicGameplay: Map<string,string>;
-  /** Accounts whose character this world writes, and what the next commit does with each lease. */
-  leases: Map<string, PlayerLeaseWrite>;
-  /** Admin edits applied to live players since the last commit. The next commit writes each row with the character it describes. */
-  audits: PendingAudit[];
-}
-interface PendingAudit { accountId: string; by: AdminActor; entry: AuditWrite; resolve(): void; reject(error: Error): void }
 /** What `PATCH /admin/players/<id>` did. `live` names the world whose player was edited. */
 export interface PlayerEditOutcome { applied: "live" | "stored"; world: WorldKey | null; changed: boolean; warnings: string[] }
-export interface ReferenceServerMetrics {
-  ticks: number[]; stages: { simulationMs: number; snapshotMs: number; commitMs: number; replicationMs: number; samples: number };
-  commands: number; rejected: number; bytesOut: number; backlogDisconnects: number; errors: number;
+
+/** A peer silent for this long, pings included, is dead. Only a socket can go silent without closing. */
+const PEER_SILENCE_MS = 30_000;
+/**
+ * One WebSocket as the core sees it. The socket's own limits live here: messages are JSON text, a
+ * peer that cannot drain its outbound queue is dropped, and a peer that stopped answering pings is
+ * no longer `open`.
+ */
+export class WebSocketLink implements PeerLink {
+  lastSeen = Date.now();
+  constructor(readonly ws: WebSocket, private readonly metrics: WorldHostMetrics, private readonly origin: string | undefined, private readonly allowedOrigins: readonly string[] | undefined) {}
+  get silent(): boolean { return Date.now() - this.lastSeen > PEER_SILENCE_MS; }
+  get open(): boolean { return this.ws.readyState === WebSocket.OPEN && !this.silent; }
+  send(value: unknown): boolean {
+    const ws = this.ws;
+    if (ws.readyState !== WebSocket.OPEN) return false;
+    const json = JSON.stringify(value); const size = Buffer.byteLength(json);
+    if (size > MAX_OUTBOUND_BYTES || ws.bufferedAmount + size > MAX_OUTBOUND_BYTES) {
+      this.metrics.backlogDisconnects++; ws.close(4008, "BACKLOG: outbound queue exceeded"); setTimeout(() => ws.terminate(), 1000).unref(); return false;
+    }
+    this.metrics.bytesOut += size; ws.send(json); return true;
+  }
+  close(code: number, reason: string): void { this.ws.close(code, reason); }
+  admit(): void {
+    if (this.origin && this.allowedOrigins && !this.allowedOrigins.includes(this.origin)) throw new SessionFailure("UNAUTHORIZED", "Origin is not allowed");
+  }
 }
 
 /**
@@ -117,25 +125,18 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   const now = options.now ?? Date.now;
   const log = options.log ?? ((event: Record<string, unknown>) => console.log(JSON.stringify(event)));
   const catalog = await runningCatalog(options.catalog, now);
-  const worlds = new Map<string, HostedWorld>();
-  for (const input of options.worlds) {
-    const world = descriptor({ ...input, catalogRevision: catalog.revision, authentication: input.authentication ?? options.authentication.authentication ?? "guest" }); compatible(world);
-    if (worlds.has(worldKey(world))) throw new Error("Duplicate hosted world");
-    const saved = await options.storage.openWorld(world);
-    worlds.set(worldKey(world), { runtime: new HeadlessWorld(world, await options.build(world), saved), admission: new Admission(world.capacity), peers: new Map(),
-      receipts: Object.assign(Object.create(null), saved?.receipts ?? {}), publicGameplay: new Map(), leases: new Map(), audits: [] });
-  }
-  // Establish the complete entity baseline before accepting clients. Subsequent ticks only
-  // clone and persist changed rows. Failure here never advertises a ready world.
-  if (options.storage.entityPatches) for (const hosted of worlds.values()) {
-    const initial = hosted.runtime.snapshot(hosted.receipts, true);
-    await options.storage.commit(initial);
-    hosted.runtime.committed(initial);
-  }
-  const metrics: ReferenceServerMetrics = { ticks: [], stages: { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }, commands: 0, rejected: 0, bytesOut: 0, backlogDisconnects: 0, errors: 0 };
-  const startedAt = now();
   // Administration is account work. A guest or module host keeps its storage and answers 501.
   const accounts = options.authentication.authentication === "account" ? options.admin : undefined;
+  /** A banned account never reaches the lease claim, in any world of this server. */
+  async function refuseBanned(playerId: string): Promise<void> {
+    const ban = accounts && await accounts.banOf(playerId, now());
+    if (ban) throw new SessionFailure("BANNED", banMessage(ban));
+  }
+  const host = await createWorldHost<WebSocketLink>({ worlds: options.worlds, storage: options.storage, build: options.build, authentication: options.authentication,
+    catalogRevision: catalog.revision, now, log,
+    async beforeAdmission(player, world) { await refuseBanned(player.playerId); await options.beforeAdmission?.(player, world); } });
+  const { worlds, metrics, events } = host, recordEvent = host.record;
+  const startedAt = now();
   const settingDefaults: ServerSettings = { name: options.settings?.name ?? DEFAULT_SERVER_NAME, description: options.settings?.description ?? null,
     registerWithDirectory: options.settings?.registerWithDirectory ?? false,
     capacity: Object.fromEntries([...worlds.values()].map(hosted => [hosted.runtime.descriptor.worldId, hosted.admission.capacity])) };
@@ -150,12 +151,6 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     }
   }
   applySettings();
-  const events: ServerEvent[] = [];
-  const recordEvent = (event: Omit<ServerEvent, "at">): void => {
-    events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift();
-    // Who came, who left and who was turned away is the operator's log. The admin API logs its own writes.
-    if (event.kind === "join" || event.kind === "leave" || event.kind === "rejected") log({ event: `session.${event.kind}`, accountId: event.accountId, detail: event.detail });
-  };
   if (accounts && options.ownerAccount !== undefined) {
     if (!ACCOUNT_ID.test(options.ownerAccount)) throw new Error("ownerAccount must be an identity account id");
     await accounts.setSetupCodeHash(null);
@@ -175,14 +170,14 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     if (request.method === "GET" && (path === "/healthz" || path === "/readyz")) {
       response.setHeader("Content-Type", "application/json");
       response.setHeader("Cache-Control", "no-store");
-      response.writeHead(path === "/readyz" && closed ? 503 : 200);
-      response.end(JSON.stringify({ ready: !closed })); return;
+      response.writeHead(path === "/readyz" && host.closed ? 503 : 200);
+      response.end(JSON.stringify({ ready: !host.closed })); return;
     }
     if (request.method === "GET" && path === "/worlds") {
       response.setHeader("Content-Type", "application/json"); response.setHeader("Access-Control-Allow-Origin", "*");
       // A capacity an admin lowered under the players already in is still a full world, not an invalid one.
       response.end(JSON.stringify([...worlds.values()].map(({ runtime, admission }) => ({ ...runtime.descriptor,
-        population: Math.min(admission.population, admission.capacity), availability: closed ? "unavailable" : admission.population >= admission.capacity ? "full" : "available" })))); return;
+        population: Math.min(admission.population, admission.capacity), availability: host.closed ? "unavailable" : admission.population >= admission.capacity ? "full" : "available" })))); return;
     }
     if (await serveCatalog(request, response, catalog)) return;
     if (adminApi ? await adminApi(request, response) : adminUnavailable(request, response)) return;
@@ -193,40 +188,6 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     route(request, response).catch(() => { metrics.errors++; if (!response.headersSent) response.writeHead(500); response.end(); });
   });
   const sockets = new WebSocketServer({ server: http, maxPayload: MAX_MESSAGE_BYTES, perMessageDeflate: false });
-  let closed = false; let failed = false; let ticking = false; let inFlight: Promise<void> = Promise.resolve();
-  // A closed connection saves and frees its account on the next commit. A join by that account waits for it here.
-  const releasing = new Map<string, { done: Promise<void>; resolve(): void }>();
-  function released(playerId: string): void { releasing.get(playerId)?.resolve(); releasing.delete(playerId); }
-  /** Remove a session whose lease this world no longer holds. Its character is never written again. */
-  function evict(hosted: HostedWorld, playerId: string, sessionId: string): void {
-    if (hosted.leases.get(playerId)?.sessionId !== sessionId) return;
-    hosted.leases.delete(playerId); hosted.runtime.leave(playerId); hosted.admission.leave(playerId, sessionId, false); released(playerId);
-    const stale = hosted.peers.get(sessionId); if (!stale) return;
-    send(stale.ws, { type: "error", error: { code: "SESSION_EXPIRED", message: "This player joined from another connection" } }); stale.ws.close(4000, "SESSION_EXPIRED");
-  }
-  function send(ws: WebSocket, value: unknown): boolean {
-    if (ws.readyState !== WebSocket.OPEN) return false;
-    const json = JSON.stringify(value); const size = Buffer.byteLength(json);
-    if (size > MAX_OUTBOUND_BYTES || ws.bufferedAmount + size > MAX_OUTBOUND_BYTES) {
-      metrics.backlogDisconnects++; ws.close(4008, "BACKLOG: outbound queue exceeded"); setTimeout(() => ws.terminate(), 1000).unref(); return false;
-    }
-    metrics.bytesOut += size; ws.send(json); return true;
-  }
-  /** Refuse a live session from every world, through the ordinary leave path: save, then release. */
-  function disconnectAccount(accountId: string, code: SessionErrorCode, message: string): boolean {
-    let found = false;
-    for (const hosted of worlds.values()) for (const peer of [...hosted.peers.values()]) {
-      if (peer.playerId !== accountId) continue;
-      peer.explicitLeave = true; found = true;
-      send(peer.ws, { type: "error", error: { code, message } }); peer.ws.close(4000, code);
-    }
-    return found;
-  }
-  /** The world that writes this account's character: connected, or disconnected and not yet saved. */
-  function holder(accountId: string): HostedWorld | null {
-    for (const hosted of worlds.values()) if (hosted.leases.has(accountId) && hosted.runtime.players.has(accountId)) return hosted;
-    return null;
-  }
   const keyOf = (hosted: HostedWorld): WorldKey => ({ providerId: hosted.runtime.descriptor.providerId, worldId: hosted.runtime.descriptor.worldId });
   const snapIn = (hosted: HostedWorld | null | undefined) => (position: Vec3): Vec3 | null => hosted?.runtime.ports.nav.nearestWalkable(position, PLACE_SNAP_METRES) ?? null;
   /**
@@ -244,12 +205,12 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     const storage = options.storage, stored = accounts!;
     for (let attempt = 0; ; attempt++) {
       let durable: Promise<void> | null = null;
-      const outcome = await betweenTicks(async (): Promise<PlayerEditOutcome | "retry"> => {
-        if (closed) throw new EditFailure(503, "unavailable", "The server is shutting down");
+      const outcome = await host.betweenTicks(async (): Promise<PlayerEditOutcome | "retry"> => {
+        if (host.closed) throw new EditFailure(503, "unavailable", "The server is shutting down");
         const expected = (revision: string): void => {
           if (patch.expect !== null && patch.expect !== revision) throw new EditFailure(409, "revision_mismatch", `The player changed since revision ${patch.expect} was read. It is now ${revision}`);
         };
-        const live = holder(accountId);
+        const live = host.holder(accountId);
         if (live) {
           const { ownedWorld: _owned, ...before } = playerSessionState(live.runtime.players.get(accountId)!.store.get());
           expected(playerRevision(before));
@@ -257,8 +218,10 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
           const diff = editDiff(before, result.character);
           if (!diff) return { applied: "live", world: keyOf(live), changed: false, warnings: result.warnings };
           live.runtime.adoptCharacter(accountId, result.character, result.moved);
-          durable = new Promise<void>((resolve, reject) => live.audits.push({ accountId, by, resolve, reject,
-            entry: { action: "player.edit", target: accountId, before: diff.before, after: { ...diff.after, applied: "live", world: live.runtime.descriptor.worldId } } }));
+          durable = new Promise<void>((resolve, reject) => live.audits.push({ accountId, by,
+            entry: { action: "player.edit", target: accountId, before: diff.before, after: { ...diff.after, applied: "live", world: live.runtime.descriptor.worldId } },
+            settle: outcome => outcome === "saved" ? resolve() : reject(outcome === "fenced" ? new EditFailure(409, "player_busy", "This player's session ended before the edit was saved")
+              : new EditFailure(503, "unavailable", "World storage failed before the edit was saved")) }));
           return { applied: "live", world: keyOf(live), changed: true, warnings: result.warnings };
         }
         const detail = await stored.player(accountId, now());
@@ -284,16 +247,6 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       await new Promise(resolve => setTimeout(resolve, 50));
     }
   }
-  /** Hand the audit rows of live edits to a commit, and tell each edit what became of it. */
-  function auditsOf(hosted: HostedWorld): { rows: PendingAudit[]; settle(fenced: readonly string[] | null): void } {
-    const rows = hosted.audits.splice(0);
-    return { rows, settle(fenced) {
-      for (const row of rows) {
-        if (fenced && !fenced.includes(row.accountId)) row.resolve();
-        else row.reject(new EditFailure(fenced ? 409 : 503, fenced ? "player_busy" : "unavailable", fenced ? "This player's session ended before the edit was saved" : "World storage failed before the edit was saved"));
-      }
-    } };
-  }
   async function patchSettings(body: Record<string, unknown>, by: AdminActor) {
     const changes = settingsPatch(body, [...worlds.values()].map(hosted => hosted.runtime.descriptor.worldId), directory !== null);
     const overrides = await accounts!.setSettings(changes, by);
@@ -317,260 +270,60 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     }
     return null;
   }
-  /** A banned account never reaches the lease claim, in any world of this server. */
-  async function refuseBanned(playerId: string): Promise<void> {
-    const ban = accounts && await accounts.banOf(playerId, now());
-    if (ban) throw new SessionFailure("BANNED", banMessage(ban));
-  }
-  /** No further acknowledgements or snapshots. A failed commit and a failed catalog swap both end here. */
-  function failClosed(): void {
-    closed = true; failed = true;
-    for (const hosted of worlds.values()) auditsOf(hosted).settle(null);
-    for (const waiting of [...releasing.keys()]) released(waiting);
-    for (const client of sockets.clients) { send(client, { type: "error", error: { code: "UNAVAILABLE", message: "World storage or simulation failed" } }); client.close(1011, "World unavailable"); }
-  }
-  /** A publish swaps content between ticks: the tick in flight finishes, and the next one waits for `run` to settle. */
-  let hold: Promise<void> | null = null; let running: Promise<void> = Promise.resolve();
-  async function betweenTicks<T>(run: () => Promise<T>): Promise<T> {
-    while (hold) await hold;
-    let release!: () => void; hold = new Promise<void>(settle => { release = settle; });
-    // `running` is the last tick that actually started. `inFlight` may be a tick that is itself waiting on this hold.
-    try { await running; return await run(); } finally { hold = null; release(); }
-  }
   const publisher = accounts ? createContentPublisher({
-    catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, betweenTicks, failClosed,
+    catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, betweenTicks: host.betweenTicks, failClosed: host.failClosed, broadcast: host.broadcast,
     worlds: () => [...worlds.values()].map(hosted => hosted.runtime),
-    broadcast(message) {
-      let told = 0;
-      for (const hosted of worlds.values()) for (const peer of hosted.peers.values()) if (send(peer.ws, message)) told++;
-      return told;
-    },
   }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
     ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: [...worlds.values()][0]?.runtime.descriptor.assetBaseUrl }),
     authenticate: token => options.authentication.authenticate(token, [...worlds.values()][0]!.runtime.descriptor),
     server: {
-      startedAt, metrics, events: () => events, record: recordEvent, liveCharacter, disconnect: disconnectAccount, editPlayer, info: serverInfo,
-      connected: accountId => [...worlds.values()].some(hosted => [...hosted.peers.values()].some(peer => peer.playerId === accountId)),
+      startedAt, metrics, events: () => events, record: recordEvent, liveCharacter, disconnect: host.disconnectAccount, connected: host.connected, editPlayer, info: serverInfo,
       settings: { get: async () => ({ settings, overrides: await accounts.settings(), defaults: settingDefaults }), patch: patchSettings },
       worlds: () => [...worlds.values()].map(({ runtime, admission }) => ({ key: { providerId: runtime.descriptor.providerId, worldId: runtime.descriptor.worldId },
         name: runtime.descriptor.name, playersOnline: admission.population, capacity: admission.capacity, tick: runtime.clock.tick })),
     },
   }) : null;
   sockets.on("connection", (ws, request) => {
-    if (closed) {
-      send(ws, { type: "error", error: { code: "UNAVAILABLE", message: "World unavailable" } });
-      ws.close(1011, "World unavailable"); return;
-    }
-    let peer: Peer | null = null; let hosted: HostedWorld | null = null; let authenticating = false;
+    const link = new WebSocketLink(ws, metrics, request.headers.origin, options.allowedOrigins);
+    const connection = host.connect(link); if (!connection) return;
     const authDeadline = setTimeout(() => ws.close(4001, "Authentication timeout"), 5000);
     ws.on("error", () => { metrics.errors++; });
-    ws.on("pong", () => { if (peer) peer.lastSeen = Date.now(); });
+    ws.on("pong", () => { link.lastSeen = Date.now(); });
     ws.on("message", async (bytes, binary) => {
+      link.lastSeen = Date.now();
+      let message: unknown;
       try {
         if (binary) throw new SessionFailure("INVALID_MESSAGE", "Text messages required");
-        const message: unknown = JSON.parse(bytes.toString());
-        if (!record(message)) throw new SessionFailure("INVALID_MESSAGE", "Invalid message");
-        if (!peer) {
-          if (authenticating) throw new SessionFailure("RATE_LIMITED", "Authentication already in progress");
-          authenticating = true;
-          if (message.type !== "join" || typeof message.providerId !== "string" || typeof message.worldId !== "string"
-            || typeof message.token !== "string" || message.token.length > 4096) throw new SessionFailure("UNAUTHORIZED", "Authentication required");
-          if (message.protocolVersion !== WORLD_PROTOCOL_VERSION) throw new SessionFailure("INCOMPATIBLE", "Incompatible game version");
-          if (request.headers.origin && options.allowedOrigins && !options.allowedOrigins.includes(request.headers.origin)) throw new SessionFailure("UNAUTHORIZED", "Origin is not allowed");
-          hosted = worlds.get(worldKey({ providerId: message.providerId, worldId: message.worldId })) ?? null;
-          if (!hosted) throw new SessionFailure("UNAVAILABLE", "World is unavailable");
-          const identity = await options.authentication.authenticate(message.token, hosted.runtime.descriptor);
-          if (typeof identity?.playerId!=="string" || !/^[A-Za-z0-9_.:-]{1,128}$/.test(identity.playerId) || typeof identity.name!=="string") throw new SessionFailure("UNAUTHORIZED", "Invalid authenticated identity");
-          const name = identity.name.slice(0,64);
-          await refuseBanned(identity.playerId);
-          await options.beforeAdmission?.({ playerId: identity.playerId, name }, hosted.runtime.descriptor);
-          hosted.admission.check(identity.playerId);
-          await releasing.get(identity.playerId)?.done;
-          if (ws.readyState !== WebSocket.OPEN) return;
-          if (closed) throw new SessionFailure("UNAVAILABLE", "World unavailable");
-          // The lease is the server-wide login: one live session per account across every world.
-          const sessionId = randomUUID();
-          const claim = await options.storage.claimPlayer(hosted.runtime.descriptor, identity.playerId, sessionId, name);
-          if (!claim) throw new SessionFailure("DUPLICATE_LOGIN", "This player is already connected");
-          let admitted = false;
-          try {
-            await inFlight;
-            if (ws.readyState !== WebSocket.OPEN) { await options.storage.releasePlayer(hosted.runtime.descriptor, identity.playerId, sessionId); return; }
-            if (closed) throw new SessionFailure("UNAVAILABLE", "World unavailable");
-            hosted.admission.join(identity.playerId, sessionId); admitted = true;
-            // The claim proves any other session of this account lost its lease, and a place held elsewhere is moot.
-            for (const other of worlds.values()) {
-              const stale = other.leases.get(identity.playerId); if (stale) evict(other, identity.playerId, stale.sessionId);
-              if (other !== hosted) other.admission.forget(identity.playerId);
-            }
-            hosted.leases.set(identity.playerId, { sessionId, action: "hold" });
-            if (claim.world) hosted.receipts[identity.playerId] = claim.world.receipts;
-          const player = hosted.runtime.join(identity.playerId, claim); player.store.get().player.name = name;
-          peer = { ws, playerId: identity.playerId, sessionId, replicator: new Replicator(sessionId, identity.playerId), sequence: 0, committed: 0,
-            queue: [], receipts: new Map(), rateStart: Date.now(), rateCount: 0, lastSeen: Date.now(), explicitLeave: false };
-          hosted.peers.set(sessionId, peer); clearTimeout(authDeadline);
-          send(ws, { type: "joined", sessionId, playerId: identity.playerId, world: hosted.runtime.descriptor,
-            nextOperation: (hosted.receipts[identity.playerId]?.at(-1)?.operation ?? 0) + 1 });
-          recordEvent({ kind: "join", accountId: identity.playerId, detail: hosted.runtime.descriptor.worldId });
-          send(ws, { type: "update", update: peer.replicator.update(hosted.runtime, 0, new Map(), true) });
-          } catch(error){
-            if (admitted) { hosted.admission.leave(identity.playerId,sessionId,false); hosted.runtime.leave(identity.playerId); }
-            if (hosted.leases.get(identity.playerId)?.sessionId === sessionId) hosted.leases.delete(identity.playerId);
-            await options.storage.releasePlayer(hosted.runtime.descriptor, identity.playerId, sessionId).catch(() => {});
-            throw error;
-          }
-          return;
-        }
-        peer.lastSeen = Date.now();
-        if (Date.now() - peer.rateStart >= 1000) { peer.rateStart = Date.now(); peer.rateCount = 0; }
-        if (++peer.rateCount > 40) throw new SessionFailure("RATE_LIMITED", "Input rate exceeded");
-        if (message.type === "leave") { peer.explicitLeave = true; ws.close(1000, "Left world"); return; }
-        if (message.type === "snapshot") {
-          await inFlight;
-          if (!closed && ws.readyState === WebSocket.OPEN) send(ws, { type: "update", update: peer.replicator.update(hosted!.runtime, peer.committed, new Map(), true) });
-          return;
-        }
-        if (message.type !== "command") throw new SessionFailure("INVALID_MESSAGE", "Unknown message type");
-        const input = envelope(message.envelope);
-        if (input.sessionId !== peer.sessionId) throw new SessionFailure("SESSION_EXPIRED", "Stale session");
-        const receipt = peer.receipts.get(input.sequence);
-        if (receipt) {
-          if (receipt.json !== JSON.stringify(input.command)) throw new SessionFailure("INVALID_MESSAGE", "Sequence reused with a different command");
-          if (input.sequence <= peer.committed) send(ws, { type: "ack", outcome: receipt.outcome });
-          return;
-        }
-        const queued = peer.queue.find((command) => command.sequence === input.sequence);
-        if (queued) {
-          if (JSON.stringify(queued.command) !== JSON.stringify(input.command)) throw new SessionFailure("INVALID_MESSAGE", "Sequence reused with a different command");
-          return;
-        }
-        if (input.sequence !== peer.sequence + peer.queue.length + 1) throw new SessionFailure("OUT_OF_ORDER", "Command sequence gap or expired receipt");
-        if (peer.queue.length >= MAX_PENDING_COMMANDS) throw new SessionFailure("BACKLOG", "Command queue exceeded");
-        peer.queue.push(input);
-      } catch (error) {
-        metrics.rejected++;
-        const failure = error instanceof SessionFailure ? error : new SessionFailure("INVALID_MESSAGE", "Invalid request");
-        if (!peer) recordEvent({ kind: "rejected", accountId: null, detail: failure.code });
-        send(ws, { type: "error", error: { code: failure.code, message: failure.message } }); ws.close(4000, failure.code);
-      }
+        message = JSON.parse(bytes.toString());
+      } catch (error) { connection.refuse(error); return; }
+      await connection.accept(message);
+      if (connection.joined) clearTimeout(authDeadline);
     });
-    ws.on("close", () => {
-      clearTimeout(authDeadline);
-      if (!peer || !hosted) return;
-      hosted.peers.delete(peer.sessionId);
-      const lease = hosted.leases.get(peer.playerId);
-      if (lease?.sessionId !== peer.sessionId) return;
-      hosted.runtime.leave(peer.playerId);
-      // The next commit saves the character, then frees the account or keeps it for the reconnect window.
-      lease.action = peer.explicitLeave ? "release" : "reserve";
-      recordEvent({ kind: "leave", accountId: peer.playerId, detail: hosted.runtime.descriptor.worldId });
-      let resolve!: () => void; const done = new Promise<void>(settle => { resolve = settle; });
-      releasing.set(peer.playerId, { done, resolve });
-      hosted.admission.leave(peer.playerId, peer.sessionId, !peer.explicitLeave);
-    });
+    ws.on("close", () => { clearTimeout(authDeadline); connection.closed(); });
   });
-  let committing: ReturnType<typeof auditsOf> | null = null;
-  async function tick(): Promise<void> {
-    if (closed || ticking) return; ticking = true; const start = performance.now();
-    try {
-      for (const hosted of worlds.values()) {
-        const pending: { peer: Peer; outcome: CommandOutcome }[] = [];
-        for (const peer of hosted.peers.values()) {
-          for (const input of peer.queue.splice(0)) {
-            const ledger = hosted.receipts[peer.playerId] ??= [];
-            const prior = ledger.find((receipt) => receipt.operation === input.operation);
-            const json = JSON.stringify(input.command);
-            const latestOperation = ledger.at(-1)?.operation ?? 0;
-            const result = prior ? prior.command === json
-              ? prior.outcome.status === "accepted" ? { ok: true as const, value: prior.outcome.result }
-                : { ok: false as const, error: prior.outcome.error }
-              : { ok: false as const, error: { code: "INVALID_MESSAGE", message: "Operation reused with a different command" } }
-              : input.operation !== latestOperation + 1
-                ? { ok: false as const, error: { code: "OUT_OF_ORDER", message: "Operation is expired or out of order" } }
-                : hosted.runtime.execute(peer.playerId, input.command);
-            const outcome: CommandOutcome = result.ok ? { status: "accepted", sequence: input.sequence, tick: hosted.runtime.clock.tick, result: result.value }
-              : { status: "rejected", sequence: input.sequence, tick: hosted.runtime.clock.tick, error: result.error };
-            peer.sequence = input.sequence; peer.receipts.set(input.sequence, { json: JSON.stringify(input.command), outcome });
-            if (!prior && input.operation === latestOperation + 1) {
-              ledger.push({ operation: input.operation, command: json, sequence: input.sequence, outcome });
-              if (ledger.length > RECEIPT_LIMIT) ledger.shift();
-            }
-            if (peer.receipts.size > RECEIPT_LIMIT) peer.receipts.delete(peer.receipts.keys().next().value!);
-            pending.push({ peer, outcome }); metrics.commands++;
-          }
-        }
-        const simulationStart = performance.now(); hosted.runtime.tick();
-        const snapshotStart = performance.now(); const snapshot = hosted.runtime.snapshot(hosted.receipts, options.storage.entityPatches === true);
-        const written = [...hosted.leases].map(([id, lease]) => [id, { ...lease }] as const);
-        snapshot.leases = Object.assign(Object.create(null), Object.fromEntries(written));
-        const edits = auditsOf(hosted); committing = edits;
-        if (edits.rows.length) snapshot.audits = edits.rows.map(({ accountId, by, entry }) => ({ accountId, by, entry }));
-        const commitStart = performance.now(); const { fenced } = await options.storage.commit(snapshot);
-        committing = null; edits.settle(fenced);
-        hosted.runtime.committed(snapshot);
-        for (const [id, lease] of written) {
-          if (fenced.includes(id)) evict(hosted, id, lease.sessionId);
-          else if (lease.action !== "hold" && hosted.leases.get(id)?.sessionId === lease.sessionId) { hosted.leases.delete(id); released(id); }
-        }
-        const replicationStart = performance.now();
-        for (const { peer, outcome } of pending) { peer.committed = outcome.sequence; send(peer.ws, { type: "ack", outcome }); }
-        const cache = new ReplicationFrame(hosted.runtime,hosted.publicGameplay); const entityCache = new Map();
-        for (const peer of hosted.peers.values()) {
-          if (Date.now() - peer.lastSeen > 30_000) { peer.ws.terminate(); continue; }
-          try { send(peer.ws, { type: "update", update: peer.replicator.update(hosted.runtime, peer.committed, cache, false, entityCache, snapshot.players[peer.playerId]) }); }
-          catch { metrics.backlogDisconnects++; send(peer.ws, { type: "error", error: { code: "BACKLOG", message: "Client interest exceeds replication limit" } }); peer.ws.close(4008, "BACKLOG"); }
-        }
-        metrics.stages.simulationMs += snapshotStart-simulationStart; metrics.stages.snapshotMs += commitStart-snapshotStart;
-        metrics.stages.commitMs += replicationStart-commitStart; metrics.stages.replicationMs += performance.now()-replicationStart; metrics.stages.samples++;
-        for(const id of hosted.runtime.evictInactive(id=>hosted.leases.has(id)))delete hosted.receipts[id];
-      }
-    } catch {
-      metrics.errors++;
-      // No further acknowledgements or snapshots after a failed commit. Fail closed.
-      committing?.settle(null); committing = null;
-      failClosed();
-    } finally {
-      metrics.ticks.push(performance.now() - start); if (metrics.ticks.length > 36_000) metrics.ticks.shift(); ticking = false;
-    }
-  }
   await new Promise<void>((resolve, reject) => { http.once("error", reject); http.listen(options.port ?? 0, options.host ?? "127.0.0.1", resolve); });
   const address = http.address(); if (!address || typeof address === "string") throw new Error("Server did not bind");
   for (const hosted of worlds.values()) if (new URL(hosted.runtime.descriptor.endpoint).port === "0") {
     hosted.runtime.descriptor.endpoint = `ws://127.0.0.1:${address.port}/`;
   }
-  let timer: ReturnType<typeof setTimeout>;
-  const scheduleTick = (delay = 100) => {
-    timer = setTimeout(() => {
-      const started = performance.now();
-      inFlight = (async () => { while (hold) await hold; await (running = tick()); })().finally(() => {
-        // An overloaded simulation must yield to socket and HTTP work between ticks.
-        if (!closed) scheduleTick(Math.max(5, 100 - (performance.now() - started)));
-      });
-    }, delay);
-  };
-  scheduleTick();
+  host.start();
   const heartbeat = setInterval(() => { for (const ws of sockets.clients) ws.ping(); }, 10_000);
+  // A MessagePort peer has no ping and is never silent. A socket that stopped answering is dropped here, and the core saves its player.
+  const silence = setInterval(() => { for (const hosted of worlds.values()) for (const peer of hosted.peers.values()) if (peer.link.silent) peer.link.ws.terminate(); }, 1000);
   directory?.sync();
-  return { port: address.port, worlds, metrics, catalog, events: events as readonly ServerEvent[], directory,
+  return { port: address.port, worlds, metrics, catalog, events, directory,
     /** The settings in force: configuration defaults under the overrides an admin stored. */
     get settings(): ServerSettings { return settings; },
     async close() {
-      closed = true; clearTimeout(timer); clearInterval(heartbeat); directory?.close();
-      await inFlight;
-      for (const ws of sockets.clients) ws.terminate();
-      await new Promise<void>((resolve) => sockets.close(() => resolve()));
-      // Save every held character and free its account, unless storage already failed closed.
-      if (!failed) for (const hosted of worlds.values()) if (hosted.leases.size) {
-        const snapshot = hosted.runtime.snapshot(hosted.receipts, options.storage.entityPatches === true);
-        snapshot.leases = Object.assign(Object.create(null), Object.fromEntries([...hosted.leases].map(([id, lease]) => [id, { sessionId: lease.sessionId, action: "release" as const }])));
-        const edits = auditsOf(hosted);
-        if (edits.rows.length) snapshot.audits = edits.rows.map(({ accountId, by, entry }) => ({ accountId, by, entry }));
-        await options.storage.commit(snapshot).then(({ fenced }) => edits.settle(fenced), () => { metrics.errors++; edits.settle(null); });
-      }
-      for (const hosted of worlds.values()) auditsOf(hosted).settle(null);
-      for (const waiting of [...releasing.keys()]) released(waiting);
+      // Stops the loop at once, then waits for the tick in flight before the sockets go.
+      const stopped = host.close(async () => {
+        for (const ws of sockets.clients) ws.terminate();
+        await new Promise<void>((resolve) => sockets.close(() => resolve()));
+      });
+      clearInterval(heartbeat); clearInterval(silence); directory?.close();
+      await stopped;
       await new Promise<void>((resolve) => http.close(() => resolve()));
       await options.storage.close();
     },

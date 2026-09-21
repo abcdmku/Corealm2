@@ -19,6 +19,7 @@
  *  - An attack MUST translate the root, either from authored art or from the synthesized lunge. A
  *    zero here is an attack that plays in place, which reads as feeding or twitching.
  */
+import "../lib/repoContent.js";
 import path from "node:path";
 import { readdir } from "node:fs/promises";
 import { NodeIO } from "@gltf-transform/core";

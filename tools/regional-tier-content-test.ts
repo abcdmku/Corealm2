@@ -10,6 +10,7 @@
  * Repeat the command for T40 and T60. Reports and screenshots belong under test-results/, which
  * is disposable acceptance output.
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";

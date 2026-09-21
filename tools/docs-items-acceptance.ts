@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright";

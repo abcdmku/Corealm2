@@ -1,4 +1,5 @@
 /** Root-only final-world acceptance. Run one band per invocation after the final navigation bake. */
+import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { PerspectiveCamera, Vector3 } from 'three';

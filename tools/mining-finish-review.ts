@@ -1,4 +1,5 @@
 /** Production-path site composition views. Extraction proof lives in mine-access-browser.ts. */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { WORLD_SITES } from "../game/src/content/worldSites.js";

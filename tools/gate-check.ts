@@ -16,6 +16,7 @@
  *
  * Usage: npx tsx tools/gate-check.ts --run runs/corealm [--scale 20]
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";

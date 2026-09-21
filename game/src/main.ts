@@ -1,3 +1,7 @@
+// STAGE 6 DELETES THIS LINE. The client's content comes from the build until it fetches the joined
+// server's client catalog instead; this is the whole of that dependency, and it must stay the first
+// import in the file, because `boot.js` below evaluates the content graph.
+import "./content/bundledCatalog.js";
 import { boot } from "./app/boot.js";
 import { bootProfileFor } from "./app/bootProfile.js";
 

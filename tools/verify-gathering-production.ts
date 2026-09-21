@@ -11,6 +11,7 @@
  *
  *   npx tsx tools/verify-gathering-production.ts --run runs/corealm
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { stat, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";

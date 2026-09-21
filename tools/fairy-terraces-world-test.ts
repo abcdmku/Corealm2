@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { FAIRY_UPPER_GARDEN_RAMPS } from '../game/src/world/fairyRegionalRelief.js';
 import { FAIRY_AGILITY_LINKS } from '../game/src/content/fairyAgility.js';
 import assert from 'node:assert/strict';

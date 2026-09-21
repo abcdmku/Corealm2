@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import { rollItemDrops } from '../../game/src/systems/equipmentCombat.js';
 /** Root-run seeded rare loot proof. Keeps real drop probabilities and real kill/pickup/equip. */
 import assert from 'node:assert/strict';

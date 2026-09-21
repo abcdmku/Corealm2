@@ -3,6 +3,7 @@ import { discoverWorlds, record, SessionFailure, compatible, worldKey } from "./
 import { ProviderRegistry, SessionController, type SessionControllerPorts } from "./providers.js";
 import { WebSocketProvider } from "./webSocketProvider.js";
 import { LOGIN_PROVIDERS, type DirectoryServer, type IdentityClient } from "./identityClient.js";
+import { lastPlayChoice, playTargetText, rememberPlayChoice, type PlayTarget } from "./playIntent.js";
 
 const HOSTS_KEY="corealm.hosts.v1";
 const MAX_HOSTS=20;
@@ -68,21 +69,43 @@ export function hostLabel(url:string):string{
   try{const parsed=new URL(url);return parsed.pathname==="/worlds"?parsed.host:`${parsed.host}${parsed.pathname}`;}catch{return url;}
 }
 
+/** What the picker needs from the page it opened over, beyond discovery and the session. */
+export interface WorldSelectorOptions {
+  ready?:boolean;
+  identity?:IdentityClient|null;
+  identityError?:string|null;
+  /**
+   * A target from `?play=`. `local` dismisses the picker before it is ever mounted; a world is
+   * joined the moment the engine is ready. An unknown or unreachable target falls back to the
+   * picker with a line saying why. Nothing else auto-joins — a remembered choice only moves focus.
+   */
+  play?:PlayTarget|null;
+  /**
+   * Joining this world needs the page to reload onto its asset host first. Returns true when it
+   * took the join over, which means a reload is already under way and nothing else should happen.
+   */
+  rebase?:(world:WorldDescriptor)=>boolean;
+}
+
 export async function createWorldSelector(configuration: WorldConfiguration|undefined, ports: SessionControllerPorts,
   authenticate: (world: WorldDescriptor) => Promise<{ token: string }>, providers:readonly WorldProvider[]=[],
-  options:{ready?:boolean;identity?:IdentityClient|null;identityError?:string|null}={} ) {
+  options:WorldSelectorOptions={} ) {
   const identity=options.identity??null;
+  const play=options.play??null;
+  // A `?play=local` page never sees the picker, so it never pays for discovery before its first
+  // frame either: the list fills in the background, for the menu the player may open later.
+  const autoLocal=play?.kind==="local";
   // Set when a server rejected the join token: the way out is another sign-in, so offer one even
   // though this browser still holds a session.
   let retrySignIn=false;
   const panel=document.createElement("section");panel.id="multiplayer-selector";panel.className="worlds";
   panel.setAttribute("aria-label","Multiplayer worlds");panel.dataset.phase="offline";
   const header=document.createElement("div");header.className="worlds__header";
-  const title=document.createElement("h2");title.textContent="Worlds";
+  const title=document.createElement("h2");title.textContent="Play";
   const refresh=document.createElement("button");refresh.type="button";refresh.className="btn";refresh.textContent="Refresh worlds";
   header.append(title,refresh);
   const intro=document.createElement("p");intro.className="worlds__intro";
-  intro.textContent="Online characters are separate from your single-player save.";
+  intro.textContent="Play on your own, or join a world. Online characters are separate from your single-player save.";
   const list=document.createElement("div");list.className="worlds__list";list.setAttribute("aria-label","Available worlds");
   const hostForm=document.createElement("form");hostForm.className="worlds__host";
   const hostInput=document.createElement("input");hostInput.type="text";hostInput.className="worlds__host-input";
@@ -92,9 +115,10 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   hostForm.append(hostInput,hostAdd);
   const hostList=document.createElement("ul");hostList.className="worlds__hosts";hostList.hidden=true;
   hostList.setAttribute("aria-label","Added hosts");
-  const status=document.createElement("p");status.role="status";status.tabIndex=-1;status.className="worlds__status";status.textContent="Playing single-player";
+  // Silent until it has something to say: an idle line here only repeated the row badge and the button.
+  const status=document.createElement("p");status.role="status";status.tabIndex=-1;status.className="worlds__status";
   const actions=document.createElement("div");actions.className="worlds__actions";
-  const play=document.createElement("button");play.type="button";play.className="btn btn--primary";play.textContent="Play offline";
+  const commit=document.createElement("button");commit.type="button";commit.className="btn btn--primary";commit.textContent="Play local";
   // Sign-in sits under the intro because it decides which worlds in the list below can be joined.
   const account=document.createElement("div");account.className="worlds__account";account.hidden=true;
   const accountNote=document.createElement("p");accountNote.className="worlds__account-note";
@@ -112,13 +136,19 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const renameSave=document.createElement("button");renameSave.type="submit";renameSave.className="btn";renameSave.textContent="Save name";
   renameForm.append(renameInput,renameSave);
   account.append(accountNote,accountActions,renameForm);
-  actions.append(play);panel.append(header,intro,account,list,hostForm,hostList,status,actions);
+  actions.append(commit);panel.append(header,intro,account,list,hostForm,hostList,status,actions);
   const registry=new ProviderRegistry(),registered=new Set<string>();
   for(const provider of providers){registry.register(provider);registered.add(provider.id);}
   // Local play is the first choice, not the absence of one: the panel opens over the loading screen
   // and a player who wants their own character should be able to say so and move on.
   const LOCAL="local";
-  let worlds:WorldDescriptor[]=[],selected=LOCAL,phase:SessionPhase="offline",loading=false;
+  const keyOf=(target:PlayTarget):string=>target.kind==="world"?worldKey(target):LOCAL;
+  // The row focus starts on, and the row that is already ticked. A remembered world that this page
+  // can no longer see falls back to local rather than leaving nothing chosen.
+  const remembered=keyOf(lastPlayChoice());
+  let worlds:WorldDescriptor[]=[],selected=remembered===LOCAL?LOCAL:remembered,phase:SessionPhase="offline",loading=false;
+  // Set once, when the picker is first painted: the player's own choice moves focus after that.
+  let focusPending=!autoLocal;
   let hosts=savedHosts();
   // Joining waits for the engine when the selector opens over the loading screen. A player who
   // chooses early gets their world the moment the game is ready, without clicking again.
@@ -140,7 +170,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     if(["connecting","reconnecting"].includes(phase))return {label:"Cancel connection",disabled:false,action:"leave"};
     if(phase==="leaving")return {label:"Leaving world",disabled:true,action:"none"};
     if(selected===LOCAL)return phase==="offline"
-      ?{label:"Play offline",disabled:false,action:"dismiss"}
+      ?{label:"Play local",disabled:false,action:"dismiss"}
       :{label:"Leave world",disabled:false,action:"leave"};
     const world=worlds.find(w=>worldKey(w)===selected);
     const current=controller.session?.world;
@@ -153,7 +183,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const updateButtons=()=>{
     const focused=document.activeElement;
     const state=primary();
-    play.disabled=state.disabled;play.textContent=state.label;
+    commit.disabled=state.disabled;commit.textContent=state.label;
     refresh.disabled=loading;
     if(focused instanceof HTMLButtonElement&&panel.contains(focused)&&focused.disabled)status.focus({preventScroll:true});
   };
@@ -161,10 +191,10 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     list.replaceChildren();
     const local=document.createElement("label");local.className="worlds__row worlds__row--local";
     const localChoice=document.createElement("input");localChoice.type="radio";localChoice.name="corealm-world";localChoice.value=LOCAL;
-    localChoice.checked=selected===LOCAL;localChoice.setAttribute("aria-label","Local play only");
+    localChoice.checked=selected===LOCAL;localChoice.setAttribute("aria-label","Play local");
     localChoice.addEventListener("change",()=>{selected=LOCAL;updateButtons();});
     const localDetail=document.createElement("span");localDetail.className="worlds__detail";
-    const localName=document.createElement("strong");localName.textContent="Local play only";
+    const localName=document.createElement("strong");localName.textContent="Play local";
     const localNote=document.createElement("small");localNote.textContent="Your single-player character, on this device.";
     localDetail.append(localName,localNote);
     const localBadge=document.createElement("span");localBadge.className="worlds__badge";
@@ -185,7 +215,33 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     }
     if(!worlds.length){const empty=document.createElement("p");empty.className="worlds__empty";empty.textContent="No worlds found. Add a host below, or play on your own.";list.append(empty);}
     renderAccount();updateButtons();
+    focusChoice();
   };
+  /**
+   * Focus lands on what this browser played last, so Enter repeats it.
+   *
+   * Once, and only once the panel is on the page: the list is painted before boot mounts it, and
+   * focusing a detached input does nothing. It also stands aside for a player who is already typing
+   * a host address or a character name somewhere else in the panel.
+   */
+  const focusChoice=()=>{
+    if(!focusPending||!panel.isConnected||panel.contains(document.activeElement))return;
+    const row=list.querySelector<HTMLInputElement>(`input[type=radio][value="${CSS.escape(selected)}"]`);
+    if(!row)return;
+    focusPending=false;row.focus({preventScroll:true});
+  };
+  /**
+   * Enter on a focused row plays it. The rows are radios inside a list, so the browser's own Enter
+   * has nothing to submit; without this a keyboard player has to tab past every world to the button.
+   */
+  list.addEventListener("keydown",event=>{
+    if(event.key!=="Enter")return;
+    const row=event.target;
+    if(!(row instanceof HTMLInputElement)||row.type!=="radio")return;
+    event.preventDefault();
+    if(!row.checked){row.checked=true;selected=row.value;updateButtons();}
+    runPrimary();
+  });
   const renderAccount=()=>{
     const who=identity?.account()??null;
     // Only worth showing when it changes what the player can do: a world needs an account, or one
@@ -228,7 +284,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     // rejected, or the world is full. Each one has a different next move for the player.
     if(failure?.code==="UNAUTHORIZED")retrySignIn=true;
     if(next==="connected")retrySignIn=false;
-    status.textContent=failure?joinFailureMessage(failure):message??({offline:"Playing single-player",connecting:"Joining world…",connected:`Connected${name?` to ${name}`:""}`,reconnecting:"Connection lost. Reconnecting…",leaving:"Returning to single-player…",full:"This world is full. Choose another world or try again.",incompatible:"This world needs a different game version.",unavailable:"World unavailable. Refresh the list or try again."}[next]);
+    status.textContent=failure?joinFailureMessage(failure):message??({offline:"",connecting:"Joining world…",connected:`Connected${name?` to ${name}`:""}`,reconnecting:"Connection lost. Reconnecting…",leaving:"Returning to single-player…",full:"This world is full. Choose another world or try again.",incompatible:"This world needs a different game version.",unavailable:"World unavailable. Refresh the list or try again."}[next]);
     renderAccount();updateButtons();panel.dispatchEvent(new Event("worldsessionchange"));ports.phase(next,message,failure);
   }});
   let discovery:AbortController|null=null;
@@ -270,13 +326,26 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       // own configuration and the hosts they typed take over the status line.
       const failed=results.find(result=>result.failure&&!result.source.listed);
       if(failed)status.textContent=`${failed.source.label?`${failed.source.label}: `:""}${failed.failure}`;
-      else if(phase==="offline")status.textContent="Playing single-player";
+      else if(phase==="offline")status.textContent="";
     }catch(error){
       if(discovery!==request)return;
       worlds=[];status.textContent=error instanceof SessionFailure?error.message:"Could not load worlds. Check your connection and refresh.";
     }finally{clearTimeout(timeout);if(discovery===request){loading=false;list.removeAttribute("aria-busy");renderList();}}
   };
-  const joinSelected=()=>{const world=worlds.find(w=>worldKey(w)===selected);if(world)void controller.join(world);};
+  /** The one place a choice is committed, so the memory and the telemetry mark cannot drift apart. */
+  const chose=(target:PlayTarget)=>{
+    rememberPlayChoice(target);
+    panel.dispatchEvent(new CustomEvent("worldschosen",{detail:{play:playTargetText(target)}}));
+  };
+  const joinSelected=()=>{
+    const world=worlds.find(w=>worldKey(w)===selected);
+    if(!world)return;
+    chose({kind:"world",providerId:world.providerId,worldId:world.worldId});
+    // A world on another asset host cannot be joined by this page: everything already loaded came
+    // from the page's own origin. The caller writes the choice down and reloads.
+    if(options.rebase?.(world)===true){status.textContent=`Loading ${world.name} from its own asset host…`;updateButtons();return;}
+    void controller.join(world);
+  };
   /** Local play chosen: step out of the way. Over the loading screen that means hiding the panel. */
   const dismiss=()=>{
     pendingJoin=false;
@@ -285,16 +354,17 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     if(panel.classList.contains("worlds--boot"))panel.hidden=true;
     updateButtons();
   };
-  refresh.addEventListener("click",()=>{void reload();});
-  play.addEventListener("click",()=>{
+  const runPrimary=()=>{
     const state=primary();
     if(state.disabled)return;
     if(state.action==="leave"){pendingJoin=false;void controller.leave();return;}
-    if(state.action==="dismiss"){dismiss();return;}
+    if(state.action==="dismiss"){chose({kind:"local"});dismiss();return;}
     if(state.action!=="join")return;
     if(!ready){pendingJoin=true;status.textContent="Joining as soon as the game finishes loading.";updateButtons();return;}
     joinSelected();
-  });
+  };
+  refresh.addEventListener("click",()=>{void reload();});
+  commit.addEventListener("click",runPrimary);
   hostForm.addEventListener("submit",event=>{
     event.preventDefault();
     const url=hostDirectoryUrl(hostInput.value);
@@ -327,15 +397,33 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   // A stored session may have been revoked since this browser last used it; a 401 signs out here
   // rather than at the first join. The result repaints through the subscription above.
   if(identity?.account())void identity.refresh();
-  await reload();
+  // `?play=local` answers before discovery, so the picker never delays a harness or a returning
+  // player who already knows what they want. Everything else waits for the list it is choosing from.
+  if(autoLocal){renderList();void reload();}else await reload();
+  /**
+   * A `?play=<host>/<world>` target, resolved against what discovery actually found.
+   *
+   * Only this and the primary action ever join. A target that does not exist, or that this page
+   * cannot reach, leaves the picker open with the reason on the status line rather than dropping
+   * the player into a world they did not ask for.
+   */
+  const autoWorld=(():WorldDescriptor|null=>{
+    if(play?.kind!=="world")return null;
+    const found=worlds.find(world=>world.providerId===play.providerId&&world.worldId===play.worldId);
+    if(!found){status.textContent=`No world called ${play.providerId}/${play.worldId} answered. Choose one below.`;return null;}
+    const reason=unavailable(found);
+    if(reason){status.textContent=`${found.name} is not available right now (${reason.toLowerCase()}). Choose another world.`;return null;}
+    selected=worldKey(found);focusPending=true;renderList();
+    return found;
+  })();
+  if(play?.kind==="invalid")status.textContent="That play link does not name a world. Choose one below.";
+  if(autoWorld&&ready)joinSelected();
+  else if(autoWorld){pendingJoin=true;status.textContent=`Joining ${autoWorld.name} as soon as the game finishes loading.`;updateButtons();}
   return {panel,controller,
-    /**
-     * The asset host every discovered world agrees on, or undefined when they disagree or say
-     * nothing. Boot loads the session's files from it, so one answer is all it can use; a world
-     * that wants a different host is refused by the session's compatibility check.
-     */
-    assetBase(){const bases=new Set(worlds.map(world=>world.assetBaseUrl??""));
-      return bases.size===1?[...bases][0]!||undefined:undefined;},
+    /** True when `?play=local` answered for the player, so the picker must never be mounted. */
+    autoLocal,
+    /** The panel is on the page: put focus on the row this browser played last, so Enter repeats it. */
+    mounted(){focusChoice();},
     /** The engine is live: enable joining, and honour a choice made during loading. */
     setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)joinSelected();},
     /** Repaints availability after late ports arrive with the scene's seed check. */

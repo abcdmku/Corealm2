@@ -4,6 +4,7 @@
  * Setup uses debug camera/skill controls; the approach and every harvested log require one real
  * canvas click and natural simulation time. Save import and forced timer expiry are separate probes.
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";

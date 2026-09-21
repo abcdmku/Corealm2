@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import { ENEMY_BLOCKS } from "../../game/src/content/enemies.js";
 import { enemyCombatLevel } from "../../game/src/content/index.js";
 

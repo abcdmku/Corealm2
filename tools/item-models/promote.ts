@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";

@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { chromium, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";

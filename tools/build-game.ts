@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { build } from "vite";
 import { gameRoot } from "./lib/paths.js";
 import { assertGameInitialized } from "./lib/server.js";

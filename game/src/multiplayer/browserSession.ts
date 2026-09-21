@@ -12,6 +12,7 @@ import { SessionFailure } from "./protocol.js";
 import { foreignAssetHost, identityUrl } from "../app/config.js";
 import { IdentityClient } from "./identityClient.js";
 import { createWorldSelector, savedHosts } from "../multiplayer/worldSelector.js";
+import { canStorePendingLaunch, joinRoute, storePendingLaunch, type PendingLaunch, type PlayTarget } from "./playIntent.js";
 import type { SessionControllerPorts } from "./providers.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
 import { ActorInterpolation } from "../multiplayer/interpolation.js";
@@ -32,7 +33,11 @@ import { MultiplayerSocial } from "../ui/multiplayerSocial.js";
 import { ContentNotice } from "../ui/contentNotice.js";
 
 /** World selection that outlives the loading screen: built early, wired to the engine later. */
-export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & { attach(ports: SessionControllerPorts): void };
+export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & {
+  attach(ports: SessionControllerPorts): void;
+  /** Whether this page had any world to offer: a configuration, a saved host or an identity service. */
+  configured: boolean;
+};
 
 declare global {
   interface Window {
@@ -60,10 +65,13 @@ export interface BrowserSessionPorts {
  *
  * Discovery and the player's world choice need none of the gameplay ports, so the panel is built
  * and mounted while the game is still loading. Session ports arrive later through `attach`, and
- * `setReady` opens joining once the first frame is on screen. Returns null when the page has no
- * configured worlds and the player has added no host of their own.
+ * `setReady` opens joining once the first frame is on screen.
+ *
+ * The picker always exists now, including on a page with no servers at all, because "play local" is
+ * a choice a player makes rather than the absence of one. `configured` still reports whether there
+ * was anything to join, which is what decides if the menu opens on the worlds view afterwards.
  */
-export async function startWorldSelection(options:{fixture?:boolean}={}):Promise<WorldSelection|null> {
+export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTarget|null;launch?:PendingLaunch|null}={}):Promise<WorldSelection|null> {
   const configuration = window.__COREALM_MULTIPLAYER__;
   // Who signs this page's players in is a property of the page, never of a world: a game server
   // that could name the identity service could name a lookalike and collect sessions.
@@ -71,7 +79,11 @@ export async function startWorldSelection(options:{fixture?:boolean}={}):Promise
   try{const service=identityUrl();if(service)identity=new IdentityClient(service);}
   catch(error){identityError=`Sign-in is unavailable: ${error instanceof Error?error.message:"the identity service address is unusable"}.`;}
   (window as Window&{__corealmIdentity?:IdentityClient|null}).__corealmIdentity=identity;
-  if (!configuration && !savedHosts().length && !identity) return null;
+  const configured = configuration!==undefined||savedHosts().length>0||identity!==null;
+  // A reload carried the previous boot's choice here. The asset base was already set from it, so
+  // this boot joins that world without asking again; one more foreign answer is refused instead.
+  const launch = options.launch ?? null;
+  const play = launch ? {kind:"world",providerId:launch.providerId,worldId:launch.worldId} as const : options.play ?? null;
   const name = document.createElement("input"); name.setAttribute("aria-label", "Development guest name"); name.placeholder = "Development guest name";
   name.value = `guest-${crypto.randomUUID().slice(0, 8)}`; name.maxLength = 40;
   const developmentGuests=options.fixture===true||window.__COREALM_DEVELOPMENT_GUESTS__===true;
@@ -92,13 +104,25 @@ export async function startWorldSelection(options:{fixture?:boolean}={}):Promise
     }
     if(developmentGuests)return {token:`guest:${name.value}`};
     throw new SessionFailure("UNAUTHORIZED","This deployment must provide a sign-in adapter");
-  }, window.__COREALM_PROVIDERS__, {ready:false,identity,identityError});
+  }, window.__COREALM_PROVIDERS__, {ready:false,identity,identityError,play,
+    rebase(world){
+      const route=joinRoute({assetHostForeign:foreignAssetHost(world.assetBaseUrl),
+        rebaseAttempts:launch?.attempts??0,canStore:canStorePendingLaunch()});
+      if(route==="join")return false;
+      if(route==="refuse")throw new SessionFailure("INCOMPATIBLE","This world loads its files from another host, and this page could not switch to it.");
+      // Everything fetched so far came from this page's own origin, and `app/config.ts` locks the
+      // base once a URL is built. Reloading is the only way to start again on the world's host.
+      storePendingLaunch({providerId:world.providerId,worldId:world.worldId,
+        assetBaseUrl:world.assetBaseUrl!,attempts:(launch?.attempts??0)+1});
+      location.reload();
+      return true;
+    }});
   if(developmentGuests){
     const guest=document.createElement("label");guest.className="worlds__identity";
     guest.append("Guest character",name);
     selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__host"));
   }
-  return {...selector, attach(ports){attached.ports=ports;selector.refresh();}};
+  return {...selector, configured, attach(ports){attached.ports=ports;selector.refresh();}};
 }
 
 /** Shared browser presentation and session lifecycle; simulation remains behind the session boundary. */
@@ -146,7 +170,9 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
     validate(world){
       if(world.fixture!==(options.fixture?"lab":"authored"))throw new SessionFailure("INCOMPATIBLE","This world uses a different scene from the loaded game");
       if(ports.expectedSeed!==undefined&&world.seed!==ports.expectedSeed)throw new SessionFailure("INCOMPATIBLE","This world uses a different map seed from the loaded scene");
-      if(foreignAssetHost(world.assetBaseUrl))throw new SessionFailure("INCOMPATIBLE","This world uses a different asset host from the loaded game");
+      // A different asset host is no longer a refusal. Preloading starts from this page's own base
+      // before a world is chosen, so the answer is a reload onto the world's host, which the
+      // selector's `rebase` port performs before it ever reaches this check.
     },
     clear() {
       social?.clear(); remote.clear(); interpolation.clear(); publicPlayers.clear(); motionTicks.clear();

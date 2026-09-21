@@ -7,6 +7,7 @@
  * at each school and the cast itself all run through the production route planner, movement and
  * interaction dispatcher. Screenshots still need human inspection.
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import type { SemanticEntity, Vec3 } from "../game/src/contracts.js";

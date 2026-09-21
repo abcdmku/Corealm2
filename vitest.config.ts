@@ -5,6 +5,9 @@ export default defineConfig({
     // Only maintained tests enter the suite. Disposable probes and archived
     // source copies must not grow the default discovery workload.
     include: ["tests/**/*.test.ts", "tools/creature-motion/**/*.test.ts"],
+    // The compiled catalog is installed before a test file's own imports evaluate. Nothing under
+    // `content/` carries it any more, so without this the first content import throws.
+    setupFiles: ["vitest.setup.ts"],
     // Asset and terrain tests allocate full meshes. Bound concurrency so their
     // local deadlines remain meaningful on machines with many logical cores.
     maxWorkers: 4,

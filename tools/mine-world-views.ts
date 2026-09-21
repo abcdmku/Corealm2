@@ -6,6 +6,7 @@
  *
  *   PORT=4190 npx tsx tools/mine-world-views.ts [--out test-results/slice11/views] [--site <id>]
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { WORLD_SITES, worldSitePoint } from "../game/src/content/worldSites.js";

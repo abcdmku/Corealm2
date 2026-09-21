@@ -2,6 +2,7 @@
  * npx tsx tools/creature-motion/attack-contact-proof.ts --only=animal_bear,animal_coyote --validate-only
  * npx tsx tools/creature-motion/attack-contact-proof.ts --url http://127.0.0.1:4175 --only=animal_bear,animal_coyote --out test-results/attack-heavy
  */
+import "../lib/repoContent.js";
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';

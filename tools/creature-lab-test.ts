@@ -10,6 +10,7 @@
  * through `CorealmGameApi`, and `systems/enemyAI.ts` and `systems/combat.ts` own every transition
  * asserted below. The lab only chooses which creature stands where.
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";

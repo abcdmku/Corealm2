@@ -1,4 +1,5 @@
 /** Reproduce the accepted jewelry masters and derivatives from the durable art registry. */
+import "./lib/repoContent.js";
 import { generateItemIcons } from './generate-item-icons.js';
 import { CRAFTED_JEWELRY } from '../game/src/content/jewelry.js';
 import { MINIBOSS_JEWELLERY } from '../game/src/content/universalMinibossLoot.js';

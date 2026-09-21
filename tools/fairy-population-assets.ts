@@ -1,4 +1,5 @@
 /** Stage generated UV artwork through production GLB materials; promotion follows lab proof. */
+import "./lib/repoContent.js";
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';

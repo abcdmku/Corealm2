@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import * as THREE from 'three';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { WorldScene } from '../game/src/render/scene.js';

@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";

@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir } from "node:fs/promises";
 import { GameDriver } from "./lib/driver.js";

@@ -2,6 +2,7 @@
  * npx tsx tools/creature-motion/ground-browser-proof.ts --url http://127.0.0.1:4175 --out test-results/ground-motion
  * --only=animal_frog,animal_scorpion restricts the bounded loop. No time skips or pose overrides.
  */
+import "../lib/repoContent.js";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";

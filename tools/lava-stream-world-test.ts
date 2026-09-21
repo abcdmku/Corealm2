@@ -1,4 +1,5 @@
 /** World-only placement proof after the production deep lava lab has passed. */
+import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';

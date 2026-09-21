@@ -1,4 +1,5 @@
 /** Refresh only accepted tree rows in the manifest after a production nature build. */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, writeFile, rename } from "node:fs/promises";

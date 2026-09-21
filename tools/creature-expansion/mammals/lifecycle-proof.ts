@@ -7,6 +7,7 @@
  *  - settled corpse captured from two yaws; natural loot pickup is proved when an item drops;
  *  - movement/turn metrics use the shared living-sample rules in tools/rpg-bestiary/lifecycle-metrics.ts.
  * Usage: npx tsx tools/creature-expansion/mammals/lifecycle-proof.ts --id redbrush_fox --catalog <catalogue.json> --url http://127.0.0.1:4181 --out test-results/<dir> */
+import "../../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';

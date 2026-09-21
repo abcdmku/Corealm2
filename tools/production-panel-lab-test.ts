@@ -1,4 +1,5 @@
 /** First-load cancellation and one natural craft through the production station UI. */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";

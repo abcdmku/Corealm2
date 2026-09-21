@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { chromium } from 'playwright';
 import * as THREE from 'three';
 import assert from 'node:assert/strict';

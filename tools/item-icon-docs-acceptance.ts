@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import path from "node:path";
 import { access, mkdir, readdir, writeFile } from "node:fs/promises";
 import { ALL_ITEMS } from "../game/src/content/items.js";

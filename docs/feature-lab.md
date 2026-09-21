@@ -47,6 +47,15 @@ Start with the session's default presentation fixture. Change routes in the same
 {"op":"close"}
 ```
 
+The loading screen now always shows the world picker, so an authored-world route has to say
+that it means the single-player game: open `/?play=local`, or `/index.html?play=local&…`.
+`GameDriver.open` in `tools/lib/driver.ts` adds `play=local` to every route that does not
+already carry a `play` target, which covers the harnesses that go through the driver. A
+harness that calls `page.goto` itself adds it. Lab routes (`?mode=combat`, `?mode=building`)
+need nothing: `bootProfile.ts` resolves them to the feature-lab profile, and boot never
+builds a picker for that profile. `?play=<providerId>/<worldId>` is the other spelling, for
+a harness that wants a specific world joined as soon as the first frame is drawn.
+
 Wait for the `ready` response before sending commands. Interact with the canvas before
 keyboard movement; the lab panel can hold focus after boot. The session journal records all
 commands and results under ignored `test-results/lab-session/`. `ok: true` only means

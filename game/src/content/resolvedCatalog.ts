@@ -1,4 +1,3 @@
-import { tables as bundledTables, revision as bundledRevision, formulaRevision as bundledFormulaRevision, version as bundledVersion } from '../../content/compiled/catalog.json';
 import { takeInstalledCatalog, type InstalledCatalog } from './catalogInstall.js';
 import type { ItemDef } from '../contracts.js';
 import type { RecipeDef, ResourceDef, EnemyDef } from './index.js';
@@ -9,8 +8,20 @@ import type { CreatureSpeciesDef } from './creatureSpecies.js';
 import type { RpgBestiaryEntry } from './rpgBestiary.js';
 import type { SourceLocation } from './compiler/contracts.js';
 
-/** A server installs its database's catalog before this module loads. Everything else runs on the build's. */
-const { tables, revision, formulaRevision, version } = takeInstalledCatalog() ?? { tables: bundledTables, revision: bundledRevision, formulaRevision: bundledFormulaRevision, version: bundledVersion };
+/**
+ * The catalog this process runs on, claimed once, at the moment the content graph starts evaluating.
+ *
+ * There is no fallback here on purpose. This module holds no static import of the compiled JSON, so
+ * a client, a worker or a server bundle that never needs it never carries it. A process that wants
+ * the build's catalog says so by importing `bundledCatalog.js` first; a server installs its
+ * database's catalog first. A process that did neither is misordered, and the error says so rather
+ * than silently running on content from the wrong place.
+ */
+const installed = takeInstalledCatalog();
+if (!installed) {
+  throw new Error("No content catalog is installed. Import \"content/bundledCatalog.js\" for its side effect before any content module to run on the build's catalog, or call installCatalog() and then import() the rest.");
+}
+const { tables, revision, formulaRevision, version } = installed;
 export const RESOLVED_TABLES = tables as unknown as Record<string, unknown>;
 
 /** Only successful source transactions or checked builds replace this versioned artifact. */

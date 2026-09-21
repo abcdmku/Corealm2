@@ -1,4 +1,5 @@
 /** Verify accepted tree bytes and authentic forest gate evidence without launching Chromium. */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";

@@ -1,3 +1,4 @@
+import "../tools/lib/repoContent.js";
 import path from "node:path";
 import { brotliCompressSync, constants as zlibConstants, gzipSync } from "node:zlib";
 import { defineConfig, type Plugin } from "vite";

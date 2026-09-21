@@ -1,4 +1,5 @@
 /** CPU-only finite catalogue inventory. Run with node --import tsx tools/structure-review-plan.ts. */
+import "./lib/repoContent.js";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";

@@ -1,4 +1,5 @@
 /** Root-scheduled visual captures. A screenshot is review material, never automatic art acceptance. */
+import "./lib/repoContent.js";
 import path from "node:path";
 import type { Page } from "playwright";
 import { createHash } from "node:crypto";

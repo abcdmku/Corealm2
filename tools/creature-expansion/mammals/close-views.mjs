@@ -1,3 +1,4 @@
+import "../../lib/repoContent.js";
 import {installAssetCandidates} from '../../lib/assetCandidates.ts';
 import {installTestDeadline} from '../../lib/deadline.ts';
 import {chromium} from 'playwright';

@@ -1,4 +1,5 @@
 /** Reports each animal's move speed against what its walk cycle implies, and the resulting rate. */
+import "../lib/repoContent.js";
 import { readFile } from "node:fs/promises";
 import { ENEMIES } from "../../game/src/content/enemies.js";
 import { REGIONS } from "../../game/src/content/regions.js";

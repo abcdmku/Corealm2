@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
@@ -63,7 +64,7 @@ try {
   checks.authoritativeInteractionAccepted = (await a.locator("#multiplayer-selector [role=status]").textContent()) === "Accepted by world";
   checks.productionGatherAwardedInventory = true;
   const sessionId=await a.evaluate(()=>(window.__multiplayerLab!.observe() as {sessionId:string}).sessionId);
-  for(const hosted of server.worlds.values())for(const peer of hosted.peers.values())if(peer.playerId==="alice")peer.ws.terminate();
+  for(const hosted of server.worlds.values())for(const peer of hosted.peers.values())if(peer.playerId==="alice")peer.link.ws.terminate();
   await a.waitForFunction(old=>(window.__multiplayerLab!.observe() as {sessionId:string}).sessionId!==old && document.querySelector("#multiplayer-selector")?.getAttribute("data-phase")==="connected",sessionId,{timeout:5000});
   checks.reconnectSnapshot=true;
   await a.getByRole("radio", { name: "Independent world", exact: true }).check();

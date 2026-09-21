@@ -2,6 +2,7 @@
  * npx tsx tools/creature-motion/combat-residency-proof.ts --url http://127.0.0.1:4175 --only=animal_coyote
  * --stage all|residency|combat; --validate-only never launches Chromium. At most two actors, 120 seconds.
  */
+import "../lib/repoContent.js";
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';

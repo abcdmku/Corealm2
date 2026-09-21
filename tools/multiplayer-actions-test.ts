@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import { chromium, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";

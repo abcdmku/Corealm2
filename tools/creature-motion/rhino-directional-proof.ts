@@ -2,6 +2,7 @@
  * npx tsx tools/creature-motion/rhino-directional-proof.ts --url http://127.0.0.1:4175 --out test-results/rhino-directional
  * --only=boss_rhino_earth,boss_rhino_water (default). No forced pose, health, damage or time.
  */
+import "../lib/repoContent.js";
 import path from 'node:path';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';

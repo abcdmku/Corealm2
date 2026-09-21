@@ -2,6 +2,7 @@
  * npx tsx tools/creature-motion/legacy-browser-proof.ts --url http://127.0.0.1:4175 --only=animal_coyote,animal_bear,animal_cattle,animal_aurochs
  * Defaults to three actors, at most four per 120-second run. --validate-only never launches Chromium.
  */
+import "../lib/repoContent.js";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";

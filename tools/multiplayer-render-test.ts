@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import {chromium} from "playwright";
 import {mkdir,writeFile} from "node:fs/promises";
 import {cpus,totalmem} from "node:os";

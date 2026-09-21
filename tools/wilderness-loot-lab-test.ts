@@ -1,4 +1,5 @@
 /** Production crafting, worn gear and keeper rune supply in one compact, bounded lab scene. */
+import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { mkdir, writeFile } from 'node:fs/promises';

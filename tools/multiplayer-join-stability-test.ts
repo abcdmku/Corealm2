@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { chromium, type BrowserContext, type CDPSession, type Page } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import {

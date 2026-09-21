@@ -2,6 +2,7 @@
  * Root-scheduled hardware run: npx tsx tools/biome-creatures-world-test.ts
  * Owns its Vite server and browser. Art acceptance still requires screenshot inspection.
  */
+import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { PerspectiveCamera, Vector3 } from 'three';

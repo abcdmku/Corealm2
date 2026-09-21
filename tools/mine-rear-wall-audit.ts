@@ -7,6 +7,7 @@
  * the crest are the "rear shoulder" defects; front-facing stone above the work floor is the
  * intended cliff. No browser is launched. Run with `npx tsx tools/mine-rear-wall-audit.ts [--json]`.
  */
+import "./lib/repoContent.js";
 import * as THREE from "three";
 import type { SemanticEntity } from "../game/src/contracts.js";
 import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";

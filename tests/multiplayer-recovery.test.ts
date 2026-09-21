@@ -40,7 +40,7 @@ describe("multiplayer recovery and privacy", () => {
     const hosted=[...server.worlds.values()][0]!,peer=hosted.peers.get(slow.sessionId)!;
     const closed=new Promise<{code:number;reason:string}>(resolve=>slow.ws.once("close",(code,reason)=>resolve({code,reason:reason.toString()})));
     // The workload exercises real paused TCP consumers. Here pin the exact production queue boundary.
-    Object.defineProperty(peer.ws,"bufferedAmount",{get:()=>2*1024*1024});
+    Object.defineProperty(peer.link.ws,"bufferedAmount",{get:()=>2*1024*1024});
     healthy.ws.send(JSON.stringify({type:"command",envelope:{sessionId:healthy.sessionId,sequence:1,operation:1,command:{method:"stop",args:[]}}}));
     expect(await closed).toMatchObject({code:4008,reason:"BACKLOG: outbound queue exceeded"});
     await expect.poll(()=>healthy.messages.some(message=>message.type==="ack"),{timeout:1500,interval:10}).toBe(true);

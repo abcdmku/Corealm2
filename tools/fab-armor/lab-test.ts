@@ -1,4 +1,5 @@
 /** Root-run 60-second equipment shard. Screenshots require human visual acceptance. */
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';

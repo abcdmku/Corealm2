@@ -7,6 +7,7 @@
  * through the production route planner, then left again. Relocation to the approach ring is setup;
  * the walk in, the walk out and the camera are production behaviour. Screenshots need inspection.
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import type { Vec3 } from "../game/src/contracts.js";

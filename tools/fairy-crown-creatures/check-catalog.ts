@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { FAIRY_CROWN_SPECIES, FAIRY_CROWN_FORMS, FAIRY_CROWN_SOURCE_ASSETS, FAIRY_CROWN_BOSS_IDS } from '../../game/src/content/fairyCrownCreatures.js';

@@ -88,10 +88,19 @@ export class GameDriver {
     });
   }
 
+  /**
+   * Opens a game route and waits for the debug surface to report ready.
+   *
+   * Every route gets `play=local` unless it already names a target. The loading screen always shows
+   * the world picker now, and a run that never answers it finishes boot with the worlds menu open
+   * over the game — so a harness that means "the single-player game, as it has always been" has to
+   * say so. This is the one place the 70-odd `open()` callers say it.
+   */
   async open(timeoutMs = 20_000, route = "/"): Promise<void> {
     const page = this.requirePage();
     const url = new URL(route, this.server.url);
     if (url.origin !== new URL(this.server.url).origin) throw new Error("Game route must use the server origin");
+    if (!url.searchParams.has("play")) url.searchParams.set("play", "local");
     await page.goto(url.href, { waitUntil: "load", timeout: timeoutMs });
     await page.waitForFunction(
       () => window.__gameDebug?.getState().ready === true,

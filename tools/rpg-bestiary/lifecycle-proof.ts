@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import {lifecycleMetrics} from './lifecycle-metrics.js';
 /** One frozen candidate's real production AI lifecycle; root schedules GPU. */
 import assert from 'node:assert/strict';

@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { createRpgRegionalPackCatalogue, RPG_REGIONAL_PACK_PLAN, type RpgPackModelMeasurement } from "../game/src/content/rpgRegionalPacks.js";

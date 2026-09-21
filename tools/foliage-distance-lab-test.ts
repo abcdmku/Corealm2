@@ -1,6 +1,7 @@
 /** Production foliage distance proof. Root runs against a stable existing Vite server:
  * npx tsx tools/foliage-distance-lab-test.ts --url http://127.0.0.1:4175
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";

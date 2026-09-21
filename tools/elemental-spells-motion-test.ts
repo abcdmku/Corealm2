@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { elementalDuration } from "../game/src/content/elementalFinales.js";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";

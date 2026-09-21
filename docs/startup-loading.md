@@ -24,6 +24,22 @@ IndexedDB keeps an optional disposable copy, without player progress or depletio
 
 The build validates navigation against authored sources and embeds its expected fingerprint. Release startup imports that artifact without reconstructing distant navigation meshes merely to fingerprint them again. Import still checks integrity, seed and fingerprint. A gzip `.nav` wrapper reduces transfer to about 1.4 MB. Authoring and labs retain runtime generation and the original `.bin` artifact.
 
+## Choosing where to play
+
+The loading screen always shows the picker. `Play local` leads the list, then each server's worlds with live population, then the field for adding a server by address. A page with no server behind it still shows it, because playing alone is a choice rather than the absence of one.
+
+Focus starts on the row this browser played last, which `localStorage["corealm.play.v1"]` remembers as `local` or `<providerId>/<worldId>`. Enter on the focused row plays it. A remembered choice only moves focus and ticks a radio; nothing joins a world without the player saying so, or without `?play=`.
+
+`?play=` skips the picker. `?play=local` starts the single-player game and never mounts the panel. `?play=<providerId>/<worldId>` joins that world as soon as the first frame is drawn. Anything else — a malformed value, a world that did not answer discovery, a world that is full or incompatible — falls back to the picker with the reason on its status line. `GameDriver.open` in `tools/lib/driver.ts` adds `play=local` to every route that does not already name a target, which is what keeps the browser harnesses running unattended. A lab URL (`?mode=combat`, `?mode=building`) implies local play on its own: `bootProfile.ts` resolves those to the feature-lab profile, and boot never builds a picker for it.
+
+## Asset host and preloading
+
+The asset base is settled at the top of boot and never again, because `app/config.ts` locks its answer as soon as the first URL is built. There are two answers: this page's own deployment directory, or the host a previous boot wrote down on its way to a world that names a different one.
+
+Preloading therefore runs behind the picker rather than after it. The manifest, animation libraries, the shipped world records around the spawn and the models they name all start from the page's own base while the player is still choosing; the `boot.preload.behindPicker` span measures that work, and `boot.picker.shown` and `boot.picker.chosen` mark the two ends of the wait.
+
+A world that names a different asset host cannot be joined by re-pointing a live `AssetRegistry` — the session would hold half its models from each origin. The choice is written to `sessionStorage["corealm.play.pending.v1"]` and the page reloads. The second boot sets the base from that record before the first fetch and joins the world without asking again. Exactly one reload is spent on it: if the host is still foreign afterwards, the page pinned its own base through `window.__COREALM_ASSET_BASE__` and the join is refused instead of looping. `test-results/m7-1/picker-preload-proof.ts` measures both halves — assets requested before the choice, then zero public files from the client origin after the reload.
+
 ## Complete starting view
 
 The HTML loading screen appears before the engine bundle arrives. It shows the stage, a stage progress bar, elapsed time and completed download bytes. It does not invent a percentage or estimated remaining size.

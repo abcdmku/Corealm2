@@ -19,6 +19,7 @@
  * Steps that use a debug shortcut instead of real play are recorded in each mine's `shortcuts`
  * list so a reader never mistakes them for gameplay proof.
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { PerspectiveCamera, Vector3 } from "three";

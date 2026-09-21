@@ -4,6 +4,7 @@
  * The setup API selects reproducible content. Gameplay proof still uses the production canvas,
  * keyboard controller, equipment panel, renderer, navigation, combat, rigs, and effects.
  */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir } from "node:fs/promises";
 import { chromium, type Browser, type Locator, type Page } from "playwright";

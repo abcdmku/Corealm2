@@ -1,4 +1,5 @@
 /** Root-run final-world integration. 90s cold-world budget; isolated art is proved in the lab. */
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { mkdir, writeFile } from 'node:fs/promises';

@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { spawn } from "node:child_process";
 import { cpus, totalmem } from "node:os";
 import { mkdir, writeFile } from "node:fs/promises";

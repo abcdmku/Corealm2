@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import { fileURLToPath } from "node:url";
 import { Document, NodeIO, type Accessor, type Node } from "@gltf-transform/core";
 import { copyToDocument } from "@gltf-transform/functions";

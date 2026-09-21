@@ -1,4 +1,5 @@
 /** Scheduled production hardware review. Run bounded batches only with the root's GPU slot. */
+import "../lib/repoContent.js";
 import assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";

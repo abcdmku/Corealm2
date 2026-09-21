@@ -4,6 +4,7 @@
  * Selectors are exact, combined with AND; PNG paths are relative to the config file.
  * Omit assetId to share one Knight atlas. Multiple matches are an error.
  */
+import "../lib/repoContent.js";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";

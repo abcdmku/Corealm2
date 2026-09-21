@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { gameRoot } from './lib/paths.js';

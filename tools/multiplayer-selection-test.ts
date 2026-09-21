@@ -53,7 +53,7 @@ try {
   // Local play leads the list and is the standing choice until the player picks a world.
   check("localPlayFirst", await page.locator(".worlds__row").first().evaluate(row => row.classList.contains("worlds__row--local")));
   check("localPlayChosenByDefault", await page.locator(".worlds__row--local input").isChecked()
-    && (await primary.textContent())?.trim() === "Play offline");
+    && (await primary.textContent())?.trim() === "Play local");
   check("oneAction", await primary.count() === 1);
   await page.screenshot({ path: `${out}/loading-selection.png`, timeout: 10_000 });
 
@@ -88,15 +88,23 @@ try {
   await page.locator(".worlds__row--world input").first().waitFor({ timeout: 60_000 });
   check("addedHostSurvivesReload", await loading(page) && await panel.isVisible());
   check("addedHostListsWorlds", await page.locator(".worlds__row--world strong").count() >= 1);
+  // The world joined above comes back ticked, with focus on it, so Enter repeats it. Remembering is
+  // not joining: the session stays offline until the player commits again.
+  check("lastChoiceRemembered", await page.locator(".worlds__row--world input:checked").count() === 1);
+  check("lastChoiceHoldsFocus", await page.evaluate(() =>
+    document.activeElement?.closest(".worlds__row")?.classList.contains("worlds__row--world") === true));
+  check("lastChoiceDoesNotAutoJoin", await panel.getAttribute("data-phase") === "offline");
   await page.screenshot({ path: `${out}/saved-host-only.png`, timeout: 10_000 });
 
   // Choosing local play during loading puts the panel away and leaves the game offline.
-  checks.playOfflineDuringLoading = await loading(page);
-  await page.getByRole("button", { name: "Play offline", exact: true }).click();
-  check("playOfflinePutsPanelAway", !await panel.isVisible());
+  checks.playLocalDuringLoading = await loading(page);
+  await page.locator(".worlds__row--local input").check();
+  await page.getByRole("button", { name: "Play local", exact: true }).click();
+  check("playLocalPutsPanelAway", !await panel.isVisible());
   await page.locator("#boot-screen").waitFor({ state: "detached", timeout: 120_000 });
-  check("playOfflineStaysOffline", await panel.getAttribute("data-phase") === "offline" && !await panel.isVisible());
-  check("playOfflineLeavesTheMenuClosed", !await page.getByRole("dialog", { name: "Corealm", exact: true }).isVisible());
+  check("playLocalStaysOffline", await panel.getAttribute("data-phase") === "offline" && !await panel.isVisible());
+  check("playLocalLeavesTheMenuClosed", !await page.getByRole("dialog", { name: "Corealm", exact: true }).isVisible());
+  check("playLocalRemembered", await page.evaluate(() => localStorage.getItem("corealm.play.v1")) === "local");
   await page.screenshot({ path: `${out}/local-play.png`, timeout: 10_000 });
 
   // Removing the host puts the page back to single-player.

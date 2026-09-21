@@ -25,6 +25,7 @@
  *   npx tsx tools/creature-field-probe.ts                       # every group in the table below
  *   npx tsx tools/creature-field-probe.ts marchfield_hens_1
  */
+import "./lib/repoContent.js";
 import { chromium, type Browser, type Page } from "playwright";
 import { REGIONS } from "../game/src/content/regions.js";
 import MANIFEST from "../game/public/assets/manifest.json" with { type: "json" };

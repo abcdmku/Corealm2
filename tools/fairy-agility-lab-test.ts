@@ -1,4 +1,5 @@
 /** Root-owned browser gate. Uses the existing production agility fixture and an attached camera. */
+import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { FAIRY_AGILITY_LINKS } from '../game/src/content/fairyAgility.js';

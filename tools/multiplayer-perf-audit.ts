@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import {build,preview} from "vite";
 import {resolve} from "node:path";
 import {chromium} from "playwright";

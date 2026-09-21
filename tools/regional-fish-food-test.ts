@@ -10,6 +10,7 @@
  *   npx tsx tools/regional-fish-food-test.ts --tier 40 --url http://127.0.0.1:4174
  *   npx tsx tools/regional-fish-food-test.ts --tier 60 --url http://127.0.0.1:4174
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";

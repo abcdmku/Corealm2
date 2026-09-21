@@ -3,11 +3,10 @@ import type { PlayerCharacter, PlayerClaim, StoredPlayerEdit, StoredPlayerEditRe
 import type { PlayerSessionState } from "../state/store.js";
 import { ADMIN_SCHEMA, SqliteAdminStorage, type AuditWriter, type ServerAdminStorage } from "./adminStorage.js";
 import { CATALOG_SCHEMA, SqliteCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
+import { PLAYER_LEASE_MS } from "./playerTables.js";
 import { worldKey } from "./protocol.js";
 
 export const STORAGE_SCHEMA_VERSION = 3;
-/** A live lease outlives this much silence from its world, then any world may take the account. */
-export const PLAYER_LEASE_MS = 30_000;
 /** Renewal and playtime accounting piggyback on a tick commit this often, never as a write of their own. */
 export const PLAYER_LEASE_RENEW_MS = 10_000;
 

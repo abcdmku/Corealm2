@@ -27,6 +27,7 @@
  */
 import type * as THREE from "three";
 import type { NavMesh, NavMeshQuery } from "@recast-navigation/core";
+import { currentRecastEnvironment, usesExternalRecastWasm } from "./recastEnvironment.js";
 import type { EntityId, RegionId, SolidVolume, Vec3 } from "../contracts.js";
 import { generatedUrl, NAV_CONFIG, PLAYER_SPEED } from "../app/config.js";
 import { distance, distanceXZ, pathLength } from "../core/math.js";
@@ -338,9 +339,11 @@ export class Navigation {
         ({ init, NavMeshQuery, importNavMesh, exportNavMesh })),
       import("@recast-navigation/generators").then(({ generateSoloNavMesh, generateTiledNavMesh, mergePositionsAndIndices }) =>
         ({ generateSoloNavMesh, generateTiledNavMesh, mergePositionsAndIndices })),
-      typeof window === "undefined"
-        ? Promise.resolve(null)
-        : import("@recast-navigation/wasm/wasm"),
+      // Node takes the embedded build so the server needs no sidecar file; a window and a Web
+      // Worker both fetch the external one. See `recastEnvironment.ts`.
+      usesExternalRecastWasm(currentRecastEnvironment())
+        ? import("@recast-navigation/wasm/wasm")
+        : Promise.resolve(null),
     ]).then(async ([core, generators, wasm]) => {
       // The dynamic boundary separates the Emscripten module evaluation from the application
       // entry task. Browser boot still starts it immediately and still uses the external WASM.

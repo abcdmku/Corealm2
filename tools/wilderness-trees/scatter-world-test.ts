@@ -1,3 +1,4 @@
+import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {SCATTER_STREAM_TILE_METRES} from '../../game/src/world/scatter.js';

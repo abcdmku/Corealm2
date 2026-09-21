@@ -1,8 +1,10 @@
 import type { PlayerCharacter, PlayerClaim, PlayerWorldRecord, StoredPlayerEdit, StoredPlayerEditResult, WorldCommitResult, WorldKey, WorldStorage, WorldStorageRecord } from "../contracts.js";
-import { MemoryAdminStorage, type MemoryPlayerRow, type ServerAdminStorage } from "./adminStorage.js";
+import type { ServerAdminStorage } from "./adminStorage.js";
 import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
+// Never `adminStorage.js` or `sqliteStorage.js` at run time: this class is the storage a browser
+// worker runs local play on, and those two reach `node:crypto` and `node:sqlite`.
+import { MemoryAdminStorage, PLAYER_LEASE_MS, type MemoryPlayerRow } from "./playerTables.js";
 import { worldKey } from "./protocol.js";
-import { PLAYER_LEASE_MS } from "./sqliteStorage.js";
 
 interface Lease { world: string; sessionId: string; expiresAt: number; reserved: boolean }
 interface Account { name: string; character: string | null; lastWorld: WorldKey | null; firstSeen: number; lastSeen: number }

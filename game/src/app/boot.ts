@@ -1,4 +1,5 @@
 import { assetBaseUrl, generatedUrl, publicUrl, setPublicBaseUrl } from "./config.js";
+import { playTargetOf, takePendingLaunch } from "../multiplayer/playIntent.js";
 import { registerDisplayFont } from "../ui/displayFont.js";
 import { runtimeTables } from '../content/runtimeCatalog.js';
 import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
@@ -249,36 +250,47 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
   requestAnimationFrame(refreshStatusFrame);
 
+  // 1b. The asset host, settled here and nowhere else, because `app/config.ts` locks the answer as
+  //     soon as the first URL is built. There are exactly two answers: this page's own deployment
+  //     directory, or the host a previous boot wrote down on its way to a world that names another
+  //     one. Both are known now, so nothing below waits on the network to start fetching.
+  //
+  //     Preloading therefore runs behind the picker rather than after it. A world on a foreign
+  //     asset host is reached by writing the choice to session storage and reloading, which is the
+  //     only way to change the base without re-pointing a live `AssetRegistry` mid-session.
+  const pendingLaunch = takePendingLaunch();
+  const playTarget = playTargetOf(location.search);
+  bootTelemetry.measureSync(BOOT_SPANS.ASSET_BASE_RESOLVE, () => { setPublicBaseUrl(pendingLaunch?.assetBaseUrl); });
+
   // World selection runs beside loading rather than after it. Discovery is network work that needs
   // nothing from the engine, so the panel goes on the loading screen and the player picks a world,
   // adds a host or types a character name while the scene is still being built. Joining stays shut
   // until the first frame is drawn; a choice made before then is honoured the moment it opens.
   const worldSelection = profile.kind === "game"
-    ? import("../multiplayer/browserSession.js").then(({ startWorldSelection }) => startWorldSelection()).catch(() => null)
+    ? import("../multiplayer/browserSession.js")
+      .then(({ startWorldSelection }) => startWorldSelection({ play: playTarget, launch: pendingLaunch }))
+      .catch(() => null)
     : Promise.resolve(null);
-  // Set when the player answers "local play only" on the loading screen: the menu must not then
-  // open over the game they just asked to start.
+  // Set when the player answers "Play local" on the loading screen, or when `?play=local` answered
+  // for them: the menu must not then open over the game they just asked to start.
   let choseLocalPlay = false;
   void worldSelection.then((selection) => {
     const screen = document.getElementById("boot-screen");
     if (!selection) return;
     selection.panel.addEventListener("worldsdismiss", () => { choseLocalPlay = true; });
+    selection.panel.addEventListener("worldschosen", (event) => {
+      bootTelemetry.instant("boot.picker.chosen", { play: String((event as CustomEvent<{ play: string | null }>).detail?.play ?? "") });
+    });
+    if (selection.autoLocal) { choseLocalPlay = true; return; }
     if (!screen) return;
     selection.panel.classList.add("worlds--boot");
     screen.append(selection.panel);
+    selection.mounted();
+    bootTelemetry.instant("boot.picker.shown");
   });
 
-  // 1b. The asset host. A server names the origin its clients load models, textures, audio and
-  //     generated world data from, and that answer arrives with discovery — so it has to be settled
-  //     before the first of those files is asked for. There is no recovery from a session that
-  //     loaded half its models from one origin and half from another, so this is the one place the
-  //     base is decided. A page with no multiplayer configuration resolves instantly and keeps the
-  //     relative paths it has always used. The WASM libraries need nothing from the asset host, so
-  //     they initialize across the wait instead of behind it.
   const navigationLibrary = bootTelemetry.measureAsync(BOOT_SPANS.NAVIGATION_WASM_INIT, () => Navigation.initLibrary());
   void navigationLibrary.catch(() => {}); // The awaited use below owns the failure screen.
-  setPublicBaseUrl(await bootTelemetry.measureAsync(BOOT_SPANS.ASSET_BASE_RESOLVE,
-    async () => (await worldSelection)?.assetBase()));
   registerDisplayFont();
 
   // 2. Core services and save. The save must win before any seeded world work starts. Loading it
@@ -423,10 +435,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       generatedUrl('world/manifest.json'), import.meta.env.PROD) : localCache);
   (window as any).__corealmGenerationCache = generationCache;
   const initialAreaPosition = resumedFromSave ? store.get().player.position : [profile.spawn.x,0,profile.spawn.z];
+  // The world records and models around the spawn, from this page's own asset base, started while
+  // the picker is still on screen. Its own span so stage 6 can read how much of the wait for a
+  // choice was already paid for.
   const earlyAssets = generationCache instanceof ShippedWorldData && store.get().player.regionId !== 'gravelmaw'
-    ? generationCache.preloadArea(initialAreaPosition[0]!,initialAreaPosition[2]!,
+    ? bootTelemetry.measureAsync('boot.preload.behindPicker', () => generationCache.preloadArea(initialAreaPosition[0]!,initialAreaPosition[2]!,
       structureResidencyRadius(initialSettings.drawDistance),
-      async id=>{ await manifestBootstrap; if(assets.entry(id)) await assets.load(id,{priority:'visible-spawn',primary:true}); }) : Promise.resolve();
+      async id=>{ await manifestBootstrap; if(assets.entry(id)) await assets.load(id,{priority:'visible-spawn',primary:true}); })) : Promise.resolve();
   void earlyAssets.catch(()=>{}); // Normal residency preparation reports failures and offers retry.
 
   setStatus("Loading the game…",1);
@@ -3880,7 +3895,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         },
         restored(){multiplayerWorld=false;forest.reset();for(const {descriptor}of forestInstances.values())if(!worldExclusions.blocksTreeClearance(descriptor.position[0],descriptor.position[2],descriptor.trunkRadius))forest.register(descriptor);updateForest();refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
       }, {crowds:true,equipment:true}, selection);
-      if(!choseLocalPlay)ui.openTitle("worlds");
+      // Only when there was something to join. The picker shows on every page now, but a page with
+      // no servers behind it has nothing to offer a player who let loading finish without choosing.
+      if(!choseLocalPlay&&selection.configured)ui.openTitle("worlds");
     }
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
     const beforeGameplay = renderer.getPresentationState().submitted;

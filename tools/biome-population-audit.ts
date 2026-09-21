@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { REGIONS, SOURCE_REGIONS } from '../game/src/content/regions.js';

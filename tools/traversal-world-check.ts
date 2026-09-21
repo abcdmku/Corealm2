@@ -6,6 +6,7 @@
  * through the production route planner (corealm_move_to to the far location) or the real
  * interaction dispatcher (corealm_interact). Screenshots still need human inspection.
  */
+import "./lib/repoContent.js";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";

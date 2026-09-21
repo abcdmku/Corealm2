@@ -1,3 +1,4 @@
+import "./lib/repoContent.js";
 import * as THREE from 'three';
 import assert from 'node:assert/strict';
 import { writeFile, mkdir } from 'node:fs/promises';
