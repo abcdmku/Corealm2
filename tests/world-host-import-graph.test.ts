@@ -56,5 +56,6 @@ it("still sees a Node import when there is one", async () => {
   const { offences } = await browserGraph("game/src/multiplayer/referenceServer.ts");
   expect(offences.map(offence => `${offence.file} ${offence.what}`)).toEqual(expect.arrayContaining([
     "game/src/multiplayer/referenceServer.ts imports node:http", "game/src/multiplayer/referenceServer.ts imports ws"]));
-  expect(offences.some(offence => offence.file === "game/src/multiplayer/referenceServer.ts" && /Buffer/.test(offence.what))).toBe(true);
+  // The socket link is where the server measures a frame, so that is where `Buffer` is.
+  expect(offences.some(offence => offence.file === "game/src/multiplayer/webSocketLink.ts" && /Buffer/.test(offence.what))).toBe(true);
 }, 120_000);

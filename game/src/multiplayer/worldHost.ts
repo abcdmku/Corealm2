@@ -106,6 +106,15 @@ export interface WorldHostOptions {
    * between (`HeadlessWorld.snapshot`). For local play, whose world is one player's. The final commit is always thorough.
    */
   sparseSnapshots?: boolean;
+  /**
+   * A closed connection's account waits for the commit that saves it (`true`), and that wait ended (`false`). A host that runs
+   * one world of a server whose other worlds run elsewhere passes these on, so a join in another world waits for the save as well.
+   */
+  releasing?(accountId: string, waiting: boolean): void;
+  /** Every entry of the events ring as it is recorded, for a host whose ring is read somewhere else. */
+  event?(event: ServerEvent): void;
+  /** The host failed closed: a commit or the simulation threw. Called once. */
+  failed?(): void;
 }
 
 export interface WorldHost<L extends PeerLink = PeerLink> {
@@ -152,6 +161,11 @@ export interface WorldHost<L extends PeerLink = PeerLink> {
   holder(accountId: string): HostedWorld<L> | null;
   connected(accountId: string): boolean;
   /**
+   * The account joined a world this host does not run. A session it still has here lost its lease to that join and is
+   * removed unsaved, and a place kept for its return is free again. A join inside this host does the same on its own.
+   */
+  joinedElsewhere(accountId: string): void;
+  /**
    * Stop the loop, wait for the tick in flight, let the transport drop its peers, then save every held
    * character and free its account. Storage stays open: it belongs to whoever opened it.
    */
@@ -181,7 +195,9 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
   const metrics: WorldHostMetrics = { ticks: [], stages: { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }, commands: 0, rejected: 0, bytesOut: 0, backlogDisconnects: 0, errors: 0 };
   const events: ServerEvent[] = [];
   const recordEvent = (event: Omit<ServerEvent, "at">): void => {
-    events.push({ at: now(), ...event }); if (events.length > EVENT_RING) events.shift();
+    const entry = { at: now(), ...event };
+    events.push(entry); if (events.length > EVENT_RING) events.shift();
+    options.event?.(entry);
     // Who came, who left and who was turned away is the operator's log. The admin API logs its own writes.
     if (event.kind === "join" || event.kind === "leave" || event.kind === "rejected") options.log?.({ event: `session.${event.kind}`, accountId: event.accountId, detail: event.detail });
   };
@@ -190,7 +206,10 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
   let closed = false; let failed = false; let ticking = false; let inFlight: Promise<void> = Promise.resolve();
   // A closed connection saves and frees its account on the next commit. A join by that account waits for it here.
   const releasing = new Map<string, { done: Promise<void>; resolve(): void }>();
-  function released(playerId: string): void { releasing.get(playerId)?.resolve(); releasing.delete(playerId); }
+  function released(playerId: string): void {
+    const waiting = releasing.get(playerId); if (!waiting) return;
+    waiting.resolve(); releasing.delete(playerId); options.releasing?.(playerId, false);
+  }
   /** Remove a session whose lease this world no longer holds. Its character is never written again. */
   function evict(hosted: HostedWorld<L>, playerId: string, sessionId: string): void {
     if (hosted.leases.get(playerId)?.sessionId !== sessionId) return;
@@ -217,7 +236,9 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
     return { rows, settle(fenced) { for (const row of rows) row.settle(!fenced ? "failed" : fenced.includes(row.accountId) ? "fenced" : "saved"); } };
   }
   function failClosed(): void {
+    const first = !failed;
     closed = true; failed = true;
+    if (first) options.failed?.();
     for (const hosted of worlds.values()) auditsOf(hosted).settle(null);
     for (const waiting of [...releasing.keys()]) released(waiting);
     for (const link of links) { link.send({ type: "error", error: { code: "UNAVAILABLE", message: "World storage or simulation failed" } }); link.close(1011, "World unavailable"); }
@@ -337,7 +358,7 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
         lease.action = peer.explicitLeave ? "release" : "reserve";
         recordEvent({ kind: "leave", accountId: peer.playerId, detail: hosted.runtime.descriptor.worldId });
         let resolve!: () => void; const done = new Promise<void>(settle => { resolve = settle; });
-        releasing.set(peer.playerId, { done, resolve });
+        releasing.set(peer.playerId, { done, resolve }); options.releasing?.(peer.playerId, true);
         hosted.admission.leave(peer.playerId, peer.sessionId, !peer.explicitLeave);
       },
     };
@@ -468,6 +489,12 @@ export async function createWorldHost<L extends PeerLink = PeerLink>(options: Wo
       return told;
     },
     connected: accountId => [...worlds.values()].some(hosted => [...hosted.peers.values()].some(peer => peer.playerId === accountId)),
+    joinedElsewhere(accountId) {
+      for (const hosted of worlds.values()) {
+        const stale = hosted.leases.get(accountId); if (stale) evict(hosted, accountId, stale.sessionId);
+        hosted.admission.forget(accountId);
+      }
+    },
     async close(disconnectPeers) {
       closed = true; timers.clear(timer);
       await inFlight;

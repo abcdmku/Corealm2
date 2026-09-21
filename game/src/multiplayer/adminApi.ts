@@ -50,14 +50,17 @@ export interface AdminServerPorts {
   /** Epoch milliseconds the listener came up. */
   startedAt: number;
   metrics: ReferenceServerMetrics;
-  worlds(): { key: WorldKey; name: string; playersOnline: number; capacity: number; tick: number }[];
+  /** Asynchronous, as is everything that reads a world: with a thread per world the answer comes from another thread. */
+  worlds(): Promise<{ key: WorldKey; name: string; playersOnline: number; capacity: number; tick: number }[]>;
+  /** Per-world tick times and the database thread's numbers, when each world runs in its own thread. Null when they share this one. */
+  threads: (() => Promise<unknown>) | null;
   /** The bounded ring M6's TUI reads too, oldest first. */
   events(): readonly ServerEvent[];
   record(event: Omit<ServerEvent, "at">): void;
   /** The live character of an online account, from the world that holds it. */
-  liveCharacter(accountId: string): { world: WorldKey; character: PlayerCharacter } | null;
+  liveCharacter(accountId: string): Promise<{ world: WorldKey; character: PlayerCharacter } | null>;
   /** Disconnect an account from every world through the normal leave path: save, then release. */
-  disconnect(accountId: string, code: SessionErrorCode, message: string): boolean;
+  disconnect(accountId: string, code: SessionErrorCode, message: string): Promise<boolean>;
   /** Whether a connection of this account is open in any world. */
   connected(accountId: string): boolean;
   /** Apply a validated patch to the live player, or to the stored one when no world holds them. Throws `EditFailure`. */
@@ -228,7 +231,7 @@ export function createAdminApi(options: AdminApiOptions) {
     return { session: secret, expiresAt, accountId: player.playerId, name: player.name, role };
   }
 
-  function stats(): Record<string, unknown> {
+  async function stats(): Promise<Record<string, unknown>> {
     const at = now(), metrics = server.metrics;
     const uptimeSeconds = Math.max(0, (at - server.startedAt) / 1000);
     const ticks = [...metrics.ticks].sort((a, b) => a - b);
@@ -237,7 +240,7 @@ export function createAdminApi(options: AdminApiOptions) {
     const memory = process.memoryUsage();
     return {
       startedAt: server.startedAt, uptimeSeconds,
-      worlds: server.worlds().map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId, name: world.name,
+      worlds: (await server.worlds()).map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId, name: world.name,
         playersOnline: world.playersOnline, capacity: world.capacity, tick: world.tick })),
       tick: { samples: ticks.length, lastMs: metrics.ticks.at(-1) ?? 0, meanMs: ticks.length ? total / ticks.length : 0,
         p95Ms: ticks.length ? ticks[Math.min(ticks.length - 1, Math.floor(ticks.length * 0.95))]! : 0, maxMs: ticks.at(-1) ?? 0 },
@@ -246,6 +249,8 @@ export function createAdminApi(options: AdminApiOptions) {
       commands: metrics.commands, rejected: metrics.rejected, errors: metrics.errors, backlogDisconnects: metrics.backlogDisconnects,
       bytesOut: metrics.bytesOut, bytesOutPerSecond: uptimeSeconds > 0 ? metrics.bytesOut / uptimeSeconds : 0,
       memory: { rssBytes: memory.rss, heapUsedBytes: memory.heapUsed },
+      // Present only when each world runs in its own thread: `tick` above is then every world's ticks together.
+      ...(server.threads ? { threads: await server.threads() } : {}),
       events: server.events().map(event => ({ ...event })),
       // The publish history is `GET /admin/content/revision`.
       catalogRevision: catalog.revision, server: server.info(),
@@ -253,9 +258,9 @@ export function createAdminApi(options: AdminApiOptions) {
   }
 
   /** The private state devdocs shows. M5 adds `PATCH` and kick beside this reader. */
-  function playerBody(stored: Awaited<ReturnType<ServerAdminStorage["player"]>>): Record<string, unknown> {
+  async function playerBody(stored: Awaited<ReturnType<ServerAdminStorage["player"]>>): Promise<Record<string, unknown>> {
     const detail = stored!;
-    const live = detail.online ? server.liveCharacter(detail.accountId) : null;
+    const live = detail.online ? await server.liveCharacter(detail.accountId) : null;
     const character = live?.character ?? detail.character;
     return {
       accountId: detail.accountId, name: detail.name, firstSeen: detail.firstSeen, lastSeen: detail.lastSeen,
@@ -354,7 +359,7 @@ export function createAdminApi(options: AdminApiOptions) {
         if (!reason) throw new ApiFailure(400, "invalid_request", "A ban reason is required");
         if ((await admin.roleOf(id))?.role === "owner") throw new ApiFailure(409, "conflict", "An owner cannot be banned");
         const ban = await admin.setBan({ accountId: id, reason, expiresAt: futureMs(input.expiresAt, at) }, actorOf(held, at));
-        const kicked = server.disconnect(id, "BANNED", banMessage(ban));
+        const kicked = await server.disconnect(id, "BANNED", banMessage(ban));
         server.record({ kind: "ban", accountId: id, detail: reason });
         log({ event: "admin.ban", accountId: id, by: held.accountId, kicked });
         json(request, response, 200, { ban, kicked }); return;
@@ -469,7 +474,7 @@ export function createAdminApi(options: AdminApiOptions) {
     }
     if (method === "GET" && rest[0] === "stats" && rest.length === 1) {
       await scoped(request, "stats:read");
-      json(request, response, 200, stats()); return;
+      json(request, response, 200, await stats()); return;
     }
     if (rest[0] === "players" && target !== null && (method === "PATCH" && rest.length === 2 || method === "POST" && rest[2] === "kick")) {
       const held = await scoped(request, "players:write");
@@ -481,7 +486,7 @@ export function createAdminApi(options: AdminApiOptions) {
         if (!server.connected(id)) throw new ApiFailure(409, "not_online", "That player is not connected");
         // Audited first: a kick that happened is always in the log, and one that is in the log at worst found the player already gone.
         await admin.record(actorOf(held, at), { action: "player.kick", target: id, after: { reason } });
-        const kicked = server.disconnect(id, "KICKED", reason ? `Kicked from this server: ${reason}` : "Kicked from this server");
+        const kicked = await server.disconnect(id, "KICKED", reason ? `Kicked from this server: ${reason}` : "Kicked from this server");
         server.record({ kind: "kick", accountId: id, detail: reason });
         log({ event: "admin.kick", accountId: id, by: held.accountId, kicked });
         json(request, response, 200, { kicked }); return;
@@ -489,7 +494,7 @@ export function createAdminApi(options: AdminApiOptions) {
       try {
         const outcome = await server.editPlayer(id, playerPatch(await body(request, MAX_PLAYER_PATCH_BYTES)), actorOf(held, at));
         if (outcome.changed) log({ event: "admin.player_edit", accountId: id, by: held.accountId, applied: outcome.applied });
-        json(request, response, 200, { ...outcome, player: playerBody(await admin.player(id, now())) }); return;
+        json(request, response, 200, { ...outcome, player: await playerBody(await admin.player(id, now())) }); return;
       } catch (error) {
         if (!(error instanceof EditFailure)) throw error;
         const status = error.code === "not_found" ? 404 : error.status;
@@ -510,7 +515,7 @@ export function createAdminApi(options: AdminApiOptions) {
       }
       const stored = await admin.player(accountId(target), at);
       if (!stored) throw new ApiFailure(404, "not_found", "No such player on this server");
-      json(request, response, 200, playerBody(stored)); return;
+      json(request, response, 200, await playerBody(stored)); return;
     }
     throw new ApiFailure(404, "not_found", "No such admin endpoint");
   }
