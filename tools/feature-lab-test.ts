@@ -65,6 +65,8 @@ const CI_SLOWDOWN = process.env["COREALM_LAB_CI"] === "1" ? 3 : 1;
 const TOTAL_BUDGET_MS = Number(process.env["FEATURE_LAB_BUDGET_MS"] ?? 60_000) * CI_SLOWDOWN;
 const READY_BUDGET_MS = 18_000 * CI_SLOWDOWN;
 const ACTION_BUDGET_MS = 8_000;
+// Waiting for a model to download and appear is loading, not gameplay, so it scales like readiness.
+const ASSET_BUDGET_MS = 8_000 * CI_SLOWDOWN;
 const REBUILD_BUDGET_MS = 8_000;
 const POLL_MS = 40;
 const SCREENSHOT_TIMEOUT_MS = 5_000;
@@ -1125,7 +1127,7 @@ async function waitForPlayerPart(targetPage: Page, assetId: string): Promise<voi
     } | undefined;
     const counts = debug?.getSceneStats?.().counts;
     return counts !== undefined && Object.keys(counts).some((name) => name.includes(needle));
-  }, assetId, { polling: POLL_MS, timeout: ACTION_BUDGET_MS });
+  }, assetId, { polling: POLL_MS, timeout: ASSET_BUDGET_MS });
 }
 
 async function focusPlayerForArmourProof(targetPage: Page): Promise<void> {
