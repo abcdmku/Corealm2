@@ -14,10 +14,13 @@ import type { WorldThreadData } from "./worldThread.js";
 export type ThreadData = DatabaseThreadData | WorldThreadData;
 export type ThreadLauncher = (data: ThreadData, transfer: readonly TransferListItem[], name: string) => Worker;
 
-/** Start threads from a module on disk. A TypeScript entry gets tsx's loader unless this process already runs under it. */
+/**
+ * Start threads from a module on disk. A TypeScript entry gets tsx's loader unless this process already runs under it, in which
+ * case the worker inherits it. `tsx` is named bare, so Node resolves it from the working directory: a checkout's root.
+ */
 export function moduleLauncher(entry: URL): ThreadLauncher {
   const underTsx = process.execArgv.some(argument => argument.includes("tsx"));
-  const execArgv = entry.pathname.endsWith(".ts") && !underTsx ? [...process.execArgv.filter(argument => !argument.startsWith("--input-type")), "--import", import.meta.resolve("tsx")] : undefined;
+  const execArgv = entry.pathname.endsWith(".ts") && !underTsx ? [...process.execArgv.filter(argument => !argument.startsWith("--input-type")), "--import", "tsx"] : undefined;
   return (data, transfer, name) => new Worker(entry, { workerData: data, transferList: [...transfer], name, ...(execArgv ? { execArgv } : {}) });
 }
 

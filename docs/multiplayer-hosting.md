@@ -80,6 +80,7 @@ Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `
 | `guests` | `--guests` | none |
 | `developmentGuests` | `--development-guests` | none |
 | `worlds` | `--worlds a,b` | `COREALM_WORLDS` |
+| `threads` | `--threads auto\|on\|off` | `COREALM_THREADS` |
 | follow the repo catalog | `--follow-repo-catalog` | none |
 | every world's capacity | `--capacity` | `COREALM_CAPACITY` |
 
@@ -566,6 +567,8 @@ Two workspaces appear that a repository checkout does not have. Everything else 
 
 Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `server` is the settings summary the devdocs `server` workspace shows, with no secrets in it; the publish history is `GET /admin/content/revision`. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `kick`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
 
+When each world runs in its own thread the body also has `threads`: per world `worldId`, `available`, `restarts`, `bootMs`, `buildMs`, its recent `ticks`, its `stages` totals, `heapUsedBytes`, `utilization` of its event loop and `cpuMs`, and for the database thread `calls`, `commits`, `commitMs`, `commitWaitMs`, `busyMs` and `utilization` since the last request. `tick` and `stages` above then cover every world's ticks together, and `worlds` is at most a second old.
+
 Without a credential the endpoint answers 401, and with a token that lacks `stats:read` it answers 403.
 
 ### Content workflows and their secrets
@@ -704,6 +707,31 @@ Run capacity tests separately from builds, browser gates, and other heavy work. 
 The synthetic flat capacity pad uses production rules but does not measure authored-scene rendering. The render tool separately places 999 synthetic server actors with one real browser in the production scene. That is render evidence, not 1,000 network clients. Remote equipment comes from the server; crowded actors retain their equipped appearance with simpler geometry and sampled animation.
 
 See [implementation status](../runs/corealm-multiplayer/implementation-status.md) for sustained measurements and acceptance limits. Proposed p95 targets are tick time below 100 ms and acknowledgement below 250 ms. Current sustained runs exceed those targets. Successful admission alone is not 1,000-player performance certification.
+
+### Scaling on one machine
+
+A server with more than one world runs each world in its own thread, and one more thread owns the database. The main thread keeps the sockets, login checks, the admin API and the log. `threads` in the configuration file, `--threads` or `COREALM_THREADS` takes `"auto"`, `"on"` or `"off"`. `"auto"` is the default and means on when there is more than one world. `"off"` runs every world in the main thread's one loop, which is how the server worked before and how tests and tools still run it. [Architecture](./architecture.md) says what runs where.
+
+Size the machine at one core per world plus two, for the main thread and the database thread, and at about 700 MB of memory per world on top of about 200 MB for the rest. Each world thread loads the content, the catalog and its own world. The ten megabyte world pack is the one thing they share: every world reads it through one block of shared memory. Worlds boot side by side, so two worlds are ready in about the time one takes.
+
+A one-world server gains nothing from a thread of its own. Measured below, its tick is two milliseconds slower and it holds about 100 MB more, which is why `"auto"` leaves it in the main thread.
+
+The measurement is `npm run multiplayer:capacity -- --scaling`. It starts N authored worlds on one server and gives each K simulated players from a load process of its own. Every player joins at the world's spawn, steers for two seconds in every ten, and once every ten seconds asks for a path to a point up to forty metres away. All K stand in one crowd, so each tick replicates everyone to everyone. Each run uses a fresh server and database, waits until every player is in, and measures 60 seconds. The table gives the median of three runs on an Intel Core Ultra 9 285K with 24 logical cores, Windows 11, Node 24.14, K = 40. With threads on, the tick is the slower world's own tick. With threads off one loop ticks every world in turn, so the tick is all of them together, and that is how late an update reaches a player.
+
+| Worlds | Threads | Tick p50 | Tick p95 | Tick p99 | Main loop lag p50 / p99 | Peak RSS | Boot |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | off | 36.3 ms | 75.5 ms | 89.7 ms | 15.8 / 91.9 ms | 774 MB | 4.0 s |
+| 2 | off | 72.8 ms | 157.6 ms | 358.2 ms | 25.4 / 221.1 ms | 1094 MB | 7.7 s |
+| 2 | on | 35.3 ms | 73.9 ms | 98.1 ms | 15.6 / 20.5 ms | 1556 MB | 5.4 s |
+| 1 | on | 38.8 ms | 95.3 ms | 309.0 ms | 15.6 / 24.7 ms | 871 MB | 4.4 s |
+| 3 | on | 36.7 ms | 89.0 ms | 243.0 ms | 15.6 / 23.7 ms | 2214 MB | 4.9 s |
+| 3 | off, one 30 s run | 122.4 ms | 302.4 ms | 757.5 ms | 133.8 / 676.3 ms | 1319 MB | 11.3 s |
+
+Two worlds in one thread tick in twice the time of one, and the second world pushes p95 past the 100 ms tick. Two worlds in their own threads tick like one world alone: 35.3 ms against 36.3 ms at p50 and 73.9 ms against 75.5 ms at p95. Each world thread used 0.33 of a core, and the whole process 0.75 of a core against 0.36 for one world. The main loop lag of about 15 ms at p50 is the resolution of the timer that measures it on an idle loop; the p99 is the number to read, and with threads on the main thread stays free whatever the worlds do. Tail latency in the threaded rows varies from run to run with how long SQLite's synchronous flush takes on this disk. The database thread ran 5 percent busy with one world, 6 percent with two and 8 percent with three. With two worlds a commit waited 1.8 ms at p50 and 2.7 ms at p95 to reach it, which includes copying the commit between threads, and then took 1.4 ms at p50 and 6.1 ms at p95 to run.
+
+A tick's commit crosses to the database thread as a structured clone of the same patch the single-process server commits. At 40 players it is 109 kB and takes 0.8 ms to serialise and read back, split between the two threads. At 150 players it is 406 kB and 2.8 ms. The entity baseline a world commits once at boot is 9.1 MB. Replication frames cross the other way. The world thread serialises each frame once and writes the UTF-8 for one turn of its loop into one buffer, which is transferred rather than copied, so the main thread spends 0.004 ms per tick handing 126 kB of frames for 40 players to their sockets. Sent as strings instead, the same frames cost the main thread 0.10 ms per tick for re-encoding alone, and 0.42 ms against 0.014 ms at 150 players. The bytes on the wire are identical either way.
+
+If a world's thread dies, the server logs `world.crashed`, disconnects that world's players with `UNAVAILABLE`, lists the world as unavailable in `/worlds`, frees its players' accounts so they can join another world at once, and starts the world again after one second, then two, four, up to a minute, logging `world.restarted`. The other worlds keep ticking. A failed database write still stops the whole server, as it always has. A publish, a settings change or a player edit that cannot stop every world at a tick boundary within ten seconds answers 503 and changes nothing.
 
 ### Crowded player presentation
 
