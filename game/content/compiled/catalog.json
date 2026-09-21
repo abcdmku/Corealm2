@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "4c59f6d5f3243267f3c82ccada75d6ee1309b42c4a9c00f24a1bca46230c1328",
+  "revision": "7a7c8446ddbfcd3daa38dc0baea00a6c1444d0066738afaf1db67bdb6c5f7cdf",
   "formulaRevision": "3b071422e0eb977d5bfba2115526a9f407b8a8df325b1a136b6b1b5328ef1c6b",
   "tables": {
     "items": [
@@ -46846,7 +46846,7 @@
                 "itemId": "marsh_gland",
                 "quantity": [
                   1,
-                  2
+                  3
                 ],
                 "chance": 0.3
               },
@@ -164812,7 +164812,7 @@
                   "itemId": "marsh_gland",
                   "quantity": [
                     1,
-                    2
+                    3
                   ],
                   "chance": 0.3
                 },
@@ -165005,7 +165005,7 @@
                     "itemId": "marsh_gland",
                     "quantity": [
                       1,
-                      2
+                      3
                     ],
                     "chance": 0.3
                   },
@@ -228176,7 +228176,7 @@
                 "itemId": "marsh_gland",
                 "quantity": [
                   1,
-                  2
+                  3
                 ],
                 "chance": 0.3
               },
@@ -261390,7 +261390,7 @@
                   "itemId": "marsh_gland",
                   "quantity": [
                     1,
-                    2
+                    3
                   ],
                   "chance": 0.3
                 },
@@ -310929,7 +310929,7 @@
                     "itemId": "marsh_gland",
                     "quantity": [
                       1,
-                      2
+                      3
                     ],
                     "chance": 0.3
                   },
