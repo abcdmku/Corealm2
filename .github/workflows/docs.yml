@@ -6,6 +6,7 @@ on:
       - "game/**"
       - "art/item-icons/**"
       - "devdocs/**"
+      - "identity/**"
       - "game/content/**"
       - "tools/**"
       - "tests/**"
@@ -21,6 +22,7 @@ on:
       - "game/**"
       - "art/item-icons/**"
       - "devdocs/**"
+      - "identity/**"
       - "game/content/**"
       - "tools/**"
       - "tests/**"
@@ -44,18 +46,24 @@ jobs:
   verify:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    # Includes asset checkout and Chromium acceptance.
-    timeout-minutes: 15
+    # Checkout, install, Chromium, the whole suite, the game and guide builds and two lab shards.
+    # The suite alone reaches the eleven-minute mark on a shared runner.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
         with:
           # Historical run captures are hundreds of MB and are not build inputs.
           sparse-checkout: |
             .github
+            art/biome-creatures
+            art/fairy-population/textures/generated
             art/item-icons
+            art/rebuild/candidates/finish-cave-source
+            art/rebuild/candidates/finish-motion
+            assets/art/regional-bosses
             devdocs
+            docs/game
             game
-            game/content
             identity
             tests
             tools
@@ -70,12 +78,67 @@ jobs:
         run: npx --no-install playwright install --with-deps chromium
       - name: Typecheck, test, and build
         run: npm run check
-      - name: Accept building features before final-world smoke
+      # COREALM_LAB_CI scales the readiness wait and the wall-clock ceiling for a shared hosted runner
+      # with no GPU, and nothing else: every gameplay budget inside the shard stays at the value it
+      # has on a developer machine. tools/feature-lab-test.ts carries the measurements.
+      - name: Accept building features
+        env:
+          COREALM_LAB_CI: "1"
         run: npm run lab:test -- --shard building
-      - name: Accept combat features before final-world smoke
+      - name: Accept combat features
+        env:
+          COREALM_LAB_CI: "1"
         run: npm run lab:test -- --shard combat
+
+  # The final-world smoke test needs a GPU, so it cannot run beside `verify` on `ubuntu-latest`.
+  #
+  # Measured 2026-09-21 on a GPU workstation: `npm run smoke -- --run runs/corealm` fails at
+  # `waitForSimulationTick` after 8 s under the SwiftShader rasteriser that headless Chromium falls
+  # back to, and passes all twelve checks with `--hardware`. The authored world is not a budget
+  # problem there — software rendering never reaches the first simulation tick at all. A hosted
+  # runner has no GPU to give it, so this job stays skipped and says so, instead of being deleted
+  # or wrapped in a `continue-on-error` that would report green over a gate nobody ran.
+  #
+  # Run it on the hardware workstation before merging anything that touches boot, rendering or
+  # navigation:  npm run smoke -- --run runs/corealm --hardware
+  #
+  # To turn it on, set the repository variable COREALM_GPU_RUNNER to the label of a self-hosted
+  # runner with a GPU. Nothing else has to change.
+  smoke:
+    name: Browser smoke test (needs a GPU runner)
+    if: github.event_name == 'pull_request' && vars.COREALM_GPU_RUNNER != ''
+    # The fallback is never used: `if` skips the job whenever the variable is empty. It is here so
+    # `runs-on` always resolves to a real label rather than an empty string.
+    runs-on: ${{ vars.COREALM_GPU_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Historical run captures are hundreds of MB and are not build inputs.
+          sparse-checkout: |
+            .github
+            art/biome-creatures
+            art/fairy-population/textures/generated
+            art/item-icons
+            art/rebuild/candidates/finish-cave-source
+            art/rebuild/candidates/finish-motion
+            assets/art/regional-bosses
+            devdocs
+            docs/game
+            game
+            identity
+            tests
+            tools
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+      - name: Install Chromium
+        run: npx --no-install playwright install --with-deps chromium
       - name: Browser smoke test
-        run: npm run smoke -- --run runs/corealm
+        run: npm run smoke -- --run runs/corealm --hardware
 
   publish:
     if: github.event_name != 'pull_request'
@@ -97,10 +160,15 @@ jobs:
           # Keep the 700+ MB historical screenshot archive out of build checkout.
           sparse-checkout: |
             .github
+            art/biome-creatures
+            art/fairy-population/textures/generated
             art/item-icons
+            art/rebuild/candidates/finish-cave-source
+            art/rebuild/candidates/finish-motion
+            assets/art/regional-bosses
             devdocs
+            docs/game
             game
-            game/content
             identity
             tests
             tools
@@ -123,15 +191,17 @@ jobs:
       - name: Typecheck, test, and build
         if: env.PUBLISH_GATES == 'true'
         run: npm run check
-      - name: Accept building features before final-world smoke
+      - name: Accept building features
         if: env.PUBLISH_GATES == 'true'
+        env:
+          COREALM_LAB_CI: "1"
         run: npm run lab:test -- --shard building
-      - name: Accept combat features before final-world smoke
+      - name: Accept combat features
         if: env.PUBLISH_GATES == 'true'
+        env:
+          COREALM_LAB_CI: "1"
         run: npm run lab:test -- --shard combat
-      - name: Browser smoke test
-        if: env.PUBLISH_GATES == 'true'
-        run: npm run smoke -- --run runs/corealm
+      # No smoke step here: it needs a GPU this runner does not have. See the `smoke` job above.
 
       - name: Stage game and guide
         shell: bash

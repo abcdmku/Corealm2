@@ -18,7 +18,7 @@ describe('authored regional boss bodies', () => {
       expect(rows.map(row => row.name)).toEqual(['Idle', 'Walk', 'Run', 'Attack']);
       for (const row of rows) expect(row.minimum.y, `${row.name} / ${reaction} worst pose`).toBeGreaterThan(-.04);
     }
-  }, 15000);
+  });
   it('keeps seven independent hero assets and the existing regional strength policy', () => {
     expect(Object.keys(REGIONAL_BOSS_BODIES).sort()).toEqual(['cinderwake', 'galeskin', 'mossbound', 'ordrun', 'rootheart', 'tempest_roc', 'tideworn']);
     expect(new Set(REGIONAL_BOSS_SPECIES.map(s => s.assetId)).size).toBe(7);
@@ -104,5 +104,5 @@ describe('authored regional boss bodies', () => {
         expect(clip.min[1]).toBeCloseTo(.003, 4);
       }
     }
-  }, 10000);
+  });
 });

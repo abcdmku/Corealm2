@@ -29,15 +29,41 @@ import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
 
 /**
- * The gate's hard wall-clock ceiling. 60 s is the contract: two production boots plus every proof
- * below has to fit, and blowing it means the file has grown a shard that belongs in its own test.
+ * How much slower a shared GitHub runner is than the workstation these budgets were tuned on.
+ *
+ * `COREALM_LAB_CI=1` says "this is a shared hosted runner with no GPU", and it scales the two budgets
+ * that only ever measured the machine: the boot-to-readiness wait and the wall-clock ceiling.
+ * Nothing it touches is a gameplay assertion. `ACTION_BUDGET_MS` and `REBUILD_BUDGET_MS` — an
+ * interaction taking effect, a structure rebuilding — stay at their strict values everywhere,
+ * because those are claims about the game rather than about the box it runs on.
+ *
+ * None of the wait was ever gameplay. Run 35558551910 timed out at `building readiness did not
+ * complete in 18000ms` with `window.__featureLab is unavailable`: the page had not finished
+ * loading its module graph. Boot-to-readiness is 9.0 s on a developer machine against a dev server
+ * and 7.4 s against the production bundle, so the cost is renderer and asset work rather than
+ * dev-server transform, and there is no honest way to make it much faster.
+ *
+ * 3 comes off the first green run, 35565259514, measured against 2026-09-21 local figures:
+ * readiness 15.6 s against 9.0 s, the building shard 59.5 s against 31.2 s, the combat shard 97.4 s
+ * against 43.8 s. So `ubuntu-latest` is 1.7x to 2.2x slower, and 3 is that with room for a bad
+ * neighbour rather than a number anyone picked. `budgetMs`, `readyBudgetMs` and `stageMs` are
+ * printed on every run, pass or fail, so the next reader can check this against a real build
+ * instead of trusting the comment.
+ */
+const CI_SLOWDOWN = process.env["COREALM_LAB_CI"] === "1" ? 3 : 1;
+
+/**
+ * The gate's hard wall-clock ceiling. 60 s is the contract on a developer machine: two production
+ * boots plus every proof below has to fit, and blowing it means the file has grown a shard that
+ * belongs in its own test.
  *
  * `FEATURE_LAB_BUDGET_MS` raises it for diagnosis ONLY — when the gate overruns, the useful next
  * question is which stage got slower, and that answer needs the run to finish. It is not a way to
- * make a slow gate pass; CI runs without it.
+ * make a slow gate pass, and CI does not set it; CI sets `COREALM_LAB_CI` instead, which is a
+ * statement about the hardware rather than about this gate.
  */
-const TOTAL_BUDGET_MS = Number(process.env["FEATURE_LAB_BUDGET_MS"] ?? 60_000);
-const READY_BUDGET_MS = 18_000;
+const TOTAL_BUDGET_MS = Number(process.env["FEATURE_LAB_BUDGET_MS"] ?? 60_000) * CI_SLOWDOWN;
+const READY_BUDGET_MS = 18_000 * CI_SLOWDOWN;
 const ACTION_BUDGET_MS = 8_000;
 const REBUILD_BUDGET_MS = 8_000;
 const POLL_MS = 40;
@@ -341,7 +367,8 @@ try {
       && (modeNavigation?.fresh.errors.length ?? 0) === 0
       && diagnostics.console.length === 0
       && diagnostics.page.length === 0,
-    under60Seconds: performance.now() - started < TOTAL_BUDGET_MS,
+    // Named for the budget rather than for 60 s, because CI runs the same gate against a scaled one.
+    withinWallClockBudget: performance.now() - started < TOTAL_BUDGET_MS,
   };
   const passed = Object.values(checks).every(Boolean);
 
@@ -349,6 +376,8 @@ try {
     passed,
     shard: TEST_SHARD,
     elapsedMs: Math.round(performance.now() - started),
+    budgetMs: TOTAL_BUDGET_MS,
+    readyBudgetMs: READY_BUDGET_MS,
     stageMs,
     url: server.url,
     checks,

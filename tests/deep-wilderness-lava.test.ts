@@ -106,7 +106,9 @@ describe('production deep lava rendering', () => {
     const spy = vi.spyOn(Ambience.prototype, 'addEmitter');
     const torches: WildernessTorch[] = themes.map((theme, index) => ({ id: theme,
       theme, magic: 1, position: [index * 3, 1.5, 0], support: 'brazier' }));
-    const effects = new WildernessEffects(new THREE.Scene(), { groundHeightAt: () => 0, channels: [], torches });
+    // Torch lights hang off the light parent, which defaults to the scene, not off `effects.group`.
+    const scene = new THREE.Scene();
+    const effects = new WildernessEffects(scene, { groundHeightAt: () => 0, channels: [], torches });
     try {
       const camera = new THREE.PerspectiveCamera();
       camera.position.set(3, 2, 4); camera.updateMatrixWorld(); effects.update(1, camera);
@@ -121,7 +123,7 @@ describe('production deep lava rendering', () => {
         expect(flame.colour).toEqual(expected[theme].flame);
         expect(sparks.colour).toEqual(expected[theme].spark);
         const slot = effects.getState().lights.findIndex(light => light.id === theme);
-        const light = effects.group.getObjectByName(`wilderness-light-${slot}`) as THREE.PointLight;
+        const light = scene.getObjectByName(`wilderness-light-${slot}`) as THREE.PointLight;
         expect(light.color.getHex()).toBe(expected[theme].light);
       }
       expect(wildernessTorchPalette({}).light).toBe(expected.ember.light);

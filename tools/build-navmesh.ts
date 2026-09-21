@@ -6,6 +6,7 @@ import { chromium, type Browser } from "playwright";
 import { decodeNavigationArtifact, type NavigationAuthoredInputs } from "../game/src/systems/navigationArtifact.js";
 import type {} from "./lib/debug-api.js";
 import { gameRoot } from "./lib/paths.js";
+import { worldGeometryView } from "./lib/bake-inputs.js";
 import { startGameServer } from "./lib/server.js";
 
 const repoRoot = path.resolve(gameRoot, "..");
@@ -131,8 +132,10 @@ export async function fingerprintNavmeshSources(): Promise<NavigationAuthoredInp
   const entries = await Promise.all(Object.entries(SOURCE_GROUPS).map(async ([name, files]) => {
     const hash = createHash("sha256");
     // Placement and region geometry are compiler output now. Balance-only catalog edits do not
-    // alter this hash, while accepted world edits invalidate navigation before publication.
-    if (name === 'terrainGeometry') hash.update(JSON.stringify(catalog.tables.world));
+    // alter this hash, while accepted world edits invalidate navigation before publication. The
+    // compiled world carries each group's resolved creature, loot plan included, so the hash is
+    // taken over the geometry view; see tools/lib/bake-inputs.ts.
+    if (name === 'terrainGeometry') hash.update(JSON.stringify(worldGeometryView(catalog.tables.world)));
     for (const file of files) {
       hash.update(file);
       hash.update("\0");

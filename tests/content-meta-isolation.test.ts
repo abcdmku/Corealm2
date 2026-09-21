@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { NON_BAKE_CONTENT_FILES } from "../tools/lib/bake-inputs.js";
 import { generationInputs } from "../tools/lib/generation-revision.js";
 import { gameRoot, repoRoot } from "../tools/lib/paths.js";
 
@@ -38,8 +39,11 @@ describe("content store isolation", () => {
     expect(inputs).toContain("game/public/assets/manifest.json");
     expect(inputs.some((file) => file.startsWith("game/src/content/"))).toBe(true);
     expect(inputs.filter((file) => file.startsWith("game/content/meta/"))).toEqual([]);
-    // Once data files exist they must be covered; an empty directory changes nothing.
+    // Once data files exist they must be covered; an empty directory changes nothing. The only
+    // exceptions are the sources that reach no baked byte, listed and proved in bake-inputs.ts.
+    const skipped = NON_BAKE_CONTENT_FILES.map((file) => `game/${file}`);
     const dataFiles = walk(path.join(gameRoot, "content", "data"), (file) => file.endsWith(".json")).map(relative);
-    for (const file of dataFiles) expect(inputs).toContain(file);
+    for (const file of dataFiles) expect(inputs.includes(file), file).toBe(!skipped.includes(file));
+    expect(skipped.filter((file) => !dataFiles.includes(file))).toEqual([]);
   });
 });

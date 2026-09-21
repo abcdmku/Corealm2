@@ -123,7 +123,7 @@ describe("imported structure movement grounding", () => {
     }
     expect(state.player.position[1]).toBeCloseTo(world.heightAtXZ(state.player.position[0], state.player.position[2]), 6);
     expect(heights.some((height) => height - origin[1] > 1.2 && height - origin[1] < 2.5)).toBe(true);
-  }, 20000);
+  });
 
   it("walks from terrain up low mesh stairs, across the top and back down", () => {
     const { nav, preserveNavigationHeight } = stairsFixture();

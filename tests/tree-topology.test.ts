@@ -104,7 +104,8 @@ function geometryBuilder() {
 describe("native tree branch topology", () => {
   const builder = geometryBuilder();
   let trees: Tree[];
-  beforeAll(() => { trees = builder.specs.map(spec => builder.generate(spec)); }, 20000);
+  // The suite's configured hook budget, not a tighter one tuned on a developer machine.
+  beforeAll(() => { trees = builder.specs.map(spec => builder.generate(spec)); });
 
   it("keeps grounded pivots, proportionate mature trunks and authored placement envelopes", () => {
     for (const tree of trees) {

@@ -494,7 +494,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
         name: entity.name,
         state: entity.state,
         position: [...entity.position] as Vec3,
-        screen: projectEntity(entity.position, entity.view?.labelHeight ?? 2),
+        screen: projectTargetPoint(entity),
         health: entity.combat?.health ?? null,
         maxHealth: entity.combat?.maxHealth ?? null,
         motion: entityMotion ? {
@@ -549,9 +549,32 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
   }
 
   function projectEntity(position: Vec3, labelHeight: number): readonly [number, number] | null {
+    return projectWorldPoint(position[0], position[1] + labelHeight * 0.45, position[2]);
+  }
+
+  /**
+   * Where a pointer has to land to hit this entity, which is NOT the label anchor.
+   *
+   * `labelHeight` is a constant per preset family — 2.2 m for every non-boss creature — so for a
+   * frog 0.3 m tall the anchor floats a metre above its head. A click there misses the body, the
+   * ray carries on to the terrain three metres beyond, and the game correctly reads that as a walk
+   * order. Aim at the middle of what the render layer actually draws instead; `preciseSampled`
+   * follows the current pose rather than the padded culling envelope.
+   */
+  function projectTargetPoint(entity: SemanticEntity): readonly [number, number] | null {
+    const drawn = deps.entityViews.drawnBounds(entity.id, true);
+    if (!drawn) return projectEntity(entity.position, entity.view?.labelHeight ?? 2);
+    return projectWorldPoint(
+      (drawn.min[0] + drawn.max[0]) * 0.5,
+      (drawn.min[1] + drawn.max[1]) * 0.5,
+      (drawn.min[2] + drawn.max[2]) * 0.5,
+    );
+  }
+
+  function projectWorldPoint(x0: number, y0: number, z0: number): readonly [number, number] | null {
     const rect = deps.canvas.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) return null;
-    const point = new THREE.Vector3(position[0], position[1] + labelHeight * 0.45, position[2]);
+    const point = new THREE.Vector3(x0, y0, z0);
     point.project(deps.camera);
     if (!Number.isFinite(point.x) || !Number.isFinite(point.y) || point.z < -1 || point.z > 1) return null;
     const x = rect.left + (point.x + 1) * 0.5 * rect.width;

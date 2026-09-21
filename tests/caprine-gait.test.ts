@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 import { Document, NodeIO } from '@gltf-transform/core';
@@ -38,7 +39,11 @@ describe('caprine gait staging', () => {
   });
   for (const id of ['animal_goat', 'animal_ibex']) it(`${id} physically plants each hoof through stance`, async () => {
     const report = JSON.parse(await readFile(`art/rebuild/candidates/finish-motion/legacy-caprines/${id}.json`, 'utf8'));
-    const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(report.stagedFile);
+    // `report.stagedFile` is an absolute path from the machine that staged it, so it resolves
+    // nowhere else. The staged rig sits beside the report; its hash proves it is the one audited.
+    const staged = `art/rebuild/candidates/finish-motion/legacy-caprines/${id}.glb`;
+    expect(createHash('sha256').update(await readFile(staged)).digest('hex')).toBe(report.sha256);
+    const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(staged);
     const skin = createSkinReader(doc, id === 'animal_goat' ? 'goat_mesh' : 'buk26'), rest = storedPose(doc);
     for (const gait of report.audit) {
       const clip = doc.getRoot().listAnimations().find(c => c.getName() === gait.name)!;
