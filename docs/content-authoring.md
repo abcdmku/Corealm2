@@ -208,6 +208,40 @@ it reads again only at its **next restart**, how many creatures respawn onto the
 record ids the change reached. [Publishing content](multiplayer-hosting.md#publishing-content) has the
 full endpoint reference.
 
+### Keeping the repository and a live server in step
+
+A live server owns its data. Its catalog starts as the one the repository compiled, and from the
+first publish onwards the two drift apart, because the people editing loot on a Tuesday evening are
+editing the server, not a checkout. The rule that settles every question about which one wins is:
+**once a server is live, it is the source of truth for its data, and the repository receives
+exports.**
+
+Two workflows carry that. `Content export` reads a server's source collections, writes them back
+into `game/content/data/` with the same canonical writer devdocs writes with, recompiles, and keeps
+one pull request open on the branch `content/live-export`. It runs weekly and on demand. An export
+of content the branch already holds is a zero-byte diff, so a quiet week leaves no pull request.
+
+`Content publish` is the other direction and is manual only. It sends just the collections this
+branch differs on, each with the revision the server reported for it, so a publish that would
+overwrite an edit somebody made in devdocs is refused with `stale_collections` instead of forced.
+The fix is always the same: export, merge, publish. It also needs the server's own name repeated
+back to it, which is what stops a publish landing on the wrong host.
+
+Both run as commands too, which is the way to see what a workflow will do before you let it run:
+
+```sh
+COREALM_CONTENT_TOKEN=cat_… npm run content:export:server -- --server https://play.example.com/ --dry-run
+COREALM_CONTENT_TOKEN=cat_… npm run content:publish:server -- --server https://play.example.com/ --confirm "Raid Night" --validate-only
+```
+
+[Content workflows and their secrets](multiplayer-hosting.md#content-workflows-and-their-secrets)
+has the tokens, the scopes and the approval gate.
+
+Balance formulas do not take part. They are TypeScript that ships with a server release, so an
+export brings back data only, and a branch whose formulas differ from the server's release compiles
+the same sources to a different revision. The export says so in the pull request rather than
+failing.
+
 ### Building and hosting the server-mode app
 
 ```sh

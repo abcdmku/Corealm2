@@ -1,0 +1,130 @@
+name: Content export
+
+# Once a server is live it is the source of truth for its data, and the repository receives exports.
+# This pulls a live server's source collections back into `game/content/data/` and keeps one pull
+# request open on a fixed branch. It never publishes anything: the token it uses is `content:read`.
+#
+# Configure it once, per `docs/multiplayer-hosting.md` → "Content workflows and their secrets":
+#   repository variable COREALM_SERVER_URL      the server to export from, e.g. https://play.example.com/
+#   repository secret   COREALM_CONTENT_READ_TOKEN   a cat_… token with the content:read scope
+# Without both it skips with a notice, so a fork and the weekly schedule never fail red.
+
+on:
+  workflow_dispatch:
+    inputs:
+      server_url:
+        description: "Server to export from. Defaults to the COREALM_SERVER_URL repository variable."
+        required: false
+        type: string
+  schedule:
+    # Monday morning UTC, so a week of live edits is waiting as a pull request.
+    - cron: "17 6 * * 1"
+
+permissions: {}
+
+concurrency:
+  # Two exports would force-push the same branch over each other.
+  group: content-export
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Is this repository configured for exports
+        id: configured
+        env:
+          SERVER_URL: ${{ inputs.server_url || vars.COREALM_SERVER_URL }}
+          HAS_TOKEN: ${{ secrets.COREALM_CONTENT_READ_TOKEN != '' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SERVER_URL}" ] || [ "${HAS_TOKEN}" != "true" ]; then
+            echo "::notice title=Content export skipped::No live server is configured. Set the COREALM_SERVER_URL repository variable and the COREALM_CONTENT_READ_TOKEN secret to enable it. See docs/multiplayer-hosting.md."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          case "${SERVER_URL}" in
+            https://*) ;;
+            *) echo "::error title=Bad server URL::COREALM_SERVER_URL must be an https URL."; exit 1 ;;
+          esac
+          case "${SERVER_URL}" in
+            *[!-A-Za-z0-9._~:/?@!\$\&\'\(\)\*\+,\;=%]*) echo "::error title=Bad server URL::COREALM_SERVER_URL holds a character a URL may not."; exit 1 ;;
+          esac
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+          echo "server_url=${SERVER_URL}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v5
+        if: steps.configured.outputs.ready == 'true'
+        with:
+          # The export needs the content, the compiler and the tools. Historical run captures are
+          # hundreds of MB and are not inputs.
+          sparse-checkout: |
+            .github
+            game
+            tools
+      - uses: actions/setup-node@v5
+        if: steps.configured.outputs.ready == 'true'
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install dependencies
+        if: steps.configured.outputs.ready == 'true'
+        run: npm ci --prefer-offline
+
+      - name: Mask the export token
+        if: steps.configured.outputs.ready == 'true'
+        env:
+          TOKEN: ${{ secrets.COREALM_CONTENT_READ_TOKEN }}
+        # GitHub masks secrets already. This is belt and braces for anything derived from it.
+        run: echo "::add-mask::$TOKEN"
+
+      - name: Export the live server's content
+        id: export
+        if: steps.configured.outputs.ready == 'true'
+        env:
+          # The tool reads the token from here only. It refuses --token, because a command line is
+          # visible to every process on the runner.
+          COREALM_CONTENT_TOKEN: ${{ secrets.COREALM_CONTENT_READ_TOKEN }}
+          SERVER_URL: ${{ steps.configured.outputs.server_url }}
+          SUMMARY: ${{ runner.temp }}/export-summary.md
+        run: npm run content:export:server -- --server "$SERVER_URL" --summary "$SUMMARY"
+
+      - name: Check the exported content compiles
+        if: steps.configured.outputs.ready == 'true'
+        run: npm run content:check
+
+      - name: Open or update the export pull request
+        if: steps.configured.outputs.ready == 'true' && steps.export.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: content/live-export
+          BASE: ${{ github.event.repository.default_branch }}
+          SUMMARY: ${{ runner.temp }}/export-summary.md
+          REVISION: ${{ steps.export.outputs.revision }}
+          COLLECTIONS: ${{ steps.export.outputs.collections }}
+        run: |
+          set -euo pipefail
+          title="Live server content export ${REVISION:0:12}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add game/content
+          git commit --message "$title" --message "Collections: ${COLLECTIONS}" --message "$(cat "$SUMMARY")"
+          # The branch is owned by this workflow and rebuilt from the default branch every run.
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+          number="$(gh pr list --head "$BRANCH" --base "$BASE" --state open --json number --jq '.[0].number // ""')"
+          if [ -z "$number" ]; then
+            gh pr create --base "$BASE" --head "$BRANCH" --title "$title" --body-file "$SUMMARY"
+          else
+            gh pr edit "$number" --title "$title" --body-file "$SUMMARY"
+          fi
+
+      - name: Say that nothing changed
+        if: steps.configured.outputs.ready == 'true' && steps.export.outputs.changed != 'true'
+        env:
+          REVISION: ${{ steps.export.outputs.revision }}
+        run: echo "::notice title=No content changes::This branch already holds the server's content at revision ${REVISION:0:12}."

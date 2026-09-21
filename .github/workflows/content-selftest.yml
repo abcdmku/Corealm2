@@ -1,0 +1,153 @@
+name: Content sync self-test
+
+# Proves M8's done-when without a hosted server and without a single secret.
+#
+# `tools/content/selftest-server-sync.ts` boots a real game server on loopback with a throwaway
+# database, mints a real cat_… token, publishes a loot edit through the admin API exactly as devdocs
+# does, runs the export tool's own command line against it, and asserts the checkout now holds that
+# edit and nothing else. Run it with `open_pr` once and it does the last mile too: a real branch, a
+# real pull request, `gh pr diff` checked against the same assertion, then closed and deleted again.
+#
+# This is not a required check and is independent of `docs.yml` and `release.yml`.
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "tools/content/**"
+      - "game/src/multiplayer/adminApi.ts"
+      - "game/src/multiplayer/contentPublish.ts"
+      - "game/src/multiplayer/catalogStorage.ts"
+      - "game/src/content/compiler/**"
+      - ".github/workflows/content-selftest.yml"
+  workflow_dispatch:
+    inputs:
+      open_pr:
+        description: "Also open a throwaway pull request and check its diff."
+        type: boolean
+        default: false
+      keep_pr:
+        description: "Leave that pull request and its branch behind."
+        type: boolean
+        default: false
+
+permissions: {}
+
+concurrency:
+  group: content-selftest-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # The lab server needs the game, the identity join token, and the tools. Historical run
+          # captures are hundreds of MB and are not inputs.
+          sparse-checkout: |
+            .github
+            game
+            identity
+            tools
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+      # The runner's checkout is disposable, so the export writes into it, as a real export would.
+      - name: Export a live edit into this checkout and check it
+        run: npm run content:selftest -- --in-place
+
+  pull-request:
+    # The last mile: a real branch and a real pull request, on demand only. Write permission lives
+    # here and nowhere else, so the push trigger stays read-only.
+    if: github.event_name == 'workflow_dispatch' && inputs.open_pr
+    needs: selftest
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      BRANCH: content/selftest-${{ github.run_id }}
+      BASE: ${{ github.ref_name }}
+      KEEP: ${{ inputs.keep_pr }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            .github
+            game
+            identity
+            tools
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Export a live edit into this checkout
+        id: selftest
+        run: npm run content:selftest -- --in-place
+
+      - name: Push it to a throwaway branch and open a pull request
+        id: opened
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add game/content
+          git commit --message "Content sync self-test for run ${GITHUB_RUN_ID}"
+          git push origin "HEAD:refs/heads/$BRANCH"
+          number="$(gh pr create --base "$BASE" --head "$BRANCH" \
+            --title "Content sync self-test ${GITHUB_RUN_ID}" \
+            --body "Opened by the content sync self-test. It closes itself. If it is still open, the run was told to keep it." \
+            | sed 's#.*/##')"
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "Opened pull request #$number" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check the pull request's diff is the edit, and only the edit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ steps.opened.outputs.number }}
+          MARKER: ${{ steps.selftest.outputs.marker }}
+          CHANGED_FILES: ${{ steps.selftest.outputs.changed_files }}
+        run: |
+          set -euo pipefail
+          actual="$(gh pr diff "$NUMBER" --name-only | sort | tr '\n' ' ')"
+          # CHANGED_FILES is a space separated list the self-test printed, so this expansion splits on purpose.
+          # shellcheck disable=SC2086
+          expected="$(printf '%s\n' ${CHANGED_FILES} | sort | tr '\n' ' ')"
+          if [ "$actual" != "$expected" ]; then
+            echo "::error title=Wrong files::The pull request changed [${actual}], expected [${expected}]."
+            exit 1
+          fi
+          if ! gh pr diff "$NUMBER" | grep -qF "$MARKER"; then
+            echo "::error title=Edit missing::The pull request's patch does not carry the published edit."
+            exit 1
+          fi
+          echo "PASS: pull request #${NUMBER} carries exactly the edit that was published to the live server." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Close the pull request and delete the branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ steps.opened.outputs.number }}
+        run: |
+          set -uo pipefail
+          if [ "$KEEP" = "true" ]; then
+            echo "::notice title=Kept::Pull request and branch ${BRANCH} were left behind on request."
+            exit 0
+          fi
+          if [ -n "${NUMBER}" ]; then gh pr close "$NUMBER" --delete-branch --comment "Self-test finished." || true; fi
+          git push origin --delete "$BRANCH" || true
+          echo "Cleaned up ${BRANCH}." >> "$GITHUB_STEP_SUMMARY"

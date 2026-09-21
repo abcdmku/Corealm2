@@ -1,0 +1,107 @@
+name: Content publish
+
+# Pushes this repository's content to a named live server. This is the direction that fights the
+# rule that a live server owns its data, so it is manual only, it names the server twice, and it
+# defaults to validating without storing.
+#
+# Configure it once, per `docs/multiplayer-hosting.md` → "Content workflows and their secrets":
+#   environment  live-server                      with required reviewers, so a publish needs approval
+#   environment secret COREALM_CONTENT_PUBLISH_TOKEN   a cat_… token with the content:publish scope
+#
+# A refusal is the normal outcome when someone has edited the server in devdocs. Run the content
+# export workflow, merge the pull request it opens, then publish again. Never force.
+
+on:
+  workflow_dispatch:
+    inputs:
+      server_url:
+        description: "Server to publish to, e.g. https://play.example.com/"
+        required: true
+        type: string
+      server_name:
+        description: "The name the server reports at GET /admin/info. Must match exactly."
+        required: true
+        type: string
+      validate_only:
+        description: "Run every check the server runs and store nothing."
+        type: boolean
+        default: true
+      note:
+        description: "Kept with the revision and the audit row."
+        required: false
+        type: string
+      allow_any_ref:
+        description: "Publish from a ref other than the default branch."
+        type: boolean
+        default: false
+
+permissions: {}
+
+concurrency:
+  group: content-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # The approval gate and the home of COREALM_CONTENT_PUBLISH_TOKEN.
+    environment: live-server
+    permissions:
+      contents: read
+    steps:
+      - name: Refuse a ref that is not the default branch
+        if: inputs.allow_any_ref != true && github.ref_name != github.event.repository.default_branch
+        env:
+          REF: ${{ github.ref_name }}
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          echo "::error title=Wrong ref::Publishing runs from ${BASE}, not ${REF}. Merge first, or re-run with allow_any_ref."
+          exit 1
+
+      - name: Refuse a repository with no publish token
+        env:
+          HAS_TOKEN: ${{ secrets.COREALM_CONTENT_PUBLISH_TOKEN != '' }}
+        run: |
+          if [ "${HAS_TOKEN}" != "true" ]; then
+            echo "::error title=No publish token::Add COREALM_CONTENT_PUBLISH_TOKEN to the live-server environment. Mint it in devdocs under Server → Access with the content:publish scope."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            .github
+            game
+            tools
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      # What is about to be sent has to compile here before a live server is asked to compile it.
+      - name: Check this branch's content
+        run: npm run content:check
+
+      - name: Mask the publish token
+        env:
+          TOKEN: ${{ secrets.COREALM_CONTENT_PUBLISH_TOKEN }}
+        run: echo "::add-mask::$TOKEN"
+
+      - name: Publish to the named server
+        env:
+          # The token reaches the tool through the environment only, never a command line.
+          COREALM_CONTENT_TOKEN: ${{ secrets.COREALM_CONTENT_PUBLISH_TOKEN }}
+          SERVER_URL: ${{ inputs.server_url }}
+          SERVER_NAME: ${{ inputs.server_name }}
+          VALIDATE_ONLY: ${{ inputs.validate_only }}
+          NOTE: ${{ inputs.note }}
+        # Inputs are read as shell variables, never interpolated into this script.
+        run: |
+          set -euo pipefail
+          args=(--server "$SERVER_URL" --confirm "$SERVER_NAME")
+          if [ "$VALIDATE_ONLY" = "true" ]; then args+=(--validate-only); fi
+          if [ -n "$NOTE" ]; then args+=(--note "$NOTE"); fi
+          npm run content:publish:server -- "${args[@]}"
