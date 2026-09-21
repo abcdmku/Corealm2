@@ -65,6 +65,9 @@ it("sends a socket peer the same text for the same inputs", async () => {
   alice.ws.send(JSON.stringify({ type: "dance" }));
   expect(await alice.closed).toEqual([4000, "INVALID_MESSAGE"]);
   expect(alice.frames.slice(before).filter(frame => !frame.startsWith('{"type":"update"'))).toEqual(['{"type":"error","error":{"code":"INVALID_MESSAGE","message":"Unknown message type"}}']);
+  // A client sees its own close before the server has run the close handler that drops the peer and
+  // records the leave, so wait for the world to let go of alice rather than for her socket.
+  await expect.poll(() => [...server.worlds.values()][0]!.peers.size, { timeout: 5000, interval: 5 }).toBe(0);
   expect([server.metrics.rejected, server.metrics.errors, server.metrics.bytesOut > 0]).toEqual([10, 0, true]);
   expect(server.events.map(event => [event.kind, event.accountId, event.detail])).toEqual([["join", "alice", "yard"],
     ...["INVALID_MESSAGE", "INVALID_MESSAGE", "INVALID_MESSAGE", "UNAUTHORIZED", "INCOMPATIBLE", "UNAVAILABLE", "DUPLICATE_LOGIN", "UNAUTHORIZED", "INCOMPATIBLE"].map(code => ["rejected", null, code]),

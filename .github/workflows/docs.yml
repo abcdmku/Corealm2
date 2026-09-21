@@ -52,10 +52,15 @@ jobs:
           # Historical run captures are hundreds of MB and are not build inputs.
           sparse-checkout: |
             .github
+            art/biome-creatures
+            art/fairy-population/textures/generated
             art/item-icons
+            art/rebuild/candidates/finish-cave-source
+            art/rebuild/candidates/finish-motion
+            assets/art/regional-bosses
             devdocs
+            docs/game
             game
-            game/content
             identity
             tests
             tools
@@ -97,10 +102,15 @@ jobs:
           # Keep the 700+ MB historical screenshot archive out of build checkout.
           sparse-checkout: |
             .github
+            art/biome-creatures
+            art/fairy-population/textures/generated
             art/item-icons
+            art/rebuild/candidates/finish-cave-source
+            art/rebuild/candidates/finish-motion
+            assets/art/regional-bosses
             devdocs
+            docs/game
             game
-            game/content
             identity
             tests
             tools

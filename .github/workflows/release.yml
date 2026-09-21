@@ -33,7 +33,7 @@ jobs:
             deploy
             devdocs
             game
-            game/content
+            identity
             tests
             tools
 
