@@ -601,7 +601,9 @@ Set the environment up in **Settings → Environments → New environment**, nam
 
 Neither workflow prints a token, passes one on a command line, or grants itself more permission than it needs: the export holds `contents: write` and `pull-requests: write`, the publish holds `contents: read`. Both use `actions/checkout` and `actions/setup-node` and no third-party action; anything third-party added later must be pinned by full commit SHA. The export skips with a notice, rather than failing, when the variable or the secret is missing, so a fork and the weekly schedule stay green.
 
-#### The self-test, which needs nothing
+#The export opens its pull request as GitHub Actions. A repository forbids that by default: switch on Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests". Without it the run pushes `content/live-export`, fails, and prints the comparison link so the pull request can be opened by hand.
+
+### The self-test, which needs nothing
 
 `.github/workflows/content-selftest.yml` proves the whole path with no hosted server and no secret. It runs `npm run content:selftest`, which boots a real game server on loopback with a throwaway database, mints a real `cat_…` token through the admin API, publishes a small loot edit the way devdocs publishes one, runs the export tool's own command line against it, and asserts that the checkout now holds exactly that edit: one authored file changed, the bytes are the canonical writer's, the content still compiles. It runs on any branch whose push touches the content tooling, the content compiler or the server's content endpoints. It is not a required check.
 

@@ -123,7 +123,12 @@ jobs:
           git push --force origin "HEAD:refs/heads/$BRANCH"
           number="$(gh pr list --head "$BRANCH" --base "$BASE" --state open --json number --jq '.[0].number // ""')"
           if [ -z "$number" ]; then
-            gh pr create --base "$BASE" --head "$BRANCH" --title "$title" --body-file "$SUMMARY"
+            # A repository can forbid Actions from opening pull requests. The branch is pushed by now,
+            # so say exactly what to switch on and where the comparison is.
+            gh pr create --base "$BASE" --head "$BRANCH" --title "$title" --body-file "$SUMMARY" || {
+              echo "::error title=Could not open the pull request::The export is on $BRANCH. Allow it under Settings > Actions > General > Allow GitHub Actions to create and approve pull requests, or open it by hand: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$BASE...$BRANCH"
+              exit 1
+            }
           else
             gh pr edit "$number" --title "$title" --body-file "$SUMMARY"
           fi
