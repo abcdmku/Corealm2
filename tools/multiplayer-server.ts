@@ -3,8 +3,14 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
-import type { AuthenticationAdapter, HostedWorld, ReferenceServerMetrics, ServerEvent } from "../game/src/multiplayer/referenceServer.js";
+import type { AuthenticationAdapter, ReferenceServerMetrics, ServerEvent, WorldStatus } from "../game/src/multiplayer/referenceServer.js";
 import type { HeadlessWorldPorts } from "../game/src/multiplayer/headlessWorld.js";
+import type { WorldStorage } from "../game/src/contracts.js";
+import type { ServerAdminStorage } from "../game/src/multiplayer/adminStorage.js";
+import type { CatalogStorage } from "../game/src/multiplayer/catalogStorage.js";
+import { startDatabaseThread, type DatabaseThread } from "../game/src/multiplayer/threads/databaseClient.js";
+import { moduleLauncher, seaLauncher } from "../game/src/multiplayer/threads/launch.js";
+import { quietSqliteWarning, runThread, threadRole } from "../game/src/multiplayer/threads/threadRoles.js";
 // Type only: `worldPack.ts` reads content tables through the world assembly, so it must not be
 // evaluated before `installCatalog`. Its two functions are reached through `await import()` below.
 import type { ServerWorldPack } from "../game/src/multiplayer/worldPack.js";
@@ -31,6 +37,11 @@ import { startServerConsole, type ConsoleStats } from "../game/src/multiplayer/s
  * catalog goes in first and the server graph is imported only after it. That ordering has to survive
  * bundling as well: every import below is either a type or a module that reads no content table, and
  * the heavy half is reached through `await import()`, which esbuild keeps lazy.
+ *
+ * With more than one world, or `threads: "on"`, each world runs in a thread of its own and one more
+ * thread owns the database. Those threads run this same program: started as a worker it runs the
+ * role it was given instead of a server, which is what lets the single executable start them from
+ * the one bundle it carries. Install before import then holds in every world thread separately.
  */
 
 const USAGE = `corealm-server - the Corealm game server
@@ -44,7 +55,7 @@ Options:
   --tui                    Draw the live console. Log lines go to server.log in the data directory.
   --host, --port, --data, --public-endpoint, --origins, --asset-base-url, --identity-url,
   --owner-account, --auth-module, --name, --description, --admin-ui-dir, --worlds, --capacity,
-  --authored, --guests, --development-guests, --register-with-directory
+  --authored, --guests, --development-guests, --register-with-directory, --threads
                            Override one setting from the configuration file.
   --version                Print the build and exit.
   --help                   Print this and exit.
@@ -84,6 +95,8 @@ const SAMPLE_NOTES = `Settings, in the order above:
   description      One line about the server, shown in the world picker.
   authored         true for the full Corealm world, false for the compact lab fixture.
   worlds           One entry per world. Only id is required; name, seed and capacity have defaults.
+                   With more than one, each world runs in its own thread: size the machine at one
+                   core per world plus two. "threads": "off" keeps them all in one.
 
 Full documentation: docs/multiplayer-hosting.md
 `;
@@ -130,7 +143,7 @@ interface ConsoleSource {
   metrics: ReferenceServerMetrics;
   catalog: { revision: string };
   settings: { name: string };
-  worlds: ReadonlyMap<string, HostedWorld>;
+  status(): WorldStatus[];
   events: readonly ServerEvent[];
 }
 
@@ -144,9 +157,9 @@ export function consoleStats(server: ConsoleSource, logPath: string | null,
   return {
     name: server.settings.name, host: config.host, port: server.port, authentication: config.authentication,
     catalogRevision: server.catalog.revision, uptimeSeconds,
-    worlds: [...server.worlds.values()].map(({ runtime, admission }) => ({
-      worldId: runtime.descriptor.worldId, name: runtime.descriptor.name,
-      playersOnline: admission.population, capacity: admission.capacity, tick: runtime.clock.tick,
+    worlds: server.status().map(world => ({
+      worldId: world.key.worldId, name: world.descriptor.name,
+      playersOnline: world.population, capacity: world.capacity, tick: world.tick,
     })),
     tick: {
       lastMs: metrics.ticks.at(-1) ?? 0,
@@ -160,24 +173,12 @@ export function consoleStats(server: ConsoleSource, logPath: string | null,
   };
 }
 
-/**
- * `node:sqlite` prints an experimental warning to stderr the first time it is loaded. A server's
- * output is JSON lines and nothing else, so that one warning is dropped and every other is kept.
- * This runs before `sqliteStorage` is imported, which is why that import is a dynamic one.
- */
-function quietSqliteWarning(): void {
-  const listeners = process.listeners("warning");
-  process.removeAllListeners("warning");
-  process.on("warning", warning => {
-    if (warning.name === "ExperimentalWarning" && warning.message.includes("SQLite")) return;
-    for (const listener of listeners) listener(warning);
-  });
-}
-
 const started = Date.now();
 
 async function main(argv: readonly string[]): Promise<number> {
   quietSqliteWarning();
+  // Started as one of the server's own threads: run that role. It ends when the main thread ends it.
+  if (threadRole() !== null) { await runThread(); return 0; }
   const build = buildInfo();
   if (argv.includes("--help") || argv.includes("-h")) { process.stdout.write(USAGE); return 0; }
   if (argv.includes("--version")) {
@@ -223,7 +224,7 @@ async function main(argv: readonly string[]): Promise<number> {
   }
   logger.info("start", { version: build.version, builtAt: build.builtAt, node: process.versions.node, packaged: embedded.sea,
     configFile: config.configFile === null ? null : resolve(base, config.configFile), data: directory,
-    world: config.authored ? "pack" : "lab" });
+    world: config.authored ? "pack" : "lab", threads: config.threads });
 
   let authentication: AuthenticationAdapter;
   if (config.authentication === "account") authentication = await createIdentityAuthentication({ identityUrl: config.identityUrl! });
@@ -241,10 +242,19 @@ async function main(argv: readonly string[]): Promise<number> {
     ...(config.assetBaseUrl ? { assetBaseUrl: config.assetBaseUrl } : {}),
   }));
   // Storage still reports a migration as a finished JSON line, which the logger re-levels and redacts.
-  const { SqliteWorldStorage } = await import("../game/src/multiplayer/sqliteStorage.js");
-  const storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), {
-    log: line => { try { logger.emit(JSON.parse(line) as Record<string, unknown>); } catch { logger.info("storage", { message: line }); } },
-  });
+  const storageLog = (line: string): void => { try { logger.emit(JSON.parse(line) as Record<string, unknown>); } catch { logger.info("storage", { message: line }); } };
+  // With threads, the database thread opens the file and this thread asks it. Without, this thread opens it. Either way `storage` is the same interfaces.
+  // A packaged server starts its threads from the bundle it carries; a checkout starts them from the source file, like everything else in it.
+  const launchThreads = embedded.sea ? seaLauncher() : moduleLauncher(pathToFileURL(resolve(process.cwd(), "game/src/multiplayer/threads/threadEntry.ts")));
+  let database: DatabaseThread | null = null;
+  let storage: WorldStorage & { admin: ServerAdminStorage; catalog: CatalogStorage };
+  if (config.threads) {
+    database = await startDatabaseThread(launchThreads, { kind: "sqlite", path: resolve(directory, "worlds.sqlite") }, storageLog);
+    storage = Object.assign(database.storage.world, { admin: database.storage.admin, catalog: database.storage.catalog });
+  } else {
+    const { SqliteWorldStorage } = await import("../game/src/multiplayer/sqliteStorage.js");
+    storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), { log: storageLog });
+  }
   const revision = await (async () => {
     await seedCatalog(storage.catalog, await shippedCatalog(), event => logger.emit(event), { follow: config.followRepoCatalog });
     const catalog = await activeServerCatalog(storage.catalog);
@@ -255,9 +265,14 @@ async function main(argv: readonly string[]): Promise<number> {
   const { startReferenceServer } = await import("../game/src/multiplayer/referenceServer.js");
   const { createMultiplayerLabWorld } = await import("../game/src/multiplayer/labWorld.js");
   // Read and check the pack once, before the first world is built, so a stale file is one clear error.
-  const pack = packBytes === null ? null
+  const checkedPack = packBytes === null ? null
     : await loadWorldPack(packBytes, embedded.sea ? `The ${SERVER_WORLD_PACK_FILE} in this build` : repoPathOf(SERVER_WORLD_PACK_FILE)!);
-  if (pack) logger.info("world-pack", { revision: pack.revision, seeds: pack.seeds, bytes: packBytes!.length });
+  if (checkedPack) logger.info("world-pack", { revision: checkedPack.revision, seeds: checkedPack.seeds, bytes: packBytes!.length });
+  // With threads the worlds are built elsewhere, each from its own reading of the pack, so this thread keeps none.
+  const pack = database ? null : checkedPack;
+  // Every world thread reads the pack through one block of shared memory, so ten megabytes are held once however many worlds there are.
+  let sharedPack: Uint8Array | null = null;
+  if (database && packBytes) { sharedPack = new Uint8Array(new SharedArrayBuffer(packBytes.byteLength)); sharedPack.set(packBytes); }
   const manifest = embedded.text(ASSET_MANIFEST_ASSET);
   const adminUiArchive = embedded.asset(ADMIN_UI_ASSET);
   const server = await startReferenceServer({
@@ -271,6 +286,7 @@ async function main(argv: readonly string[]): Promise<number> {
     settings: { ...(config.name ? { name: config.name } : {}), ...(config.description ? { description: config.description } : {}), registerWithDirectory: config.registerWithDirectory },
     adminUi: adminUiArchive ? archiveAdminUi(adminUiArchive) : directoryAdminUi(resolve(base, config.adminUiDir)),
     build: world => pack ? authoredWorld(pack, world.seed) : createMultiplayerLabWorld(world.seed), authentication,
+    ...(database ? { threads: { launch: launchThreads, database, catalog: { kind: "storage" as const }, build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
   }).catch(async error => { await storage.close(); throw error; });
 
   // `ready: true` and `port` are what every launcher and proof script waits for.

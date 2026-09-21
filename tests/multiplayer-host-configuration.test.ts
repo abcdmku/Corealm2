@@ -46,7 +46,7 @@ describe('reference deployment configuration',()=>{
    identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
   expect(hostConfiguration([],{},read)).toEqual({authored:false,authentication:'account',developmentGuests:false,guests:false,host:'127.0.0.1',port:4200,
    data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
-   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
+   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,threads:true,registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
    configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
  });
  it('reads the defaults of the runtime settings and the admin UI directory, and checks them',()=>{
@@ -121,4 +121,11 @@ it('follows the repo catalog only when the flag asks, never from a configuration
   expect(hostConfiguration(['--guests', '--follow-repo-catalog'], {}, () => undefined).followRepoCatalog).toBe(true);
   expect(hostConfiguration(['--guests'], {}, () => undefined).followRepoCatalog).toBe(false);
   expect(() => hostConfiguration([], {}, () => JSON.stringify({ guests: true, followRepoCatalog: true }))).toThrow(/followRepoCatalog/);
+});
+
+it('runs a thread per world when there is more than one world, unless told otherwise', () => {
+  const threads = (args: string[], env: Record<string, string> = {}, file: Record<string, unknown> = {}) => hostConfiguration(['--guests', ...args], env, () => JSON.stringify(file)).threads;
+  expect([threads([]), threads(['--worlds', 'a,b']), threads(['--worlds', 'a,b', '--threads', 'off']), threads(['--threads', 'on'])]).toEqual([false, true, false, true]);
+  expect([threads(['--worlds', 'a,b'], { COREALM_THREADS: 'off' }), threads([], {}, { threads: 'on' }), threads(['--threads', 'off'], {}, { threads: 'on' })]).toEqual([false, true, false]);
+  expect(() => threads(['--threads', 'many'])).toThrow(/"auto", "on" or "off"/);
 });
