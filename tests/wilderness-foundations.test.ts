@@ -21,4 +21,4 @@ it('keeps the complete rotated ruin footprints level in the graded production te
       }
     }
   } finally { scene.clear(); }
-}, 15000);
+});

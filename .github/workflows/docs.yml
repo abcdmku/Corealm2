@@ -46,8 +46,9 @@ jobs:
   verify:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    # Includes asset checkout and Chromium acceptance.
-    timeout-minutes: 15
+    # Checkout, install, Chromium, the whole suite, the game and guide builds, two lab shards and
+    # the browser smoke test. The suite alone reaches the eleven-minute mark on a shared runner.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
         with:

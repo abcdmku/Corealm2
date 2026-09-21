@@ -369,5 +369,5 @@ describe('authored fairy dressing scatter', () => {
       }
       expect(overlaps).toEqual([]);
     } finally { scene.dispose(); }
-  }, 20_000);
+  });
 });

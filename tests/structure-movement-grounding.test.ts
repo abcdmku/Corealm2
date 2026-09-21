@@ -123,9 +123,7 @@ describe("imported structure movement grounding", () => {
     }
     expect(state.player.position[1]).toBeCloseTo(world.heightAtXZ(state.player.position[0], state.player.position[2]), 6);
     expect(heights.some((height) => height - origin[1] > 1.2 && height - origin[1] < 2.5)).toBe(true);
-    // The world variant bakes navigation over real terrain and takes about 14 s on a developer
-    // machine, so 20 s left no headroom on a shared CI runner.
-  }, 60_000);
+  });
 
   it("walks from terrain up low mesh stairs, across the top and back down", () => {
     const { nav, preserveNavigationHeight } = stairsFixture();
